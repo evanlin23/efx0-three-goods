@@ -1,0 +1,7 @@
+$ python3 k4/matching/cm2.py k5
+PW5 picks [0, 1, 2, 3, 4] | first moves 555 | first moves after which an EX* exchange repairs 36 | first moves after which some second move repairs 36
+RD5 picks [1, 3, 4, 2] | first moves 30 | first moves after which an EX* exchange repairs 9 | first moves after which some second move repairs 9
+CM2 holds 2
+OC2 holds 2
+starts 2
+time 2 s

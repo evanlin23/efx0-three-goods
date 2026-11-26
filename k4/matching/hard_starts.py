@@ -16,14 +16,16 @@ from mlib import M, INF
 from min_frozen import load
 
 NMAX = int(os.environ.get('NMAX', '5'))
+ALL = os.environ.get('ALL', '0') == '1'   # ALL=1: also the non-maximum starts (every order), rows tagged 'max'
 
 
 def job(item):
     name, sets, vals, m = item
     I = M(sets, vals, m, name); n = I.n; NU = I.nu(); C = collections.Counter(); rows = []
     for Y in sorted(set(I.sd(o) for o in itertools.permutations(range(n))), key=str):
-        if sum(1 for y in Y if y is not None) != NU: C['non-max starts (skipped)'] += 1; continue
-        C['max starts'] += 1
+        ismax = sum(1 for y in Y if y is not None) == NU
+        if not ismax and not ALL: C['non-max starts (skipped)'] += 1; continue
+        C['max starts' if ismax else 'non-max starts'] += 1
         if NU < sum(1 for s in sets if s): C['max starts with a pickless agent'] += 1
         base = [[g] if g is not None else [] for g in Y]
         ss = I.complete(base, 0, 'ss') is not None
@@ -31,7 +33,7 @@ def job(item):
         if oa:
             C['complete at the picks' + ('' if ss else ' (one absorber, not S*)')] += 1
             continue
-        C['one-absorber-hard'] += 1
+        C['one-absorber-hard'] += 1; mx = '' if ismax else 'non-max '
         doa = I.deficiency(base, 'oa'); dss = I.deficiency(base, 'ss')
         own = I.owner_deficiency(base, 'oa')
         mv = I.moves(base)
@@ -41,19 +43,20 @@ def job(item):
         row = dict(name=name, sets=sets, vals=vals, m=m, picks=Y, J=I.junk(base), frozen=I.frozen(base),
                    D=I.dangerous(base), d_oa=doa, d_ss=dss, own_oa=[own[o] for o in range(n)], moves=len(mv),
                    best_after_oa=min(after_oa) if mv else None, best_after_ss=min(after_ss) if mv else None,
-                   repairs_oa=rep, repairs_ss=sum(1 for x in after_ss if x == 0))
+                   repairs_oa=rep, repairs_ss=sum(1 for x in after_ss if x == 0), max=ismax)
         rows.append(row)
-        C['hard: delta_oa = %d' % doa] += 1; C['hard: delta_ss = %d' % dss] += 1
-        C['hard: delta_oa = %d, OC1 %s' % (doa, 'holds' if rep else 'FAILS')] += 1
-        if mv: C['hard: delta_oa = %d -> best after one move %d' % (doa, min(after_oa))] += 1
+        C[mx + 'hard: delta_oa = %d' % doa] += 1; C[mx + 'hard: delta_ss = %d' % dss] += 1
+        C[mx + 'hard: delta_oa = %d, OC1 %s' % (doa, 'holds' if rep else 'FAILS')] += 1
+        if mv: C[mx + 'hard: delta_oa = %d -> best after one move %d' % (doa, min(after_oa))] += 1
     return C, rows
 
 
 if __name__ == '__main__':
     src = sys.argv[1]
     tag = src if not src.startswith('cores:') else 'cores_%s_%s' % (sys.argv[2], sys.argv[3])
+    if ALL: tag = 'all_' + tag
     out = os.environ.get('OUT', os.path.join(_mpaths.ROOT, 'results', 'k4_matching', 'hard_%s.jsonl' % tag))
-    print('$ python3 k4/matching/hard_starts.py', *sys.argv[1:], '(NMAX=%d)' % NMAX, flush=True)
+    print('$ python3 k4/matching/hard_starts.py', *sys.argv[1:], '(NMAX=%d ALL=%d)' % (NMAX, ALL), flush=True)
     if src == 'cex':   # PW4, RD4, B<, B>, the 39 core counterexamples (k = 4 only), k4/matching/cex_deficiency.py
         from cex_deficiency import instances
         items = [(nm, st, vl, 1 + max(max(x) for x in st)) for nm, st, vl in instances() if max(map(len, st)) <= 4]

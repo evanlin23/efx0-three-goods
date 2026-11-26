@@ -15,7 +15,10 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
 | "δ ≤ 1 at perfect starts", "one chain = one augmenting path" (§2) | **false at k = 4**: 249 of the 2,371 hard perfect starts tested have δ = 2 or 3, and one chain repairs every one of them. Smallest: n = 3, m = 6, δ = 2 for every owner (also in the K4.MC2 class); δ = 3 at n = 3, m = 7 | refuted (brute force; `attempts/k4-matching-deficiency.md`) |
 | δ and the k = 5 counterexamples (§2) | PW5: δ = 2, best single move leaves δ = 1 (two chains). RD5: δ = 1, yet no single move repairs. The 41 failing (non-maximum) starts of the k = 4 core counterexamples all have δ = 2 | computed (brute force) |
 | Lemma EX (§3) | an improving chain is an *exchange* in the slot graph: if, after the chain, Lemma 2\*'s slot graph **of the picks** with the chain agents' demands deleted or raised has deficiency at most the number s of slots the chain frees, the state completes (S\* shape, any chosen owner). For o = k and a canonical chain: the owner set W_{x_t} of the end, k's demand deleted | written proof (§3); the proof's allocation is built and is EFX₀ (raw) on all 49,771 (chain, H₀, owner) triples where the hypothesis holds; 0 violations |
-| **Conjecture CM** (§3) | at every one-absorber-hard perfect start (k ≤ 4), some chain from a dangerous agent, some H₀ and some owner satisfy Lemma EX's hypothesis. CM ⟹ OC₁ at perfect starts ⟹ (RED, MAXSD) TARGET₄ | evidence: **2,371 of 2,371** hard perfect starts (Hall session's 2,071, the 9 of the core counterexamples, 291 of the PW design space). Owner k alone: fails on 10 (smallest log1480, n = 3); owner k or end: fails on 7 (smallest pw94, n = 4, m = 7, and PW4) |
+| Conjecture CM (§3) | at every one-absorber-hard perfect start (k ≤ 4), some chain from a dangerous agent, some H₀ and some owner satisfy Lemma EX's hypothesis. CM ⟹ OC₁ at perfect starts ⟹ (RED, MAXSD) TARGET₄ | **refuted with OC₁^max** by the 11 n = 4 cores of compute/k4-oc1max-cert (§5). Before that: 2,371 of 2,371 hard perfect starts (Hall session's 2,071, the 9 of the core counterexamples, 291 of the PW design space) |
+| CM ⟺ OC₁ on the data (§3, §5) | at every hard perfect start tested, one exchange (Lemma EX / EX\*) repairs exactly when one move repairs: 2,371 + 19 where OC₁ holds, 11 where it fails | computed |
+| Lemma EX\* (§5) | Lemma EX at any state in which no junk good is wanted (after a first move) | written proof (§5); 0 violations |
+| **Conjecture CM₂** (§5) | from every perfect start, some first move leads to a state where a Lemma EX\* exchange repairs. CM₂ ⟹ OC₂ at perfect starts ⟹ OC₂^max ⟹ TARGET₄ | evidence: all 30 hard maximum-matching starts of the 11 n = 4 failure instances, PW5, RD5. On the 11 failing starts, PW5 and RD5, the first moves after which an EX\* exchange repairs are exactly those after which any second move repairs |
 | exchange accounting (§3) | what a repairing chain pays for: in 910 of the 2,071 hard starts, deleting the chain agents' demands alone (s = 0) clears an end-owned deficiency of up to 6 | computed |
 
 **Bottom line.**
@@ -25,8 +28,13 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
    k = 4, and the static bound "deficiency ≤ 1" is false where OC₁ holds.
 2. The correspondence that is exact is Lemma EX. The chain moves ownership and deletes the chain agents' demands in the
    picks' slot graph. The repair condition is a Hall condition there: deficiency ≤ the chain's free slots.
-3. OC₁^max is implied by Conjecture CM, which is a static Hall-type statement about the picks and one chain. CM holds on
-   all data. At the k = 5 counterexamples PW5 and RD5 the best exchange leaves exactly one slot missing.
+3. OC₁^max is implied by Conjecture CM, which is a static Hall-type statement about the picks and one chain. On every
+   hard perfect start tested, CM holds exactly where OC₁ holds. OC₁^max is now refuted at n = 4 (compute/k4-oc1max-cert,
+   11 cores), and so is CM.
+4. At every known failure of one chain, the best exchange leaves exactly one slot missing:
+   - the 11 n = 4 cores, and PW5 and RD5 at k = 5: δ = 1 or 2, best exchange excess 1;
+   - in each, a first move followed by a Lemma EX\* exchange repairs (Conjecture CM₂, §5).
+   CM₂ implies OC₂^max, the campaign's current target.
 
 ## 0. Setting
 
@@ -149,9 +157,8 @@ have δ = 1.
 
 **Verdict on "δ ≤ 1 exactly where OC₁ holds":** no, in both directions.
 - δ ≥ 2 with OC₁ holding: 249 hard perfect starts at k = 4, and 136 non-maximum starts.
-- δ = 1 with OC₁ failing: RD5 at k = 5. No such start is known at k = 4. All 41 known k = 4 failures have δ = 2, and
-  every δ = 1 start tested satisfies OC₁. The statement "δ = 1 ⟹ OC₁ at k = 4, from every order" survives the data,
-  and RD5 shows it uses k ≤ 4. It is not a target here, because §3 gives the exact form.
+- δ = 1 with OC₁ failing: RD5 at k = 5, and at k = 4 all 11 n = 4 OC₁^max failures of compute/k4-oc1max-cert (§5).
+  When this section was written, the 41 non-maximum k = 4 failures (all δ = 2) were the only k = 4 failures known.
 - PW5 behaves as the naive picture says: δ = 2, two chains.
 
 **Where the augmenting-path picture breaks** (the exchange accounting below makes this exact). An augmenting path
@@ -274,10 +281,11 @@ the end as owner and every demand present) with the exchange (d, s).
 - Middle or end junk is used in 1,031.
 - So the chain's value lies mostly in *demand deletion*. The slot count matters in the rest.
 
-## 4. What a proof of OC₁^max now has to do, and where k ≤ 4 enters
+## 4. What a proof now has to do, and where k ≤ 4 enters
 
-By Lemma EX, a proof of OC₁ at perfect starts (hence of OC₁^max and TARGET₄) may prove Conjecture CM. CM is a statement
-about one Hall-type condition in the picks' slot graph, after one exchange. A proof would:
+OC₁^max is refuted (§5), so the target is OC₂^max. In the language here that is Conjecture CM₂: a first move,
+then a Lemma EX\* exchange. Lemma EX\* turns the second step into one Hall-type condition in the slot graph of the
+intermediate state. A proof would:
 1. take a Hall violator of the picks for a natural owner: a set S of kept-out goods with |N(S)| < |S|. Its goods lie
    in the pools of dangerous agents, since at the picks only frozen agents and exposed holders have demands;
 2. choose a dangerous k whose demand meets S, and a chain from k through the other agents whose demands meet S (want
@@ -286,19 +294,102 @@ about one Hall-type condition in the picks' slot graph, after one exchange. A pr
    - Lemma PL(b): k keeps no danger set outside H₀;
    - Lemma PL(c): an agent sharing ≥ 2 goods of H₀ keeps no danger set in J ∖ H₀;
    - but H₀ itself can be a danger set for such an agent when k does not own. That case forces another owner (PW4,
-     pw94) and is the case to prove next;
-4. count the remaining deficiency against the freed slots.
+     pw94);
+4. count the remaining deficiency against the freed slots. At every known one-chain failure exactly one slot is
+   missing after the best exchange (§5). So the proof of the second move must recover one slot.
 
-At k = 5, step 3 fails at PW5 and RD5 with exactly one slot missing.
+At k = 5, step 3 fails at PW5 and RD5 with exactly one slot missing, and a second exchange repairs both (§5).
 
 Open items (in order):
-- **CM for |D| = 1** is the Hall session's Finding D1 in the exact form. CROWD is absorbed by Lemma M's compensation,
-  so only HEAD remains: x_t frozen at B′ (s = 0) and threatened at v(y_{x_{t−1}}).
+- **The second move of CM₂.** At the 11 n = 4 failures, which first moves admit an EX\* exchange, and what they have in
+  common. That is the mechanism of the "tree exchange" in `k4/attack_log.md` 23:36, which no single chain performs.
+- **CM for |D| = 1** is the Hall session's Finding D1 in the exact form. Both of its obstacles become conditions of
+  one matching problem:
+  - HEAD is (1′) for x_t, or s = 0 when x_t is frozen at B′;
+  - CROWD is the coverability of the crowded exposed holders by compensating goods.
+
+  Sub-lemmas D1-H and D1-C are the two ways this matching condition can fail for one H₀. The exact form does not
+  remove them. (D1-C is now proved by proof/k4-d1, PR #113.)
 - **CM for a shared pool** (PW4, pw94): owner off the chain, with Lemma PL(c) for the frozen agents sharing two goods of
   H₀.
-- **Is "δ = 1 ⟹ OC₁" true at k = 4 from every order?** No failure is known. RD5 shows it needs k ≤ 4.
+- "δ = 1 ⟹ OC₁" at k = 4 is false: the 11 n = 4 OC₁^max failures all have δ = 1 (§5).
 
-## 5. Reproduce
+## 5. The n = 4 OC₁^max failures, Lemma EX\*, and Conjecture CM₂
+
+**The instances.** The ordinal CEGAR of compute/k4-oc1max-cert found 11 strict connected K4.MC2-class cores with n = 4
+and m = 7, 8. Each has a perfect start with no one-absorber completion at the picks or after any single move. They
+are verified by the coordinator, `k4/sdc/oc1max_cex_verify.py` and `oc2max_cex_check.py`. The copy used here is
+`results/k4_matching/data/oc1max_cex_n4.json`, taken from that branch at cfb3c18. Under the matching view
+(`k4/matching/n4_cex.py`, `results/k4_matching/n4_cex.log`):
+
+| the 11 failing starts | value |
+|---|---|
+| free-slot deficiency δ at the picks | **1** in all 11. Three agents are frozen; the one owner with δ = 1 is the lone unfrozen agent (the only holder), the other owners have 2–3 |
+| least δ after one move | 1 in all 11 |
+| least exchange excess d − s over every chain, H₀ and owner | **1** in all 11 |
+| least δ after two moves | 0 in all 11 |
+
+So one missing slot is enough to defeat a single chain at k = 4, and "δ = 1 ⟹ OC₁" is false. The same pattern holds
+at k = 5: PW5 and RD5 also have best exchange excess exactly 1. At every known failure of OC₁, one exchange leaves
+exactly one slot missing.
+
+**Lemma EX\* (K4.MATCH.EXS).** This is Lemma EX at an arbitrary state, so that it can be the second step.
+
+*Setting.* Let B be any state with junk J, and P an official chain from B:
+- x_i (i ≥ 1) takes B_{x_{i−1}} ∪ H_i, with B_{x_{i−1}} ≠ ∅ and v_{x_i} rising;
+- x₀ takes H₀ ⊆ (J ∖ ∪H_i) ∪ B_{x_t}, with v_{x₀} rising.
+
+B′ is the state after P, and J′ = (J ∖ (H₀ ∪ ∪H_i)) ∪ (B_{x_t} ∖ H₀) its junk. Fix an owner o. Let N be the holders of
+B off P other than o, and Ext the holders of B′ other than o that are not in N; write s = |Ext|. For H ⊆ J′ let
+X = B′_o ∪ (J′ ∖ H). Suppose:
+- (W′) every good of J′ is unwanted at B′;
+- (G1′) no multi-good bundle of B′ other than o's threatens anybody at its B′ value;
+- (1′) X threatens no non-holder of B off P (other than o) at its B value, and no agent of P other than o at its B′
+  value;
+- (2) E(H) (holders of N threatened by X at their B value) is coverable in Γ_B(H), Lemma M's slot graph of B on N, and
+  |H| − ν(Γ_B(H)) ≤ s.
+
+*Conclusion.* B′ has an S\* completion owned by o.
+
+*Proof.*
+1. Values rise from B to B′. Hence holders of B off P stay holders of B′: their bases are unchanged and still unwanted.
+   So every receiver (N ∪ Ext) is a holder of B′ and takes one good: S\* shape.
+2. A receiver's bundle {b, h} has b unwanted (b is a holder's good) and h unwanted (W′), so it threatens nobody.
+   Singletons threaten nobody. Multi-good bases other than o's threaten nobody by (G1′). So only X can threaten.
+3. Every agent i ≠ o is covered:
+   - agents of P, by (1′);
+   - non-holders of B off P, by (1′). This includes the agents of Ext off P, which are single-good agents frozen at B
+     and unfrozen at B′;
+   - holders of B off P are the agents of N: an exposed one holds a compensating good, an unexposed one is not
+     threatened. ∎
+
+At the picks, (W′) is automatic under Lemma EX's end condition, by (I2) and (U), and EX\* contains EX. On the special
+and screen starts it accepts 153 more (chain, H₀, owner) triples, for example with non-canonical middle agents
+unfrozen at Y, and never fewer.
+
+**Conjecture CM₂ (K4.MATCH.CM2).** From every perfect start of an instance with ≤ 4 relevant goods per agent, some
+official first move leads to a state at which some chain, H₀ and owner satisfy Lemma EX\*'s hypothesis (the first move
+may be empty, which is CM).
+- By Lemma EX\*, CM₂ implies OC₂ at perfect starts. With RED and MAXSD it implies OC₂^max and TARGET₄.
+
+*Evidence* (`k4/matching/cm2.py`; `results/k4_matching/cm2_n4.log`, `cm2_n4all.log`, `cm2_k5.log`). Every EX\* witness
+found is confirmed by the raw S\* test: 0 violations.
+
+| starts | one EX\* exchange (CM) | OC₁ | CM₂ | OC₂ |
+|---|---|---|---|---|
+| the 11 stored failing starts | 0 | 0 | 11 | 11 |
+| all 30 one-absorber-hard maximum-matching starts of the 11 instances | 19 | 19 | **30** | 30 |
+| PW5, RD5 (k = 5) | 0 | 0 | 2 | 2 |
+
+- **EX\* is exact on these data, for one move and for two.** On the 30 starts, one EX\* exchange repairs exactly when
+  one move repairs (19 / 19). At the 11 stored starts, PW5 and RD5, the first moves after which an EX\* exchange
+  repairs are exactly those after which *any* second move repairs: 4 / 4, 7 / 7, …, 36 / 36 at PW5, 9 / 9 at RD5.
+- With §3 (2,371 hard perfect starts where both hold), no hard perfect start is known where a move repairs and no
+  Lemma EX\* exchange does.
+- Evidence only: the n = 4 failures were found only by an exhaustive ordinal search. Random profiles (11M orders at
+  n = 5) and the climbs of `k4/matching/cm_climb.py` missed them (§6).
+
+## 6. Climbs and reproduction
 
 ```
 python3 k4/matching/exact_check.py screen                    # Lemma M vs brute force (also special, suite, logs, cores:...)

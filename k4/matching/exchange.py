@@ -179,3 +179,72 @@ if __name__ == '__main__':
             print('   ', r['name'], 'n', len(r['sets']), 'm', r['m'], 'd_oa', r['d_oa'],
                   json.dumps([r['sets'], r['vals']]), 'picks', r['picks'])
     print('time %.0f s' % (time.time() - t0))
+
+
+# ---- Lemma EX* (k4/matching.md §5): the exchange at any state with unwanted junk ------------------------------------
+def all_chains(I, base, starts=None):
+    """Official chains (x_i takes B_{x_{i-1}} + H_i, improving; never handing on an empty base) from the given start
+    agents (default: everybody) to any end; yields (P, Hs)."""
+    J = I.junk(base); out = []
+
+    def ext(path, used, Hs):
+        x = path[-1]
+        if not base[x]: return
+        for w in range(I.n):
+            if w in path: continue
+            for H in subsets([g for g in J if g not in used and g in I.R[w]]):
+                if I.V(w, list(base[x]) + list(H)) > I.V(w, base[w]):
+                    Hs2 = dict(Hs); Hs2[len(path)] = list(H); p2 = path + [w]
+                    out.append((p2, Hs2))
+                    if len(p2) < I.n: ext(p2, used | set(H), Hs2)
+    for k in (range(I.n) if starts is None else starts): ext([k], frozenset(), {})
+    return out
+
+
+def ex_value_general(I, base, P, Bp, o):
+    """Lemma EX* at an arbitrary state `base` with the chain P (state Bp after it) and owner o.  Returns (d, s, why):
+    d = min over H (subset of J') of |H| - nu(Gamma_B(H)) subject to
+      (W')  every good of J' is unwanted at Bp;
+      (G1') no multi-good bundle of Bp other than o's threatens anybody at Bp values;
+      (1')  X = Bp_o + (J' - H) threatens no non-holder of `base` off P (other than o) at its value in `base`, and no
+            chain agent other than o at its value in Bp;
+      (2)   the exposed holders of `base` off P (other than o) are coverable by compensating goods;
+    s = number of holders of Bp other than o that are not holders of `base` off P (the slots the chain creates).
+    EX*: d <= s implies an S* completion of Bp owned by o."""
+    Jp = I.junk(Bp); bv = [I.V(i, base[i]) for i in range(I.n)]; bvB = [I.V(i, Bp[i]) for i in range(I.n)]
+    hold = set(I.holders(base)); holdB = set(I.holders(Bp))
+    N1 = [u for u in sorted(hold) if u not in P and u != o]
+    extra = [j for j in sorted(holdB) if j != o and j not in N1]; s = len(extra)
+    if any(I.v[i].get(g, 0) > bvB[i] for g in Jp for i in range(I.n)): return INF, s, 'W'
+    for j in range(I.n):
+        if j != o and len(Bp[j]) >= 2 and any(i != j and I.threat(i, Bp[j], bvB[i]) for i in range(I.n)):
+            return INF, s, 'G1'
+    Qoff = [q for q in range(I.n) if q not in P and q != o and q not in hold]
+    chain_others = [x for x in P if x != o]; best = INF; why = 'no H'
+    for H in subsets(Jp):
+        X = list(Bp[o]) + [g for g in Jp if g not in H]
+        if any(I.threat(q, X, bv[q]) for q in Qoff): continue
+        if any(I.threat(x, X, bvB[x]) for x in chain_others): why = 'chain agent threatened'; continue
+        E = [u for u in N1 if I.threat(u, X, bv[u])]
+        adj = {h: [u for u in N1 if u not in E or
+                   (I.v[u].get(h, 0) > 0 and not I.threat(u, X, bv[u] + I.v[u][h]))] for h in H}
+        radj = {u: [h for h in H if u in adj[h]] for u in E}
+        if len(bip_match(E, radj)) < len(E): continue
+        df = len(H) - len(bip_match(H, adj))
+        if df < best: best = df
+    return best, s, ('ok' if best < INF else why)
+
+
+def ex_star_witness(I, base, starts=None):
+    """Some (P, H0, Hs, owner) at `base` satisfying EX*'s hypothesis, or None."""
+    J = I.junk(base)
+    for P, Hs in all_chains(I, base, starts):
+        k, xt = P[0], P[-1]; used = set(g for h in Hs.values() for g in h)
+        pool = [g for g in J if g not in used] + list(base[xt])
+        for H0 in subsets([g for g in pool if g in I.R[k]], 1):
+            if I.V(k, H0) <= I.V(k, base[k]): continue
+            Bp = apply_chain(I, base, P, list(H0), Hs)
+            for o in range(I.n):
+                d, s, _ = ex_value_general(I, base, P, Bp, o)
+                if d <= s: return P, list(H0), Hs, o, Bp
+    return None

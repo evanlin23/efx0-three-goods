@@ -6,7 +6,10 @@
 For every distinct pick vector of every order: maximum matching or not, delta_oa at the picks, whether OC1 holds
 (some official move reaches delta_oa = 0), and the least delta_oa one move reaches.
 
-    python3 k4/matching/cex_deficiency.py [names...]"""
+    python3 k4/matching/cex_deficiency.py [names...]        (FILE=list.json: those instances instead)
+
+results/k4_matching/data/ttc84_oc1_counterexamples.json is results/k4_ttc/oc1_counterexamples.json of claude/k4-ttc
+at fd4002d (the TTC session's 84 non-core OC1 counterexamples, k <= 4, n <= 6; ties broken towards the lower good)."""
 import sys, os, json, itertools, collections, time, multiprocessing as mp
 import _mpaths  # noqa: F401
 from mlib import M, INF
@@ -25,6 +28,9 @@ BGT = (BLT[0], [BLT[1][0], BLT[1][1], [28, 4, 16, 19], BLT[1][3], BLT[1][4], BLT
 
 
 def instances():
+    if os.environ.get('FILE'):   # a JSON list of {'sets', 'vals'} (e.g. results/k4_matching/data/ttc84_oc1_counterexamples.json)
+        return [('%s-%d' % (os.path.basename(os.environ['FILE']), t), d['sets'], d['vals'])
+                for t, d in enumerate(json.load(open(os.environ['FILE'])))]
     out = [('PW5', *PW5), ('PW4', *PW4), ('RD5', *RD5), ('RD4', *RD4), ('B<', *BLT), ('B>', *BGT)]
     for t, d in enumerate(json.load(open(os.path.join(_mpaths.ROOT, 'results', 'k4_sdc', 'ttc_core_cex_39.json')))):
         out.append(('cex39-%d' % t, d['sets'], d['vals']))
