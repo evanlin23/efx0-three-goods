@@ -1,7 +1,8 @@
 # k = 4 attack log (parallel campaign, from 2026-11-26)
 
 Goal: settle TARGET₄ (every additive instance in which every agent values at most four goods has a complete EFX₀
-allocation), by proof or by counterexample. This file is the coordinator's record: one entry per hourly burst, the
+allocation), by proof or by counterexample. The ultimate goal is arbitrary k, which is EFX₀ existence for every additive
+instance (every instance is m-limited); k = 4 is the near-term target, and the general-k track starts from n = 3. This file is the coordinator's record: one entry per hourly burst, the
 angles in flight, and what each established. Ledger rows change only with artifacts (AGENTS.md §5).
 
 ## Where k = 4 stands (start of the campaign)
@@ -29,6 +30,7 @@ angles in flight, and what each established. Ledger rows change only with artifa
 | Prove OC₁ at k = 3 with Draft and Exchange's machinery, then lift lemma by lemma to k = 4 | session_01BYMGeZVgBaajhpdHdJtKm2 | `claude/k4-k3-oc1` | `k4/k3_oc1.md` |
 | Reconstruct Viswanathan–Mehta's 4-limited EFX algorithm and make it EFX₀ | session_01BYMGebcnNSpPp9qEyjfvuV | `claude/k4-vm` | `k4/vm.md` |
 | k-sensitivity: the smallest k at which SD-C, MD, OC and OC₁ fail (adversarial, k = 5, 6, 8), and what k ≤ 4 buys | session_01BYMGeYRzPvVFuMx5JPLStH | `claude/k4-ksens` | `k4/ksens.md` |
+| General k, first foothold: OC₁ / SD-C for three agents at arbitrary k (a short proof with a polynomial algorithm would be new), then n = 4 | session_01BYMGeadPp24qCxnUuKsLsB | `claude/kgen-n3` | its own note (`kgen/`) |
 
 The coordinator (this branch, `claude/kind-lamport-y8fdme`) runs an hourly burst: it checks each angle, verifies any
 claimed proof or counterexample independently, integrates verified results here, and works one angle of its own.
@@ -45,3 +47,8 @@ claimed proof or counterexample independently, integrates verified results here,
   conjecture fails, adversarially, and for the property of k ≤ 4 that the failure shows a proof needs.
 - Coordinator's own run: `k4/sdc/oc1_bign.py`, OC₁ beyond n = 5 (2,000 random instances, n = 6–9, 12 orders each),
   log `results/k4_sdc/oc1_bign_6_9.log` (in progress).
+
+### 2026-11-26 20:38 UTC: general-k track
+- The ultimate goal is arbitrary k. SD-C, MD and OC₁ are stated for any k. Their first general-k foothold is n = 3:
+  EFX₀ is known there (Chaudhury–Garg–Mehlhorn, pseudo-polynomial). OC₁ for n = 3 would give a short proof with a
+  polynomial algorithm. Session `claude/kgen-n3` tests it adversarially at large k and tries to prove it, then n = 4.
