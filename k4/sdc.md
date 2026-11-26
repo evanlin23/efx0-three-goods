@@ -2016,7 +2016,7 @@ Evidence (`k4/sdc/oc1_max_orders.py`):
 - In I′ every agent with a relevant good holds a pick (a *perfect start*). So:
 
   *OC₁ at maximum-matching starts, for every instance with ≤ 4 relevant goods per agent, follows from OC₁ at perfect
-  starts, null agents allowed.*
+  starts, null agents allowed.* Null agents count as ordinary agents in the absorber count. A completion that lets them absorb freely gives only the OC₁ᵖ form (Hall session's check of RED, `k4/oc1_hall.md` §21).
 - Together with Lemma MAXSD this gives TARGET₄ directly, without the core reduction. It also explains why the
   TTC session's Hall-deficient climbs are benign. I′ need not be a core, so this route needs the perfect-start form for
   all instances. `k4/sdc/oc1max_climb.py` with LOOSE=1 tests OC₁^max without the core conditions. The 84 non-core TTC
