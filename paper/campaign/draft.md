@@ -331,8 +331,8 @@ In every shape at most one agent holds goods outside its base. The allocation is
 *Step 0 (degenerate cases).*
 - If $a$ values nothing, take $X = (\emptyset, M)$. If $b$ values nothing, take $X = (M, \emptyset)$.
 - If $b$ values only $y_a$, then $y_b$ does not exist.
-  - If $v_a(y_a) \ge v_a(M \setminus y_a)$, take $X = (\{y_a\}, M \setminus y_a)$. $a$ is EFX₀ by the inequality,
-    $b$ holds everything it values except nothing, and $a$'s bundle is a singleton.
+  - If $v_a(y_a) \ge v_a(M \setminus y_a)$, take $X = (\{y_a\}, M \setminus y_a)$. Agent $a$ is EFX₀ by the
+    inequality, and nobody strongly envies the singleton $\{y_a\}$. Agent $a$ keeps its pick and $b$ absorbs.
   - Otherwise take $X = (M \setminus y_a, \{y_a\})$. This is the chain $a \to b$: $b$ gains $v_b(y_a) > 0$, and
     $a$'s new base, the goods of $M \setminus y_a$ it values, is worth more than $y_a$. $b$ values $a$'s bundle at 0,
     and $b$'s bundle is a singleton, so $X$ is EFX₀.
@@ -574,7 +574,7 @@ against at most 483) is in `kgen/charity/w_counterexample.py` (`V3`, `X3`) on br
 *Design.* This is the hypergraph of S′(3, 4) (`kgen/charity.md` §5).
 - Source $s_j$ holds $\{x_j, x'_j\} = \{2j, 2j+1\}$.
 - Champion $c(g, j)$ holds its own good and values $x_j$ and the pool good $g$.
-- The champions $c(\cdot, j-1)$ are the goods-children of $s_j$.
+- Source $s_j$ also values the goods held by the champions $c(\cdot, j-1)$ (indices mod 3).
 
 The values were found by an exact search over real values (`w_synth_family.py`, z3).
 
@@ -592,3 +592,247 @@ with $f \ge 2$ is open (§11.5).
 
 **Referee report.** `k4/referee/chf.md`: CORRECT for both instances; single implementation on the referee's side,
 independent of the session's two.
+
+## 5. Linear hypergraphs
+
+Source: `k4/girth.md` §1–§4 (branch `claude/k4-girth`). Refereed against `5b79844`, with the later additions
+(generalized Lemma SLACK, Proposition HT) against `90c116f`; the proved statements are unchanged at the head `a494e3b`.
+
+### 5.1 The model of Lianeas, Sgouritsa and Sotiriou
+
+LSS [LSS] work with normalized monotone valuations $v_i : 2^M \to \mathbb{R}_{\ge 0}$ on a hypergraph. The agents are
+vertices, and each good $g$ is an edge $e_g$: an agent $i \notin e_g$ has $v_i(S \cup \{g\}) = v_i(S)$ for every $S$.
+For additive valuations, $e_g = V(g)$. EFX in [LSS] removes any good, so it is EFX₀.
+- A *Berge cycle* of length $\ell$ is $(x_1, e_1, x_2, e_2, \dots, x_\ell, e_\ell, x_1)$ with distinct vertices,
+  distinct edges, and $x_t, x_{t+1} \in e_t$.
+- The *girth* is the length of a shortest Berge cycle.
+- The hypergraph is **linear** if two agents share at most one good, that is, if it has no Berge 2-cycle.
+
+LSS prove that girth at least 4 implies EFX₀ existence, in polynomial time ([LSS], Theorem 1).
+
+**Their algorithm** ([LSS] §3; digest in `k4/girth.md` §1.2). Choose a special vertex $0$, label its neighbours
+$1, \dots, n_0$ and the other agents $n_0 + 1, \dots, n - 1$; higher labels have priority. A partial allocation $X$
+is an *orientation* if every allocated good goes to one of its endpoints. Write $U(X)$ for the unallocated goods and
+$U_i(X)$ for those relevant to $i$. The target properties are:
+- (1) $X$ is a partial EFX₀ orientation;
+- (2) vertex 0 is not envied, and a neighbour $i$ of 0 is envied only if it holds the good it shares with 0;
+- (3) $v_i(X_i) \ge v_i(e)$ for every $i$ and every $e \in U_i(X)$;
+- (4) $v_i(X_i) \ge v_i(U_i(X))$ for every envied $i$.
+
+The three algorithms are these.
+- *Algorithm 1 (FixProp3).* While some $j$ and $e \in U(X)$ have $v_j(e) > v_j(X_j)$, let $j$ be the highest-labelled
+  such vertex. It drops its bundle and takes its best unallocated relevant good.
+- *Algorithm 2.* Run FixProp3. Then, while some envied $i$ has $v_i(U_i(X)) > v_i(X_i)$, let $i$ take $U_i(X)$ and run
+  FixProp3 again.
+- *Algorithm 3.* While some unallocated good contains a non-envied vertex $j$, give it to $j$. Then give everything
+  left to vertex 0.
+
+LSS's Lemmas 3.1–3.5 show that Algorithm 2 ends with (1)–(4) and that Algorithm 3 returns a complete EFX₀ allocation.
+
+### 5.2 Linear hypergraphs with an agent on no 3-cycle
+
+**Theorem 5.1 (T1; `k4/girth.md` §4) [R].** Let the hypergraph be linear, and let some agent lie on no Berge 3-cycle.
+Then an EFX₀ allocation exists, for monotone valuations in the model of §5.1. In particular this holds for additive
+valuations, with goods valued by nobody and several private goods per agent allowed.
+
+*Proof.* Run LSS's algorithm with that agent as vertex 0. Linearity is LSS's Observation 2.1 ("two vertices share at
+most one edge"). In §3 of [LSS], Observation 2.2, the only consequence of girth at least 4 beyond linearity, is invoked
+exactly once, in the proof of Lemma 3.4. Every other step uses Observation 2.1 or nothing: Lemma 3.2 (Algorithm 2's
+loop), the case $|X_i| > 1$ of Lemma 3.4, Lemma 3.5, and Lemma 3.3 (labels only). The digest that locates these uses
+is `k4/girth.md` §1.2, and the referee confirmed it against the text.
+
+The use of Observation 2.2 is the following case. Let $i$ be a neighbour of 0, let $f_i$ be the good that $i$ shares
+with 0, and let $X_i = \{e\}$ with $e \neq f_i$. Lemma 3.4 needs that a neighbour $j$ of 0 with $j \notin f_i$ does
+not value $e$. LSS derive this from girth at least 4. It suffices that 0 lies on no Berge 3-cycle. Suppose $j \in e$.
+Then $(0, f_i, i, e, j, f_j, 0)$ is a Berge 3-cycle through 0:
+- the vertices $0, i, j$ are distinct;
+- $f_i \neq f_j$, since $j \notin f_i$;
+- $e \neq f_i$ by assumption;
+- $e \neq f_j$, since otherwise 0 and $i$ would share both $e$ and $f_i$, against linearity.
+
+Every other step of [LSS] §3 applies unchanged. ∎
+
+**Points the referee checked that [LSS] leaves implicit** (`k4/referee/girth.md` §1). Both hold here.
+- In Lemma 3.4, vertex 0 itself does not envy $i$, because 0 and $i$ share only $f_i$, so $0 \notin e$.
+- [LSS] works with a *set* of edges. Our instances have parallel edges of size 0 (goods valued by nobody) and size 1
+  (several private goods of one agent). Such edges lie on no Berge cycle, and each lemma survives them: private
+  edges of $i$ are irrelevant to everyone else, and Algorithm 3 gives size-0 edges to 0, where nobody values them.
+
+**Corollary 5.2 [R].** A linear counterexample to TARGET₄, if one exists, has every agent on a Berge 3-cycle and a good
+with at least three valuers. *(The first by Theorem 5.1. The second because instances in which every good has at most
+two valuers are multigraph instances, covered by [AAMMS] (ledger T3).)*
+
+**Proposition 5.3 (HT; `k4/girth.md` §4) [R].** For $t \ge 2$, every monotone valuation profile on the hypergraph of
+the core $H_t$ has an EFX₀ allocation, computed by LSS's algorithm with $\ell$ as vertex 0. This includes every
+additive profile, not only the strict ones of the source file.
+
+$H_t$ (`k4/c4.md` §7) has $4t + 1$ agents $\ell$, $x_{j,i}$, $y_j$ ($1 \le j \le t$, $1 \le i \le 3$), and $10t + 3$
+goods. The valuers of each good are:
+
+| good | valuers |
+|---|---|
+| $g_1$ | $\ell$, $x_{1,1}, x_{1,2}, x_{1,3}$ |
+| $g_j$ ($2 \le j \le t$) | $x_{j,1}, x_{j,2}, x_{j,3}$, $y_{j-1}$ |
+| $z$ | $\ell$, $y_t$ |
+| $a_{j,i}$ | $x_{j,i}$, $y_j$ |
+| $b_{j,i}$, $c_{j,i}$ | $x_{j,i}$ |
+| $u$, $u'$ | $\ell$ |
+
+*Proof.* The pairs of agents that share a good are $(\ell, x_{1,i})$ (only $g_1$), $(\ell, y_t)$ (only $z$),
+$(x_{j,i}, x_{j,i'})$ (only $g_j$), $(x_{j,i}, y_j)$ (only $a_{j,i}$) and $(y_{j-1}, x_{j,i})$ (only $g_j$). So
+$H_t$ is linear. A Berge 3-cycle through $\ell$ uses two different goods of $\ell$ that another agent values, so $g_1$
+and $z$. It has the form $(\ell, g_1, x_{1,i}, e, y_t, z, \ell)$ with $e$ a good shared by $x_{1,i}$ and $y_t$. Agent
+$y_t$ values only $a_{t,1}, a_{t,2}, a_{t,3}$ and $z$, so for $t \ge 2$ no such $e$ exists. Apply Theorem 5.1. ∎
+
+The families $H_t$ are those on which the earlier construction LB₄ʳ needs unboundedly many rotations (`k4/c4.md` §7).
+`k4/girth.md` §4 states the same for the doubled family $HH_t$ (`k4/lemmam_bt.md` §3) and the gadget chains. The
+referee did not rebuild $HH_t$, so those parts are proved by the session but not refereed. Theorem 5.1 covers few
+small cores: 5 of the 1,002 four-agent and 77 of the 31,584 five-agent core hypergraphs (`k4/girth.md` §4, [E]).
+Small cores are dominated by 2-cycles.
+
+**Referee report.** `k4/referee/girth.md`: CORRECT. The referee read [LSS] §2–§3 in full from the PDF and
+implemented Algorithms 1–3 from the text, with every choice randomized. The check covers 1.06 million runs on random
+linear hypergraphs, additive and monotone, with 0 failures. The mutation that puts vertex 0 *on* a 3-cycle fails 9,834
+times, always in the step the proof replaces (log `results/k4_referee/girth_ref.log`). Proposition HT was checked
+for $t \le 6$ (`k4/referee/ht_ref.py`).
+
+### 5.3 Three completion lemmas
+
+These lemmas hold beyond linear hypergraphs, and Conjecture DYN (§11.4) is built on them. Write $U$ for the
+unallocated goods, $U_i = U \cap R_i$, and $E$ and $N$ for the envied and the non-envied agents.
+
+**Lemma 5.4 (SINK) [R].** For any monotone valuations, let $X$ be a partial EFX₀ allocation and $s$ an agent with
+$v_i(X_i) \ge v_i(X_s \cup U)$ for every $i \ne s$. Giving $U$ to $s$ gives a complete EFX₀ allocation.
+
+*Proof.* Nobody envies $X_s \cup U$, so nobody strongly envies it. The value of $s$ only rises, and the other bundles
+are unchanged. ∎
+
+**Lemma 5.5 (PARK; linear, monotone) [R].** Let $X$ be a partial EFX₀ orientation with (3) for all agents and (4) for
+the envied ones. For an envied $i$, let its *safe set* be $S_i = \{u \in N : v_i(X_u \cup U_i) \le v_i(X_i)\}$.
+Suppose that every unallocated good whose valuers are all envied has a common safe vertex
+$u_e \in \bigcap_{i \in V(e)} S_i$, and that $N \neq \emptyset$ if some good is valued by nobody. Give each good of the
+first kind to $u_e$, every other valued unallocated good to one of its non-envied valuers, and the goods valued by
+nobody to a non-envied agent. The result is a complete EFX₀ allocation.
+
+*Proof.* Envied agents keep their bundles and nobody's value drops, so no new strong envy arises toward them. Let
+$u \in N$ and $k \ne u$; the new bundle is $Y_u \subseteq X_u \cup U$.
+- If $k$ is envied and $u \in S_k$, then $Y_u \cap R_k \subseteq X_u \cup U_k$ and
+  $v_k(Y_u) \le v_k(X_u \cup U_k) \le v_k(X_k)$.
+- Otherwise no good of the first kind valued by $k$ went to $u$. Every good of $Y_u$ that $k$ values contains both $u$
+  and $k$, so by linearity there is at most one, $f$. If $f \in X_u$, then $v_k(f) \le v_k(X_u) \le v_k(X_k)$, since
+  $u$ is non-envied. If $f \in U$, then $v_k(f) \le v_k(X_k)$ by (3).
+
+So nobody envies $Y_u$, and the goods valued by nobody can be added. ∎
+
+(The hypothesis $N \ne \emptyset$ for goods valued by nobody is the referee's addition. In a partial EFX₀ orientation
+every agent can be envied, as in an envy 3-cycle on a triangle; rotating envy cycles first also provides it.)
+
+**Lemma 5.6 (SLACK; any hypergraph, monotone) [R].** Let $X$ be a partial EFX₀ allocation with (3) for all agents, let
+$u$ be a non-envied agent with $X_u = \{f\}$ or $X_u = \emptyset$, and let $e$ be any unallocated good. Then replacing
+$X_u$ by $X_u \cup \{e\}$ keeps a partial EFX₀ allocation.
+
+*Proof.* Let $k \ne u$.
+- If $k$ values both $f$ and $e$, removing either leaves one good worth at most $v_k(X_k)$: $f$ because $u$ is
+  non-envied, $e$ by (3).
+- If $k$ values only $f$, then $v_k(\{f, e\}) = v_k(f) \le v_k(X_k)$.
+- If $k$ values only $e$, then $v_k(\{f, e\}) = v_k(e) \le v_k(X_k)$ by (3).
+
+If $X_u = \emptyset$, the new bundle is a singleton. The value of $u$ does not drop. ∎
+
+So a non-envied agent holding one good can absorb any one leftover good, even where it is not safe for the good's
+valuers. The slack of a two-good bundle replaces envy-freeness.
+
+**Referee report.** `k4/referee/girth.md` §2 and §5 (the generalized SLACK): CORRECT. The checks cover every partial
+orientation of small random linear instances. They test 128,383 SINK cases, 343,429 PARK completions, 97,621 SLACK
+cases and 16,549 combinations against the raw definition, with 0 failures. (In passing, the referee found that a
+remark "Fact F2 also holds for monotone valuations" in `k4/girth.md` is false. Nothing above uses it.)
+
+## 6. Serial dictatorship and maximum matchings
+
+Sources: `k4/sdc.md` §28 and §31 (coordinator branch `claude/kind-lamport-y8fdme`) and `k4/oc1_hall.md` §19 (branch
+`claude/k4-oc1-hall`). Refereed against `d48084e` and `e2b4701`. Lean: `lean/EFX/OC1Max.lean` on branch
+`formal/k4-oc1max` (head `838fb0e`).
+
+These three lemmas make the central conjecture OC₁^max imply TARGET₄, and they rule out the mechanism of every known
+counterexample to "one chain from every order" (§7.2). All three are close to known facts about house allocation
+[AS98, ACMM]; the proofs here are short and self-contained, and machine-checked.
+
+**Lemma 6.1 (SDPO; `k4/sdc.md` §28) [R, L].** With strict values (agents may stay unmatched), the SD outcomes over all
+orders are exactly the Pareto-optimal matchings.
+
+*Proof.* ($\subseteq$) Let a matching $\mu'$ Pareto-dominate $Y = \mathrm{SD}(\pi)$, and let $i$ be the first agent of
+$\pi$ with $\mu'_i \ne Y_i$. The agents before $i$ hold the same goods in both matchings, so $\mu'_i$, if it exists, was
+available when $i$ picked. If $Y_i$ is none, then $\mu'_i$ exists, which contradicts the fact that $i$ took nothing
+while a good it values was available. Otherwise $i$ took its favourite available good, so $v_i(\mu'_i) < v_i(Y_i)$ by
+strictness ($\mu'_i =$ none gives value 0). Either way domination fails, so $\mu' = Y$.
+
+($\supseteq$) Let $\mu$ be Pareto-optimal. Three facts follow.
+- Every agent's favourite good is held, since otherwise the agent could take it.
+- The pointers from each matched agent not holding its favourite to the holder of that favourite cannot form a cycle,
+  since trading along it improves everyone on it. So some matched agent holds its favourite.
+- An unmatched agent's goods are all held.
+
+Put an agent $a$ that holds its favourite first, and remove $a$ and $\mu_a$. Then $\mu$ stays Pareto-optimal on the
+rest, because a domination there would extend. By induction, with "favourite" meaning "favourite remaining good", and
+with the unmatched agents last, SD reproduces $\mu$. ∎
+
+With ties both inclusions fail. For example, agent 1 values goods $a$ and $b$ equally and breaks the tie toward $a$,
+and agent 2 values only $a$. Then order $(1, 2)$ gives $(a, -)$, which $(b, a)$ dominates. The referee found SD $\ne$
+PO on 1,105 of 2,000 tied instances. OC₁^max is stated for strict cores, so this is consistent. The fact is classical
+for complete lists [AS98, Lemma 1] and for incomplete lists [ACMM, §6 Lemma 1] (read by the TTC session's literature
+readers; `k4/ttc.md` §1).
+
+**Lemma 6.2 (MAXSD; `k4/sdc.md` §31) [R, L].** In every instance with strict values, some SD order's picks form a
+maximum matching of the incidence graph.
+
+*Proof.* Let $M$ be a maximum matching that is Pareto-optimal among maximum matchings (one exists, by finiteness). A
+Pareto improvement $M'$ of $M$ keeps every matched agent matched, since that agent's value stays positive. So
+$|M'| \ge |M|$, $M'$ is maximum, and $M' = M$. Hence $M$ is Pareto-optimal among all matchings, and an SD outcome by
+Lemma 6.1. ∎
+
+The lemma also holds with ties when SD breaks ties by index: perturbing values by the tie-breaking order changes
+neither the SD outcomes nor the incidence graph (referee's remark). The existence of a maximum Pareto-optimal matching
+is [ACMM], Theorem 1.
+
+**Lemma 6.3 (MAX; `k4/oc1_hall.md` §19; also Lemma T5 of `k4/ttc.md` §13) [R, L].** Let the picks $Y$ form a maximum
+matching, and let $S$ be the set of agents reachable from a pickless agent by an alternating path
+$u, g_1, j_1, g_2, j_2, \dots$, where $u$ has no pick, $g_l \in R_{j_{l-1}}$ (with $j_0 = u$) is a pick, and $j_l$ is
+its holder. Then:
+1. no agent of $S$ values a junk good;
+2. so no dangerous frozen agent lies in $S$. Every agent on a want-chain above a dangerous agent holds a pick, and
+   every such chain ends at an unfrozen pick holder.
+
+*Proof.* (1) If $j \in S$ valued a junk good $g'$, the alternating path from $u$ to $j$ followed by the edge $j - g'$
+would be augmenting, since $u$ and $g'$ are both unmatched. That contradicts maximality. (2) Wanting a pick means
+valuing it, so want-arrows from a pickless agent form alternating paths, and every agent reached lies in $S$.
+Want-chains are finite (wanting points to earlier picks), so each ends at an agent whose pick nobody wants. That agent
+holds a pick, since a pickless agent would put the chain into $S$. ∎
+
+The TTC session proved the same statement independently as Lemma T5 (`k4/referee/ttc_t5.md`: the same lemma with the
+same proof).
+
+### 6.4 What the lemmas give
+
+**Corollary 6.4 (OC₁^max implies TARGET₄) [R, L].** If OC₁^max (§2.5) holds, every 4-limited additive instance has a
+complete EFX₀ allocation.
+
+*Proof.* By §2.2, it suffices to treat strict connected $k = 4$ cores. By Lemma 6.2 one of their orders picks a
+maximum matching, and OC₁^max gives an EFX₀ completion for it. ∎
+
+The Lean statement is `EFX.OC1Max.target4_of_conjOC1max`, with `EFX.OC1Max.ConjOC1max` a hypothesis (a `Prop`), not
+an axiom. It runs through Lemma 6.2 and the machine-checked reductions K4.CORE and K4.TIE.
+`EFX.OC1Max.target4_of_conjOC1maxWith` does the same for any move relation. The Lean model has values in
+$\mathbb{N}$. The lemmas are `EFX.OC1Max.sdpo` (Lemma 6.1), `EFX.OC1Max.exists_order_maximum` (Lemma 6.2) and
+`EFX.OC1Max.max_no_augment`, `EFX.OC1Max.picks_no_junk` (Lemma 6.3). `lean/EFX/OC1MaxExamples.lean` shows the
+definitions are not vacuous on the MC2 core of §7.2: the failing order there does not pick a maximum matching, and the
+order $3, 4, 0, 1, 2$ picks one with a one-absorber completion. The Lean proof of Lemma 6.2 takes a maximum matching
+of largest total value; a Pareto improvement of it would be a maximum matching of larger total value.
+
+**Why Lemma 6.3 matters.** Every known counterexample to OC and OC₁ "for every order" (§7.2) has the same shape.
+Pickless agents value only picked goods. They freeze the pick holders, which then cannot take junk, and the pickless
+agents are left as the only junk receivers. At a maximum-matching start this pickless pigeonhole cannot form:
+pickless agents freeze only agents that value no junk.
+
+**Referee report.** `k4/referee/maxsd.md`: SDPO CORRECT (strictness essential), MAXSD CORRECT (also with tie-breaking),
+MAX CORRECT. The referee brute-forced all matchings and all orders on 4,500 strict instances ($n \le 6$) and 2,000
+tied ones, and found 0 failures except the expected SD $\ne$ PO under ties. The Lean build result is in Appendix A.
