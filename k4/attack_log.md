@@ -385,3 +385,11 @@ family at k ≤ 4. The open case is ν = n, with frozen agents wanted by pick ho
 
 **General k.** The surviving arbitrary-k candidates are RD² from maximum-matching starts (ksens), VM1 (rotation-based),
 DYN and CONN2. Each session is asked to test its candidate on PW5, RD5 and kgen n = 4.
+- **Coordinator's own angle this burst: Lemma RED** (`k4/sdc.md` §31; written proof, not refereed). At maximum-matching
+  picks, the pickless agents U, the agents S reachable from them by alternating paths, and all of their goods can be
+  removed, and the U agents become null agents. Any completion of the rest extends.
+  - So OC₁^max reduces to **OC₁ at perfect starts** (every agent with a relevant good holds a pick, null agents
+    allowed), for arbitrary instances with ≤ 4 goods per agent.
+  - With MAXSD this gives TARGET₄ without the core reduction.
+  - Test of the non-core form: `oc1max_climb.py` with LOOSE=1, running. The 84 non-core TTC instances already pass.
+  - Sent to the Hall session (D1 can assume ν = n) and to the Lean session (a second frame, ConjOC1perf ⟹ TARGET₄).
