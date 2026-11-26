@@ -419,7 +419,10 @@ static int T_jg[MAXM], T_nj;                 /* junk goods */
 static int T_opt[MAXM][MAXN + 1], T_nopt[MAXM];
 static int T_asg[MAXM];                      /* -1 = stays junk, else agent */
 
+static int T_slackmode = 0; static double T_best;
+static double tot_inv(int a) { return 1.0 / tot_i[a]; }
 static int two_final(void) {
+    double slack = 1e9;
     /* build B1 masks, J1 */
     unsigned B1[MAXN]; unsigned J1 = 0;
     for (int a = 0; a < n; a++) B1[a] = T_pp[a] >= 0 ? (1u << T_pp[a]) : 0;
@@ -429,6 +432,7 @@ static int two_final(void) {
     for (int a = 0; a < n; a++) if (T_chain1[a]) {
         ll bv = 0; for (int g = 0; g < m; g++) if (B1[a] >> g & 1) bv += v[a][g];
         if (!(bv > v[a][T_y[a]])) return 0;
+        double d = (double)(bv - v[a][T_y[a]]) * tot_inv(a); if (d < slack) slack = d;
     }
     /* round-2 roles */
     int succ2[MAXN], pred2[MAXN];
@@ -459,6 +463,7 @@ static int two_final(void) {
             if (B1[b] >> g & 1) r += v[b][g];
         }
         if (!(l > r)) return 0;
+        double d = (double)(l - r) * tot_inv(b); if (d < slack) slack = d;
     }
     for (int x = 0; x < n; x++) if (succ2[x] >= 0 && pred2[x] < 0) {
         int e = x; while (succ2[e] >= 0) e = succ2[e];
@@ -468,7 +473,9 @@ static int two_final(void) {
             if (B1[x] >> g & 1) r += v[x][g];
         }
         if (!(l > r)) return 0;
+        double d = (double)(l - r) * tot_inv(x); if (d < slack) slack = d;
     }
+    if (T_slackmode) { if (slack > T_best) T_best = slack; return 0; }   /* keep searching for a better structure */
     return 1;
 }
 
@@ -539,7 +546,7 @@ static int two_reach(void) {
 
 /* rnd2_count: for the start `picks`, the number of complete EFX allocations reachable by <= 2 rounds (free
    completion), capped at cap; *out_md = number of MD EFX allocations visited */
-static ll r2_cap, r2_cnt, r2_md; static int r2_picks[MAXN];
+static ll r2_cap, r2_cnt, r2_md; static int r2_picks[MAXN]; static double r2_msum;
 static void dfs2(int idx) {
     if (r2_cnt >= r2_cap) return;
     if (idx == m) {
@@ -547,7 +554,17 @@ static void dfs2(int idx) {
         r2_md++;
         for (int g = 0; g < m; g++) T_own[g] = owner[g];
         for (int a = 0; a < n; a++) T_y[a] = r2_picks[a];
-        if (two_reach()) r2_cnt++;
+        if (T_slackmode) {
+            T_best = -1; two_reach();
+            if (T_best > 0) {
+                r2_cnt++;
+                double em = 1e9;
+                for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) if (i != j && bsz[j] > 0) {
+                    double d = (double)(val[i][i] - (val[i][j] - mn[i][j])) / tot_i[i]; if (d < em) em = d;
+                }
+                r2_msum += (em < T_best ? em : T_best);
+            }
+        } else if (two_reach()) r2_cnt++;
         return;
     }
     int g = gord[idx];
@@ -570,8 +587,15 @@ ll rnd2_count(int n_, int m_, const ll *vals, const int *picks, ll cap_, ll *out
     setup(n_, m_, vals);
     if (m > 31) return -1;
     for (int a = 0; a < n; a++) r2_picks[a] = picks[a];
-    r2_cap = cap_ > 0 ? cap_ : ((ll)1 << 62); r2_cnt = 0; r2_md = 0;
+    r2_cap = cap_ > 0 ? cap_ : ((ll)1 << 62); r2_cnt = 0; r2_md = 0; r2_msum = 0;
     dfs2(0);
     *out_md = r2_md;
     return r2_cnt;
+}
+/* the same with margins: count and the sum over two-round witnesses of min(EFX slack, best structure's gain slack) */
+ll rnd2_count_margin(int n_, int m_, const ll *vals, const int *picks, ll cap_, ll *out_md, double *out_msum) {
+    T_slackmode = 1;
+    ll c = rnd2_count(n_, m_, vals, picks, cap_, out_md);
+    T_slackmode = 0; *out_msum = r2_msum;
+    return c;
 }

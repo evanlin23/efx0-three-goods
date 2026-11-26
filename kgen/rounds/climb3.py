@@ -1,7 +1,8 @@
 """Climb toward a start that needs THREE rounds (RD2+ test, kgen/rounds.md §4.1), with rnd.c's exact two-round count.
 
 Objective (minimized): (min over the K hardest starts of the number of complete EFX allocations reachable by <= 2
-rounds (free completion), min over all starts of the one-round witness count (RND1), its margin sum).  The K hardest
+rounds (free completion), with MARGIN2=1 then the sum of those witnesses' two-round margins, then min over all starts
+of the one-round witness count (RND1) and its margin sum).  The K hardest
 starts are those with the smallest (RND1, margin).  A start with two-round count 0 is printed as CAND3 and appended to
 $FAILS3; it must be confirmed by ocseq (verify_fail.py) and bruter.py's forward two-round simulation.
 
@@ -11,17 +12,30 @@ import sys, os, json, random, time, zlib
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import rndlib, families
 VMAX = int(os.environ.get('VMAX', '6000')); CAP = int(os.environ.get('CAP2', '200'))
+MARGIN2 = os.environ.get('MARGIN2', '0') == '1'   # objective also uses the two-round witnesses' margin sum
+PHASED = os.environ.get('PHASED', '0') == '1'     # phase 1: make a start fail one round; phase 0: over those starts,
+                                                  # minimize (two-round count, margin sum)
 
 
 def evaluate(V, K):
     res, _ = rndlib.analyze(V)
     order = sorted(res, key=lambda r: (r['counts']['RND1'], r['msum']))
+    fail1 = [r for r in order if r['counts']['RND1'] == 0]
+    if PHASED:
+        if not fail1:      # phase 1: first make some start fail one round (as stress.py climb)
+            h = order[0]
+            return (1, h['counts']['RND1'], round(h['msum'], 9), 0), h, []
+        order = fail1      # phase 0: minimize two-round witnesses over the one-round failures only
     c2 = []
     for r in order[:K]:
-        c, md = rndlib.two_rounds(V, list(r['picks']), CAP); c2.append((c, r))
+        if MARGIN2:
+            c, md, ms = rndlib.two_rounds_margin(V, list(r['picks']), CAP); c2.append(((c, round(ms, 9)), r))
+        else:
+            c, md = rndlib.two_rounds(V, list(r['picks']), CAP); c2.append(((c, 0.0), r))
     best = min(c2, key=lambda x: x[0])
     h = order[0]
-    return (best[0], h['counts']['RND1'], round(h['msum'], 9)), best[1], c2
+    if PHASED: return (0, best[0][0], best[0][1], -len(fail1)), best[1], c2
+    return (best[0][0], best[0][1], h['counts']['RND1'], round(h['msum'], 9)), best[1], c2
 
 
 def main():
@@ -46,7 +60,7 @@ def main():
             c2, hr2, _ = evaluate(V2, K)
             if c2 <= c:
                 V, c, hr = V2, c2, hr2
-                if c[0] == 0:
+                if (c[1] == 0 if PHASED else c[0] == 0) and (not PHASED or c[0] == 0):
                     print('CAND3 vals', json.dumps(V), 'picks', list(hr['picks']), 'order', list(hr['order']), flush=True)
                     fp = os.environ.get('FAILS3')
                     if fp:

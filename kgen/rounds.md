@@ -336,6 +336,9 @@ Values ×100 of RD5 (`k4/ksens.md` §6), with agent 0's value of good 4 lowered 
 - *Core-constrained ε-lift climbs* (KEPS = 4, KCORE = 1: the zero version satisfies K4.CORE of `k4/SCOUT.md`, without
   connectivity; `kcore4_*.log`). No one-round failure. The climbs bottom out at exactly one witness, consistent with
   the campaign's OC₁^max evidence.
+  - One ε-failure was found among them (n = 5, m = 8, `fails_kcore.jsonl`). Its zero version satisfies OC₁ and one
+    round from the same order, in both programs (`k4zero_scan_kcore.log`). So the ε values themselves caused the
+    failure there.
 - *Caveat.* rnd.c tests the ε-lift, not the zero version. In every ε-failure the zero version failed too, but a
   zero-version failure with a repairable ε-lift would be missed.
 
@@ -412,7 +415,19 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
   another MD allocation is reachable.
 - A proof would have to construct that allocation, which is the three-agent existence problem again. Not proved.
 
-## 6. Next
+## 6. Proposed ledger rows (for the coordinator; LEDGER.md is not edited on this branch)
+
+| ID | Claim | Status | Artifact |
+|---|---|---|---|
+| KGEN.ROUND+ | ROUND⁺: with strictly positive additive values, from every SD order one round of vertex-disjoint improving chains reaches bases with a complete EFX completion | REFUTED | `kgen/rounds/refute_roundplus.py`, `results/kgen_rounds/refute_roundplus.log`, `results/kgen_rounds/verify_fail_first.log`, `attempts/kgen-rounds-one-round.md` |
+| KGEN.ROUNDX | ROUND-X: the same with chain starts drawing from a common pool of released end picks | REFUTED | `results/kgen_rounds/xcheck_xp_40_4.log` (X4, rnd.c and bruter.py), `kgen/rounds.md` §4.2 |
+| KGEN.RC | Lemmas RC, RC2 and R1 (round characterizations at positive values; at most one foreign pick per base after one round) | PROVED | `kgen/rounds.md` §1, §4.1 (written proofs, not refereed; RC/RC2 cross-checked against forward simulations, `xcheck_*.log`) |
+| KGEN.RD2+ | RD²⁺: two rounds suffice at positive values | CONJECTURE | EVIDENCE only: every one-round failure (138 starts found), climbs (`c4_3r_*.log`, `c5_3r_*.log`) |
+| KGEN.ROUND3 | ROUND⁺ at n = 3 | CONJECTURE | EVIDENCE only (§5.1); a proof would reprove CGM |
+| KGEN.ID | Identical valuations: the picks of every order extend (any n, zeros allowed) | PROVED | `kgen/rounds.md` §5.2 (written proof; checked on 15,684 starts) |
+| K4.SDC.OC1PERF | OC₁ (and one round) at perfect starts for every instance with ≤ 4 relevant goods per agent (the target of Lemma RED's route; the LOOSE form of OC₁^max) | REFUTED | `kgen/rounds/k4w_check.py`, `results/kgen_rounds/k4w_check.log` (K4W, no worthless good), `results/kgen_rounds/verify_k4zero_W4.log` (W4) |
+
+## 7. Next
 - RD²⁺: faster two-round checker (C, backward with round-1 enumeration) and bigger climbs, n = 5, 6; the depth-two
   design of §4.1 at n = 6.
 - Turn the starved-agent certificate into the obstruction statement it suggests: "some MD allocation has no starved

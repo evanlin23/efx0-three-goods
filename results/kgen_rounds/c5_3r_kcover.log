@@ -1,0 +1,1 @@
+$ python3 kgen/rounds/climb3.py 4 7 2500 20 c5kc seeds=results/kgen_rounds/fails_kcover.jsonl 3

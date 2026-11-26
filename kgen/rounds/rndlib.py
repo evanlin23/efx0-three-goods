@@ -30,6 +30,7 @@ _L.rnd_analyze.restype = ctypes.c_int
 _L.rnd_witness.restype = ctypes.c_int
 _L.rnd_list_efx.restype = LL
 _L.rnd2_count.restype = LL
+_L.rnd2_count_margin.restype = LL
 
 
 def _arr(vals):
@@ -103,3 +104,12 @@ def two_rounds(vals, picks, cap=0):
     P = (ctypes.c_int * n)(*picks); md = LL()
     c = _L.rnd2_count(n, m, A, P, LL(cap), ctypes.byref(md))
     return c, md.value
+
+
+def two_rounds_margin(vals, picks, cap=0):
+    """(count, MD count, margin sum) for <= 2 rounds; the margin of a witness is min(EFX slack, the best two-round
+    structure's smallest gain slack), each normalized by the agent's total value"""
+    n, m, A = _arr(vals)
+    P = (ctypes.c_int * n)(*picks); md = LL(); ms = ctypes.c_double()
+    c = _L.rnd2_count_margin(n, m, A, P, LL(cap), ctypes.byref(md), ctypes.byref(ms))
+    return c, md.value, ms.value
