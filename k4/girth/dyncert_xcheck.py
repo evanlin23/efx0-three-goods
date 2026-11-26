@@ -8,7 +8,7 @@ import collections
 import random
 import sys
 
-from dyncert import Core, Run, labelings
+from dyncert import Core, FastRun as Run, labelings
 from lss import Inst, Run as LRun, park_dynamic_ec, is_efx0
 from sources import cores, domains
 

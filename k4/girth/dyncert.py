@@ -16,6 +16,7 @@ is a counterexample candidate: its representative is re-checked with the indepen
 code (lss.Run.alg2_safe + lss.park_dynamic_ec) over every labeling.
 
     python3 k4/girth/dyncert.py N [FILE_GLOB_PART] [--limit=K] [--jobs=J]
+    python3 k4/girth/dyncert.py --selftest      FastRun (used by the covering) against Run: outcome and class
 writes results/k4_girth_dyncert_{N}.log: per core the number of profiles, runs, boxes, and any counterexample.
 """
 import gzip
@@ -117,7 +118,7 @@ class Run:
             for j in range(n):
                 if i == j or not X[j]:
                     continue
-                for g in X[j]:
+                for g in sorted(X[j]):
                     if self.cmp(i, X[j] - {g}, X[i]) > 0:
                         return False
         return True
@@ -299,7 +300,7 @@ def certify(task):
             cex.append(rep)
             continue
         rep = [lowbit_index(b) for b in box]
-        r = Run(C, rep, L[li])
+        r = FastRun(C, rep, L[li])
         ok = r.go()
         runs += 1
         cls = r.box(box)
@@ -346,6 +347,9 @@ def verify_cex(sets, m, rep):
 
 
 def main():
+    if '--selftest' in sys.argv:
+        selftest()
+        return
     n = int(sys.argv[1])
     part = sys.argv[2] if len(sys.argv) > 2 and not sys.argv[2].startswith('--') else ''
     limit = None
@@ -378,6 +382,218 @@ def main():
                 print('   counterexample candidate', I, 'type indices', rep, '| lss.py: %d of %d labelings complete'
                       % (ok, nl), flush=True)
     print('TOTAL', tot, '%.0fs' % (time.time() - t0), flush=True)
+
+
+
+# ---------------------------------------------------------------- a faster equivalent of Run (bitmask bundles)
+
+def bits(x):
+    while x:
+        b = x & -x
+        yield b.bit_length() - 1
+        x ^= b
+
+
+class FastRun:
+    """Same pipeline, same order of comparisons and same recording as Run, with goods as bitmasks.  Checked against Run
+    (identical outcome and identical recorded class) by `python3 k4/girth/dyncert.py --selftest`."""
+
+    def __init__(self, C, rep, lab):
+        self.C, self.rep, self.lab = C, rep, lab
+        n = C.n
+        if not hasattr(C, 'Rm'):
+            C.Rm = [sum(1 << g for g in C.sets[i]) for i in range(n)]
+            C.em = [sum(1 << i for i in C.edge[g]) for g in range(C.m)]
+            C.elen = [len(C.edge[g]) for g in range(C.m)]
+            C.loc = []
+            C.cidx = []
+            for i in range(n):
+                S = C.sets[i]
+                d = len(S)
+                lm = {}
+                for sub in range(1 << d):
+                    gm = sum(1 << S[k] for k in range(d) if sub >> k & 1)
+                    lm[gm] = sub
+                C.loc.append(lm)
+                ci = {}
+                for (A, B), p in C.pidx[i].items():
+                    ci[(A, B)] = (p, 1)
+                    ci[(B, A)] = (p, -1)
+                C.cidx.append(ci)
+        self.sub = []
+        for i in range(n):
+            S = C.sets[i]
+            v = C.doms[i][rep[i]]
+            d = len(S)
+            self.sub.append([sum(v[S[k]] for k in range(d) if s >> k & 1) for s in range(1 << d)])
+        self.rec = [dict() for _ in range(n)]
+        self.count = 0
+
+    def cmp(self, i, S, T):
+        C = self.C
+        Rm = C.Rm[i]
+        a = C.loc[i][S & Rm]
+        b = C.loc[i][T & Rm]
+        A, B = a & ~b, b & ~a
+        if A == 0:
+            return 0 if B == 0 else -1
+        if B == 0:
+            return 1
+        sb = self.sub[i]
+        s = 1 if sb[A] > sb[B] else -1
+        p, o = C.cidx[i][(A, B)]
+        self.rec[i][p] = s * o
+        return s
+
+    def envied(self, X, j):
+        return any(self.cmp(i, X[j], X[i]) > 0 for i in range(self.C.n) if i != j)
+
+    def efx0(self, X):
+        n = self.C.n
+        for i in range(n):
+            for j in range(n):
+                if i == j or not X[j]:
+                    continue
+                for g in bits(X[j]):
+                    if self.cmp(i, X[j] & ~(1 << g), X[i]) > 0:
+                        return False
+        return True
+
+    def fixprop3(self, X, U):
+        C = self.C
+        while True:
+            cand = [j for j in range(C.n) if any(self.cmp(j, 1 << e, X[j]) > 0 for e in bits(U[0] & C.Rm[j]))]
+            if not cand:
+                return
+            j = max(cand, key=lambda a: self.lab[a])
+            es = list(bits(U[0] & C.Rm[j]))
+            best = es[0]
+            for e in es[1:]:
+                if self.cmp(j, 1 << e, 1 << best) > 0:
+                    best = e
+            U[0] |= X[j]
+            X[j] = 1 << best
+            U[0] &= ~(1 << best)
+
+    def alg2_safe(self, X, U):
+        C = self.C
+        self.fixprop3(X, U)
+        stuck = set()
+        while True:
+            cand = [i for i in range(C.n) if i not in stuck and self.envied(X, i)
+                    and self.cmp(i, U[0] & C.Rm[i], X[i]) > 0]
+            if not cand:
+                break
+            i = max(cand, key=lambda a: self.lab[a])
+            Ui = list(bits(U[0] & C.Rm[i]))
+            best = None
+            for k in range(len(Ui), 0, -1):
+                for Tl in itertools.combinations(Ui, k):
+                    T = sum(1 << g for g in Tl)
+                    if self.cmp(i, T, X[i]) <= 0:
+                        continue
+                    Y = list(X)
+                    Y[i] = T
+                    if self.efx0(Y) and (best is None or self.cmp(i, T, best) > 0):
+                        best = T
+            if best is None:
+                stuck.add(i)
+                continue
+            U[0] |= X[i]
+            X[i] = best
+            U[0] &= ~best
+            self.fixprop3(X, U)
+            stuck = set()
+
+    def cycles(self, Y):
+        n = self.C.n
+        succ = [[b for b in range(n) if b != a and self.cmp(a, Y[b], Y[a]) > 0] for a in range(n)]
+        out = []
+
+        def dfs(start, a, path, on):
+            for b in succ[a]:
+                if b == start:
+                    out.append(list(path))
+                    if len(out) >= CYCLE_CAP:
+                        return
+                elif b > start and b not in on:
+                    on.add(b)
+                    path.append(b)
+                    dfs(start, b, path, on)
+                    path.pop()
+                    on.discard(b)
+                if len(out) >= CYCLE_CAP:
+                    return
+
+        for s in range(n):
+            dfs(s, s, [s], {s})
+            if len(out) >= CYCLE_CAP:
+                break
+        return out
+
+    def park(self, X, U):
+        seen = set()
+        C = self.C
+
+        def rec(Y, left):
+            if not left:
+                return True
+            key = (Y, left)
+            if key in seen:
+                return False
+            seen.add(key)
+            self.count += 1
+            if self.count > BUDGET:
+                return False
+            N = [u for u in range(C.n) if not self.envied(Y, u)]
+            for g in sorted(bits(left), key=lambda h: (-C.elen[h], h)):
+                for u in N:
+                    Z = list(Y)
+                    Z[u] = Y[u] | (1 << g)
+                    Z = tuple(Z)
+                    if self.efx0(Z) and rec(Z, left & ~(1 << g)):
+                        return True
+            if not N:
+                for cyc in self.cycles(Y):
+                    Z = list(Y)
+                    for t, a in enumerate(cyc):
+                        Z[a] = Y[cyc[(t + 1) % len(cyc)]]
+                    if rec(tuple(Z), left):
+                        return True
+            return False
+
+        return rec(tuple(X), U)
+
+    def go(self):
+        C = self.C
+        X = [0] * C.n
+        U = [(1 << C.m) - 1]
+        self.alg2_safe(X, U)
+        if not self.efx0(X):
+            return False
+        return self.park(X, U[0])
+
+    box = Run.box
+
+
+def selftest(k=300, seed=1):
+    import random
+    from sources import cores, domains
+    rng = random.Random(seed)
+    allc = cores(3) + cores(4)
+    same = 0
+    for t in range(k):
+        f, idx, sets, m = rng.choice(allc)
+        doms = domains(sets, m)
+        C = Core(sets, m, doms)
+        rep = [rng.randrange(len(d)) for d in doms]
+        for lab in labelings(C):
+            a, b = Run(C, rep, lab), FastRun(C, rep, lab)
+            ra, rb = a.go(), b.go()
+            assert ra == rb, ('OUTCOME MISMATCH', sets, rep, lab)
+            assert a.box(tuple(C.full)) == b.box(tuple(C.full)), ('class mismatch', sets, rep, lab)
+            same += 1
+    print('selftest: Run and FastRun agree (outcome and recorded class) on %d runs' % same)
 
 
 if __name__ == '__main__':
