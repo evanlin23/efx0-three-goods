@@ -1,6 +1,6 @@
 # Referee report: Theorems CH-A, CH-B (branch `claude/kgen-charity`, `kgen/charity.md` §0–§3)
 
-Referee: `proof/k4-referee`, 2026-11-26. Read: `kgen/charity.md` at `41c1a7b` (all of it), and the two cited sources,
+Referee: `proof/k4-referee`, 2026-11-26. Read: `kgen/charity.md` at `78deef1` (all of it); §2–§3 unchanged at `8862555` except for the new Proposition DU (§5 below), and the two cited sources,
 fetched and extracted with `pdftotext` by me:
 - CKMS: B. R. Chaudhury, T. Kavitha, K. Mehlhorn, A. Sgouritsa, "A Little Charity Guarantees Almost Envy-Freeness",
   arXiv 1907.04596v3. Read §2 in full (Algorithms 1–2, Definition 1, Lemma 2, Definition 3, Lemmas 4–7, Theorem 8).
@@ -96,3 +96,13 @@ No code is shared with `kgen/charity/`.
   disjoint envy paths, which CKMS's precondition does not state and CH5 provides.
 - CH-M (monotone), CH-C, CH-D, CH-E and the P1 refutation at k = 3 were not refereed. The coordinator has verified
   the last one independently (attack log, 21:35).
+
+## 5. Addendum: Proposition DU (new at `8862555`, checked in passing)
+
+DU: if the incidence graph has ≥ 2 components containing agents, a complete EFX₀ allocation exists. Re-derived:
+- take a CKMS stopping state in each component and give its pool P_r to a source s_{r+1} of the next component;
+- an agent a of component r then values, in any bundle of another component, only goods of P_r. These are worth
+  ≤ v_a(X_a) by strong charity;
+- inside its own component, a sees the extra goods as worthless, and the source that received them is unenvied.
+
+**CORRECT.**

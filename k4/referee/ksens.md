@@ -1,6 +1,6 @@
 # Referee report: PW5, OC and OC₁ fail at k = 5 (branch `claude/k4-ksens`, `k4/ksens.md` §1–§2)
 
-Referee: `proof/k4-referee`, 2026-11-26. Read: `k4/ksens.md` at `3ba3261` §1–§2 (and the status block, Lemma PL's
+Referee: `proof/k4-referee`, 2026-11-26. Read: `k4/ksens.md` at `ceba5c7` §1–§2 (unchanged at `cebd30a`) (and the status block, Lemma PL's
 statement). Definitions: `k4/sdc.md` §29 (improving chain, OC, OC₁). Check: `k4/referee/pw5_ref.py`, log
 `results/k4_referee/pw5_ref.log`, written from the instance table alone; no code shared with `k4/ksens/`.
 

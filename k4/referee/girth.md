@@ -1,6 +1,6 @@
 # Referee report: Theorem T1, Lemmas SINK, PARK, SLACK (branch `claude/k4-girth`, `k4/girth.md` §3–§4)
 
-Referee: `proof/k4-referee`, 2026-11-26. Read: `k4/girth.md` at `5b79844` (all of it), and LSS itself.
+Referee: `proof/k4-referee`, 2026-11-26. Read: `k4/girth.md` at `5b79844` (all of it), and LSS itself. See §5 for what changed at `90c116f`.
 - LSS: T. Lianeas, A. Sgouritsa, M. M. Sotiriou, "EFX Allocation In (Multi)Hypergraphs", arXiv 2608.03171v1.
 - I fetched the PDF and extracted its text myself with `pdftotext -layout` (sha256 `a720a6e4…cb53`).
 - Read in full: §2 (model, cycles, Observations 2.1, 2.2) and §3 (Algorithms 1–3, Lemmas 3.1–3.5). §4 skimmed for
@@ -128,3 +128,16 @@ should say "additive" for F2.
     with T3.
 - Small fixes: PARK needs N ≠ ∅ when goods valued by nobody exist; F2's monotone remark is wrong.
 - Conjecture L remains a conjecture. Nothing here bears on it beyond the facts above.
+
+## 5. Addendum: changes at `90c116f` (22:15 UTC)
+
+- **Lemma SLACK was generalized.** The new form: any hypergraph, monotone valuations, X a partial EFX₀ allocation with
+  (3), u non-envied with X_u = {f} or X_u = ∅, and e any unallocated good. Re-derived: **still CORRECT**.
+  - If k values f and e, each one-good remainder is bounded: f by u's non-envy, e by (3).
+  - Otherwise k sees one of them.
+  - X_u = ∅ gives a singleton.
+  - Linearity was never used, as §2 above already noted.
+- **Proposition HT** (new, marked PROVED): H_t and HH_t are linear and ℓ lies on no 3-cycle, so T1 covers every
+  profile on them. Not refereed here; it is a hypergraph fact plus T1.
+- **Conjecture L and PL** are now REFUTED by the session. That does not affect T1, SINK, PARK or SLACK. The F2
+  remark of §3 is moot for L.

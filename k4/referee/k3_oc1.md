@@ -1,6 +1,6 @@
 # Referee report: Theorem R1C and Lemmas 1–3 (branch `claude/k4-k3-oc1`, `k4/k3_oc1.md` §2–§3)
 
-Referee: `proof/k4-referee`, 2026-11-26. Read: `k4/k3_oc1.md` at `949718a` (all of it), `k4/sdc.md` §29 (OC₁),
+Referee: `proof/k4-referee`, 2026-11-26. Read: `k4/k3_oc1.md` at `949718a` (all of it; §2–§3 unchanged at `253749e`), `k4/sdc.md` §29 (OC₁),
 `proofs/lb_last_step.md` §0–§5 (LB⁺), and `paper/k3-simple/long.tex` Definitions state/valid, Lemmas draft, stay,
 ring, chain and Theorem soundness. Checks: `k4/referee/k3oc1_ref.py`, runs `k4/referee/k3oc1_ref_runs.sh` and
 `k3oc1_ref_runs2.sh`, logs `results/k4_referee/k3oc1_ref.log` and `results/k4_referee/k3oc1_ref_bstar.log`. Written

@@ -1,6 +1,6 @@
 # Referee report: Theorem VM (branch `claude/k4-vm`, `k4/vm.md` §2, §8)
 
-Referee: `proof/k4-referee`, 2026-11-26. Read: `k4/vm.md` at `7a78df6` (all of §1–§8), and the AAMAS 2024 extended
+Referee: `proof/k4-referee`, 2026-11-26. Read: `k4/vm.md` at `7a78df6` (all of §1–§8; at `77c8953` §1–§5 and §8 are unchanged, and only the status block and new subsections of §7 were added), and the AAMAS 2024 extended
 abstract itself. Checks: `k4/referee/vm_ref.py`, runs `k4/referee/vm_ref_runs.sh`, log
 `results/k4_referee/vm_ref.log`. My implementation was written from the abstract's text and §2 of `k4/vm.md`. It shares
 no code with `k4/vm/`.

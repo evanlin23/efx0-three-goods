@@ -1,6 +1,6 @@
 # Referee report: Lemmas 2, 2\*, Corollary 2.1, Proposition 3, Theorem F1₁ (branch `claude/k4-oc1-hall`, `k4/oc1_hall.md`)
 
-Referee: `proof/k4-referee`, 2026-11-26. Read: `k4/oc1_hall.md` at `5a7a0d6`. §1 (Lemma 1), §4 (Lemma 2), §5
+Referee: `proof/k4-referee`, 2026-11-26. Read: `k4/oc1_hall.md` at `476207e`; §4–§6 are unchanged at `e2b4701` (22:15 UTC). §1 (Lemma 1), §4 (Lemma 2), §5
 (Proposition 3, Theorem F1₁) and §6 (Corollary 2.1, Lemma 4, Lemma 2\*) line by line; the status block and §16 for
 context. Also read the parts of `k4/sdc.md` the proofs call: §2 (I1, I2, Lemma 2), §6 (Theorem DT, (F1)–(F4), moves
 (m1), (m2), DT⁺) and §30 (Lemma GDT, Theorem DT₁).
