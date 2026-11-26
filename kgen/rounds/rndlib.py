@@ -18,7 +18,9 @@ K = {k: i for i, k in enumerate(KINDS)}
 def _build():
     src = os.path.join(HERE, 'rnd.c')
     if not os.path.exists(SO) or os.path.getmtime(SO) < os.path.getmtime(src):
-        subprocess.check_call(['gcc', '-O2', '-march=native', '-shared', '-fPIC', '-o', SO, src])
+        tmp = SO + '.%d.tmp' % os.getpid()      # build aside, then rename: running processes keep the old inode
+        subprocess.check_call(['gcc', '-O2', '-march=native', '-shared', '-fPIC', '-o', tmp, src])
+        os.replace(tmp, SO)
 
 
 _build()
@@ -45,11 +47,14 @@ def analyze(vals, cap=0, want=('RND1',)):
     for w in want: wm |= 1 << K[w]
     ns = _L.rnd_analyze(n, m, A, LL(cap), wm, picks, order, cnt, ctypes.byref(nefx))
     if ns < 0: raise ValueError('instance too large')
+    msum = (ctypes.c_double * NS)(); mmax = (ctypes.c_double * NS)()
+    _L.rnd_margins(msum, mmax)
     out = []
     for s in range(ns):
         out.append({'picks': tuple(picks[s * n + a] for a in range(n)),
                     'order': tuple(order[s * n + a] for a in range(n)),
-                    'counts': {k: cnt[s * len(KINDS) + i] for i, k in enumerate(KINDS)}})
+                    'counts': {k: cnt[s * len(KINDS) + i] for i, k in enumerate(KINDS)},
+                    'msum': msum[s], 'mmax': mmax[s]})
     return out, nefx.value
 
 

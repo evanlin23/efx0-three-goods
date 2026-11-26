@@ -1,0 +1,1 @@
+$ python3 kgen/rounds/stress.py rand all 4 10 12 12000 41

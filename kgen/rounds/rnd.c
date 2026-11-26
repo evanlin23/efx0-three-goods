@@ -47,6 +47,8 @@ static int nst;                      /* distinct starts */
 static int pick[MAXS][MAXN];         /* pick[s][a] = good */
 static int sorder[MAXS][MAXN];
 static ll cnt[MAXS][NK];
+static double msum[MAXS], mmax[MAXS];   /* over RND1 witnesses: sum / max of the witness margin */
+static double tot_i[MAXN], efx_margin, best_gm;
 static ll cap;
 static int want_mask;                /* classes whose counters gate early stopping */
 static int owner[MAXM];
@@ -78,6 +80,7 @@ static int analyze_start(int s, int record) {
     for (int a = 0; a < n; a++) { loc[a] = owner[y[a]]; vJ[a] = 0; nJ[a] = 0; }
     for (int g = 0; g < m; g++) if (isj[g]) { int b = owner[g]; vJ[b] += v[b][g]; nJ[b]++; }
     int res = 0;
+    best_gm = -1;
     /* MD */
     int md = 1;
     for (int a = 0; a < n; a++) if (val[a][a] < v[a][y[a]]) { md = 0; break; }
@@ -91,6 +94,7 @@ static int analyze_start(int s, int record) {
         if (big <= 2) res |= 1 << K_OC1;          /* one t = 0 move plus one absorber */
         res |= (1 << K_RNDF) | (1 << K_RND1);
         if (record) { for (int a = 0; a < n; a++) { wit_info[a] = -1; wit_info[n + a] = 0; wit_info[2 * n + a] = -1; } }
+        best_gm = 1e9;                             /* no gain inequality: the witness margin is the EFX margin */
         return res;
     }
     /* enumerate subsets E of Mv = ends */
@@ -109,10 +113,12 @@ static int analyze_start(int s, int record) {
             }
         }
         if (ok) for (int a = 0; a < n && ok; a++) if ((E >> a & 1) && pred[a] < 0) ok = 0;
+        double gm = 1e9;
         if (ok) {
             /* receivers' gains */
             for (int b = 0; b < n && ok; b++) if (pred[b] >= 0) {
                 if (!(v[b][y[pred[b]]] + vJ[b] > v[b][y[b]])) ok = 0;
+                else { double d = (double)(v[b][y[pred[b]]] + vJ[b] - v[b][y[b]]) / tot_i[b]; if (d < gm) gm = d; }
             }
         }
         int startof[MAXN], nstarts = 0, rel[MAXN];
@@ -125,13 +131,14 @@ static int analyze_start(int s, int record) {
                 int e = c;                     /* end */
                 ll g0 = vJ[a] + (loc[e] == a ? v[a][y[e]] : 0);
                 if (!(g0 > v[a][y[a]])) ok = 0;
+                else { double d = (double)(g0 - v[a][y[a]]) / tot_i[a]; if (d < gm) gm = d; }
                 if (loc[e] != a) rel[loc[e]]++;
             }
         }
         if (ok) {
             res |= 1 << K_RNDF;
             int big = 0; for (int a = 0; a < n; a++) if (rel[a] >= 2) big++;
-            if (big <= 1) res |= 1 << K_RND1;
+            if (big <= 1) { res |= 1 << K_RND1; if (gm > best_gm) best_gm = gm; }
             if (nstarts <= 1) {
                 int big1 = 0;
                 for (int a = 0; a < n; a++) {
@@ -152,6 +159,10 @@ static int analyze_start(int s, int record) {
 
 static void leaf(void) {
     nefx++;
+    efx_margin = 1e9;
+    for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) if (i != j && bsz[j] > 0) {
+        double d = (double)(val[i][i] - (val[i][j] - mn[i][j])) / tot_i[i]; if (d < efx_margin) efx_margin = d;
+    }
     int alldone = 1;
     for (int s = 0; s < nst; s++) {
         if (wit_kind >= 0 && s != wit_start) continue;
@@ -160,6 +171,7 @@ static void leaf(void) {
         if (!need && wit_kind < 0) continue;
         int r = analyze_start(s, wit_kind >= 0);
         for (int k = 0; k < NK; k++) if ((r >> k & 1) && cnt[s][k] < cap) cnt[s][k]++;
+        if (r >> K_RND1 & 1) { double w = efx_margin < best_gm ? efx_margin : best_gm; msum[s] += w; if (w > mmax[s]) mmax[s] = w; }
         if (wit_kind >= 0 && (r >> wit_kind & 1)) {
             for (int g = 0; g < m; g++) wit_owner[g] = owner[g];
             wit_found = 1; done_flag = 1; return;
@@ -216,6 +228,8 @@ static void setup(int n_, int m_, const ll *vals) {
     for (int g = 0; g < m; g++) { tot[g] = 0; for (int i = 0; i < n; i++) tot[g] += v[i][g]; gord[g] = g; }
     for (int a = 0; a < m; a++) for (int b = a + 1; b < m; b++) if (tot[gord[b]] > tot[gord[a]]) { int t = gord[a]; gord[a] = gord[b]; gord[b] = t; }
     memset(cnt, 0, sizeof(cnt));
+    for (int s = 0; s < MAXS; s++) { msum[s] = 0; mmax[s] = 0; }
+    for (int i = 0; i < n; i++) { tot_i[i] = 0; for (int g = 0; g < m; g++) tot_i[i] += v[i][g]; }
     for (int i = 0; i < n; i++) {
         rem[i] = 0; for (int g = 0; g < m; g++) rem[i] += v[i][g];
         for (int j = 0; j < n; j++) { val[i][j] = 0; mn[i][j] = (ll)1 << 62; }
@@ -241,6 +255,10 @@ int rnd_analyze(int n_, int m_, const ll *vals, ll cap_, int wmask, int *out_pic
     }
     *out_nefx = nefx;
     return nst;
+}
+
+void rnd_margins(double *out_sum, double *out_max) {
+    for (int s = 0; s < nst; s++) { out_sum[s] = msum[s]; out_max[s] = mmax[s]; }
 }
 
 /* witness: first allocation (DFS order) of class `kind` for the start with the given picks.  returns 1 if found;
