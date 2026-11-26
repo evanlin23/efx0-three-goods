@@ -56,6 +56,7 @@ maximum-matching order (OC₂^max) and its some-order form.
 12. References
 
 Appendix A. Verification record. Appendix B. Other refereed results. Appendix C. Reproducing the instance checks.
+Appendix D. Written after the referee's table (not included).
 
 ## 0. How to read this draft
 
@@ -67,6 +68,8 @@ Appendix A. Verification record. Appendix B. Other refereed results. Appendix C.
 - **[L]** Also machine-checked in Lean 4 (core Lean only, standard axioms only).
 - **[V]** A counterexample checked by at least two independent programs from the raw definitions, but **not** in the
   referee's table. The programs are named.
+- **[Cert]** A finite statement certified by an exhaustive computer search, whose certificate was re-checked by a
+  separately written checker, but not refereed.
 - **[E]** Evidence only: computation on finite data. Random testing can miss rare failures, so [E] never means proved.
 - **[C]** Conjecture.
 
@@ -1043,7 +1046,9 @@ other agent sharing the pair is threatened. Each canonical chain from a dangerou
 the reason for each. Instance 2
 has the same structure, with agents 1 and 2 sharing the pair $\{1, 3\}$. These are not the pickless pigeonhole of
 §7.2, which Lemma 6.3 excludes: here every agent picks. The obstruction needs at least two dangerous agents (the
-Hall session's analysis for one dangerous agent, `k4/oc1_hall.md` §21, is not contradicted).
+Hall session's analysis for one dangerous agent, `k4/oc1_hall.md` §21, is not contradicted). In terms of Lemma 7.6
+(PL), the failure uses exactly the cases PL leaves open: the base a chain releases, and a danger set built on another
+agent's pick (`k4/ksens.md` §5).
 
 *What survives on these instances.*
 - *Two sequential moves repair both.* In instance 1, the chain $(2, 1)$ is followed by the chain $(0, 1)$.
@@ -1051,17 +1056,28 @@ Hall session's analysis for one dangerous agent, `k4/oc1_hall.md` §21, is not c
   at the picks, and the rest after one move, except the failing one.
 - *The R1-priority form fails too.* Both failing starts are also produced by R1-priority orders: $(3, 2, 0, 1)$ for
   instance 1 (the printed order $(0, 3, 2, 1)$ is not R1-priority) and $(3, 1, 2, 0)$ for instance 2.
-- *One round fails too.* No round of vertex-disjoint chains and additions repairs either start, even with the free
-  completion. This is this write-up's own check, with two methods that agree (Appendix C), not independently
-  replayed. So RD and RD₁ fail at $k = 4$ as well; two sequential rounds (RD²) repair both.
+- *One round fails too* [V]. No round of vertex-disjoint chains and additions repairs either start, even with the
+  free completion. So RD and RD₁ fail at $k = 4$ as well. Three groups found this, all for all 11 failing cores
+  except where noted:
+  - this write-up's checker, with two methods (Appendix C), on instances 1 and 2;
+  - the $k$-sensitivity session, with its two checkers, SAT and brute force (`k4/ksens/refute_oc1max_k4.py`,
+    `results/k4_ksens/refute_oc1max_k4.log`);
+  - the coordinator, on instances 1 and 2.
 
-*Scope of the search.* The certifier session (`compute/k4-oc1max-cert`) ran an ordinal CEGAR over every strict
-profile of every core hypergraph with $n \le 4$. OC₁^max holds for every profile of all 5 hypergraphs with
-$n = 2$, all 51 with $n = 3$, and 991 of the 1,002 with $n = 4$. It fails on the other 11, listed in
-`results/k4_oc1max/oc1max_cex_n4.json`; instances 1 and 2 are two of them. The certifier's independent checker
-was run for $n = 2$ only (`check_2.log`), so the positive part is [E]. The session also reports that two moves
-(OC₂^max) suffice for every profile of the 11 failing hypergraphs (commit `3dc080c`); the log of that run is not in
-the repository [unverified].
+  Two sequential rounds (RD²) repair both.
+
+*Scope of the search* (`k4/oc1cert.md`, branch `compute/k4-oc1max-cert`). The certifier ran an ordinal CEGAR over
+every strict profile of every core hypergraph with $n \le 4$, through the agents' order types.
+- *OC₁^max* holds for every profile of all 5 hypergraphs with $n = 2$, all 51 with $n = 3$, and 991 of the 1,002
+  with $n = 4$ [Cert]. It fails on the other 11, listed in `results/k4_oc1max/oc1max_cex_n4.json`; instances 1 and 2
+  are two of them.
+- *Two sequential moves (OC₂^max)* suffice for every strict profile of every core hypergraph with $n \le 4$, which is
+  1,058 hypergraphs [Cert]. The certificate is `results/k4_oc1max/cert_4_depth2.json.gz`. A separately written SAT
+  checker re-checks it ("every certified hypergraph (1002) covered for every type profile and every
+  maximum-matching SD order", `check_4_depth2.log`), and $n \le 3$ also has a brute-force coverage check.
+- The coordinator checked the 11 failing hypergraphs independently: every maximum-matching order needs at most two
+  moves (`k4/sdc/oc2max_cex_check.py`, `results/k4_sdc/oc2max_cex_check.log`).
+- None of this has been refereed.
 
 *Verification of the refutation.*
 - Found by the certifier's ordinal CEGAR.
@@ -1262,14 +1278,14 @@ complete EFX₀ completion after the stated repair, from every start of the stat
 | statement | $k \le 2$ | $k = 3$ | $k = 4$ | first failure | smallest counterexample known |
 |---|---|---|---|---|---|
 | no repair: the picks extend | proved (K3.SD2, Lean) | **fails** [V] | fails | $k = 3$ | $n = 2$, $m = 4$ (below) |
-| one move from every order (OC₁, OC) | (no move needed) | proved for R1-compatible orders in DE's core case [R] (§9); holds on all cores tested [E]; fails outside cores [V] (§7.2) | **fails** on strict cores [V] (§7.2, §7.3) | $k = 3$ outside cores, $k = 4$ on cores | $k = 3$: $n = 5$, $m = 9$; $k = 4$: $n = 4$, $m = 7$ (§7.3) [V] |
+| one move from every order (OC₁, OC) | (no move needed) | proved for R1-compatible orders in DE's core case [R] (§9); exhaustive over every strict profile of every connected hypergraph with $n \le 4$, every start (§9) [E]; fails outside cores at $n = 5$ [V] (§7.2) | **fails** on strict cores [V] (§7.2, §7.3) | $k = 3$ outside cores, $k = 4$ on cores | $k = 3$: $n = 5$, $m = 9$; $k = 4$: $n = 4$, $m = 7$ (§7.3) [V] |
 | one move from maximum-matching starts (OC₁^max, OC^max) | | | **fails** [V] (§7.3) | **$k = 4$** | $n = 4$, $m = 7$ [V]; at $k = 5$ also PW5 [R] |
-| two sequential moves from maximum-matching starts (OC₂^max) | | | holds [E] | none found | (§11.1) |
+| two sequential moves from maximum-matching starts (OC₂^max) | | | certified for every strict core profile with $n \le 4$ [Cert]; holds [E] beyond | none found | (§11.1) |
 | one move from R1-priority starts | | | **fails** [V] (§7.3; on cores with two private goods already §7.2) | $k = 4$ | $n = 4$, $m = 7$ [V] |
 | one move from the need-2 neediest-first start | | | holds [E] (not the failing start on the §7.3 instances) | $k = 6$ | NF2-6, $n = 6$, $m = 11$ [V] |
 | one move from LB₄ʳ's Phase 1 (need-2, R1) | | | holds [E] | none found | |
-| $c$ moves in sequence, every order | $c = 0$ | $c = 1$ on cores [E] | $c = 1$ fails; $c = 2$ [E] from maximum-matching starts | $k = 2c + 3$ in the PW family ($c \le 3$); $c = 1$ already at $k = 4$ | PW($c+2$, $c+1$, $2c+2$): $c = 1$ [R], $c = 2, 3$ one SAT encoding [E] |
-| one round of disjoint chains (RD, RD₁) | | | **fails** (§7.3; this write-up's check, two methods) | $k = 4$ | $n = 4$, $m = 7$; at $k = 5$ RD5 [V] |
+| $c$ moves in sequence | $c = 0$ | $c = 1$ [E] | $c = 1$ fails; $c = 2$ [Cert] for $n \le 4$ from maximum-matching starts | $c = 1$: $k = 4$; in the PW family $c$ chains fail at $k = 2c + 3$ ($c \le 3$) | §7.3; PW($c+2$, $c+1$, $2c+2$): $c = 1$ [R], $c = 2, 3$ one SAT encoding [E] |
+| one round of disjoint chains (RD, RD₁) | | | **fails** [V] (§7.3) | $k = 4$ | $n = 4$, $m = 7$; at $k = 5$ RD5 [V] |
 | one round with all values positive (ROUND⁺; $k = m$) | | | | fails at $n = 4$, $m = 7$ | RD5+ [V] (§7.5) |
 | two rounds (RD²), also from maximum-matching starts | | | holds [E] (repairs the §7.3 instances) | none found | (§11.6) |
 | SD-C (some order, no repair) | proved | holds [E] | holds [E] | none found ($k \le 8$) | |
@@ -1446,6 +1462,17 @@ session's logs it covers 4,608 of 18,569 hard drafts. Theorem 9.5 covers 8,075 o
 $n \le 6$. The rest are open: drafts whose least deficit is 2, or where exposed agents share junk goods
 (`k4/k3_oc1.md` §6). The candidate statement for every order (Theorem candidate OT, one DE trade of least $\omega$) holds
 on 273,724,272 starts, exhaustively over every core with $3 \le n \le 5$ [E].
+
+**One chain at $k = 3$, exhaustively for $n \le 4$** (`k4/ksens.md` §8, branch `claude/k4-ksens`) [E]. From every
+start, maximum-matching or not, one chain followed by a one-absorber completion repairs every strict profile of every
+connected hypergraph with $n \le 4$ in which every agent values at most three goods. Profiles are covered through
+order types. At $n = 4$ that is 1,885,816 profiles and 4,982,948 starts, of which 126,994 need a chain. It holds
+under both move rules (chains that may or may not pass an empty base).
+- This covers more than DE's core case: agents with fewer goods and top-heavy agents are included.
+- It is one program; every repair is re-checked from the raw definitions, and a SAT pipeline agrees on all
+  maximum-matching starts at $n = 3$ and on a sample at $n = 4$.
+- It is consistent with the $n = 5$ non-core failure of §7.2.
+- The run for $n = 5$ was still going when this draft was written.
 
 **Referee report.** `k4/referee/k3_oc1.md`. The verdicts are:
 - Lemmas 9.1 and 9.2: CORRECT;
@@ -1635,16 +1662,16 @@ most two. That evidence consists of:
 - adversarial climbs on strict cores up to $n = 8$.
 
 In addition:
-- *OC₂^max on the counterexamples.* Two sequential moves repair both instances of Proposition 7.4 (checked in
-  Appendix C). The certifier session reports that two moves suffice for every strict profile of all 11 failing
-  $n = 4$ hypergraphs (commit `3dc080c`; the log of that run is not in the repository) [unverified].
+- *OC₂^max is certified for $n \le 4$* [Cert]. It holds for every strict profile of every core hypergraph with
+  $n \le 4$ (1,058 hypergraphs; §7.3), the 11 failing ones included. The coordinator's independent check of those 11
+  agrees, and two sequential moves repair both printed instances (Appendix C).
 - *The some-order form on the counterexamples.* On both instances of Proposition 7.4, other maximum-matching orders
   complete at the picks.
 - *Toward a complete check at $n \le 4$.* By the certifier's ordinal CEGAR, every strict profile of every core
   hypergraph with $n \le 4$ satisfies OC₁^max, except on the 11 failing hypergraphs (§7.3). On the failing profiles
   examined there, other maximum-matching orders work (`results/k4_oc1max/diag_cex_n4.log`). So Conjecture 11.2 may
-  hold at all $n \le 4$. No certificate for it has been run, and the OC₁^max certificates for $n = 3, 4$ have not
-  been independently checked.
+  hold at all $n \le 4$. No certificate for it has been run: the CEGAR stops at the first failing profile of each
+  hypergraph.
 
 *Limits and the next test.*
 - In the PW family, two sequential chains fail at $k = 7$ (§8, one SAT encoding [E]). So OC₂^max, like OC₁^max, is at
@@ -1730,13 +1757,14 @@ The referee checked these invariants (Lemmas SND and TERM; `k4/referee/vm.md` §
 - *Evidence* [E]: the screen set 168/168 (157 with no move), the named instances 95/95, random cores with $n = 3$–5
   (2,700/2,700), and general instances 3,000/3,000. VM1 also holds on PW5, RD5 and both $n = 4$ instances of the
   two-agent session ($k = 5$), and on 2,000 random 5-limited instances.
-- *Its form fails at larger $k$* [V] (`attempts/k4-vm-vm1-k7.md`, branch `claude/k4-vm`).
-  - One move fails at $k = 7$, on PW(2, 3, 6) with $n = 5$, $m = 11$. Checked by `k4/vm/vm1_verify.py` (no caps) and
-    an independent replay.
-  - Two moves fail at $k = 9$, on PW(3, 3, 8).
-  - In both, the number of moves needed equals the number of frozen agents.
-  - VMX₂ (any number of moves) completes both.
-- So VM1 is at best a small-$k$ statement. At $k = 4$, which is what it is stated for, it is unrefuted.
+- *Its form fails at larger $k$* [V] (`attempts/k4-vm-vm1-k6.md`, `attempts/k4-vm-vm1-k7.md`, branch `claude/k4-vm`).
+  Each case was checked uncapped by `k4/vm/vm1_verify.py` and by an independent replay.
+  - One move fails at $k = 6$, on PW(4, 3, 5)#1 with $n = 7$, $m = 12$; two moves suffice.
+  - One move fails at $k = 7$, on PW(2, 3, 6) with $n = 5$, $m = 11$.
+  - Two moves fail at $k = 9$, on PW(3, 3, 8), where three suffice.
+  - VMX₂ (any number of moves) completes all three.
+- So VM1 is at best a $k \le 5$ statement. It holds on 1,080 PW instances with $k \le 5$, and at $k = 4$, which is what
+  it is stated for, it is unrefuted (`k4/vm.md` §7).
 - *Limits.* With *narrow* exchanges (the taker must value $z$), VM1 is refuted at $n = 3$, $m = 7$
   (`attempts/k4-vm-vm1.md`, independent replay). The unproved step is placeability. P1's state GM4-E (§7.1) shows that
   (I1), (I3) and (I4) alone do not imply it.
@@ -1823,7 +1851,7 @@ The open case is connected instances whose unallocated goods all have many value
 > other, reach bases with a one-absorber completion.
 
 One round is false in three places:
-- at $k = 4$, on the instances of Proposition 7.4 (this write-up's check, §7.3);
+- at $k = 4$, on the 11 cores of Proposition 7.4 ([V], §7.3);
 - at $k = 5$ (RD5, Proposition 7.8);
 - with every value positive (RD5+, §7.5, refuting ROUND⁺).
 
@@ -1837,10 +1865,16 @@ this mechanism two rounds suffice however many picks are needed.
 ### 11.7 Smaller questions
 
 - *OC₁ at $k = 3$ for every order* (candidate theorem OT, `k4/k3_oc1.md` §4). The open drafts are those covered by
-  neither Theorem 9.4 nor Theorem 9.5: least deficit 2, or exposed agents sharing junk goods.
-- *Conjecture L, the ladder* (`k4/ksens.md` §4): from every order, $\lfloor (k-1)/2 \rfloor$ improving chains suffice.
-  At $k = 4$ it predicts one chain, which fails even from maximum-matching starts (Proposition 7.4). So the ladder
-  holds at best for the PW family, where it was computed.
+  neither Theorem 9.4 nor Theorem 9.5: least deficit 2, or exposed agents sharing junk goods. The exhaustive
+  computation of §9 settles $n \le 4$ for connected instances; $n = 5$ from maximum-matching starts was running.
+- *The ladder.* Conjecture L of `k4/ksens.md` §4 ($\lfloor (k-1)/2 \rfloor$ chains from every order) is false at
+  $k = 4$ (Proposition 7.4). The $k$-sensitivity session's corrected form is **Conjecture L′** [C]: from every
+  maximum-matching start, $\lfloor k/2 \rfloor$ chains suffice. Every rung known fits it:
+  - $k = 3$ needs one chain (exhaustive at $n \le 4$);
+  - $k = 4$ needs two, which is tight, and two suffice at $n \le 4$ [Cert];
+  - $k = 5$ needs two in the PW family.
+
+  The deciding rung is $k = 6$: does it need three chains? L′ for every $k$ contains EFX₀ existence.
 - *Bounded charity CH($k$) at $k = 4$*: is there an $f(4)$ independent of $n$ and $d$? Theorem 4.1 gives
   $\min\{2d - 1, R(d)\}$.
 
@@ -1929,7 +1963,8 @@ or citations added.
 
 **Not refereed, included with their verification status.** These are Propositions 7.1–7.4 and 7.8, the Remarks in
 §7.2 and §7.5 (ROUND⁺), the one-round failure at $k = 4$ in §7.3, the refutation of Conjecture W in §11.5, the
-$k$-ladder cells marked [V] or [E], Lemma 11.3, and every conjecture of §11. Heads were re-checked at about 23:40 UTC
+$k$-ladder cells marked [V], [Cert] or [E], the certificates for OC₁^max and OC₂^max at $n \le 4$ (§7.3), the
+exhaustive $k = 3$ computation of §9, Lemma 11.3, and every conjecture of §11. Heads were re-checked at about 23:40 UTC
 on 2026-11-26.
 
 **Lean.** This write-up's session ran `lean/check.sh` on branch `formal/k4-oc1max` twice.
@@ -2025,5 +2060,23 @@ passed bases are nonempty, and rings. Rounds and two sequential chains (RD5 only
 
 While this appendix was written, the check found one inaccuracy in an earlier wording of the Remark of §7.2. That
 wording said the instance needs one chain under the free completion; in fact its picks extend freely. The text has
-been corrected. The check also produced one new observation, which has not been independently replayed: one round
-does not repair the instances of Proposition 7.4 (§7.3).
+been corrected. The check also produced one new observation: one round does not repair the instances of
+Proposition 7.4 (§7.3). The $k$-sensitivity session's two checkers and the coordinator have since confirmed it.
+
+## Appendix D. Written after the referee's table (not included)
+
+These statements have written proofs on their branches and were queued for the referee when this draft was written.
+They are **not** results of this draft. They are listed so that a reader knows where to look; nothing above depends
+on them.
+- **Theorem M3** (`monotone/k3.md`, branch `claude/monotone-k`, PR #112). EFX₀ exists for normalized monotone
+  valuations whenever every agent has at most three relevant goods. The proof replaces each nondegenerate monotone
+  valuation by an additive one with the same comparisons between disjoint sets, and then applies TARGET₃.
+  - The session reports that this reduction fails at four goods.
+  - It also reports that SAT searches found no monotone counterexample at $k = 4$ ($n = 3, 4$) or at $k = 5$ ($n = 3$).
+  - If M3 holds, the smallest $k$ at which monotone EFX₀ can fail is between 4 and 8. The upper bound comes from the
+    eight-good monotone counterexample of Akrami et al. (arXiv 2604.18216v4, as read by the literature report).
+- **Theorem D1-C** (`k4/d1.md` §3, branch `proof/k4-d1`, PR #113). At a hard start with exactly one dangerous agent
+  $k$, every canonical chain without the obstacle HEAD has a minimal improving set $H_0$ whose state has a completion
+  owned by $k$. It uses a $k \le 4$ fact: of an agent's at most three pool goods, at most one is non-robust. With it,
+  the one-dangerous-agent case of the Hall session's programme reduces to starts where every canonical chain meets
+  HEAD.
