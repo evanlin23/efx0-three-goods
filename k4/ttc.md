@@ -661,6 +661,33 @@ What survives, as targets:
   that a free agent holding nothing can always finish.
 - **MDP∃** (§7), which is about free completions.
 
+### Lemma T5: at maximum-matching picks, pickless agents freeze only safe agents
+
+This is the matching-theory reason every counterexample of this section starves agents.
+
+**Lemma T5.** Let Y = SD(π) be a maximum matching of agents to relevant goods, J the unpicked goods, and u an agent
+with Y_u = none. Call x *reachable from u* if there are distinct agents x₁, …, x_t = x with Y_{x₁} ∈ R_u and
+Y_{x_{j+1}} ∈ R_{x_j} for j < t. Then:
+- (a) u values no good of J;
+- (b) no agent reachable from u values a good of J.
+
+In particular, every agent that u wants (every agent whose pick u values) values no junk. So it is not dangerous, and
+its danger sets contain no junk.
+
+*Proof.*
+- (a) If u valued g ∈ J, adding (u, g) to Y would give a larger matching.
+- (b) If x_t valued g ∈ J, the alternating path u – Y_{x₁} – x₁ – Y_{x₂} – … – x_t – g would augment Y: give
+  Y_{x₁} to u, each Y_{x_{j+1}} to x_j, and g to x_t. All these goods are relevant to their new holders. That gives a
+  larger matching, which contradicts maximality (Berge). ∎
+
+*Consequences.*
+- At maximum-matching picks, a dangerous frozen agent is wanted only by agents that hold a pick. The pickless agents
+  value no junk, and junk placed with them threatens nobody whom they freeze.
+- In the counterexamples of this section, the pickless agents freeze the dangerous agents directly, which needs
+  augmenting paths, i.e. picks that match ν − 2 agents (`order_classes.log`).
+- A counterexample to OC₁^max must therefore come from frozen agents whose wanters hold picks. By (b) this is the
+  only route even when ν < n, which is the coordinator's "ν = n is the hard case".
+
 ## 12. Next steps
 
 1. *OC₁-E / OC₁-ED at larger n.* Adversarial climbs at n = 6–8 with the endpoint objective:
