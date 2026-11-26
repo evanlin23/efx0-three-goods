@@ -16,6 +16,11 @@ instance, n = 4, m = 8: K₄ plus one private good each for agents 0 and 3. Agen
 and 2 are envied (by 3 and 0), and no assignment of the four leftovers to agents 0 and 3 is EFX₀. 6 of the 24 labelings
 end in such a state. The instance has EFX₀ allocations, and 18 labelings complete statically.
 
+The same search found a second one, n = 4, m = 9 (K₄ plus three private goods):
+{0: 28, 1: 9, 4: 30, 8: 9}, {0: 10, 2: 15, 3: 20}, {1: 11, 3: 18, 5: 13, 7: 8}, {2: 22, 4: 29, 5: 27, 6: 4};
+again 6 of 24 labelings fail static parking and all 24 complete by dynamic parking. Totals of that search: 1,330,323
+runs, 77,509 instances, these two instances the only failures (each hit twice).
+
 **What survives:** *dynamic* parking (receivers non-envied at the moment they receive) completes all 24 labelings. Here:
 agent 0 takes good 3 (now envied by agent 1, but only with slack: 31 − 12 ≤ 25); agent 3 takes goods 4 and 5, reaching
 29 = v_3(good 2), so it stops envying agent 1; agent 1, now non-envied, takes agent 0's private good 7 (agent 0 sees

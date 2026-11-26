@@ -365,4 +365,4 @@ NO RUN COMPLETES Inst([{0: 10, 3: 2, 5: 4, 6: 7}, {1: 6, 4: 8, 5: 4, 6: 5}, {2: 
 {'runs': 167364, 'completed': 160958, 'instances': 161000, 'instances completed': 160958}
 {'runs': 167893, 'completed': 161458, 'instances': 161500, 'instances completed': 161458}
 NO RUN COMPLETES Inst([{0: 6, 2: 10, 7: 7, 8: 2}, {1: 10, 6: 6, 7: 3, 8: 8}, {2: 8, 3: 4, 4: 1, 5: 6}, {3: 5, 4: 3, 5: 6, 6: 7}])
-[stopped by hand; plain Algorithm 2 (no G1 repair). All 38 instances listed are completed by the G1-repaired version, k4/girth/dyn_more.py]
+[stopped by hand; plain Algorithm 2 (no G1 repair). All 43 instances listed (NO RUN lines) are completed by the G1-repaired version for some labeling (rechecked)]
