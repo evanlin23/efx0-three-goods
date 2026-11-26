@@ -31,6 +31,7 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | Finding B | at every hard start (no S\* completion), some repairing chain starts at a dangerous frozen agent k, and after it k owns: all but 1 of the 2,676 hard starts with n ≤ 5. In that one start (§29's dichotomy instance) the chain end owns. At n = 6–10, every one of the 1,300 hard starts is repaired by a chain after which a dangerous agent that gave its pick away owns. 80 adversarial climbs (§10) never broke the "k or end owns" form; 77 reached a start with exactly one such repair | evidence |
 | Finding F1 | f = 1: at every hard start, some swap x → w with an *inclusion-minimal* improving set H₀ ⊆ J ∪ {Y_w} repairs with x as owner, also when \|W_x\| = 2 | evidence: all 100 f = 1 hard starts |
 | Finding F1W | f = 1, several wanters: hard starts occur only at n = 3 in the data (n − 2 = 1 slot). For n ≥ 4, the picks have an S\* completion with a wanter as owner on 219 of 220 starts | evidence (§5) |
+| Conjecture F1W (K4.OCH.F1W) | f = 1, several wanters, n ≥ 4: if some owner o ≠ x needs at most one of x's junk goods kept out (τ(o) ≤ 1), the picks have an S\* completion. With n ≥ 3, τ(o) ≥ 2 for every o only if x's three lower goods are junk and every pair of them beats a, and then a swap is needed (red-b1) | evidence (§11): 0 failures in 588 starts with τ ≤ 1, n = 4–8; τ = 0 is Proposition 3 |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
 | refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `attempts/k4-oc1-hall-canonical-chains.md` |
 | refuted | a single culprit (LB⁺'s bad case: some owner fails only because of one frozen agent): false at about 30% of the hard starts | `attempts/k4-oc1-hall-single-culprit.md` |
@@ -513,3 +514,41 @@ unfrozen owner with ω_o ≤ 1 passes the raw S\* enumeration: 14,756 owner test
 - 77 of the 80 reached a profile with a hard start that has *exactly one* repairing pair (chain from D, owner k or
   end). So the statement is tight but survived.
 - As everywhere in this note, this is evidence only.
+
+## 11. Several wanters: where the one-wanter proof stops (conjecture)
+
+Setting of §5 with |W| ≥ 2. For an owner o ≠ x, let τ(o) be the fewest of x's junk goods that must be kept out of
+W_o = {Y_o} ∪ J for x to be safe.
+
+**Fact (written proof).** If n ≥ 3, then τ(o) ≤ 1 for some o unless L_x ⊆ J, |L_x| = 3, and every pair of L_x is
+worth more than a to x.
+
+*Proof.* Let J_x = L_x ∩ J.
+- If |J_x| ≤ 1, each danger set inside D_o has at most two goods, one of them junk, so one kept good suffices.
+- If |J_x| = 2, choose o with Y_o ∉ R_x. Such an o exists: L_x has at most one pick, so at most one agent's pick is
+  valued by x, and n − 1 ≥ 2. Then D_o = J_x, and one good of the pair suffices.
+- If |J_x| = 3, then L_x = J_x and D_o = L_x for every o. Two kept goods are needed only if every pair is a danger
+  set. ∎
+
+**Conjecture F1W.** If n ≥ 4 and τ(o) ≤ 1 for some unfrozen o ≠ x, the picks have an S\* completion.
+- τ(o) = 0 is Proposition 3.
+- For τ(o) = 1, with g the kept good, Corollary 2.1 asks for one admissible holder for g among the n − 2 ≥ 2
+  holders. A counterexample would need, for every such owner and every such g:
+  - every holder exposed by its own junk, and
+  - no holder valuing g except as the lowest good of its R′.
+
+  The proof of Theorem F1₁ never meets this situation, because with one wanter the swap removes every demand.
+- When τ(o) = 2 for every o, the picks can fail. On red-b1-blocked-improvement (n = 4), x's three junk goods are
+  pairwise dangerous and only one admissible holder exists. The swap (any pair of L_x, owner x) repairs.
+
+*Evidence* (`k4/oc1_hall/f1w_tau.py`, `f1w_tau.log`, SAT S\* test, sampled orders; and the n = 4, 5 data of §5):
+
+| data | starts with f = 1, several wanters | τ_min = 0 | τ_min = 1 (picks complete) | τ_min = 2 (picks complete) |
+|---|---|---|---|---|
+| n = 4, 5 (screen, suite, logs, random) | 228 | 168 | 53 (53) | 7 (5) |
+| n = 6 cores, one 4-good agent | 312 | 264 | 48 (48) | 0 |
+| n = 5 pure cores | 162 | 97 | 60 (60) | 5 (5) |
+| random n = 6 | 399 | 293 | 104 (104) | 2 (2) |
+| random n = 8 | 158 | 102 | 54 (54) | 2 (2) |
+
+The two τ = 2 failures at n = 4 are red-b1-blocked-improvement, counted once in screen and once in suite.
