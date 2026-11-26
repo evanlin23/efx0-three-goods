@@ -666,3 +666,19 @@ clauses with this note's chain or round encodings) and a brute force or SAT-free
 PW5 also has a written proof, refereed by the coordinator (`k4/referee/ksens.md` on the coordinator's branch, not
 read here). Random surveys: 12,000 instances at k = 5–8. Climbs: 786 climb rounds over the targets above (`climb_*.log`, the n = 6 runs still in progress). Structured
 k = 4 searches: 80,000 instances.
+
+**Unrestricted k: every agent values every good** (`general_rounds.py`, `general_rounds_*.log`, `rd5_full.log`,
+`kgen_n3_rounds.log`; in progress).
+- *Setting.* Strict positive values, so EFX₀ and EFX coincide here; every start is a maximum-matching start.
+- *n = 3 is the decisive case.* An EFX allocation is known to exist for three additive agents: Chaudhury–Garg–Mehlhorn,
+  arXiv 2002.05119, as recorded in `proofs/citations.md` item 5, not read in this workstream. So a start needing three
+  rounds there would refute "two rounds" without contradicting EFX₀ existence.
+- *PW5 lifted to full valuations* (every value ×100, the goods an agent did not value worth 1, 2, …; k = m = 9).
+  - One chain still fails, and one round repairs.
+  - So OC₁ fails at unrestricted k with all values positive. PW's mechanism does not need zero values.
+- *RD5 lifted the same way* (k = m = 7) needs only one round. Its mechanism needs the zeros: with every good valued,
+  an agent can gain by adding any tiny junk good, which makes chains much more flexible.
+- *The two configurations of `kgen/n3.md` §10* (branch `claude/kgen-n3`, read here): their stated starts extend
+  without a chain, and no start of either needs more than one round.
+- *Random profiles and climbs maximizing the rounds needed* (n = 3, m = 7, 8; n = 4, m = 7; n = 5, m = 9 from PW5
+  lifted) are running. So far no start needs two rounds; the n = 4, m = 7 climb (10 rounds) is finished.
