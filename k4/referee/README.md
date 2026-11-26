@@ -24,6 +24,7 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 11 | Lemma PL, Lemma PWk(a) (`k4/ksens.md`, `7ec7073`) | `claude/k4-ksens` | `ksens.md` §5 | PL **CORRECT**; PWk(a) **CORRECT WITH FIXES** (the proof's W = 1 completion needs the clean values; fix given) |
 | 12 | Lemma T5 (`k4/ttc.md` §13) | `claude/k4-ttc` | `ttc_t5.md` | **CORRECT**, the same as Lemma MAX |
 | 13 | Theorem CH-KD, Corollary CH-KD′ (`kgen/charity.md` §8, `1e986c6`/`0c85d91`) | `claude/kgen-charity` | `chkd.md` | **CORRECT** (n-independent: (k − 2)d − 1 and p! ≤ d^{p−1}) |
+| 14 | Theorem 2 (two-agent OC₁, t ≥ 0, every k), Fact L, Lemma M, Tops Lemma (`kgen/n3.md` §9, `418f876`) | `claude/kgen-n3` | `kgen_n3.md` | **CORRECT** (cite Plaut–Roughgarden Thm 4.3 for bare existence) |
 | – | Literature: EFX₀ for n = 2 | – | `lit_n2.md` | Plaut–Roughgarden Thm 4.3 (EFX₀, monotone) covers existence; not `kgen/n3.md` Theorem 2 (picks kept / one chain) |
 
 **Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the
