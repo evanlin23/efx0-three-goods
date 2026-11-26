@@ -628,7 +628,8 @@ Pareto maximum above it (as in OL0(b)). ∎
 (The cut-and-choose step is Plaut–Roughgarden's two-agent argument with their leximin++ rule [unverified: not
 re-read here; the proof above is self-contained].) So P1 holds at n = 2 for every k and fails at n = 4 for k = 3
 (§5); n = 3 is the threshold question, see below. The exact searches agree: no Pareto maximum strands a good at
-n = 2 for k ≤ 6 (`ol_synth_n2_p1.log`).
+n = 2 for k ≤ 6 (`ol_synth_n2_p1.log`), nor on 3,000 random two-agent instances with m ≤ 9, half of them with every
+good relevant to both agents (`p1_n2.py`, `p1_n2.log`).
 
 **The literature's obstruction satisfies OL.** Chaudhury–Garg–Mehlhorn ("EFX exists for three agents", arXiv
 2002.05119, §5, Table 3 and Theorem 21, read) give three agents and seven goods, with agent 1 valuing six of them
