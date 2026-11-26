@@ -12,10 +12,14 @@ from vm_test import items_for
 
 
 def complete(I, X0, pool0, cap):
-    """DFS over F1 placements with rotation; returns a complete EFX0 allocation or None"""
-    stack = [([list(b) for b in X0], set(pool0))]; leaves = 0
-    while stack and leaves < cap:
+    """DFS over F1 placements with rotation, memoized on states (bundles as an ordered tuple of sorted bundles),
+    at most 50 * cap states expanded; returns a complete EFX0 allocation or None"""
+    stack = [([list(b) for b in X0], set(pool0))]; leaves = 0; seen = set(); expanded = 0
+    while stack and leaves < cap and expanded < 50 * cap:
         X, pool = stack.pop(); V.l3_source(I, X)
+        key = tuple(tuple(sorted(b)) for b in X)
+        if key in seen: continue
+        seen.add(key); expanded += 1
         valued = sorted(g for g in pool if I.valued_by(g))
         if not valued:
             J = sorted(pool)
