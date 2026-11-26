@@ -1604,6 +1604,8 @@ as K4.SDC.MD1, the two-pair failure as K4.SDC.MD2.
 
 ## 29. One improving chain from every order, with a free completion
 
+**Status (2026-11-26).** OC and OC₁ as statements about every order are refuted on strict connected cores (§31); the open form is OC₁^max (maximum-matching orders, §31).
+
 §28 shows that a dominating allocation exists. This section asks how far it is from the picks. LB₄ʳ's rotations are
 an awkward measure, because its Output allows a single owner, and its useful rotations are downgrades (§27). Here
 instead:
@@ -1925,3 +1927,63 @@ Lemma K's service count, and LB⁺'s block count at k = 3.
 So the general case comes down to a single combinatorial statement: the demands of the frozen agents (goods to keep
 out of the owner's bundle) fit into the free slots, or one improving chain makes them fit. OC₁ says this happens from
 every order on all data. Lemma GDT shows that everything else (every agent that is not frozen) takes care of itself.
+
+## 31. OC and OC₁ fail for some orders on strict cores; maximum-matching orders (OC₁^max)
+
+**Refutations (every-order forms).** Both counterexamples were found by the TTC session (`claude/k4-ttc`), verified by
+the Hall session (`k4/oc1_hall.md` §16, §18), and replayed here with independent code. The replays use raw EFX₀, the
+official move rule of §29 (a chain never hands on an empty base), brute-force completions, and no SAT.
+- **OC₁ fails on a strict connected core**, n = 6, m = 10, instance B< (`k4/sdc/oc1_core_cex_verify.py`,
+  `results/k4_sdc/oc1_core_cex_verify.log`):
+  - sets [[0,2,3,1],[6,4,5,9],[1,2,3,9],[1,6,7,8],[3,6,9],[1,3,6,9]];
+  - vals [[6,14,16,12],[4,18,12,28],[28,4,16,21],[16,14,12,6],[28,8,24],[20,30,8,4]].
+  - Order 0..5 gives picks (3, 9, 1, 6, –, –). None of the 57 states one move reaches has a one-absorber completion.
+    It fails for 24 of the 720 orders.
+  - B> (agent 2's last value 19) is the same.
+- **OC fails (free completion) on a strict connected core in the K4.MC2 class**, n = 5, m = 9
+  (`k4/sdc/oc_mc2_cex_verify.py`, `results/k4_sdc/oc_mc2_cex_verify.log`):
+  - sets [[0,3,6,8],[1,4,7,6],[2,5,8,7],[0,1,2],[0,1,2]]; vals [[10,6,5,7] for agents 0–2, [4,3,2], [2,4,3]].
+  - Order 0..4 gives picks (0, 1, 2, –, –). There is no free completion, neither at the picks nor after any of the
+    232 moves. It fails for 12 of the 120 orders.
+  - For agent i ≤ 2, every pair of its junk goods {a_i, b_i, b_{i−1}} beats its pick (a *danger triangle*).
+- **Mechanism.** The pickless agents value only picked goods, so every pick holder must stay a single-good holder.
+  The pickless agents are then the only junk receivers, and they cannot hold the danger sets.
+- MD, SD-C and TARGET₄ are unaffected. K4.SDC.OC and K4.SDC.OC1 are refuted as statements about every order.
+
+**Maximum-matching orders.** In every counterexample known, the failing picks match ν − 2 agents (ν the maximum
+matching size of the agent / relevant-good graph).
+
+*Lemma MAXSD.* Some serial-dictatorship order's picks form a maximum matching.
+- *Proof.* Let M be a maximum matching that is Pareto optimal among maximum matchings. A Pareto improvement of M keeps
+  every matched agent matched, so it is again maximum. Hence M is Pareto optimal, and by Lemma SDPO (§28) it is an SD
+  outcome. ∎
+
+*Lemma MAX* (Hall session, `k4/oc1_hall.md` §19). If the picks form a maximum matching, no agent reachable from a
+pickless agent by an alternating path values a junk good.
+- *Proof.* Otherwise that path plus the junk good is an augmenting path. ∎
+- So the pickless agents cannot be the wanters that freeze a dangerous agent, which is the configuration of every
+  counterexample above.
+
+**Conjecture OC₁^max** (K4.SDC.OC1MAX). In every strict connected k = 4 core, for every SD order whose picks form a
+maximum matching: the picks have a one-absorber completion, or one improving move (an addition, a chain or a ring)
+gives bases that have one.
+- With Lemma MAXSD it implies TARGET₄, through the core reduction.
+- The Hall session's OC1-ED\*^max is the same restriction of its ED-chain form.
+
+Evidence (`k4/sdc/oc1_max_orders.py`):
+- *Every OC₁ start of the earlier data.* All of it covered every order with n ≤ 5, so it is evidence here too.
+- *B<, B> and the 84 non-core TTC instances.* 0 failures in 30,452 + 680 maximum-matching orders; all 2,064
+  failures come from non-maximum orders (`results/k4_sdc/oc1_max_orders_ttc84.log`,
+  `results/k4_sdc/oc1_max_orders_core.log`).
+- *The 39 distinct core counterexamples known* (`results/k4_sdc/ttc_core_cex_39.json`). All 1,950
+  maximum-matching orders complete at the picks; all 468 failures are non-maximum
+  (`results/k4_sdc/oc1_max_orders_ttc_cores.log`).
+- *The Hall session's 2,071 one-absorber-hard maximum-matching starts* (n ≤ 5). OC1-ED\*^max holds on all
+  (`results/k4_oc1_hall/ed_check_max.log`, `claude/k4-oc1-hall`).
+- *Adversarial climbs on strict cores.*
+  - `k4/sdc/oc1max_climb.py`, seeded at B< and on random MC2-class cores with n = 6–7: no failure so far.
+  - The TTC session's max climbs: no failure.
+  - The hardest starts found have one repairing move.
+- The R1-priority form is the alternative. Its order class is incomparable with this one. It fails on the
+  two-private cores (B<, and the TTC n = 5 core), and holds on the MC2-class ones (`claude/k4-ttc`,
+  `attempts/k4-ttc-oc-every-order.md`).
