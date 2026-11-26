@@ -13,6 +13,7 @@ CASES = [
     ('max score fails (n = 6, m = 10, no dead good)', [(0, 6, 9), (5, 7, 1), (4, 8, 2), (0, 3, 1), (4, 5, 3), (4, 5, 3)], 10, [0, 1, 2, 3, 4, 5]),
     ('max score fails (n = 6, m = 9, good 7 dead)', [(0, 2, 6), (3, 8, 1), (4, 1, 8), (3, 0, 5), (4, 5, 2), (4, 3, 5)], 9, [0, 1, 2, 4, 3, 5]),
     ('least omega fails the simple test (n = 6, m = 11, goods 9, 10 dead)', [(0, 1, 6), (4, 7, 2), (3, 8, 6), (0, 3, 5), (4, 3, 5), (0, 5, 4)], 11, [0, 1, 2, 3, 4, 5]),
+    ('all trades tie in omega, some fail (n = 5, m = 8, good 7 dead)', [(0, 1, 2), (0, 1, 2), (0, 3, 4), (1, 3, 4), (2, 5, 6)], 8, [2, 3, 4, 0, 1]),
 ]
 for name, rk, m, order in CASES:
     V = vals(rk); b = base_of(sd(rk, m, order), m)

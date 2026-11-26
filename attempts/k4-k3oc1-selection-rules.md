@@ -35,11 +35,23 @@ result).
    - All 8 DE trades have ω = 4, and all repair under the exhaustive one-absorber test.
    - Only (1, 4) and (1, 5) pass Lemma 1. The others need a pair holder to take one junk good.
 
+4. **No tie-break by ω** (n = 5, m = 8, good 7 dead; found by the exhaustive run `oc1_general.py 5 1`, 288 drafts,
+   all of this class):
+   - agents (0, 1, 2), (0, 1, 2), (0, 3, 4), (1, 3, 4), (2, 5, 6); the order puts agents 2, 3, 4 first, giving the
+     picks (–, –, 0, 1, 2);
+   - all six DE chains have ω = 2, and only the two starting at agent 4 repair.
+   - So "every least-ω trade" fails while "some least-ω trade" holds.
+   - Agent 4 has two private goods, and agents 2 and 3 share their pair.
+
 Replay (exhaustive completion; the DE trades of `k4/k3oc1/de_moves.py`): `python3 attempts/k4_k3oc1_rules.py`.
 
-**What survives** (every test, cores and mutation search alike):
-- **OT₁**: one DE trade repairs.
-- **OT-ω**: every least-ω DE trade repairs, with the one-absorber completion.
+**What survives.**
+- On the ledger's cores (every test), **OT₁** (one DE trade repairs) and **OT-ω** (every least-ω DE trade repairs,
+  even under Lemma 1) both hold.
+- In DE's general core case at n ≤ 5 (all hypergraph classes, 0–1 dead goods), "some least-ω DE trade repairs" holds
+  wherever one DE trade repairs.
+- OT₁ itself fails there on one class, rescued by gluing chains at empty-handed agents
+  (`attempts/k4-k3oc1-oc1-counterexample.md`).
 
 The score sum is the wrong measure: in example 1 the max-score chains serve agent 2 well but leave three junk goods
 against too few terminals, while the least-ω chains release more agents. ω = (m − 2n) + e + ν counts what the

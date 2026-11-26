@@ -350,8 +350,11 @@ The ledger's cores are peeled (PROMPT.md L2–L3), and OC₁ holds on every one 
 number of private goods and dead goods.
 - At n ≤ 4 (`oc1_general.py`: all 16 and 93 hypergraph classes, 0–2 dead goods, every profile and order), OT₁ and OT-ω
   hold.
-- At n = 5 with no dead goods (all 652 classes), the instance of `attempts/k4-k3oc1-oc1-counterexample.md` is the only
-  failure:
+- At n = 5 with no dead goods, or with one (all 652 classes, every profile and order; `oc1_general_5_dead*`):
+  - One class fails OT₁ (shown below). Glued chains repair all 288 of its hard drafts.
+  - With one dead good, one more class fails "every least-ω trade", though some least-ω trade repairs
+    (`attempts/k4-k3oc1-selection-rules.md` example 4).
+  - The class that fails OT₁ is the instance of `attempts/k4-k3oc1-oc1-counterexample.md`:
 
 | agent | 0 | 1 | 2 | 3 | 4 |
 |---|---|---|---|---|---|
