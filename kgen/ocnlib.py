@@ -4,7 +4,7 @@
     brute_n(v) -> (orders, per order dict NONE, CODE, STRICT, FREE0, FREEOC, MD, EFX, and picks)"""
 import os, ctypes, itertools, subprocess
 HERE = os.path.dirname(os.path.abspath(__file__))
-KEYS = ['NONE', 'CODE', 'STRICT', 'FREE0', 'FREEOC', 'MD', 'EFX']
+KEYS = ['NONE', 'CODE', 'STRICT', 'FREE0', 'FREEOC', 'MD', 'EFX', 'PACK']
 _lib = None
 
 

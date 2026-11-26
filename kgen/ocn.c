@@ -17,7 +17,7 @@
  *
  * ctypes: int ocn(int n, int m, const long long *v, long long *out, int *picks)
  *   out[o*8 + k], o = order index (orders in lexicographic order of permutations), k = NONE, CODE, STRICT, FREE0,
- *   FREEOC, MD, EFX; picks[o*n + i] = pick of agent i under order o (-1: none).  n <= 5, m <= 16 (n^m <= ~2e8).
+ *   FREEOC, MD, EFX, PACK (a packing of vertex-disjoint chains, then one absorber); picks[o*n + i] = pick of agent i under order o (-1: none).  n <= 5, m <= 16 (n^m <= ~2e8).
  */
 #include <stdlib.h>
 #include <string.h>
@@ -96,6 +96,62 @@ static void test_paths(const Inst *I, const int *X, const int *y, int J, int len
     }
 }
 
+
+/* PACK: vertex-disjoint chains applied together (each chain as above, its sets H inside the original junk J, plus
+ * x0's share of its own x_t's pick), the other agents keep their picks; then a one-absorber completion. */
+static int pk_used[MAXN], pk_B[MAXN];
+static int pack_rest(const Inst *I, const int *X, const int *y, int J, int minx0);
+
+static int pack_path(const Inst *I, const int *X, const int *y, int J, int *pth, int len, int minx0)
+{
+    int n = I->n, S = I->S, t = len - 1, x0 = pth[0], xt = pth[t];
+    /* close the path here */
+    int ok = 1, save0 = pk_B[x0];
+    if (t == 0) {
+        if (y[x0] < 0 || !(X[x0] >> y[x0] & 1)) ok = 0;
+        else { int H0 = X[x0] & J & I->R[x0]; if (!H0) ok = 0; else pk_B[x0] = (1 << y[x0]) | H0; }
+    } else {
+        int pool = J | (y[xt] >= 0 ? 1 << y[xt] : 0);
+        int H0 = X[x0] & pool & I->R[x0];
+        if (I->sum[x0 * S + H0] <= val1(I, x0, y[x0])) ok = 0; else pk_B[x0] = H0;
+    }
+    if (ok && pack_rest(I, X, y, J, x0 + 1)) return 1;
+    pk_B[x0] = save0;
+    /* extend */
+    if (len == n || y[xt] < 0) return 0;
+    for (int a = 0; a < n; a++) if (!pk_used[a]) {
+        if (!(X[a] >> y[xt] & 1)) continue;
+        int Ha = X[a] & J & I->R[a];
+        if (val1(I, a, y[xt]) + I->sum[a * S + Ha] <= val1(I, a, y[a])) continue;
+        pk_used[a] = 1; pk_B[a] = (1 << y[xt]) | Ha; pth[len] = a;
+        if (pack_path(I, X, y, J, pth, len + 1, minx0)) { pk_used[a] = 0; return 1; }
+        pk_used[a] = 0;
+    }
+    return 0;
+}
+
+static int pack_rest(const Inst *I, const int *X, const int *y, int J, int minx0)
+{
+    int n = I->n;
+    /* option: every unused agent keeps its pick */
+    int ok = 1;
+    for (int a = 0; a < n && ok; a++) if (!pk_used[a]) {
+        if (y[a] >= 0 && !(X[a] >> y[a] & 1)) ok = 0;
+        pk_B[a] = y[a] >= 0 ? 1 << y[a] : 0;
+    }
+    if (ok) {
+        int bg = 0; for (int a = 0; a < n; a++) if (popc(X[a] & ~pk_B[a]) >= 2) bg++;
+        if (bg <= 1) return 1;
+    }
+    /* option: start a new path at an unused agent x0 >= minx0 */
+    for (int x0 = minx0; x0 < n; x0++) if (!pk_used[x0]) {
+        int pth[MAXN]; pth[0] = x0; pk_used[x0] = 1;
+        if (pack_path(I, X, y, J, pth, 1, minx0)) { pk_used[x0] = 0; return 1; }
+        pk_used[x0] = 0;
+    }
+    return 0;
+}
+
 int ocn(int n, int m, const long long *v, long long *out, int *picks)
 {
     Inst I; I.n = n; I.m = m; I.S = 1 << m; I.v = v;
@@ -170,6 +226,8 @@ int ocn(int n, int m, const long long *v, long long *out, int *picks)
                 if (rnone || rc0 || rc1) c[1]++;
                 if (rnone || rc1) c[2]++;
                 if (allown || f1) c[4]++;
+                if (rnone || rc0 || rc1) c[7]++;
+                else { memset(pk_used, 0, sizeof pk_used); if (pack_rest(&I, X, y, J, 0)) c[7]++; }
             }
         }
         /* next assignment */
