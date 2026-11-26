@@ -1,0 +1,2 @@
+$ python3 kgen/charity/w_climb.py 12 3000 1 rand4 3
+start score 0 (>= 1 out: 36, < 1 out: 36)

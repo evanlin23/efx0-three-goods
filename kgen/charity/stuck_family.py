@@ -21,12 +21,16 @@ from chlib import (Inst, efx0, pool_ok, pool_of, u0_moves, envy_graph, sources, 
                    ckms, stuck_report, sat_min_charity)
 
 
-def build(sigma, k, own=False):
+def build(sigma, k, own=False, vals=None):
     """own=False: S(sigma, k).  own=True: the variant S'(sigma, k) (k >= 3) in which every agent values its own bundle:
     sources value x_j and x'_j at 2 each and their children at 5; relays value their own good at 4 and their children
     at 5; parents value a champion's good at 5."""
     p = sigma - 1
-    cv = 5 if own else 2
+    # vals (own=True only): dict with keys y, x, g (champion), sx, sxp, sc (source: x_j, x'_j, a child), rz, rc (relay)
+    V = dict(y=10, x=6, g=6, sx=2, sxp=2, sc=5, rz=4, rc=5)
+    if vals:
+        V.update(vals)
+    cv = V['rc'] if own else 2
     goods = collections.OrderedDict()
 
     def good(name):
@@ -46,7 +50,8 @@ def build(sigma, k, own=False):
     champ = {}
     for j in range(sigma):
         for g in range(p):
-            champ[(g, j)] = agent({('g', g): 6, ('x', j): 6, ('y', g, j): 10}, [('y', g, j)])
+            champ[(g, j)] = agent({('g', g): V['g'] if own else 6, ('x', j): V['x'] if own else 6,
+                                   ('y', g, j): V['y'] if own else 10}, [('y', g, j)])
     rid = [0]
 
     def tree(leaves, top_arity):
@@ -60,16 +65,16 @@ def build(sigma, k, own=False):
                 rid[0] += 1; zr = ('z', rid[0])
                 d = {gg: cv for gg in grp}
                 if own:
-                    d[zr] = 4
+                    d[zr] = V['rz']
                 agent(d, [zr])
                 nxt.append(zr)
             level = nxt
         return level
     for j in range(sigma):
         tops = tree([(g, (j - 1) % sigma) for g in range(p)], k - 2 if own else k - 1)
-        vals = {gg: cv for gg in tops}; vals[("x'", j)] = 2 if own else 1
+        vals = {gg: (V['sc'] if own else cv) for gg in tops}; vals[("x'", j)] = V['sxp'] if own else 1
         if own:
-            vals[('x', j)] = 2
+            vals[('x', j)] = V['sx']
         src[j] = agent(vals, [('x', j), ("x'", j)])
     I = Inst(len(v), len(goods), v)
     pool = {goods[('g', g)] for g in range(p)}

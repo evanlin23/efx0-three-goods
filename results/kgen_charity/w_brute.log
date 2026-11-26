@@ -1,4 +1,5 @@
 $ python3 kgen/charity/w_brute.py
 GM4-G: largest total 32, attained by (values, unallocated) [((9, 7, 8, 8), 1)]; fewest unallocated there 1; largest total of a complete EFX0 allocation 31
+GM4-G cut to three goods (k = 3): largest total 32, attained by (values, unallocated) [((9, 7, 8, 8), 1)]; fewest unallocated there 1; largest total of a complete EFX0 allocation 31
 GM4-E: largest total 24, attained by (values, unallocated) [((9, 7, 4, 4), 1), ((9, 8, 4, 3), 0), ((9, 8, 4, 3), 1), ((9, 8, 4, 3), 2), ((10, 7, 3, 4), 0), ((10, 7, 3, 4), 1), ((10, 7, 3, 4), 2)]; fewest unallocated there 0; largest total of a complete EFX0 allocation 24
 S'(2, 3): largest total 33, attained by (values, unallocated) [((10, 12, 9, 2), 0), ((12, 10, 2, 9), 0)]; fewest unallocated there 0; largest total of a complete EFX0 allocation 33

@@ -16,17 +16,18 @@ changed here; the coordinator integrates.
 | CH-E | for every σ ≥ 2 and k ≥ 3: a Pareto maximum (P1's hypothesis) leaving σ − 1 goods out, n = O(σ²) | PROVED (written proof; exhaustive check without SAT for σ ≤ 4, SAT for σ ≤ 7) | §5, `refute_pm.py`, `refute_pm_k*.log`, `pm_family_sat.log` |
 | P1 threshold | P1 (K4.SDC.P1: Pareto maxima are complete) holds for k ≤ 2 and fails at k = 3 (n = 4, m = 7, every agent values exactly 3 goods) | PROVED for k ≤ 2 (CH6 + CH4′); REFUTED at k = 3 (CH-E with σ = 2; brute force over all 5⁷ partial allocations) | §5, `refute_pm_k3.log` |
 | PM(k) | Pareto maxima leave ≤ f(k) goods out | REFUTED for every k ≥ 3 and every f (CH-E) | §5 |
-| W(k) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f(k) out; W(k) ⇒ CH(k) | OPEN: f = 0 is REFUTED at k = 4 by GM4-G (n = 4, m = 7; brute force); complete on 3,400 random instances (k ≤ 7) and on S, S′ (σ ≤ 5) | §6, `w_*.log` |
+| W(k) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f(k) out; W(k) ⇒ CH(k) | OPEN for f ≥ 1. f = 0 is REFUTED at k = 3 (GM4-G cut to three goods, n = 4, m = 7) and at k = 4 (GM4-G); brute force | §6, `w_brute.log`, `attempts/kgen-charity-welfare-complete.md` |
 | least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
 
 **Conclusion so far.** The rainbow-cycle method works with genuine zeros and gives *exact* EFX₀ with O(√(kn))
 charity (CH-A), and charity < e·d when goods have ≤ d valuers (CH-B, independent of n and k); both look new, and both
 extend to monotone valuations (CH-M). But an n-independent f(k) cannot come from CKMS's rules (CH-D), nor from any
 argument that only uses Pareto-maximality of a partial EFX₀ allocation (CH-E): both can strand Θ(√n) goods at k = 3,
-where complete EFX₀ is a theorem, and both are complete at k ≤ 2 — so k = 3 is exactly where value-monotone methods
-stop working (CH-E′), not k = 4. A proof of CH(k) for k ≥ 3 must lower some agent's value at some step, as LB⁺ does
+where complete EFX₀ is a theorem, and both are complete at k ≤ 2. So k = 3, not k = 4, is exactly where
+value-monotone methods stop working (CH-E′). A proof of CH(k) for k ≥ 3 must lower some agent's value at some step, as LB⁺ does
 at k = 3, or argue about a special Pareto maximum with exchanges that lower values: the welfare maximum (Question W)
-is the natural one; it strands one good on GM4-G (k = 4) and none on all other data.
+is the natural one; it strands one good at k = 3 and at k = 4 (GM4-G and a three-good cut of it), and whether it
+can strand two at fixed k is the open question (W(k) with f ≥ 1).
 
 ## 0. Statement and conventions
 
@@ -308,9 +309,11 @@ with the P1 replay on GM4-E: five Pareto maxima, one leaving one good out):
 1. **Question W(k).** Does the welfare maximum over partial EFX₀ allocations, among those with the fewest
    unallocated goods, leave at most f(k) goods out? It is a robust stopping state (CH6), so CH-A/B/C apply, and W(k)
    implies CH(k).
-   - *f = 0 fails at k = 4:* on GM4-G the largest total (32) is attained only with one good unallocated; complete
-     EFX₀ allocations reach 31 (`w_brute.py`, `w_brute.log`; `attempts/kgen-charity-welfare-complete.md`). On GM4-E,
-     which K4.SDC.P1 lists as total-value-stuck, the largest total is tied with complete allocations.
+   - *f = 0 fails at k = 4 and at k = 3:* on GM4-G the largest total (32) is attained only with one good unallocated,
+     complete EFX₀ allocations reach 31; the same holds for GM4-G cut to three goods per agent, a k = 3 instance with
+     the hypergraph of S′(2, 3) (`w_brute.py`, `w_brute.log`; `attempts/kgen-charity-welfare-complete.md`). On GM4-E,
+     which K4.SDC.P1 lists as total-value-stuck, the largest total is tied with complete allocations. With these
+     values S′(σ, 3) for σ = 3, 4 does not strand: its relays allow large welfare gains.
    - *Data:* the welfare maximum is complete on 166 of the 168 curated k = 4 instances (the exceptions are GM4-G and
      its copy, `w_screen.log`), on 2,000 random k ≤ 3, 1,000 random k ≤ 4 and 400 random general instances with up
      to 7 relevant goods (`w_rand_*.log`), and on S(σ, 3), S′(σ, 3) for σ ≤ 5 (`w_family.log`).
