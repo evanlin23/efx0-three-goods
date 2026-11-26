@@ -1,0 +1,1 @@
+$ python3 k4/vm/vmx_climb.py 3 64 80 5 --phase3=0
