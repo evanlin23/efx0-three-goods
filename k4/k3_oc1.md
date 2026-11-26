@@ -274,3 +274,25 @@ more goods is compensated by one junk good. At k = 3 these compensations are exa
 never needs them after a DE trade. The k = 4 completion problem therefore has two kinds of one-good slots: the
 terminals' slots, and the compensation slots of agents that want a good in a two-good bundle. A k = 4 proof must count
 both kinds. This is the "service count" that `k4/sdc.md` §30 names as the missing ingredient.
+
+## 8. The open case: what the repairing trade does there
+
+Outside R1C and B\* (`thm_bstar.py`; the n = 5 and sampled n = 6 logs), the drafts with least deficit 2 have one
+terminal in all but one case. The max-score trade there is a DE chain (1,201 cases) or a ring with one pair arrow
+(190), and afterwards the junk fits the terminals' slots (no owner), once LB's upgrades are made. A typical case:
+- **The draft.** Agents 0: 0 > 1 > 6, 1: 0 > 2 > 7, 2: 3 > 4 > 8, 3: 1 > 5 > 2, 4: 3 > 5 > 4. Order (1, 0, 2, 3, 4)
+  gives the picks (1, 0, 3, 5, 4) and junk {2, 6, 7, 8}. The only terminal is agent 4, which holds its third good 4.
+- **The exposure.** Agents 1 (pair {2, 7} in the junk) and 2 (pair {4, 8}, with 4 agent 4's pick) are exposed for
+  agent 4, so h = 2 against no slot: deficit 2.
+- **The chain (1, 0, 3, 4).**
+  - Agent 1 takes {2, 7}.
+  - Agents 0 and 3 each receive their top: 0 from agent 1, and 1 from agent 0.
+  - Agent 4 receives its b = 5, and its old pick 4, its c, becomes junk.
+  - LB's upgrade gives agent 4 its pair {5, 4}, so agent 4 wants nothing, and agent 2, frozen only by agent 4, is
+    released.
+- **The result.** Junk {6, 8} against three terminals.
+
+The trade works by *releasing*: every needer of an exposed agent's top is moved above it, here by giving it its top or
+its pair. One rotation of a single exposed agent (B\*) only removes that agent. A proof of OT has to show that the
+best single trade releases enough of the others. The binary trees of Appendix C (deficit up to 7 at n = 30) show how
+many releases one ring can be forced to make.
