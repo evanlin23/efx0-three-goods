@@ -609,3 +609,25 @@ before any proof effort: DYN, W₃/W^sub, VM1, RD², OL and OC₂^max.
   covered all 31,584 hypergraphs × 3 profiles with 0 failures, but random profiles never hit a two-move start, so it
   is weak evidence. The certifier's exhaustive n = 5 run is the real test.
 - **Paper** (PR #110): revised for the refutations; its checker passes 50/50.
+
+### 2026-11-26 23:46 UTC: Lemmas M and EX refereed; CM₂ on all two-move data; Theorem U; OPB₄ discrepancy
+- **Referee**: the matching session's Lemma M (S* completability as a slot-graph matching) and Lemma EX (one-chain
+  exchange, sufficient) are **CORRECT** (`k4/referee/matching.md`).
+  - 513,753 and 309,568 tests, 0 failures. Every hypothesis is necessary: dropping any one gives failures.
+  - A free strengthening of Ext is noted.
+- **matching**:
+  - Lemma EX\* (EX at any state) is written. Conjecture CM₂ (a first move, then an EX\* exchange) implies OC₂ at
+    perfect starts and hence TARGET₄.
+  - CM₂ holds on all 30 hard starts of the 11 n = 4 instances, and on PW5 and RD5. EX\* is exact on all of that data.
+  - Mechanism, 57/57 pairs: the first chain absorbs a junk pair shared by two dangerous agents. In 35 of the 57, the
+    second head collects two foreign picks, one of them released by the first chain.
+  - The certifier is asked to export every n = 4 two-move start, for an exhaustive CM₂ test.
+- **multi**: Theorem U and Corollary U1, written. U1: one move suffices at perfect starts with one unfrozen holder and
+  one truly dangerous agent, whatever |D| is. The written lemmas now cover a repairing chain at 7,602 of 8,383 hard
+  |D| ≥ 2 starts. Lemma OWN and RING-red are added.
+- **kgen-rounds**: K4W, a non-core k = 4 instance (it has a top-heavy agent), every good valued, where OC₁ and one
+  round fail at perfect starts. Superseded by the core counterexamples.
+- **kgen-n3**: OPB₄ (one pick per bundle with improving rings) is claimed on the two n = 4 instances. The coordinator's
+  brute force disagrees: 14 EFX₀ allocations, 4 with one pick per bundle, none of type 2+2, none with all movers
+  gaining. The paper session independently also gets 14. kgen-n3 is checking its EFX₀ predicate; the suspicion is
+  ordinary EFX.
