@@ -69,5 +69,7 @@ python3 core_climb.py 24 300 12 121 6 8 max gen=deficient > $L/core_climb_max_de
 python3 core_climb.py 24 300 12 122 6 8 max gen=dense > $L/core_climb_max_dense.log
 python3 core_climb.py 24 300 12 123 6 8 max mc2 gen=deficient > $L/core_climb_max_deficient_mc2.log
 python3 oc1max_n6.py 2 1 3 61 > $L/oc1max_n6_n4_2.log
-python3 oc1max_n6.py 3,4,5,6 10 3 62 > $L/oc1max_n6_n4_3to6_stride10.log
+python3 oc1max_n6.py 3,4,5,6 10 3 62 > $L/oc1max_n6_n4_3to6_stride10_stopped.log   # stopped by hand at 28,500 hypergraphs
 python3 oc1max_hard.py $L/oc1max_n6_n4_2.log 8 > $L/oc1max_n6_n4_2_hardest.log
+# git show origin/compute/k4-oc1max-cert:results/k4_oc1max/oc1max_cex_n4.json > /tmp/cex.json  (commit dbc2631)
+python3 oc1max_cex_n4.py /tmp/cex.json > $L/oc1max_cex_n4_ttc.log
