@@ -11,12 +11,14 @@ import sys, os, json, gzip, collections, pickle
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__)); K4 = os.path.dirname(HERE)
 sys.path.insert(0, K4)
+_ARGS = [os.path.abspath(a.split('=', 1)[1]) if a.startswith('--write=') else a for a in sys.argv]
 os.chdir(K4)
 import mincex_shapes as MS
 
 def main():
     n = int(sys.argv[1])
     opt = dict(a[2:].split('=', 1) for a in sys.argv[2:] if a.startswith('--') and '=' in a)
+    opt['write'] = next(os.path.abspath(os.path.join(os.path.dirname(K4), a.split('=', 1)[1])) if not os.path.isabs(a.split('=', 1)[1]) else a.split('=', 1)[1] for a in sys.argv if a.startswith('--write='))
     bmin = int(opt.get('bmin', 5)); bmax = int(opt.get('bmax', 3 * n - 2))
     cache = os.path.join(HERE, 'ckpt', 'px_uncovered.pkl')
     if os.path.exists(cache): fail = pickle.load(open(cache, 'rb'))

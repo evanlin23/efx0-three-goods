@@ -11,6 +11,10 @@ import search4 as S4
 import cegar
 
 OPT = {}
+DIG = '0123456789abcdefghijklmnopqrstuvwxyz'
+
+def enc(A):
+    return ''.join(DIG[j] for j in A)
 
 def solve(task):
     idx, sets, m = task
@@ -66,8 +70,9 @@ def main():
         with gzip.open(path, 'wt') as f:
             json.dump({'n': n, 'm': m, 'n4': n4, 'pure': pure, 'class_size': len(cs), 'selection': OPT.get('sample', 'all'),
                        'seed': OPT.get('seed'), 'part': [part, parts],
-                       'cores': [{'idx': r['idx'], 'sets': r['sets'], 'status': r['status'], 'allocs': r['alloc_list']}
-                                 for r in recs]}, f, separators=(',', ':'))
+                       'alloc_format': 'base36 string, one character per good (its owner)',
+                       'cores': [{'idx': r['idx'], 'sets': r['sets'], 'status': r['status'],
+                                  'allocs': [enc(A) for A in r['alloc_list']]} for r in recs]}, f, separators=(',', ':'))
         print(f"  wrote {path}", flush=True)
 
 if __name__ == '__main__':

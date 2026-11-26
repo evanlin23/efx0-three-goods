@@ -65,9 +65,42 @@ DFS loop, fed with the same rows, did not finish within ~20 min on the first cor
 certificates** (for the coordinator to integrate; the ledger is not edited here). Not checked: the D2 shape (not
 needed for TARGET₄; the allocations are arbitrary EFX₀ allocations).
 
+### 3.2 n = 6: every minimal-counterexample candidate (in progress)
+
+Why n = 6 first: a minimal counterexample to TARGET₄ is a connected k = 4 core with strict types (K4.MC0), β ≥ 5
+(K4.MC7, now without the literature: §3.1), n ≥ 6, and if n = 6 at least two 4-good agents (K4.R5*, K4.R6a). At
+n = 6, β = 19 − m + (n₄ − 6) + … reduces to m = 8 + n₄ − (β − 5) − … ; concretely, for β = 5 the classes are
+m = 9 + (n₄ − 1): (n₄, m) = (1, 9), (2, 10), (3, 11), (4, 12), (5, 13), (6, 14).
+
+Two complementary runs:
+- **the whole class n = 6, m = 10, n₄ = 2** (28,502 cores, every strict profile, no K4.MC restriction): `run.py 6 10
+  --n4=2`. Together with K4.MC7 (β ≤ 4 covers n₄ = 2, m ≥ 11) and Mahara (m ≤ 9), this settles every core with n = 6
+  and exactly two 4-good agents.
+- **the minimal-counterexample candidates** (`mc_n.py 6`: `k4/mincex_shapes.py`'s generator restricted to n = 6,
+  every β ≥ 5, with K4.MC2, K4.MC3 and the K4.MC5 domain cuts), searched by `run_mc.py` with the cut domains and
+  checked by `check_mc_n.py`, which regenerates the list with `k4/check_mincex_cores4.py`'s independent code (orbit
+  counting of G′, its own type enumeration and cuts) and decides coverage by SAT on its raw-definition masks.
+
+β = 5 candidates at n = 6 (`results/k4_hunt/mc_n6_candidates_b5.log`; profile counts of the cut domains):
+
+| m | n₄ | listed | left after K4.MC5 | largest profile space |
+|---|---|---|---|---|
+| 9 | 1 | 4,049 | 3,488 | 2.2·10⁶ (already K4.R6a) |
+| 10 | 2 | 10,896 | 8,992 | 1.1·10⁸ (inside the class run) |
+| 11 | 3 | 13,041 | 10,360 | 5.2·10⁹ |
+| 12 | 4 | 7,295 | 5,839 | 2.5·10¹¹ |
+| 13 | 5 | 1,827 | 1,490 | 1.2·10¹³ |
+| 14 | 6 | 168 | 168 | 5.7·10¹⁴ |
+
 ## Reproduce
 
 ```
 python3 k4/hunt/run.py 6 10 --n4=2 --jobs=3 --tag=n6_m10_n42          # ~1 h on 3 CPUs
 python3 k4/hunt/check.py results/k4_hunt/n6_m10_n42_p0of1.json.gz --sat-sample=50
+python3 k4/hunt/named.py mc7                                           # the 6 cores of K4.MC7, ~20 s
+python3 k4/hunt/check.py results/k4_hunt/named_mc7.json.gz --engine=sat2
+python3 k4/hunt/test_check.py results/k4_hunt/named_mc7.json.gz --cores=6 --engines=sat2      # sensitivity
+python3 k4/hunt/mc_n.py 6 --bmin=5 --bmax=5 --write=results/k4_hunt/mc_n6.json.gz             # candidates, ~20 min
+python3 k4/hunt/run_mc.py results/k4_hunt/mc_n6_b5.json.gz --tag=mc_n6_b5
+python3 k4/hunt/check_mc_n.py 6 results/k4_hunt/mc_n6_b5.json.gz --bmin=5 --bmax=5
 ```

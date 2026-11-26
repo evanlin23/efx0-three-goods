@@ -229,6 +229,9 @@ def main():
     bad = 0
     if len(types(3)) != 6 or len(types(4)) != 288: print('TYPE COUNT MISMATCH'); bad += 1
     datas = [json.load(gzip.open(f, 'rt')) for f in files]
+    for d in datas:                               # compact allocations: base36 strings, one character per good
+        for c in d['cores']:
+            c['allocs'] = [[int(ch, 36) for ch in A] if isinstance(A, str) else A for A in c['allocs']]
     named = all('set' in d for d in datas)
     if named:                                     # named cores: per-core n, m; no class, no completeness
         cores = [c for d in datas for c in d['cores']]
