@@ -534,6 +534,15 @@ Sivashankar's Theorem 3 (packing inequality): a digraph with nonempty parts V_1,
 and no rainbow cycle satisfies (p − 1)! Σ|V_i| ≤ Π|V_i|; with |V_i| ≤ d and AM–GM this gives p! ≤ d^{p−1}, hence
 p < ed. This is part 3; R(d) is by definition the largest p for which such a digraph exists. ∎
 
+**Corollary CH-KD′ (only hot pool goods cost anything).** At every stopping state and for every d ≥ 1,
+|P| ≤ R(d) + |H_d|, where H_d = {g ∈ P : |V(g)| > d} are the pool goods with more than d valuers; more precisely
+|P ∖ H_d|! ≤ d^{|P ∖ H_d| − 1}. *Proof.* The parts V_g with g ∈ P ∖ H_d induce a sub-digraph of Γ (Step 5) that still
+has the in-neighbour property between any two of its parts and no rainbow cycle, with parts of size ≤ d; apply the
+packing inequality to it. (This is CGMMM's low/high split, Lemma 15, with ε = 0.) ∎
+So in a connected instance the charity beyond R(d) is paid only for unallocated goods with many valuers, and every
+construction in §4–§6 strands exactly such goods (σ valuers each). An n-independent f(k) needs a bound on |H_d| at
+some reachable state, which neither the counting of Step 4 (σ ≤ (k − 2)|V(g)|) nor the packing inequality gives.
+
 **Remarks.**
 - What is new compared with CGMMM: their reduction needs ε > 0 because a good is "valuable" to an agent when it is
   worth more than an ε-fraction of her bundle, and without sparsity every agent may find every good valuable. With
