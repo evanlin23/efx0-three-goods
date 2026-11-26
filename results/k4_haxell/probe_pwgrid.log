@@ -108,3 +108,4 @@ PW(5,4,4)      n 9 m 13 k 6 starts  30 probes  568 reached  568 traps 0 cap 0 ma
 PW(5,4,5)      n 9 m 14 k 6 starts  30 probes  570 reached  570 traps 0 cap 0 max_expanded 73
 PW(5,4,6)      n 9 m 15 k 7 starts  30 probes  570 reached  561 traps 0 cap 9 max_expanded 2000
 PW(4,4,8)      n 8 m 16 k 9 starts  24 probes  456 reached  441 traps 0 cap 15 max_expanded 2000
+PW(4,4,7)      n 8 m 15 k 8 starts  27 probes  513 reached  453 traps 0 cap 60 max_expanded 2000

@@ -23,7 +23,7 @@
    first phi with one.  With argument 3, a step may be a composite of three moves (the third pass runs only on states
    still stuck after two).  With ROT = 1 a rotation of the bundles along any cycle of agents also counts as one local
    move.  With SUB = 1, giving a set of goods of one holder (an agent or the pool) to one agent is also one move.
-   cc -O2 -o gstar_measure gstar_measure.c;  ./gstar_measure [RADIUS=2] [ROT=0] [ONLY=-1] [SUB=0] < input */
+   cc -O2 -o gstar_measure gstar_measure.c;  ./gstar_measure [RADIUS=2] [ROT=0] [ONLY=-1] [SUB=0] [NOAUG=0] < input */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,7 +34,7 @@ static int n, m;
 static long val[MAXN][MAXM];
 static long NS;
 static unsigned char *ok;
-static int RADIUS = 2, ROT = 0, ONLY = -1, SUB = 0;
+static int RADIUS = 2, ROT = 0, ONLY = -1, SUB = 0, NOAUG = 0;
 static int ncyc, cyclen[512], cyc[512][MAXN];
 static long stuck3fixed[NPHI];
 
@@ -110,12 +110,14 @@ static void neighbours(const int *own) {
             for (int mask = 1; mask < (1 << c); mask++) { if (__builtin_popcount(mask) < 2) continue;
                 for (int b = 0; b < n; b++) { if (b == h) continue;
                     memcpy(o, own, sizeof(int) * m); for (int t = 0; t < c; t++) if (mask >> t & 1) o[gs[t]] = b;
-                    if (nb_count < 4000) nb_buf[nb_count++] = encode(o); } } } }
+                    if (nb_count >= 4000) { fprintf(stderr, "neighbour buffer full (n %d m %d)\n", n, m); exit(3); }
+                    nb_buf[nb_count++] = encode(o); } } } }
     if (ROT) {   /* rotations of bundles along every cycle of 3 or more agents (2-cycles are the trades above) */
         for (int c = 0; c < ncyc; c++) {
             int to[MAXN]; for (int a = 0; a < n; a++) to[a] = a;
             for (int t = 0; t < cyclen[c]; t++) to[cyc[c][t]] = cyc[c][(t + 1) % cyclen[c]];
             for (int g = 0; g < m; g++) o[g] = own[g] == n ? n : to[own[g]];
+            if (nb_count >= 4096) { fprintf(stderr, "neighbour buffer full (n %d m %d)\n", n, m); exit(3); }
             nb_buf[nb_count++] = encode(o); } }
 }
 static void gen_cycles(void) {
@@ -140,6 +142,7 @@ int main(int argc, char **argv) {
     if (argc > 2) ROT = atoi(argv[2]);
     if (argc > 3) ONLY = atoi(argv[3]);   /* evaluate only phi0 and phi ONLY (the others are reported as 0); -1: all */
     if (argc > 4) SUB = atoi(argv[4]);    /* 1: a set of goods given by one holder to one agent is one move */
+    if (argc > 5) NOAUG = atoi(argv[5]);  /* 1: skip phi0 (reported as 0); with ONLY, a state is done once phi ONLY is */
     while (scanf("%d %d", &n, &m) == 2) {
         if (n > MAXN || m > MAXM) { fprintf(stderr, "instance too large: n %d m %d (MAXN %d MAXM %d)\n", n, m, MAXN, MAXM); return 2; }
         memset(val, 0, sizeof val);
@@ -155,6 +158,7 @@ int main(int argc, char **argv) {
             Phi ps[NPHI]; for (int K = 0; K < NPHI; K++) phi(K, own, &ps[K]);
             int done[NPHI]; memset(done, 0, sizeof done); int left = NPHI;
             if (ONLY >= 0) { for (int K = 0; K < NPHI; K++) if (K != ONLY && K != 0) { done[K] = 1; left--; } }
+            if (NOAUG && ONLY != 0) { done[0] = 1; left--; }
             neighbours(own); int c1 = nb_count; long first[4096]; memcpy(first, nb_buf, sizeof(long) * c1);
             for (int pass = 0; pass < (RADIUS < 2 ? RADIUS : 2) && left; pass++)
                 for (int t = 0; t < c1 && left; t++) {

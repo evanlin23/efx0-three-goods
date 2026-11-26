@@ -27,7 +27,15 @@ print('instances', len(lines), flush=True)
 P = os.cpu_count() or 1; chunks = [lines[i::P] for i in range(P)]; mchunks = [meta[i::P] for i in range(P)]
 procs = [subprocess.Popen([os.path.join(HERE, 'gstar_measure')] + MARGS, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                           text=True) for _ in range(P)]
-outs = [p.communicate('\n'.join(c) + '\n')[0] for p, c in zip(procs, chunks)]
+import threading
+outs = [None] * P
+def _talk(k):
+    outs[k] = procs[k].communicate('\n'.join(chunks[k]) + '\n')[0]
+ths = [threading.Thread(target=_talk, args=(k,)) for k in range(P)]
+for th in ths:
+    th.start()
+for th in ths:
+    th.join()
 C = collections.Counter(); shown = collections.Counter()
 for out, mc in zip(outs, mchunks):
     for ln, md in zip(out.strip().split('\n'), mc):
