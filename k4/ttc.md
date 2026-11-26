@@ -19,6 +19,9 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
   picks of two other agents. Its improving bundles are complementary across two owners.
 - A move gives each participant one predecessor's base (x₀: part of one base B_{x_t}) plus junk. In TTC terms, a
   cycle serves unit demands, and this exchange is a tree.
+- **Lemma T6 (proved, §14.2)** makes this exact: after one move and any completion, an agent holds two other agents'
+  picks only as an internal chain member that also receives the chain end's pick. With the brute-force list of
+  targets, it gives a human-checkable proof that one move fails, for all 11 instances (`oc1max_cex_n4_ttc.log`).
 
 **Two moves do suffice, and pointers choose them, at n = 4** (§14.3). Call a chain a *minimal pointer fixed point*
 when a dangerous agent takes an inclusion-minimal improving junk set as its new base and its pick travels along a pure
