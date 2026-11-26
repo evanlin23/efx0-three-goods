@@ -22,6 +22,9 @@ more.
   - Lemma H and Proposition PR-step (§7): prefix-robust completions restrict to every suffix sub-instance. The
     insertion of the first agent succeeds with at most one move unless that agent is wanted at current values, or the
     absorber loses its compensation.
+  - Theorem PR-TP (§7): keeping frozen agents junk-free, every insertion of a pick-unfrozen agent succeeds. This
+    re-proves Theorems DT and DT⁺ as inductions along any order. The only failing insertions are those of threatened
+    frozen agents.
 - **Evidence** (reverse-SD insertion; each new agent is first):
   - *Conjecture AB₁* (§3). If an unfrozen agent o is the absorber of some one-absorber completion, some order with o
     last inserts the agents with at most one junk move per step. If no absorber is needed, some order works.
@@ -61,7 +64,8 @@ more.
   - *Conjecture PR* (the monotone form of refined AB₁) holds on 15,786 of 15,786 cases.
   - Climbs against the original AB₁: 200 rounds at n ≤ 3 and 40 at n = 5 found nothing. 400 rounds at n = 4 found
     the 3 no-absorber counterexamples.
-  - Climbs against the refined form: `e16_ab1_climb_*_refined*.log`, results in §3.
+  - Climbs against the refined form found no counterexample: 800 rounds at n = 4, including the run that broke the
+    original, and 300 at n ≤ 3. It also holds at k = 3 on 8,002 cases (§3).
 - **Next** (if this angle continues):
   1. the strengthened invariant PR(F), which carries the danger sets of the frozen agents still to come, and its
      local step (the Hall count with the agents ordered);
@@ -193,7 +197,11 @@ move.
   (ii) if no completion needs an absorber, some order works. The curated and random data below satisfy the original
   form, hence the refined one. Climb against the refined form, n = 4, the same 400 rounds × 150 steps and seed that
   found the 3 counterexamples (`e16_ab1_climb_n4_refined.log`): no counterexample; the lowest final fraction of
-  working orders is 1/6.
+  working orders is 1/6. Two more climbs found nothing either: 400 rounds × 200 steps at n = 4 (seed 6) and 300 × 100
+  at n ≤ 3 (`e16_ab1_climb_n4_refined_b.log`, `e16_ab1_climb_n3_refined.log`).
+- *At k = 3* (1,000 random profiles of the certified n = 5 cores of `results/certs_5_6.json.gz`; `e18_mono_k3.log`),
+  the monotone form holds on all 8,002 cases (Y, o). On 300 profiles, reverse-SD insertion with one move per step
+  works on all 688 starts that have a one-absorber completion.
   Evidence: no exception in 901 screen, 841 suite, 5,658 logged hard profiles (n ≤ 4), 8,364 random n = 4 and 1,639
   random n = 5 cases (`e7_absorber.log`, `e7_absorber_more.log`). With o fixed, every order works in 90–97% of these
   cases.
@@ -400,3 +408,30 @@ with its pick (f holds its top among the goods of I).
   frozen agents not yet inserted. The question is whether PR(F) has a local step, i.e. whether a helper can always be
   found among π_2, …, π_{n−1} when F is fixed in advance.
 - This is the Hall-type count of `k4/sdc.md` §30, with the agents ordered.
+
+**Theorem PR-TP (written proof): the induction succeeds at every unfrozen agent.** Keep the TP shape throughout:
+pick-frozen agents never take junk. Insert the agents in reverse order of an order π producing Y, with π_n = o
+unfrozen. At each insertion of f = π_k:
+- if f is not threatened by X_o, f takes nothing;
+- if f is threatened and pick-unfrozen, f takes its best junk good of X_o.
+
+Then every such step yields a PR completion of the larger sub-instance.
+
+*Proof.* Proposition PR-step, case 2, needs (b) and (c).
+- (b): f is pick-unfrozen, so v_i(Y_f) ≤ v_i(Y_i) ≤ v_i(X_i) for every i. For o, X_o ∖ g still contains Y_o.
+- (c): in a TP-shaped state every two-good holder j is pick-unfrozen. So v_o(Y_j) ≤ v_o(Y_o) ≤ v_o(X_o ∖ g).
+∎
+
+So the reverse-SD induction can fail only when a pick-frozen agent arrives and is threatened by the absorber's
+bundle. Two known theorems follow at once:
+- *Theorem DT* (distinct tops, `k4/sdc.md` §6): there are no frozen agents, so every step succeeds. This holds for
+  every order and every absorber o, with one move per insertion.
+- *Theorem DT⁺* (no frozen agent values junk). A frozen x arriving first among the agents present holds its top among
+  the goods present. Its only good in X_o is at most Y_o, a single good worth at most v_x(Y_x), so x is never
+  threatened.
+
+Beyond DT⁺, a pick-unfrozen agent that is *not* threatened may still take any one junk good of X_o. Its safety and
+(b), (c) are unaffected. So the pick-unfrozen agents are free slots, one junk good each, and the frozen agents' danger
+sets must be cleared by those slots before the frozen agents arrive. With frozen agents first in π, this is exactly
+the static covering of Corollary TP: the count of `k4/sdc.md` §30. The exceptions to the TP shape (A131,
+induct-b-r0-pot-minvw at n = 2) are where a frozen agent's wanter is compensated, which PR-TP does not use.

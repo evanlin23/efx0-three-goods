@@ -38,6 +38,19 @@ def load(src):
             sets = rng.choice(cores)
             out.append(('r%d' % t, sets, random_profile(sets, rng), 1 + max(max(x) for x in sets)))
         return out
+    if src.startswith('k3:'):
+        # k = 3: random strict profiles of the certified k = 3 cores with n = 5 (results/certs_5_6.json.gz)
+        _, N, seed, nmax = src.split(':')
+        rng = random.Random(int(seed)); cwd = os.getcwd(); os.chdir(_paths.DE4)
+        from de4lib import random_profile
+        os.chdir(cwd)
+        cores = [c['sets'] for c in json.load(gzip.open(os.path.join(_paths.ROOT, 'results', 'certs_5_6.json.gz')))
+                 if c['n'] <= int(nmax)]
+        out = []
+        for t in range(int(N)):
+            sets = rng.choice(cores)
+            out.append(('k3r%d' % t, sets, random_profile(sets, rng), 1 + max(max(x) for x in sets)))
+        return out
     if src == 'logs':
         import re, glob
         seen = set(); out = []
