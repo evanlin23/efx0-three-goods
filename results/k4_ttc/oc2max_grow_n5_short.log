@@ -1,0 +1,39 @@
+$ git show origin/compute/k4-oc1max-cert:results/k4_oc1max/oc1max_cex_n4.json > cex.json   (commit dbc2631)
+$ python3 k4/ttc/oc2max_fp.py grow cex.json 200 1 1
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[3, 2, 10, 6], [4, 1, 6, 8], [2, 8, 5, 4], [5, 4, 8, 2], [7, 8, 2, 4]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[3, 2, 10, 6], [4, 2, 7, 10], [2, 8, 5, 4], [5, 4, 8, 2], [7, 8, 2, 4]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[3, 2, 10, 6], [4, 2, 7, 10], [2, 8, 5, 4], [5, 4, 8, 2], [2, 10, 6, 3]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[3, 2, 10, 6], [4, 2, 7, 10], [2, 8, 5, 4], [5, 4, 8, 2], [4, 10, 7, 2]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[3, 2, 10, 6], [4, 2, 7, 10], [3, 10, 8, 6], [5, 4, 8, 2], [7, 8, 2, 4]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[3, 2, 10, 6], [4, 2, 7, 10], [3, 10, 8, 6], [5, 4, 8, 2], [6, 8, 4, 1]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[3, 2, 10, 6], [4, 2, 7, 10], [3, 10, 8, 6], [5, 4, 8, 2], [2, 8, 3, 4]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[3, 2, 10, 6], [4, 2, 7, 10], [3, 10, 8, 6], [5, 4, 8, 2], [6, 8, 4, 3]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[4, 2, 7, 10], [4, 2, 7, 10], [3, 10, 8, 6], [5, 4, 8, 2], [6, 8, 4, 1]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[6, 3, 8, 10], [4, 2, 7, 10], [3, 10, 8, 6], [5, 4, 8, 2], [6, 8, 4, 1]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[6, 3, 8, 10], [4, 2, 7, 10], [3, 10, 8, 6], [5, 4, 8, 2], [2, 10, 3, 6]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[6, 3, 8, 10], [4, 2, 7, 10], [3, 10, 8, 6], [5, 4, 8, 2], [6, 8, 4, 3]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[6, 3, 8, 10], [4, 2, 7, 10], [3, 10, 8, 6], [5, 4, 8, 2], [4, 10, 7, 2]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[6, 3, 8, 10], [4, 2, 7, 10], [3, 10, 8, 6], [3, 8, 10, 6], [6, 8, 4, 1]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[6, 3, 8, 10], [4, 2, 7, 10], [3, 10, 8, 6], [6, 8, 10, 3], [6, 8, 4, 1]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[6, 3, 8, 10], [6, 2, 7, 10], [3, 10, 8, 6], [6, 8, 10, 3], [6, 8, 4, 1]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[6, 3, 8, 10], [4, 2, 7, 10], [3, 10, 8, 6], [7, 4, 8, 2], [6, 8, 4, 1]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
+grown walks 11 steps each 200 extra agents 1 
+  among OC1^max failures: FP+1 every fails 17
+  among OC1^max failures: FP+1 some FAILS 17
+  among OC1^max failures: NO MINIMAL FIXED POINT 17
+  among OC1^max failures: OC2^max holds 17
+  among OC1^max failures: every good first move absorbs danger 17
+  among OC1^max failures: some danger-absorbing first move is bad 17
+  among OC1^max failures: some good first move absorbs danger 17
+FP+1 every fails 1231
+FP+1 every holds 2354
+FP+1 some FAILS 1230
+FP+1 some holds 2355
+NO MINIMAL FIXED POINT 1230
+OC1^max fails 17
+OC1^max holds 3568
+distinct instances visited 1895
+maximum starts without a completion 3585
+minimal fixed point exists 2355
+visited instances with an OC1^max failure 17
+time 55 s

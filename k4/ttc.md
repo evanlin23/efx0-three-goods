@@ -4,7 +4,43 @@ Workstream `proof/k4-ttc` (branch `claude/k4-ttc`, draft PR #101). Code: `k4/ttc
 log); logs: `results/k4_ttc/`. Notation as in `k4/sdc.md` (§2, §28–§30). Everything called evidence below is evidence
 only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator integrates.
 
-## Status (burst 5): "for every order" fails even in the K4.MC2 class; the max-matching form survives everywhere tested, R1-priority only in the MC2 class
+## Status (burst 6): OC₁^max falls at n = 4; two moves always suffice so far, by a pointer rule in the MC2 class
+
+**OC₁^max is refuted** (§14.2).
+- *Found by:* the certifier's ordinal CEGAR (`compute/k4-oc1max-cert`), on 11 of the 1,002 n = 4 core hypergraphs,
+  all in the K4.MC2 class.
+- *Checked here:* by brute force (`refute_oc1.py`) and by SAT on all 11 (`oc1max_cex_n4_ttc.log`).
+- *Rare:* 0 of 3,000 random profiles of the first hypergraph fail. So the n = 6 sweep (1.8 million maximum starts, 0
+  failures; §14.1) was evidence only.
+
+**Why one move is not enough at n = 4.**
+- Every instance has a single receiver.
+- In every allocation that could follow a repair (complete, EFX₀, value-dominating the picks), some agent holds the
+  picks of two other agents. Its improving bundles are complementary across two owners.
+- A move gives each participant one predecessor's base (x₀: part of one base B_{x_t}) plus junk. In TTC terms, a
+  cycle serves unit demands, and this exchange is a tree.
+
+**Two moves do suffice, and pointers choose them, at n = 4** (§14.3). Call a chain a *minimal pointer fixed point*
+when a dangerous agent takes an inclusion-minimal improving junk set as its new base and its pick travels along a pure
+want path to the receiver.
+- Every such chain is a good first move: 34 of 34 on the instances, and on all 97 OC₁^max failures of a walk around
+  them. One more move then finishes.
+- That is the rule **FP+1^max**, which implies OC₂^max.
+
+**FP+1^max fails at n = 5, outside the MC2 class** (`attempts/k4-ttc-fp-plus-one.md`).
+- *The core:* strict, with one agent holding two private goods. It is also a new n = 5 counterexample to OC₁^max, in
+  the free form too (`oc1max_cex_n5_two_private.json`, brute force).
+- *Why the rule fails:* no dangerous agent improves with junk alone, so no fixed point exists. The danger is absorbed
+  by a dangerous agent *inside* a chain, taking its predecessor's pick plus its danger junk.
+- *Still holding:* OC₂^max, and "every good first move absorbs danger" (114 of 114 failures tested).
+- *MC2-class grow walks* found no n = 5 OC₁^max failure (1,819 instances).
+
+**Open, in order:**
+1. FP+1^max in the MC2 class at n = 5–6; running (§14.4).
+2. OC₂^max itself.
+3. A proof of the n = 4 mechanism: one receiver forces the danger set to become a base.
+
+## Status (burst 5, superseded: OC₁^max fails at n = 4, burst 6): "for every order" fails even in the K4.MC2 class; the max-matching form survives everywhere tested, R1-priority only in the MC2 class
 
 **OC and OC₁ fail for some order on a strict connected core in the K4.MC2 class** (`attempts/k4-ttc-oc-every-order.md`).
 - *The core:* n = 5, m = 9, three 4-good agents, one private good each. Agent i values {yᵢ:10, aᵢ:6, bᵢ:5, bᵢ₋₁:7};
@@ -693,6 +729,135 @@ its danger sets contain no junk.
   augmenting paths, i.e. picks that match ν − 2 agents (`order_classes.log`).
 - A counterexample to OC₁^max must therefore come from frozen agents whose wanters hold picks. By (b) this is the
   only route even when ν < n, which is the coordinator's "ν = n is the hard case".
+
+## 14. OC₁^max: the n = 6 sweep, the refutation at n = 4, and why two moves are needed
+
+### 14.1 The n = 6 sweep (evidence only)
+
+`oc1max_n6.py` tests OC₁^max on the n = 6 core hypergraphs (`k4/search4.cores`, nauty, one per isomorphism class)
+with ν = 6.
+- *Profiles:* 3 random strict profiles each, from `search4.domain`, which lists every strict balanced subset ranking
+  of an agent; 400 of 400 sampled profiles pass `is_core4`.
+- *Orders:* all 720.
+- *A start* is a distinct serial-dictatorship outcome that matches all six agents.
+
+| n4 | hypergraphs | maximum starts | needing a move | failures | log |
+|---|---|---|---|---|---|
+| 2 | all 119,108 with ν = 6 (of 119,283) | 1,812,773 | 37,620 | 0 | `oc1max_n6_n4_2.log` |
+| 3–6 | stride 10: stopped at 28,500 of 141,559 when OC₁^max fell at n = 4 (§14.2) | — | — | none printed | `oc1max_n6_n4_3to6_stride10_stopped.log` |
+
+Repairing-move counts at the n4 = 2 starts that need a move: 1: 2,825; 2: 4,348; 3: 5,529; 4: 2,000; ≥ 5: 22,918.
+
+**The hardest starts** (`oc1max_hard.py`, `oc1max_n6_n4_2_hardest.log`; 8 printed, each with exactly one repairing
+move, checked by brute force and SAT) all have one shape:
+- m = n + 2, five frozen agents and a single receiver r;
+- two dangerous agents, each valuing one private junk good;
+- *no completion at all:* frozen agents take no junk, so both junk goods go to r, and a dangerous d has
+  v_d(Y_r) + v_d(j_d) > v_d(Y_d);
+- *the only repair is the swap (d, r):* d takes {j_d, Y_r}, and r, which freezes d, takes Y_d. Then d holds two goods,
+  is no longer frozen, and absorbs the other junk good.
+
+**The shape of the repairs** (`oc1max_paths.py`, `oc1max_paths_n6_sample.log`; 238 hypergraphs × 3 profiles, 55
+starts needing a move):
+- the shortest repairing move has length 1 (7 starts), 2 (24), 3 (15), 4 (7) or 5 (2), so the swap is not always
+  enough;
+- *canonical repair:* every one of the 55 is repaired by an addition or by a chain whose x₀ is dangerous and whose x₁
+  wants x₀'s pick;
+- §11's fixed point (a pure want path from a dangerous x₀ to a receiver) repairs 54 of 55. The exception needs junk
+  paid to the frozen end of a five-agent cycle.
+
+### 14.2 OC₁^max fails at n = 4 (found by the certifier, `compute/k4-oc1max-cert`)
+
+The certifier's ordinal CEGAR (`k4/oc1cert/cegar.py` on that branch) runs over every strict profile. It finds 11 of
+the 1,002 n = 4 core hypergraphs with a profile and a perfect-matching start where no one move gives a completion,
+free or one-absorber (`results/k4_oc1max/oc1max_cex_n4.json` there).
+
+**Checked here:**
+- `refute_oc1.py` (brute force, no SAT, no shared code) on instance 0;
+- `oc1max_cex_n4.py` on all 11: SAT and brute-force completions agree, all 11 are strict connected cores with ν = 4,
+  and all are in the K4.MC2 class (`oc1max_cex_n4_ttc.log`);
+- *rarity:* 0 of 3,000 random strict profiles of instance 0's hypergraph fail. That is why the random sweeps missed it.
+
+**Instance 0 in TTC terms.**
+- *The instance:* sets {g0, g1, g2, g5}, {g1, g2, g5, g6}, {g3, g4, g5, g6}, {g3, g4, g6}; values (2, 10, 4, 7),
+  (10, 3, 4, 8), (3, 5, 6, 7), (3, 2, 4).
+- *The start:* order (0, 3, 2, 1), picks (g1, g2, g5, g6), junk {g0, g3, g4}.
+- *Wants* (i → j: i values Y_j above Y_i): 1 → 0, 2, 3 and 2 → 3. So agents 0, 2 and 3 are frozen.
+- *The lone receiver, agent 1,* is starved: it holds its worst good, wants every other pick, and values no junk.
+- *Why the picks fail:* all the junk must go to agent 1, and then agent 2 envies that bundle minus g0
+  (g3 + g4 = 8 > 6).
+- *The targets:* of the 14 complete EFX₀ allocations, 6 value-dominate the picks. In all 6, agent 1 holds g1, agent 0
+  holds {g2, g5} (plus g0), and the danger pair {g3, g4} is the whole bundle of agent 2 or 3.
+- *Agent 0's demand is complementary:* its improving bundles without g1 are {g2, g5} = 11 and {g0, g2, g5} = 13. Both
+  need the picks of two other owners, agents 1 and 2.
+- *Why one move fails:*
+  - In a move, x₀ takes junk plus part of one base B_{x_t}, and every other participant takes exactly its
+    predecessor's base plus junk.
+  - So agent 0 could collect the second pick only as junk released by x_t in the completion. Its own step would then
+    have to improve with one pick plus junk, which it cannot: {g5, g0} = 9 and {g2, g0} = 6, both below 10.
+  - In TTC language: a cycle serves unit demands, and this exchange is a tree.
+- *The two moves:*
+  1. The danger pair becomes a base: one of the chains (2,1), (3,1), (3,2), (3,2,1). The dangerous agent takes
+     {g3, g4}, its pick moves along a want path toward agent 1, and g2 (or g5) drops into the pool.
+  2. Then the cycle (0,1), or (0,1,2) after (3,1): agent 1 takes its top g1, and agent 0 takes the bundle of agent 1's
+     new base and the pool good.
+
+**All 11** (`oc1max_cex_n4_ttc.log`):
+- each has a single receiver;
+- in every target, some agent holds the picks of two other agents;
+- OC₂^max holds;
+- every repairing first move is a chain whose x₀ is dangerous and whose x₁ wants x₀'s pick;
+- every *minimal pointer fixed point* (§11's fixed point, with x₀ taking an inclusion-minimal improving set of junk as
+  its new base and nothing from a base) is a good first move: 34 of 34, and one exists in each instance;
+- the second move is a fixed point in none; it is canonical (dangerous x₀, x₁ wants its pick) in 23 of the 34.
+
+### 14.3 A TTC rule for two moves, and where it stops
+
+**Rule FP+1^max.** At a maximum-matching start: either one move gives a one-absorber completion, or some minimal
+pointer fixed point exists, and after it, the bases have a one-absorber completion or one more move gives one.
+- Every move this rule uses is defined by pointers: the dangerous agent points at a minimal junk set, and each agent on
+  the want path points at its predecessor's pick.
+- FP+1^max implies OC₂^max.
+
+**Evidence** (`oc2max_fp.py`):
+- the 11 instances: FP+1^max holds for every fixed point, not just some;
+- a walk over types around them (`walk`, 11 × 300 steps, `oc2max_walk_n4_short.log`): 97 OC₁^max failures among
+  3,064 distinct profiles, and FP+1^max holds for every fixed point at all 97;
+- longer walks are in §14.4.
+
+**It fails at n = 5, outside the K4.MC2 class** (`attempts/k4-ttc-fp-plus-one.md`).
+- *How it was found:* `oc2max_fp.py grow` adds an agent to each n = 4 counterexample and walks over types and
+  incidences (`oc2max_grow_n5_short.log`: 17 failures among 1,895 instances; with `mc2`,
+  `oc2max_grow_n5_mc2_short.log`: none among 1,819).
+- *What it found:* strict cores with ν = 5 where OC₁^max fails, the free form too (`oc1max_cex_n5_two_private.json`;
+  `refute_oc1max_cex_n5.log`, brute force), and where no minimal fixed point exists. The added agent has two private
+  goods, so these cores are not in the K4.MC2 class.
+- *The instance:* sets {g0, g4, g5, g6}, {g2, g3, g4, g6}, {g0, g1, g5, g6}, {g2, g4, g5, g6}, {g0, g1, g7, g8};
+  values (3, 2, 10, 6), (4, 1, 6, 8), (2, 8, 5, 4), (5, 4, 8, 2), (7, 8, 2, 4). Order (1, 3, 4, 2, 0), picks
+  (g4, g6, g0, g5, g1), junk {g2, g3, g7, g8}.
+- *Its structure:*
+  - one receiver (agent 0);
+  - the dangerous agents 1, 3 and 4 cannot improve with junk alone ({g2, g3} = 5 and g2 = 5 against 8;
+    {g7, g8} = 6 against 8);
+  - so the pointer map has no fixed point.
+- *The two moves:* in the first, a dangerous agent takes its danger junk *as an internal member of the chain*. In
+  (2, 4), agent 4 takes g0 plus its private pair {g7, g8} (13 > 8), and agent 2 takes agent 4's g1. In (0, 1),
+  agent 1 takes g4 plus g2. The repairs are (2, 4) followed by (0, 1) or (0, 3), and (0, 1) or (0, 3) (also
+  (0, 1, 2), (0, 3, 2)) followed by a chain through 4.
+- *Unlike n = 4,* some targets here have no agent holding two other agents' picks, so the obstruction to one move is
+  about values, not exchange shape.
+
+**What survives on all data so far: danger absorption is necessary.**
+- Among OC₁^max failures, every good first move absorbs danger: some agent that is dangerous at the start takes junk
+  it values into its new base, as x₀, as an internal member, or by an addition.
+- This held at all 97 n = 4 walk failures and all 17 grown n = 5 failures. But some danger-absorbing first move is
+  always bad.
+- So the TTC rule must say *which* danger to absorb first. At n = 4 the minimal fixed point says it.
+
+### 14.4 Longer runs (`oc2max_fp.py`)
+
+Walks around the 11 n = 4 instances, and grown n = 5 and n = 6 walks with and without the MC2 restriction, are running
+at the end of burst 6 (`oc2max_walk_n4.log`, `oc2max_grow_n5.log`, `oc2max_grow_n5_mc2.log`, `oc2max_grow_n6.log`).
 
 ## 12. Next steps
 

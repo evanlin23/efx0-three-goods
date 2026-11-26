@@ -73,3 +73,9 @@ python3 oc1max_n6.py 3,4,5,6 10 3 62 > $L/oc1max_n6_n4_3to6_stride10_stopped.log
 python3 oc1max_hard.py $L/oc1max_n6_n4_2.log 8 > $L/oc1max_n6_n4_2_hardest.log
 # git show origin/compute/k4-oc1max-cert:results/k4_oc1max/oc1max_cex_n4.json > /tmp/cex.json  (commit dbc2631)
 python3 oc1max_cex_n4.py /tmp/cex.json > $L/oc1max_cex_n4_ttc.log
+python3 oc1max_paths.py 2 500 3 61 > $L/oc1max_paths_n6_sample.log
+python3 oc1max_cex_n4.py $L/oc1max_cex_n5_two_private.json > $L/oc1max_cex_n5_ttc.log
+(for i in 0 1; do python3 refute_oc1.py $L/oc1max_cex_n5_two_private.json $i; done) > $L/refute_oc1max_cex_n5.log
+python3 oc2max_fp.py walk /tmp/cex.json 300 1 > $L/oc2max_walk_n4_short.log
+python3 oc2max_fp.py grow /tmp/cex.json 200 1 1 > $L/oc2max_grow_n5_short.log
+python3 oc2max_fp.py grow /tmp/cex.json 200 3 1 1 mc2 > $L/oc2max_grow_n5_mc2_short.log

@@ -17,11 +17,17 @@ For each instance:
     base.  Reported: whether every canonical first chain can be finished by a canonical second chain, and whether some
     can.
 
-    python3 k4/ttc/oc1max_cex_n4.py FILE.json"""
+    python3 k4/ttc/oc1max_cex_n4.py FILE.json   (the certifier's {"instances": [...]} file, or a list of
+    {"sets", "vals", "order", "picks"}, such as results/k4_ttc/oc1max_cex_n5_two_private.json)"""
 import sys, json, itertools, collections
 import ttclib as T
 import oc1max_hard as H
 import core_climb as CC
+
+
+def load(path):
+    ds = json.load(open(path))
+    return ds['instances'] if isinstance(ds, dict) else ds
 
 
 def canonical(E, b, path):
@@ -41,7 +47,7 @@ def moves(E, b):
 
 def analyse(k, d, C):
     sets, vals = d['sets'], d['vals']; m = 1 + max(max(s) for s in sets); n = len(sets)
-    order = d['brute_force']['example order']
+    order = d['order'] if 'order' in d else d['brute_force']['example order']
     E = T.Enc(sets, vals, m); Y = tuple(T.sd(E, list(order))[0]); b = T.base_of(E, Y); B = T.bundles(E, b)
     assert list(Y) == d['picks'], (Y, d['picks'])
     print('instance %d (%s #%s): sets %s vals %s order %s picks %s' % (k, d.get('list'), d.get('idx'), sets, vals,
@@ -99,7 +105,7 @@ def analyse(k, d, C):
 
 if __name__ == '__main__':
     print('$ python3 k4/ttc/oc1max_cex_n4.py', *sys.argv[1:])
-    ds = json.load(open(sys.argv[1]))['instances']
+    ds = load(sys.argv[1])
     C = collections.Counter()
     for k, d in enumerate(ds):
         analyse(k, d, C)
@@ -131,7 +137,8 @@ def fp_report(ds):
     C = collections.Counter()
     for k, d in enumerate(ds):
         sets, vals = d['sets'], d['vals']; m = 1 + max(max(s) for s in sets)
-        E = T.Enc(sets, vals, m); Y = tuple(T.sd(E, d['brute_force']['example order'])[0]); b = T.base_of(E, Y)
+        order = d['order'] if 'order' in d else d['brute_force']['example order']
+        E = T.Enc(sets, vals, m); Y = tuple(T.sd(E, order)[0]); b = T.base_of(E, Y)
         fps = [(b1, p1) for b1, p1 in moves(E, b).items() if fixed_point_min(E, b, b1, p1)]
         ok = [p1 for b1, p1 in fps if any(T.extends_A(E, b2, 1) for b2 in moves(E, b1))]
         okfp = [p1 for b1, p1 in fps if any(fixed_point_min(E, b1, b2, p2) and T.extends_A(E, b2, 1)
@@ -148,4 +155,4 @@ def fp_report(ds):
 
 if __name__ == '__main__':
     print('minimal fixed points (§11) as first moves:')
-    fp_report(json.load(open(sys.argv[1]))['instances'])
+    fp_report(load(sys.argv[1]))
