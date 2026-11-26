@@ -81,3 +81,4 @@ python3 oc2max_fp.py grow /tmp/cex.json 200 1 1 > $L/oc2max_grow_n5_short.log
 python3 oc2max_fp.py grow /tmp/cex.json 200 3 1 1 mc2 > $L/oc2max_grow_n5_mc2_short.log
 python3 oc2max_fp.py grow $L/three_owner_seeds.json 300 21 0 1 hunt keep > $L/oc2max_hunt_three_owner.log
 python3 oc2max_fp.py walk /tmp/cex.json 5000 2 > $L/oc2max_walk_n4.log
+python3 ladder.py > $L/ladder.log

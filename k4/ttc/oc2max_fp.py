@@ -81,6 +81,10 @@ def test_start(E, b, C, out):
     C['  among OC1^max failures: FP+1 every holds' if every else '  among OC1^max failures: FP+1 every fails'] += 1
     good = [b1 for b1 in M1 if finished(E, b1)]
     oc2 = bool(good)
+    gs = set(good)
+    for b1 in M1:   # R2+: the receivers (unfrozen agents) after each first move, and whether the move is good
+        r1 = E.n - len(T.frozen_set(E, b1))
+        C['  first moves at OC1^max failures: %d receivers after, %s' % (r1, 'good' if b1 in gs else 'bad')] += 1
     C['  among OC1^max failures: OC2^max holds' if oc2 else 'OC2^max FAILS'] += 1
     da = [b1 for b1 in good if absorbs(E, b, b1)]
     C['  among OC1^max failures: some good first move absorbs danger' if da else

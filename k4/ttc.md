@@ -925,6 +925,37 @@ Grown walks at n = 5 (with and without `mc2`, and `hunt keep`, scored by the few
 `oc2max_hunt_three_owner.log`). They gave no OC₁^max failure at all in 4,109 instances: a three-owner demand alone does
 not produce the one-receiver obstruction.
 
+### 14.5 Hand-built ladders for three moves, and why they collapse
+
+**The idea.** Give the complementary agent c = {T, j, Pa, Pb} a demand {Pa, Pb} on the picks of two *dangerous*
+agents a and b, neither of them the receiver r. Each pick can enter the pool only as the released end of its own chain.
+Then c's cycle (c, r), with r taking T and c taking {Pa, Pb, j} from the pool, would be move three.
+
+It cannot be done with three owners instead: a junk-free complementary agent is never the bottleneck (§14.4).
+
+`ladder.py`, `ladder.log`: three n = 6, m = 11 designs, each a strict MC2-class core with ν = 6, under one order.
+
+| design | change | receivers at the start | least moves |
+|---|---|---|---|
+| ladder6 | r wants Pd, Pe | r, a, b | 0 (a and b are not wanted, so they absorb the junk) |
+| ladder6b | r wants Pa, Pb instead | r | 1: after (a, r), a holds {u1, u2} = 8 > 7, so d is no longer wanted and splits the w-pair with r |
+| ladder6c | e also wants Pd, so d stays frozen | r | 1: now (b, r) unfreezes e in the same way |
+
+**Why they collapse.** Each move satisfies the agents whose wants it serves, and so unfreezes the agents they wanted,
+which become new receivers.
+- To keep the partner of a moved dangerous agent frozen, it needs a second wanter.
+- The want graph at serial-dictatorship picks is acyclic (every wanter picks later), so the partners cannot want each
+  other.
+- With k = 4 every agent has at most three other goods to want with.
+
+A three-move start has to defeat this twice. Whether degree counting at k = 4 forbids it is the question to settle;
+exhaustive type search on these incidences was sent to sd-induct for its fixed-incidence CEGAR.
+
+**R2⁺ is false.** R2 extended to states after one move would say: two or more receivers, then one more move
+suffices. Among the first moves at OC₁^max failures, most bad moves leave two or more receivers (`oc2max_fp.py` counts
+"first moves at OC₁^max failures"). Agents holding two or more goods count as unfrozen, but they can still be blocked,
+for example a holder of another agent's exact danger set. So R2 is stated only at serial-dictatorship starts.
+
 ## 12. Next steps
 
 1. *OC₁-E / OC₁-ED at larger n.* Adversarial climbs at n = 6–8 with the endpoint objective:
