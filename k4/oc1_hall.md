@@ -32,6 +32,7 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | Finding F1 | f = 1: at every hard start, some swap x → w with an *inclusion-minimal* improving set H₀ ⊆ J ∪ {Y_w} repairs with x as owner, also when \|W_x\| = 2 | evidence: all 100 f = 1 hard starts |
 | Finding F1W | f = 1, several wanters: hard starts occur only at n = 3 in the data (n − 2 = 1 slot). For n ≥ 4, the picks have an S\* completion with a wanter as owner on 219 of 220 starts | evidence (§5) |
 | Conjecture F1W (K4.OCH.F1W) | f = 1, several wanters, n ≥ 4: if some owner o ≠ x needs at most one of x's junk goods kept out (τ(o) ≤ 1), the picks have an S\* completion. With n ≥ 3, τ(o) ≥ 2 for every o only if x's three lower goods are junk and every pair of them beats a, and then a swap is needed (red-b1) | evidence (§11): 0 failures in 1,243 starts with τ ≤ 1 at n = 4–8, 319 of them with τ = 1 (τ = 0 is Proposition 3) |
+| Finding M (§12) | the coordinator's matroid-partition form (a transversal matroid of slots, one matroid per frozen agent, Rado's condition) is a valid sufficient condition, and Rado's condition equals the model when the D_i are disjoint and all matroids. It is **not exact**, because of (i) overlapping D_i (19% of owner tests), (ii) non-matroid {xy, xz} agents, and (iii) even with disjoint matroids, the strictness clause (150 tests) and exposure that depends on H (25 tests). Lemma 2's count, which has both, is exact | evidence: 20,648 owner tests |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
 | refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `attempts/k4-oc1-hall-canonical-chains.md` |
 | refuted | a single culprit (LB⁺'s bad case: some owner fails only because of one frozen agent): false at about 30% of the hard starts | `attempts/k4-oc1-hall-single-culprit.md` |
@@ -552,3 +553,54 @@ worth more than a to x.
 | random n = 8 | 158 | 102 | 54 (54) | 2 (2) |
 
 The two τ = 2 failures at n = 4 are red-b1-blocked-improvement, counted once in screen and once in suite.
+
+## 12. The matroid-partition form (coordinator's proposal), tested
+
+**Proposal** (coordinator, from the literature survey; `research_notes/.../cross_field_techniques.md` §Q5 on branch
+`claude/kind-lamport-y8fdme`, not read here). Fix the start and an unfrozen owner o.
+- The holders' slots form a transversal matroid M_T on J.
+- Each frozen agent i gives a family I_i of sets of its junk goods D_i = J ∩ R_i that the absorber may hold. I_i is a
+  matroid except in one k = 4 configuration: the danger sets inside D_i are exactly {xy, xz}.
+- With the D_i pairwise disjoint and every I_i a matroid, Edmonds' matroid partition theorem gives: a completion
+  exists iff every S ⊆ J has Σ_i (|S ∩ D_i| − r_i(S ∩ D_i)) ≤ r_T(S) (**RADO**).
+
+**Implementation** (`k4/oc1_hall/matroid_check.py`, `matroid_check.log`).
+- In the graph of M_T, h ~ u when holder u is unexposed at W_o, or values h and {Y_u, h} is robust. That is the
+  H-independent part of Corollary 2.1's admissibility.
+- I_i = {A ⊆ D_i : v_i(P_i ∪ A) ≤ p_i}, with P_i = {Y_o} ∩ R_i. This is conservative: the strictness clause is ignored.
+- MODEL is the brute-force condition: some H independent in M_T, with D_i ∖ H ∈ I_i for all i.
+- Two variants: MODEL_S computes the frozen agents' threat exactly; MODEL_HS also recomputes admissibility for each H.
+  MODEL_HS is Lemma 2's count.
+
+**Results** (20,648 owner tests: special, screen, suite, logs, random n ≤ 5; every order; unfrozen owners). Totals over
+the data sets in `matroid_check.log`:
+
+| class of owner test | tests | RADO ≠ MODEL | MODEL ≠ EXACT |
+|---|---|---|---|
+| D_i pairwise disjoint, every I_i a matroid | 16,532 | **0** | 175 |
+| D_i overlapping | 3,929 | 347 | 100 |
+| disjoint, but some I_i not a matroid ({xy, xz}) | 187 | 8 | 3 |
+
+- MODEL ⇒ EXACT always (no `BUG` line), so the matroid form is a valid sufficient condition.
+- RADO = MODEL on every disjoint all-matroid test: Edmonds' theorem as predicted.
+- Even there MODEL is not exact. Of the 175 misses:
+  - 150 come from the **strictness clause**: when the absorber's bundle lies inside R_i, its least good is discounted
+    (MODEL_S leaves 25);
+  - the rest come from **exposure that depends on H**: kept-out goods unexpose holders, which then become admissible.
+  - With both, MODEL_HS = EXACT on all 20,648 tests. This is Lemma 2, whose admissibility is not a fixed matroid.
+- Non-matroid {xy, xz} agents occur in 331 owner tests; with disjoint D_i, RADO then differs from MODEL in 8.
+- Overlapping D_i occur in 19% of owner tests. RADO differs from MODEL in 347 of them and from EXACT in 447, once in
+  the permissive direction.
+- At the level of starts:
+  - 230 starts have an unfrozen-owner S\* completion that RADO misses;
+  - 627 complete only with a frozen slot or a frozen owner (SAT yes), which the proposal's model excludes by design.
+
+**Assessment.** The k = 4 difficulty is not localized to "overlapping D_i" and "{xy, xz} agents". The fixed-matroid model
+loses exactness also through the strictness clause and through the H-dependence of exposure. Both are local, and both
+only *help* completions. The exact condition is Lemma 2 / Corollary 2.1: for some H, a transversal condition whose
+admissibility depends on H.
+
+Uses of the matroid form:
+- *A polynomial sufficient test* when the D_i are disjoint matroids (matroid partition), for runs at large n.
+- *A clean sub-statement for a proof*: if RADO holds for some owner, the picks complete. Then the chain lemma only
+  has to handle starts where every owner has a Rado violator S. On the data these are 230 + 627 + 2,015 starts.
