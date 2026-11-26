@@ -8,7 +8,8 @@ every instance with n <= NMAX, distinct pick vectors, picks forming a maximum ma
     the least delta_oa and delta_ss after one move, and the number of moves with delta_oa = 0 (OC1 repairs).
 One JSON line per hard start goes to OUT (default results/k4_matching/hard_<src>.jsonl).
 
-    python3 k4/matching/hard_starts.py SRC [N SEED]       (NMAX=5, PROCS, OUT)"""
+    python3 k4/matching/hard_starts.py SRC [N SEED]       (NMAX=5, PROCS, OUT; SRC = cex: k4/matching/cex_deficiency.py;
+                                                           SRC = pw:SEED:T: k4/matching/pwdesign.py)"""
 import sys, os, itertools, collections, time, json, multiprocessing as mp
 import _mpaths  # noqa: F401
 from mlib import M, INF
@@ -53,7 +54,16 @@ if __name__ == '__main__':
     tag = src if not src.startswith('cores:') else 'cores_%s_%s' % (sys.argv[2], sys.argv[3])
     out = os.environ.get('OUT', os.path.join(_mpaths.ROOT, 'results', 'k4_matching', 'hard_%s.jsonl' % tag))
     print('$ python3 k4/matching/hard_starts.py', *sys.argv[1:], '(NMAX=%d)' % NMAX, flush=True)
-    items = [it for it in load(src, sys.argv) if len(it[1]) <= NMAX]
+    if src == 'cex':   # PW4, RD4, B<, B>, the 39 core counterexamples (k = 4 only), k4/matching/cex_deficiency.py
+        from cex_deficiency import instances
+        items = [(nm, st, vl, 1 + max(max(x) for x in st)) for nm, st, vl in instances() if max(map(len, st)) <= 4]
+    elif src.startswith('pw:'):   # PW design space, k4/matching/pwdesign.py; SRC = pw:SEED:T
+        from pwdesign import instances as pwi
+        _, sd, tt = src.split(':'); items = pwi(int(sd), int(tt)); tag = 'pw_%s_%s' % (sd, tt)
+        out = os.environ.get('OUT', os.path.join(_mpaths.ROOT, 'results', 'k4_matching', 'hard_%s.jsonl' % tag))
+    else:
+        items = load(src, sys.argv)
+    items = [it for it in items if len(it[1]) <= NMAX]
     T = collections.Counter(); t0 = time.time()
     with open(out, 'w') as fo, mp.Pool(int(os.environ.get('PROCS', mp.cpu_count()))) as pool:
         for C, rows in pool.imap_unordered(job, items, chunksize=4):

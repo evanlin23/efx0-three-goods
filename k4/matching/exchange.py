@@ -71,7 +71,7 @@ def apply_chain(I, base, P, H0, Hs=None):
 
 
 def ex_value(I, base, P, Bp, o, build=False):
-    """(d_o, s_o, why, witness) for the chain P (state Bp after it) and owner o in P."""
+    """(d_o, s_o, why, witness) for the chain P (state Bp after it) and any owner o (on P or off it)."""
     Jp = I.junk(Bp); bv = [I.V(i, base[i]) for i in range(I.n)]
     fz = set(I.frozen(base)); fzB = set(I.frozen(Bp)); bvB = [I.V(i, Bp[i]) for i in range(I.n)]
     extra = [j for j in range(I.n) if j != o and (j == P[-1] or j in fz) and j not in fzB and len(Bp[j]) == 1]
@@ -79,8 +79,8 @@ def ex_value(I, base, P, Bp, o, build=False):
     for j in range(I.n):
         if j != o and len(Bp[j]) >= 2 and any(i != j and I.threat(i, Bp[j], bvB[i]) for i in range(I.n)):
             return INF, s, 'G1', None
-    N1 = [u for u in I.holders(base) if u not in P]
-    off_frozen = [q for q in fz if q not in P]; chain_others = [x for x in P if x != o]
+    N1 = [u for u in I.holders(base) if u not in P and u != o]
+    off_frozen = [q for q in fz if q not in P and q != o]; chain_others = [x for x in P if x != o]
     best, wit, why = INF, None, 'no H'
     for H in subsets(Jp):
         X = list(Bp[o]) + [g for g in Jp if g not in H]
@@ -126,7 +126,8 @@ def job(row):
     I = M(row['sets'], row['vals'], row['m'], row['name']); Y = row['picks']
     base = [[g] if g is not None else [] for g in Y]; J = I.junk(base); fz = set(I.frozen(base))
     C = collections.Counter(); info = []
-    best = {'canonical, owner k': False, 'any chain, owner k': False, 'any chain, owner k or end': False}
+    best = {'canonical, owner k': False, 'any chain, owner k': False, 'any chain, owner k or end': False,
+            'any chain, any owner': False}
     canon = set(tuple(P) for P in canonical_chains(I, base))
     for P, Hs in general_chains(I, base):
         k, xt = P[0], P[-1]; used = set(g for h in Hs.values() for g in h)
@@ -136,7 +137,8 @@ def job(row):
             if I.V(k, H0) <= I.V(k, base[k]): continue
             if xt in fz and Y[xt] not in H0: continue
             Bp = apply_chain(I, base, P, list(H0), Hs)
-            for o, oname in ((k, 'k'), (xt, 'end')):
+            for o in range(I.n):
+                oname = 'k' if o == k else 'end' if o == xt else 'off-chain'
                 d, s, why, wit = ex_value(I, base, P, Bp, o, build=True)
                 ok = d <= s
                 rep = I.complete(Bp, 0, 'ss', [o]) is not None
@@ -151,7 +153,8 @@ def job(row):
                     if oname == 'k':
                         best['any chain, owner k'] = True
                         if kind == 'canonical': best['canonical, owner k'] = True
-                    best['any chain, owner k or end'] = True
+                    if oname != 'off-chain': best['any chain, owner k or end'] = True
+                    best['any chain, any owner'] = True
     return row, C, best, info
 
 

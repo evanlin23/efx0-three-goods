@@ -9,7 +9,7 @@ an end unfrozen at the picks, the exchange value (d, s) of exchange.cm_value is 
 import sys, json, itertools
 import _mpaths  # noqa: F401
 from mlib import M, INF, subsets
-from exchange import cm_value
+from exchange import ex_value
 
 
 def described_moves(I, base):
@@ -56,7 +56,7 @@ def described_moves(I, base):
 if __name__ == '__main__':
     sets, vals, Y = json.loads(sys.argv[1]), json.loads(sys.argv[2]), json.loads(sys.argv[3])
     I = M(sets, vals); base = [[g] if g is not None else [] for g in Y]
-    print('picks', Y, 'J', I.junk(base), 'frozen', I.frozen(base), 'D', I.dangerous(base), 'holders', I.holders(base))
+    print('picks', Y, 'nu', I.nu(), 'J', I.junk(base), 'frozen', I.frozen(base), 'D', I.dangerous(base), 'holders', I.holders(base))
     print('want arcs', [(i, j) for i in range(I.n) for j in range(I.n) if i != j and base[j] and I.wants(i, base[j][0], base)])
     print('delta_oa', I.deficiency(base, 'oa'), 'per owner', I.owner_deficiency(base, 'oa'))
     fz = set(I.frozen(base)); D = set(I.dangerous(base))
@@ -65,8 +65,9 @@ if __name__ == '__main__':
         if not ow: continue
         ows = [o for o in range(I.n) if I.complete(nb, 0, 'ss', [o]) is not None]
         ex = ''
-        if kind == 'chain' and path[0] in D and path[-1] not in fz and base[path[-1]]:
-            d, s, why = cm_value(I, base, list(path), list(Hs[0]), nb, {i: list(h) for i, h in Hs.items() if i})
-            ex = ' EX(d=%s, s=%d, %s)' % ('INF' if d >= INF else d, s, why)
+        if kind == 'chain' and path[0] in D and base[path[-1]] and (path[-1] not in fz or base[path[-1]][0] in Hs[0]):
+            for o in (path[0], path[-1]):
+                d, s, why, _ = ex_value(I, base, list(path), nb, o)
+                ex += ' EX[owner %d](d=%s, s=%d, %s)' % (o, 'INF' if d >= INF else d, s, why)
         print(kind, path, {i: list(h) for i, h in Hs.items() if h}, '->', nb, 'owners oa', ow, 'S*', ows,
               'frozen after', I.frozen(nb), ex)

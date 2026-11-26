@@ -1,43 +1,61 @@
-$ python3 k4/matching/exchange.py results/k4_matching/hard_special.jsonl results/k4_matching/hard_screen.jsonl results/k4_matching/hard_suite.jsonl results/k4_matching/hard_logs.jsonl results/k4_matching/hard_cores_3000_91.jsonl results/k4_matching/hard_cores_1500_92.jsonl results/k4_matching/hard_cores_150_93.jsonl
-canonical chains, owner end: EX hypothesis False, S* completion owned by o False 1363
+$ python3 k4/matching/exchange.py results/k4_matching/hard_special.jsonl results/k4_matching/hard_screen.jsonl results/k4_matching/hard_suite.jsonl results/k4_matching/hard_logs.jsonl results/k4_matching/hard_cores_3000_91.jsonl results/k4_matching/hard_cores_1500_92.jsonl results/k4_matching/hard_cores_150_93.jsonl results/k4_matching/hard_cex.jsonl
+canonical chains, owner end: EX hypothesis False, S* completion owned by o False 1416
 canonical chains, owner end: EX hypothesis False, S* completion owned by o True 60
-canonical chains, owner end: EX hypothesis True, S* completion owned by o True 3088
-canonical chains, owner end: d = INF (G1) 148
-canonical chains, owner k: EX hypothesis False, S* completion owned by o False 476
+canonical chains, owner end: EX hypothesis True, S* completion owned by o True 3108
+canonical chains, owner end: d = INF (G1) 157
+canonical chains, owner k: EX hypothesis False, S* completion owned by o False 512
 canonical chains, owner k: EX hypothesis False, S* completion owned by o True 27
-canonical chains, owner k: EX hypothesis True, S* completion owned by o True 4008
+canonical chains, owner k: EX hypothesis True, S* completion owned by o True 4045
 canonical chains, owner k: d = INF (chain agent threatened) 25
-canonical chains, owner k: d = INF (no H) 117
-general chains, owner end: EX hypothesis False, S* completion owned by o False 10137
+canonical chains, owner k: d = INF (no H) 126
+canonical chains, owner off-chain: EX hypothesis False, S* completion owned by o False 2604
+canonical chains, owner off-chain: EX hypothesis False, S* completion owned by o True 418
+canonical chains, owner off-chain: EX hypothesis True, S* completion owned by o True 5174
+canonical chains, owner off-chain: d = INF (G1) 239
+general chains, owner end: EX hypothesis False, S* completion owned by o False 10190
 general chains, owner end: EX hypothesis False, S* completion owned by o True 933
-general chains, owner end: EX hypothesis True, S* completion owned by o True 6747
-general chains, owner end: d = INF (G1) 7271
+general chains, owner end: EX hypothesis True, S* completion owned by o True 6771
+general chains, owner end: d = INF (G1) 7312
 general chains, owner end: d = INF (chain agent threatened) 1110
 general chains, owner end: d = INF (no H) 1644
-general chains, owner k: EX hypothesis False, S* completion owned by o False 10017
+general chains, owner k: EX hypothesis False, S* completion owned by o False 10058
 general chains, owner k: EX hypothesis False, S* completion owned by o True 1162
-general chains, owner k: EX hypothesis True, S* completion owned by o True 6638
-general chains, owner k: d = INF (G1) 8525
+general chains, owner k: EX hypothesis True, S* completion owned by o True 6674
+general chains, owner k: d = INF (G1) 8563
 general chains, owner k: d = INF (chain agent threatened) 948
-general chains, owner k: d = INF (no H) 798
-hard starts 2071
-hard starts, delta_oa = 1: CM (any chain, owner k or end) holds 1888
-hard starts, delta_oa = 1: CM (any chain, owner k) FAILS 1
-hard starts, delta_oa = 1: CM (any chain, owner k) holds 1887
-hard starts, delta_oa = 1: CM (canonical, owner k) FAILS 83
-hard starts, delta_oa = 1: CM (canonical, owner k) holds 1805
+general chains, owner k: d = INF (no H) 801
+general chains, owner off-chain: EX hypothesis False, S* completion owned by o False 23714
+general chains, owner off-chain: EX hypothesis False, S* completion owned by o True 2216
+general chains, owner off-chain: EX hypothesis True, S* completion owned by o True 12657
+general chains, owner off-chain: d = INF (G1) 20626
+general chains, owner off-chain: d = INF (chain agent threatened) 1949
+general chains, owner off-chain: d = INF (no H) 643
+hard starts 2080
+hard starts, delta_oa = 1: CM (any chain, any owner) holds 1897
+hard starts, delta_oa = 1: CM (any chain, owner k or end) FAILS 1
+hard starts, delta_oa = 1: CM (any chain, owner k or end) holds 1896
+hard starts, delta_oa = 1: CM (any chain, owner k) FAILS 3
+hard starts, delta_oa = 1: CM (any chain, owner k) holds 1894
+hard starts, delta_oa = 1: CM (canonical, owner k) FAILS 85
+hard starts, delta_oa = 1: CM (canonical, owner k) holds 1812
+hard starts, delta_oa = 2: CM (any chain, any owner) holds 175
 hard starts, delta_oa = 2: CM (any chain, owner k or end) holds 175
 hard starts, delta_oa = 2: CM (any chain, owner k) holds 175
 hard starts, delta_oa = 2: CM (canonical, owner k) holds 175
+hard starts, delta_oa = 3: CM (any chain, any owner) holds 8
 hard starts, delta_oa = 3: CM (any chain, owner k or end) holds 8
 hard starts, delta_oa = 3: CM (any chain, owner k) holds 8
 hard starts, delta_oa = 3: CM (canonical, owner k) holds 8
-CM (any chain, owner k) fails on 1 hard starts; smallest:
+CM (any chain, owner k) fails on 3 hard starts; smallest:
     log1480 n 3 m 7 d_oa 1 [[[0, 2, 4, 3], [6, 3, 1], [1, 2, 0, 5]], [[5, 10, 1, 12], [10, 12, 11], [11, 8, 6, 1]]] picks [3, 6, 1]
-CM (canonical, owner k) fails on 83 hard starts; smallest:
+    RD4 n 4 m 7 d_oa 1 [[[0, 3, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]] picks [1, 3, 4, 2]
+    PW4 n 5 m 8 d_oa 1 [[[0, 5, 6, 7], [1, 5, 6, 7], [2, 5, 6, 7], [0, 1, 2, 3], [0, 1, 2, 4]], [[10, 9, 8, 7], [10, 9, 8, 7], [10, 9, 8, 7], [6, 4, 2, 1], [6, 4, 2, 1]]] picks [0, 1, 2, 3, 4]
+CM (any chain, owner k or end) fails on 1 hard starts; smallest:
+    PW4 n 5 m 8 d_oa 1 [[[0, 5, 6, 7], [1, 5, 6, 7], [2, 5, 6, 7], [0, 1, 2, 3], [0, 1, 2, 4]], [[10, 9, 8, 7], [10, 9, 8, 7], [10, 9, 8, 7], [6, 4, 2, 1], [6, 4, 2, 1]]] picks [0, 1, 2, 3, 4]
+CM (canonical, owner k) fails on 85 hard starts; smallest:
     lb4-n2m5-upgrade n 2 m 5 d_oa 1 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] picks [4, 3]
     lb4-n2m5-upgrade n 2 m 5 d_oa 1 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] picks [4, 3]
     log1543 n 2 m 5 d_oa 1 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] picks [4, 3]
     T3 n 3 m 6 d_oa 1 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks [0, 1, 4]
     T3 n 3 m 6 d_oa 1 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks [0, 4, 1]
-time 1 s
+time 2 s
