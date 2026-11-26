@@ -418,7 +418,7 @@ completion with `lb2` (exact on DE states), then one DE trade, then one improvin
 | cores n = 5, m ≤ 8 | 7,707,562 + 833,664 | 101,380 | 0 | 0 | 0 |
 | cores n = 6, m ∈ {10, 11} | 35,353,596 + 0 | 338,916 | 0 | 0 | 0 |
 | DE's general core case n ≤ 4 (all 16 + 93 classes), 0–2 dead goods | | 25,516 | 0 | 0 | 0 |
-| DE's general core case n = 5 (all 652 classes), 0–1 dead goods | | 449,512 | 0 | 0 | 0 |
+| DE's general core case n = 5 (all 652 classes), 0–1 dead goods | | 451,512 | 0 | 0 | 0 |
 
 So at k = 3 no maximum-matching start tested needs more than one move. In fact one DE trade always suffices, and
 every least-ω DE trade does. Every hard maximum-matching draft is a perfect start (every agent picks). Both k = 3
