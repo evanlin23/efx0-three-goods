@@ -6,6 +6,7 @@ from e1_delete import load
 from e2_paths import sub_completions, bottleneck
 from e3_suffix import absorber
 for name, sets, vals, m in load(sys.argv[1]):
+    if len(sets) > 4: continue
     I = Inst(sets, vals, m)
     byY = collections.defaultdict(list)
     for o in itertools.permutations(range(I.n)): byY[tuple(sd(I, o)[0])].append(o)

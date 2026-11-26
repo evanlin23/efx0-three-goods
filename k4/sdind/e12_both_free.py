@@ -44,6 +44,7 @@ if __name__ == '__main__':
                     X = np.array([inv[b] for b in x2], dtype=np.int64)
                     d = int((A != X[None, :]).sum(axis=1).min()) if len(A) and len(J) else (0 if len(A) else None)
                     C['X\' least distance %s' % d] += 1
+                    C['|R_u| = %d: X\' least distance %s' % (len(I.R[u]), d)] += 1
                     Z = X.copy()
                     for _ in range(3):
                         B = bundles_of(pb, J, Z)

@@ -7,50 +7,48 @@ evidence only (PROMPT.md §5 rule 3). Notation as in `k4/sdc.md`: Y = SD(π) the
 *one-absorber completion* gives every junk good to some agent with at most one agent (the absorber) receiving two or
 more.
 
-## Status (burst 2)
+## Status (burst 3)
 
 - **Proved** (written proofs, short):
-  - Lemma D (§1): deleting any agent together with its pick is SD-consistent. The junk J stays the same, so a
-    completion of any sub-instance I_U is a map J → U.
-  - Lemma F (§1): an agent inserted *first* (holding its top among the goods present) is threatened only by the
-    absorber's bundle.
-  - Lemma S (§3): in a completion where every agent but o holds its pick and at most one junk good, EFX₀ ⟺ (S1) no one
-    is threatened by o's bundle and (S2) no one values the pick of a two-good holder above its own bundle. When every
-    pick-frozen agent is alone and o is not frozen, (S2) is automatic.
-  - Lemma U (§3): an unfrozen first agent can always make itself safe with its best junk good of the absorber's
-    bundle. That move can hurt only the absorber, and only through a two-good bundle whose pick the absorber wants.
-- **Evidence** (insertion in reverse SD order; each new agent is first):
-  - *AB₁* (§3, `e7_absorber.py`): whenever an unfrozen agent o absorbs in some one-absorber completion (or none is
-    needed), some order with o last gives an insertion path with at most one junk move per step. 10,106 of 10,106
-    cases: screen, suite, 1,500 random n = 4 profiles.
-  - Any insertion sequence (any agent order) with at most one move per step exists on every start with a one-absorber
-    completion: 580 screen, 529 suite, 3,234 random n = 4. Reverse SD alone misses 3 random starts, all of which have
-    only frozen absorbers (§2).
-  - *Projection* (§3, `e8_projection.py`): 95% of completions are reached by insertions in which each new agent takes
-    at most one junk good from the absorber, permanently.
-  - *Free BOTH* (§5, `e12_both_free.py`): if u holds its top and nobody wants its pick, every free completion of the
-    picks of I − u − Y_u extends to one of I by moving at most 4 junk goods, and the sub-instance never extends while
-    I does not (12,883 cases, n ≤ 5). Conjecture: a minimal counterexample to SD-C has no agent with a private top.
-- **Refuted** (each with a replay in `attempts/k4_sdind_attempts.py`):
-  - inserting into an *arbitrary* completion of the sub-instance with a bounded repair, in either direction
-    (`attempts/k4-sdind-every-completion.md`, Q2: distance 4);
-  - Lemma BOTH for *one-absorber* completions (`attempts/k4-sdind-both-one-absorber.md`, r1179, n = 4, m = 9). The
-    sub-instance extends with one absorber, but I needs two, because the absorber's compensation is the new agent's
-    danger set;
-  - the two-phase shape TP (every pick-frozen agent alone, absorber unfrozen) fails on 77 of 580 screen starts. A
-    frozen agent may hold junk when its wanter is compensated (A131), so the frozen status has to use current values.
-- **Where it stands.** A pure induction (hypothesis on the sub-instance only) cannot work in the reverse SD direction.
-  The future frozen agents' danger sets are arbitrary, and the absorber's bundle has to avoid them before they arrive.
-  So the order structure gives:
-  - an *algorithm* shape: one move per insertion, with lookahead;
-  - a *reduction* (free BOTH, if proved);
-  - and it leaves the same core as §30 of `k4/sdc.md`: the frozen agents' demands against the free slots, Lemma S
-    being its exact form.
-- **Next**:
-  1. prove free BOTH (a potential over completions of I − u − Y_u);
-  2. the chain-needing starts in insertion form (§4, `e9_chain.py`: a chain at the insertion where the one-move path
-     breaks works for 92% of orders);
-  3. AB₁ at n = 5 and on the logged hard profiles.
+  - Lemma D (§1): deleting any agent with its pick is SD-consistent, and the junk stays the same.
+  - Lemma F (§1): an agent inserted *first* (holding its top among the goods present) is threatened only by bundles
+    of three or more goods.
+  - Lemma S and Corollary TP (§3): the exact EFX₀ condition for a one-absorber completion of picks. If every
+    pick-frozen agent is alone and the absorber is not frozen, EFX₀ ⟺ nobody is threatened by the absorber's bundle.
+  - Lemma U (§3): an unfrozen first agent makes itself safe with its best junk good of the absorber's bundle. Only the
+    absorber can be hurt, and only through a two-good bundle whose pick it wants.
+  - Lemma BOTH-TP (§5): inserting an agent that holds its top and is wanted by nobody preserves the TP shape with one
+    move.
+- **Evidence** (reverse-SD insertion; each new agent is first):
+  - *Conjecture AB₁* (§3). If an unfrozen agent o is the absorber of some one-absorber completion (or none is
+    needed), some order with o last inserts the agents with at most one junk move per step. 17,403 of 17,403 cases:
+    screen, suite, the logged hard profiles, 1,500 random n = 4 and 150 random n = 5 profiles.
+  - One move per step along *some* insertion sequence exists on every start that has a one-absorber completion (§2).
+  - *Projection* (§3): 91% of completions (random n = 4) are reached with each new agent taking at most one junk good
+    from the absorber, permanently.
+  - *Chains* (§4): at the insertion where the one-move path breaks, one improving chain (usually from the frozen
+    agent just inserted) repairs 92% of the orders.
+- **Refuted** (each with an independent replay in `attempts/k4_sdind_attempts.py`):
+  - inserting into an arbitrary completion with a bounded repair (`attempts/k4-sdind-every-completion.md`, Q2);
+  - Lemma BOTH with one absorber (`attempts/k4-sdind-both-one-absorber.md`, r1179, n = 4);
+  - **Lemma BOTH with free completions** (`attempts/k4-sdind-both-free.md`, log174, n = 3, m = 7). An agent with a
+    private top cannot always be added to an extending outcome of the rest. Its danger set is a wanter's
+    compensation, so a private-top reduction of SD-C would need a rule for *which* outcome to lift;
+  - TP-SD-C, i.e. some SD outcome has a TP-shaped completion (`e13_tpsdc.py`): fails at n = 2 (14 of 168 screen
+    instances). Frozen agents must sometimes hold junk, with their wanters compensated.
+- **Where the angle stands.** Every black-box induction step tried fails at the same configuration: the new agent's
+  danger set is exactly the junk that compensates a wanter of a frozen agent (r1179, log174; also hall-local3's
+  cascade). So the SD-order structure does not yield an induction on agents. It yields:
+  - a bookkeeping order for a global argument (AB₁: choose the absorber, then one move per insertion);
+  - the exact local lemmas (D, F, S, U, BOTH-TP);
+  - a precise description of the obstruction any induction must carry: *compensation chains*. A frozen agent j can
+    hold junk only while its wanters are compensated, and their compensation can be some later agent's danger set.
+- **Next** (if this angle continues):
+  1. an induction hypothesis that carries the compensation structure, e.g. a family of completions closed under
+     moving a wanter's compensation;
+  2. a selection rule among the sub-instance's extending outcomes for private tops (log174: the other outcome
+     lifts);
+  3. AB₁ as a target for the Hall-count angle: it fixes the absorber and reduces the count to one insertion order.
 
 ## 1. Deleting an agent with its pick
 
@@ -89,16 +87,20 @@ An insertion sequence u_1, …, u_n adds one agent at a time; A({u_1}) is the si
 X_k ∈ A({u_1, …, u_k}) for every k; its step size is the largest Hamming distance (number of junk goods whose holder
 changes) between consecutive X_k. For each SD outcome Y with a one-absorber completion (n ≤ 5, every order):
 
-| insertion sequence | screen (580 starts) | suite (529 starts) |
-|---|---|---|
-| SD order (new agent last), best order producing Y: least step 0 / 1 / 2 / 3–6 / some level empty | 16 / 158 / 192 / 196 / 18 | 15 / 157 / 147 / 190 / 20 |
-| reverse SD order (new agent first), first order producing Y: some level empty | 25 | 25 |
-| **reverse SD order, best order producing Y: least step 0 / 1** | **298 / 282** | **249 / 280** |
-| any insertion sequence: least step 0 / 1 | 298 / 282 | 249 / 280 |
+| insertion sequence | screen (580 starts) | suite (529) | logged hard profiles, n ≤ 4 (2,393) | random n = 4, seed 92 (3,234) |
+|---|---|---|---|---|
+| SD order (new agent last), best order producing Y: least step 0 / 1 / 2 / 3–6 / some level empty | 16 / 158 / 192 / 196 / 18 | 15 / 157 / 147 / 190 / 20 | | |
+| reverse SD order (new agent first), first order producing Y: some level empty | 25 | 25 | | 237 |
+| **reverse SD order, best order producing Y: least step 0 / 1 / 2+** | **298 / 282 / 0** | **249 / 280 / 0** | **1,276 / 1,115 / 2** | **1,341 / 1,890 / 3** |
+| any insertion sequence: least step 0 / 1 / 2+ | 298 / 282 / 0 | 249 / 280 / 0 | 1,276 / 1,117 / 0 | 1,341 / 1,893 / 0 |
 
-So the reverse SD order is as good as any insertion sequence, and one move per insertion always suffices for some
-order producing Y. The SD order (new agent last) needs up to 6 moves, and on 18 screen and 20 suite starts some
-intermediate sub-instance has no one-absorber completion at all.
+So:
+- one move per insertion always suffices for *some* insertion sequence;
+- the reverse SD order is as good as any sequence, except on 5 starts (`e2_paths_n4.log`, `e2_paths_logs.log`, which
+  print them). Each of those 5 has only frozen absorbers: every one-absorber completion's absorber is wanted by
+  someone, so it cannot be last in an order producing Y. The good sequences insert it first, before its wanter;
+- the SD order (new agent last) needs up to 6 moves, and on 18 screen and 20 suite starts some intermediate
+  sub-instance has no one-absorber completion at all.
 
 `e1_delete.py` (`results/k4_sdind/e1_delete.log`) shows that a bounded repair from *every* completion of the
 sub-instance fails in both directions (distance 3–4 at n = 4, e.g. Q2 and A131), so the induction has to carry a
@@ -165,8 +167,9 @@ move.
   depends only on its last agent.
 - *Conjecture AB₁.* If an unfrozen agent o is the absorber of some one-absorber completion of Y (or no absorber is
   needed), then some order producing Y with π_n = o admits an insertion path with at most one junk move per step.
-  Evidence: no exception in 901 screen, 841 suite and 8,364 random n = 4 cases. With o fixed, every order works in
-  91–94% of these cases.
+  Evidence: no exception in 901 screen, 841 suite, 5,658 logged hard profiles (n ≤ 4), 8,364 random n = 4 and 1,639
+  random n = 5 cases (`e7_absorber.log`, `e7_absorber_more.log`). With o fixed, every order works in 90–97% of these
+  cases.
 - Putting all frozen agents first in π (inserted last) works for some arrangement on all 580 screen starts.
 - Greedy move rules do not suffice: 'f takes its best junk good', 'f takes its least valuable junk good', helpers
   first, and 'keep π_n the absorber' fail on 4–14 screen starts for every order (`e4_rule.log`). The failures need
@@ -210,16 +213,17 @@ with a private top is a both agent of every SD outcome in which it picks first. 
 can always make itself safe with one junk good, and its bundle {a, g} threatens nobody. So it is the natural agent to
 delete.
 
-**One absorber: refuted** (`e11_both.py`; `attempts/k4-sdind-both-one-absorber.md`). The repair "u takes the absorber's
+**One absorber: refuted** (`e11_both.py`, `results/k4_sdind/e11_both.log`; `attempts/k4-sdind-both-one-absorber.md`). The repair "u takes the absorber's
 junk good that makes it safe and costs the absorber least; if the absorber is then threatened by a two-good bundle
 {Y_j, g_j}, j hands g_j to the absorber" works from every completion on screen and suite (888, 1,526). On 1,500
 random n = 4 profiles it fails 4 times, and on r1179 the sub-instance extends with one absorber while I has no
 one-absorber completion at all. There the absorber's junk is both its compensation for wanting a two-good holder's
 pick and the new agent's danger set; the free completions of I use two absorbers.
 
-**Free completions: Conjecture BOTH** (`e12_both_free.py`, `results/k4_sdind/e12_both_free.log`). If u is a both
-agent of Y and the picks of I − u − Y_u have an EFX₀ completion, so do the picks of I. Moreover from *every* EFX₀
-completion of the sub-instance, at most 4 junk moves reach one of I.
+**Free completions: refuted** (`e12_both_free.py`, `results/k4_sdind/e12_both_free.log`,
+`results/k4_sdind/e12_both_free_logs.log`; `attempts/k4-sdind-both-free.md`). The free form (if the picks of
+I − u − Y_u have an EFX₀ completion with any number of absorbers, so do the picks of I) survived every random test,
+in the strong form that *every* completion of the sub-instance is within 4 junk moves of one of I:
 
 | data | cases (Y, u) | completions X′ tested | least distance 0 / 1 / 2 / 3 / 4 | sub extends, I does not |
 |---|---|---|---|---|
@@ -227,13 +231,44 @@ completion of the sub-instance, at most 4 junk moves reach one of I.
 | suite (n ≤ 5) | 166 | 35,134 | 16,588 / 18,542 / 3 / 1 / 0 | 0 |
 | random n = 4 (3,000 profiles, seed 7) | 10,868 | 582,202 | 375,694 / 206,117 / 361 / 27 / 3 | 0 |
 | random n = 5 (300 profiles, seed 8) | 1,701 | 96,642 | 76,044 / 20,587 / 10 / 1 / 0 | 0 |
+| random n ≤ 3 (3,000 profiles, seed 5) | 6,932 | 45,620 | 22,537 / 23,054 / 22 / 6 / 1 | 0 |
+| logged hard profiles (n ≤ 5) | 4,502 | 380,531 | 293,111 / 87,266 / 120 / 25 / 6 (and 3 with no completion of I) | **1 (log174)** |
 
-*Consequence (if BOTH is proved).* SD-C reduces to instances in which no agent has a private top. Take u with a
-private top a, apply SD-C to I − u − a (fewer agents): some outcome Y′ extends. Then Y′ + (u ↦ a) is an SD outcome of I
-(u first), u is a both agent of it, and BOTH extends it. The same works for any agent whose top nobody values above
-that agent's pick in the extending outcome, but that condition depends on Y′.
+It fails on a logged hard profile, log174 (n = 3, m = 7):
+- agent 0 has the private top 5 (31) and the danger set {3, 0} (24 + 10);
+- agent 2 wants agent 1's pick 2 (65 > 27), and it is compensated only by {3, 4, 0} (27 + 15 + 24 = 66). This
+  compensation is what lets agent 1 hold the junk {1, 6} it needs;
+- with agent 0 present, agent 2's compensating bundle threatens agent 0, so the picks (5, 2, 3) have no EFX₀
+  completion. The sub-instance has 3.
 
-*What a proof must handle.* After u takes its best junk good g* from a bundle of three or more goods (u is then safe,
-as in Lemma U, case by case on a ≥ b ≥ c ≥ d), only the holder j of g* can be hurt, and only if v_j(g*) > 0. The
-cascade (j needs compensation, and so on) is what the distance-3 and distance-4 cases show. The simple rule "u takes
-its best junk good of a threatening bundle, up to three times" already works on 99% of the completions.
+SD-C holds on log174 via the other outcome (5, 6, 2). So the private-top reduction is not refuted as a statement
+about SD-C, but it needs a rule choosing the outcome of the sub-instance to lift.
+
+**Repairs and potentials tried for BOTH** (`e14_both_pot.py`, `e15_sink.py`; logs of the same names).
+- *One move from a well-chosen X′.* Some completion of the sub-instance reaches one of I by giving u at most one junk
+  good in 5,141 of 5,142 random n = 4 cases; r1179 is the exception.
+- *Potentials.* Taking every maximizer of one of seven potentials fails on 1–16 of those cases each. The potentials
+  were utilitarian welfare (either sign), u's exposure (value of its junk in large bundles), the number of junk goods
+  in large bundles, leximin, and junk held by valuers (either sign).
+- *The sink rule* (u absorbs whatever threatens it or makes others threatened; junk moves only to u) fails from 0.7% of
+  the starting completions, in 5% of the random n = 4 cases. The failure: u's growing bundle threatens someone.
+
+**Lemma BOTH-TP (written proof).** Let u be a both agent of Y and X′ a one-absorber completion of the picks of
+I − u − Y_u of TP shape: pick-frozen agents alone, the absorber o not pick-frozen. Then I has a TP-shaped one-absorber
+completion within one junk move of X′.
+
+*Proof.*
+1. *The pick-frozen agents are the same in I and in I − u − Y_u.* u wants nothing, since it holds its top, and
+   nobody wants Y_u.
+2. *Reduction.* By Corollary TP (absorber o), X = X′ + (u ↦ {Y_u}) is EFX₀ iff no agent other than o is threatened
+   by X_o. Only u's safety is new.
+3. *If u is threatened,* it takes its best junk good g of X_o.
+   - u is then safe (Lemma U).
+   - The shape stays TP: u is not frozen and holds one junk good.
+   - θ_i(X_o ∖ g) ≤ θ_i(X_o) for every i. Removing a good lowers the value by v_i(g), and the minimum rises by at most
+     that much.
+
+   So by Corollary TP the result is EFX₀. ∎
+
+TP shapes do not always exist (TP-SD-C fails at n = 2), so BOTH-TP gives no reduction for SD-C. It shows that the
+whole difficulty of both-agent insertion lies in completions where frozen agents hold junk, i.e. in compensation.

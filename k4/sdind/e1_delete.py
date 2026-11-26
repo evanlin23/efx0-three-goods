@@ -38,6 +38,19 @@ def load(src):
             sets = rng.choice(cores)
             out.append(('r%d' % t, sets, random_profile(sets, rng), 1 + max(max(x) for x in sets)))
         return out
+    if src == 'logs':
+        import re, glob
+        seen = set(); out = []
+        for f in sorted(glob.glob(os.path.join(_paths.ROOT, 'results', 'k4_sdc', '*.log'))):
+            for line in open(f, errors='ignore'):
+                for mt in re.finditer(r'(\[\[\[[0-9, \[\]]+\]\], \[\[[0-9, \[\]]+\]\]\])', line):
+                    try: sets, vals = json.loads(mt.group(1))
+                    except Exception: continue
+                    if not all(len(a) == len(b) for a, b in zip(sets, vals)) or max(len(a) for a in sets) > 4: continue
+                    key = json.dumps((sets, vals))
+                    if key in seen: continue
+                    seen.add(key); out.append(('log%d' % len(out), sets, vals, 1 + max(max(a) for a in sets)))
+        return out
     from sdc_need import instances
     return instances(src)
 

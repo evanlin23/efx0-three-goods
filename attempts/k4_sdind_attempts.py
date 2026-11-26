@@ -4,7 +4,7 @@ Pure Python, itertools only; no code shared with k4/sdind or k4/sdc.  Raw EFX0: 
 i != j and g in X_j.  Serial dictatorship: each agent in turn takes its most valuable remaining relevant good, ties
 by the smaller good index.
 
-    python3 attempts/k4_sdind_attempts.py both1 every"""
+    python3 attempts/k4_sdind_attempts.py both1 every bothfree"""
 import sys, itertools
 
 
@@ -96,6 +96,28 @@ def every():
     print('confirmed')
 
 
+def bothfree():
+    print('== bothfree: Lemma BOTH for free completions fails (log174, n = 3, m = 7)')
+    sets = [[0, 3, 2, 5], [0, 2, 1, 6], [2, 3, 4, 0]]
+    vals = [[10, 24, 19, 31], [35, 43, 33, 40], [65, 27, 15, 24]]
+    m = 7
+    v = [dict(zip(s, x)) for s, x in zip(sets, vals)]
+    for order in itertools.permutations(range(3)):
+        Y = sd(sets, vals, list(order), m)
+        if Y == [5, 2, 3]: break
+    print('picks', Y, 'from order', order)
+    u = 0
+    top = max(sets[u], key=lambda h: (v[u][h], -h))
+    others = [i for i in range(3) if i != u and v[i].get(Y[u], 0) > 0]
+    print('agent 0 holds its top:', Y[u] == top, '; other agents valuing it at all:', others)
+    sub = completions(sets, vals, Y, m, agents=[1, 2], maxabs=None)
+    full = completions(sets, vals, Y, m, maxabs=None)
+    print('free completions of the picks without agent 0:', len(sub), sub)
+    print('free completions of the picks of I:', len(full))
+    assert Y == [5, 2, 3] and Y[u] == top and not others and len(sub) > 0 and len(full) == 0
+    print('confirmed')
+
+
 if __name__ == '__main__':
     for a in sys.argv[1:]:
-        {'both1': both1, 'every': every}[a]()
+        {'both1': both1, 'every': every, 'bothfree': bothfree}[a]()

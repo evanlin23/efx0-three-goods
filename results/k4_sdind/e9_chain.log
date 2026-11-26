@@ -46,3 +46,26 @@ some order: chain + insertion works 194
 starts needing a chain 194
 time 6 s
 $ python3 k4/sdind/e9_chain.py suite 5
+  ... and that agent is frozen: True 130
+a successful chain level (k): earlier 284
+a successful chain level (k): last (whole instance) 196
+first break at level 2 of 2 3
+first break at level 2 of 3 69
+first break at level 2 of 4 104
+first break at level 2 of 5 100
+first break at level 3 of 3 46
+first break at level 3 of 4 89
+first break at level 3 of 5 83
+first break at level 4 of 4 66
+first break at level 4 of 5 79
+first break at level 5 of 5 158
+first order: chain + insertion works 196
+instances 157
+orders with a chain level 797
+orders: a chain works at the break level 732
+orders: chain works at some level <= break 732
+orders: chain works only at the last level 146
+some chain at the break level starts at the inserted agent 130
+some order: chain + insertion works 196
+starts needing a chain 196
+time 301 s
