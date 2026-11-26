@@ -1,0 +1,14 @@
+px P4 open: 10 profiles not reduced
+px P4 closed: 0 profiles not reduced
+px Q3 open: 2 profiles not reduced
+px Q3 closed: 0 profiles not reduced
+px Q4 open: 1080 profiles not reduced
+px Q4 closed: 72 profiles not reduced
+beta=5 n=7 m=11: 16630 listed, 14842 left (profiles max 13436928, total 33347853552)
+beta=5 n=7 m=12: 42376 listed, 35434 left (profiles max 644972544, total 3133329347056)
+beta=5 n=7 m=13: 50204 listed, 40092 left (profiles max 30958682112, total 156775455523152)
+beta=5 n=7 m=14: 29812 listed, 23426 left (profiles max 1486016741376, total 5010545330908416)
+beta=5 n=7 m=15: 8915 listed, 7081 left (profiles max 71328803586048, total 105470133483995136)
+beta=5 n=7 m=16: 1277 listed, 1056 left (profiles max 3423782572130304, total 1487649378435858432)
+beta=5 n=7 m=17: 75 listed, 75 left (profiles max 164341563462254592, total 12325617259669094400)
+total: 122006 candidate cores
