@@ -8,7 +8,8 @@ strictly gains (compared through subset indicator variables of the old and new b
 junk.  The completion: a complete EFX0 allocation (sdclib's clauses) containing the last layer's bases, free or with at
 most A absorbers.  Written separately from ocsat.py's single-chain encoding, so the two cross-check each other at c = 1.
 
-    python3 k4/ksens/ocseq.py '[[sets], [vals]]' ORDER C [A]"""
+    python3 k4/ksens/ocseq.py '[[sets], [vals]]' ORDER C [A]
+holds(..., multi=True): c rounds of vertex-disjoint chains instead of c chains (k4/ksens.md §6)."""
 import sys, json, itertools
 import _paths
 from sdclib import Enc
@@ -52,8 +53,9 @@ class Seq:
             add([y] + [-l for l in lits])
         return z
 
-    def layer(self, add, own):
-        """one (possibly empty) chain applied to the bases own(g, i); returns the new-base function"""
+    def layer(self, add, own, multi=False):
+        """one (possibly empty) chain applied to the bases own(g, i), or with multi one round of vertex-disjoint
+        chains (each head taking only from its own chain's end); returns the new-base function"""
         n, m = self.n, self.m; R = [set(r) for r in self.R]
         def lit(x):    # normalize own() output
             return x
@@ -74,7 +76,18 @@ class Seq:
             add([-on[i], st[i]] + pred); add([-on[i], en[i]] + succ)
             add([-on[i]] + pos[i]); add([-st[i], pos[i][0]])
             for a, b in itertools.combinations(pos[i], 2): add([-a, -b])
-        for a, b in itertools.combinations(st, 2): add([-a, -b])
+        root = None
+        if not multi:
+            for a, b in itertools.combinations(st, 2): add([-a, -b])
+        else:      # root[i][a]: agent i lies on the chain that starts at a
+            root = [[self.new() for a in range(n)] for i in range(n)]
+            for i in range(n):
+                add([-st[i], root[i][i]]); add([-on[i]] + root[i])
+                for a, b in itertools.combinations(root[i], 2): add([-a, -b])
+                for a in range(n):
+                    add([-root[i][a], on[i]]); add([-root[i][a], st[a]])
+                    for j in range(n):
+                        if j != i: add([-s[i][j], -root[i][a], root[j][a]])
         # junk indicator of each good before the layer
         junk = {}
         for g in range(m):
@@ -111,6 +124,7 @@ class Seq:
                     if g in R[i]:
                         rD = self.new(); rs.append(rD)
                         cl_with([-rD], own(g, j)); add([-rD, en[j]]); add([-rD, -st[j]]); add([-rD, st[i]])
+                        if root is not None: add([-rD, root[j][i]])
                 if g in R[i]:
                     rC = self.new(); rs.append(rC)
                     cl_with([-rC], junk[g]); add([-rC, on[i]])
@@ -138,14 +152,14 @@ class Seq:
                 add(c)
         return newown
 
-    def holds(self, base, c, A=None, model=False):
+    def holds(self, base, c, A=None, model=False, multi=False):
         act = self.new(); cl = []
         add = lambda c_: cl.append(c_ + [-act])
         owner = {}
         for i, b in enumerate(base):
             for g in b: owner[g] = i
         own = lambda g, i, _o=owner: (_o.get(g) == i)
-        for t in range(c): own = self.layer(add, own)
+        for t in range(c): own = self.layer(add, own, multi)
         E = self.E
         for g in range(self.m):
             for i in range(self.n):

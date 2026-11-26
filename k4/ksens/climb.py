@@ -9,6 +9,8 @@ Objectives (minimized; first coordinate 0 = counterexample to the target):
         outcomes;
   md  : over every start, the least number of value-dominating complete EFX0 allocations (capped);
   oc1r1, ocr1, ...: any target with the starts restricted to R1-priority orders (r1_pw.sd_r1);
+  rd2, rd2a: 3 minus the most rounds of disjoint chains any start needs (ocseq multi, at most 3 tried; free, one
+        absorber): 0 = a start that two rounds cannot repair (Conjecture RD2, k4/ksens.md §6);
   oc2, oc2a: 3 minus the most chains any start needs (ocseq.py, at most 3 tried; free, one absorber), then minus the
         number of starts needing that many: 0 = a start that two chains cannot repair (the ladder of k4/ksens.md §4
         predicts none for k <= 6).
@@ -46,6 +48,20 @@ def objective(target, sets, vals):
             if not cnt: return (99, 0), None
             lo = min(cnt.values())
             return (lo, -len(cnt)), min(cnt, key=cnt.get)
+        if target in ('rd2', 'rd2a'):
+            # two rounds of disjoint chains (ocseq multi): 3 minus the most rounds any start needs (at most 3 tried)
+            import ocseq
+            A = 1 if target == 'rd2a' else None; Q = ocseq.Seq(sets, vals, m); worst = []
+            try:
+                for Y in st:
+                    b = ocsat.bases_of(Y, n)
+                    if O.holds(b, chain='any', A=A, multi=True): continue
+                    worst.append((3 if not Q.holds(b, 2, A, multi=True) else 2, Y))
+            finally:
+                Q.close()
+            if not worst: return (99, 0, 0), None
+            mx = max(c for c, _ in worst)
+            return (3 - mx, -sum(1 for c, _ in worst if c == mx), -len(worst)), max(worst)[1]
         if target in ('oc2', 'oc2a'):
             # the ladder's upper side at k = 5, 6: the most chains any start needs (ocseq, up to 3); maximized
             import ocseq

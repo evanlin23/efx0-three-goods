@@ -470,6 +470,8 @@ which at most one agent holds two or more goods outside its base. RD is the same
   absorber.
 - *Checks:* SAT (ocsat with multi) and brute force (every round enumerated from the definition, `brute.Inst.rounds`,
   every allocation against the raw definition).
+  - The three round implementations (ocsat, ocseq with rounds, brute force) agree on 1,364 start × completion pairs,
+    48 of them failing one round (`xcheck_rounds.py`, `xcheck_rounds.log`, 0 mismatches).
 - *What still holds:* two sequential chains repair it (18 two-chain states complete). MD and SD-C hold; OC₁ fails only
   from this start.
 - *The k = 4 version* (agent 0 without good 4) satisfies one round, OC₁ and everything else. Agent 0 cannot lose any
@@ -499,3 +501,6 @@ when that is another agent's pick, one chain reaches it from its end.
   be released in parallel in the first round.
   - RD² for all k would still contain EFX₀ existence.
   - Whether it fails at some k is open. The ladder of chains (§4) needs ⌊(k − 1)/2⌋ chains, but PW needs only one round.
+  - `ocseq.py` with `multi=True` decides c rounds in one SAT call: RD5 needs exactly two, every PW instance one.
+  - Climbs against RD² (`climb.py rd2a`, seeded from RD5 and the n = 4 instance; n = 4 at k = 5, 6, n = 5 at k = 6)
+    are running (`climb_rd2_*.log`).
