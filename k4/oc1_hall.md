@@ -27,6 +27,19 @@ and multi-good holders, and the rest to the owner.
 - In them, agents 1 and 3 each have two private goods (allowed, since p + q < s + t). K4.MC2 (CERTIFIED) excludes such
   agents from minimal counterexamples to TARGET₄.
 
+**Agreed targets (with the TTC session, `attempts/k4-ttc-oc1-counterexample.md` on `claude/k4-ttc`).**
+
+*Primary.* OC₁, unchanged, on strict connected k = 4 cores in which no agent has two private goods (the K4.MC2
+class). It is open, and it implies TARGET₄. The same holds for its ED form, OC₁-ED\*.
+
+*Safety net.* The forms with empty bases treated as free, in case a counterexample in the K4.MC2 class appears:
+- *One-absorber completion relative to empty bases:* at most one agent with a nonempty base receives two or more junk
+  goods. Agents with an empty base may receive any number.
+- *S\*ᵖ:* S\* plus agents with an empty base taking any number of junk goods.
+- *OC₁ᵖ:* for every order, the picks, or the bases after one improving move (an addition, chain or ring of `de_free`),
+  have such a completion.
+- *OC₁-ED\*ᵖ:* for every order, the picks have an S\*ᵖ completion, or some ED chain leaves one owned by x₀ or x_t.
+
 **The form that is still open and still implies TARGET₄** (via K4.MC0, K4.MC2 and the n = 5, 6 certificates):
 OC₁-ED\* for *strict connected k = 4 cores with n ≥ 6 in which no agent has two private goods*. A weaker variant is
 OC₁ᵖ-ED\*, where agents without a pick take any number of junk goods.
