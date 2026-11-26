@@ -1489,7 +1489,7 @@ must also hold the leftover junk, and then the other agent sharing the pair is t
   - B′ has an S\* completion owned by k, [[2,3,0],[4,1]] (EFX₀, raw): the crowded head takes junk good 1.
   - Yet no H ⊆ J′ = {0, 1} satisfies EX's hypotheses. H = {0, 1} is the only one meeting (1′), and it needs one
     matching edge, with N = ∅ and s = 1.
-  - Checked in this session's run; the script is in the conversation record.
+  - Script: `k4/oc1_hall/ex_not_exact.py`, log `ex_not_exact.log`.
 - On this note's data at n ≥ 3, no head was compensated in Proposition D1-C′'s cases, so the gap is at n = 2 only.
   But "exact one-chain criterion" should read "sufficient".
 - The remark "D1-red is EX with H = ∅" holds only when no holder is exposed. In general D1-red corresponds to EX with H
