@@ -18,3 +18,15 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 5 | CH-A, CH-B (charity) | `claude/kgen-charity` | `charity.md` | **CORRECT** |
 | 6 | PW5 (OC₁ fails at k = 5) | `claude/k4-ksens` | `ksens.md` | **CORRECT** (t = 0 aside incomplete, not needed) |
 | 7 | Lemmas D, F, S, U, BOTH-TP, Corollary TP | `claude/k4-sd-induct` | `sd_induct.md` | D, F, S, TP, BOTH-TP **CORRECT**; U **CORRECT WITH FIXES** (needs "f unfrozen") |
+
+**Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the
+reports):
+- `vm.md`: Lemmas P0, P1′ and Proposition HDT, CORRECT (P1′'s "exactly when" needs strict values);
+- `oc1_hall.md`: Lemma MAX, CORRECT;
+- `girth.md`: generalized Lemma SLACK and Proposition HT for H_t, CORRECT (HH_t not rebuilt);
+- `charity.md`: Proposition DU, CORRECT;
+- `sd_induct.md`: Lemma H, Proposition PR-step and Theorem PR-TP, CORRECT (definition of PR should say EFX₀).
+
+**Commits read**: vm `7a78df6`, k3-oc1 `949718a`, girth `5b79844` (+ `90c116f` for the addendum), oc1-hall `476207e`
+(+ `e2b4701`), charity `78deef1` (+ `8862555`), ksens `ceba5c7`, sd-induct `d244b6a`. At the 22:15 heads the refereed
+sections are unchanged except Lemma SLACK (generalized; re-checked).

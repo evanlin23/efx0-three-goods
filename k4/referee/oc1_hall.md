@@ -128,3 +128,12 @@ outside the hypothesis), there are no failures. So the hypothesis k ≤ 4 is use
   recorded as PROVED.
 - One wording fix: Corollary 2.1's gloss "transversal of the demands" should say that a demand is a set whose presence
   threatens (i.e. (H1)), not every set worth more than the base.
+
+## 6. Addendum: Lemma MAX (new at `e2b4701`, §19; checked in passing)
+
+Lemma MAX: if the picks form a maximum matching of the relevance graph, no agent reachable from a pickless agent by an
+alternating path values a junk good, so no dangerous frozen agent is wanted (through want-chains) by a pickless agent.
+- (1): such an agent with a junk good closes an augmenting path.
+- (2): want arrows from a pickless agent form an alternating path. Want-chains are acyclic at SD picks.
+
+**CORRECT.** It is a standard augmenting-path argument.

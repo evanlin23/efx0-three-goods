@@ -138,6 +138,12 @@ should say "additive" for F2.
   - X_u = ∅ gives a singleton.
   - Linearity was never used, as §2 above already noted.
 - **Proposition HT** (new, marked PROVED): H_t and HH_t are linear and ℓ lies on no 3-cycle, so T1 covers every
-  profile on them. Not refereed here; it is a hypergraph fact plus T1.
+  profile on them. **H_t part: CORRECT** (checked in passing).
+  - The written argument re-derived: a 3-cycle through ℓ must use g_1 and z, hence x_{1,i} and y_t, which share a good
+    only when t = 1.
+  - `k4/referee/ht_ref.py` rebuilds H_t from `k4/c4.md` §7. For t ≤ 6, H_t is linear and ℓ is on no 3-cycle exactly
+    for t ≥ 2. LSS with vertex 0 = ℓ ends EFX₀ on 40 random additive and monotone profiles per t (log
+    `results/k4_referee/ht_ref.log`).
+  - HH_t was not rebuilt here.
 - **Conjecture L and PL** are now REFUTED by the session. That does not affect T1, SINK, PARK or SLACK. The F2
   remark of §3 is moot for L.

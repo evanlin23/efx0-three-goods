@@ -113,3 +113,15 @@ the edges are q → p → w (log).
 - Not refereed here: §6–§7 (Lemmas SND, TERM, the repairs and refutations). On reading, Lemma SND's F6x clause is
   sound by construction (moves are applied only if the raw EFX₀ check passes), and Lemma TERM's potential Φ is a
   correct strict-increase argument.
+
+## 5. Addendum: new proved items at `77c8953` §7.4 (checked in passing)
+
+- **Lemma P0** (no pool good is wanted at a V-M matching): correct. A good worth more than the pick is ranked above
+  it, hence assigned by Lemma S; a pickless agent has all of R_i assigned.
+- **Lemma P1′**: correct, with "prefers" read as "values strictly more" (with ties broken by index, "exactly when"
+  needs strict values). The threat of {Y_u, d} is max(v_k(Y_u), v_k(d)), and v_k(d) ≤ v_k(Y_k) by P0.
+- **Proposition HDT**: correct.
+  - Place D one good per unfrozen slot (safe by P1′; receivers only gain).
+  - Then add the rest to o. Every intermediate bundle of o is a subset of the final safe one, threats are monotone
+    under inclusion, and o itself is safe toward {Y_u, d} by P0 and u's being unfrozen.
+- The VMX₂ invariants (I1)–(I5) and the climbs were not refereed.
