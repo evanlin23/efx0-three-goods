@@ -28,7 +28,7 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | Prop. 3 (T2⁺) | f = 1: if some o ≠ x has v_x((J ∪ {Y_o}) ∩ R_x) ≤ p_x, the picks have an S\* completion with owner o | written proof (§5) |
 | **Theorem F1₁** | f = 1, exactly one wanter, n ≥ 3: the picks or one swap x → w have an S\* completion. This covers the open sub-case "x improves only with three goods" of `k4/sdc.md` §30 | written proof (§5); the proof run literally succeeds on all 3,329 such starts |
 | Finding S\* | OC₁ holds with the narrower completion S\*: one owner (any agent); one junk good each for single-good holders that are not frozen; nothing for frozen agents and multi-good holders | evidence: 0 failures on 14,461 distinct starts with n ≤ 5 (every order), and on 48,123 distinct starts with n = 6–10 (sampled orders, SAT, §7) |
-| Finding B | at every hard start (no S\* completion), some repairing chain starts at a dangerous frozen agent k, and after it k owns: all but 1 of the 2,676 hard starts with n ≤ 5. In that one start (§29's dichotomy instance) the chain end owns. At n = 6–10, every one of the 1,300 hard starts is repaired by a chain after which a dangerous agent that gave its pick away owns | evidence |
+| Finding B | at every hard start (no S\* completion), some repairing chain starts at a dangerous frozen agent k, and after it k owns: all but 1 of the 2,676 hard starts with n ≤ 5. In that one start (§29's dichotomy instance) the chain end owns. At n = 6–10, every one of the 1,300 hard starts is repaired by a chain after which a dangerous agent that gave its pick away owns. 80 adversarial climbs (§10) never broke the "k or end owns" form; 77 reached a start with exactly one such repair | evidence |
 | Finding F1 | f = 1: at every hard start, some swap x → w with an *inclusion-minimal* improving set H₀ ⊆ J ∪ {Y_w} repairs with x as owner, also when \|W_x\| = 2 | evidence: all 100 f = 1 hard starts |
 | Finding F1W | f = 1, several wanters: hard starts occur only at n = 3 in the data (n − 2 = 1 slot). For n ≥ 4, the picks have an S\* completion with a wanter as owner on 219 of 220 starts | evidence (§5) |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
@@ -495,3 +495,21 @@ This is the S\* form of LB₄ʳ's `EFX.LB4R.output_none_of_omega`. Two consequen
 
 *Check* (`k4/oc1_hall/omega_sstar.py`, `omega_sstar.log`). On every distinct start of every data set, every
 unfrozen owner with ω_o ≤ 1 passes the raw S\* enumeration: 14,756 owner tests, 0 failures.
+
+## 10. Adversarial climbs against Finding B (evidence)
+
+`k4/oc1_hall/climb_b.py`, logs `climb_b_n3_s11.log`, `climb_b_n3_s12.log`, `climb_b_n4_s13.log`, `climb_b_n4_s14.log`.
+- *Objective.* Over every order whose picks have no S\* completion: the least number of pairs (chain description,
+  owner) in which the chain starts at a dangerous frozen agent k, and k or the chain end owns afterwards in S\* shape.
+  Ties are broken by the number of hard starts, more being better. 0 would be a counterexample.
+- *Climb.* Seeds are logged profiles with a hard start. Mutations are those of `k4/sdc/sdc_climb.py`.
+- *Runs:* 2 × 25 rounds of 400 steps at n = 3 and 2 × 15 rounds of 250 steps at n = 4.
+
+| best objective | (1, ·) | (2, ·) | (10, ·) |
+|---|---|---|---|
+| rounds | 77 | 2 | 1 |
+
+- No round reached 0.
+- 77 of the 80 reached a profile with a hard start that has *exactly one* repairing pair (chain from D, owner k or
+  end). So the statement is tight but survived.
+- As everywhere in this note, this is evidence only.
