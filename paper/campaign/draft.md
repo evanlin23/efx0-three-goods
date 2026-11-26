@@ -1133,7 +1133,7 @@ complete EFX₀ completion after the stated repair, from every start of the stat
 | one round of disjoint chains (RD, RD₁) | | | holds [E] | **$k = 5$** | RD5 [V] |
 | two rounds (RD²), also from maximum-matching starts | | | holds [E] | none found | (§11.6) |
 | SD-C (some order, no repair) | proved | holds [E] | holds [E] | none found ($k \le 8$) | |
-| MD (every start value-dominated) | proved | holds (TARGET₃ for the empty matching) | holds [E] | none found ($k \le 8$) | |
+| MD (every start value-dominated) | proved for strict values (K3.SD2 with Lemma 6.1) | open (TARGET₃ is the empty matching only) | holds [E] | none found ($k \le 8$) | |
 
 Notes on the cells.
 - *The picks extend at $k \le 2$.* Serial dictatorship, with the last agent taking all leftovers, is EFX₀ when every
@@ -1175,3 +1175,273 @@ The $k \le 4$ inputs a proof of OC₁^max can use are these:
 (strict, positive, $k = m = 9$): one chain still fails, and one round repairs. So PW's mechanism does not need zero
 values. The same lift of RD5 needs only one round. With every good valued, no start within $n \le 5$, $m \le 9$
 needed two rounds (climbs and random profiles). Zero values make the problem harder for rounds, not easier.
+
+## 9. Three relevant goods: one chain from R1-compatible orders
+
+Source: `k4/k3_oc1.md` §1–§3 (branch `claude/k4-k3-oc1`). Refereed against `949718a`; §2–§3 are unchanged at the head
+`48bcf05`. The proofs build on construction LB⁺ (`proofs/lb_last_step.md`, machine-checked as `EFX.target`) and on
+Draft and Exchange (DE; `paper/k3-simple`, [Lin-k3s]).
+
+TARGET₃ is known. The question here is whether its constructions have the OC₁ shape: one-absorber completions of SD
+picks, after at most one improving chain. A positive answer at $k = 3$ is the base case for OC₁^max at $k = 4$.
+
+### 9.1 Setting
+
+**DE's core case.** Every agent values exactly three goods, $a_i > b_i > c_i$, strictly balanced ($a_i < b_i + c_i$).
+Goods valued by nobody (*dead goods*) are allowed. Every comparison of subset sums of one agent's goods is then fixed
+by its ranking ($0 < c < b < a < b + c < a + c < a + b < a + b + c$; PROMPT.md, L5), so EFX₀ depends only on the
+rankings. This is narrower than "every 3-limited instance": agents with fewer than three goods and top-heavy agents
+are outside it. The peeling rules reduce TARGET₃ to cores, which lie in this case.
+
+**DE states.** Each agent holds nothing, one of its goods, or its pair $\{b, c\}$.
+- $U$ is the set of pair holders, and $J$ the junk.
+- A state is **valid** if every good some agent wants is held alone. (An agent wants a good it ranks above its
+  holding; pair holders want nothing.)
+- The **terminals** $T$ are the agents outside $U$ whose holding nobody wants (DE's free agents). The other agents
+  outside $U$ are **frozen**.
+- An *owner* $o$ is a terminal or a pair holder.
+- The **exposed** agents $E_o$ are the agents $x \notin U$, $x \ne o$, that hold exactly $a_x$ and have
+  $b_x, c_x \in J \cup \mathrm{base}(o)$. For them, $\pi_x = \{b_x, c_x\} \cap J$.
+- $h(\cdot)$ is the least size of a set of junk goods meeting every $\pi_x$ of the agents in question.
+
+The *draft* of an order is its SD outcome. It is a valid DE state with no pair holders.
+
+### 9.2 Lemmas
+
+**Lemma 9.1 (simple completion; `k4/k3_oc1.md` §2, Lemma 1) [R].** A valid DE state has a one-absorber completion if
+one of the following holds:
+- (a) $|J| \le |T|$: every junk good goes to a different terminal, and there is no owner;
+- (b) some owner $o$ has no $x \in E_o$ with $\{b_x, c_x\} \subseteq \mathrm{base}(o)$, and
+  $h(E_o) \le |T| - [o \in T]$: a hitting set goes to the other terminals, one good each, and $o$ takes the rest;
+- (c) some terminal $o$ holds nothing and $|J| \le |T| + 1$: $o$ ends with at most two goods.
+
+*Proof.* Each completion here gives the terminals other than the owner at most one junk good each, and the frozen
+agents and the other pair holders nothing. That is LB⁺'s completion with caps at most LB⁺'s. Theorem 1′ of
+`proofs/lb_last_step.md` covers every completion of this kind, since lowering caps only removes completions; so it
+applies to (a) and (b). Its proof also shows that in a valid state a bundle of at most two goods threatens nobody,
+and in (c) every bundle has at most two goods. ∎
+
+**Lemma 9.2 (the excess ω; Lemma 2) [R].** In a DE state, $\omega := |J| - |T| = (m - 2n) + e + \nu$. Here $e$ is the
+number of agents holding nothing and $\nu$ the number of wanted goods. A DE trade raises neither $e$ nor $\nu$, so it
+never raises $\omega$.
+
+*Proof.* Count goods and agents: $m = 2|U| + (n - |U| - e) + |J|$, and $n = |U| + \nu + |T|$, since in a valid state
+every wanted good is the single good of exactly one frozen agent. Subtract. A trade gives goods only to agents that
+had one or none, so $e$ does not grow. The proof of DE's Lemma stay ([Lin-k3s]) shows that a good wanted after a trade
+was wanted before, by the same agent. ∎
+
+**Lemma 9.3 (self-service; Lemma 3, corrected) [R′].** Let $o$ be an owner such that no $x \in E_o$ has
+$\{b_x, c_x\} \subseteq \mathrm{base}(o)$. This holds automatically when $o$ is a terminal. Write $F$ for the frozen
+agents. Then condition (b) of Lemma 9.1 holds for $o$ whenever $h(E_o \cap F) \le |T \setminus E_o| - [o \in T]$. In
+particular, every *satisfied* state, in which every agent holds its top or its pair, passes Lemma 9.1.
+
+*Proof.* An exposed terminal $x$ takes a good of $\pi_x$ into its own slot; $\pi_x \ne \emptyset$ once the pair
+condition holds. So the hitting set can be one good per exposed terminal, plus a hitting set of the frozen exposed
+agents placed in the other terminals. The count is
+$|E_o \cap T| + h(E_o \cap F) \le |T| - [o \in T]$. In a satisfied state every agent outside $U$ is a terminal, so a
+terminal owner works. If $T = \emptyset$, every pair-holder owner has $E_o = \emptyset$. ∎
+
+*The fix.* The source states Lemma 3 without the pair condition: "if every exposed agent of an owner $o$ is a
+terminal, (b) holds for $o$". The referee showed this is false when $o$ is a pair holder
+(`k4/referee/k3_oc1.md` §3). Smallest instance: two agents with the ranking $a \succ b \succ c$ and a dead good $d$;
+$x$ holds $\{a\}$ and $o$ holds $\{b, c\}$. Then $E_o = \{x\}$, $x$ is a terminal, and $\{b_x, c_x\} = \mathrm{base}(o)$,
+so (b) fails for $o$. Indeed $X_o = \{b, c, d\}$ gives $v_x(X_o \setminus d) = b + c > a$. The state still completes,
+by (a). The corrected hypothesis never failed on 128,377 test cases. The referee checked that no later claim depends on
+the defect: where Lemma 3 is used, the owners are terminals, or pair holders whose pair no exposed agent shares.
+
+### 9.3 The theorems
+
+The *need order* of a draft puts every agent after the holders of the goods it ranks above its pick. Every linear
+extension of it gives the same draft. The draft is **R1-compatible** if some linear extension respects R1 priority:
+whenever an unprocessed agent has lost a good, the next agent is such an agent. Then the draft is the Phase 1 output of
+an LB⁺ run (`proofs/lb_last_step.md` §1, insertion choices included). Every R1-priority order is R1-compatible.
+
+**Theorem 9.4 (R1C; `k4/k3_oc1.md` §3) [R].** In DE's core case, let the draft of $\pi$ be R1-compatible. After LB's
+upgrades (a $b$-holder takes its junk $c$), the draft has a one-absorber completion, or it has one after a single DE
+trade. That trade is LB⁺'s rotation from $k^*$ to $r$: a DE chain if $\{b_{k^*}, c_{k^*}\} \subseteq J$, and a ring with
+one pair arrow $r \to k^*$ otherwise. Each upgraded agent's good $c$ counts as its one junk good, so this is OC₁ for
+$\pi$.
+
+*Proof.* Run LB⁺ (`proofs/lb_last_step.md`, Theorems A, B, C) with every cap equal to one, terminals with no pick
+included.
+- *Lemma 1 there* holds for any caps not above LB's.
+- *Theorem A's count* (the owner $r$, the last-processed agent that is not upgraded) uses only two facts: each
+  terminal $\tau(x)$ assigned to an exposed agent has cap at least 1, and $S - \mathrm{cap}(r)$ is the number of slots
+  outside $r$.
+- *Theorem B's count* (g) (the rotation in LB⁺'s bad case) uses only $\mathrm{cap}' \ge 1$ for the same terminals.
+
+With unit caps the output gives every agent but the owner at most one junk good, so it is a one-absorber completion.
+LB⁺'s rotation moves every agent of a need chain from $k^*$ to $r$ up one step, and gives $k^*$ its pair from
+$J \cup \{Y_r\}$. ∎
+
+The referee checked that LB⁺'s rotation is an OC₁ chain applied to the picks.
+- No upgraded agent lies on the need chain (LB⁺'s (A4)).
+- $H_0 = \{b_{k^*}, c_{k^*}\} \subseteq J \cup \{Y_r\}$, as a chain's head set must be.
+- Every agent on the chain strictly gains: $b + c > a$, and each agent receives a good it ranks above its own.
+
+**Theorem 9.5 (B\*; LB⁺'s rotation for every order; `k4/k3_oc1.md` §3) [R].** In DE's core case, take any order and
+its draft after LB's maximal upgrades. Let $t$ be a terminal with $h(E_t) = |T|$ (deficit one for owner $t$), and let
+$k \in E_t$ satisfy:
+- (i) $k$ is frozen;
+- (ii) there is a need chain $k = x_0, x_1, \dots, x_s = t$ ($s \ge 1$);
+- (iii) no other agent of $E_t$ has the pair $\{b_k, c_k\}$;
+- (iv) the sets $\{b_x, c_x\} \setminus \{b_k, c_k\}$, for $x \in E_t \setminus \{k\}$, have a hitting set of at most
+  $|T| - 1$ goods.
+
+Rotate along the chain: each $x_i$ ($i \ge 1$) takes $Y_{x_{i-1}}$, $k$ takes $b_k$ and $c_k$, and $t$'s pick, if any,
+is released. The result has a one-absorber completion, with no owner if $|J'| \le |T'|$ and with owner $k$ otherwise.
+
+*Proof.* `proofs/lb_last_step.md` §5 with $r$ replaced by $t$. Blocks are never used, so the statement holds for every
+order. The steps are written out in `k4/k3_oc1.md` §3 and re-derived in `k4/referee/k3_oc1.md` §5. ∎
+
+**Scope and coverage.** Theorem 9.4 is about DE's core case, not every 3-limited instance (§7.2, Remark). On the
+session's logs it covers 4,608 of 18,569 hard drafts. Theorem 9.5 covers 8,075 of 14,138 exact-hard drafts with
+$n \le 6$. The rest are open: drafts whose least deficit is 2, or where exposed agents share junk goods
+(`k4/k3_oc1.md` §6). The candidate statement for every order (Theorem candidate OT, one DE trade of least $\omega$) holds
+on 273,724,272 starts, exhaustively over every core with $3 \le n \le 5$ [E].
+
+**Referee report.** `k4/referee/k3_oc1.md`. The verdicts are:
+- Lemmas 9.1 and 9.2: CORRECT;
+- Lemma 9.3: CORRECT WITH FIXES (applied above);
+- Theorem 9.4: CORRECT, with the scope statement above;
+- Theorem 9.5: CORRECT.
+
+The referee ran LB⁺ with unit caps on every R1-compatible order of exhaustive $n = 3$ data and random data up to
+$n = 6$ (about 740,000 runs). Every completion was EFX₀ with one absorber, and an independent brute force over OC₁
+agreed.
+
+## 10. Ordinary EFX for 4-limited instances: a reconstruction of Viswanathan–Mehta
+
+Source: `k4/vm.md` §1, §2, §8 (branch `claude/k4-vm`). Refereed against `7a78df6`; these sections are unchanged at the
+head `0595a29`.
+
+**What this is.** Viswanathan and Mehta [VM] announce, in a three-page extended abstract, that *ordinary* EFX
+allocations exist when every agent values at most four goods. The abstract describes the algorithm in about 25 lines
+and asserts its key step ("we are able to prove that … there will be a source") without proof; it points to no full
+version. This section proves a reconstruction of that algorithm. It is a reconstruction of a published claim, not an
+independent result:
+- one reading choice (G1) departs from the literal text, and the literal text is wrong without it;
+- whether this is the authors' intended algorithm cannot be checked from the source.
+
+**It says nothing about EFX₀ or TARGET₄.** In ordinary EFX only goods the envier values positively may be removed, and
+the algorithm gives goods valued by nobody to an arbitrary agent. The algorithm is not EFX₀ (`k4/vm.md` §5).
+
+### 10.1 The algorithm VM (main reading)
+
+Fix for each agent $i$ a ranking $r_i(1) > r_i(2) > \dots$ of $R_i$ ($|R_i| \le 4$) by value, with ties by good index.
+The $k$-th value graph $G_k(S, T)$ has an edge $(i, r_i(k))$ whenever $r_i(k) \in T$. Each agent has at most one edge,
+so a maximum matching of $G_k$ gives each claimed good to one of its claimants; which one is a free choice.
+1. **Phase I.** $A = \{i : v_i(r_i(1)) > v_i(r_i(2)) + v_i(r_i(3))\}$ (missing goods count 0). Each good that is the
+   top of some agent of $A$ goes to one of them. Only the **matched** agents of $A$ (the set $W$) leave the remaining
+   agents $N^r$. This is correction (G1); the abstract says "remove $A$ from $N^r$".
+2. **Phase II.** For $k = 1, 2, 3, 4$, each remaining good that is $r_i(k)$ for some $i \in N^r$ goes to one such $i$,
+   and the matched agents leave $N^r$. $N_k$ is the set of agents matched at step $k$.
+3. **Phase III**, in this order: (a) each $N_3$ agent may get its 4th choice; (b) each $N_2$ agent may get its 3rd
+   choice, and those that do form $N_2^r$; (c) each remaining $N_2$ agent may get its 4th choice. Each step is a
+   maximum matching of the same kind.
+4. **EFX-graph step.** While some unassigned good $j$ is valued by someone, give $j$ to a source of the EFX graph
+   $G_{\mathrm{efx}}(j, S, X)$, with node set $S = W \cup N_1 \cup N_2^r$.
+   - The nodes are the agents of $S$ that value $j$.
+   - The graph has an edge $i \to i'$ iff $v_i(X_i) < v_i((X_{i'} \cup \{j\}) \setminus \{j'\})$ for some
+     $j' \in X_{i'} \cup \{j\}$ with $v_i(j') > 0$.
+5. **Junk.** Goods valued by nobody go to any agent.
+
+The Phase-I winners $W$ count as $N_1$ for the node set (reading G2), and "$k$-th ranked" means rank in all of $R_i$
+(reading G3). `k4/vm.md` §3 lists all twelve gaps of the abstract and tests every reading.
+
+### 10.2 The theorem
+
+Write $\mathrm{st}(i) = 0$ for $i \in W$, $\mathrm{st}(i) = k$ for $i \in N_k$, and $\mathrm{st}(i) = \infty$ for the
+agents left in $N^r$. For $i \in W \cup N_1$ let $a_i = r_i(1)$ and $L_i = R_i \setminus \{a_i\}$.
+
+**Theorem 10.1 (VM; `k4/vm.md` §8) [R].** If every agent values at most four goods, every run of VM (any resolution of
+its choice points) ends with a complete ordinary-EFX allocation. At every EFX-graph step the graph is acyclic, every
+directed path in it has at most two edges, and so it has a source.
+
+*Proof.*
+
+**Fact 0.** Agent $i$ EFX-envies a bundle $B$ (ordinary EFX) iff $|B \cap R_i| \ge 2$ and
+$v_i(B \cap R_i) - \min_{h \in B \cap R_i} v_i(h) > v_i(X_i)$. Indeed, removing a good $h$ with $v_i(h) > 0$ leaves
+$v_i(B \cap R_i) - v_i(h)$, and if $B \cap R_i$ is a single good its removal leaves 0.
+
+**Lemma S (saturation).** After step $k$ of Phase II, every agent $i$ still in $N^r$ has $r_i(1), \dots, r_i(k)$
+assigned. In particular:
+- every good valued by an agent of $N_4 \cup N^r$ is assigned after Phase II;
+- for $i \in N_k$, the goods $r_i(j)$ with $j < k$ are held by agents with $\mathrm{st} \le j$.
+
+Indeed, at step $j$ an agent $i \in N^r$ has an edge to $r_i(j)$ if that good is unassigned, and every good with an
+edge is matched. Holders never change.
+
+**Lemma S′.** After Phase III (a) every $N_3$ agent's $r(4)$ is assigned. After (b) every $N_2$ agent's $r(3)$ is
+assigned. After (c) every agent of $N_2 \setminus N_2^r$ has its $r(4)$ assigned. The proof is the same.
+
+*Step 1 (Phase II).* All bundles are singletons, so the allocation is EFX by Fact 0.
+
+*Step 2 (Phase III keeps EFX).* In each of (a), (b), (c), a bundle $\{y_s\}$ with $y_s = r_s(\mathrm{st}(s))$ becomes
+$\{y_s, g\}$, with $g = r_s(3)$ or $r_s(4)$ previously unassigned. By Fact 0, an agent $i \ne s$ EFX-envies
+$\{y_s, g\}$ only if it values both goods and $\max(v_i(y_s), v_i(g)) > v_i(X_i)$. That never happens:
+- $i \in W \cup N_1$: $v_i(X_i) \ge v_i(a_i)$, which is at least every single good.
+- $i \in N_4 \cup N^r$: all of $R_i$ was assigned after Phase II (Lemma S), and $g$ was not.
+- $i \in N_3$: $r_i(1), r_i(2)$ are held by agents with $\mathrm{st} \le 2$. In (a), $y_s$ is held by $s$ with
+  $\mathrm{st}(s) = 3$, so $y_s \notin \{r_i(1), r_i(2)\}$, and $y_s \neq r_i(3)$, which $i$ holds. So a valued $y_s$
+  is $r_i(4)$, and so is a valued $g$; they cannot both be. In (b) and (c), $r_i(4)$ is already assigned (Lemma S′),
+  so $i$ does not value $g$.
+- $i \in N_2$: $y_s \ne r_i(1)$ (held by an agent with $\mathrm{st} \le 1$, while $\mathrm{st}(s) \ge 2$),
+  $y_s \neq r_i(2)$, and $g \notin \{r_i(1), r_i(2)\}$. So
+  $\max(v_i(y_s), v_i(g)) \le v_i(r_i(3)) \le v_i(r_i(2)) \le v_i(X_i)$.
+
+Every other bundle is unchanged, and the receivers' values only rise. The case $i \in N_3$ uses that Phase III serves
+$N_3$ before $N_2$, which is the abstract's order. With $N_2$ served first, the referee found EFX failures (mutation
+`n2first`).
+
+*Step 3 (only $S$ values unassigned goods).* After Phase III every agent valuing an unassigned good is in $S$:
+- for $N_4 \cup N^r$, by Lemma S;
+- for $N_3$: $r(1), r(2)$ are assigned, $r(3)$ is held, and $r(4)$ is assigned (Lemma S′);
+- for $N_2 \setminus N_2^r$: $r(1)$ is assigned, $r(2)$ is held, and $r(3), r(4)$ are assigned (Lemma S′);
+- unmatched agents of $A$ entered Phase II (G1), so they lie in one of these groups.
+
+The claim persists as the set of unassigned goods shrinks.
+
+*Step 4 (bundles in $S$).* Before the EFX-graph steps, an agent of $W \cup N_1$ holds $\{a_i\}$ and an agent of
+$N_2^r$ holds $\{r_i(2), r_i(3)\}$. A good placed by an EFX-graph step goes to a node, which values it. So
+$X_i \subseteq R_i$ for every $i \in S$ throughout.
+
+*Step 5 (out-edges).* Fix $j$, and let $B = X_{i'} \cup \{j\}$ for a node $i' \ne i$.
+- (i) *$W$ has no out-edges.* For $i \in W$, $a_i \in X_i$, so $B \cap R_i \subseteq L_i$, and for $T \subseteq L_i$,
+  $v_i(T) - \min_T v_i \le v_i(r_i(2)) + v_i(r_i(3)) < v_i(a_i) \le v_i(X_i)$, since $i \in A$.
+- (ii) *Out-edges from $N_1$.* If $i \in N_1$ has an edge $i \to i'$, then $T = B \cap R_i \subseteq L_i$. If
+  $|T| \le 2$, $v_i(T) - \min_T v_i$ is at most one good's value, hence at most $v_i(a_i)$. So $T = L_i$ has three
+  goods, $|R_i| = 4$, $X_i = \{a_i\}$, and since $j \in T$, two goods of $L_i$ lie in $X_{i'}$, so $|X_{i'}| \ge 2$.
+- (iii) *An $N_1$ agent with at least two goods has no out-edge*, by (ii).
+- (iv) *Out-edges from $N_2^r$ go to $W$.* For $i \in N_2^r$, $T = B \cap R_i \subseteq \{r_i(1), r_i(4)\}$.
+  EFX-envy needs $T = \{r_i(1), r_i(4)\}$ and $v_i(r_i(1)) > v_i(X_i) \ge v_i(r_i(2)) + v_i(r_i(3))$, so $i \in A$.
+  Being in $N_2$, $i$ lost $r_i(1)$ in Phase I to an agent of $W$, which keeps it. Since $r_i(1) \ne j$ (it is
+  assigned), $r_i(1) \in X_{i'}$, and $i'$ is that agent of $W$.
+
+So a directed path from $W$ stops at once. A path from $N_1$ goes to an agent holding at least two goods, which lies
+in $N_1$ (stop), in $W$ (stop) or in $N_2^r$, and from $N_2^r$ it goes to $W$ and stops. Every path has at most two
+edges, and there is no cycle. The node set is nonempty, because $j$ is valued by an agent of $S$ (Step 3). So a source
+exists.
+
+*Step 6 (adding $j$ to a source keeps EFX).* Every valuer of $j$ is a node (Step 3), and none EFX-envies
+$X_s \cup \{j\}$, since the source $s$ has no in-edge. For a non-valuer $i$, $(X_s \cup \{j\}) \cap R_i = X_s \cap R_i$,
+so by Fact 0 nothing changes for $i$. The other bundles are unchanged, and $s$ gains.
+
+*Step 7 (junk).* A good valued by nobody changes no $X_j \cap R_i$, so by Fact 0 giving it to anyone keeps EFX. ∎
+
+**Remarks.**
+- *G1 is necessary.* Literally, the unmatched $A$-agents get nothing and are in no $N_k$. Example: $n = 2$, $m = 2$,
+  $v_0 = (13, 8)$, $v_1 = (7, 2)$. Both agents are in $A$; one wins good 0 and the other leaves with nothing, and
+  every literal run ends non-EFX. With G1, every run ends EFX (the referee reproduced both).
+- *The bound of two edges is attained* (`k4/referee/vm.md` §3, a hand-built instance).
+- *Where EFX₀ breaks.* Fact 0 has no EFX₀ analogue. Steps 2 and 6 dismiss non-valuers because "they do not value
+  $g$". Under EFX₀ these are exactly the agents that envy $\{y_s\}$ or $X_s$ and see a good worthless to them added.
+  The algorithm's repair toward EFX₀ is Conjecture VM1 (§11.3).
+
+**Referee report.** `k4/referee/vm.md`: CORRECT, for ordinary EFX and for the reconstruction of §10.1. The referee
+extracted the abstract's text from the PDF and confirmed that the quotations in `k4/vm.md` §1 are verbatim. Its own
+implementation enumerated every resolution of every choice point: about 8.4 million runs, exhaustive for $n \le 3$,
+$m \le 6$ and small value sets, plus random and contested-top instances, with values 0 and ties allowed. Every run
+ended in a complete ordinary-EFX allocation, with every step's invariants asserted. The referee's two requirements are
+kept here: the scope (ordinary EFX only; a reconstruction), and the remark that Phase III must serve $N_3$ before
+$N_2$.
