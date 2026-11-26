@@ -24,7 +24,7 @@ Moves (each returns a new state):
                            R_a, |H| >= 1), its old base becomes junk at dest.  This is Haxell's "a matched player may
                            switch to any configuration"; it can lower a's value.
 """
-import sys, os, itertools
+import sys, os, itertools, random
 HERE = os.path.dirname(os.path.abspath(__file__))
 SDC = os.path.join(os.path.dirname(HERE), 'sdc')
 if SDC not in sys.path:
@@ -243,5 +243,18 @@ def instances(src):
         for t in range(int(N)):
             sets = rng.choice(cores)
             items.append(('r%d' % t, sets, random_profile(sets, rng), 1 + max(max(x) for x in sets)))
+        return items
+    if src.startswith('gen:'):
+        # gen:N:SEED:n:m:k  random instances: every agent values k random goods (k = m: every good), every good
+        # valued by someone, values distinct integers per agent from 1..40
+        _, N, seed, n, m, k = src.split(':')
+        N, n, m, k = int(N), int(n), int(m), int(k)
+        rng = random.Random(int(seed)); items = []
+        while len(items) < N:
+            sets = [sorted(rng.sample(range(m), min(k, m))) for _ in range(n)]
+            if len(set().union(*map(set, sets))) < m:
+                continue
+            vals = [rng.sample(range(1, 41), len(s)) for s in sets]
+            items.append(('g%d' % len(items), sets, vals, m))
         return items
     raise ValueError(src)
