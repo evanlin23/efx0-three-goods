@@ -30,8 +30,10 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | Finding B | at every hard start (no S\* completion), some repairing chain starts at a dangerous frozen agent k, and after it k owns: all but 1 of the 2,676 hard starts with n ≤ 5. In that one start (§29's dichotomy instance) the chain end owns. At n = 6–10, every one of the 1,300 hard starts is repaired by a chain after which a dangerous agent that gave its pick away owns | evidence |
 | Finding F1 | f = 1: at every hard start, some swap x → w with an *inclusion-minimal* improving set H₀ ⊆ J ∪ {Y_w} repairs with x as owner, also when \|W_x\| = 2 | evidence: all 100 f = 1 hard starts |
 | Finding F1W | f = 1, several wanters: hard starts occur only at n = 3 in the data (n − 2 = 1 slot). For n ≥ 4, the picks have an S\* completion with a wanter as owner on 219 of 220 starts | evidence (§5) |
-| refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `oc1_shapes_screen.log` |
-| refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `greedy_rules.log` |
+| refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
+| refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `attempts/k4-oc1-hall-canonical-chains.md` |
+| refuted | a single culprit (LB⁺'s bad case: some owner fails only because of one frozen agent): false at about 30% of the hard starts | `attempts/k4-oc1-hall-single-culprit.md` |
+| refuted | a rule from the order for the chain's first agent (every k ∈ D; first or last of D in π; most wanters) | `attempts/k4-oc1-hall-order-rule-k.md` |
 
 **Scope remark.** By K4.MC0 (CERTIFIED), a minimal counterexample to TARGET₄ is a connected k = 4 core with strict
 types and n ≥ 5, with at least three 4-good agents if n = 5. K4.R5, K4.R5c, K4.R5d and K4.R5p certify every such core
@@ -143,7 +145,8 @@ script lists every repairing chain (all descriptions) with every owner that work
 - So the k = 4 analogue of LB⁺'s Theorem B is: the chain starts at a dangerous frozen k. It passes k's pick along
   wanters. k takes an improving set H₀ (often its own danger set) from J ∪ B_{x_t}. Afterwards k owns (LB⁺'s
   Theorem B), or the end owns (Theorem B₄).
-- Middle junk is needed on 17 screen starts (canonical 217 of 234).
+- 17 screen hard starts have no canonical repair with owner x₀, and 15 have none with owner x₀ or the end (§6). There
+  a middle agent must take junk, or must gain without wanting its predecessor's good alone.
 
 **f = 1** (`k4/oc1_hall/f1_study.py`, `f1_study.log`). Exactly one frozen agent x. Its wanters W hold their second
 goods, and every other agent holds its top. On every f = 1 hard start:
@@ -153,7 +156,8 @@ goods, and every other agent holds its top. On every f = 1 hard start:
   becomes junk) has an S\* completion with owner x;
 - "every minimal H₀, owner x" fails on 5 of them (2 logs, 2 random n ≤ 3, 1 random n = 4).
 
-This covers the two open sub-cases of `k4/sdc.md` §30: several wanters, and three-good improvements.
+So the data cover both open sub-cases of `k4/sdc.md` §30 (several wanters, three-good improvements). §5 proves the
+three-good one when there is a single wanter.
 
 ## 4. Lemma 2: the slot count
 
@@ -364,8 +368,8 @@ good. ∎
 demand transversals, and the matching is forced to cover the non-movable exposed holders.
 - Result: 330,992 owner tests (picks and post-chain states, every owner), 0 mismatches with the raw S\* enumeration.
 - The construction (DT's moves used in 76,395 cases) is always EFX₀.
-- (G1) fails at about a third of the post-chain states: a middle agent's pair contains a pick that someone wants, or
-  the owner wants a good of a pair. `lemma2star_check.py` handles those states by checking every agent, owner
+- (G1) fails in 35–46% of the post-chain owner tests: a middle agent's pair contains a pick that someone wants, or the
+  owner wants a good of a pair. `lemma2star_check.py` handles those states by checking every agent, owner
   included, against the fixed bundles. That is again a search over full slot sets, so it confirms only the
   implementation (212,695 owner tests, 0 mismatches).
 
