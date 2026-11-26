@@ -373,6 +373,13 @@ work.
 - With a chain allowed to pass through an empty-handed agent (agent 1 above passes on its empty base, so agent 4
   takes only junk), one chain works. This is two DE chains glued at an empty-handed agent.
 
+**The family behind it** (`glue_family.py`, `glue_family.log`). q agents each hold a top t_j with a private pair, and
+p ≥ 2 empty-handed agents value only tops; the picks are hard whenever q ≥ p.
+- Plain chains fail when the empty-handed agents want the same tops: (p, q) = (2, 3) with identical sets, and
+  (3, 4) with cyclic sets.
+- They work when some empty-handed agent can be given its top while releasing others.
+- A glued chain repaired every member tested, up to (p, q) = (3, 6).
+
 For TARGET₄ the right statement is about cores, where peeling has removed such agents. OC₁ as literally written in
 §29 ("every instance") needs either the core restriction or the glued chains. The k = 4 data of §29 are cores or near
 it, so this never showed there. Note the role of the absorber count: the obstruction is two independent groups of
