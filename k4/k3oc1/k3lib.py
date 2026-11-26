@@ -91,9 +91,11 @@ def _assign(V, B, J, absorbers, n):
     return rec(0)
 
 
-def chains(rk, m, base, V=None, HMAX=3, BMAX=3):
+def chains(rk, m, base, V=None, HMAX=3, BMAX=3, glue=False):
     """every improving chain x0..xt (t >= 0): x0 takes H0 (t = 0: in addition to its base; t >= 1: in place of it,
-    H0 from J and the end's base), x_i takes B_{x_{i-1}} + H_i (H_i from J); every agent on it gains strictly"""
+    H0 from J and the end's base), x_i takes B_{x_{i-1}} + H_i (H_i from J); every agent on it gains strictly.
+    As k4/sdc/de_free.py, a chain stops at an agent holding nothing; glue=True lets it pass through such an agent
+    (its successor then takes only junk), the literal reading of k4/sdc.md §29"""
     n = len(rk); V = V or vals(rk)
     B = bundles(base, n); J = [g for g in range(m) if base[g] < 0]
     val = lambda i, S: sum(V[i].get(g, 0) for g in S)
@@ -116,7 +118,7 @@ def chains(rk, m, base, V=None, HMAX=3, BMAX=3):
                     for g in assign[i]: nb[g] = path[i]
             for g in H0: nb[g] = x0
             out.append((tuple(nb), (tuple(path), {0: H0, **assign})))
-        if len(path) >= n or not B[xt]: return
+        if len(path) >= n or (not B[xt] and not glue): return   # glue: pass through an agent holding nothing
         for y in range(n):
             if y in path: continue
             free = [g for g in J if g not in usedH and V[y].get(g, 0) > 0]

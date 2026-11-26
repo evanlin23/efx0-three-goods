@@ -13,8 +13,8 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - Lemma 3 (§2): self-service. Exposed terminals serve themselves; every satisfied state completes.
   - **Theorem B\* (§3): LB⁺'s rotation for every order.** If a terminal has deficit one and an exposed frozen agent whose removal lowers the hitting number, one DE trade completes. It covers 8,075 of 14,138 exact-hard drafts (n ≤ 6 logs), with no failure on the 11,501 rotations checked.
   - **Theorem R1C (§3): OC₁ at k = 3 for every order whose draft is R1-compatible**, i.e. whose need order has an R1-priority linear extension (this includes every R1-priority order). The proof is LB⁺ with every slot of size one. The rotation is one DE trade, and the completion has one absorber.
-- **Conjectured.** **OT (§4).** At k = 3, from the draft of every order, a one-absorber completion exists, or one DE
-  trade gives one (**OT₁**). Indeed it exists after every DE trade of least ω (**OT-ω**). No counterexample is known
+- **Conjectured.** **OT (§4), for the ledger's cores.** At k = 3, from the draft of every order, a one-absorber
+  completion exists, or one DE trade gives one (**OT₁**). Indeed it exists after every DE trade of least ω (**OT-ω**). No counterexample is known
   to either form. Both imply OC₁ at k = 3.
   - On the ledger's cores two stronger forms hold on all data: every least-ω trade passes even Lemma 1, and every
     max-score trade completes.
@@ -28,6 +28,18 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - Sampled tests: n = 6 cores with m ≤ 9 (6 million starts), random instances with n ≤ 10, and the binary-tree family of `paper/k3-simple` Appendix C up to n = 45 (draft deficits up to 7, owner still needed after the trade).
   - OC₁ itself was also checked directly, with general chains and the exhaustive one-absorber completion, for every core with n ≤ 4 and with n = 5, m = 9.
   - On all data no max-score or least-ω trade is a length-zero DE chain (a free x dropping its top for its pair, which is not a §29 chain; `k0check.py`). So these trades are improving chains, and OT's data are OC₁ data.
+- **Refuted: OC₁ as tested in `k4/sdc.md` §29 fails at k = 3** (`attempts/k4-k3oc1-oc1-counterexample.md`, with an
+  independent replay).
+  - **The instance:** n = 5, m = 9; agents 0, 1 value {0, 1, 2}, and agents 2, 3, 4 value a shared top plus two
+    private goods. From the order (2, 3, 4, 0, 1) the picks need two chains of `k4/sdc/de_free.py` (chains stop at
+    an empty-handed agent).
+  - **Scope:** this hypergraph class is the only failure in DE's general core case at n = 5 (`oc1_general.py`; 288
+    drafts).
+  - **What survives:** the instance is not a core (R2 peels it). It is repaired by one chain if a chain may pass
+    through an agent holding nothing (the literal §29 wording), and by one de_free chain under the free completion
+    (Conjecture OC).
+  - **So OT₁ and OT-ω are restricted to the ledger's cores**, where they hold on all data, or to DE trades
+    glued at empty-handed agents.
 - **Refuted proof routes** (§5):
   - "every Pareto-maximal trade works";
   - "every inclusion-maximal trade works";
@@ -331,3 +343,28 @@ The trade works by *releasing*: every needer of an exposed agent's top is moved 
 its pair. One rotation of a single exposed agent (B\*) only removes that agent. A proof of OT has to show that the
 best single trade releases enough of the others. The binary trees of Appendix C (deficit up to 7 at n = 30) show how
 many releases one ring can be forced to make.
+
+## 9. OC₁ in DE's general core case: a counterexample, and the rescue
+
+The ledger's cores are peeled (PROMPT.md L2–L3), and OC₁ holds on every one tested. DE's general core case allows any
+number of private goods and dead goods.
+- At n ≤ 4 (`oc1_general.py`: all 16 and 93 hypergraph classes, 0–2 dead goods, every profile and order), OT₁ and OT-ω
+  hold.
+- At n = 5 with no dead goods (all 652 classes), the instance of `attempts/k4-k3oc1-oc1-counterexample.md` is the only
+  failure:
+
+| agent | 0 | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|---|
+| goods a > b > c | 0 > 1 > 2 | 0 > 1 > 2 | 0 > 3 > 4 | 1 > 5 > 6 | 2 > 7 > 8 |
+
+From the order (2, 3, 4, 0, 1) the picks (–, –, 0, 1, 2) leave the six private goods of agents 2, 3, 4 as junk and two
+empty-handed terminals. Each chain repairs one of agents 2, 3, 4. The other two each need an absorber. Two chains
+work.
+- With the free completion (several absorbers), one chain works.
+- With a chain allowed to pass through an empty-handed agent (agent 1 above passes on its empty base, so agent 4
+  takes only junk), one chain works. This is two DE chains glued at an empty-handed agent.
+
+For TARGET₄ the right statement is about cores, where peeling has removed such agents. OC₁ as literally written in
+§29 ("every instance") needs either the core restriction or the glued chains. The k = 4 data of §29 are cores or near
+it, so this never showed there. Note the role of the absorber count: the obstruction is two independent groups of
+exposed private pairs, each needing its own absorber.
