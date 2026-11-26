@@ -470,3 +470,23 @@ DYN and CONN2. Each session is asked to test its candidate on PW5, RD5 and kgen 
 - **Haxell W**: W escapes the CH-F stranded welfare maxima in two moves (198 → 197 with one good out, then
   completes), and every S and S′ state up to n = 40. It is exhaustive at n = 6 on B< and B>: 710,279 states each,
   none stuck. Nothing in the data uses k ≤ 4, so W is a general-EFX₀ candidate.
+
+### 2026-11-26 23:15 UTC: OC₁^max REFUTED at k = 4, n = 4 (verified)
+- The compute/k4-oc1max-cert session's ordinal CEGAR (n = 4 core list 4_n4_3) found two strict connected MC2-class
+  cores with m = 7. In each, a perfect (maximum-matching) SD start has neither a completion at the picks nor one
+  after any single move, not even freely.
+  - Instance 1: sets [[0,1,2,5],[1,2,5,6],[3,4,5,6],[3,4,6]], vals [[2,10,4,7],[10,3,4,8],[3,5,6,7],[3,2,4]], order
+    (0,3,2,1).
+  - Verified by the coordinator's own code (`k4/sdc/oc1max_cex_verify.py`, `results/k4_sdc/oc1max_cex_verify.log`).
+  - Ledger: K4.SDC.OC1MAX is REFUTED. `k4/sdc.md` §31 has the instances.
+- **Lesson**: random profiles, 11M maximum-matching orders at n = 5, missed a failure at n = 4. Only the exhaustive
+  ordinal search found it, so random testing is weak evidence, as AGENTS.md warns. Every surviving form must now go
+  through the same certifier.
+- **Surviving forms.**
+  - Two sequential moves repair both instances (OC₂^max).
+  - Other maximum-matching orders complete at the picks (the ∃-order forms: SD-C, and OC₁ for some
+    maximum-matching order).
+  - The Lean implications are unaffected, and their move relation is a parameter.
+- **Action**: every proof session working on OC₁^max is redirected.
+  - The certifier tests OC₂^max and the ∃-forms exhaustively at n = 4 and 5.
+  - The proof sessions keep their lemmas, which are about given states, and retarget.
