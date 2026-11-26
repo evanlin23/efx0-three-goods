@@ -192,3 +192,29 @@ coordinator has checked them; "verified" marks the ones checked.
   refuted.** The pickless-absorber amendment is kept as a robustness candidate, not as a necessity.
 - Next (TTC session): an adversarial climb restricted to strict connected cores (`is_core4` after every mutation),
   n = 6–7, to see whether the two-pickless-agents pigeonhole survives the core conditions.
+
+### 2026-11-26 21:50 UTC: OC₁ fails on a strict connected core after all (verified); open form is the K4.MC2 class
+- The k4-oc1-hall session (`k4/oc1_hall.md` §16, `k4/oc1_hall/verify_ttc_cex.py`) found that **instance 36** of the
+  TTC list, unlike the replayed one, is rejected by `is_core4` only for a tie in agent 2. Both strict perturbations
+  B< and B> pass. **Verified** by the coordinator's own code, written from the K4.CORE row's (C1)–(C5) plus strictness
+  and connectivity, with no SAT and no shared code: `k4/sdc/oc1_core_cex_verify.py`, `results/k4_sdc/oc1_core_cex_verify.log`.
+  - B<: sets [[0,2,3,1],[6,4,5,9],[1,2,3,9],[1,6,7,8],[3,6,9],[1,3,6,9]], vals [[6,14,16,12],[4,18,12,28],
+    [28,4,16,21],[16,14,12,6],[28,8,24],[20,30,8,4]]. B> changes agent 2's last value from 21 to 19.
+  - Both pass every core condition. Private goods: agent 0 has {0}; agent 1 has {4, 5}; agent 3 has {7, 8}.
+  - Order 0..5 gives picks (3, 9, 1, 6, –, –). No state among the 57 one official move reaches has a one-absorber
+    completion.
+  - Over all 720 orders: OC₁ fails for 24, one move repairs 383, and the picks complete for 313. This is identical
+    to the Hall session's count.
+- **Mechanism.** The pickless agents 4 and 5 value only picked goods, so every holder of 1, 3, 6 or 9 must stay a
+  single-good holder. All six junk goods (four of them the private goods of agents 1 and 3) then go to agents 4 and 5,
+  so there are two absorbers. A free completion exists (OC, MD, SD-C, TARGET₄ unaffected); OC₁ᵖ (pickless agents
+  absorb freely) holds at these picks.
+- **Status.** OC₁, OC1-ED\* and Finding S\* are refuted on strict connected k = 4 cores (n = 6). The form that still
+  implies TARGET₄ is OC1-ED\* on strict connected cores in which no agent has two private goods. That is K4.MC2's
+  class: K4.MC2 is CERTIFIED, and minimal counterexamples lie in it. OC₁ᵖ-ED\* is the robust alternative.
+- **Next.**
+  - TTC session: climb inside the K4.MC2 class (is_core4 and no two-private agent after every mutation), and test
+    OC₁ᵖ on everything it finds.
+  - Hall session: the written proof of Finding D1.
+  - Coordinator: whether removing two-private agents also removes the pickless pigeonhole (count the junk:
+    |J| = m − #picks, and the private goods are what made |J| = 6 here).
