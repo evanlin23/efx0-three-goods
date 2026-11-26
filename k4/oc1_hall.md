@@ -27,7 +27,11 @@ and multi-good holders, and the rest to the owner.
 - In them, agents 1 and 3 each have two private goods (allowed, since p + q < s + t). K4.MC2 (CERTIFIED) excludes such
   agents from minimal counterexamples to TARGET₄.
 
-**CENTRAL CONJECTURE NOW (§19): OC₁-ED\*^max.** For every serial-dictatorship order whose picks form a *maximum
+**UPDATE (§22): OC₁^max, OC₁-ED\*^max and the R1-priority forms are REFUTED at n = 4** (the certifier
+`compute/k4-oc1max-cert`, verified by the coordinator). Both starts have |D| ≥ 2, with two dangerous agents sharing a
+junk danger pair, and two sequential moves repair them. §21 (|D| = 1) is unaffected.
+
+**FORMER CENTRAL CONJECTURE (§19): OC₁-ED\*^max.** For every serial-dictatorship order whose picks form a *maximum
 matching* of the agent–good graph, (a) or (b) above holds.
 - Such orders always exist, so OC₁-ED\*^max implies TARGET₄ on cores.
 - Lemma MAX (§19, proved) removes the pickless-agent pigeonhole behind every known counterexample.
@@ -1338,3 +1342,59 @@ evidence). These runs use sampled orders, at most 60 per instance. The S\* compl
 - HEAD occurs on 7 chains (n = 6), and 2 of them repair.
 - Hard starts with one dangerous agent become rare as n grows: 1 per 1,000 instances at n = 6, and 0.3 per 1,000 at
   n = 8.
+
+## 22. OC₁^max and the R1-priority form fail at n = 4 (certifier); what breaks
+
+The source is the ordinal CEGAR of `compute/k4-oc1max-cert`, verified by the coordinator (`k4/sdc/oc1max_cex_verify.py`,
+`k4/sdc.md` §31 on `claude/kind-lamport-y8fdme`). It is re-analysed here with §21's machinery
+(`k4/oc1_hall/oc1max_cex_analysis.py`, `oc1max_cex_analysis.log`). Both instances are perfect starts (ν = n = 4).
+
+**cex1.** Sets [[0,1,2,5],[1,2,5,6],[3,4,5,6],[3,4,6]], values [[2,10,4,7],[10,3,4,8],[3,5,6,7],[3,2,4]], order
+(0, 3, 2, 1), picks (1, 2, 5, 6), J = {0, 3, 4}, F = D = {0, 2, 3}.
+- Agent 1 is the only unfrozen agent, and it holds its worst good 2.
+- Agent 0 is dangerous but inert: its pool J ∪ {2} is worth 6 < p₀ = 10 to it.
+- Agents 2 and 3 *share the junk danger pair {3, 4}*: 3 + 5 > 6 for agent 2, and 3 + 2 > 4 for agent 3.
+- The canonical chains, each with H₀ = {3, 4}:
+  - (2, 1): no HEAD and no CROWD, but agent 3 is still frozen and threatened by the pool;
+  - (3, 1): CROWD, since agent 2 is crowded and nothing compensates it;
+  - (3, 2, 1): agent 2 is threatened.
+- No state one move away (chains and rings) has a one-absorber completion (SAT).
+
+**cex2.** Sets [[0,4,5,6],[1,2,3,5],[1,3,5,6],[2,4,6]], values [[2,3,10,6],[3,10,6,8],[5,3,7,6],[4,3,2]], order
+(3, 1, 2, 0), picks (4, 5, 6, 2), J = {0, 1, 3}, F = {1, 2, 3}, D = {1, 2}.
+- Agents 1 and 2 share the junk danger pair {1, 3}: 3 + 6 > 8 and 5 + 3 > 6.
+- The canonical chains:
+  - (1, 0): CROWD, on agent 2;
+  - (1, 2, 0): agent 2 is threatened;
+  - (2, 0): agent 1 is threatened.
+
+**What breaks.** Both starts have |D| ≥ 2, so §21 (|D| = 1: D1-red, D1-C′, D1-LONG) is not contradicted. What fails
+is exactly §21's lever (D): the frozen agents other than the chain's first agent value no junk. Here a second
+dangerous agent values the *same* junk pair as the first. There is at most one holder slot, so whoever owns the pair
+must also hold the leftover junk, and then the other agent sharing the pair is threatened.
+
+**Every order** (`oc1max_cex_analysis.log`, part 2). Every pick vector is a maximum matching.
+
+| | distinct pick vectors | complete at the picks | after one move | need two moves |
+|---|---|---|---|---|
+| cex1 | 7 | 4 | 2 | 1 (the order above) |
+| cex2 | 6 | 4 | 1 | 1 (the order above) |
+
+- **Both failing orders are also R1-priority orders**, so the R1-priority alternative of §18–§19 is refuted as well.
+- *Two sequential moves repair both.*
+  - cex1: the chain (2, 1), then the chain (0, 1). The second chain starts at the inert dangerous agent 0 and gives
+    agent 1 its top good.
+  - cex2: the chain (1, 0), then a second chain from agent 1. So "one chain per dangerous agent" is not the shape of
+    the repair.
+
+**Consequences.**
+- For TARGET₄, any finite sequence of improving moves is enough, because the final completion is EFX₀ whatever the
+  bases were. These instances refute the *one-move* forms (OC₁^max, OC₁-ED\*^max, and the R1-priority forms), not
+  the approach.
+- §1–§21's lemmas about a given state (Lemmas 1, 2, 2\*, 4, MAX, D1-red, D1-C₀; Propositions 3, 3′, 5, D1-C′; Theorem
+  F1₁) are unaffected.
+- So is the conditional conjecture D1-LONG: for |D| = 1, one move should still suffice.
+- The obstruction is a *shared junk danger pair* among dangerous agents together with a slot deficit. If s dangerous
+  agents share one pair and there are no slots, one owner can absorb the pair, and the other s − 1 sharers then each
+  need to be lifted by a move. So a fixed bound of two moves may fail once s = 3. That is an instance to search for at
+  n = 5.
