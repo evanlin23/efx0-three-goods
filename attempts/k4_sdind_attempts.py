@@ -4,7 +4,7 @@ Pure Python, itertools only; no code shared with k4/sdind or k4/sdc.  Raw EFX0: 
 i != j and g in X_j.  Serial dictatorship: each agent in turn takes its most valuable remaining relevant good, ties
 by the smaller good index.
 
-    python3 attempts/k4_sdind_attempts.py both1 every bothfree"""
+    python3 attempts/k4_sdind_attempts.py both1 every bothfree ab1"""
 import sys, itertools
 
 
@@ -118,6 +118,39 @@ def bothfree():
     print('confirmed')
 
 
+def ab1():
+    print('== ab1: Conjecture AB1 fails when no absorber is needed (climb instance, n = 4, m = 7)')
+    sets = [[0, 2, 3, 6], [1, 4, 5, 6], [3, 4, 5, 6], [4, 5, 6]]
+    vals = [[6, 4, 8, 5], [8, 3, 4, 6], [10, 6, 7, 2], [2, 4, 3]]
+    m = 7; n = 4
+    v = [dict(zip(s, x)) for s, x in zip(sets, vals)]
+    target = [3, 1, 4, 5]
+    orders = [o for o in itertools.permutations(range(n)) if sd(sets, vals, list(o), m) == target]
+    Y = target
+    full = completions(sets, vals, Y, m, maxabs=1)
+    J = sorted(full[0].keys())
+    absorbers = set(tuple(i for i in range(n) if sum(1 for g in J if X[g] == i) >= 2) for X in full)
+    wanted = [[i for i in range(n) if i != j and v[i].get(Y[j], 0) > v[i].get(Y[i], 0)] for j in range(n)]
+    print('picks', Y, 'orders producing them', orders)
+    print('one-absorber completions', full, '; agents holding >= 2 junk goods in them:', absorbers)
+    o = 2
+    print('agent 2 wanted by:', wanted[2])
+    def path_ok(pi):
+        seq = list(pi)[::-1]
+        levels = [completions(sets, vals, Y, m, agents=seq[:k], maxabs=1) for k in range(1, n + 1)]
+        R = levels[0]
+        for L in levels[1:]:
+            R = [X for X in L if any(sum(1 for g in J if X[g] != P[g]) <= 1 for P in R)]
+            if not R: return False
+        return True
+    res = {pi: path_ok(pi) for pi in orders}
+    print('orders with agent 2 last:', {pi: r for pi, r in res.items() if pi[-1] == o})
+    print('orders with another last agent that work:', [pi for pi, r in res.items() if pi[-1] != o and r])
+    assert absorbers == {()} and not wanted[2] and not any(r for pi, r in res.items() if pi[-1] == o)
+    assert any(r for pi, r in res.items() if pi[-1] != o)
+    print('confirmed: no order with agent 2 last works; some order with another last agent does')
+
+
 if __name__ == '__main__':
     for a in sys.argv[1:]:
-        {'both1': both1, 'every': every, 'bothfree': bothfree}[a]()
+        {'both1': both1, 'every': every, 'bothfree': bothfree, 'ab1': ab1}[a]()

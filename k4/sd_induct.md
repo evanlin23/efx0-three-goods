@@ -7,7 +7,7 @@ evidence only (PROMPT.md §5 rule 3). Notation as in `k4/sdc.md`: Y = SD(π) the
 *one-absorber completion* gives every junk good to some agent with at most one agent (the absorber) receiving two or
 more.
 
-## Status (burst 3)
+## Status (burst 4)
 
 - **Proved** (written proofs, short):
   - Lemma D (§1): deleting any agent with its pick is SD-consistent, and the junk stays the same.
@@ -19,10 +19,16 @@ more.
     absorber can be hurt, and only through a two-good bundle whose pick it wants.
   - Lemma BOTH-TP (§5): inserting an agent that holds its top and is wanted by nobody preserves the TP shape with one
     move.
+  - Lemma H and Proposition PR-step (§7): prefix-robust completions restrict to every suffix sub-instance. The
+    insertion of the first agent succeeds with at most one move unless that agent is wanted at current values, or the
+    absorber loses its compensation.
 - **Evidence** (reverse-SD insertion; each new agent is first):
-  - *Conjecture AB₁* (§3). If an unfrozen agent o is the absorber of some one-absorber completion (or none is
-    needed), some order with o last inserts the agents with at most one junk move per step. 17,403 of 17,403 cases:
-    screen, suite, the logged hard profiles, 1,500 random n = 4 and 150 random n = 5 profiles.
+  - *Conjecture AB₁* (§3). If an unfrozen agent o is the absorber of some one-absorber completion, some order with o
+    last inserts the agents with at most one junk move per step. If no absorber is needed, some order works.
+    - Evidence: 17,403 of 17,403 cases (screen, suite, the logged hard profiles, 1,500 random n = 4 and 150 random
+      n = 5 profiles).
+    - The original form also claimed every unfrozen o when no absorber is needed. That form is **refuted** by a climb
+      (`attempts/k4-sdind-ab1-no-absorber.md`, n = 4, m = 7).
   - One move per step along *some* insertion sequence exists on every start that has a one-absorber completion (§2).
   - *Projection* (§3): 91% of completions (random n = 4) are reached with each new agent taking at most one junk good
     from the absorber, permanently.
@@ -36,6 +42,11 @@ more.
     compensation, so a private-top reduction of SD-C would need a rule for *which* outcome to lift;
   - TP-SD-C, i.e. some SD outcome has a TP-shaped completion (`e13_tpsdc.py`): fails at n = 2 (14 of 168 screen
     instances). Frozen agents must sometimes hold junk, with their wanters compensated.
+  - AB₁ / PR with "every unfrozen o when no absorber is needed" (`attempts/k4-sdind-ab1-no-absorber.md`, n = 4,
+    m = 7, found by `e16_ab1_climb.py`).
+- **Deletion classes** (§6, `e17_classes.py`): for every class of deleted agents except the both agents (the first,
+  the last, a frozen agent with its wanters, suffix- or prefix-closed pairs), "the sub-instance's picks extend ⟹ the
+  instance's do" fails on 2–25% of cases.
 - **Where the angle stands.** Every black-box induction step tried fails at the same configuration: the new agent's
   danger set is exactly the junk that compensates a wanter of a frozen agent (r1179, log174; also hall-local3's
   cascade). So the SD-order structure does not yield an induction on agents. It yields:
@@ -43,12 +54,20 @@ more.
   - the exact local lemmas (D, F, S, U, BOTH-TP);
   - a precise description of the obstruction any induction must carry: *compensation chains*. A frozen agent j can
     hold junk only while its wanters are compensated, and their compensation can be some later agent's danger set.
+- **The invariant** (§7).
+  - *Prefix-robust* completions are hereditary along the reverse SD order (Lemma H, proved).
+  - A step fails only at a first agent that is frozen at current values, or at a compensated absorber (Proposition
+    PR-step, proved).
+  - *Conjecture PR* (the monotone form of refined AB₁) holds on 15,786 of 15,786 cases.
+  - Climbs against the original AB₁: 200 rounds at n ≤ 3 and 40 at n = 5 found nothing. 400 rounds at n = 4 found
+    the 3 no-absorber counterexamples.
+  - Climbs against the refined form: `e16_ab1_climb_*_refined*.log`, results in §3.
 - **Next** (if this angle continues):
-  1. an induction hypothesis that carries the compensation structure, e.g. a family of completions closed under
-     moving a wanter's compensation;
+  1. the strengthened invariant PR(F), which carries the danger sets of the frozen agents still to come, and its
+     local step (the Hall count with the agents ordered);
   2. a selection rule among the sub-instance's extending outcomes for private tops (log174: the other outcome
      lifts);
-  3. AB₁ as a target for the Hall-count angle: it fixes the absorber and reduces the count to one insertion order.
+  3. PR for the chain states, extending §4: does the state after OC₁'s chain have a PR completion?
 
 ## 1. Deleting an agent with its pick
 
@@ -167,6 +186,14 @@ move.
   depends only on its last agent.
 - *Conjecture AB₁.* If an unfrozen agent o is the absorber of some one-absorber completion of Y (or no absorber is
   needed), then some order producing Y with π_n = o admits an insertion path with at most one junk move per step.
+  **Refuted in the "no absorber needed" clause** by an adversarial climb (`e16_ab1_climb.py`,
+  `attempts/k4-sdind-ab1-no-absorber.md`; 3 instances with n = 4, m = 7). When every completion gives each agent at
+  most one junk good, some unfrozen agent may not be put last.
+  *Refined AB₁:* (i) if o holds two or more junk goods in some one-absorber completion, some order with π_n = o works;
+  (ii) if no completion needs an absorber, some order works. The curated and random data below satisfy the original
+  form, hence the refined one. Climb against the refined form, n = 4, the same 400 rounds × 150 steps and seed that
+  found the 3 counterexamples (`e16_ab1_climb_n4_refined.log`): no counterexample; the lowest final fraction of
+  working orders is 1/6.
   Evidence: no exception in 901 screen, 841 suite, 5,658 logged hard profiles (n ≤ 4), 8,364 random n = 4 and 1,639
   random n = 5 cases (`e7_absorber.log`, `e7_absorber_more.log`). With o fixed, every order works in 90–97% of these
   cases.
@@ -272,3 +299,104 @@ completion within one junk move of X′.
 
 TP shapes do not always exist (TP-SD-C fails at n = 2), so BOTH-TP gives no reduction for SD-C. It shows that the
 whole difficulty of both-agent insertion lies in completions where frozen agents hold junk, i.e. in compensation.
+
+## 6. Which deletions a black-box induction could use (`e17_classes.py`, `results/k4_sdind/e17_classes.log`)
+
+A black-box induction step deletes a set D of agents with their picks (Lemma D) and needs: *if the picks of
+I − D extend, so do the picks of I*. Violations, i.e. cases where I − D extends and I does not:
+
+| class of D | screen (n ≤ 5): violations / cases, free | one-absorber | random n = 4 (500 profiles, seed 93): free | one-absorber |
+|---|---|---|---|---|
+| a both agent (top, unwanted) | 0 / 148 | 0 / 148 | 0 / 1,826 | 0 / 1,826 |
+| an agent holding its top (first) | 116 / 1,479 | 137 / 1,479 | 50 / 3,055 | 65 / 3,055 |
+| an unwanted agent (last) | 152 / 1,206 | 172 / 1,206 | 59 / 2,880 | 68 / 2,880 |
+| a frozen agent with all its wanters | 385 / 1,707 | 413 / 1,707 | 174 / 1,535 | 192 / 1,535 |
+| a frozen agent with one wanter | 429 / 2,089 | 460 / 2,089 | 185 / 1,759 | 203 / 1,759 |
+| a suffix-closed set, at most 2 agents (first agents of some order) | 437 / 2,797 | 491 / 2,797 | 205 / 6,806 | 236 / 6,806 |
+| a prefix-closed set, at most 2 agents (last agents of some order) | 302 / 3,131 | 356 / 3,131 | 126 / 6,981 | 152 / 6,981 |
+
+Only the both agents come close to safe, and they fail too: r1179 (one absorber) and log174 (free), §5. Every other
+class fails on 2–25% of its cases. That is expected: not every SD outcome extends, and the failure of an outcome
+usually survives the deletion of any agent not involved in it. So an induction on agents along the SD order cannot
+take its hypothesis as a black box. It must carry a choice of outcome and completion. The obstruction in every
+refuted step is the same: the new agent's danger set is a wanter's compensation (§5).
+
+## 7. Prefix-robust completions: the invariant the reverse-SD induction carries
+
+**Definition.** Let Y = SD(π), with o = π_n, and let X be a one-absorber completion in which every agent other than o
+holds Y_i and at most one junk good g_i (g_i = ∅ if none). X is *prefix-robust* (PR) for π if for every k < n, agent
+π_k is not threatened by
+
+  X_o ∪ g_{π_1} ∪ … ∪ g_{π_{k−1}},
+
+i.e. by the absorber's bundle with the junk of every agent *before* π_k in π handed back to it. For k = 1 this is
+plain EFX₀ toward X_o, and every PR completion is EFX₀ (Lemma S: the other conditions do not involve X_o).
+
+**Conjecture PR (= monotone refined AB₁; `e18_mono.py`, `results/k4_sdind/e18_mono.log`).**
+- If an unfrozen agent o holds two or more junk goods in some one-absorber completion of Y, then some order π
+  producing Y with π_n = o has a PR completion with absorber o.
+- If no completion needs an absorber, some order has a PR completion.
+
+The form "every unfrozen o, when no absorber is needed" is refuted with AB₁ (`attempts/k4-sdind-ab1-no-absorber.md`).
+- *Equivalence.* PR is exactly the condition that inserting π_n, π_{n−1}, …, π_1, with each agent taking its own junk
+  good g_i from o on arrival and keeping it, passes through EFX₀ allocations. The projection of §3 is EFX₀ on
+  {π_k, …, π_n} iff those agents are unthreatened by X_o ∪ g_{π_1} ∪ … ∪ g_{π_{k−1}}; the strongest condition for
+  π_k is the one at its own arrival.
+- *Evidence.* 15,786 of 15,786 cases (Y, o), in the original (stronger) form: 21 special, 901 screen, 841 suite,
+  5,659 logged hard profiles (n ≤ 4), 8,364 random n = 4.
+
+**Lemma H (PR is hereditary along the reverse order; written proof).** Let X be a PR completion for π on I, with
+f = π_1 ≠ o. Give f's junk good g_f (if any) back to o, and delete f with its pick. The result X° is a PR
+completion for π° = (π_2, …, π_n) on I° = I − f − Y_f.
+
+*Proof.*
+1. *Completion.* By Lemma D, the picks of I° are those of π° and its junk is the same J, so X° is a completion. Only o
+   can hold two or more junk goods.
+2. *Toward singletons and two-good bundles.* These bundles are the same as in X. Every agent's value is at least its
+   value in X: o's went up, the others' did not change. By Lemma S their conditions still hold.
+3. *Toward o's bundle, now X_o ∪ g_f.* For π_k with k ≥ 2, PR for π_k in I gives that π_k is unthreatened by
+   X_o ∪ g_f ∪ … ⊇ X_o ∪ g_f. So X° is EFX₀.
+4. *PR for π° in I°.* X°_o ∪ g_{π_2} ∪ … ∪ g_{π_{k−1}} = X_o ∪ g_{π_1} ∪ … ∪ g_{π_{k−1}}, so π_k's PR condition in I°
+   is its PR condition in I. ∎
+
+So PR is an induction hypothesis that the instance hands down to every suffix. The induction step is local.
+
+**Proposition PR-step (written proof).** Let X° be a PR completion for π° on I°, with absorber o, and insert f = π_1
+with its pick (f holds its top among the goods of I).
+1. *f is not threatened by X°_o.* Then X° + (f ↦ {Y_f}) is a PR completion for π on I.
+2. *f is threatened by X°_o.* Let g be f's most valuable junk good of X°_o, and let X be X° with g moved to f. X is a
+   PR completion for π iff
+   - (b) every agent i ∉ {f, o} has v_i(Y_f) ≤ v_i(X°_i), and v_o(Y_f) ≤ v_o(X°_o ∖ g) (nobody wants f's pick at its
+     current value), and
+   - (c) every two-good holder j has v_o(Y_j) ≤ v_o(X°_o ∖ g) (the absorber is not hurt).
+
+*Proof.*
+1. f's singleton threatens nobody. f is threatened only by X°_o (Lemma F, since f holds its top). The PR conditions
+   of π_2, …, π_{n−1} are unchanged, because g_f = ∅.
+2. f is safe after taking g (Lemma U). The PR condition of π_k (k ≥ 2) involves
+   X_o ∪ g ∪ g_{π_2} ∪ … = X°_o ∪ g_{π_2} ∪ …, the same set as before.
+   - By Lemma S, the remaining conditions are those toward the new two-good bundle {Y_f, g}, which is (b): the junk
+     good g is worth less than every valuer's pick.
+   - The other condition is o's, after o loses g. o is threatened only by two-good bundles whose pick it values above
+     v_o(X°_o ∖ g): that is (c), together with the o-part of (b). ∎
+
+**What this gives.**
+- *Where a step can fail.* Suppose (I, π) has no PR completion but the suffix sub-instance (I°, π°) has one. Then
+  for every PR completion X° of (I°, π°) with absorber o, the first agent π_1 is threatened by X°_o, and either π_1
+  is wanted at current values or the absorber's compensation is at stake.
+- When π_1 is not frozen and o wants no two-good holder's pick (e.g. o holds its top), the step always succeeds.
+- So PR is an induction on agents along the reverse SD order whose only failing steps are:
+  - *frozen first agents* (frozen at current values) whose danger sets lie in o's bundle;
+  - *a compensated absorber*.
+- Both have to be prevented earlier in the induction, by the agents π_2, …, π_{n−1} taking the right junk goods. This
+  is the lookahead of §3 in its exact form.
+- The two refutations of §5 (r1179, log174) are instances of the second and first failure respectively, under the
+  absorber the sub-instance happened to use.
+
+**A next target.** Strengthen PR so that the frozen first agents' needs are carried:
+- *PR(F)*: a PR completion of a suffix sub-instance whose inflated absorber bundles also avoid the danger sets of a
+  given family F of future frozen agents.
+- By Lemma H, any PR completion of the whole instance restricts to a PR(F) completion of every suffix, with F the
+  frozen agents not yet inserted. The question is whether PR(F) has a local step, i.e. whether a helper can always be
+  found among π_2, …, π_{n−1} when F is fixed in advance.
+- This is the Hall-type count of `k4/sdc.md` §30, with the agents ordered.
