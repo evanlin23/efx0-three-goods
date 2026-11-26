@@ -34,3 +34,4 @@ OPEN_3 | census: 5 6 states 4245 complete 42 traps 0 radius2traps 0 minpool -1
 OPEN_4 | census: 6 7 states 38864 complete 174 traps 0 radius2traps 0 minpool -1
    radius 2 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 2739
    radius 3 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 173
+   radius 2 rotations 1: stuck states welfare 0 leximin 0 envy pairs 0 AUG 557
