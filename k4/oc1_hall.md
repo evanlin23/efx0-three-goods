@@ -798,3 +798,21 @@ a pick.
   Corollary 2.1.
 - With pickless agents present this is a multi-bin version of the transversal condition, close to the coordinator's
   matroid-partition form (§12).
+
+**A second core counterexample** (TTC session, commit 14955fd on `claude/k4-ttc`,
+`results/k4_ttc/oc1_core_candidate.json`; checked here).
+- The instance: sets [[0,1,3,4],[1,2,5,6],[2,0,7,8],[0,1,2],[0,1,2]], values [[10,3,6,5],[10,3,6,5],[10,3,6,5],[4,3,2],
+  [2,4,3]], n = 5, m = 9.
+- `is_core4` reports no failures, so this is a strict connected core.
+- With order 0, …, 4, the picks are (0, 1, 2, none, none). They have no one-absorber completion (SAT and
+  `ohlib.absorb_brute`), and none of the 56 states one chain or ring reaches has one. OC₁ fails for 12 of the 120
+  orders.
+- Agents 0, 1 and 2 each have **two private goods** ({3, 4}, {5, 6}, {7, 8}). These are the three disjoint danger
+  pairs, and n = 5 is certified for TARGET₄ anyway.
+
+**The pattern.** Both core counterexamples build the disjoint junk danger pairs of frozen agents from agents with
+two private goods. In the K4.MC2 class every agent has at most one private good. A junk danger pair of a frozen agent
+then contains a good that another agent also values, so the pairs can overlap or be broken by other agents' slots,
+and the pigeonhole need not apply. Whether OC₁-ED\* holds on that class is the open question. A direct test is OC₁ on
+`k4_certs_5_n4_3`, `_n4_4` and `_pure` (n = 5, three or more 4-good agents) filtered to cores with no agent holding two
+private goods.
