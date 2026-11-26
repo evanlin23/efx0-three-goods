@@ -54,6 +54,21 @@ def excluded(sets):
     return None
 
 
+def gamma_prune(nb):
+    """The same exclusion at the level of G' (agent neighbourhoods of shared goods, as in mincex_shapes.gammas), before
+    each agent of degree 3 is made Q3 or P4: two agents of G'-degree 3 sharing two goods of degree 2 (any closure), or
+    one of degree 3 and one of degree 4 sharing two goods of degree 2 and a third good. Equivalent to excluded() on
+    every core with that G' (whatever the Q3/P4 choice), since Q3-Q3, Q3-P4 and P4-P4 are certified for c = 0, 1 and
+    Q3-Q4, P4-Q4 for c = 1."""
+    deg = collections.Counter(g for N in nb for g in N)
+    for i, j in itertools.combinations(range(len(nb)), 2):
+        di, dj = sorted((len(nb[i]), len(nb[j])))
+        sh = set(nb[i]) & set(nb[j])
+        if sum(deg[g] == 2 for g in sh) < 2: continue
+        if (di, dj) == (3, 3) or ((di, dj) == (3, 4) and len(sh) >= 3): return True
+    return False
+
+
 # configuration labels, in the order of k4/check_twins4.py's hard-coded configurations
 LABELS = {
     ('Q3', 'Q3', 0): (['g0', 'g1', 'a'], ['g0', 'g1', 'x']), ('Q3', 'Q3', 1): (['g0', 'g1', 'a'], ['g0', 'g1', 'a']),
