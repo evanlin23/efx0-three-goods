@@ -13,7 +13,11 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - Lemma 3 (§2): self-service. Exposed terminals serve themselves; every satisfied state completes.
   - **Theorem B\* (§3): LB⁺'s rotation for every order.** If a terminal has deficit one and an exposed frozen agent whose removal lowers the hitting number, one DE trade completes. It covers 8,075 of 14,138 exact-hard drafts (n ≤ 6 logs), with no failure on the 11,501 rotations checked.
   - **Theorem R1C (§3): OC₁ at k = 3 for every order whose draft is R1-compatible**, i.e. whose need order has an R1-priority linear extension (this includes every R1-priority order). The proof is LB⁺ with every slot of size one. The rotation is one DE trade, and the completion has one absorber.
-- **Conjectured (no counterexample in any test).** **Theorem candidate OT (§4).** At k = 3, from the draft of every order, the simple completion exists, or it exists after every DE trade (chain or ring) of largest total score. The same holds after every trade of least ω. OT implies OC₁ at k = 3.
+- **Conjectured (no counterexample in any test).** **Theorem candidate OT (§4), in two forms.**
+  - *OT-ω:* from the draft of every order, the simple completion exists, or it exists after every DE trade of least ω.
+  - *OT-score:* the exact one-absorber completion exists after every DE trade of largest total score.
+  - Either form implies OC₁ at k = 3.
+  - **Refuted:** max score with the simple completion. On n = 6, m = 9 the max-score trade needs a pair holder to absorb one junk good (§5).
   - Exhaustive tests: every connected core with 3 ≤ n ≤ 5 (339 hypergraphs), every ranking profile, every order: 273,724,272 starts. Also n = 4 with one dead good.
   - Exhaustive at n = 6, m ∈ {10, 11}: all 236 connected cores, every profile, and the drafts of all 720 orders, enumerated as distinct drafts (`oc1_fast.py`, `oc1_fast_certs6_*.log`): 11,010,816 profiles, 37,318,272 distinct drafts, 888,292 hard, no failure.
   - Sampled tests: n = 6 cores with m ≤ 9 (6 million starts), random instances with n ≤ 10, and the binary-tree family of `paper/k3-simple` Appendix C up to n = 45 (draft deficits up to 7, owner still needed after the trade).
@@ -191,8 +195,10 @@ example).
 **Score**: an agent scores 4, 3, 2, 1, 0 for its pair, a, b, c, nothing (DE's score). By the counts of Lemma 2, the
 total score is 3n + |U| − Σ_i |N_i|, where N_i is the set of goods agent i wants.
 
-**Theorem candidate OT.** From the draft of every order: Lemma 1 applies, or it applies after every DE trade of the
-largest total score.
+**Theorem candidate OT.** From the draft of every order, Lemma 1 applies, or one of the following holds.
+- *OT-ω:* Lemma 1 applies after every DE trade of least ω.
+- *OT-score:* a one-absorber completion exists after every DE trade of largest total score. This uses the exact test
+  `lb2`; Lemma 1 alone is not enough here (§5).
 
 - The same holds with "the least ω after the trade" (equivalently the least e + ν), with "most terminals afterwards",
   and with "the largest sum of squared score gains" (`rules2.py` on the hard starts of n = 4, 5 and the n = 6 sample:
@@ -219,6 +225,15 @@ largest total score.
   holds at n = 4 (240 of 240) but fails at n = 5 (`merge.py`). In the example above the repairing trade (2, 4, 3) is
   disjoint from the failing one. So the extremal argument cannot be a plain splice: it must compare the score sum (or ω)
   of disjoint trades.
+- *Max score with Lemma 1* (`oc1_fast.py` on the n = 6, m ≤ 9 cores; `maxfail_post.py`).
+  - **The example.** Agents 0: 0 > 1 > 6, 1: 3 > 1 > 7, 2: 4 > 2 > 8, 3: 0 > 4 > 5, 4: 3 > 5 > 2, 5: 3 > 4 > 5,
+    m = 9. The draft (0, 3, 4, –, 5, –) is hard.
+  - **What fails.** The max-score trade, the DE chain (1, 5), leaves the junk {2, 6, 8} with only one terminal, the
+    empty-handed agent 3.
+  - **What works.** The exact test completes it: pair holder 1 takes good 2, which puts no exposed pair in its
+    bundle, and agent 3 owns {6, 8}. The least-ω trade (0, 3) passes Lemma 1 itself.
+  - **On all such drafts:** every max-score trade passes the exact test, and every least-ω trade passes Lemma 1
+    (816 of 816 so far; the run is in progress).
 - *Lexicographic rules.* Maximizing the score vector read from the last agent backwards fails on 293 of 17,751 hard
   starts; from the first agent, 884 (`rules2.py`).
 - *Naive induction on the last agent* (`induct_last.py`). If I − ℓ's draft passes Lemma 1, the repairing trade of I
