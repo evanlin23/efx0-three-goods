@@ -1,0 +1,8 @@
+command: python3 k4/hunt/test_check.py results/k4_hunt/named_mc7.json.gz --cores=6 --engines=sat2
+  core MC7-2: ok
+  core MC7-5: ok
+  core MC7-6: ok
+  core MC7-4: ok
+  core MC7-3: ok
+  core MC7-1: ok
+24 trials, 12 thinned certificates rejected, 0 problems

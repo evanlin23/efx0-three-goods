@@ -33,9 +33,6 @@ def main():
             for e, (ok, msg) in res.items():
                 if ok: continue
                 if e == 'dfs': continue                          # the dfs engine reports no profile
-                prof = [tuple(map(int, t)) for t in re.findall(r'\(([\d, ]+)\)', msg)]
-                prof = [tuple(int(x) for x in t.split(',')) if isinstance(t, str) else t for t in
-                        re.findall(r'\(([\d, ]+)\)', msg)]
                 prof = [tuple(int(x) for x in t.split(',')) for t in re.findall(r'\(([\d, ]+)\)', msg)]
                 if len(prof) != c['n'] or any(cegar.efx0_raw(c['sets'], prof, a, c['n']) for a in A):
                     print('REPORTED PROFILE IS COVERED', e, c['sets'], prof); bad += 1
