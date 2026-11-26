@@ -254,6 +254,11 @@ allocation exists, for monotone valuations. *Proof.* Run LSS with that agent as 
 is used only in Lemma 3.4 for neighbours i, j of 0 lying outside each other's edge to 0: if j ∈ X_i = {e}, then
 (0, f_i, i, e, j, f_j, 0) is a 3-cycle through 0 (f_i ≠ f_j since j ∉ f_i; e ≠ f_i by assumption; e ≠ f_j since else 0, i
 would share e and f_i). Every other step is as in the paper. ∎
+*Valuation class.* "Monotone" means LSS's hypergraph model (§1.1): v_i monotone and normalized, and a good g changes
+only the values of the agents in its edge e_g (v_i(S ∪ {g}) = v_i(S) for i ∉ e_g); for additive valuations e_g is the
+set of agents valuing g positively. EFX can fail for general monotone, even submodular, valuations (2604.18216,
+2605.06451; `proofs/citations.md`). T1 does not contradict this: it is LSS's own argument in LSS's own model, and it
+needs a linear hypergraph with an agent on no 3-cycle. Everything used for TARGET₄ here is additive.
 *Corollary.* A linear counterexample to TARGET₄, if one exists, has every agent on a 3-cycle and (ledger T3) a good with
 ≥ 3 valuers. The code agrees: on linear instances every failure of the faithful algorithm is G4 (§2).
 
