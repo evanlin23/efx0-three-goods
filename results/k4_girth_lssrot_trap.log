@@ -1,0 +1,5 @@
+$ python3 k4/girth/lssrot_trap.py 41 1300
+{'instances': 5000, 'runs': 85653}
+{'instances': 10000, 'runs': 171576}
+{'instances': 15000, 'runs': 257106}
+{'instances': 20000, 'runs': 342657}

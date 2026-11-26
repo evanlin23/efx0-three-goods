@@ -16,3 +16,7 @@ linear instances no such state has been found (`k4/girth.md` §4). So the girth-
 technicality: with 2-cycles, envied agents must be allowed bundles of two goods, both valued by their enviers.
 
 **Reproduce:** `python3 attempts/k4_girth_attempts.py` (part 3).
+
+**What repairs it:** dynamic parking (`k4/girth.md` §5). Place the leftover goods one at a time on agents that are
+non-envied at that moment. B absorbs c (Lemma SLACK: A values both b and c, max 5 ≤ 8), after which A is non-envied and
+absorbs d. Both labelings of the twin core complete this way (`attempts/k4_girth_attempts.py`, part 5).

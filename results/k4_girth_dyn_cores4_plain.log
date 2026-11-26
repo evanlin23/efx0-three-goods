@@ -1,0 +1,368 @@
+$ python3 k4/girth/dyn_more.py cores4 1 1200
+{'runs': 520, 'completed': 500, 'instances': 500, 'instances completed': 500}
+{'runs': 1053, 'completed': 1000, 'instances': 1000, 'instances completed': 1000}
+{'runs': 1576, 'completed': 1500, 'instances': 1500, 'instances completed': 1500}
+NO RUN COMPLETES Inst([{0: 8, 3: 3, 5: 6, 7: 4}, {1: 6, 4: 8, 6: 3, 7: 4}, {2: 10, 5: 3, 6: 8, 7: 6}, {3: 6, 4: 10, 5: 3, 6: 2}])
+{'runs': 2097, 'completed': 1999, 'instances': 2000, 'instances completed': 1999}
+{'runs': 2610, 'completed': 2499, 'instances': 2500, 'instances completed': 2499}
+{'runs': 3133, 'completed': 2999, 'instances': 3000, 'instances completed': 2999}
+{'runs': 3657, 'completed': 3499, 'instances': 3500, 'instances completed': 3499}
+{'runs': 4173, 'completed': 3999, 'instances': 4000, 'instances completed': 3999}
+{'runs': 4680, 'completed': 4499, 'instances': 4500, 'instances completed': 4499}
+{'runs': 5201, 'completed': 4999, 'instances': 5000, 'instances completed': 4999}
+NO RUN COMPLETES Inst([{0: 2, 2: 10, 5: 6, 8: 7}, {1: 5, 5: 6, 7: 7, 8: 3}, {3: 8, 6: 4, 7: 10, 8: 3}, {4: 7, 6: 5, 7: 6, 8: 3}])
+{'runs': 5745, 'completed': 5498, 'instances': 5500, 'instances completed': 5498}
+{'runs': 6258, 'completed': 5998, 'instances': 6000, 'instances completed': 5998}
+{'runs': 6778, 'completed': 6498, 'instances': 6500, 'instances completed': 6498}
+{'runs': 7298, 'completed': 6998, 'instances': 7000, 'instances completed': 6998}
+{'runs': 7832, 'completed': 7498, 'instances': 7500, 'instances completed': 7498}
+NO RUN COMPLETES Inst([{0: 8, 4: 4, 5: 10, 6: 3}, {1: 4, 4: 3, 6: 2}, {2: 7, 5: 8, 7: 4, 8: 2}, {3: 4, 7: 2, 8: 3}])
+{'runs': 8372, 'completed': 7997, 'instances': 8000, 'instances completed': 7997}
+{'runs': 8889, 'completed': 8497, 'instances': 8500, 'instances completed': 8497}
+{'runs': 9417, 'completed': 8997, 'instances': 9000, 'instances completed': 8997}
+NO RUN COMPLETES Inst([{0: 5, 4: 6, 6: 7, 7: 3}, {1: 10, 4: 6, 6: 3, 7: 8}, {2: 6, 5: 3, 6: 8, 7: 4}, {3: 4, 5: 3, 7: 2}])
+{'runs': 9953, 'completed': 9496, 'instances': 9500, 'instances completed': 9496}
+{'runs': 10461, 'completed': 9996, 'instances': 10000, 'instances completed': 9996}
+{'runs': 10972, 'completed': 10496, 'instances': 10500, 'instances completed': 10496}
+{'runs': 11488, 'completed': 10996, 'instances': 11000, 'instances completed': 10996}
+{'runs': 12013, 'completed': 11496, 'instances': 11500, 'instances completed': 11496}
+NO RUN COMPLETES Inst([{0: 8, 4: 5, 6: 4, 8: 2}, {1: 5, 4: 4, 6: 2, 9: 8}, {2: 1, 5: 6, 7: 4, 8: 8}, {3: 4, 5: 8, 7: 3, 9: 10}])
+{'runs': 12541, 'completed': 11995, 'instances': 12000, 'instances completed': 11995}
+{'runs': 13057, 'completed': 12495, 'instances': 12500, 'instances completed': 12495}
+{'runs': 13581, 'completed': 12995, 'instances': 13000, 'instances completed': 12995}
+{'runs': 14097, 'completed': 13495, 'instances': 13500, 'instances completed': 13495}
+{'runs': 14609, 'completed': 13995, 'instances': 14000, 'instances completed': 13995}
+NO RUN COMPLETES Inst([{0: 2, 4: 7, 6: 10, 8: 4}, {1: 3, 4: 6, 7: 10, 8: 8}, {2: 8, 5: 4, 6: 10, 8: 3}, {3: 10, 5: 6, 7: 3, 8: 8}])
+{'runs': 15129, 'completed': 14494, 'instances': 14500, 'instances completed': 14494}
+{'runs': 15645, 'completed': 14994, 'instances': 15000, 'instances completed': 14994}
+{'runs': 16169, 'completed': 15494, 'instances': 15500, 'instances completed': 15494}
+{'runs': 16683, 'completed': 15994, 'instances': 16000, 'instances completed': 15994}
+{'runs': 17195, 'completed': 16494, 'instances': 16500, 'instances completed': 16494}
+NO RUN COMPLETES Inst([{0: 4, 4: 6, 5: 8, 6: 3}, {1: 4, 4: 3, 6: 2}, {2: 6, 5: 10, 7: 7, 8: 2}, {3: 4, 7: 3, 8: 2}])
+{'runs': 17720, 'completed': 16993, 'instances': 17000, 'instances completed': 16993}
+{'runs': 18238, 'completed': 17493, 'instances': 17500, 'instances completed': 17493}
+{'runs': 18766, 'completed': 17993, 'instances': 18000, 'instances completed': 17993}
+{'runs': 19296, 'completed': 18493, 'instances': 18500, 'instances completed': 18493}
+NO RUN COMPLETES Inst([{0: 8, 3: 4, 4: 6, 6: 3}, {1: 4, 4: 8, 5: 3, 6: 2}, {2: 5, 4: 8, 5: 2, 6: 4}, {3: 4, 5: 3, 6: 2}])
+{'runs': 19827, 'completed': 18992, 'instances': 19000, 'instances completed': 18992}
+{'runs': 20353, 'completed': 19492, 'instances': 19500, 'instances completed': 19492}
+NO RUN COMPLETES Inst([{0: 8, 3: 2, 6: 4, 7: 7}, {1: 7, 4: 8, 6: 2, 7: 4}, {2: 4, 5: 2, 7: 3}, {3: 6, 4: 8, 5: 3, 7: 4}])
+{'runs': 20890, 'completed': 19991, 'instances': 20000, 'instances completed': 19991}
+{'runs': 21400, 'completed': 20491, 'instances': 20500, 'instances completed': 20491}
+{'runs': 21920, 'completed': 20991, 'instances': 21000, 'instances completed': 20991}
+{'runs': 22428, 'completed': 21491, 'instances': 21500, 'instances completed': 21491}
+{'runs': 22936, 'completed': 21991, 'instances': 22000, 'instances completed': 21991}
+{'runs': 23452, 'completed': 22491, 'instances': 22500, 'instances completed': 22491}
+{'runs': 23962, 'completed': 22991, 'instances': 23000, 'instances completed': 22991}
+{'runs': 24480, 'completed': 23491, 'instances': 23500, 'instances completed': 23491}
+{'runs': 25014, 'completed': 23991, 'instances': 24000, 'instances completed': 23991}
+NO RUN COMPLETES Inst([{0: 10, 1: 7, 2: 6, 7: 2}, {1: 2, 2: 6, 5: 3, 6: 10}, {3: 6, 4: 3, 5: 2, 6: 10}, {3: 2, 4: 3, 7: 4}])
+{'runs': 25531, 'completed': 24490, 'instances': 24500, 'instances completed': 24490}
+{'runs': 26057, 'completed': 24990, 'instances': 25000, 'instances completed': 24990}
+{'runs': 26574, 'completed': 25490, 'instances': 25500, 'instances completed': 25490}
+{'runs': 27094, 'completed': 25990, 'instances': 26000, 'instances completed': 25990}
+{'runs': 27603, 'completed': 26490, 'instances': 26500, 'instances completed': 26490}
+{'runs': 28131, 'completed': 26990, 'instances': 27000, 'instances completed': 26990}
+{'runs': 28646, 'completed': 27490, 'instances': 27500, 'instances completed': 27490}
+{'runs': 29158, 'completed': 27990, 'instances': 28000, 'instances completed': 27990}
+{'runs': 29678, 'completed': 28490, 'instances': 28500, 'instances completed': 28490}
+{'runs': 30191, 'completed': 28990, 'instances': 29000, 'instances completed': 28990}
+NO RUN COMPLETES Inst([{0: 3, 2: 10, 6: 6, 7: 8}, {1: 6, 5: 8, 6: 4, 7: 3}, {3: 6, 5: 8, 6: 4, 7: 3}, {4: 4, 6: 2, 7: 3}])
+{'runs': 30736, 'completed': 29489, 'instances': 29500, 'instances completed': 29489}
+{'runs': 31268, 'completed': 29989, 'instances': 30000, 'instances completed': 29989}
+NO RUN COMPLETES Inst([{0: 4, 2: 7, 4: 10, 6: 2}, {0: 4, 2: 6, 5: 3, 7: 8}, {1: 6, 3: 3, 4: 5, 6: 7}, {1: 6, 3: 7, 5: 2, 7: 10}])
+{'runs': 31799, 'completed': 30488, 'instances': 30500, 'instances completed': 30488}
+{'runs': 32323, 'completed': 30988, 'instances': 31000, 'instances completed': 30988}
+{'runs': 32857, 'completed': 31488, 'instances': 31500, 'instances completed': 31488}
+{'runs': 33371, 'completed': 31988, 'instances': 32000, 'instances completed': 31988}
+NO RUN COMPLETES Inst([{0: 10, 4: 8, 6: 6, 7: 3}, {1: 3, 4: 4, 6: 8, 8: 10}, {2: 2, 5: 4, 7: 5, 8: 8}, {3: 8, 5: 5, 7: 6, 8: 4}])
+{'runs': 33899, 'completed': 32487, 'instances': 32500, 'instances completed': 32487}
+{'runs': 34416, 'completed': 32987, 'instances': 33000, 'instances completed': 32987}
+{'runs': 34942, 'completed': 33487, 'instances': 33500, 'instances completed': 33487}
+{'runs': 35469, 'completed': 33987, 'instances': 34000, 'instances completed': 33987}
+{'runs': 35986, 'completed': 34487, 'instances': 34500, 'instances completed': 34487}
+NO RUN COMPLETES Inst([{0: 8, 2: 4, 3: 6, 7: 1}, {1: 8, 5: 4, 6: 2, 7: 7}, {2: 4, 3: 3, 4: 8, 7: 2}, {4: 8, 5: 6, 6: 4, 7: 5}])
+{'runs': 36508, 'completed': 34986, 'instances': 35000, 'instances completed': 34986}
+{'runs': 37023, 'completed': 35486, 'instances': 35500, 'instances completed': 35486}
+{'runs': 37539, 'completed': 35986, 'instances': 36000, 'instances completed': 35986}
+{'runs': 38053, 'completed': 36486, 'instances': 36500, 'instances completed': 36486}
+{'runs': 38564, 'completed': 36986, 'instances': 37000, 'instances completed': 36986}
+{'runs': 39083, 'completed': 37486, 'instances': 37500, 'instances completed': 37486}
+{'runs': 39617, 'completed': 37986, 'instances': 38000, 'instances completed': 37986}
+{'runs': 40128, 'completed': 38486, 'instances': 38500, 'instances completed': 38486}
+{'runs': 40650, 'completed': 38986, 'instances': 39000, 'instances completed': 38986}
+{'runs': 41173, 'completed': 39486, 'instances': 39500, 'instances completed': 39486}
+{'runs': 41706, 'completed': 39986, 'instances': 40000, 'instances completed': 39986}
+{'runs': 42225, 'completed': 40486, 'instances': 40500, 'instances completed': 40486}
+{'runs': 42747, 'completed': 40986, 'instances': 41000, 'instances completed': 40986}
+{'runs': 43266, 'completed': 41486, 'instances': 41500, 'instances completed': 41486}
+{'runs': 43787, 'completed': 41986, 'instances': 42000, 'instances completed': 41986}
+{'runs': 44310, 'completed': 42486, 'instances': 42500, 'instances completed': 42486}
+{'runs': 44818, 'completed': 42986, 'instances': 43000, 'instances completed': 42986}
+{'runs': 45343, 'completed': 43486, 'instances': 43500, 'instances completed': 43486}
+{'runs': 45859, 'completed': 43986, 'instances': 44000, 'instances completed': 43986}
+{'runs': 46372, 'completed': 44486, 'instances': 44500, 'instances completed': 44486}
+{'runs': 46892, 'completed': 44986, 'instances': 45000, 'instances completed': 44986}
+{'runs': 47418, 'completed': 45486, 'instances': 45500, 'instances completed': 45486}
+{'runs': 47941, 'completed': 45986, 'instances': 46000, 'instances completed': 45986}
+NO RUN COMPLETES Inst([{0: 8, 3: 4, 5: 7, 8: 2}, {1: 8, 4: 1, 7: 6, 8: 4}, {2: 6, 6: 8, 7: 4, 8: 5}, {3: 1, 4: 4, 5: 6, 6: 8}])
+{'runs': 48470, 'completed': 46485, 'instances': 46500, 'instances completed': 46485}
+{'runs': 48998, 'completed': 46985, 'instances': 47000, 'instances completed': 46985}
+{'runs': 49507, 'completed': 47485, 'instances': 47500, 'instances completed': 47485}
+{'runs': 50026, 'completed': 47985, 'instances': 48000, 'instances completed': 47985}
+{'runs': 50535, 'completed': 48485, 'instances': 48500, 'instances completed': 48485}
+{'runs': 51064, 'completed': 48985, 'instances': 49000, 'instances completed': 48985}
+NO RUN COMPLETES Inst([{0: 4, 2: 3, 3: 2}, {1: 8, 4: 5, 5: 4, 6: 6}, {2: 5, 4: 4, 5: 8, 6: 2}, {3: 6, 4: 5, 5: 7, 6: 3}])
+NO RUN COMPLETES Inst([{0: 6, 4: 4, 6: 8, 7: 3}, {1: 4, 4: 2, 7: 3}, {2: 7, 5: 4, 6: 8, 7: 2}, {3: 4, 5: 2, 7: 3}])
+{'runs': 51603, 'completed': 49483, 'instances': 49500, 'instances completed': 49483}
+{'runs': 52118, 'completed': 49983, 'instances': 50000, 'instances completed': 49983}
+{'runs': 52647, 'completed': 50483, 'instances': 50500, 'instances completed': 50483}
+{'runs': 53159, 'completed': 50983, 'instances': 51000, 'instances completed': 50983}
+NO RUN COMPLETES Inst([{0: 8, 3: 4, 4: 6, 7: 1}, {1: 8, 5: 4, 6: 5, 7: 2}, {2: 2, 5: 4, 6: 3, 7: 8}, {3: 4, 4: 7, 6: 2, 7: 10}])
+{'runs': 53680, 'completed': 51482, 'instances': 51500, 'instances completed': 51482}
+{'runs': 54198, 'completed': 51982, 'instances': 52000, 'instances completed': 51982}
+{'runs': 54720, 'completed': 52482, 'instances': 52500, 'instances completed': 52482}
+{'runs': 55239, 'completed': 52982, 'instances': 53000, 'instances completed': 52982}
+{'runs': 55749, 'completed': 53482, 'instances': 53500, 'instances completed': 53482}
+{'runs': 56262, 'completed': 53982, 'instances': 54000, 'instances completed': 53982}
+{'runs': 56776, 'completed': 54482, 'instances': 54500, 'instances completed': 54482}
+{'runs': 57301, 'completed': 54982, 'instances': 55000, 'instances completed': 54982}
+{'runs': 57819, 'completed': 55482, 'instances': 55500, 'instances completed': 55482}
+{'runs': 58331, 'completed': 55982, 'instances': 56000, 'instances completed': 55982}
+{'runs': 58849, 'completed': 56482, 'instances': 56500, 'instances completed': 56482}
+{'runs': 59371, 'completed': 56982, 'instances': 57000, 'instances completed': 56982}
+{'runs': 59890, 'completed': 57482, 'instances': 57500, 'instances completed': 57482}
+{'runs': 60417, 'completed': 57982, 'instances': 58000, 'instances completed': 57982}
+NO RUN COMPLETES Inst([{0: 8, 2: 3, 6: 6, 7: 4}, {1: 7, 5: 10, 6: 2, 7: 6}, {2: 10, 3: 7, 4: 4, 7: 2}, {3: 5, 4: 6, 5: 7, 7: 3}])
+{'runs': 60969, 'completed': 58481, 'instances': 58500, 'instances completed': 58481}
+{'runs': 61487, 'completed': 58981, 'instances': 59000, 'instances completed': 58981}
+{'runs': 61996, 'completed': 59481, 'instances': 59500, 'instances completed': 59481}
+{'runs': 62524, 'completed': 59981, 'instances': 60000, 'instances completed': 59981}
+{'runs': 63037, 'completed': 60481, 'instances': 60500, 'instances completed': 60481}
+{'runs': 63563, 'completed': 60981, 'instances': 61000, 'instances completed': 60981}
+{'runs': 64086, 'completed': 61481, 'instances': 61500, 'instances completed': 61481}
+{'runs': 64592, 'completed': 61981, 'instances': 62000, 'instances completed': 61981}
+{'runs': 65114, 'completed': 62481, 'instances': 62500, 'instances completed': 62481}
+{'runs': 65625, 'completed': 62981, 'instances': 63000, 'instances completed': 62981}
+{'runs': 66138, 'completed': 63481, 'instances': 63500, 'instances completed': 63481}
+{'runs': 66654, 'completed': 63981, 'instances': 64000, 'instances completed': 63981}
+{'runs': 67169, 'completed': 64481, 'instances': 64500, 'instances completed': 64481}
+{'runs': 67686, 'completed': 64981, 'instances': 65000, 'instances completed': 64981}
+NO RUN COMPLETES Inst([{0: 8, 3: 3, 4: 4, 7: 6}, {1: 4, 3: 6, 6: 8, 7: 5}, {2: 2, 5: 6, 6: 10, 7: 3}, {4: 4, 5: 2, 7: 3}])
+{'runs': 68211, 'completed': 65480, 'instances': 65500, 'instances completed': 65480}
+{'runs': 68730, 'completed': 65980, 'instances': 66000, 'instances completed': 65980}
+NO RUN COMPLETES Inst([{0: 4, 2: 3, 3: 2}, {1: 4, 6: 2, 7: 3}, {2: 2, 3: 4, 4: 3, 5: 8}, {4: 2, 5: 10, 6: 7, 7: 4}])
+{'runs': 69251, 'completed': 66479, 'instances': 66500, 'instances completed': 66479}
+{'runs': 69758, 'completed': 66979, 'instances': 67000, 'instances completed': 66979}
+{'runs': 70267, 'completed': 67479, 'instances': 67500, 'instances completed': 67479}
+{'runs': 70774, 'completed': 67979, 'instances': 68000, 'instances completed': 67979}
+{'runs': 71290, 'completed': 68479, 'instances': 68500, 'instances completed': 68479}
+{'runs': 71802, 'completed': 68979, 'instances': 69000, 'instances completed': 68979}
+{'runs': 72325, 'completed': 69479, 'instances': 69500, 'instances completed': 69479}
+{'runs': 72832, 'completed': 69979, 'instances': 70000, 'instances completed': 69979}
+{'runs': 73337, 'completed': 70479, 'instances': 70500, 'instances completed': 70479}
+{'runs': 73847, 'completed': 70979, 'instances': 71000, 'instances completed': 70979}
+{'runs': 74369, 'completed': 71479, 'instances': 71500, 'instances completed': 71479}
+{'runs': 74877, 'completed': 71979, 'instances': 72000, 'instances completed': 71979}
+{'runs': 75389, 'completed': 72479, 'instances': 72500, 'instances completed': 72479}
+{'runs': 75911, 'completed': 72979, 'instances': 73000, 'instances completed': 72979}
+{'runs': 76416, 'completed': 73479, 'instances': 73500, 'instances completed': 73479}
+{'runs': 76936, 'completed': 73979, 'instances': 74000, 'instances completed': 73979}
+{'runs': 77451, 'completed': 74479, 'instances': 74500, 'instances completed': 74479}
+{'runs': 77969, 'completed': 74979, 'instances': 75000, 'instances completed': 74979}
+{'runs': 78491, 'completed': 75479, 'instances': 75500, 'instances completed': 75479}
+{'runs': 79014, 'completed': 75979, 'instances': 76000, 'instances completed': 75979}
+{'runs': 79535, 'completed': 76479, 'instances': 76500, 'instances completed': 76479}
+{'runs': 80048, 'completed': 76979, 'instances': 77000, 'instances completed': 76979}
+{'runs': 80571, 'completed': 77479, 'instances': 77500, 'instances completed': 77479}
+{'runs': 81096, 'completed': 77979, 'instances': 78000, 'instances completed': 77979}
+{'runs': 81608, 'completed': 78479, 'instances': 78500, 'instances completed': 78479}
+{'runs': 82134, 'completed': 78979, 'instances': 79000, 'instances completed': 78979}
+{'runs': 82651, 'completed': 79479, 'instances': 79500, 'instances completed': 79479}
+{'runs': 83157, 'completed': 79979, 'instances': 80000, 'instances completed': 79979}
+{'runs': 83682, 'completed': 80479, 'instances': 80500, 'instances completed': 80479}
+{'runs': 84211, 'completed': 80979, 'instances': 81000, 'instances completed': 80979}
+{'runs': 84738, 'completed': 81479, 'instances': 81500, 'instances completed': 81479}
+{'runs': 85246, 'completed': 81979, 'instances': 82000, 'instances completed': 81979}
+{'runs': 85783, 'completed': 82479, 'instances': 82500, 'instances completed': 82479}
+NO RUN COMPLETES Inst([{0: 4, 2: 2, 3: 3}, {1: 4, 4: 8, 5: 2, 6: 3}, {2: 4, 4: 8, 5: 2, 6: 3}, {3: 6, 4: 8, 5: 4, 6: 5}])
+{'runs': 86294, 'completed': 82978, 'instances': 83000, 'instances completed': 82978}
+{'runs': 86811, 'completed': 83478, 'instances': 83500, 'instances completed': 83478}
+{'runs': 87320, 'completed': 83978, 'instances': 84000, 'instances completed': 83978}
+{'runs': 87849, 'completed': 84478, 'instances': 84500, 'instances completed': 84478}
+{'runs': 88374, 'completed': 84978, 'instances': 85000, 'instances completed': 84978}
+{'runs': 88895, 'completed': 85478, 'instances': 85500, 'instances completed': 85478}
+{'runs': 89408, 'completed': 85978, 'instances': 86000, 'instances completed': 85978}
+{'runs': 89918, 'completed': 86478, 'instances': 86500, 'instances completed': 86478}
+NO RUN COMPLETES Inst([{0: 8, 2: 2, 4: 4, 6: 7}, {1: 4, 4: 5, 6: 2, 9: 8}, {3: 8, 5: 4, 7: 1, 8: 6}, {5: 5, 7: 4, 8: 2, 9: 8}])
+{'runs': 90466, 'completed': 86977, 'instances': 87000, 'instances completed': 86977}
+NO RUN COMPLETES Inst([{0: 4, 2: 3, 3: 2}, {1: 4, 6: 2, 7: 3}, {2: 4, 3: 2, 4: 8, 5: 3}, {4: 7, 5: 3, 6: 6, 7: 5}])
+{'runs': 90980, 'completed': 87476, 'instances': 87500, 'instances completed': 87476}
+{'runs': 91489, 'completed': 87976, 'instances': 88000, 'instances completed': 87976}
+NO RUN COMPLETES Inst([{0: 4, 3: 3, 4: 2}, {1: 4, 4: 8, 5: 3, 6: 2}, {2: 8, 4: 10, 5: 6, 6: 3}, {3: 4, 5: 2, 6: 3}])
+{'runs': 92007, 'completed': 88475, 'instances': 88500, 'instances completed': 88475}
+{'runs': 92517, 'completed': 88975, 'instances': 89000, 'instances completed': 88975}
+{'runs': 93030, 'completed': 89475, 'instances': 89500, 'instances completed': 89475}
+{'runs': 93541, 'completed': 89975, 'instances': 90000, 'instances completed': 89975}
+{'runs': 94069, 'completed': 90475, 'instances': 90500, 'instances completed': 90475}
+{'runs': 94575, 'completed': 90975, 'instances': 91000, 'instances completed': 90975}
+{'runs': 95088, 'completed': 91475, 'instances': 91500, 'instances completed': 91475}
+{'runs': 95611, 'completed': 91975, 'instances': 92000, 'instances completed': 91975}
+{'runs': 96136, 'completed': 92475, 'instances': 92500, 'instances completed': 92475}
+{'runs': 96653, 'completed': 92975, 'instances': 93000, 'instances completed': 92975}
+{'runs': 97157, 'completed': 93475, 'instances': 93500, 'instances completed': 93475}
+{'runs': 97676, 'completed': 93975, 'instances': 94000, 'instances completed': 93975}
+{'runs': 98187, 'completed': 94475, 'instances': 94500, 'instances completed': 94475}
+{'runs': 98706, 'completed': 94975, 'instances': 95000, 'instances completed': 94975}
+{'runs': 99232, 'completed': 95475, 'instances': 95500, 'instances completed': 95475}
+{'runs': 99750, 'completed': 95975, 'instances': 96000, 'instances completed': 95975}
+NO RUN COMPLETES Inst([{0: 4, 4: 8, 6: 2, 7: 3}, {1: 6, 4: 8, 6: 4, 7: 1}, {2: 7, 5: 3, 6: 6, 7: 5}, {3: 2, 5: 4, 7: 3}])
+{'runs': 100269, 'completed': 96474, 'instances': 96500, 'instances completed': 96474}
+{'runs': 100795, 'completed': 96974, 'instances': 97000, 'instances completed': 96974}
+{'runs': 101319, 'completed': 97474, 'instances': 97500, 'instances completed': 97474}
+NO RUN COMPLETES Inst([{0: 6, 4: 4, 5: 8, 6: 5}, {1: 6, 4: 5, 5: 8, 6: 4}, {2: 8, 4: 2, 5: 7, 6: 4}, {3: 8, 4: 6, 5: 3, 6: 4}])
+{'runs': 101861, 'completed': 97973, 'instances': 98000, 'instances completed': 97973}
+{'runs': 102394, 'completed': 98473, 'instances': 98500, 'instances completed': 98473}
+NO RUN COMPLETES Inst([{0: 4, 2: 2, 3: 3}, {1: 6, 4: 2, 5: 10, 6: 3}, {2: 10, 4: 7, 5: 2, 6: 4}, {3: 6, 4: 5, 5: 7, 6: 3}])
+{'runs': 102905, 'completed': 98972, 'instances': 99000, 'instances completed': 98972}
+{'runs': 103467, 'completed': 99472, 'instances': 99500, 'instances completed': 99472}
+{'runs': 103989, 'completed': 99972, 'instances': 100000, 'instances completed': 99972}
+{'runs': 104501, 'completed': 100472, 'instances': 100500, 'instances completed': 100472}
+{'runs': 105026, 'completed': 100972, 'instances': 101000, 'instances completed': 100972}
+NO RUN COMPLETES Inst([{0: 10, 1: 8, 2: 3, 3: 4}, {1: 8, 4: 10, 5: 4, 6: 3}, {2: 7, 4: 6, 5: 3, 6: 5}, {3: 6, 4: 8, 5: 4, 6: 5}])
+{'runs': 105558, 'completed': 101471, 'instances': 101500, 'instances completed': 101471}
+NO RUN COMPLETES Inst([{0: 3, 4: 8, 5: 10, 6: 4}, {1: 8, 4: 7, 6: 4, 8: 2}, {2: 2, 5: 10, 7: 4, 8: 7}, {3: 4, 7: 3, 8: 2}])
+{'runs': 106082, 'completed': 101970, 'instances': 102000, 'instances completed': 101970}
+{'runs': 106596, 'completed': 102470, 'instances': 102500, 'instances completed': 102470}
+{'runs': 107107, 'completed': 102970, 'instances': 103000, 'instances completed': 102970}
+{'runs': 107621, 'completed': 103470, 'instances': 103500, 'instances completed': 103470}
+{'runs': 108150, 'completed': 103970, 'instances': 104000, 'instances completed': 103970}
+{'runs': 108666, 'completed': 104470, 'instances': 104500, 'instances completed': 104470}
+{'runs': 109175, 'completed': 104970, 'instances': 105000, 'instances completed': 104970}
+{'runs': 109690, 'completed': 105470, 'instances': 105500, 'instances completed': 105470}
+{'runs': 110210, 'completed': 105970, 'instances': 106000, 'instances completed': 105970}
+{'runs': 110731, 'completed': 106470, 'instances': 106500, 'instances completed': 106470}
+{'runs': 111259, 'completed': 106970, 'instances': 107000, 'instances completed': 106970}
+{'runs': 111773, 'completed': 107470, 'instances': 107500, 'instances completed': 107470}
+{'runs': 112299, 'completed': 107970, 'instances': 108000, 'instances completed': 107970}
+NO RUN COMPLETES Inst([{0: 4, 3: 3, 4: 2}, {1: 8, 5: 4, 6: 10, 7: 3}, {2: 4, 5: 3, 7: 2}, {3: 6, 4: 1, 6: 8, 7: 4}])
+{'runs': 112822, 'completed': 108469, 'instances': 108500, 'instances completed': 108469}
+{'runs': 113354, 'completed': 108969, 'instances': 109000, 'instances completed': 108969}
+{'runs': 113869, 'completed': 109469, 'instances': 109500, 'instances completed': 109469}
+{'runs': 114388, 'completed': 109969, 'instances': 110000, 'instances completed': 109969}
+{'runs': 114903, 'completed': 110469, 'instances': 110500, 'instances completed': 110469}
+{'runs': 115423, 'completed': 110969, 'instances': 111000, 'instances completed': 110969}
+{'runs': 115931, 'completed': 111469, 'instances': 111500, 'instances completed': 111469}
+{'runs': 116451, 'completed': 111969, 'instances': 112000, 'instances completed': 111969}
+{'runs': 116968, 'completed': 112469, 'instances': 112500, 'instances completed': 112469}
+{'runs': 117484, 'completed': 112969, 'instances': 113000, 'instances completed': 112969}
+{'runs': 118001, 'completed': 113469, 'instances': 113500, 'instances completed': 113469}
+{'runs': 118509, 'completed': 113969, 'instances': 114000, 'instances completed': 113969}
+NO RUN COMPLETES Inst([{0: 10, 2: 2, 5: 6, 7: 7}, {1: 8, 4: 7, 6: 2, 7: 4}, {2: 8, 3: 10, 4: 3, 7: 6}, {3: 7, 5: 6, 6: 3, 7: 5}])
+{'runs': 119030, 'completed': 114468, 'instances': 114500, 'instances completed': 114468}
+{'runs': 119552, 'completed': 114968, 'instances': 115000, 'instances completed': 114968}
+{'runs': 120069, 'completed': 115468, 'instances': 115500, 'instances completed': 115468}
+{'runs': 120587, 'completed': 115968, 'instances': 116000, 'instances completed': 115968}
+{'runs': 121110, 'completed': 116468, 'instances': 116500, 'instances completed': 116468}
+{'runs': 121629, 'completed': 116968, 'instances': 117000, 'instances completed': 116968}
+{'runs': 122165, 'completed': 117468, 'instances': 117500, 'instances completed': 117468}
+{'runs': 122674, 'completed': 117968, 'instances': 118000, 'instances completed': 117968}
+{'runs': 123185, 'completed': 118468, 'instances': 118500, 'instances completed': 118468}
+{'runs': 123700, 'completed': 118968, 'instances': 119000, 'instances completed': 118968}
+NO RUN COMPLETES Inst([{0: 6, 4: 8, 5: 1, 6: 4}, {1: 7, 4: 10, 5: 6, 6: 2}, {2: 1, 3: 8, 5: 6, 6: 4}, {2: 4, 3: 2, 6: 3}])
+{'runs': 124221, 'completed': 119467, 'instances': 119500, 'instances completed': 119467}
+{'runs': 124748, 'completed': 119967, 'instances': 120000, 'instances completed': 119967}
+{'runs': 125273, 'completed': 120467, 'instances': 120500, 'instances completed': 120467}
+{'runs': 125779, 'completed': 120967, 'instances': 121000, 'instances completed': 120967}
+{'runs': 126306, 'completed': 121467, 'instances': 121500, 'instances completed': 121467}
+{'runs': 126839, 'completed': 121967, 'instances': 122000, 'instances completed': 121967}
+{'runs': 127361, 'completed': 122467, 'instances': 122500, 'instances completed': 122467}
+{'runs': 127873, 'completed': 122967, 'instances': 123000, 'instances completed': 122967}
+{'runs': 128379, 'completed': 123467, 'instances': 123500, 'instances completed': 123467}
+{'runs': 128897, 'completed': 123967, 'instances': 124000, 'instances completed': 123967}
+{'runs': 129430, 'completed': 124467, 'instances': 124500, 'instances completed': 124467}
+{'runs': 129969, 'completed': 124967, 'instances': 125000, 'instances completed': 124967}
+NO RUN COMPLETES Inst([{0: 4, 3: 3, 4: 2}, {1: 10, 5: 4, 6: 8, 7: 3}, {2: 4, 5: 6, 6: 1, 7: 8}, {3: 8, 4: 3, 6: 6, 7: 10}])
+{'runs': 130493, 'completed': 125466, 'instances': 125500, 'instances completed': 125466}
+{'runs': 131016, 'completed': 125966, 'instances': 126000, 'instances completed': 125966}
+{'runs': 131529, 'completed': 126466, 'instances': 126500, 'instances completed': 126466}
+NO RUN COMPLETES Inst([{0: 6, 3: 7, 4: 2, 7: 10}, {1: 3, 5: 8, 6: 4, 7: 10}, {2: 7, 5: 3, 6: 5, 8: 6}, {3: 2, 4: 3, 8: 4}])
+{'runs': 132061, 'completed': 126965, 'instances': 127000, 'instances completed': 126965}
+{'runs': 132583, 'completed': 127465, 'instances': 127500, 'instances completed': 127465}
+{'runs': 133093, 'completed': 127965, 'instances': 128000, 'instances completed': 127965}
+{'runs': 133604, 'completed': 128465, 'instances': 128500, 'instances completed': 128465}
+{'runs': 134111, 'completed': 128965, 'instances': 129000, 'instances completed': 128965}
+{'runs': 134634, 'completed': 129465, 'instances': 129500, 'instances completed': 129465}
+{'runs': 135147, 'completed': 129965, 'instances': 130000, 'instances completed': 129965}
+NO RUN COMPLETES Inst([{0: 10, 2: 8, 4: 3, 5: 6}, {1: 4, 3: 2, 6: 3}, {2: 6, 4: 7, 5: 5, 6: 3}, {3: 6, 4: 8, 5: 3, 6: 4}])
+{'runs': 135676, 'completed': 130464, 'instances': 130500, 'instances completed': 130464}
+{'runs': 136194, 'completed': 130964, 'instances': 131000, 'instances completed': 130964}
+{'runs': 136711, 'completed': 131464, 'instances': 131500, 'instances completed': 131464}
+{'runs': 137229, 'completed': 131964, 'instances': 132000, 'instances completed': 131964}
+{'runs': 137748, 'completed': 132464, 'instances': 132500, 'instances completed': 132464}
+{'runs': 138288, 'completed': 132964, 'instances': 133000, 'instances completed': 132964}
+{'runs': 138812, 'completed': 133464, 'instances': 133500, 'instances completed': 133464}
+{'runs': 139317, 'completed': 133964, 'instances': 134000, 'instances completed': 133964}
+NO RUN COMPLETES Inst([{0: 8, 2: 2, 6: 4, 9: 7}, {1: 2, 5: 10, 8: 6, 9: 7}, {3: 4, 6: 7, 7: 10, 9: 2}, {4: 1, 7: 8, 8: 6, 9: 4}])
+{'runs': 139837, 'completed': 134463, 'instances': 134500, 'instances completed': 134463}
+{'runs': 140357, 'completed': 134963, 'instances': 135000, 'instances completed': 134963}
+{'runs': 140864, 'completed': 135463, 'instances': 135500, 'instances completed': 135463}
+{'runs': 141382, 'completed': 135963, 'instances': 136000, 'instances completed': 135963}
+{'runs': 141894, 'completed': 136463, 'instances': 136500, 'instances completed': 136463}
+{'runs': 142407, 'completed': 136963, 'instances': 137000, 'instances completed': 136963}
+{'runs': 142912, 'completed': 137463, 'instances': 137500, 'instances completed': 137463}
+{'runs': 143423, 'completed': 137963, 'instances': 138000, 'instances completed': 137963}
+{'runs': 143937, 'completed': 138463, 'instances': 138500, 'instances completed': 138463}
+{'runs': 144448, 'completed': 138963, 'instances': 139000, 'instances completed': 138963}
+{'runs': 144963, 'completed': 139463, 'instances': 139500, 'instances completed': 139463}
+{'runs': 145473, 'completed': 139963, 'instances': 140000, 'instances completed': 139963}
+{'runs': 145985, 'completed': 140463, 'instances': 140500, 'instances completed': 140463}
+{'runs': 146516, 'completed': 140963, 'instances': 141000, 'instances completed': 140963}
+NO RUN COMPLETES Inst([{0: 7, 4: 2, 5: 8, 6: 4}, {1: 8, 4: 4, 5: 3, 6: 6}, {2: 8, 4: 2, 5: 4, 6: 5}, {3: 6, 4: 5, 5: 8, 6: 4}])
+{'runs': 147046, 'completed': 141462, 'instances': 141500, 'instances completed': 141462}
+{'runs': 147558, 'completed': 141962, 'instances': 142000, 'instances completed': 141962}
+{'runs': 148068, 'completed': 142462, 'instances': 142500, 'instances completed': 142462}
+{'runs': 148600, 'completed': 142962, 'instances': 143000, 'instances completed': 142962}
+{'runs': 149122, 'completed': 143462, 'instances': 143500, 'instances completed': 143462}
+{'runs': 149632, 'completed': 143962, 'instances': 144000, 'instances completed': 143962}
+{'runs': 150155, 'completed': 144462, 'instances': 144500, 'instances completed': 144462}
+NO RUN COMPLETES Inst([{0: 8, 2: 3, 3: 6, 4: 4}, {1: 10, 6: 8, 7: 3, 8: 4}, {2: 2, 3: 5, 4: 4, 5: 8}, {5: 8, 6: 3, 7: 4, 8: 6}])
+{'runs': 150684, 'completed': 144961, 'instances': 145000, 'instances completed': 144961}
+{'runs': 151207, 'completed': 145461, 'instances': 145500, 'instances completed': 145461}
+{'runs': 151724, 'completed': 145961, 'instances': 146000, 'instances completed': 145961}
+{'runs': 152230, 'completed': 146461, 'instances': 146500, 'instances completed': 146461}
+{'runs': 152756, 'completed': 146961, 'instances': 147000, 'instances completed': 146961}
+NO RUN COMPLETES Inst([{0: 7, 2: 3, 5: 6, 7: 5}, {1: 7, 4: 3, 6: 6, 7: 5}, {2: 3, 3: 7, 4: 6, 7: 5}, {3: 10, 5: 3, 6: 8, 7: 4}])
+{'runs': 153303, 'completed': 147460, 'instances': 147500, 'instances completed': 147460}
+{'runs': 153831, 'completed': 147960, 'instances': 148000, 'instances completed': 147960}
+{'runs': 154347, 'completed': 148460, 'instances': 148500, 'instances completed': 148460}
+{'runs': 154879, 'completed': 148960, 'instances': 149000, 'instances completed': 148960}
+{'runs': 155402, 'completed': 149460, 'instances': 149500, 'instances completed': 149460}
+{'runs': 155915, 'completed': 149960, 'instances': 150000, 'instances completed': 149960}
+{'runs': 156428, 'completed': 150460, 'instances': 150500, 'instances completed': 150460}
+{'runs': 156946, 'completed': 150960, 'instances': 151000, 'instances completed': 150960}
+{'runs': 157465, 'completed': 151460, 'instances': 151500, 'instances completed': 151460}
+{'runs': 157989, 'completed': 151960, 'instances': 152000, 'instances completed': 151960}
+NO RUN COMPLETES Inst([{0: 7, 2: 3, 3: 6, 7: 5}, {1: 4, 5: 2, 6: 3}, {2: 4, 3: 8, 4: 10, 7: 3}, {4: 10, 5: 7, 6: 4, 7: 2}])
+{'runs': 158516, 'completed': 152459, 'instances': 152500, 'instances completed': 152459}
+{'runs': 159017, 'completed': 152959, 'instances': 153000, 'instances completed': 152959}
+{'runs': 159551, 'completed': 153459, 'instances': 153500, 'instances completed': 153459}
+{'runs': 160059, 'completed': 153959, 'instances': 154000, 'instances completed': 153959}
+NO RUN COMPLETES Inst([{0: 10, 3: 2, 5: 4, 6: 7}, {1: 6, 4: 8, 5: 4, 6: 5}, {2: 6, 4: 8, 5: 4, 6: 5}, {3: 8, 4: 2, 5: 3, 6: 4}])
+{'runs': 160591, 'completed': 154458, 'instances': 154500, 'instances completed': 154458}
+{'runs': 161103, 'completed': 154958, 'instances': 155000, 'instances completed': 154958}
+{'runs': 161627, 'completed': 155458, 'instances': 155500, 'instances completed': 155458}
+{'runs': 162142, 'completed': 155958, 'instances': 156000, 'instances completed': 155958}
+{'runs': 162664, 'completed': 156458, 'instances': 156500, 'instances completed': 156458}
+{'runs': 163188, 'completed': 156958, 'instances': 157000, 'instances completed': 156958}
+{'runs': 163707, 'completed': 157458, 'instances': 157500, 'instances completed': 157458}
+{'runs': 164224, 'completed': 157958, 'instances': 158000, 'instances completed': 157958}
+{'runs': 164751, 'completed': 158458, 'instances': 158500, 'instances completed': 158458}
+{'runs': 165281, 'completed': 158958, 'instances': 159000, 'instances completed': 158958}
+{'runs': 165797, 'completed': 159458, 'instances': 159500, 'instances completed': 159458}
+{'runs': 166323, 'completed': 159958, 'instances': 160000, 'instances completed': 159958}
+{'runs': 166845, 'completed': 160458, 'instances': 160500, 'instances completed': 160458}
+{'runs': 167364, 'completed': 160958, 'instances': 161000, 'instances completed': 160958}
+{'runs': 167893, 'completed': 161458, 'instances': 161500, 'instances completed': 161458}
+NO RUN COMPLETES Inst([{0: 6, 2: 10, 7: 7, 8: 2}, {1: 10, 6: 6, 7: 3, 8: 8}, {2: 8, 3: 4, 4: 1, 5: 6}, {3: 5, 4: 3, 5: 6, 6: 7}])
+[stopped by hand; plain Algorithm 2 (no G1 repair). All 38 instances listed are completed by the G1-repaired version, k4/girth/dyn_more.py]

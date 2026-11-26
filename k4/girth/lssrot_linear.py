@@ -11,7 +11,7 @@ import random
 import sys
 import time
 
-from lss import labels, random_labels, lss_rot, park_slack_state, park_any_state, is_efx0, triangles, two_cycles
+from lss import labels, random_labels, lss_rot, park_slack_state, park_any_state, is_efx0, triangles, two_cycles, envied
 from gen import random_linear, with_values
 
 
@@ -40,6 +40,18 @@ def main():
                 assert r.first_break is None, r.first_break
                 C['runs'] += 1
                 C['rotations'] += sum(1 for e in r.events if e[0] in ('F5', 'F6'))
+                X, U = r.X, r.U
+                env = {i for i in range(I.n) if envied(I, X, i)}
+                N = [u for u in range(I.n) if u not in env]
+                S = {i: {u for u in N if I.val(i, X[u] | (U & I.R[i])) <= I.val(i, X[i])} for i in env}
+                Lb = [e for e in U if I.edge[e] and all(i in env for i in I.edge[e])]
+                C['runs with a leftover good whose valuers are all envied'] += bool(Lb)
+                for e in Lb:
+                    com = set(N)
+                    for i in I.edge[e]:
+                        com &= S[i]
+                    if not com:
+                        C['leftover goods without a common safe vertex, %d valuers' % len(I.edge[e])] += 1
                 Z = park_slack_state(I, r.X, r.U)
                 if Z is None:
                     C['PARK+SLACK fails'] += 1

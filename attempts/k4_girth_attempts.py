@@ -7,7 +7,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'k4', 'girth'))
-from lss import Inst, lss, labels, classify, is_efx0, envied, flex, flex2, two_cycles, triangles  # noqa: E402
+from lss import Inst, lss, labels, classify, is_efx0, envied, flex, flex2, two_cycles, triangles, lss_dyn, lss_dyn_safe  # noqa: E402
 from brute import pareto_max, park_condition, park_slack, completable, check_PL, bundles_of  # noqa: E402
 
 # 1. The faithful LSS algorithm (vertex 0 = agent 0, default labels, largest label / smallest good on choices):
@@ -38,6 +38,8 @@ PL_STATE = (-1, 0, 1, 2, 3, 2, 3)
 PL_CORE = [{1: 20, 0: 12, 4: 13, 9: 9}, {2: 20, 0: 12, 3: 13, 10: 9}, {1: 20, 3: 7, 5: 6, 7: 8},
            {2: 20, 4: 7, 6: 6, 8: 8}, {9: 10, 10: 7, 7: 4, 8: 2}]
 PL_CORE_STATE = (-1, 0, 1, 2, 3, 2, 3, 4, 4, 4, 4)
+# 5. Unrepaired Algorithm 2 + dynamic parking: every labeling breaks at G1 on this n = 4 k = 4 core profile.
+DYN_G1 = [{0: 4, 2: 2, 3: 3}, {1: 4, 4: 8, 5: 2, 6: 3}, {2: 4, 4: 8, 5: 2, 6: 3}, {3: 6, 4: 8, 5: 4, 6: 5}]
 GM4E = [{0: 3, 2: 10, 4: 6, 6: 2}, {1: 3, 3: 4, 5: 8, 6: 2}, {2: 4, 3: 2, 6: 3}, {4: 2, 5: 4, 6: 3}]
 
 
@@ -99,6 +101,18 @@ def main():
     print('   LSS Algorithm 2 + flexible sink: EFX0 on %d of %d labelings' % (n_ok, len(list(all_labels(I)))))
     for ds, st, name in ((PL_CEX, PL_STATE, 'n=4 instance'), (PL_CORE, PL_CORE_STATE, 'n=5 linear k=4 core')):
         indep_check(ds, st, name)
+    print('5. 2-cycles with dynamic parking:')
+    I = Inst.from_dicts(TWIN)
+    ok = sum(lss_dyn(I, lab)[1] is not None for lab in all_labels(I))
+    print('   twin core: Algorithm 2 + dynamic parking completes on %d of %d labelings' % (ok, len(list(all_labels(I)))))
+    assert ok == len(list(all_labels(I)))
+    I = Inst.from_dicts(DYN_G1)
+    plain = [lss_dyn(I, lab) for lab in all_labels(I)]
+    assert all(r.first_break is not None and Z is None for r, Z in plain)
+    safe = sum(lss_dyn_safe(I, lab)[1] is not None for lab in all_labels(I))
+    print('   n=4 core profile: unrepaired Algorithm 2 breaks EFX0 on all %d labelings; with the G1 repair %d complete'
+          % (len(plain), safe))
+    assert safe == len(plain)
 
 
 def indep_check(ds, state, name):

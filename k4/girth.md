@@ -198,12 +198,14 @@ strongly envies it, and goods valued by nobody can be added. ∎
 
 CFKS's Lemma 13 is the case of graphs. The clean sink is the case u_e = s for all e.
 
-**Lemma SLACK** (linear hypergraphs, monotone valuations). Let X be a partial EFX₀ orientation with (3) for all agents,
+**Lemma SLACK** (any hypergraph, monotone valuations). Let X be a partial EFX₀ allocation with (3) for all agents,
 u a non-envied agent with X_u = {f}, and e an unallocated good not valued by u. Then X with X_u replaced by {f, e} is a
 partial EFX₀ allocation.
-*Proof.* Let k ≠ u. If k values both f and e, then (linear, f ≠ e) k is the only such agent; removing either good leaves
-one good worth ≤ v_k(X_k) (f because u is non-envied, e by (3)), so k does not strongly envy {f, e}. If k values only
-f, v_k({f, e}) = v_k(f) ≤ v_k(X_u) ≤ v_k(X_k); if only e, v_k({f, e}) = v_k(e) ≤ v_k(X_k) by (3). u's value rises. ∎
+*Proof.* Let k ≠ u. If k values both f and e, removing either good leaves one good worth ≤ v_k(X_k) (f because u is
+non-envied, e by (3)), so k does not strongly envy {f, e}. If k values only f, v_k({f, e}) = v_k(f) ≤ v_k(X_u) ≤
+v_k(X_k); if only e, v_k({f, e}) = v_k(e) ≤ v_k(X_k) by (3). u's value rises. ∎
+(An earlier draft assumed linearity; it is not used. With 2-cycles several agents may value both f and e, and each is
+covered by the first case.)
 
 So a non-envied agent holding one good can absorb any one leftover good even when it is not safe for its valuers: the
 EFX₀ slack of a two-good bundle replaces envy-freeness. Absorbers and Lemma PARK combine (`brute.py: park_slack`):
@@ -288,14 +290,24 @@ partial EFX₀ orientation and complete it" does not prove EFX₀ even for linea
 - **Algorithm LSS-ROT** (`lss.lss_rot`): LSS's Algorithm 2, and while an F5 or F6 rotation exists, apply it (a Pareto
   improvement, valid in linear hypergraphs by the proofs of F5, F6) and resume FixProp3 and Algorithm 2's loop. Values
   never decrease, so it stops, in a state with (1), (3), (4) for the envied agents, an acyclic envy graph and F6. Then
-  park: orient leftover goods with a non-envied valuer to one, and give every other leftover good to some non-envied
-  agent (`park_slack_state`: common safe vertices and absorbers; `park_any_state`: any choice, raw EFX₀ check).
+  *park*: give every leftover good to some non-envied agent (`park_slack_state`: common safe vertices and absorbers;
+  `park_any_state`: exhaustive backtracking over all such choices, raw EFX₀ check).
   **Conjecture LR** (CONJECTURE): on every linear instance, for every labeling, the state LSS-ROT stops in can be
-  completed by parking. With Lemma SINK this would prove EFX₀ for all linear instances. Evidence:
-  `k4/girth/lssrot_linear.py` (`results/k4_girth_lssrot_*.log`, see the status block). PARK + SLACK alone is not always
-  enough (one run in ~10⁵: a leftover good g8 whose valuers have disjoint safe sets, while the only absorber is also the
-  only safe sink of another good g6; giving both g6 and g8 to it works, because S_i charges i for all of U_i at every
-  sink).
+  completed by parking. With Lemma SINK's argument this would prove EFX₀ for all linear additive instances (any degree).
+  Evidence (no failure anywhere): `k4/girth/lssrot_linear.py` (random linear instances, n ≤ 16,
+  `results/k4_girth_lssrot_d4.log`), `k4/girth/lssrot_trap.py` (instances grown around the trap of
+  `attempts/k4-girth-linear-pl.md`), `k4/girth/lr_climb.py` (adversarial hill climbing toward states where a leftover good
+  has no common safe vertex and there is no absorber), `k4/girth/lssrot_cores.py` (every linear k = 4 core with n ≤ 6 of
+  the certificate files, random strict profiles), every labeling of both counterexamples, H_t, HH_3. Counts in the status
+  block.
+  Notes. (i) PARK alone fails at LSS-ROT states, rarely (about 1 run in 3·10⁴), at goods with two or three valuers;
+  PARK + SLACK then usually works, and once a refined choice was needed (S_i charges i for all of U_i at every sink).
+  (ii) The completion must choose where goods with a non-envied valuer go: orienting such a good to a one-good absorber
+  can spoil its slack (three false alarms of an earlier, non-exhaustive search, rechecked and completable).
+- *Coverage of Theorem T1 on small cores* (`k4/girth/core_stats.py`, `results/k4_girth_core_stats.log`): of the
+  certified k = 4 core hypergraphs, 3 of 51 (n = 3), 24 of 1,002 (n = 4), 261 of 31,584 (n = 5) and 325 of 26,866
+  (n = 6, one 4-good agent) are linear; T1 applies to 0, 5, 77 and 129 of them, LSS's girth-4 condition to 0, 5, 18 and
+  14. Small cores are dominated by 2-cycles; the linear structure appears in long cores such as H_t.
 
 **What a proof needs.** Take e ∈ L with no common safe vertex. By F6 every non-envied ancestor r of a valuer i of e is
 safe for i but dangerous for another valuer j: it holds the good f_{rj} with v_j(f_{rj} ∪ U_j) > v_j(x_j). With degree
@@ -306,10 +318,34 @@ sources poor) or a cardinal potential (welfare, Nash welfare).
 
 ## 5. Short cycles of length 2 (agents sharing two goods)
 
-Every k = 4 core contains 2-cycles. There the LSS architecture itself fails, not just a lemma
-(`attempts/k4-girth-sink-2cycles.md`): on the n = 2 core with two equal agents (8, 5, 4, 2) the only EFX₀ allocation
-gives an envied agent two goods, which no run of Algorithm 2 followed by any sink, with or without the G5 repair,
-produces. On GM4-E some Pareto-maximal partial EFX₀ orientation has no completion. With the flexible sink and the G5
-repair, the architecture succeeds on 162/168 screen instances and 1,270/1,275 sampled n = 3 core profiles (for some
-vertex 0), failing mostly at n = 2. So any extension to 2-cycles must let an envied agent hold two goods that its envier
-both values (EFX₀ slack, as in Lemma SLACK), and must not be value-monotone (P1, `k4/sdc.md` §1).
+Every k = 4 core contains 2-cycles. With them the *static* LSS completion fails (`attempts/k4-girth-sink-2cycles.md`):
+on the n = 2 core with two equal agents (8, 5, 4, 2) the only EFX₀ allocation, {a, d} | {b, c}, has an envied agent
+holding two goods, which no run of Algorithm 2 followed by one sink (with or without the G5 repair) produces. On GM4-E
+some Pareto-maximal partial EFX₀ orientation has no completion at all (P1, `k4/sdc.md` §1), so a value-monotone method
+must steer clear of such states; it does not have to lower anyone's value.
+
+**Dynamic parking** (`lss.park_dynamic`): give the leftover goods one at a time, each to an agent that is non-envied
+*at that moment*, keeping EFX₀ (raw check after each step); search over the order and the receivers. Lemma SLACK (which
+needs no linearity) makes these steps natural: a non-envied one-good holder can absorb any one good, even if that makes
+it envied by agents valuing both goods. On the twin core, Algorithm 2 leaves {a} | {b} with c, d unallocated; B absorbs
+c ({b, c} = 9, envied by A but only with slack 5 ≤ 8), after which A is non-envied and absorbs d. Nobody's value ever
+drops, so LSS + dynamic parking is value-monotone from the empty allocation.
+
+**G1 repair** (`lss.Run.alg2_safe`). Algorithm 2's line 4 gives the envied agent i the most valuable subset T ⊆ U_i with
+v_i(T) > v_i(X_i) that keeps EFX₀ (raw check), and skips i when there is none. Without it, dynamic parking fails on 38 of
+~85,000 sampled n = 4 core profiles, each time because every labeling breaks at line 4
+(`attempts/k4-girth-dyn-plain.md`); with it all 38 complete.
+
+**Conjecture DYN** (CONJECTURE). For every instance with at most four relevant goods per agent, for some vertex 0 and
+labeling, LSS's Algorithm 2 with the G1 repair ends in a state that dynamic parking completes. DYN implies TARGET₄.
+Evidence (`k4/girth/dyn_2cycles.py`, `k4/girth/dyn_more.py`; logs `results/k4_girth_dyn_*.log`; per instance every
+vertex 0 with the default and two random labelings, stopping at the first success in `dyn_more.py`):
+- the screen set: all 160 instances with 2-cycles complete (1,573 of 1,704 runs). All 24 labelings of GM4-E (P1's
+  counterexample) complete even without the repair, and at least 21 of 24 for every GM4 instance;
+- the suite: 152/152 instances with 2-cycles (1,547 of 1,665 runs);
+- random strict profiles of the k = 4 cores: n = 2 (250 instances) and n = 3 (510) all complete; n = 4 and n = 5 and
+  random degree-≤ 4 instances with 2-cycles: see the status block.
+
+What is not settled: whether a fixed labeling rule works (per run, 2–9% fail), and what makes a state parkable (a
+proof would need an invariant of LSS's states, as in Conjecture LR). The parking search is exponential in the number of
+leftover goods; it is a test of existence, not an algorithm.

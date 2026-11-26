@@ -1,0 +1,5 @@
+$ python3 k4/girth/dyn_2cycles.py 10
+screen                           {'runs': 1704, 'completed': 1573, 'instances': 160, 'instances completed by some run': 160}
+suite                            {'runs': 1665, 'completed': 1547, 'instances': 152, 'instances completed by some run': 152}
+k=4 cores n=2, random profiles   {'runs': 1500, 'completed': 1488, 'instances': 250, 'instances completed by some run': 250}
+k=4 cores n=3, random profiles   {'runs': 4590, 'completed': 4523, 'instances': 510, 'instances completed by some run': 510}

@@ -607,28 +607,118 @@ def park_slack_state(I, X, U):
     return None
 
 
-def park_any_state(I, X, U, limit=200000):
-    """Completion by parking only: orient goods with a non-envied valuer to one; every other leftover good goes to some
-    non-envied agent (exhaustive over the choices, raw EFX0 check).  None if impossible (or over `limit` choices)."""
+def park_any_state(I, X, U, limit=None):
+    """Completion by parking: every unallocated good goes to some non-envied agent (of the state X); exhaustive
+    backtracking with raw EFX0 checks.  Pruning is sound: the threat v_k(B) - min_{g in B} v_k(g) of a bundle only grows
+    when goods are added, and receivers only gain.  Returns the completed allocation or None."""
     X = [frozenset(b) for b in X]
     env = {i for i in range(I.n) if envied(I, X, i)}
     N = [u for u in range(I.n) if u not in env]
     if not N:
         return None
+    goods = sorted(U, key=lambda g: -len(I.edge[g]))
     Y = [set(b) for b in X]
-    L = []
-    for e in sorted(U):
-        nb = [j for j in sorted(I.edge[e]) if j not in env]
-        if nb:
-            Y[nb[0]].add(e)
-        else:
-            L.append(e)
-    if len(N) ** len(L) > limit:
-        return None
-    for choice in itertools.product(N, repeat=len(L)):
-        Z = [set(b) for b in Y]
-        for e, u in zip(L, choice):
-            Z[u].add(e)
-        if is_efx0(I, Z):
-            return Z
-    return None
+
+    def safe(u):
+        B = Y[u]
+        return all(I.val(k, Y[k]) >= I.threat(k, B) for k in range(I.n) if k != u)
+
+    def rec(t):
+        if t == len(goods):
+            return is_efx0(I, Y)
+        g = goods[t]
+        for u in N:
+            Y[u].add(g)
+            if safe(u) and rec(t + 1):
+                return True
+            Y[u].discard(g)
+        return False
+
+    return [set(b) for b in Y] if rec(0) else None
+
+def park_dynamic(I, X, U, budget=200000):
+    """Dynamic parking: repeatedly give some unallocated good to an agent that is non-envied in the CURRENT partial
+    allocation, keeping it EFX0 (raw check), until nothing is left; depth-first search over the choices with a node
+    budget.  Lemma SLACK's absorptions are such steps in any hypergraph.  Returns the allocation or None."""
+    Y = [set(b) for b in X]
+    left = set(U)
+    count = [0]
+    seen = set()
+
+    def rec():
+        if not left:
+            return True
+        key = tuple(frozenset(b) for b in Y)
+        if key in seen:
+            return False
+        seen.add(key)
+        count[0] += 1
+        if count[0] > budget:
+            return False
+        for g in sorted(left, key=lambda h: -len(I.edge[h])):
+            for u in range(I.n):
+                if envied(I, Y, u):
+                    continue
+                Y[u].add(g)
+                left.discard(g)
+                if is_efx0(I, Y) and rec():
+                    return True
+                Y[u].discard(g)
+                left.add(g)
+        return False
+
+    return [set(b) for b in Y] if rec() else None
+
+
+def lss_dyn(I, lab, pick='max', rotations=False):
+    """LSS's Algorithm 2 (with the F5/F6 rotations if rotations=True; linear instances only), then dynamic parking"""
+    r = lss_rot(I, lab, pick) if rotations else Run(I, lab, pick)
+    if not rotations:
+        r.alg2()
+    return r, park_dynamic(I, r.X, r.U)
+
+
+def _alg2_safe(self):
+    """Algorithm 2 with the G1 repair (k4/girth.md section 5): line 4 gives the envied agent i the most valuable subset
+    T of U_i with v_i(T) > v_i(X_i) that keeps EFX0 (raw check); agents with no such T are skipped until something
+    changes.  Everything else as in Algorithm 2."""
+    I = self.I
+    self.fixprop3()
+    stuck = set()
+    while True:
+        cand = [i for i in range(I.n) if i not in stuck and envied(I, self.X, i)
+                and I.val(i, self.U_of(i)) > I.val(i, self.X[i])]
+        if not cand:
+            break
+        i = self._choose(cand, key=lambda a: self.lab[a])
+        Ui = sorted(self.U_of(i))
+        best = None
+        for k in range(len(Ui), 0, -1):
+            for T in itertools.combinations(Ui, k):
+                T = frozenset(T)
+                if I.val(i, T) <= I.val(i, self.X[i]):
+                    continue
+                Y = list(self.X)
+                Y[i] = T
+                if is_efx0(I, Y) and (best is None or I.val(i, T) > I.val(i, best)):
+                    best = T
+        if best is None:
+            stuck.add(i)
+            continue
+        self.U |= self.X[i]
+        self.X[i] = best
+        self.U -= best
+        self.events.append(('A2L4s', i, tuple(sorted(best))))
+        self._after('A2L4s', i, tuple(sorted(best)))
+        self.fixprop3()
+        stuck = set()
+
+
+Run.alg2_safe = _alg2_safe
+
+
+def lss_dyn_safe(I, lab, pick='max'):
+    """Algorithm 2 with the G1 repair, then dynamic parking"""
+    r = Run(I, lab, pick)
+    r.alg2_safe()
+    return r, (park_dynamic(I, r.X, r.U) if is_efx0(I, r.X) else None)
