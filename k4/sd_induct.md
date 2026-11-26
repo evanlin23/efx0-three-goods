@@ -435,3 +435,19 @@ Beyond DT⁺, a pick-unfrozen agent that is *not* threatened may still take any 
 sets must be cleared by those slots before the frozen agents arrive. With frozen agents first in π, this is exactly
 the static covering of Corollary TP: the count of `k4/sdc.md` §30. The exceptions to the TP shape (A131,
 induct-b-r0-pot-minvw at n = 2) are where a frozen agent's wanter is compensated, which PR-TP does not use.
+
+## 8. A greedy lookahead rule for the free slots fails (`e19_lookahead.py`, `results/k4_sdind/e19_lookahead.log`)
+
+Theorem PR-TP leaves one choice: which junk good each pick-unfrozen agent takes on arrival (frozen agents first in π,
+so all helpers arrive before them). A greedy rule takes the good with the highest *demand*:
+- *need*: the number of frozen agents still to come that value it and are threatened by the absorber's current
+  bundle;
+- *val*: the number of frozen agents still to come that value it.
+
+Threatened agents choose among the goods that make them safe. On the screen set, over the 792 cases (Y, o) where o
+absorbs a TP-shaped completion (or none is needed), the rule succeeds on 773 (need) and 752 (val). The arrangement of
+the frozen-first orders does not matter: when some order works, every order does. GM4-C and GM4-D are among the
+failures. A count of demands does not see that a frozen agent needs a *specific* pair removed. The choice has to
+solve the frozen agents' hitting-set problem (which goods leave the absorber's bundle) and then match those goods to
+the free slots. That is the static covering problem of Corollary TP, i.e. the count of `k4/sdc.md` §30, and nothing
+here makes it local.
