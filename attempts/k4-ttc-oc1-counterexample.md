@@ -56,11 +56,13 @@ Order (0, 1, 2, 3, 4), or the R1-priority order (0, 2, 1, 3, 4). Picks (y₀, y�
 **Danger pairs.** Each {aᵢ, bᵢ} is worth 11 > 10 to agent i. So no bundle of three or more goods may contain a whole
 pair (Lemma 2(b)).
 
-**The count.**
+**The count** (a written proof that the picks have no one-absorber completion).
 - All six junk goods must go to agents 3 and 4.
-- With one absorber, it takes at most one good of each pair, so three goods.
+- If the absorber's bundle has three or more goods, it contains at most one good of each pair, so at most three
+  goods. Its only other option is to hold exactly one pair and nothing else, which is not a strict superset of the
+  danger set and places two goods.
 - The other agent may take one good.
-- That places four goods, not six.
+- That places at most four goods, not six. ∎
 
 **Free completion.** The picks have free completions. Agents 3 and 4 each take one good of every pair, as in
 ({y₀}, {y₁}, {y₂}, {a₀, a₁, a₂}, {b₀, b₁, b₂}).
