@@ -218,3 +218,29 @@ coordinator has checked them; "verified" marks the ones checked.
   - Hall session: the written proof of Finding D1.
   - Coordinator: whether removing two-private agents also removes the pickless pigeonhole (count the junk:
     |J| = m − #picks, and the private goods are what made |J| = 6 here).
+
+### 2026-11-26 21:56 UTC: new candidate OC₁^max (maximum-matching orders)
+- **Observation** (coordinator, `k4/sdc/oc1_max_orders.py`). On B< and B>, every failing order leaves two agents
+  pickless: its picks match 4 agents, while the instance has a perfect agent matching (ν = 6). No order whose picks
+  form a maximum matching fails.
+  - B< and B>: OC₁ holds for all 680 maximum-matching orders, and fails for 48 of the 760 others.
+    Log: `results/k4_sdc/oc1_max_orders_core.log`.
+  - All 84 TTC instances (`results/k4_ttc/oc1_counterexamples.json`): 0 failures among 30,452 maximum-matching
+    orders; all 2,016 failures (24 per instance) come from non-maximum orders. Log: `results/k4_sdc/oc1_max_orders_ttc84.log`.
+- **Conjecture OC₁^max.** For every SD order whose picks form a maximum-cardinality matching of the agent /
+  relevant-good graph, the picks have a one-absorber completion, or one official move gives a state with one.
+  OC1-ED\*^max is the same restriction of OC1-ED\*. All earlier evidence for OC₁ (every order, n ≤ 5; 24,000 random
+  starts, n = 6–9) is evidence for it.
+- **Such orders exist (proved here; elementary).**
+  - A matching M that is Pareto optimal among maximum matchings is Pareto optimal: an improvement keeps every matched
+    agent matched, so it is again maximum.
+  - Every Pareto-optimal matching M is an SD outcome. If no agent holds its top remaining good, every agent points
+    to a better good. That good is unmatched (giving it is an improvement, which contradicts maximality) or matched,
+    so following pointers closes a cycle among matched agents, and trading along it is an improvement.
+  - So some agent i holds its top good: put it first, remove i and M(i), and repeat. The agents M leaves unmatched
+    come last; all their goods are already taken, so they are pickless in SD too.
+  - Hence OC₁^max implies TARGET₄ on cores, exactly as OC₁ did. It can also be restricted to the K4.MC2 class.
+- **Next.**
+  - TTC and sd-induct sessions: climbs and CEGAR against OC₁^max, not OC₁.
+  - Hall session: does Lemma 2\* explain why pickless agents of a maximum matching (the Hall-deficient set given by
+    König–Egerváry / Gallai–Edmonds) cannot force two absorbers?
