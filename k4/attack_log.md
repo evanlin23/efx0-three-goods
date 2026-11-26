@@ -689,3 +689,27 @@ before any proof effort: DYN, W₃/W^sub, VM1, RD², OL and OC₂^max.
 - **Certifier**: n = 5 chunk 1 (868 hypergraphs) is all OC₂^max-certified and independently checked.
   - Mechanism on all 11: one unfrozen agent, and two frozen agents sharing one junk danger pair. That is the PW5
     mechanism at k = 4.
+
+### 2026-11-26 23:59 UTC: referee confirms the OC₁^max refutation; D1 lemmas and the multi reductions refereed; VM1 on cores refuted
+- **Referee** (`k4/referee/oc1_hall_d1.md`, `k4/referee/oc1max_multi.md` on claude/k4-referee):
+  - Hall §21–§22, **CORRECT**: Lemma D1-chain, Prop. 3′, Lemma D1-red (with Remarks 1–2), Lemma D1-C₀ and
+    Prop. D1-C′. They were checked on 126,879 hard starts, 0 failures.
+  - **The OC₁^max refutation is confirmed by brute force**: cex1, cex2 and the TTC n = 5 core are strict and perfect.
+    No chain state or addition has a one-absorber completion, and two sequential chains repair each.
+  - proof/k4-oc1max-multi, **CORRECT**: D-red, T0, KEEP, SET, OWN, Corollaries TR and KEEP-1, and RING-red. Four
+    wording fixes, no gap. 172,394 chains tested, and every hypothesis is necessary. Theorem U is next.
+- **VM**: VM1 is refuted on strict connected k = 4 cores too. C0: n = 5, m = 8, MC2 class, three checks. The
+  coordinator confirms C0 is a strict MC2 core and that the stated two-move completion is EFX₀. From every
+  maximum-matching SD order, OC₁ holds at C0, so VM1 fails because its start is a V-M matching. VM1-chain (one DE
+  chain allowed) completes all 5 failing cores and all 315 PW instances up to k = 9 except PW(3,3,8).
+- **TTC**: hand-built three-owner and ladder designs give no three-move start. Informal reason: at k = 4 an agent's
+  private junk plus its pick leaves room for only two foreign picks (cf. Lemma T6), and each move unfreezes agents. R2
+  does not extend to post-move states (blocked holders).
+- **kgen-rounds**: C4K, a further n = 4 OC₁^max failure on a strict core, four checks. Its hypergraph is isomorphic to
+  the certifier's instance 2 (coordinator's check), so it is consistent with the certificate.
+- **Lean** (formal/k4-oc1max, PR #109, head 598e135):
+  - `EFX.OC1Max.not_conjOC1max` and `not_conjOC1perf` machine-check the refutation on instance 1 (no completion at
+    all, after any OneMove);
+  - OCVariants.lean adds ConjOCkmax / ConjOC2max ⟹ TARGET₄ and the ∃-order frame ConjOC1exmax ⟹ TARGET₄.
+  - The coordinator's independent check.sh re-run is in progress; it compiled with 0 errors and 0 warnings.
+- **Ledger**: new CONJECTURE row K4.SDC.OC1EXMAX (the ∃-order form).
