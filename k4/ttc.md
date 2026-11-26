@@ -13,14 +13,18 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
   else. Each frozen agent's junk is a danger triangle, so the junk has no completion at all, free or one-absorber,
   and none of the 232 improving moves helps.
 - *Checks:* SAT, the independent brute force `refute_oc1.py`, and the Hall session's own code and written count.
-- *Still true there:* MD holds, two moves suffice, SD-C holds, and **every R1-priority order works**. The failing
+- *Still true there:* MD holds, two moves suffice, SD-C holds, and every R1-priority order works. The failing
   picks are not a maximum matching (3 of ν = 5 agents matched).
+- *Order classes on all 41 core counterexamples* (`order_classes.log`): OC₁^max holds on every one (0 failing
+  maximum-matching outcomes). R1-priority OC₁ fails on the three two-private cores (the n = 5 hand core, and B< and
+  B>) but on none of the 38 MC2-class ones. Every failing order matches ν − 2 agents.
 
 **What is refuted "for every order":** OC (free completion, one move), OC₁, OC₁ᵖ, OC₁-ED and OC₁-ED\*.
 
 **What survives:**
 - MD, SD-C and TARGET₄;
-- the R1-priority forms (OC and OC₁ for LB's Phase-1 orders, SD-C-R1);
+- the R1-priority forms (OC and OC₁ for LB's Phase-1 orders), but only in the K4.MC2 class; they fail on strict cores
+  with two-private agents;
 - the coordinator's **OC₁^max** (orders whose picks form a maximum matching; such orders exist and are computable, by
   Abraham et al. Thm 1 and §6 Lemma 1, §1).
 

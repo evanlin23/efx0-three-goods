@@ -6,9 +6,11 @@ Workstream `proof/k4-ttc` (`k4/ttc.md` §13). **Status:**
     extend, with a *free* completion);
   - Conjecture OC₁ (one absorber);
   - the variants OC₁ᵖ, OC₁-ED and OC₁-ED\*.
-- *Not refuted:* MD, SD-C, TARGET₄, and every R1-priority form (OC₁ and OC for R1-priority orders, SD-C-R1). The
-  coordinator's OC₁^max (orders whose picks form a maximum matching) is not refuted either: the failing picks match
-  only 3 of the ν = 5 agents.
+- *Not refuted:* MD, SD-C, TARGET₄ and the coordinator's OC₁^max (orders whose picks form a maximum matching): the
+  failing picks match only 3 of the ν = 5 agents. *On this core*, the R1-priority forms (OC₁ and OC for R1-priority
+  orders) hold too. They are **not** safe on strict cores in general: on the two-private cores, the n = 5 one of
+  `attempts/k4-ttc-oc1-counterexample.md` and the Hall session's n = 6 B< and B>, an R1-priority outcome fails OC₁
+  (table below). So R1-priority forms survive only inside the K4.MC2 class, so far.
 
 The core is in K4.MC0's class as well: n = 5 with three 4-good agents.
 
@@ -70,6 +72,25 @@ Order (0, 1, 2, 3, 4). Picks (y₀, y₁, y₂, none, none), junk {a₀, a₁, a
   before agent 1. So the starving pick vector never arises.
 - *SD-C* holds.
 
+## Order classes on all core counterexamples (`k4/ttc/order_classes.py`, `results/k4_ttc/order_classes.log`)
+
+41 instances: the two n = 5 hand cores, the Hall session's B< and B> (n = 6), and the 37 distinct MC2-class instances
+of the plain-order climb.
+
+| | n = 5 two-private core | MC2 counterexample | B<, B> (n = 6) | 37 MC2 climb instances (n = 5) |
+|---|---|---|---|---|
+| ν | 5 | 5 | 6 | 5 |
+| pick count of the failing orders | 3 (12 orders) | 3 (12 orders) | 4 (24 orders) | 3 (12 orders each) |
+| failing maximum-matching outcomes | 0 | 0 | 0 | 0 |
+| failing R1-priority outcomes | **1** | 0 | **1** each | 0 |
+| maximum-matching outcomes vs R1-priority outcomes | max ⊂ R1 | max ⊂ R1 | neither contains the other | max ⊂ R1 (28), equal (9) |
+
+- **OC₁^max holds on all 41** (0 failing maximum-matching outcomes). This agrees with the coordinator's
+  `results/k4_sdc/oc1_max_orders_ttc_cores.log` on its branch: 0 failures in 1,950 maximum-matching orders, none
+  needing a move.
+- **R1-priority OC₁ fails on the three two-private cores** and holds on all 38 MC2-class instances.
+- **Every failing order starves agents**: its picks match ν − 2 agents.
+
 ## How it was found
 
 `k4/ttc/mc2_hand.py` (log `results/k4_ttc/mc2_hand.log`) tries hand-made variants of the earlier counterexamples.
@@ -90,8 +111,9 @@ plain order, and none fails for any R1-priority order (`results/k4_ttc/mc2_climb
 - **"From every order" is too strong at k = 4.** The order (0, 1, 2, 3, 4) starves two agents (picks match only 3 of
   ν = 5 agents). Their wants freeze everyone else, and the junk then has only two bins. This is not about the shape of
   the completion: it fails with a free completion too.
-- **The orders that matter.** LB's Phase 1 (R1 priority) and maximum-matching orders, the coordinator's OC₁^max, both
-  avoid starving agents here. In housing-market terms the failing picks form a Pareto-optimal matching that is not
+- **The orders that matter.** Maximum-matching orders (the coordinator's OC₁^max) avoid starving agents by definition,
+  and hold on every core counterexample. LB's Phase 1 (R1 priority) avoids it on the MC2-class instances, but not on
+  the two-private cores. In housing-market terms the failing picks form a Pareto-optimal matching that is not
   maximum. Abraham et al. (ISAAC 2004, Thm 1) compute a *maximum* Pareto-optimal matching in O(√n·m), and by their
   §6 Lemma 1 it is a serial-dictatorship outcome. Thm 3 gives Pareto-optimal matchings of every size in between.
 - **Climbs against the surviving forms** (`k4/ttc.md` §13): R1-priority orders in the MC2 class, seeded from this core
