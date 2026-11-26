@@ -248,6 +248,13 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   (`IsAddition`, `IsChain`, `IsRing`, `OneMove`), the one-absorber completion (`OneAbsorber`) and
   `EFX.OC1Max.ConjOC1max` (a `Prop`); **`EFX.OC1Max.target4_of_conjOC1max`: OC₁^max ⟹ TARGET₄**, through MAXSD,
   K4.CORE and K4.TIE; the same for any move relation (`ConjOC1maxWith`, `target4_of_conjOC1maxWith`).
+- `EFX/OC1Perf.lean`: **perfect starts and Lemma RED** (`k4/sdc.md` §31; ledger K4.SDC.OC1PERF.LEAN). `EFX.OC1Max.red`:
+  at maximum-matching picks, removing the matched agents reachable from pickless agents, with their picks, leaves an
+  instance with an order whose picks form a perfect start (`PerfectStart`: every agent valuing a good is matched),
+  and every EFX₀ allocation of it extends by their singletons (`red_values` is RED (ii), from Lemma MAX).
+  **`EFX.OC1Max.target4_of_conjOC1perf`: Conjecture OC₁ᵖᵉʳᶠ (`ConjOC1perf`, a `Prop`, over all strict instances with
+  at most four relevant goods per agent) ⟹ TARGET₄**, without the core reduction (K4.TIE's perturbation, MAXSD, RED);
+  also for any move relation (`ConjOC1perfWith`, `target4_of_conjOC1perfWith`).
 - `EFX/OC1MaxExamples.lean`: non-vacuity of `EFX/OC1Max.lean` by `decide`, on the MC2 core of `k4/sdc.md` §31 where OC
   fails: the failing start (index order) is not a maximum-matching start (`EFX.OC1Max.Ex.not_maximum_MC2`); the order
   3, 4, 0, 1, 2 picks a maximum matching with a one-absorber completion (`EFX.OC1Max.Ex.maximum_ordM`,
