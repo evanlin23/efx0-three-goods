@@ -37,6 +37,12 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
 | OC₁^max, seeded from the two-private n = 5 core (`core_climb_max_seeded_core.log`) | strict cores, n = 5 | 6 × 300 | 0 | 2 |
 | OC₁^max, seeded from the MC2 counterexample (`core_climb_max_seeded_mc2.log`) | MC2, n = 5 | 6 × 300 | 0 | 2 |
 | OC₁^max, random (`core_climb_max_6_7.log`) | strict cores, n = 6–7 | 24 × 300 (12 maximum-matching orders) | 0 | 1 |
+| OC₁^max, Hall-deficient cores with ν < n, kept under mutation (`core_climb_max_deficient.log`) | strict cores, n = 6–8 | 24 × 300 | 0 | 21 |
+| OC₁^max, dense cores with m ∈ [2n, 3n] (`core_climb_max_dense.log`) | strict cores, n = 6–8 | 24 × 300 | 0 | 9 |
+| OC₁^max, Hall-deficient cores (`core_climb_max_deficient_mc2.log`) | MC2, n = 6–8 | running | | |
+
+On the Hall-deficient cores the hardest start still had 21 repairing moves, as Lemma T5 predicts: at
+maximum-matching picks the pickless agents only freeze agents without junk.
 
 *A hand-made attack on OC₁^max* (`max_hand.py`, `max_hand.log`) gives each pickless agent of the MC2 counterexample
 a private fourth good of the lowest value. Then the failing order matches every agent while the yᵢ stay wanted. On
