@@ -417,6 +417,12 @@ starts with few CM witnesses (CAP = 10), seeded from the hard rows of §2:
 No start without a witness was found, although the 11 n = 4 failures exist. So these climbs are weak evidence, as
 AGENTS.md warns. The exhaustive ordinal search is what found the failures.
 
+**CM at n = 6, 7, sampled orders** (`k4/matching/cm_big.py`; `results/k4_matching/cm_big_*.log`; evidence only):
+- 2,000 random strict profiles of the n = 6 cores with one 4-good agent, 40 random orders each: 8,325 perfect starts,
+  61 hard, CM holds on all 61 (owner k on 59, the end on 2);
+- 800 random K4.MC2-class cores with n = 6, 7 (`oc1_mc2_rand.gen`), 30 orders each: 4,248 perfect starts, 16 hard, CM
+  holds on all 16.
+
 **The TTC session's 84 non-core counterexamples** (`FILE=results/k4_matching/data/ttc84_oc1_counterexamples.json
 python3 k4/matching/cex_deficiency.py`, `results/k4_matching/cex_deficiency_ttc84.log`).
 - All 84 failing (non-maximum) starts have δ = 2, and the best single move leaves δ = 1.
