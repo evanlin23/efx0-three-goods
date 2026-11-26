@@ -17,23 +17,26 @@ coordinator integrates.
   - Three stages fail (§5): the rank-greedy matching (S1), Phase III's order (S2) and the EFX graph (S3).
   - The matching stage fails even for 3-limited instances (n = 3, m = 5). The cause is the upper-set trade that
     LB⁺'s upgrades perform, which a rank-greedy matching cannot express.
-- **Repairs, killed or confirmed (§6), each refutation with an independent replay in `attempts/k4-vm-*.md`:**
-  - F1–F3 + rotation (EFX₀-safe placement): complete V-M's matching on 17,263 of the 17,264 instances where it
-    extends. The exception is `core4:1615`, so **Conjecture VC is REFUTED** at n = 4, m = 8.
-  - F1 alone, in an arbitrary order, fails even with distinct tops (n = 2, m = 5).
-  - F5 (strip zero goods and refill) is no better than F1–F3 + rotation.
-  - Canonical starts fail:
-    - fair (leximin-rank) SD outcomes at n = 3, m = 5;
-    - starting from every SD outcome at n = 4, m = 7, needing a three-agent cycle.
-  - **F6x (pool upgrades and two-agent exchanges, as choice points): some run is EFX₀ on every instance tested**
-    (§6.4). That is **Conjecture VMX**, which implies TARGET₄ (§7).
-  - Every deterministic rule for F6x fails. The fully deterministic lookahead algorithm VM-LL fails at n = 2, m = 5,
-    in about 0.05–1% of instances.
-- **PROVED (§7):** Lemma SND (every VMˣ state is partial EFX₀) and Lemma TERM (at most m placements and 15n moves per
-  run). VMˣ is a sound, polynomial-per-run nondeterministic procedure. VMX is the claim that some run never gets
-  stuck. Its runs never lower a value, which is why P1 (K4.SDC.P1) makes the choice of path essential.
+- **Repairs, killed or confirmed (§6, §7). Every refutation has an independent replay in `attempts/k4-vm-*.md`:**
+  - **REFUTED**, each with its smallest instance:
+    - Conjecture VC (F1–F3 + rotation complete V-M's matching whenever it extends). It held on 17,263 of 17,264
+      instances; the exception has n = 4, m = 8.
+    - F1 in an arbitrary order, even with distinct tops: n = 2, m = 5.
+    - F5 (strip zero goods and refill): no better than F1–F3 + rotation.
+    - Canonical SD starts: fair (leximin-rank) at n = 3, m = 5.
+    - VMˣ from every SD outcome: n = 3, m = 5 (needs a three-agent cycle).
+    - Every deterministic move rule, including the lookahead algorithm VM-LL: n = 2, m = 5.
+    - **Conjecture VMX** (V-M, Phase III, then rotation, upgrades, exchanges and safe placements as choices; some
+      run ends EFX₀). It held on all 9,678 instances of §6.4, but **hill-climbing refuted it** at n = 3, m = 6 and
+      n = 4, m = 8. Phase III's early second goods block the exchange that a strongly-top agent must make.
+  - **CONJECTURE VMX₂** (evidence only, §7.1): VMX without Phase III. Some run ends EFX₀ on every instance tested,
+    including both VMX counterexamples. VMX₂ ⟹ TARGET₄.
+- **PROVED (§7):** Lemma SND (every state is partial EFX₀) and Lemma TERM (at most m placements and 15n moves per
+  run). VMˣ and VMˣ₂ are sound nondeterministic procedures, polynomial per run.
+  - The runs never lower a value, so P1 (K4.SDC.P1) is why the choice of path matters.
+  - Hill-climbs find what random sampling misses: VMX survived 9,300 random instances and fell to a 64-start climb.
 - **For the coordinator** (no ledger edits here):
-  - proposed rows: Theorem VM (PROVED, written); VC (REFUTED); VMX (CONJECTURE, evidence); VM-LL (REFUTED);
+  - proposed rows: Theorem VM (PROVED, written); VC, VMX, VM-LL (REFUTED); VMX₂ (CONJECTURE, evidence);
   - `proofs/citations.md` item 2 can now say that the abstract was re-read via pdftotext, and that its algorithm, with
     G1 corrected, has a complete proof here.
 
@@ -423,8 +426,9 @@ All of these are refuted. The details, with independent replays, are in `attempt
   the agent owning a private upper set picks last, and no rank-vector rule can see that.
 - **Every SD outcome as a start** (`vm0_sd_screen.log`, `vm6_sd_*.log`). Some outcome completes on all 168. But:
   - 24 outcomes extend yet do not complete under F1–F3 with rotation (the GM4 family among them);
-  - VMˣ (with exchanges) from the SD outcome (2, 6, 4, 5) of `r4253` (n = 4, m = 7) has no EFX₀ run, although 8
-    EFX₀ allocations value-dominate it. They all need a three-agent cycle.
+  - VMˣ (with exchanges) has no EFX₀ run from 30 of the 775 screen SD outcomes. The smallest is (0, 4, 3) of
+    `nsw-local-n3m5`, n = 3, m = 5. All 3 EFX₀ allocations value-dominate it, and every one needs a three-agent
+    cycle.
 - **k = 3.** V-M's matching is not a sound base even for 3-limited instances, where TARGET is proved. On random
   general 3-limited instances it fails on 7 of 4,000 (`vm0_gen3lim.log`) and 50 of 20,000 (`vm_smallest_gen3lim.log`),
   smallest n = 3, m = 5. In that instance a balanced agent must trade its uncontested top for the pair worth more,
