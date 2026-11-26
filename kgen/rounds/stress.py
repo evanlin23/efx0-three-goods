@@ -28,6 +28,13 @@ TWINS = [tuple(map(int, p.split('='))) for p in os.environ.get("TWINS", "").spli
 # KEPS=k: every agent keeps at most k "real" values (its k largest); every other value is clamped into [1, 5]
 # (the eps-lift of an instance with at most k relevant goods per agent)
 KEPS = int(os.environ.get("KEPS", "0"))
+KCOVER = os.environ.get("KCOVER", "0") == "1"   # with KEPS: every good must be a real (> 5) good of some agent
+
+
+def valid(V):
+    if KEPS and KCOVER:
+        return all(any(row[g] > 5 for row in V) for g in range(len(V[0])))
+    return True
 
 
 def twin(V):
@@ -104,7 +111,9 @@ def run_climb(n, m, steps, rounds, seed, init, ties):
             if not ties:
                 V = [rng.sample(range(1, 3000), m) if len(set(row)) < m else row for row in V]
         n_, m_ = len(V), len(V[0])
-        V = twin(V)
+        V = twin(V); tries = 0
+        while not valid(V) and tries < 1000 and not init.startswith('named='):
+            V = twin(families.gen(init, n, m, rng)); tries += 1
         c, st = objective(V)
         for s in range(steps):
             V2 = [list(x) for x in V]; i = rng.randrange(n_); g = rng.randrange(m_); u = rng.random()
@@ -118,6 +127,7 @@ def run_climb(n, m, steps, rounds, seed, init, ties):
                 j = rng.randrange(n_); V2[i] = [max(1, x + rng.randint(-2, 2)) for x in V2[j]]
             if not ties and len(set(V2[i])) < m_: continue
             V2 = twin(V2)
+            if not valid(V2): continue
             c2, st2 = objective(V2)
             if c2 <= c:
                 V, c, st = V2, c2, st2

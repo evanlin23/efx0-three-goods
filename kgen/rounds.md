@@ -209,11 +209,36 @@ Values ×100 of RD5 (`k4/ksens.md` §6), with agent 0's value of good 4 lowered 
 ## 4. What survives
 
 ### 4.1 Two rounds (RD²⁺)
-- Every one-round failure found (`fails.jsonl`, `fails_twins.jsonl`) is repaired by two rounds, with one absorber
-  (ocseq `multi=True`; `climb2.py` evaluates every failing start).
-- `climb2.py` climbs from the failures toward starts needing three rounds. It minimizes the number of complete EFX
-  allocations reachable in two rounds (ocseq, capped), at n = 4, m = 7 and n = 5. No start needing three rounds so
-  far (`climb2_*.log`).
+- Every one-round failure found is repaired by two rounds with one absorber (ocseq `multi=True`; `climb2.py` evaluates
+  every failing start). The failures are those of `fails.jsonl`, `fails_twins.jsonl` and `fails_keps.jsonl`. On every
+  failure checked by `rndlib.two_rounds`, *every* MD allocation is reachable in two rounds.
+- **Lemma RC2 (two rounds, free completion, positive values; used by `rnd.c`'s `rnd2_count`).** X is reachable by at
+  most two rounds iff some round-1 data and some round-2 roles satisfy the conditions below.
+  - *Round-1 data:* a structure (each agent OFF, a t = 0 agent, or on a path, with a ring flag per path) and an
+    assignment of the junk to round-1 chain agents. Every round-1 chain agent strictly gains.
+  - *Round-2 roles:* each agent's round-1 base B¹_a either
+    - stays inside X_a, or
+    - passes whole to the agent whose bundle contains it, or
+    - is split (the agent is then a round-2 end with a predecessor; its start takes X_{x₀} ∩ B¹_a and the rest is
+      released).
+  - *Conditions:* the passers form disjoint acyclic paths, and the gains of Lemma RC hold with sets and with the
+    round-1 junk J¹ = (J − H¹) + released picks:
+    - receiver b with predecessor p: v_b(B¹_p) + v_b(X_b ∩ J¹) > v_b(B¹_b);
+    - start x with end e: v_x(X_x ∩ J¹) + v_x(X_x ∩ B¹_e) > v_x(B¹_x).
+  - *Proof.* The round-2 sets H can be taken maximal, as in Lemma RC, because nothing moves after round 2. A round-1
+    junk good taken by an agent that does not split must end in the bundle its base moves to. ∎
+- *Cross-check.* `xcheck2.py` compares the exact number of complete EFX allocations reachable by at most two rounds
+  (and by one) with a forward simulation (bruter.py's rounds applied twice, every completion enumerated).
+  - 0 mismatches on 157 + 502 starts, n ≤ 4, m ≤ 7 (`xcheck2_80_2_4_7.log`).
+  - Those starts include 106 where some MD allocation is not reachable in two rounds, and 157 where two rounds reach
+    more than one.
+- *Climbs toward three rounds.*
+  - `climb3.py` uses the exact two-round count, which is fast: milliseconds at n = 4, about 1 s at n = 5, m = 9. It is
+    seeded from every failure and from random families (`c4_3r_*.log`).
+  - The earlier SAT climbs (`climb2.py`, ocseq counts) were too slow and were stopped.
+  - Every climb bottoms out at exactly **one** two-round-reachable EFX allocation at the hardest start, never zero.
+  - It is the same "last witness never dies" plateau as the one-round climbs had before the margin term exposed
+    failures. A margin for two rounds is not implemented.
 - *Why depth is hard to build.* A three-round need requires a starved agent one of whose needed picks belongs to
   another starved agent. A sketch at n = 5 shows that one round-2 chain can still collect both: the start takes the
   inner starved agent's pick as its end's pick, plus a pick released in round 1. That agrees with ksens's estimate
@@ -234,6 +259,33 @@ Values ×100 of RD5 (`k4/ksens.md` §6), with agent 0's value of good 4 lowered 
   - It excludes only one MD configuration: two agents that hold no pick and whose picks lie in the same bundle (both
     would have to be passers into one agent).
   - So ROUND-P is close to MD and says little beyond it.
+
+### 4.3 k-limited instances: ε-lifts and zeros (bears on the k = 4 campaign)
+- *ε-lifts of k-limited instances.* `stress.py` with KEPS=k: every agent keeps at most k values above 5, and the rest
+  are clamped to 1..5.
+  - One round fails at KEPS = 4 (n = 4, m = 7–9; n = 5, m = 8; `keps4_*.log`, `fails_keps.jsonl`), always by
+    starvation (`mechanism_keps.log`).
+- **The zero versions** (every value ≤ 5 set to 0) are genuine k = 4 instances with zeros: exactly four relevant goods
+  per agent, and every agent picks (perfect starts).
+  - On **all 10** of them OC₁ (one chain or ring, one absorber) and one round of disjoint chains (free and one
+    absorber) **fail**, and two rounds repair them.
+  - Three programs agree (`zero_version_keps.log`, `k4zero_scan_keps.log`, `verify_k4zero_W4.log`): ksens ocsat,
+    k4/sdc's own OC₁ pipeline (Enc, de_free.moves with rings, oc_absorb.extends_A), and the brute force of
+    `verify_k4zero.py`.
+  - **Every one of them contains a good valued by nobody.** Deleting the worthless goods restores OC₁ and one round, in
+    both programs.
+- *Instance W4* (n = 4, m = 7, k = 4; good 3 is valued by nobody):
+  - values [[7114,0,7069,0,0,6267,3000], [9160,0,8502,0,0,3000,2986], [0,1391,6792,0,5427,6130,0],
+    [0,5425,6790,0,1390,6129,0]];
+  - order (0, 2, 3, 1), picks (0, 6, 2, 5) for agents 0–3.
+- *Consequences for the campaign* (sent to the coordinator).
+  - OC₁ and RD (ksens) at perfect starts are false at k = 4 when worthless goods are allowed.
+  - Lemma RED's target, "OC₁ at perfect starts for every instance with ≤ 4 relevant goods", needs the hypothesis
+    "every good is valued by someone". It holds for RED's reduced instance I′ whenever I is a core, and L3 provides it
+    in general.
+  - OC₁^max on strict cores is untouched: cores have no worthless goods.
+- *Next test.* KEPS = 4 with KCOVER = 1 (every good is a real good of some agent), so that a zero-version failure would
+  be a worthless-free k = 4 counterexample (`kcover4_*.log`).
 
 ## 5. n = 3
 
