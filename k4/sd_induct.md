@@ -47,6 +47,8 @@ more.
     instances). Frozen agents must sometimes hold junk, with their wanters compensated.
   - AB₁ / PR with "every unfrozen o when no absorber is needed" (`attempts/k4-sdind-ab1-no-absorber.md`, n = 4,
     m = 7, found by `e16_ab1_climb.py`).
+  - greedy rules for the one move, with and without lookahead (`attempts/k4-sdind-greedy-moves.md`, §8):
+    c4min-pareto-n3-m7 (n = 3) without lookahead, GM4-C (n = 4) with it.
 - **Deletion classes** (§6, `e17_classes.py`): for every class of deleted agents except the both agents (the first,
   the last, a frozen agent with its wanters, suffix- or prefix-closed pairs), "the sub-instance's picks extend ⟹ the
   instance's do" fails on 2–25% of cases.
