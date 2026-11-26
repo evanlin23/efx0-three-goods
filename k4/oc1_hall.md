@@ -1453,3 +1453,121 @@ must also hold the leftover junk, and then the other agent sharing the pair is t
     slot graph of the picks, and it contains Lemma D1-red.
   - In EX, crowding is absorbed into the matching condition. That condition still has to be established, which is
     their Conjecture CM, so EX restates D1-C rather than proving it.
+
+## 23. Integration: the proof plan for OC₂^max (coordinator's request, 23:35)
+
+**The corrected statement.**
+- OC₂^max: from every maximum-matching serial-dictatorship start, the picks, or the bases after at most two official
+  moves in sequence, have a one-absorber completion.
+- It is CERTIFIED for every strict profile of every core with n ≤ 4 (`compute/k4-oc1max-cert`, `k4/oc1cert.md`).
+  n = 5 and a three-move search are running there.
+- For TARGET₄ any finite number of moves would do, since the final completion is EFX₀ whatever the bases were.
+
+### 23.1 Second reading of the matching session's Lemmas M and EX (`proof/k4-matching`, `k4/matching.md` §1, §3)
+
+**Lemma M (S\* completability as a matching condition): CORRECT.** Both directions were read line by line.
+- (⇒) The kept-out set H is the junk given to holders or dummies. (H1) holds because Q receives nothing. An exposed
+  holder must receive a good it values that makes it safe, which is exactly an edge of Γ(H).
+- (⇐) Bundles of at most two unwanted goods threaten nobody. Q's bundles fall under (G1) and only gain value. The
+  owner gains. The matching handles the exposed holders, and the unexposed ones are safe at their base values.
+- The formula follows from Mendelsohn–Dulmage (a covering matching plus a maximum one gives a maximum covering one)
+  and König–Ore.
+- Minor point: in the "min_H max_S (|S| − |N(S)|)" form, H ranges over the same restricted family ((H1), E(H)
+  coverable) as in the first form.
+- Lemma M is equivalent to Lemma 2\*, since both are exact. The movable holders' DT goods enlarge H.
+
+**Lemma EX (a chain as an exchange in the picks' slot graph): CORRECT as a sufficient condition, but NOT exact.**
+- The proof is sound:
+  - values only rise along the chain;
+  - agents off P that are unfrozen at Y stay unfrozen;
+  - every good of H ⊆ J′ is unwanted at B′;
+  - Ext agents hold one unwanted good;
+  - every agent other than o is covered by (1′), by the matching, or by being an unexposed holder of N.
+- The converse fails. (1′) requires every agent of P, and every agent of Ext, to be *unthreatened* by X outright, so
+  the head cannot be compensated.
+  - Instance: lb4-n2m5-upgrade (n = 2), chain (0, 1), H₀ = {2, 3}, owner k = 0.
+  - B′ has an S\* completion owned by k, [[2,3,0],[4,1]] (EFX₀, raw): the crowded head takes junk good 1.
+  - Yet no H ⊆ J′ = {0, 1} satisfies EX's hypotheses. H = {0, 1} is the only one meeting (1′), and it needs one
+    matching edge, with N = ∅ and s = 1.
+  - Checked in this session's run; the script is in the conversation record.
+- On this note's data at n ≥ 3, no head was compensated in Proposition D1-C′'s cases, so the gap is at n = 2 only.
+  But "exact one-chain criterion" should read "sufficient".
+- The remark "D1-red is EX with H = ∅" holds only when no holder is exposed. In general D1-red corresponds to EX with H
+  equal to the goods of the DT moves, via Lemma M ⟺ Lemma 2\*.
+- *Suggested exact version:* apply Lemma M at B′ directly, with the chain's single-good holders of B′ (Ext and an
+  unfrozen head) as compensable holders at their B′ values. EX's picks-graph form is then a sufficient specialization.
+
+### 23.2 The case tree
+
+Each leaf is a named statement with its status and the session that owns it.
+
+| # | case | statement | status | owner |
+|---|---|---|---|---|
+| 0 | maximum-matching start ⟶ perfect start | Lemma RED (k4/sdc.md §31) with Lemma MAX (§19) | RED: written proof, read here (§22 message, no hole; caveat: null agents count as ordinary agents for the one-absorber shape). MAX: proved | coordinator; this note |
+| 1 | the picks complete | Lemma 1 (slots), Lemma 2\* / Lemma M (exact S\* count) | proved (2\* refereed) | this note; matching |
+| 2 | hard ⟹ D ≠ ∅ | Proposition T0: every unfrozen z has a dangerous agent threatened by J ∪ B_z (cf. Prop. 3′ here) | written proof | k4-oc1max-multi |
+| 3 | \|D\| = 1: **one move** | Lemma D1-chain, Prop. 3′, Lemma D1-red, Remark 2 (a longest chain avoids H-i), Lemma D1-C₀ and Prop. D1-C′ (§21) | proved | this note |
+| 3a | \|D\| = 1, CROWD residuals C-a to C-c | D1-C via Lemmas C3 and HC (needs every good relevant) | written proof, not refereed | k4-d1 (PR #113) |
+| 3b | \|D\| = 1, every chain has HEAD | D1-H in all-HEAD form: in the data only n = 3, t = 1, f = 1, two unfrozen wanters (5 starts) | **open** | k4-d1 |
+| 4 | \|D\| ≥ 2 after a canonical chain | Lemma D-red: the obstacles are HEAD, CROWD and DEMAND | written proof | k4-oc1max-multi |
+| 4a | the head's Θ(z) ⊆ {k} | Corollary TR: no DEMAND, so case 3 applies | written proof | k4-oc1max-multi |
+| 4b | one truly dangerous agent | Lemma KEEP, Corollary KEEP-1 (3,244 of 3,259 starts); KEEP-C (15 starts) open | proof plus open residue | k4-oc1max-multi |
+| 4c | k takes a shared junk pair | Lemmas SET and OWN (the PWk(a) overlap step and its owner) | written proofs | k4-oc1max-multi |
+| 4d | several truly dangerous agents, or DEMAND with none | SLOT (701 starts) | **open** | k4-oc1max-multi |
+| 4e | the head is a second dangerous agent | RING (76 starts, smallest T3) | **open** | k4-oc1max-multi |
+| 4f | disjoint danger sets: one move | "one chain repairs" when no two dangerous agents share a pool danger set | **unverified**: all 8,383 hard \|D\| ≥ 2 starts of their data are repaired by one move, but nobody has checked whether the absence of sharing is what makes one move enough; requested from k4-oc1max-multi | k4-oc1max-multi |
+| 5 | **no one-move repair**: the second move | Sub-lemma OC2-LIFT (below) | **open**; evidence on all 12 known instances | integrator (this note); proofs welcome from k4-oc1max-multi and matching |
+| 6 | three moves needed? | three sharers of one pool pair with no slots | being searched (n = 5–7) | compute/k4-oc1max-cert |
+
+### 23.3 The single sub-lemma the second move needs
+
+`k4/oc1_hall/oc2_cases.py`, `oc2_cases.log`. The instances are:
+- the certifier's 11 n = 4 cores (`results/k4_oc1_hall/oc1max_cex_n4_from_cert.json`, copied from
+  `compute/k4-oc1max-cert`);
+- the TTC session's n = 5 strict core.
+
+That is 12 instances; the coordinator's cex2 is 4_n4_3#77, so the log has 13 rows.
+
+- **Every one has a shared pool danger set**: two dangerous agents k ≠ k′ and an unfrozen z such that a minimal
+  improving set of k inside J ∪ B_z is also improving for k′ (§22's mechanism; DEMAND in Lemma D-red's terms). 12 of
+  12.
+- **Every one is repaired by a canonical first chain from a dangerous agent, followed by one official move**: 12 of
+  12. The second move starts at a DEMAND agent in only 6 of the 12 instances. In the rest it starts at another
+  dangerous agent (in cex1, the inert agent 0), at a frozen non-dangerous agent, or at an unfrozen agent. So the
+  literal form "the remaining DEMAND agent has a canonical chain with exchange deficiency ≤ s" fails on 6 of 12.
+- What every instance does have: a repair in which **the second move removes every DEMAND agent of the first chain**,
+  either by starting at it or by unfreezing it, since it lifts every wanter of its good. 12 of 12.
+
+> **Sub-lemma OC2-LIFT (K4.OCH.LIFT, open).** Let Y be a one-absorber-hard perfect start (k ≤ 4, strict) with no
+> one-move repair. Then some canonical chain P₁ from a dangerous agent k, with an improving H₀, is followed by an
+> official move P₂ such that:
+> 1. every DEMAND agent q of P₁ either starts P₂ or is unfrozen after P₂ (P₂ raises every wanter of B_q above it);
+> 2. the state after P₂ has a one-absorber completion.
+>
+> A DEMAND agent of P₁ is a dangerous agent q ≠ k that is frozen after P₁ and threatened by the junk together with
+> k's new bundle.
+
+Test instances:
+
+| instance | n, m | D | shared pool danger set (k, k′, T, z) |
+|---|---|---|---|
+| **4_n4_3#58 (smallest)** | 4, 7 | {0, 2, 3} | (2, 3, {3, 4}, 1) |
+| 4_n4_3#77 (= coordinator's cex2) | 4, 7 | {1, 2} | (1, 2, {1, 3}, 0) |
+| 4_pure#20, #21 | 4, 7 | {0, 1} | (0, 1, {1, 2}, 3) |
+| 4_pure#23 | 4, 7 | {1, 2, 3} | (2, 3, {2, 6}, 0) |
+| 4_pure#24 | 4, 7 | {0, 2, 3} | (2, 3, {2, 3}, 1) |
+| 4_pure#26 | 4, 7 | {0, 1, 2} | (1, 2, {1, 5}, 3) |
+| 4_pure#29 | 4, 7 | {1, 2} | (1, 2, {1, 3}, 0) |
+| 4_pure#36 | 4, 7 | {0, 2, 3} | (2, 3, {1, 3}, 1) |
+| 4_pure#38, #45 | 4, 8 | {0, 1, 3}, {0, 2, 3} | (1, 3, {4, 5}, 2), (2, 3, {3, 4}, 1) |
+| TTC n = 5 core | 5, 9 | {1, 3, 4} | (1, 3, {2, 4}, 0): T contains B_z |
+
+*How the second move lifts, in the smallest case (4_n4_3#58).*
+- The first chain is (2, 1): agent 2 takes {3, 4}, and the DEMAND agent is 3. Agent 3's good 6 is wanted by agent 1,
+  which now holds 5.
+- The second chain is (0, 1): agent 1 takes good 1 (its top), and agent 0 takes {2, 5}.
+- Agent 1 no longer wants good 6, so agent 3 is unfrozen and becomes a holder.
+
+The second move therefore works on the *wanters* of the DEMAND agent, not on the agent itself. A proof should pair
+Lemma D-red's DEMAND with an unfreezing chain, in the style of Lemma Ωʳ (§4, §8): the chain to the unique unfrozen
+agent gives it its top good.
