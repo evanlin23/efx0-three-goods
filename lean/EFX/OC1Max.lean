@@ -336,7 +336,403 @@ theorem exists_holds_fav {agents : List A} {goods : List G} {μ : A → Option G
   · exact Nat.le_of_lt (hgain x hxC)
   · exact Nat.le_of_eq (mval_congr (by simp [hxC]))
 
+/-- **SDPO, ⊇**: under strict values every Pareto-optimal matching is the outcome of serial dictatorship in some
+order of the agents. Put first an agent holding its favourite (`exists_holds_fav`); the rest of the matching is
+Pareto optimal among the other agents and goods; induct. -/
+theorem exists_order_of_paretoOpt : ∀ (n : Nat) (agents : List A) (goods : List G) (μ : A → Option G),
+    agents.length = n → agents.Nodup → goods.Nodup → StrictVals v agents goods → ParetoOpt v agents goods μ →
+      ∃ ord : List A, ord.Perm agents ∧ ∀ i, sdPick v ord goods i = μ i := by
+  intro n
+  induction n with
+  | zero =>
+    intro agents goods μ hn _ _ _ hpo
+    have : agents = [] := List.eq_nil_of_length_eq_zero hn
+    subst this
+    refine ⟨[], List.Perm.refl _, fun i => ?_⟩
+    cases hm : μ i with
+    | none => rfl
+    | some g => exact absurd (hpo.1.mem i g hm).1 (by simp)
+  | succ n ih =>
+    intro agents goods μ hn hag hgd hsv hpo
+    have hne : agents ≠ [] := fun h => by rw [h] at hn; simp at hn
+    obtain ⟨a, ha, hfa⟩ := exists_holds_fav hag hsv hpo hne
+    obtain ⟨hμ, hopt⟩ := hpo
+    have hmemE : ∀ x, x ∈ agents.erase a → x ≠ a := fun x hx e => List.Nodup.not_mem_erase hag (e ▸ hx)
+    -- the sub-instance
+    have hμ' : IsMatching v (agents.erase a) (takeOut goods (μ a)) (fun x => if x = a then none else μ x) := by
+      refine ⟨fun x g hx => ?_, fun x y g hx hy => ?_⟩
+      · by_cases hxa : x = a
+        · rw [ite_eq_left hxa] at hx; cases hx
+        · rw [ite_eq_right hxa] at hx
+          obtain ⟨h1, h2, h3⟩ := hμ.mem x g hx
+          refine ⟨(List.mem_erase_of_ne hxa).mpr h1, ?_, h3⟩
+          cases hma : μ a with
+          | none => exact h2
+          | some g0 =>
+            have : g ≠ g0 := fun e => hxa (hμ.inj x a g hx (e ▸ hma))
+            exact (List.mem_erase_of_ne this).mpr h2
+      · by_cases hxa : x = a
+        · rw [ite_eq_left hxa] at hx; cases hx
+        · by_cases hya : y = a
+          · rw [ite_eq_left hya] at hy; cases hy
+          · rw [ite_eq_right hxa] at hx; rw [ite_eq_right hya] at hy; exact hμ.inj x y g hx hy
+    have hpo' : ParetoOpt v (agents.erase a) (takeOut goods (μ a)) (fun x => if x = a then none else μ x) := by
+      refine ⟨hμ', fun ν hν himp => ?_⟩
+      obtain ⟨hle, x0, hx0, hlt⟩ := himp
+      have hν' : IsMatching v agents goods (fun x => if x = a then μ a else ν x) := by
+        refine ⟨fun x g hx => ?_, fun x y g hx hy => ?_⟩
+        · by_cases hxa : x = a
+          · rw [ite_eq_left hxa] at hx; rw [hxa]; exact hμ.mem a g hx
+          · rw [ite_eq_right hxa] at hx
+            obtain ⟨h1, h2, h3⟩ := hν.mem x g hx
+            exact ⟨List.mem_of_mem_erase h1, mem_takeOut h2, h3⟩
+        · have hout : ∀ z, μ a = some g → ν z ≠ some g := fun z hma hz => by
+            have := (hν.mem z g hz).2.1
+            rw [hma] at this
+            exact List.Nodup.not_mem_erase hgd this
+          by_cases hxa : x = a <;> by_cases hya : y = a
+          · rw [hxa, hya]
+          · rw [ite_eq_left hxa] at hx; rw [ite_eq_right hya] at hy; exact absurd hy (hout y hx)
+          · rw [ite_eq_right hxa] at hx; rw [ite_eq_left hya] at hy; exact absurd hx (hout x hy)
+          · rw [ite_eq_right hxa] at hx; rw [ite_eq_right hya] at hy; exact hν.inj x y g hx hy
+      refine hopt _ hν' ⟨fun x hx => ?_, x0, List.mem_of_mem_erase hx0, ?_⟩
+      · by_cases hxa : x = a
+        · exact Nat.le_of_eq (mval_congr (by simp [hxa]))
+        · have := hle x ((List.mem_erase_of_ne hxa).mpr hx)
+          rw [mval_congr (μ := fun x => if x = a then none else μ x) (ν := μ) (by simp [hxa])] at this
+          rw [mval_congr (μ := fun x => if x = a then μ a else ν x) (ν := ν) (by simp [hxa])]
+          exact this
+      · have hxa := hmemE x0 hx0
+        rw [mval_congr (μ := fun x => if x = a then none else μ x) (ν := μ) (by simp [hxa])] at hlt
+        rw [mval_congr (μ := fun x => if x = a then μ a else ν x) (ν := ν) (by simp [hxa])]
+        exact hlt
+    have hsv' : StrictVals v (agents.erase a) (takeOut goods (μ a)) := fun i hi g hg h hh =>
+      hsv i (List.mem_of_mem_erase hi) g (mem_takeOut hg) h (mem_takeOut hh)
+    have hlen : (agents.erase a).length = n := by rw [List.length_erase_of_mem ha]; omega
+    obtain ⟨ord, hord, hsd⟩ := ih (agents.erase a) (takeOut goods (μ a)) _ hlen (hag.erase a)
+      (nodup_takeOut hgd _) hsv' hpo'
+    refine ⟨a :: ord, (hord.cons a).trans (List.perm_cons_erase ha).symm, fun i => ?_⟩
+    rw [sdPick_cons, hfa]
+    by_cases hia : i = a
+    · rw [ite_eq_left hia, hia]
+    · rw [ite_eq_right hia, hsd i]; simp [hia]
+
+/-- **SDPO, ⊆ (uniqueness)**: a matching of the agents of `ord` with goods of `G0` that gives every agent of `ord`
+at least its serial-dictatorship value is the serial-dictatorship outcome itself (strict values). The first agent
+already takes its favourite good, so it holds the same good; induct. -/
+theorem eq_sdPick_of_le : ∀ (ord : List A) (G0 : List G) (ν : A → Option G), ord.Nodup → G0.Nodup →
+    (∀ i ∈ ord, ∀ g ∈ G0, ∀ h ∈ G0, 0 < v i g → v i g = v i h → g = h) →
+    (∀ i ∈ ord, ∀ g, ν i = some g → g ∈ G0 ∧ 0 < v i g) →
+    (∀ i ∈ ord, ∀ j ∈ ord, ∀ g, ν i = some g → ν j = some g → i = j) →
+    (∀ i ∈ ord, mval v (sdPick v ord G0) i ≤ mval v ν i) → ∀ i ∈ ord, ν i = sdPick v ord G0 i
+  | [], _, _, _, _, _, _, _, _ => fun _ h => by simp at h
+  | x :: xs, G0, ν, hord, hG, hsv, hmem, hinj, hdom => by
+    have hxs : x ∉ xs := (List.nodup_cons.mp hord).1
+    have hx : ν x = fav v x G0 := by
+      cases hf : fav v x G0 with
+      | none =>
+        cases hν : ν x with
+        | none => rfl
+        | some g =>
+          obtain ⟨h1, h2⟩ := hmem x List.mem_cons_self g hν
+          exact absurd h2 (fav_none hf g h1)
+      | some y =>
+        obtain ⟨hy, hypos, hmax⟩ := fav_some hf
+        have hle := hdom x List.mem_cons_self
+        rw [mval_some (μ := sdPick v (x :: xs) G0) (g := y) (by rw [sdPick_cons, ite_eq_left rfl, hf])] at hle
+        cases hν : ν x with
+        | none => rw [mval_none hν] at hle; omega
+        | some g =>
+          rw [mval_some hν] at hle
+          obtain ⟨h1, h2⟩ := hmem x List.mem_cons_self g hν
+          have := hmax g h1 h2
+          rw [hsv x List.mem_cons_self g h1 y hy h2 (by omega)]
+    have hrest : ∀ i ∈ xs, ν i = sdPick v xs (takeOut G0 (fav v x G0)) i := by
+      refine eq_sdPick_of_le xs _ ν (List.nodup_cons.mp hord).2 (nodup_takeOut hG _)
+        (fun i hi g hg h hh => hsv i (List.mem_cons_of_mem _ hi) g (mem_takeOut hg) h (mem_takeOut hh))
+        (fun i hi g hg => ?_) (fun i hi j hj => hinj i (List.mem_cons_of_mem _ hi) j (List.mem_cons_of_mem _ hj))
+        (fun i hi => ?_)
+      · obtain ⟨h1, h2⟩ := hmem i (List.mem_cons_of_mem _ hi) g hg
+        refine ⟨?_, h2⟩
+        cases hf : fav v x G0 with
+        | none => exact h1
+        | some y =>
+          have hgy : g ≠ y := fun e => by
+            have := hinj i (List.mem_cons_of_mem _ hi) x List.mem_cons_self g hg (by rw [hx, hf, e])
+            exact hxs (this ▸ hi)
+          exact (List.mem_erase_of_ne hgy).mpr h1
+      · have hix : i ≠ x := fun e => hxs (e ▸ hi)
+        have := hdom i (List.mem_cons_of_mem _ hi)
+        rwa [mval_congr (μ := sdPick v (x :: xs) G0) (ν := sdPick v xs (takeOut G0 (fav v x G0)))
+          (by rw [sdPick_cons, ite_eq_right hix])] at this
+    intro i hi
+    rw [sdPick_cons]
+    by_cases hix : i = x
+    · rw [ite_eq_left hix, hix, hx]
+    · rw [ite_eq_right hix]
+      exact hrest i ((List.mem_cons.mp hi).resolve_left hix)
+
+/-- **SDPO, ⊆**: under strict values the outcome of serial dictatorship in any order is Pareto optimal. -/
+theorem paretoOpt_sdPick {agents : List A} {goods : List G} {ord : List A} (hperm : ord.Perm agents)
+    (hag : agents.Nodup) (hgd : goods.Nodup) (hsv : StrictVals v agents goods) :
+    ParetoOpt v agents goods (sdPick v ord goods) := by
+  refine ⟨isMatching_sdPick hperm hgd, fun ν hν ⟨hle, i, hi, hlt⟩ => ?_⟩
+  have heq := eq_sdPick_of_le ord goods ν (hperm.nodup_iff.mpr hag) hgd
+    (fun i hi => hsv i (hperm.mem_iff.mp hi))
+    (fun i _ g hg => ⟨(hν.mem i g hg).2.1, (hν.mem i g hg).2.2⟩)
+    (fun i _ j _ g => hν.inj i j g) (fun i hi => hle i (hperm.mem_iff.mp hi)) i (hperm.mem_iff.mpr hi)
+  rw [mval_congr (μ := ν) (ν := sdPick v ord goods) heq] at hlt
+  exact Nat.lt_irrefl _ hlt
+
+/-- **Lemma SDPO** (K4.SDC.SDPO, `k4/sdc.md` §28): with strict values (and unmatched agents allowed), the
+serial-dictatorship outcomes over all orders of the agents are exactly the Pareto-optimal matchings. -/
+theorem sdpo {agents : List A} {goods : List G} (hag : agents.Nodup) (hgd : goods.Nodup)
+    (hsv : StrictVals v agents goods) (μ : A → Option G) :
+    (∃ ord : List A, ord.Perm agents ∧ sdPick v ord goods = μ) ↔ ParetoOpt v agents goods μ := by
+  constructor
+  · rintro ⟨ord, hperm, rfl⟩
+    exact paretoOpt_sdPick hperm hag hgd hsv
+  · intro hpo
+    obtain ⟨ord, hperm, h⟩ := exists_order_of_paretoOpt agents.length agents goods μ rfl hag hgd hsv hpo
+    exact ⟨ord, hperm, funext h⟩
+
 end sdpo
+
+/-! ## Lemma MAXSD (K4.SDC.MAXSD) -/
+
+/-- A function bounded on a nonempty set has a maximum there. -/
+theorem exists_max_of_bdd {α : Type} (P : α → Prop) (f : α → Nat) (B : Nat) (hB : ∀ a, P a → f a ≤ B)
+    (h : ∃ a, P a) : ∃ a, P a ∧ ∀ b, P b → f b ≤ f a := by
+  have key : ∀ d, ∀ a, P a → B - f a = d → ∃ a, P a ∧ ∀ b, P b → f b ≤ f a := by
+    intro d
+    induction d using Nat.strongRecOn with
+    | ind d ih =>
+      intro a ha hd
+      by_cases hm : ∀ b, P b → f b ≤ f a
+      · exact ⟨a, ha, hm⟩
+      · obtain ⟨b, hb, hlt⟩ : ∃ b, P b ∧ f a < f b := Classical.byContradiction fun hno =>
+          hm fun b hb => Nat.le_of_not_lt fun hl => hno ⟨b, hb, hl⟩
+        exact ih _ (by have := hB b hb; omega) b hb rfl
+  obtain ⟨a, ha⟩ := h
+  exact key _ a ha rfl
+
+theorem sum_map_le {α : Type} {f g : α → Nat} : ∀ {l : List α}, (∀ x ∈ l, f x ≤ g x) →
+    (l.map f).sum ≤ (l.map g).sum
+  | [], _ => by simp
+  | x :: l, h => by
+    simp only [List.map_cons, List.sum_cons]
+    have := h x List.mem_cons_self
+    have := sum_map_le (l := l) fun y hy => h y (List.mem_cons_of_mem _ hy)
+    omega
+
+theorem sum_map_lt {α : Type} {f g : α → Nat} : ∀ {l : List α}, (∀ x ∈ l, f x ≤ g x) →
+    (∃ x ∈ l, f x < g x) → (l.map f).sum < (l.map g).sum
+  | [], _, ⟨_, hx, _⟩ => by simp at hx
+  | x :: l, h, ⟨y, hy, hlt⟩ => by
+    simp only [List.map_cons, List.sum_cons]
+    have hx := h x List.mem_cons_self
+    have hl : ∀ z ∈ l, f z ≤ g z := fun z hz => h z (List.mem_cons_of_mem _ hz)
+    rcases List.mem_cons.mp hy with rfl | hy
+    · have := sum_map_le hl; omega
+    · have := sum_map_lt hl ⟨y, hy, hlt⟩; omega
+
+theorem countP_lt_of {α : Type} {p q : α → Bool} : ∀ {l : List α}, (∀ x ∈ l, p x = true → q x = true) →
+    (∃ x ∈ l, q x = true ∧ p x = false) → l.countP p < l.countP q
+  | [], _, ⟨_, hx, _⟩ => by simp at hx
+  | x :: l, h, ⟨y, hy, hq, hp⟩ => by
+    simp only [List.countP_cons]
+    have hl : ∀ z ∈ l, p z = true → q z = true := fun z hz => h z (List.mem_cons_of_mem _ hz)
+    have hx := h x List.mem_cons_self
+    rcases List.mem_cons.mp hy with rfl | hy
+    · have := List.countP_mono_left hl; simp [hq, hp]; omega
+    · have := countP_lt_of hl ⟨y, hy, hq, hp⟩
+      cases hpx : p x <;> cases hqx : q x <;> simp_all <;> omega
+
+section maxsd
+variable {v : A → G → Nat}
+
+/-- The total value of a matching. -/
+def welfare (v : A → G → Nat) (agents : List A) (μ : A → Option G) : Nat := (agents.map (mval v μ)).sum
+
+omit [DecidableEq A] [DecidableEq G] in
+theorem welfare_le {agents : List A} {goods : List G} {μ : A → Option G} (hμ : IsMatching v agents goods μ) :
+    welfare v agents μ ≤ (agents.map (fun i => value v i goods)).sum := by
+  refine sum_map_le fun i _ => ?_
+  cases h : μ i with
+  | none => rw [mval_none h]; exact Nat.zero_le _
+  | some g => rw [mval_some h]; exact le_value_of_mem v i (hμ.mem i g h).2.1
+
+omit [DecidableEq A] [DecidableEq G] in
+/-- A Pareto improvement of a matching keeps every matched agent matched. -/
+theorem card_le_of_paretoImp {agents : List A} {goods : List G} {μ ν : A → Option G}
+    (hμ : IsMatching v agents goods μ) (hν : IsMatching v agents goods ν) (h : ParetoImp v agents ν μ) :
+    card agents μ ≤ card agents ν :=
+  List.countP_mono_left fun i hi hs => by
+    have h1 := (mval_pos_iff hμ i).mpr hs
+    exact (mval_pos_iff hν i).mp (Nat.lt_of_lt_of_le h1 (h.1 i hi))
+
+omit [DecidableEq A] [DecidableEq G] in
+/-- **A maximum matching of largest total value is Pareto optimal**: a Pareto improvement keeps matched agents
+matched, so it is again maximum, and it has larger total value. -/
+theorem exists_maximum_paretoOpt (agents : List A) (goods : List G) :
+    ∃ μ, IsMaximum v agents goods μ ∧ ParetoOpt v agents goods μ := by
+  obtain ⟨μ0, hμ0, hmax0⟩ := exists_max_of_bdd (IsMatching v agents goods) (card agents) agents.length
+    (fun _ _ => List.countP_le_length) ⟨_, isMatching_empty⟩
+  obtain ⟨μ, ⟨hμ, hcard⟩, hbest⟩ := exists_max_of_bdd
+    (fun μ => IsMatching v agents goods μ ∧ card agents μ = card agents μ0) (welfare v agents)
+    ((agents.map (fun i => value v i goods)).sum) (fun _ h => welfare_le h.1) ⟨μ0, hμ0, rfl⟩
+  refine ⟨μ, ⟨hμ, fun μ' hμ' => hcard ▸ hmax0 μ' hμ'⟩, hμ, fun ν hν himp => ?_⟩
+  have h1 := card_le_of_paretoImp hμ hν himp
+  have h2 := hmax0 ν hν
+  have h3 := hbest ν ⟨hν, by omega⟩
+  have h4 : welfare v agents μ < welfare v agents ν := sum_map_lt himp.1 himp.2
+  omega
+
+/-- **Lemma MAXSD** (K4.SDC.MAXSD, `k4/sdc.md` §31): with strict values, some serial-dictatorship order's picks
+form a maximum matching (a maximum matching Pareto optimal among all matchings, by `exists_maximum_paretoOpt`, is
+an SD outcome, by SDPO). -/
+theorem exists_order_maximum {agents : List A} {goods : List G} (hag : agents.Nodup) (hgd : goods.Nodup)
+    (hsv : StrictVals v agents goods) :
+    ∃ ord : List A, ord.Perm agents ∧ IsMaximum v agents goods (sdPick v ord goods) := by
+  obtain ⟨μ, hmax, hpo⟩ := exists_maximum_paretoOpt (v := v) agents goods
+  obtain ⟨ord, hperm, rfl⟩ := (sdpo hag hgd hsv μ).mpr hpo
+  exact ⟨ord, hperm, hmax⟩
+
+end maxsd
+
+/-! ## Lemma MAX -/
+
+section lemmaMax
+variable {v : A → G → Nat} {agents : List A} {goods : List G}
+
+/-- `b` is reachable from an unmatched agent by an alternating path of `μ`: an unmatched listed agent is reachable,
+and if `a` is reachable and values the good `g` that `b` holds, `b` is reachable. -/
+inductive AltReach (v : A → G → Nat) (agents : List A) (μ : A → Option G) : A → Prop
+  | start {a : A} : a ∈ agents → μ a = none → AltReach v agents μ a
+  | step {a b : A} {g : G} : AltReach v agents μ a → μ b = some g → 0 < v a g → AltReach v agents μ b
+
+/-- An alternating path, listed from its end back to its start: `[x_k, …, x_0]` with `x_0` an unmatched listed
+agent and each `x_{t−1}` valuing the good `x_t` holds. -/
+def AltPath (v : A → G → Nat) (agents : List A) (μ : A → Option G) : List A → Prop
+  | [] => False
+  | [a] => a ∈ agents ∧ μ a = none
+  | x :: y :: l => (∃ g, μ x = some g ∧ 0 < v y g) ∧ AltPath v agents μ (y :: l)
+
+omit [DecidableEq A] [DecidableEq G] in
+theorem altPath_suffix {μ : A → Option G} : ∀ (l₁ : List A) {b : A} {l₂ : List A},
+    AltPath v agents μ (l₁ ++ b :: l₂) → AltPath v agents μ (b :: l₂)
+  | [], _, _, h => h
+  | x :: l₁, b, l₂, h => by
+    apply altPath_suffix l₁
+    cases hl : l₁ ++ b :: l₂ with
+    | nil => simp at hl
+    | cons y l => rw [List.cons_append, hl] at h; exact h.2
+
+omit [DecidableEq A] [DecidableEq G] in
+theorem altPath_congr {μ ν : A → Option G} : ∀ {p : List A}, (∀ x ∈ p, μ x = ν x) →
+    AltPath v agents μ p → AltPath v agents ν p
+  | [], _, h => h
+  | [a], he, h => ⟨h.1, (he a List.mem_cons_self) ▸ h.2⟩
+  | x :: y :: l, he, h => by
+    obtain ⟨⟨g, hg, hpos⟩, hr⟩ := h
+    exact ⟨⟨g, (he x List.mem_cons_self) ▸ hg, hpos⟩,
+      altPath_congr (fun z hz => he z (List.mem_cons_of_mem _ hz)) hr⟩
+
+omit [DecidableEq G] in
+/-- A reachable agent is the end of an alternating path without repeated agents (cut the walk at the first
+return). -/
+theorem exists_altPath {μ : A → Option G} {b : A} (h : AltReach v agents μ b) :
+    ∃ l, AltPath v agents μ (b :: l) ∧ (b :: l).Nodup := by
+  induction h with
+  | start ha hμ => exact ⟨[], ⟨ha, hμ⟩, by simp⟩
+  | @step a b g _ hb hg ih =>
+    obtain ⟨l, hp, hnd⟩ := ih
+    by_cases hbm : b ∈ a :: l
+    · obtain ⟨s, t, hst⟩ := List.append_of_mem hbm
+      rw [hst] at hp hnd
+      exact ⟨t, altPath_suffix s hp, hnd.sublist (List.sublist_append_right s (b :: t))⟩
+    · exact ⟨a :: l, ⟨⟨g, hb, hg⟩, hp⟩, List.nodup_cons.mpr ⟨hbm, hnd⟩⟩
+
+omit [DecidableEq A] [DecidableEq G] in
+theorem card_congr {μ ν : A → Option G} (h : ∀ x ∈ agents, (μ x).isSome = (ν x).isSome) :
+    card agents μ = card agents ν :=
+  Nat.le_antisymm (List.countP_mono_left fun x hx hs => (h x hx) ▸ hs)
+    (List.countP_mono_left fun x hx hs => (h x hx).symm ▸ hs)
+
+omit [DecidableEq G] in
+/-- **The augmenting path**: if the end `b` of an alternating path without repeats values a good `h` that no agent
+holds, shifting the goods along the path (`b` takes `h`, each agent the good of the next) matches one more agent. -/
+theorem augment : ∀ (l : List A) (b : A) (μ : A → Option G) (h : G), IsMatching v agents goods μ →
+    AltPath v agents μ (b :: l) → (b :: l).Nodup → h ∈ goods → 0 < v b h → (∀ x, μ x ≠ some h) →
+      ∃ μ', IsMatching v agents goods μ' ∧ card agents μ < card agents μ'
+  | [], b, μ, h, hμ, hp, _, hh, hpos, hfree => by
+    obtain ⟨hb, hbn⟩ := hp
+    refine ⟨fun x => if x = b then some h else μ x, ⟨fun x g hx => ?_, fun x y g hx hy => ?_⟩, ?_⟩
+    · by_cases hxb : x = b
+      · rw [ite_eq_left hxb] at hx; cases hx; rw [hxb]; exact ⟨hb, hh, hpos⟩
+      · rw [ite_eq_right hxb] at hx; exact hμ.mem x g hx
+    · by_cases hxb : x = b <;> by_cases hyb : y = b
+      · rw [hxb, hyb]
+      · rw [ite_eq_left hxb] at hx; rw [ite_eq_right hyb] at hy; cases hx; exact absurd hy (hfree y)
+      · rw [ite_eq_right hxb] at hx; rw [ite_eq_left hyb] at hy; cases hy; exact absurd hx (hfree x)
+      · rw [ite_eq_right hxb] at hx; rw [ite_eq_right hyb] at hy; exact hμ.inj x y g hx hy
+    · refine countP_lt_of (fun x _ hs => ?_) ⟨b, hb, by simp, by simp [hbn]⟩
+      by_cases hxb : x = b
+      · simp [hxb]
+      · simpa [hxb] using hs
+  | c :: l, b, μ, h, hμ, hp, hnd, hh, hpos, hfree => by
+    obtain ⟨⟨g, hbg, hcg⟩, hp'⟩ := hp
+    have hb : b ∈ agents := (hμ.mem b g hbg).1
+    have hgh : g ≠ h := fun e => hfree b (e ▸ hbg)
+    let μ₁ : A → Option G := fun x => if x = b then some h else μ x
+    have hμ₁ : IsMatching v agents goods μ₁ := by
+      refine ⟨fun x g' hx => ?_, fun x y g' hx hy => ?_⟩
+      · by_cases hxb : x = b
+        · simp only [μ₁, hxb, ite_true, Option.some.injEq] at hx; subst hx; rw [hxb]; exact ⟨hb, hh, hpos⟩
+        · simp only [μ₁, hxb, ite_false] at hx; exact hμ.mem x g' hx
+      · by_cases hxb : x = b <;> by_cases hyb : y = b
+        · rw [hxb, hyb]
+        · simp only [μ₁, hxb, hyb, ite_true, ite_false, Option.some.injEq] at hx hy; subst hx
+          exact absurd hy (hfree y)
+        · simp only [μ₁, hxb, hyb, ite_true, ite_false, Option.some.injEq] at hx hy; subst hy
+          exact absurd hx (hfree x)
+        · simp only [μ₁, hxb, hyb, ite_false] at hx hy; exact hμ.inj x y g' hx hy
+    have hcard : card agents μ = card agents μ₁ := card_congr fun x _ => by
+      by_cases hxb : x = b
+      · simp [μ₁, hxb, hbg]
+      · simp [μ₁, hxb]
+    have hbl : b ∉ c :: l := (List.nodup_cons.mp hnd).1
+    have hp₁ : AltPath v agents μ₁ (c :: l) := altPath_congr (fun x hx => by
+      have : x ≠ b := fun e => hbl (e ▸ hx)
+      simp [μ₁, this]) hp'
+    have hfree₁ : ∀ x, μ₁ x ≠ some g := fun x hx => by
+      by_cases hxb : x = b
+      · simp only [μ₁, hxb, ite_true, Option.some.injEq] at hx; exact hgh hx.symm
+      · simp only [μ₁, hxb, ite_false] at hx; exact hxb (hμ.inj x b g hx hbg)
+    obtain ⟨μ', hμ', hlt⟩ := augment l c μ₁ g hμ₁ hp₁ (List.nodup_cons.mp hnd).2 (hμ.mem b g hbg).2.1 hcg hfree₁
+    exact ⟨μ', hμ', hcard ▸ hlt⟩
+
+omit [DecidableEq G] in
+/-- **Lemma MAX** (`k4/sdc.md` §31, `k4/oc1_hall.md` §19): if `μ` is a maximum matching, no agent reachable from
+an unmatched agent by an alternating path values a good that no agent holds (otherwise the path and that good
+form an augmenting path, `augment`). -/
+theorem max_no_augment {μ : A → Option G} (hmax : IsMaximum v agents goods μ) {b : A}
+    (hb : AltReach v agents μ b) : ∀ h ∈ goods, (∀ x, μ x ≠ some h) → v b h = 0 := by
+  intro h hh hfree
+  refine Nat.eq_zero_of_not_pos fun hpos => ?_
+  obtain ⟨l, hp, hnd⟩ := exists_altPath hb
+  obtain ⟨μ', hμ', hlt⟩ := augment l b μ h hmax.1 hp hnd hh hpos hfree
+  have := hmax.2 μ' hμ'
+  omega
+
+/-- **Lemma MAX at the picks**: if the picks of `ord` form a maximum matching, no agent reachable from a pickless
+agent by an alternating path values an unpicked good. -/
+theorem picks_no_augment {ord : List A} (hmax : IsMaximum v agents goods (sdPick v ord goods)) {b : A}
+    (hb : AltReach v agents (sdPick v ord goods) b) :
+    ∀ h ∈ goods, (∀ x, sdPick v ord goods x ≠ some h) → v b h = 0 :=
+  max_no_augment hmax hb
+
+end lemmaMax
 
 end OC1Max
 end EFX
@@ -349,3 +745,15 @@ end EFX
 #print axioms EFX.OC1Max.strictVals_of_strict
 #print axioms EFX.OC1Max.exists_cycle
 #print axioms EFX.OC1Max.exists_holds_fav
+#print axioms EFX.OC1Max.exists_order_of_paretoOpt
+#print axioms EFX.OC1Max.eq_sdPick_of_le
+#print axioms EFX.OC1Max.paretoOpt_sdPick
+#print axioms EFX.OC1Max.sdpo
+#print axioms EFX.OC1Max.exists_max_of_bdd
+#print axioms EFX.OC1Max.card_le_of_paretoImp
+#print axioms EFX.OC1Max.exists_maximum_paretoOpt
+#print axioms EFX.OC1Max.exists_order_maximum
+#print axioms EFX.OC1Max.exists_altPath
+#print axioms EFX.OC1Max.augment
+#print axioms EFX.OC1Max.max_no_augment
+#print axioms EFX.OC1Max.picks_no_augment
