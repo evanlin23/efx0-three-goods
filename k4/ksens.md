@@ -626,7 +626,7 @@ of an order.
 | c chains | c = 0 | c = 1 | c = 1 | k = 2c + 3 (c ≤ 3) | PW(c + 2, c + 1, 2c + 2) (§4) | ocseq |
 | one round of disjoint chains (RD, RD₁) | | | holds | **k = 5** | RD5: n = 4, m = 7 | SAT, brute force over every round |
 | two rounds (RD²), also from maximum-matching starts | | | holds | none found (climbs k = 5, 6, 8; n ≤ 6) | | |
-| SD-C: some order whose picks extend | | holds (LB⁺) | holds | none found (k ≤ 8) | | |
+| SD-C: some order whose picks extend | | holds (data; K4.SDC.K3 open) | holds | none found (k ≤ 8) | | |
 | MD: every start value-dominated | | | holds | none found (k ≤ 8) | | |
 | conclusions of Theorems DT, DT⁺, Lemma GDT, Theorem DT₁ | | | proved | **k = 5** | DT5: n = 2, m = 6; DT1-5: n = 3, m = 8 (§3) | SAT, brute force |
 
@@ -658,5 +658,5 @@ of an order.
 **Evidence base** (all evidence only). Each refutation is checked by two independent programs: SAT (sdclib's EFX₀
 clauses with this note's chain or round encodings) and a brute force or SAT-free enumeration from the definitions.
 PW5 also has a written proof, refereed by the coordinator (`k4/referee/ksens.md` on the coordinator's branch, not
-read here). Random surveys: 12,000 instances at k = 5–8. Climbs: about 600 rounds over the targets above. Structured
+read here). Random surveys: 12,000 instances at k = 5–8. Climbs: 786 climb rounds over the targets above (`climb_*.log`, the n = 6 runs still in progress). Structured
 k = 4 searches: 80,000 instances.
