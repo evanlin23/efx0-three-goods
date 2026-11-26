@@ -4,7 +4,32 @@ Branch `claude/k4-vm`, draft PR "[proof/k4-vm] From 4-limited EFX to EFX₀". Co
 Everything called evidence below is evidence only (PROMPT.md §5 rule 3). Nothing here changes a ledger row; the
 coordinator integrates.
 
-## Status (end of burst 2; burst 1 below it)
+## Status (burst 3: the coordinator's requests on VMX₂; bursts 2 and 1 below)
+
+- **Request 1, named instances: no failure** (§7.2, `vmx2_named.log`). VMX₂ has an EFX₀ run on all 372 items, every
+  output re-checked with an independent raw-EFX₀ checker. The items: B< and B> (the OC₁ counterexample core,
+  n = 6), T3, Q2, r4253, r3943, `lb4-owner-needs-from-base-n4m8`, and the TTC session's 84 OC₁ counterexamples plus
+  2 more, each also under 3 relabellings. The first DFS run already succeeds on every item.
+- **Request 2, core-checked climbs (§7.2): no counterexample to VMX₂** at n = 4, 5, 6. That is 57,461 mutations,
+  each kept only if `is_core4` passes. The success fraction is pushed down to 0.20 (n = 4), 0.125 (n = 5) and 0.675
+  (n = 6), never to 0. The VMX₂ choices cover every order and tie rule the procedure has, and relabellings were run
+  as well.
+- **Request 3, invariant and proof target (§7.3).** The successful runs have a two-phase shape: moves first, then
+  pure placement. More sharply:
+  - **Conjecture VM1**: from some V-M matching, *at most one move* (a pool upgrade or an unrestricted two-agent
+    exchange), then EFX₀-safe placements with rotation, complete to EFX₀.
+  - Evidence: screen 168/168 (157 with no move), named 95/95 (all with no move), random cores n = 3–5
+    2,700/2,700, general 3,000/3,000.
+  - With *narrow* exchanges (the taker must value z) VM1 is **refuted** at n = 3, m = 7 and n = 4, m = 7
+    (`attempts/k4-vm-vm1.md`, independent replay). One unrestricted exchange completes both.
+  - Climbs against VM1 with unrestricted exchanges: n = 3 found no counterexample; n = 4, 5 see §7.3.
+  - The invariant (I1)–(I5), all proved: partial EFX₀; domination of the start; wanted goods held alone; bundles of
+    two or more goods envied only by agents that value all of their goods; the potential rises.
+  - **The unproved step is placeability.** From some V-M matching, after at most one move, the pool can be placed
+    by safe placements with rotation. P1's state (GM4-E) shows that (I1), (I3), (I4) and "no pool good is wanted" do
+    not imply it, so a proof must use V-M's saturation structure (Lemmas S and PO).
+
+## Status (end of burst 2)
 
 - **PROVED: Theorem VM (§8).** Viswanathan–Mehta's algorithm, as reconstructed (§2, main reading), returns a complete
   *ordinary* EFX allocation on every 4-limited instance, for every resolution of its choices.
