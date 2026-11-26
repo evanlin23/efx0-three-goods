@@ -82,11 +82,13 @@ class Checker:
     def moves(self, base):
         I = self.I; n = I.n; V = I.val
         held = set().union(*base); J = [g for g in range(I.m) if g not in held]
-        out = set()
-        def add(nb): out.add(tuple(frozenset(b) for b in nb))
+        out = {}
+        def add(nb, tag):
+            key = tuple(frozenset(b) for b in nb)
+            if key not in out or tag < out[key]: out[key] = tag
         for x in range(n):                                     # additions
             for H in subsets([g for g in J if g in I.R[x]]):
-                if H: nb = list(base); nb[x] = base[x] | set(H); add(nb)
+                if H: nb = list(base); nb[x] = base[x] | set(H); add(nb, (0, 1, 'addition'))
         def ext(path, used, take):                             # chains
             xt = path[-1]
             if len(path) >= 2:
@@ -96,7 +98,7 @@ class Checker:
                     if H0 and V(x0, H0) > V(x0, base[x0]):
                         nb = list(base); nb[x0] = frozenset(H0)
                         for i in range(1, len(path)): nb[path[i]] = base[path[i - 1]] | take[i]
-                        add(nb)
+                        add(nb, (1, len(path), 'chain'))
             if not base[xt] or len(path) >= n: return
             for y in range(n):
                 if y in path: continue
@@ -111,7 +113,7 @@ class Checker:
                     if i == r:
                         nb = list(base)
                         for t in range(r): nb[cyc[t]] = base[cyc[t - 1]] | take[t]
-                        add(nb); return
+                        add(nb, (2, r, 'ring')); return
                     w, pred = cyc[i], cyc[i - 1]
                     if not base[pred]: return
                     for H in subsets([g for g in J if g not in used and g in I.R[w]]):
@@ -126,6 +128,14 @@ class Checker:
             own = self.complete(st)
             if own is not None: return 'one move repairs', st
         return 'OC1 fails', None
+
+    def simplest_repair(self, picks):
+        """the simplest repairing move's tag (kind order: addition < chain < ring, then length), or None"""
+        base = tuple(frozenset([p]) if p is not None else frozenset() for p in picks)
+        mv = self.moves(base)
+        for st, tag in sorted(mv.items(), key=lambda kv: kv[1]):
+            if self.complete(st) is not None: return tag
+        return None
 
 
 def all_orders(I, only_max=True):
