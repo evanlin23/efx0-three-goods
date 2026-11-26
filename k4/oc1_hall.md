@@ -94,7 +94,8 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | **Conjecture OC₁-ED\*** (§14; agreed with the TTC session's OC₁-ED); **refuted as stated** by the TTC session's n = 6 instances (§16) | for every order: the picks have a one-absorber completion, or some ED chain (x₀ dangerous; middle agents take exactly their predecessor's pick, which they want; only the head x_t may add junk) leaves an S\* completion owned by x₀ or x_t | evidence: all 2,308 one-absorber-hard starts (n ≤ 5). With "S\*" also in the first alternative it fails only on lb4-owner-needs-from-base-n4m8 (2 starts), which complete at the picks with a compensated frozen slot |
 | Finding D1 (§15) | one dangerous agent k: on all 197 one-absorber-hard starts with \|D\| = 1, some ED chain from k with an *inclusion-minimal* improving H₀ leaves an S\* completion owned by k (rule ED-MIN). The swap (t = 1) is enough whenever f = 1, but fails on 19 configurations with f ≥ 2, listed in `d1_swapmin_fails.json` | evidence |
 | **Lemma D1-red, Prop. 3′, Lemma D1-chain** (§21) | D = {k}, hard start. k has a canonical chain (heads hold picks at maximum-matching starts), and every chain end's pool J ∪ B_{x_t} is improving for k (Prop. 3′, Prop. 3 carried to \|D\| = 1). After any canonical chain with an improving H₀, owner k: (G1), (G2) hold; the only agent that can be threatened by the pool is the head x_t, and only if x_{t−1}'s pick has a second wanter (HEAD); the only non-movable holders are those crowded by H₀ (CROWD). With neither, k owns an S\* completion | written proofs (§21); P1–P5 checked at all 197 starts, 0 violations; all 282 chains free of HEAD and CROWD repair |
-| Sub-lemmas D1-H, D1-C (§21; K4.OCH.D1H, K4.OCH.D1C) | D1-H: a failing chain with HEAD is replaced by a chain through a second wanter. D1-C: a failing chain with CROWD only is repaired by another minimal H₀ on the same chain. With Lemma D1-red they imply Finding D1 | **open**; evidence 8/8 and 2/2 failing chains; smallest log152 (n = 3, m = 5) and r1179 (n = 4, m = 9) |
+| **Lemma D1-C₀, Prop. D1-C′** (§21) | favourites duality: a holder off the chain is admissible for its favourite pool good, so hardness forces an improving set of k avoiding any set of distinct favourites in J. Hence every canonical chain without HEAD repairs with owner k, except in the residual cases C-a (shared favourite), C-b (every such H₀ crowds the head and contains Y_{x_t}) and C-c (a favourite is Y_{x_t}) | written proofs; `d1_crowd.log`: 224 of 227 chains without HEAD covered, 0 violations; the 3 others are C-b, all copies of lb4-n2m5-upgrade (n = 2) |
+| Sub-lemma D1-H(ii) (§21; K4.OCH.D1H) | a longest canonical chain with HEAD (all second wanters are then unfrozen at the picks): the chain itself, or the one through a second wanter, repairs with owner k. With the rows above, this implies Finding D1 outside C-a to C-c | **open**; evidence 14/14 paths; smallest lil-noncore-n3 and log557 (n = 3) |
 | Conjecture D1-LONG (§21) | some *longest* canonical chain from k, with some minimal H₀, repairs with owner k. A longest chain is never in HEAD's case H-i (proved), so only H-ii (a second wanter unfrozen at the picks) and CROWD remain | evidence: 197/197 starts (every longest chain: 196; exception log557) |
 | **Lemma MAX** (§19) | if the picks form a maximum matching, no agent reachable from a pickless agent by an alternating path values a junk good. So no pickless agent wants a dangerous frozen agent, or any agent on a want-chain above one, and the pickless-bin pigeonhole of §16/§18 cannot form | written proof (§19); checked at every maximum-matching start of special, screen and the K4.MC2 core |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
@@ -122,10 +123,10 @@ lemma may be restricted to canonical chains from D plus at most one junk-assiste
 
 Next (after the refutation of §16, everything restricted to the K4.MC2 class of strict connected cores in which no
 agent has two private goods):
-0. **Finding D1** (§21). Reduced to two local sub-lemmas: D1-H in case H-ii, where the head is frozen by a second
-   wanter unfrozen at the picks (smallest log557, lil-noncore-n3), and D1-C, crowding by a minimal H₀ (smallest
-   r1179). Alternatively, prove D1-LONG directly. Then |D| ≥ 2: disjoint danger sets (one chain per dangerous agent,
-   Lemma PL's "≤ 1 pool good left" for the others) and shared ones (PWk(a) as the model).
+0. **Finding D1** (§21). Left: Sub-lemma D1-H(ii), for a longest chain whose head is frozen by a second wanter that
+   is unfrozen at the picks (smallest lil-noncore-n3, log557), and the residual cases C-a to C-c of Proposition D1-C′,
+   which are absent from the data at n ≥ 3. Then |D| ≥ 2: disjoint danger sets (one chain per dangerous agent, Lemma
+   PL's "≤ 1 pool good left" for the others) and shared ones (PWk(a) as the model).
 1. f = 1 with several wanters, n ≥ 4: the picks with a wanter as owner (Corollary 2.1, with helpers). One n = 4 start
    (red-b1-blocked-improvement) needs the swap, because x needs two goods kept out and only one admissible holder
    exists.
@@ -1185,7 +1186,7 @@ D1-H and D1-C below.
   unfrozen at the picks.
 - P5: no chain free of HEAD and CROWD fails (Lemma D1-red).
 
-**Sub-lemma D1-H (K4.OCH.D1H, open).** Let P be a canonical chain from k whose head is frozen after P, i.e. x_{t−1}'s
+**Sub-lemma D1-H (K4.OCH.D1H, open; narrowed below to D1-H(ii) for longest chains).** Let P be a canonical chain from k whose head is frozen after P, i.e. x_{t−1}'s
 pick a has a second wanter w ∉ P at the picks. If no minimal improving H₀ makes C(B′, k) hold for P, then some
 canonical chain P_w = (x₀, …, x_{t−1}, w, …) through such a w does, with a minimal improving H₀.
 - Data (`d1_subcases.log`): 8 of 8 failing HEAD chains. By paths with HEAD:
@@ -1202,7 +1203,7 @@ canonical chain P_w = (x₀, …, x_{t−1}, w, …) through such a w does, with
     threatened by {2, 3}, worth 15 > 13. No holder is left to keep good 3 out.
   - The chain through the frozen second wanter 0, (1, 0, 2), repairs: k takes {2, 4, 3}.
 
-**Sub-lemma D1-C (K4.OCH.D1C, open).** If P has CROWD but not HEAD, and C(B′, k) fails for H₀, then another minimal
+**Sub-lemma D1-C (K4.OCH.D1C; proved below outside three residual cases, by Proposition D1-C′).** If P has CROWD but not HEAD, and C(B′, k) fails for H₀, then another minimal
 improving H₀′ on the same chain satisfies it.
 - Data: 2 of 2 failing CROWD chains, which are one configuration (r1179 = log558). The other 6 CROWD chains repair by
   compensation: the crowded holder takes a junk good.
@@ -1235,6 +1236,83 @@ with some minimal improving H₀, leaves an S\* completion owned by k.
 So the junk given to holders is small: 157 starts are repaired with none (k takes the whole pool), 38 with one good,
 and 2 (r1179 and log558) with two. This counts DT's moves too, so it is not |H| of Lemma 2\*.
 
-**What is left for |D| = 1.** D1-H in case H-ii, and D1-C, or directly D1-LONG for a longest chain. Both sub-lemmas are
-local. The first is about the two wanters of one pick and the head's at most three pool goods (|R_{x_t}| ≤ 4). The
-second is about at most three pool goods of k.
+**D1-C is proved except for three residual cases** (`k4/oc1_hall/d1_crowd.py`, `d1_crowd.log`). The tool is the
+duality of Theorem F1₁'s (B3), now at the picks: a holder that could be crowded is a helper for its favourite pool
+good.
+
+**Lemma D1-C₀ (favourites; K4.OCH.D1FAV).** Take a hard start with D = {k}, an agent z unfrozen at the picks,
+Π = J ∪ B_z and Π_k = Π ∩ R_k. For an agent u ∉ {k, z}, unfrozen at the picks and valuing a good of Π, let b_u be
+u's favourite good of Π.
+- (a) |Π ∩ R_u| ≤ 3. For every S ⊆ Π ∖ {b_u}, u is not threatened by S at v_u(B_u) + v_u(b_u).
+- (b) For every set U″ of such agents whose favourites are pairwise distinct and all lie in J,
+  v_k(Π_k ∖ {b_u : u ∈ U″}) > p_k.
+
+*Proof.*
+- (a) u holds a pick: a pickless agent values no junk (I2) and does not value B_z (z is unfrozen). Since Y_u ∉ Π,
+  |Π ∩ R_u| ≤ |R_u| − 1 ≤ 3. The goods of Π ∩ R_u other than b_u are at most two. Each is worth at most v_u(b_u),
+  because b_u is u's favourite. Each is also worth at most v_u(Y_u): for junk by (I2), and for B_z because z is
+  unfrozen. So any set of them is worth at most v_u(b_u) + v_u(Y_u), and removing a good only lowers the value.
+- (b) Otherwise apply Lemma 2\* at the picks, with owner z and H = {b_u : u ∈ U″} ⊆ J, each b_u matched to u.
+  - (G1), (G2), the frozen agents other than k, and the absence of non-movable holders: as in Proposition 3′.
+  - k is not threatened, since (W_z ∖ H) ∩ R_k ⊆ Π_k ∖ H is worth at most p_k.
+  - Each u ∈ U″ is admissible for b_u. If u is unexposed, this holds by definition. If u is exposed, it values b_u,
+    and by (a) it is not threatened by W_z ∖ H ⊆ Π ∖ {b_u} at p_u + v_u(b_u).
+
+  So the picks would have an S\* completion, a contradiction. ∎
+
+**Proposition D1-C′ (K4.OCH.D1CP).** Take a hard start with D = {k}, and a canonical chain P from k without HEAD. Let
+U′ be the agents off P, unfrozen at the picks, that value at least two goods of Π_k. Suppose their favourites b_u are
+pairwise distinct and lie in J. Then:
+- some minimal improving H₀ lies inside Π_k ∖ B(U′), by Lemma D1-C₀ (b) with z = x_t;
+- every such H₀ that does not both crowd the head and contain Y_{x_t} leaves an S\* completion owned by k.
+
+*Proof.* Without HEAD, (H1′) of Lemma D1-red holds for every H. If x_t is frozen at B′, it is unthreatened by Π, hence
+by every subset, since being threatened is monotone. By Lemma D1-red (3), each crowded holder is x_t or an agent off P
+unfrozen at the picks. The latter values two goods of H₀ ⊆ Π_k, so it lies in U′.
+
+Let H consist of b_u for each crowded u ∈ U′, together with Y_{x_t} if the head is crowded. These goods are
+pairwise distinct (distinct favourites in J, and Y_{x_t} ∉ J). They lie in J′ = Π ∖ H₀: H₀ avoids B(U′), and
+Y_{x_t} ∉ H₀ when the head is crowded. Match each crowded holder to its good.
+- A crowded u ∈ U′ is admissible for b_u by Lemma D1-C₀ (a). Its values and Π are those of the picks, since u is off P.
+- A crowded head holds a. Π ∩ R_{x_t} ⊆ {Y_{x_t}} ∪ (J ∩ R_{x_t}), with at most two junk goods, each worth at most
+  p_{x_t} < v_{x_t}(a). So after Y_{x_t} is matched to it, any set of its remaining pool goods is worth at most
+  2p_{x_t} < v_{x_t}(Y_{x_t}) + v_{x_t}(a). It is admissible.
+
+This system of representatives covers every crowded exposed holder, and Lemma D1-red (4) gives the completion. ∎
+
+*The residual cases of D1-C*:
+- **C-a:** two agents of U′ share their favourite;
+- **C-c:** some favourite is Y_{x_t};
+- **C-b:** every minimal improving H₀ ⊆ Π_k ∖ B(U′) crowds the head and contains Y_{x_t}.
+
+*Check* (`d1_crowd.py`; 0 violations):
+- Lemma D1-C₀ (b) holds for every subset U″, on all 227 chains without HEAD.
+- Proposition D1-C′'s completion exists in all 276 cases where it applies.
+- The proposition covers 224 of the 227 chains.
+- The other 3 are C-b, and all are copies of lb4-n2m5-upgrade (n = 2). C-a and C-c never occur.
+
+So on the data with n ≥ 3, **every canonical chain from k without HEAD is repaired by a proved argument.**
+
+**What is left for |D| = 1: one sub-lemma** (plus the residual cases C-a to C-c, which are absent from the data at
+n ≥ 3). Take a longest canonical chain P. If P has no HEAD, Proposition D1-C′ repairs, outside C-a to C-c. If P has
+HEAD, then by Remark 2 every second wanter is unfrozen at the picks, and this is the open case:
+
+> **Sub-lemma D1-H(ii) (K4.OCH.D1H, open).** Let P be a longest canonical chain from k whose head is frozen after P.
+> So every second wanter w of a is unfrozen at the picks, and is a holder at B′. Then P, or some
+> P_w = (x₀, …, x_{t−1}, w), with a minimal improving H₀, leaves an S\* completion owned by k.
+
+- Data: 14 of 14 such paths. 13 repair on P itself, with a holder (usually w) taking a good of x_t's danger set.
+  log557 repairs through w.
+- Smallest instances: lil-noncore-n3 (n = 3, m = 9; it repairs on P, with H = {6}) and log557 (n = 3, m = 6; it needs
+  P_w).
+- Both P and P_w have the same length t, and in each the other wanter freezes the head. Only the head's at most three
+  pool goods and the two wanters' values of a are involved.
+
+**Adversarial climbs against D1-LONG** (`k4/oc1_hall/climb_d1.py`, `climb_d1_n4.log`, `climb_d1_n5.log`,
+`climb_d1_n6.log`; evidence).
+- The objective is the number of repairing (longest chain, minimal H₀) pairs, minimized over the hard starts with
+  D = {k}.
+- n = 4: 40 rounds of 6,000 steps; 37 end at 1 and none at 0.
+- n = 5: 30 rounds of 3,000 steps; the 13 rounds that stay hard end at 1.
+- n = 6: random starts never reached a hard start with |D| = 1 in 12 rounds, so that run is not informative. The
+  sampling at n = 6–8 below covers it.
