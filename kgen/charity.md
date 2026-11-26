@@ -315,8 +315,18 @@ with the P1 replay on GM4-E: five Pareto maxima, one leaving one good out):
      which K4.SDC.P1 lists as total-value-stuck, the largest total is tied with complete allocations. With these
      values S′(σ, 3) for σ = 3, 4 does not strand: its relays allow large welfare gains.
    - *Data:* the welfare maximum is complete on 166 of the 168 curated k = 4 instances (the exceptions are GM4-G and
-     its copy, `w_screen.log`), on 2,000 random k ≤ 3, 1,000 random k ≤ 4 and 400 random general instances with up
-     to 7 relevant goods (`w_rand_*.log`), and on S(σ, 3), S′(σ, 3) for σ ≤ 5 (`w_family.log`).
+     its copy, `w_screen.log`), on 5,000 random k ≤ 3 instances (3,000 with every agent valuing exactly three goods),
+     3,000 random k ≤ 4 instances (n ≤ 7) and 400 random general instances with up to 7 relevant goods
+     (`w_rand_*.log`), and on S(σ, 3), S′(σ, 3) for σ ≤ 5 with their default values (`w_family.log`).
+   - *S′ with GM4-G's values* (`w_family_vals.py`, `w_family_vals.log`): for σ = 2 the stranded state is the welfare
+     maximum (another k = 3 counterexample to f = 0); for σ = 3, 4 at k = 3 and k = 4 it is still a Pareto maximum
+     but the welfare maximum is complete and 10 to 37 above it. With two or more champions per source, a source can
+     give up its own goods for a child's good while another absorbs a child's good as a third good, without creating
+     strong envy. So this family does not scale for W.
+   - *Value hill-climbs* toward a welfare maximum leaving one good out at k = 3 (from S′(2, 3) and from random
+     hypergraphs with n = 4, 5) or two at k = 4 (from S′(3, 4) and a random n = 6 hypergraph) all stall at score 0:
+     ties between a stranding state and a complete one, never a strict gap (`w_climb_*.log`, 3,000 steps or stopped
+     on the plateau).
    - *Rescaling:* v_i ↦ λ_i v_i changes neither EFX₀ nor the Pareto order, so W over all instances asks whether a
      stranded Pareto maximum can be a *supported* point of the EFX₀ value vectors. GM4-G's and GM4-E's are; S′(2, 3)'s
      is not (`welfare_support.py`, LP over all 125 EFX₀ value vectors). So S′ cannot be rescaled into a counterexample.
