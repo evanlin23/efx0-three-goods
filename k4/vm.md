@@ -531,6 +531,80 @@ fractions reached are:
 With that budget VMX went to 0 at both sizes. This is evidence only. The next step is longer climbs, n = 5, and
 objectives other than the success fraction (e.g. the number of successful runs).
 
+### 7.2 VMX₂ on the coordinator's named instances, and core-checked climbs at n = 4, 5, 6
+
+**Named instances** (`k4/vm/vmx2_named.py`, `results/k4_vm/vmx2_named.log`). The set:
+- B< and B>, the OC₁ counterexample on a strict connected n = 6 core (k4/oc1_hall.md §16, on another branch; values
+  as sent by the coordinator);
+- T3, Q2, r4253 and r3943 (SPECIAL), and `lb4-owner-needs-from-base-n4m8`;
+- the TTC session's 84 OC₁ counterexamples, its n = 5 counterexample and its core candidate
+  (`results/k4_ttc/*.json` on `claude/k4-ttc`).
+
+Each instance was run under 3 relabellings of agents and goods as well. **All 372 items have an EFX₀ run of VMX₂,
+and every output passes an independent raw-EFX₀ checker.** In every case the first DFS run (moves preferred,
+first option everywhere) already succeeds.
+
+**Climbs on strict connected cores** (`k4/vm/vmx2_climb.py`). Each mutation changes one agent's order type and
+ranking, or swaps one good in one agent's set. It is kept only if `is_core4` (`k4/c4_verify_H/hcore.py`: IsCore4,
+strictness, connectivity) passes. The objective is the fraction of 40 random VMX₂ runs that succeed.
+
+| n | climbs × steps | core-checked mutations | lowest success fraction reached | log |
+|---|---|---|---|---|
+| 4 | 64 × 300 | 15,653 | 0.200 | `vmx2_climb4s.log` |
+| 5 | 32 × 150, 64 × 400 | 4,110 + 21,798 | 0.125 | `vmx2_climb5.log`, `vmx2_climb5_long.log` |
+| 6 | 32 × 120, 48 × 300 | 3,330 + PENDING | 0.675 (short run) | `vmx2_climb6.log`, `vmx2_climb6_long.log` |
+
+No counterexample to VMX₂. The climbs do find harder instances as they run longer, so this is evidence only.
+
+### 7.3 The structure of the successful runs: one move, then placement (Conjecture VM1)
+
+`k4/vm/vmx2_phases.py` splits a VMX₂ run into two phases:
+- Phase A: moves only (rotations, pool upgrades, two-agent exchanges) from a V-M matching;
+- Phase B: F1 placements with rotation, no moves.
+
+It explores every Phase-A state Z (capped) and, for each, every Phase-B run (capped).
+
+| source | instances | some Z completes in Phase B (two-phase VMX₂) | fewest moves needed | some Z completes under *every* Phase-B order | log |
+|---|---|---|---|---|---|
+| screen | 168 | **168** | 0 moves: 157; 1 move: 11 | 164 | `vmx2_phases_screen.log` |
+| named (B<, B>, SPECIAL, TTC 84+2, the two VMX counterexamples), at most 1 move | 95 | **95** | 0 moves: 95 | 94 | `vm1_named.log` |
+| cores n = 3 / 4 / 5, general (at most 1 move) | PENDING | | | | `vm1_*.log` |
+
+Valuer-only placement (a good goes only to an agent that values it) is refuted: on the screen set it finds an EFX₀
+run on 117 of 168, smallest failure n = 2, m = 5 (`x2-val` in `vm6_test.py`). Junk-like placement on agents who do
+not value the good is essential.
+
+**Conjecture VM1 (evidence only).** For every 4-limited instance there are:
+- a V-M matching Y (Phases I–II, some resolution of the ties);
+- at most one move (a pool upgrade or a two-agent exchange with pool goods, both agents gaining, EFX₀ kept);
+- an order of the remaining goods;
+
+such that placing each good on some agent whose bundle stays EFX₀-unenvied, rotating envy cycles before each
+placement, ends with a complete EFX₀ allocation. VM1 ⟹ VMX₂ ⟹ TARGET₄.
+
+**Invariant and proof target.** Every state of a VMX₂ run satisfies the following, all proved (Lemmas SND, TERM, and
+EFX₀ itself):
+- (I1) it is a partial EFX₀ allocation;
+- (I2) v_i(X_i) ≥ v_i(Y_i) for every agent i, so the state value-dominates the start (Conjecture MD's domination);
+- (I3) every good some agent prefers to its own bundle is held alone (EFX₀ implies this);
+- (I4) every bundle of two or more goods is envied only by agents that value all of its goods;
+- (I5) the pool never grows, and Φ = Σ_i ℓ_i(X_i) rises at every move and rotation.
+
+The one step that is not proved is **placeability**: for some V-M matching, possibly after one move, the pool can be
+placed by EFX₀-safe placements with rotation. Two remarks on what that step needs:
+- *It is not implied by (I1), (I3) and (I4), even with no wanted pool good.* The state X of P1 (K4.SDC.P1, GM4-E) is
+  partial EFX₀ and none of its four agents values the left-out good 6 more than its own bundle, yet good 6 cannot be
+  placed. Whether X also value-dominates a V-M matching (I2) was not checked. So the proof must use what V-M's matching provides: Lemma S's
+  saturation, and the rank-greedy structure of Lemma PO.
+- *The single good-order choice already matters.* With distinct tops the start is ({a_i}), every good is worth at
+  most v_i(a_i), and some order succeeds (Theorem DT). But not every order does (`attempts/k4-vm-f1-order.md`).
+
+The natural first target is therefore VM1 at zero moves on the class where it holds on the data (157/168 screen,
+95/95 named):
+> from some V-M matching, F1 with rotation places the whole pool,
+
+followed by a characterization of the instances that need the one move.
+
 ## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading
 
 The abstract asserts the source property ("we are able to prove that ... there will be a source") without proof.

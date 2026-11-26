@@ -1,0 +1,1 @@
+$ python3 k4/vm/vmx2_climb.py 6 48 300 22 --R=40

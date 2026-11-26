@@ -137,3 +137,24 @@ def random_general(N, seed, nmin=2, nmax=6, mmax=10, vmax=20, ties=False, kmax=4
             sets.append(S); vals.append(V)
         out.append(('gen:%d' % t, sets, vals, m))
     return out
+
+
+def named(ext):
+    """the coordinator's named hard instances: B< and B> (OC1 counterexample on a strict connected n = 6 core),
+    SPECIAL, lb4-owner-needs-from-base-n4m8, and the TTC session's 84 OC1 counterexamples, n = 5 counterexample and
+    core candidate (json files extracted from claude/k4-ttc into the directory ext)"""
+    B = [[0, 2, 3, 1], [6, 4, 5, 9], [1, 2, 3, 9], [1, 6, 7, 8], [3, 6, 9], [1, 3, 6, 9]]
+    out = [('B<', B, [[6, 14, 16, 12], [4, 18, 12, 28], [28, 4, 16, 21], [16, 14, 12, 6], [28, 8, 24], [20, 30, 8, 4]], 10),
+           ('B>', B, [[6, 14, 16, 12], [4, 18, 12, 28], [28, 4, 16, 19], [16, 14, 12, 6], [28, 8, 24], [20, 30, 8, 4]], 10)]
+    out += special()
+    d = json.load(open(os.path.join(ROOT, 'k4/suite/instances/lb4-owner-needs-from-base-n4m8.json')))
+    out.append(('lb4-owner-needs-from-base-n4m8', d['sets'], d['vals'], d.get('m') or 1 + max(max(x) for x in d['sets'])))
+    for t, x in enumerate(json.load(open(os.path.join(ext, 'oc1_counterexamples.json')))):
+        out.append(('ttc84:%d' % t, x['sets'], x['vals'], x['m']))
+    for fn in ('oc1_counterexample_n5.json', 'oc1_core_candidate.json'):
+        x = json.load(open(os.path.join(ext, fn)))
+        x = x[0] if isinstance(x, list) else x
+        out.append((fn[:-5], x['sets'], x['vals'], x.get('m') or 1 + max(max(s) for s in x['sets'])))
+    out.append(('vmx-cex-n3', [[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[4, 3, 2, 8], [4, 7, 2, 8], [4, 8, 3, 10]], 6))
+    out.append(('vmx-cex-n4', [[0, 1, 2, 6], [1, 2, 5, 7], [3, 4, 5, 6], [3, 4, 7]], [[2, 7, 4, 8], [4, 2, 8, 7], [6, 3, 10, 2], [3, 2, 4]], 8))
+    return out

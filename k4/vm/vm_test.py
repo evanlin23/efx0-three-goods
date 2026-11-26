@@ -83,6 +83,8 @@ def items_for(src):
     if src.startswith('cores:'):
         _, K, N, seed = src.split(':')
         return data.random_cores(int(K), int(N), int(seed))
+    if src.startswith('named:'):
+        return data.named(src[6:])
     if src.startswith('gen:'):
         p = src.split(':')
         kw = {}

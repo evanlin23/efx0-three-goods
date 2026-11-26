@@ -516,7 +516,8 @@ def placeable_after_place(I, X, pool, g, s, rot):
     return absorbable_all(I, Y, set(pool) - {g})
 
 
-def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False, phase3=True, xret=False):
+def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False, phase3=True, xret=False, twophase=False,
+             valuer=False):
     """F6x: as vm6_run with upgrade moves replaced by exchanges() (pool-only upgrades included).
     mode='choice': moves and 'place' are choice points; 'eager': a move is applied whenever one exists (which one is
     a choice point); 'eager1': the first move in exchanges()'s order; 'stuck': moves only when the chosen good has no
@@ -530,6 +531,7 @@ def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False, phase3=Tru
     pool = set(g for g in range(I.m) if g not in held)
     log = []
     exch = exchanges_ret if xret else exchanges
+    placed = [False]
 
     def apply(mv):
         i, j, z, S = mv[:4]; D = mv[4] if len(mv) > 4 else ()
@@ -549,7 +551,7 @@ def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False, phase3=Tru
             break
         if rot:
             l3_source(I, X)
-        if mode in ('choice', 'eager', 'eager1', 'eagerL', 'eagerL1', 'eagerLL'):
+        if mode in ('choice', 'eager', 'eager1', 'eagerL', 'eagerL1', 'eagerLL') and not (twophase and placed[0]):
             mv = exch(I, X, pool)
             if mode == 'eagerLL':
                 mv = [a for a in mv if placeable_after(I, X, pool, a)][:1]
@@ -571,7 +573,7 @@ def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False, phase3=Tru
             X[s].append(g); pool.discard(g); log.append(('F1', s, g))
             continue
         g = ch.pick('egood', valued)
-        cands = [s for s in range(I.n) if safe_add(I, X, s, g)]
+        cands = [s for s in range(I.n) if safe_add(I, X, s, g) and (not valuer or g in I.v[s])]
         if not cands and mode == 'stuck':
             mv = exch(I, X, pool)
             if mv:
@@ -579,7 +581,7 @@ def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False, phase3=Tru
         if not cands:
             raise Stuck(('no_safe', g, [list(b) for b in X]))
         s = ch.pick(('esrc', g), cands)
-        X[s].append(g); pool.discard(g); log.append(('F1', s, g))
+        X[s].append(g); pool.discard(g); log.append(('F1', s, g)); placed[0] = True
     else:
         raise Stuck(('loop',))
     J = sorted(pool)

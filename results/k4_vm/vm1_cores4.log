@@ -1,0 +1,1 @@
+$ python3 k4/vm/vmx2_phases.py cores:4:800:92 --maxdepth=1
