@@ -84,7 +84,9 @@ upgrades):
 | random 3-uniform instances, n = 6–10 | 200,000 | | 362 | 0 | 0 |
 | Appendix C trees (k, d) = (2,1), (2,2), (3,2), (4,2) | n = 6, 14, 21, 28 | | 4 | 0 | 0 |
 
-("Hard": the picks fail the test. Columns 5–6 count hard starts.)
+("Hard": the picks fail the test. Columns 5–6 count hard starts. The last column uses the simple test. On the n = 6,
+m ≤ 9 cores with every profile, the max-score trade fails the simple test on 912 drafts but never the exact test,
+while the least-ω trade never fails the simple test (§4–§5).)
 
 ## 2. Lemmas on DE states
 
@@ -107,7 +109,8 @@ Theorem 1′ applies to (a) and (b), with Lemma 1's argument for (b) (`proofs/lb
 also shows that a bundle of at most two goods threatens nobody in a valid state. In (c) every bundle has at most two
 goods. ∎
 
-The exact test `lb2` adds three things, and the data need none of them for OT:
+The exact test `lb2` adds three things. On the ledger's cores the least-ω trade never needs them (§4). The max-score
+trade and the general core case do (§5):
 - upgrades (a b-holder takes its junk c, as in LB's Phase 2), chosen as a set, since the maximal set is not always
   best: an upgrade uses the agent's one junk good;
 - a slot for every pair holder that already holds its pair, for a junk good that puts no exposed pair inside its
@@ -164,8 +167,10 @@ deficit one for owner t, and let k ∈ E_t satisfy:
 - (iv) the sets {b_x, c_x} ∖ {b_k, c_k}, for x ∈ E_t ∖ {k}, have a hitting set of at most |T| − 1 goods.
 
 Rotate along the chain: each x_i (i ≥ 1) takes Y_{x_{i−1}}, k takes b_k and c_k, and t's pick (if any) is released.
-The result has a one-absorber completion: with no owner if |J′| ≤ |T′|, with owner k otherwise. The rotation is one
-DE trade: a DE chain if {b_k, c_k} ⊆ J, a ring with the one pair arrow t → k otherwise.
+The result has a one-absorber completion: with no owner if |J′| ≤ |T′|, with owner k otherwise. It is Lemma 1 applied
+to the upgraded state, and each upgraded agent's c is its one junk good. The rotation is one DE trade from the draft
+itself: a DE chain if {b_k, c_k} ⊆ J, a ring with the one pair arrow t → k otherwise. Its agents are not upgraded, and
+{b_k, c_k} contains no upgraded agent's c, since that c is not in W.
 
 *Proof.* `proofs/lb_last_step.md` §5 with r replaced by t. Blocks are never used.
 - *(a)–(c): the result P′ is a valid pre-allocation.* These steps use only that {b_k, c_k} ⊆ W := J ∪ {Y_t}
