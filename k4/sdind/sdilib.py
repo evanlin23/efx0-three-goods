@@ -84,6 +84,8 @@ def completions(I, bases, maxabs=1, J=None, limit_assign=2_000_000):
         for g in bases[k]:
             baseval[:, k] += I.V[:, g]
             basemin[:, k] = np.minimum(basemin[:, k], I.V[:, g])
+    if n == 0:
+        return J, np.zeros((0, j), dtype=np.int64)
     if j == 0:
         A = np.zeros((1, 0), dtype=np.int64)
     else:
@@ -145,3 +147,43 @@ def wanted_by(I, Y, bases=None):
         for i in range(I.n):
             if i != j and I.val(i, bases[j]) > I.val(i, bases[i]): W[j].append(i)
     return W
+
+
+def chains(I, bases, J=None, hmax=4, bmax=4, start=None):
+    """improving chains (k4/sdc.md §29; independent re-implementation of de_free.iter_chains): distinct agents
+    x_0..x_t, x_0 takes H_0 (goods of J, plus goods of B_{x_t} when t >= 1; for t = 0, x_0 keeps its base and adds
+    H_0 from J), each x_i (i >= 1) takes B_{x_{i-1}} plus H_i from J, the rest of B_{x_t} becomes junk; all H's
+    disjoint, inside the receiver's relevant goods, |H| <= hmax, every new base <= bmax goods, and every chain agent
+    strictly gains.  Yields (new_bases, path, H dict).  With start set, only chains with x_0 = start."""
+    n = I.n
+    if J is None:
+        used = set(g for b in bases for g in b); J = [g for g in range(I.m) if g not in used]
+    def subsets(xs):
+        for r in range(1, min(hmax, len(xs)) + 1):
+            yield from itertools.combinations(xs, r)
+    def subsets0(xs):
+        yield ()
+        yield from subsets(xs)
+    def ext(path, usedH, assign):
+        x0 = path[0]; xt = path[-1]
+        pool = [g for g in J if g not in usedH and I.V[x0, g] > 0]
+        if len(path) > 1: pool += [g for g in bases[xt] if I.V[x0, g] > 0]
+        for H0 in subsets(pool):
+            nb0 = (list(bases[x0]) if len(path) == 1 else []) + list(H0)
+            if len(nb0) > bmax or I.val(x0, nb0) <= I.val(x0, bases[x0]): continue
+            nb = [list(b) for b in bases]
+            if len(path) > 1:
+                for i in range(len(path) - 1, 0, -1):
+                    nb[path[i]] = list(bases[path[i - 1]]) + list(assign[i])
+            nb[x0] = nb0
+            yield nb, tuple(path), {0: H0, **assign}
+        if len(path) >= n or not bases[xt]: return
+        for y in range(n):
+            if y in path: continue
+            free = [g for g in J if g not in usedH and I.V[y, g] > 0]
+            for H in subsets0(free):
+                nby = list(bases[xt]) + list(H)
+                if len(nby) > bmax or I.val(y, nby) <= I.val(y, bases[y]): continue
+                yield from ext(path + [y], usedH | set(H), {**assign, len(path): H})
+    for x in (range(n) if start is None else [start]):
+        yield from ext([x], frozenset(), {})
