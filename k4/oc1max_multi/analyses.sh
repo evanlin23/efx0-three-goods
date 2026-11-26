@@ -5,7 +5,4 @@ python3 k4/oc1max_multi/analyze.py $D > $R/analyze.log
 python3 k4/oc1max_multi/dred.py $D > $R/dred.log
 python3 k4/oc1max_multi/theta.py $D > $R/theta.log
 python3 k4/oc1max_multi/lemma_b.py $D > $R/lemma_keep.log
-python3 k4/oc1max_multi/regimes.py $D > $R/regimes.log
-python3 k4/oc1max_multi/lemma_set.py $D > $R/lemma_set.log
-python3 k4/oc1max_multi/lemma_own.py $D > $R/lemma_own.log
-python3 k4/oc1max_multi/slot_stats.py $D > $R/slot_stats.log
+sh k4/oc1max_multi/analyses2.sh

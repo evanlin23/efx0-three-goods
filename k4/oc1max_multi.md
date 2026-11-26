@@ -16,13 +16,19 @@ Notation follows `k4/oc1_hall.md`:
 - a bundle S *threatens* i at value t if v_i(S ∖ h) > t for some h ∈ S. This is monotone: larger S and smaller t
   threaten more.
 
-The tools are those of the Hall session, all refereed CORRECT (`k4/referee/oc1_hall.md` on `claude/k4-referee`):
+The tools are those of the Hall session:
 - Lemma 2\*: the exact S\* count for an owner o, under (G1), (G2);
 - Corollary 2.1: its Hall form, "a transversal of the demands with a system of distinct admissible holders";
-- Lemma D1-red (§21): the |D| = 1 reduction.
+- Lemma D1-red (§21): the |D| = 1 reduction, whose proof §2 generalizes.
+
+Lemma 2\* and Corollary 2.1 are refereed CORRECT (`k4/referee/oc1_hall.md` on `claude/k4-referee`). Lemma D1-red is
+not refereed.
 
 All code is mine (`k4/oc1max_multi/`, raw EFX₀, enumeration, no SAT), and shares nothing with `k4/oc1_hall/ohlib.py`.
-Logs are in `results/k4_oc1max_multi/`. Everything called *evidence* is evidence only (PROMPT.md §5 rule 3).
+As a cross-check, `xcheck_hall.py` compares my one-absorber enumeration with the Hall session's independent
+`ohlib.absorb_brute` at every kept start and every repaired state of the small data sets: 16,518 states, 0
+mismatches. Logs are in `results/k4_oc1max_multi/`. Everything called *evidence* is evidence only (PROMPT.md §5
+rule 3).
 
 ## Status
 
@@ -98,8 +104,20 @@ is *needs-pick* when some d ∈ D is not threatened by J alone, so that its dang
 | 4 | 2 | no / yes | 3 / 176 | 3 / 176 |
 | 4 | 3 | yes | 2 | 2 |
 
-In all, 8,304 of 8,383 starts are repaired by a canonical chain with owner k: at n = 5, 6,506 of 6,511. All 8,383
-satisfy OC₁-ED\* (an ED chain, S\* owned by x₀ or x_t).
+*Which repairing chain works.* Counting over every canonical chain from every k ∈ D and every improving H₀ (per class
+in `analyze.log`):
+
+| repair | starts (of 8,383) |
+|---|---|
+| canonical chain, S\* owned by k | 8,304; at n = 5, 6,506 of 6,511 |
+| the same with an inclusion-minimal H₀ | 8,304 |
+| canonical chain, S\* owned by the head z | 8,020 |
+| canonical chain with a minimal H₀, S\* owned by an agent outside {k, z} | 8,073 |
+| canonical chain, any one-absorber completion | 8,309 |
+| ED chain, S\* owned by x₀ or x_t (OC₁-ED\*) | **8,383** |
+
+So minimality of H₀ never costs anything, and owner k is the best single choice. The 74 starts with no canonical
+repair at all lie in the RING class of §7 (76 starts).
 
 ## 2. Lemma D-red for any number of dangerous agents
 
@@ -439,10 +457,40 @@ single-θ chain has CROWD and nothing else.
 - agent 1 takes 2's pick 1 plus junk 3 (34 > 30);
 - agent 0 takes 1's pick 4 plus junk 2 (42 > 38).
 
-All 79 starts without a canonical repair have a repair of this kind or with an unfrozen head taking junk. Of their
-repairing ED chains:
-- 50 + 27 + 6 + 3 have a frozen dangerous head whose pick goes to k (so 1 ∈ D is the head and Y_1 ∈ H₀);
-- 17 + 2 have an unfrozen head with head junk.
+There are 79 starts with no canonical repair owned by k (all data). Each has a repair of one of three kinds:
+- **58**: an ED repair whose head is a frozen dangerous agent, and whose H₀ contains that head's pick (a dangerous
+  ring, as in T3);
+- **20**: an ED repair whose head is unfrozen and takes junk (Hall's Finding C);
+- **1**, log1480 (the §29 dichotomy instance): a canonical chain 0 → 1 with the junk pair {0, 2}, owned by agent 2.
+  Lemma OWN covers it.
+
+**Lemma RING-red (K4.MULTI.RING).** A *dangerous ring* from k ∈ D is a sequence k = x₀, x₁, …, x_t = d (t ≥ 1) such
+that:
+- each x_i with 1 ≤ i < t wants Y_{x_{i−1}} at the picks;
+- d ∈ D takes Y_{x_{t−1}} plus junk H_t, with v_d(Y_{x_{t−1}} ∪ H_t) > p_d;
+- k takes H₀ = {Y_d} ∪ G with G ⊆ J ∖ H_t and v_k(H₀) > p_k.
+
+No pick is released. In terms of the official moves, this is the ED chain k → x₁ → … → d with head junk H_t, in which
+k's set contains the head's pick. Let B′ be the state and J′ = J ∖ (G ∪ H_t). Suppose:
+- **(R1)** d's bundle threatens nobody at B′;
+- **(R2)** no agent other than k wants a good of H₀;
+- **(R3)** d, and every agent other than k that is frozen at B′, is unthreatened by H₀ ∪ J′ at its value at B′;
+- **(R4)** no holder is crowded by H₀.
+
+Then B′ has an S\* completion owned by k.
+
+*Proof.* Apply Lemma 2\* with owner k and H = ∅:
+- (G1) is (R1), together with singletons for everyone else;
+- (G2) holds because J′ ⊆ J and values only rose, by (I2);
+- (H1) is (R3);
+- non-movable exposed holders are excluded by (R2) and (R4);
+- the empty system of representatives suffices. ∎
+
+T3 satisfies (R1)–(R4) with the ring (0, 2, 1), H₁ = {3}, H₀ = {4, 2}.
+
+*Checks* (`ring.py`, `ring.log`). Every ring meeting (R1)–(R4) has an S\* completion owned by k (raw enumeration):
+0 violations. RING-red covers some of the RING starts. The rest need an unfrozen head taking junk (Hall's Finding C),
+or a ring whose obstacles are resolved by slots. See the census in §5.
 
 `attempts/k4-oc1max-multi-canonical.md` has the script. That canonical chains alone do not suffice was known
 (adaptive-p1, `attempts/k4-oc1-hall-canonical-chains.md`). New here: it fails even on single-θ chains, and in T3 no

@@ -6,6 +6,7 @@ and by the first mechanism, in this order, that repairs it:
   OWN     : Lemma OWN applies (canonical chain in which k takes a junk pair; a free-base owner o outside {k, x_1};
             the other truly dangerous agents unthreatened by o's base plus J - H_0; a holder admissible for Y_z);
   CLEAN   : Lemma D-red applies (canonical chain, no HEAD, CROWD or DEMAND), repaired by a written proof;
+  RING    : Lemma RING-red applies (a dangerous ring k -> ... -> d, d in D, d's pick to k; (R1)-(R4) of ring.py);
   CAN-k   : some canonical chain from some k in D with an S* completion owned by k (an open sub-lemma covers it);
   ED      : some ED chain (Hall: head may add junk) with an S* completion owned by x_0 or x_t;
   ANY     : some move with a one-absorber completion;
@@ -14,7 +15,7 @@ For each (regime, mechanism) cell: the number of starts and the smallest instanc
 
     python3 k4/oc1max_multi/regimes.py FILE.jsonl[.gz] [...]
 """
-import sys, os, json, collections
+import sys, os, json, collections, itertools
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 from collect import records
 from mmlib import Inst, base_from_picks, junk, frozen, sstar
@@ -41,6 +42,19 @@ def mechanism(I, rec):
                 if not ({'HEAD', 'CROWD', 'DEMAND'} & ob):
                     return ('CLEAN' if ok else 'D-RED VIOLATION'), DT
                 can = can or ok
+    from ring import rings, ring_red
+    p = [I.V(i, base[i]) for i in range(I.n)]
+    for k in D:
+        for path, Ht in rings(I, base, k, J):
+            d = path[-1]
+            if d not in D or base[d][0] not in I.R[k]: continue
+            Jk = [g for g in J if g in I.R[k] and g not in Ht]
+            for r in range(len(Jk) + 1):
+                for G in itertools.combinations(Jk, r):
+                    H0 = (base[d][0],) + G
+                    if I.V(k, H0) <= p[k]: continue
+                    nb, ok = ring_red(I, base, path, Ht, H0)
+                    if ok: return ('RING' if sstar(I, nb, k) else 'RING VIOLATION'), DT
     if can: return 'CAN-k', DT
     reps = rec['repairs']
     if any(r['ed'] and (set(r['ss']) & ({r['path'][0], r['path'][-1]} if r['kind'] == 'chain' else {r['path'][0]}))
