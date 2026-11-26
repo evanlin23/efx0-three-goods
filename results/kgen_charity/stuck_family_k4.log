@@ -1,0 +1,7 @@
+$ python3 kgen/charity/stuck_family.py 6 4 9
+sigma 2 k 4: n 4 m 7 max |R_i| 3 | EFX0+strong charity True | U0 moves 0 | rainbow cycle False | ckms(all) moves none, pool 1 | report {'pool': 1, 'sources': 2, 'min valuers of a pool good': 2} | least charity 0
+sigma 3 k 4: n 9 m 14 max |R_i| 3 | EFX0+strong charity True | U0 moves 0 | rainbow cycle False | ckms(all) moves none, pool 2 | report {'pool': 2, 'sources': 3, 'min valuers of a pool good': 3} | least charity 0
+sigma 4 k 4: n 16 m 23 max |R_i| 4 | EFX0+strong charity True | U0 moves 0 | rainbow cycle False | ckms(all) moves none, pool 3 | report {'pool': 3, 'sources': 4, 'min valuers of a pool good': 4} | least charity not computed
+sigma 5 k 4: n 30 m 39 max |R_i| 4 | EFX0+strong charity True | U0 moves 0 | rainbow cycle False | ckms(all) moves none, pool 4 | report {'pool': 4, 'sources': 5, 'min valuers of a pool good': 5} | least charity not computed
+sigma 6 k 4: n 48 m 59 max |R_i| 4 | EFX0+strong charity True | U0 moves 0 | rainbow cycle False | ckms(all) moves none, pool 5 | report {'pool': 5, 'sources': 6, 'min valuers of a pool good': 6} | least charity not computed
+all checks passed

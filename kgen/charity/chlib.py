@@ -338,80 +338,100 @@ def u0_moves(I, X, P):
     return res
 
 
-def champion_table(I, X, P, S, order=None):
-    """For every source s and pool good g: (t, Z) = most envious agent of X_s + g with its minimal envied subset."""
+def min_envied_all(I, X, B, cap=16):
+    """Every pair (Z, t): Z an inclusion-wise minimal envied subset of B (someone envies Z, nobody envies Z minus h for
+    any h in Z) and t an agent envying Z.  Only goods valued by some agent can lie in a minimal Z."""
+    own = [I.val(i, X[i]) for i in range(I.n)]
+    rel = sorted(g for g in B if I.V[g])
+    assert len(rel) <= cap, 'min_envied_all: bundle too large'
+    env = lambda Z: [i for i in range(I.n) if I.val(i, Z) > own[i]]
+    out = []
+    for r in range(1, len(rel) + 1):
+        for Z in itertools.combinations(rel, r):
+            E = env(Z)
+            if E and all(not env([h for h in Z if h != x]) for x in Z):
+                out += [(set(Z), t) for t in E]
+    return out
+
+
+def champion_table(I, X, P, S, order=None, mode='ckms'):
+    """For every source s and pool good g with X_s + g envied: the champion options, a list of (Z, t).
+    mode 'ckms': the single pair of CKMS's Algorithm 3 with the given agent order; mode 'all': every minimal envied
+    subset with every agent envying it (min_envied_all)."""
     tab = {}
+    own = [I.val(i, X[i]) for i in range(I.n)]
     for s in S:
         for g in P:
             B = X[s] | {g}
-            own = [I.val(i, X[i]) for i in range(I.n)]
             if not any(I.val(i, B) > own[i] for i in range(I.n)):
                 continue
-            tab[(s, g)] = min_envied(I, X, B, order)
+            tab[(s, g)] = [min_envied(I, X, B, order)] if mode == 'ckms' else min_envied_all(I, X, B)
     return tab
 
 
 def shortest_rainbow(I, X, P, G, S, tab, maxlen=None):
     """Shortest cycle s_0 -g_0-> s_1 -g_1-> ... -> s_0 with distinct sources and distinct goods, where the edge
-    s_i -g_i-> s_{i+1} means: the champion t of X_{s_i} + g_i is reachable from s_{i+1}.  Returns [(s_i, g_i)]."""
+    s_i -g_i-> s_{i+1} means: a champion option (Z_i, t) of X_{s_i} + g_i has t reachable from s_{i+1}.
+    Returns [(s_i, g_i, Z_i, t_{i+1})]."""
     C = {s: reach(G, s) for s in S}
     goods = sorted(P)
     if maxlen is None:
         maxlen = min(len(S), len(goods))
 
-    def dfs(s0, verts, cols, L):
+    def dfs(s0, seq, L):
+        u = seq[-1][0] if seq and len(seq[-1]) == 1 else None
+        verts = [e[0] for e in seq]
+        cols = [e[1] for e in seq if len(e) > 1]
         u = verts[-1]
         for g in goods:
             if g in cols or (u, g) not in tab:
                 continue
-            t = tab[(u, g)][1]
-            if len(cols) + 1 == L:
-                if t in C[s0]:
-                    return list(zip(verts, cols + [g]))
-            else:
-                for s2 in S:
-                    if s2 in verts or t not in C[s2]:
-                        continue
-                    r = dfs(s0, verts + [s2], cols + [g], L)
-                    if r is not None:
-                        return r
+            for Z, t in tab[(u, g)]:
+                done = seq[:-1] + [(u, g, Z, t)]
+                if len(cols) + 1 == L:
+                    if t in C[s0]:
+                        return done
+                else:
+                    for s2 in S:
+                        if s2 in verts or t not in C[s2]:
+                            continue
+                        r = dfs(s0, done + [(s2,)], L)
+                        if r is not None:
+                            return r
         return None
 
     for L in range(1, maxlen + 1):
         for s0 in S:
-            r = dfs(s0, [s0], [], L)
+            r = dfs(s0, [(s0,)], L)
             if r is not None:
                 return r
     return None
 
 
-def apply_u2(I, X, P, G, cyc, tab):
-    """CKMS rule U2 along cyc = [(s_0, g_0), ..., (s_{l-1}, g_{l-1})]: t_{i+1} = champion of X_{s_i} + g_i takes
-    Z_i; the path s_{i+1} -> ... -> t_{i+1} shifts bundles back by one; (X_{s_i} + g_i) minus Z_i joins the pool."""
+def apply_u2(I, X, P, G, cyc):
+    """CKMS rule U2 along cyc = [(s_i, g_i, Z_i, t_{i+1})]: t_{i+1} takes Z_i; the path s_{i+1} -> ... -> t_{i+1}
+    shifts bundles back by one; (X_{s_i} + g_i) minus Z_i joins the pool."""
     l = len(cyc)
     newX = [set(B) for B in X]; newP = set(P)
     touched = set()
     for i in range(l):
-        s, g = cyc[i]
-        pth = path(G, cyc[(i + 1) % l][0], tab[(s, g)][1])
+        pth = path(G, cyc[(i + 1) % l][0], cyc[i][3])
         assert not (touched & set(pth)), 'CH5: paths of a shortest rainbow cycle are disjoint'
         touched |= set(pth)
     for i in range(l):
-        s, g = cyc[i]
-        Z, t = tab[(s, g)]
-        s2 = cyc[(i + 1) % l][0]           # t is reachable from s2
-        pth = path(G, s2, t)
+        s, g, Z, t = cyc[i]
+        pth = path(G, cyc[(i + 1) % l][0], t)
         for a, b in zip(pth, pth[1:]):
             newX[a] = set(X[b])
         newX[t] = set(Z)
         newP.discard(g)
         newP |= (X[s] | {g}) - Z
-    # every source s_i lost its bundle; it was refilled by the path shift (or s_i = t_i got Z)
     return newX, newP
 
 
-def ckms(I, X=None, rng=None, log=None, check=True, maxsteps=100000):
-    """Run CKMS from X (default: empty allocation) until no rule applies.  Returns (X, P, counts)."""
+def ckms(I, X=None, rng=None, mode='ckms', check=True, maxsteps=100000):
+    """Run CKMS from X (default: empty allocation) until no rule applies.  Returns (X, P, counts, tab), tab the champion
+    table of the stopping state (mode as in champion_table)."""
     if X is None:
         X = [set() for _ in range(I.n)]
     X = [set(B) for B in X]
@@ -441,32 +461,32 @@ def ckms(I, X=None, rng=None, log=None, check=True, maxsteps=100000):
         order = list(range(I.n))
         if rng:
             rng.shuffle(order)
-        tab = champion_table(I, X, P, S, order)
+        tab = champion_table(I, X, P, S, order, mode)
         cyc = shortest_rainbow(I, X, P, G, S, tab)
         if cyc is not None:
             w0 = sum(own)
-            X, P = apply_u2(I, X, P, G, cyc, tab)
+            X, P = apply_u2(I, X, P, G, cyc)
             if check:
                 assert efx0(I, X), 'U2 output is not EFX0'
                 assert all(I.val(i, X[i]) >= own[i] for i in range(I.n))
                 assert sum(I.val(i, X[i]) for i in range(I.n)) > w0
             cnt['U2'] += 1; cnt['U2 len %d' % len(cyc)] += 1
             continue
-        return X, P, cnt
+        return X, P, cnt, tab
     raise RuntimeError('ckms: step limit')
 
 
-def stuck_report(I, X, P):
-    """Structure of a stuck state (Lemmas CH1-CH4 of kgen/charity.md); returns a dict and asserts the lemmas."""
+def stuck_report(I, X, P, tab):
+    """Structure of a stopping state with champion table tab (Lemmas CH1-CH4 of kgen/charity.md); asserts them."""
     G = envy_graph(I, X); S = sources(I, X, G)
     rep = {'pool': len(P), 'sources': len(S)}
     if not P:
         return rep
-    tab = champion_table(I, X, P, S)
     C = {s: reach(G, s) for s in S}
     for s in S:
         assert len(X[s]) >= 2, 'CH2: a source of a stuck state with nonempty pool holds >= 2 goods'
-    for (s, g), (Z, t) in tab.items():
+    for (s, g), opts in tab.items():
+      for Z, t in opts:
         assert g in Z and t in I.V[g], 'CH1: the champion values g'
         assert Z - {g} and (Z - {g}) <= X[s] and all(h in I.R[t] for h in Z), 'CH1: champion values goods of X_s'
         assert t != s and t not in C[s], 'CH3: champion not reachable from s'
@@ -480,3 +500,96 @@ def stuck_report(I, X, P):
         assert len(S) <= cover, 'CH4 count'
     rep['min valuers of a pool good'] = min(len(I.V[g]) for g in P)
     return rep
+
+
+def improve(I, X):
+    """A partial EFX0 allocation Y with v_i(Y_i) >= v_i(X_i) for all i and (some agent strictly better, or fewer goods
+    unallocated), or None.  None means X is Pareto-maximal among partial EFX0 allocations and allocates the most goods
+    for its value vector (the hypothesis of K4.SDC.P1).  No charity condition is imposed on Y."""
+    from pysat.solvers import Cadical153
+    from pysat.card import CardEnc, EncType
+    E = Enc(I, charity=False)
+    u = [I.val(i, X[i]) for i in range(I.n)]
+    A = sum(len(B) for B in X)
+    cl = list(E.cl); top = E.top
+    zs = []
+    for i in range(I.n):
+        for S, y in E.y[i].items():
+            if I.val(i, S) < u[i]:
+                cl.append([-y])
+        top += 1; z = top; zs.append(z)
+        cl.append([-z] + [y for S, y in E.y[i].items() if I.val(i, S) > u[i]])
+    top += 1; w = top
+    if A < I.m:
+        pool = [E.x[g][I.n] for g in range(I.m)]
+        card = CardEnc.atmost(lits=pool, bound=I.m - A - 1, top_id=top, encoding=EncType.seqcounter)
+        top = max(top, card.nv)
+        for c in card.clauses:
+            cl.append(c + [-w])
+        cl.append(zs + [w])
+    else:
+        cl.append(zs)
+    s = Cadical153(bootstrap_with=cl)
+    ok = s.solve()
+    Y = E.decode(s.get_model()) if ok else None
+    s.delete()
+    if Y is not None:
+        assert efx0(I, Y)
+    return Y
+
+
+def pareto_climb(I, X):
+    """Improve until Pareto-maximal (with the most goods for its value vector)."""
+    steps = 0
+    while True:
+        Y = improve(I, X)
+        if Y is None:
+            return X, steps
+        X = Y; steps += 1
+
+
+def pm_with_pool(I, minpool, maxiter=100000, log=None):
+    """Exact for one instance: a partial EFX0 allocation X with |P| >= minpool that is Pareto-maximal among partial
+    EFX0 allocations and allocates the most goods for its value vector, or None if there is none.
+    CEGAR: propose X (|P| >= minpool, not dominated by any Pareto maximum found so far); if improve(X) finds Y, climb
+    Y to a Pareto maximum Y*; if Y* has |P| >= minpool return it, else forbid everything Y* dominates.
+    Pareto maxima of different value vectors are counted in the returned statistics."""
+    from pysat.solvers import Cadical153
+    from pysat.card import CardEnc, EncType
+    E = Enc(I, charity=False)
+    top = [E.top]
+
+    def new():
+        top[0] += 1; return top[0]
+    s = Cadical153(bootstrap_with=E.cl)
+    pool = [E.x[g][I.n] for g in range(I.m)]
+    c = CardEnc.atleast(lits=pool, bound=minpool, top_id=top[0], encoding=EncType.seqcounter)
+    top[0] = max(top[0], c.nv)
+    for cl in c.clauses:
+        s.add_clause(cl)
+    maxima = set()
+    for it in range(maxiter):
+        if not s.solve():
+            s.delete(); return None, {'iterations': it, 'maxima': len(maxima)}
+        X = E.decode(s.get_model())
+        Y = improve(I, X)
+        if Y is None:
+            s.delete(); return X, {'iterations': it, 'maxima': len(maxima)}
+        Y, _ = pareto_climb(I, Y)
+        if len(pool_of(I, Y)) >= minpool:
+            s.delete(); return Y, {'iterations': it, 'maxima': len(maxima)}
+        u = [I.val(i, Y[i]) for i in range(I.n)]; py = len(pool_of(I, Y))
+        maxima.add(tuple(u))
+        w = new()
+        A = [y for i in range(I.n) for S, y in E.y[i].items() if I.val(i, S) > u[i]]
+        s.add_clause(A + [w])
+        for i in range(I.n):
+            for S, y in E.y[i].items():
+                if I.val(i, S) < u[i]:
+                    s.add_clause([-w, -y])
+        if py < I.m:
+            c = CardEnc.atmost(lits=pool, bound=py, top_id=top[0], encoding=EncType.seqcounter)
+            top[0] = max(top[0], c.nv)
+            for cl in c.clauses:
+                s.add_clause(cl + [-w])
+    raise RuntimeError('pm_with_pool: iteration limit')
