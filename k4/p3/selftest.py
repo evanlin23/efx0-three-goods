@@ -30,3 +30,17 @@ for t in range(150):
     sp = C.solve(allowed={0: {n}}, complete=False, extra=[[-C.x[g][n]] for g in range(1, m)])
     if (sp is None) != (pc == 0): bad += 1; print('PMISMATCH')
 print("selftest mismatches", bad, "tested", tested)
+rng = random.Random(5); bad = 0; tested = 0   # big_bound against brute force
+for t in range(120):
+    n = rng.choice([2,3,4]); rc = random_core43(rng, n)
+    if rc is None: continue
+    m, sets = rc
+    if m > (8 if n == 4 else 7): continue
+    I = Inst(sets, random_types(rng, sets, m), m); C = Complete(I); tested += 1
+    for B in (0, 1, 2):
+        brute = any(efx0(I, bundles(I, own)) and sum(1 for a in range(n) if list(own).count(a) >= 3) <= B
+                    for own in itertools.product(range(n), repeat=m))
+        s = C.solve(extra=C.big_bound(B))
+        if (s is not None) != brute: bad += 1; print('MISMATCH', B, sets)
+        if s is not None and sum(1 for a in range(n) if s.count(a) >= 3) > B: bad += 1; print('BIG VIOLATION')
+print('big_bound selftest mismatches', bad, 'tested', tested)

@@ -147,8 +147,17 @@ class Complete:
         cl = []
         for a in range(n):
             b = self.new(); big.append(b)
-            for G in itertools.combinations(range(m), size):
-                cl.append([b] + [-self.x[g][a] for g in G])
+            # sequential counter: s[c] = "at least c+1 of the goods seen so far go to a" (only the forcing direction)
+            prev = [None] * size
+            for g in range(m):
+                xg = self.x[g][a]; cur = [self.new() for _ in range(size)]
+                cl.append([-xg, cur[0]])
+                if prev[0] is not None: cl.append([-prev[0], cur[0]])
+                for c in range(1, size):
+                    if prev[c - 1] is not None: cl.append([-xg, -prev[c - 1], cur[c]])
+                    if prev[c] is not None: cl.append([-prev[c], cur[c]])
+                prev = cur
+            cl.append([-prev[size - 1], b])
         enc = CardEnc.atmost(lits=big, bound=t, top_id=self.top, encoding=EncType.seqcounter)
         self.top = max(self.top, enc.nv)
         return cl + enc.clauses
