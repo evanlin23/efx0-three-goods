@@ -185,6 +185,19 @@ k = 5.** That is the property a k = 4 proof of OC₁ can use, and a proof valid 
 > lower goods), at most one good of x's pool is left, and a single good is never a danger set (Lemma 2(c) of
 > `k4/sdc.md`). So the repaired agent's pool needs no further protection.
 
+**Lemma candidate (K4-G4)** (`k4/ksens/g4_after.py`). Call a frozen agent (one whose base someone wants) *dangerous*
+when it values the junk above its base.
+
+> At k = 4, from every start whose picks have no one-absorber completion, some state reached by one improving chain
+> has a one-absorber completion and leaves no dangerous frozen agent.
+
+- *Evidence:* it holds on all 349 hard starts of the curated k = 4 set (`seeds_k4_hard.txt`: the DE4 screen set with
+  the GM4 family, T3, Q2 and the logged climb results; `g4_after.log`). The PW-design instances are in
+  `g4_after_pw4.log`.
+- *At k = 5* PW5 has no repairing chain at all.
+- *Why it helps.* (K4-G4) is the hypothesis (G4) of Lemma GDT, without the owner's good, after the chain. A proof of
+  OC₁ through GDT needs it, and the leftover count above is its mechanism in the shared-pool case.
+
 At k = 5 the leftover pair is still a danger set for the other frozen agents that share the pool. That forces a second
 repair, which one chain cannot give: a second repaired agent is not the head x₀, so it holds a received base next to
 its pair.
