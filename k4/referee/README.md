@@ -23,6 +23,7 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 10 | Lemmas SND, TERM; VM1 invariant (I1)–(I5) (`k4/vm.md` §7, §7.3) | `claude/k4-vm` | `vm.md` §6 | **CORRECT** ((I3) is about allocated goods) |
 | 11 | Lemma PL, Lemma PWk(a) (`k4/ksens.md`, `7ec7073`) | `claude/k4-ksens` | `ksens.md` §5 | PL **CORRECT**; PWk(a) **CORRECT WITH FIXES** (the proof's W = 1 completion needs the clean values; fix given) |
 | 12 | Lemma T5 (`k4/ttc.md` §13) | `claude/k4-ttc` | `ttc_t5.md` | **CORRECT**, the same as Lemma MAX |
+| 13 | Theorem CH-KD, Corollary CH-KD′ (`kgen/charity.md` §8, `1e986c6`/`0c85d91`) | `claude/kgen-charity` | `chkd.md` | **CORRECT** (n-independent: (k − 2)d − 1 and p! ≤ d^{p−1}) |
 | – | Literature: EFX₀ for n = 2 | – | `lit_n2.md` | Plaut–Roughgarden Thm 4.3 (EFX₀, monotone) covers existence; not `kgen/n3.md` Theorem 2 (picks kept / one chain) |
 
 **Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the
