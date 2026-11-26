@@ -193,25 +193,30 @@ def safe(I, i, ti, Xo):
     return not threatened(I, i, ti, Xo)
 
 
-def deficit(I, base, o, holders, frozen_like):
+def deficit(I, base, o, holders, frozen_like, fixed_threats=False):
     """the S* deficit of owner o (k4/oc1_hall.md §4): the least |H| - kappa over kept-out sets H of junk goods and
     injective partial assignments phi of goods of H to the holders (kappa = |holders - {o}|), such that with
     X_o = B_o + (J - H) every agent other than o is safe; goods of H not given to a holder sit in virtual slots.
-    Agents in frozen_like (frozen and multi-good holders) take nothing.  Returns (deficit, H, phi) or (None,..)."""
+    Agents in frozen_like (frozen and multi-good holders) take nothing.  Returns (deficit, H, phi) or (None,..).
+    fixed_threats=True: an agent must also be safe against the fixed bundles of frozen_like (Lemma 2* without (G1))."""
     B = bundles_of(I, base); J = [g for g in range(I.m) if base[g] < 0]
     hs = [h for h in holders if h != o]; kappa = len(hs)
     best = None
     pv = [I.val(i, B[i]) for i in range(I.n)]
+    fixed = [B[q] for q in frozen_like if q != o] if fixed_threats else []
+    def safe_all(i, t, Xo):
+        return safe(I, i, t, Xo) and all(not threatened(I, i, t, Bq) for q, Bq in zip([q for q in frozen_like if q != o], fixed) if q != i)
     for r in range(0, len(J) + 1):
         if best is not None and r - kappa >= best[0]: break
         for H in itertools.combinations(J, r):
             Xo = B[o] + [g for g in J if g not in H]
-            if any(not safe(I, x, pv[x], Xo) for x in frozen_like if x != o): continue
+            if fixed_threats and not all(not threatened(I, o, I.val(o, Xo), Bq) for Bq in fixed): continue
+            if any(not safe_all(x, pv[x], Xo) for x in frozen_like if x != o): continue
             # each holder: safe with nothing, or with some good of H it values
             need = []; ok = True
             for u in hs:
-                if safe(I, u, pv[u], Xo): continue
-                opts = [g for g in H if g in I.R[u] and safe(I, u, pv[u] + I.v[u][g], Xo)]
+                if safe_all(u, pv[u], Xo): continue
+                opts = [g for g in H if g in I.R[u] and safe_all(u, pv[u] + I.v[u][g], Xo)]
                 if not opts: ok = False; break
                 need.append((u, opts))
             if not ok: continue

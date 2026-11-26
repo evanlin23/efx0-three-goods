@@ -21,11 +21,13 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | | statement | status |
 |---|---|---|
 | Lemma 1 | slot form of the one-absorber completion at SD picks: conditions (S1), (S2) | written proof; agrees with SAT on all 14,461 distinct starts, and with raw brute force on special and screen |
-| Lemma 2 | slot count: under (G1), (G2), (G5′), (H3), an S\* completion with owner o exists iff some kept-out set H satisfies (H1) and \|H\| + θ(H) − ν(H) ≤ \|N₁\| | written proof (§4); the count agrees with the raw S\* enumeration on 31,459 owner tests; the (⇐) construction, run literally, is EFX₀ in all 312,502 cases (picks and post-chain states) |
+| Lemma 2 | slot count: under (G1), (G2), (G5′), (H3), an S\* completion with owner o exists iff some kept-out set H satisfies (H1) and \|H\| + θ(H) − ν(H) ≤ \|N₁\| | written proof (§4). Check (`lemma2_true_check.log`): H ranges over transversals of the demands only, at the picks and at every post-chain state (n ≤ 4). The count agrees with the raw S\* enumeration on all 248,341 owner tests. The (⇐) construction, with DT's moves actually used in 73,410 cases, is EFX₀ every time |
+| Lemma 2\* | the same with (G5′), (H3) dropped: exposed holders that are not movable (they want a good of B_o, or have a danger set inside B_o) must be compensated, i.e. matched to a good of H | written proof (§6); `lemma2star_true_check.log`: 330,992 owner tests (frozen and multi-good owners included), 0 mismatches, DT's moves used in 76,395 |
+| Cor. 2.1, Lemma 4 | (H2) is Hall's condition for a system of distinct admissible holders of H, so C(B, o) = a transversal of the demands with an SDR into the slots; robust helpers always suffice | written proofs (§6) |
 | Prop. 3 (T2⁺) | f = 1: if some o ≠ x has v_x((J ∪ {Y_o}) ∩ R_x) ≤ p_x, the picks have an S\* completion with owner o | written proof (§5) |
 | **Theorem F1₁** | f = 1, exactly one wanter, n ≥ 3: the picks or one swap x → w have an S\* completion. This covers the open sub-case "x improves only with three goods" of `k4/sdc.md` §30 | written proof (§5); the proof run literally succeeds on all 3,329 such starts |
-| Finding S\* | OC₁ holds with the narrower completion S\*: one owner (any agent); one junk good each for single-good holders that are not frozen; nothing for frozen agents and multi-good holders | evidence: 0 failures on 14,461 distinct starts |
-| Finding B | at every hard start (no S\* completion), some repairing chain starts at a dangerous frozen agent k, and after it k owns: all but 1 of the 2,676 hard starts. In that one start (§29's dichotomy instance) the chain end owns | evidence |
+| Finding S\* | OC₁ holds with the narrower completion S\*: one owner (any agent); one junk good each for single-good holders that are not frozen; nothing for frozen agents and multi-good holders | evidence: 0 failures on 14,461 distinct starts with n ≤ 5 (every order), and on 48,123 distinct starts with n = 6–10 (sampled orders, SAT, §7) |
+| Finding B | at every hard start (no S\* completion), some repairing chain starts at a dangerous frozen agent k, and after it k owns: all but 1 of the 2,676 hard starts with n ≤ 5. In that one start (§29's dichotomy instance) the chain end owns. At n = 6–10, every one of the 1,300 hard starts is repaired by a chain after which a dangerous agent that gave its pick away owns | evidence |
 | Finding F1 | f = 1: at every hard start, some swap x → w with an *inclusion-minimal* improving set H₀ ⊆ J ∪ {Y_w} repairs with x as owner, also when \|W_x\| = 2 | evidence: all 100 f = 1 hard starts |
 | Finding F1W | f = 1, several wanters: hard starts occur only at n = 3 in the data (n − 2 = 1 slot). For n ≥ 4, the picks have an S\* completion with a wanter as owner on 219 of 220 starts | evidence (§5) |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `oc1_shapes_screen.log` |
@@ -36,7 +38,7 @@ K4.R5c, K4.R5d, K4.R5p). So a proof of OC₁ for n ≥ 6 implies TARGET₄, and 
 frozen owner works, §5) do not matter for TARGET₄. The data, however, all have n ≤ 5.
 
 Next:
-1. f = 1 with several wanters, n ≥ 4: the picks with a wanter as owner (Lemma 2).
+1. f = 1 with several wanters, n ≥ 4: the picks with a wanter as owner (Corollary 2.1, with helpers).
 2. A Theorem A₄-type count tracing the deficit to one dangerous agent.
 3. The chain lemma: k owns (Theorem B form), or the end owns (Theorem B₄ form).
 
@@ -193,10 +195,20 @@ Now check EFX₀.
    their danger sets to keep out of X_o). The holders have |N₁| slots. A holder serves itself only when it is exposed
    and no kept-out good serves it, and then it uses its own slot. This is the count `k4/sdc.md` §30 asks for: Lemma
    K's service count (`k4/rulef.md` §2) with frozen agents protected by other agents' slots.
-3. *Exactness on data* (`k4/oc1_hall/deficit_check.py`, `deficit_check.log`). The *deficit* of o is
-   min over H with (H1) of |H| + θ(H) − ν(H) − |N₁|, computed by `ohlib.deficit`. Over every unfrozen owner of every
-   distinct start of every data set (31,459 tests): deficit ≤ 0 iff the raw S\* enumeration
-   `ohlib.shaped_completion` succeeds (0 mismatches).
+3. *Checks.*
+   - **A real test of Lemma 2** (`k4/oc1_hall/lemma2_true_check.py`, `lemma2_true_check.log`). At the picks and at
+     every state one improving chain reaches, for every owner satisfying the hypotheses, the script lets H range over
+     the sets meeting (H1) only. It computes θ(H) and ν(H) (a maximum matching) and compares "some H has
+     |H| + θ − ν ≤ |N₁|" with the raw S\* enumeration `ohlib.shaped_completion`.
+     - Result: 248,341 owner tests, 0 mismatches.
+     - For the least such H, `ohlib.lemma2_build` runs the (⇐) construction. The unmatched exposed holders do DT's
+       moves, which happens in 73,410 cases. The output is always EFX₀ (raw check) and of S\* shape.
+   - *An implementation cross-check, not a test of the lemma* (`deficit_check.py`, `deficit_check.log`). The
+     *deficit* of o is the least |H| − |N₁| over slot sets H (self-service goods included) for which the needy holders
+     can be matched inside H (`ohlib.deficit`). This is the definition of an S\* completion written as a search, so its
+     agreement with `ohlib.shaped_completion` (31,459 tests, 0 mismatches) only confirms the two implementations.
+     `lemma2_check.py` builds from such full witnesses, so it never runs DT's moves (312,502 constructions, all EFX₀).
+     It is kept for its hypotheses test.
    - At the starts with no unfrozen owner (271 screen), the least deficit is 1 on 235, 2 on 35 and 3 on 1.
    - The logs give 1,435 / 138 / 12, and the random profiles 883 / 190 / 9.
    - A deficit of 3 occurs, for example, when n = 3 and two agents are frozen, so that no holder is left.
@@ -289,7 +301,122 @@ set): case A 2,098, B2 1,157, B3a 58, B3b 16, and 0 failures.
 - With several wanters and n ≥ 4 (220 starts), the picks have an S\* completion with an unfrozen owner on all but 1,
   and a wanter can own whenever an unfrozen owner can.
 
-**Lemma 2's construction, run literally** (`k4/oc1_hall/lemma2_check.py`, `lemma2_check.log`). At every state
-reached (picks, and every state one improving chain reaches) and every owner o:
-- whenever (G1), (G2), (G5′), (H3) hold and the least count of `ohlib.deficit` is at most |N₁|, `ohlib.lemma2_build`
-  is run and its output checked: 312,502 constructions, all EFX₀, all keeping the bases, 0 failures.
+In Theorem F1₁'s check, cases A, B2 and B3a use H = ∅, so every exposed holder does DT's moves. The check therefore
+exercises Lemma 2's (⇐) construction, not only its count.
+
+## 6. The count in transversal form, and what the chain must do
+
+**Corollary 2.1 (Hall form of (H2), K4.OCH.HALL).** In the setting of Lemma 2, fix H ⊆ J. Call a holder u ∈ N₁
+*admissible* for h ∈ H if either
+- u is unexposed (not threatened by W_o ∖ H at its base value), or
+- u is exposed, values h, and is not threatened by W_o ∖ H at v_u(B_u) + v_u(h).
+
+Then (H2) holds iff H has a system of distinct admissible representatives in N₁. By Hall's theorem, that holds iff
+every S ⊆ H has at least |S| holders admissible for some good of S. So Lemma 2 reads:
+
+> **C(B, o):** some H ⊆ J is (i) a *transversal of the demands*: it meets a good of every danger set, inside W_o, of
+> every frozen agent and every multi-good holder (H1); and (ii) it has an SDR into the slots of the holders.
+
+*Proof.* Every good of H is adjacent to every unexposed holder. So a full matching of H uses at most ν(H) exposed
+holders, and it exists iff |H| − ν(H) ≤ #unexposed = |N₁| − θ(H), which is (H2). ∎
+
+**Lemma 4 (helpers, K4.OCH.HELP).** In the setting of Lemma 2, let H satisfy (H1), and suppose every h ∈ H has a
+*helper* i_h ∈ N₁, distinct for distinct h, such that:
+- i_h values h, and
+- {B_{i_h}, h} is robust inside R′ = B_{i_h} ∪ (W_o ∩ R_{i_h}).
+
+Then C(B, o) holds.
+
+*Proof.* A robust holder is never threatened, so i_h is admissible for h in both cases (exposed or not). Corollary 2.1
+applies. ∎
+
+By DT's (F4), {Y_i, h} is robust whenever h is not the lowest good of a four-good R′. So a helper is any holder that
+values the kept good and values some other good of W_o below it. Case (B3b) of Theorem F1₁ is Lemma 4 with H = {g}.
+
+**Lemma 2\* (the general exact count; compensation included; K4.OCH.COUNT\*).** Lemma 2 assumed (G5′) and (H3) so that
+every exposed holder could serve itself by DT's moves. Drop both. Call an exposed holder *non-movable* if:
+- it wants a good of B_o, or
+- it has a danger set inside B_o (|B_o ∩ R_u| ≥ 2 and v_u(B_o ∩ R_u) > v_u(B_u)).
+
+Then, under (G1), (G2) only, an S\* completion with owner o exists iff some H with (H1) has an SDR of admissible
+holders, as in Corollary 2.1, that contains every non-movable exposed holder. A non-movable exposed holder u must
+receive a good h ∈ H ∩ R_u that makes it safe, i.e. that compensates it.
+
+*Proof.* As for Lemma 2. Unmatched exposed holders are movable, so they satisfy (F1) inside R′_u (y_u is the top), and
+each of their danger sets meets L, so DT's moves apply to them. A completion matches every exposed holder to its slot
+good. ∎
+
+*Check* (`lemma2_true_check.py` with `STAR=1`, `lemma2star_true_check.log`). Only (G1), (G2) are assumed. H ranges over
+demand transversals, and the matching is forced to cover the non-movable exposed holders.
+- Result: 330,992 owner tests (picks and post-chain states, every owner), 0 mismatches with the raw S\* enumeration.
+- The construction (DT's moves used in 76,395 cases) is always EFX₀.
+- (G1) fails at about a third of the post-chain states: a middle agent's pair contains a pick that someone wants, or
+  the owner wants a good of a pair. `lemma2star_check.py` handles those states by checking every agent, owner
+  included, against the fixed bundles. That is again a search over full slot sets, so it confirms only the
+  implementation (212,695 owner tests, 0 mismatches).
+
+This is the form the post-chain states need. When the chain's first agent k takes the end's pick and owns, the
+wanters of that pick are non-movable and must be compensated by their own junk good (adaptive-p1, `k4/sdc.md` §29,
+and the dump in `chain_shapes.log`).
+
+**What the chain must do: refuted simplifications** (evidence, all on the hard starts):
+1. *One culprit* (LB⁺'s bad case): false for about 30% of the hard starts, and about half at n = 5.
+   `attempts/k4-oc1-hall-single-culprit.md`, `culprit.log`.
+2. *Canonical chains* (each middle agent wants its predecessor's pick and takes no junk; any improving H₀; owner k or
+   end) repair 219 of 234 screen hard starts, 1,452 of 1,470 logs and 255 of 255 random n = 4
+   (`k4/oc1_hall/greedy_rules.py`, `greedy_rules.log`). In adaptive-p1, picks (5, 3, 4), the only repairs pass agent
+   0's pick to 1, 1's pick to 2 *with junk good 2* (2 prefers 7 + 2 to its pick 8), and give 2's pick 4 plus junk 1
+   to agent 0.
+   - Taking H₀ as everything k values in J ∪ B_{x_t} does as well as any H₀ on 216 of 217 screen starts with a
+     canonical owner-k repair.
+   - Taking junk only (never the end's pick) drops to 145.
+3. *A rule for k from the order* (`k4/oc1_hall/which_k.py`, `which_k.log`):
+
+   | rule for k | screen | logs |
+   |---|---|---|
+   | every k ∈ D works | 123 / 234 | 694 / 1,470 |
+   | the first agent of D in π | 553 / 773 (start, order) pairs | 3,232 / 4,849 |
+   | the last agent of D in π | 578 / 773 | 3,162 / 4,849 |
+   | the agent of D with the most wanters | 195 / 234 | 1,142 / 1,470 |
+
+   So k must be chosen by the count (Corollary 2.1), as Lemma K chooses the owner.
+
+**Consequence for a proof.** The chain lemma has to show: when no owner has a transversal with an SDR, some chain from
+some dangerous k produces a state where k (or the end) has one. The chain may do any of the following:
+- absorb k's demand (k owns its danger set);
+- remove several demands at once: chain agents get what they want, and off-chain frozen agents whose wanters
+  improved are unfrozen;
+- create new demands, which then need helpers:
+  - the end's released pick is valued by the end, if it is still frozen;
+  - goods of H₀ crowd other agents.
+
+The f = 1 analysis (§5) is the case with one demand. Case (B3)'s duality ("the agent that blocks the swap is the
+helper at the picks") is the pattern to generalize.
+
+## 7. Larger n (evidence)
+
+`k4/oc1_hall/big_sstar.py`, logs `big_sstar_*.log`.
+- *Method.*
+  - S\* completions by SAT: sdclib's EFX₀ encoding, with at most one agent receiving two or more junk goods, and
+    non-holders receiving junk only as the owner.
+  - Cross-checked against the brute force `ohlib.gdt_shape(..., 'any')`: 8,234 states and 29,897 owner tests on
+    special and screen, 0 mismatches.
+  - Orders are sampled.
+  - For hard starts, chains come from `de_free.iter_chains` (junk sets of at most 4 goods, any length). First the
+    script asks for a completion owned by a dangerous agent that gave its pick away in the chain; failing that, any
+    owner.
+- *Instances.*
+  - random strict profiles of the n = 6 cores with one 4-good agent (`results/k4_certs_6_n4_1.json.gz`);
+  - random hypergraphs with 3 or 4 goods per agent and m between n + 2 and 2n ("big", balanced types).
+
+| data | instances | distinct starts | hard starts | repaired, a dangerous agent owns | not repaired |
+|---|---|---|---|---|---|
+| n = 6 cores | 3,000 | 20,950 | 387 | 387 | 0 |
+| random n = 6 | 2,000 | 10,503 | 614 | 614 | 0 |
+| random n = 7 | 1,000 | 7,503 | 214 | 214 | 0 |
+| random n = 8 | 600 | 6,354 | 76 | 76 | 0 |
+| random n = 10 | 200 | 2,813 | 9 | 9 | 0 |
+
+The share of hard starts falls with n (1.8% at n = 6 cores, 0.3% at n = 10), as the slot count predicts: more holders
+are unexposed. Sampled orders and random profiles are evidence only. Failures elsewhere in this project occurred in 1
+of 23,000 profiles.
