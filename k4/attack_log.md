@@ -631,3 +631,34 @@ before any proof effort: DYN, W₃/W^sub, VM1, RD², OL and OC₂^max.
   brute force disagrees: 14 EFX₀ allocations, 4 with one pick per bundle, none of type 2+2, none with all movers
   gaining. The paper session independently also gets 14. kgen-n3 is checking its EFX₀ predicate; the suspicion is
   ordinary EFX.
+
+### 2026-11-26 23:48 UTC: k = 3 vs k = 4 explained; Conjecture R2; K4.MC8; OPB₄ refuted
+- **k3-oc1** (PR #96): OC₁ at maximum-matching starts at **k = 3 holds exhaustively**, with 0 failures:
+  - all cores with n = 3–5, and every n = 6 core with m ∈ {10, 11} (35.4M maximum-matching drafts at n = 6);
+  - DE's general core case up to n = 5.
+  - One DE trade always repairs, and every hard start is perfect. The k = 3 failures are non-maximum (ν − 2 picks),
+    the same signature as at k = 4.
+  - **Where k = 4 differs.** In both n = 4 counterexamples, a *b-holder* (holding its second-ranked good) is a
+    dangerous agent sharing the junk pair: at k = 4, {c, d} can beat b. At k = 3 a b-holder has no junk danger set,
+    and two top-holders sharing a pair are cleared by one DE chain.
+  - The referee's Lemma 3 fix and the R1C scope note are applied.
+- **TTC: Conjecture R2.** At a maximum-matching start with ≥ 2 receivers, OC₁^max holds. Every one-move failure seen
+  has exactly one receiver: the 11, 1,174 walk failures and 17 at n = 5. With one receiver, every base-keeping
+  completion puts all the junk there.
+  - The certifier is asked to check R2 exhaustively at n = 4. FP+1^max held at all 1,174 walk failures.
+  - The three-owner design produced no failure in 4,109 instances.
+- **proof/k4-twins** (PR #117): **K4.MC8** certified, with an independent checker and a sensitivity test. Two agents
+  sharing two goods valued by nobody else cannot both be non-Q4 in a minimal counterexample, and several partial
+  cases are recorded.
+  - It prunes the β = 5, n = 6 hunt list from 30,337 to 20,882 and the β = 4 list from 5,558 to 3,166, including 4
+    of the 6 graphical all-P4 cores.
+  - Identical relevant sets give no local reduction: there is a proved impossibility for I = ∅. Queued for the
+    referee.
+- **kgen-n3**: the mismatch is resolved. Its A and B instances are the k ≥ 5 ones (A has 63 type-2+2 OPB
+  allocations). On the k = 4 instance there are 14 EFX₀ allocations and none with all movers gaining, so **OPB₄ is
+  refuted at k = 4**. OPB₃ is next, by exhaustive check.
+- **kgen-charity**: Lemma OL0 (reduction) and Prop. P1₂ (n = 2: every Pareto maximum is complete). OL holds
+  exhaustively at n = 2 (k = 3, 4), n = 3 (k = 3) and n = 4 (k = 3). CGM's own n = 3 obstruction has a one-loser
+  completion.
+- **Certifier**: n = 5 OC₂^max is running in chunks (ETA 7–9 h). The failing-profile density at n = 4 is about 10⁻⁵,
+  which is why random testing missed it.
