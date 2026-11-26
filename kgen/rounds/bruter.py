@@ -57,14 +57,14 @@ def v(vals, i, S):
     return sum(vals[i][g] for g in S)
 
 
-def chains_on(agents):
-    """all sequences of distinct agents (length >= 1) from `agents`"""
-    for L in range(1, len(agents) + 1):
+def chains_on(agents, maxlen=None):
+    """all sequences of distinct agents (length >= 1, at most maxlen) from `agents`"""
+    for L in range(1, min(len(agents), maxlen or len(agents)) + 1):
         for seq in itertools.permutations(agents, L):
             yield seq
 
 
-def rounds(vals, bases, single=False):
+def rounds(vals, bases, single=False, maxlen=None):
     """every state (tuple of frozenset bases) reachable by one round (single=True: at most one chain), the empty
     round included"""
     n, m = len(vals), len(vals[0])
@@ -77,7 +77,7 @@ def rounds(vals, bases, single=False):
         states.add(tuple(cur))
         if single and nchains >= 1: return
         # next chain starts at an agent larger than the previous chain's start to avoid repeats (any order works)
-        for seq in chains_on(sorted(free_agents)):
+        for seq in chains_on(sorted(free_agents), maxlen):
             if nchains and seq[0] < rec_last[-1]: continue
             t = len(seq) - 1
             rest = free_agents - set(seq)
@@ -155,3 +155,60 @@ if __name__ == '__main__':
         if Y in seen: continue
         seen.add(Y)
         print(o, classify(vals, o, two=True), flush=True)
+
+
+def chain_sets(agents):
+    """every set of vertex-disjoint chains (sequences of distinct agents, length >= 1) on `agents`"""
+    agents = sorted(agents)
+    def rec(free, last):
+        yield []
+        for L in range(1, len(free) + 1):
+            for seq in itertools.permutations(sorted(free), L):
+                if seq[0] <= last: continue
+                for rest in rec(free - set(seq), seq[0]):
+                    yield [seq] + rest
+    yield from rec(set(agents), -1)
+
+
+def rounds_pool(vals, bases):
+    """ROUND-X (kgen/rounds.md §4): one round of vertex-disjoint chains in which every chain START may take, besides
+    junk, goods of the base of ANY chain end of the round (a common pool); receivers take junk only.  Written from the
+    definition: choose the chain set, then send every junk good to a chain agent or nowhere and every end-base good to a
+    start or nowhere (released); keep it when every chain agent strictly gains."""
+    n, m = len(vals), len(vals[0])
+    used = set(g for b in bases for g in b)
+    J = sorted(g for g in range(m) if g not in used)
+    states = set()
+    for cs in chain_sets(range(n)):
+        if any(not bases[seq[i]] for seq in cs for i in range(len(seq) - 1)): continue
+        onchain = [a for seq in cs for a in seq]
+        starts = [seq[0] for seq in cs if len(seq) >= 2]
+        ends = [seq[-1] for seq in cs if len(seq) >= 2]
+        endgoods = sorted(g for e in ends for g in bases[e])
+        for asgJ in itertools.product([None] + onchain, repeat=len(J)):
+            for asgE in itertools.product([None] + starts, repeat=len(endgoods)):
+                H = {a: set() for a in onchain}
+                for g, a in zip(J, asgJ):
+                    if a is not None: H[a].add(g)
+                for g, a in zip(endgoods, asgE):
+                    if a is not None: H[a].add(g)
+                new = [frozenset(b) for b in bases]; ok = True
+                for seq in cs:
+                    if len(seq) == 1:
+                        a = seq[0]
+                        if not H[a]: ok = False; break
+                        new[a] = frozenset(bases[a]) | H[a]
+                    else:
+                        new[seq[0]] = frozenset(H[seq[0]])
+                        for i in range(1, len(seq)):
+                            new[seq[i]] = frozenset(bases[seq[i - 1]]) | H[seq[i]]
+                    for a in seq:
+                        if v(vals, a, new[a]) <= v(vals, a, bases[a]): ok = False; break
+                    if not ok: break
+                if ok: states.add(tuple(new))
+    return states
+
+
+def round_x(vals, order, A=1):
+    Y = sd(vals, order); b0 = [frozenset([y]) for y in Y]
+    return any(completions(vals, list(s), A) is not None for s in rounds_pool(vals, b0))

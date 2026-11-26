@@ -20,15 +20,17 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import rndlib, families
 VMAX = int(os.environ.get("VMAX", "3000"))
+CLASS = os.environ.get("CLASS", "RND1")      # the one-round class under test: RND1 (ROUND+) or RNDX1 (ROUND-X)
 
 
 def summary(V):
-    res, ne = rndlib.analyze(V)
+    res, ne = rndlib.analyze(V, margin=CLASS)
     st = []
     for s in res:
         c = s['counts']
         st.append({'picks': s['picks'], 'order': s['order'], 'ext1': c['EXT1'] > 0, 'extf': c['EXTF'] > 0,
-                   'oc1': c['OC1'] > 0, 'rnd1': c['RND1'], 'rndf': c['RNDF'], 'md': c['MD'], 'msum': s['msum']})
+                   'oc1': c['OC1'] > 0, 'rnd1': c[CLASS], 'rndf': c['RNDF'] if CLASS == 'RND1' else c['RNDX'],
+                   'md': c['MD'], 'msum': s['msum'], 'r1': c['RND1']})
     return st, ne
 
 
@@ -36,8 +38,8 @@ def report_fail(V, s, tag):
     fp = os.environ.get('FAILS')
     if fp:
         with open(fp, 'a') as f:
-            f.write(json.dumps({'tag': tag, 'vals': V, 'picks': list(s['picks']), 'order': list(s['order'])}) + '\n')
-    print('FAIL', tag, 'vals', json.dumps(V), 'picks', list(s['picks']), 'order', list(s['order']),
+            f.write(json.dumps({'class': CLASS, 'tag': tag, 'vals': V, 'picks': list(s['picks']), 'order': list(s['order'])}) + '\n')
+    print('FAIL', CLASS, tag, 'vals', json.dumps(V), 'picks', list(s['picks']), 'order', list(s['order']),
           'rnd1', s['rnd1'], 'rndf', s['rndf'], 'md', s['md'], flush=True)
 
 

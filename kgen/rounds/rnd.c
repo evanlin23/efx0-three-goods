@@ -37,7 +37,9 @@ Build:  gcc -O2 -shared -fPIC -o librnd.so rnd.c      (used through kgen/rounds/
 #define MAXN 7
 #define MAXM 16
 #define MAXS 5040
-enum { K_EXTF, K_EXT1, K_OC1, K_RNDF, K_RND1, K_MD, NK };
+enum { K_EXTF, K_EXT1, K_OC1, K_RNDF, K_RND1, K_MD, K_RNDX, K_RNDX1, NK };
+/* K_RNDX: ROUND-X, a round in which every chain start may take, besides junk, the released pick of ANY chain end
+   (a common pool); K_RNDX1 the same with the one-absorber completion (released picks not taken count) */
 
 typedef long long ll;
 
@@ -49,6 +51,7 @@ static int sorder[MAXS][MAXN];
 static ll cnt[MAXS][NK];
 static double msum[MAXS], mmax[MAXS];   /* over RND1 witnesses: sum / max of the witness margin */
 static double tot_i[MAXN], efx_margin, best_gm;
+static int margin_kind = K_RND1;          /* class whose witnesses' margins are accumulated */
 static ll cap;
 static int want_mask;                /* classes whose counters gate early stopping */
 static int owner[MAXM];
@@ -92,7 +95,7 @@ static int analyze_start(int s, int record) {
         int big = 0; for (int a = 0; a < n; a++) if (nJ[a] >= 2) big++;
         if (big <= 1) res |= 1 << K_EXT1;
         if (big <= 2) res |= 1 << K_OC1;          /* one t = 0 move plus one absorber */
-        res |= (1 << K_RNDF) | (1 << K_RND1);
+        res |= (1 << K_RNDF) | (1 << K_RND1) | (1 << K_RNDX) | (1 << K_RNDX1);
         if (record) { for (int a = 0; a < n; a++) { wit_info[a] = -1; wit_info[n + a] = 0; wit_info[2 * n + a] = -1; } }
         best_gm = 1e9;                             /* no gain inequality: the witness margin is the EFX margin */
         return res;
@@ -123,6 +126,27 @@ static int analyze_start(int s, int record) {
         }
         int startof[MAXN], nstarts = 0, rel[MAXN];
         for (int a = 0; a < n; a++) { startof[a] = -1; rel[a] = 0; }
+        if (ok) {   /* ROUND-X: starts draw from the pool J + every end's pick */
+            int okx = 1, relx[MAXN], isstart[MAXN];
+            for (int a = 0; a < n; a++) { relx[a] = 0; isstart[a] = (succ[a] >= 0 && pred[a] < 0); }
+            double gmx = gm;
+            for (int a = 0; a < n && okx; a++) if (isstart[a]) {
+                ll g0 = vJ[a];
+                for (int e = 0; e < n; e++) if (pred[e] >= 0 && succ[e] < 0 && loc[e] == a) g0 += v[a][y[e]];
+                if (!(g0 > v[a][y[a]])) okx = 0;
+                else { double d = (double)(g0 - v[a][y[a]]) / tot_i[a]; if (d < gmx) gmx = d; }
+            }
+            if (okx) {
+                res |= 1 << K_RNDX;
+                for (int e = 0; e < n; e++) if (pred[e] >= 0 && succ[e] < 0 && !isstart[loc[e]]) relx[loc[e]]++;
+                int big = 0; for (int a = 0; a < n; a++) if (relx[a] >= 2) big++;
+                if (big <= 1) { res |= 1 << K_RNDX1; if (margin_kind == K_RNDX1 && gmx > best_gm) best_gm = gmx; }
+                if (record && wit_kind >= 0 && (res >> wit_kind & 1)) {
+                    for (int a = 0; a < n; a++) { wit_info[a] = succ[a]; wit_info[n + a] = (pred[a] >= 0 && succ[a] < 0); wit_info[2 * n + a] = isstart[a] ? a : -1; }
+                    return res;
+                }
+            }
+        }
         if (ok) {
             for (int a = 0; a < n && ok; a++) if (succ[a] >= 0 && pred[a] < 0) {
                 nstarts++;
@@ -138,7 +162,7 @@ static int analyze_start(int s, int record) {
         if (ok) {
             res |= 1 << K_RNDF;
             int big = 0; for (int a = 0; a < n; a++) if (rel[a] >= 2) big++;
-            if (big <= 1) { res |= 1 << K_RND1; if (gm > best_gm) best_gm = gm; }
+            if (big <= 1) { res |= 1 << K_RND1; if (margin_kind == K_RND1 && gm > best_gm) best_gm = gm; }
             if (nstarts <= 1) {
                 int big1 = 0;
                 for (int a = 0; a < n; a++) {
@@ -171,7 +195,7 @@ static void leaf(void) {
         if (!need && wit_kind < 0) continue;
         int r = analyze_start(s, wit_kind >= 0);
         for (int k = 0; k < NK; k++) if ((r >> k & 1) && cnt[s][k] < cap) cnt[s][k]++;
-        if (r >> K_RND1 & 1) { double w = efx_margin < best_gm ? efx_margin : best_gm; msum[s] += w; if (w > mmax[s]) mmax[s] = w; }
+        if (r >> margin_kind & 1) { double w = efx_margin < best_gm ? efx_margin : best_gm; msum[s] += w; if (w > mmax[s]) mmax[s] = w; }
         if (wit_kind >= 0 && (r >> wit_kind & 1)) {
             for (int g = 0; g < m; g++) wit_owner[g] = owner[g];
             wit_found = 1; done_flag = 1; return;
@@ -257,6 +281,7 @@ int rnd_analyze(int n_, int m_, const ll *vals, ll cap_, int wmask, int *out_pic
     return nst;
 }
 
+void rnd_set_margin_kind(int k) { margin_kind = k; }
 void rnd_margins(double *out_sum, double *out_max) {
     for (int s = 0; s < nst; s++) { out_sum[s] = msum[s]; out_max[s] = mmax[s]; }
 }

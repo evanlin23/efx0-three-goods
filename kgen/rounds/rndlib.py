@@ -11,7 +11,7 @@ import ctypes, os, subprocess
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SO = os.path.join(HERE, 'librnd.so')
-KINDS = ['EXTF', 'EXT1', 'OC1', 'RNDF', 'RND1', 'MD']
+KINDS = ['EXTF', 'EXT1', 'OC1', 'RNDF', 'RND1', 'MD', 'RNDX', 'RNDX1']
 K = {k: i for i, k in enumerate(KINDS)}
 
 
@@ -36,7 +36,7 @@ def _arr(vals):
     return n, m, (LL * (n * m))(*[int(x) for row in vals for x in row])
 
 
-def analyze(vals, cap=0, want=('RND1',)):
+def analyze(vals, cap=0, want=('RND1',), margin='RND1'):
     """cap = 0: count every witness; cap > 0: stop counting a class at cap and stop the enumeration once every
     start reached cap in every class of `want`."""
     n, m, A = _arr(vals)
@@ -45,6 +45,7 @@ def analyze(vals, cap=0, want=('RND1',)):
     cnt = (LL * (NS * len(KINDS)))(); nefx = LL()
     wm = 0
     for w in want: wm |= 1 << K[w]
+    _L.rnd_set_margin_kind(K[margin])
     ns = _L.rnd_analyze(n, m, A, LL(cap), wm, picks, order, cnt, ctypes.byref(nefx))
     if ns < 0: raise ValueError('instance too large')
     msum = (ctypes.c_double * NS)(); mmax = (ctypes.c_double * NS)()
