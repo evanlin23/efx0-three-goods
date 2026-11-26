@@ -444,10 +444,16 @@ so all helpers arrive before them). A greedy rule takes the good with the highes
   bundle;
 - *val*: the number of frozen agents still to come that value it.
 
-Threatened agents choose among the goods that make them safe. On the screen set, over the 792 cases (Y, o) where o
-absorbs a TP-shaped completion (or none is needed), the rule succeeds on 773 (need) and 752 (val). The arrangement of
-the frozen-first orders does not matter: when some order works, every order does. GM4-C and GM4-D are among the
-failures. A count of demands does not see that a frozen agent needs a *specific* pair removed. The choice has to
+Threatened agents choose among the goods that make them safe. Over the cases (Y, o) where o absorbs a TP-shaped
+completion (or none is needed):
+
+| data | cases | need | val |
+|---|---|---|---|
+| screen | 792 | 773 | 752 |
+| suite | 736 | 722 | 687 |
+
+The arrangement of the frozen-first orders hardly matters: when some order works, every order does, except in one
+suite case per variant. GM4-C and GM4-D are among the failures. A count of demands does not see that a frozen agent needs a *specific* pair removed. The choice has to
 solve the frozen agents' hitting-set problem (which goods leave the absorber's bundle) and then match those goods to
 the free slots. That is the static covering problem of Corollary TP, i.e. the count of `k4/sdc.md` §30, and nothing
 here makes it local.
