@@ -363,7 +363,9 @@ extend after ⌊(k − 1)/2⌋ improving chains. At k = 4 that is OC, refuted in
 improving chains. Equivalently, c chains suffice up to k = 2c + 1.
 - k ≤ 2: true (serial dictatorship needs none; L′ allows one).
 - k = 3, one chain: exhaustive over strict profiles of connected hypergraphs for small n, from every start (§8).
-- k = 4, two chains: tight (§5); "two suffice" is evidence only.
+- k = 4, two chains: tight (§5). **Two moves suffice for every strict profile of every core with n ≤ 4**: OC₂^max,
+  certified by the certifier session (`k4/oc1cert.md` §1 on `compute/k4-oc1max-cert`, read here; its moves are the
+  official ones, at most two in sequence, with a one-absorber completion). Beyond n = 4 it is evidence only.
 - k = 5, two chains: tight (PW5, RD5). Climbs from PW starts (`climb.py oc2`, n = 5 at k = 5 and n = 6 at k = 6,
   50 rounds) found no start needing three chains.
 - k = 6, 8: L′ allows 3 and 4; PW needs only 2 and 3. Whether k = 6 needs three chains is the open rung that decides
@@ -759,7 +761,7 @@ of an order.
 | one chain from R1-priority starts | | | **fails** | **k = 4** | the 11 (§5); PWR1-6 at k = 6 | SAT; brute force for the 11 starts |
 | one chain from the need2 neediest-first start | | | holds (data; the 11 included) | **k = 6** | NF2-6: n = 6, m = 11 (§4) | 2 SAT encodings, SAT-free |
 | one chain from the need2 R1 neediest-first start (LB₄ʳ's Phase 1) | | | holds | none found | | |
-| c chains (the least c that always suffices) | c = 0 | c = 1 (exhaustive, small n) | c = 2 (data; c = 1 fails) | c = 1 at k = 4; c = 2, 3 at k = 2c + 3 found | the 11 (c = 1); PW(c + 2, c + 1, 2c + 2) (§4) | ocseq, brute force |
+| c chains (the least c that always suffices) | c = 0 | c = 1 (exhaustive, small n) | c = 2: certified for every strict profile of every core with n ≤ 4 (certifier); c = 1 fails | c = 1 at k = 4; c = 2, 3 at k = 2c + 3 found | the 11 (c = 1); PW(c + 2, c + 1, 2c + 2) (§4) | ocseq, brute force |
 | one round of disjoint chains (RD, RD₁) | | | **fails** | **k = 4** | the 11 (§5); RD5 at k = 5 | SAT, brute force over every round |
 | two rounds (RD²), also from maximum-matching starts | | | holds | none found (climbs k = 5, 6, 8; n ≤ 6) | | |
 | SD-C: some order whose picks extend | | holds (data; K4.SDC.K3 open) | holds | none found (k ≤ 8) | | |
@@ -826,6 +828,8 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
   - ocsat (SAT) agrees on every maximum-matching start at n = 3 (43,751) and on 8,693 sampled at n = 4 (5,770 of them
     with m ≥ 6), with 0 mismatches.
 - *So at k = 3 one chain suffices,* and the ladder's jump to two chains happens at k = 4.
+  - At k = 4: one chain fails at n = 4 (§5), and two sequential moves are certified for every strict profile of
+    every core with n ≤ 4 (`k4/oc1cert.md` on `compute/k4-oc1max-cert`).
   - The scope is connected instances. In a disjoint union each component may need its own chain; a round handles
     that.
   - The k3-oc1 session reports an every-order failure at k = 3 under the official rule, at n = 5 outside the cores
