@@ -25,3 +25,31 @@ restart 3: start score -8 (>= 2 out: 81, < 2 out: 89)
   step 21 score -5 (>= 2 out: 83, < 2 out: 88) 3 s
   step 105 score -3 (>= 2 out: 114, < 2 out: 117) 14 s
   step 113 score -2 (>= 2 out: 114, < 2 out: 116) 15 s
+  step 285 score -1 (>= 2 out: 115, < 2 out: 116) 38 s
+restart 3 final score -1, 39 s
+restart 4: start score -5 (>= 2 out: 64, < 2 out: 69)
+  step 1 score -3 (>= 2 out: 71, < 2 out: 74) 0 s
+  step 11 score -1 (>= 2 out: 76, < 2 out: 77) 1 s
+  step 43 score 0 (>= 2 out: 83, < 2 out: 83) 5 s
+restart 4 final score 0, 38 s
+restart 5: start score -13 (>= 2 out: 50, < 2 out: 63)
+  step 2 score -11 (>= 2 out: 49, < 2 out: 60) 0 s
+  step 3 score -10 (>= 2 out: 50, < 2 out: 60) 0 s
+  step 7 score -9 (>= 2 out: 50, < 2 out: 59) 1 s
+  step 12 score -6 (>= 2 out: 50, < 2 out: 56) 1 s
+  step 18 score -5 (>= 2 out: 52, < 2 out: 57) 1 s
+  step 19 score -2 (>= 2 out: 52, < 2 out: 54) 1 s
+  step 121 score -1 (>= 2 out: 55, < 2 out: 56) 7 s
+  step 147 score 0 (>= 2 out: 44, < 2 out: 44) 9 s
+restart 5 final score 0, 16 s
+restart 6: start score -6 (>= 2 out: 76, < 2 out: 82)
+  step 44 score -4 (>= 2 out: 96, < 2 out: 100) 4 s
+  step 54 score -3 (>= 2 out: 88, < 2 out: 91) 6 s
+  step 134 score -2 (>= 2 out: 77, < 2 out: 79) 14 s
+  step 158 score -1 (>= 2 out: 78, < 2 out: 79) 16 s
+restart 6 final score -1, 28 s
+restart 7: start score -5 (>= 2 out: 79, < 2 out: 84)
+  step 0 score -4 (>= 2 out: 79, < 2 out: 83) 0 s
+  step 11 score -3 (>= 2 out: 80, < 2 out: 83) 1 s
+  step 53 score -2 (>= 2 out: 77, < 2 out: 79) 5 s
+  step 54 score -1 (>= 2 out: 77, < 2 out: 78) 5 s

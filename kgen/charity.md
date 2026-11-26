@@ -16,7 +16,7 @@ changed here; the coordinator integrates.
 | CH-E | for every σ ≥ 2 and k ≥ 3: a Pareto maximum (P1's hypothesis) leaving σ − 1 goods out, n = O(σ²) | PROVED (written proof; exhaustive check without SAT for σ ≤ 4, SAT for σ ≤ 7) | §5, `refute_pm.py`, `refute_pm_k*.log`, `pm_family_sat.log` |
 | P1 threshold | P1 (K4.SDC.P1: Pareto maxima are complete) holds for k ≤ 2 and fails at k = 3 (n = 4, m = 7, every agent values exactly 3 goods) | PROVED for k ≤ 2 (CH6 + CH4′); REFUTED at k = 3 (CH-E with σ = 2; brute force over all 5⁷ partial allocations) | §5, `refute_pm_k3.log` |
 | PM(k) | Pareto maxima leave ≤ f(k) goods out | REFUTED for every k ≥ 3 and every f (CH-E) | §5 |
-| W(k, f) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f goods out (§6 for the exact statement); W(k, f) ⇒ CH(k) | f = 0 REFUTED at k = 3 (n = 4, m = 7) and k = 4 (GM4-G); **f = 1 REFUTED at k = 4** (CH-F: n = 9, m = 14, integer values ≤ 40; verified by SAT and by MILP); f = 1 at k = 3: see §6 | §6, `w_brute.log`, `w_counterexample.log`, `attempts/kgen-charity-welfare-maxima.md` |
+| W(k, f) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f goods out (§6 for the exact statement); W(k, f) ⇒ CH(k) | f = 0 REFUTED at k = 3 (n = 4, m = 7) and k = 4 (GM4-G); **f = 1 REFUTED at k = 3 and k = 4** (CH-F: n = 12, m = 17 and n = 9, m = 14, integer values; each verified by SAT and by MILP); f ≥ 2: §6 | §6, `w_brute.log`, `w_counterexample*.log`, `attempts/kgen-charity-welfare-maxima.md` |
 | W small n | no welfare maximum strands a good for n = 3, k = 3; none strands two for n = 3, k = 3, 4 and n = 4, k = 3 | exhaustive by one implementation (z3 CEGAR over real values, all m ≤ nk + n by Lemma W0) | §6, `w_synth_n*.log` |
 | DU | an instance whose incidence graph has ≥ 2 components with agents has a complete EFX₀ allocation | PROVED (written proof; recipe checked on 2,000 random unions and on copies of the stranded instances) | §3, Prop. DU, `union_dump.log` |
 | least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
@@ -358,13 +358,15 @@ complete EFX₀ allocations reach 31; the same holds for GM4-G cut to three good
 hypergraph of S′(2, 3) (`w_brute.py`, no SAT, `w_brute.log`). On GM4-E, which K4.SDC.P1 lists as total-value-stuck,
 the largest total is tied with complete allocations.
 
-**Proposition CH-F (W(4, 1) is false).** S′(3, 4)'s hypergraph (n = 9, m = 14, every agent valuing at most four
-goods) with integer values ≤ 40 has its stranded state (two goods out, total 198) as its only welfare maximum: every
-EFX₀ allocation leaving at most one good out has total ≤ 197. Values and table: `w_counterexample.py`,
-`attempts/kgen-charity-welfare-maxima.md`. *Checks:* the state by the raw definitions; the two maxima (198 overall,
-197 with ≤ 1 out) by the SAT welfare maximiser `chlib.welfare_max` and by a separately written MILP (scipy, HiGHS),
-which agree (`w_counterexample.log`); the values were found by the exact z3 search `w_synth_family.py` (real values
-first, then integers ≤ 40). So W(4) needs f ≥ 2.
+**Proposition CH-F (W(3, 1) and W(4, 1) are false).** S′(3, 4)'s hypergraph (n = 9, m = 14, every agent valuing at
+most four goods) with integer values ≤ 40, and S′(3, 3)'s hypergraph (with relays: n = 12, m = 17, every agent valuing
+at most three goods) with integer values ≤ 60, each have their stranded state (two goods out; totals 198 and 484) as
+their only welfare maxima: every EFX₀ allocation leaving at most one good out has total ≤ 197, resp. ≤ 483. Values
+and tables: `w_counterexample.py` (`k4`, `k3`), `attempts/kgen-charity-welfare-maxima.md`. *Checks:* the states by
+the raw definitions; the two maxima (overall, and with ≤ 1 out) by the SAT welfare maximiser `chlib.welfare_max` and
+by a separately written MILP (scipy, HiGHS), which agree (`w_counterexample.log`, `w_counterexample_k3.log`); the
+values were found by the exact z3 search `w_synth_family.py` (real values first, then bounded integers). So W(k)
+needs f ≥ 2 at k = 3 and k = 4: welfare maxima strand two goods even where complete EFX₀ is a theorem.
 
 **Exact search for small n** (`w_synth.py`, z3 CEGAR over *real* values: an outer problem chooses valuations that make
 a stranded state of given bundle sizes EFX₀ with strong charity, a robust stopping state (CH6: no good can be added,
@@ -381,15 +383,15 @@ the FOUND cases are re-checked by brute force or, for CH-F, by SAT and MILP.
 | 3 | 4 | 2 | 2 | none | `w_synth_n3_k4_p2.log` |
 | 3 | 4 | 1 | 1 | (running) | `w_synth_n3_k4_p1.log` |
 | 4 | 3 | 1 | — | exists (the cut of GM4-G) | `w_brute.log` |
-| 4 | 3 | 2 | 2, 3 | none for q = 2; q = 3 (running) | `w_synth_n4_k3_p2*.log` |
+| 4 | 3 | 2 | 2, 3 | none | `w_synth_n4_k3_p2.log`, `w_synth_n4_k3_p2_q3.log` |
 | 4 | 4 | 2 | 2 | partial (slow: about 80 s per size vector) | `w_synth_n4_k4_p2.log` |
 
-So the smallest welfare maximum stranding a good at k = 3 has n = 4, and the smallest stranding two at k = 4 has
-5 ≤ n ≤ 9 (n = 4 pending).
+So the smallest welfare maximum stranding a good at k = 3 has n = 4; the smallest stranding two has 5 ≤ n ≤ 12 at
+k = 3 and 4 ≤ n ≤ 9 at k = 4 (n = 4 pending).
 
 **Larger σ.** Whether S′(σ, k) carries values making its σ − 1 stranded goods a welfare maximum for every σ (which
-would refute W(k) for every f, with Θ(√n) goods) is being tested by the same exact search: S′(3, 3) (k = 3, with
-relays) and S′(4, 4) (`w_synth_family_s*.log`).
+would refute W(k) for every f, with Θ(√n) goods) is being tested by the same exact search; σ = 3 succeeds at k = 3 and k = 4 (CH-F), σ = 4 at k = 4
+(three goods stranded, n = 20) is running (`w_synth_family_s4k4.log`).
 
 **Earlier data, kept:** the welfare maximum is complete on 166 of the 168 curated k = 4 instances (GM4-G and its copy
 are the exceptions, `w_screen.log`), on 8,400 random instances (`w_rand_*.log`), on the S and S′ families with their
@@ -399,7 +401,33 @@ strands a good (`w_Bless.log`); two disjoint copies of GM4-G have a complete wel
 `w_union.log`); value hill-climbs stall at ties (`w_climb*.log`); S′(2, 3)'s default stranded state is not a
 supported point, so no rescaling of it is a counterexample (`welfare_support.log`).
 
-## 7. Open
+## 7. What can be proved at k = 4 without n (the weakest form)
+
+The weakest open form of CH(k) asks only for a partial EFX₀ allocation with at most f(k) goods unallocated (no
+condition on the pool), f independent of n. CH-D, CH-E and CH-F show that no argument that only uses a stopping state
+of CKMS's rules, a Pareto maximum, or (for f ≤ 1) a welfare maximum can give it at k = 3 or k = 4. What the lemmas do
+give, n-independently, and already in the strong form (nobody envies the pool):
+
+**Corollary CH-B′ (k = 4, few valuers per good).** Let every agent value at most four goods and every good be valued
+by at most d agents. Then some partial EFX₀ allocation with strong charity leaves at most
+- 2 goods out if d = 2 (R(2) = 2, CGMMM §1, read; also < (k − 2)d = 4 by CH-C),
+- 4 goods out if d = 3 (the packing inequality: p! ≤ 3^{p−1} fails at p = 5; CH-C gives ≤ 5), and 3 if R(3) = 3,
+  which Sivashankar attributes to Kirchweger–Szeider [unverified],
+- 6 goods out if d = 4 (p! ≤ 4^{p−1} fails at p = 7), and 4 if R(4) = 4 [unverified, same source].
+In general p ≤ min{R(d), (k − 2)d − 1} with R(d) < ed.
+
+**Corollary CH-C′.** For every k and every instance, CKMS's stopping states leave fewer than
+(k − 2) · min_{g ∈ P} |V(g)| goods out: the charity is small as soon as one unallocated good has few valuers.
+
+**Proposition DU** (§3): if the incidence graph is disconnected (two components with agents), nothing need be left
+out. So an instance needing charity must be connected, and in CH(k) the obstruction is global, as in S and S′.
+
+So the open case at k = 4 is exactly: connected instances whose unallocated goods all have many valuers. In every
+construction above (S, S′, CH-F) every pool good has σ valuers, one per source, and the stranding comes from the
+cyclic order of the sources. A proof must break that cycle by a move that lowers some agent's value (LB⁺'s rotation
+at k = 3), and the families of §4–§6 are the test cases for any candidate move.
+
+## 8. Open
 
 1. **Non-monotone moves.** CH-D and CH-E show that a proof of CH(k), k ≥ 3, must sometimes lower an agent's value.
    The two known mechanisms are LB⁺'s rotation (k = 3) and Kaviani–Seddighin–Shahrezaei's virtual values
