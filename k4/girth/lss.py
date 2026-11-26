@@ -178,6 +178,7 @@ class Run:
         self.U = set(range(I.m))
         self.zero = lab.index(0)
         self.first_break = None
+        self.soft_break = None
         self.events = []
         self.steps = 0
         self.props = None
@@ -244,6 +245,8 @@ class Run:
             self.U.discard(e)
             self.events.append(('A3L2', j, e))
             self._after('A3L2', j, e)
+            if self.soft_break is None and envied(I, self.X, j):
+                self.soft_break = ('A3L2env', j, e)       # Lemma 3.5 says j stays non-envied (uses Obs. 2.1)
         z = self.zero
         rest = frozenset(self.U)
         self.X[z] = self.X[z] | rest
@@ -305,7 +308,9 @@ def classify(r):
     envied neighbour of 0 (see k4/girth.md, section 2); then
         'A3L4:G6'          i holds a good it shares with 0, and X_0 holds another one (a 2-cycle 0-i): use G6
         'A3L4:P2(...)'     i holds no good it shares with 0, so Property (2) failed for i; the reasons G2/G3/G4 say
-                           which girth use of Lemma 3.4 broke (PRIO/OTHER: none of them)"""
+                           which girth use of Lemma 3.4 broke (PRIO/OTHER: none of them)
+        'A3L4:G5env'       an earlier line-2 step made its receiver envied (not strongly: a 2-cycle), which Lemma 3.5
+                           excludes with Obs. 2.1; that receiver's later leftovers then reached X_0"""
     if is_efx0(r.I, r.X):
         return None                     # (r.first_break may be set: a transient break, repaired later)
     fb = r.first_break
@@ -313,6 +318,8 @@ def classify(r):
     if kind != 'A3L4':
         return kind
     I, z = r.I, r.zero
+    if r.soft_break is not None:
+        return 'A3L4:G5env'          # line 2 made a receiver envied (2-cycle), so its later leftovers went to X_0
     out = set()
     for (i, j) in fb[2]:
         if j != z:
@@ -379,6 +386,7 @@ if __name__ == '__main__':
             for rep in range(3):
                 lab = random_labels(I, z, rng) if rep else labels(I, z)
                 r = lss(I, lab=lab, pick=rng if rep == 2 else 'max')
+                assert r.first_break is None and r.soft_break is None and r.props[2] and r.props[4]
                 if not is_efx0(I, r.X):
                     bad += 1
                     print('FAIL', I, lab, classify(r), r.first_break)
@@ -423,3 +431,35 @@ def flex(I, lab, pick='max'):
         if is_efx0(I, Y):
             good.append(s)
     return r, good, clean_sinks(I, r.X)
+
+
+def complete_safe_sink(I, X, U, s):
+    """Completion with the G5 repair: orient an unallocated good e to a non-envied valuer j != s only if no agent
+    then envies X_j + e; everything left goes to the sink s.  (For 2-cycles: k4/girth.md, section 5.)"""
+    X = list(X)
+    U = set(U)
+    changed = True
+    while changed:
+        changed = False
+        for e in sorted(U):
+            for j in sorted(I.edge[e]):
+                if j == s or envied(I, X, j):
+                    continue
+                B = X[j] | {e}
+                if all(I.val(k, X[k]) >= I.val(k, B) for k in range(I.n) if k != j):
+                    X[j] = B
+                    U.discard(e)
+                    changed = True
+                    break
+            if changed:
+                break
+    X[s] = X[s] | frozenset(U)
+    return X
+
+
+def flex2(I, lab, pick='max'):
+    """Algorithm 2, then complete_safe_sink with every non-envied s; returns (Run, sinks that work)"""
+    r = Run(I, lab, pick)
+    r.alg2()
+    good = [s for s in range(I.n) if not envied(I, r.X, s) and is_efx0(I, complete_safe_sink(I, r.X, r.U, s))]
+    return r, good

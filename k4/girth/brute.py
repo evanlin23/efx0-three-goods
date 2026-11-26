@@ -71,3 +71,90 @@ def check_PL(I, every=True):
             if completable(I, a) is None:
                 return False, (vec, a)
     return True, None
+
+
+def bundles_of(I, assign):
+    X = [set() for _ in range(I.n)]
+    for g, a in enumerate(assign):
+        if a >= 0:
+            X[a].add(g)
+    return X
+
+
+def safe_sets(I, X, U):
+    """S_i = non-envied u with v_i(X_u + U_i) <= v_i(X_i), for envied i (k4/girth.md, Lemma PARK)"""
+    from lss import envied
+    env = [i for i in range(I.n) if envied(I, X, i)]
+    S = {}
+    for i in env:
+        Ui = U & I.R[i]
+        S[i] = {u for u in range(I.n) if u not in env and I.val(i, X[u] | Ui) <= I.val(i, X[i])}
+    return env, S
+
+
+def park_condition(I, assign):
+    """(a) every unallocated good valued by someone has only envied valuers... no: the PARK hypothesis of
+    k4/girth.md section 3: every unallocated edge whose valuers are all envied has a common safe vertex, and every
+    other unallocated edge has a non-envied valuer.  Returns (holds, clean_sink_exists)."""
+    from lss import envied
+    X = bundles_of(I, assign)
+    U = {g for g, a in enumerate(assign) if a < 0}
+    env, S = safe_sets(I, X, U)
+    ok = True
+    for e in U:
+        val = I.edge[e]
+        if not val:
+            continue
+        if any(j not in env for j in val):
+            continue
+        common = set(range(I.n))
+        for i in val:
+            common &= S[i]
+        if not common:
+            ok = False
+    clean = [s for s in range(I.n) if s not in env and not any(X[s] & I.R[i] for i in env)]
+    return ok, bool(clean)
+
+
+def park_slack(I, assign):
+    """Completion by PARK sinks plus slack absorbers (k4/girth.md, section 4): every leftover good whose valuers are
+    all envied goes either to a common safe vertex, or alone to a non-envied u with |X_u| = 1 that takes nothing else.
+    Goods with a non-envied valuer are oriented to it first (Lemma PARK, step 1).  Exhaustive over the choices;
+    returns the completed allocation or None.  Linear hypergraphs only (that is where the rule is proved sound);
+    the result is re-checked with the raw EFX0 definition."""
+    from lss import envied
+    X = bundles_of(I, assign)
+    U = {g for g, a in enumerate(assign) if a < 0}
+    env, S = safe_sets(I, X, U)
+    N = [u for u in range(I.n) if u not in env]
+    Y = [set(b) for b in X]
+    L = []
+    for e in sorted(U):
+        nb = [j for j in I.edge[e] if j not in env]
+        if nb:
+            Y[nb[0]].add(e)
+        elif I.edge[e]:
+            L.append(e)
+        else:
+            Y[N[0] if N else 0].add(e)                 # valued by nobody (excluded by L3 anyway)
+    opts = []
+    for e in L:
+        common = set(N)
+        for i in I.edge[e]:
+            common &= S[i]
+        o = [('park', u) for u in sorted(common)] + [('slack', u) for u in N if len(X[u]) == 1]
+        opts.append(o)
+    for choice in itertools.product(*opts):
+        slack = [u for k, u in choice if k == 'slack']
+        park = {u for k, u in choice if k == 'park'}
+        if len(set(slack)) < len(slack) or set(slack) & park:
+            continue
+        Z = [set(b) for b in Y]
+        for e, (k, u) in zip(L, choice):
+            Z[u].add(e)
+        if any(k == 'slack' and Z[u] != X[u] | {e} for e, (k, u) in zip(L, choice)):
+            continue
+        from lss import is_efx0
+        if is_efx0(I, Z):
+            return Z
+    return None

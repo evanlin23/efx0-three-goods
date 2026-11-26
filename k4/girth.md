@@ -3,15 +3,23 @@
 Workstream `proof/k4-girth` (branch `claude/k4-girth`). Code in `k4/girth/`. Nothing here changes a ledger status;
 the coordinator integrates.
 
-**Status (end of burst 1).**
-- §1: lemma-by-lemma digest of arXiv 2608.03171v1, read in full (PDF fetched from arxiv.org on 2026-11-26). Girth
-  ≥ 3 (two agents share at most one good) is used five times (G1, G2, G3, G5, G6), girth ≥ 4 once (G4), and G4 only
-  for triangles **through the special vertex 0**.
-- §2: faithful implementation (`k4/girth/lss.py`), 0 failures on random girth-≥4 instances (sanity); on the k = 4
-  screen and suite sets most runs still succeed; failures classified by girth use.
-- §3: completion by a *sink* (Lemma SINK and Lemma PARK, proved): vertex 0 is not needed; any non-envied agent whose
-  bundle no agent with leftover goods values can take the leftovers.
-- §4: the linear case (girth ≥ 3, triangles allowed), which contains the hard family H_t.
+**Status (burst 1, in progress; logs still running are marked).**
+- §1 (done): lemma-by-lemma digest of arXiv 2608.03171v1, read in full (PDF fetched from arxiv.org on 2026-11-26).
+  Girth ≥ 3 (two agents share at most one good) is used five times (G1, G2, G3, G5, G6), girth ≥ 4 once (G4), and G4
+  only for 3-cycles **through the special vertex 0**.
+- §2 (EVIDENCE): faithful instrumented implementation (`k4/girth/lss.py`): 0 failures and no invariant break on random
+  girth-≥ 4 instances; on degree-≤ 4 instances with short cycles most runs still succeed; failures classified by girth
+  use; smallest failing configuration per use in `attempts/k4-girth-faithful.md`.
+- §3 (PROVED): Lemma SINK (vertex 0 is not needed: any agent nobody envies after receiving the leftovers will do),
+  Lemma PARK (CFKS's parking for linear hypergraphs) and Lemma SLACK (a non-envied one-good holder absorbs one leftover
+  good through EFX₀ slack).
+- §4 (PROVED + CONJECTURE): **Theorem T1**: a linear instance with an agent on no 3-cycle has an EFX₀ allocation
+  (monotone valuations; LSS's proof). Facts F1–F6 at Pareto-maximal partial EFX₀ orientations (proved). **Conjecture L**:
+  in a linear instance every such Pareto-maximum completes by parks and slack absorbers; it would give EFX₀ for every
+  linear additive instance (all degrees), hence TARGET₄ for linear instances, which include H_t. No counterexample in
+  ~10⁵ Pareto-maxima (n ≤ 7); "every Pareto-maximum parks" is false (n = 4, m = 5 graph).
+- §5: with 2-cycles the LSS architecture fails at n = 2 (`attempts/k4-girth-sink-2cycles.md`).
+- Next: a proof of Conjecture L (the configuration is CFKS's second scenario; a Pareto-maximum excludes their repair).
 
 ---
 
@@ -112,3 +120,145 @@ is of type G4.
 
 A TARGET₄ counterexample must therefore contain a 2-cycle or a 3-cycle (else LSS), and a good with ≥ 3 valuers (else
 Afshinmehr et al., ledger T3). By §1.2, if it has no 2-cycle, every agent lies on a 3-cycle.
+
+---
+
+## 2. The faithful algorithm on degree-≤ 4 instances with short cycles (EVIDENCE)
+
+`k4/girth/lss.py` implements Algorithms 1–3 literally, for additive values. The paper leaves open which envied vertex
+Algorithm 2 serves (line 3), which pair (e, j) Algorithm 3 serves (line 1), and argmax ties; the code takes the largest
+label / smallest good, or random choices. After every atomic step it tests the partial allocation for strong envy
+(raw EFX₀) and records the first step that creates it; at the end of Algorithm 2 it evaluates Properties (1)–(4) and
+why (2) fails. `classify` names the failure:
+- `A2L4` (G1), `A3L2` (G5): the step that first created strong envy;
+- `A3L4:G6`: the strong envier of X_0 at the last step is a neighbour i of 0 that holds a good shared with 0, while X_0
+  holds another one;
+- `A3L4:P2(G3)` / `A3L4:P2(G4)`: the envier holds no good shared with 0, so Property (2) failed for it, because a
+  neighbour of 0 in the same edge (G3) or in another edge at 0 (G4) envies its single good.
+
+Some runs break EFX₀ transiently and repair it later (an envier's value rises); only the final allocation counts.
+An envier of X_0 at the last step is always an envied neighbour of 0: a non-neighbour values only U_i(X) there, and a
+non-envied vertex has no unallocated good left after line 2 (its goods are oriented) and does not envy 0.
+
+`python3 k4/girth/run_faithful.py` (log `results/k4_girth_faithful.log`): per instance every vertex 0 with three
+labelings (default order, two random). The quick run (`--quick`):
+
+| instances | runs | outcome |
+|---|---|---|
+| random girth ≥ 4, any degree (sanity), 300 | 5,199 | all EFX₀ |
+| random linear, degree ≤ 4, with triangles, 300 | 6,750 | 28 fail, all `A3L4:P2(G4)` |
+| Fano plane + private goods / AG(2,3) / PG(2,3), 60 each | 1,260 / 1,620 / 2,340 | 60 / 10 / 10 fail, all G4 |
+| random degree ≤ 4 with 2-cycles, 300 | 4,809 | 329 fail: A3L2 281, G6 30, A2L4 10, G4 9, G3 2 |
+| screen set, 168 | 1,767 | 494 fail: G6 231, A3L2 166, G3 60, G4 32, A2L4 15 |
+| k = 4 cores n = 2 / n = 3, random strict profiles | 1,200 / 4,590 | 405 / 861 fail, mostly A3L2 (G5) and G6 |
+
+So: on linear instances only G4 breaks, as §1.2 predicts; with 2-cycles the dominant failures are G5 (orienting a
+leftover good to a non-envied vertex j whose bundle another valuer of that good also values) and G6 (vertex 0 and an
+envied neighbour share two goods). Smallest failures found (`attempts/k4-girth-faithful.md`):
+- G4: n = 3, m = 5, a triangle of agents with two private goods on one of them:
+  0 = {g0: 1, g1: 7}, 1 = {g1: 1, g2: 8}, 2 = {g0: 6, g2: 7, g3: 4, g4: 1}, vertex 0 = agent 0. Agent 2 takes g2, 1 takes
+  g1, 0 takes g0; agent 1 envies 2, agent 2's private goods g3, g4 go to X_0 = {g0}, and agent 2 values
+  {g0, g3, g4} at 11 > 7.
+
+## 3. Vertex 0 is not needed: completion by a sink (PROVED)
+
+Write U for the unallocated goods of a partial allocation X, U_i = U ∩ R_i, E for the envied agents, N for the others.
+
+**Lemma SINK** (any monotone valuations, any instance). If some agent s satisfies v_i(X_i) ≥ v_i(X_s ∪ U) for every
+i ≠ s, then giving U to s turns an EFX₀ partial allocation X into a complete EFX₀ allocation.
+*Proof.* Nobody envies X_s ∪ U, so nobody strongly envies it; s's value only rises; other bundles are unchanged. ∎
+
+In LSS, s = 0 and the hypothesis is Lemma 3.5's argument. It holds whenever X has (3), (4) for the agents with
+leftover goods, and s is non-envied with X_s ∩ R_i = ∅ for every i with U_i ≠ ∅: then v_i(X_s ∪ U) = v_i(U_i) ≤ v_i(X_i).
+Call such an s a *clean sink*. Vertex 0 with Property (2) is a clean sink after Algorithm 3's line 2 in a girth-4
+hypergraph; any other agent may serve.
+
+The safe set of an envied agent i (after CFKS, §4.1) is S_i = {u ∈ N : v_i(X_u ∪ U_i) ≤ v_i(X_i)}.
+
+**Lemma PARK** (linear hypergraphs, monotone valuations). Let X be a partial EFX₀ orientation with (3) for all agents
+and (4) for the envied ones. Suppose every unallocated good whose valuers are all envied has a common safe vertex
+u_e ∈ ∩_{i valuer of e} S_i. Orient every other unallocated good with a valuer to one of its non-envied valuers, give
+each good of the first kind to u_e, and goods valued by nobody to any non-envied agent. The result Y is a complete EFX₀
+allocation.
+*Proof.* Bundles of envied agents are unchanged, and every agent's value weakly rises, so no new strong envy toward
+them. Let u ∈ N and k ≠ u; Y_u ⊆ X_u ∪ U. If k is envied and u ∈ S_k: Y_u ∩ R_k ⊆ X_u ∪ U_k, so
+v_k(Y_u) ≤ v_k(X_u ∪ U_k) ≤ v_k(X_k). Otherwise no good of the first kind valued by k went to u (k ∈ N values none
+of them; k ∈ E with u ∉ S_k by the choice of u_e), so Y_u ∩ R_k consists of goods of X_u or oriented to u that k
+values. All of them contain u and k, and by linearity there is at most one, f. If f ∈ X_u, v_k(f) ≤ v_k(X_u) ≤
+v_k(X_k) since u is non-envied; if f ∈ U, v_k(f) ≤ v_k(X_k) by (3). So nobody envies Y_u, in particular nobody
+strongly envies it, and goods valued by nobody can be added. ∎
+
+CFKS's Lemma 13 is the case of graphs. The clean sink is the case u_e = s for all e.
+
+**Lemma SLACK** (linear hypergraphs, monotone valuations). Let X be a partial EFX₀ orientation with (3) for all agents,
+u a non-envied agent with X_u = {f}, and e an unallocated good not valued by u. Then X with X_u replaced by {f, e} is a
+partial EFX₀ allocation.
+*Proof.* Let k ≠ u. If k values both f and e, then (linear, f ≠ e) k is the only such agent; removing either good leaves
+one good worth ≤ v_k(X_k) (f because u is non-envied, e by (3)), so k does not strongly envy {f, e}. If k values only
+f, v_k({f, e}) = v_k(f) ≤ v_k(X_u) ≤ v_k(X_k); if only e, v_k({f, e}) = v_k(e) ≤ v_k(X_k) by (3). u's value rises. ∎
+
+So a non-envied agent holding one good can absorb any one leftover good even when it is not safe for its valuers: the
+EFX₀ slack of a two-good bundle replaces envy-freeness. Absorbers and Lemma PARK combine (`brute.py: park_slack`):
+leftover goods go to common safe vertices or alone to distinct non-envied one-good holders that take nothing else.
+In a state where every leftover good has only envied valuers (as at the Pareto-maxima of §4), the proof of Lemma PARK
+goes through unchanged for the park sinks, and Lemma SLACK covers each absorber (its final bundle is {f, e}).
+
+## 4. The linear case (girth ≥ 3; triangles allowed)
+
+The hard family H_t of `k4/c4.md` §7 is linear (`results/pq_structure.log`), so this case is not a side issue.
+
+**Theorem T1** (PROVED; LSS's proof, §1.2). If the hypergraph is linear and some agent lies on no 3-cycle, an EFX₀
+allocation exists, for monotone valuations. *Proof.* Run LSS with that agent as 0. Obs. 2.1 holds everywhere. Obs. 2.2
+is used only in Lemma 3.4 for neighbours i, j of 0 lying outside each other's edge to 0: if j ∈ X_i = {e}, then
+(0, f_i, i, e, j, f_j, 0) is a 3-cycle through 0 (f_i ≠ f_j since j ∉ f_i; e ≠ f_i by assumption; e ≠ f_j since else 0, i
+would share e and f_i). Every other step is as in the paper. ∎
+*Corollary.* A linear counterexample to TARGET₄, if one exists, has every agent on a 3-cycle and (ledger T3) a good with
+≥ 3 valuers. The code agrees: on linear instances every failure of the faithful algorithm is G4 (§2).
+
+**Facts at a Pareto-maximum** (PROVED; linear, additive; the proofs also work for monotone valuations). Let X be a
+partial EFX₀ orientation whose value vector is Pareto-maximal among all partial EFX₀ orientations (one exists: there
+are finitely many). Write E / N for the envied / non-envied agents, L for the unallocated goods.
+- **F1** (3) holds. Else j takes {e} alone: a one-good bundle is never strongly envied.
+- **F2** Every good of L has only envied valuers. Else a non-envied valuer j adds e: a valuer k of e values X_j ∪ {e}
+  at v_k(e) ≤ v_k(X_k) (by linearity k values nothing in X_j), any other k at v_k(X_j) ≤ v_k(X_k).
+- **F3** Every envied agent holds exactly one good. (True in any EFX₀ orientation: an envier k values at most one good g
+  of X_i, so with |X_i| ≥ 2, removing another good leaves g, which k envies.)
+- **F4** (4) holds for every agent. Else i takes U_i; any k ≠ i values at most one good of it, worth ≤ v_k(X_k) by F1.
+- **F5** The envy graph is acyclic. Else rotate the bundles along a cycle (each holder of a single good envied by its
+  predecessor, F3): the same bundles, everyone on the cycle better off.
+- **F6** Every non-envied agent r with an envy path r = r_q → ⋯ → r_0 = i to an envied agent i is safe for i:
+  r ∈ S_i. Else (F4) r holds the good h shared with i and v_i({h} ∪ U_i) > v_i(x_i). Move every r_{t+1} to {x_{r_t}}
+  and i to {h} ∪ U_i, releasing r's other goods. A valuer k ≠ i of h values i's new bundle at v_k(h), which is
+  ≤ v_k(X_r) ≤ v_k(X_k) if k ≠ r and < r's new value if k = r; a valuer of a good of U_i values it at most v_k(X_k) by F1.
+  Everyone on the path is better off and nobody is worse off: a Pareto improvement.
+
+**Conjecture L** (CONJECTURE). In every linear instance, every Pareto-maximal partial EFX₀ orientation can be
+completed by park sinks and slack absorbers (§3). By F2 and Lemmas PARK and SLACK, Conjecture L implies that **every
+linear additive instance has an EFX₀ allocation**, in particular TARGET₄ for linear instances, with no degree bound.
+The weaker form PL (every such state has some EFX₀ completion) has the same consequence.
+
+Evidence (`k4/girth/linear_pm.py`, brute force over all partial orientations, random linear hypergraphs with a 3-cycle,
+n ≤ 7, ≤ 10 goods, edge sizes 2–4, degree ≤ 4 or ≤ 6; logs `results/k4_girth_linear_pm_*.log`, see the status block for
+the final counts): no counterexample to Conjecture L or PL. Every Pareto-maximum satisfies PARK except a handful (each one
+inspected is a graph: every good has two valuers), each completed by one slack absorber. "Every Pareto-maximum satisfies PARK" is false
+(`attempts/k4-girth-every-pm-parks.md`, n = 4, m = 5, CFKS's second scenario). The maxima of welfare, Nash welfare, Pareto + most non-envied and Pareto + welfare
+satisfied PARK on every instance; leximin maxima did on all 20,012 instances of a first degree-4 run, but one fails
+PARK at degree ≤ 6 (`results/k4_girth_linear_pm_d6.log`). And PL is discriminating: it fails on the non-linear GM4 instances (`k4/girth/brute.py: check_PL`), as the
+repository's P1 refutation says it must.
+
+**What a proof of Conjecture L needs.** Take e ∈ L with no common safe vertex. By F6 every non-envied ancestor r of a
+valuer i of e is safe for i but dangerous for another valuer j: it holds the good f_{rj} with v_j(f_{rj} ∪ U_j) >
+v_j(x_j). With degree ≤ 4, a valuer j of e has at most two dangerous agents (one for each good of j other than x_j and
+a good of U_j). CFKS's repair of this configuration (their Lemma 11, second scenario) makes i worse off, so it is not
+available at a Pareto-maximum; the data say a slack absorber always exists instead. A non-envied dangerous ancestor
+can hold two goods (`claimA` runs), so the absorber is not simply r.
+
+## 5. Short cycles of length 2 (agents sharing two goods)
+
+Every k = 4 core contains 2-cycles. There the LSS architecture itself fails, not just a lemma
+(`attempts/k4-girth-sink-2cycles.md`): on the n = 2 core with two equal agents (8, 5, 4, 2) the only EFX₀ allocation
+gives an envied agent two goods, which no run of Algorithm 2 followed by any sink, with or without the G5 repair,
+produces. On GM4-E some Pareto-maximal partial EFX₀ orientation has no completion. With the flexible sink and the G5
+repair, the architecture succeeds on 162/168 screen instances and 1,270/1,275 sampled n = 3 core profiles (for some
+vertex 0), failing mostly at n = 2. So any extension to 2-cycles must let an envied agent hold two goods that its envier
+both values (EFX₀ slack, as in Lemma SLACK), and must not be value-monotone (P1, `k4/sdc.md` §1).
