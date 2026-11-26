@@ -17,7 +17,7 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
 
 | statement | k = 4 | smallest k found to fail | instance | checks |
 |---|---|---|---|---|
-| OC₁ / OC: from every order, one improving chain, then a completion (one absorber / free) | holds on all data | **5** | PW5, n = 5, m = 9 | SAT, full brute force, written proof |
+| OC₁ / OC: from every order, one improving chain, then a completion (one absorber / free) | holds on all data | **5** | PW5, n = 5, m = 9; smaller: n = 4, m = 8 found by `proof/kgen-n3` | SAT, full brute force, written proof (the n = 4 one re-checked here by both checkers) |
 | the same from R1-priority orders, or from the neediest-first order (need = y₁ − y₂ − y₃) | holds | **6** | PWR1-6, NF2-6 (n = 6, m = 11) | 2 SAT encodings, SAT-free enumeration |
 | c chains from every order | c = 1 holds | **2c + 3** (c = 1, 2, 3) | PW(c + 2, c + 1, 2c + 2) | c = 1 as above; c = 2, 3 by ocseq.py only |
 | one round of disjoint chains, then one absorber | holds | none found (k ≤ 10) | | |
@@ -26,12 +26,51 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
 | conclusion of Theorem DT (and DT⁺, Lemma GDT) | proved | **5** | DT5, n = 2, m = 6 | SAT, brute force |
 | conclusion of Theorem DT₁ | proved | **5** | DT1-5, n = 3, m = 8 | SAT, brute force |
 
-**What a k = 4 proof must use** (§2):
-- *Pool leftover ≤ 1.* A dangerous frozen agent repairs itself by taking a danger pair of its junk. Afterwards at
-  most k − 3 = 1 of its junk goods is left, and a single good is never a danger set.
-- So the frozen agents that share that junk satisfy GDT's (G4) after one chain. At k = 5 two goods are left, they
-  still form a danger set, and one chain cannot repair a second agent.
-- Theorem DT's (F4) and DT₁'s (G3) are the same count at the level of one agent.
+### Lemma PL (pool leftover): where k ≤ 4 enters
+
+*Setting.*
+- Y = SD(π) is the serial-dictatorship outcome of some order, and J is the set of goods nobody picked (the junk).
+- x is an agent with pick y_x and |R_x| ≤ k.
+- H ⊆ J ∩ R_x satisfies v_x(H) > v_x(y_x): a junk danger set of x, used by x as its improving set. That is H₀ when x
+  heads a chain, or H_i when x is a middle agent.
+
+**Lemma PL.**
+- **(a)** |H| ≥ 2, and x values at most k − 3 goods of J ∖ H.
+- **(b)** If |R_x| ≤ 4, x values at most one good of J ∖ H, and that good is worth at most v_x(y_x) < v_x(H). So once
+  x's base contains H, no subset of J ∖ H is a danger set of x.
+- **(c)** Let z be any agent with a pick y_z, |R_z| ≤ 4, that values at least two goods of H. Then z values at most
+  one good of J ∖ H, worth at most v_z(y_z). So while z holds y_z, no subset of J ∖ H is a danger set of z.
+  - In particular, when the frozen agents share their junk (J ∩ R_z = J ∩ R_x, the pool of PW), one repair of any one
+    of them leaves no agent of the pool with a junk danger set.
+- **(d)** For every k ≥ 5 the bound k − 3 ≥ 2 of (a) is attained, and it is fatal for OC₁. In PW5 (k = 5, §1), after
+  any repair of x₁ by a pair of the pool D, the other frozen agents x₂ and x₃ still value the two remaining goods of D.
+  Those are worth 13 or more against their pick 10, and one chain cannot repair a second agent (§1, case |S| = 2).
+
+*Proof.*
+1. *Junk is worth at most the pick (property (I2) of k4/sdc.md §2).* Every g ∈ J ∩ R_x was still available when x
+   picked, and x took its favourite available good, so v_x(g) ≤ v_x(y_x). The inequality is strict for strict values;
+   with ties broken by index it is ≤, which is all that is used below.
+2. *(a).* A single good of J is therefore not worth more than y_x, so |H| ≥ 2. Since y_x ∉ J,
+   |J ∩ R_x| ≤ |R_x| − 1 ≤ k − 1, hence |(J ∩ R_x) ∖ H| ≤ k − 1 − 2 = k − 3.
+3. *(b).* With |R_x| ≤ 4 the bound of (a) is 1. By step 1 that one good is worth at most v_x(y_x) < v_x(H). A danger
+   set against a holding that contains H must be worth more than v_x(H), so none exists inside J ∖ H.
+4. *(c).* As in step 2, |J ∩ R_z| ≤ |R_z| − 1 ≤ 3. Two of these goods lie in H, so at most one lies in J ∖ H, and by
+   step 1 (for z) it is worth at most v_z(y_z). A danger set of z against a holding containing y_z must be worth more
+   than v_z(y_z); a set of at most one such good is not.
+5. *(d).* This is the computation of §1. ∎
+
+*What PL does not cover.* These are the parts a k = 4 proof still has to handle; the data say a suitable chain
+exists (Lemma candidate K4-G4, §2).
+- An agent z that shares only one good with H keeps up to two junk goods, which can be a danger set.
+- PL speaks of the old junk J ∖ H only. The chain's end releases its old base into the junk, and PL says nothing
+  about it.
+- Danger sets that use another agent's pick, like {y_j, d} inside a three-good bundle of j. In the n = 4, k = 5
+  counterexample of `proof/kgen-n3` (verified here, `kgen_n4_check.log`) such a set appears: agent 3 values agent
+  1's pick 2 at 53 and the junk good 3 at 4, and 53 + 4 > 54.
+
+*The same count elsewhere.* Theorem DT's (F4) ({a, g} robust for a 4-good agent, except the d case) and Theorem
+DT₁'s step 3 (R_x ∖ H₀ is a_x plus at most one good) are the one-agent forms of (a) with k = 4. §3 shows that both
+fail at k = 5.
 
 Details:
 
@@ -106,6 +145,15 @@ Details:
     k = 4 must use k ≤ 4 somewhere or solve that problem, and no k-sensitive mechanism for MD has been found.
 
 ## 1. OC and OC₁ fail at k = 5: the instance PW5
+
+*A smaller counterexample* was found independently by the general-k session (`attempts/kgen-n4-oc1.md` on branch
+`claude/kgen-n3`, read here).
+- It has n = 4, m = 8, k = 5, strict values; its failing order is (0, 3, 1, 2).
+- Re-checked here (`kgen_n4_check.log`): ocsat and brute.py agree on all 6 starts, there are 127 EFX₀ allocations,
+  and two chains repair it.
+- Every fifth good is needed: dropping any one good of either five-good agent restores OC₁ and OC from every order.
+- Its mechanism is not PW's shared pool. Agent 3's three junk goods are pairwise dangerous only because of a good it
+  values at 4, which also forms a danger set with agent 1's pick (Lemma PL, "what PL does not cover").
 
 **Instance** (`k4/ksens/refute_oc_k5.py`; values in brackets):
 | agent | goods (value) |
@@ -184,9 +232,8 @@ agent with k relevant goods has a pool of at most k − 1, so the leftover is at
 k = 5.** That is the property a k = 4 proof of OC₁ can use. OC₁ is false for every k ≥ 5 (PW5 is k-limited for
 every k ≥ 5), so any proof of it must use k ≤ 4 somewhere.
 
-> **(K4-leftover)** At k = 4, after a dangerous frozen agent x takes a danger pair H₀ ⊆ J (two of its three
-> lower goods), at most one good of x's pool is left, and a single good is never a danger set (Lemma 2(c) of
-> `k4/sdc.md`). So the repaired agent's pool needs no further protection.
+This count is **Lemma PL** (statement and proof at the top of this note). By (b) and (c), at k = 4 the repaired agent,
+and every agent that shares two goods of its repair set, has no junk danger set left.
 
 **Lemma candidate (K4-G4)** (`k4/ksens/g4_after.py`). Call a frozen agent (one whose base someone wants) *dangerous*
 when it values the junk above its base.

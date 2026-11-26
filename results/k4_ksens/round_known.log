@@ -1,0 +1,4 @@
+$ one round of vertex-disjoint chains (ocsat multi) on every start of the known counterexamples
+kgen-n4 k 5 n 4 m 8 {'starts': 6, 'need a chain (A=1)': 5, 'one chain fails (A=1)': 1, 'one round fails (A=1)': 0, 'one round fails (free)': 0}
+PW5 k 5 n 5 m 9 {'starts': 19, 'need a chain (A=1)': 7, 'one chain fails (A=1)': 1, 'one round fails (A=1)': 0, 'one round fails (free)': 0}
+PW436 k 7 n 7 m 13 {'starts': 229, 'need a chain (A=1)': 85, 'one chain fails (A=1)': 13, 'one round fails (A=1)': 0, 'one round fails (free)': 0}
