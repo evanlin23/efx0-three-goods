@@ -483,8 +483,8 @@ X_o = {Y_o} or {Y_o, g} with g ∈ J.
 This is the S\* form of LB₄ʳ's `EFX.LB4R.output_none_of_omega`. Two consequences:
 - **Hard starts are dense.** At a hard start every unfrozen owner has ω_o ≥ 2. With f frozen agents and every agent
   holding a pick, that reads |J| ≥ n − f + 1, i.e. m ≥ 2n − f + 1.
-  - Since Σ_i |R_i| ≥ 2m − (number of private goods) in a core, a hard start with small f needs nearly every agent to
-    have four goods.
+  - In a core, Σ_i |R_i| ≥ 2m − π, with π the number of private goods, and Σ_i |R_i| = 4n − n₃, with n₃ the number of
+    3-good agents. So n₃ ≤ 2f − 2 + π at a hard start where every agent picks.
   - In the data, the least ω over unfrozen owners at the hard starts runs from 2 to 8 (`omega_sstar.log`; e.g. screen
     2: 30, 3: 112, 4: 57, 5: 27, 6: 6, 7: 2).
 - **The chain must beat a large excess.** Unlike LB⁺ at k = 3, where the bad case has excess one, one chain here
