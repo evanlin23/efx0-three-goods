@@ -137,7 +137,7 @@ coordinator has checked them; "verified" marks the ones checked.
     4-limited instance, with one correction (G1), and the abstract's unproved "source" step is proved.
   - For EFX₀ the algorithm breaks at three stages, the matching stage even at k = 3.
 - **k = 3 then lift** (`claude/k4-k3-oc1`, PR #96):
-  - Theorem R1C, written: OC₁ at k = 3 for every R1-compatible order.
+  - Theorem R1C, written: OC₁ at k = 3 for every R1-compatible order, in DE's core case (every agent values exactly three goods, strictly balanced; dead goods allowed), not every 3-limited instance (referee scope note, 21:58).
   - Theorem candidate OT, exhaustive on every core with n ≤ 5 (2.7·10⁸ starts) and at n = 6, m ∈ {10, 11}.
 - **Girth** (`claude/k4-girth`):
   - Theorem T1, written: EFX₀ for linear instances with an agent on no 3-cycle, monotone valuations.
