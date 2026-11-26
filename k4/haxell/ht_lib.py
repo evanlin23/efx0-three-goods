@@ -285,6 +285,20 @@ def instances(src):
     if src in ('ext', 'ttc', 'bcore', 'pwgrid'):
         import ext_instances as X
         return {'ext': X.named, 'ttc': X.ttc, 'bcore': X.bcore, 'pwgrid': X.pw_grid}[src]()
+    if src.startswith('gent:'):
+        # gent:N:SEED:n:m:k:VMAX  random instances with values drawn with replacement from 1..VMAX (ties allowed)
+        _, N, seed, n, m, k, vmax = src.split(':')
+        N, n, m, k, vmax = int(N), int(n), int(m), int(k), int(vmax)
+        if n * min(k, m) < m:
+            raise ValueError('gent: n agents with k goods each cannot cover m goods')
+        rng = random.Random(int(seed)); items = []
+        while len(items) < N:
+            sets = [sorted(rng.sample(range(m), min(k, m))) for _ in range(n)]
+            if len(set().union(*map(set, sets))) < m:
+                continue
+            vals = [[rng.randint(1, vmax) for _ in s] for s in sets]
+            items.append(('t%d' % len(items), sets, vals, m))
+        return items
     if src.startswith('gen:'):
         # gen:N:SEED:n:m:k  random instances: every agent values k random goods (k = m: every good), every good
         # valued by someone, values distinct integers per agent from 1..40

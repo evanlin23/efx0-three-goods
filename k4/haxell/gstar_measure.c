@@ -144,7 +144,7 @@ int main(int argc, char **argv) {
             Phi ps[NPHI]; for (int K = 0; K < NPHI; K++) phi(K, own, &ps[K]);
             int done[NPHI]; memset(done, 0, sizeof done); int left = NPHI;
             neighbours(own); int c1 = nb_count; long first[4096]; memcpy(first, nb_buf, sizeof(long) * c1);
-            for (int pass = 0; pass < 2 && left; pass++)
+            for (int pass = 0; pass < (RADIUS < 2 ? RADIUS : 2) && left; pass++)
                 for (int t = 0; t < c1 && left; t++) {
                     int c2 = 1; long cand[4096];
                     if (pass == 0) cand[0] = first[t];

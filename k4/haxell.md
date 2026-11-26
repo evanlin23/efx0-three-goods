@@ -487,10 +487,21 @@ moves (`measure_rot2_*.log`):
 | random k = 4 cores, n ≤ 3 | 538 | 200,436 | 375 | **0** | **0** | 42 | 71 |
 | PW5, PW4, RD5, RD4, KG8, KG7 | 6 | 81,635 | 1,034 | **0** | **0** | 27 | 11 |
 | the 39 TTC cores (n = 5, m = 9) | 39 | 2,217,110 | 10,030 | **0** | **0** | 0 | 14 |
+| the hard profiles logged in `results/k4_sdc/*.log`, n ≤ 5 | 1,520 | 4,668,436 | 26,454 | **0** | **0** | 761 | |
 | random n = 2, m = 5, every good relevant | 3,000 | 231,398 | 11 | **0** | **0** | 5 | 11 |
 | random n = 3, m = 6, k = 3 / 4 | 800 / 800 | 593,535 | 269 / 741 | **0** | **0** | 158 / 100 | 15 / 53 |
 | random n = 3, m = 7, k = 5 | 600 | 509,542 | 556 | **0** | **0** | 66 | 54 |
 | random n = 4, m = 7, k = 4 / 7 | 300 / 300 | 1,453,133 | 4,151 / 5,116 | **0** | **0** | 108 / 6 | 91 / 5,116 |
+
+*Two moves are needed.* With single moves (rotations included), welfare is stuck on 185 screen states and on the two
+trap states of the n = 2 trap of §3.4 (`gstar_measure.c` with RADIUS = 1), so the radius 2 in W cannot be lowered.
+
+*Ties.* Strict increase is what plateaus could break, so W was also run with ties:
+- every n = 2 instance with k ≤ 3, m ≤ 6 and values in {1, 2, 3, 5, 8, 13}: 472,860 instances, 31,887,837 partial EFX₀
+  states, no stuck state for welfare or leximin (`n2w_grid_k3.log`);
+- the k ≤ 4 grid: `n2w_grid_k4.log`;
+- 4,400 random instances with n = 3, 4, k = 3, 4 and values drawn with replacement from 1–3 or 1–4: 4,190,328 states,
+  no stuck state (`measure_rot2_gent_*.log`).
 
 An independent Python implementation (`ht_lemma_w.py`: its own move generator, rotations included, raw EFX₀ test)
 agrees: no stuck state for welfare on 56 screen instances (11,753 states, `lemma_w_py_screen.log`), and exactly the
