@@ -473,6 +473,13 @@ coordinator's branch, not read here; replay `k4/sdc/oc1_core_cex_verify.py` ther
 - Agents 4 and 5 get no pick and value only picked goods. Every holder of a good they value must stay alone, so the
   six junk goods go to agents 4 and 5, which makes two absorbers.
 
+- Over all 720 orders (`k4/sdind/verify_blt_max.py`, `results/k4_sdind/verify_blt_max.log`), OC₁ fails on exactly
+  24, as the coordinator reports. In all 24 the picks match only 4 agents, while the maximum matching of the
+  agent/relevant-good graph has ν = 6.
+  - The 340 orders whose picks have size 6 all satisfy OC₁: 290 with no chain, 50 with one.
+  - The 356 orders with 5 picks also satisfy it.
+  - This agrees with the coordinator's proposed restriction to maximum-matching orders (OC₁^max), on this instance.
+
 Bearing on this note:
 - AB₁ and PR presuppose a one-absorber completion, so B< is not a counterexample to them.
 - The chain part (§4) is about OC₁, which B< refutes in general. The coordinator states that the K4.MC2 class (no
