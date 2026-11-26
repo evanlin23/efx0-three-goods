@@ -695,7 +695,7 @@ read here). Random surveys: 12,000 instances at k = 5–8. Climbs: 786 climb rou
 k = 4 searches: 80,000 instances.
 
 **Unrestricted k: every agent values every good** (`general_rounds.py`, `general_rounds_*.log`, `rd5_full.log`,
-`kgen_n3_rounds.log`; in progress).
+`kgen_n3_rounds.log`).
 - *Setting.* Strict positive values, so EFX₀ and EFX coincide here; every start is a maximum-matching start.
 - *n = 3 is the decisive case.* An EFX allocation is known to exist for three additive agents: Chaudhury–Garg–Mehlhorn,
   arXiv 2002.05119, as recorded in `proofs/citations.md` item 5, not read in this workstream. So a start needing three
@@ -710,4 +710,13 @@ k = 4 searches: 80,000 instances.
 - *Climbs maximizing the rounds needed* (values only; one-absorber completion; `general_rounds_climb_*.log`):
   n = 3, m = 7 (18 runs, stopped) and m = 8 (9 runs, stopped); n = 4, m = 7 (10 runs). No start needs two rounds:
   the climbs top out at starts needing one round.
-- Random profiles and a climb at n = 5, m = 9 from PW5 lifted are still running (outside the repository; to be added).
+- *Random profiles* (`general_rounds_rand.log`): no start needs more than one round, one-absorber or free.
+  - n = 3, m = 5–9: 400 profiles, 629 starts; 104 need one round with one absorber, 12 with the free completion.
+  - n = 4, m = 6–8: 80 profiles, 194 starts; 11 need one round.
+- *Climb at n = 5, m = 9 from PW5 lifted* (3 runs, 60 steps each; `general_rounds_climb_n5m9_pw5.log`): every run
+  ends at starts needing one round, 7 to 10 of them. None needs two.
+- *Conclusion at unrestricted k:* within n ≤ 5, m ≤ 9 no start needs even two rounds. So the decisive n = 3 test does
+  not refute RD². It only shows that with every good valued, one round has sufficed everywhere tested, at n = 3
+  every start.
+  - Compare k = 5 with zeros (RD5), where two rounds are needed.
+  - Zero values make the problem harder for rounds, not easier.

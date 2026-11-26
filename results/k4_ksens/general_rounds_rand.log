@@ -1,1 +1,16 @@
-$ python3 k4/ksens/general_rounds.py rand 3 5 9 1500 2
+$ python3 k4/ksens/general_rounds.py rand 3 5 9 400 2
+A=1 starts 629
+A=1 starts needing 0 rounds 525
+A=1 starts needing 1 rounds 104
+A=None starts 629
+A=None starts needing 0 rounds 617
+A=None starts needing 1 rounds 12
+time 93 s
+$ python3 k4/ksens/general_rounds.py rand 4 6 8 80 3
+A=1 starts 194
+A=1 starts needing 0 rounds 183
+A=1 starts needing 1 rounds 11
+A=None starts 194
+A=None starts needing 0 rounds 183
+A=None starts needing 1 rounds 11
+time 16 s
