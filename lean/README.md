@@ -255,6 +255,17 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   **`EFX.OC1Max.target4_of_conjOC1perf`: Conjecture OC₁ᵖᵉʳᶠ (`ConjOC1perf`, a `Prop`, over all strict instances with
   at most four relevant goods per agent) ⟹ TARGET₄**, without the core reduction (K4.TIE's perturbation, MAXSD, RED);
   also for any move relation (`ConjOC1perfWith`, `target4_of_conjOC1perfWith`).
+- `EFX/OCVariants.lean`: the variants of OC₁^max after its refutation (ledger K4.SDC.OCVAR.LEAN): at most `k` sequential
+  moves (`EFX.OC1Max.movesUpTo`), OC_k^max and OC₂^max (`ConjOCkmax`, `ConjOC2max`) and their perfect-start forms
+  (`ConjOCkperf`, `ConjOC2perf`), the ∃-order form (`ConjOC1exmax`, `ConjOC1exmaxWith`); **each implies TARGET₄**
+  (`EFX.OC1Max.target4_of_conjOC2max`, `target4_of_conjOCkmax`, `target4_of_conjOC2perf`, `target4_of_conjOCkperf`,
+  `target4_of_conjOC1exmax`); monotonicity (`conjOCkmax_of_conjOC1max`, `conjOC1exmaxWith_of_conjOC1maxWith`).
+- `EFX/OC1MaxCex.lean`: **OC₁^max is false** (`EFX.OC1Max.not_conjOC1max`, ledger K4.SDC.OC1MAX), and so is OC₁ at
+  perfect starts (`EFX.OC1Max.not_conjOC1perf`): instance 1 of `k4/sdc.md` §31 (n = 4, m = 7, order 0, 3, 2, 1), a
+  strict connected k = 4 core whose picks match every agent, and neither the picks nor any one-move state has an EFX₀
+  completion. `EFX.OC1Max.move_local` (any instance): after one move every agent keeps its base or strictly gains with
+  a base inside its old base, one other base and the junk; a kernel computation over all 4⁷ allocations, in 16 chunks
+  (`decide +kernel`, about two and a half minutes), shows that no allocation meeting that test is EFX₀.
 - `EFX/OC1MaxExamples.lean`: non-vacuity of `EFX/OC1Max.lean` by `decide`, on the MC2 core of `k4/sdc.md` §31 where OC
   fails: the failing start (index order) is not a maximum-matching start (`EFX.OC1Max.Ex.not_maximum_MC2`); the order
   3, 4, 0, 1, 2 picks a maximum matching with a one-absorber completion (`EFX.OC1Max.Ex.maximum_ordM`,
