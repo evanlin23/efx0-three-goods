@@ -54,3 +54,6 @@ python3 oc1_false_check.py > $L/oc1_false_check.log
 (python3 k4/sdc/oc_absorb.py cores:k4_certs_5_n4_3.json.gz 200 94; python3 k4/sdc/oc_absorb.py cores:k4_certs_5_n4_4.json.gz 200 95; python3 k4/sdc/oc_absorb.py cores:k4_certs_5_pure.json.gz 200 96) > $L/oc1_n5_many4.log   # run from the repository root
 python3 oc1_core_profiles.py 2000 7 > $L/oc1_core_profiles.log   # plus the OC check appended by hand (see the log)
 python3 core_climb.py 48 400 10 71 6 7 > $L/core_climb_6_7.log
+python3 core_climb.py 12 400 24 81 5 5 free seeded > $L/core_climb_oc_seeded.log
+python3 core_climb.py 6 400 30 91 5 5 seeded seed=oc1_mc2_candidate.json mc2 > $L/core_climb_mc2_seeded.log
+python3 core_climb.py 36 400 12 92 6 8 mc2 > $L/core_climb_mc2_6_8.log

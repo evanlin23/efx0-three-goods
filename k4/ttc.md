@@ -17,6 +17,11 @@ open and still implies TARGET₄.
 - *A natural MC2-class version of the counterexample* (`oc1_mc2_candidate.json`) satisfies OC₁: a chain takes a danger
   pair plus a shared good of another pair.
 - *Climbs inside the class* (`core_climb.py … mc2`) are running.
+- *OC near the counterexample* (`core_climb.py 12 400 24 81 5 5 free seeded`, `core_climb_oc_seeded.log`): this climb
+  uses the free completion and stays inside cores, starting from the n = 5 counterexample. It ran 12 runs × 400 steps
+  and OC never failed; 6 runs reach a start with a single repairing move.
+- *The unrestricted core climb at n = 6–7* (`core_climb_6_7.log`) was stopped after 35 of 48 runs with no OC₁ failure.
+  Random starts did not find the special profiles.
 - *OC₁ᵖ* (absorbers counted only among agents holding a base) holds on every counterexample.
 - *Not affected:* OC, MD, SD-C and TARGET₄.
 
