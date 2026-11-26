@@ -24,6 +24,8 @@ of agents and goods (`EFX.Lists`), as in `EFX.NOF`.
 - The moves of `k4/sdc.md` §29 (`IsAddition`, `IsChain`, `IsRing`, `OneMove`), the one-absorber completion
   (`OneAbsorber`) and **Conjecture OC₁^max** (`ConjOC1max`, a `Prop`); **`target4_of_conjOC1max`: OC₁^max ⟹
   TARGET₄**, through MAXSD, K4.CORE and K4.TIE (`EFX.target4_of_strict_cores`).
+- OC₁^max is false (`EFX/OC1MaxCex.lean`, `EFX.OC1Max.not_conjOC1max`); the frame is parametrized by the move
+  relation (`ConjOC1maxWith`), and `EFX/OCVariants.lean` applies it to the surviving variants.
 -/
 
 set_option autoImplicit false
@@ -840,7 +842,9 @@ def ConjOC1maxWith (A G : Type) [DecidableEq A] [DecidableEq G] (Move : MoveRel 
 
 /-- **Conjecture OC₁^max** (K4.SDC.OC1MAX, `k4/sdc.md` §31): in every strict connected k = 4 core, for every
 serial-dictatorship order whose picks form a maximum matching, the picks have a one-absorber EFX₀ completion, or
-one improving move (an addition, a chain or a ring, `OneMove`) gives bases that have one. A `Prop`, not an axiom. -/
+one improving move (an addition, a chain or a ring, `OneMove`) gives bases that have one. A `Prop`, not an axiom.
+It is **false** (`EFX.OC1Max.not_conjOC1max` in `EFX/OC1MaxCex.lean`); the implication `target4_of_conjOC1max`
+stands, and the variants that survive are in `EFX/OCVariants.lean`. -/
 def ConjOC1max (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ConjOC1maxWith A G (fun v agents goods => OneMove v agents goods)
 

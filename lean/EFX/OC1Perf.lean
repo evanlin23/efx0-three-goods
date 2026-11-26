@@ -49,7 +49,8 @@ def ConjOC1perfWith (A G : Type) [DecidableEq A] [DecidableEq G] (Move : MoveRel
         ∃ B', Move v agents goods (pickBase v goods ord) B' ∧ OneAbsorber v agents goods B'
 
 /-- **Conjecture OC₁ᵖᵉʳᶠ** (`k4/sdc.md` §31, Lemma RED): `ConjOC1perfWith` for the moves of `k4/sdc.md` §29 (an
-addition, a chain or a ring). A `Prop`, not an axiom. -/
+addition, a chain or a ring). A `Prop`, not an axiom. It is **false** (`EFX.OC1Max.not_conjOC1perf` in
+`EFX/OC1MaxCex.lean`); the implication `target4_of_conjOC1perf` stands. -/
 def ConjOC1perf (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ConjOC1perfWith A G (fun v agents goods => OneMove v agents goods)
 
