@@ -41,7 +41,29 @@ it checks completeness by orbit counting against `check4.labeled_count` and pair
 
 ## 3. Runs and results
 
-(in progress)
+### 3.1 The six graphical all-P4 cores of K4.MC7: certified directly (no literature)
+
+K4.MC7 (`k4/MINCEX.md` §8) proves TARGET₄ for β ≤ 4 *provided* the 6 graphical all-P4 cores with n = 6, m = 15
+(288⁶ ≈ 5.7·10¹⁴ profiles each) have an EFX₀ allocation under every strict profile; it covered them by the multigraph
+theorem of Afshinmehr et al., since the scan2 CEGAR ran an hour on one without finishing. The ordinal CEGAR
+certifies all six, every strict profile, full EFX₀:
+
+| core (order of `k4/MINCEX.md` §8) | time | allocations found | clauses (with automorphism images) | automorphisms |
+|---|---|---|---|---|
+| MC7-1 | 3.0 s | 118 | 770 | 8 |
+| MC7-2 | 7.0 s | 69 | 2,250 | 48 |
+| MC7-3 | 2.2 s | 68 | 1,568 | 32 |
+| MC7-4 (prism) | 2.8 s | 64 | 768 | 12 |
+| MC7-5 (K₃,₃) | 1.6 s | 11 | 792 | 72 |
+| MC7-6 | 3.5 s | 113 | 1,340 | 16 |
+
+Certificate `results/k4_hunt/named_mc7.json.gz` (log `results/k4_hunt/named_mc7.log`); independent check
+`results/k4_hunt/check_named_mc7.log` (`check.py --engine=sat2`: own types, raw definition, Glucose; 6/6 covered).
+Two independent encodings agree on the UNSAT (CaDiCaL on comparison bits; Glucose on raw unsafe sets). check4_fast's
+DFS loop, fed with the same rows, did not finish within ~20 min on the first core (the same wall as before).
+**So K4.MC7 holds without the multigraph theorem: TARGET₄ for β ≤ 4 rests only on the repository's own
+certificates** (for the coordinator to integrate; the ledger is not edited here). Not checked: the D2 shape (not
+needed for TARGET₄; the allocations are arbitrary EFX₀ allocations).
 
 ## Reproduce
 

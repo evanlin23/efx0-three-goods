@@ -1,0 +1,8 @@
+command: python3 k4/hunt/named.py mc7 --limit=3600
+MC7-1: n=6 m=15 certified in 3.0s, {'allocs': 118, 'clauses': 770, 'bits': 266, 'auts': 8}
+MC7-2: n=6 m=15 certified in 7.0s, {'allocs': 69, 'clauses': 2250, 'bits': 276, 'auts': 48}
+MC7-3: n=6 m=15 certified in 2.2s, {'allocs': 68, 'clauses': 1568, 'bits': 254, 'auts': 32}
+MC7-4: n=6 m=15 certified in 2.8s, {'allocs': 64, 'clauses': 768, 'bits': 258, 'auts': 12}
+MC7-5: n=6 m=15 certified in 1.6s, {'allocs': 11, 'clauses': 792, 'bits': 258, 'auts': 72}
+MC7-6: n=6 m=15 certified in 3.5s, {'allocs': 113, 'clauses': 1340, 'bits': 268, 'auts': 16}
+wrote /home/user/efx0-three-goods/results/k4_hunt/named_mc7.json.gz

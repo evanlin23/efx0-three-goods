@@ -12,8 +12,9 @@ For each certificate file (results/k4_hunt/*.json.gz; parts of one class may be 
      j != i and h in X_j. Checked as UNSAT of: one type per agent (totalizer encoding) and, per allocation, "some agent
      has a type under which it is unsafe" (one-hot literals), with Glucose 4 (cegar.py uses CaDiCaL and comparison
      bits). Default engine: k4/check4_fast.py's C coverage loop fed with this file's types and safety rows
-     (--engine=dfs); --sat-sample=K also runs the SAT engine on K random cores.
-Usage: check.py FILE [FILE ...] [--jobs=J] [--expect=N] [--engine=dfs|sat] [--sat-sample=K]   (exit status nonzero on any failure)"""
+     (--engine=dfs); --engine=sat2 groups the one-hot literals by distinct unsafe set per (agent, other bundle),
+     which scales to all-4-good n = 6 cores; --sat-sample=K also runs the plain one-hot SAT engine on K random cores.
+Usage: check.py FILE [FILE ...] [--jobs=J] [--expect=N] [--engine=dfs|sat|sat2] [--sat-sample=K]   (exit status nonzero on any failure)"""
 import sys, os, gzip, json, itertools, math
 from functools import lru_cache
 from multiprocessing import Pool
@@ -148,8 +149,54 @@ def covered_dfs(task):
     return ok, '' if ok else 'not covered (dfs)'
 
 
+def covered_sat2(task):
+    """SAT coverage with one variable per distinct unsafe set: for agent i and another bundle B of allocation X, the
+    types t with v_t(X_i) < v_t(B) - v_t(h) for some h in B (raw definition) form a set W; u_W <-> OR_{t in W} z_t; the
+    allocation adds the clause OR over (i, B) of u_W. Equivalent to the one-hot clause, grouped (Glucose 4)."""
+    n, m, sets, allocs = task[:4]
+    D = domains(sets, m)
+    V = []
+    for i, S in enumerate(sets):
+        Vi = np.zeros((len(D[i]), m), dtype=np.int64)
+        for p, g in enumerate(S): Vi[:, g] = [v[p] for v in D[i]]
+        V.append(Vi)
+    vp = IDPool()
+    z = [[vp.id((i, t)) for t in range(len(D[i]))] for i in range(n)]
+    s = Glucose4()
+    for zi in z:
+        for c in CardEnc.equals(zi, 1, vpool=vp, encoding=EncType.totalizer).clauses: s.add_clause(c)
+    group = {}
+    for A in allocs:
+        if len(A) != m or any(not (0 <= j < n) for j in A): return False, 'malformed allocation'
+        cl = []
+        for i in range(n):
+            own = V[i][:, [g for g in range(m) if A[g] == i]].sum(axis=1)
+            for j in range(n):
+                Bj = [g for g in range(m) if A[g] == j]
+                if j == i or not Bj: continue
+                tot = V[i][:, Bj].sum(axis=1)
+                w = np.zeros(len(D[i]), dtype=bool)
+                for h in Bj: w |= own < tot - V[i][:, h]
+                if not w.any(): continue
+                key = (i, np.packbits(w).tobytes())
+                if key not in group:
+                    u = group[key] = vp.id(('u',) + key)
+                    ts = np.flatnonzero(w)
+                    s.add_clause([-u] + [z[i][t] for t in ts])
+                    for t in ts: s.add_clause([-z[i][t], u])
+                cl.append(group[key])
+        s.add_clause(cl)
+    ok = not s.solve()
+    msg = ''
+    if ok is False:
+        mod = set(l for l in s.get_model() if l > 0)
+        msg = f'uncovered profile {[D[i][t] for i in range(n) for t in range(len(D[i])) if z[i][t] in mod]}'
+    s.delete()
+    return ok, msg
+
+
 def covered(task):
-    return covered_sat(task) if task[4] == 'sat' else covered_dfs(task)
+    return {'sat': covered_sat, 'sat2': covered_sat2, 'dfs': covered_dfs}[task[4]](task)
 
 
 def graph(n, m, sets):
@@ -182,16 +229,28 @@ def main():
     bad = 0
     if len(types(3)) != 6 or len(types(4)) != 288: print('TYPE COUNT MISMATCH'); bad += 1
     datas = [json.load(gzip.open(f, 'rt')) for f in files]
-    n, m, n4 = datas[0]['n'], datas[0]['m'], datas[0]['n4']
-    cores = [c for d in datas for c in d['cores']]
-    if any((d['n'], d['m'], d['n4']) != (n, m, n4) for d in datas): print('MIXED CLASSES'); sys.exit(1)
-    st = {}
-    for c in cores: st[c['status']] = st.get(c['status'], 0) + 1
-    print(f'n={n} m={m} n4={n4}: {len(cores)} cores in {len(files)} file(s); status {st}', flush=True)
-    for c in cores:
-        if not is_core(n, m, c['sets'], n4): print('NOT A CORE OF THE CLASS', c['sets']); bad += 1
-    whole = all(d['selection'] == 'all' for d in datas) and sorted(tuple(d['part']) for d in datas) == \
-        [(i, datas[0]['part'][1]) for i in range(datas[0]['part'][1])]
+    named = all('set' in d for d in datas)
+    if named:                                     # named cores: per-core n, m; no class, no completeness
+        cores = [c for d in datas for c in d['cores']]
+        n = m = n4 = None
+        for c in cores:
+            if not is_core(c['n'], c['m'], c['sets'], sum(len(S) == 4 for S in c['sets'])) or len(c['sets']) != c['n']:
+                print('NOT A CORE', c['name'], c['sets']); bad += 1
+        whole = False
+        print(f"named cores: {len(cores)} in {len(files)} file(s); status "
+              f"{dict((k, sum(c['status'] == k for c in cores)) for k in set(c['status'] for c in cores))}", flush=True)
+    else:
+        n, m, n4 = datas[0]['n'], datas[0]['m'], datas[0]['n4']
+        cores = [c for d in datas for c in d['cores']]
+        if any((d['n'], d['m'], d['n4']) != (n, m, n4) for d in datas): print('MIXED CLASSES'); sys.exit(1)
+        for c in cores: c['n'], c['m'] = n, m
+        st = {}
+        for c in cores: st[c['status']] = st.get(c['status'], 0) + 1
+        print(f'n={n} m={m} n4={n4}: {len(cores)} cores in {len(files)} file(s); status {st}', flush=True)
+        for c in cores:
+            if not is_core(n, m, c['sets'], n4): print('NOT A CORE OF THE CLASS', c['sets']); bad += 1
+        whole = all(d['selection'] == 'all' for d in datas) and sorted(tuple(d['part']) for d in datas) == \
+            [(i, datas[0]['part'][1]) for i in range(datas[0]['part'][1])]
     with Pool(jobs) as pool:
         if whole:
             auts = pool.map(aut, [(n, m, c['sets']) for c in cores], chunksize=16)
@@ -214,9 +273,9 @@ def main():
             print(f'isomorphic pairs: {dup}', flush=True)
             bad += dup > 0
         else:
-            print('selection is a sample or not every part: completeness not checked', flush=True)
+            print('named cores, a sample, or not every part: completeness not checked', flush=True)
         eng = opt.get('engine', 'dfs')
-        todo = [(n, m, c['sets'], c['allocs'], eng) for c in cores if c['status'] == 'certified']
+        todo = [(c['n'], c['m'], c['sets'], c['allocs'], eng) for c in cores if c['status'] == 'certified']
         res = pool.map(covered, todo, chunksize=8)
     nc = 0
     for (t, (ok, msg)) in zip(todo, res):

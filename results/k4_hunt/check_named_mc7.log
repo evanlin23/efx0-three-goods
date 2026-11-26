@@ -1,0 +1,6 @@
+command: python3 k4/hunt/check.py results/k4_hunt/named_mc7.json.gz --jobs=1 --engine=sat2
+types: d=3: 6, d=4: 288
+named cores: 6 in 1 file(s); status {'certified': 6}
+named cores, a sample, or not every part: completeness not checked
+coverage (sat2): 6/6 certified cores covered (raw EFX₀, every strict profile)
+RESULT: OK
