@@ -16,5 +16,5 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 3 | Theorem T1, Lemmas SINK, PARK, SLACK | `claude/k4-girth` | `girth.md` | **CORRECT** (PARK: state N ≠ ∅; F2 is additive-only) |
 | 4 | Lemma 2 / 2*, Corollary 2.1, Theorem F1_1 | `claude/k4-oc1-hall` | `oc1_hall.md` | in progress |
 | 5 | CH-A, CH-B (charity) | `claude/kgen-charity` | `charity.md` | **CORRECT** |
-| 6 | PW5 (OC₁ fails at k = 5) | `claude/k4-ksens` | `ksens.md` | pending |
+| 6 | PW5 (OC₁ fails at k = 5) | `claude/k4-ksens` | `ksens.md` | **CORRECT** (t = 0 aside incomplete, not needed) |
 | 7 | Lemmas D, F, S, U, BOTH-TP, Corollary TP | `claude/k4-sd-induct` | `sd_induct.md` | pending |
