@@ -63,3 +63,4 @@ python3 core_climb.py 24 400 12 102 6 7 mc2 r1 > $L/core_climb_mc2_r1_6_7.log
 python3 core_climb.py 6 300 20 111 5 5 seeded seed=oc1_core_candidate.json max > $L/core_climb_max_seeded_core.log
 python3 core_climb.py 6 300 20 112 5 5 seeded seed=oc1_mc2_counterexample.json mc2 max > $L/core_climb_max_seeded_mc2.log
 python3 core_climb.py 24 300 12 113 6 7 max > $L/core_climb_max_6_7.log
+python3 max_hand.py > $L/max_hand.log

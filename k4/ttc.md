@@ -24,9 +24,19 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
 - the coordinator's **OC₁^max** (orders whose picks form a maximum matching; such orders exist and are computable, by
   Abraham et al. Thm 1 and §6 Lemma 1, §1).
 
-**Climbs** (`core_climb.py`):
-- *R1-priority orders in the MC2 class, seeded from this core:* 6 × 400 steps, 40 orders each, no failure.
-- *Still running:* R1-priority at n = 6–7; OC₁^max seeded from both n = 5 cores; OC₁^max random at n = 6–7.
+**Climbs against the surviving forms** (`core_climb.py`; a failure is a hard start with no repairing move):
+
+| climb | class | runs × steps | failures | fewest repairing moves reached |
+|---|---|---|---|---|
+| R1-priority orders, seeded from the MC2 counterexample (`core_climb_mc2_r1_seeded.log`) | MC2, n = 5 | 6 × 400 (40 orders) | 0 | 3 |
+| R1-priority orders, random (`core_climb_mc2_r1_6_7.log`) | MC2, n = 6–7 | running | 0 so far | 1 |
+| OC₁^max, seeded from the two-private n = 5 core (`core_climb_max_seeded_core.log`) | strict cores, n = 5 | 6 × 300 | 0 | 2 |
+| OC₁^max, seeded from the MC2 counterexample (`core_climb_max_seeded_mc2.log`) | MC2, n = 5 | 6 × 300 | 0 | 2 |
+| OC₁^max, random (`core_climb_max_6_7.log`) | strict cores, n = 6–7 | running | 0 so far | 1 |
+
+*A hand-made attack on OC₁^max* (`max_hand.py`, `max_hand.log`) gives each pickless agent of the MC2 counterexample
+a private fourth good of the lowest value. Then the failing order matches every agent while the yᵢ stay wanted. On
+all 60 MC2-class variants, OC₁^max, OC^max and the R1-priority forms hold.
 
 ## Status at the end of burst 4: OC₁ fails on strict cores, but only with agents holding two private goods (superseded: an MC2-class counterexample to OC and OC₁ followed in burst 5)
 
