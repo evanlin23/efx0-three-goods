@@ -14,8 +14,9 @@ An allocation of indivisible goods is EFX₀ if no agent envies another agent's 
 from it, including a good the envious agent values at zero. For additive valuations, EFX₀ is known to exist when every
 agent values at most three goods; the case of four goods (TARGET₄) is open, and the case of arbitrarily many goods is
 the open EFX problem for additive valuations. We collect the results of a campaign on four goods. We prove the
-following. (i) For two agents, from either serial-dictatorship order, the picks are kept with one absorbing agent, or
-one improving chain repairs them; the allocation is computed in $O(m \log m)$ at every number of relevant goods. Bare
+following. (i) For two agents, from either serial-dictatorship order, either both picks are kept (the first agent may add
+unpicked goods it values, and the other agent absorbs the rest), or one improving chain from the first agent to the
+second repairs them; the allocation is computed in $O(m \log m)$ at every number of relevant goods. Bare
 existence for two agents is due to Plaut and Roughgarden; the shape is new. (ii) A charity bound that does not depend
 on the number of agents: if every agent values at most $k$ goods and every good has at most $d$ valuers, some partial
 EFX₀ allocation with strong charity leaves at most $\min\{(k-2)d-1,\ R(d)\}$ goods out, where $R(d) < ed$ is the rainbow
@@ -123,7 +124,7 @@ The results below are of four kinds.
    (§5) and the matching lemmas (§6).
 2. *Counterexamples* (§7). They show which forms of "one chain suffices" are false. They also locate the role of
    $k \le 4$: after one repair, a frozen agent has at most $k - 3$ unpicked goods left, which is at most one at
-   $k = 4$ (Lemma 7.4).
+   $k = 4$ (Lemma 7.5).
 3. *Evidence* for the surviving conjectures, collected in the $k$-ladder table (§8).
 4. *Two side results*: one chain suffices at $k = 3$ from orders compatible with the peeling priority (§9), and a
    complete proof of a reconstruction of Viswanathan and Mehta's ordinary-EFX algorithm (§10).
@@ -155,7 +156,7 @@ Only works that some session read are cited as such; anything else is marked [un
 The repository already contained the following before the campaign (ledger rows named).
 - *TARGET$_3$* (row T). It is proved by construction LB⁺ (`proofs/lb_last_step.md`) and by Draft and Exchange (DE)
   [Lin-k3s], both checked in Lean.
-- *Reductions to cores at $k = 4$* (rows K4.CORE, K4.TIE). They are proved and checked in Lean; §2.4 states them.
+- *Reductions to cores at $k = 4$* (rows K4.CORE, K4.TIE). They are proved and checked in Lean; §2.2 states them.
 - *Certified cases of TARGET₄* (rows K4.R5, K4.R5c, K4.R5d, K4.R5p, K4.R6a, K4.MC6, K4.MC7). Every connected strict
   $k = 4$ core with $n \le 5$ and a 4-good agent, or with $n = 6$ and exactly one 4-good agent, has an EFX₀
   allocation, and so does every instance whose core components have cyclomatic number at most 4. These are
@@ -367,7 +368,7 @@ which each keeps its top good, and the first agent holds no good it values at 0.
   for Corollary 3.5 (`k4/referee/lit_n2.md`; searched no further than [PR]). The new content is the shape, the Tops
   Lemma, and the $O(m \log m)$ construction.
 - *Additions are needed* (unrefereed, [E]). With chains of length $t \ge 1$ only, OC₁ fails already for two agents
-  (`kgen/n3.md` §3.2: 2 of 8,000 random starts, at $k \ge 7$). On the curated $k = 4$ sets no start needs an addition
+  (`kgen/n3.md` §3.2–§3.3: 2 of 8,000 random two-agent starts; the smallest $k$ found is 7). On the curated $k = 4$ sets no start needs an addition
   (`kgen/n3.md` §3.3).
 - *Not refereed, recorded for orientation.* Lemma P of `kgen/n3.md` §2 peels a top-heavy pick in OC₁ form, and with
   Theorem 3.4 gives OC₁ at $n = 3$ for every order with a top-heavy pick (Corollary 3 of §11 there). Proposition H of
@@ -467,11 +468,11 @@ Every vertex has an out-edge of every colour, by Step 3 and since every agent li
 After at most $\sigma \le |P|$ steps a vertex repeats, and the closed segment is a rainbow cycle. With the previous
 bound this gives part 2.
 
-*Step 5 (part 3: the rainbow cycle reduction with $\varepsilon = 0$).* Fix for every agent $a$ a source $\sigma(a)$
-with $a \in C(\sigma(a))$, and for every $s \in S$, $g \in P$ one option, with champion $c(s, g)$. Let
-$Q_g = \{c(s, g) : s \in S\}$. Build the $|P|$-partite digraph $\Gamma$ with parts $V_g = \{g\} \times \sigma(Q_g)$ and,
-for $g \ne h$, an edge $(g, s_1) \to (h, s_2)$ if and only if $\sigma(c(s_2, g)) = s_1$.
-- Every vertex $(h, s_2)$ has the in-neighbour $(g, \sigma(c(s_2, g))) \in V_g$ in every other part $V_g$.
+*Step 5 (part 3: the rainbow cycle reduction with $\varepsilon = 0$).* Fix for every agent $a$ a source $\rho(a)$
+with $a \in C(\rho(a))$, and for every $s \in S$, $g \in P$ one option, with champion $c(s, g)$. Let
+$Q_g = \{c(s, g) : s \in S\}$. Build the $|P|$-partite digraph $\Gamma$ with parts $V_g = \{g\} \times \rho(Q_g)$ and,
+for $g \ne h$, an edge $(g, s_1) \to (h, s_2)$ if and only if $\rho(c(s_2, g)) = s_1$.
+- Every vertex $(h, s_2)$ has the in-neighbour $(g, \rho(c(s_2, g))) \in V_g$ in every other part $V_g$.
 - $\Gamma$ has no rainbow cycle (a cycle meeting each part at most once). A cycle
   $(g_1, s_1) \to \dots \to (g_\ell, s_\ell) \to (g_1, s_1)$ with distinct $g$'s means $c(s_{i+1}, g_i) \in C(s_i)$,
   that is, edges $s_{i+1} \to_{g_i} s_i$ of $D$. That is a closed walk of $D$ with distinct colours. Between two visits
@@ -524,8 +525,8 @@ path-disjointness that CKMS's precondition does not state. This text does so. Th
 ### 4.3 Disconnected instances
 
 **Proposition 4.4 (DU; `kgen/charity.md` §3) [R].** If the incidence graph has at least two connected components that
-contain agents, the instance has a complete EFX₀ allocation. (Additive valuations; also monotone ones, with $R_i$
-the support of $v_i$.)
+contain agents, the instance has a complete EFX₀ allocation. (Additive valuations. The source also states it for
+monotone valuations with $R_i$ the support of $v_i$; that extension was not refereed.)
 
 *Proof.* Let $I_1, \dots, I_c$ ($c \ge 2$) be the components with agents, and $J_0$ the goods valued by nobody. In each
 $I_r$ take a stopping state $X^r$ (Theorem 4.1, Step 2): EFX₀ inside $I_r$, with strong charity
@@ -794,7 +795,7 @@ The lemma also holds with ties when SD breaks ties by index: perturbing values b
 neither the SD outcomes nor the incidence graph (referee's remark). The existence of a maximum Pareto-optimal matching
 is [ACMM], Theorem 1.
 
-**Lemma 6.3 (MAX; `k4/oc1_hall.md` §19; also Lemma T5 of `k4/ttc.md` §13) [R, L].** Let the picks $Y$ form a maximum
+**Lemma 6.3 (MAX; `k4/oc1_hall.md` §19; also Lemma T5 of `k4/ttc.md` §13) [R; part 1 also L].** Let the picks $Y$ form a maximum
 matching, and let $S$ be the set of agents reachable from a pickless agent by an alternating path
 $u, g_1, j_1, g_2, j_2, \dots$, where $u$ has no pick, $g_l \in R_{j_{l-1}}$ (with $j_0 = u$) is a pick, and $j_l$ is
 its holder. Then:
@@ -813,11 +814,12 @@ same proof).
 
 ### 6.4 What the lemmas give
 
-**Corollary 6.4 (OC₁^max implies TARGET₄) [R, L].** If OC₁^max (§2.5) holds, every 4-limited additive instance has a
+**Corollary 6.4 (OC₁^max implies TARGET₄) [L].** If OC₁^max (§2.5) holds, every 4-limited additive instance has a
 complete EFX₀ allocation.
 
 *Proof.* By §2.2, it suffices to treat strict connected $k = 4$ cores. By Lemma 6.2 one of their orders picks a
-maximum matching, and OC₁^max gives an EFX₀ completion for it. ∎
+maximum matching, and OC₁^max gives an EFX₀ completion for it. ∎ (The referee checked Lemmas 6.1–6.2; the corollary
+itself is the machine-checked composition below.)
 
 The Lean statement is `EFX.OC1Max.target4_of_conjOC1max`, with `EFX.OC1Max.ConjOC1max` a hypothesis (a `Prop`), not
 an axiom. It runs through Lemma 6.2 and the machine-checked reductions K4.CORE and K4.TIE.
@@ -937,8 +939,8 @@ agents 3 and 4. Each agent $i \le 2$ has a *danger triangle*: any two of its thr
 
 A bundle of three or more goods may hold at most one good of each triangle. The shared goods 6, 7, 8 pairwise share a
 triangle. Splitting six goods between two bundles puts two of them together. If their bundle has three or more goods,
-it is threatened. If it is exactly that pair, the other bundle has four goods and contains two goods of a triangle
-($\{3, 8\}$, $\{4, 6\}$ or $\{5, 7\}$ for the three pairs). ∎
+it is threatened. If it is exactly that pair, the other bundle has four goods and contains two goods of a triangle:
+$\{3, 8\}$, $\{5, 7\}$ or $\{4, 6\}$ when the pair is $\{6, 7\}$, $\{6, 8\}$ or $\{7, 8\}$. ∎
 
 **Mechanism, and what survives.** In both instances the failing picks match $\nu - 2$ agents, while $\nu = n$. The
 pickless agents value only picks, freeze the pick holders, and are left as the only junk receivers, which cannot hold
@@ -1734,3 +1736,52 @@ draft. Statements and proofs are in the files named.
   - Lemmas P0 and P1′ ("exactly when" needs strict values) and Proposition HDT.
 - *Facts F1–F6 at Pareto maxima of linear instances* (`k4/girth.md` §4): CORRECT for additive valuations. F2 fails for
   monotone valuations (counterexample in `k4/referee/girth.md` §3).
+
+## Appendix C. Reproducing the instance checks
+
+`paper/campaign/check_instances.py` was written by this write-up's session from the draft's printed tables and the
+definitions of §2.4. It uses only the Python standard library, imports nothing from the repository and uses no SAT.
+Run it from the repository root:
+
+```
+python3 paper/campaign/check_instances.py          # about 25 s; log: paper/campaign/check_instances.log
+python3 paper/campaign/check_instances.py quick    # skips the slowest instance (B<)
+```
+
+*Method.* For each instance it enumerates every complete EFX₀ allocation once, by backtracking over the goods. The
+prune is sound: it cuts a branch only when some threat toward a bundle already exceeds what the threatened agent could
+still reach, and threats never decrease as bundles grow. A state reached from the picks by one move has an EFX₀
+completion $X$ if and only if $X$ meets the move's placement and gain conditions with the largest possible junk sets
+$H$ (Lemma R of `kgen/n3.md` §2). Enlarging $H$ by goods its receiver values keeps every gain and only shrinks the goods
+outside the bases, so this is exact for the free and for the one-absorber completion. Every "no state one move
+reaches" claim is therefore a check over that list of allocations, with moves as in §2.4: additions, chains whose
+passed bases are nonempty, and rings. Rounds and two sequential chains (RD5 only) are enumerated directly.
+
+*What it checks* (35 checks; all pass, `paper/campaign/check_instances.log`):
+- **Theorem 3.4**: the construction exactly as transcribed in §3.2, on 40,000 random two-agent starts. These come
+  from 20,000 instances with ties, zeros and sparse values, $m \le 12$, in both orders. Every output is a complete
+  EFX₀ allocation of shape (A1), (B) or (D).
+- **Proposition 4.5**: the printed state is EFX₀ with strong charity and total 198. Welfare maximality is not
+  re-checked here; the referee's exact search covers it.
+- **Propositions 7.1 and 7.2**: the core conditions where claimed, that $X$ is partial EFX₀, that the left-out good
+  fits nowhere, no dominating partial EFX₀ allocation over all $5^7$ partial allocations, and exactly 15 (resp. 58)
+  complete EFX₀ allocations, each below $X$ for some agent.
+- **Proposition 7.3**:
+  - (a): B< and B> are strict connected cores, and order $0..5$ gives the printed picks. Of the 1,138 complete EFX₀
+    allocations of B<, none completes the picks or a one-move state with one absorber. OC₁ fails for exactly 24 of
+    the 720 orders. The printed free completion is EFX₀.
+  - (b): the core is strict, connected and in the MC2 class. None of its 198 EFX₀ allocations completes the picks
+    or a one-move state, even freely. The 12 failing orders and the 50 maximum-matching orders are as stated.
+- **The Remark of §7.2**: no one-absorber completion at the picks or after any addition, chain or ring. A chain that
+  passes an empty base repairs it. Under the free completion the picks extend.
+- **Proposition 7.4**: 186 complete EFX₀ allocations, as the referee found. No free completion at the picks or after
+  any addition, chain or ring. The failing start comes from exactly 12 orders, and $\nu = 5$.
+- **Proposition 7.7**: the picks and the junk; no completion after one move; no completion after one round (free
+  completion, rounds enumerated as sets of disjoint chains and additions); two sequential chains repair with one
+  absorber.
+- **§8**: the $k = 3$ "no repair" instance (the picks do not extend; one chain repairs) and DT5 (distinct tops, no
+  one-absorber completion of the picks, a free one exists).
+
+While this appendix was written, the check found one inaccuracy in an earlier wording of the Remark of §7.2. That
+wording said the instance needs one chain under the free completion; in fact its picks extend freely. The text has
+been corrected.

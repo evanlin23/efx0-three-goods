@@ -33,3 +33,6 @@ Prop 7.3(a) (B<): strict connected core; order 0..5 picks (3, 9, 1, 6, -, -) OK 
 Prop 7.3(a) (B<): the printed allocation is EFX0               OK 
 Prop 7.3(a) (B<): no one-absorber completion at the picks or after one move OK (1138 EFX0 allocations)
 Prop 7.3(a) (B>): the same                                     OK 
+Prop 7.3(a) (B<): OC1 fails for exactly 24 of the 720 orders   OK (24)
+# 0 failed; 24 s
+exit=0
