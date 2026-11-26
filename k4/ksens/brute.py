@@ -60,8 +60,9 @@ class Inst:
                 g = sorted(av, key=lambda h: (-self.V[i, h], h))[0]; Y[i] = g; left.discard(g)
         return Y
 
-    def chains(self, base):
-        """every state (tuple of new bases, as frozensets) one improving chain reaches, t >= 0"""
+    def chains(self, base, empty_pass=True):
+        """every state (tuple of new bases, as frozensets) one improving chain reaches, t >= 0; empty_pass=False: the
+        official rule of k4/sdc.md §29 (an agent never hands on an empty base)"""
         n = self.n; J = [g for g in range(self.m) if not any(g in b for b in base)]
         R = [set(g for g in s if self.V[i, g] > 0) for i, s in enumerate(self.sets)]
         out = set()
@@ -82,7 +83,7 @@ class Inst:
                 out.add(tuple(st.get(i, frozenset(base[i])) for i in range(n)))
             # extend: y takes base[xt] plus H from J
             for y in range(n):
-                if y in path: continue
+                if y in path or (not empty_pass and not base[xt]): continue
                 free = [g for g in J if g not in used and g in R[y]]
                 for r in range(0, len(free) + 1):
                     for H in itertools.combinations(free, r):

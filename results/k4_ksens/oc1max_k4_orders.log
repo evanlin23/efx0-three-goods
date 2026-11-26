@@ -1,0 +1,13 @@
+$ python3 k4/ksens/oc1max_k4_orders.py
+#1 every order: OC1 fails on 1 of 7 starts (the failing picks [1, 2, 5, 6]); R1-priority: 1 of 5 fail; neediest-first: {"need2": "ok", "need2 R1": "ok", "need1": "ok", "need1 R1": "ok", "needall": "ok", "needall R1": "ok"}
+#2 every order: OC1 fails on 1 of 6 starts (the failing picks [4, 5, 6, 2]); R1-priority: 1 of 6 fail; neediest-first: {"need2": "ok", "need2 R1": "ok", "need1": "ok", "need1 R1": "ok", "needall": "ok", "needall R1": "ok"}
+#3 every order: OC1 fails on 1 of 7 starts (the failing picks [6, 5, 3, 4]); R1-priority: 1 of 7 fail; neediest-first: {"need2": "ok", "need2 R1": "ok", "need1": "ok", "need1 R1": "ok", "needall": "ok", "needall R1": "ok"}
+#4 every order: OC1 fails on 1 of 10 starts (the failing picks [6, 4, 5, 3]); R1-priority: 1 of 8 fail; neediest-first: {"need2": "ok", "need2 R1": "ok", "need1": "ok", "need1 R1": "ok", "needall": "ok", "needall R1": "ok"}
+#5 every order: OC1 fails on 1 of 6 starts (the failing picks [1, 3, 4, 5]); R1-priority: 1 of 6 fail; neediest-first: {"need2": "ok", "need2 R1": "ok", "need1": "ok", "need1 R1": "ok", "needall": "ok", "needall R1": "ok"}
+#6 every order: OC1 fails on 1 of 7 starts (the failing picks [1, 5, 4, 6]); R1-priority: 1 of 5 fail; neediest-first: {"need2": "ok", "need2 R1": "ok", "need1": "ok", "need1 R1": "ok", "needall": "ok", "needall R1": "ok"}
+#7 every order: OC1 fails on 1 of 8 starts (the failing picks [2, 4, 6, 3]); R1-priority: 1 of 8 fail; neediest-first: {"need2": "ok", "need2 R1": "ok", "need1": "ok", "need1 R1": "ok", "needall": "ok", "needall R1": "ok"}
+#8 every order: OC1 fails on 1 of 6 starts (the failing picks [4, 6, 5, 2]); R1-priority: 1 of 6 fail; neediest-first: {"need2": "ok", "need2 R1": "ok", "need1": "ok", "need1 R1": "ok", "needall": "ok", "needall R1": "ok"}
+#9 every order: OC1 fails on 1 of 7 starts (the failing picks [0, 2, 6, 5]); R1-priority: 1 of 5 fail; neediest-first: {"need2": "ok", "need2 R1": "ok", "need1": "ok", "need1 R1": "ok", "needall": "ok", "needall R1": "ok"}
+#10 every order: OC1 fails on 1 of 6 starts (the failing picks [2, 7, 3, 6]); R1-priority: 1 of 4 fail; neediest-first: {"need2": "ok", "need2 R1": "ok", "need1": "ok", "need1 R1": "ok", "needall": "ok", "needall R1": "ok"}
+#11 every order: OC1 fails on 1 of 6 starts (the failing picks [2, 5, 6, 7]); R1-priority: 1 of 6 fail; neediest-first: {"need2": "ok", "need2 R1": "ok", "need1": "ok", "need1 R1": "ok", "needall": "ok", "needall R1": "ok"}
+instances where some R1-priority start fails: 11 of 11; where some neediest-first start fails: 0 of 11
