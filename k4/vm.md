@@ -664,7 +664,8 @@ So Lemma MAX (Hall session) does not apply to V-M starts in general. Yet VM1 wit
 whose V-M matchings are all non-maximum, the kind of start at which OC₁ fails.
 
 Neither completion shape contains the other. VM1's no-move completion uses rotation, which moves the picks:
-- on the named set, 93 of 192 successful matchings need it, and of the 99 that keep the picks, 39 are one-absorber;
+- on the named set, 93 of the 231 successful matchings need it, and of the 138 that keep the picks, 39 are
+  one-absorber;
 - on the screen set the figures are 54 of 403, and 337 of 349.
 
 I have not run OC₁^max's checker on V-M starts.
