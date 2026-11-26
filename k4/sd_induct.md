@@ -170,8 +170,8 @@ v_o(a) ≤ v_o(X_o ∖ g). After f takes g:
    v_o(Y_j) > v_o(X_o ∖ g).
 
 (Without the unfrozen hypothesis, item 2 becomes "threatens only the agents i with v_i(a) > v_i(X_i)". Item 3 then
-fails, because those wanters are old agents. Fix found by the referee, `k4/referee/sd_induct.md` on
-`claude/k4-referee`.)
+fails, because those wanters are old agents. The referee session reported this fix in `k4/referee/sd_induct.md` on
+`claude/k4-referee`; that file was not read here, and the gap was confirmed directly.)
 
 *Proof.*
 1. Write R_f = {a, b, c, d} with values a ≥ b ≥ c ≥ d (missing goods worth 0). X_o contains at most one good of R_f
