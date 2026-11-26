@@ -6,6 +6,22 @@ picks have a one-absorber completion, or after one improving chain the bases hav
 v_i(g) > v_i(B_i). F = frozen agents (single-good holders whose good someone wants). D ⊆ F = dangerous agents (frozen
 agents that value a junk good). W_x = the agents that want x's good.
 
+**Conjecture OC₁-ED\* (agreed with k4/ttc.md; K4.OCH.ED).** For every serial-dictatorship order of every instance
+in which every agent values at most four goods:
+- **(a)** the picks have a one-absorber completion; or
+- **(b)** some *ED chain* leaves an S\* completion owned by x₀ or x_t.
+
+An ED chain is an improving chain x₀, x₁, …, x_t in which:
+- x₀ is dangerous (frozen, and values a junk good), and takes H₀ ⊆ J ∪ B_{x_t};
+- every middle agent x_i (0 < i < t) takes exactly its predecessor's base B_{x_{i−1}}, which it wants;
+- only the head x_t may add junk: it takes B_{x_{t−1}} ∪ H_t.
+
+An S\* completion gives at most one junk good to each single-good holder that nobody wants, nothing to frozen agents
+and multi-good holders, and the rest to the owner.
+
+OC₁-ED\* implies OC₁, hence MD and TARGET₄. Lemma 2\* (§6) is the exact invariant for (b). Evidence: §14, all 2,308
+one-absorber-hard starts with n ≤ 5, every order. The TTC session's data are in `k4/ttc.md` §8–§10.
+
 Code: `k4/oc1_hall/` (`ohlib.py` is shared). Logs: `results/k4_oc1_hall/`. Every check uses the raw EFX₀ definition
 (`ohlib.efx0`), and its own enumeration rather than SAT unless stated. Data sets are those of `k4/sdc`:
 - special: T3, Q2, r4253, r3943;
