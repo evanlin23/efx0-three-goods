@@ -308,7 +308,7 @@ coordinator has checked them; "verified" marks the ones checked.
     on 8,095 instances.
   - At n = 3, "every maximizer" fails, while "some maximizer" (Conjecture T₃) holds on all 2,880 starts per role.
 
-### 2026-11-26 22:13 UTC: PW5 refereed; OC₁^max is false at k = 5 (so it is a k ≤ 4 statement)
+### 2026-11-26 22:10 UTC: PW5 refereed; OC₁^max is false at k = 5 (so it is a k ≤ 4 statement)
 - **Referee, item 6:** PW5 (`claude/k4-ksens`) is **CORRECT**. OC, and hence OC₁, fails at k = 5, and so at every
   k ≥ 5 (`k4/referee/ksens.md`, exhaustive over all 5⁹ allocations).
 - **Coordinator** (`k4/sdc/pw5_max_check.py`, `results/k4_sdc/pw5_max_check.log`). PW5's failing start is a
