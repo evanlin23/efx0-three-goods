@@ -1,4 +1,4 @@
-# OC₁ with chains of at least two agents (t ≥ 1) fails at n = 3, k = 5 (workstream `proof/kgen-n3`)
+# OC₁ with chains of at least two agents (t ≥ 1) fails at n = 2 and at n = 3, k = 5 (workstream `proof/kgen-n3`)
 
 **Idea.** Conjecture OC₁ (k4/sdc.md §29, row K4.SDC.OC1) as written: from every serial-dictatorship order, the picks
 have a one-absorber EFX₀ completion (at most one agent receives two or more goods outside its base), or after one
@@ -38,17 +38,27 @@ Three independent checks agree:
 - k4/sdc's SAT pipeline (`oc_absorb.extends_A` with `de_free.iter_chains`), discarding states in which only one
   agent's base changed.
 
+**Already at n = 2** (`kgen/oc2.py`, which enumerates every chain explicitly):
+- Two agents, m = 7, strict values. Agent 0 values goods 0–6 at (0, 28, 8, 27, 55, 26, 21), agent 1 at
+  (1, 66, 3, 64, 2, 63, 65). Found by `kgen/oc2.py`, then shrunk greedily.
+- Both orders give the picks (4, 1). They have no one-absorber completion, and no t = 1 chain gives one. A t = 0 move
+  does.
+- Of 8,000 random two-agent starts (`results/kgen_n3/oc2_2_4000_3_13.log`), 2,757 need a move. The t ≥ 1 form fails
+  on 2 of them, and the t ≥ 0 form on none.
+
 **How far it reaches.**
 - Of 300 adversarial climbs without a k cap (`results/kgen_n3/climb3_strict_1_300_2000_5_11.log`), 18 end in a
   counterexample to the t ≥ 1 form, with m = 7 to 11 and k = 6 to 11. Some of them fail from all six orders.
 - OC₁ with t ≥ 0 holds on every one of them.
-- With strict values and k ≤ 4, 200 climbs find none (`results/kgen_n3/climb3_strict_k4_3_200_2000_5_12.log`).
-- So at n = 3 the written form fails first at k = 5 among the instances found. Whether it holds at k = 4 for n ≥ 4 is
-  untested: §29's data tested t ≥ 0.
+- With strict values and k ≤ 4, no climb finds one:
+  - 200 free-m climbs, which drifted to m = 5–6 (`results/kgen_n3/climb3_strict_k4_3_200_2000_5_12.log`);
+  - 160 climbs with m fixed in 7–10 (`results/kgen_n3/climb3_strict_k4_fixm_10_160_1500_7_10.log`).
+- So the written form fails at k = 5 (n = 3) and at k = 7 (n = 2) among the instances found. Whether it holds at k = 4
+  is untested for n ≥ 4: §29's data tested t ≥ 0.
 
 **Consequence for the campaign.** State OC₁ with t ≥ 0 moves. That is the conjecture the evidence supports, and it
 survives at n = 3 for every k tested (`kgen/n3.md`). A proof of the t ≥ 1 form cannot exist at k ≥ 5. At k = 4 the
 written form may still hold, but nothing tested so far separates the two forms there.
 
-Reproduce: `python3 attempts/kgen_n3_oc1_strict.py` (last line: `OC1 with t>=1 REFUTED, OC1 with t>=0 holds, all three
-checks agree: True`).
+Reproduce: `python3 attempts/kgen_n3_oc1_strict.py`. The last two lines should read `OC1 with t>=1 REFUTED, OC1 with
+t>=0 holds, all three checks agree: True` (n = 3) and `n = 2: t>=1 REFUTED, t>=0 holds, both checks agree: True`.

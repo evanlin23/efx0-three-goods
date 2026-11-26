@@ -1,0 +1,5 @@
+$ python3 kgen/oc1_t1_k4.py suite
+instances 158
+starts: picks 3530
+starts: t>=1 797
+time 2 s
