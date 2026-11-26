@@ -117,7 +117,7 @@ are from a complete EFX₀ allocation. The answers found are these.
   the next, in which every agent strictly gains.
 - The sharpest surviving conjecture, **OC₁^max** (§11.1), says: from every order whose picks form a maximum matching,
   the picks need at most one improving move, after which one agent absorbs the leftover goods. It implies TARGET₄.
-  That implication is machine-checked (§6.4).
+  That implication is machine-checked (Corollary 6.4).
 
 The results below are of four kinds.
 1. *Theorems that hold for every $k$*: the two-agent shape (§3), the charity bounds (§4), the linear-hypergraph theorem
@@ -812,7 +812,7 @@ holds a pick, since a pickless agent would put the chain into $S$. ∎
 The TTC session proved the same statement independently as Lemma T5 (`k4/referee/ttc_t5.md`: the same lemma with the
 same proof).
 
-### 6.4 What the lemmas give
+### Consequences
 
 **Corollary 6.4 (OC₁^max implies TARGET₄) [L].** If OC₁^max (§2.5) holds, every 4-limited additive instance has a
 complete EFX₀ allocation.
