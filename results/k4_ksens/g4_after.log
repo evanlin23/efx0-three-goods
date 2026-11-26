@@ -1,0 +1,6 @@
+$ python3 k4/ksens/g4_after.py ../../results/k4_ksens/seeds_k4_hard.txt 5
+... with a repairing state leaving no dangerous frozen agent 349
+hard starts 349
+hard starts repaired by one chain 349
+instances 368
+time 14 s

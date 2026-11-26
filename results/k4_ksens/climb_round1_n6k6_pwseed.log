@@ -1,0 +1,1 @@
+$ python3 k4/ksens/climb.py round1 803 6 6 150 15 seeds:/home/user/efx0-three-goods/results/k4_ksens/seeds_pw.txt mmin:9 mmax:15

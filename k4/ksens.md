@@ -228,7 +228,8 @@ which a start extends. Two methods:
 | PW(4, 3, 6) | 7 | 7 | 13 | 3 / 3 |
 | PW(5, 3, 6) | 7 | 8 | 14 | 3 / 3 |
 | PW(5, 4, 7) | 8 | 9 | 16 | 3 / 3 |
-| PW(5, 4, 8) | 9 | 9 | 17 | 4 / (running) |
+| PW(5, 4, 8) | 9 | 9 | 17 | 4 / 4 |
+| PW(6, 4, 8) | 9 | 10 | 18 | 4 / 4 |
 
 (`results/k4_ksens/ladder.log`; the breadth-first search confirms PW(3, 2, 4), PW(4, 2, 4), PW(3, 3, 5) and
 PW(4, 3, 5), `ladder_pw436.log` shows PW(4, 3, 6) needs more than one.)
@@ -318,6 +319,16 @@ k = 5, 6) has not found a failure (`climb_round1_*.log`).
 
 - *PW-shaped instances at k = 4* (`gen.py pw`: frozen agents sharing a pool of three or four, wanters of random
   subsets of their picks, extra agents): no failure of OC₁ (`survey_pw_n5k4.log`, 600 instances at n = 5).
+- *The PW design space at k = 4* (`pw4_search.py`): f frozen agents, each with a 3-subset of a pool D, every pair of
+  it dangerous; 1–3 wanters of random subsets of the picks; sometimes an extra random agent. Natural order plus random
+  orders. No failure of OC₁:
+  - `pw4_search.log`: f ≤ 4, |D| ≤ 5; 60,000 instances, 178,308 starts, 28,175 needing a chain;
+  - `pw4_search_wide.log`: f ≤ 5, |D| ≤ 8 (so pools from disjoint to identical); 20,000 instances, 49,035 starts,
+    10,426 needing a chain.
+
+  Disjoint pools are harmless: a middle repair then threatens nobody, so one chain can repair every frozen agent.
+  Identical pools are PW4, with leftover 1. Partial overlaps leave room to pick pairs that are not danger sets of the
+  other agents.
 - *Climbs against OC₁* from those starts, n = 5 (40 rounds) and n = 6 (30 rounds, all 720 orders per evaluation)
   (`climb_oc1_n5k4_pw.log`, `climb_oc1_n6k4_pw.log`). They bottom out at exactly one repairing state, as the k = 4
   climbs of `k4/sdc.md` §29 did.

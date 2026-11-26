@@ -15,3 +15,4 @@ PW(5,4,7) k 8 n 9 m 16 A 1: least chains 3 {'method': 'ocseq'} 25s
 PW(5,4,8) k 9 n 9 m 17 A None: least chains 4 {'method': 'ocseq'} 142s
 PW(5,4,8) k 9 n 9 m 17 A 1: least chains 4 {'method': 'ocseq'} 287s
 PW(6,4,8) k 9 n 10 m 18 A None: least chains 4 {'method': 'ocseq'} 408s
+PW(6,4,8) k 9 n 10 m 18 A 1: least chains 4 {'method': 'ocseq'} 855s
