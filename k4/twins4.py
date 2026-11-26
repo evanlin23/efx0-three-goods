@@ -119,6 +119,22 @@ def copy_gadgets(cfg):
     return out
 
 
+def drop_gadget(cfg):
+    """Delete g0 from a double edge: e' and f' copy e and f with g0 and g1 both mapped to one gadget good g' (and
+    private goods renamed into I'). Both reduce4.py and check_reductions4.py build a copy's valuation by running
+    through the copied agent's goods in order, a later good overwriting an earlier one with the same image, so e' values
+    g' at e's value of g1: H' is H with g0 deleted (same agents, one good fewer)."""
+    if sorted(cfg.S) != ['e', 'f'] or not {'g0', 'g1'} <= set(cfg.S['e']) & set(cfg.S['f']): return []
+    Sp, Ip = {}, {"g'"}
+    for s in ('e', 'f'):
+        R = cfg.S[s]
+        assert R.index('g0') < R.index('g1')
+        ren = {g: ("g'" if g in ('g0', 'g1') else g + "'" if g in cfg.priv[s] else g) for g in R}
+        Ip |= {ren[g] for g in cfg.priv[s]}
+        Sp[s + "'"] = ('copy', s, ren)
+    return [R4.Reduction(cfg, 'DROP-g0', Sp, Ip, source=True)]
+
+
 def gadget_menu(cfg, nz, jobs):
     """One-agent gadgets h on T + nz gadget goods, T = D (or every subset of D of size 4 - nz when |D| + nz > 4), every
     class of the menu: list of (ok array menu x profiles, goods, menu)."""
@@ -139,7 +155,8 @@ def explore(cfg, jobs=4, zs=(0, 1, 2), verbose=True, copies=False):
     print('configuration %s: agents %s, I = %s, D = %s, %d profiles' % (cfg.name, cfg.S, sorted(cfg.I), sorted(cfg.D),
                                                                        total), flush=True)
     union = np.zeros(cfg.shape, dtype=bool)
-    for red in [R4.Reduction(cfg, 'DEL', {}, set(), source=True)] + (copy_gadgets(cfg) if copies else []):
+    for red in [R4.Reduction(cfg, 'DEL', {}, set(), source=True)] + (copy_gadgets(cfg) if copies else []) + \
+            (drop_gadget(cfg) if '--drop' in sys.argv else []):
         t = time.time()
         ok, _ = R4.run(red, jobs)
         union |= ok
