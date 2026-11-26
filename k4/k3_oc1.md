@@ -11,6 +11,7 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - Lemma 1 (§2): soundness of the simple completion. LB⁺'s Lemma 1 with one slot per terminal, plus an empty-handed owner left with two goods.
   - Lemma 2 (§2): ω = (m − 2n) + e + ν, where e counts the agents holding nothing and ν the needed goods; no DE trade raises ω.
   - Lemma 3 (§2): self-service. Exposed terminals serve themselves; every satisfied state completes.
+  - **Theorem B\* (§3): LB⁺'s rotation for every order.** If a terminal has deficit one and an exposed frozen agent whose removal lowers the hitting number, one DE trade completes. It covers 8,075 of 14,138 exact-hard drafts (n ≤ 6 logs), with no failure on the 11,501 rotations checked.
   - **Theorem R1C (§3): OC₁ at k = 3 for every order whose draft is R1-compatible**, i.e. whose need order has an R1-priority linear extension (this includes every R1-priority order). The proof is LB⁺ with every slot of size one. The rotation is one DE trade, and the completion has one absorber.
 - **Conjectured (no counterexample in any test).** **Theorem candidate OT (§4).** At k = 3, from the draft of every order, the simple completion exists, or it exists after every DE trade (chain or ring) of largest total score. The same holds after every trade of least ω. OT implies OC₁ at k = 3.
   - Exhaustive tests: every connected core with 3 ≤ n ≤ 5 (339 hypergraphs), every ranking profile, every order: 273,724,272 starts. Also n = 4 with one dead good.
@@ -24,7 +25,7 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - "a failing trade merges with a later trade into one better trade". On n = 5 the repairing trade can be disjoint from the failing one.
   - the reverse-lexicographic rule.
   - The score sum and ω are the quantities that work.
-- **Open.** A proof of OT, or of OC₁, for drafts that are not R1-compatible. These are most hard drafts: 13,961 of 18,569. The gap is precise (§6): exposed fresh agents whose need chains meet at one terminal through "cross needs" (R1 violations), and one trade must repair several of them at once (DE's worked example needs two pair arrows).
+- **Open.** A proof of OT, or of OC₁, for drafts covered by neither R1C nor B\*. Those drafts have least deficit 2, or exposed agents that share junk goods (§3, end). The gap is precise (§6): exposed fresh agents whose need chains meet at one terminal through "cross needs" (R1 violations), and one trade must repair several of them at once (DE's worked example needs two pair arrows).
 - **Lifting to k = 4 (§7, `attempts/k4-k3oc1-de-trades.md`).**
   - Lemma 1's soundness, Lemma 2's monotonicity and Lemma 3 lift; for Lemma 3, take the exposed terminal's best junk good.
   - The **first k = 3 fact that fails** is (DE-a): only an agent giving up its top gains from junk. At k = 4 a b-holder gains from {c, d} when c + d > b. On nsw-local-n3m5 (n = 3, m = 5) every repairing chain needs this.
@@ -140,6 +141,46 @@ from J ∪ {Y_r}: a DE chain when {b_k, c_k} ⊆ J, a ring with the pair arrow r
 Check (`lbplus_unit.py` on every hard start of the logs above): the R1-compatible ones (4,608) end in "no owner" after
 upgrades (1,046), owner r (434), or Theorem B's rotation, which completes from every chain (3,128). The other 13,961 hard
 starts are not R1-compatible (`r1compat.py`).
+
+**Theorem B\* (LB⁺'s rotation for every order; proved).** Take any order and its draft after LB's maximal upgrades,
+so (UT) holds. Write h(·) for least hitting sets and π_x = {b_x, c_x} ∩ J. Let t be a terminal with h(E_t) = |T|,
+deficit one for owner t, and let k ∈ E_t satisfy:
+- (i) k is frozen;
+- (ii) a need chain k = x₀, x₁, …, x_s = t exists (s ≥ 1);
+- (iii) no other agent of E_t has the pair {b_k, c_k};
+- (iv) the sets {b_x, c_x} ∖ {b_k, c_k}, for x ∈ E_t ∖ {k}, have a hitting set of at most |T| − 1 goods.
+
+Rotate along the chain: each x_i (i ≥ 1) takes Y_{x_{i−1}}, k takes b_k and c_k, and t's pick (if any) is released.
+The result has a one-absorber completion: with no owner if |J′| ≤ |T′|, with owner k otherwise. The rotation is one
+DE trade: a DE chain if {b_k, c_k} ⊆ J, a ring with the one pair arrow t → k otherwise.
+
+*Proof.* `proofs/lb_last_step.md` §5 with r replaced by t. Blocks are never used.
+- *(a)–(c): the result P′ is a valid pre-allocation.* These steps use only that {b_k, c_k} ⊆ W := J ∪ {Y_t}
+  (k ∈ E_t), that the chain is a need chain, and that Y_t is wanted by nobody (t is a terminal).
+- *(d′): every terminal other than t keeps its slot.* It is off the chain, since x₀, …, x_{s−1} are frozen. Its pick
+  is not in NA ⊇ NA′.
+- *(e): E′_k ⊆ E_t ∖ {k}.*
+  - An off-chain agent with its pair inside J′ ∪ {b_k, c_k} = W is in E_t.
+  - A middle agent's old pick is held by its successor, so it is not in W.
+  - t itself is excluded exactly as r is there: by (I1) if t held c_t or nothing, and by (UT) if it held b_t. Neither
+    uses blocks.
+- *(f): no x ∈ E′_k has {b_x, c_x} = {b_k, c_k}.* This is (iii).
+- *(g): owner k works.* For x ∈ E′_k, π′_x = {b_x, c_x} ∖ {b_k, c_k}, because {b_x, c_x} ⊆ W and J′ = W ∖ {b_k, c_k}.
+  By (iv) these sets have a hitting set H′ with |H′| ≤ |T| − 1 ≤ |T′| (by (d′)) = |T′| − cap′(k). Lemma 1 applies to
+  owner k when |J′| > |T′|. ∎
+
+LB⁺'s Theorem B is the case of t = r with LB⁺'s bad case, where (iv) follows from Theorem A's distinct terminals.
+`thm_bstar.py` (`thm_bstar.log`) runs on the exact-hard drafts of the n ≤ 6 logs: B\* applies to 8,075 of 14,138,
+and all 11,501 of its rotations complete under the exact test.
+
+The other 6,063 drafts are of two kinds.
+- 1,864 have least deficit 2 for every terminal owner.
+- In the rest, every deficit-one owner fails (iv): one rotation leaves the hitting number unchanged (3,228), because
+  exposed agents share junk goods. For an owner other than k those shared goods are dead, since they sit in k's
+  pair. But owner k keeps them, and Theorem B\*'s count uses owner k.
+
+So the open cases need an owner other than the rotated agent, or a rotation through several terminals (DE's worked
+example).
 
 ## 4. The candidate theorem OT for every order
 
