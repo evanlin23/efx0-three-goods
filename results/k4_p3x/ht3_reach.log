@@ -1,0 +1,15 @@
+H3_5 (variant A): reachable states with at most 2 rotations
+  Phase 1 as in the proof (picks, junk, the x's frozen, no upgrade under policies 1 and 2): True; omega = 16 (proof: >= t + 1 = 6)
+  1 rotation(s): 20 new valid states; largest total (slots minus forced agents) -3; proof bound 2d - t = -3
+  2 rotation(s): 271 new valid states; largest total (slots minus forced agents) -1; proof bound 2d - t = -1
+  every structural step of the proof holds on all 292 states: True
+all checks pass
+H3_7 (variant A): reachable states with at most 3 rotations
+  Phase 1 as in the proof (picks, junk, the x's frozen, no upgrade under policies 1 and 2): True; omega = 22 (proof: >= t + 1 = 8)
+  1 rotation(s): 28 new valid states; largest total (slots minus forced agents) -5; proof bound 2d - t = -5
+  2 rotation(s): 501 new valid states; largest total (slots minus forced agents) -3; proof bound 2d - t = -3
+  3 rotation(s): 6518 new valid states; largest total (slots minus forced agents) -1; proof bound 2d - t = -1
+  every structural step of the proof holds on all 7048 states: True
+all checks pass
+5 check4.is_core: True ; c4_chain.core_ok: ok ; max valuers per good: 3
+7 check4.is_core: True ; c4_chain.core_ok: ok ; max valuers per good: 3

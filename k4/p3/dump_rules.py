@@ -55,6 +55,9 @@ def orders(I, rng, K):
 def load(src, opt, rng):
     if src == 'suite': return suite_p3()
     if src == 'screen': return screen_p3()
+    if src == 'suite4':      # every suite instance with a good of four or more valuers, n <= --maxn
+        import p3lib
+        return [I for I in p3lib._suite() if I.p() >= 4 and I.n <= int(opt.get('maxn', 8))]
     if src == 'cores':
         L = []
         for f in core_lists_p3():
