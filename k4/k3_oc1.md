@@ -5,7 +5,7 @@ the hard starts, one per line, readable by every analysis script). Notation: `pa
 and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Everything called evidence is evidence only
 (PROMPT.md §5 rule 3).
 
-## Status (end of burst 2)
+## Status (end of burst 3)
 
 - **Proved.**
   - Lemma 1 (§2): soundness of the simple completion. LB⁺'s Lemma 1 with one slot per terminal, plus an empty-handed owner left with two goods.
@@ -23,16 +23,20 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - "every Pareto-maximal trade works";
   - "every inclusion-maximal trade works";
   - "a failing trade merges with a later trade into one better trade". On n = 5 the repairing trade can be disjoint from the failing one.
-  - the reverse-lexicographic rule.
-  - The score sum and ω are the quantities that work.
+  - the reverse-lexicographic rule;
+  - a naive induction on the last agent.
+  - The score sum and ω are the quantities that work; both fail over §29's general chains even at k = 3, so the proof must use DE's narrow trades.
 - **Open.** A proof of OT, or of OC₁, for drafts covered by neither R1C nor B\*. Those drafts have least deficit 2, or exposed agents that share junk goods (§3, end). The gap is precise (§6): exposed fresh agents whose need chains meet at one terminal through "cross needs" (R1 violations), and one trade must repair several of them at once (DE's worked example needs two pair arrows).
 - **Lifting to k = 4 (§7, `attempts/k4-k3oc1-de-trades.md`).**
   - Lemma 1's soundness, Lemma 2's monotonicity and Lemma 3 lift; for Lemma 3, take the exposed terminal's best junk good.
   - The **first k = 3 fact that fails** is (DE-a): only an agent giving up its top gains from junk. At k = 4 a b-holder gains from {c, d} when c + d > b. On nsw-local-n3m5 (n = 3, m = 5) every repairing chain needs this.
   - The second is (DE-b), the trade keeping validity. On T3 (n = 3, m = 6) every repairing chain leaves a wanted good in a two-good bundle, and the completion compensates the wanter with junk.
-  - **Repair:** chains with t ≥ 1 in which any agent may take junk, plus compensable validity. One such chain repairs every hard start of the special, screen and suite sets (n ≤ 5, every order).
+  - **Repair:** chains with t ≥ 1 in which any agent may take junk, plus compensable validity. One such chain repairs every hard start of the special, screen and suite sets (n ≤ 5, every order) and of 2,300 random core profiles with n ≤ 4.
   - The k = 3 selection rule does not lift: max score works on 162 of 194 screen picks. It already fails at k = 3 outside DE's narrow trades.
-- **Next.** A proof of OT for one terminal (|T| = 1 covers all hard starts at n = 4 and 54% at n = 5), and the group-killing structure of §6 as a counting lemma.
+- **Next.**
+  - A proof of OT for one terminal: |T| = 1 covers all hard starts at n = 4 and 54% at n = 5, and its max-score trade has Theorem B's shape (§5).
+  - A release lemma for the open case (§8): the best trade lifts every needer of an exposed agent's top above it.
+  - For k = 4: a completion count with both kinds of one-good slots, terminal slots and compensation slots (§7).
 
 ## 1. Setting and the computation
 
