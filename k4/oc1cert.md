@@ -9,7 +9,15 @@ profiles. Code is in `k4/oc1cert/`, data in `results/k4_oc1max/`.
 **OC₁^max is false at k = 4, already at n = 4** (`results/k4_oc1max/oc1max_cex_n4.json`).
 - It fails on 11 of the 1,002 n = 4 core hypergraphs (4_n4_3 idx 58 and 77; 4_pure idx 20, 21, 23, 24, 26, 29, 36,
   38 and 45). Nine have m = 7 and two have m = 8.
-- For each, the CEGAR stops at the first failing profile. It does not count the failing profiles.
+- Every failing (type profile, picks) pair was enumerated: the CEGAR runs to UNSAT with each failure blocked
+  exactly. There are 80 to 46,080 per hypergraph:
+
+  | hypergraph | 4_n4_3 #58 | #77 | 4_pure #20 | #21 | #23 | #24 | #26 | #29 | #36 | #38 | #45 |
+  |---|---|---|---|---|---|---|---|---|---|---|---|
+  | failing pairs | 1,280 | 80 | 46,080 | 2,560 | 640 | 40,320 | 640 | 1,440 | 6,400 | 12,800 | 640 |
+
+  These are out of 288³·6 to 288⁴ (1.4·10⁸ to 6.9·10⁹) profiles, a density of about 10⁻⁵. That is why the random
+  tests (1,500 random n = 4 profiles, K4.SDC.OC1) never met one.
 - Every failing start is a **perfect start**: ν = 4 and every agent holds a pick.
 - In every one, neither the picks nor any of the 20–51 states one official move reaches has any EFX₀ completion,
   **not even a free one** (any number of absorbers). So OC^max fails too, and so does OC₁ at perfect starts (the form
@@ -49,8 +57,8 @@ two official moves in sequence, have a one-absorber completion. That is 1,058 hy
 
 | n | cores | OC₁^max certified | OC₁^max fails | OC₂^max certified | certificate | independent checks |
 |---|---|---|---|---|---|---|
-| 2 | 5 | 5 | 0 | 5 | `cert_2.json.gz` | SAT checker; exhaustive brute-force coverage; raw `Inst` over every profile (small domains) |
-| 3 | 51 | 51 | 0 | 51 | `cert_3.json.gz` | SAT checker; exhaustive brute-force coverage (1.8·10⁹ profile × order pairs); raw `Inst` where the profile space is ≤ 6·10⁵ |
+| 2 | 5 | 5 | 0 | 5 | `cert_2.json.gz` | SAT checker; exhaustive brute-force coverage; raw `Inst` on every profile, no certificate |
+| 3 | 51 | 51 | 0 | 51 | `cert_3.json.gz` | SAT checker; exhaustive brute-force coverage (1.8·10⁹ profile × order pairs); raw `Inst` on every profile, no certificate, on the 33 cores with ≤ 6·10⁵ profiles |
 | 4 | 1,002 | 991 | 11 | 1,002 | `cert_4.json.gz` (depth 1), `cert_4_depth2.json.gz` | SAT checker on both |
 | 5 | 31,584 | see §4 | | | | |
 
@@ -119,6 +127,9 @@ n = 5 core in about a second, and `Inst` confirms it.
   - every region box must lie inside it.
 - **`k4/oc1cert/brute.py raw`** (no certificate) runs the coordinator's raw checker `Inst.check` on every SD outcome
   of every order, for every profile. It is limited to profile spaces ≤ 6·10⁵.
+  - It covered all 5 n = 2 cores and 33 of the 51 n = 3 cores: 7.4·10⁶ profiles, 0 failures
+    (`results/k4_oc1max/brute_raw_2_3.log`).
+  - The other 18 n = 3 cores (1.2–2.4·10⁷ profiles each, about 10 CPU-hours) are covered by the two checks above.
 - **`k4/oc1cert/test_check.py`** (sensitivity): certificates with one witness dropped are usually rejected (they
   are UNSAT cores, not minimal ones); certificates with every X perturbed are always rejected. Where both checkers
   run, the SAT checker accepting implies the brute force accepting. The converse can fail, because the brute force
@@ -126,7 +137,17 @@ n = 5 core in about a second, and `Inst` confirms it.
 
 ## 4. n = 5
 
-(in progress; see the PR)
+The run is in progress: `k4/oc1cert/n5_driver.sh`, at depth 2 (OC₂^max), in chunks of about 1,000 hypergraphs.
+- A depth-2 run also locates every hypergraph where OC₁^max fails. The inner search uses a second move only at a
+  (profile, picks) pair where no single move works, and every such pair is re-checked with `Inst`.
+- Per chunk, `results/k4_oc1max/n5/` gets:
+  - the run log and the summary (every hypergraph's result and statistics, without witnesses);
+  - the independent check log;
+  - the certificates of the hypergraphs where OC₁^max fails, plus every 50th certificate.
+- The full certificates (about 340 MB) are not committed. The CEGAR is deterministic (fixed seeds), so
+  `n5_driver.sh` regenerates them, about 7 h on 4 CPUs.
+- Measured on a 161-hypergraph sample (stride 200): every one is OC₂^max-certified, 3.3 CPU-s per hypergraph, and 5
+  of the 161 need a second move somewhere.
 
 ## Reproduce
 
