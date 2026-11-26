@@ -16,7 +16,7 @@ Code: `k4/oc1_hall/` (`ohlib.py` is shared). Logs: `results/k4_oc1_hall/`. Every
 
 Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PROMPT.md §5 rule 3).
 
-## Status (end of burst 4)
+## Status (end of burst 5)
 
 | | statement | status |
 |---|---|---|
@@ -53,6 +53,9 @@ The data of this note, however, have n ≤ 10, and those with every order tried 
 > - some improving chain starting at a dangerous frozen agent k reaches a state where k, or the chain's end, has one.
 
 By Lemma 2\* this implies OC₁ (with the S\* shape), hence MD and TARGET₄.
+
+The invariant is Lemma 2\* (S\* with any owner). Compensated frozen slots are not needed (§13). By Finding C, the chain
+lemma may be restricted to canonical chains from D plus at most one junk-assisted middle step.
 
 Next:
 1. f = 1 with several wanters, n ≥ 4: the picks with a wanter as owner (Corollary 2.1, with helpers). One n = 4 start
