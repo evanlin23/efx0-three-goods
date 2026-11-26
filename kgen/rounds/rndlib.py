@@ -11,7 +11,7 @@ import ctypes, os, subprocess
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SO = os.path.join(HERE, 'librnd.so')
-KINDS = ['EXTF', 'EXT1', 'OC1', 'RNDF', 'RND1', 'MD', 'RNDX', 'RNDX1']
+KINDS = ['EXTF', 'EXT1', 'OC1', 'RNDF', 'RND1', 'MD', 'RNDX', 'RNDX1', 'RNDP', 'RNDP1']
 K = {k: i for i, k in enumerate(KINDS)}
 
 

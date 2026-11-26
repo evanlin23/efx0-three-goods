@@ -170,11 +170,12 @@ def chain_sets(agents):
     yield from rec(set(agents), -1)
 
 
-def rounds_pool(vals, bases):
+def rounds_pool(vals, bases, receivers=False):
     """ROUND-X (kgen/rounds.md §4): one round of vertex-disjoint chains in which every chain START may take, besides
     junk, goods of the base of ANY chain end of the round (a common pool); receivers take junk only.  Written from the
     definition: choose the chain set, then send every junk good to a chain agent or nowhere and every end-base good to a
-    start or nowhere (released); keep it when every chain agent strictly gains."""
+    start or nowhere (released); keep it when every chain agent strictly gains.
+    receivers=True: ROUND-P, every chain agent (receivers and t = 0 agents too) may take end-base goods."""
     n, m = len(vals), len(vals[0])
     used = set(g for b in bases for g in b)
     J = sorted(g for g in range(m) if g not in used)
@@ -185,8 +186,9 @@ def rounds_pool(vals, bases):
         starts = [seq[0] for seq in cs if len(seq) >= 2]
         ends = [seq[-1] for seq in cs if len(seq) >= 2]
         endgoods = sorted(g for e in ends for g in bases[e])
+        takers = onchain if receivers else starts
         for asgJ in itertools.product([None] + onchain, repeat=len(J)):
-            for asgE in itertools.product([None] + starts, repeat=len(endgoods)):
+            for asgE in itertools.product([None] + takers, repeat=len(endgoods)):
                 H = {a: set() for a in onchain}
                 for g, a in zip(J, asgJ):
                     if a is not None: H[a].add(g)
@@ -209,6 +211,6 @@ def rounds_pool(vals, bases):
     return states
 
 
-def round_x(vals, order, A=1):
+def round_x(vals, order, A=1, receivers=False):
     Y = sd(vals, order); b0 = [frozenset([y]) for y in Y]
-    return any(completions(vals, list(s), A) is not None for s in rounds_pool(vals, b0))
+    return any(completions(vals, list(s), A) is not None for s in rounds_pool(vals, b0, receivers))

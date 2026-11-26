@@ -37,7 +37,9 @@ Build:  gcc -O2 -shared -fPIC -o librnd.so rnd.c      (used through kgen/rounds/
 #define MAXN 7
 #define MAXM 16
 #define MAXS 5040
-enum { K_EXTF, K_EXT1, K_OC1, K_RNDF, K_RND1, K_MD, K_RNDX, K_RNDX1, NK };
+enum { K_EXTF, K_EXT1, K_OC1, K_RNDF, K_RND1, K_MD, K_RNDX, K_RNDX1, K_RNDP, K_RNDP1, NK };
+/* K_RNDP: ROUND-P, a round in which EVERY chain agent may take goods of the pool (junk + every chain end's pick);
+   K_RNDP1 with the one-absorber completion (pool picks held by off-chain agents count) */
 /* K_RNDX: ROUND-X, a round in which every chain start may take, besides junk, the released pick of ANY chain end
    (a common pool); K_RNDX1 the same with the one-absorber completion (released picks not taken count) */
 
@@ -95,7 +97,7 @@ static int analyze_start(int s, int record) {
         int big = 0; for (int a = 0; a < n; a++) if (nJ[a] >= 2) big++;
         if (big <= 1) res |= 1 << K_EXT1;
         if (big <= 2) res |= 1 << K_OC1;          /* one t = 0 move plus one absorber */
-        res |= (1 << K_RNDF) | (1 << K_RND1) | (1 << K_RNDX) | (1 << K_RNDX1);
+        res |= (1 << K_RNDF) | (1 << K_RND1) | (1 << K_RNDX) | (1 << K_RNDX1) | (1 << K_RNDP) | (1 << K_RNDP1);
         if (record) { for (int a = 0; a < n; a++) { wit_info[a] = -1; wit_info[n + a] = 0; wit_info[2 * n + a] = -1; } }
         best_gm = 1e9;                             /* no gain inequality: the witness margin is the EFX margin */
         return res;
@@ -116,6 +118,27 @@ static int analyze_start(int s, int record) {
             }
         }
         if (ok) for (int a = 0; a < n && ok; a++) if ((E >> a & 1) && pred[a] < 0) ok = 0;
+        if (ok) {   /* ROUND-P: every chain agent's base = (pred's pick) + its junk + every end's pick it holds */
+            int okp = 1, relp[MAXN], onch[MAXN];
+            double gmp = 1e9;
+            for (int a = 0; a < n; a++) { relp[a] = 0; onch[a] = (succ[a] >= 0 || pred[a] >= 0); }
+            for (int a = 0; a < n && okp; a++) if (onch[a]) {
+                ll b0 = vJ[a] + (pred[a] >= 0 ? v[a][y[pred[a]]] : 0);
+                for (int e = 0; e < n; e++) if (pred[e] >= 0 && succ[e] < 0 && loc[e] == a) b0 += v[a][y[e]];
+                if (!(b0 > v[a][y[a]])) okp = 0;
+                else { double d = (double)(b0 - v[a][y[a]]) / tot_i[a]; if (d < gmp) gmp = d; }
+            }
+            if (okp) {
+                res |= 1 << K_RNDP;
+                for (int e = 0; e < n; e++) if (pred[e] >= 0 && succ[e] < 0 && !onch[loc[e]]) relp[loc[e]]++;
+                int big = 0; for (int a = 0; a < n; a++) if (relp[a] >= 2) big++;
+                if (big <= 1) { res |= 1 << K_RNDP1; if (margin_kind == K_RNDP1 && gmp > best_gm) best_gm = gmp; }
+                if (record && wit_kind >= 0 && (res >> wit_kind & 1)) {
+                    for (int a = 0; a < n; a++) { wit_info[a] = succ[a]; wit_info[n + a] = (pred[a] >= 0 && succ[a] < 0); wit_info[2 * n + a] = onch[a]; }
+                    return res;
+                }
+            }
+        }
         double gm = 1e9;
         if (ok) {
             /* receivers' gains */

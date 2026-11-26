@@ -20,7 +20,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import rndlib, families
 VMAX = int(os.environ.get("VMAX", "3000"))
-CLASS = os.environ.get("CLASS", "RND1")      # the one-round class under test: RND1 (ROUND+) or RNDX1 (ROUND-X)
+CLASS = os.environ.get("CLASS", "RND1")
+# TWINS="1=3,0=2": after every mutation agent j copies agent i's row exactly (identical valuations, k types)
+TWINS = [tuple(map(int, p.split('='))) for p in os.environ.get("TWINS", "").split(',') if p]
+
+
+def twin(V):
+    for i, j in TWINS: V[j] = list(V[i])
+    return V      # the one-round class under test: RND1 (ROUND+) or RNDX1 (ROUND-X)
 
 
 def summary(V):
@@ -86,6 +93,7 @@ def run_climb(n, m, steps, rounds, seed, init, ties):
             if not ties:
                 V = [rng.sample(range(1, 3000), m) if len(set(row)) < m else row for row in V]
         n_, m_ = len(V), len(V[0])
+        V = twin(V)
         c, st = objective(V)
         for s in range(steps):
             V2 = [list(x) for x in V]; i = rng.randrange(n_); g = rng.randrange(m_); u = rng.random()
@@ -98,6 +106,7 @@ def run_climb(n, m, steps, rounds, seed, init, ties):
             else:   # copy a row (pushes toward identical agents) with a small perturbation
                 j = rng.randrange(n_); V2[i] = [max(1, x + rng.randint(-2, 2)) for x in V2[j]]
             if not ties and len(set(V2[i])) < m_: continue
+            V2 = twin(V2)
             c2, st2 = objective(V2)
             if c2 <= c:
                 V, c, st = V2, c2, st2
