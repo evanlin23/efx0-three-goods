@@ -9,7 +9,10 @@ where danger counts frozen pick holders whose junk is worth more than their pick
 relevant good of one agent moved to another good (or to a fresh good); rejected unless the result is again a strict
 connected core.  Accept if the score does not drop.  Coordinator's own code (oc1_mc2_rand.Inst).
 
-    python3 k4/sdc/oc1max_climb.py RUNS STEPS SEED seedB|rand NMIN NMAX [MC2]"""
+    python3 k4/sdc/oc1max_climb.py RUNS STEPS SEED seedB|rand NMIN NMAX [MC2]
+
+With LOOSE=1 the core conditions are dropped (any instance with 2..4 goods per agent and distinct values per agent),
+to test whether OC1^max needs the core restriction at all."""
 import sys, os, json, random, itertools, collections, time, multiprocessing as mp
 from oc1_mc2_rand import Inst, gen
 from oc1_max_orders import nu
@@ -19,9 +22,14 @@ B_SETS = [[0, 2, 3, 1], [6, 4, 5, 9], [1, 2, 3, 9], [1, 6, 7, 8], [3, 6, 9], [1,
 B_VALS = [[6, 14, 16, 12], [4, 18, 12, 28], [28, 4, 16, 21], [16, 14, 12, 6], [28, 8, 24], [20, 30, 8, 4]]
 
 
+LOOSE = os.environ.get('LOOSE') == '1'   # any instance: 2..4 goods per agent, values distinct per agent, every good relevant
+
+
 def is_core(sets, vals, mc2):
     n = len(sets); goods = sorted(set().union(*map(set, sets)))
     if goods != list(range(len(goods))): return False
+    if LOOSE:
+        return all(2 <= len(s) <= 4 and len(set(s)) == len(s) and len(set(x)) == len(x) for s, x in zip(sets, vals))
     R = [set(s) for s in sets]
     for i in range(n):
         d = len(sets[i]); x = vals[i]

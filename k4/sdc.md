@@ -1964,7 +1964,7 @@ pickless agent by an alternating path values a junk good.
 - So the pickless agents cannot be the wanters that freeze a dangerous agent, which is the configuration of every
   counterexample above.
 
-**Conjecture OC₁^max** (K4.SDC.OC1MAX). In every strict connected k = 4 core, for every SD order whose picks form a
+**Conjecture OC₁^max** (K4.SDC.OC1MAX; **REFUTED at k = 4, n = 4**, see the end of this section). In every strict connected k = 4 core, for every SD order whose picks form a
 maximum matching: the picks have a one-absorber completion, or one improving move (an addition, a chain or a ring)
 gives bases that have one.
 - With Lemma MAXSD it implies TARGET₄, through the core reduction.
@@ -1997,3 +1997,47 @@ Evidence (`k4/sdc/oc1_max_orders.py`):
   The two receivers each take at most one good of D. One chain moves only one pair of D, and two goods of D remain.
 - At k = 4 a danger set has at most three junk goods, and one chain leaves at most one. This is the k − 3 count of
   `k4/ksens.md`, and it is where a proof of OC₁^max has to use k ≤ 4.
+
+**Lemma RED (reduction to perfect starts; coordinator, 2026-11-26, written proof, not refereed).**
+- Setting. Let Y be maximum-matching picks of any instance (strict values), let U ≠ ∅ be the pickless agents, and
+  let S be the agents reachable from U by Y-alternating paths. A path is u, g₁, a₁, g₂, a₂, … with g_i ∈ R_{a_{i−1}}
+  and g_i = Y_{a_i}. Let T be the remaining agents and J the junk.
+- (i) (Lemma MAX) No agent of U ∪ S values a junk good.
+- (ii) Every good valued by an agent of U ∪ S is the pick of an agent of S. It is not junk by (i), so it is some
+  Y_b, and then b is reachable.
+- (iii) Let I′ be the instance with agents T ∪ U and goods {Y_t : t ∈ T} ∪ J, values restricted. The U agents become
+  null agents (they value nothing). Every one-absorber EFX₀ completion of I′ at its picks, or after a move of I′,
+  extends to one of I: S agents keep their single picks, and U agents get what they get in I′. Every constraint that
+  involves S ∪ U holds, because:
+  - S and U agents value only S picks, which are held alone, and removing a singleton's good leaves nothing;
+  - S and U agents value no junk, so they never envy the bundles of U agents;
+  - T agents compare S holders' singletons only, which never violates EFX₀.
+  Every move of I′ is a move of I, and absorber counts are unchanged.
+- In I′ every agent with a relevant good holds a pick (a *perfect start*). So:
+
+  *OC₁ at maximum-matching starts, for every instance with ≤ 4 relevant goods per agent, follows from OC₁ at perfect
+  starts, null agents allowed.* Null agents count as ordinary agents in the absorber count. A completion that lets them absorb freely gives only the OC₁ᵖ form (Hall session's check of RED, `k4/oc1_hall.md` §21).
+- Together with Lemma MAXSD this gives TARGET₄ directly, without the core reduction. It also explains why the
+  TTC session's Hall-deficient climbs are benign. I′ need not be a core, so this route needs the perfect-start form for
+  all instances. `k4/sdc/oc1max_climb.py` with LOOSE=1 tests OC₁^max without the core conditions. The 84 non-core TTC
+  instances already satisfy it (`results/k4_sdc/oc1_max_orders_ttc84.log`).
+
+**OC₁^max is false at k = 4** (2026-11-26 23:15; `k4/sdc/oc1max_cex_verify.py`, `results/k4_sdc/oc1max_cex_verify.log`).
+The ordinal CEGAR of the compute/k4-oc1max-cert session found two failures on the n = 4 core list 4_n4_3. Random
+profiles had missed them. The coordinator replayed both independently.
+- **Instance 1** (idx 58).
+  - sets [[0,1,2,5],[1,2,5,6],[3,4,5,6],[3,4,6]]; vals [[2,10,4,7],[10,3,4,8],[3,5,6,7],[3,2,4]].
+  - A strict connected MC2-class core with m = 7.
+  - The order (0,3,2,1) gives picks (1,2,5,6): every agent picks, so ν = n = 4.
+  - Agent 1, last, is left with its worst good 2 (worth 3), and it values agent 0's pick at 10.
+  - The instance has 14 EFX₀ allocations. None contains the picks or any of the 15 one-move states.
+- **Instance 2** (idx 77). sets [[0,4,5,6],[1,2,3,5],[1,3,5,6],[2,4,6]], vals [[2,3,10,6],[3,10,6,8],[5,3,7,6],[4,3,2]],
+  order (3,1,2,0), picks (4,5,6,2). It has 24 EFX₀ allocations, and none extends the picks or any one-move state.
+- So OC₁^max, OC^max (free completion) and OC₁ at perfect starts are all false at k = 4.
+- **What survives on these instances.**
+  - Two sequential moves repair both: 8 and 12 two-move states respectively have one-absorber completions.
+  - The other maximum-matching orders complete at the picks: 4 of 7 and 4 of 6 pick vectors.
+  - So the candidates are OC₂^max (at most two sequential moves from every maximum-matching start) and the ∃-forms
+    (some maximum-matching order satisfies OC₁; SD-C).
+  - The Lean frames (K4.SDC.OC1MAX.LEAN, OC1PERF.LEAN) are implications and stay valid. They are parametrized by
+    the move relation (ConjOC1maxWith), so a two-move relation fits them directly.
