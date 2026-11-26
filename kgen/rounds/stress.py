@@ -25,8 +25,19 @@ CLASS = os.environ.get("CLASS", "RND1")
 TWINS = [tuple(map(int, p.split('='))) for p in os.environ.get("TWINS", "").split(',') if p]
 
 
+# KEPS=k: every agent keeps at most k "real" values (its k largest); every other value is clamped into [1, 5]
+# (the eps-lift of an instance with at most k relevant goods per agent)
+KEPS = int(os.environ.get("KEPS", "0"))
+
+
 def twin(V):
     for i, j in TWINS: V[j] = list(V[i])
+    if KEPS:
+        for row in V:
+            big = sorted(range(len(row)), key=lambda g: -row[g])[:KEPS]
+            for g in range(len(row)):
+                if g not in big: row[g] = max(1, min(5, row[g]))
+                elif row[g] <= 5: row[g] = 6
     return V      # the one-round class under test: RND1 (ROUND+) or RNDX1 (ROUND-X)
 
 

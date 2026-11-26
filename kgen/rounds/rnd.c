@@ -352,3 +352,226 @@ ll rnd_list_efx(int n_, int m_, const ll *vals, int *buf, ll maxout) {
     dfs_list(0);
     return lst_cnt;
 }
+
+/* ===================================================================================================================
+   TWO ROUNDS (kgen/rounds.md §4.1), free completion, strictly positive values.
+   X (complete EFX, value-dominating the picks) is reachable by <= 2 rounds iff some round-1 structure S1 (roles OFF,
+   T0, or a position on a path, a ring flag per path), some junk assignment H1 and some round-2 roles make the
+   round-2 conditions of Lemma RC hold with sets (kgen/rounds.md §4.1, Lemma RC2):
+     round-2 role of a: STAY (B1_a inside X_a), PASS (B1_a inside X_d, d != a, succ2 = d) or SPLIT (an end whose B1 is
+     split: the round-2 start takes X_x0 cap B1_a, the rest is released); SPLIT agents need a predecessor;
+     receivers b (pred p):  v_b(B1_p) + v_b(X_b cap J1) > v_b(B1_b);
+     starts x (end e):       v_x(X_x cap J1) + v_x(X_x cap B1_e) > v_x(B1_x);
+   with J1 = (J0 - H1) + (round-1 released picks).  Enumeration: S1 x SPLIT set x (target of each pick-less round-1
+   start that does not split) x (for every junk good: stay in J1, or go to a round-1 chain agent a whose B1 ends in
+   the good's X-bundle, or that splits). */
+#define MAXS1 20000
+static int s1_cnt, s1_role[MAXS1][MAXN], s1_pred[MAXS1][MAXN], s1_succ[MAXS1][MAXN], s1_ring[MAXS1][MAXN];
+static int s1_n = -1;
+enum { R_OFF, R_T0, R_PATH };
+
+static void gen_s1(void) {
+    if (s1_n == n) return;
+    s1_n = n; s1_cnt = 0;
+    int pw3 = 1; for (int i = 0; i < n; i++) pw3 *= 3;
+    for (int code = 0; code < pw3; code++) {
+        int role[MAXN], c = code, P[MAXN], np = 0;
+        for (int a = 0; a < n; a++) { role[a] = c % 3; c /= 3; if (role[a] == R_PATH) P[np++] = a; }
+        if (np == 1) continue;
+        /* succ maps on P: each path agent's succ in P or none */
+        int lim = 1; for (int i = 0; i < np; i++) lim *= (np + 1);
+        for (int sc = 0; sc < lim; sc++) {
+            int succ[MAXN], pred[MAXN], ok = 1, x = sc;
+            for (int a = 0; a < n; a++) { succ[a] = -1; pred[a] = -1; }
+            for (int i = 0; i < np && ok; i++) {
+                int ch = x % (np + 1); x /= (np + 1);
+                if (ch < np) {
+                    int b = P[ch];
+                    if (b == P[i] || pred[b] >= 0) ok = 0; else { succ[P[i]] = b; pred[b] = P[i]; }
+                }
+            }
+            if (!ok) continue;
+            for (int i = 0; i < np && ok; i++) {   /* acyclic, every path agent in a path of >= 2 */
+                int a = P[i];
+                if (succ[a] < 0 && pred[a] < 0) ok = 0;
+                int cc = a, st = 0;
+                while (succ[cc] >= 0 && st <= n) { cc = succ[cc]; st++; if (cc == a) { ok = 0; break; } }
+            }
+            if (!ok) continue;
+            /* ring flags per path start */
+            int starts[MAXN], ns = 0;
+            for (int i = 0; i < np; i++) if (pred[P[i]] < 0) starts[ns++] = P[i];
+            for (int rf = 0; rf < (1 << ns); rf++) {
+                if (s1_cnt >= MAXS1) { fprintf(stderr, "MAXS1\n"); exit(1); }
+                for (int a = 0; a < n; a++) { s1_role[s1_cnt][a] = role[a]; s1_pred[s1_cnt][a] = pred[a]; s1_succ[s1_cnt][a] = succ[a]; s1_ring[s1_cnt][a] = 0; }
+                for (int k = 0; k < ns; k++) if (rf >> k & 1) s1_ring[s1_cnt][starts[k]] = 1;
+                s1_cnt++;
+            }
+        }
+    }
+}
+
+/* state of one two-round test */
+static int T_y[MAXN], T_isj0[MAXM], T_own[MAXM];
+static int T_pp[MAXN], T_chain1[MAXN], T_end1[MAXN], T_rel1[MAXM];
+static int T_split[MAXN], T_d[MAXN];
+static int T_jg[MAXM], T_nj;                 /* junk goods */
+static int T_opt[MAXM][MAXN + 1], T_nopt[MAXM];
+static int T_asg[MAXM];                      /* -1 = stays junk, else agent */
+
+static int two_final(void) {
+    /* build B1 masks, J1 */
+    unsigned B1[MAXN]; unsigned J1 = 0;
+    for (int a = 0; a < n; a++) B1[a] = T_pp[a] >= 0 ? (1u << T_pp[a]) : 0;
+    for (int k = 0; k < T_nj; k++) { int g = T_jg[k]; if (T_asg[k] < 0) J1 |= 1u << g; else B1[T_asg[k]] |= 1u << g; }
+    for (int g = 0; g < m; g++) if (T_rel1[g]) J1 |= 1u << g;
+    /* round-1 gains */
+    for (int a = 0; a < n; a++) if (T_chain1[a]) {
+        ll bv = 0; for (int g = 0; g < m; g++) if (B1[a] >> g & 1) bv += v[a][g];
+        if (!(bv > v[a][T_y[a]])) return 0;
+    }
+    /* round-2 roles */
+    int succ2[MAXN], pred2[MAXN];
+    for (int a = 0; a < n; a++) { succ2[a] = -1; pred2[a] = -1; }
+    for (int a = 0; a < n; a++) {
+        if (T_split[a]) continue;
+        int d = T_d[a];
+        if (d < 0) return 0;
+        /* B1_a must lie inside X_d */
+        for (int g = 0; g < m; g++) if ((B1[a] >> g & 1) && T_own[g] != d) return 0;
+        if (d != a) {
+            if (B1[a] == 0) return 0;               /* passed bases are nonempty */
+            if (pred2[d] >= 0) return 0;
+            succ2[a] = d; pred2[d] = a;
+        }
+    }
+    for (int a = 0; a < n; a++) {               /* acyclic */
+        int c = a, st = 0;
+        while (succ2[c] >= 0 && st <= n) { c = succ2[c]; st++; if (c == a) return 0; }
+    }
+    for (int a = 0; a < n; a++) if (T_split[a] && pred2[a] < 0) return 0;
+    /* gains */
+    for (int b = 0; b < n; b++) if (pred2[b] >= 0) {
+        int p = pred2[b]; ll l = 0, r = 0;
+        for (int g = 0; g < m; g++) {
+            if (B1[p] >> g & 1) l += v[b][g];
+            if ((J1 >> g & 1) && T_own[g] == b) l += v[b][g];
+            if (B1[b] >> g & 1) r += v[b][g];
+        }
+        if (!(l > r)) return 0;
+    }
+    for (int x = 0; x < n; x++) if (succ2[x] >= 0 && pred2[x] < 0) {
+        int e = x; while (succ2[e] >= 0) e = succ2[e];
+        ll l = 0, r = 0;
+        for (int g = 0; g < m; g++) {
+            if (T_own[g] == x && ((J1 >> g & 1) || (B1[e] >> g & 1))) l += v[x][g];
+            if (B1[x] >> g & 1) r += v[x][g];
+        }
+        if (!(l > r)) return 0;
+    }
+    return 1;
+}
+
+static int two_dfs(int k) {
+    if (k == T_nj) return two_final();
+    for (int o = 0; o < T_nopt[k]; o++) { T_asg[k] = T_opt[k][o]; if (two_dfs(k + 1)) return 1; }
+    return 0;
+}
+
+/* is the complete allocation in T_own reachable by <= 2 rounds from the start T_y? */
+static int two_reach(void) {
+    gen_s1();
+    T_nj = 0;
+    for (int g = 0; g < m; g++) { T_isj0[g] = 1; }
+    for (int a = 0; a < n; a++) T_isj0[T_y[a]] = 0;
+    for (int g = 0; g < m; g++) if (T_isj0[g]) T_jg[T_nj++] = g;
+    for (int s = 0; s < s1_cnt; s++) {
+        int *role = s1_role[s], *pred = s1_pred[s], *succ = s1_succ[s], *ring = s1_ring[s];
+        for (int g = 0; g < m; g++) T_rel1[g] = 0;
+        int pickless[MAXN], npl = 0;
+        for (int a = 0; a < n; a++) {
+            T_chain1[a] = role[a] != R_OFF;
+            T_end1[a] = -1;
+            if (role[a] == R_PATH && pred[a] < 0) {
+                int e = a; while (succ[e] >= 0) e = succ[e];
+                T_end1[a] = e;
+                if (ring[a]) T_pp[a] = T_y[e]; else { T_pp[a] = -1; T_rel1[T_y[e]] = 1; pickless[npl++] = a; }
+            } else if (role[a] == R_PATH) T_pp[a] = T_y[pred[a]];
+            else T_pp[a] = T_y[a];
+        }
+        /* quick round-1 feasibility: each chain agent with all junk */
+        int feas = 1;
+        for (int a = 0; a < n && feas; a++) if (T_chain1[a]) {
+            ll bv = (T_pp[a] >= 0 ? v[a][T_pp[a]] : 0);
+            for (int k = 0; k < T_nj; k++) bv += v[a][T_jg[k]];
+            if (!(bv > v[a][T_y[a]])) feas = 0;
+        }
+        if (!feas) continue;
+        for (int SP = 0; SP < (1 << n); SP++) {
+            for (int a = 0; a < n; a++) T_split[a] = SP >> a & 1;
+            /* targets: pick part's owner; pickless non-split starts enumerate a target */
+            int free_idx[MAXN], nf = 0, bad = 0;
+            for (int a = 0; a < n; a++) {
+                T_d[a] = -1;
+                if (T_split[a]) continue;
+                if (T_pp[a] >= 0) T_d[a] = T_own[T_pp[a]];
+                else free_idx[nf++] = a;
+            }
+            if (bad) continue;
+            int lim = 1; for (int i = 0; i < nf; i++) lim *= n;
+            for (int fc = 0; fc < lim; fc++) {
+                int x = fc;
+                for (int i = 0; i < nf; i++) { T_d[free_idx[i]] = x % n; x /= n; }
+                /* junk options */
+                int dead = 0;
+                for (int k = 0; k < T_nj && !dead; k++) {
+                    int g = T_jg[k]; T_nopt[k] = 0;
+                    T_opt[k][T_nopt[k]++] = -1;
+                    for (int a = 0; a < n; a++) if (T_chain1[a] && (T_split[a] || T_d[a] == T_own[g])) T_opt[k][T_nopt[k]++] = a;
+                }
+                if (dead) continue;
+                if (two_dfs(0)) return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+/* rnd2_count: for the start `picks`, the number of complete EFX allocations reachable by <= 2 rounds (free
+   completion), capped at cap; *out_md = number of MD EFX allocations visited */
+static ll r2_cap, r2_cnt, r2_md; static int r2_picks[MAXN];
+static void dfs2(int idx) {
+    if (r2_cnt >= r2_cap) return;
+    if (idx == m) {
+        for (int a = 0; a < n; a++) if (val[a][a] < v[a][r2_picks[a]]) return;   /* MD */
+        r2_md++;
+        for (int g = 0; g < m; g++) T_own[g] = owner[g];
+        for (int a = 0; a < n; a++) T_y[a] = r2_picks[a];
+        if (two_reach()) r2_cnt++;
+        return;
+    }
+    int g = gord[idx];
+    for (int a = 0; a < n; a++) {
+        ll oldmn[MAXN];
+        owner[g] = a; bsz[a]++;
+        for (int i = 0; i < n; i++) { val[i][a] += v[i][g]; rem[i] -= v[i][g]; oldmn[i] = mn[i][a]; if (v[i][g] < mn[i][a]) mn[i][a] = v[i][g]; }
+        int bad = 0;
+        for (int i = 0; i < n && !bad; i++) {
+            ll pot = val[i][i] + rem[i];
+            for (int j = 0; j < n; j++) if (j != i && bsz[j] > 0 && val[i][j] - mn[i][j] > pot) { bad = 1; break; }
+        }
+        if (!bad) dfs2(idx + 1);
+        for (int i = 0; i < n; i++) { val[i][a] -= v[i][g]; rem[i] += v[i][g]; mn[i][a] = oldmn[i]; }
+        bsz[a]--; owner[g] = -1;
+        if (r2_cnt >= r2_cap) return;
+    }
+}
+ll rnd2_count(int n_, int m_, const ll *vals, const int *picks, ll cap_, ll *out_md) {
+    setup(n_, m_, vals);
+    if (m > 31) return -1;
+    for (int a = 0; a < n; a++) r2_picks[a] = picks[a];
+    r2_cap = cap_ > 0 ? cap_ : ((ll)1 << 62); r2_cnt = 0; r2_md = 0;
+    dfs2(0);
+    *out_md = r2_md;
+    return r2_cnt;
+}

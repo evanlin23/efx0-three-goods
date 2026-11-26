@@ -29,6 +29,7 @@ LL = ctypes.c_longlong
 _L.rnd_analyze.restype = ctypes.c_int
 _L.rnd_witness.restype = ctypes.c_int
 _L.rnd_list_efx.restype = LL
+_L.rnd2_count.restype = LL
 
 
 def _arr(vals):
@@ -93,3 +94,12 @@ def rounds_needed(res, A1=True):
         c = s['counts']
         out.append(0 if c[e] > 0 else (1 if c[r] > 0 else 2))
     return out
+
+
+def two_rounds(vals, picks, cap=0):
+    """number of complete EFX allocations reachable by at most two rounds from the start `picks` (free completion;
+    rnd.c Lemma RC2), capped at cap (0 = all); returns (count, number of MD EFX allocations visited)"""
+    n, m, A = _arr(vals)
+    P = (ctypes.c_int * n)(*picks); md = LL()
+    c = _L.rnd2_count(n, m, A, P, LL(cap), ctypes.byref(md))
+    return c, md.value

@@ -1,0 +1,1 @@
+$ python3 kgen/rounds/climb3.py 4 7 3000 25 c4n4m8 seeds=results/kgen_rounds/seeds3_n4m8.jsonl 3
