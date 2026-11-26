@@ -60,6 +60,17 @@ def dbl_config(ke, kf, shared=0):
     return R4.Config('dbl-%s-%s%s' % (ke, kf, '-c%d' % shared if shared else ''), {'e': Re, 'f': Rf}, I, D)
 
 
+def xyc_config(ke, kf):
+    """Closed single edge: e (ke) and f (kf), each Q3/P4/Q4, share a good g of degree 2 (interior) and a boundary good a;
+    their other goods are boundary (e: b, c; f: y, w) or private."""
+    def rest(k, tag, names):
+        return {'Q3': names[:1], 'P4': names[:1] + ['p' + tag], 'Q4': names[:2]}[k]
+    Re = tuple(['g', 'a'] + rest(ke, 'e', ['b', 'c'])); Rf = tuple(['g', 'a'] + rest(kf, 'f', ['y', 'w']))
+    I = {'g'} | {x for x in Re + Rf if x.startswith('p')}
+    D = (set(Re) | set(Rf)) - I
+    return R4.Config('xyc-%s-%s' % (ke, kf), {'e': Re, 'f': Rf}, I, D)
+
+
 def tri_config(k1, k2, k3):
     """Triangle: agents e1, e2, e3 of kinds Q3/P4/Q4 pairwise sharing a good of degree 2 (g12, g13, g23, interior);
     their other shared goods are boundary goods (e_i's a_i, and b_i for Q4), private goods interior."""
@@ -101,6 +112,8 @@ _OTHER = {'Q3': 1, 'P4': 1, 'Q4': 2}             # shared goods besides g0, g1
 for _ke, _kf in (('Q3', 'Q3'), ('Q3', 'P4'), ('Q3', 'Q4'), ('P4', 'P4'), ('P4', 'Q4'), ('Q4', 'Q4')):
     for _c in range(min(_OTHER[_ke], _OTHER[_kf]) + 1):
         CONFIGS['dbl-%s-%s%s' % (_ke, _kf, '-c%d' % _c if _c else '')] = (lambda a=_ke, b=_kf, c=_c: dbl_config(a, b, c))
+for _ke, _kf in (('Q3', 'Q3'), ('Q3', 'P4'), ('P4', 'P4'), ('Q3', 'Q4'), ('P4', 'Q4'), ('Q4', 'Q4')):
+    CONFIGS['xyc-%s-%s' % (_ke, _kf)] = (lambda a=_ke, b=_kf: xyc_config(a, b))
 for _t in itertools.combinations_with_replacement(('Q3', 'P4', 'Q4'), 3):
     CONFIGS['tri-%s-%s-%s' % _t] = (lambda t=_t: tri_config(*t))
 CONFIGS['claw'] = claw_config

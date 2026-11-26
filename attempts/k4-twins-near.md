@@ -24,3 +24,7 @@ bundles with outside goods" defeats every extension (`k4/TWINS.md` §3).
 
 Reproduce: `cd k4 && python3 twins4.py explore near-Q3-Q4-0 near-Q3-Q4-1 near-Q3-P4-0 near-Q3-P4-1`;
 `python3 twins4.py why near-Q3-P4-1` for a failing state.
+
+**Also tried: closed single edges** (configuration xyc-K1-K2: e and f share one good g of degree 2 and one boundary
+good a). xyc-Q3-Q3: 15 of 36; xyc-Q3-P4: 1,249 of 1,728 (`python3 twins4.py explore xyc-Q3-Q3 xyc-Q3-P4 --zs=0,1`).
+With only one interior good shared, these behave like the near-twins with j = 1.
