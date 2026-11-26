@@ -1,0 +1,48 @@
+$ python3 k4/oc1_hall/oc1_gdt.py screen (OWNERS=unfrozen-single HOLD=unfrozen-single)
+NOT REPAIRED A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] order (0, 3, 1, 2) picks (2, 6, 3, 5)
+NOT REPAIRED A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] order (1, 2, 0, 3) picks (6, 5, 2, 4)
+NOT REPAIRED B131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 2, 8, 4], [3, 8, 2, 4], [2, 4, 3], [4, 2, 3]]] order (0, 2, 1, 3) picks (4, 6, 3, 5)
+NOT REPAIRED B131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 2, 8, 4], [3, 8, 2, 4], [2, 4, 3], [4, 2, 3]]] order (1, 3, 0, 2) picks (6, 3, 2, 4)
+NOT REPAIRED gap-ivmax-n5-m9-n5pc1347 [[[0, 4, 7, 8], [1, 5, 6, 8], [2, 5, 7, 8], [3, 6, 7, 8], [4, 6, 7, 8]], [[2, 10, 3, 6], [4, 3, 8, 6], [2, 4, 7, 8], [5, 8, 6, 4], [10, 3, 2, 6]]] order (0, 3, 1, 2, 4) picks (4, 8, 7, 6, None)
+NOT REPAIRED gap-ivmax-n5-m9-n5pc1347 [[[0, 4, 7, 8], [1, 5, 6, 8], [2, 5, 7, 8], [3, 6, 7, 8], [4, 6, 7, 8]], [[2, 10, 3, 6], [4, 3, 8, 6], [2, 4, 7, 8], [5, 8, 6, 4], [10, 3, 2, 6]]] order (0, 3, 1, 4, 2) picks (4, 8, 5, 6, 7)
+NOT REPAIRED gap-ivmax-n5-m9-n5pc1347 [[[0, 4, 7, 8], [1, 5, 6, 8], [2, 5, 7, 8], [3, 6, 7, 8], [4, 6, 7, 8]], [[2, 10, 3, 6], [4, 3, 8, 6], [2, 4, 7, 8], [5, 8, 6, 4], [10, 3, 2, 6]]] order (3, 1, 2, 4, 0) picks (0, 8, 7, 6, 4)
+NOT REPAIRED gap-ivmax-n5-m9-n5pc1347 [[[0, 4, 7, 8], [1, 5, 6, 8], [2, 5, 7, 8], [3, 6, 7, 8], [4, 6, 7, 8]], [[2, 10, 3, 6], [4, 3, 8, 6], [2, 4, 7, 8], [5, 8, 6, 4], [10, 3, 2, 6]]] order (3, 1, 4, 0, 2) picks (7, 8, 5, 6, 4)
+distinct starts 775
+distinct starts not repaired 9
+instances 168
+shown 8
+start: chains needed 0 3202
+start: chains needed 1 838
+start: chains needed None 29
+starts 4069
+time 0 s
+$ python3 k4/oc1_hall/oc1_gdt.py screen (OWNERS=unfrozen-single HOLD=single)
+NOT REPAIRED A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] order (0, 3, 1, 2) picks (2, 6, 3, 5)
+NOT REPAIRED A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] order (1, 2, 0, 3) picks (6, 5, 2, 4)
+NOT REPAIRED B131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 2, 8, 4], [3, 8, 2, 4], [2, 4, 3], [4, 2, 3]]] order (0, 2, 1, 3) picks (4, 6, 3, 5)
+NOT REPAIRED B131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 2, 8, 4], [3, 8, 2, 4], [2, 4, 3], [4, 2, 3]]] order (1, 3, 0, 2) picks (6, 3, 2, 4)
+distinct starts 775
+distinct starts not repaired 4
+instances 168
+shown 4
+start: chains needed 0 3407
+start: chains needed 1 650
+start: chains needed None 12
+starts 4069
+time 0 s
+$ python3 k4/oc1_hall/oc1_gdt.py screen (OWNERS=any HOLD=single)
+distinct starts 775
+distinct starts not repaired 0
+instances 168
+start: chains needed 0 3407
+start: chains needed 1 662
+starts 4069
+time 1 s
+$ python3 k4/oc1_hall/oc1_gdt.py screen (OWNERS=unfrozen-single HOLD=all)
+distinct starts 775
+distinct starts not repaired 0
+instances 168
+start: chains needed 0 3407
+start: chains needed 1 662
+starts 4069
+time 0 s
