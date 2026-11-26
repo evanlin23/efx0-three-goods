@@ -511,7 +511,19 @@ path avoids every trap.
 
 ### 7.1 Tests of VMX₂
 
-PENDING (`vmx2_*.log`).
+| source | instances | some run EFX₀ | every run EFX₀ | first run (all ties by index) EFX₀ | log |
+|---|---|---|---|---|---|
+| screen | 168 | **168** | 49 | 165 | `vmx2_screen.log` |
+| logged hard profiles | 42 | **42** | 7 | 41 | `vmx2_logs.log` |
+| SPECIAL | 4 | **4** | 0 | 4 | `vmx2_special.log` |
+| cores n = 3 | 1,500 | **1,500** | 909 | 1,472 | `vmx2_cores3.log` |
+| cores n = 4 | 800 | **800** | | | `vmx2_cores4.log` |
+| general, n ≤ 6, m ≤ 10 | 3,000 | **3,000** | 2,786 | 2,994 | `vmx2_gen.log` |
+| the two VMX counterexamples (§6.4) | 2 | **2** (18/26 and 559/595 runs) | | | `attempts/k4-vm-vmx.md` |
+
+Climbs against VMX₂ (`vmx_climb.py ... --phase3=0`, `vmx2_climb_n{3,4}.log`): running at the end of this burst. The
+result goes into the next status block. As for VMX, the climbs are the test that matters, since random sampling
+never found the VMX counterexamples.
 
 ## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading
 
