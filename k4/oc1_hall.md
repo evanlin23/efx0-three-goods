@@ -1359,6 +1359,18 @@ wanters of Y_k, both unfrozen at the picks, and all are repaired. This is the f 
   chain whose head adds at most one junk good, with a minimal H₀, repairs with owner k. Their data give 59 of 59.
 - The n ≤ 5 data of this note have m ≤ 7 at n = 3, which is why this case never appeared.
 
+**Theorem U** (`proof/k4-oc1max-multi`, `k4/oc1max_multi.md` §3; read here for |D| = 1 only).
+- Setting: a longest canonical chain from k with head z, and any improving H₀ ⊆ J.
+- Hypothesis: J threatens no unfrozen pick holder other than z, at its pick value; and if J threatens z, then z ends
+  unfrozen.
+- Conclusion: k owns an S\* completion. Lemma 2\* is applied with H = {Y_z}, so the owner's bundle is exactly J.
+  - Y_z goes to z, whose slot {a, Y_z} is safe since v(J ∩ R_z) < 2p_z < v(a) + p_z. Otherwise it goes to a second
+    wanter, unfrozen at the picks by Remark 2 and therefore unexposed.
+- For |D| = 1 the argument is complete: the frozen agents other than k value no junk.
+- For |D| ≥ 2 it also needs the other dangerous agents, including dangerous middle agents, to be unthreatened by J
+  at their B′ values. That condition has been asked of its authors.
+- It applies at 15 of the 197 starts of §21. D1H-X lies outside it: J threatens both heads, and each ends frozen.
+
 **Larger n** (`k4/oc1_hall/d1_big.py`, `d1_big_cores6.log`, `d1_big_n6.log`, `d1_big_n7.log`, `d1_big_n8.log`;
 evidence). These runs use sampled orders, at most 60 per instance. The S\* completion is tested by SAT
 (`big_sstar.sstar_sat`), an encoding written independently of the brute force used at n ≤ 5.
