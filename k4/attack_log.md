@@ -37,6 +37,8 @@ angles in flight, and what each established. Ledger rows change only with artifa
 | The first open cell (k, p) = (4, 3) (≤ 3 valuers per good): a two-envier dump rule replacing the multigraph proofs' unique-envier step | session_01BYMGea7fswSChnvyCWWWm8 | `claude/k4-p3` | `k4/p3.md` |
 | Choosing the order by an alternating-tree search with a lexicographic, non-value termination measure (Haxell; restricted Santa Claus) | session_01BYMGeYJ6PFyCSZHphgSyXd | `claude/k4-haxell` | `k4/haxell.md` |
 | Lean frame OC₁^max ⟹ TARGET₄ with SDPO, MAXSD and Lemma MAX machine-checked (from 22:36) | session_01BYMGecPDq28nRFGVkqASck | its own branch (formal/k4-oc1max) | `lean/` |
+| OC₁ at perfect starts with |D| ≥ 2 dangerous agents (disjoint danger sets via Lemma PL; overlapping via PWk(a)); the Hall session keeps |D| = 1 (from 22:53) | session_01BYMGecLPfLsPCQYak86dm7 | its own branch (proof/k4-oc1max-multi) | draft PR |
+| General k: ROUND⁺, one round of disjoint chains from any SD start for strictly positive values (n = 4: a route to EFX for four agents) (from 22:53) | session_01BYMGecn2Gg5F8Q6oyTj69u | its own branch (proof/kgen-rounds) | `kgen/rounds.md` |
 | Referee: independent, adversarial review of every written proof the angles produce (Theorem VM first) | session_01BYMGeYHb8rxaaJ1BScSCZY | `claude/k4-referee` | `k4/referee/` |
 
 The coordinator (this branch, `claude/kind-lamport-y8fdme`) runs an hourly burst: it checks each angle, verifies any
@@ -393,3 +395,27 @@ DYN and CONN2. Each session is asked to test its candidate on PW5, RD5 and kgen 
   - With MAXSD this gives TARGET₄ without the core reduction.
   - Test of the non-core form: `oc1max_climb.py` with LOOSE=1, running. The 84 non-core TTC instances already pass.
   - Sent to the Hall session (D1 can assume ν = n) and to the Lean session (a second frame, ConjOC1perf ⟹ TARGET₄).
+
+### 2026-11-26 22:55 UTC: Theorem 2 and CH-KD refereed; D1 reduced; RD² survives full valuations; two new sessions
+- **Referee:**
+  - **Theorem 2** (kgen-n3, PR #97) is **CORRECT**, with Fact L, Lemma M and the Tops Lemma. It gives two-agent
+    OC₁ (t ≥ 0) at every k, with ties and zeros, constructed in O(m log m). Bare two-agent EFX₀ existence is
+    Plaut–Roughgarden Thm 4.3 (published). The new part is the OC₁ shape: the picks are kept, or one chain a → b
+    repairs, and each agent keeps its distinct favourite (Claim T).
+  - **Theorem CH-KD** (kgen-charity) is **CORRECT**. A k-limited instance with ≤ d valuers per good has an EFX₀
+    state with strong charity leaving at most min{(k − 2)d − 1, max{p : p! ≤ d^(p−1)}} goods out, independent of n.
+  - **Lemma PWk(a)** is CORRECT WITH FIXES; the fix has been applied (ksens). **Lemma PL** is CORRECT. **Lemma T5**
+    (TTC) is the same as Lemma MAX.
+- **Hall** (§21): Finding D1 reduces to two named obstacles, HEAD and CROWD.
+  - Every canonical chain free of both repairs; this is proved (Lemmas D1-chain and D1-red, Prop. 3′).
+  - Open: D1-H and D1-C, and Conjecture D1-LONG (a longest canonical chain repairs, on 197/197 starts).
+  - Lemma RED checked with no hole. Null agents count as ordinary agents; this is noted in §31.
+- **ksens**: RD² is not refuted at unrestricted k. With every agent valuing every good (strict, positive), no start
+  needs even two rounds: n = 3, m ≤ 9; n = 4, m ≤ 8; climbs; PW5 lifted. So zero values are what make the second
+  round necessary.
+- **VM**: VM1 holds at k = 5 on PW5, PW4, RD5, RD4 and both kgen n = 4 instances, and on 2,000 random 5-limited
+  instances. It is a general-k candidate. Lemma EXT is proved. The repair classes are tabulated (k4/vm.md §7.5).
+- **New sessions** (the user asked for more):
+  - (1) the |D| ≥ 2 case of OC₁ at perfect starts, in parallel with the Hall session's |D| = 1;
+  - (2) ROUND⁺, one round of disjoint chains for strictly positive values; at n = 4 it would imply EFX for four
+    additive agents.
