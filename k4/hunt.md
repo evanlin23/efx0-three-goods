@@ -107,6 +107,21 @@ m ≥ 10, n₄ = β + m − 13) are
 366,743 in all (β ≥ 10 forces m ≤ 9). At the measured 0.1–5 s per candidate this is 10²–10³ CPU-hours, beyond one
 session; β = 5 is run in full, β = 6–9 by a sample of 150 per (β, m) group (`sample_mc.py`).
 
+### 3.3 Glued GM4 gadgets (n = 8)
+
+`glue.py`: two GM4 cores of the DE4 screen set (`k4/gm4.md`: n = 4, a Pareto-maximal partial EFX₀ allocation that
+cannot be completed) glued by identifying s goods, every strict profile searched. Probe (`results/k4_hunt/glue_probe*.json`):
+
+| glued core | n | m | β | mode | result |
+|---|---|---|---|---|---|
+| GM4-C + GM4-S, s = 1 | 8 | 12 | 10 | every profile | certified, 162 s, 1,360 allocations |
+| GM4-D + GM4-P, s = 1 | 8 | 13 | 12 | gadget types fixed off the glue | certified, 1.4 s |
+| GM4-C + GM4-Q, s = 1 | 8 | 13 | 10 | fixed | certified, 1.5 s |
+| GM4-C + GM4-Q, s = 2 | 8 | 12 | 11 | fixed | certified, 18 s |
+| GM4-D + GM4-P, s = 2 | 8 | 12 | 13 | every agent touches a glued good, so every profile (288⁸ ≈ 4.8·10¹⁹) | **certified, 409 s, 2,402 allocations** (`named_glue_hard1_cores.json.gz`; independent check `check_named_glue_hard1.log`, sat2) |
+
+The last core has goods of degree 7 and 6 (every agent values one of the two glued goods).
+
 ## Reproduce
 
 ```
