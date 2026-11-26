@@ -396,7 +396,7 @@ DYN and CONN2. Each session is asked to test its candidate on PW5, RD5 and kgen 
   - Test of the non-core form: `oc1max_climb.py` with LOOSE=1, running. The 84 non-core TTC instances already pass.
   - Sent to the Hall session (D1 can assume ν = n) and to the Lean session (a second frame, ConjOC1perf ⟹ TARGET₄).
 
-### 2026-11-26 22:55 UTC: Theorem 2 and CH-KD refereed; D1 reduced; RD² survives full valuations; two new sessions
+### 2026-11-26 22:53 UTC: Theorem 2 and CH-KD refereed; D1 reduced; RD² survives full valuations; two new sessions
 - **Referee:**
   - **Theorem 2** (kgen-n3, PR #97) is **CORRECT**, with Fact L, Lemma M and the Tops Lemma. It gives two-agent
     OC₁ (t ≥ 0) at every k, with ties and zeros, constructed in O(m log m). Bare two-agent EFX₀ existence is
