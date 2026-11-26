@@ -164,6 +164,16 @@ class Hyper:
         return sum(c >= 2 for c in cnt.values()) <= 1
 
 
+def read_records(path):
+    """(header, iterator over records) of a certificate: a .json.gz with 'cores', or a .jsonl.gz with a header line
+    and one record per line."""
+    if path.endswith('.jsonl.gz'):
+        f = gzip.open(path, 'rt'); head = json.loads(f.readline())
+        return head, (json.loads(l) for l in f if l.strip())
+    D = json.load(gzip.open(path))
+    return D, iter(D.pop('cores'))
+
+
 def check_core(rec):
     t0 = time.time()
     H = Hyper(rec['sets']); n = H.n
@@ -244,31 +254,46 @@ def main():
     opt = dict(a[2:].split('=', 1) for a in sys.argv[2:] if a.startswith('--') and '=' in a)
     print('$ python3 k4/oc1cert/check.py', *sys.argv[1:], flush=True)
     print('own types:', {d: len(T) for d, T in TYPES.items()}, flush=True)
-    D = json.load(gzip.open(path))
-    recs = D['cores']
-    bad = [r for r in recs if r['result'] != 'certified']
-    print('certificate', path, 'hypergraphs', len(recs), 'not certified (failures found, not checked here)', len(bad), flush=True)
-    ok_all = True
+    D, recs = read_records(path)
+    T = collections.Counter(); t0 = time.time(); tmax = 0; ok_all = True
+    seen = {}                                       # (list, m, idx) -> sets, for the completeness check
+    mm = lambda S: 1 + max(g for U in S for g in U)  # idx counts within each m
+
+    def certified():
+        for r in recs:
+            seen[(r['list'], mm(r['sets']), r['idx'])] = r['sets']
+            if r['result'] != 'certified':
+                T['not certified (failures found by the CEGAR, not checked here)'] += 1; continue
+            yield r
+
+    def batches(it, size=1000):
+        b = []
+        for r in it:
+            b.append(r)
+            if len(b) == size: yield b; b = []
+        if b: yield b
+    results = []
+    with mp.Pool(int(os.environ.get('PROCS', mp.cpu_count()))) as pool:
+        for batch in batches(certified()):
+            results.extend(pool.imap_unordered(check_core, batch, chunksize=4))
+            for lst, idx, ok, info, nY, dt in results:
+                T['covered' if ok else 'NOT COVERED'] += 1
+                T['maximum matchings checked'] += nY
+                tmax = max(tmax, dt)
+                if ok:
+                    for a, c in info.items(): T[a] += c
+                else:
+                    ok_all = False
+                    print('NOT COVERED', lst, idx, info, flush=True)
+            results = []
+            print('... %d checked, %.0f s' % (T['covered'] + T['NOT COVERED'], time.time() - t0), flush=True)
+    print('certificate', path, 'hypergraphs', len(seen), flush=True)
     if 'lists' in opt:
         for lst in opt['lists'].split(','):
             src = json.load(gzip.open(os.path.join(ROOT, 'results', 'k4_certs_%s.json.gz' % lst)))['cores']
-            mm = lambda S: 1 + max(g for T in S for g in T)       # idx counts within each m
-            have = {(r['list'], mm(r['sets']), r['idx']): r['sets'] for r in recs}
-            miss = [c['idx'] for c in src if have.get((lst, mm(c['sets']), c['idx'])) != c['sets']]
+            miss = [c['idx'] for c in src if seen.get((lst, mm(c['sets']), c['idx'])) != c['sets']]
             print('list', lst, 'source hypergraphs', len(src), 'missing or different', len(miss), flush=True)
             ok_all &= not miss
-    T = collections.Counter(); t0 = time.time(); tmax = 0
-    with mp.Pool(int(os.environ.get('PROCS', mp.cpu_count()))) as pool:
-        for k, (lst, idx, ok, info, nY, dt) in enumerate(pool.imap_unordered(check_core, [r for r in recs if r['result'] == 'certified'], chunksize=4)):
-            T['covered' if ok else 'NOT COVERED'] += 1
-            T['maximum matchings checked'] += nY
-            tmax = max(tmax, dt)
-            if ok:
-                for a, c in info.items(): T[a] += c
-            else:
-                ok_all = False
-                print('NOT COVERED', lst, idx, info, flush=True)
-            if (k + 1) % 2000 == 0: print('... %d, %.0f s' % (k + 1, time.time() - t0), flush=True)
     for a in sorted(T): print(a, T[a])
     print('slowest hypergraph %.2f s' % tmax)
     print('time %.0f s' % (time.time() - t0))

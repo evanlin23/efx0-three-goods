@@ -2,7 +2,8 @@
 written by k4/search4.py), by the ordinal CEGAR of k4/oc1cert/cegar.py.
 
     python3 k4/oc1cert/run.py LIST[,LIST...] --out=results/k4_oc1max/cert_<tag>.json.gz [--jobs=4] [--stride=S --offset=O]
-           [--limit=SEC] [--no-compact] [--depth=D] [--idx=I,J,...]
+           [--limit=SEC] [--no-compact] [--depth=D] [--idx=I,J,...] [--summary=S.jsonl.gz]
+An --out ending in .jsonl.gz is written as one JSON record per line (header line first) while the run goes.
 --depth=D: up to D moves in sequence (OC_D form; default 1 = OC1^max).  --idx: only these core indices (within m).
 
 LIST is a name like 2, 3, 4_n4_1, 5_pure (results/k4_certs_<LIST>.json.gz).  A hypergraph whose outer loop finds a
@@ -31,6 +32,12 @@ def job(task):
     r = C.run(time_limit=limit)
     rec = {'list': lst, 'idx': idx, 'sets': sets, 'm': C.m, 'nu': C.nu, 'domains': [len(D) for D in C.dom],
            'result': r, 'stats': C.stats(), 'time': round(time.time() - t0, 3)}
+    if C.oc1_fails:      # pairs where one move did not suffice (only with --depth >= 2): OC1^max fails there
+        rec['oc1_fails'] = []
+        for prof, Y in C.oc1_fails[:3]:
+            vals = [list(C.dom[i][t]) for i, t in enumerate(prof)]
+            rec['oc1_fails'].append({'vals': vals, 'picks': list(Y), 'raw_check': raw_check(sets, vals, Y)})
+        rec['n_oc1_fail_pairs_met'] = len(C.oc1_fails)
     if r == 'certified':
         W = C.compact() if compact else C.witnesses
         rec['witnesses'] = [w.to_json() for w in W]
@@ -63,9 +70,22 @@ def main():
             tasks.append((lst, c['idx'], c['sets'], limit, compact, depth))
     print('hypergraphs', len(tasks), 'jobs', jobs, flush=True)
     t0 = time.time(); T = collections.Counter(); recs = []; tmax = (0, None)
+    header = {'statement': 'OC1^max (K4.SDC.OC1MAX) for every strict profile: for every type profile and every '
+                           'SD order whose picks form a maximum matching, the picks have a one-absorber EFX0 '
+                           'completion or at most DEPTH official moves (addition, chain, ring) give bases that '
+                           'have one (DEPTH = 1 is OC1^max)', 'depth': depth,
+              'generator': 'k4/oc1cert/cegar.py', 'lists': lists, 'stride': stride, 'offset': offset}
+    stream = out and out.endswith('.jsonl.gz')     # one JSON record per line (header first), not kept in memory
+    summary = opt.get('summary')                   # optional: the records without witnesses, as JSON lines
+    if stream:
+        os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
+        fout = gzip.open(out, 'wt'); fout.write(json.dumps(header) + '\n')
+    fsum = gzip.open(summary, 'wt') if summary else None
     with mp.Pool(jobs) as pool:
         for k, rec in enumerate(pool.imap_unordered(job, tasks, chunksize=1 if len(tasks) < 200 else 4)):
-            recs.append(rec)
+            if stream: fout.write(json.dumps(rec) + '\n')
+            else: recs.append(rec)
+            if fsum: fsum.write(json.dumps({x: rec[x] for x in rec if x != 'witnesses'} | {'n_witnesses': len(rec.get('witnesses', []))}) + '\n')
             T['result %s' % rec['result']] += 1
             T['%s nu=%d n=%d' % (rec['list'], rec['nu'], len(rec['sets']))] += 1
             for kd, c in rec['stats']['kinds'].items(): T['witness kind %s (found by the inner)' % kd] += c
@@ -77,21 +97,25 @@ def main():
                 for f in rec.get('fails', []):
                     if f['raw_check']['raw'] == 'OC1 fails' and f['raw_check']['orders_giving_picks'] > 0:
                         print('OC1MAX CANDIDATE FAILURE (raw checker agrees)', json.dumps({'sets': rec['sets'], **f}), flush=True)
+            if rec.get('oc1_fails'):
+                T['hypergraphs where OC1^max fails (one move not enough for some profile)'] += 1
+                for f in rec['oc1_fails']:
+                    T['OC1^max failures raw-checked: %s' % f['raw_check']['raw']] += 1
+                print('OC1MAX FAILS (raw: %s)' % rec['oc1_fails'][0]['raw_check']['raw'],
+                      json.dumps({'list': rec['list'], 'idx': rec['idx'], 'sets': rec['sets'], **rec['oc1_fails'][0]}), flush=True)
             if (k + 1) % 500 == 0:
                 print('... %d hypergraphs, %.0f s' % (k + 1, time.time() - t0), flush=True)
     recs.sort(key=lambda r: (r['list'], r['idx']))
     for key in sorted(T): print(key, T[key])
     print('slowest hypergraph %.2f s %s' % tmax)
     print('time %.0f s' % (time.time() - t0))
-    if out:
+    if fsum: fsum.close()
+    if stream:
+        fout.close(); print('wrote', out)
+    elif out:
         os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
         with gzip.open(out, 'wt') as f:
-            json.dump({'statement': 'OC1^max (K4.SDC.OC1MAX) for every strict profile: for every type profile and every '
-                                    'SD order whose picks form a maximum matching, the picks have a one-absorber EFX0 '
-                                    'completion or at most DEPTH official moves (addition, chain, ring) give bases that '
-                                    'have one (DEPTH = 1 is OC1^max)', 'depth': depth,
-                       'generator': 'k4/oc1cert/cegar.py', 'lists': lists, 'stride': stride, 'offset': offset,
-                       'cores': recs}, f)
+            json.dump({**header, 'cores': recs}, f)
         print('wrote', out)
 
 

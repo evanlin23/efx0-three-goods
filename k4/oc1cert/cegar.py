@@ -164,6 +164,7 @@ class Cert:
         self.seen = set()
         self.found = []              # witnesses found by the inner (before images)
         self.fails = []
+        self.oc1_fails = []          # (profile, picks) where the inner needed two moves (OC1^max fails there)
 
     # ------------------------------------------------------------------ outer
     def mask(self, i, S):
@@ -461,6 +462,7 @@ class Cert:
                         if len(cands) >= self.kcand: break
                 if len(cands) >= self.kcand: break
             if cands:
+                if d >= 1: self.oc1_fails.append((list(prof), tuple(Y)))     # no witness with one move: OC1 fails here
                 return sorted(cands, key=self.volume, reverse=True)[:self.keep]
             level = nxt
         return []
