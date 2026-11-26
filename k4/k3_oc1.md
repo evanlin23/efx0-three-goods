@@ -176,6 +176,13 @@ largest total score.
   of disjoint trades.
 - *Lexicographic rules.* Maximizing the score vector read from the last agent backwards fails on 293 of 17,751 hard
   starts; from the first agent, 884 (`rules2.py`).
+- *Naive induction on the last agent* (`induct_last.py`). If I − ℓ's draft passes Lemma 1, the repairing trade of I
+  always passes through ℓ (7,092 of 7,092 at n = 5). But if I − ℓ's draft is hard, its repairing trades repair I's
+  draft on only 1,304 of 3,596 n = 5 starts (0 of 2,512 at n = 4). So adding ℓ changes the trade, not just extends
+  the completion.
+- *One terminal* (|T| = 1, `k3_oc1.md` §4). The max-score trade always starts at an agent exposed for ℓ and passes
+  through ℓ: LB⁺'s Theorem B shape. After it, Lemma 1 holds with no owner in 4,316 of 4,904 n = 5 cases, and with an
+  owner in the other 588.
 - *DE's own finishing test* instead of Lemma 1 fails: 16 n = 3 and 556 n = 4 starts have no DE trade after which DE can
   finish (`oc1_de.py`). DE's test asks for a blocker's good to be moved even when the finisher ends with only two goods.
 
