@@ -1,0 +1,6 @@
+$ python3 k4/k3oc1/oc1_fast.py certs:6 3 4
+distinct drafts 9310268
+hard 232880
+hypergraphs 59
+profiles 2752704
+time 475 s

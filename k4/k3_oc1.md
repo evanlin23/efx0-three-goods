@@ -14,7 +14,8 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - **Theorem R1C (§3): OC₁ at k = 3 for every order whose draft is R1-compatible**, i.e. whose need order has an R1-priority linear extension (this includes every R1-priority order). The proof is LB⁺ with every slot of size one. The rotation is one DE trade, and the completion has one absorber.
 - **Conjectured (no counterexample in any test).** **Theorem candidate OT (§4).** At k = 3, from the draft of every order, the simple completion exists, or it exists after every DE trade (chain or ring) of largest total score. The same holds after every trade of least ω. OT implies OC₁ at k = 3.
   - Exhaustive tests: every connected core with 3 ≤ n ≤ 5 (339 hypergraphs), every ranking profile, every order: 273,724,272 starts. Also n = 4 with one dead good.
-  - Sampled tests: n = 6 cores (11 million starts), random instances with n ≤ 10, and the binary-tree family of `paper/k3-simple` Appendix C up to n = 45 (draft deficits up to 7, owner still needed after the trade).
+  - Exhaustive at n = 6, m ∈ {10, 11}: all 236 connected cores, every profile, and the drafts of all 720 orders, enumerated as distinct drafts (`oc1_fast.py`, `oc1_fast_certs6_*.log`): 11,010,816 profiles, 37,318,272 distinct drafts, 888,292 hard, no failure.
+  - Sampled tests: n = 6 cores with m ≤ 9 (6 million starts), random instances with n ≤ 10, and the binary-tree family of `paper/k3-simple` Appendix C up to n = 45 (draft deficits up to 7, owner still needed after the trade).
   - OC₁ itself was also checked directly, with general chains and the exhaustive one-absorber completion, for every core with n ≤ 4 and with n = 5, m = 9.
   - On all data no max-score trade is a length-zero DE chain (a free x dropping its top for its pair, which is not a §29 chain; `k0check.py`). So the max-score trade is always an improving chain, and OT's data are OC₁ data.
 - **Refuted proof routes** (§5):
@@ -64,6 +65,7 @@ upgrades):
 | n = 5, m = 9 cores (15) | 13,996,800 | 114,596 | 147,196 | 0 | 0 |
 | n = 5, m ≤ 8 cores (277) | 258,474,240 | 1,587,988 | 1,641,364 | 0 | 0 |
 | n = 6 cores, 30 random profiles each (236) | 5,097,600 | | 21,261 | 0 | 0 |
+| n = 6, m ∈ {10, 11}, every profile (236); counted in distinct drafts | 37,318,272 drafts | | 888,292 drafts | 0 | 0 |
 | n = 6, m ≤ 9 cores, 3 random profiles each (2,856) | 6,168,960 | | 13,782 | 0 | 0 |
 | random 3-uniform instances, n = 6–10 | 200,000 | | 362 | 0 | 0 |
 | Appendix C trees (k, d) = (2,1), (2,2), (3,2), (4,2) | n = 6, 14, 21, 28 | | 4 | 0 | 0 |
