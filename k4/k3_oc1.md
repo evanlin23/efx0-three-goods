@@ -5,8 +5,14 @@ the hard starts, one per line, readable by every analysis script). Notation: `pa
 and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Everything called evidence is evidence only
 (PROMPT.md §5 rule 3).
 
-## Status (end of burst 3)
+## Status (end of burst 4)
 
+- **Headline.** OC₁ as tested in `k4/sdc.md` §29 is false at k = 3. On an n = 5 instance outside the ledger's cores
+  the picks need two chains of `k4/sdc/de_free.py` (§9, `attempts/k4-k3oc1-oc1-counterexample.md`). On cores, OC₁
+  holds on every test, in the strong form OT below.
+  - It is repaired by one chain if a chain may pass an empty-handed agent, and by the free completion.
+  - Proved here: OC₁ for R1-compatible orders (Theorem R1C), and LB⁺'s rotation for every order (Theorem B\*).
+  - The first k = 3 fact that fails at k = 4 is (DE-a): only top-holders gain from junk (nsw-local-n3m5).
 - **Proved.**
   - Lemma 1 (§2): soundness of the simple completion. LB⁺'s Lemma 1 with one slot per terminal, plus an empty-handed owner left with two goods.
   - Lemma 2 (§2): ω = (m − 2n) + e + ν, where e counts the agents holding nothing and ν the needed goods; no DE trade raises ω.
@@ -19,7 +25,7 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - On the ledger's cores two stronger forms hold on all data: every least-ω trade passes even Lemma 1, and every
     max-score trade completes.
   - In DE's general core case (dead goods, several private goods) both stronger forms are refuted at n = 6
-    (`attempts/k4-k3oc1-selection-rules.md`).
+    (`attempts/k4-k3oc1-selection-rules.md`). OT₁ itself fails there at n = 5, and so does "every least-ω trade" (§9).
   - Max score with Lemma 1 already fails on cores with n = 6, m = 9: a pair holder must absorb a junk good.
   - Exhaustive tests: every connected core with 3 ≤ n ≤ 5 (339 hypergraphs), every ranking profile, every order: 273,724,272 starts. Both rules were rechecked on every hard draft (`oc1_fast2_*.log`). Also n = 4 with one dead good.
   - Exhaustive in DE's general core case with n ≤ 4 (`oc1_general.py`): every hypergraph class (16 for n = 3, 93 for n = 4: any private goods, disconnected allowed), 0, 1 or 2 dead goods, every profile and order. OT₁ and OT-ω hold (`oc1_general_4_dead*.log`).
