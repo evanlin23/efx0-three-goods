@@ -51,6 +51,7 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | Finding M (§12) | the coordinator's matroid-partition form (a transversal matroid of slots, one matroid per frozen agent, Rado's condition) is a valid sufficient condition, and Rado's condition equals the model when the D_i are disjoint and all matroids. It is **not exact**, because of (i) overlapping D_i (19% of owner tests), (ii) non-matroid {xy, xz} agents, and (iii) even with disjoint matroids, the strictness clause (150 tests) and exposure that depends on H (25 tests). Lemma 2's count, which has both, is exact | evidence: 20,648 owner tests |
 | Finding C (§13) | outside canonical chains, only 20 configurations are left. Every hard start of every data set (n ≤ 5) has a canonical repair from a dangerous agent with owner k or end, except 20 distinct configurations (n = 3–5, smallest T3), listed in `no_canonical.json`. Each of those has a repair from D with owner k or end and exactly one non-canonical step: one middle agent takes its predecessor's good together with junk (17), or k just adds junk to its base (3) | evidence |
 | **Conjecture OC₁-ED\*** (§14; agreed with the TTC session's OC₁-ED) | for every order: the picks have a one-absorber completion, or some ED chain (x₀ dangerous; middle agents take exactly their predecessor's pick, which they want; only the head x_t may add junk) leaves an S\* completion owned by x₀ or x_t | evidence: all 2,308 one-absorber-hard starts (n ≤ 5). With "S\*" also in the first alternative it fails only on lb4-owner-needs-from-base-n4m8 (2 starts), which complete at the picks with a compensated frozen slot |
+| Finding D1 (§15) | one dangerous agent k: on all 197 one-absorber-hard starts with \|D\| = 1, some ED chain from k with an *inclusion-minimal* improving H₀ leaves an S\* completion owned by k (rule ED-MIN). The swap (t = 1) is enough whenever f = 1, but fails on 19 configurations with f ≥ 2, listed in `d1_swapmin_fails.json` | evidence |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
 | refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `attempts/k4-oc1-hall-canonical-chains.md` |
 | refuted | a single culprit (LB⁺'s bad case: some owner fails only because of one frozen agent): false at about 30% of the hard starts | `attempts/k4-oc1-hall-single-culprit.md` |
@@ -686,3 +687,38 @@ middle step. `k4/oc1_hall/ed_check.py` (`ed_check.log`, `ed_check_list.log`) com
 Evidence: all 2,308 one-absorber-hard starts with n ≤ 5. The TTC session adds 264 at k = 3, 103 at n = 6–9 and two
 OC₁-H instances at n = 6, m = 10 (not re-run here). OC₁-ED\* implies OC₁, hence TARGET₄. Its second alternative has
 Lemma 2\* as its exact invariant.
+
+## 15. One dangerous agent: a fixed rule (proof plan, step 1)
+
+`k4/oc1_hall/d1_rules.py`, `d1_rules.log`, `d1_swapmin_fails.json`. The one-absorber-hard starts with exactly one
+dangerous agent k:
+- 197 in all: 5 special, 14 screen, 14 suite, 112 logs, 41 random n ≤ 3, 11 random n = 4, 0 random n = 5;
+- by (|F|, |W_k|): (1, 1) 36, (1, 2) 9, (2, 1) 67, (2, 2) 22, (3, 1) 32, (3, 2) 11, (3, 3) 2, (4, 1) 16, (4, 2) 2.
+
+| rule (the ED chain starts at k; owner k unless stated) | starts repaired (of 197) |
+|---|---|
+| SWAP-ALL: t = 1, k takes everything it values in J ∪ {Y_w} | 171 |
+| SWAP-MIN: t = 1, an inclusion-minimal improving H₀ | 177 |
+| ED-ALL: any ED chain, k takes everything it values in J ∪ B_{x_t} | 195 |
+| **ED-MIN: any ED chain, an inclusion-minimal improving H₀** | **197** |
+| ED-ANY (Conjecture OC₁-ED\* (b): any H₀, owner k or x_t) | 197 |
+
+- **Finding D1.** With one dangerous agent k, OC₁-ED\* (b) holds in the narrower form ED-MIN. The owner is k itself,
+  and H₀ is inclusion-minimal among the improving sets inside J ∪ B_{x_t}. So the step-1 target is: *if D = {k} and
+  the picks have no one-absorber completion, then some ED chain from k with a minimal improving H₀ has an S\*
+  completion owned by k.*
+- *Where the shortest rule fails.* With f = 1 (45 starts) the swap with a minimal H₀ always works. This is Finding F1,
+  proved for one wanter in Theorem F1₁. With f ≥ 2 the swap fails on 19 distinct configurations (n = 3–5; smallest
+  log584, n = 3, m = 5), all repaired by a longer ED chain. They are listed with their orders in
+  `d1_swapmin_fails.json`. This is the list a proof of step 1 must justify: a passing chain is needed when a second,
+  non-dangerous frozen agent sits between k and an unwanted end.
+- ED-ALL fails only on r1179 (= log558; f = 1, one wanter). There the improving set of three goods crowds another agent,
+  and a minimal pair works: case (B2) of Theorem F1₁.
+
+*Why minimal H₀ and owner k fit Lemma 2\*.*
+- With k as owner, k's own demand disappears.
+- A minimal H₀ crowds as few agents as possible (fewest goods inside X_k).
+- With |D| = 1, the other frozen agents value no junk at the picks. Their demands after the chain can come only from
+  the released end pick and from H₀.
+- By the k ≤ 4 count, each such agent has at most one good of its own left in the pool. That is the lever named in the
+  coordinator's note, and in the proof of Theorem F1₁ it appears as "x's leftover lower good is a single good".
