@@ -34,6 +34,7 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | Conjecture F1W (K4.OCH.F1W) | f = 1, several wanters, n ≥ 4: if some owner o ≠ x needs at most one of x's junk goods kept out (τ(o) ≤ 1), the picks have an S\* completion. With n ≥ 3, τ(o) ≥ 2 for every o only if x's three lower goods are junk and every pair of them beats a, and then a swap is needed (red-b1) | evidence (§11): 0 failures in 1,243 starts with τ ≤ 1 at n = 4–8, 319 of them with τ = 1 (τ = 0 is Proposition 3) |
 | Finding M (§12) | the coordinator's matroid-partition form (a transversal matroid of slots, one matroid per frozen agent, Rado's condition) is a valid sufficient condition, and Rado's condition equals the model when the D_i are disjoint and all matroids. It is **not exact**, because of (i) overlapping D_i (19% of owner tests), (ii) non-matroid {xy, xz} agents, and (iii) even with disjoint matroids, the strictness clause (150 tests) and exposure that depends on H (25 tests). Lemma 2's count, which has both, is exact | evidence: 20,648 owner tests |
 | Finding C (§13) | outside canonical chains, only 20 configurations are left. Every hard start of every data set (n ≤ 5) has a canonical repair from a dangerous agent with owner k or end, except 20 distinct configurations (n = 3–5, smallest T3), listed in `no_canonical.json`. Each of those has a repair from D with owner k or end and exactly one non-canonical step: one middle agent takes its predecessor's good together with junk (17), or k just adds junk to its base (3) | evidence |
+| **Conjecture OC₁-ED\*** (§14; agreed with the TTC session's OC₁-ED) | for every order: the picks have a one-absorber completion, or some ED chain (x₀ dangerous; middle agents take exactly their predecessor's pick, which they want; only the head x_t may add junk) leaves an S\* completion owned by x₀ or x_t | evidence: all 2,308 one-absorber-hard starts (n ≤ 5). With "S\*" also in the first alternative it fails only on lb4-owner-needs-from-base-n4m8 (2 starts), which complete at the picks with a compensated frozen slot |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
 | refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `attempts/k4-oc1-hall-canonical-chains.md` |
 | refuted | a single culprit (LB⁺'s bad case: some owner fails only because of one frozen agent): false at about 30% of the hard starts | `attempts/k4-oc1-hall-single-culprit.md` |
@@ -637,3 +638,35 @@ S\*, and the chain lemma covers them. Keeping S\* keeps the invariant exactly Le
 
 So a proof of the chain lemma can restrict to canonical chains from D, plus one junk-assisted middle step. The
 canonical part is what Theorem F1₁ handles at f = 1.
+
+## 14. Agreement with the TTC session: Conjecture OC₁-ED\*
+
+The TTC session (`claude/k4-ttc`, `k4/ttc.md` §8–§10) states **OC₁-ED**:
+- the absorber is an endpoint of the chain, x₀ or the head x_t;
+- x₀ is dangerous;
+- middle agents take exactly their predecessor's pick, and want it;
+- only the head may add junk.
+
+That statement uses one-absorber completions. Finding C says: canonical chains from D, plus at most one junk-assisted
+middle step. `k4/oc1_hall/ed_check.py` (`ed_check.log`, `ed_check_list.log`) compares the two on every hard start:
+
+| hard starts (n ≤ 5, every order) | ED chain, S\* completion owned by x₀ or x_t | ED chain, one-absorber completion with absorber x₀ or x_t | head takes junk needed (no fully canonical repair) |
+|---|---|---|---|
+| one-absorber-hard: 2,308 (16 special, 194 screen, 196 suite, 1,364 logs, 538 random) | **2,308** | 2,308 | 2,308 − 2,266 = 42 |
+| S\*-hard but one-absorber-complete at the picks: 368 | 362 | 362 | |
+
+- *The two statements agree.* On every hard start in the one-absorber sense, an ED chain repairs, even with the
+  stricter S\* completion. Finding C's junk-assisted step sits at the head of the chain in 18 of the 20 configurations
+  of `no_canonical.json`.
+- The other 2 are both orders of lb4-owner-needs-from-base-n4m8, picks (4, 6, 7, 5) and (6, 5, 4, 7), each counted in
+  screen, suite and logs. Their picks complete with a compensated frozen slot, so they are not hard for OC₁. In S\*
+  they need junk at a non-head middle agent, or an owner off the chain.
+
+**Agreed statement (Conjecture OC₁-ED\*, K4.OCH.ED).** For every serial-dictatorship order:
+- the picks have a one-absorber completion; or
+- some ED chain leaves an S\* completion owned by x₀ or x_t. Here x₀ is dangerous, x₀ takes H₀ ⊆ J ∪ B_{x_t},
+  every middle agent takes exactly its predecessor's pick (which it wants), and the head may add junk.
+
+Evidence: all 2,308 one-absorber-hard starts with n ≤ 5. The TTC session adds 264 at k = 3, 103 at n = 6–9 and two
+OC₁-H instances at n = 6, m = 10 (not re-run here). OC₁-ED\* implies OC₁, hence TARGET₄. Its second alternative has
+Lemma 2\* as its exact invariant.
