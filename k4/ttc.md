@@ -541,7 +541,8 @@ unwanted agent, because the want graph is acyclic and points backwards in π. Ga
      counterexamples): running at the end of burst 3.
 
    The head-only objective broke OC₁-H within 7 runs, so the endpoint form survives a test that the head form did not.
-2. *k = 3 (for the `k4-k3-oc1` angle).* Prove (P1₃) and (P2₃) of §11. Both hold on all 215 + 49 hard starts tested.
+2. *k = 3 (for the `k4-k3-oc1` angle).* Prove (P1₃) and (P2₃) of §11. Both hold on all 215 distinct hard starts
+   tested (n = 5 cores; `pointer.log`).
    The fixed point should come from LB⁺'s block structure ((A3): exposed agents are block leaders), and the repair
    from Draft and Exchange's finishing count with the chain's end as the finisher.
 3. *k = 4 beyond the pointer argument (§11).* Classify the 72 starts where no fixed-point chain repairs: a wanted
@@ -550,6 +551,6 @@ unwanted agent, because the want graph is acyclic and points backwards in π. Ga
 4. *MDP∃ with a second extremal criterion* (fewest junk goods moved, least total gain), to rule out the r617 pattern
    of two independent pool swaps.
 5. *The core of a pool-owned market* (Lemma T3's remark): not pursued. With the pool owned by an agent, individual
-   rationality would force that agent to receive at least its pick plus all the junk, which no one-absorber
-   completion with other junk holders can give. The core is the wrong notion here, and value domination (MD) is the
-   right IR invariant.
+   rationality would force that agent to receive at least its pick plus all the junk it values. That fails as soon
+   as another agent's single junk good is one the owner values, which is the typical protective slot. The core of
+   such a market looks like the wrong notion; value domination (MD) is the IR invariant that matters.
