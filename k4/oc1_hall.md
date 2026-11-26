@@ -19,7 +19,18 @@ An ED chain is an improving chain x₀, x₁, …, x_t in which:
 An S\* completion gives at most one junk good to each single-good holder that nobody wants, nothing to frozen agents
 and multi-good holders, and the rest to the owner.
 
-OC₁-ED\* implies OC₁, hence MD and TARGET₄. Lemma 2\* (§6) is the exact invariant for (b). Evidence: §14, all 2,308
+**REFUTED as stated (§16).** The TTC session found OC₁ counterexamples at n = 6, m = 10
+(`claude/k4-ttc`, `attempts/k4-ttc-oc1-counterexample.md`), verified here independently. They refute OC₁, OC₁-ED\* and
+Finding S\* for every instance and every order. Two agents hold no pick, and the frozen agents' junk danger sets are
+disjoint pairs that need two absorbers.
+- One of the 84 instances is a connected core, also with strict types: OC₁ fails for 24 of its 720 orders.
+- That core has two agents with two private goods, which K4.MC2 excludes from minimal counterexamples to TARGET₄.
+
+Surviving forms, open:
+- OC₁ᵖ-ED\*: agents without a pick may take any number of junk goods and are not owners;
+- OC₁-ED\* restricted to strict connected cores with no agent holding two private goods.
+
+OC₁-ED\* would imply OC₁, hence MD and TARGET₄. Lemma 2\* (§6) is the exact invariant for (b). Evidence: §14, all 2,308
 one-absorber-hard starts with n ≤ 5, every order. The TTC session's data are in `k4/ttc.md` §8–§10.
 
 Code: `k4/oc1_hall/` (`ohlib.py` is shared). Logs: `results/k4_oc1_hall/`. Every check uses the raw EFX₀ definition
@@ -32,7 +43,7 @@ Code: `k4/oc1_hall/` (`ohlib.py` is shared). Logs: `results/k4_oc1_hall/`. Every
 
 Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PROMPT.md §5 rule 3).
 
-## Status (end of burst 5)
+## Status (end of burst 6)
 
 | | statement | status |
 |---|---|---|
@@ -43,14 +54,14 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | Cor. 2.1, Lemma 4 | (H2) is Hall's condition for a system of distinct admissible holders of H, so C(B, o) = a transversal of the demands with an SDR into the slots; robust helpers always suffice | written proofs (§6) |
 | Prop. 3 (T2⁺) | f = 1: if some o ≠ x has v_x((J ∪ {Y_o}) ∩ R_x) ≤ p_x, the picks have an S\* completion with owner o | written proof (§5) |
 | **Theorem F1₁** | f = 1, exactly one wanter, n ≥ 3: the picks or one swap x → w have an S\* completion. This covers the open sub-case "x improves only with three goods" of `k4/sdc.md` §30 | written proof (§5); the proof run literally succeeds on all 3,329 such starts |
-| Finding S\* | OC₁ holds with the narrower completion S\*: one owner (any agent); one junk good each for single-good holders that are not frozen; nothing for frozen agents and multi-good holders | evidence: 0 failures on 14,461 distinct starts with n ≤ 5 (every order), and on 48,123 distinct starts with n = 6–10 (sampled orders, SAT, §7) |
+| Finding S\* (**refuted at n = 6**, §16) | OC₁ holds with the narrower completion S\*: one owner (any agent); one junk good each for single-good holders that are not frozen; nothing for frozen agents and multi-good holders | evidence: 0 failures on 14,461 distinct starts with n ≤ 5 (every order), and on 48,123 distinct starts with n = 6–10 (sampled orders, SAT, §7) |
 | Finding B | at every hard start (no S\* completion), some repairing chain starts at a dangerous frozen agent k, and after it k owns: all but 1 of the 2,676 hard starts with n ≤ 5. In that one start (§29's dichotomy instance) the chain end owns. At n = 6–10, every one of the 1,300 hard starts is repaired by a chain after which a dangerous agent that gave its pick away owns. 80 adversarial climbs (§10) never broke the "k or end owns" form; 77 reached a start with exactly one such repair | evidence |
 | Finding F1 | f = 1: at every hard start, some swap x → w with an *inclusion-minimal* improving set H₀ ⊆ J ∪ {Y_w} repairs with x as owner, also when \|W_x\| = 2 | evidence: all 100 f = 1 hard starts |
 | Finding F1W | f = 1, several wanters: hard starts occur only at n = 3 in the data (n − 2 = 1 slot). For n ≥ 4, the picks have an S\* completion with a wanter as owner on 219 of 220 starts | evidence (§5) |
 | Conjecture F1W (K4.OCH.F1W) | f = 1, several wanters, n ≥ 4: if some owner o ≠ x needs at most one of x's junk goods kept out (τ(o) ≤ 1), the picks have an S\* completion. With n ≥ 3, τ(o) ≥ 2 for every o only if x's three lower goods are junk and every pair of them beats a, and then a swap is needed (red-b1) | evidence (§11): 0 failures in 1,243 starts with τ ≤ 1 at n = 4–8, 319 of them with τ = 1 (τ = 0 is Proposition 3) |
 | Finding M (§12) | the coordinator's matroid-partition form (a transversal matroid of slots, one matroid per frozen agent, Rado's condition) is a valid sufficient condition, and Rado's condition equals the model when the D_i are disjoint and all matroids. It is **not exact**, because of (i) overlapping D_i (19% of owner tests), (ii) non-matroid {xy, xz} agents, and (iii) even with disjoint matroids, the strictness clause (150 tests) and exposure that depends on H (25 tests). Lemma 2's count, which has both, is exact | evidence: 20,648 owner tests |
 | Finding C (§13) | outside canonical chains, only 20 configurations are left. Every hard start of every data set (n ≤ 5) has a canonical repair from a dangerous agent with owner k or end, except 20 distinct configurations (n = 3–5, smallest T3), listed in `no_canonical.json`. Each of those has a repair from D with owner k or end and exactly one non-canonical step: one middle agent takes its predecessor's good together with junk (17), or k just adds junk to its base (3) | evidence |
-| **Conjecture OC₁-ED\*** (§14; agreed with the TTC session's OC₁-ED) | for every order: the picks have a one-absorber completion, or some ED chain (x₀ dangerous; middle agents take exactly their predecessor's pick, which they want; only the head x_t may add junk) leaves an S\* completion owned by x₀ or x_t | evidence: all 2,308 one-absorber-hard starts (n ≤ 5). With "S\*" also in the first alternative it fails only on lb4-owner-needs-from-base-n4m8 (2 starts), which complete at the picks with a compensated frozen slot |
+| **Conjecture OC₁-ED\*** (§14; agreed with the TTC session's OC₁-ED); **refuted as stated** by the TTC session's n = 6 instances (§16) | for every order: the picks have a one-absorber completion, or some ED chain (x₀ dangerous; middle agents take exactly their predecessor's pick, which they want; only the head x_t may add junk) leaves an S\* completion owned by x₀ or x_t | evidence: all 2,308 one-absorber-hard starts (n ≤ 5). With "S\*" also in the first alternative it fails only on lb4-owner-needs-from-base-n4m8 (2 starts), which complete at the picks with a compensated frozen slot |
 | Finding D1 (§15) | one dangerous agent k: on all 197 one-absorber-hard starts with \|D\| = 1, some ED chain from k with an *inclusion-minimal* improving H₀ leaves an S\* completion owned by k (rule ED-MIN). The swap (t = 1) is enough whenever f = 1, but fails on 19 configurations with f ≥ 2, listed in `d1_swapmin_fails.json` | evidence |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
 | refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `attempts/k4-oc1-hall-canonical-chains.md` |
@@ -722,3 +733,57 @@ dangerous agent k:
   the released end pick and from H₀.
 - By the k ≤ 4 count, each such agent has at most one good of its own left in the pool. That is the lever named in the
   coordinator's note, and in the proof of Theorem F1₁ it appears as "x's leftover lower good is a single good".
+
+## 16. OC₁ is false at n = 6 (TTC session), checked here; what survives
+
+**The counterexample** (TTC session, `claude/k4-ttc`, commit 5e99d73, `attempts/k4-ttc-oc1-counterexample.md`,
+`results/k4_ttc/oc1_counterexamples.json`, 84 instances).
+- Instance A: sets [[0,2,3,1],[1,4,5,9],[1,2,0,8],[1,6,7,8],[3,6,9],[1,3,6,9]], values
+  [[2,7,8,3],[3,6,4,9],[12,2,4,8],[12,6,3,4],[7,2,10],[7,8,4,1]]; order 0, …, 5; picks (3, 9, 1, 6, none, none).
+- Agents 4 and 5 hold no pick and want every pick, so agents 0–3 are frozen. Their junk danger sets are {0, 2}, {4, 5},
+  {7, 8} (agent 2: {0, 2, 8}), pairwise disjoint.
+- A single absorber cannot avoid all of them with only one free slot. The junk needs two absorbers, which the free
+  completion finds (agents 4 and 5).
+
+**Independent check** (`k4/oc1_hall/verify_ttc_cex.py`, `verify_ttc_cex.log`; this workstream's raw brute force
+`ohlib.absorb_brute`, SAT `extends_A`, `de_free` chains and rings):
+- picks: no one-absorber completion (SAT and brute force agree);
+- every state one chain or ring reaches (92): none has one.
+- OC₁ᵖ, i.e. agents without a pick unrestricted, holds at the picks: allocation ({3}, {9}, {1}, {6}, {2, 4, 7},
+  {0, 5, 8}), raw EFX₀.
+
+**Are they cores?** `k4/oc1_hall/core_filter.py` peels by R1 and R2 (`core_filter_ttc.log`).
+- 83 of the 84 are not cores: agent 4 of A is top-heavy (10 ≥ 7 + 2). After peeling, 71 leave fewer than two agents.
+  The other 12 leave cores with n = 4 or 5, which satisfy OC₁ from every order.
+- **Instance 36 is a connected core:** sets [[0,2,3,1],[6,4,5,9],[1,2,3,9],[1,6,7,8],[3,6,9],[1,3,6,9]], values
+  [[3,7,8,6],[2,9,6,14],[14,2,8,10],[8,7,6,3],[14,4,12],[10,15,4,2]].
+  - OC₁ fails for 24 of its 720 orders, all with picks (3, 9, 1, 6, none, none).
+  - Both strict perturbations of agent 2's tie (v(2) + v(3) = v(9)) fail on the same 24 orders.
+  - So a **strict connected k = 4 core with n = 6** violates OC₁, and hence OC₁-ED\* and Finding S\*.
+  - In it, agents 1 and 3 each have **two private goods** ({4, 5} and {7, 8}, worth less than the rest, so R2 does not
+    peel them).
+
+**What this means.**
+- OC₁ "for every order" is false, even on strict cores. This workstream's random runs at n = 6–10 (§7) never produced
+  the configuration: two pickless agents together with three disjoint danger pairs.
+- *For TARGET₄*, a minimal counterexample is a strict connected core with n ≥ 6 (scope remark) and, by K4.MC2
+  (CERTIFIED), has no agent with two private goods. So OC₁ restricted to that class is not refuted. Instance 36 lies
+  outside it. Whether OC₁ (or OC₁-ED\*) holds on that class is open, and is the test to run next.
+- *Repair OC₁ᵖ* (TTC session): agents without a pick take any number of junk goods and do not count as owners. All 84
+  instances satisfy it at the picks.
+
+**Does Lemma 2\* extend to pickless agents of unlimited capacity?** Claim, proof sketch only, not checked by
+computation. Replace the single bundle X_o by the absorbing bundles: X_o, and one bundle Z_u for each agent u without
+a pick.
+- An agent u without a pick values no junk, so no junk bundle threatens u.
+- u is threatened by any bundle of two or more goods that contains a good u values. Such goods are picks, so their
+  holders are frozen (they take nothing), and the owner must not hold a good some pickless agent values.
+- Demands become "no danger set of a frozen or multi-good agent lies inside one absorbing bundle". This is a partition
+  condition, not one kept-out set. Exposure becomes "threatened by some absorbing bundle".
+- DT's moves work bundle by bundle: a threatened movable holder takes a good of the danger set inside the bundle that
+  threatens it.
+- So Lemma 2\*'s proof carries over. Its count becomes: some partition of J into the absorbing bundles and a slot set
+  H, in which every frozen or multi-good agent is safe against every absorbing bundle, and H has an SDR as in
+  Corollary 2.1.
+- With pickless agents present this is a multi-bin version of the transversal condition, close to the coordinator's
+  matroid-partition form (§12).
