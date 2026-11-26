@@ -40,6 +40,11 @@ angles in flight, and what each established. Ledger rows change only with artifa
 | OC₁ at perfect starts with |D| ≥ 2 dangerous agents (disjoint danger sets via Lemma PL; overlapping via PWk(a)); the Hall session keeps |D| = 1 (from 22:53) | session_01BYMGecLPfLsPCQYak86dm7 | its own branch (proof/k4-oc1max-multi) | draft PR |
 | General k: ROUND⁺, one round of disjoint chains from any SD start for strictly positive values (n = 4: a route to EFX for four agents) (from 22:53) | session_01BYMGecn2Gg5F8Q6oyTj69u | its own branch (proof/kgen-rounds) | `kgen/rounds.md` |
 | Matching theory: one-absorber completability as a bipartite matching (Lemma 2*), improving chains as augmenting paths; target "deficiency ≤ 1 at perfect starts when k ≤ 4" (from 22:55) | session_01BYMGecJz5BkPspxF3AFESm | its own branch (proof/k4-matching) | draft PR |
+| D1 sub-lemmas D1-C (CROWD) and D1-H case H-ii, split with the Hall session (from 22:58) | session_01BYMGebYzRJ5LPzgWyaPyrq | its own branch (proof/k4-d1) | draft PR |
+| Certify OC₁^max for ALL strict profiles on n ≤ 5 cores (ordinal CEGAR, second encoding) (from 22:58) | session_01BYMGebCRA4DLjCqvLLXBaY | its own branch (compute/k4-oc1max-cert) | draft PR |
+| Side angle: monotone EFX₀ with bounded relevance, the smallest k at which monotone EFX₀ fails (from 22:58) | session_01BYMGeaVoeoAHRPBzXqahDb | its own branch (proof/monotone-k) | draft PR |
+| New certified minimal-counterexample reductions: twins, near-twins, dense configurations (toward β = 5) (from 22:58) | session_01BYMGeaE5MHuxY3t8Ktrwqw | its own branch (proof/k4-twins) | draft PR |
+| Paper draft of the refereed results (paper/campaign/draft.md) (from 22:58) | session_01BYMGeYMBvUvhfc3gCD1iif | its own branch (paper/campaign) | draft PR |
 | Referee: independent, adversarial review of every written proof the angles produce (Theorem VM first) | session_01BYMGeYHb8rxaaJ1BScSCZY | `claude/k4-referee` | `k4/referee/` |
 
 The coordinator (this branch, `claude/kind-lamport-y8fdme`) runs an hourly burst: it checks each angle, verifies any
@@ -426,3 +431,13 @@ DYN and CONN2. Each session is asked to test its candidate on PW5, RD5 and kgen 
   - Corollary 3: OC₁ (t ≥ 0) at n = 3 holds at every k when some pick is top-heavy.
   - Redirected to option (b): read the simpler three-agent EFX proof, and see whether its potential argument runs as rounds of §29 chains from an SD start, and what n = 4 would need. TARGET₄ at n ≤ 5 is already certified.
 - **New session**: matching theory. One-absorber completability is a bipartite matching (Lemma 2\*), and improving chains are augmenting paths. Target: deficiency ≤ 1 at perfect starts when k ≤ 4. PW5 should have deficiency 2.
+
+### 2026-11-26 22:58 UTC: five more sessions (user: as many in parallel as is OK)
+- New sessions:
+  - D1-C / D1-H (H-ii), split off from the Hall session;
+  - ordinal-CEGAR certification of OC₁^max for all profiles at n ≤ 5, aiming at a CERTIFIED row;
+  - monotone EFX₀ with bounded relevance (side angle: does bounded k rescue monotone EFX₀, given the 3-agent, 8-good monotone counterexample?);
+  - new certified twin and dense-configuration reductions (toward TARGET₄ at β = 5);
+  - a paper draft of the refereed results.
+- **Haxell**: Conjecture W, at most 2-move composites (reassignment, swap, rotation along any cycle) decreasing (|pool|, −welfare). No stuck state on ~5.8M partial EFX₀ states, including every counterexample, at k = 3, 4, 5, 7 and with every good relevant. Rotations are necessary (family CYC_n). W implies TARGET₄, and its general form implies EFX₀ existence. Asked to test the CH-F and S′ stranded states.
+- **Lean** (formal/k4-oc1max, draft PR #109): SDPO (both inclusions), MAXSD, Lemma MAX, the §29 moves, OneAbsorber, ConjOC1max and target4_of_conjOC1max are machine-checked (session's report; the coordinator's independent re-run of lean/check.sh is in progress). Next: ConjOC1perf ⟹ TARGET₄ via RED.
