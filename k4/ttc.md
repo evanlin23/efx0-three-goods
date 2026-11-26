@@ -37,6 +37,21 @@ The failure is a property of special profiles, the kind random sampling misses (
 **Core climb** (`core_climb.py`, every mutation kept inside strict connected cores): at n = 6–7 no failure so far.
 Several runs reach a start with a single repairing move. The run is in progress.
 
+**What survives after burst 4.**
+- **OC** (one improving move, then a *free* completion), MD and SD-C hold on all data, including every OC₁
+  counterexample (zero moves needed there).
+- **MDP∃** (§7) is about free completions and is unaffected.
+- Lemmas T1–T4 (§2, §9, §11) are proved and unaffected. Lemma T4's pointer argument (§11) was aimed at one-absorber
+  completions and needs a multi-owner version.
+- *The TTC reading of the failure.* In AS99's TTC the pool has one owner, the top-priority agent. In Pápai's
+  hierarchical exchange (§1) each vacant good can have its own owner. The counterexample needs the pool split between
+  two owners, so that each holds one good of every danger pair. So the completion shape that k = 4 needs is the
+  hierarchical-exchange one, several pool owners, and not AS99's single owner.
+- *Suggested next target* (for the Hall-count angle): an exact count for free completions at the picks. Junk goes
+  only to unfrozen agents, and no bundle may strictly contain a danger set. That is a list-colouring of the junk
+  danger hypergraph by the unfrozen agents, with capacity side conditions. The target is then whether one chain
+  restores the colouring.
+
 ## Status at the end of burst 3 (OC₁-E and OC₁-ED are refuted with OC₁ in burst 4)
 
 **Refuted in burst 3.** Conjectures OC₁-H (the chain's head absorbs) and OC₁-HD (the same with the dangerous-rotation
@@ -415,6 +430,10 @@ description of every improving chain):
   obstructions (a feasibility constraint versus coalitional stability), and neither implies the other. The lesson KQW
   draw, that one-unit consumption is what makes exchange work, matches Lemma T1: every k = 4 repair uses a set demand.
 - *Strategy-proofness* (AS99 Thm 1, Ma, Sönmez–Ünver) concerns incentives and gives nothing for existence.
+- *P1 already fails at k = 3.* The coordinator reports this from the charity session (`claude/kgen-charity`): n = 4,
+  m = 7, every agent values exactly 3 goods. The coordinator verified it with its own brute force,
+  `k4/sdc/p1_k3_verify.py` on its branch, which I have not re-run. So value-monotone stuck states are not what
+  separates k = 4 from k = 3, and the KQW analogy above is about multi-unit demand in general, not about k = 4.
 
 ## 10. The shape of the repair: Conjecture OC₁-HD (refuted at n = 6) and OC₁-ED
 
