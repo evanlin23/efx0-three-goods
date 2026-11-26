@@ -568,7 +568,9 @@ It explores every Phase-A state Z (capped) and, for each, every Phase-B run (cap
 |---|---|---|---|---|---|
 | screen | 168 | **168** | 0 moves: 157; 1 move: 11 | 164 | `vmx2_phases_screen.log` |
 | named (B<, B>, SPECIAL, TTC 84+2, the two VMX counterexamples), at most 1 move | 95 | **95** | 0 moves: 95 | 94 | `vm1_named.log` |
-| cores n = 3 / 4 / 5, general (at most 1 move) | PENDING | | | | `vm1_*.log` |
+| cores n = 3 (at most 1 move) | 1,500 | **1,500** | 0 moves: 1,495; 1 move: 5 | | `vm1_cores3.log` |
+| cores n = 4 (at most 1 move) | 800 | **800** | 0 moves: 800 | 798 | `vm1_cores4.log` |
+| cores n = 5, general (at most 1 move) | running at the end of this burst | | | | `vm1_cores5.log`, `vm1_gen.log` |
 
 Valuer-only placement (a good goes only to an agent that values it) is refuted: on the screen set it finds an EFX₀
 run on 117 of 168, smallest failure n = 2, m = 5 (`x2-val` in `vm6_test.py`). Junk-like placement on agents who do
