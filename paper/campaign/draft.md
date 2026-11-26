@@ -968,9 +968,16 @@ have two private goods. Every agent below values its goods $a > b > c$ at $10 > 
 The order $(2, 3, 4, 0, 1)$ gives agents 2, 3, 4 their tops and agents 0, 1 nothing. The six junk goods are the
 private pairs of agents 2, 3, 4. No one-absorber completion exists at the picks, nor after any of the 51 chains that
 never pass an empty base. Two programs of the $k = 3$ session agree: `k4/k3oc1/oc1_general.py` and the independent
-replay `attempts/k4_k3oc1_oc1_cex.py`. The instance is not a core (rule R2 peels agents 2, 3, 4). It is repaired by
-one chain that passes through an agent holding nothing, or by one chain under the free completion. So OC₁ "for every
-instance", as literally stated, is false at $k = 3$. What the conjectures of §11 need is the core form.
+replay `attempts/k4_k3oc1_oc1_cex.py`. Appendix C finds the same, and also that no addition or ring repairs.
+
+The instance is not a core (rule R2 peels agents 2, 3, 4), and two weaker forms hold.
+- One chain that passes through an agent holding nothing repairs it: in $3 \to 1 \to 4 \to 0$, agent 3 takes
+  $\{5, 6\}$, agent 4 takes $\{7, 8\}$, and agents 1 and 0 receive goods 1 and 2.
+- Under the free completion the picks already extend, with two absorbers:
+  $(\{3, 5, 7\}, \{4, 6, 8\}, \{0\}, \{1\}, \{2\})$.
+
+So OC₁ "for every instance", as literally stated, is false at $k = 3$. What the conjectures of §11 need is the core
+form.
 
 ### 7.3 One chain fails at $k = 5$, even from maximum-matching starts
 
@@ -1154,8 +1161,8 @@ Notes on the cells.
 - *What fails at $k = 5$ beyond these rows.* The conclusions of Theorem DT, Lemma GDT and Theorem DT₁ (`k4/sdc.md` §6,
   §30), which hold at $k = 4$, fail at $k = 5$ [V]. The instance DT5 has $n = 2$, $m = 6$: agent 0 values goods 0
   (100) and 2, 3, 4, 5 (91, 92, 93, 94), and agent 1 values goods 1 (100) and 2, 3, 4, 5 (94, 93, 92, 91). The tops
-  are distinct, and yet the picks have no one-absorber completion. The instance DT1-5 has $n = 3$, $m = 8$
-  (`k4/ksens.md` §3). †
+  are distinct, and yet the picks have no one-absorber completion †. The instance DT1-5 has $n = 3$, $m = 8$
+  (`k4/ksens.md` §3).
 
 **The $k$-dependence in one count** (Lemma 7.5). A frozen agent's junk danger sets live in its at most $k - 1$ junk
 goods, and a repair spends two of them.
@@ -1307,7 +1314,7 @@ on 273,724,272 starts, exhaustively over every core with $3 \le n \le 5$ [E].
 - Theorem 9.5: CORRECT.
 
 The referee ran LB⁺ with unit caps on every R1-compatible order of exhaustive $n = 3$ data and random data up to
-$n = 6$ (about 740,000 runs). Every completion was EFX₀ with one absorber, and an independent brute force over OC₁
+$n = 6$ (about 735,000 runs). Every completion was EFX₀ with one absorber, and an independent brute force over OC₁
 agreed.
 
 ## 10. Ordinary EFX for 4-limited instances: a reconstruction of Viswanathan–Mehta
@@ -1440,8 +1447,290 @@ so by Fact 0 nothing changes for $i$. The other bundles are unchanged, and $s$ g
 
 **Referee report.** `k4/referee/vm.md`: CORRECT, for ordinary EFX and for the reconstruction of §10.1. The referee
 extracted the abstract's text from the PDF and confirmed that the quotations in `k4/vm.md` §1 are verbatim. Its own
-implementation enumerated every resolution of every choice point: about 8.4 million runs, exhaustive for $n \le 3$,
-$m \le 6$ and small value sets, plus random and contested-top instances, with values 0 and ties allowed. Every run
+implementation enumerated every resolution of every choice point: about 8.3 million runs, exhaustive over small value
+sets for $n = 2$ ($m \le 6$) and $n = 3$ ($m \le 4$), plus random and contested-top instances, with values 0 and ties
+allowed. Every run
 ended in a complete ordinary-EFX allocation, with every step's invariants asserted. The referee's two requirements are
 kept here: the scope (ordinary EFX only; a reconstruction), and the remark that Phase III must serve $N_3$ before
 $N_2$.
+
+## 11. Open problems and conjectures
+
+Everything in this section is open. Evidence is finite data, and random data can miss rare structures. Several
+conjectures of this campaign survived millions of random starts and then fell to one designed instance (§7.2).
+
+### 11.0 TARGET₄
+
+**TARGET₄ is open.** What is known comes from earlier certified work (ledger rows K4.R5–K4.R6a, K4.MC0–K4.MC7) with the
+reductions of §2.2. A minimal counterexample is a strict connected $k = 4$ core in the MC2 class, and it has:
+- at least six agents, at least one of them with four goods (at least two if $n = 6$);
+- cyclomatic number at least 5.
+
+By L1 (PROMPT.md), a counterexample would also refute EFX existence for strictly positive additive valuations.
+
+### 11.1 OC₁^max, and the reduction to perfect starts
+
+> **Conjecture 11.1 (OC₁^max; `k4/sdc.md` §31, ledger K4.SDC.OC1MAX) [C].** In every strict connected $k = 4$ core,
+> for every SD order whose picks form a maximum matching: the picks have a one-absorber EFX₀ completion, or one
+> improving move (an addition, a chain or a ring) gives a state that has one.
+
+By Corollary 6.4 (machine-checked), Conjecture 11.1 implies TARGET₄.
+
+*Evidence* [E] (`k4/sdc.md` §31, ledger K4.SDC.OC1MAX):
+- every start of the earlier OC₁ data, since those runs tried every order with $n \le 5$: 120,050 starts;
+- all 31,584 core hypergraphs with $n = 5$, three random strict profiles each, every order: 0 failures among
+  11,002,996 maximum-matching orders, of which 176,670 need one move;
+- the known counterexamples to the every-order forms: 0 failures among 33,082 maximum-matching orders. On the 39
+  distinct core counterexamples every maximum-matching order completes at the picks;
+- the Hall session's 2,071 one-absorber-hard maximum-matching starts ($n \le 5$), where the refined form OC₁-ED\*^max
+  holds on all;
+- adversarial climbs on strict cores up to $n = 8$, by the coordinator, the TTC session and the $k$-sensitivity session:
+  no failure.
+
+*Limits.* Conjecture 11.1 is false at $k = 5$ (Proposition 7.4), so a proof must use $k \le 4$, presumably through
+Lemma 7.5. Every failing every-order start known has the pickless pigeonhole that Lemma 6.3 excludes.
+
+**Lemma 11.2 (RED, reduction to perfect starts; `k4/sdc.md` §31) — written proof, not refereed.** The Hall session
+checked it (`k4/oc1_hall.md` §21). Let $Y$ be maximum-matching picks of any instance with strict values. Let $U \ne
+\emptyset$ be the pickless agents, $S$ the agents reachable from $U$ by $Y$-alternating paths, $T$ the remaining agents,
+and $J$ the junk.
+- (i) No agent of $U \cup S$ values a junk good (Lemma 6.3).
+- (ii) Every good valued by an agent of $U \cup S$ is the pick of an agent of $S$.
+- (iii) Let $I'$ be the instance with agents $T \cup U$ and goods $\{Y_t : t \in T\} \cup J$, values restricted. The
+  agents of $U$ become *null agents*, valuing nothing. Then every one-absorber EFX₀ completion of $I'$, at its picks
+  or after a move of $I'$, extends to one of $I$: the agents of $S$ keep their single picks, and the agents of $U$
+  get what they get in $I'$.
+
+*Proof sketch* (from the source). For (ii): a good valued by $u \in U$ is picked, else $u$ could be matched to it; it is
+the pick of some $b$, and $b \in S$. A good valued by $s \in S$ is not junk by (i), so it is a pick $Y_b$, and again
+$b \in S$. For (iii), every EFX₀ constraint involving $S \cup U$ holds in the extension:
+- agents of $S \cup U$ value only picks of $S$, which are held alone, and removing a singleton's good leaves nothing;
+- agents of $S \cup U$ value no junk, so they never envy the bundles of $U$ agents;
+- agents of $T$ compare $S$ holders' singletons only, which never violates EFX₀.
+
+Every move of $I'$ is a move of $I$, and the absorber counts are the same. ∎
+
+So OC₁ at maximum-matching starts, for every instance with at most four relevant goods per agent, follows from OC₁ at
+**perfect starts** (every agent with a relevant good holds a pick), with null agents allowed and counted as ordinary
+agents in the absorber count. With Lemma 6.2 this would give TARGET₄ without the core reduction. $I'$ need not be a core,
+so this route needs the perfect-start form for all 4-limited instances.
+
+*What a proof could use* (each refereed, Appendix B, unless marked otherwise):
+- the Hall session's exact condition for one-absorber completability at fixed bases (Lemma 2\*, Corollary 2.1 of
+  `k4/oc1_hall.md`);
+- the one-frozen-agent case (Theorem F1₁ there);
+- Lemma 7.5;
+- for one dangerous agent, the proved reduction of the Hall session's Finding D1 to two named obstacles, HEAD and
+  CROWD (`k4/oc1_hall.md` §21; Lemmas D1-chain, D1-red), which is not refereed.
+
+### 11.2 MD and SD-C
+
+> **Conjecture 11.3 (MD; `k4/sdc.md` §28) [C].** In every 4-limited instance, every matching is value-dominated by a
+> complete EFX₀ allocation.
+
+> **Conjecture 11.4 (SD-C; `k4/sdc.md` §2) [C].** In every 4-limited instance, some SD order's picks extend to a
+> complete EFX₀ allocation.
+
+MD contains TARGET₄ (take the empty matching). By Lemma 6.1 it is equivalent, for strict values, to value domination
+of every order's picks. Neither conjecture has a counterexample at any $k \le 8$ tested (§8). For every $k$, both
+contain EFX₀ existence for all additive instances.
+
+### 11.3 VM1: one move from a Viswanathan–Mehta matching
+
+> **Conjecture 11.5 (VM1; `k4/vm.md` §7.3) [C].** For every 4-limited instance there are:
+> - a V-M matching $Y$ (Phases I–II of §10.1, some resolution of ties);
+> - at most one move: a pool upgrade, or a two-agent exchange in which $i$, holding a single good, takes any good $z$
+>   of $j$ plus pool goods, both agents gaining and EFX₀ kept;
+> - an order of the remaining goods;
+>
+> such that placing each good on some agent whose bundle stays EFX₀-unenvied, rotating envy cycles before each
+> placement, ends in a complete EFX₀ allocation.
+
+VM1 implies TARGET₄. Every state of such a run satisfies five invariants, (I1)–(I5) of `k4/vm.md` §7.3:
+- (I1) partial EFX₀;
+- (I2) domination of the start;
+- (I3) a good someone prefers to its own bundle is held alone;
+- (I4) bundles of two or more goods are envied only by agents that value all their goods;
+- (I5) a potential rises at every move.
+
+The referee checked these invariants (Lemmas SND and TERM; `k4/referee/vm.md` §6).
+- *Evidence* [E]: the screen set 168/168 (157 with no move), the named instances 95/95, random cores with $n = 3$–5
+  (2,700/2,700), and general instances 3,000/3,000.
+- *Robustness at $k = 5$* [E]: VM1 holds at $k = 5$ on PW5, RD5 and both $n = 4$ instances of the two-agent session, and
+  on 2,000 random 5-limited instances. So it is a general-$k$ candidate.
+- *Limits.* With *narrow* exchanges (the taker must value $z$), VM1 is refuted at $n = 3$, $m = 7$
+  (`attempts/k4-vm-vm1.md`, independent replay). The unproved step is placeability, and P1's state GM4-E (§7.1)
+  shows that (I1), (I3), (I4) alone do not imply it.
+
+### 11.4 DYN: LSS's algorithm with dynamic parking
+
+> **Conjecture 11.6 (DYN; `k4/girth.md` §5) [C].** For every 4-limited instance there are a vertex 0 and a labeling
+> such that LSS's Algorithm 2, with the G1 repair, ends in a state that *dynamic parking* completes.
+>
+> - The G1 repair: an envied agent takes the most valuable subset of its leftovers that beats its bundle and keeps
+>   EFX₀, and is skipped if there is none.
+> - Dynamic parking: hand out the leftover goods one at a time, each to an agent that is non-envied at that moment,
+>   keeping EFX₀.
+
+DYN implies TARGET₄. Lemmas 5.4–5.6 are its proved ingredients. Dynamic parking makes no agent worse off, so DYN is a
+value-monotone route that must avoid the stuck states of §7.1. It does so on all data, including every labeling of
+GM4-E.
+- *Evidence* [E]: every screen and suite instance with 2-cycles, 2,164,809 random strict $n = 4$ core profiles,
+  1,239,515 random $n = 5$ profiles, and 1,905,183 random instances with 2-cycles: all complete.
+- *Robustness* [E]: it also survives PW5, RD5, B<, B> and the 39 core counterexamples, so it is not tied to $k = 4$.
+- *Variants refuted*: DYN without the G1 repair (`attempts/k4-girth-dyn-plain.md`), and a single sink instead of dynamic
+  parking (at $n = 2$).
+
+The linear case of DYN (Conjecture LR-dyn, `k4/girth.md` §4) would give EFX₀ for every linear additive instance at
+every $k$.
+
+### 11.5 W: welfare maxima
+
+> **Question 11.7 (W($k$); `kgen/charity.md` §6) [C].** Is there an $f$, independent of $n$, with W($k, f$)? That is:
+> does every $k$-limited instance have a welfare maximum over partial EFX₀ allocations leaving at most $f$ goods out?
+
+W($k, f$) implies a charity bound $f(k) \le f$ (§4.4). W(3, 0) and W(4, 0) fail (GM4-G, `w_brute.log`), and W(3, 1)
+and W(4, 1) fail by Proposition 4.5. So $f \ge 2$ is needed at both $k = 3$ and $k = 4$. The S′($\sigma, k$) family is
+the natural test. If it carries welfare-maximal stranded states for every $\sigma$, W($k$) fails for every $f$. The
+$\sigma = 4$, $k = 4$ search (three goods stranded, $n = 20$) was running when this draft was written.
+
+At $k = 4$ the only $n$-independent charity bounds proved are those of §4, for instances whose goods have few valuers.
+The open case is connected instances whose unallocated goods all have many valuers (Corollary 4.3).
+
+### 11.6 RD²: two rounds of disjoint chains
+
+> **Conjecture 11.8 (RD²; `k4/ksens.md` §6–§7) [C].** For every $k$ and every additive instance, from every SD order
+> (or from every maximum-matching order), two rounds of vertex-disjoint improving chains, applied one after the
+> other, reach bases with a one-absorber completion.
+
+One round is false at $k = 5$ (Proposition 7.7). There the first round releases the foreign picks and the second
+collects them, and for this mechanism two rounds suffice however many picks are needed.
+- *Evidence* [E]: climbs at $n \le 6$, $k = 5, 6, 8$ found no start needing three rounds. Within $n \le 5$, $m \le 9$,
+  with every good valued, no start needs even two (§8).
+- *Strength*: RD² for every $k$ contains EFX₀ existence for all additive instances.
+- *A design to try next*: RD5's mechanism one level deeper, which needs $n \ge 6$.
+
+### 11.7 Smaller questions
+
+- *OC₁ at $k = 3$ for every order* (candidate theorem OT, `k4/k3_oc1.md` §4). The open drafts are those covered by
+  neither Theorem 9.4 nor Theorem 9.5: least deficit 2, or exposed agents sharing junk goods.
+- *Conjecture L, the ladder* (`k4/ksens.md` §4): from every order, $\lfloor (k-1)/2 \rfloor$ improving chains suffice.
+  At $k = 4$ it is OC, which is false for some orders (§7.2), so the conjecture needs a restriction of the orders
+  (for instance, maximum-matching orders).
+- *Bounded charity CH($k$) at $k = 4$*: is there an $f(4)$ independent of $n$ and $d$? Theorem 4.1 gives
+  $\min\{2d - 1, R(d)\}$.
+
+## 12. References
+
+Read levels are those recorded by the sessions that read each work: `proofs/citations.md`, the referee's reports,
+`k4/ttc.md` §1, `kgen/charity.md` §8 and the campaign's literature report `reports/EFX literature from the agent
+side.md`. A work no session read is marked [unverified].
+
+- **[AAMMS]** H. Afshinmehr, A. Ashuri, M. Mahmoudkhan, K. Mehlhorn, A. Shahrezaei. *EFX Allocations Exist on
+  Multi-Graphs.* arXiv:2606.18665v1, 2026. Read in full (`proofs/citations.md` item 4; digest
+  `proofs/multigraph_digest.md`).
+- **[ACMM]** D. J. Abraham, K. Cechlárová, D. F. Manlove, K. Mehlhorn. *Pareto optimality in house allocation
+  problems.* ISAAC 2004, LNCS 3341, 3–15. Full text (author version) read by the TTC session's literature readers,
+  whose notes were checked for consistency but not re-read against the PDF (`k4/ttc.md` §1). Used: Prop. 2, §6 Lemma 1,
+  Theorem 1.
+- **[AMMSW]** H. Akrami, N. Mayorov, K. Mehlhorn, S. Srinivas, C. Weidenbach. *A Counterexample to EFX, n ≥ 3 Agents,
+  m ≥ n + 5 Items, Submodular Valuations, via SAT-Solving.* arXiv:2604.18216v3, 2026. Read in part: abstract, §1,
+  §2, §9 (`proofs/citations.md`). The literature report cites a later version (v4, with more authors) for the
+  monotone three-agent, eight-good counterexample; this draft relies on neither.
+- **[AS98]** A. Abdulkadiroğlu, T. Sönmez. *Random serial dictatorship and the core from random endowments in house
+  allocation problems.* Econometrica 66 (1998), 689–701. Full text, with the appendix proofs at statement level, read
+  by the TTC session's literature readers. Used: Lemma 1.
+- **[CFKS]** G. Christodoulou, A. Fiat, E. Koutsoupias, A. Sgouritsa. *Fair allocation in graphs.* EC 2023;
+  *Envy-Freeness up to Any Good Allocations on Graphs*, Math. Oper. Res., 2026. Author PDF read in full
+  (`proofs/citations.md` item 3). The EC text was not read.
+- **[CGM]** B. R. Chaudhury, J. Garg, K. Mehlhorn. *EFX Exists for Three Agents.* arXiv:2002.05119v3; EC 2020;
+  J. ACM 71(1), 2024. Read in part: abstract, model, Lemma 1, Theorem 20 (`proofs/citations.md`). The JACM text was
+  not read.
+- **[CGMMM]** B. R. Chaudhury, J. Garg, K. Mehlhorn, R. Mehta, P. Misra. *Improving EFX Guarantees through Rainbow
+  Cycle Number.* arXiv:2103.01628; EC 2021. Read: §1 and §4 (`kgen/charity.md` §8).
+- **[CKMS]** B. R. Chaudhury, T. Kavitha, K. Mehlhorn, A. Sgouritsa. *A Little Charity Guarantees Almost
+  Envy-Freeness.* arXiv:1907.04596v3; SODA 2020; SIAM J. Comput. 50(4), 2021. Read: §2 (Algorithms 1–3, Lemmas 2,
+  4–7, Theorem 8), by the charity session and by the referee.
+- **[KS]** M. Kirchweger, S. Szeider. Computations of small rainbow cycle numbers ($R(3) = 3$, $R(4) = 4$).
+  [unverified]: known only through [Siv], p. 2.
+- **[Lin-k3]** E. Lin. *EFX₀ Allocations with at Most Three Relevant Goods: Existence and a Verified Polynomial-Time
+  Algorithm.* Repository `paper/k3/` (main and long versions).
+- **[Lin-k3s]** E. Lin. *EFX₀ Allocations with at Most Three Relevant Goods: A Short Proof* (Draft and Exchange).
+  Repository `paper/k3-simple/`.
+- **[LSS]** T. Lianeas, A. Sgouritsa, M. M. Sotiriou. *EFX Allocation In (Multi)Hypergraphs.* arXiv:2608.03171v1;
+  AAAI 2026. §2–§3 read in full by the girth session and by the referee (PDF, sha256 `a720a6e4…cb53`); §4 skimmed.
+- **[Mah]** R. Mahara. *Extension of Additive Valuations to General Valuations on the Existence of EFX.*
+  arXiv:2107.09901v2; ESA 2021; Math. Oper. Res. 49(2), 2024. Read: Theorem 3 and §2 (`proofs/citations.md` item 1).
+- **[MS]** S. Mackenzie, M. Suzuki. *Counterexamples to EFX for Submodular and Subadditive Valuations.*
+  arXiv:2605.06451v1, 2026. Read: abstract, §1, the definition in §2.
+- **[PR]** B. Plaut, T. Roughgarden. *Almost Envy-Freeness with General Valuations.* arXiv:1707.04769v3; SODA 2018.
+  Read by the referee from the PDF: §1.3, §2, §4.2 (Theorems 4.1–4.3 with proofs), Appendix A, the start of
+  Appendix B (`k4/referee/lit_n2.md`). The journal version (SIAM J. Discrete Math. 34(2), 2020) was not read
+  [unverified].
+- **[Siv]** V. Sivashankar. *A Linear Bound on the Rainbow Cycle Number and Approximate EFX.* arXiv:2607.27455v1, 2026.
+  Read: §1–§3 and §5 (Theorem 3 with its proof), by the charity session and by the referee.
+- **[VM]** M. Viswanathan, R. Mehta. *On the existence of EFX under picky or non-differentiative agents.* Proc.
+  AAMAS 2024, pp. 2534–2536 (extended abstract). Read in full, by the VM session and by the referee (PDF, sha256
+  `d0f6a352…7cd7`).
+
+Repository-internal sources cited above: `proofs/lb_last_step.md` (construction LB⁺); `k4/SCOUT.md` (core reduction);
+`k4/MINCEX.md` (minimal counterexamples); `LEDGER.md` (the rows named).
+
+## Appendix A. Verification record
+
+**Referee.** Branch `claude/k4-referee`, head `c873b80`, `k4/referee/README.md` (PR #108). The checks are under
+`k4/referee/*.py`, with logs under `results/k4_referee/`.
+
+**Sources.** The "head" column is the branch head when this draft was written. "Unchanged" means the cited sections
+were compared between the refereed commit and the head by this write-up's session: proofs identical, at most remarks
+or citations added.
+
+| result here | source (branch) | refereed at | head | cited sections since | report | verdict |
+|---|---|---|---|---|---|---|
+| Fact 3.1, Lemmas 3.2–3.3, Theorem 3.4, Cor. 3.5 | `kgen/n3.md` §9 (`claude/kgen-n3`) | `418f876` | `78f59e9` | unchanged (literature paragraph added) | `kgen_n3.md`, `lit_n2.md` | CORRECT |
+| Theorem 4.1, Cor. 4.3 | `kgen/charity.md` §8 (`claude/kgen-charity`) | `1e986c6`, `0c85d91` | `0c85d91` | unchanged | `chkd.md` | CORRECT |
+| Theorem 4.2 | `kgen/charity.md` §2–§3 | `78deef1` | `0c85d91` | unchanged (Prop. DU added) | `charity.md` | CORRECT |
+| Prop. 4.4 (DU) | `kgen/charity.md` §3 | `8862555` | `0c85d91` | unchanged | `charity.md` §5, `chf.md` | CORRECT |
+| Prop. 4.5 (CH-F) | `kgen/charity.md` §6, `attempts/kgen-charity-welfare-maxima.md` | `8862555` | `0c85d91` | unchanged | `chf.md` | CORRECT |
+| Theorem 5.1, Cor. 5.2, Lemmas 5.4–5.6 | `k4/girth.md` §3–§4 (`claude/k4-girth`) | `5b79844`, `90c116f` | `a494e3b` | unchanged (a remark on the valuation class added) | `girth.md` | CORRECT (PARK: state $N \ne \emptyset$) |
+| Prop. 5.3 ($H_t$) | `k4/girth.md` §4 | `90c116f` | `a494e3b` | unchanged | `girth.md` §5 | CORRECT ($HH_t$ not rebuilt) |
+| Lemmas 6.1, 6.2 | `k4/sdc.md` §28, §31 (`claude/kind-lamport-y8fdme`) | `d48084e` | `123b396` | unchanged (Lemma RED appended) | `maxsd.md` | CORRECT |
+| Lemma 6.3 | `k4/oc1_hall.md` §19 (`claude/k4-oc1-hall`); `k4/ttc.md` §13 | `e2b4701`; `77bcab1` | `4f2a226` | unchanged | `maxsd.md`, `oc1_hall.md` §6, `ttc_t5.md` | CORRECT |
+| Prop. 7.4 (PW5) | `k4/ksens.md` §1 (`claude/k4-ksens`) | `ceba5c7` | `6308933` | unchanged | `ksens.md` | CORRECT (the aside on one-agent moves is incomplete but not needed) |
+| Lemma 7.5 (PL) | `k4/ksens.md`, status block | `7ec7073` | `6308933` | unchanged | `ksens.md` §5 | CORRECT |
+| Lemma 7.6 (PWk(a)) | `k4/ksens.md` §7 | `7ec7073` | `6308933` | fix applied in the source | `ksens.md` §5 | CORRECT WITH FIXES (applied) |
+| Lemmas 9.1, 9.2, Theorems 9.4, 9.5 | `k4/k3_oc1.md` §2–§3 (`claude/k4-k3-oc1`) | `949718a` | `48bcf05` | unchanged (B\*'s statement clarified) | `k3_oc1.md` | CORRECT (R1C: DE's core case) |
+| Lemma 9.3 | `k4/k3_oc1.md` §2 | `949718a` | `48bcf05` | **fix not yet applied in the source**; applied here | `k3_oc1.md` §3 | CORRECT WITH FIXES (applied here) |
+| Theorem 10.1 | `k4/vm.md` §1–§2, §8 (`claude/k4-vm`) | `7a78df6` | `0595a29` | unchanged | `vm.md` | CORRECT (ordinary EFX; the reconstruction) |
+
+**Not refereed, included with their verification status.** These are Propositions 7.1–7.3, 7.7, the Remark in §7.2,
+the $k$-ladder cells marked [V] or [E], Lemma 11.2, and every conjecture of §11.
+
+**Lean.** On branch `formal/k4-oc1max` at `838fb0e`, this write-up's session ran `lean/check.sh`. The result: CHECK
+PASSED, with 1,246 audited statements and 2,350 theorems, every declaration on `propext`, `Classical.choice` and
+`Quot.sound` only, and the `leanchecker` replay passing. The certificates for `EFX.OC1Max.sdpo`,
+`EFX.OC1Max.exists_order_maximum`, `EFX.OC1Max.max_no_augment`, `EFX.OC1Max.picks_no_junk` and
+`EFX.OC1Max.target4_of_conjOC1max` are in `paper/campaign/lean_check_oc1max.log`. The branch is not yet merged into
+`main`.
+
+## Appendix B. Other refereed results
+
+The referee also found these results CORRECT. They support the conjectures of §11 but are not developed in this
+draft. Statements and proofs are in the files named.
+- *Completion at fixed bases* (`k4/oc1_hall.md` §1, §4–§6; report `k4/referee/oc1_hall.md`).
+  - Lemma 2 and Lemma 2\* give the exact condition for a one-absorber completion with a given owner: a system of
+    distinct representatives of admissible holders (Corollary 2.1).
+  - Lemma 4 (helpers) and Proposition 3.
+  - Theorem F1₁: one frozen agent with one wanter, $n \ge 3$, completes after at most one swap. Its case (B2) uses
+    Theorem DT₁ and Lemma GDT of `k4/sdc.md` §30, both re-derived by the referee.
+  - One wording fix: Corollary 2.1's gloss "a transversal of the demands" holds only if a demand is a set whose
+    presence *threatens*.
+- *Induction along the SD order* (`k4/sd_induct.md`; report `k4/referee/sd_induct.md`).
+  - Lemmas D, F, S, Corollary TP and Lemma BOTH-TP.
+  - Lemma U is CORRECT WITH FIXES: its statement needs the hypothesis "the first agent is unfrozen".
+  - In passing: Lemma H, Proposition PR-step and Theorem PR-TP, where "PR completion" must presuppose EFX₀.
+- *The repaired V-M procedure* (`k4/vm.md` §7, §7.4; report `k4/referee/vm.md` §5–§6).
+  - Lemmas SND (soundness) and TERM (termination, potential $\Phi \le 15n$), and the invariants (I1)–(I5) of VM1.
+  - Lemmas P0 and P1′ ("exactly when" needs strict values) and Proposition HDT.
+- *Facts F1–F6 at Pareto maxima of linear instances* (`k4/girth.md` §4): CORRECT for additive valuations. F2 fails for
+  monotone valuations (counterexample in `k4/referee/girth.md` §3).
