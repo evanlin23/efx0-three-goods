@@ -33,9 +33,11 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `oc1_shapes_screen.log` |
 | refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `greedy_rules.log` |
 
-**Scope remark.** OC₁ is used for TARGET₄ only on cores, and k = 4 cores with n ≤ 5 are certified already (ledger
-K4.R5c, K4.R5d, K4.R5p). So a proof of OC₁ for n ≥ 6 implies TARGET₄, and the exceptions at n = 2, 3 (where only a
-frozen owner works, §5) do not matter for TARGET₄. The data, however, all have n ≤ 5.
+**Scope remark.** By K4.MC0 (CERTIFIED), a minimal counterexample to TARGET₄ is a connected k = 4 core with strict
+types and n ≥ 5, with at least three 4-good agents if n = 5. K4.R5, K4.R5c, K4.R5d and K4.R5p certify every such core
+with n = 5, and K4.R6a every one with n = 6 and one 4-good agent. So OC₁ for connected strict k = 4 cores with n ≥ 6
+already implies TARGET₄. The exceptions at n = 2, 3, where only a frozen owner works (§5), do not matter for TARGET₄.
+The data of this note, however, have n ≤ 10, and those with every order tried have n ≤ 5.
 
 **The statement that remains** (evidence for it: Findings S\* and B, in the language of Corollary 2.1):
 
