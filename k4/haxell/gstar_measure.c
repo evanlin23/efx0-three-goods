@@ -22,7 +22,8 @@
    Input as gstar.c.  Output per instance: n m states, then "phiK stuck N" for each K, and one stuck state for the
    first phi with one.  With argument 3, a step may be a composite of three moves (the third pass runs only on states
    still stuck after two).  With ROT = 1 a rotation of the bundles along any cycle of agents also counts as one local
-   move.   cc -O2 -o gstar_measure gstar_measure.c;  ./gstar_measure [RADIUS=2] [ROT=0] < input */
+   move.  With SUB = 1, giving a set of goods of one holder (an agent or the pool) to one agent is also one move.
+   cc -O2 -o gstar_measure gstar_measure.c;  ./gstar_measure [RADIUS=2] [ROT=0] [ONLY=-1] [SUB=0] < input */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,7 +34,7 @@ static int n, m;
 static long val[MAXN][MAXM];
 static long NS;
 static unsigned char *ok;
-static int RADIUS = 2, ROT = 0, ONLY = -1;
+static int RADIUS = 2, ROT = 0, ONLY = -1, SUB = 0;
 static int ncyc, cyclen[512], cyc[512][MAXN];
 static long stuck3fixed[NPHI];
 
@@ -102,6 +103,14 @@ static void neighbours(const int *own) {
         memcpy(o, own, sizeof(int) * m); o[g] = own[h]; o[h] = own[g]; nb_buf[nb_count++] = encode(o); }
     for (int a = 0; a < n; a++) for (int b = a + 1; b < n; b++) {
         for (int g = 0; g < m; g++) o[g] = own[g] == a ? b : own[g] == b ? a : own[g]; nb_buf[nb_count++] = encode(o); }
+    if (SUB) {   /* subset transfers: a set of two or more goods of one holder (an agent or the pool) to another agent */
+        for (int h = 0; h <= n; h++) {
+            int gs[MAXM], c = 0; for (int g = 0; g < m; g++) if (own[g] == h) gs[c++] = g;
+            if (c < 2) continue;
+            for (int mask = 1; mask < (1 << c); mask++) { if (__builtin_popcount(mask) < 2) continue;
+                for (int b = 0; b < n; b++) { if (b == h) continue;
+                    memcpy(o, own, sizeof(int) * m); for (int t = 0; t < c; t++) if (mask >> t & 1) o[gs[t]] = b;
+                    if (nb_count < 4000) nb_buf[nb_count++] = encode(o); } } } }
     if (ROT) {   /* rotations of bundles along every cycle of 3 or more agents (2-cycles are the trades above) */
         for (int c = 0; c < ncyc; c++) {
             int to[MAXN]; for (int a = 0; a < n; a++) to[a] = a;
@@ -129,7 +138,8 @@ static void gen_cycles(void) {
 int main(int argc, char **argv) {
     if (argc > 1) RADIUS = atoi(argv[1]);
     if (argc > 2) ROT = atoi(argv[2]);
-    if (argc > 3) ONLY = atoi(argv[3]);   /* evaluate only phi0 and phi ONLY (the others are reported as 0) */
+    if (argc > 3) ONLY = atoi(argv[3]);   /* evaluate only phi0 and phi ONLY (the others are reported as 0); -1: all */
+    if (argc > 4) SUB = atoi(argv[4]);    /* 1: a set of goods given by one holder to one agent is one move */
     while (scanf("%d %d", &n, &m) == 2) {
         if (n > MAXN || m > MAXM) { fprintf(stderr, "instance too large: n %d m %d (MAXN %d MAXM %d)\n", n, m, MAXN, MAXM); return 2; }
         memset(val, 0, sizeof val);

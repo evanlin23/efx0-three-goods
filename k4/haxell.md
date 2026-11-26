@@ -20,7 +20,12 @@ evidence only (PROMPT.md §5 rule 3).
 - *Conjecture W, the one-step lemma* (§6). From every partial EFX₀ allocation with a nonempty pool, at most **two
   moves** give a partial EFX₀ allocation with a smaller pool, or the same pool and larger welfare. A move is a
   single-good reassignment, a swap, or a **rotation of bundles along a cycle of agents**. (|pool|, −welfare) is
-  well-founded, so W implies CONN and hence TARGET₄.
+  well-founded, so W would imply CONN and hence TARGET₄.
+  - **W is REFUTED at n = 2, k = 4** (`attempts/k4-haxell-conjecture-w.md`). In 576 of the 1.5 million n = 2 grid
+    instances, the receiver of a pooled good must dump three goods at once. With single-good moves the needed radius
+    grows with k: W₃ holds there but fails at k = 5. This is a place where k enters.
+  - **Surviving forms**: **W₃** (three moves) at k ≤ 4, and **W^sub** (two moves, with a set transfer counting as one
+    move) for every k. The evidence below was gathered for W and applies to both, since both contain W's moves.
   - Exhaustive checks found no stuck state. Coverage: every partial EFX₀ allocation of the screen set, suite, k = 4
     cores, PW5/RD5/kgen, the 39 TTC cores, **B< and B> (n = 6)**, the 1,520 logged hard profiles, and random
     instances at k = 3, 4, 5, 7 and with every good relevant, with and without ties. Also every n = 2 instance on the
@@ -34,8 +39,9 @@ evidence only (PROMPT.md §5 rule 3).
   - Why the move class is what it is: without rotations, no fixed radius works (the family CYC_n,
     `attempts/k4-haxell-fixed-radius-measures.md`). With one move instead of two, W fails (the n = 2 trap). Pure
     augmentation fails with rotations too.
-- *Not k-specific on the data*: W shows no failure at k = 5, 7 or with every good relevant, so it is a candidate for
-  EFX₀ in general. That makes it at least as hard as the EFX conjecture, and the data do not show where k ≤ 4 enters.
+- *Where k enters*: with single-good moves, the counterexamples to W and W₃ show the step radius must grow with k.
+  W^sub removes that dependence and shows no failure at k = 5, 7 or with every good relevant, so it is a candidate
+  for EFX₀ in general. That makes it at least as hard as the EFX conjecture.
 - *Proof*: the opening is written (§6). A stuck state has an acyclic envy graph, and a placement at a source fails
   only through a cheaper good. The n = 2 case already needs moves that take a good from the placement's receiver; it
   is the first open case.
@@ -527,11 +533,26 @@ one stuck state of CYC₅ when rotations are limited to trades. Further Python r
 core profiles with n ≤ 3, 300 random n = 3, m = 6, k = 4, 150 random n = 3, m = 7, k = 5, and 1,000 random n = 2, m = 5
 with every good relevant. In all, 1,706 instances and 397,633 partial EFX₀ states, no stuck state.
 
-**Conjecture W (one-step welfare lemma, CONJECTURE).** Let X be a partial EFX₀ allocation with a nonempty pool. Then
+**Conjecture W (one-step welfare lemma) — REFUTED at n = 2, k = 4** (`attempts/k4-haxell-conjecture-w.md`; the n = 2
+grid with k ≤ 4, `n2w_grid_k4.log`, found 576 instances where it fails; smallest: m = 7, strict values). Statement, kept
+for reference: let X be a partial EFX₀ allocation with a nonempty pool. Then
 a composite of at most two moves leads to a partial EFX₀ allocation X′ with |pool(X′)| < |pool(X)|, or with
 |pool(X′)| = |pool(X)| and Σᵢ vᵢ(X′ᵢ) > Σᵢ vᵢ(Xᵢ). A move is one of: give one good to another agent (a pooled good may be
 placed, nothing returns to the pool); swap the holders of two goods (the pool counts as a holder); rotate the bundles
 along a cycle of agents.
+
+*Why it fails, and what survives.* An agent may have to give away all its other goods at once. In the counterexample
+both agents value a pooled good g above everything else they could hold, so g's receiver must hold g alone and
+dump its three other goods. That takes three single moves, of which one swap through the pool counts once. At k = 5
+the same construction defeats three moves (W5), so with single-good moves the radius has to grow with k, about
+k − 1. That is a place where k really enters. Two repaired forms:
+- **W₃ (three moves; candidate for k ≤ 4).** No stuck state where W had none, and on the n = 2 grid with k ≤ 4 see
+  `n2w_grid_k4_r3.log`. It fails at k = 5 (W5).
+- **W^sub (two moves, giving a set of goods to one agent counting as one move; candidate for every k).** It contains
+  W's moves, so it holds wherever W held. It repairs W4 and W5, and on the n = 2 grid with k ≤ 4 see
+  `n2w_grid_k4_sub.log`.
+
+The rest of this paragraph and the evidence above apply to both forms.
 
 *Consequences.* (|pool|, −welfare) strictly decreases and takes finitely many values. So from the empty allocation a
 complete EFX₀ allocation is reached, in at most (m + 1)·w steps, w the number of distinct welfare values. W for k ≤ 4 implies TARGET₄. W

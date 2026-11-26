@@ -2,11 +2,12 @@
 relevant to someone, m <= 2K), every value vector from VALS (ties allowed), through gstar_measure.c with steps of at
 most two moves and rotations (for n = 2 a rotation is a trade).  Reports the stuck states per measure.
 
-    python3 k4/haxell/ht_n2w.py [K=4] [VALS=1,2,4,7]"""
+    python3 k4/haxell/ht_n2w.py [K=4] [VALS=1,2,4,7] [MARGS=2,1]   (MARGS=2,1,-1,1: with subset transfers; 3,1: three moves)"""
 import sys, os, itertools, subprocess, collections, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 args = dict(a.split('=') for a in sys.argv[1:] if '=' in a)
 K = int(args.get('K', '4')); VALS = [int(x) for x in args.get('VALS', '1,2,4,7').split(',')]
+MARGS = args.get('MARGS', '2,1').split(',')      # gstar_measure arguments: RADIUS, ROT[, ONLY, SUB]
 print('$ python3 k4/haxell/ht_n2w.py', *sys.argv[1:], flush=True)
 t0 = time.time(); lines = []; meta = []
 for m in range(2, 2 * K + 1):
@@ -24,7 +25,7 @@ for m in range(2, 2 * K + 1):
 print('instances', len(lines), flush=True)
 # split across processes
 P = os.cpu_count() or 1; chunks = [lines[i::P] for i in range(P)]; mchunks = [meta[i::P] for i in range(P)]
-procs = [subprocess.Popen([os.path.join(HERE, 'gstar_measure'), '2', '1'], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+procs = [subprocess.Popen([os.path.join(HERE, 'gstar_measure')] + MARGS, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                           text=True) for _ in range(P)]
 outs = [p.communicate('\n'.join(c) + '\n')[0] for p, c in zip(procs, chunks)]
 C = collections.Counter(); shown = collections.Counter()

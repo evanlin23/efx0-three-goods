@@ -1,0 +1,2 @@
+$ python3 k4/haxell/ht_n2w.py K=4 VALS=1,2,4,7 MARGS=2,1,-1,1
+instances 1540944
