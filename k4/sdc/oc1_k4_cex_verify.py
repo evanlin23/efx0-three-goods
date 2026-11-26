@@ -2,7 +2,9 @@
 definitions, no SAT.  Moves (k4/sdc.md §29): improving chains x0..xt with disjoint H's inside receivers' relevant
 goods; t = 0: x0 adds junk H0 to its base; t >= 1: x0 takes H0 (from J and B_{xt}), x_i takes B_{x_{i-1}} + H_i (H_i
 from J), rest of B_{xt} becomes junk; every mover strictly gains.  Rings: w0 -> ... -> w_{r-1} -> w0, each takes its
-predecessor's base plus junk, all strictly gain.  No caps on set sizes."""
+predecessor's base plus junk, all strictly gain.  No caps on set sizes.
+NOTE (2026-11-26 21:55): this instance is NOT a core: agent 4 is R1-peelable (10 >= 7 + 2).  It refutes OC1 as
+literally stated for every instance, not OC1 on strict connected cores (the form that implies TARGET4)."""
 import itertools, sys
 PERMISSIVE = 'permissive' in sys.argv   # allow handing on an empty base (= disjoint chains glued through pickless agents)
 sets = [[0,2,3,1],[1,4,5,9],[1,2,0,8],[1,6,7,8],[3,6,9],[1,3,6,9]]

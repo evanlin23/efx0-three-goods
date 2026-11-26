@@ -181,3 +181,14 @@ coordinator has checked them; "verified" marks the ones checked.
 - **Amended central conjecture** (to be stated precisely by the Hall and TTC sessions): OC₁ᵖ / OC1-ED*ᵖ. At most one
   absorber among the pick holders, and pickless agents absorb without restriction, like Draft and Exchange's free
   agents that hold nothing. The k-sensitivity "one round of disjoint chains" form is the other candidate.
+
+### 2026-11-26 21:55 UTC: correction, the OC₁ counterexample is not a core
+- The TTC session's 84 counterexamples, including the one replayed above, are **not cores**. In the replayed
+  instance agent 4 values goods 9, 3, 6 at 10, 7, 2, and 10 ≥ 7 + 2, so rule R1 peels it. Most of the others also
+  have ties or private-good dominance. The climb's value mutations do not preserve core-ness. Checked by the
+  coordinator for agent 4.
+- So OC₁ is refuted only as literally stated in `k4/sdc.md` §29 ("every instance with ≤ 4 relevant goods"). **OC₁
+  and OC1-ED* on strict connected cores, the form that implies TARGET₄ via the peeling reductions, are NOT
+  refuted.** The pickless-absorber amendment is kept as a robustness candidate, not as a necessity.
+- Next (TTC session): an adversarial climb restricted to strict connected cores (`is_core4` after every mutation),
+  n = 6–7, to see whether the two-pickless-agents pigeonhole survives the core conditions.
