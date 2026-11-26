@@ -1,0 +1,21 @@
+$ python3 k4/matching/hard_starts.py logs (NMAX=5)
+complete at the picks 2790
+complete at the picks (one absorber, not S*) 106
+hard: delta_oa = 1 1148
+hard: delta_oa = 1 -> best after one move 0 1148
+hard: delta_oa = 1, OC1 holds 1148
+hard: delta_oa = 2 50
+hard: delta_oa = 2 -> best after one move 0 50
+hard: delta_oa = 2, OC1 holds 50
+hard: delta_oa = 3 2
+hard: delta_oa = 3 -> best after one move 0 2
+hard: delta_oa = 3, OC1 holds 2
+hard: delta_ss = 1 1143
+hard: delta_ss = 2 55
+hard: delta_ss = 3 2
+instances 1637
+max starts 4096
+non-max starts (skipped) 232
+one-absorber-hard 1200
+rows written to results/k4_matching/hard_logs.jsonl
+time 5 s
