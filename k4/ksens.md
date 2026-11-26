@@ -116,27 +116,32 @@ want every p_j. Every pair of D is worth at least 6 + 7 = 13 > 10 to every x_j, 
 (free: the junk may go anywhere). So OC fails from π, and OC₁ with it.
 
 **Proof.** Let X be a complete EFX₀ allocation containing the bases of a state reached by at most one chain.
-1. *Who can gain.* An x gains only if its new base holds at least two goods of D. The only other goods it values is
-   its own p, and a single good of D is worth less than 10. A wanter gains only by receiving some p_j, since it values
-   nothing else above its q. All five agents have nonempty bases, so a chain agent other than x₀ receives a nonempty
-   base.
+1. *Who can gain.*
+   - An x values only its own p and D, and no other agent's base contains its p.
+   - So on a chain with t ≥ 1 an x gains only if its new base holds at least two goods of D: a single good of D is
+     worth less than 10. On a chain with t = 0 (x alone), it keeps p_x and adds goods of D.
+   - A wanter gains only by receiving some p_j, since it values nothing else above its q, and no junk at all.
+   - All five agents have nonempty bases, so a chain agent other than x₀ receives a nonempty base.
 2. *A frozen x holds its pick alone.* If an off-chain wanter w holds no p, then v_w(X_w) = 1 < v_w(p_j) for every j.
    So every x_j that still holds p_j has X_{x_j} = {p_j}: any further good g could be removed, leaving p_j for w.
    - Then x_j's value is 10, and no bundle of three or more goods may contain two goods of D. Remove a good outside
      the pair (or a third good of D); what remains is worth at least 13 to x_j.
-3. *Let S be the set of x's on the chain.* By step 1 each takes two goods of D, so |S| ≤ 2.
+3. *Let S be the set of x's on the chain.* A chain with t = 0 has one agent. On a longer chain each x takes two
+   goods of D (step 1). So |S| ≤ 2.
    - *|S| = 0.* No wanter can gain, so there is no chain. Both wanters want every p, so by step 2 the x's hold their
      picks alone. The four goods of D go to the wanters' bundles, which then have at least three goods with two of D.
      ✗
    - *|S| = 2.* Each member holds exactly two goods of D, so the third x holds no good of D and has value 10.
      - The member that is not x₀ holds a nonempty received base plus its pair: at least three goods with two of D.
        Removing a received good leaves the pair, worth at least 13 > 10 to the third x. ✗
-   - *|S| = 1, S = {x_a}.* Only p_a can make a wanter gain, so exactly one wanter w is on the chain and the other, w′,
-     is off it and holds no p. By step 2, x_b and x_c hold their picks alone.
-     - If x_a ≠ x₀, x_a holds a received base plus two goods of D. ✗ (step 2)
-     - If x_a = x₀ with t = 0, x_a keeps p_a and adds D goods, so w′ is threatened through p_a. ✗
-     - Otherwise x_a's bundle is exactly two goods of D, by step 2. w holds p_a, which w′ wants, so X_w = {p_a}.
-       The other two goods of D can then only go to w′, whose bundle has three or more goods with two of D. ✗ ∎
+   - *|S| = 1, S = {x_a}.* The other x's are off the chain, so p_a is the only p that can move.
+     - *t = 0* (x_a alone). x_a keeps p_a and adds goods of D. Both wanters are off the chain and hold no p, so they
+       want p_a and are threatened by X_{x_a} minus a good of D. ✗
+     - *t ≥ 1.* Exactly one wanter w receives p_a: it is x_a's successor, or x₀ taking p_a from x_t = x_a. The other
+       wanter w′ cannot gain, so it is off the chain and holds no p, and by step 2 x_b and x_c hold their picks alone.
+       - If x_a ≠ x₀, x_a holds a received base plus two goods of D. ✗ (step 2)
+       - If x_a = x₀, its bundle is exactly two goods of D, by step 2. w holds p_a, which w′ wants, so X_w = {p_a}.
+         The other two goods of D can then only go to w′, whose bundle has three or more goods with two of D. ✗ ∎
 
 **Checks** (`results/k4_ksens/refute_oc_k5.log`):
 - ocsat.py (SAT; EFX₀ clauses from sdclib) and brute.py (every one of the 5⁹ allocations against the raw definition;
