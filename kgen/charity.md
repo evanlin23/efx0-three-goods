@@ -14,7 +14,7 @@ changed here; the coordinator integrates.
 | CH-C | at every CKMS stopping state, \|P\| < σ ≤ (k − 2) · min_{g∈P} \|V(g)\| | PROVED | §2, Lemma CH4 |
 | CH-D | for every σ ≥ 2: a k = 3 instance and a state leaving σ − 1 goods out at which no CKMS rule applies under any champion choice (n ≈ 1.5σ²) | PROVED (written proof; checked for σ ≤ 7, k = 3, 4) | §4, `stuck_family.py`, `stuck_family_k*.log` |
 | CH-E | for every σ ≥ 2 and k ≥ 3: a Pareto maximum (P1's hypothesis) leaving σ − 1 goods out, n = O(σ²) | PROVED (written proof; exhaustive check without SAT for σ ≤ 4, SAT for σ ≤ 7) | §5, `refute_pm.py`, `refute_pm_k*.log`, `pm_family_sat.log` |
-| P1 threshold | P1 (K4.SDC.P1: Pareto maxima are complete) holds for k ≤ 2 and fails at k = 3 (n = 4, m = 7, every agent values exactly 3 goods) | PROVED for k ≤ 2 (CH6 + CH4′); REFUTED at k = 3 (CH-E with σ = 2; brute force over all 5⁷ partial allocations) | §5, `refute_pm_k3.log` |
+| P1 threshold | P1 (K4.SDC.P1: Pareto maxima are complete) holds for k ≤ 2, and for n = 2 at every k (P1₂); it fails at k = 3 (n = 4, m = 7, every agent values exactly 3 goods) | PROVED for k ≤ 2 (CH6 + CH4′); REFUTED at k = 3 (CH-E with σ = 2; brute force over all 5⁷ partial allocations) | §5, `refute_pm_k3.log` |
 | PM(k) | Pareto maxima leave ≤ f(k) goods out | REFUTED for every k ≥ 3 and every f (CH-E) | §5 |
 | W(k, f) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f goods out (§6 for the exact statement); W(k, f) ⇒ CH(k) | f = 0 REFUTED at k = 3 (n = 4, m = 7) and k = 4 (GM4-G); **f = 1 REFUTED at k = 3 and k = 4** (CH-F: n = 12, m = 17 and n = 9, m = 14, integer values; each verified by SAT and by MILP); f ≥ 2: §6 | §6, `w_brute.log`, `w_counterexample*.log`, `attempts/kgen-charity-welfare-maxima.md` |
 | L(k, 0) | the leximin maximum (then fewest unallocated) is complete | REFUTED at k = 3 and k = 4 (n = 4, m = 7; brute force); complete on the CH-F and S′ instances | §6, `lex_brute.log`, `lex_check.log` |
@@ -605,10 +605,30 @@ n = 4 stranding of §5 in 36 cuts and correctly finds none at n = 3, k = 3.
 
 | n | k | result | log |
 |---|---|---|---|
-| 2 | 3, 4 | OL holds (UNSAT for every size vector) | `ol_synth_n2_k3.log`, `ol_synth_n2_k4.log` |
+| 2 | any | OL holds with no loser (Proposition P1₂, proved); the search: UNSAT for every size vector at k = 3, 4 | `ol_synth_n2_k3.log`, `ol_synth_n2_k4.log` |
 | 3 | 3 | OL holds | `ol_synth_n3_k3.log` |
 | 3 | 4 | (running) | `ol_synth_n3_k4.log` |
-| 4 | 3 | (running) | `ol_synth_n4_k3.log` |
+| 4 | 3 | OL holds (43 size vectors, pool sizes 1–3, m ≤ 12) | `ol_synth_n4_k3.log` |
+
+**Proposition P1₂ (two agents: Pareto maxima are complete; written proof).** In every additive instance with two
+agents (any number of goods, any values ≥ 0), every Pareto maximum is complete. Equivalently, every partial EFX₀
+allocation is weakly dominated, agent by agent, by a complete EFX₀ allocation; so OL holds at n = 2 with no loser.
+*Proof.* Let X = (X_A, X_B) be a Pareto maximum with a good g unallocated, and M the set of all goods. No good can be
+added to either bundle keeping EFX₀ (that would allocate more at the same or higher values). Adding g to X_A can only
+be blocked by B, so B strongly envies X_A ∪ {g}: v_B(X_A ∪ {g}) ≥ v_B((X_A ∪ {g}) ∖ h) > v_B(X_B) for some h, hence
+v_B(M) ≥ v_B(X_A ∪ {g}) + v_B(X_B) > 2 v_B(X_B). Symmetrically v_A(X_B ∪ {g}) > v_A(X_A).
+Let (Q_1, Q_2) be a partition of M that maximizes, for A, first min(v_A(Q_1), v_A(Q_2)) and then the number of goods
+in the strictly cheaper bundle (if there is one). It is EFX₀ for A from both sides: if v_A(Q_1) < v_A(Q_2) and
+v_A(Q_2 ∖ h) > v_A(Q_1) for some h ∈ Q_2, moving h to Q_1 either raises the minimum (v_A(h) > 0) or keeps it and
+enlarges the cheaper bundle (v_A(h) = 0); and if v_A(Q_1) = v_A(Q_2) there is nothing to check. Its minimum is at
+least that of (X_A, M ∖ X_A), which is v_A(X_A) because M ∖ X_A ⊇ X_B ∪ {g}. Let B take its favourite of Q_1, Q_2
+and A the other. B gets ≥ v_B(M)/2 > v_B(X_B) and envies nothing; A gets ≥ v_A(X_A) and strongly envies nothing. This
+complete EFX₀ allocation dominates X, a contradiction. For the equivalent form, lift any partial EFX₀ allocation to a
+Pareto maximum above it (as in OL0(b)). ∎
+(The cut-and-choose step is Plaut–Roughgarden's two-agent argument with their leximin++ rule [unverified: not
+re-read here; the proof above is self-contained].) So P1 holds at n = 2 for every k and fails at n = 4 for k = 3
+(§5); n = 3 is the threshold question, see below. The exact searches agree: no Pareto maximum strands a good at
+n = 2 for k ≤ 6 (`ol_synth_n2_p1.log`).
 
 **OL and the Haxell session's W^sub** (`k4/haxell.md` on `claude/k4-haxell`, read at its burst-2 status). W^sub says:
 from every partial EFX₀ allocation with a nonempty pool, at most two moves (single-good reassignment, swap, rotation
