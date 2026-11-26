@@ -1,0 +1,16 @@
+starts with a LIFT pair True 3190
+--- starts where some LIFT pair has the feature:
+P1 H0 size 2, P2 H0 size 1 1313
+P1 H0 size 2, P2 H0 size 2 3190
+P1 H0 size 2, P2 H0 size 3 1511
+P2 H0 contains z base at B1 True 3190
+P2 head = P1 head False 3190
+P2 head = P1 head True 803
+P2 head valued no junk at Y (inert) False 1313
+P2 head valued no junk at Y (inert) True 3190
+max size of other multi-good bundles 2 3190
+max size of other multi-good bundles 3 1064
+owner takes all junk: EFX0 False 375
+owner takes all junk: EFX0 True 3190
+z frozen at B1 False 3190
+z frozen at B1 True 1313

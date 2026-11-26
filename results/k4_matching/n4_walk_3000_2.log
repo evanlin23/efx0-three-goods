@@ -18,4 +18,4 @@ CM True, OC1 True 13510
 OC1 fails: CM2 True, OC2 True, EX* exact on the second move True 4299
 distinct failing (profile, start) 3179
 hard perfect starts 17883
-time 46 s
+time 41 s

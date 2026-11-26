@@ -14,6 +14,7 @@ import _mpaths  # noqa: F401
 from mlib import M
 from exchange import ex_star_witness
 from oc1max_climb import is_core
+DUMP = os.environ.get('DUMP')   # DUMP=file.jsonl: also write every distinct failing (profile, start) pair
 
 
 def evaluate(sets, vals, seen):
@@ -41,7 +42,9 @@ def evaluate(sets, vals, seen):
         oc2 = [e or any(I.complete(B2, 0, 'oa') is not None for B2 in I.moves(B1)) for e, B1 in zip(ex1, first)]
         C['OC1 fails: CM2 %s, OC2 %s, EX* exact on the second move %s' % (any(ex1), any(oc2), ex1 == oc2)] += 1
         if not any(ex1) or ex1 != oc2: score += 10000; bad.append(('second move', Y, sum(ex1), sum(oc2)))
-        if key not in seen: seen.add(key); C['distinct failing (profile, start)'] += 1
+        if key not in seen:
+            seen.add(key); C['distinct failing (profile, start)'] += 1
+            if DUMP: bad.append(('failing', Y))
     return score, C, bad
 
 
@@ -69,6 +72,9 @@ if __name__ == '__main__':
             T.update(C)
             print('hypergraph %d: distinct failing (profile, start) pairs visited %d' % (t, C['distinct failing (profile, start)']), flush=True)
             for vals, b in found:
+                if b[0] == 'failing':
+                    with open(DUMP, 'a') as fo: fo.write(json.dumps({'sets': sets, 'vals': vals, 'picks': list(b[1])}) + '\n')
+                    continue
                 print('   ', b[0], json.dumps({'sets': sets, 'vals': vals, 'picks': b[1]}), b[2:], flush=True)
     for k in sorted(T): print(k, T[k])
     print('time %.0f s' % (time.time() - t0))

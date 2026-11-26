@@ -19,6 +19,7 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
 | CM ⟺ OC₁ on the data (§3, §5) | one exchange (Lemma EX / EX\*) repairs exactly when one move gives an S\* completion, at every hard perfect start tested: the 2,371 starts, the 30 of the 11 n = 4 instances, the walks near the n = 4 failures. Near those failures, 88 starts satisfy OC₁ only through a non-S\* completion (a compensated frozen slot) | computed |
 | Lemma EX\* (§5) | the exchange at any state: Lemma M applied after a move, read in the slot graph before it (ownership moved, chain agents' demands re-evaluated, the chain's new slots added) | written proof (§5), a corollary of Lemma M; 0 violations |
 | **Conjecture CM₂** (§5) | from every perfect start, some first move leads to a state where a Lemma EX\* exchange repairs. CM₂ ⟹ OC₂ at perfect starts ⟹ OC₂^max ⟹ TARGET₄ | evidence: all 30 hard maximum-matching starts of the 11 n = 4 failure instances, every start visited by the walks near them (OC₁ failing: 4,513 visits, 3,308 distinct; OC₁ only non-S\*: 88), PW5, RD5. Where OC₁ fails, the first moves after which an EX\* exchange repairs are exactly those after which any second move repairs |
+| **Conjecture LIFT-EX** (§6) | the second move, in exchange form (OC2-LIFT). At a perfect start with no one-move repair there is exactly one holder z; a chain from a dangerous agent to z absorbs a danger set shared with a second dangerous agent; a second chain ending at z gives z its favourite good, and its head owns (Lemma EX\* holds) | evidence: all 3,190 n = 4 failing profile–start pairs, the TTC n = 5 core, RD5; false at PW5 (k = 5, two holders). Lemma LIFT-red (written proof) reduces its last step to one condition, (LIFT-1) |
 | exchange accounting (§3) | what a repairing chain pays for: in 910 of the 2,071 hard starts, deleting the chain agents' demands alone (s = 0) clears an end-owned deficiency of up to 6 | computed |
 
 **Bottom line.**
@@ -38,6 +39,8 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
    - in each, a first move followed by a Lemma EX\* exchange repairs (Conjecture CM₂, §5). The same holds at all 3,308
      distinct failing profile–start pairs that value walks find near the 11.
    CM₂ implies OC₂^max, the campaign's current target.
+5. The second move has one uniform shape on all data, Conjecture LIFT-EX (§6), and Lemma LIFT-red reduces it to one
+   condition, (LIFT-1).
 
 ## 0. Setting
 
@@ -425,7 +428,7 @@ found is confirmed by the raw S\* test: 0 violations.
 - 6,250 hard perfect starts from 3,000 random profiles of each of the 11 hypergraphs (`n4_profiles.py`) contain no
   failure at all. Random profiles miss the failure region.
 - Evidence only: the n = 4 failures were found only by an exhaustive ordinal search. Random profiles (11M orders at
-  n = 5) and the climbs of `k4/matching/cm_climb.py` missed them (§6).
+  n = 5) and the climbs of `k4/matching/cm_climb.py` missed them (§7).
 
 **The mechanism, in exchange terms** (`k4/matching/n4_twomoves.py`, `results/k4_matching/n4_twomoves.log`: every
 (first move, EX\* exchange) pair that repairs, 57 over the 11 stored starts).
@@ -444,7 +447,82 @@ found is confirmed by the raw S\* test: 0 violations.
     two foreign picks. That is RD5's "two foreign picks" repair (`k4/ksens.md` §6), here at k = 4. One chain can hand
     its head only the end's base, so it cannot collect two picks.
 
-## 6. Climbs and reproduction
+## 6. The second move in exchange form: Conjecture LIFT-EX
+
+This answers the coordinator's request (23:45) to state and prove the second step of CM₂ in the shape found in §5, in
+the Hall session's case tree (`k4/oc1_hall.md` §23.2, leaf 5, Sub-lemma OC2-LIFT). The shape is found and is uniform
+on all data. Its proof is reduced to one condition below, which is not proved.
+
+**Conjecture LIFT-EX (K4.MATCH.LIFT).** Let Y be a perfect start of an instance with ≤ 4 relevant goods per agent,
+with no one-move repair. Then:
+1. Y has exactly one holder z, and every other agent is frozen.
+2. Some official chain P₁ from a dangerous agent k ends at z, and its H₀ ⊆ J ∪ {y_z} is also improving for a second
+   dangerous agent k′. This is a shared danger set, `k4/oc1_hall.md` §23.3.
+3. After P₁, some official chain P₂ ends at z and gives z its favourite good of R_z. With P₂'s head h as owner, Lemma
+   EX\* holds at B₁, so the state B₂ after P₂ has an S\* completion owned by h.
+
+In OC2-LIFT's terms: z, holding its favourite good, wants nothing. So every agent that was frozen only because z
+wanted its good is unfrozen. On the data every DEMAND agent of P₁ is of this kind.
+
+*Evidence* (`k4/matching/lift_shapes.py`, `results/k4_matching/lift_shapes.log`). The data are every start with no
+one-move repair known here:
+
+| starts | 1–3 hold |
+|---|---|
+| the 3,190 n = 4 failing profile–start pairs: the 11 stored, and the 3,179 found by the walks of §5 | **3,190** |
+| the TTC session's n = 5 strict-core failure (`k4/oc1_hall.md` §22; shared set {junk 2, released pick 4}) | 1 |
+| RD5 (k = 5) | 1 |
+| PW5 (k = 5) | **0**: it has two holders, so 1 fails |
+
+So LIFT-EX is consistent with being a k ≤ 4 statement; PW5 is its k = 5 obstruction.
+
+**The shape on the n = 4 data** (`k4/matching/lift_oblig.py`, `results/k4_matching/lift_oblig.log`). On each of the
+3,190 starts some LIFT pair has all of the following:
+- P₁'s H₀ is a pair, the shared pair;
+- P₂'s head h is a dangerous agent other than k, and inert at Y: its junk is worth at most its pick. In cex1 this is
+  agent 0;
+- P₂'s H₀ is a pair containing z's good after P₁, a = B₁_z;
+- the only other multi-good bundle of B₂ is P₁'s pair;
+- **h can take all the junk**: B₂ with J₂ given to h is EFX₀ (raw). So the Lemma M witness of B₂ has H = ∅.
+
+**Lemma LIFT-red (K4.MATCH.LIFTRED; written proof).** Assume:
+- Y is a perfect start and z is a holder of Y;
+- P₁ is an official chain ending at z, with |H₀¹| = 2 and H₀¹ ⊆ J ∪ {y_z};
+- P₂ is a canonical chain at B₁ (each agent after the head takes its predecessor's good alone) ending at z;
+- P₂'s head h is P₁'s middle or off P₁, and B₂_h = H₀² is h's improving set.
+
+Give h the set X = H₀² ∪ J₂ and keep every other base. The result is EFX₀ iff X threatens no agent i ≠ h at
+v_i(B₂_i).
+
+*Proof.* We show that no bundle other than X threatens anybody.
+1. Values only rise along both chains.
+2. Every good of J₁ ∪ J₂ and of H₀¹ is unwanted at B₂:
+   - goods of J: by (I2) at the perfect start;
+   - y_z: it is unwanted at Y because z is a holder of Y, and values only rose;
+   - a = B₁_z, released or taken by h: it is unwanted at B₁ because z is a holder of B₁ (no agent wants z's good
+     after P₁, which is checked in the shape above, z unfrozen at B₁ in all 3,190), and values only rose.
+3. The bundles other than X are:
+   - single goods: the agents of P₂ hold their predecessors' goods, z holds its favourite good, and the others keep
+     their bases;
+   - P₁'s head's pair H₀¹, if that head is not h.
+
+   A single good threatens nobody. A pair of goods that are both unwanted at B₂ threatens nobody: removing one good
+   leaves one unwanted good.
+4. So only X can threaten. ∎
+
+The one remaining obligation is therefore:
+
+> **(LIFT-1)** X = H₀² ∪ J₂ threatens no agent i ≠ h at its value in B₂.
+
+That is the whole content of the second move in this shape. It is a statement about at most four goods per agent:
+- z holds its favourite good, so it is threatened only by ≥ 2 of its other goods in X;
+- every other agent values at most three goods outside its bundle.
+
+A proof of LIFT-1, and of items 1–2 (the existence of the shape), would prove OC₂^max for starts with no one-move
+repair. It is not attempted here beyond the reduction. Both items 1 and 2 are checked only on the data above. Item 1
+fails at k = 5 (PW5).
+
+## 7. Climbs and reproduction
 
 **Climbs against CM** (`k4/matching/cm_climb.py`; `results/k4_matching/cm_climb_*.log`). The climbs maximize hard
 starts with few CM witnesses (CAP = 10), seeded from the hard rows of §2:
@@ -479,6 +557,8 @@ python3 attempts/k4_matching_attempts.py                      # the refuted defi
 python3 k4/matching/n4_cex.py; python3 k4/matching/cm2.py n4all; python3 k4/matching/cm2.py k5   # §5
 python3 k4/matching/n4_twomoves.py                            # the two-move repairs of the n = 4 failures
 python3 k4/matching/n4_walk.py 3000 2; python3 k4/matching/n4_profiles.py 3000 7   # walks / random profiles near them
+DUMP=results/k4_matching/n4_failing_walk.jsonl python3 k4/matching/n4_walk.py 3000 2  # dumps the failing pairs (§6)
+python3 k4/matching/lift_shapes.py; python3 k4/matching/lift_oblig.py               # Conjecture LIFT-EX and its shape
 python3 k4/matching/cm_big.py cores6 2000 40 31               # CM at n = 6 (sampled orders)
 CAP=10 SEEDFILES=... python3 k4/matching/cm_climb.py 32 2000 22 3 6 [MC2]    # climbs (LOOSE=1 for any instance)
 ```
