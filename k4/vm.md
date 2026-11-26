@@ -317,6 +317,7 @@ enumerated by DFS, up to a cap, then sampled.
 | cores n = 3 | 3,000 | 2,977 | 2,977 | 2,992 | **0** | `vm0_cores3.log` |
 | cores n = 4 | 3,000 | 2,992 | 2,990 | 2,997 | **1** (`core4:1615`) | `vm0_cores4.log` |
 | cores n = 5 | 1,000 | 996 | | 999 | **0** | `vm0_cores5.log` |
+| general (n ≤ 6, m ≤ 10, junk) | 10,000 | 9,972 | 9,977 | 9,987 | **0** | `vm0_gen.log` |
 
 - Without F2, the unfiltered Phase III loses 6 more screen instances (`nof2`).
 - F1 alone (no rotation) misses one screen instance where S1 passes (`hall-local3`, n = 3, m = 7).
@@ -349,6 +350,8 @@ Still, on all 168 screen instances *some* SD outcome completes this way.
 | F6x stuck | 166 | 103 | 2: `c4min-tlam-n3-m6`, `c4x-n3m6-3good-first` (n = 3, m = 6) |
 | F6x eager | 163 | | 5; `c4x-n3m8-pure-top7` (n = 3, m = 8) |
 | **F6x choice** | **168** | 64 | **none** |
+| F6x eager with lookahead (`x-eagerL`) | 168 | 141 | none, but its first run (all ties by index) fails on 4 |
+| **VM-LL** (`x-eagerLL`: lookahead on moves and placements, fully deterministic) | 168 (first run) | 162 | none on these labels; **14 of 1,284 relabelled instances fail**, smallest n = 2, m = 5 |
 
 Logs: `vm6_screen.log`; the other sources are in §6.4.
 
@@ -365,7 +368,18 @@ What the moves do on the smallest failures, by brute force over all allocations 
 - **`c4x-n3m8-pure-top7`** (eager F6x fails). Three agents with the same pattern (two private goods, shared 6 and 7).
   An early upgrade takes the private goods that a later placement needed.
 
-So the moves are needed, *and* when to apply them matters: neither "always" nor "only when stuck" works. This is
+**VM-LL is refuted as an algorithm** (`attempts/k4-vm-deterministic.md`, independent replay). It is deterministic,
+polynomial and fast (at most 0.06 s per instance up to n = 5; 39 s for the largest suite instance, n = 26). It fails
+at n = 2, m = 5 (`gen:5525`): agent 0 upgrades its top {4} to {0, 1}, after which goods 3 and 4 each fit with agent 1
+but not both. The lookahead tests pool goods one at a time. Failure rates:
+- 6 of 13,000 random core profiles with n = 3–5 (`vmll_cores.log`);
+- 4 of 20,000 general instances (`vmll_gen.log`);
+- 2 of 492 relabelled suite instances (`vmll_suite.log`);
+- 14 of 1,284 relabelled screen, SPECIAL and logged instances (`vmll_screen_relabel.log`), and none on their original
+  labels (`vmll_screen.log`).
+
+So the moves are needed, *and* when to apply them matters: neither "always" nor "only when stuck" works, and a
+one-good lookahead is not enough either. This is
 P1's lesson (K4.SDC.P1) inside V-M's frame. Every step of F1–F6x is value-monotone (nobody loses), so a run can walk
 into a stuck partial EFX₀ allocation, and only the choice of path avoids it.
 

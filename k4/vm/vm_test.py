@@ -5,7 +5,7 @@ against ordinary EFX and EFX0 (raw definitions).  EVIDENCE only.
     python3 k4/vm/vm_test.py SOURCE [--limit=N] [--samples=N] [--readings=all|main] [--show=K] [--jobs=J]
 SOURCE: screen | suite | special | logs | cores:K:N:SEED (K = 3..6 agents) | gen:N:SEED[:nmax:mmax:vmax[:ties]]
 """
-import sys, os, json, collections, random, time, multiprocessing as mp
+import sys, os, json, collections, random, time, zlib, multiprocessing as mp
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vmlib as V
 import data
@@ -46,7 +46,7 @@ def one(args):
             runs.append((ch, res))
         exhaustive = len(runs) < limit
         if not exhaustive:
-            rng = random.Random(hash(name) & 0xffff)
+            rng = random.Random(zlib.crc32(name.encode()))
             for t in range(samples):
                 c = V.Chooser((), rng=rng)
                 try:

@@ -486,11 +486,44 @@ def exchanges(I, X, pool):
     return out
 
 
+def placeable_after(I, X, pool, mv):
+    """one-step lookahead: after move mv, every valued pool good has some safe recipient"""
+    i, j, z, S = mv
+    Y = [list(b) for b in X]; P = set(pool); y = Y[i][0]
+    if j is None:
+        Y[i] = list(S); P.add(y)
+    else:
+        Y[j] = [h for h in Y[j] if h != z] + [y]; Y[i] = [z] + list(S)
+    P -= set(S)
+    return absorbable_all(I, Y, P)
+
+
+def absorbable_all(I, Y, P, skip=None):
+    """every valued good of P (except skip) has a safe recipient in Y, or is taken by some move of exchanges(Y, P)"""
+    need = [h for h in P if h != skip and I.valued_by(h) and not any(safe_add(I, Y, t, h) for t in range(I.n))]
+    if not need:
+        return True
+    taken = set(h for (i, j, z, S) in exchanges(I, Y, P) for h in S)
+    return all(h in taken for h in need)
+
+
+def placeable_after_place(I, X, pool, g, s, rot):
+    """lookahead for a placement: after g goes to s (and envy cycles are rotated, if rot), every other valued pool
+    good has some safe recipient"""
+    Y = [list(b) for b in X]; Y[s].append(g)
+    if rot:
+        l3_source(I, Y)
+    return absorbable_all(I, Y, set(pool) - {g})
+
+
 def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False):
     """F6x: as vm6_run with upgrade moves replaced by exchanges() (pool-only upgrades included).
     mode='choice': moves and 'place' are choice points; 'eager': a move is applied whenever one exists (which one is
     a choice point); 'eager1': the first move in exchanges()'s order; 'stuck': moves only when the chosen good has no
-    safe place."""
+    safe place; 'eagerL' / 'eagerL1': as eager / eager1, but only moves after which every valued pool good still has a
+    safe recipient (placeable_after); 'eagerLL': fully deterministic in the F1 phase: the first move passing that
+    lookahead, else the first (good, recipient) pair after which (with rotation) every other pool good has a safe
+    recipient, else the first safe pair."""
     X, fl = vm0_run(I, ch, f2=True, rot=rot, base=base, stop='IIIm')
     X = [list(b) for b in X]
     held = set(g for b in X for g in b)
@@ -513,12 +546,27 @@ def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False):
             break
         if rot:
             l3_source(I, X)
-        if mode in ('choice', 'eager', 'eager1'):
+        if mode in ('choice', 'eager', 'eager1', 'eagerL', 'eagerL1', 'eagerLL'):
             mv = exchanges(I, X, pool)
+            if mode == 'eagerLL':
+                mv = [a for a in mv if placeable_after(I, X, pool, a)][:1]
+                mode_eff = 'eager1'
+            if mode in ('eagerL', 'eagerL1'):
+                mv = [a for a in mv if placeable_after(I, X, pool, a)]
+                mode_eff = 'eager' if mode == 'eagerL' else 'eager1'
             if mv:
-                act = ch.pick('mv', mv + ['place']) if mode == 'choice' else (mv[0] if mode == 'eager1' else ch.pick('mv', mv))
+                me = mode_eff if mode in ('eagerL', 'eagerL1', 'eagerLL') else mode
+                act = ch.pick('mv', mv + ['place']) if me == 'choice' else (mv[0] if me == 'eager1' else ch.pick('mv', mv))
                 if act != 'place':
                     apply(act); continue
+        if mode == 'eagerLL':
+            pairs = [(g, s) for g in valued for s in range(I.n) if safe_add(I, X, s, g)]
+            if not pairs:
+                raise Stuck(('no_safe', valued[0], [list(b) for b in X]))
+            good = [(g, s) for (g, s) in pairs if placeable_after_place(I, X, pool, g, s, rot)]
+            g, s = (good or pairs)[0]
+            X[s].append(g); pool.discard(g); log.append(('F1', s, g))
+            continue
         g = ch.pick('egood', valued)
         cands = [s for s in range(I.n) if safe_add(I, X, s, g)]
         if not cands and mode == 'stuck':

@@ -11,7 +11,8 @@ VARS = {'eager': dict(upg='eager', rot=True), 'choice': dict(upg='choice', rot=T
         'eager-norot': dict(upg='eager', rot=False), 'choice-norot': dict(upg='choice', rot=False),
         'x-choice': dict(mode='choice', rot=True, _x=True), 'x-stuck': dict(mode='stuck', rot=True, _x=True),
         'x-stuck-norot': dict(mode='stuck', rot=False, _x=True), 'x-eager': dict(mode='eager', rot=True, _x=True),
-        'x-eager1': dict(mode='eager1', rot=True, _x=True)}
+        'x-eager1': dict(mode='eager1', rot=True, _x=True), 'x-eagerL': dict(mode='eagerL', rot=True, _x=True),
+        'x-eagerL1': dict(mode='eagerL1', rot=True, _x=True), 'x-eagerLL': dict(mode='eagerLL', rot=True, _x=True)}
 
 
 def one(args):
@@ -34,7 +35,8 @@ def one(args):
                 kinds[r.args[0][0]] += 1
             else:
                 assert V.is_efx0(I, r[0]), (name, v, ch); ok += 1
-        out[v] = (tot, ok, dict(kinds))
+        first = not isinstance(runs[0][1], V.Stuck)
+        out[v] = (tot, ok, dict(kinds), first)
     return name, I.n, I.m, sets, vals, out
 
 
@@ -48,8 +50,10 @@ if __name__ == '__main__':
     with mp.Pool(os.cpu_count()) as pool:
         for name, n, m, sets, vals, out in pool.imap_unordered(one, [(a, b, c, d, variants, limit, samples) for a, b, c, d in items_for(src)], chunksize=4):
             C['instances'] += 1
-            for v, (tot, ok, kinds) in out.items():
+            for v, (tot, ok, kinds, first) in out.items():
                 C[v + ': some run EFX0'] += ok > 0; C[v + ': every run EFX0'] += ok == tot
+                C[v + ': first run (all choices 0) EFX0'] += first
+                if not first: bad[v + ' [first run]'].append((n, m, sum(map(len, sets)), name, sets, vals))
                 C[v + ': runs'] += tot; C[v + ': runs EFX0'] += ok
                 for k, c in kinds.items(): K[(v, k)] += c
                 if ok == 0: bad[v].append((n, m, sum(map(len, sets)), name, sets, vals))
