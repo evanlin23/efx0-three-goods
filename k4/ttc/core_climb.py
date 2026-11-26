@@ -57,13 +57,35 @@ def two_private(sets):
 def is_core(sets, vals, m):
     if MC2 and two_private(sets):
         return False
+    if DEFICIENT and nu(sets) >= len(sets):
+        return False
     return not is_core4(vmatrix(sets, vals, m))
+
+
+GEN = 'plain'   # gen=deficient: cores with nu < n (a planted Hall-deficient group); gen=dense: m in [2n, 3n]
+DEFICIENT = False  # with gen=deficient, every mutation must keep nu < n
+
+
+def plant(n, m, rng):
+    """sets with a Hall-deficient group: s = 4 agents on 3 common goods, or 5 agents on 4 goods (3 or 4 each)"""
+    s = rng.choice([4, 5]); G = rng.sample(range(m), s - 1)
+    sets = [sorted(G) if s == 4 else sorted(rng.sample(G, rng.choice([3, 4]))) for _ in range(s)]
+    sets += [sorted(rng.sample(range(m), rng.choice([3, 4, 4]))) for _ in range(n - s)]
+    return sets
 
 
 def gen_core(n, rng, tries=20000):
     for _ in range(tries):
-        m = rng.randint(n + 2, 2 * n)
-        sets = [sorted(rng.sample(range(m), rng.choice([3, 4, 4]))) for _ in range(n)]
+        if GEN == 'dense':
+            m = rng.randint(2 * n, 3 * n)
+        else:
+            m = rng.randint(n + 2, 2 * n)
+        if GEN == 'deficient':
+            sets = plant(n, m, rng)
+            if nu(sets) >= n:
+                continue
+        else:
+            sets = [sorted(rng.sample(range(m), rng.choice([3, 4, 4]))) for _ in range(n)]
         if len(set().union(*map(set, sets))) != m:
             continue
         vals = random_profile(sets, rng)
@@ -190,6 +212,10 @@ if __name__ == '__main__':
     NR, ROUNDS, ORD, SEED, NMIN, NMAX = map(int, sys.argv[1:7])
     FREE = 'free' in sys.argv[7:]; SEEDED = 'seeded' in sys.argv[7:]; MC2 = 'mc2' in sys.argv[7:]; R1 = 'r1' in sys.argv[7:]
     MAXM = 'max' in sys.argv[7:]
+    for a in sys.argv[7:]:
+        if a.startswith('gen='):
+            GEN = a[4:]
+    DEFICIENT = GEN == 'deficient'
     for a in sys.argv[7:]:
         if a.startswith('seed='):
             SEEDFILE = a[5:]

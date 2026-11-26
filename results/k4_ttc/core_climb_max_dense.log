@@ -1,0 +1,1 @@
+$ python3 k4/ttc/core_climb.py 24 300 12 122 6 8 max gen=dense

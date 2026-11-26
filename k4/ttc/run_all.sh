@@ -65,3 +65,6 @@ python3 core_climb.py 6 300 20 112 5 5 seeded seed=oc1_mc2_counterexample.json m
 python3 core_climb.py 24 300 12 113 6 7 max > $L/core_climb_max_6_7.log
 python3 max_hand.py > $L/max_hand.log
 python3 order_classes.py > $L/order_classes.log
+python3 core_climb.py 24 300 12 121 6 8 max gen=deficient > $L/core_climb_max_deficient.log
+python3 core_climb.py 24 300 12 122 6 8 max gen=dense > $L/core_climb_max_dense.log
+python3 core_climb.py 24 300 12 123 6 8 max mc2 gen=deficient > $L/core_climb_max_deficient_mc2.log
