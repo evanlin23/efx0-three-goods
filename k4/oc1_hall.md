@@ -16,7 +16,7 @@ Code: `k4/oc1_hall/` (`ohlib.py` is shared). Logs: `results/k4_oc1_hall/`. Every
 
 Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PROMPT.md §5 rule 3).
 
-## Status (end of burst 3)
+## Status (end of burst 4)
 
 | | statement | status |
 |---|---|---|
@@ -57,7 +57,9 @@ Next:
    exists.
 2. f = 2 (§8): the chain removes both demands, by passing through the other frozen agent or by unfreezing it. A count
    for "after the chain" needs Lemma Ωʳ's unfreezing term inside Corollary 2.1.
-3. The chain lemma in general.
+3. The chain lemma in general. Proposition 5 shows the chain must beat a junk excess ω ≥ 2, up to 8 on the data.
+4. Not a route: with one dangerous agent k but other, non-dangerous frozen agents present, Proposition 3's analogue
+   is Lemma GDT's (G4). DT₁'s swap then breaks, because the released pick Y_w can make another frozen agent dangerous.
 
 ## 1. Lemma 1: the slot form at serial-dictatorship picks
 
