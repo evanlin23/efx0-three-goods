@@ -30,7 +30,8 @@ coordinator integrates.
       run ends EFX₀). It held on all 9,678 instances of §6.4, but **hill-climbing refuted it** at n = 3, m = 6 and
       n = 4, m = 8. Phase III's early second goods block the exchange that a strongly-top agent must make.
   - **CONJECTURE VMX₂** (evidence only, §7.1): VMX without Phase III. Some run ends EFX₀ on every instance tested,
-    including both VMX counterexamples. VMX₂ ⟹ TARGET₄.
+    including both VMX counterexamples, and the climbs that refuted VMX find no counterexample to it (lowest success
+    fractions 1/2 at n = 3 and 2/3 at n = 4). VMX₂ ⟹ TARGET₄.
 - **PROVED (§7):** Lemma SND (every state is partial EFX₀) and Lemma TERM (at most m placements and 15n moves per
   run). VMˣ and VMˣ₂ are sound nondeterministic procedures, polynomial per run.
   - The runs never lower a value, so P1 (K4.SDC.P1) is why the choice of path matters.
@@ -521,9 +522,14 @@ path avoids every trap.
 | general, n ≤ 6, m ≤ 10 | 3,000 | **3,000** | 2,786 | 2,994 | `vmx2_gen.log` |
 | the two VMX counterexamples (§6.4) | 2 | **2** (18/26 and 559/595 runs) | | | `attempts/k4-vm-vmx.md` |
 
-Climbs against VMX₂ (`vmx_climb.py ... --phase3=0`, `vmx2_climb_n{3,4}.log`): running at the end of this burst. The
-result goes into the next status block. As for VMX, the climbs are the test that matters, since random sampling
-never found the VMX counterexamples.
+**Climbs against VMX₂** (`vmx_climb.py ... --phase3=0`) used the same budget as the climbs that refuted VMX: 64 climbs
+of 80 steps at n = 3, and 48 of 60 at n = 4 (other seeds). They found no counterexample. The lowest success
+fractions reached are:
+- 6 of 12 runs at n = 3 (`vmx2_climb_n3.log`);
+- 20 of 30 runs at n = 4 (`vmx2_climb_n4.log`).
+
+With that budget VMX went to 0 at both sizes. This is evidence only. The next step is longer climbs, n = 5, and
+objectives other than the success fraction (e.g. the number of successful runs).
 
 ## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading
 
