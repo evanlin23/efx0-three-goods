@@ -1,0 +1,6 @@
+$ python3 k4/k3oc1/oc1_max.py certs:6 1 4
+hypergraphs 59
+perfect drafts 8821272
+perfect: hard 80700
+profiles 2752704
+time 565 s

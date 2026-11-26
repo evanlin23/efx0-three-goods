@@ -13,6 +13,10 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - It is repaired by one chain if a chain may pass an empty-handed agent, and by the free completion.
   - Proved here: OC₁ for R1-compatible orders (Theorem R1C), and LB⁺'s rotation for every order (Theorem B\*).
   - The first k = 3 fact that fails at k = 4 is (DE-a): only top-holders gain from junk (nsw-local-n3m5).
+- **OC₁ at maximum-matching starts holds at k = 3 on all data (§10).** This covers every core with n ≤ 5, every
+  n = 6, m ≥ 10 core, and DE's general core case with n ≤ 5, every profile and order. One DE trade always suffices.
+  The k = 4 counterexamples of `k4/sdc.md` §31 need a b-holder with a junk danger pair, which is (DE-a) and is
+  impossible at k = 3.
 - **Proved.**
   - Lemma 1 (§2): soundness of the simple completion. LB⁺'s Lemma 1 with one slot per terminal, plus an empty-handed owner left with two goods.
   - Lemma 2 (§2): ω = (m − 2n) + e + ν, where e counts the agents holding nothing and ν the needed goods; no DE trade raises ω.
@@ -397,3 +401,36 @@ For TARGET₄ the right statement is about cores, where peeling has removed such
 §29 ("every instance") needs either the core restriction or the glued chains. The k = 4 data of §29 are cores or near
 it, so this never showed there. Note the role of the absorber count: the obstruction is two independent groups of
 exposed private pairs, each needing its own absorber.
+
+## 10. OC₁ at maximum-matching starts (OC₁^max) at k = 3: one move everywhere tested
+
+Requested by the coordinator after OC₁^max was refuted at k = 4, n = 4 (`k4/sdc.md` §31 on `claude/kind-lamport-y8fdme`).
+`oc1_max.py` keeps the drafts whose picks match ν agents, ν the maximum matching size. It tests the one-absorber
+completion with `lb2` (exact on DE states), then one DE trade, then one improving move of §29 under the official rule
+(a chain never passes an empty-handed agent; exact completion). It also tests every least-ω DE trade. Logs:
+`results/k4_k3oc1/oc1_max_*.log`.
+
+| data (every profile, every order) | maximum-matching drafts (perfect + not perfect) | hard | one DE trade fails | a least-ω DE trade fails | more than one move |
+|---|---|---|---|---|---|
+| cores n = 3 | 2,922 + 0 | 128 | 0 | 0 | 0 |
+| cores n = 4 | 132,520 + 14,112 | 3,196 | 0 | 0 | 0 |
+| cores n = 5, m = 9 | 266,508 + 0 | 4,272 | 0 | 0 | 0 |
+| cores n = 5, m ≤ 8 | 7,707,562 + 833,664 | 101,380 | 0 | 0 | 0 |
+| cores n = 6, m ∈ {10, 11} | 35,353,596 + 0 | 338,916 | 0 | 0 | 0 |
+| DE's general core case n ≤ 4 (all 16 + 93 classes), 0–2 dead goods | | 25,516 | 0 | 0 | 0 |
+| DE's general core case n = 5 (all 652 classes), 0–1 dead goods | | 449,512 | 0 | 0 | 0 |
+
+So at k = 3 no maximum-matching start tested needs more than one move. In fact one DE trade always suffices, and
+every least-ω DE trade does. Every hard maximum-matching draft is a perfect start (every agent picks). Both k = 3
+failures of §9 and of `attempts/k4-k3oc1-selection-rules.md` (example 4) have picks matching ν − 2 agents. This is
+the signature §31 reports for the k = 4 every-order counterexamples.
+
+**Where k = 4 differs.** In both k = 4 counterexamples to OC₁^max, the two dangerous agents that share a junk danger
+pair include a b-holder:
+- instance 1: agent 3 holds its top with danger pair {3, 4}, and agent 2 holds its b with the same danger pair;
+- instance 2: agents 1 and 2 both hold their b, with danger pair {1, 3}.
+
+At k = 3 a b-holder has no junk danger set: its only good below b is c. Two top-holders sharing a junk pair at k = 3
+are killed together by one DE chain, since the pair then sits in a pair holder's bundle (§6). So the k = 4 mechanism
+is exactly the first k = 3 fact that fails at k = 4, **(DE-a)** of §7: at k = 4 a b-holder can be endangered by, and
+gain from, {c, d} when c + d > b.
