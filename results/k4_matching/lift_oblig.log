@@ -1,5 +1,29 @@
 starts with a LIFT pair True 3190
 --- starts where some LIFT pair has the feature:
+JOINT without P1pair False 3190
+JOINT without P1pair True 2784
+JOINT without P2canon False 1760
+JOINT without P2canon True 2977
+JOINT without P2pair False 2936
+JOINT without P2pair True 2997
+JOINT without a_in_H02 False 3190
+JOINT without a_in_H02 True 2784
+JOINT without h_not_k False 3190
+JOINT without h_not_k True 2784
+JOINT without h_takes_all False 3190
+JOINT without h_takes_all True 2977
+JOINT without inert False 3190
+JOINT without inert True 2784
+JOINT without others_pairs False 3190
+JOINT without others_pairs True 2784
+JOINT without z_unfrozen_B1 False 3190
+JOINT without z_unfrozen_B1 True 2784
+JOINT: all features at once (LIFT-red hypotheses + h takes all junk) False 3190
+JOINT: all features at once (LIFT-red hypotheses + h takes all junk) True 2784
+LIFT-red hypotheses and h takes all junk False 2936
+LIFT-red hypotheses and h takes all junk True 2997
+LIFT-red hypotheses only (z unfrozen at B1, P1 pair, P2 canonical, h not k) False 2936
+LIFT-red hypotheses only (z unfrozen at B1, P1 pair, P2 canonical, h not k) True 3190
 P1 H0 size 2, P2 H0 size 1 1313
 P1 H0 size 2, P2 H0 size 2 3190
 P1 H0 size 2, P2 H0 size 3 1511

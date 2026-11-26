@@ -476,45 +476,56 @@ one-move repair known here:
 
 So LIFT-EX is consistent with being a k ≤ 4 statement; PW5 is its k = 5 obstruction.
 
-**The shape on the n = 4 data** (`k4/matching/lift_oblig.py`, `results/k4_matching/lift_oblig.log`). On each of the
-3,190 starts some LIFT pair has all of the following:
-- P₁'s H₀ is a pair, the shared pair;
-- P₂'s head h is a dangerous agent other than k, and inert at Y: its junk is worth at most its pick. In cex1 this is
-  agent 0;
-- P₂'s H₀ is a pair containing z's good after P₁, a = B₁_z;
-- the only other multi-good bundle of B₂ is P₁'s pair;
-- **h can take all the junk**: B₂ with J₂ given to h is EFX₀ (raw). So the Lemma M witness of B₂ has H = ∅.
+**The shape on the n = 4 data** (`k4/matching/lift_oblig.py`, `results/k4_matching/lift_oblig.log`). Over the LIFT
+pairs of each of the 3,190 starts:
+- *Jointly on all 3,190*, some LIFT pair satisfies Lemma LIFT-red's hypotheses below:
+  - z is unfrozen after P₁;
+  - P₁'s H₀ is a pair, the shared pair;
+  - P₂ is canonical;
+  - P₂'s head h is not P₁'s head.
+- *Each of the following holds for some LIFT pair on all 3,190*:
+  - h is inert at Y: its junk is worth at most its pick (in cex1, agent 0);
+  - P₂'s H₀ is a pair containing z's good after P₁, a = B₁_z;
+  - the only other multi-good bundle of B₂ is P₁'s pair.
+- *Together with Lemma LIFT-red's hypotheses*, h can take **all** the junk on 2,997 of the 3,190. Then B₂ with J₂ given
+  to h is EFX₀ (raw), and Lemma M's witness at B₂ has H = ∅. On the other 193 the LIFT pairs need H ≠ ∅: some junk goes
+  to a holder of B₂.
+- All of the features hold at once for one pair on 2,784 of the starts.
 
 **Lemma LIFT-red (K4.MATCH.LIFTRED; written proof).** Assume:
 - Y is a perfect start and z is a holder of Y;
 - P₁ is an official chain ending at z, with |H₀¹| = 2 and H₀¹ ⊆ J ∪ {y_z};
-- P₂ is a canonical chain at B₁ (each agent after the head takes its predecessor's good alone) ending at z;
-- P₂'s head h is P₁'s middle or off P₁, and B₂_h = H₀² is h's improving set.
+- z is a holder of B₁ (unfrozen after P₁);
+- P₂ is a canonical chain at B₁ (each agent after the head takes its predecessor's bundle alone) ending at z, and z's
+  new bundle is a single good;
+- P₂'s head h is not P₁'s head, and B₂_h = H₀² is h's improving set.
 
-Give h the set X = H₀² ∪ J₂ and keep every other base. The result is EFX₀ iff X threatens no agent i ≠ h at
-v_i(B₂_i).
+Then no bundle of B₂ other than h's threatens anybody, and every junk good of B₂ is unwanted. So Lemma M applies at B₂
+with owner h. In particular, giving h the set X = H₀² ∪ J₂ and keeping every other base is EFX₀ iff X threatens no
+agent i ≠ h at v_i(B₂_i).
 
 *Proof.* We show that no bundle other than X threatens anybody.
 1. Values only rise along both chains.
 2. Every good of J₁ ∪ J₂ and of H₀¹ is unwanted at B₂:
    - goods of J: by (I2) at the perfect start;
    - y_z: it is unwanted at Y because z is a holder of Y, and values only rose;
-   - a = B₁_z, released or taken by h: it is unwanted at B₁ because z is a holder of B₁ (no agent wants z's good
-     after P₁, which is checked in the shape above, z unfrozen at B₁ in all 3,190), and values only rose.
+   - a = B₁_z, released or taken by h: it is unwanted at B₁ because z is a holder of B₁, and values only rose.
 3. The bundles other than X are:
-   - single goods: the agents of P₂ hold their predecessors' goods, z holds its favourite good, and the others keep
-     their bases;
-   - P₁'s head's pair H₀¹, if that head is not h.
+   - single goods: z holds its favourite good, and the other agents of P₂ and everybody else hold one good;
+   - P₁'s head's pair H₀¹. It may have moved one step along P₂, if P₂ passes through P₁'s head.
 
    A single good threatens nobody. A pair of goods that are both unwanted at B₂ threatens nobody: removing one good
    leaves one unwanted good.
 4. So only X can threaten. ∎
 
-The one remaining obligation is therefore:
+The one remaining obligation is therefore Lemma M's condition at B₂ for owner h:
 
-> **(LIFT-1)** X = H₀² ∪ J₂ threatens no agent i ≠ h at its value in B₂.
+> **(LIFT-1)** Some H ⊆ J₂ has X = H₀² ∪ (J₂ ∖ H) threatening no non-holder of B₂ (other than h) at its value in B₂,
+> and the exposed holders of B₂ compensated by distinct goods of H, within a matching of all of H into the holders
+> of B₂.
 
-That is the whole content of the second move in this shape. It is a statement about at most four goods per agent:
+On 2,997 of the 3,190 starts H = ∅ works, and then (LIFT-1) just says that X = H₀² ∪ J₂ threatens nobody. That is the
+whole content of the second move in this shape. It is a statement about at most four goods per agent:
 - z holds its favourite good, so it is threatened only by ≥ 2 of its other goods in X;
 - every other agent values at most three goods outside its bundle.
 

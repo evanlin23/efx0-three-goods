@@ -32,6 +32,20 @@ def job(row):
             C['P2 head = P1 head %s'%(h==P1[0])]+=1
             C['P2 head valued no junk at Y (inert) %s'%(not (I.R[h]&set(I.junk(base))) or I.V(h,[g for g in I.junk(base) if g in I.R[h]])<=I.V(h,base[h]))]+=1
             C['P2 H0 contains z base at B1 %s'%(B1[z][0] in H02)]+=1
+            inert = I.V(h,[g for g in I.junk(base) if g in I.R[h]])<=I.V(h,base[h])
+            canon2 = not any(Hs2.get(i) for i in range(1, len(P2)))
+            others = max([len(B2[j]) for j in range(I.n) if j!=h]+[0]) <= 2
+            joint = (len(H01)==2 and len(H02)==2 and h!=P1[0] and inert and B1[z][0] in H02 and others and
+                     I.efx0(X) and z not in I.frozen(B1) and canon2)
+            C['JOINT: all features at once (LIFT-red hypotheses + h takes all junk) %s'%joint]+=1
+            conds = dict(P1pair=len(H01)==2, P2pair=len(H02)==2, h_not_k=h!=P1[0], inert=inert, a_in_H02=B1[z][0] in H02,
+                         others_pairs=others, h_takes_all=I.efx0(X), z_unfrozen_B1=z not in I.frozen(B1), P2canon=canon2)
+            for drop in conds:
+                C['JOINT without %s %s' % (drop, all(v for k2, v in conds.items() if k2 != drop))] += 1
+            C['LIFT-red hypotheses only (z unfrozen at B1, P1 pair, P2 canonical, h not k) %s' % (
+                conds['P1pair'] and conds['z_unfrozen_B1'] and canon2 and h != P1[0])] += 1
+            C['LIFT-red hypotheses and h takes all junk %s' % (conds['P1pair'] and conds['z_unfrozen_B1'] and canon2
+                                                              and h != P1[0] and conds['h_takes_all'])] += 1
     return C, found
 R=os.path.join(_mpaths.ROOT, 'results', 'k4_matching')
 rows=[dict(sets=d['sets'],vals=d['vals'],picks=d['picks']) for d in json.load(open(R+'/data/oc1max_cex_n4.json'))['instances']]
