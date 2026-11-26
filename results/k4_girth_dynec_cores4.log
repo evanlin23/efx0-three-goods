@@ -388,3 +388,141 @@ FAIL  Inst([{0: 10, 2: 3, 4: 4, 6: 8}, {0: 10, 2: 3, 5: 6, 7: 2}, {1: 6, 3: 4, 4
 {'instances': 196000, 'runs': 3962308, 'dynamic parking alone': 3941156, 'instances: every labeling completes': 195902, 'needed an envy-cycle rotation': 20961, 'FAIL': 191}
 {'instances': 197000, 'runs': 3982472, 'dynamic parking alone': 3961194, 'instances: every labeling completes': 196902, 'needed an envy-cycle rotation': 21087, 'FAIL': 191}
 FAIL  Inst([{0: 3, 3: 4, 4: 2, 5: 8}, {1: 3, 5: 4, 6: 10, 7: 8}, {2: 6, 5: 8, 6: 10, 7: 3}, {3: 6, 4: 5, 6: 8, 7: 4}]) labels [0, 3, 1, 2] state [[3], [1, 7], [5], [6]] U [0, 2, 4]
+{'instances': 198000, 'runs': 4002608, 'dynamic parking alone': 3981248, 'instances: every labeling completes': 197901, 'needed an envy-cycle rotation': 21168, 'FAIL': 192}
+FAIL  Inst([{0: 4, 2: 3, 7: 2, 8: 8}, {1: 5, 4: 4, 7: 2, 8: 8}, {3: 6, 5: 7, 6: 5, 7: 3}, {5: 4, 6: 2, 8: 3}]) labels [1, 3, 2, 0] state [[8], [1, 4, 7], [5], [6]] U [0, 2, 3]
+FAIL  Inst([{0: 4, 2: 3, 7: 2, 8: 8}, {1: 5, 4: 4, 7: 2, 8: 8}, {3: 6, 5: 7, 6: 5, 7: 3}, {5: 4, 6: 2, 8: 3}]) labels [2, 3, 1, 0] state [[8], [1, 4, 7], [5], [6]] U [0, 2, 3]
+FAIL  Inst([{0: 3, 5: 4, 6: 2}, {1: 8, 2: 1, 4: 4, 5: 6}, {1: 8, 3: 6, 4: 4, 6: 5}, {2: 2, 3: 7, 5: 10, 6: 6}]) labels [2, 1, 3, 0] state [[0, 6], [5], [1], [3]] U [2, 4]
+FAIL  Inst([{0: 3, 5: 4, 6: 2}, {1: 8, 2: 1, 4: 4, 5: 6}, {1: 8, 3: 6, 4: 4, 6: 5}, {2: 2, 3: 7, 5: 10, 6: 6}]) labels [3, 1, 2, 0] state [[0, 6], [5], [1], [3]] U [2, 4]
+{'instances': 199000, 'runs': 4022892, 'dynamic parking alone': 4001446, 'instances: every labeling completes': 198899, 'needed an envy-cycle rotation': 21250, 'FAIL': 196}
+FAIL  Inst([{0: 2, 2: 5, 6: 8, 7: 4}, {1: 7, 4: 2, 7: 4, 8: 8}, {3: 6, 5: 3, 7: 5, 8: 7}, {5: 2, 6: 3, 8: 4}]) labels [1, 3, 2, 0] state [[6], [1, 4, 7], [8], [5]] U [0, 2, 3]
+FAIL  Inst([{0: 2, 2: 5, 6: 8, 7: 4}, {1: 7, 4: 2, 7: 4, 8: 8}, {3: 6, 5: 3, 7: 5, 8: 7}, {5: 2, 6: 3, 8: 4}]) labels [2, 3, 1, 0] state [[6], [1, 4, 7], [8], [5]] U [0, 2, 3]
+{'instances': 200000, 'runs': 4042916, 'dynamic parking alone': 4021354, 'instances: every labeling completes': 199898, 'needed an envy-cycle rotation': 21364, 'FAIL': 198}
+{'instances': 201000, 'runs': 4063236, 'dynamic parking alone': 4041545, 'instances: every labeling completes': 200898, 'needed an envy-cycle rotation': 21493, 'FAIL': 198}
+{'instances': 202000, 'runs': 4083316, 'dynamic parking alone': 4061524, 'instances: every labeling completes': 201898, 'needed an envy-cycle rotation': 21594, 'FAIL': 198}
+{'instances': 203000, 'runs': 4103444, 'dynamic parking alone': 4081547, 'instances: every labeling completes': 202898, 'needed an envy-cycle rotation': 21699, 'FAIL': 198}
+{'instances': 204000, 'runs': 4123524, 'dynamic parking alone': 4101510, 'instances: every labeling completes': 203898, 'needed an envy-cycle rotation': 21816, 'FAIL': 198}
+{'instances': 205000, 'runs': 4143832, 'dynamic parking alone': 4121668, 'instances: every labeling completes': 204898, 'needed an envy-cycle rotation': 21966, 'FAIL': 198}
+FAIL  Inst([{0: 4, 2: 3, 5: 2, 7: 8}, {1: 2, 3: 8, 5: 7, 6: 4}, {3: 8, 4: 6, 6: 1, 7: 4}, {4: 4, 6: 3, 7: 2}]) labels [2, 1, 0, 3] state [[0, 2, 5], [3], [7], [4]] U [1, 6]
+FAIL  Inst([{0: 4, 2: 3, 5: 2, 7: 8}, {1: 2, 3: 8, 5: 7, 6: 4}, {3: 8, 4: 6, 6: 1, 7: 4}, {4: 4, 6: 3, 7: 2}]) labels [3, 1, 0, 2] state [[0, 2, 5], [3], [7], [4]] U [1, 6]
+FAIL  Inst([{0: 4, 2: 3, 5: 2, 7: 8}, {1: 2, 3: 8, 5: 7, 6: 4}, {3: 8, 4: 6, 6: 1, 7: 4}, {4: 4, 6: 3, 7: 2}]) labels [3, 2, 0, 1] state [[0, 2, 5], [3], [7], [4]] U [1, 6]
+{'instances': 206000, 'runs': 4164088, 'dynamic parking alone': 4141831, 'instances: every labeling completes': 205897, 'needed an envy-cycle rotation': 22056, 'FAIL': 201}
+{'instances': 207000, 'runs': 4184404, 'dynamic parking alone': 4162026, 'instances: every labeling completes': 206897, 'needed an envy-cycle rotation': 22177, 'FAIL': 201}
+{'instances': 208000, 'runs': 4204928, 'dynamic parking alone': 4182435, 'instances: every labeling completes': 207897, 'needed an envy-cycle rotation': 22292, 'FAIL': 201}
+{'instances': 209000, 'runs': 4225052, 'dynamic parking alone': 4202419, 'instances: every labeling completes': 208897, 'needed an envy-cycle rotation': 22432, 'FAIL': 201}
+{'instances': 210000, 'runs': 4245284, 'dynamic parking alone': 4222524, 'instances: every labeling completes': 209897, 'needed an envy-cycle rotation': 22559, 'FAIL': 201}
+{'instances': 211000, 'runs': 4265320, 'dynamic parking alone': 4242454, 'instances: every labeling completes': 210897, 'needed an envy-cycle rotation': 22665, 'FAIL': 201}
+{'instances': 212000, 'runs': 4285540, 'dynamic parking alone': 4262561, 'instances: every labeling completes': 211897, 'needed an envy-cycle rotation': 22778, 'FAIL': 201}
+{'instances': 213000, 'runs': 4305456, 'dynamic parking alone': 4282310, 'instances: every labeling completes': 212897, 'needed an envy-cycle rotation': 22945, 'FAIL': 201}
+{'instances': 214000, 'runs': 4325640, 'dynamic parking alone': 4302421, 'instances: every labeling completes': 213897, 'needed an envy-cycle rotation': 23018, 'FAIL': 201}
+{'instances': 215000, 'runs': 4345776, 'dynamic parking alone': 4322424, 'instances: every labeling completes': 214897, 'needed an envy-cycle rotation': 23151, 'FAIL': 201}
+{'instances': 216000, 'runs': 4366012, 'dynamic parking alone': 4342561, 'instances: every labeling completes': 215897, 'needed an envy-cycle rotation': 23250, 'FAIL': 201}
+{'instances': 217000, 'runs': 4386224, 'dynamic parking alone': 4362662, 'instances: every labeling completes': 216897, 'needed an envy-cycle rotation': 23361, 'FAIL': 201}
+{'instances': 218000, 'runs': 4406256, 'dynamic parking alone': 4382624, 'instances: every labeling completes': 217897, 'needed an envy-cycle rotation': 23431, 'FAIL': 201}
+{'instances': 219000, 'runs': 4426452, 'dynamic parking alone': 4402707, 'instances: every labeling completes': 218897, 'needed an envy-cycle rotation': 23544, 'FAIL': 201}
+FAIL  Inst([{0: 6, 2: 1, 4: 4, 7: 8}, {1: 6, 3: 3, 5: 4, 6: 8}, {2: 4, 3: 3, 4: 2, 7: 8}, {5: 2, 6: 3, 7: 4}]) labels [1, 2, 3, 0] state [[7], [6], [2, 3, 4], [5]] U [0, 1]
+FAIL  Inst([{0: 6, 2: 1, 4: 4, 7: 8}, {1: 6, 3: 3, 5: 4, 6: 8}, {2: 4, 3: 3, 4: 2, 7: 8}, {5: 2, 6: 3, 7: 4}]) labels [2, 1, 3, 0] state [[7], [6], [2, 3, 4], [5]] U [0, 1]
+{'instances': 220000, 'runs': 4446844, 'dynamic parking alone': 4422950, 'instances: every labeling completes': 219896, 'needed an envy-cycle rotation': 23691, 'FAIL': 203}
+{'instances': 221000, 'runs': 4467084, 'dynamic parking alone': 4443056, 'instances: every labeling completes': 220896, 'needed an envy-cycle rotation': 23825, 'FAIL': 203}
+{'instances': 222000, 'runs': 4487244, 'dynamic parking alone': 4463150, 'instances: every labeling completes': 221896, 'needed an envy-cycle rotation': 23891, 'FAIL': 203}
+FAIL  Inst([{0: 4, 3: 10, 4: 2, 5: 7}, {1: 7, 5: 4, 6: 2, 7: 8}, {2: 4, 5: 6, 6: 5, 7: 8}, {3: 7, 4: 2, 6: 4, 7: 10}]) labels [1, 2, 3, 0] state [[3], [7], [2, 5], [6]] U [0, 1, 4]
+FAIL  Inst([{0: 4, 3: 10, 4: 2, 5: 7}, {1: 7, 5: 4, 6: 2, 7: 8}, {2: 4, 5: 6, 6: 5, 7: 8}, {3: 7, 4: 2, 6: 4, 7: 10}]) labels [2, 1, 3, 0] state [[3], [7], [2, 5], [6]] U [0, 1, 4]
+FAIL  Inst([{0: 2, 2: 7, 5: 8, 7: 4}, {1: 1, 5: 6, 6: 4, 7: 8}, {2: 7, 3: 6, 4: 2, 6: 10}, {3: 6, 4: 4, 6: 5, 7: 8}]) labels [1, 0, 3, 2] state [[5], [6], [2, 3], [7]] U [0, 1, 4]
+FAIL  Inst([{0: 2, 2: 7, 5: 8, 7: 4}, {1: 1, 5: 6, 6: 4, 7: 8}, {2: 7, 3: 6, 4: 2, 6: 10}, {3: 6, 4: 4, 6: 5, 7: 8}]) labels [2, 0, 3, 1] state [[5], [6], [2, 3], [7]] U [0, 1, 4]
+{'instances': 223000, 'runs': 4507300, 'dynamic parking alone': 4483107, 'instances: every labeling completes': 222894, 'needed an envy-cycle rotation': 23986, 'FAIL': 207}
+FAIL  Inst([{0: 6, 2: 3, 4: 8, 5: 10}, {1: 2, 4: 3, 6: 4}, {2: 4, 3: 8, 5: 6, 6: 5}, {3: 3, 5: 4, 6: 2}]) labels [1, 2, 3, 0] state [[5], [1, 4], [3], [6]] U [0, 2]
+FAIL  Inst([{0: 6, 2: 3, 4: 8, 5: 10}, {1: 2, 4: 3, 6: 4}, {2: 4, 3: 8, 5: 6, 6: 5}, {3: 3, 5: 4, 6: 2}]) labels [1, 3, 2, 0] state [[5], [1, 4], [3], [6]] U [0, 2]
+FAIL  Inst([{0: 6, 2: 3, 4: 8, 5: 10}, {1: 2, 4: 3, 6: 4}, {2: 4, 3: 8, 5: 6, 6: 5}, {3: 3, 5: 4, 6: 2}]) labels [2, 3, 1, 0] state [[5], [1, 4], [3], [6]] U [0, 2]
+{'instances': 224000, 'runs': 4527664, 'dynamic parking alone': 4503362, 'instances: every labeling completes': 223893, 'needed an envy-cycle rotation': 24092, 'FAIL': 210}
+FAIL  Inst([{0: 8, 4: 6, 5: 3, 6: 10}, {1: 5, 4: 8, 5: 6, 6: 4}, {2: 3, 3: 10, 4: 4, 6: 8}, {2: 5, 3: 6, 5: 4, 6: 8}]) labels [2, 3, 0, 1] state [[6], [1, 5], [4], [3]] U [0, 2]
+{'instances': 225000, 'runs': 4547860, 'dynamic parking alone': 4523474, 'instances: every labeling completes': 224892, 'needed an envy-cycle rotation': 24175, 'FAIL': 211}
+FAIL  Inst([{0: 6, 2: 4, 6: 3, 7: 8}, {1: 3, 3: 4, 4: 10, 6: 8}, {3: 6, 5: 8, 6: 3, 7: 10}, {4: 3, 5: 2, 7: 4}]) labels [3, 1, 2, 0] state [[0, 2, 6], [4], [7], [5]] U [1, 3]
+FAIL  Inst([{0: 6, 2: 4, 6: 3, 7: 8}, {1: 3, 3: 4, 4: 10, 6: 8}, {3: 6, 5: 8, 6: 3, 7: 10}, {4: 3, 5: 2, 7: 4}]) labels [3, 2, 1, 0] state [[0, 2, 6], [4], [7], [5]] U [1, 3]
+FAIL  Inst([{0: 3, 2: 6, 7: 7, 8: 5}, {1: 2, 5: 10, 6: 6, 7: 3}, {3: 7, 5: 8, 7: 2, 8: 4}, {4: 3, 6: 4, 8: 2}]) labels [3, 0, 1, 2] state [[0, 2, 8], [7], [5], [6]] U [1, 3, 4]
+FAIL  Inst([{0: 3, 2: 6, 7: 7, 8: 5}, {1: 2, 5: 10, 6: 6, 7: 3}, {3: 7, 5: 8, 7: 2, 8: 4}, {4: 3, 6: 4, 8: 2}]) labels [3, 0, 2, 1] state [[0, 2, 8], [7], [5], [6]] U [1, 3, 4]
+{'instances': 226000, 'runs': 4568176, 'dynamic parking alone': 4543697, 'instances: every labeling completes': 225890, 'needed an envy-cycle rotation': 24264, 'FAIL': 215}
+{'instances': 227000, 'runs': 4588504, 'dynamic parking alone': 4563946, 'instances: every labeling completes': 226890, 'needed an envy-cycle rotation': 24343, 'FAIL': 215}
+{'instances': 228000, 'runs': 4608428, 'dynamic parking alone': 4583731, 'instances: every labeling completes': 227890, 'needed an envy-cycle rotation': 24482, 'FAIL': 215}
+{'instances': 229000, 'runs': 4628744, 'dynamic parking alone': 4603949, 'instances: every labeling completes': 228890, 'needed an envy-cycle rotation': 24580, 'FAIL': 215}
+{'instances': 230000, 'runs': 4649272, 'dynamic parking alone': 4624355, 'instances: every labeling completes': 229890, 'needed an envy-cycle rotation': 24702, 'FAIL': 215}
+FAIL  Inst([{0: 3, 1: 10, 2: 6, 3: 8}, {0: 7, 2: 2, 5: 6, 6: 10}, {1: 8, 4: 2, 5: 4, 6: 5}, {3: 3, 4: 2, 6: 4}]) labels [1, 2, 0, 3] state [[1], [6], [5], [3, 4]] U [0, 2]
+FAIL  Inst([{0: 3, 1: 10, 2: 6, 3: 8}, {0: 7, 2: 2, 5: 6, 6: 10}, {1: 8, 4: 2, 5: 4, 6: 5}, {3: 3, 4: 2, 6: 4}]) labels [2, 1, 0, 3] state [[1], [6], [5], [3, 4]] U [0, 2]
+{'instances': 231000, 'runs': 4669556, 'dynamic parking alone': 4644533, 'instances: every labeling completes': 230889, 'needed an envy-cycle rotation': 24806, 'FAIL': 217}
+{'instances': 232000, 'runs': 4689884, 'dynamic parking alone': 4664732, 'instances: every labeling completes': 231889, 'needed an envy-cycle rotation': 24935, 'FAIL': 217}
+{'instances': 233000, 'runs': 4709724, 'dynamic parking alone': 4684490, 'instances: every labeling completes': 232889, 'needed an envy-cycle rotation': 25017, 'FAIL': 217}
+{'instances': 234000, 'runs': 4730008, 'dynamic parking alone': 4704659, 'instances: every labeling completes': 233889, 'needed an envy-cycle rotation': 25132, 'FAIL': 217}
+{'instances': 235000, 'runs': 4750152, 'dynamic parking alone': 4724731, 'instances: every labeling completes': 234889, 'needed an envy-cycle rotation': 25204, 'FAIL': 217}
+FAIL  Inst([{0: 6, 2: 5, 4: 3, 6: 7}, {0: 5, 2: 4, 5: 6, 6: 8}, {1: 8, 3: 1, 4: 4, 6: 6}, {1: 10, 3: 3, 5: 8, 6: 4}]) labels [1, 3, 0, 2] state [[6], [2, 5], [4], [1]] U [0, 3]
+FAIL  Inst([{0: 6, 2: 5, 4: 3, 6: 7}, {0: 5, 2: 4, 5: 6, 6: 8}, {1: 8, 3: 1, 4: 4, 6: 6}, {1: 10, 3: 3, 5: 8, 6: 4}]) labels [2, 3, 0, 1] state [[6], [2, 5], [4], [1]] U [0, 3]
+{'instances': 236000, 'runs': 4770588, 'dynamic parking alone': 4745044, 'instances: every labeling completes': 235888, 'needed an envy-cycle rotation': 25325, 'FAIL': 219}
+FAIL  Inst([{0: 6, 2: 2, 5: 3, 7: 10}, {1: 4, 4: 5, 5: 6, 6: 8}, {3: 4, 5: 5, 6: 2, 7: 8}, {4: 2, 6: 4, 7: 3}]) labels [1, 2, 3, 0] state [[7], [6], [3, 5], [4]] U [0, 1, 2]
+FAIL  Inst([{0: 6, 2: 2, 5: 3, 7: 10}, {1: 4, 4: 5, 5: 6, 6: 8}, {3: 4, 5: 5, 6: 2, 7: 8}, {4: 2, 6: 4, 7: 3}]) labels [2, 1, 3, 0] state [[7], [6], [3, 5], [4]] U [0, 1, 2]
+{'instances': 237000, 'runs': 4790876, 'dynamic parking alone': 4765252, 'instances: every labeling completes': 236887, 'needed an envy-cycle rotation': 25403, 'FAIL': 221}
+{'instances': 238000, 'runs': 4811232, 'dynamic parking alone': 4785512, 'instances: every labeling completes': 237887, 'needed an envy-cycle rotation': 25499, 'FAIL': 221}
+FAIL  Inst([{0: 2, 2: 3, 5: 4, 6: 8}, {1: 4, 2: 7, 3: 10, 4: 2}, {1: 8, 4: 3, 5: 4, 6: 10}, {3: 4, 4: 1, 5: 8, 6: 6}]) labels [1, 2, 3, 0] state [[5], [1, 2], [6], [3]] U [0, 4]
+FAIL  Inst([{0: 2, 2: 3, 5: 4, 6: 8}, {1: 4, 2: 7, 3: 10, 4: 2}, {1: 8, 4: 3, 5: 4, 6: 10}, {3: 4, 4: 1, 5: 8, 6: 6}]) labels [1, 3, 2, 0] state [[5], [1, 2], [6], [3]] U [0, 4]
+{'instances': 239000, 'runs': 4831168, 'dynamic parking alone': 4805340, 'instances: every labeling completes': 238886, 'needed an envy-cycle rotation': 25605, 'FAIL': 223}
+{'instances': 240000, 'runs': 4851440, 'dynamic parking alone': 4825514, 'instances: every labeling completes': 239886, 'needed an envy-cycle rotation': 25703, 'FAIL': 223}
+{'instances': 241000, 'runs': 4871772, 'dynamic parking alone': 4845772, 'instances: every labeling completes': 240886, 'needed an envy-cycle rotation': 25777, 'FAIL': 223}
+{'instances': 242000, 'runs': 4891968, 'dynamic parking alone': 4865913, 'instances: every labeling completes': 241886, 'needed an envy-cycle rotation': 25832, 'FAIL': 223}
+{'instances': 243000, 'runs': 4912200, 'dynamic parking alone': 4886030, 'instances: every labeling completes': 242886, 'needed an envy-cycle rotation': 25947, 'FAIL': 223}
+{'instances': 244000, 'runs': 4932916, 'dynamic parking alone': 4906665, 'instances: every labeling completes': 243886, 'needed an envy-cycle rotation': 26028, 'FAIL': 223}
+FAIL  Inst([{0: 4, 2: 5, 6: 6, 7: 8}, {1: 3, 4: 7, 6: 5, 7: 6}, {3: 2, 5: 4, 6: 3}, {4: 3, 5: 4, 7: 2}]) labels [3, 1, 2, 0] state [[0, 2, 6], [4], [5], [7]] U [1, 3]
+FAIL  Inst([{0: 4, 2: 5, 6: 6, 7: 8}, {1: 3, 4: 7, 6: 5, 7: 6}, {3: 2, 5: 4, 6: 3}, {4: 3, 5: 4, 7: 2}]) labels [3, 2, 1, 0] state [[0, 2, 6], [4], [5], [7]] U [1, 3]
+FAIL  Inst([{0: 6, 2: 8, 4: 4, 5: 1}, {1: 8, 3: 10, 5: 3, 6: 4}, {2: 4, 3: 3, 6: 2}, {4: 2, 5: 3, 6: 4}]) labels [1, 2, 0, 3] state [[2], [3], [6], [4, 5]] U [0, 1]
+FAIL  Inst([{0: 6, 2: 8, 4: 4, 5: 1}, {1: 8, 3: 10, 5: 3, 6: 4}, {2: 4, 3: 3, 6: 2}, {4: 2, 5: 3, 6: 4}]) labels [2, 1, 0, 3] state [[2], [3], [6], [4, 5]] U [0, 1]
+{'instances': 245000, 'runs': 4953064, 'dynamic parking alone': 4926733, 'instances: every labeling completes': 244884, 'needed an envy-cycle rotation': 26104, 'FAIL': 227}
+FAIL  Inst([{0: 2, 1: 7, 2: 6, 3: 10}, {1: 3, 4: 8, 5: 4, 6: 6}, {2: 4, 4: 8, 5: 6, 6: 5}, {3: 8, 4: 10, 5: 4, 6: 3}]) labels [0, 2, 3, 1] state [[1], [4], [2, 5], [3]] U [0, 6]
+FAIL  Inst([{0: 3, 2: 6, 4: 2, 8: 10}, {1: 3, 4: 8, 6: 6, 7: 10}, {3: 2, 5: 8, 7: 7, 8: 4}, {5: 8, 6: 4, 7: 2, 8: 7}]) labels [2, 1, 0, 3] state [[0, 2, 4], [7], [8], [5]] U [1, 3, 6]
+FAIL  Inst([{0: 3, 2: 6, 4: 2, 8: 10}, {1: 3, 4: 8, 6: 6, 7: 10}, {3: 2, 5: 8, 7: 7, 8: 4}, {5: 8, 6: 4, 7: 2, 8: 7}]) labels [3, 1, 0, 2] state [[0, 2, 4], [7], [8], [5]] U [1, 3, 6]
+FAIL  Inst([{0: 3, 2: 6, 4: 2, 8: 10}, {1: 3, 4: 8, 6: 6, 7: 10}, {3: 2, 5: 8, 7: 7, 8: 4}, {5: 8, 6: 4, 7: 2, 8: 7}]) labels [3, 2, 0, 1] state [[0, 2, 4], [7], [8], [5]] U [1, 3, 6]
+FAIL  Inst([{0: 6, 3: 3, 4: 7, 7: 5}, {1: 6, 3: 4, 5: 5, 6: 8}, {2: 7, 5: 2, 6: 8, 7: 4}, {4: 8, 5: 2, 6: 4, 7: 3}]) labels [1, 3, 2, 0] state [[4], [1, 3, 5], [6], [7]] U [0, 2]
+FAIL  Inst([{0: 6, 3: 3, 4: 7, 7: 5}, {1: 6, 3: 4, 5: 5, 6: 8}, {2: 7, 5: 2, 6: 8, 7: 4}, {4: 8, 5: 2, 6: 4, 7: 3}]) labels [2, 3, 1, 0] state [[4], [1, 3, 5], [6], [7]] U [0, 2]
+{'instances': 246000, 'runs': 4973364, 'dynamic parking alone': 4946923, 'instances: every labeling completes': 245881, 'needed an envy-cycle rotation': 26208, 'FAIL': 233}
+{'instances': 247000, 'runs': 4993404, 'dynamic parking alone': 4966820, 'instances: every labeling completes': 246881, 'needed an envy-cycle rotation': 26351, 'FAIL': 233}
+{'instances': 248000, 'runs': 5013960, 'dynamic parking alone': 4987275, 'instances: every labeling completes': 247881, 'needed an envy-cycle rotation': 26452, 'FAIL': 233}
+{'instances': 249000, 'runs': 5034228, 'dynamic parking alone': 5007442, 'instances: every labeling completes': 248881, 'needed an envy-cycle rotation': 26553, 'FAIL': 233}
+FAIL  Inst([{0: 6, 3: 10, 4: 7, 6: 2}, {1: 5, 3: 8, 5: 4, 6: 6}, {2: 7, 4: 10, 5: 2, 6: 6}, {2: 2, 4: 8, 5: 7, 6: 4}]) labels [1, 2, 3, 0] state [[4], [3], [2, 6], [5]] U [0, 1]
+{'instances': 250000, 'runs': 5054508, 'dynamic parking alone': 5027616, 'instances: every labeling completes': 249880, 'needed an envy-cycle rotation': 26658, 'FAIL': 234}
+FAIL  Inst([{0: 2, 2: 3, 3: 4}, {1: 8, 4: 10, 5: 3, 6: 6}, {2: 6, 4: 7, 5: 3, 6: 5}, {3: 10, 4: 7, 5: 2, 6: 4}]) labels [1, 2, 3, 0] state [[3], [4], [2, 5], [6]] U [0, 1]
+FAIL  Inst([{0: 2, 2: 3, 3: 4}, {1: 8, 4: 10, 5: 3, 6: 6}, {2: 6, 4: 7, 5: 3, 6: 5}, {3: 10, 4: 7, 5: 2, 6: 4}]) labels [2, 1, 3, 0] state [[3], [4], [2, 5], [6]] U [0, 1]
+{'instances': 251000, 'runs': 5074800, 'dynamic parking alone': 5047806, 'instances: every labeling completes': 250879, 'needed an envy-cycle rotation': 26758, 'FAIL': 236}
+FAIL  Inst([{0: 2, 2: 6, 4: 7, 5: 10}, {1: 5, 3: 6, 6: 4, 7: 8}, {3: 6, 4: 5, 6: 7, 7: 3}, {5: 3, 6: 2, 7: 4}]) labels [1, 2, 3, 0] state [[5], [7], [3, 4], [6]] U [0, 1, 2]
+FAIL  Inst([{0: 2, 2: 6, 4: 7, 5: 10}, {1: 5, 3: 6, 6: 4, 7: 8}, {3: 6, 4: 5, 6: 7, 7: 3}, {5: 3, 6: 2, 7: 4}]) labels [2, 1, 3, 0] state [[5], [7], [3, 4], [6]] U [0, 1, 2]
+{'instances': 252000, 'runs': 5095028, 'dynamic parking alone': 5067891, 'instances: every labeling completes': 251878, 'needed an envy-cycle rotation': 26899, 'FAIL': 238}
+{'instances': 253000, 'runs': 5115112, 'dynamic parking alone': 5087844, 'instances: every labeling completes': 252878, 'needed an envy-cycle rotation': 27030, 'FAIL': 238}
+{'instances': 254000, 'runs': 5135300, 'dynamic parking alone': 5107939, 'instances: every labeling completes': 253878, 'needed an envy-cycle rotation': 27123, 'FAIL': 238}
+{'instances': 255000, 'runs': 5155768, 'dynamic parking alone': 5128288, 'instances: every labeling completes': 254878, 'needed an envy-cycle rotation': 27242, 'FAIL': 238}
+FAIL  Inst([{0: 2, 1: 6, 4: 7, 5: 10}, {1: 6, 4: 5, 5: 7, 6: 3}, {2: 6, 3: 2, 4: 10, 6: 3}, {2: 3, 3: 6, 5: 8, 6: 4}]) labels [1, 3, 0, 2] state [[4], [1, 6], [2], [5]] U [0, 3]
+FAIL  Inst([{0: 6, 2: 3, 3: 8, 5: 4}, {1: 1, 2: 6, 5: 4, 6: 8}, {1: 4, 4: 8, 5: 6, 6: 3}, {3: 2, 4: 4, 6: 3}]) labels [3, 1, 2, 0] state [[0, 5], [6], [4], [3]] U [1, 2]
+FAIL  Inst([{0: 6, 2: 3, 3: 8, 5: 4}, {1: 1, 2: 6, 5: 4, 6: 8}, {1: 4, 4: 8, 5: 6, 6: 3}, {3: 2, 4: 4, 6: 3}]) labels [3, 2, 1, 0] state [[0, 5], [6], [4], [3]] U [1, 2]
+{'instances': 256000, 'runs': 5175972, 'dynamic parking alone': 5148401, 'instances: every labeling completes': 255876, 'needed an envy-cycle rotation': 27330, 'FAIL': 241}
+{'instances': 257000, 'runs': 5196396, 'dynamic parking alone': 5168721, 'instances: every labeling completes': 256876, 'needed an envy-cycle rotation': 27434, 'FAIL': 241}
+{'instances': 258000, 'runs': 5216728, 'dynamic parking alone': 5188934, 'instances: every labeling completes': 257876, 'needed an envy-cycle rotation': 27553, 'FAIL': 241}
+{'instances': 259000, 'runs': 5237008, 'dynamic parking alone': 5209112, 'instances: every labeling completes': 258876, 'needed an envy-cycle rotation': 27655, 'FAIL': 241}
+FAIL  Inst([{0: 4, 2: 8, 3: 3, 6: 10}, {1: 8, 2: 7, 3: 4, 4: 2}, {1: 3, 5: 4, 6: 2}, {4: 3, 5: 4, 6: 2}]) labels [2, 1, 0, 3] state [[0, 2], [1], [6], [5]] U [3, 4]
+FAIL  Inst([{0: 4, 2: 8, 3: 3, 6: 10}, {1: 8, 2: 7, 3: 4, 4: 2}, {1: 3, 5: 4, 6: 2}, {4: 3, 5: 4, 6: 2}]) labels [3, 1, 0, 2] state [[0, 2], [1], [6], [5]] U [3, 4]
+FAIL  Inst([{0: 4, 2: 8, 3: 3, 6: 10}, {1: 8, 2: 7, 3: 4, 4: 2}, {1: 3, 5: 4, 6: 2}, {4: 3, 5: 4, 6: 2}]) labels [3, 2, 0, 1] state [[0, 2], [1], [6], [5]] U [3, 4]
+FAIL  Inst([{0: 3, 1: 4, 3: 6, 7: 8}, {2: 10, 3: 8, 4: 4, 6: 3}, {2: 6, 5: 10, 6: 3, 7: 8}, {4: 2, 5: 4, 6: 3, 7: 8}]) labels [2, 3, 0, 1] state [[7], [3, 4], [2], [5]] U [0, 1, 6]
+FAIL  Inst([{0: 4, 2: 8, 4: 5, 6: 6}, {1: 3, 3: 4, 5: 2}, {2: 3, 3: 4, 6: 2}, {4: 2, 5: 3, 6: 4}]) labels [1, 2, 0, 3] state [[2], [3], [6], [4, 5]] U [0, 1]
+FAIL  Inst([{0: 4, 2: 8, 4: 5, 6: 6}, {1: 3, 3: 4, 5: 2}, {2: 3, 3: 4, 6: 2}, {4: 2, 5: 3, 6: 4}]) labels [2, 1, 0, 3] state [[2], [3], [6], [4, 5]] U [0, 1]
+{'instances': 260000, 'runs': 5257288, 'dynamic parking alone': 5229311, 'instances: every labeling completes': 259873, 'needed an envy-cycle rotation': 27730, 'FAIL': 247}
+FAIL  Inst([{0: 6, 2: 3, 4: 7, 5: 5}, {1: 3, 3: 6, 4: 8, 8: 10}, {3: 4, 6: 2, 7: 5, 8: 8}, {5: 3, 6: 4, 7: 8, 8: 10}]) labels [1, 3, 2, 0] state [[4], [8], [7], [6]] U [0, 1, 2, 3, 5]
+FAIL  Inst([{0: 6, 2: 3, 4: 7, 5: 5}, {1: 3, 3: 6, 4: 8, 8: 10}, {3: 4, 6: 2, 7: 5, 8: 8}, {5: 3, 6: 4, 7: 8, 8: 10}]) labels [2, 3, 1, 0] state [[4], [8], [7], [6]] U [0, 1, 2, 3, 5]
+FAIL  Inst([{0: 6, 2: 3, 4: 7, 5: 5}, {1: 3, 3: 6, 4: 8, 8: 10}, {3: 4, 6: 2, 7: 5, 8: 8}, {5: 3, 6: 4, 7: 8, 8: 10}]) labels [3, 2, 1, 0] state [[4], [8], [7], [6]] U [0, 1, 2, 3, 5]
+{'instances': 261000, 'runs': 5277552, 'dynamic parking alone': 5249474, 'instances: every labeling completes': 260872, 'needed an envy-cycle rotation': 27828, 'FAIL': 250}
+{'instances': 262000, 'runs': 5297920, 'dynamic parking alone': 5269741, 'instances: every labeling completes': 261872, 'needed an envy-cycle rotation': 27929, 'FAIL': 250}
+FAIL  Inst([{0: 3, 2: 2, 6: 6, 7: 10}, {1: 3, 3: 8, 6: 2, 7: 4}, {3: 4, 4: 2, 5: 3}, {4: 2, 5: 5, 6: 4, 7: 8}]) labels [2, 1, 3, 0] state [[0, 2, 6], [7], [3], [5]] U [1, 4]
+FAIL  Inst([{0: 3, 2: 2, 6: 6, 7: 10}, {1: 3, 3: 8, 6: 2, 7: 4}, {3: 4, 4: 2, 5: 3}, {4: 2, 5: 5, 6: 4, 7: 8}]) labels [3, 1, 2, 0] state [[0, 2, 6], [7], [3], [5]] U [1, 4]
+{'instances': 263000, 'runs': 5318188, 'dynamic parking alone': 5289908, 'instances: every labeling completes': 262871, 'needed an envy-cycle rotation': 28028, 'FAIL': 252}
+{'instances': 264000, 'runs': 5338488, 'dynamic parking alone': 5310115, 'instances: every labeling completes': 263871, 'needed an envy-cycle rotation': 28121, 'FAIL': 252}
+FAIL  Inst([{0: 4, 2: 2, 5: 7, 7: 10}, {1: 4, 4: 8, 5: 7, 6: 2}, {3: 8, 5: 3, 6: 6, 7: 10}, {4: 3, 6: 2, 7: 4}]) labels [3, 1, 2, 0] state [[0, 2, 5], [4], [7], [6]] U [1, 3]
+FAIL  Inst([{0: 4, 2: 2, 5: 7, 7: 10}, {1: 4, 4: 8, 5: 7, 6: 2}, {3: 8, 5: 3, 6: 6, 7: 10}, {4: 3, 6: 2, 7: 4}]) labels [3, 2, 1, 0] state [[0, 2, 5], [4], [7], [6]] U [1, 3]
+{'instances': 265000, 'runs': 5358804, 'dynamic parking alone': 5330343, 'instances: every labeling completes': 264870, 'needed an envy-cycle rotation': 28207, 'FAIL': 254}
+{'instances': 266000, 'runs': 5378972, 'dynamic parking alone': 5350377, 'instances: every labeling completes': 265870, 'needed an envy-cycle rotation': 28341, 'FAIL': 254}
+{'instances': 267000, 'runs': 5399260, 'dynamic parking alone': 5370565, 'instances: every labeling completes': 266870, 'needed an envy-cycle rotation': 28441, 'FAIL': 254}
+{'instances': 268000, 'runs': 5419468, 'dynamic parking alone': 5390680, 'instances: every labeling completes': 267870, 'needed an envy-cycle rotation': 28534, 'FAIL': 254}
+FAIL  Inst([{0: 2, 2: 6, 6: 3, 7: 10}, {1: 8, 4: 10, 5: 3, 6: 4}, {3: 2, 6: 3, 7: 4}, {4: 3, 5: 2, 7: 4}]) labels [1, 2, 3, 0] state [[7], [4], [3, 6], [5]] U [0, 1, 2]
+FAIL  Inst([{0: 2, 2: 6, 6: 3, 7: 10}, {1: 8, 4: 10, 5: 3, 6: 4}, {3: 2, 6: 3, 7: 4}, {4: 3, 5: 2, 7: 4}]) labels [2, 1, 3, 0] state [[7], [4], [3, 6], [5]] U [0, 1, 2]
+{'instances': 269000, 'runs': 5439716, 'dynamic parking alone': 5410809, 'instances: every labeling completes': 268869, 'needed an envy-cycle rotation': 28651, 'FAIL': 256}
+{'instances': 270000, 'runs': 5459672, 'dynamic parking alone': 5430706, 'instances: every labeling completes': 269869, 'needed an envy-cycle rotation': 28710, 'FAIL': 256}
+total {'instances': 270106, 'runs': 5461944, 'dynamic parking alone': 5432964, 'instances: every labeling completes': 269975, 'needed an envy-cycle rotation': 28724, 'FAIL': 256}
