@@ -35,10 +35,26 @@ every refutation below is confirmed by three independent programs.
     indistinguishable from MD (§4.2).
 - **n = 3: one round survives everything** (§5). The data: random profiles, 170 climbs with m = 6–10, and kgen-n3's
   OC₁(t ≥ 0) evidence, which implies one round at n = 3.
-  - Classification of what a start needs: most starts keep their picks; otherwise a hand-off or a swap of two agents
-    usually works. Some starts need only a hand-off, some only a swap, and one random start needs the three-agent
-    rotation (§5.2, verified by forward simulation).
+  - Classification of what a start needs:
+    - most starts keep their picks;
+    - every other start but one is repaired by some two-agent move (a hand-off or a swap). The repairing pair varies:
+      some starts need only a hand-off, some only a swap;
+    - one random start (ROT3) needs the three-agent rotation (§5.2, verified by forward simulation).
+  - The last picker almost never starts the repairing chain.
   - The starved-agent obstruction needs four agents (§5.3, partial argument).
+  - **Lemma ID** (proved, any n): with identical valuations, the picks of every order extend.
+- **k = 4 with zeros (for the campaign; §4.3).**
+  - ε-lift climbs (at most four values per agent above ε) also break one round. Their zero versions are genuine k = 4
+    instances at perfect starts where **OC₁ and one round fail**. Three programs agree, including k4/sdc's own OC₁
+    pipeline.
+  - In most of them a good is valued by nobody, and deleting it repairs them.
+  - **K4W** has no worthless good. A top-heavy agent freezes a starved agent that uses exactly four goods.
+  - So OC₁ at perfect starts is false for non-core k = 4 instances: this is the target of Lemma RED's route and the
+    LOOSE form of OC₁^max. OC₁^max on cores is untouched: K4W's top-heavy agent is peeled by R1.
+  - ε-lift climbs constrained to cores found nothing.
+- **Tools.** Lemma RC (one round) and Lemma RC2 (two rounds) turn reachability into a condition on where the picks lie
+  in the final allocation. `rnd.c` enumerates every EFX allocation and decides both, in milliseconds at n = 4. Both
+  are cross-checked against forward simulations, by exact counts for two rounds.
 
 | statement (strictly positive values, every SD start) | n = 3 | n = 4 | n = 5 | instance | checks |
 |---|---|---|---|---|---|
@@ -47,8 +63,10 @@ every refutation below is confirmed by three independent programs.
 | **ROUND⁺: one round of disjoint chains** (free = one absorber at n ≤ 5, Lemma RC (c)) | holds (data) | **FAILS** (RD5⁺, m = 7; two types, m = 7) | **FAILS** (m = 8, 9) | §3 | rnd.c, bruter.py, ocsat/ocseq; certificate script |
 | ROUND-X: one round, starts draw from a common pool of released picks | holds | **FAILS** (X4, m = 7) | holds (data) | §4.2 | rnd.c, bruter.py (pooled) |
 | ROUND-P: one round, every chain agent draws from the pool | holds | holds (data) | holds (data) | §4.2 | rnd.c, bruter.py (pooled) |
-| **RD²⁺: two rounds** | holds | holds (data, every failure) | holds (data) | §4.1 | ocseq, bruter.py two rounds |
+| **RD²⁺: two rounds** | holds | holds (data, every failure; climbs bottom out at one two-round witness) | holds (data) | §4.1 | ocseq, bruter.py two rounds, rnd.c Lemma RC2 |
 | MD (some EFX allocation value-dominates the picks) | holds | holds | holds | | rnd.c |
+| *k = 4 with zeros, perfect starts:* OC₁ and one round, non-core instances | | **FAIL** (W4: a worthless good; K4W: none, a top-heavy agent) | | §4.3 | k4/sdc pipeline, ocsat, brute force |
+| *k = 4 with zeros:* OC₁^max on cores (the campaign's K4.SDC.OC1MAX) | | no failure in ε-lift core climbs | | §4.3 | rnd.c (ε-lift), then the zero version |
 
 ## 1. Definitions and the round characterization
 
@@ -284,8 +302,42 @@ Values ×100 of RD5 (`k4/ksens.md` §6), with agent 0's value of good 4 lowered 
     "every good is valued by someone". It holds for RED's reduced instance I′ whenever I is a core, and L3 provides it
     in general.
   - OC₁^max on strict cores is untouched: cores have no worthless goods.
-- *Next test.* KEPS = 4 with KCOVER = 1 (every good is a real good of some agent), so that a zero-version failure would
-  be a worthless-free k = 4 counterexample (`kcover4_*.log`).
+- **K4W: a worthless-free k = 4 failure.** Found with KEPS = 4 and KCOVER = 1, where every good is a real good of some
+  agent (`kcover4_*.log`, `fails_kcover.jsonl`).
+
+  | agent | relevant goods (value) |
+  |---|---|
+  | 0 | g1 2613, g4 1453, g5 1599, g6 1597 |
+  | 1 | g1 2615, g4 1474, g5 1599, g6 1596 |
+  | 2 | g0 1929, g1 984, g2 22, g5 543 (top-heavy: 1929 ≥ 1549) |
+  | 3 | g0 2334, g2 2265, g3 49, g5 897 |
+
+  - n = 4, m = 7, k = 4. Every agent has four relevant goods, subset sums are strict, the instance is connected, and
+    every good is valued.
+  - *Starts.* Orders (0, 1, 3, 2) and (1, 0, 3, 2) give the perfect starts (1, 5, 2, 0) and (5, 1, 2, 0).
+  - *Result.* From both, OC₁ (one chain or ring, one absorber) and one round (free or one absorber) fail. Two rounds
+    repair both, and MD holds. The other 6 distinct starts satisfy OC₁.
+  - *Checks.* Three programs agree on every order (`k4w_check.py`, `k4w_check.log`).
+  - *Mechanism.*
+    - There are 26 EFX₀ allocations, and 6 of them value-dominate the picks. In all six, agent 3 gives its pick g0 to
+      the top-heavy agent 2, whose own pick g2 is worth 22 to it, and holds both foreign picks {2, 5}.
+    - Agent 3's best one-round base is g2 + g3 = 2314 < 2334: it is starved.
+    - If agent 3 kept g0 together with any other good, agent 2 would envy that bundle (EFX₀ requires v₂(X₂) ≥ 1929).
+    - The starved agent uses exactly four goods: its pick, two foreign picks and one junk good. So ksens's five-good
+      count for RD5, which comes from a frozen agent's danger pool, does not bound this mechanism: here the freezing
+      comes from a top-heavy agent.
+  - *Scope.*
+    - K4W is not a core: agent 2 is top-heavy, and R1 would peel it with g0. Lemma P (`kgen/n3.md` §2) does not apply,
+      because agent 2's pick is not its top.
+    - So K4W refutes OC₁ and RD at perfect starts for non-core k ≤ 4 instances, even with every good valued. That
+      includes the LOOSE form of OC₁^max and the target of Lemma RED's route, whose reduced instance I′ need not be a
+      core.
+    - It does not refute OC₁^max on cores.
+- *Core-constrained ε-lift climbs* (KEPS = 4, KCORE = 1: the zero version satisfies K4.CORE of `k4/SCOUT.md`, without
+  connectivity; `kcore4_*.log`). No one-round failure. The climbs bottom out at exactly one witness, consistent with
+  the campaign's OC₁^max evidence.
+- *Caveat.* rnd.c tests the ε-lift, not the zero version. In every ε-failure the zero version failed too, but a
+  zero-version failure with a repairable ε-lift would be missed.
 
 ## 5. n = 3
 
@@ -318,6 +370,38 @@ Shapes:
   - picks: agent 0 takes 6, agent 1 takes 4, agent 2 takes 2;
   - a witness: ({2}, {0, 1, 6}, {4, 5}). The picks rotate 0 → 1 → 2 → 0, and agents 1 and 2 also take junk.
 - The chain-with-release P3 was never needed alone.
+
+**Who repairs, by order position** (`n3roles.py`; position 0 = first picker, 2 = last). Hard starts are those whose
+picks do not extend: 330 in 3,000 random profiles with m = 6–10 (`n3roles_rand_3000_11_6_10.log`), and 216 in the
+climbs (`n3roles_climbed.log`).
+
+| cover | random: misses | climbed: misses |
+|---|---|---|
+| a two-agent move into the last picker: H(0→2), H(1→2), S{0,2}, S{1,2} | 10 of 330 | 0 of 216 |
+| any two-agent move with the last picker, also H(2→·) | 7 | 0 |
+| **any two-agent move** (hand-off or swap) | **0** | **0** |
+| a move into the last picker, or a rotation | 1 | 0 |
+
+- The last picker almost never starts the chain: H(2→0) repairs 6 of 330 starts and H(2→1) 2 of 330.
+- The most frequent repairs are the swap of the first and last pickers S{0,2} (293 of 330), H(1→2) (291) and
+  H(0→2) (285).
+- The repair is not determined by positions. Every single pattern fails somewhere, and examples needing only S{1,2}
+  or only S{0,2} are in the logs.
+- The rotation is needed only on ROT3-like starts (one in 4,729 random starts in the run of the table above, none in
+  the 330 here).
+
+**Lemma ID (identical valuations; written proof, any n).** If all agents have the same additive valuation (zeros
+allowed), the picks of every order extend to a complete EFX₀ allocation. No chain is needed.
+- *Proof.*
+  - The k-th agent of the order picks the k-th good g_k of the decreasing order (ties by index).
+  - Run LPT along that order: each good goes to a bundle of currently smallest value. With positive values the first
+    n goods go to distinct bundles; give each bundle to the agent whose pick it holds. With zeros, ties are broken
+    toward empty bundles, which does the same.
+  - For a bundle Z with at least two goods, let h be its last good. Then h is the smallest good of Z, and when h was
+    added, Z ∖ h was a smallest bundle. Bundles only grow, so v(Z) − min(Z) = v(Z ∖ h) ≤ v(W) for every bundle W.
+    The valuations are identical, so this is EFX₀ for every agent. ∎
+- Checked on 15,684 starts, n = 3–5, generic and small-integer values with ties: the picks extend on all of them.
+- So the two-type failure of §3.3 is as close to identical as a failure can be: two types, two agents each.
 
 ### 5.3 Why the starved-agent obstruction needs four agents (partial)
 - At n = 3 a starved agent a must hold y_b and y_c. Then b and c both lost their picks, and one of them, say b, holds

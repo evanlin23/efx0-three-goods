@@ -31,7 +31,33 @@ KEPS = int(os.environ.get("KEPS", "0"))
 KCOVER = os.environ.get("KCOVER", "0") == "1"   # with KEPS: every good must be a real (> 5) good of some agent
 
 
+KCORE = os.environ.get("KCORE", "0") == "1"     # with KEPS: the zero version (values <= 5 -> 0) is a k = 4 core
+                                                # (k4/SCOUT.md K4.CORE: 3 or 4 relevant goods, strictly balanced,
+                                                # private-good limits, every good relevant; connectivity not imposed)
+
+
+def is_core(Z):
+    n, m = len(Z), len(Z[0])
+    R = [[g for g in range(m) if Z[i][g] > 0] for i in range(n)]
+    for g in range(m):
+        if not any(Z[i][g] > 0 for i in range(n)): return False
+    for i in range(n):
+        if len(R[i]) not in (3, 4): return False
+        vs = sorted((Z[i][g] for g in R[i]), reverse=True)
+        if not vs[0] < sum(vs[1:]): return False
+        priv = [g for g in R[i] if all(Z[j][g] == 0 for j in range(n) if j != i)]
+        if len(R[i]) == 3 and len(priv) > 1: return False
+        if len(R[i]) == 4:
+            if len(priv) > 2: return False
+            if len(priv) == 2:
+                sh = [g for g in R[i] if g not in priv]
+                if not sum(Z[i][g] for g in priv) < sum(Z[i][g] for g in sh): return False
+    return True
+
+
 def valid(V):
+    if KEPS and KCORE:
+        return is_core([[x if x > 5 else 0 for x in row] for row in V])
     if KEPS and KCOVER:
         return all(any(row[g] > 5 for row in V) for g in range(len(V[0])))
     return True
@@ -112,7 +138,7 @@ def run_climb(n, m, steps, rounds, seed, init, ties):
                 V = [rng.sample(range(1, 3000), m) if len(set(row)) < m else row for row in V]
         n_, m_ = len(V), len(V[0])
         V = twin(V); tries = 0
-        while not valid(V) and tries < 1000 and not init.startswith('named='):
+        while not valid(V) and tries < 20000 and not init.startswith('named='):
             V = twin(families.gen(init, n, m, rng)); tries += 1
         c, st = objective(V)
         for s in range(steps):
