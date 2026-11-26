@@ -1,0 +1,49 @@
+$ python3 k4/d1/verify_cex.py
+== D1H-X (found) [[[0, 1, 5, 7], [3, 4, 6, 7], [0, 2, 5, 7]], [[26, 3, 25, 27], [19, 17, 25, 30], [9, 14, 7, 29]]] m 8 order (0, 1, 2)
+  mine: picks (7, 6, 2)
+  mine: J [0, 1, 3, 4, 5]
+  mine: F [0]
+  mine: D [0]
+  mine: one_absorber_at_picks []
+  mine: chain (0, 1) H0 [0, 1] HEAD True  S* owner k False  S* owner head False
+  mine: chain (0, 1) H0 [0, 5] HEAD True  S* owner k False  S* owner head False
+  mine: chain (0, 1) H0 [1, 5] HEAD True  S* owner k False  S* owner head False
+  mine: chain (0, 1) H0 [0, 1, 5] HEAD True  S* owner k False  S* owner head False
+  mine: chain (0, 2) H0 [0, 1] HEAD True  S* owner k False  S* owner head False
+  mine: chain (0, 2) H0 [0, 5] HEAD True  S* owner k False  S* owner head False
+  mine: chain (0, 2) H0 [1, 5] HEAD True  S* owner k False  S* owner head False
+  mine: chain (0, 2) H0 [0, 1, 5] HEAD True  S* owner k False  S* owner head False
+  mine: ED repairs with head junk [((0, 2), 0, [1, 5], [[1, 5, 2, 4], [6, 3], [7, 0]]), ((0, 2), 5, [0, 1], [[0, 1, 2, 4], [6, 3], [7, 5]])]
+  hall: picks (7, 6, 2)
+  hall: sat_one_absorber False
+  hall: brute_one_absorber []
+  hall: D [0]
+  hall: some canonical chain, any H0, S* owned by k or head False
+  VERDICT hard start, D = {k}, every canonical chain has HEAD: True
+  VERDICT no canonical chain, any H0, owner k (refutes D1-H, D1-LONG, canonical Finding D1): True
+  VERDICT ... nor owner k or head (refutes the canonical form of OC1-ED* (b)): True
+  VERDICT an ED chain whose head adds one junk good repairs, owner k: True
+== D1H-X (shrunk) [[[0, 1, 5, 7], [3, 4, 6, 7], [0, 2, 5, 7]], [[26, 3, 25, 27], [2, 17, 18, 19], [4, 5, 2, 10]]] m 8 order (0, 1, 2)
+  mine: picks (7, 6, 2)
+  mine: J [0, 1, 3, 4, 5]
+  mine: F [0]
+  mine: D [0]
+  mine: one_absorber_at_picks []
+  mine: chain (0, 1) H0 [0, 1] HEAD True  S* owner k False  S* owner head False
+  mine: chain (0, 1) H0 [0, 5] HEAD True  S* owner k False  S* owner head False
+  mine: chain (0, 1) H0 [1, 5] HEAD True  S* owner k False  S* owner head False
+  mine: chain (0, 1) H0 [0, 1, 5] HEAD True  S* owner k False  S* owner head False
+  mine: chain (0, 2) H0 [0, 1] HEAD True  S* owner k False  S* owner head False
+  mine: chain (0, 2) H0 [0, 5] HEAD True  S* owner k False  S* owner head True
+  mine: chain (0, 2) H0 [1, 5] HEAD True  S* owner k False  S* owner head False
+  mine: chain (0, 2) H0 [0, 1, 5] HEAD True  S* owner k False  S* owner head True
+  mine: ED repairs with head junk [((0, 2), 0, [1, 5], [[1, 5, 2, 4], [6, 3], [7, 0]]), ((0, 2), 5, [0, 1], [[0, 1, 2, 4], [6, 3], [7, 5]])]
+  hall: picks (7, 6, 2)
+  hall: sat_one_absorber False
+  hall: brute_one_absorber []
+  hall: D [0]
+  hall: some canonical chain, any H0, S* owned by k or head True
+  VERDICT hard start, D = {k}, every canonical chain has HEAD: True
+  VERDICT no canonical chain, any H0, owner k (refutes D1-H, D1-LONG, canonical Finding D1): True
+  VERDICT ... nor owner k or head (refutes the canonical form of OC1-ED* (b)): False
+  VERDICT an ED chain whose head adds one junk good repairs, owner k: True
