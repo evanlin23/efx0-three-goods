@@ -4,7 +4,7 @@ Workstream `proof/kgen-charity` (branch `claude/kgen-charity`, draft PR #105). S
 `results/kgen_charity/`. Everything called evidence below is evidence only (PROMPT.md §5 rule 3). No ledger row is
 changed here; the coordinator integrates.
 
-## Status (end of burst 2)
+## Status (end of burst 3)
 
 | item | statement | status | artifact |
 |---|---|---|---|
@@ -19,17 +19,17 @@ changed here; the coordinator integrates.
 | W(k, f) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f goods out (§6 for the exact statement); W(k, f) ⇒ CH(k) | f = 0 REFUTED at k = 3 (n = 4, m = 7) and k = 4 (GM4-G); **f = 1 REFUTED at k = 3 and k = 4** (CH-F: n = 12, m = 17 and n = 9, m = 14, integer values; each verified by SAT and by MILP); f ≥ 2: §6 | §6, `w_brute.log`, `w_counterexample*.log`, `attempts/kgen-charity-welfare-maxima.md` |
 | W small n | no welfare maximum strands a good for n = 3, k = 3; none strands two for n = 3, k = 3, 4 and n = 4, k = 3 | exhaustive by one implementation (z3 CEGAR over real values, all m ≤ nk + n by Lemma W0) | §6, `w_synth_n*.log` |
 | DU | an instance whose incidence graph has ≥ 2 components with agents has a complete EFX₀ allocation | PROVED (written proof; recipe checked on 2,000 random unions and on copies of the stranded instances) | §3, Prop. DU, `union_dump.log` |
+| CH-B′ | k = 4 and every good valued by ≤ d agents: ≤ 2, 4, 6 goods out for d = 2, 3, 4 (3, 4 if R(3) = 3, R(4) = 4 [unverified]) | PROVED (from CH-B, CH-C, the packing inequality) | §7 |
 | least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
 
 **Conclusion so far.** The rainbow-cycle method works with genuine zeros and gives *exact* EFX₀ with O(√(kn))
-charity (CH-A), and charity < e·d when goods have ≤ d valuers (CH-B, independent of n and k); both look new, and both
-extend to monotone valuations (CH-M). But an n-independent f(k) cannot come from CKMS's rules (CH-D), nor from any
-argument that only uses Pareto-maximality of a partial EFX₀ allocation (CH-E): both can strand Θ(√n) goods at k = 3,
-where complete EFX₀ is a theorem, and both are complete at k ≤ 2. So k = 3, not k = 4, is exactly where
-value-monotone methods stop working (CH-E′). A proof of CH(k) for k ≥ 3 must lower some agent's value at some step, as LB⁺ does
-at k = 3, or argue about a special Pareto maximum with exchanges that lower values: the welfare maximum (Question W)
-is the natural one; it strands one good at k = 3 and at k = 4 (GM4-G and a three-good cut of it), and whether it
-can strand two at fixed k is the open question (W(k) with f ≥ 1).
+charity (CH-A), and charity < e·d when goods have ≤ d valuers (CH-B, independent of n and k); both look new and extend
+to monotone valuations (CH-M). Disconnected instances never need charity (DU). But an n-independent f(k) cannot come
+from CKMS's rules (CH-D), from Pareto-maximality (CH-E), or — for f ≤ 1 — from welfare maximality (CH-F): each can
+strand goods at k = 3, where complete EFX₀ is a theorem, and the first two strand Θ(√n). Value-monotone methods work
+exactly up to k = 2 (CH-E′). A proof of CH(k), k ≥ 3, must lower some agent's value at some step, as LB⁺ does at
+k = 3. At k = 4 the only n-independent bounds proved are for instances whose goods have few valuers (CH-B′); the open
+case is connected instances whose unallocated goods all have many valuers, which is the shape of S, S′ and CH-F.
 
 ## 0. Statement and conventions
 
