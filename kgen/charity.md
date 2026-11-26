@@ -20,7 +20,7 @@ changed here; the coordinator integrates.
 | L(k, 0) | the leximin maximum (then fewest unallocated) is complete | REFUTED at k = 3 and k = 4 (n = 4, m = 7; brute force); complete on the CH-F and S′ instances | §6, `lex_brute.log`, `lex_check.log` |
 | W small n | no welfare maximum strands a good for n = 3, k = 3; none strands two for n = 3, k = 3, 4 and n = 4, k = 3 | exhaustive by one implementation (z3 CEGAR over real values, all m ≤ nk + n by Lemma W0) | §6, `w_synth_n*.log` |
 | DU | an instance whose incidence graph has ≥ 2 components with agents has a complete EFX₀ allocation | PROVED (written proof; recipe checked on 2,000 random unions and on copies of the stranded instances) | §3, Prop. DU, `union_dump.log` |
-| CH-B′ | k = 4 and every good valued by ≤ d agents: ≤ 2, 4, 6 goods out for d = 2, 3, 4 (3, 4 if R(3) = 3, R(4) = 4 [unverified]) | PROVED (from CH-B, CH-C, the packing inequality) | §7 |
+| CH-KD | every agent values ≤ k goods, every good has ≤ d valuers: some EFX₀ state with strong charity leaves ≤ min{(k − 2)d − 1, R(d)} goods out (|P|! ≤ d^{|P|−1}); at k = 4: ≤ 2, 4, 6, 9 for d = 2, 3, 4, 5 | PROVED (self-contained proof, §8; CH-A, CH-B marked correct by the referee, k4/referee/charity.md) | §8 |
 | least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
 
 **Conclusion so far.** The rainbow-cycle method works with genuine zeros and gives *exact* EFX₀ with O(√(kn))
@@ -443,7 +443,110 @@ construction above (S, S′, CH-F) every pool good has σ valuers, one per sourc
 cyclic order of the sources. A proof must break that cycle by a move that lowers some agent's value (LB⁺'s rotation
 at k = 3), and the families of §4–§6 are the test cases for any candidate move.
 
-## 8. Open
+## 8. A charity bound that depends only on k and d (self-contained)
+
+This section restates Theorems CH-B, CH-B′ and CH-C as one result with a complete proof, so that it can be refereed
+without §2–§3.
+
+**Setting.** n agents, goods M, additive valuations v_i ≥ 0, R_i = {g : v_i(g) > 0}, V(g) = {i : g ∈ R_i}. A *state*
+is a partial allocation X = (X_1, …, X_n) with pool P = M ∖ ∪_i X_i. X is *EFX₀* if v_i(X_i) ≥ v_i(X_j ∖ {h}) for all
+i ≠ j and h ∈ X_j; the pool has *strong charity* if v_i(P) ≤ v_i(X_i) for every i. Agent i *envies* a set B if
+v_i(B) > v_i(X_i). G_X is the envy graph (i → j iff i envies X_j), S its sources, σ = |S|, C(s) the agents reachable
+from s (s included).
+
+**Theorem CH-KD.** Suppose every agent values at most k goods and every good is valued by at most d ≥ 1 agents. Then
+there is an EFX₀ state with strong charity whose pool P satisfies
+1. P = ∅ if k ≤ 2;
+2. |P| ≤ (k − 2) · min_{g ∈ P} |V(g)| − 1 ≤ (k − 2)d − 1 if k ≥ 3;
+3. |P| ≤ R(d) < e·d, where R(d) is the rainbow cycle number; precisely, |P|! ≤ d^{|P|−1}.
+
+For k = 4 this gives |P| ≤ 2, 4, 6 and 9 when d = 2, 3, 4 and 5 (part 3: the largest p with p! ≤ d^{p−1} is 2, 4, 6, 9;
+part 2: 3, 5, 7, 9). If R(3) = 3 and R(4) = 4, as Sivashankar reports from Kirchweger–Szeider [unverified],
+the cases d = 3, 4 improve to 3 and 4. No bound here depends on n.
+
+*Champions and the source digraph.* For a set B that some agent envies, a *champion option* of B is a pair (Z, t)
+with Z ⊆ B, t envying Z, and nobody envying Z ∖ {h} for any h ∈ Z (an inclusion-minimal envied subset with one of its
+enviers; CKMS, Definition 3). For a state X, the *source digraph* D has vertex set S and, for each s ∈ S and g ∈ P
+such that X_s ∪ {g} is envied, an edge s →_g s′ coloured g for every option (Z, t) of X_s ∪ {g} and every source s′
+with t ∈ C(s′). A cycle of D is *rainbow* if its vertices are distinct and its colours are distinct.
+
+**The rules** (Chaudhury–Kavitha–Mehlhorn–Sgouritsa, CKMS, Algorithm 2, with U2 taken along a shortest rainbow cycle):
+- (R) if G_X has a cycle, rotate bundles along it (each agent on it takes the bundle it envies);
+- (U0) if some g ∈ P can be added to some bundle so that the state stays EFX₀, add it;
+- (U1) if some agent envies P, let (Z, i) be an option of P; give Z to i and put X_i ∪ (P ∖ Z) in the pool;
+- (U2) if D has a rainbow cycle, take a shortest one s_0 →_{g_0} s_1 → ⋯ → s_{ℓ−1} →_{g_{ℓ−1}} s_0 with options
+  (Z_i, t_{i+1}) of X_{s_i} ∪ {g_i}, t_{i+1} ∈ C(s_{i+1}), and envy paths π_{i+1} from s_{i+1} to t_{i+1}; each agent
+  on π_{i+1} other than t_{i+1} takes the bundle of its successor on the path, t_{i+1} takes Z_i, and
+  (X_{s_i} ∪ {g_i}) ∖ Z_i joins the pool.
+
+**Step 1 (U2 is well defined).** In a shortest rainbow cycle the agents t_1, …, t_ℓ are distinct and the paths
+π_1, …, π_ℓ are pairwise vertex-disjoint. *Proof.* If π_a and π_b (a ≠ b) share a vertex, then t_b is reachable from
+s_a, so the option (Z_{b−1}, t_b) of X_{s_{b−1}} ∪ {g_{b−1}} gives an edge s_{b−1} →_{g_{b−1}} s_a, and
+s_a → s_{a+1} → ⋯ → s_{b−1} → s_a is a rainbow cycle with (b − a) mod ℓ ∈ [1, ℓ − 1] edges. Equal t's share a vertex.
+A source has in-degree 0, so it lies only on its own path. ∎
+
+**Step 2 (a stopping state exists).** Each rule keeps the state EFX₀. (R): CKMS Lemma 2. (U0): by its condition.
+(U1): CKMS Lemma 5 — the new bundle Z is not strongly envied because nobody envies Z ∖ {h}, and i's value rose.
+(U2): CKMS Lemma 7, whose proof applies verbatim once the paths are disjoint (Step 1): every agent off the t's holds
+an old bundle and is weakly better off, and each t_{i+1} holds Z_i, of which nobody envies Z_i ∖ {h}. Rules (R), (U1)
+and (U2) strictly increase Σ_i v_i(X_i) (agents on the cycle or paths and the t's strictly gain; CKMS Lemmas 2, 5,
+7), and (U0) keeps it and shrinks the pool. There are finitely many states, so from the empty allocation some
+sequence of rules reaches a state where none applies. There G_X is acyclic, so σ ≥ 1, and since U1 fails, the pool has
+strong charity, so in particular v_t(g) ≤ v_t(X_t) for all t and g ∈ P (*weak charity*). Fix such a state; assume
+P ≠ ∅ from here on (otherwise nothing is to prove).
+
+**Step 3 (champions are local valuers).** Let s ∈ S, g ∈ P. Then X_s ∪ {g} is envied, and every option (Z, t) of it
+has g ∈ Z ⊆ R_t (every good of Z is valued by t), Z ∖ {g} ≠ ∅ is a subset of X_s, t ≠ s and t ∉ C(s); moreover t
+values a good of X_t. *Proof.* U0 fails for (s, g), so some agent strongly envies X_s ∪ {g}, hence envies it.
+If g ∉ Z then Z ⊆ X_s and t envies X_s, impossible for a source (if t = s, impossible anyway). A good of Z worth 0 to t
+could be dropped with t still envying, against minimality. Z = {g} is not envied by weak charity, so Z ∖ {g} ≠ ∅.
+If t ∈ C(s) the one-edge cycle s →_g s is rainbow and U2 would apply. Finally v_t(X_t) ≥ v_t(g) > 0. ∎
+
+**Step 4 (part 1 and part 2).** Fix g ∈ P and pick for each s ∈ S one option (Z_s, t_s) of X_s ∪ {g}. By Step 3,
+t_s ∈ V(g), t_s ≠ s and t_s values a good of X_s. An agent t values g, a good of its own bundle X_t, and one good of
+each bundle X_s with t_s = t; these bundles are disjoint from each other and from P, and differ from X_t. So t = t_s
+for at most |R_t| − 2 ≤ k − 2 sources, and σ ≤ (k − 2)|V(g)|. If k ≤ 2 this contradicts σ ≥ 1, so P = ∅ (part 1).
+Next, |P| ≤ σ − 1: otherwise walk in D from any source, each time leaving along an edge of a colour not used yet
+(every vertex has an out-edge of every colour, by Step 3 and since t_s lies in C(s′) for some source s′); after at most
+σ ≤ |P| steps a vertex repeats, and the closed segment is a rainbow cycle. With the previous bound, part 2 follows.
+
+**Step 5 (part 3: the rainbow cycle reduction with ε = 0).** Fix for every agent a an assigned source σ(a) with
+a ∈ C(σ(a)), and for every s ∈ S and g ∈ P one option, with champion c(s, g). Let Q_g = {c(s, g) : s ∈ S} and build
+the |P|-partite digraph Γ with parts V_g = {g} × σ(Q_g) and, for g ≠ h, an edge (g, s₁) → (h, s₂) iff
+σ(c(s₂, g)) = s₁. Then
+- every vertex (h, s₂) has the in-neighbour (g, σ(c(s₂, g))) ∈ V_g in every other part V_g;
+- Γ has no rainbow cycle (one meeting each part at most once): a cycle (g_1, s_1) → ⋯ → (g_ℓ, s_ℓ) → (g_1, s_1) with
+  distinct g's means c(s_{i+1}, g_i) ∈ C(s_i), i.e. edges s_{i+1} →_{g_i} s_i of D, a closed walk of D with distinct
+  colours; between two visits of one vertex it contains a rainbow cycle of D, and U2 would apply;
+- |V_g| ≤ |Q_g| ≤ |V(g)| ≤ d, since champions of g value g (Step 3).
+Sivashankar's Theorem 3 (packing inequality): a digraph with nonempty parts V_1, …, V_p, the in-neighbour condition
+and no rainbow cycle satisfies (p − 1)! Σ|V_i| ≤ Π|V_i|; with |V_i| ≤ d and AM–GM this gives p! ≤ d^{p−1}, hence
+p < ed. This is part 3; R(d) is by definition the largest p for which such a digraph exists. ∎
+
+**Remarks.**
+- What is new compared with CGMMM: their reduction needs ε > 0 because a good is "valuable" to an agent when it is
+  worth more than an ε-fraction of her bundle, and without sparsity every agent may find every good valuable. With
+  genuine zeros, Step 3 shows that only valuers of g can champion g, so ε = 0 works and the parts are bounded by the
+  number of valuers. The perturbation lemma (L1), which makes all values positive, would destroy exactly this.
+- The proof of Step 5 never uses k, so part 3 holds for any number of relevant goods per agent; parts 1–2 never use
+  d. For monotone valuations, with R_i the support of v_i, the same proof works with k − 1 in place of k − 2 in
+  parts 1–2 (Remark CH-M).
+- Tightness in n is not an issue here (the bound has no n); tightness in d of part 3 is that of R(d) (R(d) ≥ d,
+  CGMMM). For the method, part 2 is tight: in S(σ, 3) (§4) every pool good has σ valuers and σ − 1 goods are left.
+
+**Citations** (read for this note unless marked):
+- [CKMS] B. R. Chaudhury, T. Kavitha, K. Mehlhorn, A. Sgouritsa, "A Little Charity Guarantees Almost
+  Envy-Freeness", arXiv 1907.04596v3 (SODA 2020; SIAM J. Comput. 50(4), 2021). Read: §2, pp. 8–12 (Algorithms 1–3,
+  Lemmas 2, 4–7, Theorem 8).
+- [CGMMM] B. R. Chaudhury, J. Garg, K. Mehlhorn, R. Mehta, P. Misra, "Improving EFX Guarantees through Rainbow
+  Cycle Number", arXiv 2103.01628 (EC 2021). Read: §1 (Definition 2, the proof that R(1) = 1 and R(2) ≤ 2) and §4
+  (the group champion graph, Observations 11–13, Lemmas 14–15).
+- [Siv] V. Sivashankar, "A Linear Bound on the Rainbow Cycle Number and Approximate EFX", arXiv 2607.27455v1 (2026).
+  Read: §1–§3 and §5 (Theorem 3 with its proof, the lower bound R(d) ≥ d).
+- [KS] M. Kirchweger, S. Szeider, on computing small rainbow cycle numbers with SAT modulo symmetries: R(3) = 3,
+  R(4) = 4 — [unverified], known only through [Siv], p. 2.
+
+## 9. Open
 
 1. **Non-monotone moves.** CH-D and CH-E show that a proof of CH(k), k ≥ 3, must sometimes lower an agent's value.
    The two known mechanisms are LB⁺'s rotation (k = 3) and Kaviani–Seddighin–Shahrezaei's virtual values
