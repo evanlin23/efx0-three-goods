@@ -21,7 +21,9 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - In DE's general core case (dead goods, several private goods) both stronger forms are refuted at n = 6
     (`attempts/k4-k3oc1-selection-rules.md`).
   - Max score with Lemma 1 already fails on cores with n = 6, m = 9: a pair holder must absorb a junk good.
-  - Exhaustive tests: every connected core with 3 ≤ n ≤ 5 (339 hypergraphs), every ranking profile, every order: 273,724,272 starts. Also n = 4 with one dead good.
+  - Exhaustive tests: every connected core with 3 ≤ n ≤ 5 (339 hypergraphs), every ranking profile, every order: 273,724,272 starts. Both rules were rechecked on every hard draft (`oc1_fast2_*.log`). Also n = 4 with one dead good.
+  - Exhaustive in DE's general core case with n ≤ 4 (`oc1_general.py`): every hypergraph class (16 for n = 3, 93 for n = 4: any private goods, disconnected allowed), 0, 1 or 2 dead goods, every profile and order. OT₁ and OT-ω hold (`oc1_general_4_dead*.log`).
+  - n = 6, m ≤ 9 cores, every profile, first 355 of 2,856 cores (`oc1_fast2_small6_partial.log`): every least-ω trade passes Lemma 1, and every max-score trade completes.
   - Exhaustive at n = 6, m ∈ {10, 11}: all 236 connected cores, every profile, and the drafts of all 720 orders, enumerated as distinct drafts (`oc1_fast.py`, `oc1_fast_certs6_*.log`): 11,010,816 profiles, 37,318,272 distinct drafts, 888,292 hard. No failure of either rule; here even the max-score trade passes Lemma 1.
   - Sampled tests: n = 6 cores with m ≤ 9 (6 million starts), random instances with n ≤ 10, and the binary-tree family of `paper/k3-simple` Appendix C up to n = 45 (draft deficits up to 7, owner still needed after the trade).
   - OC₁ itself was also checked directly, with general chains and the exhaustive one-absorber completion, for every core with n ≤ 4 and with n = 5, m = 9.
