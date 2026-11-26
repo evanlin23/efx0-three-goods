@@ -141,7 +141,7 @@ def _perm_owner(X, ma, mg):
 
 
 class Cert:
-    def __init__(self, sets, m=None, cap_aut=256, solver='cd15', tries=3, seed=1, keep=2, require_max=True, depth=1):
+    def __init__(self, sets, m=None, cap_aut=256, solver='cd15', tries=3, seed=1, keep=2, require_max=True, depth=1, kcand=6):
         self.sets = [list(S) for S in sets]; self.n = n = len(sets)
         self.m = m = m if m is not None else 1 + max(g for S in sets for g in S)
         self.R = [set(S) for S in self.sets]
@@ -155,7 +155,7 @@ class Cert:
         self.nu = max_matching_size(self.sets, m)
         self.require_max = require_max
         self.auts = automorphisms(self.sets, m, cap_aut) if cap_aut else [(list(range(n)), list(range(m)))]
-        self.tries, self.keep, self.depth = tries, keep, depth
+        self.tries, self.keep, self.depth, self.kcand = tries, keep, depth, kcand
         self.rng = np.random.default_rng(seed)
         self._build_outer(solver)
         self._build_inner()
@@ -330,9 +330,8 @@ class Cert:
             ext = {j: vp.id(('e', i, j)) for j in range(n) if j != i}
             for j in ext:
                 cl += [[-x[h][j], ext[j]] for h in range(m) if h not in self.R[i]]
-            zi = [vp.id(('z', i, t)) for t in range(len(self.dom[i]))]
-            z.append(zi)
-            cl += CardEnc.atmost(zi, 1, vpool=vp, encoding=EncType.seqcounter).clauses
+            gl = [[] for _ in range(len(self.dom[i]))]     # gl[t]: the guards that type t switches on
+            z.append(gl)
             for O in range(1 << k):
                 for G in range(1, 1 << k):
                     if G & O: continue
@@ -344,7 +343,7 @@ class Cert:
                             base = [-gd] + [x[S[p]][i] for p in range(k) if not O >> p & 1] \
                                    + [-x[S[p]][j] for p in range(k) if G >> p & 1]
                             cl.append(base if kind == 'E' else base + [-ext[j]])
-                        cl += [[-zi[t], gd] for t in pos]
+                        for t in pos: gl[t].append(gd)
         self.inn = Solver(name='cd15', bootstrap_with=cl)
         self.ix, self.iz, self.iu = x, z, u
 
@@ -352,7 +351,7 @@ class Cert:
         """One-absorber EFX0 completions of the bases (list of goods per agent) under the profile (type indices);
         returns up to `tries` allocations (owner lists), or []."""
         holder = {g: a for a, B in enumerate(base) for g in B}
-        ass = [self.iz[i][t] for i, t in enumerate(prof)]
+        ass = [gd for i, t in enumerate(prof) for gd in self.iz[i][t]]     # the type's guards (others stay free)
         ass += [self.ix[g][a] for g, a in holder.items()]
         ass += [(-self.iu[g] if g in holder else self.iu[g]) for g in range(self.m)]
         res = []
@@ -373,35 +372,36 @@ class Cert:
         n, R = self.n, self.R
         held = {g for B in base for g in B}
         J = [g for g in range(self.m) if g not in held]
-        V = lambda i, S: sum(vals[i].get(g, 0) for g in S)
+        def V(i, S):
+            d = vals[i]; t = 0
+            for g in S: t += d.get(g, 0)
+            return t
         for x in range(n):
             for H in nonempty_subsets([g for g in J if g in R[x]]):
                 nb = tuple(sorted(base[x] + H))
                 yield 'add', (x,), (H,), {x: nb}, [(x, nb, tuple(base[x]))]
-        out = []
-
         def ext(path, used, Hs):
             xt = path[-1]
             if len(path) >= 2:
                 x0 = path[0]
                 pool = [g for g in J if g not in used and g in R[x0]] + [g for g in base[xt] if g in R[x0]]
+                v0 = V(x0, base[x0])
                 for H0 in nonempty_subsets(pool):
-                    if V(x0, H0) > V(x0, base[x0]):
+                    if V(x0, H0) > v0:
                         nb = {x0: tuple(sorted(H0))}
                         imp = [(x0, nb[x0], tuple(base[x0]))]
                         for t in range(1, len(path)):
                             nb[path[t]] = tuple(sorted(base[path[t - 1]] + Hs[t]))
                             imp.append((path[t], nb[path[t]], tuple(base[path[t]])))
-                        out.append(('chain', tuple(path), (tuple(H0),) + tuple(Hs[1:]), nb, imp))
+                        yield 'chain', tuple(path), (tuple(H0),) + tuple(Hs[1:]), nb, imp
             if len(path) >= n or not base[xt]: return
             for y in range(n):
                 if y in path: continue
+                vy = V(y, base[y]); vt = V(y, base[xt])
                 for H in subsets([g for g in J if g not in used and g in R[y]]):
-                    if V(y, base[xt] + H) > V(y, base[y]):
-                        ext(path + [y], used | set(H), Hs + [H])
-        for x in range(n): ext([x], frozenset(), [()])
-        yield from out
-        out = []
+                    if vt + V(y, H) > vy:
+                        yield from ext(path + [y], used | set(H), Hs + [H])
+        for x in range(n): yield from ext([x], frozenset(), [()])
         for r in range(2, n + 1):
             for cyc in itertools.permutations(range(n), r):
                 if cyc[0] != min(cyc): continue
@@ -412,13 +412,13 @@ class Cert:
                         for t in range(r):
                             nb[cyc[t]] = tuple(sorted(base[cyc[t - 1]] + Hs[t]))
                             imp.append((cyc[t], nb[cyc[t]], tuple(base[cyc[t]])))
-                        out.append(('ring', tuple(cyc), tuple(Hs), nb, imp)); return
+                        yield 'ring', tuple(cyc), tuple(Hs), nb, imp; return
                     w, pred = cyc[i], cyc[i - 1]
                     if not base[pred]: return
+                    vw = V(w, base[w]); vp_ = V(w, base[pred])
                     for H in subsets([g for g in J if g not in used and g in R[w]]):
-                        if V(w, base[pred] + H) > V(w, base[w]): ring(i + 1, used | set(H), Hs + [H])
-                ring(0, frozenset(), [])
-        yield from out
+                        if vp_ + V(w, H) > vw: yield from ring(i + 1, used | set(H), Hs + [H])
+                yield from ring(0, frozenset(), [])
 
     def volume(self, W):
         """log of the number of type profiles under which W's comparisons hold (W's generality in tau)."""
@@ -458,6 +458,8 @@ class Cert:
                     if Xs:
                         fix = {x: (base[x][0] if base[x] else None) for x in nbs2}
                         cands.append(Witness(fix, nbs2, imps2, Xs[0], mv2))
+                        if len(cands) >= self.kcand: break
+                if len(cands) >= self.kcand: break
             if cands:
                 return sorted(cands, key=self.volume, reverse=True)[:self.keep]
             level = nxt
