@@ -95,6 +95,18 @@ if __name__ == '__main__':
            and sum(1 for a, b in zip(t, step2) if a != b) == 2]
     print('  complete EFX0 allocations reached by two single-good moves:', sorted(set(show(t, 4)[0].__repr__() for t in two)))
     assert two
+    # 2b. the smallest dead end of the tree found from a serial-dictatorship start: D3 (n = 3, m = 6), order (0, 2, 1),
+    # picks 1, 3, 2; goods 0 and 4 to agent 1 (both victim-free) reach ({1}, {0,3,4}, {2}) with good 5 pooled
+    setsD = [[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]]
+    valsD = [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]]
+    RD = [dict(zip(a, b)) for a, b in zip(setsD, valsD)]
+    pD, d1, d2 = (-1, 0, 2, 1, -1, -1), (1, 0, 2, 1, -1, -1), (1, 0, 2, 1, 1, -1)
+    assert all(happy(RD, x, 3) for x in (pD, d1, d2))
+    singleD = [t for t in moves(d2, 3) if sum(1 for a, b in zip(t, d2) if a != b) == 1 and t.count(-1) <= 1
+               and happy(RD, t, 3)]
+    print('D3: picks', show(pD, 3), '-> good 0 to agent 1 -> good 4 to agent 1: all partial EFX0;',
+          'single-good moves keeping EFX0 from', show(d2, 3), ':', len(singleD))
+    assert not singleD
     # 3. a trap at k = 3 (g834 of gen:1000:983:4:7:3): n = 4, m = 7, every agent values three goods
     sets3 = [[0, 5, 6], [2, 5, 6], [0, 4, 5], [1, 3, 4]]
     vals3 = [[22, 9, 24], [9, 40, 29], [6, 40, 28], [11, 20, 21]]

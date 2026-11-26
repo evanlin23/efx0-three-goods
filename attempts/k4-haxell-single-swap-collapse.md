@@ -57,6 +57,15 @@ neither does any chain or re-base (`k4/haxell/ht_bfs.py`). Two transfers togethe
 the complete EFX₀ allocation ({0, 2}, {4}, {1, 3, 5}, {6}). This C127 state is a dead end of the tree's catalogue, not of
 G* (a swap or a bundle trade escapes it).
 
+**Smallest tree failures from a serial-dictatorship start** (screen set, every order, n ≤ 3, 397 starts):
+- *Model G, junk transfers and chains*: 10 starts, smallest D3 (n = 3, m = 6), order (0, 2, 1), picks 1, 3, 2. The tree
+  places goods 0 and 4 with agent 1, reaching ({1}, {0, 3, 4}, {2}) with good 5 pooled, where no single-good move
+  (`attempts/k4_haxell_trap.py`), chain or re-base (`ht_bfs.py`) keeps EFX₀. It is not a trap of G* (the instance has
+  none): a generic swap or trade escapes it.
+- *Model A*: 4 starts, smallest induct-q4-rules (n = 3, m = 5).
+- *Generic moves as edges* (§3.6 of the note): already at n = 2, m = 4 (adaptive-cover-multi4, two identical agents),
+  where G* has no trap at all, so that failure is the tree's own (good-disjointness and one greedy edge per player).
+
 **Counts** (screen set, every order, n ≤ 5, 4,069 starts; logs in `results/k4_haxell/`):
 - the literal tree: stuck from 101 starts in Model A (`tree_screen_TC.log`), 38 in Model G (`tree_screen_G.log`);
 - the complete search over victim-free move sequences: 3 in Model A (one instance, one absorber; `bfs_screen_TC.log`),
@@ -71,4 +80,4 @@ G* (a swap or a bundle trade escapes it).
 statement that G* with composite moves of radius 2 has no trap (`k4/haxell.md` §3.4).
 
 **Reproduce:** `python3 attempts/k4_haxell_trap.py` (raw EFX₀ definition, no shared code): the n = 2 trap and the
-k = 3 trap with their two-move escapes, and the C127 dead end reached from the serial-dictatorship picks.
+k = 3 trap with their two-move escapes, and the C127 and D3 dead ends reached from the serial-dictatorship picks.
