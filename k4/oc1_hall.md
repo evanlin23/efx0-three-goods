@@ -77,7 +77,7 @@ Code: `k4/oc1_hall/` (`ohlib.py` is shared). Logs: `results/k4_oc1_hall/`. Every
 
 Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PROMPT.md §5 rule 3).
 
-## Status (end of burst 7)
+## Status (end of burst 8)
 
 | | statement | status |
 |---|---|---|
@@ -101,6 +101,10 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | **Lemma D1-C₀, Prop. D1-C′** (§21) | favourites duality: a holder off the chain is admissible for its favourite pool good, so hardness forces an improving set of k avoiding any set of distinct favourites in J. Hence every canonical chain without HEAD repairs with owner k, except in the residual cases C-a (shared favourite), C-b (every such H₀ crowds the head and contains Y_{x_t}) and C-c (a favourite is Y_{x_t}) | written proofs; `d1_crowd.log`: 224 of 227 chains without HEAD covered, 0 violations; the 3 others are C-b, all copies of lb4-n2m5-upgrade (n = 2) |
 | Sub-lemma D1-H(ii) (§21; K4.OCH.D1H) | a longest canonical chain with HEAD (all second wanters are then unfrozen at the picks): the chain itself, or the one through a second wanter, repairs with owner k. With the rows above, this implies Finding D1 outside C-a to C-c | **open**; evidence 14/14 paths; smallest lil-noncore-n3 and log557 (n = 3) |
 | Conjecture D1-LONG (§21) | some *longest* canonical chain from k, with some minimal H₀, repairs with owner k. A longest chain is never in HEAD's case H-i (proved), so only H-ii (a second wanter unfrozen at the picks) and CROWD remain | evidence: 197/197 starts with n ≤ 5, every order (every longest chain: 196; exception log557); 309/309 sampled hard starts at n = 6–8 (SAT); adversarial climbs at n = 4, 5 bottom out at one repairing pair |
+| **OC₁^max, OC₁-ED\*^max, R1-priority forms** (§22) | **refuted at n = 4** (certifier, 11 cores; TTC, an n = 5 core). Every known failure has \|D\| ≥ 2 with a pool danger set shared by two dangerous agents. Two moves repair. OC₂^max is certified for n ≤ 4 (`compute/k4-oc1max-cert`) | analysed here: `oc1max_cex_analysis.log`, `oc2_cases.log` |
+| Lemmas M, EX of `proof/k4-matching` (§23.1) | second reading: M is correct; EX is correct as a sufficient condition but not exact (it cannot compensate the head: lb4-n2m5-upgrade) | read here; `ex_not_exact.log` |
+| **Sub-lemma OC2-LIFT** (§23.3; K4.OCH.LIFT) | with no one-move repair, a canonical first chain from D is followed by a move that removes every DEMAND agent (starts at it or unfreezes it) and completes. The coordinator's literal form, a chain from the DEMAND agent, holds on only 6 of 12 | **open**; evidence 12/12 known failures; smallest 4_n4_3#58 (n = 4, m = 7) |
+| Case tree for OC₂^max (§23.2) | 15 leaves with status and owner session; open: 3b (all-HEAD, k4-d1), 4d SLOT and 4e RING (k4-oc1max-multi), 4f (unverified), 5 OC2-LIFT, 6 (three moves, certifier) | plan |
 | **Lemma MAX** (§19) | if the picks form a maximum matching, no agent reachable from a pickless agent by an alternating path values a junk good. So no pickless agent wants a dangerous frozen agent, or any agent on a want-chain above one, and the pickless-bin pigeonhole of §16/§18 cannot form | written proof (§19); checked at every maximum-matching start of special, screen and the K4.MC2 core |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
 | refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `attempts/k4-oc1-hall-canonical-chains.md` |
