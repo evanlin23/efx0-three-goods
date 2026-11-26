@@ -87,7 +87,15 @@ By Lemma 2\* this implies OC₁ (with the S\* shape), hence MD and TARGET₄.
 The invariant is Lemma 2\* (S\* with any owner). Compensated frozen slots are not needed (§13). By Finding C, the chain
 lemma may be restricted to canonical chains from D plus at most one junk-assisted middle step.
 
-Next:
+Next (after the refutation of §16, everything restricted to the K4.MC2 class of strict connected cores in which no
+agent has two private goods):
+0. **Prove Finding D1** (§15; coordinator's step 1): if D = {k} and the picks have no one-absorber completion, some ED
+   chain from k with an inclusion-minimal improving H₀ has an S\* completion owned by k.
+   - Invariant: Lemma 2\*.
+   - Lever: with |D| = 1, the other frozen agents value no junk at the picks. After the chain, the only new junk is the
+     end's released pick, so each of them has at most one good in the pool.
+   - Cases to justify: the 19 configurations of `d1_swapmin_fails.json`, where the chain must pass a second,
+     non-dangerous frozen agent.
 1. f = 1 with several wanters, n ≥ 4: the picks with a wanter as owner (Corollary 2.1, with helpers). One n = 4 start
    (red-b1-blocked-improvement) needs the swap, because x needs two goods kept out and only one admissible holder
    exists.
