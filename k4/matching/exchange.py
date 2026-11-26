@@ -201,17 +201,19 @@ def all_chains(I, base, starts=None):
     return out
 
 
-def ex_value_general(I, base, P, Bp, o):
+def ex_value_general(I, base, P, Bp, o, comp=True):
     """Lemma EX* at an arbitrary state `base` with the chain P (state Bp after it) and owner o.  Returns (d, s, why):
-    d = min over H (subset of J') of |H| - nu(Gamma_B(H)) subject to
+    d = min over H (subset of J') of |H| - nu(Gamma(H)) subject to
       (W')  every good of J' is unwanted at Bp;
       (G1') no multi-good bundle of Bp other than o's threatens anybody at Bp values;
-      (1')  X = Bp_o + (J' - H) threatens no non-holder of `base` off P (other than o) at its value in `base`, and no
-            chain agent other than o at its value in Bp;
-      (2)   the exposed holders of `base` off P (other than o) are coverable by compensating goods;
-    s = number of holders of Bp other than o that are not holders of `base` off P (the slots the chain creates).
-    EX*: d <= s implies an S* completion of Bp owned by o."""
-    Jp = I.junk(Bp); bv = [I.V(i, base[i]) for i in range(I.n)]; bvB = [I.V(i, Bp[i]) for i in range(I.n)]
+      (1')  X = Bp_o + (J' - H) threatens no non-holder of Bp (other than o) at its value in Bp;
+      (2)   the slots are the holders of Bp other than o: N (holders of `base` off P, exposure at their unchanged
+            values) and Ext (the other holders of Bp: the slots the chain creates).  Every exposed slot is matched to a
+            compensating good; with comp=False, Ext agents must instead be unthreatened (the first form of EX*).
+    s = |Ext|, reported for the accounting; the condition is d <= 0 for Gamma over N + Ext (comp=True), and d <= s
+    for Gamma over N with Ext as free slots (comp=False).  Either implies an S* completion of Bp owned by o.
+    With comp=True this is Lemma M at Bp (its (G1), (G2) are (G1'), (W'))."""
+    Jp = I.junk(Bp); bvB = [I.V(i, Bp[i]) for i in range(I.n)]
     hold = set(I.holders(base)); holdB = set(I.holders(Bp))
     N1 = [u for u in sorted(hold) if u not in P and u != o]
     extra = [j for j in sorted(holdB) if j != o and j not in N1]; s = len(extra)
@@ -219,19 +221,21 @@ def ex_value_general(I, base, P, Bp, o):
     for j in range(I.n):
         if j != o and len(Bp[j]) >= 2 and any(i != j and I.threat(i, Bp[j], bvB[i]) for i in range(I.n)):
             return INF, s, 'G1'
-    Qoff = [q for q in range(I.n) if q not in P and q != o and q not in hold]
-    chain_others = [x for x in P if x != o]; best = INF; why = 'no H'
+    slots = N1 + extra if comp else N1
+    guarded = [q for q in range(I.n) if q != o and q not in holdB] + ([] if comp else extra)
+    best = INF; why = 'no H'
     for H in subsets(Jp):
         X = list(Bp[o]) + [g for g in Jp if g not in H]
-        if any(I.threat(q, X, bv[q]) for q in Qoff): continue
-        if any(I.threat(x, X, bvB[x]) for x in chain_others): why = 'chain agent threatened'; continue
-        E = [u for u in N1 if I.threat(u, X, bv[u])]
-        adj = {h: [u for u in N1 if u not in E or
-                   (I.v[u].get(h, 0) > 0 and not I.threat(u, X, bv[u] + I.v[u][h]))] for h in H}
+        if any(I.threat(q, X, bvB[q]) for q in guarded): why = 'non-holder threatened'; continue
+        E = [u for u in slots if I.threat(u, X, bvB[u])]
+        adj = {h: [u for u in slots if u not in E or
+                   (I.v[u].get(h, 0) > 0 and not I.threat(u, X, bvB[u] + I.v[u][h]))] for h in H}
         radj = {u: [h for h in H if u in adj[h]] for u in E}
         if len(bip_match(E, radj)) < len(E): continue
         df = len(H) - len(bip_match(H, adj))
+        if not comp: df = df  # compared with s by the caller
         if df < best: best = df
+    if comp: return best, 0, ('ok' if best < INF else why)
     return best, s, ('ok' if best < INF else why)
 
 

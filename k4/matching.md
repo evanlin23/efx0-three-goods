@@ -16,9 +16,9 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
 | δ and the k = 5 counterexamples (§2) | PW5: δ = 2, best single move leaves δ = 1 (two chains). RD5: δ = 1, yet no single move repairs. The 41 failing (non-maximum) starts of the k = 4 core counterexamples all have δ = 2 | computed (brute force) |
 | Lemma EX (§3) | an improving chain is an *exchange* in the slot graph: if, after the chain, Lemma 2\*'s slot graph **of the picks** with the chain agents' demands deleted or raised has deficiency at most the number s of slots the chain frees, the state completes (S\* shape, any chosen owner). For o = k and a canonical chain: the owner set W_{x_t} of the end, k's demand deleted | written proof (§3); the proof's allocation is built and is EFX₀ (raw) on all 49,771 (chain, H₀, owner) triples where the hypothesis holds; 0 violations |
 | Conjecture CM (§3) | at every one-absorber-hard perfect start (k ≤ 4), some chain from a dangerous agent, some H₀ and some owner satisfy Lemma EX's hypothesis. CM ⟹ OC₁ at perfect starts ⟹ (RED, MAXSD) TARGET₄ | **refuted with OC₁^max** by the 11 n = 4 cores of compute/k4-oc1max-cert (§5). Before that: 2,371 of 2,371 hard perfect starts (Hall session's 2,071, the 9 of the core counterexamples, 291 of the PW design space) |
-| CM ⟺ OC₁ on the data (§3, §5) | at every hard perfect start tested, one exchange (Lemma EX / EX\*) repairs exactly when one move repairs: 2,371 + 19 where OC₁ holds, 11 where it fails | computed |
-| Lemma EX\* (§5) | Lemma EX at any state in which no junk good is wanted (after a first move) | written proof (§5); 0 violations |
-| **Conjecture CM₂** (§5) | from every perfect start, some first move leads to a state where a Lemma EX\* exchange repairs. CM₂ ⟹ OC₂ at perfect starts ⟹ OC₂^max ⟹ TARGET₄ | evidence: all 30 hard maximum-matching starts of the 11 n = 4 failure instances, PW5, RD5. On the 11 failing starts, PW5 and RD5, the first moves after which an EX\* exchange repairs are exactly those after which any second move repairs |
+| CM ⟺ OC₁ on the data (§3, §5) | one exchange (Lemma EX / EX\*) repairs exactly when one move gives an S\* completion, at every hard perfect start tested: the 2,371 starts, the 30 of the 11 n = 4 instances, the walks near the n = 4 failures. Near those failures, 14 starts satisfy OC₁ only through a non-S\* completion (a compensated frozen slot) | computed |
+| Lemma EX\* (§5) | the exchange at any state: Lemma M applied after a move, read in the slot graph before it (ownership moved, chain agents' demands re-evaluated, the chain's new slots added) | written proof (§5), a corollary of Lemma M; 0 violations |
+| **Conjecture CM₂** (§5) | from every perfect start, some first move leads to a state where a Lemma EX\* exchange repairs. CM₂ ⟹ OC₂ at perfect starts ⟹ OC₂^max ⟹ TARGET₄ | evidence: all 30 hard maximum-matching starts of the 11 n = 4 failure instances, every start visited by the walks near them (OC₁ failing: 4,513 visits, 3,308 distinct; OC₁ only non-S\*: 88), PW5, RD5. Where OC₁ fails, the first moves after which an EX\* exchange repairs are exactly those after which any second move repairs |
 | exchange accounting (§3) | what a repairing chain pays for: in 910 of the 2,071 hard starts, deleting the chain agents' demands alone (s = 0) clears an end-owned deficiency of up to 6 | computed |
 
 **Bottom line.**
@@ -333,39 +333,47 @@ So one missing slot is enough to defeat a single chain at k = 4, and "δ = 1 ⟹
 at k = 5: PW5 and RD5 also have best exchange excess exactly 1. At every known failure of OC₁, one exchange leaves
 exactly one slot missing.
 
-**Lemma EX\* (K4.MATCH.EXS).** This is Lemma EX at an arbitrary state, so that it can be the second step.
+**Lemma EX\* (K4.MATCH.EXS).** This is the exchange at an arbitrary state, so that it can be the second step. It is
+Lemma M applied after the move, read in the slot graph before it.
 
 *Setting.* Let B be any state with junk J, and P an official chain from B:
 - x_i (i ≥ 1) takes B_{x_{i−1}} ∪ H_i, with B_{x_{i−1}} ≠ ∅ and v_{x_i} rising;
 - x₀ takes H₀ ⊆ (J ∖ ∪H_i) ∪ B_{x_t}, with v_{x₀} rising.
 
-B′ is the state after P, and J′ = (J ∖ (H₀ ∪ ∪H_i)) ∪ (B_{x_t} ∖ H₀) its junk. Fix an owner o. Let N be the holders of
-B off P other than o, and Ext the holders of B′ other than o that are not in N; write s = |Ext|. For H ⊆ J′ let
-X = B′_o ∪ (J′ ∖ H). Suppose:
+B′ is the state after P, and J′ = (J ∖ (H₀ ∪ ∪H_i)) ∪ (B_{x_t} ∖ H₀) its junk. Fix an owner o.
+- *The slots* are the holders of B′ other than o. They are of two kinds: N, the holders of B off P, whose bases and
+  values are unchanged (values rise from B to B′, so they stay unwanted); and Ext, the slots the chain creates (s =
+  |Ext|), for example the chain end, and agents that were frozen at B and are unfrozen now.
+- For H ⊆ J′ let X = B′_o ∪ (J′ ∖ H).
+
+Suppose:
 - (W′) every good of J′ is unwanted at B′;
 - (G1′) no multi-good bundle of B′ other than o's threatens anybody at its B′ value;
-- (1′) X threatens no non-holder of B off P (other than o) at its B value, and no agent of P other than o at its B′
-  value;
-- (2) E(H) (holders of N threatened by X at their B value) is coverable in Γ_B(H), Lemma M's slot graph of B on N, and
-  |H| − ν(Γ_B(H)) ≤ s.
+- (1′) X threatens no non-holder of B′ other than o at its B′ value. For a non-holder off P, that is its B value;
+- (2) the exposed slots (threatened by X at their B′ value) can all be matched to compensating goods of H, within a
+  matching of all of H into the slots, in Lemma M's slot graph of B′.
 
 *Conclusion.* B′ has an S\* completion owned by o.
 
-*Proof.*
-1. Values rise from B to B′. Hence holders of B off P stay holders of B′: their bases are unchanged and still unwanted.
-   So every receiver (N ∪ Ext) is a holder of B′ and takes one good: S\* shape.
-2. A receiver's bundle {b, h} has b unwanted (b is a holder's good) and h unwanted (W′), so it threatens nobody.
-   Singletons threaten nobody. Multi-good bases other than o's threaten nobody by (G1′). So only X can threaten.
-3. Every agent i ≠ o is covered:
-   - agents of P, by (1′);
-   - non-holders of B off P, by (1′). This includes the agents of Ext off P, which are single-good agents frozen at B
-     and unfrozen at B′;
-   - holders of B off P are the agents of N: an exposed one holds a compensating good, an unexposed one is not
-     threatened. ∎
+*Proof.* (W′) and (G1′) are Lemma M's (G2) and (G1) at B′. (1′) is its (H1), and (2) is its matching condition with
+d = 0. Lemma M gives the completion. ∎
 
-At the picks, (W′) is automatic under Lemma EX's end condition, by (I2) and (U), and EX\* contains EX. On the special
-and screen starts it accepts 153 more (chain, H₀, owner) triples, for example with non-canonical middle agents
-unfrozen at Y, and never fewer.
+*The exchange reading.* The slot graph of B′ is that of B with four changes:
+1. ownership moves to o;
+2. the chain agents' demands are re-evaluated at their new values (deleted for x₀ when o = x₀);
+3. the slots of N keep their exposure and admissibility;
+4. the slots of Ext are added, each with its own exposure.
+
+Lemma EX (§3) is the special case at the picks where the Ext slots are required to be unexposed and used as free
+slots. That is why its condition reads |H| − ν(Γ_Y(H)) ≤ s.
+
+*Two remarks on the computation.*
+- An earlier version of EX\* also treated Ext slots as free, requiring them to be unthreatened. In the walks below this
+  missed repairs in which the chain end wants the owner's good and is compensated by a junk good. One example: the
+  value neighbourhood of instance 0 with agent 1's values (14, 3, 7, 8). The chain (2, 1) with H₀ = {3, 4} and owner 3
+  needs agent 1 to take the released good 2. The version used throughout this section (`exchange.ex_value_general`
+  with comp=True) allows compensation.
+- At the picks, (W′) is automatic under Lemma EX's end condition, by (I2) and (U), so EX\* contains EX.
 
 **Conjecture CM₂ (K4.MATCH.CM2).** From every perfect start of an instance with ≤ 4 relevant goods per agent, some
 official first move leads to a state at which some chain, H₀ and owner satisfy Lemma EX\*'s hypothesis (the first move
@@ -381,11 +389,23 @@ found is confirmed by the raw S\* test: 0 violations.
 | all 30 one-absorber-hard maximum-matching starts of the 11 instances | 19 | 19 | **30** | 30 |
 | PW5, RD5 (k = 5) | 0 | 0 | 2 | 2 |
 
-- **EX\* is exact on these data, for one move and for two.** On the 30 starts, one EX\* exchange repairs exactly when
+- **On these starts EX\* is exact, for one move and for two.** On the 30 starts, one EX\* exchange repairs exactly when
   one move repairs (19 / 19). At the 11 stored starts, PW5 and RD5, the first moves after which an EX\* exchange
   repairs are exactly those after which *any* second move repairs: 4 / 4, 7 / 7, …, 36 / 36 at PW5, 9 / 9 at RD5.
-- With §3 (2,371 hard perfect starts where both hold), no hard perfect start is known where a move repairs and no
-  Lemma EX\* exchange does.
+- **Walks in the value neighbourhood of the 11 failures** (`k4/matching/n4_walk.py`, `results/k4_matching/n4_walk_*.log`;
+  value mutations ±1..3 that stay strict connected cores; the walk prefers starts where OC₁ fails or EX\* disagrees):
+  - runs of 300 steps (seed 1) and 3,000 steps (seed 2) from each of the 11, together 1,250 + 17,883 hard perfect
+    starts visited;
+  - wherever OC₁ fails (214 + 4,299 visits; 129 + **3,179 distinct failing profile–start pairs**, so OC₁^max failures
+    are plentiful near the 11), CM₂ holds and EX\* is exact on the second move;
+  - wherever some single move gives an S\* completion, an EX\* exchange exists;
+  - but 14 + 74 visited starts satisfy OC₁ only through a *non-S\** one-absorber completion. A frozen agent takes a compensated junk
+    good, which Lemma 1's (S1) allows and S\* does not. No single move gives an S\* completion there, so CM fails
+    while OC₁ holds. CM₂ holds on all of them.
+  - So EX\* is exact relative to the S\* shape on the data. The S\*-shape gap is real near the failures, and CM₂
+    absorbs it with a second move.
+- 6,250 hard perfect starts from 3,000 random profiles of each of the 11 hypergraphs (`n4_profiles.py`) contain no
+  failure at all. Random profiles miss the failure region.
 - Evidence only: the n = 4 failures were found only by an exhaustive ordinal search. Random profiles (11M orders at
   n = 5) and the climbs of `k4/matching/cm_climb.py` missed them (§6).
 

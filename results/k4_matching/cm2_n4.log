@@ -10,6 +10,7 @@ n4cex-7 picks [4, 6, 5, 2] | first moves 21 | first moves after which an EX* exc
 n4cex-8 picks [0, 2, 6, 5] | first moves 25 | first moves after which an EX* exchange repairs 4 | first moves after which some second move repairs 4
 n4cex-9 picks [2, 7, 3, 6] | first moves 25 | first moves after which an EX* exchange repairs 4 | first moves after which some second move repairs 4
 n4cex-10 picks [2, 5, 6, 7] | first moves 22 | first moves after which an EX* exchange repairs 7 | first moves after which some second move repairs 7
+CM (one exchange) False, OC1 False 11
 CM2 holds 11
 OC2 holds 11
 starts 11
