@@ -1,0 +1,15 @@
+PW(3,2,4) k 5 n 5 m 9 A None: least chains 2 {'method': 'ocseq'} 0s
+PW(3,2,4) k 5 n 5 m 9 A 1: least chains 2 {'method': 'ocseq'} 0s
+PW(4,2,4) k 5 n 6 m 10 A None: least chains 2 {'method': 'ocseq'} 0s
+PW(4,2,4) k 5 n 6 m 10 A 1: least chains 2 {'method': 'ocseq'} 0s
+PW(3,3,5) k 6 n 6 m 11 A None: least chains 2 {'method': 'ocseq'} 0s
+PW(3,3,5) k 6 n 6 m 11 A 1: least chains 2 {'method': 'ocseq'} 0s
+PW(4,3,5) k 6 n 7 m 12 A None: least chains 2 {'method': 'ocseq'} 0s
+PW(4,3,5) k 6 n 7 m 12 A 1: least chains 2 {'method': 'ocseq'} 0s
+PW(4,3,6) k 7 n 7 m 13 A None: least chains 3 {'method': 'ocseq'} 2s
+PW(4,3,6) k 7 n 7 m 13 A 1: least chains 3 {'method': 'ocseq'} 3s
+PW(5,3,6) k 7 n 8 m 14 A None: least chains 3 {'method': 'ocseq'} 3s
+PW(5,3,6) k 7 n 8 m 14 A 1: least chains 3 {'method': 'ocseq'} 6s
+PW(5,4,7) k 8 n 9 m 16 A None: least chains 3 {'method': 'ocseq'} 12s
+PW(5,4,7) k 8 n 9 m 16 A 1: least chains 3 {'method': 'ocseq'} 25s
+PW(5,4,8) k 9 n 9 m 17 A None: least chains 4 {'method': 'ocseq'} 142s

@@ -86,4 +86,9 @@ def gen(kind, rng, n, K):
             k = rng.randint(2, K); S = rng.sample(range(nxt + 2), k)
             sets.append(S); vals.append(rng.sample(range(1, 25), k))
         return finish(sets, vals)
+    if kind.startswith('pwfam'):    # a random PW(f, W, r) instance (fam_pw.py) with f + W = n, r = K - 1
+        import fam_pw
+        f = rng.randint(2, n - 1); W = n - f
+        sets, vals, m = fam_pw.make(f, W, K - 1, rng)
+        return sets, vals
     raise ValueError(kind)

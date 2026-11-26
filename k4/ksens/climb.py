@@ -7,7 +7,10 @@ Objectives (minimized; first coordinate 0 = counterexample to the target):
   round1, round: the same with one round of vertex-disjoint chains (ocsat multi) instead of one chain;
   sdc : the number of distinct serial-dictatorship outcomes that extend (free completion), then minus the number of
         outcomes;
-  md  : over every start, the least number of value-dominating complete EFX0 allocations (capped).
+  md  : over every start, the least number of value-dominating complete EFX0 allocations (capped);
+  oc2, oc2a: 3 minus the most chains any start needs (ocseq.py, at most 3 tried; free, one absorber), then minus the
+        number of starts needing that many: 0 = a start that two chains cannot repair (the ladder of k4/ksens.md §4
+        predicts none for k <= 6).
 A start where nothing is hard scores (99, 0).
 
     python3 k4/ksens/climb.py TARGET SEED n K STEPS ROUNDS [gen:KIND | seeds:FILE[:LIFT]] [mmax:M] [mmin:M]
@@ -36,6 +39,20 @@ def objective(target, sets, vals):
             if not cnt: return (99, 0), None
             lo = min(cnt.values())
             return (lo, -len(cnt)), min(cnt, key=cnt.get)
+        if target in ('oc2', 'oc2a'):
+            # the ladder's upper side at k = 5, 6: the most chains any start needs (ocseq, up to 3); maximized
+            import ocseq
+            A = 1 if target == 'oc2a' else None; Q = ocseq.Seq(sets, vals, m); worst = []
+            try:
+                for Y in st:
+                    b = ocsat.bases_of(Y, n)
+                    if O.holds(b, chain='any', A=A): continue
+                    worst.append((3 if not Q.holds(b, 2, A) else 2, Y))
+            finally:
+                Q.close()
+            if not worst: return (99, 0), None
+            mx = max(c for c, _ in worst)
+            return (3 - mx, -sum(1 for c, _ in worst if c == mx)), max(worst)[1]
         if target == 'sdc':
             good = [Y for Y in st if O.holds(ocsat.bases_of(Y, n), chain='none')]
             return (len(good), -len(st)), (good[0] if good else None)

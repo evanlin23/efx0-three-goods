@@ -15,11 +15,20 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
     agent's pool has k − 3 goods left, which is 1 at k = 4 and fits the one free slot the order always leaves; at
     k = 5 two are left (§2).
   - MD and SD-C hold on PW5. PW5 needs exactly two chains.
-- **A ladder** (§4). In the PW family, c chains are needed exactly when k ≥ 2c + 3, so c chains suffice in the
-  family iff k ≤ 2c + 2.
-  - c = 0 is serial dictatorship: no chain needed for k ≤ 2, LB⁺'s rotation needed at k = 3.
-  - c = 1 is OC at k = 4.
-  - c = 2 (PW(4, 3, 6) at k = 7): running.
+- **A ladder** (§4). The least number of improving chains the PW family needs is exactly ⌊(k − 1)/2⌋, computed by
+  a second SAT encoding (`ocseq.py`) for k = 5–9:
+
+  | k | 5 | 6 | 7 | 8 | 9 |
+  |---|---|---|---|---|---|
+  | chains | 2 | 2 | 3 | 3 | 4 |
+
+  The same formula matches the known bottom rungs:
+  - k ≤ 2: 0 chains (serial dictatorship);
+  - k = 3: 1 (LB⁺'s single rotation; at most one chain on all k = 3 data);
+  - k = 4: 1 (OC).
+
+  This suggests the **ladder conjecture L**: from every order, ⌊(k − 1)/2⌋ improving chains suffice. At k = 4 it is
+  OC; for all k it would contain EFX₀ existence. OC₁ at k = 4 is the rung c = 1, k ≤ 2c + 2.
 
   One *round* of vertex-disjoint chains, followed by a one-absorber completion, repairs every PW and POOL instance
   tested, k = 5–10. That variant survives this obstruction at every k.
@@ -29,8 +38,9 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
   - Both are checked by SAT and brute force; OC₁ still holds on both instances. At k = 4, DT₁ held on all 1,022 swaps
     tested.
 - **k = 4 itself** (§5): no counterexample to OC₁.
-  - PW-shaped generators and climbs at n = 5, 6 bottom out at exactly one repairing state, as the k = 4 climbs of
-    `k4/sdc.md` did.
+  - A structured search over the PW design space at k = 4 (`pw4_search.py`): 60,000 instances with n ≤ 8, 178,308
+    starts, 28,175 of them needing a chain, no failure.
+  - Climbs at n = 5, 6 bottom out at exactly one repairing state, as the k = 4 climbs of `k4/sdc.md` did.
   - Two copies of the k = 4 instance that refutes the strict dichotomy (n = 6) satisfy OC₁: one copy's absorber takes
     the other's danger-free junk (`attempts/k4-ksens-union.md`).
 - **Tools.**
@@ -48,9 +58,13 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
 
   Random sampling misses PW-type structure, which needs every pair of a shared pool to be dangerous for every frozen
   agent.
-- **Not found at any k: a failure of MD or SD-C.** Both hold on every PW instance; climbs for them at larger k are
-  next. MD at every k contains EFX₀ existence for all additive instances, so a proof of MD must use k ≤ 4 or solve
-  that problem.
+- **Not found at any k: a failure of MD or SD-C.**
+  - Both hold on every PW instance; in PW, MD holds provably (§4, the count closes when all repairs happen at once).
+  - Climbs bottom out at exactly one dominating allocation or extendable outcome, never zero:
+    - MD: n = 3 with up to 8 relevant goods per agent (30 rounds), n = 4 at k = 6 (25 rounds);
+    - SD-C: n = 3, up to 8 goods (30 rounds), n = 4 at k = 6 from PW starts (25 rounds).
+  - MD at every k contains EFX₀ existence for all additive instances (take the empty matching). So a proof of MD at
+    k = 4 must use k ≤ 4 somewhere or solve that problem, and no k-sensitive mechanism for MD has been found.
 
 ## 1. OC and OC₁ fail at k = 5: the instance PW5
 
@@ -165,18 +179,27 @@ DT₁'s proof uses k ≤ 4 in step 3: R_x ∖ H₀ is a_x (now w's base) and at 
 
 ## 4. How many chains: a ladder in k
 
-`k4/ksens/kchains.py` gives the least number of improving chains (applied one after another, each from the current
-bases) after which the start extends. Breadth-first search: the states of each level are listed by SAT
-(`kchains.reach`), the last level is tested with one SAT call per state. On PW5 it lists the same 537 one-chain
-states as the brute force.
+The question: the least number of improving chains, applied one after another (each from the current bases), after
+which a start extends. Two methods:
+- `k4/ksens/kchains.py`: breadth-first search. The states of each level are listed by SAT; the last level is
+  tested with one SAT call per state. On PW5 it lists the same 537 one-chain states as the brute force.
+- `k4/ksens/ocseq.py`, which encodes c chains applied one after another in one SAT call. The intermediate bases are
+  variables; the encoding is written separately from ocsat's. It agrees with ocsat at c ≤ 1 on 2,266 start ×
+  completion pairs and with the breadth-first search at c = 2 on 30 starts (`xcheck_ocseq.log`, 0 mismatches).
 
-| instance (`fam_ladder.py`, clean values) | k | n | least chains (free / one absorber) |
-|---|---|---|---|
-| PW(3, 2, 4) = PW5 | 5 | 5 | 2 / 2 |
-| PW(4, 2, 4) | 5 | 6 | 2 / 2 |
-| PW(3, 3, 5) | 6 | 6 | 2 / 2 |
-| PW(4, 3, 5) | 6 | 7 | 2 / 2 |
-| PW(4, 3, 6) | 7 | 7 | running (> 1 confirmed) |
+| instance (`fam_ladder.py`, clean values) | k | n | m | least chains (free / one absorber) |
+|---|---|---|---|---|
+| PW(3, 2, 4) = PW5 | 5 | 5 | 9 | 2 / 2 |
+| PW(4, 2, 4) | 5 | 6 | 10 | 2 / 2 |
+| PW(3, 3, 5) | 6 | 6 | 11 | 2 / 2 |
+| PW(4, 3, 5) | 6 | 7 | 12 | 2 / 2 |
+| PW(4, 3, 6) | 7 | 7 | 13 | 3 / 3 |
+| PW(5, 3, 6) | 7 | 8 | 14 | 3 / 3 |
+| PW(5, 4, 7) | 8 | 9 | 16 | 3 / 3 |
+| PW(5, 4, 8) | 9 | 9 | 17 | 4 / (running) |
+
+(`results/k4_ksens/ladder.log`; the breadth-first search confirms PW(3, 2, 4), PW(4, 2, 4), PW(3, 3, 5) and
+PW(4, 3, 5), `ladder_pw436.log` shows PW(4, 3, 6) needs more than one.)
 
 *The count behind it.* In PW(f, W, r) every frozen agent values the whole pool (r = k − 1 goods), and the W
 wanters each want every frozen pick.
@@ -191,9 +214,20 @@ This matches what is known at the bottom of the ladder.
   LB⁺ needs its rotation.
 - c = 1 is OC, which holds on all k = 4 data and fails at k = 5 (§1).
 
-The c = 2 rung, "two chains suffice for k ≤ 6", is a prediction for which only the PW family is evidence. A proof of
-OC₁ at k = 4 is the c = 1 rung. It must use **pool leftover ≤ 1**: after a repair consumes a danger pair, the
-frozen agent's pool has at most k − 3 = 1 good left, and that good fits one slot.
+So in PW the least number of chains is ⌊(k − 1)/2⌋. This is proved for k = 5 (§1, c = 1) and computed for k = 5–9
+(table). The general count is a heuristic: later chains can move pool pairs between frozen agents, and a full proof
+for every c has not been written.
+
+**Conjecture L (ladder).** For every k, from every serial-dictatorship order, the picks extend after ⌊(k − 1)/2⌋
+improving chains.
+- k ≤ 2: proved (serial dictatorship, K3.SD2).
+- k = 3: evidence only (`k4/sdc.md` §29, at k = 3 no start needs more than one chain).
+- k = 4: OC, evidence only.
+- Tight (some start needs that many) for k = 3, 4 by the data and for k = 5–9 by PW.
+- Its upper side at k = 5, 6 ("two chains suffice") is under test: `climb.py oc2`, from PW starts.
+
+A proof of OC₁ at k = 4 is the c = 1 rung. It must use **pool leftover ≤ 1**: after a repair consumes a danger pair,
+the frozen agent's pool has at most k − 3 = 1 good left, and that good fits one slot.
 
 **One round of disjoint chains** (`ocsat.OC.holds(..., multi=True)`: any number of vertex-disjoint chains at once,
 each x₀ taking only from its own chain's end; `k4/ksens/round_pw.py`, `round_pw.log`). Every PW and POOL instance
