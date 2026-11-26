@@ -4,6 +4,33 @@ Branch `claude/k4-vm`, draft PR "[proof/k4-vm] From 4-limited EFX to EFX₀". Co
 Everything called evidence below is evidence only (PROMPT.md §5 rule 3). Nothing here changes a ledger row; the
 coordinator integrates.
 
+## Status (burst 4: repair classes, Lemma EXT, k = 5)
+
+- **The referee** (via the coordinator) judged Lemmas SND, TERM, the invariant (I1)–(I5), P0, P1′ and Proposition HDT
+  correct.
+- **Repair classes** (§7.5). For each instance, the simplest repair needed at some V-M matching:
+
+  | class | screen | named |
+  |---|---|---|
+  | HDT | 115 | 23 |
+  | several absorbers | 20 | 70 |
+  | unfreezing | 12 | 0 |
+  | rotation (a ring) | 10 | 2 |
+  | one move (a chain) | 11 | 0 |
+  | **none** | **0** | **0** |
+
+- **Lemma EXT** (proved): if the matching extends with an acyclic precedence digraph, F1 without rotation reaches the
+  extension. Every extension-class instance on the data has such an extension (147/147, 93/93).
+  - So in those classes the open steps are (E), that some V-M matching extends, and (A), that some extension is
+    acyclic.
+  - Also open: one ring suffices in the rotation class, and one chain in the one-move class.
+- **VM1 at k = 5 survives everything tested:**
+  - PW5 needs 1 move; RD5 and both kgen n = 4 instances need none;
+  - 2,000 random 5-limited instances;
+  - short climbs at n = 4, 5.
+
+  OC₁ and OC₁^max fail on PW5 and RD5. VM1 is therefore a general-k candidate (evidence only).
+
 ## Status (burst 3: the coordinator's requests on VMX₂; bursts 2 and 1 below)
 
 - **Request 1, named instances: no failure** (§7.2, `vmx2_named.log`). VMX₂ has an EFX₀ run on all 372 items, every
@@ -802,7 +829,15 @@ unbounded. The k = 4 results are unchanged (re-run on the screen set). On the k-
 | kgen-n4-ties | 4, 7, 5 | 4; 4 | 0 | EFX₀ |
 
 Logs: `vm1_k5.log`, `vm1_k5_detail.log`, `vmx2_k5.log`; every output was re-checked with the raw EFX₀ definition.
-OC₁ (and OC₁^max) fail on PW5 and RD5, and VM1 survives both. Random 5-limited instances: `vm1_gen_k5.log`.
+OC₁ (and OC₁^max) fail on PW5 and RD5, and VM1 survives both. Wider tests at k = 5:
+- Random 5-limited instances (2,000; n ≤ 5, m ≤ 10): VM1 holds on all, 1,998 with no move and 2 with one
+  (`vm1_gen_k5.log`).
+- Adversarial climbs at k = 5 on general instances (`vm1_climb_k.py`; mutations re-draw one agent's values or swap
+  one of its goods): no counterexample. The lowest margins are (one move needed, 2/7 of the one-move states complete)
+  at n = 4, and (one move needed, 2/3) at n = 5 (`vm1_climb_k5_n{4,5}.log`).
+
+These are short climbs (32 × 80 and 32 × 60), evidence only. VM1 is a general-k candidate, not yet stressed like
+the k = 4 statements.
 
 ## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading
 
