@@ -1,0 +1,7 @@
+best good for l, then score: all chosen repair False 1
+best good for l, then score: all chosen repair True 9612
+best good for l: all chosen repair False 1
+best good for l: all chosen repair True 9612
+max score: all chosen repair True 9613
+one-terminal exact-hard 9613
+some rotation repairs True 9613
