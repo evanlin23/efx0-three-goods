@@ -2,3 +2,5 @@ $ ol_synth.run(3, 4, sizes, q, L=1) over all sizes (P1 at n = 3, k = 4)
 q 1 sizes (2, 2, 1) UNSAT 66 cuts 1.6 s
 q 1 sizes (2, 2, 2) UNSAT 144 cuts 6.6 s
 q 1 sizes (3, 2, 1) UNSAT 125 cuts 7.8 s
+q 1 sizes (3, 2, 2) UNSAT 187 cuts 32.0 s
+q 1 sizes (3, 3, 1) UNSAT 207 cuts 52.6 s
