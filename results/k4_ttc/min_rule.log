@@ -1,0 +1,46 @@
+$ python3 k4/ttc/min_rule.py special
+chains: count 181
+distinct hard starts 16
+minagents: every 0
+minagents: some 0
+minmax: every 4
+minmax: some 6
+minrel: every 0
+minrel: some 0
+mintot: every 0
+mintot: some 6
+minx0: every 9
+minx0: some 9
+paretomin: count 63
+paretomin: every 0
+paretomin: some 10
+repairing chains exist 16
+no repair among the best of mintot [('T3', (0, 4, 1)), ('T3', (0, 1, 4))]
+no repair among the best of minmax [('T3', (0, 4, 1)), ('T3', (0, 1, 4))]
+no repair among the best of minrel [('T3', (0, 4, 1)), ('T3', (0, 1, 4))]
+no repair among the best of minagents [('T3', (0, 4, 1)), ('T3', (0, 1, 4))]
+no repair among the best of minx0 [('T3', (0, 4, 1)), ('T3', (0, 1, 4))]
+time 0 s
+$ python3 k4/ttc/min_rule.py screen
+chains: count 4319
+distinct hard starts 194
+minagents: every 1
+minagents: some 13
+minmax: every 33
+minmax: some 67
+minrel: every 1
+minrel: some 11
+mintot: every 10
+mintot: some 68
+minx0: every 71
+minx0: some 108
+paretomin: count 937
+paretomin: every 0
+paretomin: some 104
+repairing chains exist 194
+no repair among the best of minrel [('A131', (2, 6, 3, 5)), ('A131', (6, 5, 2, 4))]
+no repair among the best of minagents [('A131', (2, 6, 3, 5)), ('A131', (6, 5, 2, 4))]
+no repair among the best of mintot [('C127', (3, 4, 2, 6)), ('C127', (3, 6, 2, 4))]
+no repair among the best of minmax [('C127', (3, 4, 2, 6)), ('C127', (3, 6, 2, 4))]
+no repair among the best of minx0 [('C127', (3, 4, 2, 6)), ('C127', (3, 6, 2, 4))]
+time 5 s

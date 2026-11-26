@@ -18,15 +18,19 @@ requested base gets the turn and requests its top option (take or pool), and so 
   - agents that traded leave the market with their new bases (they can be requested no more).
 Junk requested by an agent on the path is reserved for it until it requests again.
 
-Modes: 'one' stops after the first trade; 'full' runs the mechanism until the market is empty; 'rep' repeats
-('one', test the one-absorber completion) from the new state with every agent back in the market.
+Modes: 'one' stops after the first trade; 'head' stops after the first trade that includes the current head (rings
+closed on the way are kept); 'full' runs the mechanism until the market is empty; 'rep' ('rephead') repeats 'one'
+('head') runs, testing the one-absorber completion before each, from the new state with every agent back in the market.
+A preference 'H/I' uses H for the head's request and I for every other agent's.
 
 Preferences over requests (pref):
   val    : the most valuable option (the agent's own preference), ties: fewer goods, then index;
   lean   : the fewest junk goods, then the most valuable;
   minimal: only options whose junk part is inclusion-minimal (no junk good can be dropped), then most valuable;
   small  : the fewest goods in S, then the most valuable;
-  minval : the least valuable improving option ("just enough"), ties: fewer goods.
+  minval : the least valuable improving option ("just enough"), ties: fewer goods;
+  poolval: a pool request if the agent has one (the most valuable), else the least valuable take request;
+  poolmin: a pool request if the agent has one (the least valuable), else the least valuable take request.
 Priorities (prio), from the order pi of the start:
   pi, rev (reverse of pi), idx (agent index), danger (frozen agents valuing junk first, then pi),
   revdanger (unfrozen agents first in reverse pi, then the rest in reverse pi), wanted (agents nobody wants first,
@@ -48,6 +52,11 @@ DF.CHAIN_ONLY = True
 HMAX = 4
 BMAX = 4
 
+# the two instances on which the strict dichotomy of k4/sdc.md §29 fails (refute_dich.py; oc_dich.log, r7)
+DICH = [('dich3', [[0, 2, 4, 3], [6, 3, 1], [1, 2, 0, 5]], [[5, 10, 1, 12], [10, 12, 11], [11, 8, 6, 1]], 7),
+        ('dich-r7', [[0, 2, 5, 7], [1, 7, 8], [3, 4, 5, 6], [3, 4, 8], [6, 7, 8]],
+         [[2, 3, 6, 10], [2, 4, 3], [7, 2, 10, 6], [3, 2, 4], [3, 2, 4]], 9)]
+
 CORES = {
     'n3': 'k4_certs_2.json.gz,k4_certs_3.json.gz',
     'n4': 'k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz',
@@ -56,10 +65,12 @@ CORES = {
 
 
 def load_items(src, N=0, seed=0):
-    """(name, sets, vals, m) for special | screen | suite | logs | cores:FILES (N random profiles, seed) |
+    """(name, sets, vals, m) for special | dich | screen | suite | logs | cores:FILES (N random profiles, seed) |
     core:n3|n4|n5 (shorthand) | big:NMIN-NMAX (N random instances of oc1_bign.gen)"""
     if src == 'special':
         return list(SPECIAL)
+    if src == 'dich':
+        return list(DICH)
     if src.startswith('core:'):
         src = 'cores:' + CORES[src[5:]]
     if src.startswith('cores:'):
@@ -204,6 +215,11 @@ def rank(E, a, opts, pref, base):
         key = lambda o: (len(o[0]), -val(E, a, o[0]), o[1] if o[1] is not None else -1, o[2])
     elif pref == 'minval':
         key = lambda o: (val(E, a, o[0]), len(o[0]), o[1] if o[1] is not None else -1, o[2])
+    elif pref == 'poolval':
+        key = lambda o: (o[1] is not None, -val(E, a, o[0]) if o[1] is None else val(E, a, o[0]), len(o[0]),
+                         o[1] if o[1] is not None else -1, o[2])
+    elif pref == 'poolmin':
+        key = lambda o: (o[1] is not None, val(E, a, o[0]), len(o[0]), o[1] if o[1] is not None else -1, o[2])
     elif pref == 'minimal':
         def minimal(o):
             S, j, H = o
@@ -219,6 +235,7 @@ def rank(E, a, opts, pref, base):
 def yrmh(E, base, pi, pref, prio, mode, trace=None, max_trades=None):
     """run YRMH-IGYT with set demands from base; returns (final base, number of trades, list of trades)"""
     n = E.n
+    hpref, ipref = (pref.split('/') + [pref])[:2] if '/' in pref else (pref, pref)
     base = list(base)
     active = set(range(n))
     order = priority(E, tuple(base), pi, prio)
@@ -237,7 +254,7 @@ def yrmh(E, base, pi, pref, prio, mode, trace=None, max_trades=None):
                 reserved.discard(g)
             path[-1][1] = None
         opts = options(E, tuple(base), a, active, reserved, head=(len(path) == 1))
-        best = rank(E, a, opts, pref, tuple(base))
+        best = rank(E, a, opts, hpref if len(path) == 1 else ipref, tuple(base))
         if best is None:
             # a keeps its base and leaves; its requester requests again
             active.discard(a); path.pop()
@@ -283,6 +300,8 @@ def yrmh(E, base, pi, pref, prio, mode, trace=None, max_trades=None):
                 path[-1][1] = None
             if mode == 'one' or (max_trades and len(trades) >= max_trades):
                 break
+            if mode == 'head' and start == 0:
+                break
             continue
         path.append([j, None])
     return tuple(base), trades
@@ -290,9 +309,10 @@ def yrmh(E, base, pi, pref, prio, mode, trace=None, max_trades=None):
 
 def run_mech(E, base, pi, pref, prio, mode, rep_limit=None):
     """'one' / 'full': one run; 'rep': repeat 'one' runs until a one-absorber completion exists or no trade happens"""
-    if mode in ('one', 'full'):
+    if mode in ('one', 'full', 'head'):
         b, tr = yrmh(E, base, pi, pref, prio, mode)
         return b, len(tr), extends_A(E, b, 1)
+    inner = 'head' if mode == 'rephead' else 'one'
     b = base; k = 0
     lim = rep_limit or 4 * E.n
     while True:
@@ -300,7 +320,41 @@ def run_mech(E, base, pi, pref, prio, mode, rep_limit=None):
             return b, k, True
         if k >= lim:
             return b, k, False
-        b2, tr = yrmh(E, b, pi, pref, prio, 'one')
+        b2, tr = yrmh(E, b, pi, pref, prio, inner)
         if not tr:
             return b, k, False
-        b = b2; k += 1
+        b = b2; k += len(tr)
+
+
+def dominated(E, base):
+    """MD test: some complete EFX0 allocation X gives every agent i at least v_i(B_i) (SAT on sdclib's encoding, the
+    bundle-indicator variables y of E restricted to subsets worth at least v_i(B_i))"""
+    from pysat.solvers import Cadical153
+    B = bundles(E, base)
+    cl = list(E.cl)
+    for g in range(E.m):
+        cl.append([-E.x[g][E.n]])
+    for i in range(E.n):
+        u = val(E, i, B[i])
+        for S, y in E.y[i].items():
+            if E.val(i, S) < u:
+                cl.append([-y])
+    S = Cadical153(bootstrap_with=cl); ok = S.solve(); S.delete(); return ok
+
+
+def extends_owner(E, base, o):
+    """one-absorber completion with a prescribed absorber o (o = None: no absorber, every agent at most one junk
+    good): every agent other than o receives at most one good of the junk of base"""
+    from pysat.solvers import Cadical153
+    cl = list(E.cl)
+    J = [g for g in range(E.m) if base[g] < 0]
+    for g in range(E.m):
+        cl.append([-E.x[g][E.n]])
+        if base[g] >= 0:
+            cl.append([E.x[g][base[g]]])
+    for i in range(E.n):
+        if i == o:
+            continue
+        for g, h in itertools.combinations(J, 2):
+            cl.append([-E.x[g][i], -E.x[h][i]])
+    S = Cadical153(bootstrap_with=cl); ok = S.solve(); S.delete(); return ok
