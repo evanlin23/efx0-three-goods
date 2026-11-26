@@ -491,6 +491,14 @@ coordinator's branch, not read here; replay `k4/sdc/oc1_core_cex_verify.py` ther
   - The 356 orders with 5 picks also satisfy it.
   - This agrees with the coordinator's proposed restriction to maximum-matching orders (OC₁^max), on this instance.
 
+- *OC₁^max also fails* (reported by the coordinator from the certifier's ordinal CEGAR, `k4/sdc.md` §31 on another
+  branch, not read here). Independent check: `k4/sdind/verify_oc1max_n4.py`, `results/k4_sdind/verify_oc1max_n4.log`.
+  - Instance: sets [[0,1,2,5],[1,2,5,6],[3,4,5,6],[3,4,6]], values [[2,10,4,7],[10,3,4,8],[3,5,6,7],[3,2,4]],
+    order (0, 3, 2, 1).
+  - The picks (1, 2, 5, 6) form a maximum matching (ν = n = 4). They have no completion at all, not even a free one.
+  - None of the 15 states after one move (all chains; `de_free` and `sdilib` agree) has a one-absorber completion.
+  - 4 of the 34 states after two sequential moves have one, e.g. bases ({2, 5}, {1}, {3, 4}, {6}).
+
 Bearing on this note:
 - AB₁ and PR presuppose a one-absorber completion, so B< is not a counterexample to them.
 - The chain part (§4) is about OC₁, which B< refutes in general. The coordinator states that the K4.MC2 class (no
