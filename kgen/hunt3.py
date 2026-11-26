@@ -14,6 +14,7 @@ KINDS = ['klim:3', 'klim:4', 'klim:5', 'klim:8', 'general', 'zeros', 'ident', 'j
 
 def job(args):
     seed, kind, m = args
+    if kind.startswith('klim'): m = min(m, 3 * int(kind.split(':')[1]))
     rng = random.Random(seed); v = gen(kind, m, rng); r = brute(v)
     return seed, kind, m, v, r
 

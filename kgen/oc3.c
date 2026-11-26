@@ -37,6 +37,23 @@ static const int ORD[6][3] = {{0,1,2},{0,2,1},{1,0,2},{1,2,0},{2,0,1},{2,1,0}};
 
 static int popc(unsigned x) { return __builtin_popcount(x); }
 
+static unsigned long long *PAT = 0;
+int oc3(int m, const long long *v, long long *out, int *wit);
+/* oc3p: as oc3, and pat[o] (o = order) gets bit 4*p + a for every move shape p and absorber a realized by some EFX0
+ * allocation under the one-absorber completion: p = 0 no move; p = 1 + x: t = 0 at x; p = 4 + 2*x0 + (x1 > x0 ? x1-1 :
+ * ...): p = 0 none; p = 1 + x (t = 0 at x); p = 4 + 2*x0 + (x1 > x0 ? x1-1 : x1) (t = 1); p = 10 + q (t = 2, q indexes
+ * ORD: x0 x1 x2 = ORD[q]); a = the agent with >= 2 completion goods, or 3 if none. */
+int oc3p(int m, const long long *v, long long *out, int *wit, unsigned long long *pat)
+{
+    for (int o = 0; o < 6; o++) pat[o] = 0;
+    PAT = pat; int r = oc3(m, v, out, wit); PAT = 0; return r;
+}
+static int absorber(const int *X, const int *B)
+{
+    int a = 3;
+    for (int i = 0; i < 3; i++) if (__builtin_popcount(X[i] & ~B[i]) >= 2) a = i;
+    return a;
+}
 int oc3(int m, const long long *v, long long *out, int *wit)
 {
     int full = (1 << m) - 1, S = 1 << m;
@@ -107,6 +124,7 @@ int oc3(int m, const long long *v, long long *out, int *wit)
                             if (popc(X[i] & ~base) >= 2) big++;
                         }
                         rnone = big <= 1;
+                        if (rnone && PAT) { int B[3]; for (int i = 0; i < 3; i++) B[i] = yy[i] >= 0 ? 1 << yy[i] : 0; PAT[o] |= 1ULL << (0 * 4 + absorber(X, B)); }
                         for (int x = 0; x < 3 && !rt0; x++) {
                             if (yy[x] < 0) continue;
                             int H0 = X[x] & J & R[x];
@@ -117,7 +135,10 @@ int oc3(int m, const long long *v, long long *out, int *wit)
                                 if (yy[i] < 0) base = 0;
                                 if (popc(X[i] & ~base) >= 2) bg++;
                             }
-                            if (bg <= 1) rt0 = 1;
+                            if (bg <= 1) {
+                                rt0 = 1;
+                                if (PAT) { int B[3]; for (int i = 0; i < 3; i++) B[i] = yy[i] >= 0 ? (1 << yy[i]) | (i == x ? H0 : 0) : 0; PAT[o] |= 1ULL << ((1 + x) * 4 + absorber(X, B)); }
+                            }
                         }
                     }
                     /* t = 1 */
@@ -136,7 +157,7 @@ int oc3(int m, const long long *v, long long *out, int *wit)
                         int B[3]; B[x0] = H0; B[x1] = (1 << yy[x0]) | H1; B[z] = yy[z] >= 0 ? 1 << yy[z] : 0;
                         int bg = 0;
                         for (int i = 0; i < 3; i++) if (popc(X[i] & ~B[i]) >= 2) bg++;
-                        if (bg <= 1) rt1 = 1;
+                        if (bg <= 1) { rt1 = 1; if (PAT) PAT[o] |= 1ULL << ((4 + 2 * x0 + (x1 > x0 ? x1 - 1 : x1)) * 4 + absorber(X, B)); }
                     }
                     /* t = 2 */
                     for (int p = 0; p < 6; p++) {
@@ -155,7 +176,7 @@ int oc3(int m, const long long *v, long long *out, int *wit)
                         int B[3]; B[x0] = H0; B[x1] = (1 << yy[x0]) | H1; B[x2] = (1 << yy[x1]) | H2;
                         int bg = 0;
                         for (int i = 0; i < 3; i++) if (popc(X[i] & ~B[i]) >= 2) bg++;
-                        if (bg <= 1) rt2 = 1;
+                        if (bg <= 1) { rt2 = 1; if (PAT) PAT[o] |= 1ULL << ((10 + p) * 4 + absorber(X, B)); }
                     }
                     if (rnone) ou[0]++;
                     if (rnone || rt0 || rt1 || rt2) {

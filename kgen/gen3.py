@@ -1,7 +1,7 @@
 """Random generators of three-agent additive instances (v[i][g] nonnegative integers), for kgen/ hunts.
 
 kinds:
-  klim:K     each agent values a random set of 2..K goods (values 1..99, distinct per agent)
+  klim:K     each agent values a random set of 2..K goods (values 1..99, distinct per agent); needs m <= 3K
   general    every good relevant to every agent (values 1..99, distinct per agent)
   zeros      every value 0 with probability 1/3, else 1..99 (distinct positive values per agent)
   ident      near-identical: a common vector plus small noise (distinct per agent)
@@ -20,9 +20,16 @@ def gen(kind, m, rng):
         v = [[0] * m for _ in range(3)]
         if kind.startswith('klim'):
             K = int(kind.split(':')[1])
+            if m > 3 * K: raise ValueError('klim:%d covers at most %d goods' % (K, 3 * K))
+            while True:
+                size = [rng.randint(2, min(K, m)) for _ in range(3)]
+                if sum(size) >= m: break
+            S = [set() for _ in range(3)]
+            for g in rng.sample(range(m), m):      # cover every good first
+                i = rng.choice([a for a in range(3) if len(S[a]) < size[a]]); S[i].add(g)
             for i in range(3):
-                S = rng.sample(range(m), rng.randint(2, min(K, m)))
-                for g, x in zip(S, _distinct(rng, len(S), 1, 99)): v[i][g] = x
+                while len(S[i]) < size[i]: S[i].add(rng.randrange(m))
+                for g, x in zip(sorted(S[i]), _distinct(rng, len(S[i]), 1, 99)): v[i][g] = x
         elif kind == 'general':
             for i in range(3): v[i] = _distinct(rng, m, 1, 99)
         elif kind == 'zeros':

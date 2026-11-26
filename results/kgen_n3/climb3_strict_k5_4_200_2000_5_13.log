@@ -1,0 +1,201 @@
+$ python3 kgen/climb3.py 4 200 2000 5 13 STRICT
+round seed 31678 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[1, 4, 0, 5, 8], [3, 1, 10, 29, 0], [0, 1, 7, 2, 9]] time 0
+round seed 31676 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[0, 3, 5, 0, 0], [15, 3, 6, 4, 0], [53, 38, 54, 3, 14]] time 0
+round seed 31677 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[162, 16, 0, 26, 17], [7, 3, 2, 0, 1], [14, 46, 5, 2, 1]] time 0
+round seed 31679 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[6, 13, 0, 7, 0], [5, 1, 24, 6, 0], [0, 132, 5, 0, 2]] time 0
+round seed 31683 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 136, 7, 5, 1], [3, 5, 17, 2, 0], [0, 0, 46, 5, 0]] time 0
+round seed 31682 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[3, 18, 0, 2, 5], [24, 33, 7, 0, 0], [10, 25, 0, 0, 37]] time 0
+round seed 31681 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[0, 0, 0, 3, 16, 1], [3784, 1, 10, 0, 11, 0], [164, 0, 17, 0, 0, 11]] time 0
+round seed 31686 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[2682, 2680, 1, 2679, 0], [0, 6, 0, 0, 0], [179, 1, 2, 3, 11]] time 1
+round seed 31687 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[0, 0, 0, 2, 37], [0, 10, 4, 8, 22], [2, 18, 0, 20, 5]] time 1
+round seed 31685 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[4, 0, 55, 5, 24], [64, 0, 0, 7, 0], [10, 8, 20, 2, 0]] time 1
+round seed 31684 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[91, 8, 7, 45, 26], [29, 82, 2, 1, 50], [6, 21, 2, 4, 0]] time 1
+round seed 31688 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[6, 4, 50, 2, 0], [2, 0, 105, 1, 45], [393, 0, 0, 2, 3]] time 1
+round seed 31690 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[4, 44, 2, 0, 1], [0, 0, 1, 4, 19], [0, 46, 3, 5, 51]] time 1
+round seed 31692 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[27, 32, 8, 4, 3], [1, 0, 54, 0, 2], [0, 14, 19, 0, 0]] time 1
+round seed 31693 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[6, 1, 15, 0, 2], [19, 9, 41, 3, 4], [2, 1, 27, 0, 4]] time 1
+round seed 31689 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[0, 0, 2, 0, 10], [0, 52, 0, 4, 36], [6, 638, 3, 4, 5]] time 1
+round seed 31691 start klim:5 final (1, 1, 1) best (1, 1, 1) m 7 inst [[15, 0, 0, 1, 0, 3, 11], [372, 9, 10, 1, 0, 0, 0], [18, 6, 142, 0, 1, 0, 25]] time 1
+round seed 31695 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[9, 27, 1, 26, 0], [0, 47, 0, 0, 1], [0, 0, 0, 8, 7]] time 1
+round seed 31694 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[7, 3, 8, 29, 20], [13, 9, 4, 0, 0], [20, 1, 0, 15, 5]] time 1
+round seed 31697 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[15, 0, 1, 13, 0, 0], [28, 3, 16, 0, 0, 1], [24, 0, 4, 9, 5, 0]] time 1
+round seed 31698 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[0, 1, 0, 12, 11], [36, 1, 12, 17, 0], [117, 25, 15, 0, 3]] time 1
+round seed 31696 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 0, 103, 26, 96], [9, 6, 43, 24, 11], [1, 3, 51, 15, 0]] time 1
+round seed 31700 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[2, 4, 15, 0, 7], [25, 6, 31, 1, 2], [1, 0, 10, 0, 0]] time 2
+round seed 31701 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[10, 0, 12, 0, 2], [0, 4, 238, 0, 12], [10, 3, 0, 5, 4]] time 2
+round seed 31699 start klim:5 final (1, 2, 1) best (1, 1, 1) m 7 inst [[531, 15, 0, 3, 6, 12, 0], [60, 0, 0, 21, 15, 3, 1], [16, 6, 5, 15, 0, 0, 0]] time 2
+round seed 31702 start klim:5 final (3, 3, 3) best (1, 1, 1) m 5 inst [[20, 0, 2, 0, 6], [6, 0, 4, 8, 0], [8, 12, 2, 25, 19]] time 2
+round seed 31680 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[454, 0, 15, 0, 0], [0, 33, 0, 0, 0], [9, 24, 2, 5, 3]] time 2
+round seed 31706 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[5, 34, 1, 0, 121], [0, 1, 13, 6, 101], [1, 0, 5, 3, 2]] time 2
+round seed 31705 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 13, 6, 49, 0], [61, 3, 2, 37, 18], [5, 0, 2, 22, 3]] time 2
+round seed 31703 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[2, 9, 11, 32, 0], [0, 3, 8, 6545, 1], [1, 0, 3, 14, 8]] time 2
+round seed 31707 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[10, 3, 4, 0, 1, 0], [78, 1, 0, 0, 15, 0], [8, 2, 72, 15, 0, 14]] time 2
+round seed 31708 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[124, 14, 0, 0, 0], [14, 16, 10, 9, 28], [77, 1, 0, 2, 7]] time 2
+round seed 31704 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[20, 5, 2, 6, 99], [0, 1, 9, 12, 43], [16, 9, 3, 6, 2]] time 2
+round seed 31709 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[8, 0, 2, 5, 0, 0], [0, 177, 0, 14, 12, 18], [10, 4, 3, 0, 1, 0]] time 2
+round seed 31710 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[1, 0, 0, 109, 16], [23, 1, 206, 61, 0], [4, 0, 29, 0, 20]] time 2
+round seed 31711 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[13, 22, 12, 1, 0], [3, 9, 0, 0, 5], [340, 0, 0, 1, 24]] time 2
+round seed 31712 start klim:5 final (3, 3, 3) best (1, 1, 1) m 5 inst [[8, 3, 2, 4, 0], [301, 0, 43, 0, 41], [3, 1, 0, 0, 8]] time 2
+round seed 31715 start klim:5 final (2, 1, 2) best (1, 1, 1) m 5 inst [[5, 0, 9, 1, 2], [5, 10, 1, 7, 0], [4, 25, 99, 2, 21]] time 2
+round seed 31714 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[4, 53, 0, 48, 47], [3, 26, 5, 0, 8], [0, 1, 3, 26, 268]] time 2
+round seed 31716 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[55, 31, 5, 17, 2], [9, 4, 0, 0, 0], [542, 0, 4, 2, 29]] time 2
+round seed 31713 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 0, 3, 10, 25], [0, 9, 33, 0, 4], [5, 0, 12, 7, 18]] time 2
+round seed 31717 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 13, 69, 6, 19], [4, 6, 70, 0, 1], [0, 3, 196, 2, 18]] time 2
+round seed 31718 start klim:5 final (2, 2, 2) best (1, 1, 1) m 5 inst [[96, 24, 0, 30, 8], [44, 29, 14, 0, 36], [56, 3, 8, 25, 5]] time 2
+round seed 31720 start klim:5 final (1, 1, 1) best (1, 1, 1) m 7 inst [[2, 0, 3, 0, 0, 10, 0], [1, 7, 4, 0, 2, 17, 0], [19, 114, 6, 53, 0, 0, 1]] time 2
+round seed 31719 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[0, 77, 0, 12, 0], [16, 9, 2, 11, 3], [8, 429, 0, 0, 2]] time 2
+round seed 31724 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[30, 254, 15, 31, 6], [84, 162, 1, 13, 0], [40, 44, 3, 0, 14]] time 3
+round seed 31723 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 52, 1640, 0, 15], [26, 52, 0, 19, 18], [0, 0, 3, 1, 0]] time 3
+round seed 31721 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[5, 36, 1, 6, 0], [2, 9, 0, 0, 4], [1, 21, 0, 7, 5]] time 3
+round seed 31727 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[21, 4, 1, 15, 6], [28, 2, 0, 0, 3], [14, 3, 2, 20, 4]] time 3
+round seed 31722 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[27, 16, 34, 18, 0], [36, 2, 8, 6, 15], [10, 3, 134, 2, 6]] time 3
+round seed 31726 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[0, 34, 3, 0, 1], [40, 15, 3, 10, 4], [82, 1, 26, 0, 25]] time 3
+round seed 31728 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 1, 7, 21, 6], [0, 0, 0, 25, 24], [6, 5, 14, 0, 2]] time 3
+round seed 31731 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[10, 0, 0, 0, 1], [36, 24, 4, 8, 0], [20, 333, 0, 3, 1]] time 3
+round seed 31730 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[2, 1, 0, 0, 3], [226, 0, 2, 7, 225], [32, 3, 27, 0, 4]] time 3
+round seed 31729 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[0, 0, 14, 34, 2], [2, 1, 28, 0, 16], [5, 0, 0, 64, 0]] time 3
+round seed 31725 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[1482, 6, 4, 13, 0], [11, 820, 66, 19, 20], [60, 13, 0, 12, 1]] time 3
+round seed 31732 start klim:5 final (1, 3, 1) best (1, 1, 1) m 7 inst [[15, 9, 49, 0, 14, 16, 0], [155, 1, 157, 0, 0, 38, 15], [75, 0, 0, 22, 2, 1, 0]] time 3
+round seed 31733 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[3, 55, 2, 1, 0], [7, 0, 0, 0, 0], [4, 120, 37, 13, 14]] time 3
+round seed 31736 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[2, 1, 21, 6, 0], [1, 2, 3, 46, 0], [3, 1, 2, 64, 8]] time 3
+round seed 31735 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[6, 0, 0, 30, 0], [6, 8, 7, 0, 17], [6, 0, 0, 19, 7]] time 3
+round seed 31737 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[149, 3, 11, 8, 0], [12, 4, 99, 0, 27], [5, 0, 2, 0, 4]] time 3
+round seed 31739 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[4, 3, 49, 23, 31], [0, 0, 6, 2, 0], [0, 5, 0, 16, 11]] time 3
+round seed 31740 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[0, 13, 0, 18, 0], [52, 3, 6, 5, 30], [12, 1, 4, 13, 0]] time 3
+round seed 31742 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[2, 0, 384, 12, 158], [3, 567, 5, 22, 14], [3, 8, 19, 5, 0]] time 3
+round seed 31743 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[22, 0, 0, 1, 17], [7, 9, 1, 10, 0], [279, 1, 2, 8, 0]] time 3
+round seed 31738 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[5, 1, 0, 0, 20], [1, 0, 9, 0, 10], [0, 3, 22, 6, 0]] time 3
+round seed 31741 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[9, 0, 6, 7, 1], [1, 0, 0, 28, 15], [625, 2, 34, 31, 36]] time 3
+round seed 31744 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[3, 72, 4, 5, 0], [5, 10, 0, 12, 3], [0, 23, 9, 81, 31]] time 3
+round seed 31734 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[2, 34, 30, 7, 12], [5, 25, 13, 4, 0], [0, 37, 1, 2, 0]] time 3
+round seed 31745 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[11, 9, 34, 5, 3], [6, 0, 0, 4, 2], [2, 1, 3, 0, 0]] time 4
+round seed 31746 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[5, 3, 80, 2, 4], [0, 15, 17, 16, 4950], [9, 0, 13, 1, 17]] time 4
+round seed 31747 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[29, 5, 2, 7, 0], [15, 1, 0, 8, 9], [1278, 0, 8, 15, 24]] time 4
+round seed 31748 start klim:5 final (2, 3, 2) best (1, 1, 1) m 5 inst [[8, 0, 12, 0, 0], [75, 22, 0, 36, 67], [2, 1, 12, 4, 3]] time 4
+round seed 31750 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[0, 725, 10, 0, 0, 7], [0, 0, 0, 1645, 1, 18], [9, 18, 0, 11, 2, 0]] time 4
+round seed 31749 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 12, 0, 5, 0], [20, 2, 0, 0, 3], [8, 71, 3, 5, 0]] time 4
+round seed 31751 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 0, 28, 8, 0], [0, 3, 412, 0, 6], [5, 0, 25, 6, 1]] time 4
+round seed 31754 start klim:5 final (1, 3, 1) best (1, 1, 1) m 7 inst [[34, 39, 0, 9, 5, 18, 0], [0, 1064, 0, 0, 7, 25, 8], [37, 0, 11, 1, 0, 0, 19]] time 4
+round seed 31753 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[18, 0, 8, 0, 2], [6, 9, 10, 0, 1], [36, 0, 3, 26, 4]] time 4
+round seed 31756 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[22, 20, 0, 2, 82], [0, 278, 1, 0, 3], [0, 4, 0, 2, 1]] time 4
+round seed 31757 start klim:5 final (2, 2, 2) best (1, 1, 1) m 5 inst [[12, 1, 4, 17, 9], [4, 7, 0, 11, 5], [4, 0, 1, 16, 0]] time 4
+round seed 31758 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[3, 10, 1, 0, 0], [8, 4, 11, 3, 0], [0, 3, 8, 0, 1]] time 4
+round seed 31760 start klim:5 final (2, 2, 2) best (1, 1, 1) m 5 inst [[54, 46, 2, 3470, 13], [0, 13, 0, 25, 1], [3, 8, 0, 42, 10]] time 4
+round seed 31759 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[12, 1, 43, 0, 8], [20, 0, 3, 1, 4], [12, 4, 48, 10, 5]] time 4
+round seed 31761 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[17, 5, 32, 6, 0], [24, 10, 9, 5, 0], [15, 5, 13, 0, 8]] time 4
+round seed 31755 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 0, 1, 4, 7], [1, 8, 0, 7, 494], [0, 7, 0, 0, 1]] time 4
+round seed 31762 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 12, 6, 2, 0], [3, 5, 0, 1, 4], [9, 13, 0, 3, 25]] time 4
+round seed 31764 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 1, 13, 36, 0], [2, 19, 0, 18, 16], [0, 4, 3, 2, 0]] time 4
+round seed 31765 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 32, 8, 18, 4], [8, 37, 21, 0, 13], [3, 7, 4, 0, 0]] time 4
+round seed 31766 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[35, 1, 4, 6, 27], [1, 0, 0, 29, 0], [4, 8, 0, 22, 0]] time 4
+round seed 31767 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[19, 56, 51, 20, 21], [0, 92, 5, 14, 26], [0, 5, 3, 2, 0]] time 5
+round seed 31768 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[63, 0, 2, 0, 10], [3, 12, 0, 7, 19], [12, 2, 0, 0, 0]] time 5
+round seed 31752 start klim:5 final (3, 3, 3) best (1, 1, 1) m 5 inst [[59, 1, 23, 0, 12], [11, 3, 0, 38, 7], [39, 0, 15, 4, 16]] time 5
+round seed 31769 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[9, 1, 0, 6, 0], [1408, 5, 24, 0, 3], [15, 7, 8, 33, 19]] time 5
+round seed 31770 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 751, 1, 9, 8], [0, 3, 4, 5, 0], [19, 33, 4, 0, 0]] time 5
+round seed 31763 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[0, 2, 9, 12, 3], [0, 30, 14, 0, 0], [19, 189, 1, 187, 0]] time 5
+round seed 31774 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[2, 3, 0, 1, 4], [0, 5, 3, 12, 39], [3, 119, 9, 2, 24]] time 5
+round seed 31773 start klim:5 final (3, 6, 3) best (1, 1, 1) m 5 inst [[2, 3, 10, 8, 5], [76, 0, 17, 2, 5], [19, 0, 3, 8, 0]] time 5
+round seed 31772 start klim:5 final (1, 1, 1) best (1, 1, 1) m 7 inst [[20, 0, 4, 0, 0, 12, 0], [0, 0, 10, 41, 16, 2, 6], [10, 3, 7, 20, 0, 0, 0]] time 5
+round seed 31775 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 43, 0, 44, 42], [0, 3, 1, 25, 2], [3, 0, 8, 27, 2]] time 5
+round seed 31777 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[15, 3, 13, 0, 1], [32, 3, 0, 0, 0], [11, 10, 0, 4, 1]] time 5
+round seed 31779 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[10, 32, 8, 2, 0, 0], [0, 1185, 0, 4, 3, 595], [164, 5, 6, 7, 2, 0]] time 5
+round seed 31771 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[0, 12, 0, 4, 10], [1, 0, 0, 14, 6], [4, 14, 6, 29, 0]] time 5
+round seed 31780 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[9, 2, 0, 14, 0], [23, 0, 3, 0, 0], [0, 0, 3, 7, 2]] time 5
+round seed 31781 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[3, 9, 0, 7, 0], [23, 3, 17, 46, 20], [10, 40, 4, 3, 1]] time 5
+round seed 31778 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[9, 10, 15, 0, 1], [0, 5, 164, 4, 6], [6, 58, 0, 1, 24]] time 5
+round seed 31782 start klim:5 final (3, 2, 3) best (1, 1, 1) m 5 inst [[35, 0, 4, 31, 2], [10, 13, 9, 8, 0], [1, 18, 6, 7, 0]] time 6
+round seed 31783 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[3, 22, 0, 16, 0], [21, 27, 0, 0, 0], [814, 3, 2, 0, 5]] time 6
+round seed 31785 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[1, 7, 2, 0, 9], [81, 0, 8, 7, 3], [158, 13, 0, 0, 14]] time 6
+round seed 31784 start klim:5 final (1, 3, 1) best (1, 1, 1) m 6 inst [[16, 53, 2, 20, 0, 0], [4, 15, 3, 0, 0, 1], [5, 0, 0, 14, 4, 0]] time 6
+round seed 31788 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[0, 0, 0, 0, 5], [23, 0, 0, 22, 19], [89, 30, 6, 27, 94]] time 6
+round seed 31787 start klim:5 final (9, 6, 9) best (1, 1, 1) m 5 inst [[36, 6, 3, 2, 4], [21, 14, 18, 60, 19], [2, 4, 411, 8, 0]] time 6
+round seed 31776 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[6, 1, 42, 29, 0, 5], [0, 14, 3, 0, 7, 0], [15, 17, 18, 2, 0, 0]] time 6
+round seed 31789 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[41, 57, 115, 1, 0, 2], [13, 5, 24, 166, 6, 0], [0, 0, 24, 176, 174, 0]] time 6
+round seed 31790 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[53, 0, 12, 2, 0], [7, 6, 0, 0, 0], [210, 0, 32, 0, 12]] time 6
+round seed 31786 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[3, 8, 82, 174, 81], [3, 0, 1, 48, 2], [17, 0, 3, 442, 1]] time 6
+round seed 31791 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[5, 9, 10, 30, 12], [67, 5, 6, 0, 0], [10, 0, 6, 7, 0]] time 6
+round seed 31794 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[2, 54, 0, 0, 0], [0, 0, 44, 4, 1], [2, 10, 6, 0, 4]] time 6
+round seed 31792 start klim:5 final (7, 6, 7) best (1, 1, 1) m 5 inst [[0, 8, 2, 4, 5], [0, 2, 0, 29, 30], [14, 9, 13, 6, 11]] time 6
+round seed 31793 start klim:5 final (7, 6, 7) best (1, 1, 1) m 5 inst [[300, 3, 0, 297, 295], [0, 5, 90, 6, 91], [5, 0, 30, 4, 1]] time 6
+round seed 31797 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[8, 34, 1, 2, 31], [102, 0, 27, 30, 0], [16, 184, 14, 0, 2]] time 6
+round seed 31795 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[2, 1091, 17, 7, 5], [6, 19, 1, 5, 0], [25, 4, 3, 2, 0]] time 6
+round seed 31798 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[0, 9, 20, 6, 19], [2, 0, 41, 0, 0], [2, 0, 17, 0, 13]] time 6
+round seed 31796 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[25, 6, 0, 11, 0, 5], [9, 0, 2, 3, 5, 0], [23, 20, 0, 6, 42, 4]] time 6
+round seed 31802 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 2, 0, 1, 3], [148, 20, 18, 2, 1], [4, 1, 0, 3, 28]] time 6
+round seed 31801 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[0, 34, 2, 0, 0, 5], [5, 22, 0, 11, 6, 0], [16, 200, 0, 29, 0, 10]] time 6
+round seed 31800 start klim:5 final (1, 1, 2) best (1, 1, 1) m 7 inst [[42, 75, 3, 27, 1, 0, 0], [41, 0, 18, 0, 29, 7, 3], [14, 23, 7, 0, 8, 5, 0]] time 6
+round seed 31799 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[11, 0, 4, 0, 5, 1], [26, 41, 6, 29, 0, 2], [12, 4, 3, 1, 0, 0]] time 6
+round seed 31806 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[36, 0, 4, 0, 0], [716, 2, 0, 8, 6], [0, 156, 0, 157, 0]] time 6
+round seed 31803 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[12, 0, 0, 0, 15], [6, 0, 30, 1, 7], [3, 4, 74, 0, 0]] time 6
+round seed 31805 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[3, 0, 1, 11, 0], [1, 3, 0, 65, 2], [0, 13, 0, 0, 11]] time 6
+round seed 31807 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[11, 0, 278, 6, 1], [22, 9, 47, 46, 1], [3, 0, 16, 10, 1]] time 7
+round seed 31808 start klim:5 final (2, 3, 2) best (1, 1, 1) m 5 inst [[32, 16, 5, 9, 14], [0, 0, 3, 7, 5], [113, 3, 26, 5, 7]] time 7
+round seed 31809 start klim:5 final (2, 2, 2) best (1, 1, 1) m 5 inst [[2, 4, 0, 7, 0], [33, 36, 22, 1948, 37], [8, 6, 11, 12, 0]] time 7
+round seed 31810 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[1, 393, 7, 12, 0, 20], [4, 72, 0, 9, 10, 1], [0, 2, 1, 6, 8, 17]] time 7
+round seed 31811 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[3, 0, 44, 33, 0], [6, 7, 2, 30, 8], [2, 1, 3, 8, 0]] time 7
+round seed 31812 start klim:5 final (1, 3, 1) best (1, 1, 1) m 6 inst [[0, 17, 2, 6, 26, 1], [3, 0, 5, 0, 9, 0], [44, 103, 4, 2, 0, 1]] time 7
+round seed 31813 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[2, 6, 16, 1, 0], [0, 0, 8, 6, 1], [1, 0, 20, 3, 2]] time 7
+round seed 31814 start klim:5 final (1, 3, 1) best (1, 1, 1) m 6 inst [[0, 43, 10, 42, 8, 14], [1, 12, 0, 0, 2, 0], [0, 0, 0, 1, 0, 0]] time 7
+round seed 31817 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[4, 0, 215, 0, 0], [0, 4, 15, 1, 3], [0, 6, 12, 3, 0]] time 7
+round seed 31816 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[5, 285, 0, 0, 7], [1, 396, 104, 0, 17], [0, 3, 20, 6, 1]] time 7
+round seed 31815 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[7, 21, 9, 6, 10], [0, 6, 48, 0, 3], [23, 16, 201, 11, 13]] time 7
+round seed 31804 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[3, 16, 2, 0, 1, 6], [0, 21, 9, 6, 1, 11], [3, 5, 0, 0, 6, 19]] time 7
+round seed 31818 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[281, 11, 0, 65, 67], [12, 33, 11, 0, 1], [28, 109, 12, 29, 18]] time 7
+round seed 31822 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[0, 124, 0, 7, 12], [1, 2, 0, 0, 0], [22, 21, 14, 3, 2]] time 7
+round seed 31821 start klim:5 final (4, 3, 4) best (1, 1, 1) m 5 inst [[18, 16, 27, 19, 0], [0, 1, 20, 0, 2], [0, 9, 6, 2, 0]] time 7
+round seed 31823 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[22, 4, 0, 5, 1], [20, 0, 3, 6, 15], [5, 1, 2, 0, 3]] time 7
+round seed 31825 start klim:5 final (5, 3, 5) best (1, 1, 1) m 5 inst [[0, 1, 0, 8, 6], [20, 16, 13, 2, 9], [13, 4, 2, 0, 0]] time 7
+round seed 31824 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[24, 3, 4, 9, 1], [357, 10, 31, 12, 11], [33, 3, 7, 0, 0]] time 7
+round seed 31827 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[113, 3, 0, 11, 7, 1], [43, 0, 0, 27, 17, 3], [139, 3, 4, 0, 0, 0]] time 7
+round seed 31828 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[117, 6, 15, 0, 2, 7], [0, 9, 170, 0, 2, 0], [924, 0, 0, 97, 3, 1]] time 8
+round seed 31829 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[20, 0, 1, 15, 0], [69, 25, 5, 3, 1], [0, 1, 0, 3, 2]] time 8
+round seed 31819 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 51, 1, 3, 2], [6, 0, 1, 11, 2], [10, 36, 0, 12, 11]] time 8
+round seed 31826 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[7, 6, 3, 0, 0], [27, 15, 3, 9, 7], [2801, 150, 36, 13, 0]] time 8
+round seed 31830 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[36, 66, 22, 1, 0], [2, 0, 0, 0, 0], [143, 22, 0, 18, 4]] time 8
+round seed 31820 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[47, 13, 6, 0, 3], [22, 11, 6, 32, 124], [28, 0, 0, 2, 31]] time 8
+round seed 31831 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 3, 4, 18, 1], [0, 5, 11, 0, 0], [1, 0, 0, 38, 0]] time 8
+round seed 31833 start klim:5 final (2, 1, 2) best (1, 1, 1) m 5 inst [[0, 5, 9, 35, 4], [18, 86, 94, 8, 0], [15, 2, 0, 4821, 0]] time 8
+round seed 31836 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[2, 50, 0, 3, 1], [1, 3, 11, 2, 0], [10, 6, 137, 4, 2]] time 8
+round seed 31835 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[23, 2, 16, 0, 5], [51, 3, 2, 23, 0], [47, 4, 3, 12, 6]] time 8
+round seed 31834 start klim:5 final (1, 1, 1) best (1, 1, 1) m 7 inst [[25, 2, 8, 6, 0, 0, 0], [0, 7, 54, 10, 16, 0, 9], [34, 0, 0, 0, 24, 6, 0]] time 9
+round seed 31837 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 10, 3, 2, 0], [8, 7, 1, 6, 0], [20, 2, 5, 0, 9]] time 9
+round seed 31838 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[8, 7, 16, 26, 4], [0, 0, 205, 0, 37], [0, 632, 634, 1235, 23]] time 9
+round seed 31840 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[18, 1, 2, 6, 7], [0, 7, 0, 13, 6], [11, 1, 0, 7, 2]] time 9
+round seed 31839 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[2, 1, 26, 0, 0], [0, 57, 5, 3, 2], [10, 111, 0, 59, 28]] time 9
+round seed 31843 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[4, 7, 3, 0, 27], [0, 257, 29, 4, 0], [2, 19, 0, 1, 10]] time 9
+round seed 31841 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[3, 30, 5, 8, 0], [15, 53, 21, 0, 0], [0, 47, 0, 50, 48]] time 9
+round seed 31844 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[2, 1, 38, 16, 0], [16, 0, 8, 0, 1], [20, 11, 31, 3, 0]] time 9
+round seed 31845 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[80, 2, 28, 1, 17], [850, 5, 4, 0, 0], [17, 4, 7, 3, 0]] time 9
+round seed 31846 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[11332, 0, 3, 13, 5], [403, 38, 5, 45, 104], [0, 2, 14, 24, 9]] time 9
+round seed 31832 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 9, 2, 22, 10], [11, 10, 0, 219, 1], [113, 0, 2, 23, 1]] time 9
+round seed 31842 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[126, 1, 4, 5, 8], [35, 72, 9, 0, 0], [4, 19, 0, 16, 2]] time 9
+round seed 31848 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[243, 0, 1, 247, 2], [94, 2, 0, 18, 16], [24, 0, 3, 0, 21]] time 9
+round seed 31849 start klim:5 final (5, 2, 5) best (1, 1, 1) m 5 inst [[28, 7, 6, 30, 19], [1, 0, 0, 14, 3], [0, 0, 0, 1, 19]] time 9
+round seed 31852 start klim:5 final (1, 1, 1) best (1, 1, 1) m 6 inst [[180, 4, 0, 0, 14, 10], [27, 0, 5, 12, 7, 0], [0, 0, 5, 41, 0, 20]] time 9
+round seed 31847 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[0, 2, 0, 0, 14], [0, 13, 4, 12, 16], [6, 97, 48, 0, 49]] time 9
+round seed 31850 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[19, 4, 225, 3, 1], [111, 2, 3, 0, 1], [36, 22, 0, 0, 1]] time 9
+round seed 31853 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[31, 4, 10, 17, 16], [8, 50, 5, 714, 0], [6, 1, 0, 4, 2]] time 10
+round seed 31851 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[9, 0, 0, 5, 8], [5, 1, 0, 0, 332], [10, 9, 6, 0, 52]] time 10
+round seed 31855 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[0, 1, 3, 6, 5], [30, 1, 92, 3, 4], [3, 2, 775, 14, 0]] time 10
+round seed 31856 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[4, 18, 0, 13, 5], [8, 0, 18, 31, 11], [0, 48, 3, 0, 4]] time 10
+round seed 31858 start klim:5 final (4, 6, 4) best (1, 1, 1) m 5 inst [[0, 3, 18, 6, 0], [3, 0, 10, 1, 2], [0, 104, 95, 0, 0]] time 10
+round seed 31857 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[7, 19, 16, 5, 8], [2, 0, 13, 3, 0], [1, 15, 6, 11, 0]] time 10
+round seed 31860 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[0, 22, 9, 39, 0], [25, 0, 3, 30, 2], [22, 175, 27, 176, 19]] time 10
+round seed 31859 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[9, 10, 27, 0, 1], [3, 13, 14, 2, 9], [1, 0, 20, 2, 0]] time 10
+round seed 31861 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[18, 7, 900, 2, 0], [14, 6, 33, 19, 0], [28, 16, 30, 5, 9]] time 10
+round seed 31862 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[5567, 1, 0, 26, 8], [8, 3, 1, 4, 0], [3, 0, 18, 19, 1]] time 10
+round seed 31863 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[2, 5, 0, 0, 1], [13, 14, 0, 44, 1], [8, 18, 12, 239, 0]] time 10
+round seed 31865 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[591, 0, 8, 3, 0], [1506, 0, 0, 1, 0], [25, 4, 7, 24, 14]] time 10
+round seed 31867 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[63, 85, 38, 0, 10], [1, 3, 4, 0, 2], [12, 0, 461, 119, 120]] time 10
+round seed 31864 start klim:5 final (1, 2, 1) best (1, 1, 1) m 5 inst [[20, 75, 25, 24, 10], [2, 20, 0, 1, 6], [0, 2, 1, 7, 8]] time 10
+round seed 31869 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 9, 1, 0, 0], [0, 21, 1, 7, 6], [2, 174, 9, 7, 0]] time 10
+round seed 31854 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[2, 0, 10, 3, 0], [3, 76, 0, 17, 28], [9, 13, 299, 0, 0]] time 10
+round seed 31866 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[19, 4, 2, 15, 0], [4, 163, 1, 13, 0], [26, 19, 0, 6, 7]] time 10
+round seed 31868 start klim:5 final (3, 2, 3) best (1, 1, 1) m 5 inst [[22, 23, 0, 14, 7], [109, 8, 0, 10, 108], [13, 5, 2, 0, 0]] time 10
+round seed 31870 start klim:5 final (1, 2, 1) best (1, 1, 1) m 6 inst [[1, 88, 89, 0, 10, 0], [12, 0, 17, 1, 0, 3], [0, 9, 50, 3, 1, 0]] time 10
+round seed 31872 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[0, 0, 11, 76, 7], [0, 2, 0, 18, 1], [4, 15, 5, 14, 7]] time 10
+round seed 31871 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[28, 1, 29, 0, 57], [0, 6, 3, 10, 18], [1, 6, 16, 7, 22]] time 10
+round seed 31874 start klim:5 final (1, 3, 1) best (1, 1, 1) m 5 inst [[109, 1, 5, 8, 2], [9, 0, 2, 1, 0], [0, 3, 107, 0, 4]] time 10
+round seed 31873 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[2, 3, 4, 1, 0], [14, 57, 10, 4, 16], [0, 0, 22, 2, 19]] time 10
+round seed 31875 start klim:5 final (1, 1, 1) best (1, 1, 1) m 5 inst [[6, 19, 3, 2, 5], [0, 33, 5, 2, 3], [0, 18, 1, 0, 0]] time 10

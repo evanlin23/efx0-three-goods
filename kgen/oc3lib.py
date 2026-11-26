@@ -22,10 +22,13 @@ def lib():
     if _lib is None:
         so = os.path.join(HERE, 'liboc3.so'); src = os.path.join(HERE, 'oc3.c')
         if not os.path.exists(so) or os.path.getmtime(so) < os.path.getmtime(src):
-            subprocess.check_call(['gcc', '-O2', '-march=native', '-shared', '-fPIC', '-o', so, src])
+            tmp = so + '.%d.tmp' % os.getpid()      # build aside, then rename: running users keep the old inode
+            subprocess.check_call(['gcc', '-O2', '-march=native', '-shared', '-fPIC', '-o', tmp, src])
+            os.replace(tmp, so)
         _lib = ctypes.CDLL(so)
         _lib.oc3.argtypes = [ctypes.c_int, ctypes.POINTER(ctypes.c_longlong), ctypes.POINTER(ctypes.c_longlong),
                              ctypes.POINTER(ctypes.c_int)]
+        _lib.oc3p.argtypes = _lib.oc3.argtypes + [ctypes.POINTER(ctypes.c_ulonglong)]
     return _lib
 
 
@@ -40,6 +43,21 @@ def brute(v):
         w = [wit[o * 3 + i] for i in range(3)]
         d['wit'] = None if w[0] < 0 else [[g for g in range(m) if w[i] >> g & 1] for i in range(3)]
         res.append(d)
+    return res
+
+
+def shapes(v):
+    """per order: the set of (shape, absorber) realized by some EFX0 allocation under the one-absorber completion.
+    shape: ('none',), ('t0', x), ('t1', x0, x1), ('t2', x0, x1, x2); absorber: an agent, or None"""
+    m = len(v[0])
+    arr = (ctypes.c_longlong * (3 * m))(*[int(x) for r in v for x in r])
+    out = (ctypes.c_longlong * 48)(); wit = (ctypes.c_int * 18)(); pat = (ctypes.c_ulonglong * 6)()
+    lib().oc3p(m, arr, out, wit, pat)
+    names = [('none',)] + [('t0', x) for x in range(3)] + \
+            [('t1', x0, x1) for x0 in range(3) for x1 in range(3) if x1 != x0] + [('t2',) + p for p in ORD]
+    res = []
+    for o in range(6):
+        res.append({(names[b // 4], (b % 4) if b % 4 < 3 else None) for b in range(64) if pat[o] >> b & 1})
     return res
 
 
