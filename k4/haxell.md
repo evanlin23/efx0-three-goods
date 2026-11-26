@@ -14,31 +14,39 @@ evidence only (PROMPT.md §5 rule 3).
 **Burst 1 (2026-11-26).** Evidence only; nothing here changes a ledger row.
 - *Literature* (§1): Annamalai (Haxell's condition made algorithmic), AKS and Davies–Rothvoss–Zhang read in full;
   Haxell 1995 and Asadpour–Feige–Saberi not accessed.
-- *The literal translation fails, at n = 2* (§3.2, `attempts/k4-haxell-single-swap-collapse.md`). A tree whose
-  collapses are single local moves keeps every partial EFX₀ allocation EFX₀, as AKS keeps every player matched. But
-  the graph G* of partial EFX₀ allocations under single local moves has **traps**: components without a complete
-  allocation. The smallest has n = 2, m = 5. Envy blocking is not resource overlap: a blocker's repair is often safe
-  only *together with* the parent edge.
-- *Two moves at once suffice on every instance tested* (§3.4). No partial EFX₀ allocation of ~17,000 instances
-  (k = 3, k = 4 and general k; n ≤ 4, m ≤ 8; screen, suite, random cores, random instances) is a trap once composite
-  moves of two local moves are allowed. Single-move traps occur at k = 4 and at general k, **never at k = 3** (6,100
-  random k = 3 instances). No serial-dictatorship start is a trap, and P1's stuck state of GM4-E is not one either:
-  value-lowering moves lead out of it.
-- *One-shot augmentation is not local* (§3.5): some partial EFX₀ allocations need three local moves at once before a
-  pool good can be placed (already at n = 2, k = 3), and one needs four (n = 3, m = 6, k = 4;
-  `attempts/k4-haxell-bounded-augmentation.md`). So the
-  augmentation must be a *sequence* of moves, which is what an alternating tree supplies.
-- *Trees* (§3.3): from every serial-dictatorship start on the screen set (n ≤ 5, 4,069 starts), a sequence of
-  victim-free moves reaches a complete EFX₀ allocation (complete search, Model G: 0 stuck). The AKS-style trees
-  find one from all but 38 (single-move collapses) or 30 (composite collapses) starts. The signature decreased at
-  every one of the ~2,700 steps checked.
-- *Candidate statement for a proof* (§4): **CONN₂**, every partial EFX₀ allocation reaches a complete one through
-  partial EFX₀ allocations, each step reassigning at most two goods or trading two bundles, with the pool never
-  growing. It implies TARGET₄ (start from the empty allocation) and mentions no values. Its k = 3 form with single
-  moves (CONN₁) has no counterexample.
-- *Next*: a tree that is complete on the data (alternatives per layer, composite collapse of a branch), run on the
-  suite, the logged profiles and n = 6–9; an adversarial climb for a radius-2 trap; a proof of CONN₁ for n = 2 and of
-  the composite collapse invariant.
+- *Translation* (§2): a partial EFX₀ allocation is the matching, an unallocated good the unmatched unit (Model G; or
+  an unhappy agent, Model A), a local move an edge, the agents it would make unhappy its blocking set, and Annamalai's
+  layer signature (−|X₁|, |Y₁|, …, ∞) the termination measure. It never looks at values, so P1 does not apply.
+- *Two obstructions to the literal translation*, both precise:
+  1. **Traps** (§3.2, §3.4, `attempts/k4-haxell-single-swap-collapse.md`): AKS swaps one edge at a time and keeps
+     every unit matched. The graph G₁ of partial EFX₀ allocations under single local moves has components without a
+     complete allocation, the smallest at **n = 2, m = 5** (k = 4). There a blocker's repair is safe only *together
+     with* its parent edge. The literal tree walks into such dead ends from serial-dictatorship starts (stuck from 38
+     of 4,069 screen starts; 30 with composite collapses).
+  2. **Non-local blocking** (§3.6): in Santa Claus a collapse cannot hurt a lower edge, because blocking is resource
+     overlap. In EFX₀ it can, through envy toward whole bundles, so the signature can rise. This happened 11,553
+     times in 12,379 steps with generic moves, once in 2,721 with junk transfers and chains.
+- *What survives: CONN₂* (§4). Every partial EFX₀ allocation reaches a complete one through partial EFX₀ allocations,
+  each step a composite of at most two local moves, the pool never growing. It implies TARGET₄ (start from the empty
+  allocation) and mentions no values. **No counterexample** in two independent implementations (Python, C; they agree
+  on 203 instances): ~25 million partial EFX₀ states of screen, suite, special and logged hard instances (n ≤ 5),
+  random core profiles, random instances at k = 3, 4 and general k, and the exhaustive n = 2 value grids (1.5 million
+  instances at k ≤ 4).
+- *The k = 3 / k = 4 contrast*: single-move traps exist at k = 4 and at general k, **never at k = 3** (CONN₁): none in
+  random instances up to n = 5, none in all 472,860 grid instances with n = 2, k ≤ 3, m ≤ 6. At k = 4 every trap
+  found has an agent with four relevant goods holding at least two goods.
+- *One-shot augmentation is not local* (§3.5, `attempts/k4-haxell-bounded-augmentation.md`): some states need three
+  local moves at once before the pool can shrink (already at n = 2, k = 3), and some need four (n = 3, k = 4). So the
+  augmentation must be a *sequence* of steps kept inside 𝒫, which is the job of an alternating tree, and no bounded
+  one-step augmentation lemma can replace it.
+- *From serial-dictatorship starts* (§3.1): a sequence of victim-free moves (junk transfers, chains) reaches a
+  complete EFX₀ allocation from **every** start tested: 4,069 screen, 4,327 suite, 174 special, 21,374 logged hard
+  profiles, 19,200 random core profiles (n = 4, 5), at most 5 moves.
+- *Open, and where k ≤ 4 must enter*: a never-stuck lemma for a tree with radius-2 edges (the analogue of Haxell's
+  cover count), plus the collapse invariant of obstruction 2. Neither has a candidate inequality yet (§4).
+- *Next*: prove CONN₁ at n = 2, k ≤ 3 (smallest case of the contrast); characterize the k = 4 traps (an agent with
+  four goods holding a pair); a tree restricted to moves with local envy effect, so that the signature invariant
+  holds by construction, and its stuck count on the data.
 
 ## 1. Literature (what was read, at which level)
 
@@ -233,7 +241,21 @@ traps) equal (`gstarc_xcheck_*.log`). At larger sizes (up to (n + 1)^m ≤ 3·10
 | random n = 5, m = 8, k = 3 / 4 | 150 / 150 | 6,551,264 | 0 / 1 | 0 | `gstarc_gen_n5m8k*.log` |
 | random n = 3, m = 9, k = 3 / 4 | 600 / 600 | 12,671,868 | 0 / 1 | 0 | `gstarc_gen_n3m9k*.log` |
 
-Every trap found has one pooled good (three general-k instances at n = 2, m = 6 have traps with two). No
+**Exhaustive grids at n = 2** (`ht_n2k3.py` through `gstar.c`): every pair of relevant sets with every good relevant
+to someone (agent 0's goods normalized to 0, …, k₀ − 1), and every value vector from a fixed grid.
+| k | m | value grid | instances | with a trap | radius-2 traps | log |
+|---|---|---|---|---|---|---|
+| ≤ 3 | ≤ 6 | {1, 2, 3, 5, 8, 13} | 472,860 | **0** | 0 | `n2_grid_k3.log` |
+| ≤ 4 | ≤ 8 | {1, 2, 4, 7} (ties allowed) | 1,540,944 | 3,366 | **0** | `n2_grid_k4.log` |
+
+**Random samples at n = 2** (`ht_climb.py sample`, Python census; values 1–10 or 1–40): 20,000 instances for each
+(m, k) with m = 4, 5, 6 and k ∈ {3, 4, m}: traps only at k ≥ 4 (up to 92 of 20,000), never at k = 3, no radius-2 trap
+(`climb_sample_*.log`).
+
+**Trap structure** (`ht_trapstat.py`): every trap found has exactly one pooled good, except three general-k instances
+at n = 2, m = 6 with two. At k = 4, every trap has an agent with four relevant goods holding at least two goods (35
+of 35 traps on 3,000 random n = 2 instances, 15 of 15 on the screen set). The pooled good need not be wanted: in 9 of
+those 50 traps no agent values it above its whole holding. No
 serial-dictatorship start is a trap. **The smallest trap** (c4x-n2m5-base-needs): both agents value the shared goods
 2, 3, 4 at 3, 4, 8, and each its private good (0, resp. 1) at 2. The state ({0, 2}, {1, 3}), with good 4 pooled, is
 partial EFX₀, but whoever receives 4 is envied, and no single other move helps. Moving 4 to agent 0 and 2 to agent 1
@@ -262,6 +284,27 @@ So no bounded one-step augmentation lemma holds at these radii, while *multi-ste
 moves never fails (§3.4): g372's state is no trap of G₂. This is the division of labour in Haxell's proof, where the
 augmenting structure is a sequence of swaps, each local, organized by the tree.
 
+### 3.6 Trees on generic moves, and the signature invariant
+
+`ht_tree.py MOVES=1` / `MOVES=2`: the tree of §3.2 (Model G) with the generic moves of G* as edges (radius 1), or their
+composites of two (radius 2). Screen set, n ≤ 3, every order (397 starts):
+| edges | stuck starts | signature non-decreases / checks | collapses that gave a lower edge new victims | log |
+|---|---|---|---|---|
+| generic, radius 1 | 76 | 11,553 / 12,379 | 11,553 | `tree_screen_G_generic1_n3.log` |
+| generic, radius 2 | 17 | 398 / 1,118 | 398 | `tree_screen_G_generic2_n3.log` |
+
+(For comparison, the T + C catalogue of §3.2 gave one such event in 2,721 checks.) This is a **second obstruction**,
+independent of traps. AKS's signature falls because a collapse cannot hurt a lower edge: the lower edge's blockers
+are resource overlaps, and the collapsed edge is resource-disjoint from it. In EFX₀ a victim's envy depends on whole
+bundles, so a collapse that touches none of a lower edge's goods can still change who that edge would hurt; bundle
+trades do it constantly. A Haxell-type proof has to supply this invariant separately, for instance by restricting
+edges to moves whose effect on every other agent's envy is confined to the goods they touch (junk transfers and chains
+nearly are), or by a signature that also counts such events.
+
+(The first version of this run let a swap through the pool place the root good while pooling another, so an
+augmentation could cycle; the root's purpose now requires the pool to shrink. The T + C runs of §3.2–§3.3 cannot pool
+a good and were not affected.)
+
 ## 4. What survives, and what a proof would need
 
 **Definitions.** Let 𝒫 be the set of partial EFX₀ allocations of an instance (every agent happy with respect to the
@@ -279,8 +322,9 @@ goods, G₂ has no trap.
 **Facts (computational, each with its log).**
 - G₁ has traps at k = 4 (smallest: n = 2, m = 5, `attempts/k4-haxell-single-swap-collapse.md`), and at general k.
 - No trap of G₂ is known: §3.4, the C census below, and the climbs of `ht_climb.py`.
-- No trap of G₁ is known at k ≤ 3: random instances (n = 2, 3), and **every** instance with n = 2, m ≤ 6, k ≤ 3 whose
-  values lie in {1, 2, 3, 5, 8, 13} (472,860 instances, `n2_grid_k3.log`).
+- No trap of G₁ is known at k ≤ 3: random instances (n = 2–5), and **every** instance with n = 2, m ≤ 6, k ≤ 3 whose
+  values lie in {1, 2, 3, 5, 8, 13} (472,860 instances, `n2_grid_k3.log`). At k = 4 the same kind of grid (values
+  {1, 2, 4, 7}, m ≤ 8) has 3,366 instances with traps among 1,540,944, and none with a radius-2 trap.
 - Some states of 𝒫 need three or four local moves at once before the pool can shrink (§3.5), so neither conjecture can
   be proved one augmentation at a time with a jump of two moves.
 

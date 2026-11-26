@@ -71,8 +71,9 @@ def serves(I, st, h, e):
     st2 = apply(I, st, e.mv)
     h2 = happy_vec(I, st2[0])
     if e.parent is None:
-        if isinstance(e.player, tuple):          # Model G: the root is a pool good, which must be allocated
-            return st2[0][e.player[1]] >= 0
+        if isinstance(e.player, tuple):          # Model G: the root is a pool good, which must be allocated, and
+            # the pool must shrink (a swap through the pool could otherwise place the root and pool another good)
+            return st2[0][e.player[1]] >= 0 and st2[0].count(-1) < st[0].count(-1)
         return h2[e.player]
     # e.player must not be a victim of the parent edge after e
     st3 = apply(I, st2, e.parent.mv)
@@ -197,6 +198,9 @@ def solve(I, st, kinds, itmax, stats, model='A'):
                     st = st2; rounds += 1; done = True
                     break
             if not done:
+                return None, rounds
+            if rounds > I.m:
+                stats['too many augmentations (bug)'] += 1
                 return None, rounds
             continue
         U = [i for i in range(I.n) if not h[i]]

@@ -287,6 +287,8 @@ def instances(src):
         # valued by someone, values distinct integers per agent from 1..40
         _, N, seed, n, m, k = src.split(':')
         N, n, m, k = int(N), int(n), int(m), int(k)
+        if n * min(k, m) < m:
+            raise ValueError('gen: n agents with k goods each cannot cover m goods')
         rng = random.Random(int(seed)); items = []
         while len(items) < N:
             sets = [sorted(rng.sample(range(m), min(k, m))) for _ in range(n)]

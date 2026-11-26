@@ -1,0 +1,1 @@
+$ python3 k4/haxell/gstar_run.py gen:10000:84:2:8:4 NMAX=2 MMAX=8 SHOW=4
