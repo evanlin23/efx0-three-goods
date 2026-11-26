@@ -6,7 +6,7 @@ the serial-dictatorship picks of an order, the *junk* is what nobody picked, an 
 agent on it strictly gains), and a *completion* keeps every base. Random and climbed instances are evidence only
 (PROMPT.md §5 rule 3).
 
-## Status (burst 1)
+## Status (bursts 1–2)
 
 **Bottom line.**
 - The every-order conjectures OC and OC₁ are genuinely k-sensitive: true on all k = 4 data, false at k = 5. So a
@@ -502,5 +502,14 @@ when that is another agent's pick, one chain reaches it from its end.
   - RD² for all k would still contain EFX₀ existence.
   - Whether it fails at some k is open. The ladder of chains (§4) needs ⌊(k − 1)/2⌋ chains, but PW needs only one round.
   - `ocseq.py` with `multi=True` decides c rounds in one SAT call: RD5 needs exactly two, every PW instance one.
-  - Climbs against RD² (`climb.py rd2a`, seeded from RD5 and the n = 4 instance; n = 4 at k = 5, 6, n = 5 at k = 6)
-    are running (`climb_rd2_*.log`).
+  - Climbs against RD² (`climb.py rd2a`, one absorber, seeded from RD5 and the n = 4 instance; `climb_rd2_*.log`):
+    n = 4 at k = 5 (30 rounds) and k = 6 (30), n = 5 at k = 6 (20). No start needs three rounds. The n = 4 climbs
+    keep finding starts that need exactly two.
+  - *A design to try next:* RD5's mechanism one level deeper.
+    - A must collect the picks of B₁ and B₂ (RD5's agent 0).
+    - Each Bᵢ can move only by collecting two foreign picks itself: picks cᵢ and c′ᵢ, worth less than bᵢ alone and
+      more together.
+    - Then the c's are released in round 1, the B's move in round 2, and A collects in round 3, unless A has
+      alternatives.
+    - This needs n ≥ 6, beyond the climbs so far. Whether it still fits k = 5 is what would separate "two rounds"
+      from "any number".
