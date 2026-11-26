@@ -258,7 +258,7 @@ coordinator has checked them; "verified" marks the ones checked.
 - Coordinator: the OC₁ climb `oc1_bign_climb` was stopped as superseded (18/64 runs, no failure). Two OC₁^max climbs
   on strict cores were started (`k4/sdc/oc1max_climb.py`): one seeded at B<, one on random cores in the MC2 class with n = 6–7.
 
-### 2026-11-26 22:05 UTC: every "for every order" form is refuted on MC2-class cores; OC₁^max and R1-priority survive
+### 2026-11-26 22:00 UTC: every "for every order" form is refuted on MC2-class cores; OC₁^max and R1-priority survive
 - **TTC session, two more strict core counterexamples** (`claude/k4-ttc`; both verified by the Hall session, §16 and §18):
   - an n = 5, m = 9 core with three two-private agents;
   - **an n = 5, m = 9 core in the K4.MC2 class**: sets [[0,3,6,8],[1,4,7,6],[2,5,8,7],[0,1,2],[0,1,2]], vals
