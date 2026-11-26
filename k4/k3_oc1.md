@@ -13,23 +13,26 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - Lemma 3 (§2): self-service. Exposed terminals serve themselves; every satisfied state completes.
   - **Theorem B\* (§3): LB⁺'s rotation for every order.** If a terminal has deficit one and an exposed frozen agent whose removal lowers the hitting number, one DE trade completes. It covers 8,075 of 14,138 exact-hard drafts (n ≤ 6 logs), with no failure on the 11,501 rotations checked.
   - **Theorem R1C (§3): OC₁ at k = 3 for every order whose draft is R1-compatible**, i.e. whose need order has an R1-priority linear extension (this includes every R1-priority order). The proof is LB⁺ with every slot of size one. The rotation is one DE trade, and the completion has one absorber.
-- **Conjectured (no counterexample in any test).** **Theorem candidate OT (§4), in two forms.**
-  - *OT-ω:* from the draft of every order, the simple completion exists, or it exists after every DE trade of least ω.
-  - *OT-score:* the exact one-absorber completion exists after every DE trade of largest total score.
-  - Either form implies OC₁ at k = 3.
-  - **Refuted:** max score with the simple completion. On n = 6, m = 9 the max-score trade needs a pair holder to absorb one junk good (§5).
+- **Conjectured.** **OT (§4).** At k = 3, from the draft of every order, a one-absorber completion exists, or one DE
+  trade gives one (**OT₁**). Indeed it exists after every DE trade of least ω (**OT-ω**). No counterexample is known
+  to either form. Both imply OC₁ at k = 3.
+  - On the ledger's cores two stronger forms hold on all data: every least-ω trade passes even Lemma 1, and every
+    max-score trade completes.
+  - In DE's general core case (dead goods, several private goods) both stronger forms are refuted at n = 6
+    (`attempts/k4-k3oc1-selection-rules.md`).
+  - Max score with Lemma 1 already fails on cores with n = 6, m = 9: a pair holder must absorb a junk good.
   - Exhaustive tests: every connected core with 3 ≤ n ≤ 5 (339 hypergraphs), every ranking profile, every order: 273,724,272 starts. Also n = 4 with one dead good.
   - Exhaustive at n = 6, m ∈ {10, 11}: all 236 connected cores, every profile, and the drafts of all 720 orders, enumerated as distinct drafts (`oc1_fast.py`, `oc1_fast_certs6_*.log`): 11,010,816 profiles, 37,318,272 distinct drafts, 888,292 hard. No failure of either rule; here even the max-score trade passes Lemma 1.
   - Sampled tests: n = 6 cores with m ≤ 9 (6 million starts), random instances with n ≤ 10, and the binary-tree family of `paper/k3-simple` Appendix C up to n = 45 (draft deficits up to 7, owner still needed after the trade).
   - OC₁ itself was also checked directly, with general chains and the exhaustive one-absorber completion, for every core with n ≤ 4 and with n = 5, m = 9.
-  - On all data no max-score trade is a length-zero DE chain (a free x dropping its top for its pair, which is not a §29 chain; `k0check.py`). So the max-score trade is always an improving chain, and OT's data are OC₁ data.
+  - On all data no max-score or least-ω trade is a length-zero DE chain (a free x dropping its top for its pair, which is not a §29 chain; `k0check.py`). So these trades are improving chains, and OT's data are OC₁ data.
 - **Refuted proof routes** (§5):
   - "every Pareto-maximal trade works";
   - "every inclusion-maximal trade works";
   - "a failing trade merges with a later trade into one better trade". On n = 5 the repairing trade can be disjoint from the failing one.
   - the reverse-lexicographic rule;
   - a naive induction on the last agent.
-  - The score sum and ω are the quantities that work; both fail over §29's general chains even at k = 3, so the proof must use DE's narrow trades.
+  - ω is the quantity that works. The score sum works only on the ledger's cores. Both fail over §29's general chains even at k = 3, so a proof must use DE's narrow trades.
 - **Open.** A proof of OT, or of OC₁, for drafts covered by neither R1C nor B\*. Those drafts have least deficit 2, or exposed agents that share junk goods (§3, end). The gap is precise (§6): exposed fresh agents whose need chains meet at one terminal through "cross needs" (R1 violations), and one trade must repair several of them at once (DE's worked example needs two pair arrows).
 - **Lifting to k = 4 (§7, `attempts/k4-k3oc1-de-trades.md`).**
   - Lemma 1's soundness, Lemma 2's monotonicity and Lemma 3 lift; for Lemma 3, take the exposed terminal's best junk good.
@@ -195,10 +198,15 @@ example).
 **Score**: an agent scores 4, 3, 2, 1, 0 for its pair, a, b, c, nothing (DE's score). By the counts of Lemma 2, the
 total score is 3n + |U| − Σ_i |N_i|, where N_i is the set of goods agent i wants.
 
-**Theorem candidate OT.** From the draft of every order, Lemma 1 applies, or one of the following holds.
-- *OT-ω:* Lemma 1 applies after every DE trade of least ω.
-- *OT-score:* a one-absorber completion exists after every DE trade of largest total score. This uses the exact test
-  `lb2`; Lemma 1 alone is not enough here (§5).
+**Theorem candidate OT.** From the draft of every order there is a one-absorber completion, or there is one after a
+single DE trade (OT₁), and in fact after every DE trade of least ω (OT-ω).
+- On the ledger's cores (every core with n ≤ 5, every n = 6, m ≥ 10 core, every profile and order), two stronger
+  forms hold on all data:
+  - every least-ω trade passes Lemma 1;
+  - every max-score trade has a one-absorber completion.
+- Outside the cores both stronger forms fail (`attempts/k4-k3oc1-selection-rules.md`):
+  - no max-score trade repairs on an n = 6, m = 10 instance with an agent holding two private goods;
+  - a least-ω trade fails Lemma 1 when there are two dead goods.
 
 - The same holds with "the least ω after the trade" (equivalently the least e + ν), with "most terminals afterwards",
   and with "the largest sum of squared score gains" (`rules2.py` on the hard starts of n = 4, 5 and the n = 6 sample:
