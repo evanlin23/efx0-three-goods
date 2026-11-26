@@ -6,26 +6,46 @@ the serial-dictatorship picks of an order, the *junk* is what nobody picked, an 
 agent on it strictly gains), and a *completion* keeps every base. Random and climbed instances are evidence only
 (PROMPT.md §5 rule 3).
 
-## Status (bursts 1–2)
+## Status (bursts 1–3)
 
-**Bottom line.**
-- The every-order conjectures OC and OC₁ are genuinely k-sensitive: true on all k = 4 data, false at k = 5. So a
-  proof of them at k = 4 does not have to solve general EFX₀, but it must use k ≤ 4. The property it can use is
-  identified in §2.
-- So is the round conjecture RD (any number of disjoint chains at once), false at k = 5 by RD5 (§6). Its failure is a
-  second k ≤ 4 mechanism: an agent whose repair needs two other agents' picks.
-- SD-C and MD have no failure at any k tested. MD at all k contains EFX₀ existence, so for MD the k ≤ 4 ingredient is
-  still unknown.
-- **Maximum-matching starts do not help** (§7). Every failing start found is a maximum-matching start, so OC₁^max and
-  "one round from a maximum-matching start" are false at k = 5. Lemma PWk (§7) gives the PW count at general k, and
-  its k ≤ 4 direction is proved.
+**Bottom line.** Burst 3 corrects bursts 1–2, which said OC₁ holds on all k = 4 data.
+- **OC₁, OC and one round fail already at k = 4, from maximum-matching starts** (§5).
+  - The certifier session's ordinal CEGAR (branch `compute/k4-oc1max-cert`) covered every strict profile of the
+    1,002 n = 4 core hypergraphs. It found 11 strict cores, n = 4 and m = 7 or 8, whose failing start gives every
+    agent a pick.
+  - From that start, neither the picks nor any state one chain or one round reaches has a completion, free or with
+    one absorber. Two chains repair each.
+  - Both checkers here agree on all 11 (`refute_oc1max_k4.py`).
+  - The failing start is also an R1-priority start. The neediest-first starts hold (`oc1max_k4_orders.py`).
+  - My k = 4 searches (80,000 structured instances, and climbs) never reached this structure
+    (`attempts/k4-ksens-k4-searches.md`).
+- **The PW mechanism is still k-sensitive.** A shared junk pool needs k ≥ 5 to break one chain, and Lemma PL and
+  Lemma PWk (a) stand, proved and refereed. The k = 4 failure is a different mechanism, and it uses exactly the two
+  cases Lemma PL leaves open: the base the chain releases, and a danger set built on another agent's pick (§5).
+- **At k = 3 one chain suffices** (§8), exhaustively over every strict profile of every connected hypergraph:
+  - from every start, maximum-matching or not, for n ≤ 4, under both move rules;
+  - from every maximum-matching start for n = 5: running, to be added.
+- **The ladder is corrected** (§4, §8).
+  - Conjecture L (⌊(k − 1)/2⌋ chains) is false at k = 4.
+  - Every rung known fits ⌊k/2⌋ chains, i.e. c chains up to k = 2c + 1 (Conjecture L′, §4).
+  - The open rung: does k = 6 need three chains?
+- RD (one round) fails at k = 4 by the same 11 instances, so RD5 (k = 5) is no longer the first failure. Two rounds
+  (RD²), SD-C and MD have no failure at any k tested, and the 11 instances satisfy SD-C and MD. MD at all k contains
+  EFX₀ existence.
+- **Maximum-matching starts do not help** (§7), at k = 4 as at k = 5. Lemma PWk (§7) gives the PW count at general k.
+- **The every-order forms at k = 4 were refuted earlier**, from non-maximum starts, by the TTC session's B< and MC2
+  (`k4/sdc.md` §31, read on `compute/k4-oc1max-cert`).
+  - Those two fail only under the official move rule. When an agent with an empty base may pass it on, one chain
+    repairs both (`refute_oc_every_k4.py`).
+  - The 11 new instances are perfect starts, so for them the rule does not matter.
 
 | statement | k = 4 | smallest k found to fail | instance | checks |
 |---|---|---|---|---|
-| OC₁ / OC: from every order, one improving chain, then a completion (one absorber / free) | holds on all data | **5** | PW5, n = 5, m = 9; smaller: n = 4, m = 8 (`proof/kgen-n3`), and RD5, n = 4, m = 7 | SAT, full brute force, written proof for PW5 (the n = 4 ones by both checkers) |
-| the same from R1-priority orders, or from the neediest-first order (need = y₁ − y₂ − y₃) | holds | **6** | PWR1-6, NF2-6 (n = 6, m = 11) | 2 SAT encodings, SAT-free enumeration |
-| c chains from every order | c = 1 holds | **2c + 3** (c = 1, 2, 3) | PW(c + 2, c + 1, 2c + 2) | c = 1 as above; c = 2, 3 by ocseq.py only |
-| one round of disjoint chains, then a completion (Conjecture RD / RD₁, §6) | holds | **5** | RD5, n = 4, m = 7 (one five-good agent) | SAT, brute force over every round |
+| OC₁ / OC: from every order, one improving chain, then a completion (one absorber / free); also from maximum-matching starts only (OC₁^max, OC^max) | **fails** | **4** | the certifier's 11 cores, n = 4, m = 7 or 8 (§5); at k = 5 by the PW mechanism: PW5 (n = 5, m = 9, written proof), RD5, the n = 4 instance of `proof/kgen-n3` | SAT, full brute force (here and by the certifier) |
+| the same from R1-priority orders | **fails** | **4** | the same 11 (§5); PWR1-6 at k = 6 | SAT; the 11 starts also by brute force |
+| the same from the neediest-first order (need = y₁ − y₂ − y₃) | holds (data; the 11 included) | **6** | NF2-6 (n = 6, m = 11) | 2 SAT encodings, SAT-free enumeration |
+| c chains from every order | c = 1 fails; c = 2 holds (data) | c = 1: **4**; c = 2, 3: 2c + 3 found | the 11 (c = 1); PW(c + 2, c + 1, 2c + 2) | c = 1 as above; c = 2, 3 by ocseq.py only |
+| one round of disjoint chains, then a completion (Conjecture RD / RD₁, §6) | **fails** | **4** | the 11 (§5); RD5 (n = 4, m = 7) at k = 5 | SAT, brute force over every round |
 | SD-C (some order, no chain) | holds | none found (k ≤ 8) | | |
 | MD (every order's picks value-dominated) | holds | none found (k ≤ 8) | | |
 | conclusion of Theorem DT (and DT⁺, Lemma GDT) | proved | **5** | DT5, n = 2, m = 6 | SAT, brute force |
@@ -64,8 +84,8 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
    than v_z(y_z); a set of at most one such good is not.
 5. *(d).* This is the computation of §1. ∎
 
-*What PL does not cover.* These are the parts a k = 4 proof still has to handle; the data say a suitable chain
-exists (Lemma candidate K4-G4, §2).
+*What PL does not cover.* Lemma candidate K4-G4 (§2) claimed that at k = 4 a suitable chain always exists. It is
+false (§5), and the counterexamples use the last two of these gaps.
 - An agent z that shares only one good with H keeps up to two junk goods, which can be a danger set.
 - PL speaks of the old junk J ∖ H only. The chain's end releases its old base into the junk, and PL says nothing
   about it.
@@ -79,7 +99,8 @@ fail at k = 5.
 
 Details:
 
-- **OC and OC₁ are false at k = 5** (§1). PW5 has n = 5, m = 9, three agents with five relevant goods and two with
+- **OC and OC₁ fail at k = 5 by the shared-pool mechanism** (§1); they fail already at k = 4 by another one (§5).
+  PW5 has n = 5, m = 9, three agents with five relevant goods and two with
   four. From one order, neither the picks nor any of the 537 states one improving chain reaches has a completion,
   free or with one absorber. Checked by two independent programs and by a written proof.
   - The same family at k = 4 (pool of three goods) satisfies OC₁, and the proof shows why. After one repair a frozen
@@ -97,13 +118,14 @@ Details:
   |---|---|---|---|---|---|
   | chains | 2 | 2 | 3 | 3 | 4 |
 
-  The same formula matches the known bottom rungs:
+  The bottom rungs:
   - k ≤ 2: 0 chains (serial dictatorship);
-  - k = 3: 1 (LB⁺'s single rotation; at most one chain on all k = 3 data);
-  - k = 4: 1 (OC).
+  - k = 3: 1 (LB⁺'s single rotation; exhaustive over strict profiles for small n, §8);
+  - k = 4: **2, not 1**: the counterexamples of §5 need two.
 
-  This suggests the **ladder conjecture L**: from every order, ⌊(k − 1)/2⌋ improving chains suffice. At k = 4 it is
-  OC; for all k it would contain EFX₀ existence. OC₁ at k = 4 is the rung c = 1, k ≤ 2c + 2.
+  Burst 2 conjectured ⌊(k − 1)/2⌋ chains (Conjecture L), and k = 4 refutes it. Every rung known fits ⌊k/2⌋
+  (Conjecture L′, §4). PW's ⌊(k − 1)/2⌋ is a lower bound at most ⌊k/2⌋, and the two agree at odd k. For all k, L′
+  would contain EFX₀ existence.
 
   One *round* of vertex-disjoint chains, followed by a one-absorber completion, repairs every PW and POOL instance
   tested, k = 5–10. That variant survives this obstruction at every k.
@@ -112,9 +134,10 @@ Details:
   - Theorem DT₁'s conclusion fails at k = 5 (n = 3, m = 8: hypothesis (G3) of Lemma GDT fails after the swap).
   - Both are checked by SAT and brute force; OC₁ still holds on both instances. At k = 4, DT₁ held on all 1,022 swaps
     tested.
-- **k = 4 itself** (§5): no counterexample to OC₁.
-  - Lemma candidate (K4-G4) (§2): from every hard start, some repairing chain leaves no dangerous frozen agent. It
-    holds on all 349 curated and 1,392 PW-design hard starts; PW5 breaks it at k = 5.
+- **k = 4 itself** (§5): OC₁ fails (the certifier's 11 cores). My own k = 4 searches, listed below, found no failure;
+  they are kept as a record of what missed it.
+  - Lemma candidate (K4-G4) (§2) is false: the 11 starts have no repairing chain at all. It held on all 349 curated
+    and 1,392 PW-design hard starts.
   - A structured search over the PW design space at k = 4 (`pw4_search.py`): 60,000 instances with n ≤ 8, 178,308
     starts, 28,175 of them needing a chain, no failure.
   - Climbs at n = 5, 6 bottom out at exactly one repairing state, as the k = 4 climbs of `k4/sdc.md` did.
@@ -234,8 +257,8 @@ The proof uses four facts.
 
 After the one repair, |D| − 2 goods of D need slots. In PW5 the only slot is w′, so |D| − 2 ≤ 1 is needed. A frozen
 agent with k relevant goods has a pool of at most k − 1, so the leftover is at most k − 3: **0 or 1 at k = 4, 2 at
-k = 5.** That is the property a k = 4 proof of OC₁ can use. OC₁ is false for every k ≥ 5 (PW5 is k-limited for
-every k ≥ 5), so any proof of it must use k ≤ 4 somewhere.
+k = 5.** That is why the shared-pool mechanism cannot break one chain at k = 4. It does not give OC₁ at k = 4, which
+fails there by a mechanism outside this count (§5).
 
 This count is **Lemma PL** (statement and proof at the top of this note). By (b) and (c), at k = 4 the repaired agent,
 and every agent that shares two goods of its repair set, has no junk danger set left.
@@ -246,7 +269,8 @@ when it values the junk above its base.
 > At k = 4, from every start whose picks have no one-absorber completion, some state reached by one improving chain
 > has a one-absorber completion and leaves no dangerous frozen agent.
 
-- *Evidence:* it holds on every hard start tested.
+- **False at k = 4** (§5): the 11 counterexamples have no repairing chain at all.
+- *Evidence of burst 1:* it held on every hard start tested here.
   - All 349 hard starts of the curated k = 4 set (`seeds_k4_hard.txt`: the DE4 screen set with the GM4 family, T3,
     Q2 and the logged climb results; `g4_after.log`).
   - All 1,392 hard starts of 1,730 PW-design k = 4 instances with n ≤ 6 (`seeds_pw4.txt`, `g4_after_pw4_n6.log`;
@@ -322,26 +346,33 @@ wanters each want every frozen pick.
 - So c chains fail when r − 2c > W − c ≥ 1, i.e. when k − 1 − 2c ≥ 2: **k ≥ 2c + 3.** With c = 1 that is k ≥ 5.
 - The bound is attained by PW(c + 2, c + 1, 2c + 2).
 
-This matches what is known at the bottom of the ladder.
+The bottom of the ladder:
 - c = 0 (the picks of every order extend) holds for k ≤ 2 (serial dictatorship, K3.SD2) and fails at k = 3, where
   LB⁺ needs its rotation.
-- c = 1 is OC, which holds on all k = 4 data and fails at k = 5 (§1).
+- c = 1 is OC. Within PW it holds at k = 4 (Lemma PWk (a)) and fails at k = 5 (§1). In general it fails already at
+  k = 4 (§5): **PW is not the extremal family at k = 4.**
 
 So in PW the least number of chains is ⌊(k − 1)/2⌋. This is proved for k = 5 (§1, c = 1) and computed for k = 5–9
 (table). The general count is a heuristic: later chains can move pool pairs between frozen agents, and a full proof
 for every c has not been written.
 
-**Conjecture L (ladder).** For every k, from every serial-dictatorship order, the picks extend after ⌊(k − 1)/2⌋
-improving chains.
-- k ≤ 2: proved (serial dictatorship, K3.SD2).
-- k = 3: evidence only (`k4/sdc.md` §29, at k = 3 no start needs more than one chain).
-- k = 4: OC, evidence only.
-- Tight (some start needs that many) for k = 3, 4 by the data and for k = 5–9 by PW.
-- Its upper side at k = 5, 6 ("two chains suffice"): climbs from PW starts (`climb.py oc2`, n = 5 at k = 5 and n = 6
-  at k = 6, 50 rounds) found no start needing three chains.
+**Conjecture L (ladder; burst 2) is false.** It said: for every k, from every serial-dictatorship order, the picks
+extend after ⌊(k − 1)/2⌋ improving chains. At k = 4 that is OC, refuted in §5.
 
-A proof of OC₁ at k = 4 is the c = 1 rung. It must use **pool leftover ≤ 1**: after a repair consumes a danger pair,
-the frozen agent's pool has at most k − 3 = 1 good left, and a single good is never a danger set.
+**Conjecture L′ (corrected ladder).** For every k, from every maximum-matching start, the picks extend after ⌊k/2⌋
+improving chains. Equivalently, c chains suffice up to k = 2c + 1.
+- k ≤ 2: true (serial dictatorship needs none; L′ allows one).
+- k = 3, one chain: exhaustive over strict profiles of connected hypergraphs for small n, from every start (§8).
+- k = 4, two chains: tight (§5); "two suffice" is evidence only.
+- k = 5, two chains: tight (PW5, RD5). Climbs from PW starts (`climb.py oc2`, n = 5 at k = 5 and n = 6 at k = 6,
+  50 rounds) found no start needing three chains.
+- k = 6, 8: L′ allows 3 and 4; PW needs only 2 and 3. Whether k = 6 needs three chains is the open rung that decides
+  between ⌊k/2⌋ and something smaller at even k.
+- k = 7, 9: tight by PW (3 and 4 chains, ocseq.py).
+
+Pool leftover ≤ 1 (Lemma PL) is what keeps PW from breaking one chain at k = 4. It does not give OC₁ at k = 4, which is
+false. A proof of two chains at k = 4 and 5 (the rung c = 2 of L′) has to handle both the k = 5 pools of PW5 and the
+mechanism of §5.
 
 **Which orders.** OC and OC₁ quantify over every order; TARGET needs only one good order. Where the failure first
 appears depends on which orders are allowed:
@@ -403,6 +434,78 @@ chains, then one absorber" is not refuted by this mechanism at any k. A climb ag
 k = 5, 6) has not found a failure (`climb_round1_*.log`).
 
 ## 5. k = 4
+
+### OC₁ fails at k = 4 (burst 3)
+
+*Source.*
+- The certifier session (`compute/k4-oc1max-cert`, `k4/oc1cert/`) ran an ordinal CEGAR for OC₁^max over every strict
+  profile of every n = 4 core hypergraph of the k = 4 core lists, 1,002 hypergraphs.
+- On 11 of them it found a strict profile and a maximum-matching start with no repair (`results/k4_oc1max/cert_4.log`
+  and `brute_verify_cex_n4.log` on that branch, read here).
+- The coordinator relayed the first one.
+
+*Replay here* (`refute_oc1max_k4.py`, `refute_oc1max_k4.log`), for all 11, with both checkers of this note.
+- The checkers:
+  - ocsat: SAT;
+  - brute.py: every chain and every round enumerated from the definition, every completion checked against raw EFX₀
+    over all n^m allocations.
+- The start gives every agent a pick (ν = n = 4) and is reached by one to three orders (the certifier's count).
+- From it there is no completion, free or one-absorber:
+  - at the picks;
+  - after any one chain, with or without empty passes (15 to 32 one-chain states);
+  - after any one round.
+- Two sequential chains repair it (ocseq.py). By brute force, 5 to 22 two-chain states have a one-absorber
+  completion.
+- The rest of the instance:
+  - every other start satisfies OC₁;
+  - MD holds for every order, and SD-C holds;
+  - ocsat and brute force agree on every start of every order.
+- Order classes (`oc1max_k4_orders.py`):
+  - the failing start is reached by an R1-priority order;
+  - every neediest-first start (need2, need1 and needall, plain or R1) satisfies OC₁.
+
+*The first instance, by hand.* Goods 0–6; order 0, 3, 2, 1; junk {0, 3, 4}.
+
+| agent | values | pick |
+|---|---|---|
+| 0 | g1 10, g5 7, g2 4, g0 2 | g1 |
+| 1 | g1 10, g6 8, g5 4, g2 3 | g2 |
+| 2 | g6 7, g5 6, g4 5, g3 3 | g5 |
+| 3 | g6 4, g3 3, g4 2 | g6 |
+
+- *The wanter.* Agent 1 values every other pick above its own (10, 8, 4 > 3) and values no junk. While it holds g2,
+  agents 0, 2 and 3 must hold their picks alone: {y, x} minus x is y, worth more to agent 1 than g2.
+- *The pool.* Agents 2 and 3 are frozen and share the danger pair D = {3, 4}: 3 + 5 = 8 > 6 for agent 2, and
+  3 + 2 = 5 > 4 for agent 3. So no bundle of three or more goods may contain D.
+- *At the picks* only agent 1 can take junk, so it takes {0, 3, 4}. Agent 2 removes g0 from {2, 0, 3, 4} and sees
+  8 > 6.
+- *Repair agent 2* (agent 2 takes D, agent 1 takes g5, and g2 becomes junk).
+  - Agent 1 now wants g1 and g6, so agents 0 and 3 stay singletons.
+  - Agent 2's {3, 4} can take nothing more: for agent 3, {3, 4, x} minus x is worth 5 > 4.
+  - So agent 1 takes the junk {0, 2}, and agent 0 sees {5, 0, 2} minus g0, worth 7 + 4 = 11 > 10.
+- *Repair agent 3* (agent 3 takes D, agent 2 takes g6 from it, and g5 becomes junk; or agent 1 takes g6 and g2
+  becomes junk).
+  - In the first form agent 1 still holds g2 and wants g1 and g6, so agents 0 and 2 hold them alone. Agent 3's pair
+    can take nothing more (agent 2, now worth 7, would see {3, 4, x} minus x, worth 8). So the junk {0, 5} goes to
+    agent 1, and agent 0 sees {2, 0, 5} minus g0, worth 11 > 10.
+  - In the second form agent 2 wants g6, so agent 1 holds it alone; agent 0 stays a singleton; agent 3's pair can
+    take nothing (agent 2 would see 8 > 6). So agent 2 takes {0, 2}, and agent 0 sees {5, 0, 2} minus g0, 11 > 10.
+- *The remaining one-chain states* (15 in all) fail too, by both checkers.
+- **The mechanism.** A repair uses D up, but the chain releases a pick into the junk (g2 or g5). That pick, together
+  with another pick, is a danger set of agent 0: g5 + g2 = 11 > 10. Whoever takes the junk then holds it.
+  - This is exactly what Lemma PL does not cover: a released base, and a danger set made of another agent's pick plus
+    junk.
+  - No agent values more than four goods, so k ≤ 4 does not exclude it.
+  - PW cannot produce it at k = 4: its wanters value only picks, and its released goods are wanters' own goods,
+    which nobody else values.
+- **Two chains repair it** (brute force), with no absorber at all.
+  1. Agent 3 takes D (5 > 4) and agent 2 takes g6 (7 > 6), releasing g5.
+  2. A ring: agent 1 takes g1 (10 > 3), and agent 0 takes g2, g0 and g5 (4 + 2 + 7 = 13 > 10).
+
+  The result is 0: {0, 2, 5}, 1: {1}, 2: {6}, 3: {3, 4}, which is EFX₀. The second chain gives agent 0 the danger set
+  itself.
+
+### Earlier k = 4 searches (bursts 1–2; none found the failures above)
 
 - *PW-shaped instances at k = 4* (`gen.py pw`: frozen agents sharing a pool of three or four, wanters of random
   subsets of their picks, extra agents): no failure of OC₁ (`survey_pw_n5k4.log`, 600 instances at n = 5).
@@ -524,16 +627,18 @@ It is a *maximum-matching start* when the number of agents with a pick equals th
 is OC₁ restricted to such starts; maximum-matching orders always exist.
 - **Every failing start found here is a maximum-matching start**, in every case: PW5, RD5, the n = 4 instance of
   `proof/kgen-n3`, PW436, PWR1-6, NF2-6 and NF1R1-6 (ν = n, and every agent picks).
-- So OC₁^max is false at k = 5, by PW5, RD5 and the n = 4 instance.
-- *One round from a maximum-matching start* is false at k = 5 too, by RD5.
-- The ladder (§4) is unchanged: every PW start is a maximum-matching start, so maximum-matching starts need
-  ⌊(k − 1)/2⌋ chains in PW for k = 5–9.
-- *Two rounds* from maximum-matching starts survive everything so far: RD5 needs exactly two, PW one. Climbs
+- So OC₁^max is false at k = 5, by PW5, RD5 and the n = 4 instance, and already at k = 4, by the certifier's 11
+  instances (§5).
+- *One round from a maximum-matching start* is false at k = 4 (§5), and at k = 5 by RD5.
+- Every PW start is a maximum-matching start, so maximum-matching starts need at least ⌊(k − 1)/2⌋ chains for
+  k = 5–9 (PW) and two at k = 4 (§5).
+- *Two rounds* from maximum-matching starts survive everything so far: RD5 and the 11 instances of §5 need exactly
+  two, PW one. Climbs
   restricted to maximum-matching starts (one absorber):
   - `climb.py rd2amx`, n = 4 at k = 5 (30 rounds, from RD5 and the n = 4 instance; 12 end at a start needing exactly
     two rounds) and n = 5 at k = 6 (20 rounds, from PW): no start needs three rounds (`climb_rd2mx_*.log`);
   - `climb.py oc1mx`, n = 5 at k = 4 from PW-design starts (30 rounds): no OC₁^max failure; the least number of
-    repairing states reached is 1 (`climb_oc1mx_n5k4.log`).
+    repairing states reached is 1 (`climb_oc1mx_n5k4.log`). This climb missed the n = 4 failures of §5.
 
 ### Lemma PWk (the PW count at general k)
 
@@ -647,11 +752,12 @@ of an order.
 | statement (from every start of the given kind, unless "some") | k ≤ 2 | k = 3 | k = 4 | first failure | smallest counterexample | checks |
 |---|---|---|---|---|---|---|
 | the picks extend (no chain) | proved (K3.SD2) | **fails** | fails | k = 3 | n = 2, m = 4 (`k3_zero.log`) | SAT, brute force |
-| one chain: OC₁ / OC; also restricted to maximum-matching starts | | holds (data) | holds (data) | **k = 5** | RD5: n = 4, m = 7 (§6); PW5: n = 5, m = 9 (§1, written proof, refereed) | SAT, brute force |
-| one chain from R1-priority starts, or from the need2 neediest-first start | | | holds | **k = 6** | PWR1-6, NF2-6: n = 6, m = 11 (§4) | 2 SAT encodings, SAT-free |
+| one chain: OC₁ / OC; also restricted to maximum-matching starts | | holds: every strict profile of every connected hypergraph, every start for n ≤ 4, maximum-matching starts for n = 5 (below) | **fails** | **k = 4** | the certifier's 11 cores, n = 4, m = 7 or 8 (§5); at k = 5 also PW5 (written proof, refereed) and RD5 | SAT, brute force |
+| one chain from R1-priority starts | | | **fails** | **k = 4** | the 11 (§5); PWR1-6 at k = 6 | SAT; brute force for the 11 starts |
+| one chain from the need2 neediest-first start | | | holds (data; the 11 included) | **k = 6** | NF2-6: n = 6, m = 11 (§4) | 2 SAT encodings, SAT-free |
 | one chain from the need2 R1 neediest-first start (LB₄ʳ's Phase 1) | | | holds | none found | | |
-| c chains | c = 0 | c = 1 | c = 1 | k = 2c + 3 (c ≤ 3) | PW(c + 2, c + 1, 2c + 2) (§4) | ocseq |
-| one round of disjoint chains (RD, RD₁) | | | holds | **k = 5** | RD5: n = 4, m = 7 | SAT, brute force over every round |
+| c chains (the least c that always suffices) | c = 0 | c = 1 (exhaustive, small n) | c = 2 (data; c = 1 fails) | c = 1 at k = 4; c = 2, 3 at k = 2c + 3 found | the 11 (c = 1); PW(c + 2, c + 1, 2c + 2) (§4) | ocseq, brute force |
+| one round of disjoint chains (RD, RD₁) | | | **fails** | **k = 4** | the 11 (§5); RD5 at k = 5 | SAT, brute force over every round |
 | two rounds (RD²), also from maximum-matching starts | | | holds | none found (climbs k = 5, 6, 8; n ≤ 6) | | |
 | SD-C: some order whose picks extend | | holds (data; K4.SDC.K3 open) | holds | none found (k ≤ 8) | | |
 | MD: every start value-dominated | | | holds | none found (k ≤ 8) | | |
@@ -663,20 +769,23 @@ of an order.
 - Each rung of the ladder:
   - *k ≤ 2:* the pool has at most one good, so no danger set and no chain (serial dictatorship).
   - *k = 3:* a pool of two, a danger pair, one chain; nothing is left after it (`k3_zero.log`; LB⁺'s rotation).
-  - *k = 4:* a pool of three; after one repair one good is left, never a danger set. One chain, if the data are right.
+  - *k = 4:* a pool of three; after one repair one good is left, never a danger set, so PW needs one chain. One chain
+    is still not enough in general: a released pick plus another agent's pick can be a danger set (§5). Two chains
+    are needed.
   - *k = 5:* a pool of four; two goods are left and still a danger set for the agents sharing the pool (PW5); or the
     repair needs two foreign picks (RD5). One chain is not enough.
   - *Larger k:* the head-only count r − 2c > W − c (Lemma PWk) gives ⌊(k − 1)/2⌋ chains in PW.
-- The k ≤ 4 inputs a proof can use:
+- The k ≤ 4 inputs found here. They rule out the PW and RD5 mechanisms at k = 4, not every failure of one chain:
   - Lemma PL (b), (c);
   - Lemma PWk (a);
   - the one-agent counts in Theorem DT's (F4) and DT₁'s step 3;
-  - RD5's five-good requirement: pick, shared pair, and two foreign picks.
+  - RD5's five-good requirement: pick, shared pair, and two foreign picks. One round fails at k = 4 anyway (§5).
 
 **What might hold for every k.**
 - MD, SD-C and two rounds (RD²) have no counterexample. Each of them, for every k, contains EFX₀ existence for all
   additive instances, which is open for n ≥ 4.
-- Conjecture L, ⌊(k − 1)/2⌋ chains, is consistent with every rung computed (k = 2 to 9).
+- Conjecture L (⌊(k − 1)/2⌋ chains) is false at k = 4 (§5). Conjecture L′ (⌊k/2⌋ chains from maximum-matching starts,
+  §4) is consistent with every rung computed (k = 2 to 9).
 - *Why depth is hard to build* (`fam_depth.py`, `attempts/k4-ksens-depth-composition.md`). Forcing three rounds needs
   RD5's mechanism one level deeper, which means more agents. Every unfrozen agent added is a free slot for one junk
   good, and a single slot already dissolves RD5's obstruction.
@@ -692,7 +801,33 @@ of an order.
 clauses with this note's chain or round encodings) and a brute force or SAT-free enumeration from the definitions.
 PW5 also has a written proof, refereed by the coordinator (`k4/referee/ksens.md` on the coordinator's branch, not
 read here). Random surveys: 12,000 instances at k = 5–8. Climbs: 786 climb rounds over the targets above (`climb_*.log`, the n = 6 runs still in progress). Structured
-k = 4 searches: 80,000 instances.
+k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
+
+**k = 3, exhaustively over strict profiles** (`k3max.py`, `k3max_n*.log`; SAT cross-check `k3max_xcheck.py`,
+`k3max_xcheck_*.log`).
+- *Scope.* Every connected agent–good hypergraph with n agents, each valuing at most three goods (nauty-genbg: 52 at
+  n = 3, 396 at n = 4, 3,988 at n = 5).
+- *Every strict profile, through its order type.* At k = 3 every comparison the question makes is between disjoint
+  sets of one agent's goods: SD picks, a chain agent's new against its old base, and EFX₀. For three goods
+  a > b > c the only such comparison the ranking leaves open is a against b + c. So 12, 2 or 1 types per agent cover
+  every strict profile exactly (ties are excluded).
+- *Result: no failure.* One chain followed by a one-absorber completion repairs
+  - every start, maximum-matching or not, for n ≤ 4, under the official move rule and with empty passes:
+    - n = 3: 25,816 profiles, 44,972 starts, 1,538 of them need a chain;
+    - n = 4: 1,885,816 profiles, 4,982,948 starts, 126,994 need a chain;
+  - every maximum-matching start for n = 5: running, to be added.
+- *Checks.*
+  - Every repair is a witness, re-checked under its profile from the raw definitions: strict gains, EFX₀, at most
+    one absorber.
+  - A start with no cached witness is decided by exact backtracking.
+  - ocsat (SAT) agrees on every maximum-matching start at n = 3 (43,751) and on 8,693 sampled at n = 4 (5,770 of them
+    with m ≥ 6), with 0 mismatches.
+- *So at k = 3 one chain suffices,* and the ladder's jump to two chains happens at k = 4.
+  - The scope is connected instances. In a disjoint union each component may need its own chain; a round handles
+    that.
+  - The k3-oc1 session reports an every-order failure at k = 3 under the official rule, at n = 5 outside the cores
+    [unverified here: read only in a commit message on `claude/k4-k3-oc1`]. This is consistent with the above, which
+    covers every start only for n ≤ 4.
 
 **Unrestricted k: every agent values every good** (`general_rounds.py`, `general_rounds_*.log`, `rd5_full.log`,
 `kgen_n3_rounds.log`).
