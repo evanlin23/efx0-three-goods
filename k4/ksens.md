@@ -39,8 +39,7 @@ Details:
   four. From one order, neither the picks nor any of the 537 states one improving chain reaches has a completion,
   free or with one absorber. Checked by two independent programs and by a written proof.
   - The same family at k = 4 (pool of three goods) satisfies OC₁, and the proof shows why. After one repair a frozen
-    agent's pool has k − 3 goods left, which is 1 at k = 4 and fits the one free slot the order always leaves; at
-    k = 5 two are left (§2).
+    agent's pool has k − 3 goods left. At k = 4 that is one good, never a danger set; at k = 5 it is two (§2).
   - MD and SD-C hold on PW5. PW5 needs exactly two chains.
   - **The failing order is not R1-priority.** The other order classes fail later (§4, "Which orders"):
     - R1-priority orders (LB's Phase 1) and the neediest-first order of `k4/sdc.md` §9 first fail at k = 6;
@@ -91,7 +90,8 @@ Details:
   Random sampling misses PW-type structure, which needs every pair of a shared pool to be dangerous for every frozen
   agent.
 - **Not found at any k: a failure of MD or SD-C.**
-  - Both hold on every PW instance; in PW, MD holds provably (§4, the count closes when all repairs happen at once).
+  - Both hold on every PW instance tested. Heuristically MD should hold throughout PW: all repairs can happen at
+    once, and the §4 count then closes. No written proof.
   - Climbs bottom out at exactly one dominating allocation or extendable outcome, never zero:
     - MD: n = 3 with up to 8 relevant goods per agent (30 rounds), n = 4 at k = 6 (25 rounds), n = 5 at k = 5 from
       PW starts (20 rounds);
@@ -177,9 +177,10 @@ The proof uses four facts.
 3. Wanters that are not on the chain keep the other agents frozen.
 4. Each agent with an unwanted pick gives one slot for a single good of D.
 
-After the one repair, |D| − 2 goods of D need slots. Here the only slot is w′, so |D| − 2 ≤ 1 is needed. A frozen
+After the one repair, |D| − 2 goods of D need slots. In PW5 the only slot is w′, so |D| − 2 ≤ 1 is needed. A frozen
 agent with k relevant goods has a pool of at most k − 1, so the leftover is at most k − 3: **0 or 1 at k = 4, 2 at
-k = 5.** That is the property a k = 4 proof of OC₁ can use, and a proof valid for all k cannot exist.
+k = 5.** That is the property a k = 4 proof of OC₁ can use. OC₁ is false for every k ≥ 5 (PW5 is k-limited for
+every k ≥ 5), so any proof of it must use k ≤ 4 somewhere.
 
 > **(K4-leftover)** At k = 4, after a dangerous frozen agent x takes a danger pair H₀ ⊆ J (two of its three
 > lower goods), at most one good of x's pool is left, and a single good is never a danger set (Lemma 2(c) of
@@ -284,7 +285,7 @@ improving chains.
   at k = 6, 50 rounds) found no start needing three chains.
 
 A proof of OC₁ at k = 4 is the c = 1 rung. It must use **pool leftover ≤ 1**: after a repair consumes a danger pair,
-the frozen agent's pool has at most k − 3 = 1 good left, and that good fits one slot.
+the frozen agent's pool has at most k − 3 = 1 good left, and a single good is never a danger set.
 
 **Which orders.** OC and OC₁ quantify over every order; TARGET needs only one good order. Where the failure first
 appears depends on which orders are allowed:
