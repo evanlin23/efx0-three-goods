@@ -257,3 +257,27 @@ coordinator has checked them; "verified" marks the ones checked.
   lemmas.
 - Coordinator: the OC₁ climb `oc1_bign_climb` was stopped as superseded (18/64 runs, no failure). Two OC₁^max climbs
   on strict cores were started (`k4/sdc/oc1max_climb.py`): one seeded at B<, one on random cores in the MC2 class with n = 6–7.
+
+### 2026-11-26 22:05 UTC: every "for every order" form is refuted on MC2-class cores; OC₁^max and R1-priority survive
+- **TTC session, two more strict core counterexamples** (`claude/k4-ttc`; both verified by the Hall session, §16 and §18):
+  - an n = 5, m = 9 core with three two-private agents;
+  - **an n = 5, m = 9 core in the K4.MC2 class**: sets [[0,3,6,8],[1,4,7,6],[2,5,8,7],[0,1,2],[0,1,2]], vals
+    [[10,6,5,7]×3,[4,3,2],[2,4,3]]. Each frozen agent i values y_i, a_i, b_i, b_{i−1}, and every pair of {a_i, b_i, b_{i−1}}
+    beats its pick (a danger triangle). The two pickless agents are the only junk receivers.
+  - At order 0..4, even **OC fails (free completion, after one move)**, and so do OC₁, OC₁ᵖ and OC1-ED\*. MD, SD-C and
+    TARGET₄ stand.
+- **Verified by the coordinator** (`k4/sdc/oc_mc2_cex_verify.py`, `results/k4_sdc/oc_mc2_cex_verify.log`).
+  - Strict MC2-class core, ν = 5.
+  - The 12 failing orders give 3 picks: non-maximum, no free completion at the picks or after any of the 232 moves.
+  - **All 50 maximum-matching orders complete at the picks.**
+- **OC₁^max on every core counterexample known** (`results/k4_sdc/oc1_max_orders_ttc_cores.log`). The data: the 37
+  distinct MC2-class failures of the TTC climb, the two-private n = 5 core, and the MC2 core.
+  - All 1,950 maximum-matching orders complete at the picks; not one needs a move.
+  - All 468 failures come from non-maximum orders.
+  - With B<, B> and the 84 non-core instances: 0 failures in 33,082 maximum-matching orders.
+- **Two surviving central candidates.**
+  - (A) **OC₁^max**: maximum-matching orders; coordinator's proposal; the existence of such orders is elementary.
+  - (B) **R1-priority OC1-ED\***: Hall session. It holds on all 1,855 one-absorber-hard starts (n ≤ 5) and on all 9
+    MC2 failures of the TTC climb.
+  - Both kill the pickless pigeonhole. Next: test whether each implies the other on the data, and climb against both.
+    The TTC session runs both climbs.
