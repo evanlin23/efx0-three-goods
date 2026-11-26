@@ -227,7 +227,11 @@ def random_types(rng, sets, m):
     sys.path.insert(0, os.path.join(ROOT, 'k4'))
     import check4
     doms = check4.core_domains(sets, m, False)
-    return [[D[rng.randrange(len(D))][g] for g in S] for D, S in zip(doms, sets)]
+    out = []
+    for D, S in zip(doms, sets):
+        t = D[rng.randrange(len(D))]          # one strict balanced type per agent
+        out.append([t[g] for g in S])
+    return out
 
 
 def random_core43(rng, n, p4=0.5, maxpriv=2):
@@ -257,3 +261,21 @@ def phase1(I, tau=None):
         if av: pick[i] = av[0]; G.discard(av[0])
         rest.remove(i); done.append(i)
     return pick, done
+
+
+def small_bound(C, agents, size=3):
+    """clauses: every agent in `agents` holds fewer than `size` goods (sequential counter per agent)"""
+    cl = []
+    m = C.I.m
+    for a in agents:
+        prev = [None] * size
+        for g in range(m):
+            xg = C.x[g][a]; cur = [C.new() for _ in range(size)]
+            cl.append([-xg, cur[0]])
+            if prev[0] is not None: cl.append([-prev[0], cur[0]])
+            for c in range(1, size):
+                if prev[c - 1] is not None: cl.append([-xg, -prev[c - 1], cur[c]])
+                if prev[c] is not None: cl.append([-prev[c], cur[c]])
+            prev = cur
+        cl.append([-prev[size - 1]])
+    return cl
