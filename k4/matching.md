@@ -16,7 +16,7 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
 | δ and the k = 5 counterexamples (§2) | PW5: δ = 2, best single move leaves δ = 1 (two chains). RD5: δ = 1, yet no single move repairs. The 41 failing (non-maximum) starts of the k = 4 core counterexamples all have δ = 2 | computed (brute force) |
 | Lemma EX (§3) | an improving chain is an *exchange* in the slot graph: if, after the chain, Lemma 2\*'s slot graph **of the picks** with the chain agents' demands deleted or raised has deficiency at most the number s of slots the chain frees, the state completes (S\* shape, any chosen owner). For o = k and a canonical chain: the owner set W_{x_t} of the end, k's demand deleted | written proof (§3); the proof's allocation is built and is EFX₀ (raw) on all 49,771 (chain, H₀, owner) triples where the hypothesis holds; 0 violations |
 | Conjecture CM (§3) | at every one-absorber-hard perfect start (k ≤ 4), some chain from a dangerous agent, some H₀ and some owner satisfy Lemma EX's hypothesis. CM ⟹ OC₁ at perfect starts ⟹ (RED, MAXSD) TARGET₄ | **refuted with OC₁^max** by the 11 n = 4 cores of compute/k4-oc1max-cert (§5). Before that: 2,371 of 2,371 hard perfect starts (Hall session's 2,071, the 9 of the core counterexamples, 291 of the PW design space) |
-| CM ⟺ OC₁ on the data (§3, §5) | one exchange (Lemma EX / EX\*) repairs exactly when one move gives an S\* completion, at every hard perfect start tested: the 2,371 starts, the 30 of the 11 n = 4 instances, the walks near the n = 4 failures. Near those failures, 14 starts satisfy OC₁ only through a non-S\* completion (a compensated frozen slot) | computed |
+| CM ⟺ OC₁ on the data (§3, §5) | one exchange (Lemma EX / EX\*) repairs exactly when one move gives an S\* completion, at every hard perfect start tested: the 2,371 starts, the 30 of the 11 n = 4 instances, the walks near the n = 4 failures. Near those failures, 88 starts satisfy OC₁ only through a non-S\* completion (a compensated frozen slot) | computed |
 | Lemma EX\* (§5) | the exchange at any state: Lemma M applied after a move, read in the slot graph before it (ownership moved, chain agents' demands re-evaluated, the chain's new slots added) | written proof (§5), a corollary of Lemma M; 0 violations |
 | **Conjecture CM₂** (§5) | from every perfect start, some first move leads to a state where a Lemma EX\* exchange repairs. CM₂ ⟹ OC₂ at perfect starts ⟹ OC₂^max ⟹ TARGET₄ | evidence: all 30 hard maximum-matching starts of the 11 n = 4 failure instances, every start visited by the walks near them (OC₁ failing: 4,513 visits, 3,308 distinct; OC₁ only non-S\*: 88), PW5, RD5. Where OC₁ fails, the first moves after which an EX\* exchange repairs are exactly those after which any second move repairs |
 | exchange accounting (§3) | what a repairing chain pays for: in 910 of the 2,071 hard starts, deleting the chain agents' demands alone (s = 0) clears an end-owned deficiency of up to 6 | computed |
@@ -29,11 +29,13 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
 2. The correspondence that is exact is Lemma EX. The chain moves ownership and deletes the chain agents' demands in the
    picks' slot graph. The repair condition is a Hall condition there: deficiency ≤ the chain's free slots.
 3. OC₁^max is implied by Conjecture CM, which is a static Hall-type statement about the picks and one chain. On every
-   hard perfect start tested, CM holds exactly where OC₁ holds. OC₁^max is now refuted at n = 4 (compute/k4-oc1max-cert,
-   11 cores), and so is CM.
+   hard perfect start tested, CM holds exactly where a single move gives an S\* completion. That is where OC₁ holds,
+   except for 88 starts near the n = 4 failures that need a non-S\* completion. OC₁^max is now refuted at n = 4
+   (compute/k4-oc1max-cert, 11 cores), and so is CM.
 4. At every known failure of one chain, the best exchange leaves exactly one slot missing:
    - the 11 n = 4 cores, and PW5 and RD5 at k = 5: δ = 1 or 2, best exchange excess 1;
-   - in each, a first move followed by a Lemma EX\* exchange repairs (Conjecture CM₂, §5).
+   - in each, a first move followed by a Lemma EX\* exchange repairs (Conjecture CM₂, §5). The same holds at all 3,308
+     distinct failing profile–start pairs that value walks find near the 11.
    CM₂ implies OC₂^max, the campaign's current target.
 
 ## 0. Setting
