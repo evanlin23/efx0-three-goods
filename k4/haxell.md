@@ -11,6 +11,26 @@ evidence only (PROMPT.md §5 rule 3).
 
 (Updated at the end of each burst.)
 
+**Burst 2 (2026-11-26, coordinator's request).** Evidence only.
+- *CONN₂ on every counterexample to OC/OC₁/OC₁^max* (§5): PW5, RD5, the two kgen n = 4 instances (k = 5), their k = 4
+  versions, the 39 TTC k = 4 cores and B<, B> (n = 6, m = 10). The full census covers 3.7 million partial EFX₀ states
+  with **no trap even for single moves**. What fails there is the one-chain shape, not local connectivity.
+- *k ≥ 5*: no G₂ trap in any full census at k = 5–10 (random instances, n ≤ 5; §3.4, §5). The PW grid up to k = 9
+  (n ≤ 9, m ≤ 17) is too large for the census; start-based probes found no trap on the cells finished (§5).
+- *The one-step lemma* (§6). With μ = (|pool|, −welfare) and steps of at most two moves, where a move is a single-good
+  reassignment, a swap, or a **rotation of bundles along a cycle of agents**: no stuck state on any dataset. That is
+  about 5.8 million partial EFX₀ states (C), and 397,633 checked again by an independent Python implementation. This
+  is **Conjecture W**; it implies CONN and hence TARGET₄ (§6, stated precisely). Leximin works equally well.
+  - Without rotations no fixed radius can work for welfare, leximin or the relevance count, already at k = 3: the
+    family CYC_n needs n − 1 trades.
+  - Pure augmentation (AUG) fails with rotations too.
+  - The envy-pair count works at radius 3 on the data but not at radius 2 with rotations.
+- *Not k-specific on the data*: W and CONN₂ have no failure at k = 5, 7 or with every good relevant, so the data do
+  not show where k ≤ 4 would be used. Their general-k forms would imply EFX₀ existence.
+- *Open*: a proof of W. The first steps are proved (§6, "where a proof would start"): a stuck state has an acyclic
+  envy graph, and a placement at a source fails only through a cheaper good. The two-move repair case analysis is
+  open, as is W for n ≥ 6.
+
 **Burst 1 (2026-11-26).** Evidence only; nothing here changes a ledger row.
 - *Literature* (§1): Annamalai (Haxell's condition made algorithmic), AKS and Davies–Rothvoss–Zhang read in full;
   Haxell 1995 and Asadpour–Feige–Saberi not accessed.
@@ -398,3 +418,110 @@ Haxell-type proof must therefore use non-monotone edges and prove the collapse i
 4. *The collapse invariant for non-monotone edges* (Lemma CI covers only monotone ones, which P1 rules out).
 3. *A start.* The serial-dictatorship picks are never traps, and from every one of them on the screen set a sequence
    of victim-free moves completes (§3.1). The empty allocation works for CONN₂ itself.
+
+## 5. CONN₂ beyond k = 4, and on the counterexamples to OC/OC₁ (burst 2)
+
+Requested by the coordinator: does CONN₂ hold where OC₁^max fails, and at k ≥ 5? Instances are copied verbatim from
+their sources into `k4/haxell/ext_instances.py` (PW5, PW4, RD5, RD4 from `k4/ksens/` on `claude/k4-ksens`; KG8, KG7 from
+`attempts/kgen-n4-oc1.md` on `claude/kgen-n3`; the 39 TTC cores and B<, B> from `claude/kind-lamport-y8fdme`), and each
+was checked against its source's stated picks.
+
+**Full census** (`gstar.c`; every partial EFX₀ allocation of the instance):
+| instances | n, m, k | partial EFX₀ states | G₁ traps | G₂ traps | log |
+|---|---|---|---|---|---|
+| PW5, PW4, RD5, RD4, KG8, KG7 | n = 4, 5; m = 7–9; k = 4, 5 | 81,635 | 0 | 0 | `gstarc_ext.log` |
+| the 39 k = 4 core counterexamples to OC/OC₁ (TTC list) | n = 5, m = 9, k = 4 | 2,217,110 | 0 | 0 | `gstarc_ttc.log` |
+| B<, B> (strict perturbations of TTC 36) | n = 6, m = 10, k = 4 | 1,420,558 | 0 | 0 | `gstarc_bcore.log` |
+
+So every instance where OC, OC₁ or OC₁^max fails is free even of *single-move* traps: what fails there is the
+serial-dictatorship-plus-one-chain shape, not the local connectivity of partial EFX₀ allocations.
+
+**Start-based probes** (`gstar_probe.c`, `gstar_probe_run.py`), for instances too large for the census: from the
+picks of every order (n ≤ 6) or of 30 sampled orders, and from states visited by random EFX₀-preserving walks, a
+best-first search through partial EFX₀ allocations in steps of at most two moves. A probe whose search space is
+exhausted without a complete allocation is a trap. The tool was validated against the census: with single moves
+only it reports the known traps (n = 2 trap, g834) and none elsewhere.
+- PW5, PW4, RD5, RD4, KG8, KG7: 1,118 probes, all reach a complete allocation (`probe_ext.log`).
+- The clean PW(f, W, r) grid of `k4/ksens/fam_ladder.clean`, f ≤ 5, W ≤ 4, r ≤ 8 (n ≤ 9, m ≤ 17, k = max(r + 1, f + 1)
+  ≤ 9): see `probe_pwgrid.log` (no trap among the cells finished so far; the status block gives the final count).
+
+**Full census at k ≥ 5 on random instances** (`gstar_run.py gen:…`; values 1–40): see `gstarc_gen_n*k*.log` and the
+status block. Earlier ones: no G₂ trap at k = 5–8 for n ≤ 4 (§3.4).
+
+## 6. The one-step lemma: candidate measures, and what decides them
+
+CONN₂ is a reachability statement. A proof by local search needs a measure μ and a one-step lemma: from every partial
+EFX₀ allocation with a nonempty pool, some step of a fixed move class leads to a partial EFX₀ allocation with smaller
+μ. With μ = (|pool|, φ) compared lexicographically, this gives CONN by well-foundedness. P1 rules out φ that never lets
+an individual agent lose; it does not rule out welfare-type φ, which can lower some agents.
+
+`gstar_measure.c` (driven by `gstar_measure_run.py`) enumerates every partial EFX₀ allocation and counts the *stuck*
+states for each candidate φ: states with a nonempty pool from which no step lowers (|pool|, φ). Candidates: φ0 none
+(pure augmentation, AUG); φ1 −welfare Σᵢ vᵢ(Xᵢ); φ2 leximin; φ3/φ4 ± Σ|X_j|²; φ5 the number of envy pairs vᵢ(X_j) > vᵢ(Xᵢ);
+φ6/φ9 the number of allocated goods held by an agent that values them (complementary forms); φ7 the number of
+victim-free placements of pooled goods; φ8 the blockedness of placements; φ10–φ18 welfare or leximin with tie-breakers.
+
+**Steps of at most two local moves (move, swap, trade).** Every candidate has stuck states. Welfare has 3 (on the
+screen set, e.g. induct-v-r3, a plateau of 7 equal-welfare neighbours), the best tie-breaks 1 (`measure_screen.log`).
+
+**Steps of at most three local moves** (`measure3_*.log`): welfare, leximin and the envy count have **no stuck state**
+on any dataset. That covers the screen set, the suite, random k = 4 cores (n ≤ 3), PW5/RD5/KG, random instances with
+n = 2–4 at k = 3, 4, 5 and 7, and the 39 TTC cores: about 5.6 million partial EFX₀ states. AUG₃ and the relevance count
+fail.
+
+**No fixed radius works for welfare, leximin or the relevance count: the family CYC_n** (k = 3). Agent i values its
+own good gᵢ at 10, the next agent's good g_{i+1} at 11, and a pooled good p at 1. In the state where every agent
+holds its own good, p cannot be placed: the predecessor of its receiver strongly envies. A partial rotation along a
+path of r agents changes welfare by r − 10. So welfare and leximin rise only with the full rotation, which needs
+n − 1 trades. `gstar_measure` confirms it: CYC₅ is stuck at radius 3 for welfare, leximin and every tie-break, and
+CYC₄ is not. The envy count is not stuck on CYC₄–CYC₆, even at radius 2.
+
+**Rotations as moves.** Let a move also rotate the bundles along any cycle of agents. That is the classical
+envy-cycle operation, generalized to any cycle, so it also performs closed chains: the family CHAINₜ, a pooled good
+wanted at the end of a wanting path, completes by one rotation and one placement. With steps of at most two such
+moves (`measure_rot2_*.log`):
+| data | instances | partial EFX₀ states | stuck: AUG | welfare | leximin | envy count | relevance |
+|---|---|---|---|---|---|---|---|
+| screen (n ≤ 4, m ≤ 7) | 109 | 111,591 | 1,660 | **0** | **0** | 212 | 112 |
+| suite (n ≤ 4, m ≤ 7) | 94 | 78,665 | 1,180 | **0** | **0** | 142 | 77 |
+| random k = 4 cores, n ≤ 3 | 538 | 200,436 | 375 | **0** | **0** | 42 | 71 |
+| PW5, PW4, RD5, RD4, KG8, KG7 | 6 | 81,635 | 1,034 | **0** | **0** | 27 | 11 |
+| the 39 TTC cores (n = 5, m = 9) | 39 | 2,217,110 | 10,030 | **0** | **0** | 0 | 14 |
+| random n = 2, m = 5, every good relevant | 3,000 | 231,398 | 11 | **0** | **0** | 5 | 11 |
+| random n = 3, m = 6, k = 3 / 4 | 800 / 800 | 593,535 | 269 / 741 | **0** | **0** | 158 / 100 | 15 / 53 |
+| random n = 3, m = 7, k = 5 | 600 | 509,542 | 556 | **0** | **0** | 66 | 54 |
+| random n = 4, m = 7, k = 4 / 7 | 300 / 300 | 1,453,133 | 4,151 / 5,116 | **0** | **0** | 108 / 6 | 91 / 5,116 |
+
+An independent Python implementation (`ht_lemma_w.py`: its own move generator, rotations included, raw EFX₀ test)
+agrees: no stuck state for welfare on 56 screen instances (11,753 states, `lemma_w_py_screen.log`), and exactly the
+one stuck state of CYC₅ when rotations are limited to trades. Further Python runs (`lemma_w_py_*.log`): 200 random k = 4
+core profiles with n ≤ 3, 300 random n = 3, m = 6, k = 4, 150 random n = 3, m = 7, k = 5, and 1,000 random n = 2, m = 5
+with every good relevant. In all, 1,706 instances and 397,633 partial EFX₀ states, no stuck state.
+
+**Conjecture W (one-step welfare lemma, CONJECTURE).** Let X be a partial EFX₀ allocation with a nonempty pool. Then
+a composite of at most two moves leads to a partial EFX₀ allocation X′ with |pool(X′)| < |pool(X)|, or with
+|pool(X′)| = |pool(X)| and Σᵢ vᵢ(X′ᵢ) > Σᵢ vᵢ(Xᵢ). A move is one of: give one good to another agent (a pooled good may be
+placed, nothing returns to the pool); swap the holders of two goods (the pool counts as a holder); rotate the bundles
+along a cycle of agents.
+
+*Consequences.* (|pool|, −welfare) strictly decreases and takes finitely many values. So from the empty allocation a
+complete EFX₀ allocation is reached, in at most (m + 1)·w steps, w the number of distinct welfare values. W for k ≤ 4 implies TARGET₄. W
+for all additive instances implies EFX₀ existence, so its general form is at least as hard as the EFX conjecture.
+The data above include k = 5 and 7 and every-good-relevant instances with no failure, so they do not show where
+k ≤ 4 would enter. The same holds with leximin in place of welfare.
+
+*What the measure is and is not.* Welfare is a value measure, but the lemma is not value-monotone: the step may lower
+any agent, and P1's stuck state is escaped this way. The pool comes first, so the potential can fall in welfare when
+a good is placed. Envy-cycle rotations alone raise welfare, so a welfare-stuck state has an envy graph without cycles.
+- *[unverified] link to the literature:* Chaudhury–Kavitha–Mehlhorn–Sgouritsa's "little charity" algorithm also
+  combines allocation steps, envy-cycle rotations and a lexicographic potential, but lets goods return to the pool.
+  This is recalled, not read in this session.
+
+*Where a proof would start.*
+1. At a welfare-stuck state, rotations along envy cycles are welfare-improving, so the envy graph is acyclic and has
+   a source s.
+2. Placing a pooled good g at s fails only if some agent i strongly envies X_s + g by dropping a good h ≠ g with
+   vᵢ(h) < vᵢ(g).
+3. The second move must then repair i: hand i the good g, or move h, or rotate i's bundle into a cycle. The data say
+   one of these always works within two moves. The case analysis of which, using |R_i| ≤ 4, is the open step.
+4. The untested sizes are n ≥ 6 for W itself (B<, B> are too large for the current checker) and the large PW cells.
