@@ -734,6 +734,149 @@ theorem picks_no_augment {ord : List A} (hmax : IsMaximum v agents goods (sdPick
 
 end lemmaMax
 
+/-! ## States, the moves of `k4/sdc.md` §29 and the one-absorber completion
+
+A *state* gives each agent a *base*, a list of goods (`B : A → List G`); the *junk* is the goods of no listed
+agent's base. At the picks of an order every base is the agent's pick (`pickBase`). The moves follow §29 and the
+official move rule of the replays of §31 (`k4/sdc/oc1_core_cex_verify.py`): every mover strictly gains, a chain
+never hands on an empty base, and the sets of junk goods have no size cap. -/
+
+section moves
+variable (v : A → G → Nat) (agents : List A) (goods : List G)
+
+/-- The bases at the picks of `ord`: each agent's pick, or nothing. -/
+def pickBase (ord : List A) (i : A) : List G := (sdPick v ord goods i).toList
+
+/-- The junk of the state `B`: the goods in no listed agent's base. -/
+def junkOf (B : A → List G) : List G :=
+  goods.filter (fun g => agents.all (fun i => !((B i).contains g)))
+
+/-- A **one-absorber completion** of the bases `B` (`k4/sdc.md` §29): a complete EFX₀ allocation that gives
+every base good to its holder, in which at most one agent (the absorber `a`) receives two or more junk goods. -/
+def OneAbsorber (B : A → List G) : Prop :=
+  ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X ∧ (∀ i ∈ agents, ∀ g ∈ B i, X g = i) ∧
+    ∃ a : A, ∀ i ∈ agents, i ≠ a → ((junkOf agents goods B).filter (fun g => X g = i)).length ≤ 1
+
+/-- An **addition** (the chain with t = 0): a listed agent `x` adds a nonempty set `H` of junk goods it values. -/
+def IsAddition (B B' : A → List G) : Prop :=
+  ∃ (x : A) (H : List G), x ∈ agents ∧ H ≠ [] ∧ H.Nodup ∧ (∀ g ∈ H, g ∈ junkOf agents goods B ∧ 0 < v x g) ∧
+    B' x = B x ++ H ∧ ∀ y, y ≠ x → B' y = B y
+
+/-- An **improving chain** `x₀, …, x_t` (t ≥ 1, distinct listed agents; `k4/sdc.md` §29) with pairwise disjoint
+sets `H x` of goods that `x` values, `H x₀` inside the junk and the end's base `B x_t`, the others inside the junk:
+`x₀` takes `H x₀`, worth more to it than its base; each `x_i` (i ≥ 1) takes `B x_{i−1} ∪ H x_i`, worth more to it
+than its base, and `B x_{i−1}` is not empty; the rest of `B x_t` becomes junk; every other agent keeps its base.
+The pairs `(x_{i−1}, x_i)` are `(x₀ :: xs).zip xs`. -/
+def IsChain (B B' : A → List G) : Prop :=
+  ∃ (x₀ : A) (xs : List A) (H : A → List G), xs ≠ [] ∧ (x₀ :: xs).Nodup ∧ (∀ x ∈ x₀ :: xs, x ∈ agents) ∧
+    (∀ x ∈ x₀ :: xs, (H x).Nodup ∧ ∀ g ∈ H x, 0 < v x g) ∧
+    (∀ x ∈ x₀ :: xs, ∀ y ∈ x₀ :: xs, x ≠ y → ∀ g ∈ H x, g ∉ H y) ∧
+    (∀ g ∈ H x₀, g ∈ junkOf agents goods B ∨ g ∈ B ((x₀ :: xs).getLast (List.cons_ne_nil _ _))) ∧
+    (∀ x ∈ xs, ∀ g ∈ H x, g ∈ junkOf agents goods B) ∧
+    value v x₀ (B x₀) < value v x₀ (H x₀) ∧
+    (∀ p ∈ (x₀ :: xs).zip xs, B p.1 ≠ [] ∧ value v p.2 (B p.2) < value v p.2 (B p.1 ++ H p.2)) ∧
+    B' x₀ = H x₀ ∧ (∀ p ∈ (x₀ :: xs).zip xs, B' p.2 = B p.1 ++ H p.2) ∧ ∀ y, y ∉ x₀ :: xs → B' y = B y
+
+/-- An **improving ring** `w₀ → w₁ → ⋯ → w_{r−1} → w₀` (r ≥ 2 distinct listed agents): each `w_i` takes its
+predecessor's nonempty base plus a set `H w_i` of junk goods it values (pairwise disjoint), worth more to it than
+its own base; every other agent keeps its base. The pairs (predecessor, agent) are `(w₀ :: ws).zip (ws ++ [w₀])`. -/
+def IsRing (B B' : A → List G) : Prop :=
+  ∃ (w₀ : A) (ws : List A) (H : A → List G), ws ≠ [] ∧ (w₀ :: ws).Nodup ∧ (∀ x ∈ w₀ :: ws, x ∈ agents) ∧
+    (∀ x ∈ w₀ :: ws, (H x).Nodup ∧ ∀ g ∈ H x, g ∈ junkOf agents goods B ∧ 0 < v x g) ∧
+    (∀ x ∈ w₀ :: ws, ∀ y ∈ w₀ :: ws, x ≠ y → ∀ g ∈ H x, g ∉ H y) ∧
+    (∀ p ∈ (w₀ :: ws).zip (ws ++ [w₀]), B p.1 ≠ [] ∧
+      value v p.2 (B p.2) < value v p.2 (B p.1 ++ H p.2) ∧ B' p.2 = B p.1 ++ H p.2) ∧
+    ∀ y, y ∉ w₀ :: ws → B' y = B y
+
+/-- **One improving move**: an addition, a chain or a ring. -/
+def OneMove (B B' : A → List G) : Prop :=
+  IsAddition v agents goods B B' ∨ IsChain v agents goods B B' ∨ IsRing v agents goods B B'
+
+end moves
+
+section junk
+variable {v : A → G → Nat} {agents : List A} {goods : List G}
+
+omit [DecidableEq A] in
+theorem mem_junkOf {B : A → List G} {g : G} :
+    g ∈ junkOf agents goods B ↔ g ∈ goods ∧ ∀ i ∈ agents, g ∉ B i := by
+  simp [junkOf, List.all_eq_true]
+
+/-- The junk at the picks of an order of the agents is the set of unpicked goods. -/
+theorem mem_junkOf_pickBase {ord : List A} (hperm : ord.Perm agents) {g : G} :
+    g ∈ junkOf agents goods (pickBase v goods ord) ↔ g ∈ goods ∧ ∀ x, sdPick v ord goods x ≠ some g := by
+  rw [mem_junkOf]
+  refine and_congr_right fun _ => ⟨fun h x hx => ?_, fun h i _ hi => ?_⟩
+  · by_cases hxa : x ∈ agents
+    · exact h x hxa (by simp [pickBase, hx])
+    · rw [sdPick_of_not_mem v goods (fun hm => hxa (hperm.mem_iff.mp hm))] at hx; cases hx
+  · cases hp : sdPick v ord goods i with
+    | none => simp [pickBase, hp] at hi
+    | some y =>
+      simp only [pickBase, hp, Option.toList_some, List.mem_singleton] at hi
+      exact h i (hi ▸ hp)
+
+/-- **Lemma MAX in the state's terms**: if the picks of an order form a maximum matching, no agent reachable from a
+pickless agent by an alternating path values a junk good of the picks. -/
+theorem picks_no_junk {ord : List A} (hperm : ord.Perm agents) (hmax : IsMaximum v agents goods (sdPick v ord goods))
+    {b : A} (hb : AltReach v agents (sdPick v ord goods) b) :
+    ∀ h ∈ junkOf agents goods (pickBase v goods ord), v b h = 0 := fun h hh => by
+  obtain ⟨h1, h2⟩ := (mem_junkOf_pickBase hperm).mp hh
+  exact picks_no_augment hmax hb h h1 h2
+
+end junk
+
+/-- The type of a move relation: which states `B'` one move reaches from `B`, for the instance `v, agents, goods`. -/
+abbrev MoveRel (A G : Type) : Type := (A → G → Nat) → List A → List G → (A → List G) → (A → List G) → Prop
+
+/-- **OC₁^max for any move relation `Move`**: in every strict connected k = 4 core, for every order whose picks form
+a maximum matching, the picks have a one-absorber completion, or some state one `Move` reaches from them has one. -/
+def ConjOC1maxWith (A G : Type) [DecidableEq A] [DecidableEq G] (Move : MoveRel A G) : Prop :=
+  ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+    Connected v agents goods → Strict v agents goods → ∀ ord : List A, ord.Perm agents →
+      IsMaximum v agents goods (sdPick v ord goods) →
+      OneAbsorber v agents goods (pickBase v goods ord) ∨
+        ∃ B', Move v agents goods (pickBase v goods ord) B' ∧ OneAbsorber v agents goods B'
+
+/-- **Conjecture OC₁^max** (K4.SDC.OC1MAX, `k4/sdc.md` §31): in every strict connected k = 4 core, for every
+serial-dictatorship order whose picks form a maximum matching, the picks have a one-absorber EFX₀ completion, or
+one improving move (an addition, a chain or a ring, `OneMove`) gives bases that have one. A `Prop`, not an axiom. -/
+def ConjOC1max (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
+  ConjOC1maxWith A G (fun v agents goods => OneMove v agents goods)
+
+/-- **OC₁^max (any move relation) gives EFX₀ allocations of every connected strict k = 4 core**: by MAXSD some
+order's picks form a maximum matching, and either completion is an EFX₀ allocation. -/
+theorem core_efx0_of_conjOC1maxWith {Move : MoveRel A G} (h : ConjOC1maxWith A G Move) {v : A → G → Nat}
+    {agents : List A} {goods : List G} (hag : agents.Nodup) (hgd : goods.Nodup) (hc : IsCore4 v agents goods)
+    (hconn : Connected v agents goods) (hs : Strict v agents goods) :
+    ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X := by
+  obtain ⟨ord, hperm, hmax⟩ := exists_order_maximum hag hgd (strictVals_of_strict hs)
+  rcases h agents goods v hag hgd hc hconn hs ord hperm hmax with ⟨X, hX, hE, -⟩ | ⟨_, -, X, hX, hE, -⟩
+  · exact ⟨X, hX, hE⟩
+  · exact ⟨X, hX, hE⟩
+
+/-- **OC₁^max (any move relation) ⟹ TARGET₄ over lists**: every instance with at most four relevant goods per agent
+has a complete EFX₀ allocation (K4.CORE with K4.TIE, `EFX.core_reduction4_strict`). -/
+theorem exists_efx0_of_conjOC1maxWith {Move : MoveRel A G} (h : ConjOC1maxWith A G Move) (v : A → G → Nat)
+    (agents : List A) (goods : List G) (hne : agents ≠ []) (hag : agents.Nodup) (hgd : goods.Nodup)
+    (h4 : ∀ i ∈ agents, (relevant v i goods).length ≤ 4) :
+    ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X :=
+  core_reduction4_strict agents.length
+    (fun _ _ _ hag' hgd' _ hc hconn hs _ => core_efx0_of_conjOC1maxWith h hag' hgd' hc hconn hs) v agents goods
+    hne hag hgd (Nat.le_refl _) h4
+
+/-- **OC₁^max (any move relation) ⟹ TARGET₄** in the model's terms. -/
+theorem target4_of_conjOC1maxWith (I : Inst) (hn : 0 < I.n) {Move : MoveRel (Fin I.n) (Fin I.m)}
+    (h : ConjOC1maxWith (Fin I.n) (Fin I.m) Move) (hk : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
+  target4_of_strict_cores I hn I.n (Nat.le_refl _)
+    (fun _ _ _ hag hgd _ hc hconn hs _ => core_efx0_of_conjOC1maxWith h hag hgd hc hconn hs) hk
+
+/-- **Conjecture OC₁^max ⟹ TARGET₄** (K4.SDC.OC1MAX.LEAN): if OC₁^max holds, every instance in which every agent
+positively values at most four goods has a complete EFX₀ allocation. -/
+theorem target4_of_conjOC1max (I : Inst) (hn : 0 < I.n) (h : ConjOC1max (Fin I.n) (Fin I.m))
+    (hk : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
+  target4_of_conjOC1maxWith I hn h hk
+
 end OC1Max
 end EFX
 
@@ -757,3 +900,9 @@ end EFX
 #print axioms EFX.OC1Max.augment
 #print axioms EFX.OC1Max.max_no_augment
 #print axioms EFX.OC1Max.picks_no_augment
+#print axioms EFX.OC1Max.mem_junkOf_pickBase
+#print axioms EFX.OC1Max.picks_no_junk
+#print axioms EFX.OC1Max.core_efx0_of_conjOC1maxWith
+#print axioms EFX.OC1Max.exists_efx0_of_conjOC1maxWith
+#print axioms EFX.OC1Max.target4_of_conjOC1maxWith
+#print axioms EFX.OC1Max.target4_of_conjOC1max
