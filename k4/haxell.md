@@ -487,6 +487,7 @@ by one rotation and one placement). With steps of at most two such moves (`measu
 | PW5, PW4, RD5, RD4, KG8, KG7 | 6 | 81,635 | 1,034 | **0** | **0** | 27 | 11 |
 | the 39 TTC cores (n = 5, m = 9) | 39 | 2,217,110 | 10,030 | **0** | **0** | 0 | 14 |
 | the hard profiles logged in `results/k4_sdc/*.log`, n ≤ 5 | 1,520 | 4,668,436 | 26,454 | **0** | **0** | 761 | |
+| B<, B> (n = 6, m = 10; welfare and leximin only, `gstar_measure` with its single-measure option) | 2 | 1,420,558 | 4,366 | **0** | **0** | | |
 | random n = 2, m = 5, every good relevant | 3,000 | 231,398 | 11 | **0** | **0** | 5 | 11 |
 | random n = 3, m = 6, k = 3 / 4 | 800 / 800 | 593,535 | 269 / 741 | **0** | **0** | 158 / 100 | 15 / 53 |
 | random n = 3, m = 7, k = 5 | 600 | 509,542 | 556 | **0** | **0** | 66 | 54 |
@@ -543,7 +544,8 @@ a good is placed. Envy-cycle rotations alone raise welfare, so a welfare-stuck s
    vᵢ(h) < vᵢ(g).
 3. The second move must then repair i: hand i the good g, or move h, or rotate i's bundle into a cycle. The data say
    one of these always works within two moves. The case analysis of which, using |R_i| ≤ 4, is the open step.
-4. The untested sizes are n ≥ 6 for W itself (B<, B> are too large for the current checker) and the large PW cells.
+4. W is exhaustively checked up to n = 6 (B<, B>, `measure_rot2_bcore_phi*.log`). Beyond that only sampled states
+   are checked (§7).
 
 *The smallest case, n = 2, is already not a one-liner.* Write τᵢ(Z) = vᵢ(Z) − min_{z∈Z} vᵢ(z) for |Z| ≥ 2 (0 otherwise),
 so EFX₀ reads v_A(X_A) ≥ τ_A(X_B) and v_B(X_B) ≥ τ_B(X_A). For a pooled g the four obvious one- or two-move
@@ -553,3 +555,32 @@ They fail together exactly when τ_B(X_A + g) > v_B(X_B), τ_A(X_B + g) > v_A(X_
 11 > 4. Its repair is of a fifth kind: g goes to A while A's good 2 goes to B. A proof of W at n = 2 therefore needs
 the moves that take a good from the receiver of g, and the case analysis of when they keep EFX₀. That is the first
 open case.
+
+## 7. W on large instances: the stranded welfare maxima, the S′ family, and n = 6–8 (burst 2, continued)
+
+For instances too large to enumerate, W is checked at given states by `ht_wlocal.py`. Its augmenting search is
+exact. A placement plus one rotation leaves the old bundles, one of them enlarged by g, permuted along a cycle, and
+agent i's EFX₀ condition then depends only on the bundle i receives: vᵢ(b) ≥ max over the other bundles b′ of
+τᵢ(b′). So the EFX₀ re-assignments are the perfect matchings of an agent–bundle compatibility graph, and "a placement
+and one rotation" is a directed cycle through every agent that cannot keep its own bundle (depth-first search). The
+welfare-raising search covers one or two good moves and one rotation, not rotation plus a move, so a state with no
+step found would still need an exhaustive check (none occurred).
+- `ht_wwalk.py` repeats W steps from a state to a complete allocation, re-checking each step (EFX₀, strict decrease
+  of (|pool|, −welfare)).
+- `ht_wsample.py` samples states on random instances: the empty allocation, the serial-dictatorship picks, and
+  random EFX₀-preserving walks from them. It checks W at each and walks to completion.
+
+**The stranded welfare maxima of CH-F** (kgen-charity, `kgen/charity.md` §6; instances copied verbatim into
+`ext_instances.py`). In both instances the maximum welfare over partial EFX₀ allocations (198 at k = 4, n = 9, m = 14;
+484 at k = 3, n = 12, m = 17) is attained only with goods 6 and 7 unallocated. W cannot raise welfare there, so it
+must shrink the pool within two moves. It does (`wlocal_chf.log`): source s₀ gives its good 1 (worth 1 to it) to
+source s₁, which values it at 0, and takes g₀ = 6, which it values at 0. That leaves one good out at welfare 197
+(resp. 483), exactly the maxima with at most one good out. Both W-walks then complete in one more step
+(`wwalk_chf.log`). The step lowers s₀'s value, which is the kind of move P1 requires.
+
+**The families S(σ, k), S′(σ, k)** (built by `ext_sprime.py`, copied from `kgen/charity/stuck_family.py`; their
+stranded states are CKMS stopping states with σ − 1 goods out, default values): for σ = 2–5 and k = 3, 4 (n ≤ 40,
+m ≤ 49), every W-walk from the stranded state completes, one augmentation per step (`wwalk_sprime.log`).
+
+**Random instances with n = 6–8** (`ht_wsample.py`, `wsample_*.log`): see the status block for the totals. Every
+sampled state had a W step, and every walk completed.

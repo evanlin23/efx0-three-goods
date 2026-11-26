@@ -100,3 +100,7 @@ PW(5,3,3)      n 8 m 11 k 6 starts  27 probes  513 reached  513 traps 0 cap 0 ma
 PW(5,3,4)      n 8 m 12 k 6 starts  25 probes  475 reached  475 traps 0 cap 0 max_expanded 77
 PW(5,3,5)      n 8 m 13 k 6 starts  27 probes  513 reached  513 traps 0 cap 0 max_expanded 619
 PW(5,3,6)      n 8 m 14 k 7 starts  30 probes  570 reached  570 traps 0 cap 0 max_expanded 288
+PW(5,3,7)      n 8 m 15 k 8 starts  26 probes  494 reached  493 traps 0 cap 1 max_expanded 2000
+PW(5,4,2)      n 9 m 11 k 6 starts  29 probes  551 reached  551 traps 0 cap 0 max_expanded 16
+PW(5,4,3)      n 9 m 12 k 6 starts  30 probes  570 reached  570 traps 0 cap 0 max_expanded 45
+PW(5,3,8)      n 8 m 16 k 9 starts  26 probes  494 reached  494 traps 0 cap 0 max_expanded 370
