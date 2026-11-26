@@ -282,6 +282,9 @@ def instances(src):
             sets = rng.choice(cores)
             items.append(('r%d' % t, sets, random_profile(sets, rng), 1 + max(max(x) for x in sets)))
         return items
+    if src in ('ext', 'ttc', 'bcore', 'pwgrid'):
+        import ext_instances as X
+        return {'ext': X.named, 'ttc': X.ttc, 'bcore': X.bcore, 'pwgrid': X.pw_grid}[src]()
     if src.startswith('gen:'):
         # gen:N:SEED:n:m:k  random instances: every agent values k random goods (k = m: every good), every good
         # valued by someone, values distinct integers per agent from 1..40

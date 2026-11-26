@@ -18,7 +18,7 @@
 #include <string.h>
 
 #define MAXN 6
-#define MAXM 10
+#define MAXM 13
 static int n, m;
 static long val[MAXN][MAXM];
 static long pw[MAXM + 1];
@@ -31,16 +31,15 @@ static long encode(const int *own) { long s = 0; for (int g = m - 1; g >= 0; g--
 static int poolsz(const int *own) { int c = 0; for (int g = 0; g < m; g++) c += own[g] == n; return c; }
 
 static int efx0(const int *own) {
-    for (int i = 0; i < n; i++) {
-        long mine = 0;
-        for (int g = 0; g < m; g++) if (own[g] == i) mine += val[i][g];
-        for (int j = 0; j < n; j++) {
-            if (j == i) continue;
-            long tot = 0, mn = -1; int cnt = 0;
-            for (int g = 0; g < m; g++) if (own[g] == j) { tot += val[i][g]; cnt++; if (mn < 0 || val[i][g] < mn) mn = val[i][g]; }
-            if (cnt >= 2 && tot - mn > mine) return 0;
-        }
-    }
+    /* tot[i][j] = v_i(X_j), mn[i][j] = min over X_j of v_i, cnt[j] = |X_j|; then the raw EFX0 test
+       v_i(X_j) - min_{h in X_j} v_i(h) <= v_i(X_i) for every j != i with |X_j| >= 2 (bundles of one good are never
+       strongly envied; the pool, coded n, is no bundle) */
+    long tot[MAXN][MAXN], mn[MAXN][MAXN]; int cnt[MAXN];
+    for (int j = 0; j < n; j++) { cnt[j] = 0; for (int i = 0; i < n; i++) { tot[i][j] = 0; mn[i][j] = -1; } }
+    for (int g = 0; g < m; g++) { int j = own[g]; if (j == n) continue; cnt[j]++;
+        for (int i = 0; i < n; i++) { long x = val[i][g]; tot[i][j] += x; if (mn[i][j] < 0 || x < mn[i][j]) mn[i][j] = x; } }
+    for (int i = 0; i < n; i++) for (int j = 0; j < n; j++)
+        if (j != i && cnt[j] >= 2 && tot[i][j] - mn[i][j] > tot[i][i]) return 0;
     return 1;
 }
 
@@ -60,6 +59,7 @@ static void neighbours(const int *own) {
 
 int main(void) {
     while (scanf("%d %d", &n, &m) == 2) {
+        if (n > MAXN || m > MAXM) { fprintf(stderr, "instance too large: n %d m %d (MAXN %d MAXM %d)\n", n, m, MAXN, MAXM); return 2; }
         memset(val, 0, sizeof val);
         for (int i = 0; i < n; i++) { int d; if (scanf("%d", &d) != 1) return 1;
             for (int t = 0; t < d; t++) { int g; long v; if (scanf("%d %ld", &g, &v) != 2) return 1; val[i][g] = v; } }

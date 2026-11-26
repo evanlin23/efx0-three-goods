@@ -1,0 +1,1 @@
+$ python3 k4/haxell/gstar_measure_run.py gen:300:57:4:7:4 NMAX=4 MMAX=7 RADIUS=2 ROT=1

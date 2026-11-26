@@ -20,8 +20,10 @@ def line(sets, vals, m):
 
 def run_c(item):
     name, sets, vals, m = item
-    out = subprocess.run([os.path.join(HERE, 'gstar')], input=line(sets, vals, m) + '\n', capture_output=True,
-                         text=True).stdout.split()
+    r = subprocess.run([os.path.join(HERE, 'gstar')], input=line(sets, vals, m) + '\n', capture_output=True, text=True)
+    if r.returncode != 0:
+        raise RuntimeError('gstar failed on %s: %s' % (name, r.stderr.strip()))
+    out = r.stdout.split()
     d = dict(zip(out[2:12:2], map(int, out[3:12:2])))
     ex = [int(x) for x in out[13:]] if 'example' in out else None
     return name, sets, vals, m, d, ex
