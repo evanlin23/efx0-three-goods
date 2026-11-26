@@ -1,0 +1,7 @@
+$ python3 k4/oc1cert/brute.py cover /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_3.json.gz
+boxes 17153
+hypergraphs covered 51
+nonempty (order, matching) regions 9210
+profiles x orders checked 1799024256
+time 60 s
+RESULT ok

@@ -1,10 +1,11 @@
-$ python3 k4/oc1cert/check.py /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_2.json.gz --lists=2
+$ python3 k4/oc1cert/check.py results/k4_oc1max/cert_2.json.gz --lists=2
 own types: {3: 6, 4: 288}
-certificate /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_2.json.gz hypergraphs 5 not certified 0
+certificate results/k4_oc1max/cert_2.json.gz hypergraphs 5 not certified (failures found, not checked here) 0
 list 2 source hypergraphs 5 missing or different 0
 covered 5
 maximum matchings checked 58
+type classes (sum over matchings and agents) 557
 witnesses applicable (sum over matchings) 249
-slowest hypergraph 0.47 s
-time 1 s
-RESULT every hypergraph covered for every type profile and every maximum-matching SD order
+slowest hypergraph 0.02 s
+time 0 s
+RESULT every certified hypergraph (5) covered for every type profile and every maximum-matching SD order

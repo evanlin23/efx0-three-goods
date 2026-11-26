@@ -20,7 +20,9 @@ Written separately from cegar.py; it shares no code with it or with the reposito
     Its X must contain the moved bases and give at most one agent two or more goods outside the bases.  The improving
     comparisons and EFX0 of X (v_i(X_i) >= v_i(X_j) - v_i(h) for every j != i and h in X_j) must hold for every
     agent's type.  These are raw integer evaluations, one mask over the types per agent.
-  - Solver: Glucose 4 (the CEGAR uses CaDiCaL).  UNSAT for every Y: the hypergraph is covered.
+  - Solver: Glucose 4 (the CEGAR uses CaDiCaL).  UNSAT for every Y: the hypergraph is covered.  Per Y, the types of an
+  agent that the SD constraints and every witness mask treat alike are merged into one variable (an exact reduction:
+  the formula depends on a type only through these memberships).
 - The witnesses' recorded picks are used only to skip witnesses that do not match Y (skipping only weakens
   coverage, so this is sound).
 
@@ -172,26 +174,16 @@ def check_core(rec):
     efx = {}
     stats = collections.Counter()
     for Y in Ys:
-        solver = Glucose4()
-        top = [0]
-        def new():
-            top[0] += 1; return top[0]
-        z = [[new() for _ in H.types[i]] for i in range(n)]
-        for zi in z:
-            solver.add_clause(zi)
-            for a, b in itertools.combinations(zi, 2): solver.add_clause([-a, -b])
-        bef = {(a, b): new() for a in range(n) for b in range(n) if a != b}
-        for a, b in itertools.combinations(range(n), 2):
-            solver.add_clause([bef[(a, b)], bef[(b, a)]]); solver.add_clause([-bef[(a, b)], -bef[(b, a)]])
-        for a, b, c in itertools.permutations(range(n), 3):
-            solver.add_clause([-bef[(a, b)], -bef[(b, c)], bef[(a, c)]])
         holder = {y: i for i, y in enumerate(Y) if y is not None}
+        # per agent and type: excluded (a preferred good is unpicked), or the agents that must come before it
+        sdreq = []
         for i in range(n):
+            row = []
             for t, v in enumerate(H.types[i]):
                 better = H.sets[i] if Y[i] is None else [g for g in H.sets[i] if v[g] > v[Y[i]]]
-                if any(g not in holder for g in better): solver.add_clause([-z[i][t]]); continue
-                for g in better: solver.add_clause([-z[i][t], bef[(holder[g], i)]])
-        nrep = 0
+                row.append(None if any(g not in holder for g in better) else frozenset(holder[g] for g in better))
+            sdreq.append(row)
+        boxes = []
         for w in Ws:
             pk = w['picks']
             if any(Y[int(a)] != y for a, y in pk.items()): continue
@@ -204,12 +196,41 @@ def check_core(rec):
             masks = [mk.copy() for mk in efx[key]]
             for x, new_, old in imp:
                 masks[x] &= H.val(x, new_) > H.val(x, old)
-            solver.add_clause([z[i][t] for i in range(n) for t in range(len(H.types[i])) if not masks[i][t]])
-            nrep += 1
-        stats['witnesses applicable (sum over matchings)'] += nrep
+            boxes.append(masks)
+        stats['witnesses applicable (sum over matchings)'] += len(boxes)
+        # Types of agent i that the SD constraints and every box treat alike are interchangeable: one variable per
+        # class (exact; a class's representative is its first type).
+        cls = []
+        for i in range(n):
+            sig = {}
+            for t in range(len(H.types[i])):
+                if sdreq[i][t] is None: continue
+                k = (sdreq[i][t], tuple(bool(b[i][t]) for b in boxes))
+                sig.setdefault(k, []).append(t)
+            cls.append(list(sig.items()))
+        stats['type classes (sum over matchings and agents)'] += sum(len(c) for c in cls)
+        if any(not c for c in cls): continue                 # Y is no SD outcome under any profile
+        solver = Glucose4()
+        top = [0]
+        def new():
+            top[0] += 1; return top[0]
+        z = [[new() for _ in cls[i]] for i in range(n)]
+        for zi in z:
+            solver.add_clause(zi)
+            for a, b in itertools.combinations(zi, 2): solver.add_clause([-a, -b])
+        bef = {(a, b): new() for a in range(n) for b in range(n) if a != b}
+        for a, b in itertools.combinations(range(n), 2):
+            solver.add_clause([bef[(a, b)], bef[(b, a)]]); solver.add_clause([-bef[(a, b)], -bef[(b, a)]])
+        for a, b, c in itertools.permutations(range(n), 3):
+            solver.add_clause([-bef[(a, b)], -bef[(b, c)], bef[(a, c)]])
+        for i in range(n):
+            for k, ((req, _), ts) in enumerate(cls[i]):
+                for j in req: solver.add_clause([-z[i][k], bef[(j, i)]])
+        for bi, b in enumerate(boxes):
+            solver.add_clause([z[i][k] for i in range(n) for k, (sg, ts) in enumerate(cls[i]) if not sg[1][bi]])
         if solver.solve():
             mod = set(l for l in solver.get_model() if l > 0)
-            prof = [next(t for t, v in enumerate(zi) if v in mod) for zi in z]
+            prof = [cls[i][next(k for k, v in enumerate(zi) if v in mod)][1][0] for i, zi in enumerate(z)]
             order = sorted(range(n), key=lambda a: sum(bef[(b, a)] in mod for b in range(n) if b != a))
             vals = [[H.types[i][t][g] for g in H.sets[i]] for i, t in enumerate(prof)]
             solver.delete()
