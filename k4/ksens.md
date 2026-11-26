@@ -529,8 +529,11 @@ is OC₁ restricted to such starts; maximum-matching orders always exist.
 - The ladder (§4) is unchanged: every PW start is a maximum-matching start, so maximum-matching starts need
   ⌊(k − 1)/2⌋ chains in PW for k = 5–9.
 - *Two rounds* from maximum-matching starts survive everything so far: RD5 needs exactly two, PW one. Climbs
-  restricted to maximum-matching starts are running: `climb.py rd2amx` at n = 4, k = 5 and n = 5, k = 6; `oc1mx` at
-  n = 5, k = 4.
+  restricted to maximum-matching starts (one absorber):
+  - `climb.py rd2amx`, n = 4 at k = 5 (30 rounds, from RD5 and the n = 4 instance; 12 end at a start needing exactly
+    two rounds) and n = 5 at k = 6 (20 rounds, from PW): no start needs three rounds (`climb_rd2mx_*.log`);
+  - `climb.py oc1mx`, n = 5 at k = 4 from PW-design starts (30 rounds): no OC₁^max failure; the least number of
+    repairing states reached is 1 (`climb_oc1mx_n5k4.log`).
 
 ### Lemma PWk (the PW count at general k)
 
