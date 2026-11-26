@@ -8,6 +8,33 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
 
 ## Status (burst 1)
 
+**Bottom line.**
+- The every-order conjectures OC and OC₁ are genuinely k-sensitive: true on all k = 4 data, false at k = 5. So a
+  proof of them at k = 4 does not have to solve general EFX₀, but it must use k ≤ 4. The property it can use is
+  identified in §2.
+- SD-C and MD have no failure at any k tested. MD at all k contains EFX₀ existence, so for MD the k ≤ 4 ingredient is
+  still unknown.
+
+| statement | k = 4 | smallest k found to fail | instance | checks |
+|---|---|---|---|---|
+| OC₁ / OC: from every order, one improving chain, then a completion (one absorber / free) | holds on all data | **5** | PW5, n = 5, m = 9 | SAT, full brute force, written proof |
+| the same from R1-priority orders, or from the neediest-first order (need = y₁ − y₂ − y₃) | holds | **6** | PWR1-6, NF2-6 (n = 6, m = 11) | 2 SAT encodings, SAT-free enumeration |
+| c chains from every order | c = 1 holds | **2c + 3** (c = 1, 2, 3) | PW(c + 2, c + 1, 2c + 2) | c = 1 as above; c = 2, 3 by ocseq.py only |
+| one round of disjoint chains, then one absorber | holds | none found (k ≤ 10) | | |
+| SD-C (some order, no chain) | holds | none found (k ≤ 8) | | |
+| MD (every order's picks value-dominated) | holds | none found (k ≤ 8) | | |
+| conclusion of Theorem DT (and DT⁺, Lemma GDT) | proved | **5** | DT5, n = 2, m = 6 | SAT, brute force |
+| conclusion of Theorem DT₁ | proved | **5** | DT1-5, n = 3, m = 8 | SAT, brute force |
+
+**What a k = 4 proof must use** (§2):
+- *Pool leftover ≤ 1.* A dangerous frozen agent repairs itself by taking a danger pair of its junk. Afterwards at
+  most k − 3 = 1 of its junk goods is left, and a single good is never a danger set.
+- So the frozen agents that share that junk satisfy GDT's (G4) after one chain. At k = 5 two goods are left, they
+  still form a danger set, and one chain cannot repair a second agent.
+- Theorem DT's (F4) and DT₁'s (G3) are the same count at the level of one agent.
+
+Details:
+
 - **OC and OC₁ are false at k = 5** (§1). PW5 has n = 5, m = 9, three agents with five relevant goods and two with
   four. From one order, neither the picks nor any of the 537 states one improving chain reaches has a completion,
   free or with one absorber. Checked by two independent programs and by a written proof.

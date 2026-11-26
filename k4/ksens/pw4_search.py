@@ -4,14 +4,17 @@ each valuing a random nonempty subset of the p's (at most 3, so k <= 4) above it
 agents valuing random goods (up to 4).  Test OC1 and OC from the natural order (x's, wanters, extras) and from R random
 orders.
 
-    python3 k4/ksens/pw4_search.py SEED T [R]"""
+    python3 k4/ksens/pw4_search.py SEED T [R [FMAX DMAX]]   (defaults FMAX = 4 frozen agents, pool of at most DMAX = 5)"""
 import sys, json, random, collections, time
 import _paths
 import ocsat
 
 
+FMAX, DMAX = 4, 5
+
+
 def make(rng):
-    f = rng.randint(2, 4); W = rng.randint(1, 3); d = rng.randint(3, 5); E = rng.choice([0, 0, 1])
+    f = rng.randint(2, FMAX); W = rng.randint(1, 3); d = rng.randint(3, DMAX); E = rng.choice([0, 0, 1])
     P = list(range(f)); Q = list(range(f, f + W)); D = list(range(f + W, f + W + d)); nxt = f + W + d
     sets, vals = [], []
     for j in range(f):
@@ -29,6 +32,7 @@ def make(rng):
 
 if __name__ == '__main__':
     seed, T = int(sys.argv[1]), int(sys.argv[2]); R = int(sys.argv[3]) if len(sys.argv) > 3 else 0
+    if len(sys.argv) > 5: FMAX, DMAX = int(sys.argv[4]), int(sys.argv[5])
     rng = random.Random(seed); C = collections.Counter(); t0 = time.time()
     print('$ python3 k4/ksens/pw4_search.py', *sys.argv[1:], flush=True)
     for t in range(T):
