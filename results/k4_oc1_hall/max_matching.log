@@ -1,0 +1,19 @@
+$ python3 k4/oc1_hall/max_matching.py mc2
+  maximum: Lemma MAX conclusion True 50
+  maximum: OC1 True 50
+  not maximum: OC1 False 12
+  not maximum: OC1 True 58
+orders, picks maximum 50
+orders, picks not maximum 70
+$ python3 k4/oc1_hall/max_matching.py special
+  maximum: Lemma MAX conclusion True 162
+  maximum: OC1 True 162
+  not maximum: OC1 True 12
+orders, picks maximum 162
+orders, picks not maximum 12
+$ python3 k4/oc1_hall/max_matching.py screen
+  maximum: Lemma MAX conclusion True 3832
+  maximum: OC1 True 3832
+  not maximum: OC1 True 237
+orders, picks maximum 3832
+orders, picks not maximum 237

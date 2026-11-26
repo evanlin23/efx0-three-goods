@@ -82,6 +82,7 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | Finding C (§13) | outside canonical chains, only 20 configurations are left. Every hard start of every data set (n ≤ 5) has a canonical repair from a dangerous agent with owner k or end, except 20 distinct configurations (n = 3–5, smallest T3), listed in `no_canonical.json`. Each of those has a repair from D with owner k or end and exactly one non-canonical step: one middle agent takes its predecessor's good together with junk (17), or k just adds junk to its base (3) | evidence |
 | **Conjecture OC₁-ED\*** (§14; agreed with the TTC session's OC₁-ED); **refuted as stated** by the TTC session's n = 6 instances (§16) | for every order: the picks have a one-absorber completion, or some ED chain (x₀ dangerous; middle agents take exactly their predecessor's pick, which they want; only the head x_t may add junk) leaves an S\* completion owned by x₀ or x_t | evidence: all 2,308 one-absorber-hard starts (n ≤ 5). With "S\*" also in the first alternative it fails only on lb4-owner-needs-from-base-n4m8 (2 starts), which complete at the picks with a compensated frozen slot |
 | Finding D1 (§15) | one dangerous agent k: on all 197 one-absorber-hard starts with \|D\| = 1, some ED chain from k with an *inclusion-minimal* improving H₀ leaves an S\* completion owned by k (rule ED-MIN). The swap (t = 1) is enough whenever f = 1, but fails on 19 configurations with f ≥ 2, listed in `d1_swapmin_fails.json` | evidence |
+| **Lemma MAX** (§19) | if the picks form a maximum matching, no agent reachable from a pickless agent by an alternating path values a junk good. So no pickless agent wants a dangerous frozen agent, or any agent on a want-chain above one, and the pickless-bin pigeonhole of §16/§18 cannot form | written proof (§19); checked at every maximum-matching start of special, screen and the K4.MC2 core |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
 | refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `attempts/k4-oc1-hall-canonical-chains.md` |
 | refuted | a single culprit (LB⁺'s bad case: some owner fails only because of one frozen agent): false at about 30% of the hard starts | `attempts/k4-oc1-hall-single-culprit.md` |
@@ -928,3 +929,50 @@ cannot occur.
 - The TTC session's K4.MC2-class core satisfies OC₁ from all 120 R1-priority orders.
 
 So the R1-priority form of OC₁-ED\* survives everything known.
+
+## 19. Maximum-matching orders (coordinator's proposal): Lemma MAX
+
+The coordinator observed (`k4/sdc/oc1_max_orders.py` on `claude/kind-lamport-y8fdme`) that every known OC₁ failure
+comes from an order whose picks do not form a maximum matching of the agent–good relevance graph. The proposal is
+**OC₁^max / OC₁-ED\*^max**: the same statements for every serial-dictatorship order whose picks form a maximum
+matching. By the Pareto argument in the coordinator's `k4/attack_log.md`, such orders exist, so OC₁^max on cores
+implies TARGET₄.
+
+**Lemma MAX (K4.OCH.MAX).** Let the picks Y form a maximum matching, and let S be the set of agents reachable from a
+pickless agent by an alternating path. Such a path runs u, g₁, j₁, g₂, j₂, … where u has no pick, g_l ∈ R_{j_{l−1}}
+(with j₀ = u) is a pick, and j_l is its holder. Then:
+1. No agent of S values a junk good.
+2. Hence no dangerous frozen agent lies in S. So every agent on a want-chain above a dangerous agent x (its wanters,
+   their wanters, …) holds a pick, and every such chain ends at an unfrozen pick holder.
+
+*Proof.*
+1. If j ∈ S valued a junk good g′, the alternating path from u to j followed by the edge j–g′ would be an augmenting
+   path: u is unmatched, and g′ is unpicked, hence unmatched. Shifting along it gives u the good g₁, each j_l the good
+   g_{l+1}, and j the good g′. That is a larger matching, a contradiction.
+2. If a pickless agent u wanted the pick of some agent x, or of an agent above x (so that x is reached by the wanting
+   arrows u → … → x), then x ∈ S, since wanting a pick means valuing it. By (1), x values no junk, so x is not
+   dangerous.
+
+   Hence for a dangerous x, no agent on any want-chain above x is pickless. Want-chains are finite (wanting points to
+   earlier picks), so each ends at an agent whose pick nobody wants. That agent holds a pick, because a pickless agent
+   would have been excluded. ∎
+
+**Consequence.** The obstruction of §16 and §18 needs two ingredients:
+- dangerous frozen agents (with junk danger sets) whose wanters are pickless;
+- pickless agents as the only junk receivers.
+
+At a maximum-matching start the first is impossible: frozen agents wanted by pickless agents value no junk at all.
+Their goods are all picks, so pickless agents add no demand, and they freeze only non-dangerous agents. The dangerous
+agents and their want-chains live entirely among pick holders, which is the setting of §5–§15.
+
+Lemma MAX does not show that a maximum-matching start has no hard configuration. It removes the pickless pigeonhole.
+
+**Checks** (`k4/oc1_hall/max_matching.py`, `max_matching.log`).
+- The K4.MC2 core of §18: 50 of its 120 orders give maximum-matching picks. Lemma MAX's conclusion holds and OC₁ holds
+  on all 50. The 12 failing orders all have non-maximum picks.
+- special: 162 maximum-matching orders, screen: 3,832. Lemma MAX's conclusion holds on all of them, and so does OC₁.
+- Since every check of this note covered *every* order, OC₁^max and OC₁-ED\*^max inherit all the n ≤ 5 evidence: §14's
+  2,308 one-absorber-hard starts all have an ED repair, and those among them with maximum-matching picks are a subset.
+
+**Proposed statement for the Finding D1 proof:** restrict to maximum-matching starts. Lemma MAX then guarantees that
+k's want-chains consist of pick holders and end at an unfrozen pick holder: exactly the ED chain shape.
