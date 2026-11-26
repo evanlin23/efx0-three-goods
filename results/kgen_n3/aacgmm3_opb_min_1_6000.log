@@ -1,0 +1,7 @@
+$ python3 kgen/aacgmm3_opb_min.py 1 6000
+PR stuck: case 2 (agent 2 cuts): m = 5, values [[2, 3, 1, 1, 1], [1, 0, 3, 0, 3], [1, 0, 0, 1, 1]], order (0, 1, 2), roles (agent 1, 2, 3 of AACGMM) = (0, 1, 2), picks [1, 4, 3]; an OC1 completion with one pick per bundle: [[0, 1], [4], [2, 3]]
+PR stuck: init: m = 4, values [[1, 2, 1, 2], [0, 0, 0, 0], [1, 1, 0, 2]], order (1, 0, 2), roles (agent 1, 2, 3 of AACGMM) = (1, 0, 2), picks [1, 3, 0]; an OC1 completion with one pick per bundle: [[0, 2], [3], [1]]
+case 2 exit not EFX0 (X3 - g_i is not i's best proper subset when g_i must avoid the pick): m = 6, values [[0, 9, 0, 2, 7, 8], [3, 7, 0, 0, 9, 8], [2, 2, 5, 4, 8, 3]], order (0, 1, 2), roles (agent 1, 2, 3 of AACGMM) = (1, 0, 2), picks [1, 4, 2]; an OC1 completion with one pick per bundle: [[0, 1], [3, 4], [2, 5]]
+ends EFX0 but not OC1 (gain fails): m = 3, values [[1, 0, 1], [1, 1, 2], [0, 0, 0]], order (0, 1, 2), roles (agent 1, 2, 3 of AACGMM) = (0, 1, 2), picks [2, 1, 0]; an OC1 completion with one pick per bundle: [[2], [1], [0]]
+potential does not rise after: case 1 + PR: m = 5, values [[7, 4, 8, 0, 0], [5, 7, 6, 0, 6], [0, 5, 8, 4, 0]], order (0, 1, 2), roles (agent 1, 2, 3 of AACGMM) = (1, 0, 2), picks [2, 1, 3]; an OC1 completion with one pick per bundle: [[2], [0, 3, 4], [1]]
+potential does not rise after: case 2, one envied, PR: m = 6, values [[1, 3, 2, 3, 1, 3], [2, 1, 1, 1, 2, 3], [2, 2, 3, 3, 2, 2]], order (1, 2, 0), roles (agent 1, 2, 3 of AACGMM) = (1, 0, 2), picks [1, 5, 3]; an OC1 completion with one pick per bundle: [[0, 1, 2], [5], [3, 4]]
