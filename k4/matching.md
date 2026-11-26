@@ -11,10 +11,10 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
 
 | | statement | status |
 |---|---|---|
-| Lemma M (§1) | S\* completability with owner o is a bipartite matching condition: for some kept-out set H, Lemma 2\*'s slot graph Γ(H) has a matching covering the exposed holders, and the **free-slot deficiency** δ\*(B, o) (least number of extra one-good slots needed) equals min_H (\|H\| − ν(Γ(H))) = min_H max_{S⊆H} (\|S\| − \|N(S)\|) | written proof (§1). Checked against a pruning-free brute force: 428,346 completion tests and 46,945 owner tests (deficiencies 0–5), 0 mismatches |
+| Lemma M (§1) | S\* completability with owner o is a bipartite matching condition: for some kept-out set H, Lemma 2\*'s slot graph Γ(H) has a matching covering the exposed holders, and the **free-slot deficiency** δ\*(B, o) (least number of extra one-good slots needed) equals min_H (\|H\| − ν(Γ(H))) = min_H max_{S⊆H} (\|S\| − \|N(S)\|), H over the kept-out sets with (H1) and E(H) coverable | **PROVED** (written proof, §1; refereed CORRECT, `k4/referee/matching.md` on `claude/k4-referee`, commit 19419c5, with 513,753 independent tests; second reader CORRECT, `k4/oc1_hall.md` §23.1). Checked here against a pruning-free brute force: 428,346 completion tests and 46,945 owner tests (deficiencies 0–5), 0 mismatches |
 | "δ ≤ 1 at perfect starts", "one chain = one augmenting path" (§2) | **false at k = 4**: 249 of the 2,371 hard perfect starts tested have δ = 2 or 3, and one chain repairs every one of them. Smallest: n = 3, m = 6, δ = 2 for every owner (also in the K4.MC2 class); δ = 3 at n = 3, m = 7 | refuted (brute force; `attempts/k4-matching-deficiency.md`) |
 | δ and the k = 5 counterexamples (§2) | PW5: δ = 2, best single move leaves δ = 1 (two chains). RD5: δ = 1, yet no single move repairs. The 41 failing (non-maximum) starts of the k = 4 core counterexamples all have δ = 2 | computed (brute force) |
-| Lemma EX (§3) | an improving chain is an *exchange* in the slot graph: if, after the chain, Lemma 2\*'s slot graph **of the picks** with the chain agents' demands deleted or raised has deficiency at most the number s of slots the chain frees, the state completes (S\* shape, any chosen owner). For o = k and a canonical chain: the owner set W_{x_t} of the end, k's demand deleted | written proof (§3); the proof's allocation is built and is EFX₀ (raw) on all 49,771 (chain, H₀, owner) triples where the hypothesis holds; 0 violations |
+| Lemma EX (§3) | an improving chain is an *exchange* in the slot graph: if, after the chain, Lemma 2\*'s slot graph **of the picks** with the chain agents' demands deleted or raised has deficiency at most the number s of slots the chain frees, the state completes (S\* shape, any chosen owner). For o = k and a canonical chain: the owner set W_{x_t} of the end, k's demand deleted | **PROVED, as a sufficient condition** (written proof, §3; refereed CORRECT, same report, 309,568 independent allocations, every hypothesis shown necessary to the proof). It is not exact: lb4-n2m5-upgrade (Hall §23.1) completes after a chain only by compensating a threatened head, which (1′) excludes. The exact version is Lemma EX\* (Lemma M after the move). Here the proof's allocation is built and is EFX₀ (raw) on all 49,771 (chain, H₀, owner) triples where the hypothesis holds; 0 violations |
 | Conjecture CM (§3) | at every one-absorber-hard perfect start (k ≤ 4), some chain from a dangerous agent, some H₀ and some owner satisfy Lemma EX's hypothesis. CM ⟹ OC₁ at perfect starts ⟹ (RED, MAXSD) TARGET₄ | **refuted with OC₁^max** by the 11 n = 4 cores of compute/k4-oc1max-cert (§5). Before that: 2,371 of 2,371 hard perfect starts (Hall session's 2,071, the 9 of the core counterexamples, 291 of the PW design space) |
 | CM ⟺ OC₁ on the data (§3, §5) | one exchange (Lemma EX / EX\*) repairs exactly when one move gives an S\* completion, at every hard perfect start tested: the 2,371 starts, the 30 of the 11 n = 4 instances, the walks near the n = 4 failures. Near those failures, 88 starts satisfy OC₁ only through a non-S\* completion (a compensated frozen slot) | computed |
 | Lemma EX\* (§5) | the exchange at any state: Lemma M applied after a move, read in the slot graph before it (ownership moved, chain agents' demands re-evaluated, the chain's new slots added) | written proof (§5), a corollary of Lemma M; 0 violations |
@@ -26,8 +26,9 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
    changes the *demand side*: the head's whole demand goes (two kept-out goods at k = 4 for a danger triangle), middle
    agents' demands shrink, ownership moves, and a few slots appear. So one chain can remove a deficiency of 2 or 3 at
    k = 4, and the static bound "deficiency ≤ 1" is false where OC₁ holds.
-2. The correspondence that is exact is Lemma EX. The chain moves ownership and deletes the chain agents' demands in the
-   picks' slot graph. The repair condition is a Hall condition there: deficiency ≤ the chain's free slots.
+2. The right correspondence is the exchange. Lemma EX (sufficient) and Lemma EX\* (Lemma M after the move, exact for
+   the S\* shape) say: the chain moves ownership, deletes or raises the chain agents' demands in the slot graph, and adds
+   the slots it creates. The repair condition is a Hall condition there.
 3. OC₁^max is implied by Conjecture CM, which is a static Hall-type statement about the picks and one chain. On every
    hard perfect start tested, CM holds exactly where a single move gives an S\* completion. That is where OC₁ holds,
    except for 88 starts near the n = 4 failures that need a non-S\* completion. OC₁^max is now refuted at n = 4
@@ -71,6 +72,7 @@ For H ⊆ J let X(H) = W_o ∖ H, and define:
 **Lemma M (K4.MATCH.M).** For every d ≥ 0, B has an S\* completion with owner o and d dummy slots iff some H ⊆ J
 satisfies (H1) and Γ(H) has a matching that covers E(H) and has at least |H| − d edges. Hence
 > δ\*(B, o) = min { |H| − ν(Γ(H)) : H ⊆ J, (H1)(H), E(H) coverable in Γ(H) } = min_H max_{S ⊆ H} (|S| − |N_{Γ(H)}(S)|),
+> where in the second form H ranges over the same family (H1)(H) with E(H) coverable,
 
 and B completes with owner o iff some admissible H has a system of distinct admissible holders that also covers every
 exposed holder.
@@ -163,7 +165,7 @@ have δ = 1.
   When this section was written, the 41 non-maximum k = 4 failures (all δ = 2) were the only k = 4 failures known.
 - PW5 behaves as the naive picture says: δ = 2, two chains.
 
-**Where the augmenting-path picture breaks** (the exchange accounting below makes this exact). An augmenting path
+**Where the augmenting-path picture breaks** (the exchange accounting below makes this precise). An augmenting path
 raises the matching by one with the demand side fixed. A chain from a dangerous k does three other things:
 1. it moves ownership, from whoever owned before to k or the end;
 2. it deletes k's whole demand: k holds its improving set, so it has no danger set left (Lemma PL(b) at k = 4). At
@@ -171,7 +173,7 @@ raises the matching by one with the demand side fixed. A chain from a dangerous 
 3. it raises every middle agent to the pick it wanted, which shrinks or deletes their demands, and it can unfreeze
    other agents.
 
-So the right object is the demand side of the slot graph, not ν. Lemma EX makes this exact.
+So the right object is the demand side of the slot graph, not ν. Lemma EX (§3) makes this precise.
 
 ## 3. Lemma EX: a chain as an exchange in the slot graph of the picks
 
@@ -229,8 +231,22 @@ repairs.**
 - For o = k and a canonical chain (no junk for x₁, …, x_t): B′_k ∪ J′ = J ∪ {y_{x_t}} = W_{x_t}. So the chain is
   literally an exchange in the picks' slot graph: ownership moves from the end x_t to k, k's demand is deleted, middle
   demands are raised, and the end becomes a slot if it is unfrozen at B′.
-- With D = {k}, o = k and H = ∅ this is the Hall session's Lemma D1-red. There, CROWD is the exposure of holders by
-  H₀ ⊆ X, which Lemma M's full-witness form handles by compensation.
+- With D = {k}, o = k and a canonical chain, Lemma EX relates to the Hall session's Lemma D1-red as follows:
+  - when no holder is exposed, D1-red is EX with H = ∅;
+  - in general, D1-red is EX with H = the goods of Theorem DT's moves, via Lemma M ⟺ Lemma 2\*
+    (`k4/oc1_hall.md` §23.1).
+  CROWD is the exposure of holders by H₀ ⊆ X. Lemma M's full-witness form handles it by compensation, but that does not
+  make the compensation exist.
+- **EX is sufficient, not exact** (second reader, `k4/oc1_hall.md` §23.1; `k4/oc1_hall/ex_not_exact.py` on
+  `claude/k4-oc1-hall`).
+  - Instance: lb4-n2m5-upgrade, sets [[0,2,3,4],[1,2,3,4]], values [[1,4,6,8],[2,4,5,8]], order (0, 1), chain (0, 1),
+    H₀ = {2, 3}, owner 0.
+  - B′ has the S\* completion [[2,3,0],[4,1]]: the head takes junk good 1 as compensation.
+  - (1′) requires every chain agent other than o to be unthreatened outright, so EX misses it.
+  - The exact version is Lemma M at B′, in which the chain's single-good holders are compensable slots. That is Lemma
+    EX\* of §5.
+  - The referee notes a free strengthening that EX\* also contains: Ext may include the chain agents unfrozen at Y that
+    are unfrozen single-good holders at B′.
 
 *Check* (`k4/matching/exchange.py`; `results/k4_matching/exchange_all.log` for the 2,071 + 9 starts,
 `exchange_pw_7_300.log` for the PW design).
