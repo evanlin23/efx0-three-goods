@@ -4,6 +4,22 @@ Branch `claude/k4-vm`, draft PR "[proof/k4-vm] From 4-limited EFX to EFX₀". Co
 Everything called evidence below is evidence only (PROMPT.md §5 rule 3). Nothing here changes a ledger row; the
 coordinator integrates.
 
+## Status (burst 2, in progress; burst 1 below it)
+
+- **Burst 2: EFX₀ repairs of V-M, killed or confirmed by computation** (§6, §7).
+  - F1 (EFX₀ graph over all agents), F2 (EFX₀-safe Phase III), F3 (L3 junk) and rotation complete V-M's matching
+    wherever it extends, on screen, logs, SPECIAL and cores n = 3 and n = 5.
+  - **The completion conjecture VC is REFUTED** at n = 4, m = 8 (`attempts/k4-vm-completion.md`, independent
+    replay). V-M's Phase III order hands a good to the wrong agent.
+  - Adding **exchange moves (F6x)** gives a run that ends EFX₀ on all 168 screen instances. But the two natural
+    deterministic rules fail: "move only when stuck" on 2 instances, "move whenever possible" on 5 (smallest n = 3,
+    m = 6).
+  - **Proved** (§7): every run of the repaired procedure VMˣ keeps a partial EFX₀ allocation (Lemma SND) and stops
+    after at most m placements and 15n value-raising moves (Lemma TERM).
+  - The open part is **Conjecture VMX**: some run never gets stuck. VMX implies TARGET₄ and, for V-M's matchings,
+    Conjecture MD. Its runs are value-monotone, so P1 (K4.SDC.P1) explains why the choice of path matters.
+  - Pending: F5 (strip and refill), the fair order, F6x beyond the screen set.
+
 ## Status (end of burst 1)
 
 - **Source read in full.** The AAMAS 2024 extended abstract (3 pp.) was fetched from ifaamas.org and its text extracted
@@ -266,20 +282,138 @@ Every instance has an EFX₀ allocation (the SAT check agrees).
   So at k = 4 an agent must sometimes refuse its uncontested top for an *upper set*, a pair worth more than the top.
   Ordinary EFX never needs this: there, good 0 or 1 in agent 0's bundle is invisible to agents 1 and 2.
 
-## 6. Plan for the EFX₀ repair (burst 2)
+## 6. EFX₀ repairs: what each one fixes (burst 2)
 
-The three stages need different fixes.
-- **F1 (S3): the EFX₀ graph.** Candidates for good j are all agents s such that nobody EFX₀-envies X_s ∪ {j}. For a
-  non-valuer i of j that means v_i(X_s) ≤ v_i(X_i). For a valuer it means the ordinary EFX test with the minimum over
-  all goods. Under ordinary EFX the non-valuers can be ignored, which is why V-M restricts the nodes. Here they are the
-  whole difficulty.
-- **F2 (S2): EFX₀-safe Phase III.** A claimant receives its 3rd or 4th choice only if the new bundle is EFX₀-safe.
-  Otherwise the good goes on to the F1 step. The saturation structure behind V-M's ordinary-EFX argument is then lost,
-  so this needs its own test.
-- **F3:** junk by L3 (already in place).
-- **F4 (S1): the matching.** The rank-greedy orders are not enough (Lemma PO with §5.3). Options:
-  - let an agent choose an *upper set* instead of its uncontested top;
-  - or use SD orders beyond rank-greedy (SD-C), with the V-M completion.
+All repairs keep V-M's skeleton and change only the rule for where a good goes.
+- **F1, the EFX₀ graph.** A pool good g may go to any agent s such that nobody EFX₀-envies X_s ∪ {g}. For a
+  non-valuer i of g this means v_i(X_s) ≤ v_i(X_i); for a valuer, the threat with the minimum over all goods.
+- **F2, EFX₀-safe Phase III.** A claimant gets its 3rd or 4th choice only if F1's test passes; otherwise the good
+  waits for the F1 step.
+- **F3:** junk by L3.
+- **rot:** rotate envy cycles before every F1 placement (L3's rotation).
+- **F5, the final exchange:** take V-M's EFX output and strip zero-valued goods out of envied bundles until it is
+  EFX₀, then re-place them by F1 with rotation. This is the only repair whose steps can lower a value.
+- **F6, upgrades.** An agent holding a single good y swaps it for a minimal set S ⊆ pool ∩ R_i with
+  v_i(S) > v_i(y), if the state stays EFX₀; y returns to the pool.
+- **F6x, exchanges.** F6 plus two-agent exchanges: i (holding a single y) takes {z} ∪ S, where z ∈ X_j and S ⊆ pool;
+  j takes X_j − z + y. Both strictly gain, and the state stays EFX₀.
 
-The kill-or-confirm question for F1–F3: on the instances where some V-M matching extends (S1 passes), does V-M with
-F1–F3 always end EFX₀ for some resolution of its choices, or for every one?
+When moves are applied is a mode:
+- choice: a move or a placement, at every step;
+- eager: a move whenever one exists;
+- stuck: moves only when the chosen good has no safe place.
+
+Code: `vmlib.vm0_run` (F1–F3, rot), `vm_strip_run` (F5), `vm6_run` (F6), `vm6x_run` (F6x). Drivers: `vm0_test.py`,
+`vm_strip_test.py`, `vm6_test.py`; the S1 check is `vm_extend.py`. Every resolution of the choice points is
+enumerated by DFS, up to a cap, then sampled.
+
+### 6.1 F1–F3 and rotation: the completion works whenever V-M's matching extends
+
+| source | instances | some V-M matching extends (S1) | F1–F3: some run EFX₀ | F1–F3+rot: some run EFX₀ | S1 passes but F1–F3+rot fails | log |
+|---|---|---|---|---|---|---|
+| screen | 168 | 147 | 146 | 154 | **0** | `vm0_screen.log` |
+| logged hard profiles | 42 | 34 | 34 | 40 | **0** | `vm0_logs.log` |
+| SPECIAL | 4 | 3 | 3 | 4 | **0** | `vm0_special.log` |
+| cores n = 3 | 3,000 | 2,977 | 2,977 | 2,992 | **0** | `vm0_cores3.log` |
+| cores n = 4 | 3,000 | 2,992 | 2,990 | 2,997 | **1** (`core4:1615`) | `vm0_cores4.log` |
+| cores n = 5 | 1,000 | 996 | | 999 | **0** | `vm0_cores5.log` |
+
+- Without F2, the unfiltered Phase III loses 6 more screen instances (`nof2`).
+- F1 alone (no rotation) misses one screen instance where S1 passes (`hall-local3`, n = 3, m = 7).
+- Rotation also rescues some S1 failures, because it moves the matched goods: 7 of 21 on the screen set, 15 of 23 on
+  cores n = 3.
+
+**Conjecture VC (completion of V-M's matching): REFUTED** (`attempts/k4-vm-completion.md`). VC said: if some EFX₀
+allocation contains a Phases I–II matching of V-M, then some run of F2, then F1 with rotation, then F3, from some V-M
+matching, ends EFX₀. It held on every instance above except `core4:1615` (n = 4, m = 8, a random profile of a
+certified core). There:
+- the matching ({7}, {3}, {5}, {4}) extends;
+- but V-M's Phase III serves N₃ before N₂ and hands good 6 to agent 2 as its 4th choice;
+- both extensions need 6 with agent 1, as its 3rd choice;
+- every sequence of safe placements then gets stuck, and no reachable state has an envy cycle (independent replay
+  `attempts/k4_vm_completion.py`).
+
+F6x (§6.2) completes it.
+
+VC is specific to V-M's rank-greedy matchings. From an *arbitrary* SD outcome that extends, the same completion fails
+on 24 outcomes of the screen set (GM4-A to -G and `gap-ivsetting-n3-m6-n3c23` among them; `vm0_sd_screen.log`).
+Still, on all 168 screen instances *some* SD outcome completes this way.
+
+### 6.2 Upgrades and exchanges: every screen instance
+
+| repair (with rotation) | screen: some run EFX₀ | every run EFX₀ | instances with no EFX₀ run (smallest) |
+|---|---|---|---|
+| F1–F3 | 154 | 77 | 14, all S1 failures; `c4-exposure-nonleader-n3m5` (n = 3, m = 5) |
+| F6 eager | 161 | 109 | 7; `lil-text-n3` (n = 3, m = 7) |
+| F6 choice | 166 | | 2: `lil-text-n3`, `red-lil-nokeep-b` (n = 3, m = 7) |
+| F6x stuck | 166 | 103 | 2: `c4min-tlam-n3-m6`, `c4x-n3m6-3good-first` (n = 3, m = 6) |
+| F6x eager | 163 | | 5; `c4x-n3m8-pure-top7` (n = 3, m = 8) |
+| **F6x choice** | **168** | 64 | **none** |
+
+Logs: `vm6_screen.log`; the other sources are in §6.4.
+
+What the moves do on the smallest failures, by brute force over all allocations (`k4/vm.md` §5.3 and
+`attempts/k4-vm-deterministic.md`):
+- **`c4-exposure-nonleader-n3m5` (S1).** Agent 0 must trade its uncontested top {3} (8) for its private pair {0, 1}
+  (9). F6 does that as an upgrade from the pool. The freed good 3 then lets the holder of good 2 upgrade to {3}, and
+  every F6-eager run ends EFX₀.
+- **`lil-text-n3`.** Every EFX₀ allocation where agent 1 keeps its big top 5 gives agent 0 an upper set containing
+  good 6, which V-M gave agent 2 at step 3. The repair is an *exchange*: agent 0 gives 4 to agent 2 and takes 6 and
+  pool good 0. A pool-only upgrade cannot do it.
+- **`c4min-tlam-n3-m6`** (lazy F6x fails). Agent 0 must swap its top {5} for {0, 1, 2} *before* the pool goods are
+  placed. The lazy rule waits until a good is stuck, and by then goods 0 and 1 sit in agent 2's bundle.
+- **`c4x-n3m8-pure-top7`** (eager F6x fails). Three agents with the same pattern (two private goods, shared 6 and 7).
+  An early upgrade takes the private goods that a later placement needed.
+
+So the moves are needed, *and* when to apply them matters: neither "always" nor "only when stuck" works. This is
+P1's lesson (K4.SDC.P1) inside V-M's frame. Every step of F1–F6x is value-monotone (nobody loses), so a run can walk
+into a stuck partial EFX₀ allocation, and only the choice of path avoids it.
+
+### 6.3 F5 (strip and refill) and the fair order
+
+PENDING (`vm_strip_*.log`, `vm0_fair_*.log`).
+
+### 6.4 F6x choice beyond the screen set
+
+PENDING (`vm6_*.log`).
+
+## 7. Proved: soundness and termination of the repaired procedure
+
+Call VMˣ the procedure: V-M's Phases I–II, then Phase III with F2, then (rotation; F6x move or F1 placement)
+repeated while a valued good is unassigned, then F3. Each choice point is resolved arbitrarily. Write
+ℓ_i(B) = #{T ⊆ R_i : v_i(T) < v_i(B)} and Φ(X) = Σ_i ℓ_i(X_i) ≤ Σ_i (2^{|R_i|} − 1) ≤ 15n.
+
+**Lemma SND (soundness).** Every state of a run of VMˣ is a partial EFX₀ allocation. A run that never finds a good
+without a safe place returns a complete EFX₀ allocation.
+
+*Proof.*
+- A one-good allocation (after Phase II) is EFX₀: removing the only good of a singleton leaves value 0.
+- F2 and F1 add g to X_s only if no agent i ≠ s EFX₀-envies X_s ∪ {g}. Every other bundle is unchanged, and v_s
+  does not decrease, so s's own conditions still hold.
+- A rotation keeps the set of bundles and raises each rotated agent's value. The bundle an agent gives up is one it
+  values less than its new bundle, and envy-freeness up to any good toward it holds a fortiori.
+- F6x moves are applied only if the resulting state passes the raw EFX₀ check (`efx_violations`).
+- The junk step is L3: after rotations the receiver s is unenvied, and junk is worthless to everyone, so
+  v_i(X_s ∪ J ∖ h) ≤ v_i(X_s ∪ J) = v_i(X_s) ≤ v_i(X_i). ∎
+
+**Lemma TERM (termination).** Every run of VMˣ performs at most m placements and at most Φ_max ≤ 15n rotations,
+upgrades and exchanges. Each step takes polynomial time.
+
+*Proof.*
+- An upgrade takes |S| ≥ 1 goods from the pool and returns one; an exchange takes |S| ≥ 0 goods and returns none. So
+  the pool never grows, and each placement shrinks it by one.
+- Rotations, upgrades and exchanges strictly raise the value of at least one agent and lower none. If v_i rises from
+  v_i(B) to v_i(B′), the set B ∩ R_i is counted in ℓ_i(B′) but not in ℓ_i(B), so Φ strictly rises.
+- Placements never lower a value, so Φ never falls.
+- Each step enumerates at most n agents, n² · 4 exchange partners and C(4, ≤ 3) pool subsets, and runs an O(n²m)
+  EFX₀ check. ∎
+
+So the whole difficulty is in one sentence:
+
+**Conjecture VMX (evidence only).** In every instance in which every agent values at most four goods, some run of VMˣ
+never gets stuck.
+
+VMX implies TARGET₄ (Lemma SND). It also implies, for the V-M matching the run starts from, the value domination of
+Conjecture MD (K4.SDC.MD, `k4/sdc.md` §28): the final allocation value-dominates the start, because no step lowers a
+value. VMX is a *path* statement. Its runs are Pareto-monotone, so by P1 they can be trapped, and VMX says that some
+path avoids every trap.

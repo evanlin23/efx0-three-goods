@@ -1,0 +1,12 @@
+$ python3 k4/vm/vm0_test.py cores:5:1000:13 --variants=f2,f2rot --limit=1000 --samples=100
+S1 passes (some V-M matching extends)              996
+f2: S1 fails, some run EFX0                        0
+f2: S1 passes, no run EFX0                         0
+f2: every run EFX0                                 879
+f2: some run EFX0                                  996
+f2rot: S1 fails, some run EFX0                     3
+f2rot: S1 passes, no run EFX0                      0
+f2rot: every run EFX0                              883
+f2rot: some run EFX0                               999
+instances                                          1000
+time 106 s

@@ -1,0 +1,1 @@
+$ python3 k4/vm/vm0_test.py gen:10000:14:6:10:20 --variants=f2,f2rot

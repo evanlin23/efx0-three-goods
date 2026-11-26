@@ -269,3 +269,270 @@ def find_cycle(E, n):
                 path.append(nxt)
                 return path[::-1]
     return None
+
+
+# ------------------------------------------------------------------ EFX0 repairs (k4/vm.md section 6)
+def safe_add(I, X, s, g):
+    """adding g to X_s keeps the allocation EFX0 (given it is EFX0 now): nobody EFX0-envies X_s + g"""
+    B = X[s] + [g]
+    return not any(efx0_envies(I, X, i, B) for i in range(I.n) if i != s)
+
+
+def vm0_run(I, ch, f2=True, rot=False, order='choice', base=None, record=False, stop=None):
+    """VM with F1 (EFX0 graph: any agent whose bundle stays EFX0-unenvied may take the good), F2 (Phase III matchings
+    only to claimants for which the addition is EFX0-safe; other goods wait for the F1 step), F3 (junk by L3).
+    rot=True: rotate envy cycles away before every F1 placement.  order: 'choice' (any unassigned valued good next) or
+    'fixed' (smallest index first).  base: an optional one-good matching to start from instead of Phases I-II
+    (list of good or None per agent; its agents are then grouped by the rank of their good)."""
+    n, m = I.n, I.m
+    X = [[] for _ in range(n)]; avail = set(range(m)); log = []; flags = {}
+    if base is None:
+        def strong(i):
+            r = I.rank[i]
+            if not r: return False
+            a = I.v[i][r[0]]; b = I.v[i][r[1]] if len(r) > 1 else 0; c = I.v[i][r[2]] if len(r) > 2 else 0
+            return a > b + c
+        A = set(i for i in range(n) if strong(i)); owner = {}
+        MA = matching_step(I, ch, A, avail, 1, 'G', 'I', X, owner, log)
+        Nr = set(range(n)) - MA; Nk = {}
+        for k in (1, 2, 3, 4):
+            Nk[k] = matching_step(I, ch, Nr, avail, k, 'G', 'II.%d' % k, X, owner, log); Nr -= Nk[k]
+    else:
+        Nk = {k: set() for k in (1, 2, 3, 4)}
+        for i, g in enumerate(base):
+            if g is not None:
+                X[i].append(g); avail.discard(g); log.append(('base', i, g))
+                Nk[I.rank[i].index(g) + 1].add(i)
+    if stop == 'II':
+        return X, flags
+
+    def mstep(agents, k, tag):
+        claim = {}
+        for i in sorted(agents):
+            r = I.rank[i]
+            g = r[k - 1] if len(r) >= k else None
+            if g is not None and g in avail:
+                claim.setdefault(g, []).append(i)
+        got = set()
+        for g in sorted(claim):
+            opts = [i for i in claim[g] if (not f2) or safe_add(I, X, i, g)]
+            if not opts:
+                continue
+            i = ch.pick((tag, g), opts)
+            X[i].append(g); avail.discard(g); got.add(i); log.append((tag, i, g))
+        return got
+    mstep(Nk[3], 4, 'III.3-4')
+    N2r = mstep(Nk[2], 3, 'III.2-3')
+    mstep(Nk[2] - N2r, 4, 'III.2-4')
+    if stop == 'IIIm':
+        return X, flags
+    while True:
+        valued = sorted(g for g in avail if I.valued_by(g))
+        if not valued:
+            break
+        g = ch.pick('egood', valued) if order == 'choice' else valued[0]
+        if rot:
+            l3_source(I, X)            # rotates in place; EFX0 is preserved by rotations
+        cands = [s for s in range(n) if safe_add(I, X, s, g)]
+        if not cands:
+            raise Stuck(('no_safe', g, [list(b) for b in X]))
+        s = ch.pick(('esrc', g), cands)
+        X[s].append(g); avail.discard(g); log.append(('F1', s, g))
+    J = sorted(avail)
+    if J:
+        s = l3_source(I, X)
+        for g in J:
+            X[s].append(g); log.append(('junk', s, g))
+    if record:
+        flags['log'] = log
+    return X, flags
+
+
+def vm_strip_run(I, ch, rot=True, which='choice', **kw):
+    """F5: V-M (main reading) to a complete EFX allocation, then strip: while some zero-good EFX0 violation (i envies
+    X_j, z in X_j, v_i(z) = 0) exists, remove such a z from X_j (choice of violation: 'choice' or 'first'); then
+    re-place the stripped goods one by one into bundles that stay EFX0-unenvied (F1, rotation before each placement
+    if rot), junk last by L3.  Raises Stuck if a stripped good has no safe place or stripping does not reach EFX0."""
+    X, fl = vm_run(I, ch, junk='L3')
+    X = [list(b) for b in X]
+    pool = []
+    for _ in range(4 * I.m + 4):
+        viol = efx_violations(I, X, zero=True)
+        if not viol:
+            break
+        zv = sorted(set((j, g) for (i, j, g) in viol if I.v[i].get(g, 0) == 0))
+        if not zv:
+            raise Stuck(('positive_violation', [list(b) for b in X]))
+        j, g = ch.pick('strip', zv) if which == 'choice' else zv[0]
+        X[j].remove(g); pool.append(g)
+    else:
+        raise Stuck(('strip_loop', [list(b) for b in X]))
+    if efx_violations(I, X, zero=True):
+        raise Stuck(('strip_not_efx0', [list(b) for b in X]))
+    valued = sorted(g for g in pool if I.valued_by(g)); junk = sorted(g for g in pool if not I.valued_by(g))
+    while valued:
+        g = ch.pick('regood', valued)
+        valued.remove(g)
+        if rot:
+            l3_source(I, X)
+        cands = [s for s in range(I.n) if safe_add(I, X, s, g)]
+        if not cands:
+            raise Stuck(('no_safe', g, [list(b) for b in X]))
+        s = ch.pick(('resrc', g), cands)
+        X[s].append(g)
+    if junk:
+        s = l3_source(I, X)
+        X[s] += junk
+    return X, {}
+
+
+def upgrades(I, X, pool):
+    """F6 moves: (i, S) with X_i a single good y, S a subset of the pool inside R_i with v_i(S) > v_i(y), and the
+    state after X_i := S (y back to the pool) EFX0 (nobody EFX0-envies S; i's own value only rises)"""
+    out = []
+    P = sorted(g for g in pool)
+    for i in range(I.n):
+        if len(X[i]) != 1:
+            continue
+        y = X[i][0]; vy = I.v[i].get(y, 0)
+        mine = [g for g in P if g in I.v[i]]
+        for r in range(1, min(4, len(mine)) + 1):
+            for S in itertools.combinations(mine, r):
+                if I.val(i, S) <= vy:
+                    continue
+                if any(I.val(i, [h for h in S if h != g]) > vy for g in S):
+                    continue                           # minimal: every proper subset is worth at most y
+                Y = [list(b) for b in X]; Y[i] = list(S)
+                if not any(efx0_envies(I, Y, k, Y[i]) for k in range(I.n) if k != i) and \
+                        not any(efx0_envies(I, Y, i, Y[j]) for j in range(I.n) if j != i):
+                    out.append((i, S))
+    return out
+
+
+def vm6_run(I, ch, rot=True, upg='choice', base=None, record=False):
+    """F6: as vm0_run (F2, F1 with rotation, F3), but before every F1 placement the chooser may instead apply an
+    upgrade move (upgrades()).  upg='choice': upgrades and 'place' are choice points; 'eager': apply the first
+    upgrade whenever one exists; 'stuck': upgrades only when the chosen good has no safe place."""
+    X, fl = vm0_run(I, ch, f2=True, rot=rot, base=base, stop='IIIm')
+    X = [list(b) for b in X]
+    held = set(g for b in X for g in b)
+    pool = set(g for g in range(I.m) if g not in held)
+    log = []
+    for step in range((16 * I.n + 1) * (I.m + 1) + 10):
+        valued = sorted(g for g in pool if I.valued_by(g))
+        if not valued:
+            break
+        if rot:
+            l3_source(I, X)
+        ups = upgrades(I, X, pool) if upg in ('choice', 'eager') else []
+        if ups:
+            if upg == 'eager':
+                act = ups[0]
+            else:
+                act = ch.pick('upg', ups + ['place'])
+            if act != 'place':
+                i, S = act; y = X[i][0]
+                X[i] = list(S); pool -= set(S); pool.add(y); log.append(('upg', i, y, S))
+                continue
+        g = ch.pick('egood', valued)
+        cands = [s for s in range(I.n) if safe_add(I, X, s, g)]
+        if not cands and upg == 'stuck':
+            ups = upgrades(I, X, pool)
+            if ups:
+                i, S = ch.pick('upg', ups); y = X[i][0]
+                X[i] = list(S); pool -= set(S); pool.add(y); log.append(('upg', i, y, S))
+                continue
+        if not cands:
+            raise Stuck(('no_safe', g, [list(b) for b in X]))
+        s = ch.pick(('esrc', g), cands)
+        X[s].append(g); pool.discard(g); log.append(('F1', s, g))
+    else:
+        raise Stuck(('loop',))
+    J = sorted(pool)
+    if J:
+        s = l3_source(I, X)
+        X[s] += J
+    fl = {'log': log} if record else {}
+    return X, fl
+
+
+def exchanges(I, X, pool):
+    """F6x moves: (i, j, z, P) with X_i = {y} a single good, z in X_j (j != i), P a subset of the pool: i gets
+    {z} + P, j gets X_j - z + y; both strictly gain; the new state is EFX0.  Also the pool-only upgrades (j = None)."""
+    out = [(i, None, None, S) for (i, S) in upgrades(I, X, pool)]
+    P = sorted(pool)
+    for i in range(I.n):
+        if len(X[i]) != 1:
+            continue
+        y = X[i][0]; vy = I.v[i].get(y, 0)
+        mine = [g for g in P if g in I.v[i]]
+        for j in range(I.n):
+            if j == i or y not in I.v[j]:
+                continue
+            for z in X[j]:
+                if z not in I.v[i]:
+                    continue
+                Bj = [h for h in X[j] if h != z] + [y]
+                if I.val(j, Bj) <= I.val(j, X[j]):
+                    continue
+                for r in range(0, min(3, len(mine)) + 1):
+                    for S in itertools.combinations(mine, r):
+                        Bi = [z] + list(S)
+                        if I.val(i, Bi) <= vy:
+                            continue
+                        Y = [list(b) for b in X]; Y[i] = Bi; Y[j] = Bj
+                        if not efx_violations(I, Y, zero=True):
+                            out.append((i, j, z, S))
+    return out
+
+
+def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False):
+    """F6x: as vm6_run with upgrade moves replaced by exchanges() (pool-only upgrades included).
+    mode='choice': moves and 'place' are choice points; 'eager': a move is applied whenever one exists (which one is
+    a choice point); 'eager1': the first move in exchanges()'s order; 'stuck': moves only when the chosen good has no
+    safe place."""
+    X, fl = vm0_run(I, ch, f2=True, rot=rot, base=base, stop='IIIm')
+    X = [list(b) for b in X]
+    held = set(g for b in X for g in b)
+    pool = set(g for g in range(I.m) if g not in held)
+    log = []
+
+    def apply(mv):
+        i, j, z, S = mv; y = X[i][0]
+        if j is None:
+            X[i] = list(S)
+        else:
+            X[j] = [h for h in X[j] if h != z] + [y]; X[i] = [z] + list(S); y = None
+        pool.difference_update(S)
+        if y is not None:
+            pool.add(y)
+        log.append(('move', mv))
+    for step in range((16 * I.n + 1) * (I.m + 1) + 10):
+        valued = sorted(g for g in pool if I.valued_by(g))
+        if not valued:
+            break
+        if rot:
+            l3_source(I, X)
+        if mode in ('choice', 'eager', 'eager1'):
+            mv = exchanges(I, X, pool)
+            if mv:
+                act = ch.pick('mv', mv + ['place']) if mode == 'choice' else (mv[0] if mode == 'eager1' else ch.pick('mv', mv))
+                if act != 'place':
+                    apply(act); continue
+        g = ch.pick('egood', valued)
+        cands = [s for s in range(I.n) if safe_add(I, X, s, g)]
+        if not cands and mode == 'stuck':
+            mv = exchanges(I, X, pool)
+            if mv:
+                apply(ch.pick('mv', mv)); continue
+        if not cands:
+            raise Stuck(('no_safe', g, [list(b) for b in X]))
+        s = ch.pick(('esrc', g), cands)
+        X[s].append(g); pool.discard(g); log.append(('F1', s, g))
+    else:
+        raise Stuck(('loop',))
+    J = sorted(pool)
+    if J:
+        s = l3_source(I, X)
+        X[s] += J
+    return X, ({'log': log} if record else {})
