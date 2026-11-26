@@ -914,23 +914,32 @@ EFX₀ definition. A failure is re-checked with 50× larger caps, then by the un
 | PW(f, W, r) grid, f = 2–4, W = 1–3, k = max(r + 1, f + 1) ≤ 9, one instance each | 63 | 61 | 0: 52; 1: 9 | `vm1_pwgrid.log` |
 | long climbs, k = 5, 6, 8, n = 4–6 | see the logs | | | `vm1_climb_k*_long.log` |
 
-**VM1 is refuted at k = 7** (`attempts/k4-vm-vm1-k7.md`):
-- The instance is PW(2, 3, 6)#0, with n = 5 and m = 11.
-- With at most one move nothing completes: 4 matchings and 90 states one move away, checked uncapped and by an
-  independent replay over a superset of the moves.
-- Two moves suffice: both frozen x's trade their picks for sets of the shared pool D.
-- PW(3, 3, 8)#0 (k = 9, n = 6, m = 14) fails with zero, one and **two** moves: 4, 273 and 3,319 states, uncapped
-  (`vm1_verify_pw338.log`). So "at most two moves" (VM2) fails at k = 9. **Three moves suffice**: all three frozen
-  x's trade their picks for sets of D, e.g. ({6, 7}, {8, 9, 10}, {13, 11, 4, 3}, {2}, {0}, {5, 12, 1}). Replay:
-  `attempts/k4_vm_vm2_pw338.py`.
-- Every PW instance with k ≤ 6 passes.
+**VM1 is refuted at k = 6** (`attempts/k4-vm-vm1-k6.md`):
+- The instance is PW(4, 3, 5)#1, with n = 7 and m = 12. It was found on the second pass over the grid, with three
+  instances per configuration up to k = 6 (`vm1_plain_big.log`, last source). PW(4, 3, 5)#0 passes.
+- With at most one move nothing completes: 4 matchings and 112 states one move away. This was checked uncapped
+  (`vm1_verify_pw435_1.log`) and by an independent replay over a superset of the moves (`attempts/k4_vm_vm1_pw435.py`).
+- Two moves suffice: x₁ and x₃ each trade their pick for two goods of D, and the fifth D-good is parked on a wanter
+  that does not value it.
 
-So VM1 is not a general-k statement. On the PW family it holds up to k = 6 and fails from k = 7. That fits the
-k-sensitivity session's "c chains fail from k = 2c + 3" shifted by two, i.e. c moves of VM failing from k = 2c + 5.
-Two data points support this so far: c = 1 at k = 7 and c = 2 at k = 9, and on both the number of moves needed is
-exactly f, the number of frozen agents (2 and 3). **VMX₂ (any number of moves) is the general-k form**, and it
-completes both PW failures. At k = 4,
-VM1 is unaffected.
+**Earlier failures at k = 7 and k = 9** (`attempts/k4-vm-vm1-k7.md`):
+- PW(2, 3, 6)#0 (k = 7, n = 5, m = 11):
+  - with at most one move nothing completes (4 matchings, and 90 states one move away), checked uncapped and by an
+    independent replay;
+  - two moves suffice.
+- PW(3, 3, 8)#0 (k = 9, n = 6, m = 14):
+  - zero, one and **two** moves all fail (4, 273 and 3,319 states, uncapped, `vm1_verify_pw338.log`), so "at most two
+    moves" (VM2) fails at k = 9;
+  - the independent replay `attempts/k4_vm_vm2_pw338.py` confirms the two-move failure over a superset of the moves
+    (4,554 two-move states);
+  - **three moves suffice**, all three frozen x's trading their picks for sets of D, e.g. ({6, 7}, {8, 9, 10},
+    {13, 11, 4, 3}, {2}, {0}, {5, 12, 1}).
+
+So VM1 is not a general-k statement: on the PW family it fails from k = 6. The guess "c moves fail from
+k = 2c + 5" (k-sensitivity's 2c + 3 shifted by two) fits k = 7 and 9 but is refuted at c = 1 by k = 6. The number of
+moves needed is not the number f of frozen agents either: it is 2 at f = 2 (k = 7), 3 at f = 3 (k = 9), and 2 at
+f = 4 (k = 6). **VMX₂ (any number of moves) is the general-k form**, and it completes all three PW failures. VM1 at
+k ≤ 5 is unrefuted (more below), and VM1 at k = 4 is unaffected.
 
 ## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading
 

@@ -208,3 +208,53 @@ def random_full(N, seed, n, mmin, mmax, vmax=60):
         vals = [rng.sample(range(1, vmax + 1), m) for i in range(n)]
         out.append(('full%d:%d' % (n, t), sets, vals, m))
     return out
+
+
+def de_trees(k, d, leftovers='own', vals=(4, 3, 2), T=1, seed=0):
+    """The ring-size family of DE (paper/k3-simple/long.tex, Appendix 'How Large Must a Ring Be?', read for this):
+    k free agents o_0..o_{k-1}; o_i is the root of a binary tree of depth d whose internal agents rank the goods of
+    their two children first and second and their own good third; the leaves of the tree of o_{i+1} hold their tops
+    and are blockers of o_i: a leaf ranks its own good, then the good of o_i, then a leftover good.  leftovers='own':
+    one leftover good per leaf; 'common': a pool of k leftover goods, the leaves of each tree taking them in turn.
+    k = 2, d = 1, 'own' is DE's worked example (n = 6, m = 10).  Values: vals for (a, b, c) when T = 1 and seed = 0;
+    otherwise T random strictly balanced profiles (a > b > c, a < b + c).  Every agent values exactly 3 goods."""
+    L = 2 ** d; size = 2 * L - 1
+    agent = lambda i, u: i * size + (u - 1)               # node u = 1..size (heap order) of tree i
+    n = k * size; good = lambda i, u: agent(i, u)          # node (i, u) holds good number agent(i, u)
+    m = n
+    left = {}
+    for i in range(k):
+        for t, u in enumerate(range(L, 2 * L)):
+            if leftovers == 'own':
+                left[(i, u)] = m; m += 1
+            else:
+                left[(i, u)] = n + (t % k)
+    if leftovers != 'own':
+        m = n + k
+    ranks = [None] * n
+    for i in range(k):
+        for u in range(1, size + 1):
+            if u < L:
+                ranks[agent(i, u)] = [good(i, 2 * u), good(i, 2 * u + 1), good(i, u)]
+            else:
+                ranks[agent(i, u)] = [good(i, u), good((i - 1) % k, 1), left[(i, u)]]
+    rng = random.Random(seed); out = []
+    for t in range(T):
+        if T == 1 and seed == 0:
+            V3 = [list(vals) for _ in range(n)]
+        else:
+            V3 = []
+            for _ in range(n):
+                while True:
+                    a, b, c = sorted(rng.sample(range(10, 60), 3), reverse=True)
+                    if a < b + c: break
+                V3.append([a, b, c])
+        out.append(('DE-trees(k=%d,d=%d,%s)#%d' % (k, d, leftovers, t), [list(r) for r in ranks], V3, m))
+    return out
+
+
+def de_m8():
+    """DE's m = 8 instance (same appendix, 'Attained'): no short move from the state given there"""
+    r = {'o1': [4, 5, 0], 'o2': [6, 7, 1], 'x1': [4, 1, 2], 'x1p': [5, 3, 1], 'x2': [6, 0, 2], 'x2p': [7, 3, 0]}
+    order = ['x1', 'x1p', 'x2', 'x2p', 'o1', 'o2']
+    return [('DE-m8', [r[a] for a in order], [[4, 3, 2] for _ in order], 8)]

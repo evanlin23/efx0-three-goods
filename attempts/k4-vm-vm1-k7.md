@@ -37,8 +37,10 @@ The mechanism is PW's:
   x's themselves.
 - One move frees only one x.
 
-The general-k pattern of `k4/ksens.md` (c chains from every order fail at k = 2c + 3) suggests c moves of VM fail
-at k = 2c + 5. Two data points support that: VM1 fails at k = 7 (above), and VM2 fails at k = 9 (below).
+The general-k pattern of `k4/ksens.md` (c chains from every order fail at k = 2c + 3) suggested that c moves of VM
+fail from k = 2c + 5. VM1 failing at k = 7 (above) and VM2 at k = 9 (below) fit that guess, **but it is wrong**:
+VM1 already fails at k = 6, on PW(4, 3, 5)#1 (`attempts/k4-vm-vm1-k6.md`), which replaces this file's instance as the
+smallest k known to fail.
 
 ## Two moves (VM2) fail at k = 9: PW(3, 3, 8)#0
 
@@ -57,10 +59,10 @@ wanters 3, 4, 5 with q_i = i.
 - There are 4 V-M matchings. With at most two moves nothing completes: 4, 273 and 3,319 states at depths 0, 1 and 2,
   uncapped (`results/k4_vm/vm1_verify_pw338.log`).
 - **Three moves suffice**, one per frozen agent: ({6, 7}, {8, 9, 10}, {13, 11, 4, 3}, {2}, {0}, {5, 12, 1}).
-- On both PW failures the least number of moves is f, the number of frozen agents: one move frees only one x, and
-  only the x's can absorb D.
+- On both instances in this file the least number of moves is f, the number of frozen agents: one move frees only
+  one x, and only the x's can absorb D. That is not general: the k = 6 instance needs 2 moves with f = 4.
 
-**What survives:** VMX₂ (any number of moves) completes both instances. VM1 is unrefuted at k ≤ 6, and at k = 4 in
+**What survives:** VMX₂ (any number of moves) completes both instances. VM1 is unrefuted at k ≤ 5, and at k = 4 in
 particular (`k4/vm.md` §7.3–§7.5).
 
 Reproduce:

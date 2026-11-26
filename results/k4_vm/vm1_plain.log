@@ -1,0 +1,6 @@
+$ python3 k4/vm/vm1_plain.py screen
+levels: {'plain': 147, 'move': 21} ; time 0 s
+$ python3 k4/vm/vm1_plain.py named:/tmp/claude-0/-home-user-efx0-three-goods/454962d1-b841-5e80-a394-b61ed54ba228/scratchpad/ext
+levels: {'plain': 93, 'move': 2} ; time 0 s
+$ python3 k4/vm/vm1_plain.py k5
+levels: {'plain': 3, 'move': 3} ; time 0 s

@@ -83,6 +83,16 @@ def items_for(src):
     if src.startswith('cores:'):
         _, K, N, seed = src.split(':')
         return data.random_cores(int(K), int(N), int(seed))
+    if src.startswith('detrees:'):
+        out = []                                          # detrees:KMAX:DMAX:T:SEED, every k <= 2^d, both leftover forms
+        kmax, dmax, T, seed = map(int, src.split(':')[1:])
+        for d in range(1, dmax + 1):
+            for k in range(2, min(kmax, 2 ** d) + 1):
+                for lo in ('own', 'common'):
+                    out += data.de_trees(k, d, lo, T=T, seed=seed)
+        return out
+    if src == 'de_m8':
+        return data.de_m8()
     if src.startswith('pw:'):
         f, W, r, T, seed = map(int, src.split(':')[1:])
         return data.pw(f, W, r, T, seed)
