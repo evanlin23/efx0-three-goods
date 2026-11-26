@@ -73,7 +73,7 @@ Code: `k4/oc1_hall/` (`ohlib.py` is shared). Logs: `results/k4_oc1_hall/`. Every
 
 Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PROMPT.md §5 rule 3).
 
-## Status (end of burst 6)
+## Status (end of burst 7)
 
 | | statement | status |
 |---|---|---|
@@ -93,6 +93,9 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | Finding C (§13) | outside canonical chains, only 20 configurations are left. Every hard start of every data set (n ≤ 5) has a canonical repair from a dangerous agent with owner k or end, except 20 distinct configurations (n = 3–5, smallest T3), listed in `no_canonical.json`. Each of those has a repair from D with owner k or end and exactly one non-canonical step: one middle agent takes its predecessor's good together with junk (17), or k just adds junk to its base (3) | evidence |
 | **Conjecture OC₁-ED\*** (§14; agreed with the TTC session's OC₁-ED); **refuted as stated** by the TTC session's n = 6 instances (§16) | for every order: the picks have a one-absorber completion, or some ED chain (x₀ dangerous; middle agents take exactly their predecessor's pick, which they want; only the head x_t may add junk) leaves an S\* completion owned by x₀ or x_t | evidence: all 2,308 one-absorber-hard starts (n ≤ 5). With "S\*" also in the first alternative it fails only on lb4-owner-needs-from-base-n4m8 (2 starts), which complete at the picks with a compensated frozen slot |
 | Finding D1 (§15) | one dangerous agent k: on all 197 one-absorber-hard starts with \|D\| = 1, some ED chain from k with an *inclusion-minimal* improving H₀ leaves an S\* completion owned by k (rule ED-MIN). The swap (t = 1) is enough whenever f = 1, but fails on 19 configurations with f ≥ 2, listed in `d1_swapmin_fails.json` | evidence |
+| **Lemma D1-red, Prop. 3′, Lemma D1-chain** (§21) | D = {k}, hard start. k has a canonical chain (heads hold picks at maximum-matching starts), and every chain end's pool J ∪ B_{x_t} is improving for k (Prop. 3′, Prop. 3 carried to \|D\| = 1). After any canonical chain with an improving H₀, owner k: (G1), (G2) hold; the only agent that can be threatened by the pool is the head x_t, and only if x_{t−1}'s pick has a second wanter (HEAD); the only non-movable holders are those crowded by H₀ (CROWD). With neither, k owns an S\* completion | written proofs (§21); P1–P5 checked at all 197 starts, 0 violations; all 282 chains free of HEAD and CROWD repair |
+| Sub-lemmas D1-H, D1-C (§21; K4.OCH.D1H, K4.OCH.D1C) | D1-H: a failing chain with HEAD is replaced by a chain through a second wanter. D1-C: a failing chain with CROWD only is repaired by another minimal H₀ on the same chain. With Lemma D1-red they imply Finding D1 | **open**; evidence 8/8 and 2/2 failing chains; smallest log152 (n = 3, m = 5) and r1179 (n = 4, m = 9) |
+| Conjecture D1-LONG (§21) | some *longest* canonical chain from k, with some minimal H₀, repairs with owner k. A longest chain is never in HEAD's case H-i (proved), so only H-ii (a second wanter unfrozen at the picks) and CROWD remain | evidence: 197/197 starts (every longest chain: 196; exception log557) |
 | **Lemma MAX** (§19) | if the picks form a maximum matching, no agent reachable from a pickless agent by an alternating path values a junk good. So no pickless agent wants a dangerous frozen agent, or any agent on a want-chain above one, and the pickless-bin pigeonhole of §16/§18 cannot form | written proof (§19); checked at every maximum-matching start of special, screen and the K4.MC2 core |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
 | refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `attempts/k4-oc1-hall-canonical-chains.md` |
@@ -119,13 +122,10 @@ lemma may be restricted to canonical chains from D plus at most one junk-assiste
 
 Next (after the refutation of §16, everything restricted to the K4.MC2 class of strict connected cores in which no
 agent has two private goods):
-0. **Prove Finding D1** (§15; coordinator's step 1): if D = {k} and the picks have no one-absorber completion, some ED
-   chain from k with an inclusion-minimal improving H₀ has an S\* completion owned by k.
-   - Invariant: Lemma 2\*.
-   - Lever: with |D| = 1, the other frozen agents value no junk at the picks. After the chain, the only new junk is the
-     end's released pick, so each of them has at most one good in the pool.
-   - Cases to justify: the 19 configurations of `d1_swapmin_fails.json`, where the chain must pass a second,
-     non-dangerous frozen agent.
+0. **Finding D1** (§21). Reduced to two local sub-lemmas: D1-H in case H-ii, where the head is frozen by a second
+   wanter unfrozen at the picks (smallest log557, lil-noncore-n3), and D1-C, crowding by a minimal H₀ (smallest
+   r1179). Alternatively, prove D1-LONG directly. Then |D| ≥ 2: disjoint danger sets (one chain per dangerous agent,
+   Lemma PL's "≤ 1 pool good left" for the others) and shared ones (PWk(a) as the model).
 1. f = 1 with several wanters, n ≥ 4: the picks with a wanter as owner (Corollary 2.1, with helpers). One n = 4 start
    (red-b1-blocked-improvement) needs the swap, because x needs two goods kept out and only one admissible holder
    exists.
@@ -1027,3 +1027,214 @@ So the inequality r ≥ 2t that the slot count would force is false at k = 4. It
 goods can be shared with frozen agents or with the frozen agent's wanters, and frozen picks can have a single
 wanter. The regime r < 2t occurs, and one chain still repairs it. A counting proof of OC₁^max must credit what the
 chain itself absorbs: the triangle pair H₀ goes to x₀, which owns. Counting receivers alone is not enough.
+
+## 21. One dangerous agent: Lemma D1-red (proved) and the two open sub-lemmas
+
+This answers the coordinator's request to write Finding D1 (§15: |D| = 1, ED-MIN, owner k) as a proof. The proved part
+is a reduction, Lemma D1-red. What it leaves open is stated as two precise sub-lemmas, each with its smallest test
+instance. Scripts: `k4/oc1_hall/d1_obstacles.py` (`d1_obstacles.log`) and `k4/oc1_hall/d1_subcases.py`
+(`d1_subcases.log`). Both run on every data set (n ≤ 5, every order), at the 197 one-absorber-hard starts with
+D = {k} of §15.
+
+**Setting.** Y = SD(π) has no one-absorber completion, hence no S\* completion (an S\* completion is a one-absorber
+completion), and D = {k}.
+- A *canonical chain* from k is P = (k = x₀, x₁, …, x_t), t ≥ 1, in which each x_i (i ≥ 1) wants Y_{x_{i−1}}, and
+  the head x_t is unfrozen at the picks.
+- Applying P:
+  - each x_i (i ≥ 1) gives up B_{x_i} and takes Y_{x_{i−1}} alone;
+  - k takes a set H₀ from the *pool* Π = J ∪ B_{x_t}, with v_k(H₀) > p_k (H₀ is *improving*);
+  - B′ denotes the state reached, J′ = Π ∖ H₀ its junk, and a = Y_{x_{t−1}} the head's new good.
+- The owner is k. So W_k = B′_k ∪ J′ = Π, whatever H₀ is.
+- The two *obstacles* at B′:
+  - **HEAD:** x_t is frozen at B′, and threatened by Π at v_{x_t}(a);
+  - **CROWD:** some holder u ≠ k at B′ (unfrozen, at most one good) has |H₀ ∩ R_u| ≥ 2 and
+    v_u(H₀ ∩ R_u) > v_u(B′_u).
+
+Three facts from serial dictatorship are used throughout.
+- **(π)** If i wants Y_j at the picks, then j precedes i in π, by (I1). So k = x₀ ≺ x₁ ≺ ⋯ ≺ x_t along a canonical
+  chain. If j ≺ i, then Y_i was available at j's turn, so v_j(Y_i) ≤ p_j.
+- **(D)** Every frozen agent other than k values no junk good.
+- **(U)** Nobody wants B_{x_t} at the picks. In particular, no pickless agent values it.
+
+**Lemma D1-chain.** k has a canonical chain. If the picks form a maximum matching, the head of every canonical chain
+holds a pick.
+
+*Proof.*
+1. k is frozen, so some x₁ wants Y_k. As long as x_i is frozen, some x_{i+1} wants Y_{x_i}.
+2. By (π) these agents are distinct, so the walk stops at an unfrozen x_t.
+3. With a maximum matching, x_t lies on a want-chain above the dangerous agent k, so it is not pickless by Lemma MAX
+   (2). ∎
+
+Without a maximum matching, x_t may be pickless. Then B_{x_t} = ∅ and Π = J, and everything below still holds.
+
+**Proposition 3′ (the pool is improving; K4.OCH.D1POOL).** If z is unfrozen at the picks, then
+v_k((J ∪ B_z) ∩ R_k) > p_k. In particular, every canonical chain from k has an improving H₀, hence an
+inclusion-minimal one.
+
+This is Proposition 3 (§5) carried from f = 1 to D = {k}.
+
+*Proof.* Suppose v_k((J ∪ B_z) ∩ R_k) ≤ p_k. Apply Lemma 2\* at the picks with owner z and H = ∅.
+- (G1): every agent other than z holds at most one good, and a bundle of at most one good threatens nobody.
+- (G2): junk ranks below the pick of every agent that values it (I2), and pickless agents value no junk.
+- (H1): W_z = B_z ∪ J.
+  - A frozen q ≠ k values no junk (D). So W_z ∩ R_q ⊆ B_z, a single good worth at most p_q because z is unfrozen.
+    Hence q is not threatened.
+  - k is not threatened, since v_k(W_z ∩ R_k) ≤ p_k.
+- No holder is non-movable. Nobody wants B_z, because z is unfrozen. And |B_z| ≤ 1, so no danger set lies inside B_z.
+
+So H = ∅, with its empty system of representatives, satisfies Lemma 2\*'s condition. The picks then have an S\*
+completion with owner z, a contradiction. ∎
+
+**Lemma D1-red (K4.OCH.D1RED).** Let P be a canonical chain from k with an improving H₀, and let B′ be the state after
+it. Minimality of H₀ is not needed. With owner k:
+1. Lemma 2\*'s hypotheses (G1) and (G2) hold at B′. Moreover, no agent other than k wants a good of Π, so no holder
+   wants a good of B′_k.
+2. The agents frozen at B′, other than k, are frozen agents of the picks (k excluded) and possibly x_t.
+   - Each of them except x_t is unthreatened by every subset of Π.
+   - x_t is frozen at B′ only if some agent w ∉ P wanted a at the picks, i.e. x_{t−1}'s pick has a *second wanter*.
+   - k wants no pick of the chain.
+3. A holder at B′ that is exposed, for some H, is either x_t or an agent off P that is unfrozen at the picks. A holder
+   is non-movable in Lemma 2\*'s sense iff it is exposed and crowded by H₀.
+4. Hence Lemma 2\*'s condition C(B′, k) reads: some H ⊆ J′ satisfies
+   - **(H1′)** x_t is not frozen at B′, or x_t is not threatened by Π ∖ H at v_{x_t}(a); and
+   - H has a system of distinct admissible holders that covers every crowded exposed holder.
+
+   In particular, **if neither HEAD nor CROWD occurs, B′ has an S\* completion owned by k**, with H = ∅.
+
+*Proof.* At B′:
+- B′_k = H₀;
+- B′_{x_i} = {Y_{x_{i−1}}} for 1 ≤ i ≤ t;
+- every other agent keeps its pick, or nothing.
+
+Values rise exactly for k (v_k(H₀) > p_k) and for x₁, …, x_t, each of which wanted its new good. All other values are
+unchanged.
+
+1. *(G1) and (G2).* (G1) holds because every agent other than k holds at most one good. For (G2) in the strengthened
+   form, let g ∈ Π and i ≠ k.
+   - If g ∈ J and i values g, then i has a pick and v_i(g) ≤ p_i ≤ v_i(B′_i), by (I2).
+   - If g = Y_{x_t} and i ≠ x_t, then v_i(g) ≤ v_i(B_i) ≤ v_i(B′_i), by (U).
+   - If g = Y_{x_t} and i = x_t, then v_{x_t}(g) = p_{x_t} < v_{x_t}(a).
+2. *The frozen agents.* Let q ≠ k be frozen at B′.
+   - Suppose q is off P and unfrozen at the picks. Its good Y_q was unwanted at the picks, and the values that
+     changed only rose, so Y_q is still unwanted. That is impossible. So q is frozen at the picks or
+     q ∈ {x₁, …, x_t}. Each of x₁, …, x_{t−1} is frozen at the picks, since x_{i+1} wanted its pick. Hence
+     q ∈ F ∖ {k} or q = x_t.
+   - Let q ∈ F ∖ {k}. Then q values no junk (D), so Π ∩ R_q ⊆ {Y_{x_t}}, a single good worth at most
+     p_q ≤ v_q(B′_q) by (U). Removing a good from any S ⊆ Π leaves at most that good, so q is not threatened by S.
+   - Who wants a at B′?
+     - Not x_{t−1}, which values a at p_{x_{t−1}}, below its new good.
+     - Not x_j for j < t − 1: by (π), v_{x_j}(a) ≤ p_{x_j} < v_{x_j}(B′_{x_j}).
+     - Not k: v_k(a) ≤ p_k < v_k(H₀). For t = 1, a = Y_k itself.
+
+     So a wanter of a at B′ is off P. Its value did not change, so it wanted a at the picks.
+   - By the same comparisons, k wants no good Y_{x_i} with i < t.
+3. *The holders.* Let u be an exposed holder at B′, threatened by Π ∖ H at v_u(B′_u).
+   - If u is frozen at the picks, or a middle agent x_i (0 < i < t), which is frozen at the picks, then the
+     argument of 2 shows u is never threatened. So u = x_t, or u is off P and unfrozen at the picks.
+   - Lemma 2\* calls an exposed holder non-movable if it wants a good of B′_k = H₀, which is impossible by 1, or if
+     it has a danger set inside H₀, which is crowding.
+4. *Conclusion.* By 1–3, (H1) of Lemma 2\* is (H1′), and its condition on systems of distinct representatives is the
+   one stated.
+   - If HEAD fails, H = ∅ satisfies (H1′).
+   - If CROWD fails, no exposed holder is non-movable, so the empty system suffices.
+
+   Lemma 2\* then gives the completion. With H = ∅, k takes J′, and the exposed holders serve themselves by Theorem
+   DT's moves. ∎
+
+*Remarks.*
+1. *KWANT is harmless.* Obstacle (c) of `d1_obstacles.py` is "k wants a good held by another agent". By 2, such a good
+   is not a chain pick, so it is the pick of some q ∈ F ∖ {k}, still held by q. A bundle of one good threatens nobody.
+   All 6 such chains of the census repair.
+2. *A longest canonical chain never has HEAD with every second wanter frozen at the picks* (case H-i below).
+   - Suppose such a second wanter w exists. P_w = (x₀, …, x_{t−1}, w) continues past w, since w is frozen, by the walk
+     of Lemma D1-chain. By (π), all its agents are distinct.
+   - So P_w is a canonical chain with at least t + 1 steps, and P was not longest. ∎
+3. *f = 1 with one wanter.* HEAD cannot occur there, since there is no second wanter. Theorem F1₁ settles these
+   starts, but with another owner: case (B2) uses o ∉ {x, w}, (B3a) uses w, and (B3b) completes at the picks. So it
+   does not give the ED-MIN form with owner k.
+
+**Reduction of Finding D1.** Finding D1 follows from Lemma D1-chain, Proposition 3′, Lemma D1-red and the sub-lemmas
+D1-H and D1-C below.
+1. Take any canonical chain from k and any minimal improving H₀. Both exist.
+2. If neither obstacle occurs, Lemma D1-red repairs.
+3. If HEAD occurs and the chain fails, D1-H gives a repair.
+4. If only CROWD occurs and the chain fails, D1-C gives a repair.
+
+**Census.** All 321 canonical chains from k with a minimal improving H₀, at the 197 starts, owner k (`d1_obstacles.log`):
+
+| chains | number | with an S\* completion owned by k |
+|---|---|---|
+| no obstacle | 276 | 276 |
+| HEAD | 31 | 23 |
+| CROWD | 8 | 6 |
+| KWANT | 6 | 6 |
+| **free of HEAD and CROWD** (Lemma D1-red applies) | **282** | **282** |
+| all | 321 | 311 |
+
+- Each of the 10 failing chains has exactly one of HEAD and CROWD (8 HEAD, 2 CROWD).
+- 189 of the 197 starts have a chain free of both obstacles.
+- The other 8 starts (4 configurations, listed below) are still repaired by a chain with an obstacle, through
+  compensation.
+
+*Checks of the proved parts* (`d1_subcases.py`, P1–P5; 0 violations on every data set):
+- P1: the head always holds a pick. In fact all 197 starts have maximum-matching picks. This is observed, not proved,
+  and not needed.
+- P2: the pool is improving for every chain end (Proposition 3′).
+- P3: the head is frozen after the chain only when there is a second wanter off the chain, and k wants no chain pick.
+- P4: the frozen agents of the picks other than k value no junk, and crowded holders are x_t or off-chain agents
+  unfrozen at the picks.
+- P5: no chain free of HEAD and CROWD fails (Lemma D1-red).
+
+**Sub-lemma D1-H (K4.OCH.D1H, open).** Let P be a canonical chain from k whose head is frozen after P, i.e. x_{t−1}'s
+pick a has a second wanter w ∉ P at the picks. If no minimal improving H₀ makes C(B′, k) hold for P, then some
+canonical chain P_w = (x₀, …, x_{t−1}, w, …) through such a w does, with a minimal improving H₀.
+- Data (`d1_subcases.log`): 8 of 8 failing HEAD chains. By paths with HEAD:
+  - **(H-i) every second wanter of a is frozen at the picks:** 5 paths. The same path never repairs, and P_w always
+    does. By Remark 2, a longest chain is never in this case.
+  - **(H-ii) some second wanter w is unfrozen at the picks:** 14 paths. Here w is a holder at B′. On 13 of them the
+    same path repairs, with H containing a good of x_t's danger set. This is the duality of Theorem F1₁'s (B3): the
+    agent that freezes the head is the one that unblocks it. The 14th, log557, is repaired through w, whose new value
+    is higher, so that head is not threatened.
+- **Smallest failing instance: log152** (n = 3, m = 5). Also r1173 (n = 3, m = 5).
+  - Data: sets [[0,3,1],[2,1,4],[1,3,2,0]], values [[25,20,27],[43,58,35],[13,10,5,17]], order (1, 0, 2), picks
+    (0, 1, 3), J = {2, 4}, F = {0, 1}, k = 1, W_1 = {0, 2}.
+  - The chain (1, 2) with H₀ = {2, 4} fails. Agent 0 still wants good 1, so the head 2 is frozen. The head is
+    threatened by {2, 3}, worth 15 > 13. No holder is left to keep good 3 out.
+  - The chain through the frozen second wanter 0, (1, 0, 2), repairs: k takes {2, 4, 3}.
+
+**Sub-lemma D1-C (K4.OCH.D1C, open).** If P has CROWD but not HEAD, and C(B′, k) fails for H₀, then another minimal
+improving H₀′ on the same chain satisfies it.
+- Data: 2 of 2 failing CROWD chains, which are one configuration (r1179 = log558). The other 6 CROWD chains repair by
+  compensation: the crowded holder takes a junk good.
+- **Smallest instance: r1179** (n = 4, m = 9).
+  - Data: sets [[0,3,6,7],[1,4,6,7],[2,5,8],[3,4,5,8]], values [[8,1,6,4],[4,8,3,2],[4,2,3],[5,8,6,4]], order
+    (0, 2, 3, 1), picks (0, 1, 2, 4), f = 1, k = 3, W_3 = {1}.
+  - The chain (3, 1) has three minimal improving sets: {3, 5}, {3, 8} and {5, 8}.
+  - {5, 8} crowds agent 2: 2 + 3 > 4. With it the chain fails.
+  - {3, 5} crowds nobody and repairs (Lemma D1-red).
+  - This is the starting point for a proof: k's pool goods number at most three (|R_k| ≤ 4), so a holder crowded by
+    one minimal pair should leave another pair free. That is case (B2) of Theorem F1₁ in miniature.
+
+**Conjecture D1-LONG (K4.OCH.D1LONG; evidence).** At a hard start with D = {k}, some *longest* canonical chain from k,
+with some minimal improving H₀, leaves an S\* completion owned by k.
+- Data: 197 of 197 starts.
+- Every longest chain works at 196 starts. The exception is log557 (n = 3, m = 6), where the two length-1 chains
+  differ by case H-ii, as above.
+- Every chain works at 191 starts.
+- By Remark 2, for a longest chain only case H-ii of HEAD, and CROWD, are left to prove.
+
+**The 4 configurations without a chain free of both obstacles.** Each is repaired by compensation:
+- **lb4-n2m5-upgrade** (n = 2). Its only chain is (0, 1). H₀ = {2, 3} crowds the head 1 (4 + 5 > 8), and the head
+  takes junk good 1. Completion [[2,3,0],[4,1]].
+- **lil-noncore-n3.** k = 0's pick has two wanters, 1 and 2, both unfrozen (H-ii). With the chain (0, 1), the head
+  is frozen by 2 and threatened by {4, 5, 6}, and the second wanter 2 takes good 6. Completion
+  [[1,2,3,4,5,8],[0],[7,6]].
+- **r461, r2749.** The same pattern (H-ii). The second wanter takes a junk good, or the head's released pick: in
+  r2749 with the chain (0, 1), agent 2 takes good 1.
+
+So the junk given to holders is small: 157 starts are repaired with none (k takes the whole pool), 38 with one good,
+and 2 (r1179 and log558) with two. This counts DT's moves too, so it is not |H| of Lemma 2\*.
+
+**What is left for |D| = 1.** D1-H in case H-ii, and D1-C, or directly D1-LONG for a longest chain. Both sub-lemmas are
+local. The first is about the two wanters of one pick and the head's at most three pool goods (|R_{x_t}| ≤ 4). The
+second is about at most three pool goods of k.
