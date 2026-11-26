@@ -1398,3 +1398,20 @@ must also hold the leftover junk, and then the other agent sharing the pair is t
   agents share one pair and there are no slots, one owner can absorb the pair, and the other s − 1 sharers then each
   need to be lifted by a move. So a fixed bound of two moves may fail once s = 3. That is an instance to search for at
   n = 5.
+
+**Cross-workstream notes (`proof/k4-oc1max-multi`, `k4/oc1max_multi.md` on its branch; not refereed here).**
+- *Proposition D1-C′ needs |D| = 1.* Lemma D1-C₀ (b) uses D = {k}. The |D| ≥ 2 session's instance T3 confirms that
+  the conclusion fails otherwise.
+  - T3: order (0, 1, 2), picks (0, 4, 1), D = {0, 1}.
+  - The only canonical chain with an improving set is 1 → 2, with H₀ = {1, 3}. Its only obstacle is CROWD, on the
+    head, and no owner works after it (checked here with `d1_subcases.analyse`).
+  - In §21's terms this is case C-b: U′ = ∅, the head is crowded, and Y_{x_t} = 1 ∈ H₀. So C-b really occurs once
+    |D| ≥ 2. The data have no instance of it with |D| = 1 and n ≥ 3.
+- *Lemma KEEP* (theirs).
+  - Setting: H₀ ⊆ J, and k is threatened by J alone.
+  - Lemma 2\* with H = {Y_{x_t}}: the head's released pick goes to a holder admissible for it. That holder is the
+    head itself when it is unfrozen after the chain, by the computation in Proposition D1-C′, or the second wanter.
+  - The owner's bundle is then pure junk, and HEAD reduces to "the head, if frozen, is not threatened by J".
+  - This bears on Sub-lemma D1-H(ii), and has been forwarded to `proof/k4-d1`.
+- *Lemma D-red* (theirs) carries Lemma D1-red to any |D|. The only new obstacle is DEMAND: another dangerous agent,
+  still frozen, threatened by the pool.
