@@ -9,6 +9,7 @@ Objectives (minimized; first coordinate 0 = counterexample to the target):
         outcomes;
   md  : over every start, the least number of value-dominating complete EFX0 allocations (capped);
   oc1r1, ocr1, ...: any target with the starts restricted to R1-priority orders (r1_pw.sd_r1);
+  oc1mx, round1mx, rd2amx, ...: any target with the starts restricted to maximum-matching starts (maxmatch.nu);
   rd2, rd2a: 3 minus the most rounds of disjoint chains any start needs (ocseq multi, at most 3 tried; free, one
         absorber): 0 = a start that two rounds cannot repair (Conjecture RD2, k4/ksens.md §6);
   oc2, oc2a: 3 minus the most chains any start needs (ocseq.py, at most 3 tried; free, one absorber), then minus the
@@ -33,6 +34,11 @@ CAP = 20
 def objective(target, sets, vals):
     m = 1 + max(max(s) for s in sets); n = len(sets)
     O = ocsat.OC(sets, vals, m); st = ocsat.starts(sets, vals, m)
+    if target.endswith('mx'):          # maximum-matching starts only (every start of maximum size nu)
+        from maxmatch import nu as _nu
+        v_ = _nu(sets, vals); st = {Y: o for Y, o in st.items() if sum(1 for g in Y if g is not None) == v_}
+        target = target[:-2]
+        if not st: return (99, 0, 0) if target in ('rd2', 'rd2a', 'oc2', 'oc2a') else (99, 0), None
     if target.endswith('r1'):          # R1-priority orders only (LB's Phase 1)
         from r1_pw import sd_r1
         st = {}

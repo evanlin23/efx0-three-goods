@@ -16,6 +16,9 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
   second k ≤ 4 mechanism: an agent whose repair needs two other agents' picks.
 - SD-C and MD have no failure at any k tested. MD at all k contains EFX₀ existence, so for MD the k ≤ 4 ingredient is
   still unknown.
+- **Maximum-matching starts do not help** (§7). Every failing start found is a maximum-matching start, so OC₁^max and
+  "one round from a maximum-matching start" are false at k = 5. Lemma PWk (§7) gives the PW count at general k, and
+  its k ≤ 4 direction is proved.
 
 | statement | k = 4 | smallest k found to fail | instance | checks |
 |---|---|---|---|---|
@@ -513,3 +516,89 @@ when that is another agent's pick, one chain reaches it from its end.
       alternatives.
     - This needs n ≥ 6, beyond the climbs so far. Whether it still fits k = 5 is what would separate "two rounds"
       from "any number".
+
+## 7. Maximum-matching starts, and the PW count at general k
+
+**Maximum-matching starts** (`k4/ksens/maxmatch.py`, `maxmatch.log`). A start is a matching of the agent–good graph.
+It is a *maximum-matching start* when the number of agents with a pick equals the maximum matching size ν. OC₁^max
+is OC₁ restricted to such starts; maximum-matching orders always exist.
+- **Every failing start found here is a maximum-matching start**, in every case: PW5, RD5, the n = 4 instance of
+  `proof/kgen-n3`, PW436, PWR1-6, NF2-6 and NF1R1-6 (ν = n, and every agent picks).
+- So OC₁^max is false at k = 5, by PW5, RD5 and the n = 4 instance.
+- *One round from a maximum-matching start* is false at k = 5 too, by RD5.
+- The ladder (§4) is unchanged: every PW start is a maximum-matching start, so maximum-matching starts need
+  ⌊(k − 1)/2⌋ chains in PW for k = 5–9.
+- *Two rounds* from maximum-matching starts survive everything so far: RD5 needs exactly two, PW one. Climbs
+  restricted to maximum-matching starts are running: `climb.py rd2amx` at n = 4, k = 5 and n = 5, k = 6; `oc1mx` at
+  n = 5, k = 4.
+
+### Lemma PWk (the PW count at general k)
+
+*The family.* PW(f, W, r), clean values (`fam_ladder.clean`; it is the family of §1 with W wanters and a pool of r).
+- *Frozen agents* x₁, …, x_f. Agent x_j values its good p_j at P = 20 and every good of a pool D, |D| = r, at less than
+  P (19, 18, …). Every pair of D is worth more than P, so this needs r ≤ 10.
+- *Wanters* w₁, …, w_W. Each values every p_j above its own good q_i and nothing else, with the same ranking p₁ > … > p_f.
+- *Order* x₁, …, x_f, w₁, …, w_W.
+  - Picks: p_j for x_j, q_i for w_i.
+  - Junk: D.
+  - The start is a maximum-matching start, and every x_j is frozen as soon as W ≥ 1.
+- *Sizes:* k = max(r + 1, f + 1), n = f + W, m = f + W + r.
+
+*Junk and danger sets.* For x_j holding p_j alone, the danger sets in the junk are exactly the pairs (and larger
+subsets) of D. A single good of D is never one.
+
+**Lemma PWk.**
+- **(a) [proved]** If r ≤ 3, one chain repairs the start (one-absorber completion), for every f and W. In particular
+  PW never breaks OC₁ at k ≤ 4.
+- **(b) [computed for f ≤ 5, W ≤ 4, r ≤ 8 (`pw_grid.py`, `pw_grid.log`); proved for (3, 2, 4) in §1]** One chain
+  fails (no completion, free or one-absorber) exactly when
+  > W ≥ 2 and W + 2 ≤ r ≤ min(W + f − 1, 2f − 1).
+
+  On every failing cell one round of disjoint chains repairs (`pw_grid_round.log`).
+- **(c) Consequence for k.** (b) needs r ≥ W + 2 ≥ 4, i.e. k ≥ 5. Since PW5 is k-limited for every k ≥ 5, one chain
+  fails at every k ≥ 5 and never at k ≤ 4 within the family.
+
+*Proof of (a).* If r ≤ 1, D holds at most one good, which is never a danger set, and the junk can go to an absorber.
+Let r ∈ {2, 3}.
+1. *The chain:* x₁ → w₁. x₁ takes two goods d₁, d₂ of D (worth more than P, so it gains). w₁ takes p₁ (it values p₁
+   above q₁, so it gains), and q₁ is released.
+2. *The completion:*
+   - x₁ gets {d₁, d₂}, w₁ gets {p₁};
+   - x_j gets {p_j} for j ≥ 2, and w_i gets {q_i} for i ≥ 2;
+   - the leftover d₃ (when r = 3) and q₁ go to w₂ if W ≥ 2, otherwise to x₂ (and to x₁ when f = W = 1).
+3. *It is EFX₀* (one absorber). Write R for the absorber's bundle.
+   - *An x_j (j ≥ 2), worth P:* x₁'s bundle is two goods, and removing either leaves one pool good, worth less than P.
+     R contains at most one good x_j values, d₃, which is worth less than P. Every other bundle is a singleton.
+   - *x₁, worth more than P:* likewise. It values at most d₃ in R and nothing in the singletons {p_j}.
+   - *w₁, holding p₁ (its top):* it values only q₁ in R (worth 1 < v(p₁)) and nothing in x₁'s bundle.
+   - *The other wanters:* the bundles they could see contain p's only as singletons, and they value nothing else in
+     the others' bundles.
+   - *When W = 1 and x₂ absorbs:* w₁ holds its top p₁ and sees x₂'s bundle minus d₃ worth v(p₂) + 1 < v(p₁); every x
+     sees at most d₃ in it.
+   - `pwk_check.py` checks this allocation against the raw EFX₀ definition for every f ≤ 6, W ≤ 5, r ∈ {2, 3}:
+     60 configurations, all EFX₀ (`pwk_check.log`). ∎
+
+This is Lemma PL (b), (c) at work: after the repair at most r − 2 ≤ 1 pool good is left, and it threatens nobody.
+
+*What one chain removes and what is left (the count behind (b)).* One chain has three ways to deal with the pool:
+1. **Repair only its head.** Two goods of D go to x₀. The W − 1 unused wanters keep every other x frozen, so those
+   hold their picks alone, and every bundle of three or more goods may hold at most one good of D (Lemma PL (d)). The
+   r − 2 remaining goods need r − 2 slots; only the W − 1 unused wanters give one each. This fails iff
+   **r − 2 > W − 1**, i.e. r ≥ W + 2.
+2. **Repair through every wanter in one chain.** The chain alternates x, w, x, w, …. Each wanter takes a pick it ranks
+   above the rest, so afterwards nobody wants the f − W unrepaired picks.
+   - The middle x's hold {received base} plus a pair, which threatens an unrepaired x unless that x holds a pool good
+     of its own; a pick plus a pool good is worth more than any pair in the clean values.
+   - The r − 2W remaining goods must cover the f − W unrepaired agents. This fails iff **r − 2W < f − W**, i.e.
+     r ≤ W + f − 1.
+3. **Repair everybody.** That takes two goods each. It fails iff **r < 2f**.
+
+(b) says one chain fails exactly when all three fail.
+- At k ≤ 4 strategy 1 always works (r − 2 ≤ 1).
+- In general the bound r − 2 ≤ W − 1 is the k − 3 count of Lemma PL (r ≤ k − 1).
+
+*More chains and rounds.*
+- With c chains the head-only count becomes r − 2c > W − c, giving the ladder ⌊(k − 1)/2⌋ of §4.
+- One round can use strategy 1 with up to W heads at once, each with its own wanter. r − 2W ≤ 0 slots are then needed
+  once W ≥ r/2, and strategy 2 covers the rest. So one round always repairs PW, as observed.
+- What one round cannot do is RD5's two-foreign-picks repair (§6).
