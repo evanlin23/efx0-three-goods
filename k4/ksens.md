@@ -680,5 +680,7 @@ k = 4 searches: 80,000 instances.
   an agent can gain by adding any tiny junk good, which makes chains much more flexible.
 - *The two configurations of `kgen/n3.md` §10* (branch `claude/kgen-n3`, read here): their stated starts extend
   without a chain, and no start of either needs more than one round.
-- *Random profiles and climbs maximizing the rounds needed* (n = 3, m = 7, 8; n = 4, m = 7; n = 5, m = 9 from PW5
-  lifted) are running. So far no start needs two rounds; the n = 4, m = 7 climb (10 rounds) is finished.
+- *Climbs maximizing the rounds needed* (values only; one-absorber completion; `general_rounds_climb_*.log`):
+  n = 3, m = 7 (18 runs, stopped) and m = 8 (9 runs, stopped); n = 4, m = 7 (10 runs). No start needs two rounds:
+  the climbs top out at starts needing one round.
+- Random profiles and a climb at n = 5, m = 9 from PW5 lifted are still running (outside the repository; to be added).
