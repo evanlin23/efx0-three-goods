@@ -15,7 +15,10 @@ only to run the mechanism (YRMH-IGYT) and to list the improving chains.
     the picks is 3, attained by 36 allocations, and every one of them is one-path.
 (d) attempts/k4-ttc-min-displacement.md: r617 (n = 4, m = 8), picks (7, 3, 5, 4).  The fewest displaced picks over the
     dominating complete EFX0 allocations is 2, and some allocation attaining it is not one-path (two separate pool
-    swaps); some other allocation attaining it is one-path."""
+    swaps); some other allocation attaining it is one-path.
+(e) attempts/k4-ttc-x0-owner.md: dich3 (n = 3, m = 7), order (0, 2, 1), picks (3, 6, 1).  No improving chain has a
+    one-absorber completion whose absorber is the chain's start x_0 (LB+'s Theorem B owner); some chain has one whose
+    absorber is the chain's head x_t (Conjecture OC1-H)."""
 import itertools, sys
 import ttclib as T
 
@@ -157,11 +160,45 @@ def part_c(sets=None, vals=None, n=5, m=10, Y=(8, 3, 9, 5, 7), label='(c) rt4-n5
     assert best == expect[0] and bool(bad) == expect[1] and len(bad) < len(witness)
 
 
+def owner_completion(v, n, base, o):
+    J = [g for g, a in enumerate(base) if a < 0]
+    for asg in itertools.product(range(n), repeat=len(J)):
+        if any(sum(1 for a in asg if a == i) >= 2 for i in range(n) if i != o):
+            continue
+        X = [[g for g, a in enumerate(base) if a == i] for i in range(n)]
+        for g, a in zip(J, asg):
+            X[a].append(g)
+        if efx0(v, X):
+            return X
+    return None
+
+
+def part_e():
+    sets = [[0, 2, 4, 3], [6, 3, 1], [1, 2, 0, 5]]; vals = [[5, 10, 1, 12], [10, 12, 11], [11, 8, 6, 1]]; m = 7
+    E = T.Enc(sets, vals, m); v = E.v; pi = [0, 2, 1]
+    Y = tuple(T.sd(E, pi)[0]); b = T.base_of(E, Y)
+    print('(e) dich3', sets, vals, 'order', pi, 'picks', Y)
+    print('    picks have a one-absorber completion (brute force):', one_absorber(v, 3, b))
+    x0_ok = []; head_ok = []
+    for b2, path in T.iter_chains_path(E, b):
+        if len(path) < 2:
+            continue
+        X = owner_completion(v, 3, b2, path[0])
+        if X:
+            x0_ok.append((path, X))
+        X = owner_completion(v, 3, b2, path[-1])
+        if X:
+            head_ok.append((path, T.bundles(E, b2), X))
+    print('    chains with a completion owned by x_0:', len(x0_ok), '; owned by the head x_t:', len(head_ok))
+    print('      e.g. chain', head_ok[0][0], 'bases', head_ok[0][1], 'completion', head_ok[0][2])
+    assert not one_absorber(v, 3, b) and not x0_ok and head_ok
+
+
 def part_d():
     part_c([[0, 2, 6, 7], [1, 3, 6, 7], [3, 4, 5, 7], [4, 5, 7]], [[5, 3, 6, 7], [6, 7, 3, 5], [5, 3, 6, 7], [2, 4, 3]],
            4, 8, (7, 3, 5, 4), '(d) r617', (2, True))
 
 
 if __name__ == '__main__':
-    part_a(); part_b(); part_c(); part_d()
-    print('(a), (b), (d) reproduced; (c) MDP confirmed on rt4-n5m10-chain')
+    part_a(); part_b(); part_c(); part_d(); part_e()
+    print('(a), (b), (d), (e) reproduced; (c) MDP confirmed on rt4-n5m10-chain')

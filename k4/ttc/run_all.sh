@@ -36,3 +36,14 @@ python3 head_climb.py 61 3 1200 12 > $L/head_climb_n3.log
 python3 head_climb.py 62 4 400 8 > $L/head_climb_n4.log
 python3 head_climb.py 71 3 3000 25 > $L/head_climb_n3_long.log
 python3 head_climb.py 72 4 1200 15 > $L/head_climb_n4_long.log
+python3 head_rule.py special > $L/head_rule.log; python3 head_rule.py dich >> $L/head_rule.log; python3 head_rule.py screen >> $L/head_rule.log; python3 head_rule.py core:n3 3000 91 >> $L/head_rule.log
+(python3 chain_shape.py special; python3 chain_shape.py dich; python3 chain_shape.py screen; python3 chain_shape.py suite; python3 chain_shape.py core:n3 3000 91; python3 chain_shape.py core:n4 1500 92; python3 chain_shape.py core:n5 150 93; python3 chain_shape.py logs nmax=5) > $L/chain_shape.log
+(python3 chain_shape.py k3:5 600 31; python3 head_rule.py k3:5 600 31; python3 chain_shape.py k3:5 3000 32; python3 chain_shape.py k3:6 600 33 nmax=6) > $L/chain_shape_k3.log
+(python3 head_bign.py big:6-9 2000 11 orders=12 tlim=120; python3 head_bign.py logs nmin=6 nmax=9 orders=12 tlim=120) > $L/head_bign.log
+python3 head_climb.py 81 3 3000 20 hd > $L/head_climb_hd_n3.log
+python3 head_climb.py 82 4 1000 12 hd > $L/head_climb_hd_n4.log
+python3 head_climb.py 83 5 150 4 hd > $L/head_climb_hd_n5.log
+python3 head_bign_climb.py 12 400 10 21 6 8 > $L/head_bign_climb_6_8.log      # stopped by hand after 7 runs (see the log)
+python3 head_bign_climb.py 12 400 10 31 6 8 ends > $L/head_bign_climb_ends_6_8.log
+python3 hd_fail_check.py > $L/hd_fail_check.log
+(python3 refute_head.py 0; python3 refute_head.py 1) > $L/refute_head.log

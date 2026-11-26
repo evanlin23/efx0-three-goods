@@ -4,22 +4,39 @@ Workstream `proof/k4-ttc` (branch `claude/k4-ttc`, draft PR #101). Code: `k4/ttc
 log); logs: `results/k4_ttc/`. Notation as in `k4/sdc.md` (§2, §28–§30). Everything called evidence below is evidence
 only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator integrates.
 
-## Status (end of burst 2)
+## Status (end of burst 3)
 
-**Burst 2 (new):**
-- **Conjecture OC₁-HD** (§10) is a sharper form of OC₁-H that holds on every one of the 2,310 distinct hard starts
-  with n ≤ 5. The repairing chain can be taken to have this shape:
-  - it starts at a *dangerous* agent x₀ (frozen at the picks, valuing junk);
-  - its middle agents take exactly their predecessor's pick (pure want arrows, no junk);
-  - only the head x_t may add junk, and the head absorbs.
+**Refuted in burst 3.** Conjectures OC₁-H (the chain's head absorbs) and OC₁-HD (the same with the dangerous-rotation
+shape) fail at n = 6, m = 10 (`attempts/k4-ttc-head-owner.md`).
+- The counterexample was found by the adversarial climb `head_bign_climb.py` and replayed independently by
+  `refute_head.py`, which shares no code with the rest and uses brute force from the raw EFX₀ definition.
+- Two agents end without a pick. The head of every repairing chain is one of them, and it receives a pick the other
+  values, so it cannot also take the junk.
+- Plain OC₁ holds there.
+- At n ≤ 5 the head absorbed on all 2,310 distinct hard starts. Such instances are rare among small cores.
 
-  This is LB₄ʳ's improving rotation from a frozen agent to the owner, with the owner allowed to take junk and x₀
-  allowed to take the owner's pick.
-- *Necessary-looking parts of the shape.* Requiring in addition that x₀ take junk only fails on a third of the
-  starts: the repair is then a ring through the head. Requiring the head to take no junk fails on 49 starts.
-- *n = 6–9.* OC₁-H holds on all 103 distinct hard starts found among 2,000 random instances and the 57 logged ones
-  (§8).
-- *Climbs.* Adversarial climbs against OC₁-HD at n = 3, 4, 5 have found nothing so far (in progress, §10).
+**What survives.**
+- **Conjecture OC₁-E** (§8): the absorber is one of the chain's two endpoints, x₀ or the head x_t. Neither alone
+  suffices: x₀ fails at dich3 (n = 3, m = 7; `attempts/k4-ttc-x0-owner.md`), and the head fails at the n = 6 instance.
+  These are LB⁺'s two owners: Theorem A's r (the end) and Theorem B's k (the start).
+- **Conjecture OC₁-ED** (§10) adds the shape:
+  - x₀ is a dangerous agent;
+  - the middle agents take exactly their predecessor's pick (pure want arrows);
+  - only the head may add junk.
+
+  It holds on every start tested: 2,310 distinct hard starts with n ≤ 5, 264 at k = 3, 103 at n = 6–9, and the two
+  counterexamples to OC₁-H. Adversarial climbs at n = 3, 4, 5 found nothing. The climb at n = 6–8 with the endpoint
+  objective is running (`head_bign_climb_ends_6_8.log`).
+- **At k = 3** an even stronger shape holds on all 264 distinct hard starts (n = 5, 6). No agent but x₀ takes junk, x₀'s
+  set is minimal, and the head is unwanted and absorbs. That is Draft and Exchange's chain lemma followed by the
+  chain's end finishing. This is a concrete target for the k = 3 → k = 4 angle (§10).
+- **Conjecture MDP∃** (§7) is unaffected.
+
+**Earlier bursts:**
+- Lemmas T1–T3 (§2, §9) are proved.
+- No fixed TTC rule picks the chain (§3–§5), and the candidate TTC₂ fails on about 3% of the hard starts.
+- Local validity is neither necessary nor sufficient (§6).
+- The every-form of MDP fails at r617 (§7).
 
 ## Status of burst 1
 
@@ -31,7 +48,7 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
 - Lemma 1 of `k4/sdc.md` §2 is Abraham et al.'s characterization of Pareto-optimal matchings, applied to the
   favourite-good matching F(X). Draft and Exchange's Improvement Lemma is Gale's pointer argument with set demands.
 
-**Conjecture OC₁-H (new, survives everything tested, §8).** The pool belongs to the chain's head: from every order,
+**Conjecture OC₁-H (new in burst 1; refuted in burst 3 at n = 6, see above; §8).** The pool belongs to the chain's head: from every order,
 the picks have a one-absorber completion, or some improving chain x₀, …, x_t with t ≥ 1 has a one-absorber completion
 whose absorber is its head x_t (the agent whose pick is vacated). In Abdulkadiroğlu–Sönmez's TTC every vacant house
 points to the agent heading the chain, and that is exactly this statement. It sharpens OC₁ toward the refuted strict
@@ -288,9 +305,14 @@ individually rational target (MD).
   under ties). An extremal proof would choose, among the closest dominating allocations, one that also minimizes a
   second quantity (junk moved, total gain), so that two pool swaps can be merged or one undone. Not yet tested.
 
-## 8. The pool belongs to the head: Conjecture OC₁-H
+## 8. The pool belongs to the head? Conjecture OC₁-H (refuted at n = 6) and OC₁-E
 
-**Conjecture OC₁-H.** In every instance with at most four relevant goods per agent, for every order π:
+**Refuted at n = 6, m = 10** (burst 3; `attempts/k4-ttc-head-owner.md`, `refute_head.py`, `refute_head.log`). The
+surviving form is **Conjecture OC₁-E**: the absorber is x₀ or the head x_t. The evidence below for OC₁-H is also
+evidence for OC₁-E. At n = 6 only x₀ (or an agent off the chain) absorbs, and at dich3 only the head does.
+
+**Conjecture OC₁-H (as first stated).** In every instance with at most four relevant goods per agent, for every
+order π:
 - the picks have a one-absorber completion, or
 - some improving chain x₀, …, x_t with t ≥ 1 has a one-absorber completion in which the head x_t (the agent whose
   pick becomes junk) is the absorber.
@@ -354,7 +376,7 @@ description of every improving chain):
   draw, that one-unit consumption is what makes exchange work, matches Lemma T1: every k = 4 repair uses a set demand.
 - *Strategy-proofness* (AS99 Thm 1, Ma, Sönmez–Ünver) concerns incentives and gives nothing for existence.
 
-## 10. The shape of the head-absorbed repair: Conjecture OC₁-HD
+## 10. The shape of the repair: Conjecture OC₁-HD (refuted at n = 6) and OC₁-ED
 
 `chain_shape.py`, `chain_shape.log`.
 - *Features recorded.* For every distinct hard start and every head-absorbed repairing chain (every description of
@@ -381,7 +403,18 @@ description of every improving chain):
 | logged hard profiles (n ≤ 5) | 1,364 | 1,364 | 1,364 | 1,342 | 1,347 | 896 | 1,134 | 1,353 |
 | **total** | **2,310** | **2,310** | 2,302 | 2,252 | 2,261 | 1,581 | 1,965 | 2,284 |
 
-**Conjecture OC₁-HD.** For every order π whose picks Y have no one-absorber completion, there are:
+**OC₁-HD is refuted** at n = 6 with OC₁-H (burst 3). **Conjecture OC₁-ED** keeps its shape and lets the absorber be
+either endpoint, x₀ or x_t. On the two n = 6 counterexamples the repairing chains (0, 4) and (1, 4) have this shape
+(t = 1, x₀ dangerous) with x₀ absorbing.
+- *k = 3* (`chain_shape_k3.log`): on 600 + 3,000 random profiles of the n = 5 cores and 600 of the n = 6 cores, all
+  264 distinct hard starts have a head-absorbed repairing chain of the stronger shape D0+NJ+M0+UH. There only x₀ takes
+  junk, its set is minimal, and the head is unwanted. That is Draft and Exchange's chain lemma (x takes its pair; its
+  top passes along the wanters to an unwanted agent) followed by finishing at the chain's end.
+- *Prescribing the head fails* (`head_rule.py`, `head_rule.log`):
+  - the last agent of π is a working head on 576 of the 662 screen orders and on 355 of the 403 k = 3 orders;
+  - on 30 screen orders every working head is a frozen agent.
+
+**Conjecture OC₁-HD (as first stated).** For every order π whose picks Y have no one-absorber completion, there are:
 - a *dangerous* agent k (frozen in Y and valuing some junk good);
 - distinct agents k = x₀, x₁, …, x_t (t ≥ 1) such that each x_i with 1 ≤ i < t wants Y_{x_{i−1}} (so x₀, …, x_{t−2}
   are frozen);
@@ -421,9 +454,14 @@ such that the following state has a one-absorber completion in which x_t is the 
   - that agent's pick has a want-path to some owner;
   - Gale's argument closes it.
 
-**Adversarial climbs** (`head_climb.py … hd`, logs `head_climb_hd_n3.log`, `head_climb_hd_n4.log`,
-`head_climb_hd_n5.log`; in progress at the end of burst 2) minimize the number of OC₁-HD chains at the hardest start.
-None has gone below one.
+**Adversarial climbs.**
+- *n = 3, 4, 5* (`head_climb.py … hd`; logs `head_climb_hd_n3.log` with 20 rounds × 3,000 steps,
+  `head_climb_hd_n4.log` with 12 × 1,000, `head_climb_hd_n5.log` with 4 × 150): they minimize the number of OC₁-HD
+  chains at the hardest start, and none goes below one.
+- *n = 6–8* (`head_bign_climb.py`, `head_bign_climb_6_8.log`, stopped after 7 of 12 runs): found the two OC₁-HD
+  counterexamples above.
+- *The endpoint objective* (OC₁-ED, `head_bign_climb.py … ends`, `head_bign_climb_ends_6_8.log`) is running at the
+  end of burst 3.
 
 ## 11. Next steps
 

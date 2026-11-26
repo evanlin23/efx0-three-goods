@@ -65,7 +65,7 @@ CORES = {
 
 
 def load_items(src, N=0, seed=0):
-    """(name, sets, vals, m) for special | dich | screen | suite | logs | cores:FILES (N random profiles, seed) |
+    """(name, sets, vals, m) for special | dich | k3:5|6|all (k = 3 cores, N profiles) | screen | suite | logs | cores:FILES (N random profiles, seed) |
     core:n3|n4|n5 (shorthand) | big:NMIN-NMAX (N random instances of oc1_bign.gen)"""
     if src == 'special':
         return list(SPECIAL)
@@ -84,6 +84,23 @@ def load_items(src, N=0, seed=0):
         for t in range(N):
             sets = rng.choice(cores)
             items.append(('r%d' % t, sets, random_profile(sets, rng), 1 + max(max(x) for x in sets)))
+        return items
+    if src.startswith('k3:'):
+        # k = 3: the certified k = 3 cores with n = 5, 6 (results/certs_5_6.json.gz), N random strict balanced profiles
+        # in all (a > b > c with a < b + c), as in k4/sdc/oc_k3.py
+        rng = random.Random(seed); items = []
+        cores = json.load(gzip.open(os.path.join(ROOT, 'results', 'certs_5_6.json.gz')))
+        want = src[3:]
+        cores = [c for c in cores if want == 'all' or len(c['sets']) == int(want)]
+        for t in range(N):
+            core = cores[t % len(cores)]; sets = core['sets']; vals = []
+            for S in sets:
+                while True:
+                    a, b, c = sorted(rng.sample(range(1, 30), 3), reverse=True)
+                    if a < b + c:
+                        break
+                perm = list(S); rng.shuffle(perm); d = dict(zip(perm, (a, b, c))); vals.append([d[g] for g in S])
+            items.append(('k3r%d' % t, sets, vals, core['m']))
         return items
     if src.startswith('big:'):
         import oc1_bign
