@@ -93,8 +93,13 @@ Details:
 - **Not found at any k: a failure of MD or SD-C.**
   - Both hold on every PW instance; in PW, MD holds provably (§4, the count closes when all repairs happen at once).
   - Climbs bottom out at exactly one dominating allocation or extendable outcome, never zero:
-    - MD: n = 3 with up to 8 relevant goods per agent (30 rounds), n = 4 at k = 6 (25 rounds);
-    - SD-C: n = 3, up to 8 goods (30 rounds), n = 4 at k = 6 from PW starts (25 rounds).
+    - MD: n = 3 with up to 8 relevant goods per agent (30 rounds), n = 4 at k = 6 (25 rounds), n = 5 at k = 5 from
+      PW starts (20 rounds);
+    - SD-C: n = 3, up to 8 goods (30 rounds), n = 4 at k = 6 (25 rounds) and n = 5 at k = 5 (20 rounds) from PW
+      starts.
+  - **Caveat: the climbs are weak.** The OC₁-R1 climb at n = 6, k = 6, started from PW instances, also bottoms out at
+    1 (15 rounds), although PWR1-6 (n = 6, k = 6) refutes OC₁-R1. Every counterexample here came from a hand-designed
+    family (PW), none from a climb. So "no failure found" for SD-C, MD and the round variant is weak evidence.
   - MD at every k contains EFX₀ existence for all additive instances (take the empty matching). So a proof of MD at
     k = 4 must use k ≤ 4 somewhere or solve that problem, and no k-sensitive mechanism for MD has been found.
 
