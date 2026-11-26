@@ -6,6 +6,8 @@ k4/sdc/oc1_mc2_rand.Inst only (workstream compute/k4-oc1max-cert).
 (b) Orders: the distinct SD outcomes of all n! orders under the same profile, classified as maximum-matching or not
     and by Inst.check (picks complete / one move repairs / OC1 fails).  The R1-priority order class (k4/sdc.md §31;
     sdc_orders.sd(r1=True)) is reported as well.
+(c) The envy / junk structure at the failing picks: each agent's pick rank, whose picks it prefers, which junk goods
+    it values.
 
     python3 k4/oc1cert/diag.py [results/k4_oc1max/oc1max_cex_n4.json]"""
 import sys, os, json, itertools, collections
@@ -71,6 +73,13 @@ def main():
         print('   (b) orders by outcome (all %d orders, %d distinct picks): %s' % (sum(outs.values()), len(outs),
               dict(sorted(((' / '.join(k), c) for k, c in C.items())))))
         print('       R1-priority orders: %s' % dict(C1), flush=True)
+        # (c) the envy / junk structure at the failing picks
+        J = [g for g in range(I.m) if g not in Y]
+        for i in range(I.n):
+            env = [j for j in range(I.n) if j != i and Y[j] in I.v[i] and I.v[i][Y[j]] > I.v[i][Y[i]]]
+            rank = sorted(I.sets[i], key=lambda g: -I.v[i][g]).index(Y[i]) + 1
+            print('   (c) agent %d: pick %d (rank %d of %d), prefers the picks of %s, values the junk goods %s'
+                  % (i, Y[i], rank, len(I.sets[i]), env, [g for g in J if g in I.R[i]]))
 
 
 if __name__ == '__main__':

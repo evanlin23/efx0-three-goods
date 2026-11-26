@@ -40,6 +40,19 @@ The mechanism:
 - No single move escapes this, as the exhaustive check above shows. The instance has 14 EFX₀ allocations, so TARGET₄
   is not affected.
 
+**One pattern in all 11** (`diag.py` (c); "frozen" means some other agent prefers its pick, and a "danger pair" of
+agent x is two junk goods worth more to x together than x's pick):
+- exactly one agent is unfrozen, and the other three are frozen;
+- two of the frozen agents share a single danger pair of junk goods;
+- there are 3 or 4 junk goods.
+
+In 6 of the 11 (58, 20, 21, 24, 36, 38) the unfrozen agent holds its worst good, prefers all three other picks and
+values no junk, as in the example above.
+
+This is the k = 5 mechanism of PW5 (`k4/sdc.md` §31: frozen agents sharing a junk danger set) at a smaller scale. It
+does not need a large danger set, only a single available receiver. So the "k − 3 count" of §31 ("at k = 4 a danger
+set has at most three junk goods, and one chain leaves at most one") does not by itself give OC₁^max at k = 4.
+
 **Diagnostics on the 11** (`k4/oc1cert/diag.py`, `results/k4_oc1max/diag_cex_n4.log`; raw checker only):
 - *Two moves repair every one.* 2–6 of the two-move states have a one-absorber completion, and the free completion
   gives the same counts.
