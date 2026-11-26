@@ -552,7 +552,7 @@ strictness, connectivity) passes. The objective is the fraction of 40 random VMX
 |---|---|---|---|---|
 | 4 | 64 × 300 | 15,653 | 0.200 | `vmx2_climb4s.log` |
 | 5 | 32 × 150, 64 × 400 | 4,110 + 21,798 | 0.125 | `vmx2_climb5.log`, `vmx2_climb5_long.log` |
-| 6 | 32 × 120, 48 × 300 | 3,330 + PENDING | 0.675 (short run) | `vmx2_climb6.log`, `vmx2_climb6_long.log` |
+| 6 | 32 × 120, 48 × 300 | 3,330 + 12570 | 0.675 | `vmx2_climb6.log`, `vmx2_climb6_long.log` |
 
 No counterexample to VMX₂. The climbs do find harder instances as they run longer, so this is evidence only.
 
