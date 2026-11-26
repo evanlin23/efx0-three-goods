@@ -12,7 +12,9 @@ VARS = {'eager': dict(upg='eager', rot=True), 'choice': dict(upg='choice', rot=T
         'x-choice': dict(mode='choice', rot=True, _x=True), 'x-stuck': dict(mode='stuck', rot=True, _x=True),
         'x-stuck-norot': dict(mode='stuck', rot=False, _x=True), 'x-eager': dict(mode='eager', rot=True, _x=True),
         'x-eager1': dict(mode='eager1', rot=True, _x=True), 'x-eagerL': dict(mode='eagerL', rot=True, _x=True),
-        'x-eagerL1': dict(mode='eagerL1', rot=True, _x=True), 'x-eagerLL': dict(mode='eagerLL', rot=True, _x=True)}
+        'x-eagerL1': dict(mode='eagerL1', rot=True, _x=True), 'x-eagerLL': dict(mode='eagerLL', rot=True, _x=True),
+        'x2-choice': dict(mode='choice', rot=True, phase3=False, _x=True),
+        'x2r-choice': dict(mode='choice', rot=True, phase3=False, xret=True, _x=True)}
 
 
 def one(args):

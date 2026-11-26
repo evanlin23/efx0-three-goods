@@ -1,1 +1,13 @@
 $ python3 k4/vm/vm0_test.py suite --variants=f2,f2rot --limit=150 --samples=30
+S1 passes (some V-M matching extends)              143
+f2: S1 fails, some run EFX0                        0
+f2: S1 passes, no run EFX0                         1
+f2: every run EFX0                                 67
+f2: some run EFX0                                  142
+f2rot: S1 fails, some run EFX0                     7
+f2rot: S1 passes, no run EFX0                      0
+f2rot: every run EFX0                              74
+f2rot: some run EFX0                               150
+instances                                          164
+  f2 S1 passes, no run EFX0: hall-local3 n=3 m=7 [[0, 0, 0], "('no_safe', 4, [[2], [6, 5], [3, 0, 1]])"]
+time 91 s

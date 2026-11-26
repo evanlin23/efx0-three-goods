@@ -1,0 +1,1 @@
+$ python3 k4/vm/vm6_test.py cores:3:1500:41 --variants=x2-choice --limit=1000 --samples=100

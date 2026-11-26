@@ -516,7 +516,7 @@ def placeable_after_place(I, X, pool, g, s, rot):
     return absorbable_all(I, Y, set(pool) - {g})
 
 
-def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False):
+def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False, phase3=True, xret=False):
     """F6x: as vm6_run with upgrade moves replaced by exchanges() (pool-only upgrades included).
     mode='choice': moves and 'place' are choice points; 'eager': a move is applied whenever one exists (which one is
     a choice point); 'eager1': the first move in exchanges()'s order; 'stuck': moves only when the chosen good has no
@@ -524,19 +524,22 @@ def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False):
     safe recipient (placeable_after); 'eagerLL': fully deterministic in the F1 phase: the first move passing that
     lookahead, else the first (good, recipient) pair after which (with rotation) every other pool good has a safe
     recipient, else the first safe pair."""
-    X, fl = vm0_run(I, ch, f2=True, rot=rot, base=base, stop='IIIm')
+    X, fl = vm0_run(I, ch, f2=True, rot=rot, base=base, stop='IIIm' if phase3 else 'II')
     X = [list(b) for b in X]
     held = set(g for b in X for g in b)
     pool = set(g for g in range(I.m) if g not in held)
     log = []
+    exch = exchanges_ret if xret else exchanges
 
     def apply(mv):
-        i, j, z, S = mv; y = X[i][0]
+        i, j, z, S = mv[:4]; D = mv[4] if len(mv) > 4 else ()
+        y = X[i][0]
         if j is None:
             X[i] = list(S)
         else:
-            X[j] = [h for h in X[j] if h != z] + [y]; X[i] = [z] + list(S); y = None
+            X[j] = [h for h in X[j] if h != z and h not in D] + [y]; X[i] = [z] + list(S); y = None
         pool.difference_update(S)
+        pool.update(D)
         if y is not None:
             pool.add(y)
         log.append(('move', mv))
@@ -547,7 +550,7 @@ def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False):
         if rot:
             l3_source(I, X)
         if mode in ('choice', 'eager', 'eager1', 'eagerL', 'eagerL1', 'eagerLL'):
-            mv = exchanges(I, X, pool)
+            mv = exch(I, X, pool)
             if mode == 'eagerLL':
                 mv = [a for a in mv if placeable_after(I, X, pool, a)][:1]
                 mode_eff = 'eager1'
@@ -570,7 +573,7 @@ def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False):
         g = ch.pick('egood', valued)
         cands = [s for s in range(I.n) if safe_add(I, X, s, g)]
         if not cands and mode == 'stuck':
-            mv = exchanges(I, X, pool)
+            mv = exch(I, X, pool)
             if mv:
                 apply(ch.pick('mv', mv)); continue
         if not cands:
@@ -584,3 +587,37 @@ def vm6x_run(I, ch, rot=True, mode='choice', base=None, record=False):
         s = l3_source(I, X)
         X[s] += J
     return X, ({'log': log} if record else {})
+
+
+
+def exchanges_ret(I, X, pool):
+    """exchanges() plus two-agent exchanges in which j also returns a set D of its other goods to the pool:
+    (i, j, z, S, D): i (holding a single y) gets {z} + S, j gets X_j - z - D + y; both strictly gain; EFX0 after."""
+    out = exchanges(I, X, pool)
+    P = sorted(pool)
+    for i in range(I.n):
+        if len(X[i]) != 1:
+            continue
+        y = X[i][0]; vy = I.v[i].get(y, 0)
+        mine = [g for g in P if g in I.v[i]]
+        for j in range(I.n):
+            if j == i or y not in I.v[j]:
+                continue
+            for z in X[j]:
+                if z not in I.v[i]:
+                    continue
+                rest = [h for h in X[j] if h != z]
+                for rd in range(1, len(rest) + 1):
+                    for D in itertools.combinations(rest, rd):
+                        Bj = [h for h in rest if h not in D] + [y]
+                        if I.val(j, Bj) <= I.val(j, X[j]):
+                            continue
+                        for r in range(0, min(3, len(mine)) + 1):
+                            for S in itertools.combinations(mine, r):
+                                Bi = [z] + list(S)
+                                if I.val(i, Bi) <= vy:
+                                    continue
+                                Y = [list(b) for b in X]; Y[i] = Bi; Y[j] = Bj
+                                if not efx_violations(I, Y, zero=True):
+                                    out.append((i, j, z, S, D))
+    return out

@@ -18,7 +18,7 @@ coordinator integrates.
   - The matching stage fails even for 3-limited instances (n = 3, m = 5). The cause is the upper-set trade that
     LB⁺'s upgrades perform, which a rank-greedy matching cannot express.
 - **Repairs, killed or confirmed (§6), each refutation with an independent replay in `attempts/k4-vm-*.md`:**
-  - F1–F3 + rotation (EFX₀-safe placement): complete V-M's matching on 17,120 of the 17,121 instances where it
+  - F1–F3 + rotation (EFX₀-safe placement): complete V-M's matching on 17,263 of the 17,264 instances where it
     extends. The exception is `core4:1615`, so **Conjecture VC is REFUTED** at n = 4, m = 8.
   - F1 alone, in an arbitrary order, fails even with distinct tops (n = 2, m = 5).
   - F5 (strip zero goods and refill) is no better than F1–F3 + rotation.
@@ -165,8 +165,10 @@ within a step are distinct. For Pareto-optimality: if i prefers a good g to Y_i,
 by Lemma S its holder h has st(h) ≤ j < st(i). An improving trading cycle would therefore strictly decrease st all the
 way around, which is impossible. No unassigned good is preferred, again by Lemma S. ∎
 
-So V-M's matchings are SD outcomes of the *rank-greedy* orders. Lemma 1 of `k4/sdc.md` makes "some EFX₀ allocation
-extends Y" the SD-C completion question for these orders.
+So V-M's matchings are SD outcomes of the *rank-greedy* orders. Pareto-optimality also follows from Lemma SDPO
+(K4.SDC.SDPO, `k4/sdc.md` §28: SD outcomes are exactly the Pareto-optimal matchings); the direct proof above shows
+which agents block which. Lemma 1 of `k4/sdc.md` makes "some EFX₀ allocation extends Y" the SD-C completion question
+for these orders.
 
 ## 3. Gaps of the sketch, and the readings tested
 
@@ -335,6 +337,7 @@ enumerated by DFS, up to a cap, then sampled.
 | cores n = 4 | 3,000 | 2,992 | 2,990 | 2,997 | **1** (`core4:1615`) | `vm0_cores4.log` |
 | cores n = 5 | 1,000 | 996 | | 999 | **0** | `vm0_cores5.log` |
 | general (n ≤ 6, m ≤ 10, junk) | 10,000 | 9,972 | 9,977 | 9,987 | **0** | `vm0_gen.log` |
+| suite (n ≤ 26; DFS capped at 150 runs, then 30 samples) | 164 | 143 | 142 | 150 | **0** | `vm0_suite.log` |
 
 - Without F2, the unfiltered Phase III loses 6 more screen instances (`nof2`).
 - F1 alone (no rotation) misses one screen instance where S1 passes (`hall-local3`, n = 3, m = 7).
@@ -370,7 +373,8 @@ Still, on all 168 screen instances *some* SD outcome completes this way.
 | F6x eager with lookahead (`x-eagerL`) | 168 | 141 | none, but its first run (all ties by index) fails on 4 |
 | **VM-LL** (`x-eagerLL`: lookahead on moves and placements, fully deterministic) | 168 (first run) | 162 | none on these labels; **14 of 1,284 relabelled instances fail**, smallest n = 2, m = 5 |
 
-Logs: `vm6_screen.log`; the other sources are in §6.4.
+Logs: `vm6_screen.log` (F6, F6x choice and stuck) and `vm6_screen_rules.log` (eager, eagerL, VM-LL). The other
+sources are in §6.4.
 
 What the moves do on the smallest failures, by brute force over all allocations (`k4/vm.md` §5.3 and
 `attempts/k4-vm-deterministic.md`):
@@ -439,9 +443,23 @@ All of these are refuted. The details, with independent replays, are in `attempt
 | general 3-limited | 4,000 | **4,000** | | | `vm6_gen3lim.log` |
 | suite (n ≤ 26; DFS capped at 150 runs, then 30 samples) | see `vm6_suite.log` | | | | |
 
-No counterexample to VMX is known. Choice is essential: "every run" fails on 5–30% of the hard sets, and the first
-run fails already at n = 2, m = 5. The F6x lazy variant fails on 2 of 168 screen instances and on none of the
-random sets.
+Choice is essential:
+- "every run" fails on 5–30% of the hard sets;
+- the first run fails already at n = 2, m = 5;
+- the lazy F6x variant fails on 2 of 168 screen instances and on none of the random sets.
+
+**But VMX is false** (`attempts/k4-vm-vmx.md`, independent replay). Hill-climbs that minimize the fraction of
+successful runs (`vmx_climb.py`) found profiles of certified cores on which every run is stuck:
+- n = 3, m = 6 (4 runs, `vmx_climb_n3.log`);
+- n = 4, m = 8 (10 runs, `vmx_climb_n4.log`).
+
+In the n = 3 one:
+- agent 0 strongly prefers its top (8 > 4 + 3), so Phase I gives it good 5;
+- yet no EFX₀ allocation gives 5 to agent 0, which must take its lower triple (9 > 8);
+- the exchange that would do this is blocked by the good that Phase III already gave agent 2.
+
+A breadth-first search over a superset of VMˣ's moves reaches only 3 states from each start. Random sampling never
+found these profiles; only the climbs did.
 
 ## 7. Proved: soundness and termination of the repaired procedure
 
@@ -474,15 +492,22 @@ upgrades and exchanges. Each step takes polynomial time.
 - Each step enumerates at most n agents, n² · 4 exchange partners and C(4, ≤ 3) pool subsets, and runs an O(n²m)
   EFX₀ check. ∎
 
-So the whole difficulty is in one sentence:
+So the whole difficulty is in one sentence.
 
-**Conjecture VMX (evidence only).** In every instance in which every agent values at most four goods, some run of VMˣ
-never gets stuck.
+**Conjecture VMX: REFUTED** (`attempts/k4-vm-vmx.md`; n = 3, m = 6 and n = 4, m = 8). VMX said: in every instance in
+which every agent values at most four goods, some run of VMˣ never gets stuck.
 
-VMX implies TARGET₄ (Lemma SND). It also implies, for the V-M matching the run starts from, the value domination of
+**Conjecture VMX₂ (evidence only).** The same holds for VMˣ₂, which is VMˣ without Phase III: after Phases I–II, all
+remaining goods go to the pool. Lemmas SND and TERM hold for VMˣ₂ with the same proofs. Its tests are in §7.1.
+
+VMX₂ implies TARGET₄ (Lemma SND). It also implies, for the V-M matching the run starts from, the value domination of
 Conjecture MD (K4.SDC.MD, `k4/sdc.md` §28): the final allocation value-dominates the start, because no step lowers a
-value. VMX is a *path* statement. Its runs are Pareto-monotone, so by P1 they can be trapped, and VMX says that some
+value. VMX₂ is a *path* statement. Its runs are Pareto-monotone, so by P1 they can be trapped, and VMX₂ says that some
 path avoids every trap.
+
+### 7.1 Tests of VMX₂
+
+PENDING (`vmx2_*.log`).
 
 ## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading
 
@@ -552,7 +577,8 @@ So X_i ⊆ R_i for every i ∈ S throughout.
 - **(iii) An N₁ agent with at least two goods has no out-edge.** This follows from (ii).
 - **(iv) N₂ʳ out-edges go to W.** Let i ∈ N₂ʳ have an edge i → i′. Then T = B ∩ R_i ⊆ R_i ∖ X_i ⊆ {r_i(1), r_i(4)}.
   EFX-envy needs T = {r_i(1), r_i(4)} and v_i(r_i(1)) > v_i(X_i) ≥ v_i(r_i(2)) + v_i(r_i(3)), so i ∈ A. Being in N₂,
-  i lost r_i(1) in Phase I to another agent of A, which belongs to W. Since r_i(1) ≠ j (it is assigned),
+  i lost r_i(1) in Phase I to another agent of A, which belongs to W and keeps it (no step of VM removes a good).
+  Since r_i(1) ≠ j (it is assigned),
   r_i(1) ∈ X_{i′}, so i′ is that agent of W.
 
 Now follow a directed path from each kind of start:
