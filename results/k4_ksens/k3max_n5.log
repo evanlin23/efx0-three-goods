@@ -60,3 +60,13 @@ hypergraphs 3988 for m in [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 ... 2900 hypergraphs, 888 s
 ... 2950 hypergraphs, 928 s
 ... 3000 hypergraphs, 989 s
+... 3050 hypergraphs, 1123 s
+... 3100 hypergraphs, 1278 s
+... 3150 hypergraphs, 1342 s
+... 3200 hypergraphs, 1346 s
+... 3250 hypergraphs, 1360 s
+... 3300 hypergraphs, 1374 s
+... 3350 hypergraphs, 1400 s
+... 3400 hypergraphs, 1424 s
+... 3450 hypergraphs, 1488 s
+... 3500 hypergraphs, 1537 s
