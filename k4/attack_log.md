@@ -36,6 +36,7 @@ angles in flight, and what each established. Ledger rows change only with artifa
 | General k: bounded charity CH(k): partial EFX₀ with at most f(k) unenvied unallocated goods, f independent of n (relevant-goods analogue of the t − 2 bound for t types) | session_01BYMGeYiET7bXN43NsuXoDR | `claude/kgen-charity` | `kgen/charity.md` |
 | The first open cell (k, p) = (4, 3) (≤ 3 valuers per good): a two-envier dump rule replacing the multigraph proofs' unique-envier step | session_01BYMGea7fswSChnvyCWWWm8 | `claude/k4-p3` | `k4/p3.md` |
 | Choosing the order by an alternating-tree search with a lexicographic, non-value termination measure (Haxell; restricted Santa Claus) | session_01BYMGeYJ6PFyCSZHphgSyXd | `claude/k4-haxell` | `k4/haxell.md` |
+| Referee: independent, adversarial review of every written proof the angles produce (Theorem VM first) | session_01BYMGeYHb8rxaaJ1BScSCZY | `claude/k4-referee` | `k4/referee/` |
 
 The coordinator (this branch, `claude/kind-lamport-y8fdme`) runs an hourly burst: it checks each angle, verifies any
 claimed proof or counterexample independently, integrates verified results here, and works one angle of its own.
@@ -105,3 +106,62 @@ techniques); the synthesized report follows in `reports/`.
   6. the two possibly free strengthenings (Lianeas girth, Sgouritsa–Sotiriou degree): girth session;
   7. extend K4.MC7 to β = 5: hunt session;
   8. reductions for agents with all-equal values and for twin agents: coordinator, later burst.
+
+### 2026-11-26 21:35 UTC: hourly burst 1
+All 12 angle sessions are active and pushing. Claims below are the sessions' own until the referee or the
+coordinator has checked them; "verified" marks the ones checked.
+- **Hunt** (`claude/k4-hunt-cegar`): an ordinal CEGAR, in which outer clauses are comparison bits, certifies whole
+  cores for every strict profile in seconds. That is ~100× faster than scan2 on the cores timed. It certifies the six
+  graphical all-P4 cores of K4.MC7 directly; two encodings agree (CaDiCaL on comparison bits, Glucose on raw unsafe
+  sets). So K4.MC7 (TARGET₄ for β ≤ 4) no longer needs the multigraph theorem. Ledger integration is pending the PR.
+  Next: the β = 5 window.
+- **k-sensitivity** (`claude/k4-ksens`, PR #98):
+  - OC and OC₁ are false at k = 5 (PW5: n = 5, m = 9; two programs plus a written proof). The PW family needs
+    ⌊(k − 1)/2⌋ chains, k = 5–9.
+  - DT's and DT₁'s conclusions fail at k = 5. So the k ≤ 4 steps are sharp.
+  - Where k ≤ 4 enters: after one repair a frozen agent has k − 3 pool goods left, which is one at k = 4 and fits the
+    single free slot.
+  - One ROUND of vertex-disjoint chains repairs everything at k = 5–10. This round conjecture is the new general-k
+    candidate.
+- **General k, n = 3** (`claude/kgen-n3`): independently, OC₁ fails at n = 4, k = 5, and a packing of disjoint chains
+  repairs it. OC₁ (t ≥ 0) survives at n = 3 for every k on about 1.3·10⁹ starts, so the target there is a proof.
+- **Charity** (`claude/kgen-charity`, PR #105):
+  - CH-A: exact EFX₀ with O(√(kn)) charity, by rainbow cycles with genuine zeros.
+  - CH-B: fewer than e·d unallocated goods when every good has ≤ d valuers, independent of n.
+  - CH-D, CH-E: no n-independent f(k) can come from CKMS rules or from Pareto maxima.
+  - **P1 already fails at k = 3** (n = 4, m = 7, every agent values exactly 3 goods). **Verified** by the
+    coordinator's own brute force (`k4/sdc/p1_k3_verify.py`, `results/k4_sdc/p1_k3_verify.log`). So value-monotone
+    failure does not distinguish k = 4 from k = 3.
+- **Viswanathan–Mehta** (`claude/k4-vm`):
+  - Theorem VM, a written proof not yet refereed: the reconstructed algorithm gives complete ordinary EFX on every
+    4-limited instance, with one correction (G1), and the abstract's unproved "source" step is proved.
+  - For EFX₀ the algorithm breaks at three stages, the matching stage even at k = 3.
+- **k = 3 then lift** (`claude/k4-k3-oc1`, PR #96):
+  - Theorem R1C, written: OC₁ at k = 3 for every R1-compatible order.
+  - Theorem candidate OT, exhaustive on every core with n ≤ 5 (2.7·10⁸ starts) and at n = 6, m ∈ {10, 11}.
+- **Girth** (`claude/k4-girth`):
+  - Theorem T1, written: EFX₀ for linear instances with an agent on no 3-cycle, monotone valuations.
+  - Conjecture L, which would give EFX₀ for every linear additive instance at every k: no counterexample in about
+    10⁵ Pareto maxima.
+  - The LSS architecture fails with 2-cycles at n = 2.
+- **Hall count** (`claude/k4-oc1-hall`, PR #100):
+  - The exact count (Lemma 2 / Cor. 2.1) matches SAT on 20,648 owner tests.
+  - Theorem F1_1, written: f = 1 with one wanter.
+  - The matroid view is sufficient but not exact.
+  - Chain statement (Finding B/C): canonical chains from dangerous agents plus at most one junk-assisted step; 20
+    configurations need that step.
+- **TTC** (`claude/k4-ttc`, PR #101): OC₁-H and OC₁-HD are refuted at n = 6 (independent replay). OC₁-ED survives on
+  all data: the endpoint absorbs, the start is dangerous, the middle is pure want arrows, and junk goes only at the
+  head. It is to be reconciled with the Hall session's Finding B/C.
+- **SD induction** (`claude/k4-sd-induct`): Lemmas D, F, S, U, BOTH-TP, written. Conjecture AB₁ holds on 17,403/17,403.
+- **(4, 3) cell** (`claude/k4-p3`): P1 fails inside the cell (GM4-D). The multigraph final shape is impossible
+  already at k = 3, so the dump rule has to be redesigned, not patched.
+- **Haxell** (`claude/k4-haxell`): literature read; models in progress.
+- **New**: referee session (`claude/k4-referee`) for every written proof, in the order Theorem VM, R1C, T1, the Hall
+  lemmas, CH-A/B, PW5, the SD-induction lemmas.
+- **Coordination sent**:
+  - ksens owns the ladder and round conjecture; kgen-n3 owns the n ≤ 3 proofs.
+  - The Hall and TTC sessions reconcile Finding B/C with OC₁-ED.
+  - Every k = 4 prover is pointed to the k − 3 fact.
+- **Coordinator's own runs**: OC₁ at n = 6–9 passes on 24,000 random starts. The adversarial climb at n = 6–8 is still
+  running.
