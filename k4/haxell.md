@@ -24,8 +24,9 @@ evidence only (PROMPT.md §5 rule 3).
   moves of two local moves are allowed. Single-move traps occur at k = 4 and at general k, **never at k = 3** (6,100
   random k = 3 instances). No serial-dictatorship start is a trap, and P1's stuck state of GM4-E is not one either:
   value-lowering moves lead out of it.
-- *One-shot augmentation is not local* (§3.5): some partial EFX₀ allocations need more than four goods to change
-  holder before a pool good can be placed (n = 2 at k = 4; n = 3 at k = 3; 23 of 109 screen instances). So the
+- *One-shot augmentation is not local* (§3.5): some partial EFX₀ allocations need three local moves at once before a
+  pool good can be placed (already at n = 2, k = 3), and one needs four (n = 3, m = 6, k = 4;
+  `attempts/k4-haxell-bounded-augmentation.md`). So the
   augmentation must be a *sequence* of moves, which is what an alternating tree supplies.
 - *Trees* (§3.3): from every serial-dictatorship start on the screen set (n ≤ 5, 4,069 starts), a sequence of
   victim-free moves reaches a complete EFX₀ allocation (complete search, Model G: 0 stuck). The AKS-style trees
@@ -163,6 +164,15 @@ moves bounds what any tree can do (`ht_bfs.py`).
 | A, T + C, unhappy count never rises | 4,069 | 4,069 | 0 | `bfs_screen_A_count.log` |
 | G, T + C, strict | 4,069 | 4,069 (≤ 5 moves) | 0 | `bfs_screen_G.log` |
 
+Model G beyond the screen set (every order, `CAP=200000` states, never reached):
+| data | starts | stuck | most moves | log |
+|---|---|---|---|---|
+| suite, n ≤ 5 | 4,327 | 0 | 5 | `bfs_suite_G.log` |
+| special (T3, Q2, r4253, r3943) | 174 | 0 | 2 | `bfs_special_G.log` |
+| the hard profiles logged in `results/k4_sdc/*.log`, n ≤ 4 | 21,374 | 0 | 4 | `bfs_logs_G.log` |
+| 500 random k = 4 core profiles, n = 4 | 12,000 | 0 | 4 | `bfs_cores_n4_G.log` |
+| 60 random k = 4 core profiles, n = 5 | 7,200 | 0 | 4 | `bfs_cores_n5_G.log` |
+
 In Model A's stuck start (gap-ivmax-n5-m9, picks (4, 8, 5, 6, 7), absorber 2) only two states are reachable: every
 move that protects agent 1 hurts agent 2 or 4. Any other absorber works.
 
@@ -208,6 +218,21 @@ a trap when composites of two moves are allowed (the intermediate state need not
 | random, n = 3, m = 6, k = 3 / 4 / 6 | 800 each | 0 / 1 / 0 | 0 | `gstar_gen_n3m6k*.log` |
 | random, n = 3, m = 7, k = 3 / 4 / 7 | 300 each | 0 / 1 / 0 | 0 | `gstar_gen_n3m7k*.log` |
 
+**Second implementation** (`gstar.c`, driven by `gstar_run.py`; written separately from `ht_gstar.py`, sharing only
+the definitions; reverse breadth-first search from the complete allocations). It agrees with the Python census on
+every instance where both run: 109 screen and 94 suite instances, every count (states, complete, traps, radius-2
+traps) equal (`gstarc_xcheck_*.log`). At larger sizes (up to (n + 1)^m ≤ 3·10⁶ assignments):
+| data | instances | partial EFX₀ states | with a trap | radius-2 traps | log |
+|---|---|---|---|---|---|
+| screen, n ≤ 5, m ≤ 10 | 151 | 488,506 | 7 | 0 | `gstarc_screen.log` |
+| suite, n ≤ 5, m ≤ 10 | 136 | 455,580 | 7 | 0 | `gstarc_suite.log` |
+| logged hard profiles, n ≤ 5 | 1,521 | 4,711,834 | 6 (one with n = 5) | 0 | `gstarc_logs.log` |
+| special | 4 | 18,298 | 0 | 0 | `gstarc_special.log` |
+| random k = 4 core profiles, n = 4 | 279 | 1,385,536 | 0 | 0 | `gstarc_cores_n4.log` |
+| random n = 4, m = 8, k = 3 / 4 / 8 | 300 / 300 / 200 | 4,602,714 | 0 / 0 / 0 | 0 | `gstarc_gen_n4m8k*.log` |
+| random n = 5, m = 8, k = 3 / 4 | 150 / 150 | 6,551,264 | 0 / 1 | 0 | `gstarc_gen_n5m8k*.log` |
+| random n = 3, m = 9, k = 3 / 4 | 600 / 600 | 12,671,868 | 0 / 1 | 0 | `gstarc_gen_n3m9k*.log` |
+
 Every trap found has one pooled good (three general-k instances at n = 2, m = 6 have traps with two). No
 serial-dictatorship start is a trap. **The smallest trap** (c4x-n2m5-base-needs): both agents value the shared goods
 2, 3, 4 at 3, 4, 8, and each its private good (0, resp. 1) at 2. The state ({0, 2}, {1, 3}), with good 4 pooled, is
@@ -215,24 +240,27 @@ partial EFX₀, but whoever receives 4 is envied, and no single other move helps
 together gives ({0, 4}, {1, 2, 3}). P1's stuck state of GM4-E (`k4/sdc.md` §1) is not a trap: 2,448 partial EFX₀
 allocations, 15 complete, no trap.
 
-### 3.5 Augmentation radius
+### 3.5 Augmentation radius: one-shot augmentation is not local
 
-`ht_aug.py`: for every partial EFX₀ allocation with a nonempty pool, the fewest goods whose holder must change to
-reach a partial EFX₀ allocation with a smaller pool (all reassignments of d goods, d ≤ 4).
-| data | instances | states with radius 1 / 2 / 3 / 4 / > 4 | log |
-|---|---|---|---|
-| random n = 2, m = 5, k = 3 | 3,000 | 183,336 / 26,201 / 3,478 / 162 / 0 | `aug_gen_n2m5k3.log` |
-| random n = 2, m = 5, k = 4 | 3,000 | 166,419 / 32,459 / 3,627 / 117 / 15 | `aug_gen_n2m5k4.log` |
-| random n = 2, m = 5, k = 5 | 3,000 | 169,046 / 39,265 / 4,024 / 40 / 2 | `aug_gen_n2m5k5.log` |
-| random n = 2, m = 6, k = 6 | 2,000 | 296,244 / 59,766 / 3,942 / 9 / 0 | `aug_gen_n2m6k6.log` |
-| random n = 3, m = 6, k = 3 | 800 | 219,625 / 38,257 / 31,326 / 442 / 5 | `aug_gen_n3m6k3.log` |
-| random n = 3, m = 6, k = 4 | 800 | 195,824 / 42,130 / 33,819 / 761 / 23 | `aug_gen_n3m6k4.log` |
-| random k = 4 core profiles, n ≤ 3, m ≤ 7 | 1,346 | 376,918 / 63,369 / 46,905 / 960 / 12 | `aug_cores_n3.log` |
-| screen, n ≤ 4, m ≤ 7 | 109 | 80,997 / 12,744 / 15,221 / 1,326 / 131 | `aug_screen.log` |
+For a partial EFX₀ allocation s with a nonempty pool, the *augmentation radius* is the fewest local moves (move,
+swap, trade; intermediate states arbitrary, the pool never growing) after which the state is partial EFX₀ with a
+smaller pool. A tree that augments in one composite step of r moves needs radius ≤ r everywhere ("AUG_r"), which
+would give EFX₀ by induction on the pool. `ht_aug.py` first computes the Hamming radius (goods whose holder changes;
+an upper bound on the move radius, since each changed good is one move), and `ht_mrad.py` the move radius of every
+state whose Hamming radius exceeds 2.
+- *Hamming radius* (`aug_*.log`): up to 4 at n = 2, k = 3, and above 4 at n = 2, k = 4 (15 of ~200,000 states), at
+  n = 3, k = 3 (5 states), and on 23 of 109 screen instances.
+- *Move radius* (`mrad_*.log`): a bundle trade is one move, so most of those states have move radius 2 (trade, then
+  place). But **AUG₂ is false**, already at n = 2 and k = 3: 198 states of 3,000 random instances (n = 2, m = 5) need 3
+  moves; also 56 at k = 4, 11 with every good relevant, and 1,172 at n = 3, m = 6, k = 3 (800 instances). **AUG₃ is false
+  at k = 4**: g372 (n = 3, m = 6: agent 0 values goods 1, 2, 3, 5 at 4, 35,
+  16, 10; agent 1 values 0, 2, 3, 4 at 21, 18, 14, 9; agent 2 values 0, 2, 3, 5 at 39, 34, 18, 9), state
+  ({1, 4, 5}, {0}, {3}) with good 2 pooled, needs 4 moves; on the screen set 7 states of three n = 3, m = 6 instances
+  (c4min-tlam-n3-m6, c4x-n3m6-onefour-a, induct-pot-nash) need 4 (`mrad_screen_n3.log`).
 
-So no bounded-radius *one-step* augmentation lemma holds ("AUG_r" is false for r ≤ 4, even at k = 3), while
-*multi-step* augmentation through radius-2 moves never fails (§3.4). This is the division of labour in Haxell's
-proof: the augmenting structure is a sequence of swaps, each local, organized by the tree.
+So no bounded one-step augmentation lemma holds at these radii, while *multi-step* augmentation through radius-2
+moves never fails (§3.4): g372's state is no trap of G₂. This is the division of labour in Haxell's proof, where the
+augmenting structure is a sequence of swaps, each local, organized by the tree.
 
 ## 4. What survives, and what a proof would need
 
@@ -253,8 +281,8 @@ goods, G₂ has no trap.
 - No trap of G₂ is known: §3.4, the C census below, and the climbs of `ht_climb.py`.
 - No trap of G₁ is known at k ≤ 3: random instances (n = 2, 3), and **every** instance with n = 2, m ≤ 6, k ≤ 3 whose
   values lie in {1, 2, 3, 5, 8, 13} (472,860 instances, `n2_grid_k3.log`).
-- Some states of 𝒫 need more than four goods reassigned before the pool can shrink (§3.5), so neither conjecture can
-  be proved one augmentation at a time with a bounded jump.
+- Some states of 𝒫 need three or four local moves at once before the pool can shrink (§3.5), so neither conjecture can
+  be proved one augmentation at a time with a jump of two moves.
 
 **Why CONN₂ is the right "Haxell condition".**
 - *It implies TARGET₄.* The empty allocation lies in 𝒫, so a complete EFX₀ allocation is reachable from it.

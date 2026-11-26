@@ -1,0 +1,13 @@
+$ python3 k4/haxell/ht_mrad.py screen NMAX=3 MMAX=7 HMIN=2 DMAX=5
+WORST move radius 4 Hamming 5 c4min-tlam-n3-m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[4, 3, 2, 8], [4, 1, 8, 6], [2, 4, 3]]] [[5], [0, 2], [1, 3]] pool [4]
+WORST move radius 4 Hamming 5 c4x-n3m6-onefour-a [[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [[2, 3, 4, 8], [2, 4, 3], [4, 2, 3]]] [[5], [0, 1], [2, 4]] pool [3]
+WORST move radius 4 Hamming 4 induct-pot-nash [[[0, 2, 4, 5], [1, 4, 5], [3, 4, 5]], [[4, 3, 6, 8], [2, 3, 4], [3, 4, 2]]] [[4], [0, 1], [2, 3]] pool [5]
+states with Hamming radius 3 and move radius 2 1389
+states with Hamming radius 3 and move radius 3 251
+states with Hamming radius 4 and move radius 2 130
+states with Hamming radius 4 and move radius 3 72
+states with Hamming radius 4 and move radius 4 3
+states with Hamming radius 5 and move radius 2 17
+states with Hamming radius 5 and move radius 3 32
+states with Hamming radius 5 and move radius 4 4
+time 3 s

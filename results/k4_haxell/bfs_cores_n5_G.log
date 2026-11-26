@@ -1,0 +1,9 @@
+$ python3 k4/haxell/ht_bfs.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz:60:12 NMAX=5 MODEL=G CAP=200000
+instances 60
+instances with a stuck start 0
+start: depth 1 3016
+start: depth 2 3175
+start: depth 3 979
+start: depth 4 30
+starts 7200
+time 3 s
