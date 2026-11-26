@@ -31,11 +31,12 @@ angles in flight, and what each established. Ledger rows change only with artifa
 | Reconstruct Viswanathan–Mehta's 4-limited EFX algorithm and make it EFX₀ | session_01BYMGebcnNSpPp9qEyjfvuV | `claude/k4-vm` | `k4/vm.md` |
 | k-sensitivity: the smallest k at which SD-C, MD, OC and OC₁ fail (adversarial, k = 5, 6, 8), and what k ≤ 4 buys | session_01BYMGeYRzPvVFuMx5JPLStH | `claude/k4-ksens` | `k4/ksens.md` |
 | General k, first foothold: OC₁ / SD-C for three agents at arbitrary k (a short proof with a polynomial algorithm would be new), then n = 4 | session_01BYMGeadPp24qCxnUuKsLsB | `claude/kgen-n3` | its own note (`kgen/`) |
-| Induction on agents along the serial-dictatorship order (add the last agent, or remove the first / an unwanted one), with an invariant P found by computation | session_01BYMGecgCGycycqxiyS1n7G | `claude/k4-sd-induct` | `k4/sd_induct.md` |
+| Induction on agents along the serial-dictatorship order (retired 22:35 after PR #103); now CEGAR synthesis against OC₁^max with ν = n | session_01BYMGecgCGycycqxiyS1n7G | `claude/k4-sd-induct` | `k4/sd_induct.md` |
 | Housing markets / top trading cycles: SD picks as existing tenants, junk as the pool; find the TTC / YRMH-IGYT-type rule that picks the repairing chain, and core-type invariants | session_01BYMGeao2jUMkZBYQ48pDMw | `claude/k4-ttc` | `k4/ttc.md` |
 | General k: bounded charity CH(k): partial EFX₀ with at most f(k) unenvied unallocated goods, f independent of n (relevant-goods analogue of the t − 2 bound for t types) | session_01BYMGeYiET7bXN43NsuXoDR | `claude/kgen-charity` | `kgen/charity.md` |
 | The first open cell (k, p) = (4, 3) (≤ 3 valuers per good): a two-envier dump rule replacing the multigraph proofs' unique-envier step | session_01BYMGea7fswSChnvyCWWWm8 | `claude/k4-p3` | `k4/p3.md` |
 | Choosing the order by an alternating-tree search with a lexicographic, non-value termination measure (Haxell; restricted Santa Claus) | session_01BYMGeYJ6PFyCSZHphgSyXd | `claude/k4-haxell` | `k4/haxell.md` |
+| Lean frame OC₁^max ⟹ TARGET₄ with SDPO, MAXSD and Lemma MAX machine-checked (from 22:36) | session_01BYMGecPDq28nRFGVkqASck | its own branch (formal/k4-oc1max) | `lean/` |
 | Referee: independent, adversarial review of every written proof the angles produce (Theorem VM first) | session_01BYMGeYHb8rxaaJ1BScSCZY | `claude/k4-referee` | `k4/referee/` |
 
 The coordinator (this branch, `claude/kind-lamport-y8fdme`) runs an hourly burst: it checks each angle, verifies any
@@ -342,3 +343,45 @@ coordinator has checked them; "verified" marks the ones checked.
   - The general-k candidates left are sequential ladders (two rounds, RD², is next).
   - K4-G4, "some repairing chain leaves no dangerous frozen agent", holds on all 349 curated and 1,392 PW-design
     hard k = 4 starts.
+
+### 2026-11-26 22:34 UTC: hourly burst 2
+**Status.** The central k = 4 conjecture is **OC₁^max** (K4.SDC.OC1MAX). Everything it rests on is refereed CORRECT:
+MAXSD, SDPO, Lemma MAX, Hall's Lemmas 2/2\*/4, Cor. 2.1, Prop. 3 and F1₁. There is no failure anywhere:
+- 11.0M maximum-matching orders at n = 5;
+- 33,082 maximum-matching orders on the known core and non-core counterexamples;
+- all climbs: coordinator, TTC deficient/dense/MC2, ksens n = 5.
+
+It is false at k = 5 (PW5, RD5, kgen n = 4), so it is a k ≤ 4 statement. Lemma PWk(a) (ksens) proves it on the whole PW
+family at k ≤ 4. The open case is ν = n, with frozen agents wanted by pick holders.
+
+**Referee** (PR #108, ready; all items refereed, no GAP or WRONG):
+- since 22:00: Hall lemmas, sd-induct lemmas (Lemma U with fixes), MAXSD and SDPO, Lemma MAX, CH-F (third independent
+  method), DU, VM's SND, TERM, (I1)–(I5), P0, P1′, HDT, generalized SLACK, HT;
+- ledger rows K4.SDC.SDPO and K4.SDC.MAXSD now say refereed.
+
+**Per angle:**
+- **TTC**: OC₁^max climbs on Hall-deficient, dense and MC2 cores (n = 6–8) all clean. Lemma T5 is the same as
+  Lemma MAX. Next: a SAT sweep at n = 6 with ν = 6 and two or more 4-good agents.
+- **Hall**: next is the written proof of D1 for maximum-matching starts, then |D| ≥ 2, split into disjoint danger
+  sets (Lemma PL) and shared ones (the PWk(a) chain).
+- **ksens**: Lemma PL proved. Lemma PWk: (a) proved; (b) one chain fails exactly when W ≥ 2 and
+  W + 2 ≤ r ≤ min(W + f − 1, 2f − 1). RD (one round) is false at k = 5; the general-k candidate is RD² (two rounds).
+  Next: a depth-two RD5 and R(k).
+- **VM**: VMX2 succeeds on all 372 named items and survives climbs. VM1's invariant is refereed. V-M matchings are
+  Pareto optimal but not always maximum: VM1 completes on B< from non-maximum starts, using rotation. Next: the HDT
+  gap classes, and VM1 at k = 5.
+- **girth**: Theorem T1 is in the ledger-candidate table. Conjecture DYN (LSS Algorithm 2 plus dynamic parking) has no
+  failure on more than 5M profiles. Next: DYN at k = 5, and turning parking into a rule.
+- **haxell**: CONN2 (partial EFX₀ allocations reach complete ones in ≤ 2-move steps) survives all tests. Next: k = 5
+  robustness, then the termination measure.
+- **p3**: retargeted to OC₁^max on the (4, 3) cell; p ≤ 2 would be an algorithmic proof of the multigraph theorem.
+- **sd-induct**: finishing PR #103 with the Lemma U fix, then CEGAR synthesis against OC₁^max with ν = n.
+- **kgen-n3**: sole focus on Lemma T, which completes Theorem 2 (two agents, every k).
+- **kgen-charity**: CH-F and DU refereed. Next: write up the d-dependent bounds, then the many-valuer case.
+- **hunt**: the β = 5, n = 6 CEGAR run continues (about 2 h left).
+- **k3-oc1**: n = 4 DE-trade rules repair all starts; n = 5 is running.
+
+**New session**: a Lean frame for OC₁^max ⟹ TARGET₄ with SDPO, MAXSD and Lemma MAX (session_01BYMGecPDq28nRFGVkqASck).
+
+**General k.** The surviving arbitrary-k candidates are RD² from maximum-matching starts (ksens), VM1 (rotation-based),
+DYN and CONN2. Each session is asked to test its candidate on PW5, RD5 and kgen n = 4.
