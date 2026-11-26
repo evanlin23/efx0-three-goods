@@ -19,16 +19,17 @@ An ED chain is an improving chain x₀, x₁, …, x_t in which:
 An S\* completion gives at most one junk good to each single-good holder that nobody wants, nothing to frozen agents
 and multi-good holders, and the rest to the owner.
 
-**REFUTED as stated (§16).** The TTC session found OC₁ counterexamples at n = 6, m = 10
-(`claude/k4-ttc`, `attempts/k4-ttc-oc1-counterexample.md`), verified here independently. They refute OC₁, OC₁-ED\* and
-Finding S\* for every instance and every order. Two agents hold no pick, and the frozen agents' junk danger sets are
-disjoint pairs that need two absorbers.
-- One of the 84 instances is a connected core, also with strict types: OC₁ fails for 24 of its 720 orders.
-- That core has two agents with two private goods, which K4.MC2 excludes from minimal counterexamples to TARGET₄.
+**REFUTED as stated (§16), also on strict cores.** The TTC session found OC₁ counterexamples at n = 6, m = 10
+(`claude/k4-ttc`); they are verified here independently.
+- Instance 36 of their list is rejected by `k4/c4_verify_H/hcore.py`'s `is_core4` only because agent 2's values tie.
+- Its two strict perturbations B< and B> pass `is_core4`, so they are strict connected k = 4 cores. OC₁ fails on both
+  for 24 of 720 orders.
+- In them, agents 1 and 3 each have two private goods (allowed, since p + q < s + t). K4.MC2 (CERTIFIED) excludes such
+  agents from minimal counterexamples to TARGET₄.
 
-Surviving forms, open:
-- OC₁ᵖ-ED\*: agents without a pick may take any number of junk goods and are not owners;
-- OC₁-ED\* restricted to strict connected cores with no agent holding two private goods.
+**The form that is still open and still implies TARGET₄** (via K4.MC0, K4.MC2 and the n = 5, 6 certificates):
+OC₁-ED\* for *strict connected k = 4 cores with n ≥ 6 in which no agent has two private goods*. A weaker variant is
+OC₁ᵖ-ED\*, where agents without a pick take any number of junk goods.
 
 OC₁-ED\* would imply OC₁, hence MD and TARGET₄. Lemma 2\* (§6) is the exact invariant for (b). Evidence: §14, all 2,308
 one-absorber-hard starts with n ≤ 5, every order. The TTC session's data are in `k4/ttc.md` §8–§10.
@@ -759,7 +760,9 @@ dangerous agent k:
   [[3,7,8,6],[2,9,6,14],[14,2,8,10],[8,7,6,3],[14,4,12],[10,15,4,2]].
   - OC₁ fails for 24 of its 720 orders, all with picks (3, 9, 1, 6, none, none).
   - Both strict perturbations of agent 2's tie (v(2) + v(3) = v(9)) fail on the same 24 orders.
-  - So a **strict connected k = 4 core with n = 6** violates OC₁, and hence OC₁-ED\* and Finding S\*.
+  - So a **strict connected k = 4 core with n = 6** violates OC₁, and hence OC₁-ED\* and Finding S\*. The TTC session's
+    `is_core4` (`k4/c4_verify_H/hcore.py`, the ledger's IsCore4 with connectivity and strictness) accepts both
+    perturbations: no failures. It rejects instance 36 itself only for the tie.
   - In it, agents 1 and 3 each have **two private goods** ({4, 5} and {7, 8}, worth less than the rest, so R2 does not
     peel them).
 
