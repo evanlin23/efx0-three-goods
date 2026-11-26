@@ -1,22 +1,34 @@
 """Adversarial hill-climb against OC1 with n agents (n <= 5; brute force kgen/ocn.c).  Objective (minimized): over all
 orders, the least number of EFX0 allocations reachable in class KEY (CODE: t >= 0, STRICT: t >= 1), then the number
-of orders attaining it.  m is fixed per round.  0 = counterexample (printed).  Mutations as kgen/climb3.py (no adding
+of orders attaining it (KEY = SDC: the largest number of free completions of the picks over all orders, i.e. SD-C).
+m is fixed per round.  0 = counterexample (printed).  Mutations as kgen/climb3.py (no adding
 or dropping goods); CLIMB_K caps the positively valued goods per agent, CLIMB_STRICT=1 keeps values distinct.
 
-    [CLIMB_K=4] [CLIMB_STRICT=1] python3 kgen/climb_n.py N_AGENTS SEED ROUNDS STEPS MMIN MMAX [KEY]"""
+    [CLIMB_K=4] [CLIMB_STRICT=1] python3 kgen/climb_n.py N_AGENTS SEED ROUNDS STEPS MMIN MMAX [KEY]
+CLIMB_START='<json>' CLIMB_KPEN=4: start every round from that instance and minimize first the number of goods valued
+beyond 4 per agent (the cap becomes a penalty), then the count; a counterexample needs penalty 0."""
 import sys, os, random, json, time, multiprocessing as mp
 from ocnlib import brute_n
 from hunt_n import gen_n
 
 KCAP = int(os.environ.get('CLIMB_K', '0')); NOTIES = os.environ.get('CLIMB_STRICT', '0') == '1'
+START = os.environ.get('CLIMB_START')      # JSON instance to start every round from (then the k cap is a penalty)
+KPEN = int(os.environ.get('CLIMB_KPEN', '0'))  # with START: minimize first the goods valued beyond KPEN per agent
 KEY = 'CODE'
+
+
+def excess(v):
+    return sum(max(0, sum(1 for x in r if x > 0) - KPEN) for r in v) if KPEN else 0
 
 
 def objective(v):
     orders, r = brute_n(v)
-    if r[0]['EFX'] == 0: return (-1, 0), orders, r
+    if r[0]['EFX'] == 0: return (excess(v), -1, 0), orders, r
+    if KEY == 'SDC':     # SD-C: some order's picks extend under the free completion; minimize the best order's count
+        c = [d['FREE0'] for d in r]; hi_ = max(c)
+        return (excess(v), hi_, c.count(hi_)), orders, r
     c = [d[KEY] for d in r]; lo = min(c)
-    return (lo, c.count(lo)), orders, r
+    return (excess(v), lo, c.count(lo)), orders, r
 
 
 def ok(v):
@@ -43,9 +55,12 @@ def run_round(args):
     n, seed, steps, lo, hi = args
     rng = random.Random(seed); m = rng.randint(lo, hi)
     kinds = ['klim:%d' % KCAP] if KCAP else ['general', 'zeros', 'ident', 'junk', 'klim:4', 'klim:6']
-    while True:
-        v = gen_n(rng.choice(kinds), n, m, rng)
-        if ok(v): break
+    if START:
+        v = json.loads(START)
+    else:
+        while True:
+            v = gen_n(rng.choice(kinds), n, m, rng)
+            if ok(v): break
     c, orders, r = objective(v); best = c; found = None
     for s in range(steps):
         w = mutate(v, rng)
@@ -53,8 +68,9 @@ def run_round(args):
         c2, o2, r2 = objective(w)
         if c2 <= c or rng.random() < 0.02:
             v, c, orders, r = w, c2, o2, r2; best = min(best, c)
-            if c[0] <= 0:
-                k = min(range(len(r)), key=lambda t: r[t][KEY]); found = (v, orders[k], r[k]['picks'], c[0]); break
+            if c[0] == 0 and c[1] <= 0:
+                k = 0 if KEY == 'SDC' else min(range(len(r)), key=lambda t: r[t][KEY])
+                found = (v, orders[k], r[k]['picks'], c[1]); break
     return seed, c, best, v, found
 
 
