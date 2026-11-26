@@ -40,6 +40,11 @@ angles in flight, and what each established. Ledger rows change only with artifa
 | OC₁ at perfect starts with |D| ≥ 2 dangerous agents (disjoint danger sets via Lemma PL; overlapping via PWk(a)); the Hall session keeps |D| = 1 (from 22:53) | session_01BYMGecLPfLsPCQYak86dm7 | its own branch (proof/k4-oc1max-multi) | draft PR |
 | General k: ROUND⁺, one round of disjoint chains from any SD start for strictly positive values (n = 4: a route to EFX for four agents) (from 22:53) | session_01BYMGecn2Gg5F8Q6oyTj69u | its own branch (proof/kgen-rounds) | `kgen/rounds.md` |
 | Matching theory: one-absorber completability as a bipartite matching (Lemma 2*), improving chains as augmenting paths; target "deficiency ≤ 1 at perfect starts when k ≤ 4" (from 22:55) | session_01BYMGecJz5BkPspxF3AFESm | its own branch (proof/k4-matching) | draft PR |
+| D1 sub-lemmas D1-C (CROWD) and D1-H case H-ii, split with the Hall session (from 22:58) | session_01BYMGebYzRJ5LPzgWyaPyrq | its own branch (proof/k4-d1) | draft PR |
+| Certify OC₁^max for ALL strict profiles on n ≤ 5 cores (ordinal CEGAR, second encoding) (from 22:58) | session_01BYMGebCRA4DLjCqvLLXBaY | its own branch (compute/k4-oc1max-cert) | draft PR |
+| Side angle: monotone EFX₀ with bounded relevance, the smallest k at which monotone EFX₀ fails (from 22:58) | session_01BYMGeaVoeoAHRPBzXqahDb | its own branch (proof/monotone-k) | draft PR |
+| New certified minimal-counterexample reductions: twins, near-twins, dense configurations (toward β = 5) (from 22:58) | session_01BYMGeaE5MHuxY3t8Ktrwqw | its own branch (proof/k4-twins) | draft PR |
+| Paper draft of the refereed results (paper/campaign/draft.md) (from 22:58) | session_01BYMGeYMBvUvhfc3gCD1iif | its own branch (paper/campaign) | draft PR |
 | Referee: independent, adversarial review of every written proof the angles produce (Theorem VM first) | session_01BYMGeYHb8rxaaJ1BScSCZY | `claude/k4-referee` | `k4/referee/` |
 
 The coordinator (this branch, `claude/kind-lamport-y8fdme`) runs an hourly burst: it checks each angle, verifies any
@@ -426,3 +431,144 @@ DYN and CONN2. Each session is asked to test its candidate on PW5, RD5 and kgen 
   - Corollary 3: OC₁ (t ≥ 0) at n = 3 holds at every k when some pick is top-heavy.
   - Redirected to option (b): read the simpler three-agent EFX proof, and see whether its potential argument runs as rounds of §29 chains from an SD start, and what n = 4 would need. TARGET₄ at n ≤ 5 is already certified.
 - **New session**: matching theory. One-absorber completability is a bipartite matching (Lemma 2\*), and improving chains are augmenting paths. Target: deficiency ≤ 1 at perfect starts when k ≤ 4. PW5 should have deficiency 2.
+
+### 2026-11-26 22:58 UTC: five more sessions (user: as many in parallel as is OK)
+- New sessions:
+  - D1-C / D1-H (H-ii), split off from the Hall session;
+  - ordinal-CEGAR certification of OC₁^max for all profiles at n ≤ 5, aiming at a CERTIFIED row;
+  - monotone EFX₀ with bounded relevance (side angle: does bounded k rescue monotone EFX₀, given the 3-agent, 8-good monotone counterexample?);
+  - new certified twin and dense-configuration reductions (toward TARGET₄ at β = 5);
+  - a paper draft of the refereed results.
+- **Haxell**: Conjecture W, at most 2-move composites (reassignment, swap, rotation along any cycle) decreasing (|pool|, −welfare). No stuck state on ~5.8M partial EFX₀ states, including every counterexample, at k = 3, 4, 5, 7 and with every good relevant. Rotations are necessary (family CYC_n). W implies TARGET₄, and its general form implies EFX₀ existence. Asked to test the CH-F and S′ stranded states.
+- **Lean** (formal/k4-oc1max, draft PR #109): SDPO (both inclusions), MAXSD, Lemma MAX, the §29 moves, OneAbsorber, ConjOC1max and target4_of_conjOC1max are machine-checked (session's report; the coordinator's independent re-run of lean/check.sh is in progress). Next: ConjOC1perf ⟹ TARGET₄ via RED.
+
+### 2026-11-26 23:12 UTC: Lean frame verified independently; ROUND⁺ refuted; VM1 bounded; n = 6 sweep; W stress
+- **Lean** (formal/k4-oc1max, PR #109, head 28f3e1e). The coordinator re-ran `lean/check.sh` independently in a
+  fresh worktree: **CHECK PASSED**, 1,253 audited statements, 2,358 theorems, standard axioms only, 0 sorry, 0
+  warnings. Machine-checked:
+  - SDPO (strict values; both inclusions), MAXSD and Lemma MAX;
+  - the §29 moves (IsAddition, IsChain, IsRing) and OneAbsorber;
+  - `EFX.OC1Max.target4_of_conjOC1max` (OC₁^max ⟹ TARGET₄);
+  - `target4_of_conjOC1perf`: OC₁ at perfect starts for all strict instances with ≤ 4 relevant goods implies
+    TARGET₄, with no core reduction, via tie-breaking, MAXSD and RED's allocation part.
+  So both reductions of TARGET₄ to the central conjectures are machine-checked.
+- **ROUND⁺ is FALSE** at strictly positive values (kgen-rounds, PR #111): n = 4, m = 7, order (2, 1, 3, 0); also an
+  RD5 lift and n = 5 cases. The coordinator replayed it independently (`k4/sdc/roundplus_cex_check.py`): 18 EFX₀
+  allocations, 8 dominating; no free completion at the picks, after any of the 91 moves, or after any of the 133
+  rounds of two disjoint moves. Two rounds suffice everywhere. So RD² (two rounds) remains the round candidate,
+  and zero values are not what forces the second round.
+- **VM1 is refuted at k = 7** (PW(2,3,6), n = 5, m = 11; VM session, two checkers), so VM1 is a k ≤ 6 statement.
+  VMX₂ (any number of moves) survives. The rotation class always needs exactly one ring (Conjecture Ring₄, stated).
+- **TTC, n = 6 sweep part 1**: all 119,108 n = 6 hypergraphs with two 4-good agents and ν = 6, 3 profiles each:
+  1,812,773 maximum-matching starts, **0 failures**, 37,620 needing a move. The tightest starts have m = n + 2,
+  5 agents frozen, a single receiver, and 2 dangerous agents with disjoint junk.
+- **Hall and D1 sessions**: Proposition D1-C′ (proved) covers 224 of 227 chains without HEAD. D1 reduces to H(ii)
+  and the rare residual cases C-a, C-b, C-c. The split with proof/k4-d1 is agreed.
+- **kgen-n3**: AACGMM (arXiv 2205.07638v2) handles EFX₀ at n = 3 but moves picks. Conjecture OPB₃ (one pick per
+  bundle together with AACGMM's invariants) is satisfiable on all data. AACGMM with the picks carried breaks in its
+  PR start (a 4-good example), in compression and in the choice of g_i. A repaired PR step is next.
+- **Haxell W**: W escapes the CH-F stranded welfare maxima in two moves (198 → 197 with one good out, then
+  completes), and every S and S′ state up to n = 40. It is exhaustive at n = 6 on B< and B>: 710,279 states each,
+  none stuck. Nothing in the data uses k ≤ 4, so W is a general-EFX₀ candidate.
+
+### 2026-11-26 23:14 UTC: OC₁^max REFUTED at k = 4, n = 4 (verified)
+- The compute/k4-oc1max-cert session's ordinal CEGAR (n = 4 core list 4_n4_3) found two strict connected MC2-class
+  cores with m = 7. In each, a perfect (maximum-matching) SD start has neither a completion at the picks nor one
+  after any single move, not even freely.
+  - Instance 1: sets [[0,1,2,5],[1,2,5,6],[3,4,5,6],[3,4,6]], vals [[2,10,4,7],[10,3,4,8],[3,5,6,7],[3,2,4]], order
+    (0,3,2,1).
+  - Verified by the coordinator's own code (`k4/sdc/oc1max_cex_verify.py`, `results/k4_sdc/oc1max_cex_verify.log`).
+  - Ledger: K4.SDC.OC1MAX is REFUTED. `k4/sdc.md` §31 has the instances.
+- **Lesson**: random profiles, 11M maximum-matching orders at n = 5, missed a failure at n = 4. Only the exhaustive
+  ordinal search found it, so random testing is weak evidence, as AGENTS.md warns. Every surviving form must now go
+  through the same certifier.
+- **Surviving forms.**
+  - Two sequential moves repair both instances (OC₂^max).
+  - Other maximum-matching orders complete at the picks (the ∃-order forms: SD-C, and OC₁ for some
+    maximum-matching order).
+  - The Lean implications are unaffected, and their move relation is a parameter.
+- **Action**: every proof session working on OC₁^max is redirected.
+  - The certifier tests OC₂^max and the ∃-forms exhaustively at n = 4 and 5.
+  - The proof sessions keep their lemmas, which are about given states, and retarget.
+
+### 2026-11-26 23:36 UTC: hourly burst 3
+**Status.**
+- OC₁^max is refuted at n = 4: 11 of the 1,002 n = 4 core hypergraphs, all of them perfect starts in the MC2 class.
+- **OC₂^max** (≤ 2 sequential moves from maximum-matching starts) is **certified for every strict profile of all
+  n = 4 cores** (compute/k4-oc1max-cert, PR #114, with an independent checker).
+  - The coordinator's own check of the 11 failing instances (`k4/sdc/oc2max_cex_check.py`): every maximum-matching
+    order needs ≤ 2 moves.
+  - New ledger row K4.SDC.OC2MAX (CONJECTURE; the certified n ≤ 4 row comes with PR #114).
+  - n = 5 is running. A targeted three-move search is running at n = 5–7 (sd-induct). The ∃-order form is next for
+    the certifier.
+- The Lean frames are parametrized by the move relation, so OC₂^max ⟹ TARGET₄ is a direct instance. The Lean session
+  is adding it, plus a machine-checked refutation of OC₁^max.
+
+**Mechanism of the n = 4 failures** (TTC §14, Hall §22, certifier diagnostics):
+- a starved last picker that wants every other pick and is the lone receiver;
+- two dangerous agents sharing one junk danger pair (|D| ≥ 2);
+- every target allocation gives some agent a bundle pieced from two owners' picks. That is a tree exchange, which no
+  single chain or ring performs. Two canonical chains split it.
+- R1-priority orders fail as well. Other maximum-matching orders of the same profiles work (the ∃-order form survives).
+
+**Per angle:**
+- **Hall**: integrator of the OC₂^max proof plan (case tree with owners). Second reader of Lemmas M and EX.
+- **proof/k4-d1**: proving D1-C and H(ii).
+- **proof/k4-oc1max-multi** (PR #115): Lemma D-red (new obstacle DEMAND), Prop. T0, Lemma KEEP, Lemma SET, all
+  written and not refereed. Its census: 85% of hard |D| ≥ 2 starts are repaired by a KEEP or D-red chain. Sub-lemmas
+  SLOT and RING are open. Next: the second move for DEMAND.
+- **proof/k4-matching** (PR #116): Lemma M (S* completability is an exact slot-graph matching condition) and Lemma
+  EX (an exact one-chain exchange criterion, any owner, any |D|), both written. "Deficiency ≤ 1" is false. Its
+  Conjecture CM must fail on the n = 4 starts; it is being calibrated there, then extended to two chains (CM₂).
+- **TTC**: the mechanism above. Its canonical rule FP+1 holds on the 11 and on 97 walk failures. An n = 5 OC₁^max
+  failure outside MC2 needs first moves of kind (B), so the rule is being extended. Next: a hand-built three-owner
+  tree.
+- **kgen-rounds** (PR #111): ROUND⁺ refuted (n = 4, m = 7, also with two valuation types). Lemma R1, the
+  starved-agent certificate, covers all 61 failures. Two rounds repair everything. One round also fails at k = 4 on
+  the n = 4 instances (coordinator's check).
+- **Haxell**: W as stated (≤ 2 single-good moves) is refuted at n = 2, m = 7. W₃ (k ≤ 4) and W^sub (set moves,
+  k-independent) survive. Exhaustive n = 2 and n = 3 grids are next.
+- **VM**: VM1 is refuted at k = 7 and also at k = 6 (PW(4,3,5)#1). VMX₂ survives. Asked for exhaustive n ≤ 4 checks
+  of VM1 at k = 4.
+- **girth**: DYN plus envy-cycle rotation clears all 376 curated stuck cases, and every random failure completes under
+  another labeling. Asked for an exhaustive ∃-labeling check at n ≤ 4.
+- **p3**: all 11 failures are repaired by two moves, and OC₁^max holds on multigraph cores with n ≤ 4 (certificate
+  pending). Every good in a shared junk danger pair has 3 valuers. Next: certify p ≤ 2 at n = 5 and try a proof.
+- **kgen-n3**: OPB₃ is satisfiable. AACGMM with the picks carried breaks in its PR start; a repaired PR step is next.
+- **kgen-charity**: Conjecture OL (one loser). Asked for an exhaustive small-n check, then n = 2 and n = 3 proofs.
+- **referee**: 14 items done, PR #108 ready. New queue: Lemmas M, EX, D-red, T0, KEEP, SET, D1 lemmas, R1, Prop. H,
+  Lemma EC, and spot-checks of the certificates.
+- **paper** (PR #110): draft complete, being updated for this hour's refutations.
+- **monotone-k, twins, hunt, Lean, k3-oc1**: running (twins: configuration dbl-P4-P4 reduced for all 82,944 types).
+
+**Cross-cutting lesson.** Every surviving conjecture now goes through an exhaustive ordinal or grid check at n ≤ 4
+before any proof effort: DYN, W₃/W^sub, VM1, RD², OL and OC₂^max.
+
+### 2026-11-26 23:38 UTC: D1-C proved; k = 3 one-chain exhaustive at n ≤ 4; monotone k ≤ 3 theorem; VM1 at k = 6
+- **proof/k4-d1** (PR #113): **Theorem D1-C** proved (written, k4/d1.md §3), stronger than the sub-lemma. At a hard
+  start with D = {k}, every canonical chain without HEAD has a minimal improving H₀ whose state has an S* completion
+  owned by k.
+  - It uses Fact R, a k ≤ 4 fact: of an agent's ≤ 3 pool goods, at most one is non-robust.
+  - Its contrapositive is checked on every D = {k} start: 0 gaps, and about 1,500 new CROWD-only chains all repair as
+    predicted.
+  - So D1 reduces to all-HEAD starts. In the data these are all n = 3, t = 1, f = 1 with two unfrozen wanters.
+  - Queued for the referee.
+- **ksens**:
+  - All 11 n = 4 failures are replayed with two checkers. RD (one round) also fails there, and every neediest-first
+    start holds.
+  - **k = 3: one chain suffices from every start, exhaustively** for every strict profile of every connected
+    hypergraph with n ≤ 4: 1,885,816 profiles and 4,982,948 starts at n = 4, 0 failures, SAT cross-check. n = 5 is
+    running.
+  - Ladder: Conjecture L′, ⌊k/2⌋ chains. k = 3 needs 1, k = 4 needs 2 (tight), and k = 5 needs 2. The deciding rung
+    is k = 6 (three chains?).
+- **monotone-k** (PR #112): **Theorem M3** (written proof; queued for the referee). Monotone EFX₀ exists whenever every
+  agent has ≤ 3 relevant goods: a nondegenerate monotone valuation on ≤ 3 goods has an additive surrogate with the
+  same disjoint-set comparisons, and then TARGET applies.
+  - This fails at 4 goods, so monotone k = 4 is a strictly larger class than additive k = 4.
+  - SAT search: no monotone counterexample at k = 4 for n = 3, 4, or at k = 5 for n = 3. So the monotone threshold k*
+    is in {4, …, 8} (the published counterexample has k = 8).
+- **VM**: VM1 is refuted at k = 6 as well (PW(4,3,5)#1, n = 7, m = 12, two checkers).
+  - PW(3,3,8) at k = 9 needs exactly three moves.
+  - VM1-plain (one move, then F1 placement with no rotation) holds on every k ≤ 5 instance tested, including DE's
+    ring-size tree family.
+  - Proved: (RS) the shape of envy cycles, (RX) and (MS).
