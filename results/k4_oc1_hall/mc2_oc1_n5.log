@@ -1,0 +1,7 @@
+$ python3 k4/oc1_hall/mc2_oc1.py k4_certs_5_n4_3.json.gz,k4_certs_5_n4_4.json.gz,k4_certs_5_pure.json.gz 300 41 | cores 24381 in the K4.MC2 class 12727
+distinct starts 1119
+distinct starts with >= 2 agents without a pick 0
+distinct starts: one move 76
+distinct starts: picks 1043
+instances 300
+time 2 s

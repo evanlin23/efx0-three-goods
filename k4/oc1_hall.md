@@ -816,3 +816,40 @@ then contains a good that another agent also values, so the pairs can overlap or
 and the pigeonhole need not apply. Whether OC₁-ED\* holds on that class is the open question. A direct test is OC₁ on
 `k4_certs_5_n4_3`, `_n4_4` and `_pure` (n = 5, three or more 4-good agents) filtered to cores with no agent holding two
 private goods.
+
+## 17. The K4.MC2 class: no failure, and why the pickless pigeonhole breaks there (evidence)
+
+**Random test** (`k4/oc1_hall/mc2_oc1.py`, `mc2_oc1_n5.log`).
+- Of the 24,381 connected n = 5 cores with three, four or five 4-good agents (`k4_certs_5_n4_3`, `_n4_4`, `_pure`),
+  12,727 have no agent with two private goods.
+- 300 random strict profiles of those, every order, 1,119 distinct starts:
+  - OC₁ holds on all, 1,043 at the picks and 76 after one chain or ring;
+  - no start has two or more agents without a pick.
+
+**The hand-made analogue** (`mc2_triangle.log`). Take the TTC n = 5 core and replace the three private danger pairs by
+a triangle of shared junk goods, with one private good per agent:
+- sets [[0,3,4,6],[1,4,5,7],[2,5,3,8],[0,1,2],[0,1,2]], values [[10,6,5,3],[10,6,5,3],[10,6,5,3],[4,3,2],[2,4,3]];
+- `is_core4` reports no failures: a strict connected core in the K4.MC2 class.
+
+Here is what happens.
+- *At the picks.* With order 0, …, 4 the picks are (0, 1, 2, none, none), two agents are pickless, and there is no
+  one-absorber completion, exactly as in the TTC core.
+- *One chain repairs it.* For example, agent 1 takes its danger pair {4, 5}, and pickless agent 3 takes agent 1's pick
+  1. Good 4 is also in agent 0's danger pair {3, 4}, and good 5 in agent 2's pair {5, 3}. So the move breaks all
+  three demands at once, and a single absorber suffices.
+- *Every order.* OC₁ holds from all 120 orders: 108 at the picks, 12 after one move.
+
+**The structural reason.** This is a proof idea, not a lemma yet.
+- The pigeonhole of §16 needs several frozen agents whose junk danger sets are pairwise disjoint and unreachable by
+  any single improving move.
+- A frozen agent's danger pair lies in its junk. In the K4.MC2 class at most one of its goods is private, so every
+  junk danger pair contains a good shared with another agent.
+- Agents without a pick value only picks, so that other agent holds a pick.
+- When k takes its danger pair H₀ in an ED chain, the shared goods of H₀ leave the pool, and so break every danger
+  set they belong to.
+- The two-private-goods construction is exactly what prevents this: the danger pairs there are private, so absorbing
+  one leaves the others intact.
+
+A lemma would say: in the K4.MC2 class, after an ED chain from k with H₀ a danger set of k, every frozen agent whose
+danger set met H₀ has at most one pool good left. That is the k ≤ 4 lever of §15 again, and the next item to prove
+along with Finding D1.
