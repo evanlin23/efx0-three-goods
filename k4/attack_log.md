@@ -326,3 +326,19 @@ coordinator has checked them; "verified" marks the ones checked.
 - **kgen-charity:** W(k, 0) and W(k, 1) are FALSE at k = 3 and 4 (CH-F, two maximizers), so welfare maxima give no
   bounded charity. Proposition DU: every instance with ≥ 2 components containing agents has a complete EFX₀
   allocation. Checked on reading by the coordinator, and queued for the referee.
+
+### 2026-11-26 22:12 UTC: OC₁^max on every n = 5 core hypergraph; RD refuted at k = 5
+- **Coordinator** (`k4/sdc/oc1max_n5_lists.py`, `results/k4_sdc/oc1max_n5_lists.log`, 538 s).
+  - The data: all 31,584 n = 5 core hypergraphs of `results/k4_certs_5_*.json.gz` (one to five 4-good agents),
+    3 random strict balanced profiles each with (C4), every order.
+  - **0 failures among 11,002,996 maximum-matching orders.** 176,670 of them need one move.
+  - 12 non-maximum orders fail, which is the pickless shape, rediscovered at random in the n4_3 two-private class.
+  - Earlier OC₁ data at n = 5 used only the n4_1 and n4_2 lists. Added to the K4.SDC.OC1MAX row.
+- **ksens** (`k4/ksens.md` §6).
+  - Lemma PL (pool leftover) is now proved.
+  - **RD**, one round of vertex-disjoint chains, is **FALSE at k = 5**. Instance RD5: n = 4, m = 7, only agent 0 has 5
+    goods, order (0,3,1,2), picks 1, 2, 3, 4. This is a maximum-matching start. Two sequential chains repair it.
+    - Mechanism: agent 0's repair needs a pool pair plus two other agents' picks, which needs 5 goods.
+  - The general-k candidates left are sequential ladders (two rounds, RD², is next).
+  - K4-G4, "some repairing chain leaves no dangerous frozen agent", holds on all 349 curated and 1,392 PW-design
+    hard k = 4 starts.
