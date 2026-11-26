@@ -441,3 +441,32 @@ DYN and CONN2. Each session is asked to test its candidate on PW5, RD5 and kgen 
   - a paper draft of the refereed results.
 - **Haxell**: Conjecture W, at most 2-move composites (reassignment, swap, rotation along any cycle) decreasing (|pool|, −welfare). No stuck state on ~5.8M partial EFX₀ states, including every counterexample, at k = 3, 4, 5, 7 and with every good relevant. Rotations are necessary (family CYC_n). W implies TARGET₄, and its general form implies EFX₀ existence. Asked to test the CH-F and S′ stranded states.
 - **Lean** (formal/k4-oc1max, draft PR #109): SDPO (both inclusions), MAXSD, Lemma MAX, the §29 moves, OneAbsorber, ConjOC1max and target4_of_conjOC1max are machine-checked (session's report; the coordinator's independent re-run of lean/check.sh is in progress). Next: ConjOC1perf ⟹ TARGET₄ via RED.
+
+### 2026-11-26 23:13 UTC: Lean frame verified independently; ROUND⁺ refuted; VM1 bounded; n = 6 sweep; W stress
+- **Lean** (formal/k4-oc1max, PR #109, head 28f3e1e). The coordinator re-ran `lean/check.sh` independently in a
+  fresh worktree: **CHECK PASSED**, 1,253 audited statements, 2,358 theorems, standard axioms only, 0 sorry, 0
+  warnings. Machine-checked:
+  - SDPO (strict values; both inclusions), MAXSD and Lemma MAX;
+  - the §29 moves (IsAddition, IsChain, IsRing) and OneAbsorber;
+  - `EFX.OC1Max.target4_of_conjOC1max` (OC₁^max ⟹ TARGET₄);
+  - `target4_of_conjOC1perf`: OC₁ at perfect starts for all strict instances with ≤ 4 relevant goods implies
+    TARGET₄, with no core reduction, via tie-breaking, MAXSD and RED's allocation part.
+  So both reductions of TARGET₄ to the central conjectures are machine-checked.
+- **ROUND⁺ is FALSE** at strictly positive values (kgen-rounds, PR #111): n = 4, m = 7, order (2, 1, 3, 0); also an
+  RD5 lift and n = 5 cases. The coordinator replayed it independently (`k4/sdc/roundplus_cex_check.py`): 18 EFX₀
+  allocations, 8 dominating; no free completion at the picks, after any of the 91 moves, or after any of the 133
+  rounds of two disjoint moves. Two rounds suffice everywhere. So RD² (two rounds) remains the round candidate,
+  and zero values are not what forces the second round.
+- **VM1 is refuted at k = 7** (PW(2,3,6), n = 5, m = 11; VM session, two checkers), so VM1 is a k ≤ 6 statement.
+  VMX₂ (any number of moves) survives. The rotation class always needs exactly one ring (Conjecture Ring₄, stated).
+- **TTC, n = 6 sweep part 1**: all 119,108 n = 6 hypergraphs with two 4-good agents and ν = 6, 3 profiles each:
+  1,812,773 maximum-matching starts, **0 failures**, 37,620 needing a move. The tightest starts have m = n + 2,
+  5 agents frozen, a single receiver, and 2 dangerous agents with disjoint junk.
+- **Hall and D1 sessions**: Proposition D1-C′ (proved) covers 224 of 227 chains without HEAD. D1 reduces to H(ii)
+  and the rare residual cases C-a, C-b, C-c. The split with proof/k4-d1 is agreed.
+- **kgen-n3**: AACGMM (arXiv 2205.07638v2) handles EFX₀ at n = 3 but moves picks. Conjecture OPB₃ (one pick per
+  bundle together with AACGMM's invariants) is satisfiable on all data. AACGMM with the picks carried breaks in its
+  PR start (a 4-good example), in compression and in the choice of g_i. A repaired PR step is next.
+- **Haxell W**: W escapes the CH-F stranded welfare maxima in two moves (198 → 197 with one good out, then
+  completes), and every S and S′ state up to n = 40. It is exhaustive at n = 6 on B< and B>: 710,279 states each,
+  none stuck. Nothing in the data uses k ≤ 4, so W is a general-EFX₀ candidate.
