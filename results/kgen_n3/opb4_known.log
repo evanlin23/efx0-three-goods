@@ -1,0 +1,12 @@
+$ python3 kgen/opb4.py 0 0 5 5
+10 known OC1 counterexample: OC1 through OPB (one ring, absorber condition)
+12 known OC1 counterexample: OC2 through OPB (two rings, absorber condition)
+12 known OC1 counterexample: OPB with improving rings exists
+6 known OC1 counterexample: fewest rings = 0
+4 known OC1 counterexample: fewest rings = 1
+2 known OC1 counterexample: fewest rings = 2
+12 known OC1 counterexample: starts (distinct pick vectors)
+
+real	0m0.135s
+user	0m0.131s
+sys	0m0.004s
