@@ -39,6 +39,7 @@ angles in flight, and what each established. Ledger rows change only with artifa
 | Lean frame OC₁^max ⟹ TARGET₄ with SDPO, MAXSD and Lemma MAX machine-checked (from 22:36) | session_01BYMGecPDq28nRFGVkqASck | its own branch (formal/k4-oc1max) | `lean/` |
 | OC₁ at perfect starts with |D| ≥ 2 dangerous agents (disjoint danger sets via Lemma PL; overlapping via PWk(a)); the Hall session keeps |D| = 1 (from 22:53) | session_01BYMGecLPfLsPCQYak86dm7 | its own branch (proof/k4-oc1max-multi) | draft PR |
 | General k: ROUND⁺, one round of disjoint chains from any SD start for strictly positive values (n = 4: a route to EFX for four agents) (from 22:53) | session_01BYMGecn2Gg5F8Q6oyTj69u | its own branch (proof/kgen-rounds) | `kgen/rounds.md` |
+| Matching theory: one-absorber completability as a bipartite matching (Lemma 2*), improving chains as augmenting paths; target "deficiency ≤ 1 at perfect starts when k ≤ 4" (from 22:55) | session_01BYMGecJz5BkPspxF3AFESm | its own branch (proof/k4-matching) | draft PR |
 | Referee: independent, adversarial review of every written proof the angles produce (Theorem VM first) | session_01BYMGeYHb8rxaaJ1BScSCZY | `claude/k4-referee` | `k4/referee/` |
 
 The coordinator (this branch, `claude/kind-lamport-y8fdme`) runs an hourly burst: it checks each angle, verifies any
@@ -419,3 +420,9 @@ DYN and CONN2. Each session is asked to test its candidate on PW5, RD5 and kgen 
   - (1) the |D| ≥ 2 case of OC₁ at perfect starts, in parallel with the Hall session's |D| = 1;
   - (2) ROUND⁺, one round of disjoint chains for strictly positive values; at n = 4 it would imply EFX for four
     additive agents.
+
+### 2026-11-26 22:55 UTC: kgen-n3 redirected; matching-theory session
+- **kgen-n3, Proposition H** (`kgen/n3.md` §10). OC₁, or any one-chain or two-round form, at n = 3 for every k implies EFX₀ for three additive agents (the Chaudhury–Garg–Mehlhorn theorem), via distinct tops worth L + δ. So general-k n = 3 proofs are as hard as reproving that theorem. Fixed small k is not covered, because the reduction raises k by 3.
+  - Corollary 3: OC₁ (t ≥ 0) at n = 3 holds at every k when some pick is top-heavy.
+  - Redirected to option (b): read the simpler three-agent EFX proof, and see whether its potential argument runs as rounds of §29 chains from an SD start, and what n = 4 would need. TARGET₄ at n ≤ 5 is already certified.
+- **New session**: matching theory. One-absorber completability is a bipartite matching (Lemma 2\*), and improving chains are augmenting paths. Target: deficiency ≤ 1 at perfect starts when k ≤ 4. PW5 should have deficiency 2.
