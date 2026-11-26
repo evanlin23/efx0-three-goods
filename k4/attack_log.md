@@ -543,3 +543,32 @@ DYN and CONN2. Each session is asked to test its candidate on PW5, RD5 and kgen 
 
 **Cross-cutting lesson.** Every surviving conjecture now goes through an exhaustive ordinal or grid check at n ≤ 4
 before any proof effort: DYN, W₃/W^sub, VM1, RD², OL and OC₂^max.
+
+### 2026-11-26 23:38 UTC: D1-C proved; k = 3 one-chain exhaustive at n ≤ 4; monotone k ≤ 3 theorem; VM1 at k = 6
+- **proof/k4-d1** (PR #113): **Theorem D1-C** proved (written, k4/d1.md §3), stronger than the sub-lemma. At a hard
+  start with D = {k}, every canonical chain without HEAD has a minimal improving H₀ whose state has an S* completion
+  owned by k.
+  - It uses Fact R, a k ≤ 4 fact: of an agent's ≤ 3 pool goods, at most one is non-robust.
+  - Its contrapositive is checked on every D = {k} start: 0 gaps, and about 1,500 new CROWD-only chains all repair as
+    predicted.
+  - So D1 reduces to all-HEAD starts. In the data these are all n = 3, t = 1, f = 1 with two unfrozen wanters.
+  - Queued for the referee.
+- **ksens**:
+  - All 11 n = 4 failures are replayed with two checkers. RD (one round) also fails there, and every neediest-first
+    start holds.
+  - **k = 3: one chain suffices from every start, exhaustively** for every strict profile of every connected
+    hypergraph with n ≤ 4: 1,885,816 profiles and 4,982,948 starts at n = 4, 0 failures, SAT cross-check. n = 5 is
+    running.
+  - Ladder: Conjecture L′, ⌊k/2⌋ chains. k = 3 needs 1, k = 4 needs 2 (tight), and k = 5 needs 2. The deciding rung
+    is k = 6 (three chains?).
+- **monotone-k** (PR #112): **Theorem M3** (written proof; queued for the referee). Monotone EFX₀ exists whenever every
+  agent has ≤ 3 relevant goods: a nondegenerate monotone valuation on ≤ 3 goods has an additive surrogate with the
+  same disjoint-set comparisons, and then TARGET applies.
+  - This fails at 4 goods, so monotone k = 4 is a strictly larger class than additive k = 4.
+  - SAT search: no monotone counterexample at k = 4 for n = 3, 4, or at k = 5 for n = 3. So the monotone threshold k*
+    is in {4, …, 8} (the published counterexample has k = 8).
+- **VM**: VM1 is refuted at k = 6 as well (PW(4,3,5)#1, n = 7, m = 12, two checkers).
+  - PW(3,3,8) at k = 9 needs exactly three moves.
+  - VM1-plain (one move, then F1 placement with no rotation) holds on every k ≤ 5 instance tested, including DE's
+    ring-size tree family.
+  - Proved: (RS) the shape of envy cycles, (RX) and (MS).
