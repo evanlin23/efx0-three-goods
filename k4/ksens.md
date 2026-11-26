@@ -296,7 +296,7 @@ appears depends on which orders are allowed:
 | neediest first, need = y₁ − y₂ − y₃ (§9 of `k4/sdc.md`), plain | k = 6, n = 6, m = 11 | NF2-6 | SAT ×2, SAT-free |
 | R1-priority (LB's Phase 1), some R1 order | k = 6, n = 6, m = 11 | PWR1-6 | SAT ×2, SAT-free |
 | R1 neediest first, need = y₁ − y₂ | k = 6, n = 7, m = 12 | NF1R1-6 | SAT ×2, SAT-free |
-| R1 neediest first, need = y₁ − y₂ − y₃; "needall" | none found | | |
+| R1 neediest first, need = y₁ − y₂ − y₃ (LB₄ʳ's Phase 1); "needall" | none found | designs in `nf2r1.log` | |
 | some order (SD-C: zero chains) | none found | | |
 
 Notes on the table:
@@ -318,6 +318,13 @@ Notes on the table:
 - *Neediest-first* is value-sensitive. With the default values the wanters are the needier agents, are served first,
   and the picks extend (`nf_orders.log`). Flattening the wanters' values (p's 200, 199, 198, q 190) or lowering the
   pool goods to just above half the pick puts the frozen agents first.
+- *need2 with R1 resists the PW designs* (`nf2r1.log`).
+  - Adding a first agent z whose pick is a pool good makes every frozen agent "lose a good", so R1 serves them early.
+  - But once two of a wanter's picks are gone its need y₁ − y₂ − y₃ turns positive, and it is served before the last
+    frozen agent.
+  - Keeping wanters non-needy needs extra goods of theirs that would also satisfy them as junk.
+  - So the order LB₄ʳ and K4.SDC.NF use is the one order class here with no counterexample at any k; a k = 4 proof
+    along those lines is not refuted by this mechanism.
 - Climbs against OC₁ on R1 orders at k = 5 (`climb.py oc1r1`, n = 5, 30 rounds from PW starts): no failure.
 
 So for a k = 4 proof:
