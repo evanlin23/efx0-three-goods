@@ -584,6 +584,49 @@ largest number of agents keeping their value over complete EFX₀ allocations) g
 **Conjecture OL (one loser).** If X is an EFX₀ state with strong charity in an instance with at most k relevant goods
 per agent (k ≤ 4 at least), some complete EFX₀ allocation leaves at most one agent worse off than in X.
 
+**Lemma OL0 (reductions).** If OL fails for some instance with n agents and k, it fails for one with the same n and
+k in which (a) every good is valued by some agent, so m ≤ nk, and (b) X is a Pareto maximum (allocating the most
+goods for its value vector), hence a robust CKMS stopping state (CH6): no pool good can be added to any bundle, X has
+at least |P| + 1 sources, every source holds ≥ 2 goods and every bundle is nonempty.
+*Proof.* (a) Delete a good j valued by nobody. X ∖ j is EFX₀ with strong charity and the same values. If the smaller
+instance had a complete EFX₀ allocation Y′ with ≤ 1 agent below X, rotate its envy cycles (values only rise), add j to
+a source (EFX₀ is kept: j is worth 0 to all and the source is unenvied): a complete EFX₀ allocation of the original
+with ≤ 1 agent below X. (b) Among the EFX₀ states weakly above X in every value, take one, X*, maximal in the Pareto
+order (values, then the number of allocated goods). Anything dominating X* would be weakly above X, so X* is a Pareto
+maximum, and CH6 applies. An agent below X in a complete Y is below X* too (v_i(Y_i) < v_i(X_i) ≤ v_i(X*_i)), so if
+every Y has ≥ 2 agents below X, every Y has ≥ 2 below X*. ∎
+
+**Exact search for small n** (`ol_synth.py`; z3 CEGAR over real values, as for W in §6: the outer problem chooses
+values making a stranded state of given bundle sizes and pool size q a stopping state as in OL0(b), and forcing every
+complete allocation found so far to be non-EFX₀ or to have ≥ 2 losers; the inner problem looks for a complete EFX₀
+allocation with ≤ 1 loser). By OL0, sizes with m ≤ nk and q = 1, …, n − 1 cover every counterexample. Single
+implementation. A positive control with the threshold lowered to one loser (the P1 obstruction) finds the k = 3,
+n = 4 stranding of §5 in 36 cuts and correctly finds none at n = 3, k = 3.
+
+| n | k | result | log |
+|---|---|---|---|
+| 2 | 3, 4 | OL holds (UNSAT for every size vector) | `ol_synth_n2_k3.log`, `ol_synth_n2_k4.log` |
+| 3 | 3 | OL holds | `ol_synth_n3_k3.log` |
+| 3 | 4 | (running) | `ol_synth_n3_k4.log` |
+| 4 | 3 | (running) | `ol_synth_n4_k3.log` |
+
+**OL and the Haxell session's W^sub** (`k4/haxell.md` on `claude/k4-haxell`, read at its burst-2 status). W^sub says:
+from every partial EFX₀ allocation with a nonempty pool, at most two moves (single-good reassignment, swap, rotation
+of bundles along a cycle, or a set of goods given to one agent) reach a partial EFX₀ allocation with a smaller pool, or
+the same pool and larger welfare. Both statements imply EFX₀ existence (OL applied to a Pareto maximum, which exists;
+W^sub by iterating on the well-founded measure (|pool|, −welfare)). They are not comparable as stated:
+- W^sub is local and stepwise: each step may lower values (the pool shrinks at the price of welfare: on the CH-F
+  states the Haxell session reports 198 → 197 with one good out, then completion), and nothing bounds how many agents
+  end up below the start.
+- OL is global and one-shot: it bounds the *losers* of the final allocation relative to the start by one, and says
+  nothing about how many moves separate them.
+- The one-loser repair of S′(4, 4) is a set transfer of the pool to one agent combined with a shift along an envy path
+  whose source keeps its bundle — a composite of W^sub's moves, but a path shift is not a cycle rotation, so it is not
+  a single W^sub move as defined.
+So OL is a single-step version of W^sub only in the weaker sense "one transition to complete, at the cost of one
+agent". A common strengthening worth testing: from every stranded Pareto maximum, some complete EFX₀ allocation with
+at most one loser is reachable by at most two W^sub moves.
+
 OL with X = a Pareto maximum contains TARGET_k, so it is not easier than TARGET₄. Its interest is the shape it
 prescribes for a proof: whatever is stranded, one agent's sacrifice repairs it, however many goods are out (σ − 1 in
 S′(5, 3)). In S′(4, 4) the repair is a single move: the loser c(g₀, j₂) drops its good y and takes all three pool
