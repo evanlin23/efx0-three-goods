@@ -560,6 +560,7 @@ largest number of agents keeping their value over complete EFX₀ allocations) g
 | CH-F k = 3 and k = 4 (welfare maxima) | 2 | 1, a champion | `losers.log` |
 | the 20 Pareto maxima with a pool on the curated k = 4 instances | 1 | 1 | `ol_check.log` |
 | 15 robust CKMS stops with a pool, 1,008 random EFX₀ states with strong charity (curated instances) | ≥ 1 | 0 or 1 | `ol_check.log` |
+| 450 random EFX₀ states with strong charity on 150 random k ≤ 4 instances, n = 3..6 | ≥ 1 | 0 | `ol_check_rand4.log` |
 
 **Conjecture OL (one loser).** If X is an EFX₀ state with strong charity in an instance with at most k relevant goods
 per agent (k ≤ 4 at least), some complete EFX₀ allocation leaves at most one agent worse off than in X.
@@ -570,6 +571,13 @@ S′(5, 3)). In S′(4, 4) the repair is a single move: the loser c(g₀, j₂) 
 goods (worth 6 to it, against 10); its parent relay takes y; the source above takes the relay's good as an extra.
 Nobody strongly envies the loser's new bundle because the pool was unenvied — Proposition DU's dumping, inside one
 component, paid for by one agent.
+
+*On "a valuer that is a source absorbs the good".* At a stopping state this never happens without a loss: if a source
+t values g ∈ P, U0 fails at (t, g), and by Lemma CH3 every champion of X_t ∪ {g} is a valuer of g outside C(t), and
+not t itself. So the rainbow-cycle structure gives the opposite of an absorbing source valuer: every source valuer of
+a pool good is out-competed by a valuer it cannot reach. In every one-loser repair found, the loser is a valuer of a
+pool good that is *not* a source (a champion), and the source that ends up absorbing extra goods absorbs its child's
+bundle, not the pool good.
 
 **Lemma AB (one-loser absorption along an envy path).** Let X be EFX₀ with strong charity and pool P, and let
 s = u_0 → u_1 → ⋯ → u_r = a (r ≥ 1) be an envy path from a source s. Let Y give X_{u_0} ∪ X_{u_1} to u_0, X_{u_{i+1}} to

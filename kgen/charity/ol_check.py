@@ -6,7 +6,7 @@ allocation leaves at most one agent worse off than in X.  Tested on
       a weaker hypothesis than (a) and (b),
 reporting the fewest losers (losers.fewest_losers) per state.
 
-    python3 kgen/charity/ol_check.py SEED RUNS"""
+    python3 kgen/charity/ol_check.py SEED RUNS [screen|rand<K>]"""
 import sys, random, collections, json
 from pysat.solvers import Cadical153
 from pysat.card import CardEnc, EncType
@@ -29,8 +29,15 @@ def random_charity_state(I, rng, minpool=1):
 if __name__ == '__main__':
     seed, RUNS = map(int, sys.argv[1:3]); rng = random.Random(seed); C = collections.Counter()
     print('$ python3 kgen/charity/ol_check.py', *sys.argv[1:], flush=True)
-    for name, sets, vals, m in load():
-        I = from_sets(sets, vals, m)
+    src = sys.argv[3] if len(sys.argv) > 3 else 'screen'
+    if src == 'screen':
+        insts = [(name, from_sets(sets, vals, m)) for name, sets, vals, m in load()]
+    else:                                   # 'rand<K>': random instances, n = 3..6, agents value 2..K goods
+        from chlib import rand_inst
+        K = int(src[4:])
+        insts = [('rand#%d' % t, rand_inst(rng, n, rng.randint(n + 1, 2 * n + 2), 2, K, vmax=12))
+                 for t, n in enumerate([rng.randint(3, 6) for _ in range(150)])]
+    for name, I in insts:
         states = []
         X, st = pm_with_pool(I, 1)
         if X is not None:
