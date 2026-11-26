@@ -1039,7 +1039,8 @@ again none completes the picks or any one-move state.
 *Mechanism* (`k4/oc1_hall.md` §22). In instance 1, agent 1 is the only unfrozen agent, and it holds its worst good 2.
 Agents 2 and 3 are dangerous and **share the junk danger pair** $\{3, 4\}$: $3 + 5 > 6$ for agent 2 and $3 + 2 > 4$
 for agent 3. There is at most one free slot. Whoever owns the pair must also hold the leftover junk, and then the
-other agent sharing the pair is threatened. Each canonical chain from a dangerous agent fails this way. Instance 2
+other agent sharing the pair is threatened. Each canonical chain from a dangerous agent fails; §22 there gives
+the reason for each. Instance 2
 has the same structure, with agents 1 and 2 sharing the pair $\{1, 3\}$. These are not the pickless pigeonhole of
 §7.2, which Lemma 6.3 excludes: here every agent picks. The obstruction needs at least two dangerous agents (the
 Hall session's analysis for one dangerous agent, `k4/oc1_hall.md` §21, is not contradicted).
