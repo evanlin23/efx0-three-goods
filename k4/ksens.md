@@ -12,15 +12,17 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
 - The every-order conjectures OC and OC₁ are genuinely k-sensitive: true on all k = 4 data, false at k = 5. So a
   proof of them at k = 4 does not have to solve general EFX₀, but it must use k ≤ 4. The property it can use is
   identified in §2.
+- So is the round conjecture RD (any number of disjoint chains at once), false at k = 5 by RD5 (§6). Its failure is a
+  second k ≤ 4 mechanism: an agent whose repair needs two other agents' picks.
 - SD-C and MD have no failure at any k tested. MD at all k contains EFX₀ existence, so for MD the k ≤ 4 ingredient is
   still unknown.
 
 | statement | k = 4 | smallest k found to fail | instance | checks |
 |---|---|---|---|---|
-| OC₁ / OC: from every order, one improving chain, then a completion (one absorber / free) | holds on all data | **5** | PW5, n = 5, m = 9; smaller: n = 4, m = 8 found by `proof/kgen-n3` | SAT, full brute force, written proof (the n = 4 one re-checked here by both checkers) |
+| OC₁ / OC: from every order, one improving chain, then a completion (one absorber / free) | holds on all data | **5** | PW5, n = 5, m = 9; smaller: n = 4, m = 8 (`proof/kgen-n3`), and RD5, n = 4, m = 7 | SAT, full brute force, written proof for PW5 (the n = 4 ones by both checkers) |
 | the same from R1-priority orders, or from the neediest-first order (need = y₁ − y₂ − y₃) | holds | **6** | PWR1-6, NF2-6 (n = 6, m = 11) | 2 SAT encodings, SAT-free enumeration |
 | c chains from every order | c = 1 holds | **2c + 3** (c = 1, 2, 3) | PW(c + 2, c + 1, 2c + 2) | c = 1 as above; c = 2, 3 by ocseq.py only |
-| one round of disjoint chains, then one absorber (Conjecture RD₁, §6) | holds | none found (k ≤ 10) | repairs every counterexample above | |
+| one round of disjoint chains, then a completion (Conjecture RD / RD₁, §6) | holds | **5** | RD5, n = 4, m = 7 (one five-good agent) | SAT, brute force over every round |
 | SD-C (some order, no chain) | holds | none found (k ≤ 8) | | |
 | MD (every order's picks value-dominated) | holds | none found (k ≤ 8) | | |
 | conclusion of Theorem DT (and DT⁺, Lemma GDT) | proved | **5** | DT5, n = 2, m = 6 | SAT, brute force |
@@ -451,38 +453,49 @@ which at most one agent holds two or more goods outside its base. RD is the same
 | PWQ(f, W, r): released wanter goods valued by the frozen agents (`fam_pwq.py`, 160 instances, k = 5–7) | all | 0 | 0 |
 | climbs against RD₁ (`climb.py round1`): n = 4, 5 at k = 5, 6 (79 rounds), n = 6 at k = 6 | | | none |
 
-The climbs at k = 6, 8 seeded from the n = 4 instance and from PW (`climb_round1_n4k6_kgen.log`,
-`climb_round1_n5k8_pwfam.log`, `climb_round_n5k6_pwseed.log`) are running. As noted in the status block, the climbs
-are weak: they miss known counterexamples to OC₁-R1.
+**RD is false at k = 5: the instance RD5** (`k4/ksens/refute_rd_k5.py`, `refute_rd_k5.log`).
+- *Found* by `climb.py round1` started from the n = 4 instance of `proof/kgen-n3` (at k = 6,
+  `climb_round1_n4k6_kgen.log`), then shrunk by dropping goods (`rd_shrink.log`).
+- *Instance* (n = 4, m = 7, strict values):
 
-**Why rounds beat the PW obstruction.** In PW every repair is independent. It uses a fresh frozen agent x, a fresh
-wanter w, and the chain x → w; x takes a pair of the pool, w takes x's pick, and w's old pick is released.
-- One chain can repair only its head without threatening the rest (Lemma PL (d), §1). A round can perform s repairs
-  at once for any s ≤ min(W, ⌊r/2⌋).
-- After s repairs, r − 2s pool goods are left and the W − s unused wanters offer one slot each.
-- Taking s as large as the wanters allow closes the §4 count: with s = W every wanter holds a pick it ranks above the
-  unrepaired agents' picks, so those are unfrozen and absorb their own pool goods.
-- This is the k-free part of the picture. A round turns a bounded number of repairs (the ladder's ⌊(k − 1)/2⌋ chains)
-  into an unbounded one.
+  | agent | goods (value) |
+  |---|---|
+  | 0 | 1 (57), 3 (44), 5 (33), 0 (26), 4 (24) |
+  | 1 | 1 (12), 2 (11), 3 (6) |
+  | 2 | 1 (9), 2 (8), 3 (6), 4 (1) |
+  | 3 | 2 (53), 5 (47), 0 (36), 6 (4) |
 
-**What a round cannot do, and where a counterexample to RD would have to live.** Compare two chains C₁ then C₂ applied
-one after another from the picks (single-good bases).
-1. If they share no agent and C₂ takes nothing that C₁ released, they form a round with the same result.
-2. If C₂'s head y takes the pick g that C₁'s end a released, and C₂ is not a ring (y takes nothing from C₂'s own end),
-   the concatenation C₁·C₂ is one chain with the same result. a passes its whole base {g} to y, so y receives exactly
-   g, and C₁'s head may still take its junk.
-3. The gap.
-   - C₂ is a ring whose head needs both g (released by C₁) and goods of C₂'s own end. Then neither concatenation keeps
-     both. In C₁·C₂ the head y is a middle agent and cannot take from C₂'s end. In C₂·C₁ the head x₀ of C₁ is a middle
-     agent and receives C₂'s end's base instead of y.
-   - Or the two chains share an agent that must gain twice.
+- *Order (0, 3, 1, 2):* picks 1, 2, 3, 4 for agents 0, 3, 1, 2; the junk is {0, 5, 6}.
+- *Result.* None of the 50 states one round reaches (30 of them by one chain) has a completion, free or with one
+  absorber.
+- *Checks:* SAT (ocsat with multi) and brute force (every round enumerated from the definition, `brute.Inst.rounds`,
+  every allocation against the raw definition).
+- *What still holds:* two sequential chains repair it (18 two-chain states complete). MD and SD-C hold; OC₁ fails only
+  from this start.
+- *The k = 4 version* (agent 0 without good 4) satisfies one round, OC₁ and everything else. Agent 0 cannot lose any
+  of its five goods: every single drop restores RD.
 
-   So an RD counterexample needs a repair that is a ring around a good released by another repair, or an agent that
-   must move twice.
-   - In PW, PWQ and the n = 4 instance no such dependence occurs.
-   - A designed gadget (a ring head valuing exactly {g, e}, with g released by another chain and e the ring end's pick)
-     is the next thing to try.
+*The mechanism (a second place where k ≤ 4 enters).*
+- Agents 0 and 3 are both frozen: agents 1 and 2 want their picks. They share the junk pair {0, 5}, which is a danger
+  set for both (26 + 33 > 57; 36 + 47 > 53).
+- Agent 3 gains only by taking {0, 5}: it values nothing else but its pick and good 6.
+- So agent 0 must repair itself without {0, 5}. Its only other improving sets need both 3 and 4, the picks of agents
+  1 and 2, or 3 with a pool good that agent 3 needs.
+- A chain's head takes goods from its own chain's end only, and a middle agent receives one base. So one chain gives
+  agent 0 at most one other agent's pick, and a round does too: agent 0 lies on one chain.
+- Two sequential chains do it: the first moves agent 2 off good 4 (releasing it), the second lets agent 0 take good 3
+  from its chain's end plus the released good 4. This is exactly the "ring around a released good" gap described
+  above.
 
-None of this is a proof. A k-free reason for RD would prove EFX₀ existence. What this section does establish is the
-mechanism by which every k-sensitive failure found here, and in `proof/kgen-n3`, is repaired: independent repairs done
-in parallel.
+It needs five goods for agent 0: its pick, the two shared pool goods that make it dangerous, and the two foreign picks
+of its repair set. With four goods, an improving set that avoids two pool goods consists of at most one further good;
+when that is another agent's pick, one chain reaches it from its end.
+
+**Consequences.**
+- RD and RD₁ are k ≤ 4 statements like OC₁: true on all k = 4 data (they are implied by OC₁) and false at k = 5. A
+  proof of them at k = 4 must use k ≤ 4.
+- The next candidate is **two rounds** (RD²). In RD5 the first round releases the foreign picks an agent needs, and
+  the second collects them. For this mechanism two rounds suffice however many picks are needed, since all of them can
+  be released in parallel in the first round.
+  - RD² for all k would still contain EFX₀ existence.
+  - Whether it fails at some k is open. The ladder of chains (§4) needs ⌊(k − 1)/2⌋ chains, but PW needs only one round.

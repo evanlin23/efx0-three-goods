@@ -94,6 +94,45 @@ class Inst:
         for x in range(n): dfs([x], frozenset(), {})
         return out
 
+    def rounds(self, base):
+        """every state (tuple of new bases) one round reaches: any set of vertex-disjoint improving chains (each as in
+        chains()), with pairwise disjoint junk sets, each head taking only junk and goods of its own chain's end, all
+        applied at once (k4/ksens.md §6); includes the empty round"""
+        n = self.n; J = frozenset(g for g in range(self.m) if not any(g in b for b in base))
+        R = [set(g for g in s if self.V[i, g] > 0) for i, s in enumerate(self.sets)]
+        def subsets(xs, lo=0):
+            for r in range(lo, len(xs) + 1):
+                yield from itertools.combinations(xs, r)
+        def chain_list(avail, availJ):
+            res = []
+            def dfs(path, used, newb):
+                x0, xt = path[0], path[-1]
+                pool = sorted(g for g in availJ if g not in used and g in R[x0])
+                if len(path) > 1: pool += [g for g in base[xt] if g in R[x0]]
+                for H0 in subsets(pool, 1):
+                    nb0 = (set(base[x0]) if len(path) == 1 else set()) | set(H0)
+                    if self.val(x0, nb0) <= self.val(x0, base[x0]): continue
+                    st = dict(newb); st[x0] = frozenset(nb0)
+                    res.append((frozenset(path), st, used | (set(H0) & availJ)))
+                for y in avail:
+                    if y in path: continue
+                    free = sorted(g for g in availJ if g not in used and g in R[y])
+                    for H in subsets(free):
+                        nby = set(base[xt]) | set(H)
+                        if self.val(y, nby) <= self.val(y, base[y]): continue
+                        nn = dict(newb); nn[y] = frozenset(nby)
+                        dfs(path + [y], used | set(H), nn)
+            for x in avail: dfs([x], frozenset(), {})
+            return res
+        out = set()
+        def rec(avail, availJ, cur, last):
+            out.add(tuple(cur.get(i, frozenset(base[i])) for i in range(n)))
+            for agents, st, used in chain_list(avail, availJ):
+                if min(agents) <= last: continue
+                rec(avail - agents, availJ - used, {**cur, **st}, min(agents))
+        rec(frozenset(range(n)), J, {}, -1)
+        return out
+
     def completes(self, bases, A=None):
         """some complete EFX0 allocation keeps every base (and has at most A absorbers)"""
         L = self.efx0_list()
