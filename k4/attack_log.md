@@ -31,6 +31,7 @@ angles in flight, and what each established. Ledger rows change only with artifa
 | Reconstruct Viswanathan–Mehta's 4-limited EFX algorithm and make it EFX₀ | session_01BYMGebcnNSpPp9qEyjfvuV | `claude/k4-vm` | `k4/vm.md` |
 | k-sensitivity: the smallest k at which SD-C, MD, OC and OC₁ fail (adversarial, k = 5, 6, 8), and what k ≤ 4 buys | session_01BYMGeYRzPvVFuMx5JPLStH | `claude/k4-ksens` | `k4/ksens.md` |
 | General k, first foothold: OC₁ / SD-C for three agents at arbitrary k (a short proof with a polynomial algorithm would be new), then n = 4 | session_01BYMGeadPp24qCxnUuKsLsB | `claude/kgen-n3` | its own note (`kgen/`) |
+| Induction on agents along the serial-dictatorship order (add the last agent, or remove the first / an unwanted one), with an invariant P found by computation | session_01BYMGecgCGycycqxiyS1n7G | `claude/k4-sd-induct` | `k4/sd_induct.md` |
 
 The coordinator (this branch, `claude/kind-lamport-y8fdme`) runs an hourly burst: it checks each angle, verifies any
 claimed proof or counterexample independently, integrates verified results here, and works one angle of its own.
@@ -52,3 +53,13 @@ claimed proof or counterexample independently, integrates verified results here,
 - The ultimate goal is arbitrary k. SD-C, MD and OC₁ are stated for any k. Their first general-k foothold is n = 3:
   EFX₀ is known there (Chaudhury–Garg–Mehlhorn, pseudo-polynomial). OC₁ for n = 3 would give a short proof with a
   polynomial algorithm. Session `claude/kgen-n3` tests it adversarially at large k and tries to prove it, then n = 4.
+
+### 2026-11-26 20:47 UTC: eighth angle; coordinator runs
+- New angle: induction on agents along a serial-dictatorship order. This is the agent-count side's method (grow n
+  one agent at a time), with our order structure: the last agent is never frozen, and the prefix of an order gives SD
+  of the sub-instance. It is not the failed induction on 4-good agents (`k4/induct.md`).
+- Coordinator: OC₁ at n = 6–9 on 2,000 random instances, 12 orders each (`results/k4_sdc/oc1_bign_6_9.log`): all
+  24,000 starts pass; 115 need one chain, none more. Random instances are easy at this size, so an adversarial climb
+  is running (`k4/sdc/oc1_bign_climb.py`, `results/k4_sdc/oc1_bign_climb_6_8.log`).
+- Literature survey started (agent-count side, structural side, cross-field techniques); its report will go to
+  `reports/`.
