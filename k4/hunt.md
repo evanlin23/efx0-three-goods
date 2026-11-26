@@ -5,6 +5,19 @@ profiles. For a fixed k = 4 core H, decide whether some strict balanced type pro
 K4.MC0(c), some valuation with these relevant sets) admits **no** complete EFX₀ allocation. Status of everything here:
 see "Results" (each claim names its artifact; nothing in LEDGER.md is changed by this workstream).
 
+## Summary (burst 1)
+
+- **No counterexample.** Every core searched has an EFX₀ allocation under every strict profile of its (possibly cut)
+  domains. Nothing here is random testing: each "certified" core is a complete search with a certificate checked by an
+  independent implementation.
+- **K4.MC7 without the literature** (§3.1): the 6 graphical all-P4 cores (n = 6, m = 15, 288⁶ profiles each) are
+  certified directly in 1.6–7 s each; K4.MC7 had left them to the multigraph theorem.
+- **A complete per-core search that reaches n = 8** (§1): the ordinal outer encoding (comparison bits) is ~100× faster
+  than the DFS scanners on dense n = 6 cores; a glued GM4 core with n = 8, m = 12, β = 13 (288⁸ ≈ 4.8·10¹⁹ profiles) is
+  certified in 409 s (§3.3).
+- **n = 6** (§3.2): [RESULTS PENDING]
+- **Patterns** (§4): [PENDING]
+
 ## 1. Method (`k4/hunt/cegar.py`)
 
 2QBF-style CEGAR, "∃ profile ∀ allocation: not EFX₀":
@@ -80,6 +93,17 @@ Two complementary runs:
   every β ≥ 5, with K4.MC2, K4.MC3 and the K4.MC5 domain cuts), searched by `run_mc.py` with the cut domains and
   checked by `check_mc_n.py`, which regenerates the list with `k4/check_mincex_cores4.py`'s independent code (orbit
   counting of G′, its own type enumeration and cuts) and decides coverage by SAT on its raw-definition masks.
+
+**Result of the class run** (`results/k4_hunt/n6_m10_n42.log`): all 28,502 cores certified under every strict
+profile (1.07·10⁸ profiles per core without two-private agents), 0 counterexamples; 29,069 CPU-s (mean 1.0 s, max
+5.2 s per core, on a shared machine); allocations found per core: mean 110, median 107, max 262 (idx 20215,
+[[0,3,5,8],[1,4,7,9],[2,7,8],[3,6,7],[4,8,9],[5,6,9]]: every agent has one private good, three goods of degree 3).
+Certificate `results/k4_hunt/cert_n6_m10_n42.json.gz` (allocations reduced to an UNSAT core of the outer formula by
+`compact.py`, then checked); independent check `results/k4_hunt/check_n6_m10_n42.log` [PENDING].
+
+With K4.MC7 (β ≤ 4, i.e. m ≥ 11 when n₄ = 2) and Mahara's theorem (m ≤ n + 3 = 9), this gives: **every connected k = 4
+core with n = 6 and exactly two 4-good agents has an EFX₀ allocation** (with K4.R6a: at most two), for the
+coordinator to integrate.
 
 β = 5 candidates at n = 6 (`results/k4_hunt/mc_n6_candidates_b5.log`; profile counts of the cut domains):
 
