@@ -27,6 +27,17 @@ and multi-good holders, and the rest to the owner.
 - In them, agents 1 and 3 each have two private goods (allowed, since p + q < s + t). K4.MC2 (CERTIFIED) excludes such
   agents from minimal counterexamples to TARGET₄.
 
+**CENTRAL CONJECTURE NOW (§19): OC₁-ED\*^max.** For every serial-dictatorship order whose picks form a *maximum
+matching* of the agent–good graph, (a) or (b) above holds.
+- Such orders always exist, so OC₁-ED\*^max implies TARGET₄ on cores.
+- Lemma MAX (§19, proved) removes the pickless-agent pigeonhole behind every known counterexample.
+- Evidence:
+  - all 2,071 one-absorber-hard maximum-matching starts of this note's data (n ≤ 5, every order);
+  - all 1,950 maximum-matching orders of the 39 known core counterexamples complete *at the picks* (coordinator,
+    `results/k4_sdc/oc1_max_orders_ttc_cores.log` on `claude/kind-lamport-y8fdme`).
+- Alternative with the same evidence: OC₁-ED\* for R1-priority orders (1,855 of 1,855 hard starts, §18). The two order
+  classes are incomparable on the data (§19).
+
 **UPDATE (§18): OC₁ and OC "for every order" also fail inside the K4.MC2 class.** The TTC session's
 n = 5, m = 9 core (verified here) has picks with no completion at all, one-absorber or free, after any one move.
 Every R1-priority order still works. The surviving targets are therefore the R1-priority forms (OC₁ and OC₁-ED\* for
@@ -976,3 +987,17 @@ Lemma MAX does not show that a maximum-matching start has no hard configuration.
 
 **Proposed statement for the Finding D1 proof:** restrict to maximum-matching starts. Lemma MAX then guarantees that
 k's want-chains consist of pick holders and end at an unfrozen pick holder: exactly the ED chain shape.
+
+**OC₁-ED\*^max on this note's data, and R1 priority versus maximum matchings**
+(`ed_check.py` with `MAX=1`, `ed_check_max.log`; `k4/oc1_hall/r1_vs_max.py`, `r1_vs_max.log`).
+- (i) On every one-absorber-hard start whose picks form a maximum matching, an ED chain leaves an S\* completion owned
+  by x₀ or x_t: special 15, screen 182, suite 183, logs 1,200, random 293 + 182 + 16. That is **2,071 of 2,071**. The only
+  S\*-hard exception is again lb4-owner-needs-from-base, which is not one-absorber-hard.
+- (ii) The two order classes are **incomparable**. Over 6,617 instances:
+  - 384 of the 13,564 R1-priority pick vectors (in 229 instances) are not maximum matchings;
+  - 803 of the 13,983 maximum-matching pick vectors are produced by no R1-priority order.
+  - Every instance of this data has ν = n, so "maximum matching" means "every agent gets a pick". There are no pickless
+    agents, and Lemma MAX is vacuous there.
+- (iii) On the data neither form fails anywhere, so neither is weaker on the data. OC₁-ED\*^max is taken as central
+  because its class always exists, Lemma MAX explains the known counterexamples, and on the 39 core counterexamples
+  its starts complete at the picks.
