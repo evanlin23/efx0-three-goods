@@ -53,3 +53,6 @@ restart 7: start score -5 (>= 2 out: 79, < 2 out: 84)
   step 11 score -3 (>= 2 out: 80, < 2 out: 83) 1 s
   step 53 score -2 (>= 2 out: 77, < 2 out: 79) 5 s
   step 54 score -1 (>= 2 out: 77, < 2 out: 78) 5 s
+  step 290 score 0 (>= 2 out: 114, < 2 out: 114) 30 s
+restart 7 final score 0, 31 s
+best score over restarts 0

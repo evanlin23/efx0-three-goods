@@ -389,6 +389,13 @@ the FOUND cases are re-checked by brute force or, for CH-F, by SAT and MILP.
 So the smallest welfare maximum stranding a good at k = 3 has n = 4; the smallest stranding two has 5 ≤ n ≤ 12 at
 k = 3 and 4 ≤ n ≤ 9 at k = 4 (n = 4 pending).
 
+**Why the values must be asymmetric.** With uniform values (every champion y = 2A, x = A, g = A + 1; every
+parent valuing its children equally) the S′ state is the welfare maximum for σ = 2 but not for σ = 3. There a
+champion takes y, x_j, x′_j and g at once (2A + 2A + 1 against 2A) while its parent takes the sibling champion's good,
+and the parent, valuing both children equally, does not strongly envy the bundle that now holds its old favourite.
+In the z3 solutions each parent values one child about twice the other (s₂: 8 and 4), which turns this into strong
+envy. A proof for general σ would have to organise such asymmetries along the relay trees.
+
 **Larger σ.** Whether S′(σ, k) carries values making its σ − 1 stranded goods a welfare maximum for every σ (which
 would refute W(k) for every f, with Θ(√n) goods) is being tested by the same exact search; σ = 3 succeeds at k = 3 and k = 4 (CH-F), σ = 4 at k = 4
 (three goods stranded, n = 20) is running (`w_synth_family_s4k4.log`).
