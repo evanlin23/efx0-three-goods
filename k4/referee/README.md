@@ -27,6 +27,7 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 14 | Theorem 2 (two-agent OC₁, t ≥ 0, every k), Fact L, Lemma M, Tops Lemma (`kgen/n3.md` §9, `418f876`) | `claude/kgen-n3` | `kgen_n3.md` | **CORRECT** (cite Plaut–Roughgarden Thm 4.3 for bare existence) |
 | 15 | Lemma M (matching form, deficiency δ\*), Lemma EX (exchange criterion) (`k4/matching.md` §1, §3, `2c0198e`) | `proof/k4-matching` | `matching.md` | **CORRECT** (EX: Ext may include unfrozen chain agents); §2 refutation of "δ ≤ 1" confirmed |
 | 16 | Lemma D-red, Prop. T0, Lemma KEEP, Lemma SET (+ OWN, RING-red, Finding NC in passing) (`k4/oc1max_multi.md` §2–§4, §6, `6959fc9`/`1ccbb94`) | `proof/k4-oc1max-multi` | `oc1max_multi.md` | **CORRECT** (reductions; D-red/OWN wording: cite (U) for "one valued good never threatens") |
+| 17 | Lemma D1-chain, Prop. 3′, Lemma D1-red, Lemma D1-C₀, Prop. D1-C′ (`k4/oc1_hall.md` §21, `a14932d`); §22 cex1, cex2, TTC n = 5 | `claude/k4-oc1-hall` | `oc1_hall_d1.md` | **CORRECT**; §22 counterexamples to OC₁^max **CONFIRMED** (two chains repair each) |
 | – | Literature: EFX₀ for n = 2 | – | `lit_n2.md` | Plaut–Roughgarden Thm 4.3 (EFX₀, monotone) covers existence; not `kgen/n3.md` Theorem 2 (picks kept / one chain) |
 
 **Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the
