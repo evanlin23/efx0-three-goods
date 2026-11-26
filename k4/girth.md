@@ -27,11 +27,27 @@ the coordinator integrates.
 - Next: prove LR (what LSS's priority order guarantees that a Pareto-maximum does not: the rich sources of the
   counterexample cannot arise); classify the k = 4 cores without 2-cycles; a 2-cycle version of SLACK.
 
+**Ledger candidates** (for the coordinator; LEDGER.md is not edited here). Proposed IDs:
+
+| ID | Claim | Status | Artifact |
+|---|---|---|---|
+| K4.GIRTH.DIG | Digest of LSS 2608.03171v1: girth uses G1–G6; girth ≥ 4 only for 3-cycles through vertex 0 | read | `k4/girth.md` §1 |
+| K4.GIRTH.T1 | Linear instance + an agent on no 3-cycle ⟹ EFX₀ (monotone valuations) | PROVED (written, not refereed) | §4 |
+| K4.GIRTH.HT | Every monotone profile on the hypergraphs of H_t, HH_t (t ≥ 2) has an EFX₀ allocation (by T1) | PROVED (written, not refereed) | §4, `k4/girth/ht_families.py` |
+| K4.GIRTH.LEM | Lemmas SINK, PARK (linear), SLACK (any hypergraph); facts F1–F6 at Pareto-maxima (linear) | PROVED (written, not refereed) | §3, §4 |
+| K4.GIRTH.PL | Every Pareto-maximal partial EFX₀ orientation of a linear instance completes | REFUTED (strict linear k = 4 core, n = 5) | `attempts/k4-girth-linear-pl.md`, `attempts/k4_girth_attempts.py` |
+| K4.GIRTH.LR | LSS-ROT's final state on a linear instance completes by parking (⟹ EFX₀ for all linear instances) | CONJECTURE | §4, `results/k4_girth_lssrot_*.log`, `results/k4_girth_lr_climb_*.log` |
+| K4.GIRTH.DYN | Some labeling of LSS's Algorithm 2 (G1 repair) + dynamic parking completes (⟹ TARGET₄) | CONJECTURE | §5, `results/k4_girth_dyn_*.log` |
+| K4.GIRTH.FAITH | Faithful LSS on degree-≤ 4 instances with short cycles: failures by girth use | EVIDENCE | §2, `results/k4_girth_faithful.log`, `attempts/k4-girth-faithful.md` |
+| K4.GIRTH.SINK2 | LSS's orientation + one sink with 2-cycles | REFUTED (n = 2) | `attempts/k4-girth-sink-2cycles.md` |
+| K4.GIRTH.DYNP | DYN without the G1 repair | REFUTED (n = 4 core profile) | `attempts/k4-girth-dyn-plain.md` |
+
 ---
 
 ## 1. Digest of LSS, "EFX Allocation In (Multi)Hypergraphs", arXiv 2608.03171v1 (4 Aug 2026)
 
-Read in full from the arXiv PDF (16 pp. with references and Appendix A). Paraphrased; my inferences are marked
+Read in full from the arXiv PDF (15 pp.: main text pp. 1–12, references, Appendix A = Subroutine 7; the reference list
+was only skimmed). Paraphrased; my inferences are marked
 **(inference)**. Earlier repository entries (`proofs/citations.md`) were made from a pasted text; this reading agrees with
 them.
 
@@ -102,12 +118,19 @@ is of type G4.
   it, so the condition is needed for this method.
 - Properties (1)–(4) generalized: (3) compares with the whole unallocated part of a patch; (4) holds for **every**
   vertex i ≠ 0 (footnote 2: Algorithm 2 could be modified to give this too).
-- Algorithm 4 (FixProp3Gen) uses Subroutine 7, the "minimal preferred subset" of Chaudhury et al. [their ref. 19] on one
-  patch; the highest label among the vertices that prefer Z takes Z.
+- Algorithm 4 (FixProp3Gen) uses Subroutine 7 (Appendix A: "Algorithm 3 of [19]", their ref. [19] being Chaudhury,
+  Kavitha, Mehlhorn, Sgouritsa, "A Little Charity Guarantees Almost Envy-Freeness", SIAM J. Comput. 2021 [not read
+  here]): starting from Z = S, for each agent and each good g, drop g whenever the agent envies Z ∖ {g}; the result is a
+  set none envies a proper subset of. The highest label among the vertices that prefer Z takes Z.
 - Algorithm 6: if X_0 ⊆ P_e, two vertices j₁, j₂ ∈ e without goods of P_e exist (multiplicity ≤ |e| − 2); they are
   non-envied (Property 2) and park U_i(X) for i ∈ e (j₁) and U_{j₁}(X) (j₂); the rest goes to 0.
 - Girth uses: Obs. 2.1 in Lemmas 4.5, 4.7 (patches instead of edges), Obs. 2.2 in Lemma 4.7 (as G4) and Lemma 4.8
   (j₁ and i ∈ e have no common neighbour outside e).
+- Reading §4's proof as in §1.2 below (inference, not written out or checked line by line): Obs. 2.2 is used in
+  Lemma 4.7 for 3-cycles through 0 and in Lemma 4.8 for 3-cycles that use the edge e ⊇ X_0 (which contains 0), so
+  Theorem 2 should hold when the underlying simple hypergraph is linear and no 3-cycle passes through 0 or uses an edge
+  at 0. On the certified k = 4 cores this would cover only 4 of 1,002 (n = 4) and 18 of 31,584 (n = 5) hypergraphs
+  (scratch count), fewer than Theorem T1, so it is not pursued.
 - For TARGET₄ (inference): parallel goods are goods with *equal* valuer sets. Two agents sharing two goods with
   different third valuers is a 2-cycle of the underlying simple hypergraph, so Theorem 2 does not help with the
   2-cycles of k = 4 cores. Size-1 edges at 0 violate the multiplicity condition as stated, although X_0 ⊆ private goods
@@ -141,10 +164,14 @@ why (2) fails. `classify` names the failure:
   holds another one;
 - `A3L4:P2(G3)` / `A3L4:P2(G4)`: the envier holds no good shared with 0, so Property (2) failed for it, because a
   neighbour of 0 in the same edge (G3) or in another edge at 0 (G4) envies its single good.
+- `A3L4:G5env` (counted as G5): an earlier line-2 step made its receiver envied (not strongly; a 2-cycle), which
+  Lemma 3.5 excludes with Obs. 2.1; that receiver's later leftovers reached X_0.
 
 Some runs break EFX₀ transiently and repair it later (an envier's value rises); only the final allocation counts.
-An envier of X_0 at the last step is always an envied neighbour of 0: a non-neighbour values only U_i(X) there, and a
-non-envied vertex has no unallocated good left after line 2 (its goods are oriented) and does not envy 0.
+If no earlier step broke an invariant, an envier of X_0 at the last step is an envied neighbour of 0: a non-neighbour
+values only U_i(X) there, and a non-envied vertex has no unallocated good left after line 2 (its goods are oriented) and
+does not envy 0. With 2-cycles, line 2 can make its receiver envied without strong envy (`A3L4:G5env`); that receiver
+may be a non-neighbour of 0, whose later leftovers then reach X_0.
 
 `python3 k4/girth/run_faithful.py` (log `results/k4_girth_faithful.log`, 279 s): per instance every vertex 0 with
 three labelings (default order, two random); "some run" = some vertex 0 and labeling gives EFX₀.
@@ -199,11 +226,12 @@ strongly envies it, and goods valued by nobody can be added. ∎
 CFKS's Lemma 13 is the case of graphs. The clean sink is the case u_e = s for all e.
 
 **Lemma SLACK** (any hypergraph, monotone valuations). Let X be a partial EFX₀ allocation with (3) for all agents,
-u a non-envied agent with X_u = {f}, and e an unallocated good not valued by u. Then X with X_u replaced by {f, e} is a
+u a non-envied agent with X_u = {f} (or X_u = ∅), and e any unallocated good. Then X with X_u replaced by X_u ∪ {e} is a
 partial EFX₀ allocation.
 *Proof.* Let k ≠ u. If k values both f and e, removing either good leaves one good worth ≤ v_k(X_k) (f because u is
 non-envied, e by (3)), so k does not strongly envy {f, e}. If k values only f, v_k({f, e}) = v_k(f) ≤ v_k(X_u) ≤
-v_k(X_k); if only e, v_k({f, e}) = v_k(e) ≤ v_k(X_k) by (3). u's value rises. ∎
+v_k(X_k); if only e, v_k({f, e}) = v_k(e) ≤ v_k(X_k) by (3). u's value does not drop. (X_u = ∅: a one-good bundle is
+never strongly envied.) ∎
 (An earlier draft assumed linearity; it is not used. With 2-cycles several agents may value both f and e, and each is
 covered by the first case.)
 
@@ -241,10 +269,18 @@ none of the pairs (x^A_{1,i}, y^A_t), (x^A_{1,i}, ℓ_B), (y^A_t, ℓ_B) shares 
 `k4/girth/ht_families.py` (log `results/k4_girth_ht_families.log`) builds both families from their definitions, checks
 that they are isomorphic (with values) to the suite's c4-H1, c4-H2, c4-H5, lmbt-HH3, checks the two facts for t ≤ 6, and
 runs LSS with vertex 0 = ℓ on 100 random additive profiles per t: EFX₀ every time, with no break of any invariant
-(t ≥ 2). H_1 and HH_1 have every agent on a 3-cycle, so T1 does not apply there (H_1 has n = 5 and is certified, K4.R5).
+(t ≥ 2). H_1 and HH_1 have every agent on a 3-cycle, so T1 does not apply there (H_1 is a pure n = 5 core, covered by the certified row K4.R5p).
 These are the families on which LB₄ʳ needs unboundedly many rotations (Proposition H) and rule F fails (Proposition
 HH, Corollary HH). The repository already had EFX₀ for their specific profiles (K4.D checks; Theorem Z covers every
 H_t); Proposition HT covers every profile on these hypergraphs, by a different construction.
+
+*Other gadget families* (`k4/girth/dyn_families.py`, log `results/k4_girth_dyn_families.log`; builders copied from
+`k4/d_stress.py`). The multi-head chains and the gadget trees of `k4/d_stress.md` are linear, and their (first) head is
+on no 3-cycle for t ≥ 2 by the argument of Proposition HT: the head's shared goods are its gadget-1 good, valued by that
+gadget's x's (and, in a tree, a joining agent), and z, valued by the other heads and by chain-end or leaf y's, and none
+of the former shares a good with any of the latter. (Checked on the instances built: chains t = 2, 3 with up to 3 heads,
+trees t = 3, 5; a general proof for every tree shape is not written out.) So Theorem T1 covers every profile on them. The
+cycles of gadgets (no head) have every agent on a 3-cycle, so only Conjecture LR-dyn speaks to them.
 
 **Facts at a Pareto-maximum** (PROVED; linear, additive; the proofs also work for monotone valuations). Let X be a
 partial EFX₀ orientation whose value vector is Pareto-maximal among all partial EFX₀ orientations (one exists: there
@@ -266,7 +302,7 @@ are finitely many). Write E / N for the envied / non-envied agents, L for the un
 **Conjecture L and its weak form PL are REFUTED** (`attempts/k4-girth-linear-pl.md`). Conjecture L said that in
 every linear instance every Pareto-maximal partial EFX₀ orientation completes by parks and slack absorbers (§3); PL said
 only that it has some EFX₀ completion. Either would have given EFX₀ for every linear additive instance. Both survived
-the random brute force (`k4/girth/linear_pm.py`: ~2.7·10⁵ Pareto-maxima of random linear instances with a 3-cycle,
+the random brute force (`k4/girth/linear_pm.py`: 476,158 Pareto-maxima of random linear instances with a 3-cycle,
 n ≤ 7, ≤ 10 goods, degree ≤ 4 or ≤ 6, `results/k4_girth_linear_pm_*.log`; every non-parking maximum seen was a graph
 completed by one slack absorber). They fail on hand-built instances, re-checked by an independent enumeration:
 - n = 4, m = 7, three goods per agent (not a core: two agents are top-heavy);
@@ -292,18 +328,21 @@ partial EFX₀ orientation and complete it" does not prove EFX₀ even for linea
   never decrease, so it stops, in a state with (1), (3), (4) for the envied agents, an acyclic envy graph and F6. Then
   *park*: give every leftover good to some non-envied agent (`park_slack_state`: common safe vertices and absorbers;
   `park_any_state`: exhaustive backtracking over all such choices, raw EFX₀ check).
-  **Conjecture LR** (CONJECTURE): on every linear instance, for every labeling, the state LSS-ROT stops in can be
-  completed by parking. With Lemma SINK's argument this would prove EFX₀ for all linear additive instances (any degree).
-  Evidence (no failure anywhere): `k4/girth/lssrot_linear.py` (random linear instances, n ≤ 16,
-  `results/k4_girth_lssrot_d4.log`), `k4/girth/lssrot_trap.py` (instances grown around the trap of
-  `attempts/k4-girth-linear-pl.md`), `k4/girth/lr_climb.py` (adversarial hill climbing toward states where a leftover good
-  has no common safe vertex and there is no absorber), `k4/girth/lssrot_cores.py` (every linear k = 4 core with n ≤ 6 of
-  the certificate files, random strict profiles), every labeling of both counterexamples, H_t, HH_3. Counts in the status
-  block.
+  **Conjecture LR (static parking) is REFUTED** (`attempts/k4-girth-lr-static.md`): on a linear instance with n = 4,
+  m = 8 (K₄ plus two private goods), 6 of the 24 labelings end in a state that no static parking completes. It had
+  survived 531,400 random runs (`results/k4_girth_lssrot_d4.log`), 133,800 runs on every linear k = 4 core with n ≤ 6
+  (`results/k4_girth_lssrot_cores.log`) and the adversarial climbs (`results/k4_girth_lr_climb_*.log`); the search grown
+  around the trap found it (`results/k4_girth_lssrot_trap.log`).
+  **Conjecture LR-dyn** (CONJECTURE): on every linear instance, for every labeling, LSS-ROT's final state is completed
+  by *dynamic* parking (§5: receivers non-envied at the moment they receive). It completes all 24 labelings of that
+  instance and both earlier counterexamples; evidence in `results/k4_girth_lrdyn_*.log` (status block). LR-dyn would give
+  EFX₀ for all linear additive instances (any degree).
   Notes. (i) PARK alone fails at LSS-ROT states, rarely (about 1 run in 3·10⁴), at goods with two or three valuers;
   PARK + SLACK then usually works, and once a refined choice was needed (S_i charges i for all of U_i at every sink).
   (ii) The completion must choose where goods with a non-envied valuer go: orienting such a good to a one-good absorber
-  can spoil its slack (three false alarms of an earlier, non-exhaustive search, rechecked and completable).
+  can spoil its slack (three false alarms of an earlier, non-exhaustive search, rechecked and completable). (iii) Static
+  parking cannot use an agent that stops being envied during the completion; in the counterexample that is exactly what
+  is needed.
 - *Coverage of Theorem T1 on small cores* (`k4/girth/core_stats.py`, `results/k4_girth_core_stats.log`): of the
   certified k = 4 core hypergraphs, 3 of 51 (n = 3), 24 of 1,002 (n = 4), 261 of 31,584 (n = 5) and 325 of 26,866
   (n = 6, one 4-good agent) are linear; T1 applies to 0, 5, 77 and 129 of them, LSS's girth-4 condition to 0, 5, 18 and
@@ -312,9 +351,11 @@ partial EFX₀ orientation and complete it" does not prove EFX₀ even for linea
 **What a proof needs.** Take e ∈ L with no common safe vertex. By F6 every non-envied ancestor r of a valuer i of e is
 safe for i but dangerous for another valuer j: it holds the good f_{rj} with v_j(f_{rj} ∪ U_j) > v_j(x_j). With degree
 ≤ 4, a valuer j of e has at most two dangerous agents (one for each good of j other than x_j and a good of U_j). CFKS
-repair this configuration (their Lemma 11, second scenario) with a move that makes i worse off; the counterexamples show
-that some such non-monotone step is necessary. A proof along LSS's lines must therefore use the priority order (to keep
-sources poor) or a cardinal potential (welfare, Nash welfare).
+repair this configuration (their Lemma 11, second scenario) with a move that makes i worse off. The counterexamples show
+that Pareto-maximality alone does not exclude it; LSS-ROT never lowers a value either, so a proof must use how the state
+was reached (LSS's priority order hands out single goods first, so dangerous sources tend to hold one good and can
+absorb; in the two LSS-ROT states without PARK that were inspected they did) or a cardinal potential (welfare, Nash
+welfare).
 
 ## 5. Short cycles of length 2 (agents sharing two goods)
 
@@ -346,6 +387,37 @@ vertex 0 with the default and two random labelings, stopping at the first succes
 - random strict profiles of the k = 4 cores: n = 2 (250 instances) and n = 3 (510) all complete; n = 4 and n = 5 and
   random degree-≤ 4 instances with 2-cycles: see the status block.
 
+No fixed rule found (480 instances: the screen and suite instances with 2-cycles and three random profiles of every
+n = 2, 3 core): vertex 0 = an agent of least degree / greatest degree / agent 0, default labels, complete 463 / 462 /
+468 with the parking search and 457 / 455 / 461 with greedy parking (goods by decreasing number of valuers, first
+feasible receiver in label order); some vertex 0 with default labels and greedy parking completes 478 (scratch run,
+not logged).
+
 What is not settled: whether a fixed labeling rule works (per run, 2–9% fail), and what makes a state parkable (a
-proof would need an invariant of LSS's states, as in Conjecture LR). The parking search is exponential in the number of
+proof would need an invariant of LSS's states, as in Conjecture LR-dyn). The parking search is exponential in the number of
 leftover goods; it is a test of existence, not an algorithm.
+
+## Reproduce
+
+All plain Python (python-sat not needed); run from the repository root. Times on 4 CPUs.
+```
+python3 k4/girth/lss.py 1                          # sanity: faithful LSS on random girth-4 instances (~15 s)
+python3 k4/girth/run_faithful.py                   # §2 table (~5 min)     -> results/k4_girth_faithful.log
+python3 attempts/k4_girth_attempts.py              # every refutation and smallest failure, with independent re-checks (<1 s)
+python3 k4/girth/ht_families.py 6 100              # Proposition HT checks  -> results/k4_girth_ht_families.log
+python3 k4/girth/core_stats.py                     # T1 coverage of small cores -> results/k4_girth_core_stats.log
+python3 k4/girth/linear_pm.py SEED SECS MAXDEG [graphs]   # Pareto-maxima, PARK, potentials -> results/k4_girth_linear_pm_*.log
+python3 k4/girth/lsflex_linear.py SEED SECS MAXDEG        # LSS + flexible sink   -> results/k4_girth_lsflex_*.log
+python3 k4/girth/lssrot_linear.py SEED SECS MAXDEG [NMAX] # Conjecture LR, random -> results/k4_girth_lssrot_d4.log
+python3 k4/girth/lssrot_trap.py SEED SECS                 # Conjecture LR, around the trap -> results/k4_girth_lssrot_trap.log
+python3 k4/girth/lr_climb.py SEED SECS                    # Conjecture LR, hill climbing -> results/k4_girth_lr_climb_*.log
+python3 k4/girth/lssrot_cores.py 20                       # Conjecture LR, all linear cores n <= 6 -> results/k4_girth_lssrot_cores.log
+python3 k4/girth/lrdyn_linear.py random|trap SEED SECS    # Conjecture LR-dyn -> results/k4_girth_lrdyn_{random,trap}.log
+python3 k4/girth/dyn_families.py 5 1                      # DYN / LR on the d_stress families -> results/k4_girth_dyn_families.log
+python3 k4/girth/dyn_2cycles.py 10                        # Conjecture DYN, screen/suite/cores n <= 3 -> results/k4_girth_dyn_2cycles.log
+python3 k4/girth/dyn_more.py cores4|cores5|random SEED SECS   # Conjecture DYN -> results/k4_girth_dyn_{cores4,cores5,random}.log
+PLAIN=1 python3 k4/girth/dyn_more.py cores4 1 1200        # the unrepaired version -> results/k4_girth_dyn_cores4_plain.log
+python3 k4/girth/smallest.py SEED SECS                    # smallest failing configuration per girth use
+```
+Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
+partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).

@@ -23,6 +23,15 @@ v_i(X_i) >= v_i(X_j) - v_i(h) for all h in X_j); the first step that creates str
     'A3L2' Algorithm 3 line 2 (Lemma 3.5 first part: uses Obs 2.1)
     'A3L4' Algorithm 3 line 4 (Lemma 3.5 second part: uses Property (2), hence Lemma 3.4, and Obs 2.1)
 and at the end of Algorithm 2 Properties (1)-(4) are evaluated (`props`), with the reason Property (2) fails.
+A line-2 step that makes its receiver envied (not strongly) is recorded as `soft_break` ('A3L4:G5env').
+
+Extensions (k4/girth.md sections 3-5; none of them is in the paper):
+    complete_with_sink, clean_sinks, flex      Algorithm 3 with a sink chosen after Algorithm 2 (Lemma SINK)
+    complete_safe_sink, flex2                  the same with the G5 repair (orient only without creating envy)
+    find_rotation, lss_rot                     LSS-ROT: Algorithm 2 interleaved with the F5/F6 rotations (linear only)
+    park_slack_state, park_any_state           parking: PARK + SLACK, or exhaustive (every leftover to a non-envied agent)
+    park_dynamic                               dynamic parking (receivers non-envied at the moment of receiving)
+    Run.alg2_safe, lss_dyn, lss_dyn_safe       Algorithm 2 with the G1 repair; Conjecture DYN's pipeline
 """
 import itertools
 import random

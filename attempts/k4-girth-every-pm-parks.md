@@ -15,9 +15,10 @@ Agents 1 and 2 are envied (by 0 and 3); S_1 = {0}, S_2 = {3}: agent 0 holds good
 CFKS's Lemma 11 (r receives (r, j) and s receives (s, i)). The state is completable: give good 4 to agent 0. Agent 2
 values both goods of {3, 4} and 13 ≥ max(12, 12) (Lemma SLACK, `k4/girth.md` §4).
 
-Over 100,000 Pareto-maximal states of random linear instances (n ≤ 7, degree ≤ 4 and ≤ 6) only 15 fail PARK, and every
-one of them is completed by PARK plus slack absorbers (`results/k4_girth_linear_pm_*.log`). All potentials tested
-(welfare, leximin, Nash welfare, Pareto-maximal + most non-envied, Pareto-maximal + welfare) had every maximum satisfy
-PARK.
+Over 476,158 Pareto-maximal states of random linear instances (n ≤ 7, degree ≤ 4 and ≤ 6) only 25 fail PARK, and
+every one of them is completed by PARK plus slack absorbers (`results/k4_girth_linear_pm_*.log`). The maxima of welfare,
+Nash welfare, "Pareto-maximal + most non-envied" and "Pareto-maximal + welfare" satisfied PARK on every instance; leximin
+maxima failed PARK twice. This random evidence was misleading: hand-built linear instances, including a strict k = 4
+core, have Pareto-maxima with no EFX₀ completion at all (`attempts/k4-girth-linear-pl.md`).
 
 **Reproduce:** `python3 attempts/k4_girth_attempts.py` (part 2).

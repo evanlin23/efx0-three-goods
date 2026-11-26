@@ -7,7 +7,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'k4', 'girth'))
-from lss import Inst, lss, labels, classify, is_efx0, envied, flex, flex2, two_cycles, triangles, lss_dyn, lss_dyn_safe  # noqa: E402
+from lss import Inst, lss, labels, classify, is_efx0, envied, flex, flex2, two_cycles, triangles, lss_dyn, lss_dyn_safe, lss_rot, park_any_state, park_dynamic  # noqa: E402
 from brute import pareto_max, park_condition, park_slack, completable, check_PL, bundles_of  # noqa: E402
 
 # 1. The faithful LSS algorithm (vertex 0 = agent 0, default labels, largest label / smallest good on choices):
@@ -40,6 +40,8 @@ PL_CORE = [{1: 20, 0: 12, 4: 13, 9: 9}, {2: 20, 0: 12, 3: 13, 10: 9}, {1: 20, 3:
 PL_CORE_STATE = (-1, 0, 1, 2, 3, 2, 3, 4, 4, 4, 4)
 # 5. Unrepaired Algorithm 2 + dynamic parking: every labeling breaks at G1 on this n = 4 k = 4 core profile.
 DYN_G1 = [{0: 4, 2: 2, 3: 3}, {1: 4, 4: 8, 5: 2, 6: 3}, {2: 4, 4: 8, 5: 2, 6: 3}, {3: 6, 4: 8, 5: 4, 6: 5}]
+# 6. Conjecture LR with static parking: a linear instance (K4 + two private goods) where 6 of 24 labelings fail.
+LR_CEX = [{0: 23, 1: 28, 4: 8, 7: 22}, {0: 19, 2: 25, 3: 12}, {1: 28, 3: 8, 6: 24}, {2: 29, 4: 11, 5: 5, 6: 13}]
 GM4E = [{0: 3, 2: 10, 4: 6, 6: 2}, {1: 3, 3: 4, 5: 8, 6: 2}, {2: 4, 3: 2, 6: 3}, {4: 2, 5: 4, 6: 3}]
 
 
@@ -113,6 +115,25 @@ def main():
     print('   n=4 core profile: unrepaired Algorithm 2 breaks EFX0 on all %d labelings; with the G1 repair %d complete'
           % (len(plain), safe))
     assert safe == len(plain)
+    I = Inst.from_dicts(GM4E)
+    ok = sum(lss_dyn(I, lab)[1] is not None for lab in all_labels(I))
+    print('   GM4-E (P1\'s counterexample): unrepaired Algorithm 2 + dynamic parking completes on %d of %d labelings'
+          % (ok, len(list(all_labels(I)))))
+    assert ok == len(list(all_labels(I)))
+    print('6. Conjecture LR with static parking:')
+    I = Inst.from_dicts(LR_CEX)
+    assert not two_cycles(I)
+    st = dy = 0
+    for lab in all_labels(I):
+        r = lss_rot(I, lab)
+        st += park_any_state(I, r.X, r.U) is not None
+        Z = park_dynamic(I, r.X, r.U)
+        dy += Z is not None and is_efx0(I, Z)
+    r = lss_rot(I, [1, 2, 3, 0])
+    print('   labels (1,2,3,0): state %s, leftovers %s, static parking %s'
+          % ([sorted(b) for b in r.X], sorted(r.U), park_any_state(I, r.X, r.U)))
+    print('   static parking completes %d of 24 labelings, dynamic parking %d of 24' % (st, dy))
+    assert st == 18 and dy == 24
 
 
 def indep_check(ds, state, name):

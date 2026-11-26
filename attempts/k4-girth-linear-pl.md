@@ -4,7 +4,7 @@ Workstream `proof/k4-girth` (`k4/girth.md` §4). **Approach:** in a linear hyper
 good) take a partial EFX₀ orientation whose value vector is Pareto-maximal among all partial EFX₀ orientations. Facts
 F1–F6 hold there (proved), and Lemmas PARK and SLACK complete it whenever every leftover good has a common safe vertex
 or a one-good absorber. Conjecture L said this always happens; PL said only that some EFX₀ completion exists. Both
-survived ~1.5·10⁵ Pareto-maxima of random linear instances (n ≤ 7, ≤ 10 goods; `results/k4_girth_linear_pm_*.log`).
+survived 476,158 Pareto-maxima of random linear instances (n ≤ 7, ≤ 10 goods; `results/k4_girth_linear_pm_*.log`).
 
 **Result: both are false**, on a hand-built linear instance with n = 4, m = 7, every agent valuing three goods
 (so even k = 3). Agents i = 0, j = 1, r = 2, s = 3; goods e = 0 {i, j}, x_i = 1 {i, r}, x_j = 2 {j, s}, f = 3 {r, j},
