@@ -15,7 +15,7 @@ changed here; the coordinator integrates.
 | CH-E | for every σ ≥ 2 and k ≥ 3: a Pareto maximum (P1's hypothesis) leaving σ − 1 goods out, n = O(σ²) | PROVED (written proof; exhaustive check without SAT for σ ≤ 4, SAT for σ ≤ 7) | §5, `refute_pm.py`, `refute_pm_k*.log`, `pm_family_sat.log` |
 | P1 at k = 3 | P1 (K4.SDC.P1) already fails at k = 3: n = 4, m = 7, every agent values exactly 3 goods | REFUTED (CH-E with σ = 2; brute force over all 5⁷ partial allocations) | §5, `refute_pm_k3.log` |
 | PM(k) | Pareto maxima leave ≤ f(k) goods out | REFUTED for every k ≥ 3 and every f (CH-E) | §5 |
-| W(k) | the welfare maximum with fewest unallocated goods leaves ≤ f(k) out | OPEN (not refuted by S′; f(4) ≥ 1 by GM4) | §6 |
+| W(k) | the welfare maximum with fewest unallocated goods leaves ≤ f(k) out | OPEN (S′'s stranded states are not supported, so no rescaling of S′ refutes it; f(4) ≥ 1 by GM4-E) | §6, `welfare_support.log` |
 | least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
 
 **Conclusion of the burst.** The rainbow-cycle method works with genuine zeros and gives *exact* EFX₀ with
@@ -285,8 +285,12 @@ with the P1 replay on GM4-E: five Pareto maxima, one leaving one good out):
 
 1. **Question W(k).** Does the welfare maximum over partial EFX₀ allocations, with the fewest unallocated goods,
    leave at most f(k) goods out? It is a robust stopping state (CH6), so CH-A/B/C apply. f(4) ≥ 1 (total-value maxima
-   are stuck on GM4-C/D/E/G/Q, K4.SDC.P1); on S′(2, 3) it is complete. Welfare is scale-dependent, so a family like
-   S′ would have to make the stranded state also the heaviest one.
+   are stuck on GM4-C/D/E/G/Q, K4.SDC.P1); on S′(2, 3) it is complete. Rescaling one agent's values changes neither
+   EFX₀ nor the Pareto order, so W(k) over all instances asks whether a stranded Pareto maximum can be a *supported*
+   point of the EFX₀ value vectors (a maximum of Σλ_i v_i for some λ > 0). For GM4-E it is, with λ = 1; for S′(2, 3)
+   it is not: no rescaling makes its stranded state a welfare maximum (`welfare_support.py`, LP over all 125 EFX₀
+   value vectors, `welfare_support.log`). So W is not refuted by S′; a family that strands two goods at a supported
+   point would refute it.
 2. **Non-monotone moves.** CH-D and CH-E show that a proof of CH(k), k ≥ 3, must sometimes lower an agent's value.
    The two known mechanisms are LB⁺'s rotation (k = 3) and Kaviani–Seddighin–Shahrezaei's virtual values
    (`proofs/pq_bounded.md` §2.1, their rule that may lower actual utilities). A charity version of either, with the
