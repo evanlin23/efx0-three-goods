@@ -1,0 +1,9 @@
+$ python3 k4/oc1max_multi/theorem_u1.py results/k4_oc1max_multi/hard2_starts.jsonl.gz results/k4_oc1max_multi/hard2_starts_n5.jsonl.gz
+  hypothesis of Theorem U met by some longest chain 2880
+  one unfrozen pick holder 2234
+  one unfrozen pick holder, repaired by Theorem U 2234
+  repaired by Theorem U 2880
+(longest chain, H_0) pairs meeting the hypothesis 5266
+starts 8383
+|D_T| = 1 3259
+Theorem U1 violations: 0 []

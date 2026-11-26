@@ -1,0 +1,12 @@
+$ python3 k4/oc1max_multi/ring.py results/k4_oc1max_multi/hard2_starts.jsonl.gz results/k4_oc1max_multi/hard2_starts_n5.jsonl.gz
+('mechanism CAN-k', 'no RING-red ring') 585
+('mechanism CLEAN', 'RING-red ring') 677
+('mechanism CLEAN', 'no RING-red ring') 1200
+('mechanism ED', 'no RING-red ring') 45
+('mechanism KEEP', 'RING-red ring') 1837
+('mechanism KEEP', 'no RING-red ring') 3002
+('mechanism OWN', 'RING-red ring') 243
+('mechanism OWN', 'no RING-red ring') 643
+('mechanism RING', 'RING-red ring') 151
+RING-red rings 7347
+RING-red violations: 0 []

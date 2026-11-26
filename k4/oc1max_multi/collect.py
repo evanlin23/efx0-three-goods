@@ -22,6 +22,7 @@ from mmlib import (Inst, base_from_picks, junk, frozen, wanters, dangerous, oa_a
 
 NMAX = int(os.environ.get('NMAX', '5'))
 SLIM = os.environ.get('SLIM', '1') == '1'     # write the starts only (the analyses recompute the repairs)
+MIND = int(os.environ.get('MIND', '2'))       # keep the hard starts with at least MIND dangerous agents
 
 
 def load(src, argv):
@@ -90,11 +91,11 @@ def study(item):
             C['complete at the picks'] += 1; continue
         D = dangerous(I2, base)
         C['hard, |D| = %d' % len(D)] += 1
-        if len(D) < 2: continue
+        if len(D) < MIND: continue
         rec = {'name': name, 'inst': I2.to_json(), 'orig_sets': sets, 'orig_vals': vals, 'order': od,
                'picks': Y2, 'keep': keep, 'S': S, 'U': U}
         add_repairs(rec)
-        C['hard, |D| >= 2, repaired' if rec['repairs'] else 'hard, |D| >= 2, NOT REPAIRED'] += 1
+        C['hard, kept, repaired' if rec['repairs'] else 'hard, kept, NOT REPAIRED'] += 1
         out.append(rec)
     return name, C, out
 

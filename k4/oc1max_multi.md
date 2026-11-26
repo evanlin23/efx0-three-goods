@@ -39,13 +39,15 @@ rule 3).
 | **Proposition T0** (§2) | at a hard perfect start, every unfrozen z (null agents included) has a dangerous agent threatened by J ∪ B_z: Θ(z) ≠ ∅. Every k ∈ Θ(z) has an improving set in J ∪ B_z | written proof; 0 violations |
 | Corollary TR (§2) | if the head z of a canonical chain from k has Θ(z) ⊆ {k}, DEMAND cannot occur, and the chain behaves as in the case \|D\| = 1 (Hall §21: HEAD and CROWD only) | written proof |
 | **Lemma KEEP** (§3) | let D_T be the *truly dangerous* agents (threatened by the junk alone). Take a canonical chain from k with an improving H₀ inside J, with no crowding, with the other truly dangerous agents and the head unthreatened by J, and with a holder admissible for the head's released pick Y_z. That holder is the head itself when the head is unfrozen, or the second wanter that froze it. Then that holder takes Y_z, and k owns an S\* completion. **Every pick-dangerous agent (D ∖ D_T) is harmless there, however many there are** | written proof; 0 violations in 18,916 chains |
+| **Theorem U, Corollary U1** (§3) | **OC₁ holds at every perfect start with one truly dangerous agent and exactly one unfrozen pick holder** (any \|D\|, null agents allowed): every longest canonical chain from k with every improving H₀ ⊆ J repairs. More generally (Theorem U), it holds when the junk threatens no unfrozen pick holder other than the head of a longest chain | written proof, **unconditional on its class**; 2,234 starts (U1) and 2,880 (U), 0 violations |
 | Corollary KEEP-1 (§3) | if D_T = {k}, the case reduces to the crowding and head obstacles of the case \|D\| = 1. **3,244 of the 3,259 starts with \|D_T\| = 1 have a KEEP chain**; the other 15 (all n = 5) have crowding by every minimal junk improving set (13) or a frozen, threatened head (2) | written proof; evidence for the count |
-| **Lemma SET** (§4) | the overlap step of PWk(a), in general. After a canonical chain in which k takes a junk pair, k is settled for every owner other than k and x₁ whose base k does not want: it neither envies nor is envied. So k and the pair can be deleted. Agents that share the pair keep at most one junk good (Lemma PL(c)) | written proof; 0 mismatches in 3,373 owner tests |
-| **Lemma OWN** (§4) | the overlap completion, PWk(a)'s owner w₂ in general. After a chain in which k takes a junk pair, an owner o ∉ {k, x₁} with a *free base* (no frozen agent and not k values it) owns an S\* completion, if the other truly dangerous agents are unthreatened by o's base plus J minus the pair (automatic when they share the pair, by Lemma PL(c)) and a holder takes the released pick. No crowding condition | written proof; 0 violations |
-| Census (§5) | **7,602 of 8,383 starts (90.7%) are repaired by a chain to which KEEP, OWN or D-red applies** (proof modulo the chain's existence). 705 more are repaired by an obstructed canonical chain with owner k, and 76 need a chain whose head is a second dangerous agent (a *dangerous ring*) | evidence |
+| **Lemma SET** (§4) | the overlap step of PWk(a), in general. After a canonical chain in which k takes a junk pair, k is settled for every owner other than k and x₁ whose base k does not want: it neither envies nor is envied. So k and the pair can be deleted. Agents that share the pair keep at most one junk good (Lemma PL(c)) | written proof; 0 mismatches in 47,248 owner tests |
+| **Lemma OWN** (§4) | the overlap completion, PWk(a)'s owner w₂ in general. After a chain in which k takes a junk pair, an owner o ∉ {k, x₁} with a *free base* (no frozen agent and not k values it) owns an S\* completion, if the other truly dangerous agents are unthreatened by o's base plus J minus the pair (automatic when they share the pair, by Lemma PL(c)) and a holder takes the released pick. No crowding condition | written proof; 0 violations in 21,440 cases |
+| **Lemma RING-red** (§6) | a dangerous ring k → … → d (d ∈ D takes its predecessor's pick plus junk, d's pick goes to k), owner k, with four local conditions: Lemma 2\* with H = ∅. It covers T3 with the order (0, 1, 2) | written proof; 0 violations in 7,347 rings |
+| Census (§5) | **7,753 of 8,383 starts (92.5%) are repaired by a chain to which KEEP, OWN, D-red or RING-red applies** (proof modulo the chain's existence, except under Theorem U). 585 more are repaired by an obstructed canonical chain with owner k (SLOT), and 45 by other ED chains | evidence |
 | Finding NC (§6) | D1-C (Hall §21) does not extend to \|D\| ≥ 2. In T3 (n = 3, m = 6) the only canonical chain with an improving set has CROWD, there is no other minimal H₀, and no canonical chain repairs. The repair is a ring through both dangerous agents | checked by enumeration (`attempts/k4-oc1max-multi-canonical.md`) |
 | Step 2 of the plan (§4) | "after a chain from one dangerous agent, the others have at most one pool good left" (Lemma PL) holds only for agents that share two goods with H₀. For disjoint junk sets the other demands are untouched: they are removed by unfreezing, by raising values on the chain, or by slots (the head's slot first). In 95 starts with pairwise disjoint truly dangerous junk sets, every canonical chain leaves a demand, and only slots repair | `attempts/k4-oc1max-multi-pl-disjoint.md` |
-| Open sub-lemmas (§7) | KEEP-C (\|D_T\| = 1, 4 starts), SLOT (\|D_T\| ≥ 2, and DEMAND when D_T = ∅; 701 starts), RING (76 starts, smallest T3), and the existence of the chains | open; each stated with its smallest instance |
+| Open sub-lemmas (§7) | KEEP-C (\|D_T\| = 1, 4 starts), SLOT (\|D_T\| ≥ 2, and DEMAND when D_T = ∅; 581 starts), RING (45 starts not covered by RING-red), and the existence of the chains outside Theorem U | open; each stated with its smallest instance |
 
 ## 1. The data
 
@@ -117,7 +119,7 @@ in `analyze.log`):
 | ED chain, S\* owned by x₀ or x_t (OC₁-ED\*) | **8,383** |
 
 So minimality of H₀ never costs anything, and owner k is the best single choice. The 74 starts with no canonical
-repair at all lie in the RING class of §7 (76 starts).
+repair at all lie in the RING class of §7.
 
 ## 2. Lemma D-red for any number of dangerous agents
 
@@ -275,6 +277,65 @@ So |D_T| = 1, whatever |D| is, reduces to two local obstacles:
 These are the obstacles of the case |D| = 1 (Hall's D1-C and D1-H). The other dangerous agents, all pick-dangerous,
 play no role.
 
+**Theorem U (K4.MULTI.U): one truly dangerous agent, and the junk threatens no other unfrozen agent.** Let Y be a
+perfect start with no one-absorber completion, and D_T = {k}, with |D| arbitrary. Let E_J be the set of unfrozen pick
+holders u that J threatens at p_u. Let P = (k = x₀, …, x_t = z) be a *longest* canonical chain from k, and H₀ ⊆ J ∩ R_k
+any improving set. Suppose:
+- E_J ⊆ {z};
+- if z ∈ E_J, then z is unfrozen at B′.
+
+Then B′ has an S\* completion owned by k. Its owner's bundle is a subset of J, and the released pick Y_z goes to the
+head z, or to an unfrozen second wanter of the head's new good.
+
+**Corollary U1 (K4.MULTI.U1).** *OC₁ holds at every perfect start that has exactly one unfrozen pick holder and exactly
+one truly dangerous agent*, whatever |D| is, null agents allowed. Every longest canonical chain from k, with every
+improving H₀ ⊆ J, repairs. Here the existence of the chain is part of the statement, not an assumption.
+
+*Proof of Theorem U.*
+0. *The chain exists.* k is frozen, so canonical chains from k exist (Lemma D1-chain), and a longest one exists. J
+   threatens k, so v_k(J ∩ R_k) > p_k, and an improving H₀ ⊆ J exists.
+1. *The holder for Y_z.* If z is unfrozen at B′, let u = z; it is admissible for Y_z (see Lemma KEEP).
+
+   Otherwise a = Y_{x_{t−1}} has a wanter w at B′. By D-red (proof of 2), w is off P and wanted a at the picks.
+   - w is unfrozen at the picks. Otherwise the walk up from w (w's wanter, that agent's wanter, …) would give a
+     canonical chain (x₀, …, x_{t−1}, w, …) with more agents than P. Its agents are distinct by (π), as in Hall's §21
+     Remark 2. That contradicts the choice of P.
+   - w holds a pick: it wants a good, and pickless agents at a perfect start are null.
+   - So w is an unfrozen pick holder, w ≠ z, and w ∉ E_J. By D-red 2, w is unfrozen at B′, so it is a holder, with
+     value p_w.
+   - J does not threaten w at p_w, so w is unexposed, hence admissible for every good. Let u = w.
+
+   In this case z ∉ E_J, by the hypothesis. So J does not threaten z at p_z, nor at v_z(a) > p_z.
+2. *Lemma 2\* at B′, owner k, H = {Y_z}.* Then W_k ∖ H = J.
+   - (G1), (G2): D-red 1.
+   - (H1): the frozen agents of B′ other than k are frozen at the picks, or z (D-red 2). Agents of F ∖ D value no junk.
+     Agents of D ∖ D_T are not threatened by any subset of J at any value ≥ their pick value. D_T ∖ {k} is empty. z, if
+     frozen, is covered by step 1.
+   - *System of representatives:* Y_z ↦ u, admissible by step 1.
+   - *Every exposed holder other than u is covered.* By D-red 3, an exposed holder is z, an off-P agent unfrozen at the
+     picks, or an agent of D ∖ {k} unfrozen at B′.
+     - An off-P agent v unfrozen at the picks has value p_v. It is exposed iff v ∈ E_J ⊆ {z}, so it is not exposed.
+     - An agent d ∈ D ∖ {k} unfrozen at B′ is exposed only if J threatens it at v_d(B′_d) ≥ p_d. Then J threatens it
+       at p_d, so d ∈ D_T = {k}, which is impossible.
+     - z is a holder only when it is unfrozen at B′, and then it is u, which is covered.
+
+   So every exposed holder is covered by the system, crowded or not, and Lemma 2\* gives the completion. ∎
+
+*Proof of Corollary U1.* At a perfect start the head of a canonical chain holds a pick, so with one unfrozen pick
+holder z, every chain ends at z, and E_J ⊆ {z}. By step 1, a wanter of a at B′ would be an unfrozen pick holder other
+than z, so z is unfrozen at B′. Theorem U applies to every longest chain and every improving H₀ ⊆ J. ∎
+
+*Why crowding disappears.* A crowded holder is a problem only when it is exposed. Under the hypothesis the only
+possible exposed holder is the head, and its slot (its own old pick) already makes it safe, because
+v_z(J ∩ R_z) < 2p_z < v_z(a) + p_z.
+
+*Checks* (`theorem_u1.py`, `theorem_u.log`).
+- Among the 8,383 starts, 3,259 have |D_T| = 1. Theorem U's hypothesis holds for some longest chain at **2,880** of
+  them, and every (longest chain, improving H₀ ⊆ J) pair meeting it repairs: 5,266 pairs, 0 violations.
+- Corollary U1 covers **2,234** starts, at each of which every longest chain repairs.
+- On the 197 one-absorber-hard starts with |D| = 1 (the Hall session's class), 41 have k ∈ D_T. Theorem U applies at
+  15 of them, with 0 violations.
+
 *Why the released pick is kept out.* After P, the only pick in the pool is Y_z. Giving it to a holder (the head, or
 the second wanter that froze the head) makes the owner's bundle a subset of J, and no subset of J threatens a
 pick-dangerous agent.
@@ -347,7 +408,7 @@ Every d ∈ D that values g and g′ keeps at most one good of J ∖ H₀ (Lemma
 - *Frozen agents* hold one good and take nothing. ∎
 
 *Check* (`lemma_set.py`, `lemma_set.log`). At every canonical chain with an improving junk pair, for every admissible
-owner: 3,373 owner tests on the small data sets, 0 mismatches between the S\* test in the instance and in the reduced
+owner: 47,248 owner tests on all 8,383 starts, 0 mismatches between the S\* test in the instance and in the reduced
 instance.
 
 Both owner conditions are needed:
@@ -398,7 +459,7 @@ KEEP, where k owns. The two lemmas are complementary:
   free-base owner.
 
 *Checks* (`lemma_own.py`, `lemma_own.log`). Every (chain, junk pair, owner, holder) quadruple satisfying
-(W1)–(W3) has the explicit completion, checked with raw EFX₀: 0 violations.
+(W1)–(W3) has the explicit completion, checked with raw EFX₀: 21,440 quadruples, 0 violations.
 
 The first version of the check tested (W1) against J ∖ H₀ instead of W, and failed on 9 quadruples. For example, in
 log732, picks (7, 6, 3, 4), agent 0 values {2, 0} at 9 > 8. A set threatens d through its goods *outside* R_d too,
@@ -407,19 +468,20 @@ because removing a worthless good removes nothing.
 ## 5. The census: which mechanism repairs each start
 
 `regimes.py`, `regimes.log`. For each start, the first mechanism in this list that repairs it:
-1. KEEP (a written proof applies);
-2. OWN (a written proof applies);
-3. CLEAN (D-red applies);
-4. CAN-k (a canonical chain with obstacles, owner k);
-5. ED (an ED chain, owner x₀ or x_t);
-6. any move.
+1. KEEP (Lemma KEEP applies);
+2. OWN (Lemma OWN applies);
+3. CLEAN (Lemma D-red applies);
+4. RING (Lemma RING-red applies, §6);
+5. CAN-k (a canonical chain with obstacles, owner k);
+6. ED (an ED chain, owner x₀ or x_t);
+7. any move.
 
-| regime | starts | KEEP | OWN | CLEAN | CAN-k | ED | none |
-|---|---|---|---|---|---|---|---|
-| D_T = ∅ | 2,512 | – | 410 | 1,867 | 161 | **74** | 0 |
-| \|D_T\| = 1 | 3,259 | **3,244** | 7 | 4 | 4 | 0 | 0 |
-| \|D_T\| ≥ 2 | 2,612 | 1,595 | 469 | 6 | 540 | 2 | 0 |
-| all | 8,383 | 4,839 | 886 | 1,877 | 705 | 76 | 0 |
+| regime | starts | KEEP | OWN | CLEAN | RING | CAN-k | ED | none |
+|---|---|---|---|---|---|---|---|---|
+| D_T = ∅ | 2,512 | – | 410 | 1,867 | 97 | 95 | 43 | 0 |
+| \|D_T\| = 1 | 3,259 | **3,244** | 7 | 4 | 0 | 4 | 0 | 0 |
+| \|D_T\| ≥ 2 | 2,612 | 1,595 | 469 | 6 | 54 | 486 | 2 | 0 |
+| all | 8,383 | 4,839 | 886 | 1,877 | 151 | 585 | 45 | 0 |
 
 The smallest instances in each cell are listed in `regimes.log`:
 - D_T = ∅, ED: **T3** (n = 3, m = 6), order (0, 1, 2);
@@ -428,8 +490,8 @@ The smallest instances in each cell are listed in `regimes.log`:
 - |D_T| ≥ 2, CAN-k: hall-local3 (n = 3, m = 7);
 - |D_T| ≥ 2, ED: r640 (n = 4, m = 8).
 
-So **7,602 of the 8,383 starts (90.7%) are repaired by a chain to which a written lemma (KEEP, OWN or D-red)
-applies**. With |D_T| = 1, 3,255 of 3,259 are. The
+So **7,753 of the 8,383 starts (92.5%) are repaired by a chain to which a written lemma (KEEP, OWN, D-red or
+RING-red) applies**. With |D_T| = 1, 3,255 of 3,259 are. At 2,880 starts Theorem U proves the repair outright (§3). The
 lemma proves the repair once the chain is given; the chain's existence is the open part.
 
 ## 6. Finding NC: canonical chains do not suffice at |D| ≥ 2, and D1-C does not extend
@@ -489,7 +551,7 @@ Then B′ has an S\* completion owned by k.
 T3 satisfies (R1)–(R4) with the ring (0, 2, 1), H₁ = {3}, H₀ = {4, 2}.
 
 *Checks* (`ring.py`, `ring.log`). Every ring meeting (R1)–(R4) has an S\* completion owned by k (raw enumeration):
-0 violations. RING-red covers some of the RING starts. The rest need an unfrozen head taking junk (Hall's Finding C),
+7,347 rings, 0 violations. RING-red covers some of the RING starts. The rest need an unfrozen head taking junk (Hall's Finding C),
 or a ring whose obstacles are resolved by slots. See the census in §5.
 
 `attempts/k4-oc1max-multi-canonical.md` has the script. That canonical chains alone do not suffice was known
@@ -514,29 +576,37 @@ Each statement is local. Each is checked on all 8,383 starts, and is stated with
     argument).
   - In the smallest disjoint example (`attempts/k4-oc1max-multi-pl-disjoint.md`), the head keeps out a good of the
     other agent's danger set instead.
-  - Data: 540 + 161 starts are repaired only this way.
+  - Data: 486 + 95 starts are repaired only this way.
   - The slot structure (`slot_stats.py`, `slot_stats.log`), counting the fewest kept-out goods over the repairing
-    chains of each of the 705 starts:
-    - one good in 544 starts: the head takes it in 315, and another holder in 229;
-    - two goods in 155;
-    - three goods in 6.
+    chains of each of these 585 starts:
+    - one good in 442 starts: the head takes it in 260, and another holder in 182;
+    - two goods in 138;
+    - three goods in 5.
 
-    In most one-good repairs the good belongs to another truly dangerous agent's junk set (the head: 222 starts).
-    So the count to prove is that one or two slots, the head's among them, cover what the chain leaves.
+    In most one-good repairs the good belongs to another truly dangerous agent's junk set. So the count to prove is
+    that one or two slots, the head's among them, cover what the chain leaves.
   - Smallest: hall-local3 (n = 3, m = 7) and induct-q4-rules (n = 3, m = 5).
-- **RING (K4.MULTI.RING).** If no canonical chain repairs, some ED chain repairs with owner k. In it, either the head
+- **RING (K4.MULTI.RINGX).** If no canonical chain repairs, some ED chain repairs with owner k. In it, either the head
   is a dangerous agent d with Y_d ∈ H₀ (a ring through two dangerous agents), or an unfrozen head takes junk.
-  - Data: 76 of 76 starts (74 with D_T = ∅).
-  - Smallest: T3 (n = 3, m = 6).
+  - Lemma RING-red (§6) proves the repair for rings without obstacles: 151 starts.
+  - Data: 45 starts are left (43 with D_T = ∅), all repaired by ED chains.
+  - Smallest left: T3 with the order (0, 2, 1), picks (0, 1, 4), D = {0, 2}. Its repair is the swap 0 ↔ 2: agent 2
+    takes 0, and agent 0 takes 2's pick 4 plus junk 2. But agent 1 wants 4 (30 > 22), so k = 0 cannot own ((R2)
+    fails), and the S\* owners are 1 and 2. T3 with the order (0, 1, 2) is covered by RING-red.
+  - So RING needs RING-red with another owner: the analogue of OWN for rings.
 - **The existence part.** In every regime the lemmas assume the right chain. What is missing is an argument that a
   hard start has a KEEP, OWN or clean chain, or else the SLOT or RING configuration.
 
-*Honest scope.* The written proofs here are reductions. They prove that a chain *with property X* repairs, and the data
-show such a chain exists in 90.7% of the starts. The existence of the chain is not proved in any regime.
+*Honest scope.* Most written proofs here are reductions. They prove that a chain *with property X* repairs, and the
+data show such a chain exists in 92.5% of the starts. The exception is Theorem U. Its hypothesis is a property of the
+start, and the chain's existence is part of the proof, so OC₁ is proved outright at the starts it covers (2,880 of the
+8,383; Corollary U1, one unfrozen pick holder and one truly dangerous agent: 2,234).
 
-The most promising next step is |D_T| = 1. There KEEP or OWN chains exist on 3,251 of 3,259 starts, and the 8
-exceptions have exactly the crowding obstacle of |D| = 1. So the existence argument should be done together with the
-Hall session's D1-C.
+The most promising next step is |D_T| = 1 without Theorem U's hypothesis: some unfrozen agent other than the head is
+threatened by the junk (379 starts). In that class, these unfrozen *junk-exposed* agents are the new difficulty:
+they may be crowded by H₀, and they may be the only possible holders for the released pick. KEEP or OWN chains still
+exist on all but 8 of the 3,259 starts with |D_T| = 1, and the 8 exceptions have exactly the crowding obstacle of
+|D| = 1. So this step should be done together with the Hall session's D1-C.
 
 For D_T = ∅, Proposition T0 says every unfrozen z has some d ∈ Θ(z). Such a d values Y_z together with junk, unless
 d values every junk good: then J ∪ {Y_z} can threaten d through the worthless good Y_z, while J alone cannot. Outside
