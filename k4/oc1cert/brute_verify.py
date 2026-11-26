@@ -93,7 +93,8 @@ def run(sets, vals, picks):
         res['one-absorber' if A == 1 else 'free'] = sorted(set(k for k, nb in sts if any(completes(nb, X, A) for X in EF)))
     return {'n': n, 'm': m, 'orders giving the picks': len(orders), 'example order': orders[0] if orders else None,
             'picks': npk, 'max matching (brute force)': best, 'EFX0 allocations': len(EF),
-            'one-move states': len(sts) - 1,
+            'one-move moves (descriptions)': len(sts) - 1,
+            'one-move states (distinct)': len(set(tuple(tuple(sorted(b)) for b in nb) for k, nb in sts[1:])),
             'states with a completion (kinds)': res,
             'picks complete one-absorber': any(completes(base, X, 1) for X in EF)}
 
