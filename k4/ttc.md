@@ -20,14 +20,22 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
 - *Not affected:* OC (free completion: the picks extend with both pickless agents absorbing), MD, SD-C and TARGET₄.
 - *Refuted with it:* every one-absorber statement, namely OC₁-H, OC₁-E and OC₁-ED below, and the Hall session's
   OC₁-ED\* and Finding S\*.
-- *Why the data missed it:* the OC₁ data at n = 5 used only cores with one or two 4-good agents.
+- *Why the data missed it:* the OC₁ data at n = 5 used only cores with one or two 4-good agents, and failing profiles
+  are rare even on the right hypergraph (below).
 
 **Earlier in burst 4.** 84 non-core counterexamples at n = 6, m = 10, and a k = 3 family (n = 5, m = 9; R2-peelable).
 They led to the core above.
 
-**Running or next:**
-- OC₁ on random profiles of the n = 5 cores with three, four and five 4-good agents;
-- the core climb (`core_climb.py`).
+**How rare** (`oc1_n5_many4.log`, `oc1_core_profiles.log`):
+- *Random profiles of the n = 5 core lists with three, four and five 4-good agents* (200 profiles each, every order,
+  the repository's `oc_absorb.py`): no failure in 72,000 starts.
+- *On the counterexample's own hypergraph:* 5 of 259 random strict core profiles fail OC₁ (1.9%), and OC (free
+  completion, at most one move) holds on all 259.
+
+The failure is a property of special profiles, the kind random sampling misses (PROMPT.md §5 rule 3).
+
+**Core climb** (`core_climb.py`, every mutation kept inside strict connected cores): at n = 6–7 no failure so far.
+Several runs reach a start with a single repairing move. The run is in progress.
 
 ## Status at the end of burst 3 (OC₁-E and OC₁-ED are refuted with OC₁ in burst 4)
 

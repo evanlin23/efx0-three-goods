@@ -107,6 +107,10 @@ The core above was then built by hand from the counting argument:
   absorbers only among agents holding a pick, also holds here with zero chains (both absorbers are pickless). But
   pickless absorbers are not essential to the pigeonhole: with four frozen agents and three unfrozen ones, holding
   picks nobody wants, the same count would need two absorbers among agents holding picks. That variant is untested.
-- **Why the data missed it.** OC₁ was tested on cores with n ≤ 5 from the certified lists. The n = 5 lists used by the
-  OC₁ runs have at most two 4-good agents, and this core has three. Random instances at n = 6–10 rarely have two
-  pickless agents together with three disjoint private danger pairs.
+- **Why the data missed it.**
+  - The n = 5 core lists used by the OC₁ runs have at most two 4-good agents, and this core has three.
+  - Random profiles of the lists with three, four and five 4-good agents also pass: 200 profiles each, 72,000 starts
+    (`results/k4_ttc/oc1_n5_many4.log`).
+  - On this hypergraph, 5 of 259 random strict core profiles fail OC₁ (1.9%), and OC holds on all of them
+    (`oc1_core_profiles.py`, `results/k4_ttc/oc1_core_profiles.log`).
+  - Random instances at n = 6–10 rarely have two pickless agents together with three disjoint private danger pairs.
