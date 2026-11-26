@@ -96,7 +96,7 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | **Lemma D1-red, Prop. 3′, Lemma D1-chain** (§21) | D = {k}, hard start. k has a canonical chain (heads hold picks at maximum-matching starts), and every chain end's pool J ∪ B_{x_t} is improving for k (Prop. 3′, Prop. 3 carried to \|D\| = 1). After any canonical chain with an improving H₀, owner k: (G1), (G2) hold; the only agent that can be threatened by the pool is the head x_t, and only if x_{t−1}'s pick has a second wanter (HEAD); the only non-movable holders are those crowded by H₀ (CROWD). With neither, k owns an S\* completion | written proofs (§21); P1–P5 checked at all 197 starts, 0 violations; all 282 chains free of HEAD and CROWD repair |
 | **Lemma D1-C₀, Prop. D1-C′** (§21) | favourites duality: a holder off the chain is admissible for its favourite pool good, so hardness forces an improving set of k avoiding any set of distinct favourites in J. Hence every canonical chain without HEAD repairs with owner k, except in the residual cases C-a (shared favourite), C-b (every such H₀ crowds the head and contains Y_{x_t}) and C-c (a favourite is Y_{x_t}) | written proofs; `d1_crowd.log`: 224 of 227 chains without HEAD covered, 0 violations; the 3 others are C-b, all copies of lb4-n2m5-upgrade (n = 2) |
 | Sub-lemma D1-H(ii) (§21; K4.OCH.D1H) | a longest canonical chain with HEAD (all second wanters are then unfrozen at the picks): the chain itself, or the one through a second wanter, repairs with owner k. With the rows above, this implies Finding D1 outside C-a to C-c | **open**; evidence 14/14 paths; smallest lil-noncore-n3 and log557 (n = 3) |
-| Conjecture D1-LONG (§21) | some *longest* canonical chain from k, with some minimal H₀, repairs with owner k. A longest chain is never in HEAD's case H-i (proved), so only H-ii (a second wanter unfrozen at the picks) and CROWD remain | evidence: 197/197 starts (every longest chain: 196; exception log557) |
+| Conjecture D1-LONG (§21) | some *longest* canonical chain from k, with some minimal H₀, repairs with owner k. A longest chain is never in HEAD's case H-i (proved), so only H-ii (a second wanter unfrozen at the picks) and CROWD remain | evidence: 197/197 starts with n ≤ 5, every order (every longest chain: 196; exception log557); 309/309 sampled hard starts at n = 6–8 (SAT); adversarial climbs at n = 4, 5 bottom out at one repairing pair |
 | **Lemma MAX** (§19) | if the picks form a maximum matching, no agent reachable from a pickless agent by an alternating path values a junk good. So no pickless agent wants a dangerous frozen agent, or any agent on a want-chain above one, and the pickless-bin pigeonhole of §16/§18 cannot form | written proof (§19); checked at every maximum-matching start of special, screen and the K4.MC2 core |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
 | refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `attempts/k4-oc1-hall-canonical-chains.md` |
@@ -123,7 +123,8 @@ lemma may be restricted to canonical chains from D plus at most one junk-assiste
 
 Next (after the refutation of §16, everything restricted to the K4.MC2 class of strict connected cores in which no
 agent has two private goods):
-0. **Finding D1** (§21). Left: Sub-lemma D1-H(ii), for a longest chain whose head is frozen by a second wanter that
+0. **Finding D1** (§21; D1-H(ii) and C-a to C-c are now worked on in `proof/k4-d1`, and |D| ≥ 2 in
+   `proof/k4-oc1max-multi`). Left: Sub-lemma D1-H(ii), for a longest chain whose head is frozen by a second wanter that
    is unfrozen at the picks (smallest lil-noncore-n3, log557), and the residual cases C-a to C-c of Proposition D1-C′,
    which are absent from the data at n ≥ 3. Then |D| ≥ 2: disjoint danger sets (one chain per dangerous agent, Lemma
    PL's "≤ 1 pool good left" for the others) and shared ones (PWk(a) as the model).
@@ -1293,6 +1294,10 @@ This system of representatives covers every crowded exposed holder, and Lemma D1
 
 So on the data with n ≥ 3, **every canonical chain from k without HEAD is repaired by a proved argument.**
 
+**Split (coordinator, 22:58).** Sub-lemma D1-H(ii) and the residual cases C-a to C-c went to the workstream
+`proof/k4-d1`, which also received the material above. This note keeps D1-LONG's structure and the write-up.
+The |D| ≥ 2 cases went to `proof/k4-oc1max-multi`.
+
 **What is left for |D| = 1: one sub-lemma** (plus the residual cases C-a to C-c, which are absent from the data at
 n ≥ 3). Take a longest canonical chain P. If P has no HEAD, Proposition D1-C′ repairs, outside C-a to C-c. If P has
 HEAD, then by Remark 2 every second wanter is unfrozen at the picks, and this is the open case:
@@ -1316,3 +1321,20 @@ HEAD, then by Remark 2 every second wanter is unfrozen at the picks, and this is
 - n = 5: 30 rounds of 3,000 steps; the 13 rounds that stay hard end at 1.
 - n = 6: random starts never reached a hard start with |D| = 1 in 12 rounds, so that run is not informative. The
   sampling at n = 6–8 below covers it.
+
+**Larger n** (`k4/oc1_hall/d1_big.py`, `d1_big_cores6.log`, `d1_big_n6.log`, `d1_big_n7.log`, `d1_big_n8.log`;
+evidence). These runs use sampled orders, at most 60 per instance. The S\* completion is tested by SAT
+(`big_sstar.sstar_sat`), an encoding written independently of the brute force used at n ≤ 5.
+
+| data | instances | hard starts with \|D\| = 1 | D1-LONG holds | chains (RED / CPROP covered) | failures of the proved parts |
+|---|---|---|---|---|---|
+| n = 6 cores (one 4-good agent) | 120,000 | 121 | 121 | 230 (229 / 228) | 0 |
+| random n = 6 | 120,000 | 154 | 154 | 301 (290 / 286) | 0 |
+| random n = 7 | 60,000 | 22 | 22 | 46 (46 / 40) | 0 |
+| random n = 8 | 40,000 | 12 | 12 | 21 (21 / 21) | 0 |
+
+- Every chain free of HEAD and CROWD repairs (Lemma D1-red), and every chain that Proposition D1-C′ covers repairs:
+  386 and 575 cross-checks in all.
+- HEAD occurs on 7 chains (n = 6), and 2 of them repair.
+- Hard starts with one dangerous agent become rare as n grows: 1 per 1,000 instances at n = 6, and 0.3 per 1,000 at
+  n = 8.
