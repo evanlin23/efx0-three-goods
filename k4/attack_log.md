@@ -662,3 +662,30 @@ before any proof effort: DYN, W₃/W^sub, VM1, RD², OL and OC₂^max.
   completion.
 - **Certifier**: n = 5 OC₂^max is running in chunks (ETA 7–9 h). The failing-profile density at n = 4 is about 10⁻⁵,
   which is why random testing missed it.
+
+### 2026-11-26 23:51 UTC: Lemma T6 (human-checkable refutation certificate); CM₂ on 3,308 failures; VM1 on non-cores
+- **TTC: Lemma T6** (written proof, `k4/ttc.md` §14.2). After one de_free move from a perfect start, and then any
+  base-keeping completion, the result has these properties:
+  - (a) it value-dominates the picks;
+  - (b) each bundle holds at most two other agents' picks;
+  - (c) a bundle holding two is a chain member j ≥ 1 holding Y_{x_t}, and its own step was improving.
+
+  The certificate corollary: if every dominating EFX₀ allocation has an agent with three or more foreign picks, or
+  with two picks P, Q such that v_i(P) + v_i(J ∩ R_i) ≤ v_i(Y_i) and likewise for Q, then no single move works.
+  - All 11 n = 4 counterexamples satisfy it, each through one agent. So, given the list of dominating EFX₀
+    allocations (brute force), the refutation is checkable by hand.
+  - Queued for the referee.
+- **matching**: walks of the values near the 11 failing profiles found 3,308 distinct OC₁^max failures, all on the
+  same 11 hypergraphs.
+  - CM₂ holds at every one, and EX\* is exact on the second move. EX\* is corrected: it is Lemma M at the post-move
+    state, with Ext as compensable slots.
+  - 88 starts satisfy OC₁ only through a non-S\* completion, so "Finding S\*" fails at n = 4, but CM₂ holds there.
+  - Random profiles on the same hypergraphs (33,000) hit none, so the failures cluster in value-space.
+- **VM**: VM1 is refuted at k = 4 on NON-cores (K4-min, K4-cut, n = 5) and at k = 5 (K5).
+  - VM1 on cores is unrefuted but untested exhaustively; it has been asked to run on the 11 n = 4 cores and on all
+    n ≤ 4 profiles.
+  - VM1-chain (one VM1 move or one DE chain, then placement with rotation) repairs 19 of the 20 known VM1 failures;
+    PW(3,3,8) at k = 9 needs 3 moves. VMX₂ completes every failure.
+- **Certifier**: n = 5 chunk 1 (868 hypergraphs) is all OC₂^max-certified and independently checked.
+  - Mechanism on all 11: one unfrozen agent, and two frozen agents sharing one junk danger pair. That is the PW5
+    mechanism at k = 4.
