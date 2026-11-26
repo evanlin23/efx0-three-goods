@@ -4,7 +4,7 @@ Workstream `proof/k4-ttc` (branch `claude/k4-ttc`, draft PR #101). Code: `k4/ttc
 log); logs: `results/k4_ttc/`. Notation as in `k4/sdc.md` (§2, §28–§30). Everything called evidence below is evidence
 only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator integrates.
 
-## Status (burst 5): "for every order" fails even in the K4.MC2 class; R1-priority and max-matching forms survive
+## Status (burst 5): "for every order" fails even in the K4.MC2 class; the max-matching form survives everywhere tested, R1-priority only in the MC2 class
 
 **OC and OC₁ fail for some order on a strict connected core in the K4.MC2 class** (`attempts/k4-ttc-oc-every-order.md`).
 - *The core:* n = 5, m = 9, three 4-good agents, one private good each. Agent i values {yᵢ:10, aᵢ:6, bᵢ:5, bᵢ₋₁:7};
