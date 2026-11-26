@@ -18,5 +18,8 @@ OC1^max holds 2674
 distinct profiles visited 3064
 maximum starts without a completion 2771
 minimal fixed point exists 2192
+receivers 1: OC1^max FAILS 97
+receivers 1: OC1^max holds 2523
+receivers 2: OC1^max holds 151
 visited profiles with an OC1^max failure 97
-time 41 s
+time 40 s

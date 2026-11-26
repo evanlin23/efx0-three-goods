@@ -18,7 +18,9 @@ few where some but not every fixed point is ('FP+1 every fails'), and every OC2^
     python3 k4/ttc/oc2max_fp.py sweep N4[,N4..] STRIDE R SEED     (n = 6, as oc1max_n6.py)
     python3 k4/ttc/oc2max_fp.py walk FILE.json STEPS SEED          (mutate one agent's type at a time, from each instance
         of FILE.json, keeping strict cores with an OC1^max failure; every visited instance is tested)
-    python3 k4/ttc/oc2max_fp.py grow FILE.json STEPS SEED EXTRA [REPS] [mc2]  (mc2: no agent with two private goods;
+    python3 k4/ttc/oc2max_fp.py grow FILE.json STEPS SEED EXTRA [REPS] [mc2] [hunt] [keep]  (mc2: no agent with two
+        private goods; hunt: score by OC2^max hardness, the fewest good first moves at an OC1^max failure; keep: the
+        grown instance keeps most old agents' types (otherwise all types are redrawn); EXTRA may be 0;
         add EXTRA agents to each instance, then walk
         over types and incidences; a step is kept if the score (100 x OC1^max failures + 10 - fewest repairing moves +
         starts without a completion) does not drop; strict cores with nu = n only)"""
@@ -27,6 +29,7 @@ import ttclib as T
 import oc1max_n6 as O
 import oc1max_cex_n4 as X
 import core_climb as CC
+
 
 
 def moves(E, b):
@@ -69,6 +72,8 @@ def test_start(E, b, C, out):
     C['FP+1 every holds' if every else 'FP+1 every fails'] += 1
     if not one:
         C['  among OC1^max failures: FP+1 some holds' if some else '  among OC1^max failures: FP+1 some FAILS'] += 1
+    nrec = E.n - len(T.frozen_set(E, b))
+    C['receivers %d: OC1^max %s' % (nrec, 'holds' if one else 'FAILS')] += 1
     if one:
         return nrep
     C['  among OC1^max failures: minimal fixed point exists' if fps else
@@ -91,7 +96,7 @@ def test_start(E, b, C, out):
         out.append(('FP+1 every fails', {'fixed points': len(fps), 'good': sum(ok)}))
     if not oc2:
         out.append(('OC2max FAILS', {}))
-    return 0
+    return -min(len(good), 9)
 
 
 def starts(E, n):
@@ -184,7 +189,7 @@ def grow_one(args):
     """lift an instance to n + extra agents: each new agent takes 3 or 4 goods among the old ones and up to two new
     goods; then walk as walk_one, also moving one good of one agent now and then; only strict connected cores with
     nu = n are visited"""
-    d, steps, seed, extra, mc2 = args
+    d, steps, seed, extra, mc2, hunt, keep = args
     rng = random.Random(seed)
     for _ in range(2000):
         sets = [list(s) for s in d['sets']]; m = 1 + max(max(s) for s in sets)
@@ -197,7 +202,12 @@ def grow_one(args):
         doms = [O.S4.domain(S, deg) for S in sets]
         if not all(doms):
             continue
-        vals = [list(rng.choice(dm)) for dm in doms]
+        if keep:   # keep most old agents' types (still checked by is_core4 below); random for new agents
+            n0 = len(d['sets'])
+            vals = [list(d['vals'][a]) if a < n0 and rng.random() < 0.8 else list(rng.choice(dm))
+                    for a, dm in enumerate(doms)]
+        else:
+            vals = [list(rng.choice(dm)) for dm in doms]
         if CC.nu(sets) == len(sets) and not CC.is_core4(CC.vmatrix(sets, vals, m)) and \
                 not (mc2 and CC.two_private(sets)):
             break
@@ -229,7 +239,11 @@ def grow_one(args):
             least = min(least, test_start(E, b, Cl, out))
             for tag, info in out:
                 out_all.append((tag, {'sets': s2, 'vals': v2, 'm': m, 'order': pi, 'picks': Y, **info}))
-        fails = Cl['OC1^max fails']; score = 100 * fails + 10 - least + Cl['maximum starts without a completion']
+        fails = Cl['OC1^max fails']
+        if hunt:   # OC2^max hardness first: an OC1^max failure with few good first moves (least = -#good)
+            score = (1000 * (10 + least) if least <= 0 and fails else 0) + 100 * min(fails, 9) + 10 - max(least, 0)
+        else:
+            score = 100 * fails + 10 - max(least, 0) + Cl['maximum starts without a completion']
         if key not in seen:
             seen.add(key); C.update(Cl); found.extend(out_all); C['distinct instances visited'] += 1
             C['visited instances with an OC1^max failure'] += fails > 0
@@ -241,7 +255,9 @@ def grow_one(args):
 def grow(argv):
     ds = json.load(open(argv[0]))['instances']; steps = int(argv[1]); seed = int(argv[2]); extra = int(argv[3])
     reps = int(argv[4]) if len(argv) > 4 and argv[4].isdigit() else 1; mc2 = 'mc2' in argv[4:]
-    tasks = [(d, steps, seed * 7919 + 31 * k + r, extra, mc2) for k, d in enumerate(ds) for r in range(reps)]
+    hunt = 'hunt' in argv[4:]; keep = 'keep' in argv[4:]
+    tasks = [(d, steps, seed * 7919 + 31 * k + r, extra, mc2, hunt, keep) for k, d in enumerate(ds)
+             for r in range(reps)]
     Ctot = collections.Counter(); printed = collections.Counter()
     with mp.Pool(max(1, (os.cpu_count() or 2))) as pool:
         for C, found in pool.imap_unordered(grow_one, tasks):
@@ -250,7 +266,8 @@ def grow(argv):
                 printed[tag] += 1
                 if tag != 'FP+1 every fails' or printed[tag] <= 8:
                     print(tag, json.dumps(d), flush=True)
-    print('grown walks', len(tasks), 'steps each', steps, 'extra agents', extra, 'MC2 class' if mc2 else '')
+    print('grown walks', len(tasks), 'steps each', steps, 'extra agents', extra, 'MC2 class' if mc2 else '',
+          'hunt' if hunt else '', 'keep' if keep else '')
     return Ctot
 
 

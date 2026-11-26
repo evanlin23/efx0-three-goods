@@ -23,8 +23,8 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
 **Two moves do suffice, and pointers choose them, at n = 4** (§14.3). Call a chain a *minimal pointer fixed point*
 when a dangerous agent takes an inclusion-minimal improving junk set as its new base and its pick travels along a pure
 want path to the receiver.
-- Every such chain is a good first move: 34 of 34 on the instances, and on all 97 OC₁^max failures of a walk around
-  them. One more move then finishes.
+- Every such chain is a good first move: 34 of 34 on the instances, and at all 1,174 OC₁^max failures of a walk around
+  them (48,504 profiles). One more move then finishes.
 - That is the rule **FP+1^max**, which implies OC₂^max.
 
 **FP+1^max fails at n = 5, outside the MC2 class** (`attempts/k4-ttc-fp-plus-one.md`).
@@ -32,12 +32,15 @@ want path to the receiver.
   the free form too (`oc1max_cex_n5_two_private.json`, brute force).
 - *Why the rule fails:* no dangerous agent improves with junk alone, so no fixed point exists. The danger is absorbed
   by a dangerous agent *inside* a chain, taking its predecessor's pick plus its danger junk.
-- *Still holding:* OC₂^max, and "every good first move absorbs danger" (114 of 114 failures tested).
+- *Still holding:* OC₂^max, and "every good first move absorbs danger" (1,191 of 1,191 failures tested).
 - *MC2-class grow walks* found no n = 5 OC₁^max failure (1,819 instances).
+
+**Every OC₁^max failure tested has exactly one receiver**; at two receivers, one move always sufficed. That gives
+Conjecture R2 (§14.3), which would confine the problem to the one-receiver regime.
 
 **Open, in order:**
 1. FP+1^max in the MC2 class at n = 5–6; running (§14.4).
-2. OC₂^max itself.
+2. OC₂^max itself, and R2.
 3. A proof of the n = 4 mechanism: one receiver forces the danger set to become a base.
 
 ## Status (burst 5, superseded: OC₁^max fails at n = 4, burst 6): "for every order" fails even in the K4.MC2 class; the max-matching form survives everywhere tested, R1-priority only in the MC2 class
@@ -823,7 +826,8 @@ pointer fixed point exists, and after it, the bases have a one-absorber completi
 - the 11 instances: FP+1^max holds for every fixed point, not just some;
 - a walk over types around them (`walk`, 11 × 300 steps, `oc2max_walk_n4_short.log`): 97 OC₁^max failures among
   3,064 distinct profiles, and FP+1^max holds for every fixed point at all 97;
-- longer walks are in §14.4.
+- a longer walk (11 × 5,000 steps, `oc2max_walk_n4.log`): 1,174 OC₁^max failures among 48,504 distinct profiles.
+  At every one, a minimal fixed point exists, every minimal fixed point is a good first move, and OC₂^max holds.
 
 **It fails at n = 5, outside the K4.MC2 class** (`attempts/k4-ttc-fp-plus-one.md`).
 - *How it was found:* `oc2max_fp.py grow` adds an agent to each n = 4 counterexample and walks over types and
@@ -850,14 +854,29 @@ pointer fixed point exists, and after it, the bases have a one-absorber completi
 **What survives on all data so far: danger absorption is necessary.**
 - Among OC₁^max failures, every good first move absorbs danger: some agent that is dangerous at the start takes junk
   it values into its new base, as x₀, as an internal member, or by an addition.
-- This held at all 97 n = 4 walk failures and all 17 grown n = 5 failures. But some danger-absorbing first move is
+- This held at all 1,174 n = 4 walk failures and all 17 grown n = 5 failures. But some danger-absorbing first move is
   always bad.
 - So the TTC rule must say *which* danger to absorb first. At n = 4 the minimal fixed point says it.
 
+**One receiver.** Every OC₁^max failure tested has exactly one receiver (one unfrozen agent): 97 of 97 in the short
+n = 4 walk and 17 of 17 at n = 5 (the `receivers` lines of the `_short` logs). The 11 instances and the n = 6 hardest
+starts are the same. At every start with two receivers, one move gave a completion (151 + 140 starts).
+- *Conjecture R2 (evidence only):* at a maximum-matching start with at least two receivers, OC₁^max holds.
+- R2 would confine OC₁^max failures to the one-receiver regime. There, every completion keeping the bases puts all the
+  junk with a single agent (Lemma 2(a): frozen agents take none), so the picks extend iff that one bundle is safe.
+- A proof of OC₂^max could then split: two receivers (one move, R2), or one receiver (the danger set must become a
+  base, as in §14.2).
+
 ### 14.4 Longer runs (`oc2max_fp.py`)
 
-Walks around the 11 n = 4 instances, and grown n = 5 and n = 6 walks with and without the MC2 restriction, are running
-at the end of burst 6 (`oc2max_walk_n4.log`, `oc2max_grow_n5.log`, `oc2max_grow_n5_mc2.log`, `oc2max_grow_n6.log`).
+Grown walks at n = 5 (with and without `mc2`, and `hunt keep`, scored by the fewest good first moves) and at n = 6
+(two agents added) are running at the end of burst 6 (`oc2max_grow_n5.log`, `oc2max_grow_n5_mc2.log`,
+`oc2max_grow_n6.log`, `oc2max_hunt_n5.log`).
+
+*A failed design:* seeds in which the agent holding the receiver's top good needs the picks of three other owners
+(values 20; 8, 7, 6), meant to force three moves (`three_owner_seeds.json`; `grow … 300 21 0 1 hunt keep`,
+`oc2max_hunt_three_owner.log`). They gave no OC₁^max failure at all in 4,109 instances: a three-owner demand alone does
+not produce the one-receiver obstruction.
 
 ## 12. Next steps
 

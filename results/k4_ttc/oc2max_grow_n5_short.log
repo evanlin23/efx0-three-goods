@@ -17,7 +17,7 @@ FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0,
 FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[6, 3, 8, 10], [4, 2, 7, 10], [3, 10, 8, 6], [6, 8, 10, 3], [6, 8, 4, 1]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
 FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[6, 3, 8, 10], [6, 2, 7, 10], [3, 10, 8, 6], [6, 8, 10, 3], [6, 8, 4, 1]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
 FP+1 FAILS {"sets": [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]], "vals": [[6, 3, 8, 10], [4, 2, 7, 10], [3, 10, 8, 6], [7, 4, 8, 2], [6, 8, 4, 1]], "m": 9, "order": [1, 3, 4, 2, 0], "picks": [4, 6, 0, 5, 1], "OC2max": true, "fixed points": 0}
-grown walks 11 steps each 200 extra agents 1 
+grown walks 11 steps each 200 extra agents 1   
   among OC1^max failures: FP+1 every fails 17
   among OC1^max failures: FP+1 some FAILS 17
   among OC1^max failures: NO MINIMAL FIXED POINT 17
@@ -35,5 +35,8 @@ OC1^max holds 3568
 distinct instances visited 1895
 maximum starts without a completion 3585
 minimal fixed point exists 2355
+receivers 1: OC1^max FAILS 17
+receivers 1: OC1^max holds 3428
+receivers 2: OC1^max holds 140
 visited instances with an OC1^max failure 17
-time 55 s
+time 76 s
