@@ -1,0 +1,89 @@
+"""ctypes wrapper of kgen/rounds/rnd.c (ROUND+ checker, strictly positive additive values), plus the SD helper.
+
+    import rndlib
+    res = rndlib.analyze(vals)            # vals: n lists of m positive ints
+    res -> list of dicts, one per distinct start: picks, order, counts {EXTF, EXT1, OC1, RNDF, RND1, MD}
+
+Classes (kgen/rounds.md §1): EXTF/EXT1 picks extend (free / one absorber); OC1 one chain t >= 0 then one absorber;
+RNDF/RND1 one round of vertex-disjoint chains then free / one-absorber completion; MD value domination.
+"""
+import ctypes, os, subprocess
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+SO = os.path.join(HERE, 'librnd.so')
+KINDS = ['EXTF', 'EXT1', 'OC1', 'RNDF', 'RND1', 'MD']
+K = {k: i for i, k in enumerate(KINDS)}
+
+
+def _build():
+    src = os.path.join(HERE, 'rnd.c')
+    if not os.path.exists(SO) or os.path.getmtime(SO) < os.path.getmtime(src):
+        subprocess.check_call(['gcc', '-O2', '-march=native', '-shared', '-fPIC', '-o', SO, src])
+
+
+_build()
+_L = ctypes.CDLL(SO)
+LL = ctypes.c_longlong
+_L.rnd_analyze.restype = ctypes.c_int
+_L.rnd_witness.restype = ctypes.c_int
+_L.rnd_list_efx.restype = LL
+
+
+def _arr(vals):
+    n, m = len(vals), len(vals[0])
+    return n, m, (LL * (n * m))(*[int(x) for row in vals for x in row])
+
+
+def analyze(vals, cap=0, want=('RND1',)):
+    """cap = 0: count every witness; cap > 0: stop counting a class at cap and stop the enumeration once every
+    start reached cap in every class of `want`."""
+    n, m, A = _arr(vals)
+    NS = 5040
+    picks = (ctypes.c_int * (NS * n))(); order = (ctypes.c_int * (NS * n))()
+    cnt = (LL * (NS * len(KINDS)))(); nefx = LL()
+    wm = 0
+    for w in want: wm |= 1 << K[w]
+    ns = _L.rnd_analyze(n, m, A, LL(cap), wm, picks, order, cnt, ctypes.byref(nefx))
+    if ns < 0: raise ValueError('instance too large')
+    out = []
+    for s in range(ns):
+        out.append({'picks': tuple(picks[s * n + a] for a in range(n)),
+                    'order': tuple(order[s * n + a] for a in range(n)),
+                    'counts': {k: cnt[s * len(KINDS) + i] for i, k in enumerate(KINDS)}})
+    return out, nefx.value
+
+
+def witness(vals, picks, kind):
+    """first EFX allocation (owner list) witnessing `kind` from the start `picks`, with the chain info
+    (succ, end flag, chain start per agent); None if none"""
+    n, m, A = _arr(vals)
+    P = (ctypes.c_int * n)(*picks); own = (ctypes.c_int * m)(); info = (ctypes.c_int * (3 * n))()
+    ok = _L.rnd_witness(n, m, A, P, K[kind], own, info)
+    if not ok: return None
+    return list(own), {'succ': list(info[0:n]), 'end': list(info[n:2 * n]), 'start': list(info[2 * n:3 * n])}
+
+
+def list_efx(vals, maxout=2000000):
+    n, m, A = _arr(vals)
+    buf = (ctypes.c_int * (maxout * m))()
+    c = _L.rnd_list_efx(n, m, A, buf, LL(maxout))
+    k = min(c, maxout)
+    return [tuple(buf[i * m:(i + 1) * m]) for i in range(k)], c
+
+
+def sd(vals, order):
+    """serial-dictatorship picks with every good relevant (ties to the smaller good index)"""
+    m = len(vals[0]); left = set(range(m)); Y = [None] * len(vals)
+    for a in order:
+        g = max(left, key=lambda h: (vals[a][h], -h)); Y[a] = g; left.discard(g)
+    return Y
+
+
+def rounds_needed(res, A1=True):
+    """per start: 0 if the picks extend (EXT1 if A1 else EXTF), 1 if one round suffices, 2 for 'more'"""
+    e, r = ('EXT1', 'RND1') if A1 else ('EXTF', 'RNDF')
+    out = []
+    for s in res:
+        c = s['counts']
+        out.append(0 if c[e] > 0 else (1 if c[r] > 0 else 2))
+    return out
