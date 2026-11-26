@@ -568,6 +568,63 @@ the counterexample; `measure_*genskew*.log`, welfare / leximin stuck states):
 So W fails at n = 3 and at k = 5 as well. W₃ survives wherever it was run at k = 4, and W^sub survives wherever W
 fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes it.)
 
+**W^sub stated precisely (the target for formalization).** The model is `EFX.Inst` of `lean/EFX/Model.lean`
+(n agents, m goods, values `v i g : Nat`), with a partial allocation as an owner map into `Option`.
+- *State.* `X : Fin m → Option (Fin n)`. The bundle of i is Xᵢ = {g : X g = some i}, the pool is P(X) =
+  {g : X g = none}. *Partial EFX₀*: for all i ≠ j and every g with X g = some j,
+  vᵢ(Xⱼ ∖ {g}) ≤ vᵢ(Xᵢ). This is `Inst.EFX0` with the pool ignored; h ranges over all of Xⱼ, zero-valued goods
+  included. *Welfare*: W(X) = Σ_g [X g = some i] · vᵢ(g).
+- *Moves.* X′ is a **move** of X if it is one of the following.
+  - (T) **Set transfer**: a holder h : Option (Fin n), a nonempty set S ⊆ {g : X g = h} and an agent b with
+    some b ≠ h; X′ g = some b for g ∈ S, X′ g = X g otherwise. A single-good move is the case |S| = 1. A
+    placement of pooled goods is the case h = none.
+  - (S) **Swap**: goods g ≠ g′ with X g ≠ X g′; X′ g = X g′, X′ g′ = X g, all else unchanged. A swap with a pooled
+    good is the only way a good enters the pool, and it sends exactly one out.
+  - (R) **Rotation**: L ≥ 2 distinct agents a₀, …, a_{L−1}. X′ g = some a_{(t+1) mod L} if X g = some a_t, and
+    X′ g = X g otherwise (the pool is untouched). L = 2 is the trade of two bundles.
+  
+  No move enlarges the pool: (T) from the pool shrinks it by |S|, and every other move keeps its size.
+- *Lemma W^sub (CONJECTURE for instances with every |Rᵢ| ≤ 4; the general form is stated for every k).* Let X be
+  partial EFX₀ with P(X) ≠ ∅. Then there are X₁ and X₂ such that X₁ is X or a move of X, X₂ is X₁ or a move of X₁,
+  X₂ is partial EFX₀, and either |P(X₂)| < |P(X)|, or |P(X₂)| = |P(X)| and W(X₂) > W(X). X₁ need not be EFX₀.
+- *Consequence (elementary).* The all-pool allocation is partial EFX₀. Each step decreases (|P|, −W)
+  lexicographically, W is bounded by Σᵢ vᵢ(all goods), and the states are finite. So W^sub for an instance gives a
+  complete EFX₀ allocation of it, and W^sub for all k = 4 instances gives TARGET₄. Formally this is well-founded
+  induction on the pair (|P|, Σᵢ vᵢ(M) − W).
+- *What the checker runs.* `gstar_measure 2 1 1 1` (RADIUS 2, ROT 1, ONLY 1 = welfare, SUB 1) implements exactly
+  these moves: single moves to an agent, swaps, trades, rotations of length ≥ 3, and transfers of ≥ 2 goods from one
+  holder to one agent. Its stuck count for φ1 counts the states violating the lemma. φ0 counts the states with no
+  step that shrinks the pool (AUG within two such moves). φ0 is reported but not needed.
+
+A Lean rendering of the definitions (a sketch: not compiled, and no `lean/` file is added in this burst):
+```lean
+namespace EFX.Inst
+variable (I : Inst)
+abbrev PAlloc := Fin I.m → Option (Fin I.n)
+def pval (X : I.PAlloc) (i : Fin I.n) (j : Fin I.n) (ex : Option (Fin I.m)) : Nat :=
+  finSum I.m (fun g => if X g = some j ∧ ex ≠ some g then I.v i g else 0)
+def PEFX0 (X : I.PAlloc) : Prop :=
+  ∀ i j : Fin I.n, i ≠ j → ∀ g, X g = some j → I.pval X i j (some g) ≤ I.pval X i i none
+def poolSize (X : I.PAlloc) : Nat := finSum I.m (fun g => if X g = none then 1 else 0)
+def welfare (X : I.PAlloc) : Nat := finSum I.m (fun g => match X g with | some i => I.v i g | none => 0)
+inductive Move (X : I.PAlloc) : I.PAlloc → Prop
+  | transfer (h : Option (Fin I.n)) (S : Fin I.m → Bool) (b : Fin I.n)
+      (hS : ∀ g, S g = true → X g = h) (hne : ∃ g, S g = true) (hb : some b ≠ h) :
+      Move X (fun g => if S g = true then some b else X g)
+  | swap (g g' : Fin I.m) (hne : X g ≠ X g') :
+      Move X (fun x => if x = g then X g' else if x = g' then X g else X x)
+  | rotate (σ τ : Fin I.n → Fin I.n) (h1 : ∀ a, τ (σ a) = a) (h2 : ∀ a, σ (τ a) = a) :
+      Move X (fun g => (X g).map σ)                -- σ: any permutation of the agents (τ its inverse)
+def WsubStep (X Y : I.PAlloc) : Prop :=
+  I.PEFX0 Y ∧ (∃ Z, (Z = X ∨ I.Move X Z) ∧ (Y = Z ∨ I.Move Z Y)) ∧
+  (I.poolSize Y < I.poolSize X ∨ (I.poolSize Y = I.poolSize X ∧ I.welfare X < I.welfare Y))
+end EFX.Inst
+```
+In the sketch, `rotate` takes any permutation σ of the agents, given with its inverse τ since core Lean has no
+`Equiv`. That is more than (R), which rotates one cycle: a product of disjoint rotations counts as one move there.
+More moves make the lemma weaker, so the checked form (single cycles) implies the sketch's form. The sketch's form
+is the convenient one for a proof.
+
 The rest of this paragraph and the evidence above apply to both forms.
 
 *Consequences.* (|pool|, −welfare) strictly decreases and takes finitely many values. So from the empty allocation a

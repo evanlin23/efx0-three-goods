@@ -34,7 +34,7 @@ static int n, m;
 static long val[MAXN][MAXM];
 static long NS;
 static unsigned char *ok;
-static int RADIUS = 2, ROT = 0, ONLY = -1, SUB = 0, NOAUG = 0;
+static int RADIUS = 2, ROT = 0, ONLY = -1, SUB = 0, NOAUG = 0, SLACK = 0;
 static int ncyc, cyclen[512], cyc[512][MAXN];
 static long stuck3fixed[NPHI];
 
@@ -143,6 +143,11 @@ int main(int argc, char **argv) {
     if (argc > 3) ONLY = atoi(argv[3]);   /* evaluate only phi0 and phi ONLY (the others are reported as 0); -1: all */
     if (argc > 4) SUB = atoi(argv[4]);    /* 1: a set of goods given by one holder to one agent is one move */
     if (argc > 5) NOAUG = atoi(argv[5]);  /* 1: skip phi0 (reported as 0); with ONLY, a state is done once phi ONLY is */
+    if (argc > 6) SLACK = atoi(argv[6]);  /* 1 (needs ONLY >= 1): at each state with no improving single move, count the
+                                             improving composites of two moves.  Reports "slack R1MIN MIN NMIN R1STUCK":
+                                             the least number of improving single moves at a state; the least number of
+                                             improving two-move composites at a state with none (MIN, -1 if no such
+                                             state), how many states attain it, and how many states have none */
     while (scanf("%d %d", &n, &m) == 2) {
         if (n > MAXN || m > MAXM) { fprintf(stderr, "instance too large: n %d m %d (MAXN %d MAXM %d)\n", n, m, MAXN, MAXM); return 2; }
         memset(val, 0, sizeof val);
@@ -152,6 +157,7 @@ int main(int argc, char **argv) {
         if (ROT) gen_cycles();
         ok = calloc(NS, 1); int own[MAXM]; long states = 0;
         for (long s = 0; s < NS; s++) { decode(s, own); if (efx0(own)) { ok[s] = 1; states++; } }
+        long slack_min = -1, slack_nmin = 0, r1stuck = 0, r1min = -1;
         long stuck[NPHI]; memset(stuck, 0, sizeof stuck); memset(stuck3fixed, 0, sizeof stuck3fixed); long ex[NPHI]; for (int K = 0; K < NPHI; K++) ex[K] = -1;
         for (long s = 0; s < NS; s++) {
             if (!ok[s]) continue; decode(s, own); int p = poolsz(own); if (p == 0) continue;
@@ -160,6 +166,18 @@ int main(int argc, char **argv) {
             if (ONLY >= 0) { for (int K = 0; K < NPHI; K++) if (K != ONLY && K != 0) { done[K] = 1; left--; } }
             if (NOAUG && ONLY != 0) { done[0] = 1; left--; }
             neighbours(own); int c1 = nb_count; long first[4096]; memcpy(first, nb_buf, sizeof(long) * c1);
+            if (SLACK && ONLY >= 1) {
+                long r1 = 0;
+                for (int t = 0; t < c1; t++) { long u = first[t]; if (!ok[u]) continue; int ou[MAXM]; decode(u, ou);
+                    int pu = poolsz(ou); if (pu > p) continue; Phi q; phi(ONLY, ou, &q);
+                    if (pu < p || cmpphi(&q, &ps[ONLY]) < 0) r1++; }
+                if (r1min < 0 || r1 < r1min) r1min = r1;
+                if (!r1) { r1stuck++; long cnt = 0;
+                    for (int t = 0; t < c1; t++) { int o1[MAXM]; decode(first[t], o1); neighbours(o1);
+                        for (int w = 0; w < nb_count; w++) { long u = nb_buf[w]; if (!ok[u]) continue; int ou[MAXM]; decode(u, ou);
+                            int pu = poolsz(ou); if (pu > p) continue; Phi q; phi(ONLY, ou, &q);
+                            if (pu < p || cmpphi(&q, &ps[ONLY]) < 0) cnt++; } }
+                    if (slack_min < 0 || cnt < slack_min) { slack_min = cnt; slack_nmin = 1; } else if (cnt == slack_min) slack_nmin++; } }
             for (int pass = 0; pass < (RADIUS < 2 ? RADIUS : 2) && left; pass++)
                 for (int t = 0; t < c1 && left; t++) {
                     int c2 = 1; long cand[4096];
@@ -187,6 +205,7 @@ int main(int argc, char **argv) {
         for (int K = 0; K < NPHI; K++) printf(" phi%d %ld", K, stuck[K]);
         int K0 = -1; for (int K = 1; K < NPHI; K++) if (ex[K] >= 0) { K0 = K; break; }
         if (K0 >= 0) { decode(ex[K0], own); printf(" example_phi%d", K0); for (int g = 0; g < m; g++) printf(" %d", own[g] == n ? -1 : own[g]); }
+        if (SLACK) printf(" slack %ld %ld %ld %ld", r1min, slack_min, slack_nmin, r1stuck);
         printf("\n"); fflush(stdout); free(ok);
     }
     return 0;
