@@ -839,6 +839,67 @@ OC₁ (and OC₁^max) fail on PW5 and RD5, and VM1 survives both. Wider tests at
 These are short climbs (32 × 80 and 32 × 60), evidence only. VM1 is a general-k candidate, not yet stressed like
 the k = 4 statements.
 
+### 7.6 Open fact (A), and the ring of the rotation class (coordinator's requests 2 and 3)
+
+**(A): some extension is acyclic** (`vm_prec2.py`, brute force over every extension of every V-M matching).
+
+| | screen | named |
+|---|---|---|
+| instances with an extension | 147 | 93 |
+| every extension acyclic | 139 | 93 |
+| some extensions cyclic, some acyclic ((A) needs a choice) | 8 | 0 |
+| every extension cyclic (would refute (A)) | **0** | **0** |
+
+The smallest instance where (A) needs a choice has **n = 2, m = 5** (`c4-exposure-deficit2-n2m5`).
+
+| agent | ranking (good: value) |
+|---|---|
+| 0 | 3: 10 > 2: 7 > 4: 4 > 0: 2 |
+| 1 | 3: 7 > 1: 6 > 4: 5 > 2: 3 |
+
+From Y = ({3}, {1}) there are 4 extensions:
+- the cyclic one is ({3, 0}, {1, 2, 4}). Each agent's final threat from the other bundle exceeds its pick
+  (θ₀ = 11 > 10, θ₁ = 7 > 6), so neither bundle can be filled first.
+- the other three are acyclic: ({3, 0, 2}, {1, 4}), ({3, 2}, {1, 0, 4}) and ({3, 4}, {1, 0, 2}). In each, one agent's
+  final threat stays at or below its pick, and that agent can be filled last.
+
+The other V-M matching, ({2}, {3}), has one extension, and it is cyclic. Next smallest: `lb4-n2m5-upgrade` (n = 2,
+m = 5) and D3 (n = 3, m = 6); logs in `vm_prec2_*.log`. No proof of (A) yet.
+
+**The rotation class needs one ring, of one shape** (`vm_rot.py`, `vm_rot_shape.py`). On all 14 rotation-class
+instances (10 screen, T3, the n = 3 VMX counterexample, RD4, RD5):
+- the least number of rotations on a successful run is exactly **one**: a 2-cycle in 13 and a 3-cycle in T3;
+- each rotated cycle has exactly **one want arrow**: the taker takes a frozen agent's single pick, which it prefers
+  to its own pick;
+- the other arrows (one, or two in T3) are **pair arrows**: the taker takes a pick plus pool goods that the earlier
+  placements put there, and it values every one of those pool goods.
+
+The number of pool goods on a pair arrow is 1 (6 instances), 2 (7) or 3 (1).
+
+**Comparison with DE's ring lemma at k = 3** (`paper/k3-simple/long.tex`, Theorem `improve` and Lemma `ring`, read
+for this). There, if no free agent can finish, every free agent has at least as many blockers with distinct leftover
+goods as there are free agents. Each free agent points at a blocker by a pair arrow (the blocker's pair is its good
+plus one leftover good). Every other agent points by a want arrow at an agent that wants its good. Following the
+pointers closes a ring along which everyone gains.
+
+The k = 4 data has the same shape, a ring of want arrows and pair arrows, with one difference:
+- a pair arrow carries 1 to 3 pool goods, where DE's carries exactly one;
+- so the distinctness step of DE's proof (distinct leftover goods for distinct free agents) becomes a disjointness
+  requirement on sets of up to three pool goods;
+- DE's counting, "|H_o| ≥ |F| blockers", has to become a count of disjoint upper sets inside the pool.
+
+DE also needs up to 4n trades in general, and no bounded number of pair arrows suffices (its Appendix). Here one
+ring was always enough because VM1 starts at a V-M matching (Lemma P0: no pool good is wanted) and may use several
+absorbers.
+
+**Conjecture Ring₄ (evidence only; the proof target for the rotation class).** If no V-M matching extends, then
+for some V-M matching Y there is a cycle with exactly one want arrow whose pair arrows carry pairwise disjoint sets of
+pool goods valued by their takers. Placing those sets and rotating the cycle gives a state that extends (with an
+acyclic extension).
+
+What a proof needs beyond DE: the count of disjoint upper sets inside the pool. That is ledger item 18's Theorem A₄
+count again, now for blockers rather than for the owner.
+
 ## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading
 
 The abstract asserts the source property ("we are able to prove that ... there will be a source") without proof.

@@ -83,6 +83,21 @@ def items_for(src):
     if src.startswith('cores:'):
         _, K, N, seed = src.split(':')
         return data.random_cores(int(K), int(N), int(seed))
+    if src.startswith('pw:'):
+        f, W, r, T, seed = map(int, src.split(':')[1:])
+        return data.pw(f, W, r, T, seed)
+    if src.startswith('pwgrid:'):
+        kmax, T, seed = map(int, src.split(':')[1:])
+        out = []
+        for f in range(2, 5):
+            for W in range(1, 4):
+                for r in range(2, kmax):
+                    if max(r + 1, f + 1) <= kmax:
+                        out += data.pw(f, W, r, T, seed + 100 * f + 10 * W + r)
+        return out
+    if src.startswith('full:'):
+        N, seed, n, mmin, mmax = map(int, src.split(':')[1:])
+        return data.random_full(N, seed, n, mmin, mmax)
     if src.startswith('named:'):
         return data.named(src[6:])
     if src.startswith('gen:'):

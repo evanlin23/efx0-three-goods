@@ -182,3 +182,29 @@ def k5():
     s2, v2, m2 = _dense([[0, 155, 1, 0, 0, 155, 0], [0, 75, 2, 74, 0, 74, 77], [0, 0, 0, 2, 133, 0, 134], [1, 4, 0, 2, 0, 0, 0]])
     out += [('kgen-n4-strict', s1, v1, m1), ('kgen-n4-ties', s2, v2, m2)]
     return out
+
+
+def pw(f, W, r, T, seed):
+    """the family PW(f, W, r) of the k-sensitivity session (k4/ksens/fam_pw.py on claude/k4-ksens, re-implemented
+    from its definition): f frozen agents x_j with good p_j and a shared pool D of r goods (every pair of D worth more
+    to x_j than p_j), W wanters w_i valuing every p_j above their own good q_i.  k = max(r + 1, f + 1)."""
+    rng = random.Random(seed); out = []
+    for t in range(T):
+        P = list(range(f)); Q = list(range(f, f + W)); D = list(range(f + W, f + W + r))
+        sets = [[j] + D for j in range(f)] + [P + [Q[i]] for i in range(W)]
+        vals = [[100] + rng.sample(range(51, 100), r) for j in range(f)]
+        for i in range(W):
+            pv = rng.sample(range(60, 100), f); vals.append(pv + [rng.randint(10, min(pv) - 1)])
+        out.append(('PW(%d,%d,%d)#%d' % (f, W, r, t), sets, vals, f + W + r))
+    return out
+
+
+def random_full(N, seed, n, mmin, mmax, vmax=60):
+    """unrestricted instances: every agent values every good (k = m), distinct values per agent"""
+    rng = random.Random(seed); out = []
+    for t in range(N):
+        m = rng.randint(mmin, mmax)
+        sets = [list(range(m)) for i in range(n)]
+        vals = [rng.sample(range(1, vmax + 1), m) for i in range(n)]
+        out.append(('full%d:%d' % (n, t), sets, vals, m))
+    return out

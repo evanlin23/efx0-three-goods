@@ -3,7 +3,8 @@
 Mutations: re-draw one agent's values, or swap one of its goods for another good (existing or new).
 Objective: VM1's margin (vmx2_climb.vm1_score with unrestricted exchanges); (0, 0.0) would refute VM1.
 EVIDENCE only.
-    python3 k4/vm/vm1_climb_k.py N K STARTS STEPS SEED"""
+    python3 k4/vm/vm1_climb_k.py N K STARTS STEPS SEED [--full=M]
+--full=M: unrestricted instances, every agent values all M goods (k = M); only values mutate."""
 import sys, os, json, random, time, multiprocessing as mp
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vmlib as V
@@ -15,7 +16,12 @@ def compact(sets):
     return [[mp_[g] for g in S] for S in sets]
 
 
+FULL = [0]
+
+
 def rand_inst(N, K, rng):
+    if FULL[0]:
+        m = FULL[0]; return [list(range(m)) for i in range(N)], [rng.sample(range(1, 61), m) for i in range(N)]
     m = rng.randint(N + 2, 2 * N + 3); sets = []; vals = []
     for i in range(N):
         k = rng.randint(3, K); S = rng.sample(range(m), min(k, m)); sets.append(S); vals.append(rng.sample(range(1, 31), len(S)))
@@ -23,13 +29,13 @@ def rand_inst(N, K, rng):
 
 
 def climb(args):
-    N, K, steps, seed = args
-    V.FREE_Z[0] = True
+    N, K, steps, seed, full = args
+    V.FREE_Z[0] = True; FULL[0] = full
     rng = random.Random(seed); sets, vals = rand_inst(N, K, rng); best = C.vm1_score(sets, vals)
     for t in range(steps):
         S2 = [list(x) for x in sets]; W2 = [list(x) for x in vals]; i = rng.randrange(N)
-        if rng.random() < 0.6:
-            W2[i] = rng.sample(range(1, 31), len(S2[i]))
+        if FULL[0] or rng.random() < 0.6:
+            W2[i] = rng.sample(range(1, 61 if FULL[0] else 31), len(S2[i]))
         else:
             m = 1 + max(max(x) for x in S2); k = rng.randrange(len(S2[i])); new = rng.randrange(m + 1)
             if new in S2[i]: continue
@@ -42,9 +48,11 @@ def climb(args):
 
 if __name__ == '__main__':
     N, K, starts, steps, seed = map(int, sys.argv[1:6])
+    opt = dict(a[2:].split('=') for a in sys.argv[6:] if a.startswith('--'))
+    FULL[0] = int(opt.get('full', 0))
     print('$ python3 k4/vm/vm1_climb_k.py', ' '.join(sys.argv[1:])); t0 = time.time(); res = []
     with mp.Pool(os.cpu_count()) as pool:
-        for r in pool.imap_unordered(climb, [(N, K, steps, seed * 1000 + s) for s in range(starts)]):
+        for r in pool.imap_unordered(climb, [(N, K, steps, seed * 1000 + s, FULL[0]) for s in range(starts)]):
             res.append(r)
     res.sort(key=lambda r: r[3])
     print('climbs', len(res), '; reached margin (0, 0.0):', sum(1 for r in res if r[3] == (0, 0.0)))
