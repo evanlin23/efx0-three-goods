@@ -18,11 +18,18 @@ sys.path.insert(0, os.path.join(ROOT, 'k4', 'sdc'))
 from cegar import Cert
 
 
-def raw_check(sets, vals, picks):
+def raw_check(sets, vals, picks, depth=1):
+    """The raw checker k4/sdc/oc1_mc2_rand.Inst on (vals, picks); with depth 2 also whether some state two moves
+    away (Inst.moves twice) has a one-absorber completion (Inst.one_absorber)."""
     from oc1_mc2_rand import Inst
     I = Inst(sets, vals)
     orders = [o for o in itertools.permutations(range(I.n)) if I.sd(o) == tuple(picks)]
-    return {'orders_giving_picks': len(orders), 'raw': I.check(tuple(picks))}
+    res = {'orders_giving_picks': len(orders), 'raw': I.check(tuple(picks))}
+    if depth >= 2 and res['raw'] == 'OC1 fails':
+        base = [[p] if p is not None else [] for p in picks]
+        two = set(s2 for s in I.moves(base) for s2 in I.moves([list(b) for b in s]))
+        res['raw_two_moves'] = 'two moves repair' if any(I.one_absorber([list(b) for b in s]) for s in two) else 'two moves fail'
+    return res
 
 
 def job(task):
@@ -46,7 +53,7 @@ def job(task):
         rec['fails'] = []
         for prof, Y in C.fails:
             vals = [list(C.dom[i][t]) for i, t in enumerate(prof)]
-            rec['fails'].append({'vals': vals, 'picks': list(Y), 'raw_check': raw_check(sets, vals, Y)})
+            rec['fails'].append({'vals': vals, 'picks': list(Y), 'raw_check': raw_check(sets, vals, Y, depth)})
     rec['time'] = round(time.time() - t0, 3)
     return rec
 
