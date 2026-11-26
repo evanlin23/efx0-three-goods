@@ -1,21 +1,36 @@
-# Counterexample: Conjecture OC₁ fails on a strict connected k = 4 core (n = 5, m = 9)
+# Counterexample: Conjecture OC₁ fails on strict connected k = 4 cores (n = 5 and n = 6), but only with agents holding two private goods
 
-Workstream `proof/k4-ttc` (`k4/ttc.md` §13). **Status: OC₁ (K4.SDC.OC1, `k4/sdc.md` §29) is refuted, also on cores.**
-- *The core.* The instance below is a strict, connected k = 4 core. It is accepted by `k4/c4_verify_H/hcore.py`'s
-  `is_core4`, which is written from the Lean definition `EFX.IsCore4` plus connectivity and strictness, and the
-  conditions are checked by hand below.
-- *Where it sits.* It has n = 5 and three 4-good agents, which is exactly the class where K4.MC0 places a minimal
-  counterexample to TARGET₄.
-- *The order.* The failing order is an R1-priority order, (0, 2, 1, 3, 4) (`sdc_orders.sd(..., r1=True)`), so
-  SD-C-R1's orders are affected too.
-- *Not affected:* OC (free completion), MD, SD-C and TARGET₄. The picks of the failing order already extend with two
-  absorbers.
+Workstream `proof/k4-ttc` (`k4/ttc.md` §13). **Status:**
+- *Refuted:* OC₁ (K4.SDC.OC1, `k4/sdc.md` §29), also on strict connected cores.
+- *Open:* OC₁ on the class that matters for TARGET₄. Every core counterexample has agents with **two private goods**,
+  and K4.MC2 (CERTIFIED) excludes such agents from a minimal counterexample to TARGET₄. So OC₁ restricted to strict
+  connected cores without an agent holding two private goods (the K4.MC2 class) is not refuted, and it still implies
+  TARGET₄.
+- *Not affected:* OC (free completion), MD, SD-C and TARGET₄. On every counterexample, OC₁ᵖ holds as well. That
+  variant counts absorbers only among agents holding a base; agents with an empty base may take any number of junk
+  goods.
 
-Two independent implementations agree:
-- *SAT:* `oc_absorb.extends_A` over de_free's moves;
-- *brute force:* `k4/ttc/refute_oc1.py`, written from the definitions with no SAT and no shared code. It enumerates
+**The core counterexamples:**
+- **n = 5, m = 9** (this note; built by hand): every 4-good agent has two private goods, which are exactly its danger
+  pair.
+- **n = 6, m = 10** (found by the Hall session, `claude/k4-oc1-hall`, `k4/oc1_hall.md` §16): the strict perturbations
+  B< and B> of instance 36 of the climb's list `results/k4_ttc/oc1_counterexamples.json`. Agents 1 and 3 have two
+  private goods. OC₁ fails for 24 of the 720 orders. Rechecked here in `results/k4_ttc/hall_core_cex_check.log`:
+  `is_core4` returns [], and OC₁ᵖ holds on all 24 orders.
+- Both were verified independently by the coordinator (`k4/sdc/oc1_core_cex_verify.py` on its branch) and by the Hall
+  session (`k4/oc1_hall/verify_ttc_cex.py`).
+
+**In the K4.MC2 class the pigeonhole breaks, at least in the natural construction.** Make each danger pair {aᵢ, bᵢ} of
+the n = 5 core share bᵢ with the next frozen agent at value 2 (`results/k4_ttc/oc1_mc2_candidate.json`). Then OC₁
+holds: a chain lets agent i take {aᵢ, bᵢ, bᵢ₋₁}, which breaks two danger pairs at once. Climbs inside the class are in
+`k4/ttc.md` §13.
+
+The checks of the n = 5 counterexample:
+- *SAT:* `oc_absorb.extends_A` over de_free's moves.
+- *Brute force:* `k4/ttc/refute_oc1.py`, written from the definitions with no SAT and no shared code. It enumerates
   every addition, chain and ring, with no cap on set or base sizes, and checks completions against the raw EFX₀
   definition.
+- *By hand:* the core conditions, and the count at the picks below.
 
 ## The statement refuted
 

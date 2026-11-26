@@ -4,24 +4,28 @@ Workstream `proof/k4-ttc` (branch `claude/k4-ttc`, draft PR #101). Code: `k4/ttc
 log); logs: `results/k4_ttc/`. Notation as in `k4/sdc.md` (§2, §28–§30). Everything called evidence below is evidence
 only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator integrates.
 
-## Status (burst 4): OC₁ is refuted on a strict connected k = 4 core
+## Status (burst 4): OC₁ fails on strict cores, but only with agents holding two private goods
 
-**Conjecture OC₁ fails on a strict connected k = 4 core** (`attempts/k4-ttc-oc1-counterexample.md`, §13).
-- *The core:* n = 5, m = 9, three 4-good agents, so in K4.MC0's class for a minimal counterexample to TARGET₄. The 4-good
-  agents value {yᵢ, yᵢ₊₁, aᵢ, bᵢ} at (10, 3, 6, 5), with aᵢ, bᵢ private. Two 3-good agents value {y₀, y₁, y₂} at
-  (4, 3, 2) and (2, 4, 3).
-- *The failing order:* order (0, 1, 2, 3, 4), and also the R1-priority order (0, 2, 1, 3, 4). Its picks
-  (y₀, y₁, y₂, none, none) have no one-absorber completion, and none of the 62 improving moves gives one.
-- *The count:* the three frozen agents have disjoint private danger pairs, so six junk goods must fit into two
-  unfrozen agents. One absorber plus one slot holds only four.
-- *Checks:*
-  - SAT (the repository's test) and an independent brute-force replay (`refute_oc1.py`) agree;
-  - the core conditions are checked by `is_core4` and by hand.
-- *Not affected:* OC (free completion: the picks extend with both pickless agents absorbing), MD, SD-C and TARGET₄.
-- *Refuted with it:* every one-absorber statement, namely OC₁-H, OC₁-E and OC₁-ED below, and the Hall session's
-  OC₁-ED\* and Finding S\*.
-- *Why the data missed it:* the OC₁ data at n = 5 used only cores with one or two 4-good agents, and failing profiles
-  are rare even on the right hypergraph (below).
+**OC₁ fails on strict connected k = 4 cores** (`attempts/k4-ttc-oc1-counterexample.md`, §13):
+- n = 5, m = 9, built by hand here;
+- n = 6, m = 10, found by the Hall session from this note's climb list.
+
+All three sessions verified both independently, by SAT and by brute force. **Every core counterexample has agents
+with two private goods** (here they are the danger pairs). K4.MC2 (CERTIFIED) excludes such agents from a minimal
+counterexample to TARGET₄. So **OC₁ on the K4.MC2 class** (strict connected cores, no agent with two private goods) is
+open and still implies TARGET₄.
+- *A natural MC2-class version of the counterexample* (`oc1_mc2_candidate.json`) satisfies OC₁: a chain takes a danger
+  pair plus a shared good of another pair.
+- *Climbs inside the class* (`core_climb.py … mc2`) are running.
+- *OC₁ᵖ* (absorbers counted only among agents holding a base) holds on every counterexample.
+- *Not affected:* OC, MD, SD-C and TARGET₄.
+
+**The n = 5 counterexample in detail.**
+- *The core:* n = 5, m = 9, three 4-good agents. The 4-good agents value {yᵢ, yᵢ₊₁, aᵢ, bᵢ} at (10, 3, 6, 5), with aᵢ,
+  bᵢ private. Two 3-good agents value {y₀, y₁, y₂} at (4, 3, 2) and (2, 4, 3).
+- *The failing order:* (0, 1, 2, 3, 4), and also the R1-priority order (0, 2, 1, 3, 4). Its picks
+  (y₀, y₁, y₂, none, none) have no one-absorber completion (written count), and none of the 62 improving moves gives
+  one (brute force and SAT).
 
 **Earlier in burst 4.** 84 non-core counterexamples at n = 6, m = 10, and a k = 3 family (n = 5, m = 9; R2-peelable).
 They led to the core above.

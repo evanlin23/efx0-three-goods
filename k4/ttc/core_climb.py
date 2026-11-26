@@ -13,13 +13,21 @@ chains) after which the bases have one (capped), and the soft signal counts froz
 than their pick plus 2 per agent without a pick.  A start with count 0 is printed (an OC1 counterexample inside the
 cores; then checked against rings too and against the free completion).
 
-    python3 k4/ttc/core_climb.py N_RUNS ROUNDS ORDERS SEED NMIN NMAX"""
+    python3 k4/ttc/core_climb.py N_RUNS ROUNDS ORDERS SEED NMIN NMAX [free] [seeded] [seed=FILE] [mc2]
+mc2: every instance must also have no agent with two private goods (the class of K4.MC2, CERTIFIED: a minimal
+counterexample to TARGET4 has none); seed=FILE: the seed instance for 'seeded' (default oc1_core_candidate.json).
+free: Conjecture OC (free completion after at most one move) instead of OC1; seeded: every run starts from the OC1
+core counterexample (n = 5).  With 'free', a printed failure is a start that no move repairs even with a free
+completion (an OC counterexample inside the cores); 'ring repairs' and 'free completion' are then reported for it."""
 import sys, os, json, random, collections, time, multiprocessing as mp
 import ttclib as T
 sys.path.insert(0, os.path.join(T.ROOT, 'k4', 'c4_verify_H'))
 from hcore import is_core4
 
 CAPC = 30
+SEEDFILE = 'oc1_core_candidate.json'   # seed=FILE (under results/k4_ttc/) for 'seeded'
+FREE = False     # 'free': Conjecture OC instead (free completion, any number of absorbers; de_free.extends)
+SEEDED = False   # 'seeded': start every run from the core counterexample to OC1 (results/k4_ttc/oc1_core_candidate.json)
 _cwd = os.getcwd(); os.chdir(T._paths.DE4)
 from de4lib import random_profile  # noqa: E402
 os.chdir(_cwd)
@@ -33,7 +41,18 @@ def vmatrix(sets, vals, m):
     return v
 
 
+MC2 = False     # 'mc2': also require that no agent has two private goods (the K4.MC2 class)
+
+
+def two_private(sets):
+    import collections
+    cnt = collections.Counter(g for s in sets for g in s)
+    return any(sum(1 for g in s if cnt[g] == 1) >= 2 for s in sets)
+
+
 def is_core(sets, vals, m):
+    if MC2 and two_private(sets):
+        return False
     return not is_core4(vmatrix(sets, vals, m))
 
 
@@ -63,13 +82,17 @@ def mutate(sets, vals, m, rng):
     return (sets, vals) if is_core(sets, vals, m) else None
 
 
+def ok(E, b):
+    return T.DF.extends(E, b) if FREE else T.extends_A(E, b, 1)
+
+
 def count(E, base, cap=CAPC):
     seen = set(); c = 0
     for b2 in T.DF.iter_chains(E, base):
         if b2 in seen:
             continue
         seen.add(b2)
-        if T.extends_A(E, b2, 1):
+        if ok(E, b2):
             c += 1
             if c >= cap:
                 break
@@ -88,7 +111,7 @@ def evaluate(sets, vals, m, ords):
             if T.val(E, x, [g for g in J if E.v[x].get(g, 0) > 0]) > T.val(E, x, [Y[x]]):
                 soft += 1
         soft += 2 * sum(1 for y in Y if y is None)
-        if T.extends_A(E, base, 1):
+        if ok(E, base):
             done[Y] = None; continue
         hard += 1; r = count(E, base); done[Y] = r; least = min(least, r)
         if r == 0:
@@ -99,7 +122,11 @@ def evaluate(sets, vals, m, ords):
 def run(args):
     n, rounds, norders, seed = args
     rng = random.Random(seed)
-    g = gen_core(n, rng)
+    if SEEDED:
+        d = json.load(open(os.path.join(T.ROOT, 'results', 'k4_ttc', SEEDFILE)))[0]
+        g = ([list(x) for x in d['sets']], [list(x) for x in d['vals']], d['m']); n = len(g[0])
+    else:
+        g = gen_core(n, rng)
     if g is None:
         return n, seed, None, None, None, None, []
     sets, vals, m = g
@@ -116,10 +143,11 @@ def run(args):
             E = T.Enc(mu[0], mu[1], m); base = T.base_of(E, ev[3][1])
             DFm = T.DF
             DFm.CHAIN_ONLY = False
-            rings_ok = any(T.extends_A(E, b2, 1) for b2 in DFm.moves(E, base))
+            rings_ok = any(ok(E, b2) for b2 in DFm.moves(E, base))
             DFm.CHAIN_ONLY = True
             free = T.DF.extends(E, base)
-            found.append((mu[0], mu[1], m, ev[3], rings_ok, free))
+            pk = T.extends_A_pickless(E, base, 1) or any(T.extends_A_pickless(E, b2, 1) for b2 in DFm.iter_chains(E, base))
+            found.append((mu[0], mu[1], m, ev[3], rings_ok, free, pk))
         if ev[0] >= best[0]:
             sets, vals = mu; best = ev
     return n, seed, best, sets, vals, m, found
@@ -127,6 +155,10 @@ def run(args):
 
 if __name__ == '__main__':
     NR, ROUNDS, ORD, SEED, NMIN, NMAX = map(int, sys.argv[1:7])
+    FREE = 'free' in sys.argv[7:]; SEEDED = 'seeded' in sys.argv[7:]; MC2 = 'mc2' in sys.argv[7:]
+    for a in sys.argv[7:]:
+        if a.startswith('seed='):
+            SEEDFILE = a[5:]
     print('$ python3 k4/ttc/core_climb.py', *sys.argv[1:], flush=True)
     t0 = time.time(); C = collections.Counter()
     tasks = [(NMIN + t % (NMAX - NMIN + 1), ROUNDS, ORD, SEED * 1009 + t) for t in range(NR)]
@@ -137,11 +169,12 @@ if __name__ == '__main__':
                 print('run n=%d seed=%d: no core generated' % (n, seed), flush=True); continue
             print('run n=%d seed=%d score=%d hard=%d least=%d' % (n, seed, best[0], best[1], best[2]),
                   json.dumps((sets, vals)), flush=True)
-            for s_, v_, m_, (o, Y), rings_ok, free in found:
+            for s_, v_, m_, (o, Y), rings_ok, free, pk in found:
                 C['OC1 failures inside cores (chains)'] += 1; C['  repaired by a ring'] += rings_ok
-                C['  picks have a free completion'] += free
+                C['  picks have a free completion'] += free; C['  OC1-p holds (<= 1 move)'] += pk
                 print('CORE OC1 FAILS', json.dumps({'sets': s_, 'vals': v_, 'm': m_, 'order': o, 'picks': Y,
-                                                    'ring repairs': rings_ok, 'free completion': free}), flush=True)
+                                                    'ring repairs': rings_ok, 'free completion': free,
+                                                    'OC1-p': pk, 'two private goods': two_private(s_)}), flush=True)
     for k in sorted(C):
         print(k, C[k])
     print('time %.0f s' % (time.time() - t0), flush=True)

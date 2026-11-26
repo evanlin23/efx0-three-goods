@@ -1,0 +1,1 @@
+$ python3 k4/ttc/core_climb.py 6 400 30 91 5 5 seeded seed=oc1_mc2_candidate.json mc2
