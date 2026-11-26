@@ -52,7 +52,11 @@ every refutation below is confirmed by three independent programs.
   - **K4W** has no worthless good. A top-heavy agent freezes a starved agent that uses exactly four goods.
   - So OC₁ at perfect starts is false for non-core k = 4 instances: this is the target of Lemma RED's route and the
     LOOSE form of OC₁^max. OC₁^max on cores is untouched: K4W's top-heavy agent is peeled by R1.
-  - ε-lift climbs constrained to cores found nothing.
+  - **OC₁^max (K4.SDC.OC1MAX, the campaign's central conjecture) is REFUTED** by **C4K**, a strict connected k = 4 core
+    with n = 4, m = 7 (§4.4). From two perfect starts, no addition, chain or ring has a one-absorber completion.
+    - Four programs agree, among them the campaign's own `k4/sdc/oc1_max_orders.py`.
+    - The mechanism is a starved agent with exactly four goods.
+    - Two rounds repair both starts, and MD holds.
 - **Tools.** Lemma RC (one round) and Lemma RC2 (two rounds) turn reachability into a condition on where the picks lie
   in the final allocation. `rnd.c` enumerates every EFX allocation and decides both, in milliseconds at n = 4. Both
   are cross-checked against forward simulations, by exact counts for two rounds.
@@ -67,7 +71,8 @@ every refutation below is confirmed by three independent programs.
 | **RD²⁺: two rounds** | holds | holds (data, every failure; climbs bottom out at one two-round witness) | holds (data) | §4.1 | ocseq, bruter.py two rounds, rnd.c Lemma RC2 |
 | MD (some EFX allocation value-dominates the picks) | holds | holds | holds | | rnd.c |
 | *k = 4 with zeros, perfect starts:* OC₁ and one round, non-core instances | | **FAIL** (W4: a worthless good; K4W: none, a top-heavy agent) | | §4.3 | k4/sdc pipeline, ocsat, brute force |
-| *k = 4 with zeros:* OC₁^max on cores (the campaign's K4.SDC.OC1MAX) | | no failure in ε-lift core climbs | | §4.3 | rnd.c (ε-lift), then the zero version |
+| *k = 4 with zeros:* **OC₁^max on strict connected cores (K4.SDC.OC1MAX)** | | **FAILS** (C4K, m = 7) | | §4.4 | `k4/sdc/oc1_max_orders.py`, k4/sdc pipeline, ocsat, brute force |
+| *k = 4 with zeros:* two rounds on C4K, W4, K4W | | holds | | §4.3, §4.4 | brute force |
 
 ## 1. Definitions and the round characterization
 
@@ -353,6 +358,43 @@ Values ×100 of RD5 (`k4/ksens.md` §6), with agent 0's value of good 4 lowered 
 - *Caveat.* rnd.c tests the ε-lift, not the zero version. In every ε-failure the zero version failed too, but a
   zero-version failure with a repairable ε-lift would be missed.
 
+### 4.4 OC₁^max is false: the core C4K (n = 4, m = 7)
+Found by the core-constrained ε-lift climbs: KEPS = 4, KCORE = 1, `fails_kcore.jsonl`, `k4zero_scan_kcore.log`. Of
+their four ε-failures, two zero versions satisfy OC₁. The other two are the two failing starts of the core below.
+
+| agent | relevant goods (value) |
+|---|---|
+| 0 | g1 2030, g4 1714, g5 1395, g6 1806 |
+| 1 | g1 2461, g4 1674, g5 1357, g6 1802 |
+| 2 | g0 1025, g2 35, g3 818, g6 934 |
+| 3 | g0 1090, g1 901, g3 154, g6 517 |
+
+- *A strict connected k = 4 core* (`c4k_core.py`, `c4k_core.log`; the logic is the core claim of
+  `k4/gm4_counterexample.py`):
+  - every agent has four relevant goods and is strictly balanced;
+  - all subset sums are distinct;
+  - the one private good is g2;
+  - every good is valued, and the instance is connected;
+  - ν = 4.
+- *Failing starts.* Orders (0, 1, 2, 3) and (1, 0, 2, 3), with picks (1, 6, 0, 3) and (6, 1, 0, 3); 6 of the 24
+  orders give one of them. These are perfect starts, so maximum-matching starts.
+- *Result.* From both starts there is no one-absorber EFX₀ completion at the picks or after any addition, chain or
+  ring. One round of disjoint chains fails too. Two rounds repair both, and MD holds.
+- *Checks.* Four programs agree:
+  - `k4/sdc/oc1_max_orders.py` on `c4k.json` (`c4k_oc1_max_orders.log`: 6 maximum-matching orders fail);
+  - k4/sdc's pipeline, ksens's ocsat and the brute force (`c4k_check.log`).
+- *Mechanism* (`c4k_mechanism.log`).
+  - There are 10 EFX₀ allocations, 6 of them MD.
+  - In each, agent 3 takes agent 2's pick g0 (1090 against its own pick's 154), and agent 2 holds both foreign picks
+    g3 and g6 (1752 > 1025).
+  - One move gives agent 2's base at most one of them, worth at most 934 + 35 = 969 < 1025: agent 2 is starved
+    (§1, Corollary).
+  - The starved agent uses exactly k = 4 goods: its pick, two foreign picks and one junk good.
+- *Write-up:* `attempts/kgen-rounds-oc1max-c4k.md`.
+- *What it leaves.* Two rounds (RD² at k = 4), MD and SD-C. On C4K, 18 of the 24 orders satisfy OC₁. The natural
+  repair of OC₁ is a move that lets one agent collect two picks: two sequential chains, or a pooled round where
+  middle agents draw from the pool (ROUND-P).
+
 ## 5. n = 3
 
 ### 5.1 One round survives
@@ -438,6 +480,7 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 | KGEN.RD2+ | RD²⁺: two rounds suffice at positive values | CONJECTURE | EVIDENCE only: every one-round failure (138 starts found), climbs (`c4_3r_*.log`, `c5_3r_*.log`) |
 | KGEN.ROUND3 | ROUND⁺ at n = 3 | CONJECTURE | EVIDENCE only (§5.1); a proof would reprove CGM |
 | KGEN.ID | Identical valuations: the picks of every order extend (any n, zeros allowed) | PROVED | `kgen/rounds.md` §5.2 (written proof; checked on 15,684 starts) |
+| K4.SDC.OC1MAX | (existing row) OC₁^max on strict connected k = 4 cores | CONJECTURE → **REFUTED** | `attempts/kgen-rounds-oc1max-c4k.md`, `kgen/rounds/c4k_core.py`, `results/kgen_rounds/c4k.json`, `results/kgen_rounds/c4k_oc1_max_orders.log`, `results/kgen_rounds/c4k_check.log`, `results/kgen_rounds/c4k_mechanism.log` |
 | K4.SDC.OC1PERF | OC₁ (and one round) at perfect starts for every instance with ≤ 4 relevant goods per agent (the target of Lemma RED's route; the LOOSE form of OC₁^max) | REFUTED | `kgen/rounds/k4w_check.py`, `results/kgen_rounds/k4w_check.log` (K4W, no worthless good), `results/kgen_rounds/verify_k4zero_W4.log` (W4) |
 
 ## 7. Next
