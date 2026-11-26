@@ -1,0 +1,24 @@
+$ python3 k4/p3/oc1max_n5_p3.py 200 10 --n=4 --p=3 --procs=4   (checker from /tmp/claude-0/-home-user-efx0-three-goods/30bb0add-b7b6-52a9-aad1-ef4a237f8fd4/scratchpad/coord/k4/sdc)
+hypergraphs with p <= 3: 696, 200 profiles each
+('n4_1', 'max', 'distinct pick vectors') 44195
+('n4_1', 'max', 'one move repairs') 10100
+('n4_1', 'max', 'picks complete') 437523
+('n4_1', 'non-max', 'distinct pick vectors') 1979
+('n4_1', 'non-max', 'one move repairs') 6516
+('n4_1', 'non-max', 'picks complete') 1861
+('n4_2', 'max', 'distinct pick vectors') 97013
+('n4_2', 'max', 'one move repairs') 31465
+('n4_2', 'max', 'picks complete') 1010543
+('n4_2', 'non-max', 'distinct pick vectors') 2111
+('n4_2', 'non-max', 'one move repairs') 8450
+('n4_2', 'non-max', 'picks complete') 742
+('n4_3', 'max', 'distinct pick vectors') 104038
+('n4_3', 'max', 'one move repairs') 40479
+('n4_3', 'max', 'picks complete') 1106920
+('n4_3', 'non-max', 'distinct pick vectors') 1004
+('n4_3', 'non-max', 'one move repairs') 4438
+('n4_3', 'non-max', 'picks complete') 163
+('pure', 'max', 'distinct pick vectors') 59143
+('pure', 'max', 'one move repairs') 23534
+('pure', 'max', 'picks complete') 658066
+maximum-matching orders that fail OC1: 0; time 47 s

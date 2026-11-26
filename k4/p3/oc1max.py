@@ -129,6 +129,16 @@ class Checker:
             if own is not None: return 'one move repairs', st
         return 'OC1 fails', None
 
+    def check2(self, picks):
+        """OC2: a one-absorber completion at the picks, after one move, or after two sequential moves"""
+        r, st = self.check(picks)
+        if r != 'OC1 fails': return r, st
+        base = tuple(frozenset([p]) if p is not None else frozenset() for p in picks)
+        for st1 in self.moves(base):
+            for st2 in self.moves(st1):
+                if self.complete(st2) is not None: return 'two moves repair', (st1, st2)
+        return 'OC2 fails', None
+
     def simplest_repair(self, picks):
         """the simplest repairing move's tag (kind order: addition < chain < ring, then length), or None"""
         base = tuple(frozenset([p]) if p is not None else frozenset() for p in picks)

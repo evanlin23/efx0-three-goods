@@ -5,7 +5,9 @@ integers 1..30 rejected unless strict, balanced and (C4); half as uniform order 
 every order. Uses the coordinator's checker oc1_mc2_rand.Inst (brute-force one-absorber completion, official moves:
 additions, chains, rings), imported from the directory OC1_SRC (default: k4/sdc of this checkout; the file is on
 claude/kind-lamport-y8fdme). A maximum-matching order that fails is printed (then replay it with k4/p3/oc1max.py).
-    OC1_SRC=DIR python3 k4/p3/oc1max_n5_p3.py R SEED [--p=3] [--lists=n4_1,n4_2,n4_3,n4_4,pure] [--procs=4]
+    OC1_SRC=DIR python3 k4/p3/oc1max_n5_p3.py R SEED [--n=5] [--p=3] [--lists=...] [--procs=4]
+--n=4 uses results/k4_certs_4_{n4_1,n4_2,n4_3,pure}.json.gz. For each profile with a failing maximum order it also records
+whether some maximum-matching order of that profile passes (the exists-order form).
 """
 import sys, os, gzip, json, random, itertools, collections, time, multiprocessing as mp
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -32,22 +34,27 @@ def job(args):
         vals = coord_profile(sets, rng)[0] if r % 2 == 0 else typed_profile(sets, m, rng)
         I = Inst(sets, vals); N = nu(I)
         pk = collections.Counter(I.sd(o) for o in itertools.permutations(range(I.n)))
+        some_max_ok = False; any_fail = False
         for p, c in pk.items():
             kind = 'max' if sum(x is not None for x in p) == N else 'non-max'
             res = I.check(p)
             C[(kind, res)] += c; C[(kind, 'distinct pick vectors')] += 1
-            if kind == 'max' and res == 'OC1 fails': bad.append((vals, p))
+            if kind == 'max' and res == 'OC1 fails': bad.append((vals, p)); any_fail = True
+            if kind == 'max' and res != 'OC1 fails': some_max_ok = True
+        if any_fail:
+            C[('profiles with a failing maximum order', 'some maximum order passes' if some_max_ok else 'NO MAXIMUM ORDER PASSES')] += 1
     return lst, idx, sets, C, bad
 
 
 if __name__ == '__main__':
     R, SEED = int(sys.argv[1]), int(sys.argv[2])
     opt = dict(a[2:].split('=', 1) for a in sys.argv[3:] if a.startswith('--'))
-    P = int(opt.get('p', 3)); lists = opt.get('lists', 'n4_1,n4_2,n4_3,n4_4,pure').split(',')
+    P = int(opt.get('p', 3)); NA = int(opt.get('n', 5))
+    lists = opt.get('lists', 'n4_1,n4_2,n4_3,n4_4,pure' if NA == 5 else 'n4_1,n4_2,n4_3,pure').split(',')
     print('$ python3 k4/p3/oc1max_n5_p3.py ' + ' '.join(sys.argv[1:]) + f'   (checker from {SRC})', flush=True)
     tasks = []
     for lst in lists:
-        d = json.load(gzip.open(os.path.join(ROOT, 'results', f'k4_certs_5_{lst}.json.gz'), 'rt'))
+        d = json.load(gzip.open(os.path.join(ROOT, 'results', f'k4_certs_{NA}_{lst}.json.gz'), 'rt'))
         for c in d['cores']:
             if pmax(c['sets'], c['m']) <= P:
                 tasks.append((lst, c.get('idx', 0), c['sets'], c['m'], R, SEED * 1000003 + len(tasks)))
