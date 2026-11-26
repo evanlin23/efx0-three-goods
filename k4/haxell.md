@@ -21,8 +21,9 @@ evidence only (PROMPT.md §5 rule 3).
   1. **Traps** (§3.2, §3.4, `attempts/k4-haxell-single-swap-collapse.md`): AKS swaps one edge at a time and keeps
      every unit matched. The graph G₁ of partial EFX₀ allocations under single local moves has components without a
      complete allocation, the smallest at **n = 2, m = 5** (k = 4). There a blocker's repair is safe only *together
-     with* its parent edge. The literal tree walks into such dead ends from serial-dictatorship starts (stuck from 38
-     of 4,069 screen starts; 30 with composite collapses).
+     with* its parent edge. From serial-dictatorship starts the literal tree also walks into dead ends of its own move
+     catalogue (junk transfers, chains, re-bases), smallest D3 (n = 3, m = 6): stuck from 38 of 4,069 screen starts,
+     30 with composite collapses.
   2. **Non-local blocking** (§3.6): in Santa Claus a collapse cannot hurt a lower edge, because blocking is resource
      overlap. In EFX₀ it can, through envy toward whole bundles, so the signature can rise. This happened 11,553
      times in 12,379 steps with generic moves, once in 2,721 with junk transfers and chains.
