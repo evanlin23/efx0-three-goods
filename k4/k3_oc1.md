@@ -261,12 +261,12 @@ on the k = 4 data, every order, n ≤ 5):
 
 Counts (hard starts = starts whose picks have no one-absorber completion; not repaired by one chain of the class):
 
-| class of chains | special (69 hard) | screen (662) | suite (797) | 2,000 random n ≤ 3 core profiles (345) |
-|---|---|---|---|---|
-| every improving chain (OC₁) | 0 | 0 | 0 | |
-| (DE-a) and (DE-b) | 1 | 66 | 45 | 15 |
-| (DE-a) and compensable validity | 0 | 57 | 36 | 15 |
-| t ≥ 1, any agent may take junk, compensable validity | 0 | 0 | 0 | 0 |
+| class of chains | special (69 hard) | screen (662) | suite (797) | 2,000 random n ≤ 3 core profiles (345) | 300 random n = 4 core profiles (195) |
+|---|---|---|---|---|---|
+| every improving chain (OC₁) | 0 | 0 | 0 | | |
+| (DE-a) and (DE-b) | 1 | 66 | 45 | 15 | 2 |
+| (DE-a) and compensable validity | 0 | 57 | 36 | 15 | |
+| t ≥ 1, any agent may take junk, compensable validity | 0 | 0 | 0 | 0 | 0 |
 
 So the repaired structure for k = 4 is a single improving chain in which every agent gives its base to the next one
 and may add junk, followed by a one-absorber completion in which an agent whose wanted good sits in a bundle of two or
