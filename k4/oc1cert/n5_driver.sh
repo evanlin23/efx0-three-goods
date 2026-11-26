@@ -18,10 +18,11 @@ for L in $LISTS; do
   for ((o = 0; o < S; o++)); do
     TAG=${L}_s${S}o${o}
     [ -f "$OUT/${TAG}_check.log" ] && grep -q '^RESULT' "$OUT/${TAG}_check.log" && continue   # done before
+    # everything is written to the scratchpad first and copied into results/ only when the chunk is complete
     python3 k4/oc1cert/run.py "$L" --depth=2 --stride=$S --offset=$o --jobs=4 \
-        --out="$SP/${TAG}.jsonl.gz" --summary="$OUT/${TAG}_summary.jsonl.gz" > "$OUT/${TAG}_run.log" 2>&1
-    python3 k4/oc1cert/check.py "$SP/${TAG}.jsonl.gz" > "$OUT/${TAG}_check.log" 2>&1
-    python3 - "$SP/${TAG}.jsonl.gz" "$OUT/${TAG}_certs_selected.jsonl.gz" <<'EOF'
+        --out="$SP/${TAG}.jsonl.gz" --summary="$SP/${TAG}_summary.jsonl.gz" > "$SP/${TAG}_run.log" 2>&1
+    python3 k4/oc1cert/check.py "$SP/${TAG}.jsonl.gz" > "$SP/${TAG}_check.log" 2>&1
+    python3 - "$SP/${TAG}.jsonl.gz" "$SP/${TAG}_certs_selected.jsonl.gz" <<'EOF'
 import sys, gzip, json
 src, dst = sys.argv[1], sys.argv[2]
 with gzip.open(src, 'rt') as f, gzip.open(dst, 'wt') as g:
@@ -30,6 +31,8 @@ with gzip.open(src, 'rt') as f, gzip.open(dst, 'wt') as g:
         r = json.loads(line)
         if r.get('oc1_fails') or r['result'] != 'certified' or k % 50 == 0: g.write(line)
 EOF
+    cp "$SP/${TAG}_summary.jsonl.gz" "$SP/${TAG}_run.log" "$SP/${TAG}_certs_selected.jsonl.gz" "$OUT/"
+    cp "$SP/${TAG}_check.log" "$OUT/"                     # last: its RESULT line marks the chunk as done
     git add "$OUT/${TAG}"_* && git commit -q -m "[compute/k4-oc1max-cert] n = 5 chunk $TAG: OC2^max CEGAR and independent check (summary, logs, selected certificates)
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
