@@ -1,0 +1,11 @@
+$ python3 k4/k3oc1/lift4.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3 2000 7 detype comp anyjunk
+exact-hard: every least-omega chain repairs (exact) False 53
+exact-hard: every least-omega chain repairs (exact) True 159
+exact-hard: every max rank-score chain repairs (exact) False 36
+exact-hard: every max rank-score chain repairs (exact) True 176
+hard (DE-shape); picks exact False; one chain DE-shape True; one chain exact True 345
+hard (DE-shape); picks exact True; one chain DE-shape True; one chain exact True 436
+instances 2000
+picks pass DE-shape 10475
+starts 11256
+time 6 s

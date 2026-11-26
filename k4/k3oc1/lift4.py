@@ -10,7 +10,8 @@ Questions, for every order's picks:
      v_i(B_i) among the subset sums of R_i, the k = 4 form of DE's score) repair (exact)?  every chain of least
      omega = |J| - |T| (T: agents outside the frozen ones)?  some chain (exact)?
   With 'detype': only DE-type chains (de_type below), the class on which the k = 3 rules hold.
-    python3 k4/k3oc1/lift4.py screen|suite|special [NMAX] [detype [comp] [anyjunk]]"""
+    python3 k4/k3oc1/lift4.py screen|suite|special [NMAX] [detype [comp] [anyjunk]]
+    python3 k4/k3oc1/lift4.py cores:FILES NMAX COUNT SEED [detype ...]   (random strict profiles of k = 4 cores)"""
 import sys, os, itertools, collections, json, time
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(os.path.dirname(HERE))
 SDC = os.path.join(ROOT, 'k4', 'sdc'); sys.path.insert(0, SDC)
@@ -104,7 +105,19 @@ if __name__ == '__main__':
     src = sys.argv[1]; NMAX = int(sys.argv[2]) if len(sys.argv) > 2 and sys.argv[2].isdigit() else 4
     C = collections.Counter(); t0 = time.time(); shown = collections.Counter()
     print('$ python3 k4/k3oc1/lift4.py', *sys.argv[1:], flush=True)
-    items = SPECIAL if src == 'special' else instances(src)
+    if src == 'special': items = SPECIAL
+    elif src.startswith('cores:'):
+        import random, gzip
+        N, seed = int(sys.argv[3]), int(sys.argv[4]); rng = random.Random(seed); items = []
+        cwd = os.getcwd(); os.chdir(_paths.DE4)
+        from de4lib import random_profile
+        os.chdir(cwd)
+        cores = []
+        for fn in src[6:].split(','):
+            cores += [c['sets'] for c in json.load(gzip.open(os.path.join(ROOT, 'results', fn)))['cores']]
+        for t in range(N):
+            sets = rng.choice(cores); items.append(('r%d' % t, sets, random_profile(sets, rng), 1 + max(max(x) for x in sets)))
+    else: items = instances(src)
     for name, sets, vals, m in items:
         n = len(sets)
         if n > NMAX: continue
