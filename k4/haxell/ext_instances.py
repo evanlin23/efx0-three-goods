@@ -65,3 +65,40 @@ def pw_grid(fmax=5, wmax=4, rmax=8):
                 s, v, m = pw_clean(f, W, r)
                 out.append(('PW(%d,%d,%d)' % (f, W, r), s, v, m))
     return out
+
+
+# CH-F (kgen/charity/w_counterexample.py on branch claude/kgen-charity, Proposition CH-F of kgen/charity.md §6),
+# copied verbatim: the welfare maximum over partial EFX0 allocations is the stranded state X with goods 6 and 7
+# unallocated (totals 198 and 484); every EFX0 allocation with at most one good out has total <= 197, resp. <= 483.
+CHF_V4 = [{0: 20, 6: 21, 8: 40},              # c(g0, j0): holds y = 8
+          {0: 12, 7: 16, 9: 27},              # c(g1, j0): holds 9
+          {2: 20, 6: 21, 10: 40},             # c(g0, j1): holds 10
+          {2: 12, 7: 13, 11: 24},             # c(g1, j1): holds 11
+          {4: 20, 6: 21, 12: 40},             # c(g0, j2): holds 12
+          {4: 9, 7: 10, 13: 18},              # c(g1, j2): holds 13
+          {0: 2, 1: 1, 12: 7, 13: 4},         # s0: holds {0, 1}; its children are the champions c(., j2)
+          {2: 2, 3: 1, 8: 5, 9: 4},           # s1: holds {2, 3}; children c(., j0)
+          {4: 2, 5: 1, 10: 8, 11: 4}]         # s2: holds {4, 5}; children c(., j1)
+CHF_X4 = [{8}, {9}, {10}, {11}, {12}, {13}, {0, 1}, {2, 3}, {4, 5}]
+CHF_V3 = [{0: 18, 6: 20, 8: 37}, {0: 28, 7: 33, 9: 60}, {2: 15, 6: 16, 10: 30}, {2: 30, 7: 31, 11: 60},
+          {4: 25, 6: 24, 12: 48}, {4: 32, 7: 29, 13: 60},       # champions c(g, j), holding 8 + 2j + g
+          {12: 59, 13: 60, 14: 58},                             # relay above c(., j2), holds 14
+          {0: 2, 1: 1, 14: 4},                                  # s0, holds {0, 1}
+          {8: 59, 9: 60, 15: 58},                               # relay above c(., j0), holds 15
+          {2: 2, 3: 1, 15: 4},                                  # s1, holds {2, 3}
+          {10: 59, 11: 60, 16: 58},                             # relay above c(., j1), holds 16
+          {4: 8, 5: 1, 16: 10}]                                 # s2, holds {4, 5}
+CHF_X3 = [{8}, {9}, {10}, {11}, {12}, {13}, {14}, {0, 1}, {15}, {2, 3}, {16}, {4, 5}]
+
+
+def chf():
+    """(name, sets, vals, m, state) with state[g] = holder or -1 (the stranded welfare maximum)"""
+    out = []
+    for name, V, X, m in (('CHF-k4', CHF_V4, CHF_X4, 14), ('CHF-k3', CHF_V3, CHF_X3, 17)):
+        sets = [sorted(d) for d in V]; vals = [[d[g] for g in sorted(d)] for d in V]
+        own = [-1] * m
+        for i, B in enumerate(X):
+            for g in B:
+                own[g] = i
+        out.append((name, sets, vals, m, tuple(own)))
+    return out

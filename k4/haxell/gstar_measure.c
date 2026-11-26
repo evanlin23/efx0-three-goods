@@ -33,7 +33,7 @@ static int n, m;
 static long val[MAXN][MAXM];
 static long NS;
 static unsigned char *ok;
-static int RADIUS = 2, ROT = 0;
+static int RADIUS = 2, ROT = 0, ONLY = -1;
 static int ncyc, cyclen[512], cyc[512][MAXN];
 static long stuck3fixed[NPHI];
 
@@ -129,6 +129,7 @@ static void gen_cycles(void) {
 int main(int argc, char **argv) {
     if (argc > 1) RADIUS = atoi(argv[1]);
     if (argc > 2) ROT = atoi(argv[2]);
+    if (argc > 3) ONLY = atoi(argv[3]);   /* evaluate only phi0 and phi ONLY (the others are reported as 0) */
     while (scanf("%d %d", &n, &m) == 2) {
         if (n > MAXN || m > MAXM) { fprintf(stderr, "instance too large: n %d m %d (MAXN %d MAXM %d)\n", n, m, MAXN, MAXM); return 2; }
         memset(val, 0, sizeof val);
@@ -143,6 +144,7 @@ int main(int argc, char **argv) {
             if (!ok[s]) continue; decode(s, own); int p = poolsz(own); if (p == 0) continue;
             Phi ps[NPHI]; for (int K = 0; K < NPHI; K++) phi(K, own, &ps[K]);
             int done[NPHI]; memset(done, 0, sizeof done); int left = NPHI;
+            if (ONLY >= 0) { for (int K = 0; K < NPHI; K++) if (K != ONLY && K != 0) { done[K] = 1; left--; } }
             neighbours(own); int c1 = nb_count; long first[4096]; memcpy(first, nb_buf, sizeof(long) * c1);
             for (int pass = 0; pass < (RADIUS < 2 ? RADIUS : 2) && left; pass++)
                 for (int t = 0; t < c1 && left; t++) {
