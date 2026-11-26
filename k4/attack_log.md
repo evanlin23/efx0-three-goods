@@ -165,3 +165,19 @@ coordinator has checked them; "verified" marks the ones checked.
   - Every k = 4 prover is pointed to the k − 3 fact.
 - **Coordinator's own runs**: OC₁ at n = 6–9 passes on 24,000 random starts. The adversarial climb at n = 6–8 is still
   running.
+
+### 2026-11-26 21:50 UTC: OC₁ refuted at k = 4 (verified); central conjecture amended
+- **OC₁ is false at k = 4** (found by the TTC session, `claude/k4-ttc`, `attempts/k4-ttc-oc1-counterexample.md`).
+  **Verified** by the coordinator's own brute force, with no SAT, no shared code and no caps:
+  `k4/sdc/oc1_k4_cex_verify.py`, `results/k4_sdc/oc1_k4_cex_verify.log`.
+  - Instance: n = 6, m = 10; sets [[0,2,3,1],[1,4,5,9],[1,2,0,8],[1,6,7,8],[3,6,9],[1,3,6,9]], vals
+    [[2,7,8,3],[3,6,4,9],[12,2,4,8],[12,6,3,4],[7,2,10],[7,8,4,1]], order 0..5, picks (3, 9, 1, 6, –, –).
+  - Agents 4 and 5 get no pick. The frozen agents 0, 1, 3 have disjoint junk danger pairs, so every free completion
+    uses two absorbers, namely both pickless agents.
+  - None of the 92 states one official move reaches has a one-absorber completion. If a chain may hand on an empty
+    base, which glues two disjoint chains through the pickless agents, 27 of 168 states do.
+  - OC1-ED* (agreed by the Hall and TTC sessions an hour earlier) falls with it. OC (free completion), MD, SD-C and
+    TARGET₄ are unaffected.
+- **Amended central conjecture** (to be stated precisely by the Hall and TTC sessions): OC₁ᵖ / OC1-ED*ᵖ. At most one
+  absorber among the pick holders, and pickless agents absorb without restriction, like Draft and Exchange's free
+  agents that hold nothing. The k-sensitivity "one round of disjoint chains" form is the other candidate.
