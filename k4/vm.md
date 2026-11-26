@@ -920,12 +920,16 @@ EFX₀ definition. A failure is re-checked with 50× larger caps, then by the un
   independent replay over a superset of the moves.
 - Two moves suffice: both frozen x's trade their picks for sets of the shared pool D.
 - PW(3, 3, 8)#0 (k = 9, n = 6, m = 14) fails with zero, one and **two** moves: 4, 273 and 3,319 states, uncapped
-  (`vm1_verify_pw338.log`). So "at most two moves" (VM2) fails at k = 9. The three-move level is in the same log.
+  (`vm1_verify_pw338.log`). So "at most two moves" (VM2) fails at k = 9. **Three moves suffice**: all three frozen
+  x's trade their picks for sets of D, e.g. ({6, 7}, {8, 9, 10}, {13, 11, 4, 3}, {2}, {0}, {5, 12, 1}). Replay:
+  `attempts/k4_vm_vm2_pw338.py`.
 - Every PW instance with k ≤ 6 passes.
 
 So VM1 is not a general-k statement. On the PW family it holds up to k = 6 and fails from k = 7. That fits the
 k-sensitivity session's "c chains fail from k = 2c + 3" shifted by two, i.e. c moves of VM failing from k = 2c + 5.
-Two data points support this so far: c = 1 at k = 7 and c = 2 at k = 9. **VMX₂ (any number of moves) is the general-k form**, and it completes both PW failures. At k = 4,
+Two data points support this so far: c = 1 at k = 7 and c = 2 at k = 9, and on both the number of moves needed is
+exactly f, the number of frozen agents (2 and 3). **VMX₂ (any number of moves) is the general-k form**, and it
+completes both PW failures. At k = 4,
 VM1 is unaffected.
 
 ## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading

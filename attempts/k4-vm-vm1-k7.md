@@ -1,4 +1,4 @@
-# Conjecture VM1 (one move, then placement) at k = 7: refuted in the PW family
+# Conjecture VM1 (one move, then placement) at k = 7, and VM2 at k = 9: refuted in the PW family
 
 Workstream proof/k4-vm (`k4/vm.md` §7.7). Conjecture VM1: from some V-M matching, at most one move (a pool upgrade
 or an unrestricted two-agent exchange), then EFX₀-safe placements with envy-cycle rotation, give a complete EFX₀
@@ -38,13 +38,34 @@ The mechanism is PW's:
 - One move frees only one x.
 
 The general-k pattern of `k4/ksens.md` (c chains from every order fail at k = 2c + 3) suggests c moves of VM fail
-at k = 2c + 5. So far one data point supports that: VM1 survives k = 5 and fails at k = 7. PW(3, 3, 8) (k = 9) is
-checked in `vm1_verify_pw338.log`.
+at k = 2c + 5. Two data points support that: VM1 fails at k = 7 (above), and VM2 fails at k = 9 (below).
 
-**What survives:** VMX₂ (any number of moves) completes this instance. VM1 is unrefuted at k ≤ 6, and at k = 4 in
-particular (§7.3–§7.5).
+## Two moves (VM2) fail at k = 9: PW(3, 3, 8)#0
+
+n = 6, m = 14: frozen agents x₁, x₂, x₃ = 0, 1, 2 with picks p_j = j (worth 100) and the shared pool D = {6, …, 13};
+wanters 3, 4, 5 with q_i = i.
+
+| agent | goods (value) |
+|---|---|
+| x₁ = 0 | p₁ (100); D = 6 (60), 7 (91), 8 (59), 9 (79), 10 (53), 11 (83), 12 (98), 13 (55) |
+| x₂ = 1 | p₂ (100); D = 6 (88), 7 (74), 8 (81), 9 (54), 10 (83), 11 (82), 12 (56), 13 (90) |
+| x₃ = 2 | p₃ (100); D = 6 (75), 7 (52), 8 (60), 9 (55), 10 (87), 11 (72), 12 (68), 13 (96) |
+| w₁ = 3 | p₁ (91), p₂ (82), p₃ (94), q₁ (77) |
+| w₂ = 4 | p₁ (72), p₂ (71), p₃ (85), q₂ (36) |
+| w₃ = 5 | p₁ (66), p₂ (78), p₃ (99), q₃ (24) |
+
+- There are 4 V-M matchings. With at most two moves nothing completes: 4, 273 and 3,319 states at depths 0, 1 and 2,
+  uncapped (`results/k4_vm/vm1_verify_pw338.log`).
+- **Three moves suffice**, one per frozen agent: ({6, 7}, {8, 9, 10}, {13, 11, 4, 3}, {2}, {0}, {5, 12, 1}).
+- On both PW failures the least number of moves is f, the number of frozen agents: one move frees only one x, and
+  only the x's can absorb D.
+
+**What survives:** VMX₂ (any number of moves) completes both instances. VM1 is unrefuted at k ≤ 6, and at k = 4 in
+particular (`k4/vm.md` §7.3–§7.5).
 
 Reproduce:
 - `python3 attempts/k4_vm_vm1_pw.py`: an independent replay from the definitions, sharing no code with `k4/vm/`;
-- `python3 k4/vm/vm1_verify.py '<the JSON above>' --maxd=3`;
+- `python3 attempts/k4_vm_vm2_pw338.py`: the same for PW(3, 3, 8), at depth 2 (several minutes);
+- `python3 k4/vm/vm1_verify.py '<the JSON>' --maxd=3`, with the JSON of `data.pw(2, 3, 6, 1, 237)` or
+  `data.pw(3, 3, 8, 1, 339)` (the seeds of `pwgrid:9:1:1`; both JSONs are in `results/k4_vm/vm1_pwgrid.log`);
 - `python3 k4/vm/vm1_fast.py pwgrid:9:1:1`: the run that found it.
