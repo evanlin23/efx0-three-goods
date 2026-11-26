@@ -41,7 +41,8 @@ every refutation below is confirmed by three independent programs.
       some starts need only a hand-off, some only a swap;
     - one random start (ROT3) needs the three-agent rotation (§5.2, verified by forward simulation).
   - The last picker almost never starts the repairing chain.
-  - The starved-agent obstruction needs four agents (§5.3, partial argument).
+  - At n = 3, starvation never blocks every MD allocation on the data (§5.3). The only possible round structure
+    around a starved agent is forced, but no proof.
   - **Lemma ID** (proved, any n): with identical valuations, the picks of every order extend.
 - **k = 4 with zeros (for the campaign; §4.3).**
   - ε-lift climbs (at most four values per agent above ε) also break one round. Their zero versions are genuine k = 4
@@ -144,7 +145,14 @@ value-dominates the picks has a starved agent, no round from the picks has a com
 | `kgen/rounds/n3shapes.py` | third implementation of the n = 3 shapes (keep / hand-off / swap / 3-chain / rotation), cross-checked against rnd.c's count on every start |
 | `kgen/rounds/refute_roundplus.py` | self-contained pure-Python check of the refutations: raw enumeration of all n^m allocations, MD, the starved-agent certificate, an explicit two-round repair |
 | `kgen/rounds/stress.py` | random families and adversarial climbs |
-| `kgen/rounds/climb2.py` | climbs toward starts needing three rounds (rnd.c, then ocseq counts of two-round completions) |
+| `kgen/rounds/climb2.py` | climbs toward starts needing three rounds (rnd.c, then ocseq counts of two-round completions; slow, superseded) |
+| `rnd.c` `rnd2_count`, `rnd2_count_margin` | two rounds, Lemma RC2: exact count and margins of the allocations reachable by ≤ 2 rounds |
+| `kgen/rounds/climb3.py` | climbs toward three rounds with the exact two-round count (MARGIN2, PHASED) |
+| `kgen/rounds/xcheck.py`, `xcheck_x.py`, `xcheck2.py` | cross-checks: rnd.c against bruter.py and ocsat; ROUND-X/P; two-round counts |
+| `kgen/rounds/mechanism.py` | starved-agent certificate on every failure |
+| `kgen/rounds/shrink.py` | good deletion on the failures |
+| `kgen/rounds/n3shapes.py`, `n3roles.py` | n = 3 shapes and repair positions |
+| `kgen/rounds/verify_k4zero.py`, `k4zero_scan.py`, `k4w_check.py`, `zero_version.py` | k-limited instances with zeros: k4/sdc's pipeline, ocsat and a brute force |
 
 Cross-checks, 0 mismatches:
 - rnd.c against bruter.py: 1,048 starts, n = 3, 4, m ≤ 7 (`xcheck_brute_150_1.log`);
@@ -256,7 +264,10 @@ Values ×100 of RD5 (`k4/ksens.md` §6), with agent 0's value of good 4 lowered 
   - The earlier SAT climbs (`climb2.py`, ocseq counts) were too slow and were stopped.
   - Every climb bottoms out at exactly **one** two-round-reachable EFX allocation at the hardest start, never zero.
   - It is the same "last witness never dies" plateau as the one-round climbs had before the margin term exposed
-    failures. A margin for two rounds is not implemented.
+    failures.
+  - `climb3.py` with MARGIN2=1 and PHASED=1 therefore minimizes two-round witnesses and their margins over the
+    one-round failures only (`rnd2_count_margin`: the best structure's smallest gain slack, and the EFX slack). It
+    is in `c5_3r_*.log`, with no start needing three rounds.
 - *Why depth is hard to build.* A three-round need requires a starved agent one of whose needed picks belongs to
   another starved agent. A sketch at n = 5 shows that one round-2 chain can still collect both: the start takes the
   inner starved agent's pick as its end's pick, plus a pick released in round 1. That agrees with ksens's estimate
@@ -285,12 +296,12 @@ Values ×100 of RD5 (`k4/ksens.md` §6), with agent 0's value of good 4 lowered 
     starvation (`mechanism_keps.log`).
 - **The zero versions** (every value ≤ 5 set to 0) are genuine k = 4 instances with zeros: exactly four relevant goods
   per agent, and every agent picks (perfect starts).
-  - On **all 10** of them OC₁ (one chain or ring, one absorber) and one round of disjoint chains (free and one
-    absorber) **fail**, and two rounds repair them.
+  - Of the 11 distinct ε-failures, the zero versions of **10** fail OC₁ (one chain or ring, one absorber) and one
+    round of disjoint chains (free and one absorber), and two rounds repair them. The 11th (n = 5) satisfies OC₁.
   - Three programs agree (`zero_version_keps.log`, `k4zero_scan_keps.log`, `verify_k4zero_W4.log`): ksens ocsat,
     k4/sdc's own OC₁ pipeline (Enc, de_free.moves with rings, oc_absorb.extends_A), and the brute force of
     `verify_k4zero.py`.
-  - **Every one of them contains a good valued by nobody.** Deleting the worthless goods restores OC₁ and one round, in
+  - **Each of the 10 contains a good valued by nobody.** Deleting the worthless goods restores OC₁ and one round, in
     both programs.
 - *Instance W4* (n = 4, m = 7, k = 4; good 3 is valued by nobody):
   - values [[7114,0,7069,0,0,6267,3000], [9160,0,8502,0,0,3000,2986], [0,1391,6792,0,5427,6130,0],
@@ -406,13 +417,15 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 - Checked on 15,684 starts, n = 3–5, generic and small-integer values with ties: the picks extend on all of them.
 - So the two-type failure of §3.3 is as close to identical as a failure can be: two types, two agents each.
 
-### 5.3 Why the starved-agent obstruction needs four agents (partial)
+### 5.3 Starvation at n = 3 (partial)
 - At n = 3 a starved agent a must hold y_b and y_c. Then b and c both lost their picks, and one of them, say b, holds
   no pick at all (X_b ⊆ J), because y_a is in only one bundle.
 - The only round structure placing y_b and y_c with a is the path b → a → c with y_c released into X_a, which needs
   y_a ∈ X_c. Its gain at a is v_a(y_b) + v_a(X_a ∩ J) > v_a(y_a).
-- If that fails, X is unreachable. But at n = 3 such an X seems never to be the only MD allocation: on all data
-  another MD allocation is reachable.
+  - *Why this is the only structure.* b holds no pick, so it has no predecessor and must pass, to a. Then c cannot
+    also pass to a, so c is an end, whose predecessor must be a.
+- If that gain fails, X is unreachable. On all data at n = 3 another MD allocation is then reachable: no start was
+  found at which every MD allocation is starved.
 - A proof would have to construct that allocation, which is the three-agent existence problem again. Not proved.
 
 ## 6. Proposed ledger rows (for the coordinator; LEDGER.md is not edited on this branch)
@@ -428,7 +441,10 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 | K4.SDC.OC1PERF | OC₁ (and one round) at perfect starts for every instance with ≤ 4 relevant goods per agent (the target of Lemma RED's route; the LOOSE form of OC₁^max) | REFUTED | `kgen/rounds/k4w_check.py`, `results/kgen_rounds/k4w_check.log` (K4W, no worthless good), `results/kgen_rounds/verify_k4zero_W4.log` (W4) |
 
 ## 7. Next
-- RD²⁺: faster two-round checker (C, backward with round-1 enumeration) and bigger climbs, n = 5, 6; the depth-two
-  design of §4.1 at n = 6.
+- RD²⁺:
+  - at n = 6 the two-round checker needs a larger round-1 structure table (MAXS1);
+  - the depth-two design of §4.1 at n = 6.
+- Whether K4W's configuration can appear in Lemma RED's I′ of a core. Climbs on the I′ shape: agents with three goods
+  may be top-heavy, four-good agents are balanced (`iprime_*.log`).
 - Turn the starved-agent certificate into the obstruction statement it suggests: "some MD allocation has no starved
   agent" is ROUND-P-like and contains EFX existence; what does k ≤ 4 add?
