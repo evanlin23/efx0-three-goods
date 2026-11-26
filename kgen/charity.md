@@ -463,7 +463,17 @@ there is an EFX₀ state with strong charity whose pool P satisfies
 
 For k = 4 this gives |P| ≤ 2, 4, 6 and 9 when d = 2, 3, 4 and 5 (part 3: the largest p with p! ≤ d^{p−1} is 2, 4, 6, 9;
 part 2: 3, 5, 7, 9). If R(3) = 3 and R(4) = 4, as Sivashankar reports from Kirchweger–Szeider [unverified],
-the cases d = 3, 4 improve to 3 and 4. No bound here depends on n.
+the cases d = 3, 4 improve to 3 and 4. No bound here depends on n. The table (`kd_table.py`, `kd_table.log`) lists
+min{(k − 2)d − 1, max{p : p! ≤ d^{p−1}}}:
+
+| d | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| packing: max p with p! ≤ d^{p−1} | 1 | 2 | 4 | 6 | 9 | 11 | 14 | 16 | 19 | 21 |
+| **k = 4** | 1 | 2 | 4 | 6 | 9 | 11 | 13 | 15 | 17 | 19 |
+| k = 5 | 1 | 2 | 4 | 6 | 9 | 11 | 14 | 16 | 19 | 21 |
+
+So for k = 4 and d ≥ 5 part 2 decides (2d − 1). R(5), R(6) are not known (Sivashankar lists exact values only up to
+R(4), p. 2); if R(d) = d, the conjecture recorded there, then f(4) ≤ min(2d − 1, d) = d.
 
 *Champions and the source digraph.* For a set B that some agent envies, a *champion option* of B is a pair (Z, t)
 with Z ⊆ B, t envying Z, and nobody envying Z ∖ {h} for any h ∈ Z (an inclusion-minimal envied subset with one of its
