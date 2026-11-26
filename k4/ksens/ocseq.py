@@ -152,7 +152,9 @@ class Seq:
                 add(c)
         return newown
 
-    def holds(self, base, c, A=None, model=False, multi=False):
+    def holds(self, base, c, A=None, model=False, multi=False, cap=None):
+        """some state c chains (or c rounds) reach has a completion; cap: instead count the distinct completed final
+        allocations, up to cap (blocking clauses on the allocation variables)"""
         act = self.new(); cl = []
         add = lambda c_: cl.append(c_ + [-act])
         owner = {}
@@ -182,6 +184,12 @@ class Seq:
             else:
                 for comb in itertools.combinations(bigs, A + 1): add([-x for x in comb])
         for c_ in cl: self.S.add_clause(c_)
+        if cap is not None:
+            xs = [E.x[g][i] for g in range(self.m) for i in range(self.n)]; cnt = 0
+            while cnt < cap and self.S.solve(assumptions=[act]):
+                mdl = set(l for l in self.S.get_model() if l > 0)
+                self.S.add_clause([-act] + [-l for l in xs if l in mdl]); cnt += 1
+            self.S.add_clause([-act]); return cnt
         ok = self.S.solve(assumptions=[act])
         res = ok
         if ok and model:

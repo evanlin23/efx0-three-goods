@@ -12,6 +12,11 @@ Objectives (minimized; first coordinate 0 = counterexample to the target):
   oc1mx, round1mx, rd2amx, ...: any target with the starts restricted to maximum-matching starts (maxmatch.nu);
   rd2, rd2a: 3 minus the most rounds of disjoint chains any start needs (ocseq multi, at most 3 tried; free, one
         absorber): 0 = a start that two rounds cannot repair (Conjecture RD2, k4/ksens.md §6);
+  oc3, oc3a: layered (free, one absorber). If some start is not repaired by one chain: the least number of complete
+        allocations two chains reach from such a start (ocseq.Seq.holds with cap), then minus the number of such
+        starts; 0 = a start that two chains cannot repair (Conjecture L' of k4/ksens.md §4 says none at k <= 5).
+        Otherwise 100 + the least number of one-chain repairs of a start whose picks do not complete (OC.count), so a
+        climb that dissolves the obstruction is pulled back; 199 if every start completes at the picks;
   oc2, oc2a: 3 minus the most chains any start needs (ocseq.py, at most 3 tried; free, one absorber), then minus the
         number of starts needing that many: 0 = a start that two chains cannot repair (the ladder of k4/ksens.md §4
         predicts none for k <= 6).
@@ -22,7 +27,8 @@ gen:KIND   random starts from gen.py (default jr)
 seeds:FILE JSON lines [sets, vals] (or log lines containing such a pair); LIFT = add that many new low goods per agent
            (the lift of a k = 4 instance to k = 4 + LIFT)
 mmax, mmin: bounds on the number of goods kept by mutations (default 3n + 2 and 2n: junk-rich)
-strict: never accept a worse objective (default: with probability 0.03)"""
+strict: never accept a worse objective (default: with probability 0.03)
+layer: accept a worse objective (probability 0.03) only within the same layer (first coordinate // 100; oc3 targets)"""
 import sys, json, random, time, re, itertools
 import _paths
 import ocsat
@@ -38,7 +44,8 @@ def objective(target, sets, vals):
         from maxmatch import nu as _nu
         v_ = _nu(sets, vals); st = {Y: o for Y, o in st.items() if sum(1 for g in Y if g is not None) == v_}
         target = target[:-2]
-        if not st: return (99, 0, 0) if target in ('rd2', 'rd2a', 'oc2', 'oc2a') else (99, 0), None
+        if not st: return ((99, 0, 0) if target in ('rd2', 'rd2a', 'oc2', 'oc2a') else (199, 0) if target in ('oc3', 'oc3a')
+                           else (99, 0)), None
     if target.endswith('r1'):          # R1-priority orders only (LB's Phase 1)
         from r1_pw import sd_r1
         st = {}
@@ -68,6 +75,21 @@ def objective(target, sets, vals):
             if not worst: return (99, 0, 0), None
             mx = max(c for c, _ in worst)
             return (3 - mx, -sum(1 for c, _ in worst if c == mx), -len(worst)), max(worst)[1]
+        if target in ('oc3', 'oc3a'):
+            import ocseq
+            A = 1 if target == 'oc3a' else None; Q = ocseq.Seq(sets, vals, m); two = {}; one = {}
+            try:
+                for Y in st:
+                    b = ocsat.bases_of(Y, n)
+                    if O.holds(b, chain='none', A=A): continue
+                    c1 = O.count(b, chain='need', A=A, cap=CAP)
+                    if c1: one[Y] = c1
+                    else: two[Y] = Q.holds(b, 2, A, cap=CAP)
+            finally:
+                Q.close()
+            if two: return (min(two.values()), -len(two)), min(two, key=two.get)
+            if one: return (100 + min(one.values()), 0), min(one, key=one.get)
+            return (199, 0), None
         if target in ('oc2', 'oc2a'):
             # the ladder's upper side at k = 5, 6: the most chains any start needs (ocseq, up to 3); maximized
             import ocseq
@@ -166,6 +188,7 @@ def load_seeds(path):
 if __name__ == '__main__':
     target = sys.argv[1]; seed, n, K, steps, rounds = map(int, sys.argv[2:7]); rng = random.Random(seed)
     kind = 'jr'; seeds = None; L = 0; mmax = 3 * n + 2; mmin = 2 * n; strict = 'strict' in sys.argv[7:]
+    layer = 'layer' in sys.argv[7:]
     for a in sys.argv[7:]:
         if a.startswith('gen:'): kind = a[4:]
         elif a.startswith('seeds:'):
@@ -186,7 +209,7 @@ if __name__ == '__main__':
             mu = mutate(sets, vals, rng, Kr, mmax)
             if mu is None or len(mu[0]) != n or 1 + max(max(x) for x in mu[0]) < mmin: continue
             c2, Y2 = objective(target, *mu)
-            if c2 <= c or (not strict and rng.random() < 0.03):
+            if c2 <= c or (not strict and rng.random() < 0.03 and (not layer or c2[0] // 100 == c[0] // 100)):
                 (sets, vals), c, Y = mu, c2, Y2; best = min(best, c)
                 if c[0] == 0:
                     print('COUNTEREXAMPLE', target, json.dumps((sets, vals)), 'picks', Y, flush=True); break
