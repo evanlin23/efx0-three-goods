@@ -836,3 +836,342 @@ pickless agents freeze only agents that value no junk.
 **Referee report.** `k4/referee/maxsd.md`: SDPO CORRECT (strictness essential), MAXSD CORRECT (also with tie-breaking),
 MAX CORRECT. The referee brute-forced all matchings and all orders on 4,500 strict instances ($n \le 6$) and 2,000
 tied ones, and found 0 failures except the expected SD $\ne$ PO under ties. The Lean build result is in Appendix A.
+
+## 7. Refutations
+
+Every instance below is printed in full. Goods are numbered from 0. "Agent $i$: $g$ ($x$)" means $v_i(g) = x$, and all
+other values are 0. Appendix C re-checks each printed claim marked † from the printed data alone.
+
+### 7.1 Value-monotone methods get stuck, at $k = 4$ and at $k = 3$
+
+> **P1.** Every partial EFX₀ allocation that is Pareto-maximal among partial EFX₀ allocations (comparing value
+> vectors), and allocates the most goods among those with its value vector, is complete.
+
+If P1 held, no procedure that keeps a partial EFX₀ allocation and never lowers an agent's value could get stuck. That
+covers adding goods, envy-cycle rotations, and path moves in which every agent on the path gains.
+
+**Proposition 7.1 (P1 fails at $k = 4$; `k4/sdc.md` §1, ledger K4.SDC.P1) [V] †.** The instance GM4-E, a strict
+connected $k = 4$ core with $n = 4$, $m = 7$:
+
+| agent | goods (value) |
+|---|---|
+| 0 | 0 (3), 2 (10), 4 (6), 6 (2) |
+| 1 | 1 (3), 3 (4), 5 (8), 6 (2) |
+| 2 | 2 (4), 3 (2), 6 (3) |
+| 3 | 4 (2), 5 (4), 6 (3) |
+
+Take $X = (\{0, 4\}, \{1, 3\}, \{2\}, \{5\})$, which leaves good 6 out, with values $(9, 7, 4, 4)$.
+- *$X$ is partial EFX₀.* Agents 0 and 1 envy only singletons. Agent 2 sees $\{1, 3\}$, of which it values good 3 at
+  $2 \le 4$. Agent 3 sees $\{0, 4\}$, of which it values good 4 at $2 \le 4$.
+- *Good 6 fits nowhere.* In $\{0, 4, 6\}$, agent 3 sees $\{4, 6\}$ after removing 0, worth $5 > 4$. In $\{1, 3, 6\}$,
+  agent 2 sees $\{3, 6\}$, worth $5 > 4$. In $\{2, 6\}$, agent 0 sees $\{2\}$, worth $10 > 9$. In $\{5, 6\}$, agent 1
+  sees $\{5\}$, worth $8 > 7$.
+- *Nothing is better.* Exhaustively over all $5^7$ partial allocations, no partial EFX₀ allocation gives every agent at
+  least its value in $X$ while either being better for some agent or allocating good 6. Each of the 15 complete EFX₀
+  allocations leaves some agent below its value in $X$.
+
+*Verification.* Two programs by the coordinator: `k4/sdc/refute_p1.py`, an independent replay from the definitions,
+and `k4/sdc/p1_brute.py` with `p1_replay.py`. A SAT climb (`p1_screen.py`) also finds stuck Pareto maxima on the GM4
+family. The referee did not check this item.
+
+**Proposition 7.2 (P1 fails at $k = 3$; Proposition CH-E with $\sigma = 2$, `kgen/charity.md` §5) [V] †.** The
+instance S′(2, 3) has $n = 4$, $m = 7$, and every agent values exactly three goods:
+
+| agent | goods (value) | holds in $X$ |
+|---|---|---|
+| $c_0$ | 5 (10), 0 (6), 4 (6) | {5} |
+| $c_1$ | 6 (10), 2 (6), 4 (6) | {6} |
+| $s_0$ | 6 (5), 0 (2), 1 (2) | {0, 1} |
+| $s_1$ | 5 (5), 2 (2), 3 (2) | {2, 3} |
+
+The state $X$ leaves good 4 out. No partial EFX₀ allocation dominates it, and each of the 58 complete EFX₀
+allocations leaves some agent worse off.
+
+*Verification.* `kgen/charity/refute_pm.py` (the session; no SAT, exhaustive over $5^7$) and the coordinator's
+`k4/sdc/p1_k3_verify.py` (brute force; attack log, 21:35). The written proof (Proposition CH-E: a Pareto maximum for
+every $\sigma \ge 2$ and $k \ge 3$, leaving $\sigma - 1 = \Omega(\sqrt n)$ goods out) is not refereed.
+
+**Consequence.** A correct procedure for TARGET₄ must avoid such states or take steps that lower some agent's value.
+Since this happens already at $k = 3$, where complete EFX₀ allocations exist, it does not separate $k = 4$ from
+$k = 3$. The $k = 3$ constructions LB⁺ and Draft and Exchange are not value-monotone in this sense: their
+intermediate states are pre-allocations or trades, not partial EFX₀ allocations.
+
+### 7.2 "One chain from every order" fails on strict $k = 4$ cores
+
+**Proposition 7.3 (OC₁ and OC fail for some orders; `k4/sdc.md` §31) [V].** With moves = additions, chains and rings
+(§2.4):
+- **(a) OC₁ fails on a strict connected $k = 4$ core** (B<; $n = 6$, $m = 10$) †:
+
+  | agent | goods (value) |
+  |---|---|
+  | 0 | 0 (6), 2 (14), 3 (16), 1 (12) |
+  | 1 | 6 (4), 4 (18), 5 (12), 9 (28) |
+  | 2 | 1 (28), 2 (4), 3 (16), 9 (21) |
+  | 3 | 1 (16), 6 (14), 7 (12), 8 (6) |
+  | 4 | 3 (28), 6 (8), 9 (24) |
+  | 5 | 1 (20), 3 (30), 6 (8), 9 (4) |
+
+  The order $0, 1, \dots, 5$ gives the picks $(3, 9, 1, 6, -, -)$, and the junk is $\{0, 2, 4, 5, 7, 8\}$. The picks
+  have no one-absorber EFX₀ completion, and neither has any of the 57 states one move reaches. OC₁ fails for 24 of
+  the 720 orders; all 24 give these picks. B> (agent 2's value for good 9 lowered to 19) behaves the same.
+- **(b) OC fails, even with the free completion, on a strict connected core in the MC2 class** ($n = 5$, $m = 9$) †:
+
+  | agent | goods (value) |
+  |---|---|
+  | 0 | 0 (10), 3 (6), 6 (5), 8 (7) |
+  | 1 | 1 (10), 4 (6), 7 (5), 6 (7) |
+  | 2 | 2 (10), 5 (6), 8 (5), 7 (7) |
+  | 3 | 0 (4), 1 (3), 2 (2) |
+  | 4 | 0 (2), 1 (4), 2 (3) |
+
+  The order $0, \dots, 4$ gives the picks $(0, 1, 2, -, -)$. There is no EFX₀ completion at all, neither at the picks
+  nor after any of the 232 moves. It fails for 12 of the 120 orders.
+
+*Why (b) fails at the picks* (a hand proof; the claim after one move is computational). Agents 3 and 4 hold nothing
+and value only the picks 0, 1, 2. So agents 0, 1, 2 are frozen and must hold their picks alone: a pick in a bundle
+with another good is threatened by a wanter whose own bundle is worth 0 to it. All six junk goods therefore go to
+agents 3 and 4. Each agent $i \le 2$ has a *danger triangle*: any two of its three junk goods outweigh its pick.
+- agent 0: $\{3, 6, 8\}$, with $6 + 5 = 11$, $6 + 7 = 13$, $5 + 7 = 12$, all $> 10$;
+- agent 1: $\{4, 7, 6\}$;
+- agent 2: $\{5, 8, 7\}$.
+
+A bundle of three or more goods may hold at most one good of each triangle. The shared goods 6, 7, 8 pairwise share a
+triangle. Splitting six goods between two bundles puts two of them together. If their bundle has three or more goods,
+it is threatened. If it is exactly that pair, the other bundle has four goods and contains two goods of a triangle
+($\{3, 8\}$, $\{4, 6\}$ or $\{5, 7\}$ for the three pairs). ∎
+
+**Mechanism, and what survives.** In both instances the failing picks match $\nu - 2$ agents, while $\nu = n$. The
+pickless agents value only picks, freeze the pick holders, and are left as the only junk receivers, which cannot hold
+the danger sets. Lemma 6.3 shows that this cannot happen at a maximum-matching start. On (b), all 50
+maximum-matching orders complete at the picks.
+
+Neither instance refutes MD, SD-C or TARGET₄. For B<, the allocation
+$(\{3\}, \{9\}, \{1\}, \{6\}, \{2, 4, 7\}, \{0, 5, 8\})$ is EFX₀; it gives both pickless agents three junk goods †.
+
+*Verification.* Found by the TTC session (`claude/k4-ttc`; `attempts/k4-ttc-oc-every-order.md`). Checked by the Hall
+session (`k4/oc1_hall.md` §16, §18, `verify_ttc_cex.py`, with SAT and a brute force). Replayed by the coordinator with
+code written from the core definition and the move rule, using raw EFX₀, brute-force completions and no SAT:
+`k4/sdc/oc1_core_cex_verify.py` and `k4/sdc/oc_mc2_cex_verify.py`, logs in `results/k4_sdc/`. Ledger K4.SDC.OC and
+K4.SDC.OC1 are REFUTED with these artifacts. The referee did not check this item.
+
+**Remark (OC₁ at $k = 3$ outside cores; `k4/k3_oc1.md` §9) [V] †.** The same pigeonhole appears at $k = 3$ when agents
+have two private goods. Every agent below values its goods $a > b > c$ at $10 > 8 > 7$.
+
+| agent | goods $a, b, c$ |
+|---|---|
+| 0 | 0, 1, 2 |
+| 1 | 0, 1, 2 |
+| 2 | 0, 3, 4 |
+| 3 | 1, 5, 6 |
+| 4 | 2, 7, 8 |
+
+The order $(2, 3, 4, 0, 1)$ gives agents 2, 3, 4 their tops and agents 0, 1 nothing. The six junk goods are the
+private pairs of agents 2, 3, 4. No one-absorber completion exists at the picks, nor after any of the 51 chains that
+never pass an empty base. Two programs of the $k = 3$ session agree: `k4/k3oc1/oc1_general.py` and the independent
+replay `attempts/k4_k3oc1_oc1_cex.py`. The instance is not a core (rule R2 peels agents 2, 3, 4). It is repaired by
+one chain that passes through an agent holding nothing, or by one chain under the free completion. So OC₁ "for every
+instance", as literally stated, is false at $k = 3$. What the conjectures of §11 need is the core form.
+
+### 7.3 One chain fails at $k = 5$, even from maximum-matching starts
+
+**Proposition 7.4 (PW5; `k4/ksens.md` §1) [R] †.** The following instance has $n = 5$, $m = 9$, and is 5-limited.
+Here $p_j = j - 1$ for $j = 1, 2, 3$, $q_1 = 3$, $q_2 = 4$, and the pool is $D = \{5, 6, 7, 8\}$.
+
+| agent | goods (value) |
+|---|---|
+| $x_1 = 0$ | $p_1 = 0$ (10); 5 (9), 6 (8), 7 (7), 8 (6) |
+| $x_2 = 1$ | $p_2 = 1$ (10); 5 (9), 6 (8), 7 (7), 8 (6) |
+| $x_3 = 2$ | $p_3 = 2$ (10); 5 (9), 6 (8), 7 (7), 8 (6) |
+| $w_1 = 3$ | 0 (6), 1 (4), 2 (2), $q_1 = 3$ (1) |
+| $w_2 = 4$ | 0 (6), 1 (4), 2 (2), $q_2 = 4$ (1) |
+
+From the order $\pi = (x_1, x_2, x_3, w_1, w_2)$, neither the picks nor any state reached by one improving chain or
+one addition has a complete EFX₀ completion, even a free one. Since every agent picks, this is a maximum-matching
+start. Hence OC and OC₁ fail at $k = 5$, and so at every $k \ge 5$; so do OC^max and OC₁^max.
+
+*Proof.* The picks are $p_1, p_2, p_3, q_1, q_2$, and the junk is $D$. Every $x_j$ is frozen, since both wanters want
+every $p_j$. Every pair of $D$ is worth at least $6 + 7 = 13 > 10$ to every $x_j$, and every single good of $D$ less
+than 10. Let $X$ be a complete EFX₀ allocation that contains the bases of a state reached by at most one chain or
+addition.
+1. *Who can gain.*
+   - An $x$ values only its own $p$ and $D$, and no other agent's base contains its $p$. So on a chain an $x$ gains
+     only if its new base holds at least two goods of $D$; in an addition it keeps $p_x$ and adds goods of $D$.
+   - A wanter gains only by receiving some $p_j$, since it values nothing else above its $q$, and no junk at all.
+   - Every agent's base is nonempty.
+2. *A frozen $x$ holds its pick alone.* If an off-chain wanter $w$ holds no $p$, then $v_w(X_w) = 1 < v_w(p_j)$ for
+   every $j$. So every $x_j$ that still holds $p_j$ has $X_{x_j} = \{p_j\}$, and then no bundle of three or more goods
+   may contain two goods of $D$.
+3. *Let $S$ be the set of $x$'s on the chain.* On a chain each $x$ in $S$ takes two goods of $D$, so $|S| \le 2$.
+   - $|S| = 0$: no wanter can gain, so there is no chain, and an addition is by an $x$ (the case $|S| = 1$, $t = 0$
+     below) or by nobody. At the picks, the $x$'s hold their picks alone (step 2), and the four goods of $D$ go to the
+     two wanters' bundles. Some bundle then has at least three goods, two of them in $D$. ✗
+   - $|S| = 2$: the third $x$ holds no good of $D$ and has value 10. The member of $S$ that is not $x_0$ holds a
+     nonempty received base plus its pair, so at least three goods, two of them in $D$. ✗
+   - $|S| = 1$, $S = \{x_a\}$, addition: $x_a$ keeps $p_a$ and adds goods of $D$. Both wanters hold no $p$, so they want
+     $p_a$ and are threatened by $X_{x_a}$ minus a good of $D$. ✗
+   - $|S| = 1$, chain: exactly one wanter $w$ receives $p_a$. The other wanter $w'$ cannot gain, so it is off the
+     chain and holds no $p$, and by step 2 the other two $x$'s hold their picks alone. If $x_a \ne x_0$, then $x_a$
+     holds a received base plus two goods of $D$. ✗ If $x_a = x_0$, its bundle is exactly two goods of $D$ by step 2.
+     $w$ holds $p_a$, which $w'$ wants, so $X_w = \{p_a\}$, and the other two goods of $D$ can only go to $w'$, whose
+     bundle then has at least three goods with two of $D$. ✗ ∎
+
+Every case also holds with the free completion, so the proof covers OC as well as OC₁.
+
+*Additions as replacements, and rings.* The written proof treats a one-agent move as an addition. The referee's
+exhaustive enumeration also covers one-agent replacements $H_0 \subseteq J \cup B_{x_0}$: none of the 78 such states
+extends. The coordinator's check `k4/sdc/pw5_max_check.py` also includes rings: none of the 555 states one move
+reaches has a free completion [V].
+
+**Referee report.** `k4/referee/ksens.md`: CORRECT. The referee enumerated all $5^9$ allocations (186 are EFX₀) and
+every chain and one-agent move from all 19 distinct starts. The only failing start is $\pi$'s. The 12 orders that put
+the three $x$'s before the two wanters produce it.
+
+**Where $k \le 4$ enters.** One repair of a frozen agent spends two of its junk goods. A frozen agent with $k$
+relevant goods has at most $k - 1$ junk goods, so at most $k - 3$ are left. At $k = 4$ that is one good, which is
+never a danger set (I2). At $k = 5$ two goods are left, still a danger set for the agents sharing the pool, and one
+chain cannot repair a second agent. The general statement is this.
+
+**Lemma 7.5 (PL, pool leftover; `k4/ksens.md`) [R].** Let $Y = \mathrm{SD}(\pi)$ with junk $J$. Let $x$ be an agent
+with pick $y_x$ and $|R_x| \le k$, and let $H \subseteq J \cap R_x$ with $v_x(H) > v_x(y_x)$ (a junk danger set of
+$x$, used as its improving set). Then:
+- (a) $|H| \ge 2$, and $x$ values at most $k - 3$ goods of $J \setminus H$;
+- (b) if $|R_x| \le 4$, $x$ values at most one good of $J \setminus H$, worth at most $v_x(y_x) < v_x(H)$, so once
+  $x$'s base contains $H$, no subset of $J \setminus H$ is a danger set of $x$;
+- (c) if $z$ is any agent with a pick, $|R_z| \le 4$, that values at least two goods of $H$, then $z$ values at most
+  one good of $J \setminus H$, worth at most $v_z(y_z)$; so while $z$ holds $y_z$, no subset of $J \setminus H$ is a
+  danger set of $z$;
+- (d) for every $k \ge 5$ the bound $k - 3 \ge 2$ of (a) is attained, and PW5 shows it is fatal for one chain.
+
+*Proof.* Every $g \in J \cap R_x$ was available when $x$ picked, so $v_x(g) \le v_x(y_x)$ (I2). A single junk good is
+therefore not worth more than $y_x$, so $|H| \ge 2$. Since $y_x \notin J$, $|J \cap R_x| \le |R_x| - 1 \le k - 1$, which
+leaves at most $k - 3$ goods outside $H$. This proves (a). (b) is (a) with $k = 4$, together with (I2). For (c),
+$|J \cap R_z| \le 3$ and two of these goods lie in $H$; the remaining one is worth at most $v_z(y_z)$ by (I2). (d) is
+Proposition 7.4. ∎
+
+PL covers only the old junk $J \setminus H$. Released picks, agents that share only one good with $H$, and danger
+sets that use another agent's pick are not covered; these are the parts a $k = 4$ proof still has to handle
+(`k4/ksens.md`, "What PL does not cover").
+
+**Lemma 7.6 (PWk(a), the PW family at $k \le 4$; `k4/ksens.md` §7) [R′].** In the family PW($f, W, r$), $f$ frozen
+agents $x_j$ value their pick $p_j$ at $P = 20$ and each good of a shared pool $D$, $|D| = r \le 10$, at less than $P$
+(19, 18, …), and every pair of $D$ above $P$. $W$ wanters $w_i$ each value every $p_j$ above their own $q_i$, with the
+same ranking $p_1 > \dots > p_f$. The order is $x_1, \dots, x_f, w_1, \dots, w_W$. If $r \le 3$, the start needs at
+most one chain and has a one-absorber completion after it, for every $f$ and $W$. In particular PW never breaks OC₁
+at $k \le 4$.
+
+*Proof.* For $W = 0$ no agent is frozen, and the picks complete with one owner by Theorem DT⁺ of `k4/sdc.md` §6
+(every agent then has at most four goods). For $W \ge 1$ and $r \le 1$, the pool good goes to $w_1$. Let $W \ge 1$ and
+$r \in \{2, 3\}$. Use the chain $x_1 \to w_1$: $x_1$ takes two pool goods $d_1, d_2$, and $w_1$ takes $p_1$ and
+releases $q_1$. Complete as follows: $x_1$ keeps $\{d_1, d_2\}$, $w_1$ keeps $\{p_1\}$, every other agent keeps its
+pick, and the leftovers $q_1$ and (if $r = 3$) $d_3$ go as follows.
+
+| case | $q_1$ to | $d_3$ to | absorber |
+|---|---|---|---|
+| $W \ge 2$ | $w_2$ | $w_2$ | $w_2$, bundle $\{q_2, q_1, d_3\}$ |
+| $W = 1$, $f \ge 2$ | $x_2$, bundle $\{p_2, q_1\}$ | $w_1$, bundle $\{p_1, d_3\}$ | none |
+| $W = 1$, $f = 1$ | $x_1$ | $x_1$ | $x_1$ (two agents only) |
+
+The EFX₀ check is a short case analysis in `k4/ksens.md` §7. Two of its points:
+- Each $x_j$ ($j \ge 2$) has value $P$ and sees at most one pool good outside $x_1$'s pair.
+- $w_1$, holding its top pick $p_1$, sees in $\{p_2, q_1\}$ after removing a good only $p_2$ or $q_1$, each below
+  $p_1$. ∎
+
+*The fix.* The referee showed that the first version of this proof used, for $W = 1$, $f \ge 2$, $r = 3$, the
+completion "absorber $x_2$ with $\{p_2, d_3, q_1\}$". That needs $v_{w_1}(p_2) + v_{w_1}(q_1) \le v_{w_1}(p_1)$, which
+the family's description does not guarantee: it fails, for example, with wanter values $(12, 8, 5)$. The completion in
+the table is the referee's fix; it needs no absorber. The session applied it, and it is the text above. Referee
+report: `k4/referee/ksens.md` §5 (also Lemma PL: CORRECT). Checks: 60 clean configurations and 3,000 random value
+assignments of the family's shape, all EFX₀.
+
+### 7.4 One round of disjoint chains fails at $k = 5$
+
+**Proposition 7.7 (RD5; `k4/ksens.md` §6) [V] †.** The following instance has $n = 4$, $m = 7$, strict values, and
+only agent 0 has five goods.
+
+| agent | goods (value) |
+|---|---|
+| 0 | 1 (57), 3 (44), 5 (33), 0 (26), 4 (24) |
+| 1 | 1 (12), 2 (11), 3 (6) |
+| 2 | 1 (9), 2 (8), 3 (6), 4 (1) |
+| 3 | 2 (53), 5 (47), 0 (36), 6 (4) |
+
+The order $(0, 3, 1, 2)$ gives agents 0, 3, 1, 2 the picks 1, 2, 3, 4, and the junk is $\{0, 5, 6\}$. Every agent
+picks, so this is a maximum-matching start. None of the 50 states one round reaches (30 of them by one chain) has a
+completion, free or with one absorber. Two sequential chains repair it.
+
+*Mechanism.* Agents 0 and 3 are frozen, and they share the junk pair $\{0, 5\}$, a danger set for both
+($26 + 33 > 57$, $36 + 47 > 53$). Agent 3 gains only by taking $\{0, 5\}$, so agent 0 must repair itself without it.
+Its other improving sets need two other agents' picks (goods 3 and 4), and a chain or a round gives an agent at most
+one other agent's pick. Five goods are needed: the pick, the shared pair, and two foreign picks. Dropping any one of
+agent 0's goods restores one round.
+
+*Verification.* Two programs of the $k$-sensitivity session: `k4/ksens/ocsat.py` (SAT, with rounds) and
+`k4/ksens/brute.py` (every round enumerated from the definition, every allocation against the raw EFX₀ definition).
+A third implementation, `ocseq.py` with rounds, agrees with both on 1,364 start–completion pairs
+(`xcheck_rounds.log`). Log `results/k4_ksens/refute_rd_k5.log`. Not refereed.
+
+Together, Propositions 7.4 and 7.7 show that the one-move and one-round forms are $k \le 4$ statements. Every
+statement of §11.1 must use $k \le 4$ somewhere.
+
+## 8. The $k$-ladder (mostly evidence)
+
+Source: `k4/ksens.md` §4, §7, §8 (branch `claude/k4-ksens`), with the $k = 3$ entries from `k4/k3_oc1.md` (branch
+`claude/k4-k3-oc1`). **This section is mostly evidence.** Only the cells marked [R] or [V] are established; "holds"
+means "no failure on the data", never "proved".
+
+How much repair do SD picks need, as a function of $k$? A *start* is the SD picks of an order. Each row asks for a
+complete EFX₀ completion after the stated repair, from every start of the stated kind.
+
+| statement | $k \le 2$ | $k = 3$ | $k = 4$ | first failure | smallest counterexample known |
+|---|---|---|---|---|---|
+| no repair: the picks extend | proved (K3.SD2, Lean) | **fails** [V] | fails | $k = 3$ | $n = 2$, $m = 4$ (below) |
+| one chain (OC₁, OC) | (no chain needed) | proved for R1-compatible orders in DE's core case [R] (§9); holds on all cores tested [E]; fails outside cores [V] (§7.2) | holds [E] | **$k = 5$** | RD5, $n = 4$, $m = 7$ [V]; PW5, $n = 5$, $m = 9$ [R] |
+| one chain from maximum-matching starts (OC₁^max) | | | holds [E] | **$k = 5$** | PW5 [R]; RD5 [V] |
+| one chain from R1-priority starts, or from the need-2 neediest-first start | | | holds [E] | $k = 6$ | PWR1-6, NF2-6, $n = 6$, $m = 11$ [V] |
+| one chain from LB₄ʳ's Phase 1 (need-2, R1) | | | holds [E] | none found | |
+| $c$ chains in sequence | $c = 0$ | $c = 1$ [E] | $c = 1$ [E] | $k = 2c + 3$ ($c \le 3$) | PW($c+2$, $c+1$, $2c+2$); $c = 1$ [R], $c = 2, 3$ one SAT encoding [E] |
+| one round of disjoint chains (RD, RD₁) | | | holds [E] | **$k = 5$** | RD5 [V] |
+| two rounds (RD²), also from maximum-matching starts | | | holds [E] | none found | (§11.6) |
+| SD-C (some order, no repair) | proved | holds [E] | holds [E] | none found ($k \le 8$) | |
+| MD (every start value-dominated) | proved | holds (TARGET₃ for the empty matching) | holds [E] | none found ($k \le 8$) | |
+
+Notes on the cells.
+- *The picks extend at $k \le 2$.* Serial dictatorship, with the last agent taking all leftovers, is EFX₀ when every
+  agent values at most two goods (ledger K3.SD2, Lean `EFX.Inst.sdRun_efx0`).
+- *The $k = 3$ failure of "no repair"* (`results/k4_ksens/k3_zero.log`; SAT and brute force) †. Agent 0 values goods
+  0, 1, 2 at 12, 13, 3, and agent 1 values goods 1, 2, 3 at 19, 2, 5. From the order (0, 1) the picks are 1 and 3, and
+  the junk is $\{0, 2\}$. Agent 1 wants good 1, so agent 0 must hold it alone. Then both junk goods go to agent 1,
+  and agent 0 sees $\{0, 2\}$, worth $15 > 13$. One chain repairs it.
+- *$c$ chains.* In PW($f, W, r$) each chain repairs only its head, spends two pool goods and uses up one wanter.
+  After $c$ chains, $r - 2c$ pool goods remain and only $W - c$ wanters can take one each. So $c$ chains fail when
+  $r - 2c > W - c \ge 1$, which with $r = k - 1$ needs $k \ge 2c + 3$. The least number of chains in the family is
+  $\lfloor (k-1)/2 \rfloor$, computed for $k = 5, \dots, 9$ by one SAT encoding (`ocseq.py`), and confirmed by a
+  breadth-first search for $k = 5, 6$ [E]. The general count is a heuristic, not a proof.
+- *Orders.* The orders where one chain first fails depend on the order class: every order fails at $k = 5$, and
+  R1-priority and need-2 neediest-first orders fail at $k = 6$ (each case checked by two SAT encodings and a SAT-free
+  enumeration, `refute_oc1_r1.log`). LB₄ʳ's Phase 1 order and "some order" (SD-C) have no counterexample at any $k$
+  tested.
+- *What fails at $k = 5$ beyond these rows.* The conclusions of Theorem DT, Lemma GDT and Theorem DT₁ (`k4/sdc.md` §6,
+  §30), which hold at $k = 4$, fail at $k = 5$ [V]. The instance DT5 has $n = 2$, $m = 6$: agent 0 values goods 0
+  (100) and 2, 3, 4, 5 (91, 92, 93, 94), and agent 1 values goods 1 (100) and 2, 3, 4, 5 (94, 93, 92, 91). The tops
+  are distinct, and yet the picks have no one-absorber completion. The instance DT1-5 has $n = 3$, $m = 8$
+  (`k4/ksens.md` §3). †
+
+**The $k$-dependence in one count** (Lemma 7.5). A frozen agent's junk danger sets live in its at most $k - 1$ junk
+goods, and a repair spends two of them.
+- $k \le 2$: no danger set, no chain.
+- $k = 3$: a danger pair, one chain, nothing left.
+- $k = 4$: one good left, never a danger set; one chain suffices on all data.
+- $k = 5$: two goods left, a danger set for the agents sharing the pool (PW5); or the repair needs two foreign picks
+  (RD5).
+
+The $k \le 4$ inputs a proof of OC₁^max can use are these:
+- Lemma 7.5 (b), (c);
+- Lemma 7.6;
+- the one-agent counts in Theorem DT's (F4) and in DT₁'s step 3 (`k4/sdc.md` §6, §30);
+- RD5's five-good requirement.
+
+**Unrestricted $k$** (`k4/ksens.md` §8, [E]). Lift PW5 to full valuations, with every agent valuing every good
+(strict, positive, $k = m = 9$): one chain still fails, and one round repairs. So PW's mechanism does not need zero
+values. The same lift of RD5 needs only one round. With every good valued, no start within $n \le 5$, $m \le 9$
+needed two rounds (climbs and random profiles). Zero values make the problem harder for rounds, not easier.
