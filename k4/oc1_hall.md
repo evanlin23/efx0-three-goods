@@ -94,6 +94,7 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | Finding F1W | f = 1, several wanters: hard starts occur only at n = 3 in the data (n − 2 = 1 slot). For n ≥ 4, the picks have an S\* completion with a wanter as owner on 219 of 220 starts | evidence (§5) |
 | Conjecture F1W (K4.OCH.F1W) | f = 1, several wanters, n ≥ 4: if some owner o ≠ x needs at most one of x's junk goods kept out (τ(o) ≤ 1), the picks have an S\* completion. With n ≥ 3, τ(o) ≥ 2 for every o only if x's three lower goods are junk and every pair of them beats a, and then a swap is needed (red-b1) | evidence (§11): 0 failures in 1,243 starts with τ ≤ 1 at n = 4–8, 319 of them with τ = 1 (τ = 0 is Proposition 3) |
 | Finding M (§12) | the coordinator's matroid-partition form (a transversal matroid of slots, one matroid per frozen agent, Rado's condition) is a valid sufficient condition, and Rado's condition equals the model when the D_i are disjoint and all matroids. It is **not exact**, because of (i) overlapping D_i (19% of owner tests), (ii) non-matroid {xy, xz} agents, and (iii) even with disjoint matroids, the strictness clause (150 tests) and exposure that depends on H (25 tests). Lemma 2's count, which has both, is exact | evidence: 20,648 owner tests |
+| "Frozen slots are not needed" (§13) | **refuted at n = 4**: five one-move repairs, none of S\* shape (`attempts/k4-oc1-hall-frozen-slots.md`) | `frozen_slot_cex.log` |
 | Finding C (§13) | outside canonical chains, only 20 configurations are left. Every hard start of every data set (n ≤ 5) has a canonical repair from a dangerous agent with owner k or end, except 20 distinct configurations (n = 3–5, smallest T3), listed in `no_canonical.json`. Each of those has a repair from D with owner k or end and exactly one non-canonical step: one middle agent takes its predecessor's good together with junk (17), or k just adds junk to its base (3) | evidence |
 | **Conjecture OC₁-ED\*** (§14; agreed with the TTC session's OC₁-ED); **refuted as stated** by the TTC session's n = 6 instances (§16) | for every order: the picks have a one-absorber completion, or some ED chain (x₀ dangerous; middle agents take exactly their predecessor's pick, which they want; only the head x_t may add junk) leaves an S\* completion owned by x₀ or x_t | evidence: all 2,308 one-absorber-hard starts (n ≤ 5). With "S\*" also in the first alternative it fails only on lb4-owner-needs-from-base-n4m8 (2 starts), which complete at the picks with a compensated frozen slot |
 | Finding D1 (§15) | one dangerous agent k: on all 197 one-absorber-hard starts with \|D\| = 1, some ED chain from k with an *inclusion-minimal* improving H₀ leaves an S\* completion owned by k (rule ED-MIN). The swap (t = 1) is enough whenever f = 1, but fails on 19 configurations with f ≥ 2, listed in `d1_swapmin_fails.json` | evidence |
@@ -126,7 +127,8 @@ The data of this note, however, have n ≤ 10, and those with every order tried 
 
 By Lemma 2\* this implies OC₁ (with the S\* shape), hence MD and TARGET₄.
 
-The invariant is Lemma 2\* (S\* with any owner). Compensated frozen slots are not needed (§13). By Finding C, the chain
+The invariant is Lemma 2\* (S\* with any owner). Compensated frozen slots are not needed on this note's data (§13), but they are
+needed at an n = 4 start (`attempts/k4-oc1-hall-frozen-slots.md`). By Finding C, the chain
 lemma may be restricted to canonical chains from D plus at most one junk-assisted middle step.
 
 Next (after the refutation of §16, everything restricted to the K4.MC2 class of strict connected cores in which no
@@ -687,7 +689,12 @@ Uses of the matroid form:
 - *A clean sub-statement for a proof*: if RADO holds for some owner, the picks complete. Then the chain lemma only
   has to handle starts where every owner has a Rado violator S. On the data these are 230 + 627 + 2,015 starts.
 
-## 13. Frozen slots are not needed; the configurations beyond canonical chains
+## 13. Frozen slots are not needed (REFUTED at n = 4, see below); the configurations beyond canonical chains
+
+**Refuted** (`attempts/k4-oc1-hall-frozen-slots.md`, `k4/oc1_hall/frozen_slot_cex.py`). At an n = 4 start found by
+`proof/k4-matching`, five one-move states have a one-absorber completion and none has an S\* completion: the
+completing allocations give a frozen agent a compensated junk good, as in Lemma 1's (S1). The evidence below covers
+only this note's n ≤ 5 data. Two S\*-shaped moves still repair (matching session).
 
 These are the coordinator's steps 1 and 3 (`k4/oc1_hall/frozen_slots.py`, `frozen_slots.log`;
 `k4/oc1_hall/no_canonical_list.py`, `no_canonical_list.log`, `no_canonical.json`).
@@ -1529,6 +1536,9 @@ must also hold the leftover junk, and then the other agent sharing the pair is t
   equal to the goods of the DT moves, via Lemma M ⟺ Lemma 2\*.
 - *Suggested exact version:* apply Lemma M at B′ directly, with the chain's single-good holders of B′ (Ext and an
   unfrozen head) as compensable holders at their B′ values. EX's picks-graph form is then a sufficient specialization.
+- *Update:* the matching session has written this version as **EX\*** (`k4/matching.md` §5). It reports that EX\* is
+  exact for the second move on all 3,308 failing profile–start pairs of the 11 n = 4 cores. In 35 of the 57 repairing
+  pairs at the stored starts, the second chain's head collects two foreign picks.
 
 ### 23.2 The case tree
 
