@@ -93,7 +93,7 @@ def de_rings(rk, m, base):
                     out.append((apply_cycle(base, path, r), ('DEring', tuple(path), tuple(r.get(i) for i in range(len(path))))))
                 elif u > s and u not in path:
                     r = dict(recv); r[len(path)] = h
-                    dfs(path + [u], hs | ({h} if h else set()), r)
+                    dfs(path + [u], hs | ({h} if h is not None else set()), r)
         dfs([s], set(), {})
     return out
 
@@ -142,3 +142,27 @@ def de_first(rk, m, base):
     for t, w in enumerate(cyc):
         if w in free: recv[(t + 1) % len(cyc)] = q[w]
     return apply_cycle(base, cyc, recv), ('DEfirst-ring', tuple(cyc))
+
+
+def de_can_finish(rk, m, base):
+    """Definition finish of paper/k3-simple: some free o and H subset of J, |H| <= |F| - 1, hitting {b_x, c_x} for
+    every blocker x of o; or every agent holds its pair.  Returns (o, H) or None.  Works without (NC)."""
+    n = len(rk); B, J, rank, U, wants, wanters, free = info(rk, m, base)
+    if all(U): return (0, ())
+    for o in free:
+        bl = blockers(rk, base, o, B, J)
+        need = [tuple(g for g in (rk[x][1], rk[x][2]) if g in J) for x in bl]
+        if any(not s for s in need): continue   # both in Y_o: impossible since o holds at most one good
+        # least hitting set by brute force over subsets of the goods involved
+        goods = sorted(set(g for s in need for g in s))
+        best = None
+        for r in range(0, len(free)):
+            for Hs in itertools.combinations(goods, r):
+                if all(set(s) & set(Hs) for s in need): best = Hs; break
+            if best is not None: break
+        if best is not None: return (o, best)
+    return None
+
+
+def de_trades(rk, m, base):
+    return de_chains(rk, m, base) + de_rings(rk, m, base)

@@ -1,0 +1,9 @@
+$ python3 k4/k3oc1/oc1_k3.py certs:5 0
+chains needed 0 13882204
+chains needed 1 114596
+distinct picks 270948
+hard distinct picks 7656
+hypergraphs 15
+profiles 116640
+starts 13996800
+time 170 s

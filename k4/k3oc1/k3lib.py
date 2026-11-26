@@ -126,3 +126,9 @@ def chains(rk, m, base, V=None, HMAX=3, BMAX=3):
                 ext(path + [y], usedH | set(H), {**assign, len(path): H})
     for x in range(n): ext([x], frozenset(), {})
     return out
+
+
+def read_lines(fn):
+    """lines of a log, or of a gzipped list of HARD lines (*.gz)"""
+    import gzip
+    return gzip.open(fn, 'rt') if fn.endswith('.gz') else open(fn)
