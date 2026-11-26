@@ -649,6 +649,78 @@ The natural first target is therefore VM1 at zero moves on the class where it ho
 
 followed by a characterization of the instances that need the one move.
 
+### 7.4 V-M matchings versus maximum matchings, and a Hall-type form of placeability (coordinator's questions)
+
+**V-M matchings are Pareto-optimal SD outcomes (Lemma PO) but not always maximum matchings.**
+- Example, not a core: agent 0 values {x, z} with x first; agent 1 values {y, x} with y first; agent 2 values only
+  y.
+  - Step 1 gives x to agent 0 uncontested and y to agent 1 or 2, and the loser of y gets nothing.
+  - So every V-M matching has size 2, while 0:z, 1:x, 2:y has size 3.
+- On the data (`vm_max.py`; `vm_max_screen.log`, `vm_max_named.log`):
+  - 426 of 449 V-M matchings on the screen set are maximum; on the named set only 49 of 238;
+  - on B< and B>, no V-M matching is maximum (ν = 6).
+
+So Lemma MAX (Hall session) does not apply to V-M starts in general. Yet VM1 with no move completes from B< and B>,
+whose V-M matchings are all non-maximum, the kind of start at which OC₁ fails.
+
+Neither completion shape contains the other. VM1's no-move completion uses rotation, which moves the picks:
+- on the named set, 93 of 192 successful matchings need it, and of the 99 that keep the picks, 39 are one-absorber;
+- on the screen set the figures are 54 of 403, and 337 of 349.
+
+I have not run OC₁^max's checker on V-M starts.
+
+**What saturation gives (proved).**
+
+**Lemma P0.** At every V-M matching Y (main reading), no pool good is wanted: v_i(g) ≤ v_i(Y_i) for every agent i
+and every unassigned good g.
+
+*Proof.* If v_i(g) > v_i(Y_i), then g is ranked above Y_i, or i has no pick. Ranked above means g = r_i(j) with
+j < st(i), which is assigned by Lemma S. With no pick, all of R_i is assigned (Lemma S). Either way g is not
+unassigned. ∎ (Checked: 0 violations among 687 matchings, `vm_hall_*.log`.)
+
+**Lemma P1′.** Call u *frozen* if some agent prefers Y_u to its own pick, and *unfrozen* otherwise.
+- At a V-M matching, {Y_u, d} is EFX₀-safe for every pool good d exactly when u is unfrozen.
+- A frozen agent can receive nothing while it stays frozen.
+
+*Proof.* For k ≠ u, the threat of a two-good bundle is max(v_k(Y_u), v_k(d)). Here v_k(d) ≤ v_k(Y_k) by P0, and
+v_k(Y_u) ≤ v_k(Y_k) iff k does not want Y_u. If k wants Y_u, any added good leaves Y_u after the removal of the other
+good. ∎
+
+So each unfrozen agent is a universal one-good slot (Theorem DT's (F2), here for every V-M start), and placeability
+becomes a covering question.
+
+**Proposition HDT (proved).** Suppose there are an unfrozen agent o and a set D of pool goods, matched injectively
+into distinct unfrozen agents other than o, such that the allocation (picks, D placed, all other pool goods and junk
+with o) is EFX₀. Then the no-move completion of VM1 succeeds. In Hall form: the goods that must be kept out of the
+owner's bundle to protect the frozen agents (and the non-robust unfrozen ones) fit into |U| − 1 universal slots.
+
+*Proof.* First place D one good per slot; these are safe by P1′. Then place the rest on o in any order. The threat
+of a bundle is monotone under inclusion, and every other bundle is already final, so each intermediate bundle of o
+is safe. This uses the variant without rotation. ∎
+
+**How much of placeability HDT explains** (`vm_hall.py`, `vm_extend.py`), as a strict hierarchy:
+
+| instances where some V-M matching… | screen (168) | named (95) |
+|---|---|---|
+| is HDT (one unfrozen owner, slots for the rest) | 115 | 23 |
+| extends to an EFX₀ allocation with its picks kept (SD-C at a V-M order; several absorbers allowed) | 147 | 93 |
+| completes with no move, rotation allowed | 157 | 95 |
+| completes with at most one move (VM1) | 168 | 95 |
+
+- HDT ⇒ success held in every case (263/263 and 35/35 matchings).
+- The gap between the rows is filled by:
+  - several absorbers;
+  - *unfreezing*: placing goods on a wanter raises its value until it stops wanting, and rotations then move bundles.
+  - On the named set, T3 and the n = 3 VMX counterexample complete only with rotation.
+
+**So the extra hypothesis the coordinator asked for is P0 together with the one-good shape.** GM4-E's stuck state
+has no wanted pool good either, but two of its agents already hold pairs, so no unfrozen singleton slots remain.
+
+The proof target sharpens to:
+- (i) HDT is a Hall/counting condition: a Theorem A₄ at V-M starts (ledger item 18's count, with every unfrozen
+  agent a slot by P1′);
+- (ii) when it fails, either an unfreezing placement or one rotation restores it.
+
 ## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading
 
 The abstract asserts the source property ("we are able to prove that ... there will be a source") without proof.
