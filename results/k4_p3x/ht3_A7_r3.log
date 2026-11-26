@@ -1,0 +1,2 @@
+A t=7: n = 22, m = 52, p = 3
+  (run in progress at 22:06 UTC, 41 min of CPU; started by: python3 k4/p3/ht3.py run A 7 '-i0 -u3 -r3 -w1 -c1' with a 7000 s timeout; no result yet. Proposition H3 predicts "fails 1".)
