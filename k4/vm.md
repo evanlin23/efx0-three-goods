@@ -4,6 +4,39 @@ Branch `claude/k4-vm`, draft PR "[proof/k4-vm] From 4-limited EFX to EFX₀". Co
 Everything called evidence below is evidence only (PROMPT.md §5 rule 3). Nothing here changes a ledger row; the
 coordinator integrates.
 
+## Status (burst 5: VM1 stressed at k ≥ 5, refuted outside the cores; the ring is one move)
+
+- **VM1 for every 4-limited instance is REFUTED, but only outside the cores** (`attempts/k4-vm-vm1-noncore.md`).
+  - Smallest counterexample: n = 5, m = 8, uncapped and by independent replay. Two of its agents value a single good.
+  - A variant with n = 5, m = 9 fails `is_core4` only by one agent's strict balance.
+  - **VM1 on connected k = 4 cores is unrefuted**, and with K4.CORE it still gives TARGET₄. From now on VM1 means VM1
+    on cores (§7.3).
+- **VM1 fails at k = 5** on a random instance (K5, n = 5, m = 9).
+- **VM1 fails at k = 6** in the PW family: 11 of 720 grid instances. The smallest is PW(2, 3, 5)#2, with n = 5,
+  m = 10 (`attempts/k4-vm-vm1-k6.md`). All failures are re-verified uncapped, and each needs two moves.
+- **VM2 fails at k = 9** (PW(3, 3, 8), which needs exactly three moves; independent replay).
+- **No failure in:**
+  - 1,080 PW instances at k ≤ 5;
+  - 560 unrestricted instances (k = m ≤ 10);
+  - the climbs at k = 5 (n = 4, 5, 6) and k = 6 (n = 4), and the non-core-checked climbs at k = 4.
+  - "c moves fail from k = 2c + 5" is refuted (§7.7).
+- **One DE chain repairs it.** VM1-chain (one VM1 move or one chain of DE's Lemma chain, then placement) completes 19
+  of the 20 VM1 failures: all at k ≤ 7, cores or not. The exception is PW(3, 3, 8) at k = 9.
+- **VMX₂** (any number of moves) completes every failure found.
+- **Request 3, the ring** (§7.8):
+  - The rotation class collapses into the one-move class.
+  - **VM1-plain** (one move applied to the V-M matching itself, then placement *with no rotation*) holds on every
+    k ≤ 5 data set: 8,057 instances, including DE's ring-size tree family. The exceptions are PW at k = 6 and
+    the non-core K4-min.
+  - Proved:
+    - Lemma RS: at a placement state every envy cycle has a pair arrow, and a pair arrow carries at most 2 pool goods
+      (3 from an empty-handed holder); DE's is 1.
+    - Lemma RX: a 2-ring with a want arrow is one valued-z exchange.
+    - Lemma MS: the size bounds of the one move.
+    - Lemma EXT′: Lemma EXT from any start state.
+  - Not proved: that one move suffices. That needs a k = 4 finishing test (DE's Lemma test has no analogue here yet)
+    and an argument for why V-M's matching needs only one trade.
+
 ## Status (burst 4: repair classes, Lemma EXT, k = 5)
 
 - **The referee** (via the coordinator) judged Lemmas SND, TERM, the invariant (I1)–(I5), P0, P1′ and Proposition HDT
