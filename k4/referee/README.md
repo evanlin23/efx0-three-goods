@@ -12,8 +12,8 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | # | item | branch | report | verdict |
 |---|---|---|---|---|
 | 1 | Theorem VM (reconstructed Viswanathan–Mehta, ordinary EFX) | `claude/k4-vm` | `vm.md` | **CORRECT** (ordinary EFX only; for the §2 reconstruction with G1) |
-| 2 | Theorem R1C, Lemmas 1–3 (OC₁ at k = 3) | `claude/k4-k3-oc1` | `k3_oc1.md` | in progress |
-| 3 | Theorem T1, Lemmas SINK, PARK, SLACK | `claude/k4-girth` | `girth.md` | pending |
+| 2 | Theorem R1C, Lemmas 1–3 (OC₁ at k = 3) | `claude/k4-k3-oc1` | `k3_oc1.md` | R1C, Lemmas 1, 2, B\* **CORRECT** (core case k = 3); Lemma 3 **CORRECT WITH FIXES** |
+| 3 | Theorem T1, Lemmas SINK, PARK, SLACK | `claude/k4-girth` | `girth.md` | in progress |
 | 4 | Lemma 2 / 2*, Corollary 2.1, Theorem F1_1 | `claude/k4-oc1-hall` | `oc1_hall.md` | pending |
 | 5 | CH-A, CH-B (charity) | `claude/kgen-charity` | `charity.md` | pending |
 | 6 | PW5 (OC₁ fails at k = 5) | `claude/k4-ksens` | `ksens.md` | pending |

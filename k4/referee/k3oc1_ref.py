@@ -336,3 +336,239 @@ if __name__ == "__main__":
             m = rng.randint(mlo, mhi)
             run_instance(rand_rk(rng, n, m), m, st, do_oc1=oc)
         out(f"random N={N} n={n} m={mlo}..{mhi} seed={seed} oc1={oc}", st)
+
+
+# ---------------------------------------------------------------- Theorem B* (k3_oc1.md §3) and Lemmas 1, 3 (§2)
+
+def pre_state(rk, Y, U, m):
+    """J, NA, F, T of a pre-allocation (picks Y, upgraded set U)."""
+    n = len(rk)
+    c = [r[2] for r in rk]
+    held = {g for g in Y.values() if g is not None} | {c[u] for u in U}
+    J = set(range(m)) - held
+    def needs(i):
+        if Y[i] is None:
+            return set(rk[i])
+        return set(rk[i][:rk[i].index(Y[i])])
+    NA = set()
+    for i in range(n):
+        if i not in U:
+            NA |= needs(i)
+    F = {i for i in range(n) if i not in U and Y[i] is not None and Y[i] in NA}
+    T = [i for i in range(n) if i not in U and i not in F]
+    return J, NA, F, T, needs
+
+def min_hit(sets, pool):
+    pool = sorted(pool)
+    for k in range(len(pool) + 1):
+        for H in itertools.combinations(pool, k):
+            if all(s & set(H) for s in sets):
+                return set(H)
+    return None
+
+class BS:
+    def __init__(s):
+        s.drafts = 0; s.applies = 0; s.rotations = 0; s.fail = 0; s.ex = []; s.chain_not_improving = 0
+
+def bstar_draft(v, rk, Y, m, bs, inst):
+    n = len(rk)
+    a = [r[0] for r in rk]; b = [r[1] for r in rk]; c = [r[2] for r in rk]
+    U = set()
+    while True:
+        J, NA, F, T, needs = pre_state(rk, Y, U, m)
+        k = next((k for k in range(n) if k not in U and Y[k] == b[k] and c[k] in J and b[k] not in NA), None)
+        if k is None:
+            break
+        U.add(k)
+    J, NA, F, T, needs = pre_state(rk, Y, U, m)
+    bs.drafts += 1
+    def E_of(o):
+        bo = {Y[o]} if Y[o] is not None else set()
+        return [x for x in range(n) if x not in U and x != o and Y[x] == a[x] and {b[x], c[x]} <= (J | bo)]
+    def chains_from(x, path, t):
+        if x == t:
+            yield path; return
+        if x not in F:
+            return
+        for j in range(n):
+            if j not in U and j not in path and Y[x] in needs(j):
+                yield from chains_from(j, path + [j], t)
+    for t in T:
+        E = E_of(t)
+        sets = [{b[x], c[x]} & J for x in E]
+        h = min_hit(sets, J)
+        if h is None or len(h) != len(T):   # deficit one for owner t (Lemma 1 needs <= |T| - 1)
+            continue
+        for k in E:
+            if k not in F:
+                continue
+            pk = {b[k], c[k]}
+            if any({b[x], c[x]} == pk for x in E if x != k):
+                continue
+            rest = [({b[x], c[x]} - pk) for x in E if x != k]
+            H4 = min_hit(rest, set().union(*rest) if rest else set())
+            if H4 is None or len(H4) > len(T) - 1:
+                continue
+            chs = [ch for ch in chains_from(k, [k], t) if len(ch) >= 2]
+            if not chs:
+                continue
+            bs.applies += 1
+            for ch in chs:
+                bs.rotations += 1
+                Y2 = dict(Y)
+                for i in range(1, len(ch)):
+                    Y2[ch[i]] = Y[ch[i - 1]]
+                Y2[k] = b[k]; U2 = U | {k}
+                J2, NA2, F2, T2, needs2 = pre_state(rk, Y2, U2, m)
+                base = [({Y2[i]} if Y2[i] is not None else set()) for i in range(n)]
+                for u in U2:
+                    base[u] = {Y2[u], c[u]}
+                if len(J2) <= len(T2):
+                    X = [set(x) for x in base]
+                    for g, tt in zip(sorted(J2), T2):
+                        X[tt].add(g)
+                else:
+                    E2 = [x for x in range(n) if x not in U2 and x != k and Y2[x] == a[x] and {b[x], c[x]} <= (J2 | pk)]
+                    H = min_hit([{b[x], c[x]} & J2 for x in E2], J2)
+                    if H is None or len(H) > len(T2) or any({b[x], c[x]} <= pk for x in E2):
+                        bs.fail += 1
+                        if len(bs.ex) < 5:
+                            bs.ex.append(("owner_k_fails", inst, Y, ch)); continue
+                        continue
+                    restJ = sorted(J2 - H)
+                    C = sorted(H) + restJ[:len(T2) - len(H)]
+                    X = [set(x) for x in base]
+                    for g, tt in zip(C, T2):
+                        X[tt].add(g)
+                    X[k] |= J2 - set(C)
+                # one-absorber relative to the bases after the chain (k* holds {b,c}; upgraded agents' c is junk)
+                nb = [({Y2[i]} if Y2[i] is not None else set()) for i in range(n)]
+                nb[k] = set(pk)
+                jc = sum(1 for i in range(n) if len(X[i] - nb[i]) >= 2)
+                if not (efx0(v, X) and jc <= 1 and sorted(g for x in X for g in x) == list(range(m))):
+                    bs.fail += 1
+                    if len(bs.ex) < 5:
+                        bs.ex.append(("completion_not_efx0", inst, Y, ch, [sorted(x) for x in X]))
+
+def bstar_run(N, n, mlo, mhi, seed):
+    rng = random.Random(seed); bs = BS()
+    for _ in range(N):
+        m = rng.randint(mlo, mhi)
+        rk = rand_rk(rng, n, m); v = make_vals(n, m, rk)
+        seen = set()
+        for pi in itertools.permutations(range(n)):
+            Y = draft(rk, pi, m)
+            key = tuple(Y[i] for i in range(n))
+            if key in seen:
+                continue
+            seen.add(key)
+            bstar_draft(v, rk, Y, m, bs, rk)
+    print(json.dumps(dict(source=f"B* random N={N} n={n} m={mlo}..{mhi} seed={seed}", drafts=bs.drafts,
+                          bstar_applies=bs.applies, rotations=bs.rotations, failures=bs.fail)))
+    for e in bs.ex:
+        print("EXAMPLE", e)
+
+# Lemmas 1 and 3 on random valid DE states (pair holders allowed)
+def de_states(rng, rk, m, tries):
+    n = len(rk)
+    for _ in range(tries):
+        hold = []; used = set(); ok = True
+        for i in range(n):
+            opts = [()] + [(g,) for g in rk[i]] + [(rk[i][1], rk[i][2])]
+            rng.shuffle(opts)
+            h = next((o for o in opts if not (set(o) & used)), ())
+            hold.append(set(h)); used |= set(h)
+        U = {i for i in range(n) if len(hold[i]) == 2}
+        # validity: every wanted good held alone
+        wanted = set()
+        for i in range(n):
+            if i in U:
+                continue
+            if not hold[i]:
+                wanted |= set(rk[i])
+            else:
+                y = next(iter(hold[i])); wanted |= set(rk[i][:rk[i].index(y)])
+        alone = {next(iter(h)) for h in hold if len(h) == 1}
+        if wanted <= alone:
+            yield hold, U, wanted
+
+def lemma13_run(N, n, mlo, mhi, seed):
+    rng = random.Random(seed)
+    cnt = dict(states=0, a=0, b=0, c=0, fail=0, lemma3_hyp=0, lemma3_false=0, lemma3_false_pair_in_owner=0, lemma3_general_hyp=0, lemma3_general_false=0)
+    ex = []
+    for _ in range(N):
+        m = rng.randint(mlo, mhi); rk = rand_rk(rng, n, m); v = make_vals(n, m, rk)
+        a = [r[0] for r in rk]; b = [r[1] for r in rk]; c = [r[2] for r in rk]
+        for hold, U, wanted in de_states(rng, rk, m, 30):
+            cnt["states"] += 1
+            held = set().union(*hold); J = set(range(m)) - held
+            T = [i for i in range(n) if i not in U and not (hold[i] & wanted)]
+            Fz = [i for i in range(n) if i not in U and (hold[i] & wanted)]
+            def E_of(o):
+                return [x for x in range(n) if x not in U and x != o and hold[x] == {a[x]} and {b[x], c[x]} <= (J | hold[o])]
+            def build(owner, H):
+                X = [set(h) for h in hold]
+                slots = [t for t in T if t != owner]
+                restJ = sorted(J - H)
+                C = sorted(H) + restJ[:max(0, len(slots) - len(H))]
+                if len(C) > len(slots):
+                    return None
+                for g, t in zip(C, slots):
+                    X[t].add(g)
+                if owner is not None:
+                    X[owner] |= J - set(C)
+                elif set(C) != J:
+                    return None
+                return X
+            def verify(X, tag):
+                jc = sum(1 for i in range(n) if len(X[i] - hold[i]) >= 2)
+                if not (efx0(v, X) and jc <= 1):
+                    cnt["fail"] += 1
+                    if len(ex) < 5:
+                        ex.append((tag, rk, [sorted(h) for h in hold], [sorted(x) for x in X]))
+            if len(J) <= len(T):
+                cnt["a"] += 1; verify(build(None, set()), "a")
+            for o in T + sorted(U):
+                E = E_of(o)
+                if any({b[x], c[x]} <= hold[o] for x in E):
+                    cond1 = False
+                else:
+                    cond1 = True
+                H = min_hit([{b[x], c[x]} & J for x in E], J) if cond1 else None
+                bok = cond1 and H is not None and len(H) <= len(T) - (1 if o in T else 0)
+                if bok:
+                    cnt["b"] += 1; X = build(o, H)
+                    if X is not None:
+                        verify(X, "b")
+                # Lemma 3 literal: every exposed agent a terminal => (b) holds for o
+                if all(x in T for x in E):
+                    cnt["lemma3_hyp"] += 1
+                    if not bok:
+                        cnt["lemma3_false"] += 1
+                        if o in U and not cond1:
+                            cnt["lemma3_false_pair_in_owner"] += 1
+                        if len(ex) < 5:
+                            ex.append(("lemma3_literal_false", rk, [sorted(h) for h in hold], o, E))
+                # Lemma 3 general form, with the missing condition added (corrected statement)
+                EF = [x for x in E if x not in T]
+                hF = min_hit([{b[x], c[x]} & J for x in EF], J)
+                if cond1 and hF is not None and len(hF) <= len([t for t in T if t not in E]) - (1 if o in T else 0):
+                    cnt["lemma3_general_hyp"] += 1
+                    if not bok:
+                        cnt["lemma3_general_false"] += 1
+            for o in T:
+                if not hold[o] and len(J) <= len(T) + 1:
+                    cnt["c"] += 1
+                    X = [set(h) for h in hold]; Js = sorted(J); others = [t for t in T if t != o]
+                    X[o] |= set(Js[:2]); 
+                    for g, t in zip(Js[2:], others):
+                        X[t].add(g)
+                    if len(Js[2:]) <= len(others):
+                        verify(X, "c")
+    print(json.dumps(dict(source=f"Lemmas 1,3 random DE states N={N} n={n} m={mlo}..{mhi} seed={seed}", **cnt)))
+    for e in ex:
+        print("EXAMPLE", e)
+
+if __name__ == "__main__" and sys.argv[1] in ("bstar", "lem13"):
+    args = list(map(int, sys.argv[2:7]))
+    (bstar_run if sys.argv[1] == "bstar" else lemma13_run)(*args)
