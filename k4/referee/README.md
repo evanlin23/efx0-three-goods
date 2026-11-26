@@ -18,6 +18,9 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 5 | CH-A, CH-B (charity) | `claude/kgen-charity` | `charity.md` | **CORRECT** |
 | 6 | PW5 (OC₁ fails at k = 5) | `claude/k4-ksens` | `ksens.md` | **CORRECT** (t = 0 aside incomplete, not needed) |
 | 7 | Lemmas D, F, S, U, BOTH-TP, Corollary TP | `claude/k4-sd-induct` | `sd_induct.md` | D, F, S, TP, BOTH-TP **CORRECT**; U **CORRECT WITH FIXES** (needs "f unfrozen") |
+| 8 | K4.SDC.MAXSD and Lemma SDPO (`k4/sdc.md` §28, §31); Lemma MAX (`k4/oc1_hall.md` §19) | coordinator, `claude/k4-oc1-hall` | `maxsd.md` | **CORRECT** (SDPO needs strict values; MAXSD also holds with tie-breaking) |
+| 9 | Proposition CH-F (W(3, 1), W(4, 1) false); Proposition DU | `claude/kgen-charity` | `chf.md`, `charity.md` §5 | **CORRECT** (independent exact check, no SAT/MILP) |
+| 10 | Lemmas SND, TERM; VM1 invariant (I1)–(I5) (`k4/vm.md` §7, §7.3) | `claude/k4-vm` | `vm.md` §6 | **CORRECT** ((I3) is about allocated goods) |
 
 **Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the
 reports):

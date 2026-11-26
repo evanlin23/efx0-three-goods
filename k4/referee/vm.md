@@ -125,3 +125,27 @@ the edges are q → p → w (log).
   - Then add the rest to o. Every intermediate bundle of o is a subset of the final safe one, threats are monotone
     under inclusion, and o itself is safe toward {Y_u, d} by P0 and u's being unfrozen.
 - The VMX₂ invariants (I1)–(I5) and the climbs were not refereed.
+
+## 6. Addendum: Lemmas SND, TERM and the VM1 invariant (I1)–(I5) (coordinator's queue; `77c8953` §7, §7.3)
+
+§7 is unchanged since `7a78df6`. Verdict: **CORRECT**, including with the unrestricted ("free-z") exchanges of VM1.
+- **SND.**
+  - After Phase II every bundle is a singleton.
+  - F1 and F2 add g to X_s only if nobody EFX₀-envies X_s ∪ {g}; other bundles are unchanged and v_s does not drop.
+  - A rotation permutes bundles and raises the rotated agents' values.
+  - Moves (upgrades, exchanges, free-z included) are applied only after a raw EFX₀ check.
+  - The junk step is L3: an unenvied receiver after rotations, and junk is worthless.
+- **TERM.**
+  - An upgrade takes ≥ 1 pool good and returns one. An exchange, free-z or not, takes ≥ 0 and returns none. So the
+    pool never grows, and there are at most m placements.
+  - Rotations, upgrades and exchanges raise some value strictly (both exchanging agents must gain) and lower none.
+  - ℓ_i(B) = #{T ⊆ R_i : v_i(T) < v_i(B)} is non-decreasing in v_i(B) and rises when v_i rises, because T = B ∩ R_i
+    becomes counted. So Φ rises strictly at every move and rotation, and Φ ≤ Σ(2^{|R_i|} − 1) ≤ 15n.
+- **(I1)–(I5).**
+  - (I1) is SND, and (I2) holds because no step lowers a value.
+  - (I3) and (I4) follow from EFX₀. A good g with v_i(g) > v_i(X_i) sitting in a bundle of ≥ 2 goods leaves g after
+    the removal of another good. A bundle of ≥ 2 goods envied by an agent that values one of its goods at 0 is
+    strongly envied.
+  - (I5) is TERM.
+  - One reading point: (I3) is about *allocated* goods. An upgrade can return a good that someone values above its
+    bundle to the pool, so "held alone" cannot be meant for pool goods.
