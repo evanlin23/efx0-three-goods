@@ -1987,3 +1987,13 @@ Evidence (`k4/sdc/oc1_max_orders.py`):
 - The R1-priority form is the alternative. Its order class is incomparable with this one. It fails on the
   two-private cores (B<, and the TTC n = 5 core), and holds on the MC2-class ones (`claude/k4-ttc`,
   `attempts/k4-ttc-oc-every-order.md`).
+
+**k = 5: the maximum-matching restriction does not help** (`k4/sdc/pw5_max_check.py`, `results/k4_sdc/pw5_max_check.log`).
+- PW5 (`k4/ksens.md` §1, refereed CORRECT in `k4/referee/ksens.md`) is the k = 5 counterexample to OC. Its failing
+  start, order 0..4, gives every agent a pick, and ν = 5, so it is a maximum-matching start.
+- There is no free completion, neither at the picks nor after any of the 555 single moves. So OC^max and OC₁^max are
+  false at k = 5.
+- The k = 5 mechanism: three frozen agents share a junk danger set D of four goods, any two of which beat each pick.
+  The two receivers each take at most one good of D. One chain moves only one pair of D, and two goods of D remain.
+- At k = 4 a danger set has at most three junk goods, and one chain leaves at most one. This is the k − 3 count of
+  `k4/ksens.md`, and it is where a proof of OC₁^max has to use k ≤ 4.

@@ -307,3 +307,22 @@ coordinator has checked them; "verified" marks the ones checked.
     Lemma T: among allocations keeping both tops with no strong envy by b, every maximizer of v_a is EFX₀. It holds
     on 8,095 instances.
   - At n = 3, "every maximizer" fails, while "some maximizer" (Conjecture T₃) holds on all 2,880 starts per role.
+
+### 2026-11-26 22:13 UTC: PW5 refereed; OC₁^max is false at k = 5 (so it is a k ≤ 4 statement)
+- **Referee, item 6:** PW5 (`claude/k4-ksens`) is **CORRECT**. OC, and hence OC₁, fails at k = 5, and so at every
+  k ≥ 5 (`k4/referee/ksens.md`, exhaustive over all 5⁹ allocations).
+- **Coordinator** (`k4/sdc/pw5_max_check.py`, `results/k4_sdc/pw5_max_check.log`). PW5's failing start is a
+  maximum-matching start: every agent picks, and ν = 5. No free completion exists after any of the 555 moves. So
+  **OC^max and OC₁^max fail at k = 5**.
+  - Mechanism: three frozen agents share a 4-good junk danger set D, and the two receivers each take at most one good
+    of D. One chain removes one pair of D, and two goods are left.
+  - At k = 4 a danger set has at most 3 junk goods, and one chain leaves at most 1. That is the k − 3 count, and a
+    proof of OC₁^max must use it.
+  - Recorded in `k4/sdc.md` §31 and in the K4.SDC.OC1MAX row.
+- **General k.** The one-move form stops at k = 4. The candidates for arbitrary k are the move ladder (⌊(k−1)/2⌋
+  moves, `k4/ksens.md`) and a round of disjoint chains, both restricted to maximum-matching starts. ksens is asked to
+  test both on PW5-type families at k = 5, 6, 8.
+- **Referee, item 5:** CH-A and CH-B are **CORRECT** (`k4/referee/charity.md`).
+- **kgen-charity:** W(k, 0) and W(k, 1) are FALSE at k = 3 and 4 (CH-F, two maximizers), so welfare maxima give no
+  bounded charity. Proposition DU: every instance with ≥ 2 components containing agents has a complete EFX₀
+  allocation. Checked on reading by the coordinator, and queued for the referee.
