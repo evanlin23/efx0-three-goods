@@ -638,7 +638,8 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
   - **n = 3, k ≤ 3**: every strict type profile of every shape (14,100 classes up to interchangeable goods, m ≤ 9,
     3,757,000 partial EFX₀ states), no P^sub stuck state (`ht_n3types.py`; `n3types_k3_m7.log`, `n3types_k3_m89.log`).
     Pool-shrinking alone fails at 7,129 of those states.
-  - So two moves suffice for n ≤ 3 (k ≤ 3 at n = 3), and the known failures need n = 4 and an agent with four goods.
+  - So two moves suffice for n ≤ 3 (k ≤ 3 at n = 3). Every known failure has n = 4 and an agent with four goods;
+    n = 4 with k ≤ 3, and n = 3 with k = 4 exhaustively, are not settled.
 - *Lemma P^sub₃ (CONJECTURE for every |Rᵢ| ≤ 4).* P^sub with **three** moves. It has a step at all 40 known two-move
   failures: the 36 for welfare and the 4 found by the leximin climbs (`gstar_measure 3 1 19 1`; with single-good moves
   only, `3 1 19 0`, also none stuck). It implies W^sub₃ and L^sub₃ and TARGET₄, and it is the cleanest candidate for
