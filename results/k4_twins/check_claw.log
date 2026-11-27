@@ -1,0 +1,37 @@
+check_twins4.py ../results/k4_twins/claw.json.gz: 11 records; types re-enumerated by check_reductions4: 6 (3 goods), 288 (4 goods)
+  claw              11 records,  28732 admissible states: 216 of 216 profiles covered
+  profiles no reduction covers written to ../results/k4_twins/claw_uncovered.json (sha256 4e8f1b57715892887973a4fbb4abce326ec4a4c0ea1f3955d4dcd3eca992159e)
+RESULT: OK
+check_twins4.py ../results/k4_twins/claw_y12.json.gz: 4 records; types re-enumerated by check_reductions4: 6 (3 goods), 288 (4 goods)
+  claw-y12           4 records,    988 admissible states: 216 of 216 profiles covered
+RESULT: OK
+check_twins4.py ../results/k4_twins/claw_y123.json.gz: 2 records; types re-enumerated by check_reductions4: 6 (3 goods), 288 (4 goods)
+  claw-y123          2 records,     40 admissible states: 216 of 216 profiles covered
+RESULT: OK
+check_twins4.py ../results/k4_twins/claw.json.gz: 11 records; types re-enumerated by check_reductions4: 6 (3 goods), 288 (4 goods)
+  selftest base record claw/DEL: covered 78
+  selftest a state deleted                                      -> rejected (problems: [], covered 0)
+  selftest a good dropped from an extension                     -> rejected (problems: ['1 stored extensions violate Lemma M1'], covered 0)
+  selftest an extra gadget agent (not smaller)                  -> rejected (problems: ['94 stored states are not local states'], covered 0)
+  selftest unenvied bundle dropped                              -> rejected (problems: ['94 stored states are not local states'], covered 0)
+  selftest gadget goods not declared in I' (GAD-h(y1=0,y2=0,y3=2,z0'=1)) -> rejected (problems: ["gadget agent h values a good outside I' + D", '642 stored states are not local states'], covered 0)
+  selftest a gadget agent valuing 5 goods                       -> rejected (problems: ['gadget agent h values more than 4 goods', '642 stored states are not local states'], covered 0)
+  selftest a record whose agents differ from its configuration  -> rejected (problems: ['record declares a configuration different from claw'], covered 0)
+  selftest a record whose I differs from its configuration      -> rejected (problems: ['record declares a configuration different from claw'], covered 0)
+  selftest a record filed under another configuration           -> rejected (problems: ['record declares a configuration different from dbl-Q4-Q4-c2'], covered 0)
+  selftest interior good into a W bundle (domination)           -> rejected (problems: ['6 stored extensions violate Lemma M1'], covered 0)
+  selftest two gadget agents closing a cycle (GAD2-h1(y1=3,y2=4,z1'=2)-h2(y1) -> rejected (problems: ["H' has a component with a larger cyclomatic number"], covered 0)
+RESULT: OK
+check_twins4.py ../results/k4_twins/claw_y12.json.gz: 4 records; types re-enumerated by check_reductions4: 6 (3 goods), 288 (4 goods)
+  selftest base record claw-y12/GAD-h(y1=2,y3=0,z0'=1): covered 110
+  selftest a state deleted                                      -> rejected (problems: [], covered 0)
+  selftest a good dropped from an extension                     -> rejected (problems: ['1 stored extensions violate Lemma M1'], covered 0)
+  selftest an extra gadget agent (not smaller)                  -> rejected (problems: ['138 stored states are not local states'], covered 0)
+  selftest unenvied bundle dropped                              -> rejected (problems: ['138 stored states are not local states'], covered 0)
+  selftest gadget goods not declared in I' (GAD-h(y1=2,y3=0,z0'=1)) -> rejected (problems: ["gadget agent h values a good outside I' + D", '138 stored states are not local states'], covered 0)
+  selftest a gadget agent valuing 5 goods                       -> rejected (problems: ['gadget agent h values more than 4 goods', '138 stored states are not local states'], covered 0)
+  selftest a record whose agents differ from its configuration  -> rejected (problems: ['record declares a configuration different from claw-y12'], covered 0)
+  selftest a record whose I differs from its configuration      -> rejected (problems: ['record declares a configuration different from claw-y12'], covered 0)
+  selftest a record filed under another configuration           -> rejected (problems: ['record declares a configuration different from dbl-Q4-Q4-c2'], covered 0)
+  selftest interior good into a W bundle (domination)           -> rejected (problems: ['5 stored extensions violate Lemma M1'], covered 0)
+RESULT: OK

@@ -1,0 +1,5 @@
+configuration claw-y123: agents {'f1': ('G', 'y1', 'p1'), 'f2': ('G', 'y1', 'p2'), 'f3': ('G', 'y1', 'p3')}, I = ['G', 'p1', 'p2', 'p3'], D = ['y1'], 216 profiles
+    GAD-h(y1=2,z0'=1)                            reduces    177, new    177
+    DEL                                          reduces     78, new     39
+  reduced: 216 of 216 profiles (2 records)
+wrote ../results/k4_twins/claw_y123.json.gz: 2 records, 40 states
