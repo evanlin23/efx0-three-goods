@@ -793,6 +793,23 @@ Simple rules do not give (R) (`te_release_rules.log`; n = 6 gap, one terminal). 
 complete, with an owner. So (R) is a statement about maximizing releases, and its proof is the missing release
 lemma.
 
+**The want-count form (R′) of the release bound.** Let W = #b-holders + 2·#c-holders be the total rank deficit of
+the agents outside U. W counts the pairs (agent, good it wants), and every wanted good has a wanter, so ν ≤ W. By
+Lemma 2, at a perfect state ω ≤ D := (m − 2n) + W = |J| − #top-holders + #c-holders. Let a rotation's receivers
+climb `steps` ranks in all, followed by u upgrades (k leaves its top; an upgraded agent leaves U's complement). Then
+D′ = D − steps − u, and ω′ ≤ D′.
+
+> **(R′).** At every hard perfect draft with a valid Rule E rotation, some valid Rule E rotation and its upgrades
+> leave total rank deficit W′ ≤ 2n − m + 1, that is, D′ ≤ 1.
+
+(R′) implies (R). Unlike (R), it counts ranks, not wanted goods.
+- **Data.** (R′) holds on every gap draft with n ≤ 6: 26,552 with n ≤ 5 and 106,368 with n = 6 (`te_wbound.log`).
+- **Structure** (`te_wstruct6_1.log`, n = 6). Hard gap drafts have few top-holders (2 to 4 of 6), and W is 4 to 7.
+  The best rotation usually removes all the deficit, leaving every agent at its top or holding its pair. The margin
+  is sometimes zero, e.g. W = 6, needing 3, best 3.
+
+So a hard draft's deficit lies, almost all of it, on one earliest-wanter chain. Proving that is the release lemma.
+
 **Statement (P)'s class** (§11: agents valuing one, two or three goods; the class the reduction RED₃ produces).
 - **The exact test extends.** `lbtest` and `de_moves` now accept agents with one or two goods: they are never
   exposed, never threatened and never upgraded (§11). `mixed_check.py` compares `lb2` with the exhaustive
