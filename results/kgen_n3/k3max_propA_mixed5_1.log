@@ -1,0 +1,4 @@
+$ python3 kgen/k3max_propA.py sample mixed:5:0 6 302 1 2
+33 (alpha), (beta) hold for k
+3 drafts: some k with (alpha), (beta): False
+17 drafts: some k with (alpha), (beta): True
