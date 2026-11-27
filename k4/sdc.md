@@ -2143,6 +2143,9 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
       pickless receivers, which no check has tested.
     - So either the failing maximum-matching starts are all perfect, or RF must be tested at pickless receivers. Both
       the referee and the coordinator are checking.
+    - What the data say so far: all 11 n = 4 cores with an OC₁^max failure have ν = n. The n = 4 export is complete, so
+      no non-perfect failing start exists at n ≤ 4. All 9 exported n = 5 cores also have ν = n. Non-perfect n = 5
+      cores are not yet covered.
   - Consequence for the RF proof plan: at n ≥ 5 the R2 class is no longer covered by R2. A uniform proof of girth's "(i)
     owner w or d, or (T), or (C)" is the route, and it never used R2 on the data.
 
