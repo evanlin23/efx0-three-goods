@@ -33,8 +33,11 @@ theorem; §6 states everything precisely. Some runs are still going; their logs 
 - **Three moves rescue all 40 known two-move failures**, for welfare, leximin and Pareto, with set moves or
   single-good moves. The candidate is **P^sub₃** (three moves, Pareto). It is ordinal, so checks over types are
   complete for it. With single-good moves only, three moves fail at k = 5 (W5).
-- **The radius grew from two to three at n = 4.** If it keeps growing with n, no fixed-radius form gives TARGET₄,
-  which is over all n. Radius-3 climbs at n = 4, 5 found no failure so far; that is the decisive open test.
+- **The radius grew from two to three at n = 4, and did not grow again at n = 5** (the decisive test, §6, n = 5).
+  Seeded from the n = 4 failures, two moves failed once at n = 5 (Pareto only); three moves never failed under any
+  measure. This is evidence from climbs. If the radius grows at larger n, no fixed-radius form gives TARGET₄.
+- **Where k enters**: with k ≤ 3, two-move Pareto climbs found no failure at n = 4, 5, and P^sub holds exhaustively at
+  n ≤ 3. So the conjecture is two moves for k ≤ 3 and three moves for k = 4.
 - **The move class is nearly minimal**: six of its seven kinds are each necessary (§6 ablation).
 - The ledger rows are staged in `k4/haxell/ledger_rows.md`; the assignment says the coordinator edits LEDGER.md.
 - *Proof*: open beyond Theorem N2 (computer-verified, n = 2).
@@ -654,7 +657,12 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
       At that instance welfare and leximin still have two-move steps, and **three moves give a step for every
       measure**, single-good moves included. There were no welfare or leximin failures. In the other runs the hardest
       states kept 2–4 (Pareto), 4–16 (welfare) and 2–10 (leximin) escapes.
-    - *Three moves*: running (`n5climb_r3_*.log`).
+    - *Three moves* (the same 4 seeds × 3 measures; 400 steps × 2 climbers each; 3,357 s): **no failure**.
+      - The climbs rarely even reached a state that needs three moves. That happened once, under Pareto, and that state
+        had a three-move step. In the other runs every state without a single-move step still had 2–14 two-move
+        escapes.
+      - So at n = 5 the radius did not grow past three, and the two-move failures of n = 4 do not survive a fifth
+      agent without help from the climber. This is evidence (climbs), not exhaustion.
 - *Lemma P^sub₃ (CONJECTURE for every |Rᵢ| ≤ 4).* P^sub with **three** moves. It has a step at all 40 known two-move
   failures: the 36 for welfare and the 4 found by the leximin climbs (`gstar_measure 3 1 19 1`; with single-good moves
   only, `3 1 19 0`, also none stuck). It implies W^sub₃ and L^sub₃ and TARGET₄, and it is the cleanest candidate for
