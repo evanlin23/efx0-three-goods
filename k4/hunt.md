@@ -146,6 +146,19 @@ cannot be completed) glued by identifying s goods, every strict profile searched
 
 The last core has goods of degree 7 and 6 (every agent values one of the two glued goods).
 
+## 4. Patterns
+
+Certificate size (allocations the CEGAR needs to cover every profile of a core) as a hardness measure; random or
+"few certificate allocations" profiles are not a good proxy for few EFX₀ allocations
+(`attempts/k4-hunt-cert-size-proxy.md`).
+- n = 6, m = 10, n₄ = 2 (28,502 cores): mean 110 allocations. Cores **without** an agent holding two private goods need
+  the most (mean 126; with one such agent 98; with two 52), as K4.MC2 (such agents reduce away) suggests. Goods of
+  very high degree make cores easier (largest degree 6: mean 63; degree 3–4: 99). The largest certificates (250–262)
+  belong to cores in which every agent has one private good and the shared goods have degree 3.
+- β = 5 candidates: the largest certificates are on cores with twin agents (identical relevant sets), e.g.
+  Q4 Q4 P3 P3 P3 P3 [[0,1,2,4],[0,1,2,4],[3,5,6],[3,5,7],[3,5,8],[4,5,9]] (1,116 allocations, images included).
+- Dense glued cores (n = 8, β = 13) need thousands (2,402).
+
 ## Reproduce
 
 ```
