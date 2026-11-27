@@ -213,6 +213,21 @@ def aut(task):
     return sum(1 for _ in GraphMatcher(G, G, node_match=lambda a, b: a['side'] == b['side']).isomorphisms_iter())
 
 
+def expand(sets, m, allocs):
+    """Every image of the allocations under the automorphisms of the incidence graph (computed here)."""
+    n = len(sets)
+    G = graph(n, m, sets)
+    auts = [({a: iso[('a', a)][1] for a in range(n)}, {g: iso[('g', g)][1] for g in range(m)})
+            for iso in GraphMatcher(G, G, node_match=lambda a, b: a['side'] == b['side']).isomorphisms_iter()]
+    out, seen = [], set()
+    for A in allocs:
+        for ma, mg in auts:
+            img = [0] * m
+            for g in range(m): img[mg[g]] = ma[A[g]]
+            if tuple(img) not in seen: seen.add(tuple(img)); out.append(img)
+    return out
+
+
 def is_core(n, m, sets, n4):
     deg = [sum(g in S for S in sets) for g in range(m)]
     return (all(len(set(S)) == len(S) and len(S) in (3, 4) and all(0 <= g < m for g in S) for S in sets)
@@ -232,6 +247,7 @@ def main():
     for d in datas:                               # compact allocations: base36 strings, one character per good
         for c in d['cores']:
             c['allocs'] = [[int(ch, 36) for ch in A] if isinstance(A, str) else A for A in c['allocs']]
+            if c.get('orbits'): c['allocs'] = expand(c['sets'], c.get('m') or d['m'], c['allocs'])
     named = all('set' in d for d in datas)
     if named:                                     # named cores: per-core n, m; no class, no completeness
         cores = [c for d in datas for c in d['cores']]

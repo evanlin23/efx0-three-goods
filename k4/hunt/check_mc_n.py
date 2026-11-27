@@ -26,6 +26,21 @@ from pysat.card import CardEnc, EncType
 from pysat.formula import IDPool
 
 
+def expand(sets, m, allocs):
+    """Every image of the allocations under the automorphisms of the incidence graph (computed here)."""
+    n = len(sets)
+    G = CM.graph(sets, m)
+    auts = [({a: iso[('a', a)][1] for a in range(n)}, {g: iso[('g', g)][1] for g in range(m)})
+            for iso in nx.algorithms.isomorphism.GraphMatcher(G, G, node_match=lambda x, y: x['c'] == y['c']).isomorphisms_iter()]
+    out, seen = [], set()
+    for A in allocs:
+        for ma, mg in auts:
+            img = [0] * m
+            for g in range(m): img[mg[g]] = ma[A[g]]
+            if tuple(img) not in seen: seen.add(tuple(img)); out.append(img)
+    return out
+
+
 def sat_covered(masks):
     vp = IDPool()
     z = [[vp.id((i, t)) for t in range(M.shape[0])] for i, M in enumerate(masks)]
@@ -93,6 +108,7 @@ def main():
     cert = [r for f in args[1:] for r in json.load(gzip.open(f, 'rt'))]
     for r in cert:                                # compact allocations: base36 strings, one character per good
         r['allocs'] = [[int(ch, 36) for ch in A] if isinstance(A, str) else A for A in r.get('allocs', [])]
+        if r.get('orbits'): r['allocs'] = expand(r['sets'], r['m'], r['allocs'])
     cb = collections.defaultdict(list)
     for r in cert:
         cb[(r['n'], r['m'], nx.weisfeiler_lehman_graph_hash(CM.graph(r['sets'], r['m']), node_attr='c'))].append(r)

@@ -98,8 +98,11 @@ Two complementary runs:
 profile (1.07·10⁸ profiles per core without two-private agents), 0 counterexamples; 29,069 CPU-s (mean 1.0 s, max
 5.2 s per core, on a shared machine); allocations found per core: mean 110, median 107, max 262 (idx 20215,
 [[0,3,5,8],[1,4,7,9],[2,7,8],[3,6,7],[4,8,9],[5,6,9]]: every agent has one private good, three goods of degree 3).
-Certificate `results/k4_hunt/cert_n6_m10_n42.json.gz` (allocations reduced to an UNSAT core of the outer formula by
-`compact.py`, then checked); independent check `results/k4_hunt/check_n6_m10_n42.log` [PENDING].
+Certificate `results/k4_hunt/cert_n6_m10_n42.json.gz` (3.8 MB: one allocation per orbit of the core's automorphism
+group, `orbits.py`; the checkers expand the orbits with their own automorphism computation); independent check
+`results/k4_hunt/check_n6_m10_n42.log` [PENDING] (`check.py`: completeness of the class by orbit counting and pairwise
+non-isomorphism, coverage by check4_fast's C loop on this file's raw-definition rows, the one-hot SAT engine on a
+sample of 100).
 
 With K4.MC7 (β ≤ 4, i.e. m ≥ 11 when n₄ = 2) and Mahara's theorem (m ≤ n + 3 = 9), this gives: **every connected k = 4
 core with n = 6 and exactly two 4-good agents has an EFX₀ allocation** (with K4.R6a: at most two), for the
@@ -149,9 +152,11 @@ The last core has goods of degree 7 and 6 (every agent values one of the two glu
 **Result of the β = 5 candidate run** (`results/k4_hunt/mc_n6_b5.log`): all 30,337 candidates certified (every
 profile of the cut domains), 0 counterexamples; 27,585 CPU-s; per m: 9: max 1.8 s; 10: 2.2 s; 11: 3.5 s; 12: 6.4 s;
 13: 8.4 s; 14: 13.2 s (the m = 14 cores are all-P4/Q4, no cuts, 288⁶ profiles); largest certificate 4,792 allocations
-(images included). Independent check `results/k4_hunt/check_mc_n6_b5.log` (`check_mc_n.py`): the regeneration with
-`k4/check_mincex_cores4.py`'s code gives the same 30,337 candidates, orbit counting OK for every G′ class
-[coverage PENDING]. With K4.MC7: **a minimal counterexample to TARGET₄ with n = 6 has β ≥ 6** (for the coordinator).
+(images included). Independent check (`check_mc_n.py`): the regeneration with `k4/check_mincex_cores4.py`'s code
+gives the same 30,337 candidates, orbit counting OK for every G′ class, and every one is covered (1.06·10¹⁷ profiles
+in all): `results/k4_hunt/check_mc_n6_b5_full.log` on the full certificate (every image listed, 22 MB, not committed)
+and `results/k4_hunt/check_mc_n6_b5.log` [PENDING] on the committed orbit-compressed one
+(`results/k4_hunt/cert_mc_n6_b5_orb.json.gz`, 11 MB). With K4.MC7: **a minimal counterexample to TARGET₄ with n = 6 has β ≥ 6** (for the coordinator).
 
 ## 4. Patterns
 
