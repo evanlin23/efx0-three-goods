@@ -45,6 +45,12 @@ that session's independent checker, restricted the same way. Results are in `res
   middle agents take exactly their predecessor's pick and only the head adds junk.) So at p ≤ 2 the junk taken by a
   middle agent is needed, even though OC₁^max holds.
 
+- **n = 5:** 501 of the 686 multigraph cores are certified, and **185 fail**. All 185 are replayed and repaired by
+  other official moves (`replay_can2_5_mg.log`).
+  - 183 are crossed. The other 2 have several truly dangerous agents and are repaired only by chains whose receivers
+    add junk.
+  - 12 have no repairing ED chain.
+
 ## Smallest failing configuration (n = 4, m = 7)
 
 A multigraph core in the official sense (`k4/check4.is_core`).
