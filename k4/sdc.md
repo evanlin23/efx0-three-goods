@@ -2126,3 +2126,12 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
 - **Why it might hold.** u goes first and takes its favourite good. The failing start's difficulty is that u, the agent
   nobody envies, sits on a pick that frees nothing. With u first, the picks change in exactly two agents (rule (c) of
   the export). That is the pick swap of the two-cycle mechanism, or the starved agent's upgrade.
+- **Amendment (2026-11-27 04:22 UTC): R2 fails at n = 5, so RF drops "exactly one receiver".**
+  - The certifier found OC₁^max-failing starts with two receivers in chunk 5_pure_s5o1: #650, #655, #1014 and #1050.
+    The coordinator replayed all 4 cores (`k4/sdc/r2_n5_cex_check.py`, `results/k4_sdc/r2_n5_cex_check.log`): strict
+    connected MC2 cores, perfect starts, receivers {1,2}, {1,2}, {0,4} and {1,2}, and OC₁ fails. Ledger row K4.SDC.R2.N5.
+  - RF now reads: for every receiver u of a failing start, every u-first maximum-matching order satisfies OC₁. It holds at
+    all 4, for either receiver.
+  - The Lean frame `target4_of_conjRF` does not use uniqueness.
+  - Consequence for the RF proof plan: at n ≥ 5 the R2 class is no longer covered by R2. A uniform proof of girth's "(i)
+    owner w or d, or (T), or (C)" is the route, and it never used R2 on the data.
