@@ -1,0 +1,28 @@
+$ python3 k4/sdc/failstruct_check.py ../../results/k4_rf_offexport/rf_walk_n5_stored_fails.jsonl.gz
+UNCOVERED [[[0, 2, 7, 8], [1, 6, 7, 8], [2, 6, 7, 8], [3, 4, 5, 6], [3, 4, 5, 8]], [[13, 17, 9, 15], [4, 18, 5, 10], [19, 11, 3, 6], [3, 2, 4, 8], [3, 2, 4, 8]], [2, 1, 7, 6, 8], 3, 2, 1]
+UNCOVERED [[[0, 2, 7, 8], [1, 6, 7, 8], [2, 6, 7, 8], [3, 4, 5, 6], [3, 4, 5, 8]], [[10, 17, 9, 15], [4, 18, 5, 10], [19, 11, 3, 6], [2, 3, 4, 8], [3, 2, 4, 8]], [2, 1, 7, 6, 8], 3, 2, 1]
+UNCOVERED [[[0, 2, 7, 8], [1, 6, 7, 8], [2, 6, 7, 8], [3, 4, 5, 6], [3, 4, 5, 8]], [[10, 17, 9, 15], [4, 18, 5, 10], [19, 11, 3, 12], [2, 3, 4, 8], [3, 2, 4, 8]], [2, 1, 7, 6, 8], 3, 2, 1]
+S1' (two D_T agents with intersecting minimal threatening junk sets): False 40994
+S1' (two D_T agents with intersecting minimal threatening junk sets): True 200734
+shapes NONE 2499
+shapes S1 130452
+shapes S1S2 23461
+shapes S1S2S3 6691
+shapes S1S3 36561
+shapes S2 1292
+shapes S2S3 40772
+starts 241728
+with S1' : S1' 132951
+with S1' : S1'S2 23794
+with S1' : S1'S2S3 7428
+with S1' : S1'S3 36561
+with S1' : S2 959
+with S1' : S2S3 40035
+|D|=2 |D_T|=2 receivers=1 11912
+|D|=2 |D_T|=2 receivers=2 2093
+|D|=3 |D_T|=0 receivers=1 20425
+|D|=3 |D_T|=2 receivers=1 106151
+|D|=3 |D_T|=2 receivers=2 1174
+|D|=4 |D_T|=0 receivers=1 20569
+|D|=4 |D_T|=2 receivers=1 78270
+|D|=4 |D_T|=3 receivers=1 1134
