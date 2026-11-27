@@ -94,6 +94,10 @@ every refutation below is confirmed by three independent programs.
       - **What forces simplicity (§4.12): Conjecture Φ-MAX.** Every maximizer of Φ = (#agents holding exactly one
         pick, −#absorbers) among the MD EFX₀ allocations is a witness. That reduces ROUND-P^max to MD existence alone.
         No counterexample at 3,032 informative starts.
+      - **Lemma UNTANGLE (§4.13), the local exchange.** At a needy keep-and-add pair, the pickless agent takes its pick
+        back, possibly swapping one junk good to the keeper. Φ rises, MD holds, and the pickless agent's EFX₀
+        conditions hold (proved). The others' EFX₀ conditions are open. This repairs 93 % (n = 4) and 96 % (n = 5) of
+        non-witnesses. With UNTANGLE, ROUND-P^max ⟺ MD at maximum-matching starts.
     - It is a one-move alternative to the campaign's current target OC₂^max (two sequential moves).
     - On all 11 of the certifier's instances, every MD allocation has a starved agent, so the obstruction is the same
       k-independent one.
@@ -1062,6 +1066,81 @@ MD allocation are informative. At the n = 4 two-move starts and the walk starts,
 - With the target "simple and one absorber" instead of "witness", the triple (picks, −absorbers, −keepers) comes
   closest (`simple_potential_*.log`). At 2 of the certifier's starts it has a maximizer that is a keep-and-add whose
   keeper still gains without its pick. Lemma FIX allows that case, and it is a witness.
+
+### 4.13 Lemma UNTANGLE: the local exchange behind Φ-MAX
+*Purpose (coordinator).* ROUND-P^max ⇒ MD trivially: every chain agent gains, and the others keep their picks. With
+Φ-MAX this gives **ROUND-P^max ⟺ MD at maximum-matching starts**. That is a characterization, not a reduction of
+TARGET₄, since MD is TARGET₄-strength. But it is a clean theorem with no existence input: whenever some dominating
+EFX₀ allocation exists, one round of OC₁′ moves reaches one. Its remaining step is a local exchange.
+
+**Setting.**
+- Y is a perfect start of a strict core, with p_a = v_a(Y_a).
+- X is an MD EFX₀ allocation with a *needy keep-and-add pair*:
+  - q is pickless, so X_q is junk;
+  - its pick Y_q lies with an agent v that keeps Y_v;
+  - v_v(X_v ∖ {Y_v}) ≤ p_v.
+
+On the data every non-witness MD allocation has such a pair (§4.12). The keep-and-add shape forces neediness, since a
+keep-and-add pair whose keeper is not needy is a witness (Lemma FIX).
+
+**The moves.**
+- (U0) *return*: X⁰ moves Y_q from v to q.
+- (U1) *swap*: X^h moves Y_q to q and one junk good h ∈ X_q to v.
+- (U1′) the same, with h going to some agent other than v.
+- (U2) *fallback*: some MD EFX₀ allocation with larger Φ.
+
+**Lemma UNTANGLE (conjecture).** For every needy keep-and-add pair, (U0) or (U1), and otherwise (U1′) or (U2), yields
+an MD EFX₀ allocation X′ with Φ(X′) > Φ(X). With Φ-MAX's other cases, this would prove Φ-MAX by a
+minimal-counterexample argument. The other cases are complex components and two absorbers. Neither is ever a
+non-witness at a Φ-maximizer in the data.
+
+**Proved parts (for U0 and U1).**
+1. *Φ rises by 2 in the first coordinate.* q and v end up holding exactly one pick each, Y_q and Y_v. No other agent's
+   pick count changes.
+2. *MD is kept.* v_q(X′_q) ≥ v_q(Y_q) = p_q, and v keeps Y_v.
+3. *q's value rises strictly.* For U0 the gain is +v_q(Y_q) > 0. For U1, h is junk, so it was available at q's
+   serial-dictatorship turn, hence v_q(h) < v_q(Y_q) by strict values.
+4. *Every EFX₀ condition of q holds.*
+   - Towards an unchanged bundle: v_q(X_j − g) ≤ v_q(X_q) < v_q(X′_q).
+   - Towards v's new bundle under U0, which is a subset of X_v: monotonicity.
+   - Towards v's new bundle under U1, X_v − Y_q + h:
+     - removing h leaves X_v − Y_q, worth at most v_q(X_q) by EFX₀ of X;
+     - removing any other g gives v_q(X_v − g) − v_q(Y_q) + v_q(h) < v_q(X_v − g) ≤ v_q(X_q).
+5. *Every condition between two unchanged bundles holds,* and under U0 every condition towards v's shrunken bundle
+   holds.
+
+**Open part (the EFX₀ conditions that can fail).**
+- (O1) Another agent, or v, envies q's enlarged bundle X_q + Y_q (or X_q − h + Y_q) after removing one good.
+- (O2) v envies another bundle after losing Y_q.
+  - Neediness bounds what v loses: v_v(Y_q) + v_v(X_v ∩ J) ≤ p_v.
+  - The SD order bounds what v can value in others' bundles: a good available at v's turn is worth less than p_v
+    to v.
+- (O3) Under U1, a third agent envies v's new bundle X_v − Y_q + h.
+
+The swap's choice of h is what (O1) needs: taking a junk good out of q's bundle undoes the envy that the return
+creates.
+
+*Data* (`untangle_roles.py`, `untangle_roles_4_7.log`, `untangle_roles_5_8.log`). These are all non-witness MD
+allocations on random strict cores (n = 4, m = 7: 5,452; n = 5, m = 8: 2,315).
+
+| | n = 4 | n = 5 |
+|---|---|---|
+| needy keep-and-add pair present | 5,452 (all) | 2,315 (all) |
+| (U0) return is EFX₀ | 1,916 | 996 |
+| return fails by (O1) only, another agent | 1,806 | 838 |
+| return fails by (O1) with v envying q, or by (O2) | the rest (1,730) | the rest (481) |
+| (U1) swap with h → v repairs, return failing | 3,139 | 1,229 |
+| (U1′) h → another agent, the swap failing | 89 | 37 |
+| return plus one other junk move | 74 | 14 |
+| no single junk move suffices: (U2) | 234 | 39 |
+| *U0 or U1* | **5,055 (92.7 %)** | **2,225 (96.1 %)** |
+
+- (U2) is always available on the data. Every non-witness has an MD allocation with larger Φ (§4.12), at distance 3
+  in most of these cases.
+- So the fallback needs a second step.
+- What a proof of UNTANGLE needs:
+  - a rule for choosing h, e.g. the good of X_q that the agents violating (O1) value most;
+  - a bound showing that (O2) cannot occur together with (O1) for that h. On the data this is the rare case.
 
 ## 5. n = 3
 
