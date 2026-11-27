@@ -25,6 +25,8 @@ Written separately from cegar.py; it shares no code with it or with the reposito
   the formula depends on a type only through these memberships).
 - The witnesses' recorded picks are used only to skip witnesses that do not match Y (skipping only weakens
   coverage, so this is sound).
+- A record may list 'excluded' (type profile, picks) pairs, the known failures of export_fails.py.  These may stay
+  uncovered, and every other pair must be covered; so the list of failures is complete.
 
     python3 k4/oc1cert/check.py CERT.json.gz [--lists=LIST,...]   (with --lists, also check that the certificate has
                                                                    every hypergraph of results/k4_certs_<LIST>.json.gz)"""
@@ -67,6 +69,16 @@ class Hyper:
             self.types.append([dict(zip(S, v)) for v in T])
         self.V = [np.array([[v[g] if g in v else 0 for g in range(self.m)] for v in T], dtype=np.int64)
                   for T in self.types]                     # V[i][t, g] = value of good g under type t of agent i
+
+    def sig(self, i, v):
+        """the order type of the values v (dict good -> value) of agent i: signs over disjoint nonempty pairs"""
+        S = self.sets[i]; d = len(S); out = []
+        for A in range(1, 1 << d):
+            for B in range(A + 1, 1 << d):
+                if A & B: continue
+                a = sum(v[S[p]] for p in range(d) if A >> p & 1); b = sum(v[S[p]] for p in range(d) if B >> p & 1)
+                out.append((a > b) - (a < b))
+        return tuple(out)
 
     def picks_all(self):
         out = []
@@ -181,6 +193,12 @@ def check_core(rec):
     if nu != rec['nu']: return rec['list'], rec['idx'], False, 'nu mismatch %d %d' % (nu, rec['nu']), 0, 0
     Ws = rec['witnesses']
     for w in Ws: w['_X'] = [int(c) for c in w['X']]
+    # optional excluded (type profile, picks) pairs (known failures, e.g. export_fails.py): they may stay uncovered
+    excl = collections.defaultdict(list)
+    if rec.get('excluded'):
+        tix = [{H.sig(i, {g: x for g, x in zip(H.sets[i], v)}): t for t, v in enumerate(H.types[i])} for i in range(n)]
+        for e in rec['excluded']:
+            excl[tuple(e['picks'])].append(tuple(tix[i][H.sig(i, dict(zip(H.sets[i], e['vals'][i])))] for i in range(n)))
     efx = {}
     stats = collections.Counter()
     for Y in Ys:
@@ -215,7 +233,7 @@ def check_core(rec):
             sig = {}
             for t in range(len(H.types[i])):
                 if sdreq[i][t] is None: continue
-                k = (sdreq[i][t], tuple(bool(b[i][t]) for b in boxes))
+                k = (sdreq[i][t], tuple(bool(b[i][t]) for b in boxes), tuple(e[i] == t for e in excl[Y]))
                 sig.setdefault(k, []).append(t)
             cls.append(list(sig.items()))
         stats['type classes (sum over matchings and agents)'] += sum(len(c) for c in cls)
@@ -238,6 +256,11 @@ def check_core(rec):
                 for j in req: solver.add_clause([-z[i][k], bef[(j, i)]])
         for bi, b in enumerate(boxes):
             solver.add_clause([z[i][k] for i in range(n) for k, (sg, ts) in enumerate(cls[i]) if not sg[1][bi]])
+        cidx = [{t: k for k, (sg, ts) in enumerate(cls[i]) for t in ts} for i in range(n)]
+        for e in excl[Y]:        # the excluded profile's types are singleton classes (their signature bit)
+            if all(e[i] in cidx[i] for i in range(n)):
+                solver.add_clause([-z[i][cidx[i][e[i]]] for i in range(n)])
+        stats['excluded pairs'] += len(excl[Y])
         if solver.solve():
             mod = set(l for l in solver.get_model() if l > 0)
             prof = [cls[i][next(k for k, v in enumerate(zi) if v in mod)][1][0] for i, zi in enumerate(z)]

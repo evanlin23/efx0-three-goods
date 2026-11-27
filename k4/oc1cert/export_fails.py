@@ -9,6 +9,8 @@ covered).  For every pair the record gives:
 - the receivers: pick holders whose pick no other agent prefers to its own (the unfrozen agents; for TTC Conjecture R2);
 - Inst.check (raw: must be 'OC1 fails');
 - for every SAMPLE-th pair, a raw two-move check (Inst.moves twice, Inst.one_absorber).
+It also writes OUT_cert.json.gz: per hypergraph every witness the run added and the excluded (failing) pairs, so that
+check.py can confirm independently that every other pair is repaired (the enumeration is complete).
 
     python3 k4/oc1cert/export_fails.py CERT_DEPTH1.json.gz OUT.json.gz [SAMPLE]"""
 import sys, os, gzip, json, itertools, collections, time
@@ -29,7 +31,7 @@ def main():
     src, out = sys.argv[1], sys.argv[2]; SAMPLE = int(sys.argv[3]) if len(sys.argv) > 3 else 50
     print('$ python3 k4/oc1cert/export_fails.py', *sys.argv[1:], flush=True)
     recs = json.load(gzip.open(src))['cores']
-    res = []; T = collections.Counter(); t0 = time.time()
+    res = []; cert = []; T = collections.Counter(); t0 = time.time()
     for r in recs:
         if r['result'] == 'certified': continue
         C = Cert(r['sets'], depth=1); st = C.run(max_fail=10 ** 9)
@@ -55,14 +57,23 @@ def main():
         print(r['list'], r['idx'], 'failing starts', len(starts), 'distinct profiles', len(set(map(lambda s: json.dumps(s['vals']), starts))),
               'receivers', dict(collections.Counter(len(s['receivers']) for s in starts)), '%.0f s' % (time.time() - t0), flush=True)
         res.append({'list': r['list'], 'idx': r['idx'], 'sets': r['sets'], 'nu': C.nu, 'starts': starts})
+        # certificate modulo the failing pairs: every witness the run added, and the pairs it blocked one by one
+        cert.append({'list': r['list'], 'idx': r['idx'], 'sets': r['sets'], 'nu': C.nu, 'result': 'certified',
+                     'witnesses': [w.to_json() for w in C.witnesses],
+                     'excluded': [{'picks': s['picks'], 'vals': s['vals']} for s in starts]})
     with gzip.open(out, 'wt') as f:
         json.dump({'what': 'every (type profile, picks) pair of these core hypergraphs where the picks form a maximum '
                            'matching, are an SD outcome, and OC1^max fails (no one-absorber completion at the picks or '
                            'after one official move); by the OC2^max certificate (cert_4_depth2.json.gz) two moves '
                            'suffice at each; values are integer representatives of the strict balanced types',
                    'source': src, 'generator': 'k4/oc1cert/export_fails.py', 'hypergraphs': res}, f)
+    cout = out.replace('.json.gz', '_cert.json.gz')
+    with gzip.open(cout, 'wt') as f:
+        json.dump({'statement': 'every (type profile, maximum-matching SD picks) pair of these hypergraphs is repaired by '
+                                'a witness (OC1^max) except the listed excluded pairs; check with k4/oc1cert/check.py',
+                   'generator': 'k4/oc1cert/export_fails.py', 'cores': cert}, f)
     for k in sorted(T): print(k, T[k])
-    print('wrote', out, '%.0f s' % (time.time() - t0))
+    print('wrote', out, cout, '%.0f s' % (time.time() - t0))
 
 
 if __name__ == '__main__':
