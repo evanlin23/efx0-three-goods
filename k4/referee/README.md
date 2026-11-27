@@ -35,6 +35,7 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 22 | Lemma EX\*, Lemma LIFT-red, Lemma LIFT-1 (`k4/matching.md` §5–§6, `0ee5969`); Lemma LIFT (`k4/oc1max_multi.md` §8, `0d26500`) | `proof/k4-matching`, `proof/k4-oc1max-multi` | `lift.md` | **CORRECT** (LIFT-1 needs no favourite-good assumption; P₁ junk-free is needed) |
 | 23 | Theorem U, Corollary U1 (`k4/oc1max_multi.md` §3, `d31a8f1`) | `proof/k4-oc1max-multi` | `oc1max_multi.md` §8 | **CORRECT** (the extra hypothesis asked about is implied by D_T = {k}) |
 | 24 | Theorem M3 (monotone EFX₀, \|R_i\| ≤ 3) (`monotone/k3.md`, `06e4b02`) | `claude/monotone-k` | `mono_m3.md` | **CORRECT** (the k = 8 instance as described has no EFX₀ allocation; attribution unverified) |
+| 25 | Lemma T6 and its certificate corollary (`k4/ttc.md` §14.2, `71c7b83`) | `claude/k4-ttc` | `ttc_t6.md` | **CORRECT**; certificate confirmed on all 11 n = 4 cores |
 | – | Literature: EFX₀ for n = 2 | – | `lit_n2.md` | Plaut–Roughgarden Thm 4.3 (EFX₀, monotone) covers existence; not `kgen/n3.md` Theorem 2 (picks kept / one chain) |
 
 **Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the
