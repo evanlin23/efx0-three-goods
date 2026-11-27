@@ -1,0 +1,11 @@
+$ python3 k4/oc1cert/check.py /home/user/efx0-three-goods/results/k4_p3x/mg6/cert_6_mg2.json.gz --lists=6_mg2
+own types: {3: 6, 4: 288}
+certificate /home/user/efx0-three-goods/results/k4_p3x/mg6/cert_6_mg2.json.gz hypergraphs 613 not certified (failures found, not checked here) 0
+list 6_mg2 source hypergraphs 613 missing or different 0
+covered 613
+maximum matchings checked 295964
+type classes (sum over matchings and agents) 5809370
+witnesses applicable (sum over matchings) 3205823
+slowest hypergraph 3.97 s
+time 309 s
+RESULT every certified hypergraph (613) covered for every type profile and every maximum-matching SD order
