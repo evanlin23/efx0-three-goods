@@ -1,0 +1,28 @@
+$ rkcegar (RKMAX) on the 13 n = 3, k = 5 hypergraphs where OC1max fails (kcegar_k5_n3_D1.log); on the other 604 of the 617 OC1max holds, so RKMAX does
+n3_m6_92 [[0, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 4, 5]] FAIL 372 {'picks': 131, 'repaired': 242, '1 chains': 111, 'not sigma-maximal': 129} 1.2 s
+    {"vals": [[3, 33, 35, 43, 39], [16, 20, 26, 43, 32], [1, 4, 2]], "Y": [5, 4, 1], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [1, 1, 1, 0, 0], "max sigma": [1, 1, 1, 0, 0], "OC1 at Y": null}
+n3_m6_93 [[0, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 3, 4, 5]] FAIL 258 {'picks': 90, 'repaired': 163, '1 chains': 73, 'not sigma-maximal': 94} 0.9 s
+    {"vals": [[3, 22, 38, 43, 23], [16, 20, 32, 43, 26], [2, 4, 8, 1]], "Y": [3, 4, 1], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [1, 1, 1, 0, 0], "max sigma": [1, 1, 1, 0, 0], "OC1 at Y": null}
+n3_m6_96 [[0, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 4, 5]] FAIL 725 {'picks': 216, 'repaired': 412, '1 chains': 196, 'not sigma-maximal': 312} 1.0 s
+    {"vals": [[2, 3, 6, 10], [20, 26, 16, 32, 43], [5, 4, 6, 8]], "Y": [3, 5, 4], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [1, 1, 1, 0, 0], "max sigma": [1, 1, 1, 0, 0], "OC1 at Y": null}
+n3_m6_103 [[0, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]] FAIL 971 {'picks': 245, 'repaired': 572, '1 chains': 327, 'not sigma-maximal': 398} 2.4 s
+    {"vals": [[2, 10, 6, 3], [27, 20, 43, 35, 14], [22, 23, 43, 38, 3]], "Y": [5, 3, 4], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [1, 1, 1, 0, 0], "max sigma": [1, 1, 1, 0, 0], "OC1 at Y": null}
+n3_m6_104 [[0, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]] FAIL 176 {'picks': 48, 'repaired': 105, '1 chains': 57, 'not sigma-maximal': 70} 1.3 s
+    {"vals": [[3, 43, 23, 38, 22], [15, 43, 17, 40, 27], [12, 43, 10, 29, 11]], "Y": [4, 2, 1], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [1, 1, 1, 0, 0], "max sigma": [1, 1, 1, 0, 0], "OC1 at Y": null}
+n3_m6_110 [[0, 1, 3, 4, 5], [0, 2, 3, 4, 5], [1, 2, 4, 5]] FAIL 422 {'picks': 142, 'repaired': 265, '1 chains': 123, 'not sigma-maximal': 156} 1.7 s
+    {"vals": [[24, 2, 20, 40, 43], [27, 15, 26, 40, 43], [2, 3, 6, 10]], "Y": [4, 5, 2], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [1, 1, 1, 0, 0], "max sigma": [1, 1, 1, 0, 0], "OC1 at Y": null}
+n3_m6_111 [[0, 1, 3, 4, 5], [0, 2, 3, 4, 5], [1, 2, 3, 4, 5]] FAIL 376 {'picks': 112, 'repaired': 237, '1 chains': 125, 'not sigma-maximal': 138} 2.4 s
+    {"vals": [[15, 20, 43, 27, 34], [6, 4, 43, 5, 35], [33, 2, 43, 36, 39]], "Y": [3, 0, 5], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [1, 1, 1, 0, 0], "max sigma": [1, 1, 1, 0, 0], "OC1 at Y": null}
+n3_m7_15 [[0, 1, 2, 5, 6], [2, 3, 4, 5, 6], [3, 4, 5, 6]] FAIL 357 {'picks': 117, 'repaired': 227, '1 chains': 110, 'not sigma-maximal': 129} 1.5 s
+    {"vals": [[2, 4, 10, 43, 36], [14, 27, 20, 43, 35], [4, 5, 8, 6]], "Y": [2, 5, 6], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [1, 1, 1, 0, 0], "max sigma": [1, 1, 1, 0, 0], "OC1 at Y": null}
+n3_m7_19 [[0, 1, 4, 5, 6], [2, 3, 4, 5, 6], [2, 3, 4, 5, 6]] FAIL 1325 {'picks': 333, 'repaired': 809, '1 chains': 476, 'not sigma-maximal': 515} 4.5 s
+    {"vals": [[4, 2, 10, 36, 43], [22, 23, 3, 38, 43], [20, 26, 16, 32, 43]], "Y": [4, 5, 6], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [1, 1, 1, 0, 0], "max sigma": [1, 1, 1, 0, 0], "OC1 at Y": null}
+n3_m7_116 [[0, 2, 4, 5, 6], [1, 3, 5, 6], [2, 3, 4, 5, 6]] FAIL 3189 {'picks': 902, 'repaired': 2272, '1 chains': 1370, 'not sigma-maximal': 916} 7.2 s
+    {"vals": [[3, 21, 23, 43, 39], [2, 3, 10, 6], [20, 16, 26, 43, 32]], "Y": [6, 3, 5], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [1, 1, 1, 0, 0], "max sigma": [1, 1, 1, 0, 0], "OC1 at Y": null}
+n3_m7_117 [[0, 2, 4, 5, 6], [1, 3, 4, 5, 6], [2, 3, 4, 5, 6]] FAIL 2391 {'picks': 646, 'repaired': 1915, '1 chains': 1269, 'not sigma-maximal': 475} 10.3 s
+    {"vals": [[4, 7, 2, 43, 35], [3, 23, 22, 43, 38], [16, 26, 20, 43, 32]], "Y": [2, 6, 5], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [1, 1, 1, 0, 0], "max sigma": [1, 1, 1, 0, 0], "OC1 at Y": null}
+n3_m7_121 [[0, 1, 2, 5, 6], [1, 3, 4, 5, 6], [2, 3, 4, 5, 6]] FAIL 1568 {'picks': 463, 'repaired': 1189, '1 chains': 726, 'not sigma-maximal': 378} 7.9 s
+    {"vals": [[2, 10, 4, 43, 36], [16, 26, 20, 43, 32], [3, 33, 35, 43, 39]], "Y": [1, 5, 6], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [1, 1, 1, 0, 0], "max sigma": [1, 1, 1, 0, 0], "OC1 at Y": null}
+n3_m8_98 [[0, 2, 5, 6, 7], [1, 3, 4, 6, 7], [3, 4, 5, 6, 7]] FAIL 2666 {'picks': 755, 'repaired': 2061, '1 chains': 1306, 'not sigma-maximal': 604} 11.0 s
+    {"vals": [[4, 2, 7, 35, 43], [3, 23, 22, 38, 43], [22, 23, 19, 38, 43]], "Y": [5, 6, 7], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [1, 1, 1, 0, 0], "max sigma": [1, 1, 1, 0, 0], "OC1 at Y": null}
+certified 0 of 13

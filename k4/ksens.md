@@ -39,6 +39,14 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
   - the 18 designed instances;
   - every hypergraph finished so far is certified (counts in §8).
   - A three-chain climb from the k = 5 failures (n = 3, k = 6, 40 rounds) found nothing [E].
+- **Conjecture RKMAX (rank-maximal start, coordinator's `k4/sdc.md` §31) fails at k = 5 with three agents** [R]:
+  - N3K5 refutes it, and so do all 13 n = 3 hypergraphs where OC₁^max fails (`refute_rkmax_k5.py`, `rkcegar.py`).
+  - The agents share their top two goods, so every SD order hands out ranks 1, 2, 3, and every maximum-matching SD
+    vector has the same signature σ = (1, 1, 1, 0, 0). RKMAX then says OC₁ at every maximum-matching start, which
+    fails. The same goes for leximin and rank sum.
+  - "Some σ-maximal vector satisfies OC₁" holds on all 28 profiles tested. RF holds (next item).
+  - At k = 4 the tool certifies RKMAX on the 11 cores, as the coordinator did. Its tops-only control fails there, as
+    the coordinator found.
 - **Conjecture RF (receiver first, `k4/sdc.md` §31 on main) holds at k = 5 for three agents** [Cert]:
   - `rfcegar.py` certifies every strict profile of all 411 n = 3 hypergraphs with a five-good agent. On the other 206,
     kcegar finds no failing start, so RF has nothing to check there.
@@ -846,6 +854,7 @@ starts; n is the number of agents.
 | one round with every good valued (unrestricted k, values > 0) | | | | | | fails [R]: N3K5⁺ (n = 3, m = 6), RD5⁺ (n = 4) |
 | two rounds (RD²), max | | holds [Cert] | holds [Cert] where two chains are certified (n ≤ 4 cores) | holds [Cert] on the classes of the row above; [E] elsewhere | holds [Cert] where two chains are certified (row above) | none found |
 | Conjecture RF (receiver first, `k4/sdc.md` §31), max | | | holds [Cert], n ≤ 4 (coordinator; here `rfcegar.py` on the 11) | holds [Cert] at n = 3 (`rfcegar.py`, all 617); n = 4 running | | none found |
+| Conjecture RKMAX (every rank-maximal maximum-matching start), max | | | holds [Cert], n ≤ 4 (coordinator; here `rkcegar.py` on the 11) | **fails [R]** at n = 3: N3K5 (all maximum-matching vectors have σ = (1, 1, 1, 0, 0)) | | **k = 5**; n = 3, m = 6 |
 | SD-C: some order whose picks extend | | holds [E] (K4.SDC.K3 open) | holds [E] | holds [E] | holds [E] | none found (k ≤ 8) |
 | MD: every start value-dominated | | | holds [E] | holds [E] | holds [E] | none found (k ≤ 8) |
 | conclusions of Theorems DT, DT⁺, Lemma GDT, Theorem DT₁ | | | proved [P] | fails [R] | fails | k = 5; DT5: n = 2, m = 6; DT1-5: n = 3, m = 8 (§3) |
@@ -1052,6 +1061,36 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
   maximum-matching starts. Each has a receiver (PW5 has two, {3, 4}), and every receiver-first maximum-matching pick
   vector completes at the picks or after one chain.
 - *Running:* RF on the 1,138 core-like n = 4 hypergraphs at k = 5 with m ≤ 7 (`rfcegar_k5_core5_n4.*`).
+
+**Conjecture RKMAX at k = 5: false** (`rkcegar.py`, `rkcegar_*.log`, `refute_rkmax_k5.py`, `refute_rkmax_k5.log`).
+- *The statement* (coordinator's `k4/sdc.md` §31 end, ledger K4.SDC.RKMAX on branch `claude/kind-lamport-y8fdme`,
+  read there).
+  - rank_i = 1 + the number of agent i's relevant goods valued above its pick. σ(Y) = (#rank 1, …, #rank k).
+  - RKMAX: every maximum-matching SD vector whose σ is lexicographically maximal among the maximum-matching SD
+    vectors satisfies OC₁.
+- *The tool.* kcegar's outer SAT, with a lazy σ-maximality check over all n! orders under the model's ranking.
+  - If an order gives a maximum-matching vector Z with σ(Z) > σ(Y), the cut is: not Y, or not the singleton
+    comparisons that fix SD = Z and the ranks of Y's and Z's picks.
+  - Otherwise the one-chain repair search runs at Y.
+  - At k = 4 it certifies RKMAX on all 11 OC₁^max-failing cores (`rkcegar_k4_cex.log`), as the coordinator's
+    certificate says.
+  - The tops-only control (σ = #rank 1 alone, which the coordinator found fails) fails on 5 of the 11, and brute
+    force confirms each failure.
+- **Result: RKMAX fails on all 13 n = 3, k = 5 hypergraphs where OC₁^max fails** [R] (`rkcegar_k5_n3.log`).
+  - `refute_rkmax_k5.py` re-checks every witness by brute force and by ocsat: the rkcegar witnesses, the kcegar
+    witnesses and the 15 starts of `rf_replay.py`, 28 profiles in all. RKMAX fails on 26; the checkers never
+    disagree.
+  - N3K5 itself is one of the 26:
+    - agent 0 ranks 5 > 4 > 3 > 2 > 0, agent 1 ranks 5 > 4 > 3 > 2 > 1, agent 2 ranks 5 > 4 > 1;
+    - in every order the first agent takes 5 (rank 1), the second takes 4 (rank 2) and the third takes its third
+      good;
+    - so all 6 maximum-matching SD vectors have σ = (1, 1, 1, 0, 0), and the failing start (4, 5, 1) is σ-maximal.
+  - The same holds for any selection that depends only on the multiset of ranks, such as leximin or rank sum.
+  - RD5 and PW5 do satisfy RKMAX: their σ-maximal vectors need one chain.
+- *What survives.* "Some σ-maximal vector satisfies OC₁" holds on all 28 profiles, but at N3K5 that is just
+  OC₁^∃max. RF holds (above): the receiver distinguishes vectors that σ does not.
+- *Why k matters.* At k = 4, three agents never fail OC₁^max. So the first place where all σ tie and OC₁^max fails is
+  k = 5, n = 3.
 
 **Unrestricted k: every agent values every good** (`general_rounds.py`, `general_rounds_*.log`, `rd5_full.log`,
 `kgen_n3_rounds.log`).
