@@ -1,0 +1,30 @@
+$ MAINWT=<main> python3 kgen/rf/rf5_replay.py
+strict and balanced: [True, True, True, True] nu 4
+max vector (1, 5, 3, 6) own: one move repairs | second: one move repairs
+max vector (1, 5, 6, 3) own: one move repairs | second: one move repairs
+max vector (1, 6, 3, 5) own: picks complete | second: picks complete
+max vector (1, 6, 5, 3) own: picks complete | second: picks complete
+max vector (5, 2, 3, 6) own: picks complete | second: picks complete
+max vector (5, 2, 6, 3) own: picks complete | second: picks complete
+max vector (5, 6, 3, 4) own: one move repairs | second: one move repairs
+max vector (5, 6, 4, 3) own: one move repairs | second: one move repairs
+max vector (6, 2, 3, 5) own: picks complete | second: picks complete
+max vector (6, 2, 5, 3) own: picks complete | second: picks complete
+max vector (6, 5, 3, 4) own: OC1 fails | second: OC1 fails
+max vector (6, 5, 4, 3) own: OC1 fails | second: OC1 fails
+failing start (6, 5, 3, 4) receivers [3]
+   receiver-first order (3, 0, 1, 2) picks (5, 6, 4, 3) own: one move repairs | second: one move repairs
+   receiver-first order (3, 0, 2, 1) picks (5, 2, 6, 3) own: picks complete | second: picks complete
+   receiver-first order (3, 1, 0, 2) picks (6, 5, 4, 3) own: OC1 fails | second: OC1 fails
+   receiver-first order (3, 1, 2, 0) picks (1, 5, 6, 3) own: one move repairs | second: one move repairs
+   receiver-first order (3, 2, 0, 1) picks (6, 2, 5, 3) own: picks complete | second: picks complete
+   receiver-first order (3, 2, 1, 0) picks (1, 6, 5, 3) own: picks complete | second: picks complete
+   RF (every form): False | RF-exists: True
+failing start (6, 5, 4, 3) receivers [2]
+   receiver-first order (2, 0, 1, 3) picks (5, 6, 3, 4) own: one move repairs | second: one move repairs
+   receiver-first order (2, 0, 3, 1) picks (5, 2, 3, 6) own: picks complete | second: picks complete
+   receiver-first order (2, 1, 0, 3) picks (6, 5, 3, 4) own: OC1 fails | second: OC1 fails
+   receiver-first order (2, 1, 3, 0) picks (1, 5, 3, 6) own: one move repairs | second: one move repairs
+   receiver-first order (2, 3, 0, 1) picks (6, 2, 3, 5) own: picks complete | second: picks complete
+   receiver-first order (2, 3, 1, 0) picks (1, 6, 3, 5) own: picks complete | second: picks complete
+   RF (every form): False | RF-exists: True

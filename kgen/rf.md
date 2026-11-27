@@ -9,7 +9,8 @@ Code: `kgen/rf/`. Logs: `results/kgen_rf/`. Everything here is evidence only (PR
 - A one-absorber completion, and raw EFX₀.
 - A receiver of a start Y is an agent u with a pick that no other agent values above its own pick.
 - **RF** (amended form): at a maximum-matching start where OC₁ fails, for every receiver u, every u-first order whose
-  picks form a maximum matching satisfies OC₁.
+  picks form a maximum matching satisfies OC₁. **False at k = 5, n = 4 (§0).** RF∃: some receiver-first
+  maximum-matching order satisfies OC₁.
 
 The second checker is k4/sdc's `oc1_mc2_rand.Inst.check` on main, imported read-only.
 
@@ -18,7 +19,26 @@ every strict profile of the 617 hypergraphs. This workstream takes n = 4 at k �
 at n = 3, 4 and k = 5, 6. ksens's own replay on 15 failing starts (`k4/ksens/rf_replay.py`, PR #98) agrees with the
 results below.
 
-## 1. RF: no violation found
+## 0. RF in its every form is false at k = 5, n = 4; RF∃ survives (2026-11-27, after PR #97)
+
+- **RF5** (ksens, `k4/ksens/refute_rf_k5.py` on `claude/k4-ksens` @ 0db58f4b; found by their exhaustive n = 4, k = 5
+  sweep).
+  - sets [[0,1,2,5,6],[1,2,4,5,6],[3,4,5,6],[3,4,5,6]], vals [[3,35,33,43,39],[20,26,16,43,32],[8,2,7,4],[8,2,7,4]].
+  - Strict and balanced. Agents 2 and 3 are twins (same goods, same values).
+- **Replayed here independently** (`kgen/rf/rf5_replay.py`, `results/kgen_rf/rf5_replay.log`). Both checkers agree.
+  - OC₁ fails at two twin-swapped starts: (6,5,4,3), whose only receiver is agent 2, and (6,5,3,4), whose only
+    receiver is agent 3.
+  - Each start is the other's receiver-first image: the order (2,1,0,3) maps (6,5,4,3) to (6,5,3,4), and
+    (3,1,0,2) maps back. So the every form fails at both.
+  - The other 5 receiver-first maximum-matching vectors of each start satisfy OC₁. So **RF∃** holds: some
+    receiver-first maximum-matching order satisfies OC₁, which still gives OC₁^∃max.
+- **The candidate is now RF∃.** `kgen/rf/rf_climb2.py` climbs against it, seeded at the known failures and at random
+  cores with one pair of twins (the RF5 mechanism). Runs: `results/kgen_rf/rf_exists_climb_*.log`.
+- The earlier every-form climb (`rf_climb.py known`; 120 climbs × 1,500 steps from the 29 known failures,
+  `results/kgen_rf/rf_climb_targeted_known.log`) found no violation. Its best case kept 6 completable states at
+  every receiver-first vector. Climbs are therefore weaker than ksens's exhaustive sweep.
+
+## 1. RF: no violation found by this workstream's data
 
 | data | failing max starts | RF holds | notes |
 |---|---|---|---|
