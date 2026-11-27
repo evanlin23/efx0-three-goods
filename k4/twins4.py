@@ -14,6 +14,7 @@ gadgets listed per configuration (a twin kept, its partner deleted).
 Usage: twins4.py explore CONFIG ... [--jobs=J] [--zs=0,1,2]  coverage only (no certificate)
        twins4.py certify CONFIG ... --write=OUT.json.gz [--zs=...]   greedy certificate (k4/check_twins4.py re-checks)
        twins4.py why CONFIG ... [--show=K]      failing local states for the first K profiles not reduced
+       twins4.py claw2 [--full]                  the two-agent claw gadget on its hardest profile (attempts/k4-twins-claw.md)
        twins4.py list                                       the configuration names
 """
 import sys, time, itertools
@@ -287,6 +288,27 @@ def why(cfg, jobs=4, zs=(0, 1, 2), nshow=1):
     return left
 
 
+def claw_two_agent(block=True, jobs=3):
+    """attempts/k4-twins-claw.md: the claw restricted to the profile G > y > p for all three agents, and the two-agent
+    gadget 'delete f1 and p1, keep f2 and f3' (copies; G and their private goods renamed into I'). With block=True
+    the extension search keeps each copy's moved items together (BlockReduction)."""
+    cfg = claw_config()
+    gyp = [t for t in cfg.dom['f1'] if t[0] > t[1] > t[2]][0]
+    for s in cfg.agents: cfg.dom[s] = [gyp]
+    cfg.shape = tuple(len(cfg.dom[s]) for s in cfg.agents)
+    cfg.V = {s: np.array(cfg.dom[s], dtype=np.int64) for s in cfg.agents}
+    cfg.name += '-GyP'
+    keep = ('f2', 'f3')
+    Sp = {s + "'": ('copy', s, {g: (g + "'" if g == 'G' or g.startswith('p') else g) for g in cfg.S[s]}) for s in keep}
+    Ip = {"G'"} | {g + "'" for s in keep for g in cfg.S[s] if g.startswith('p')}
+    red = (BlockReduction if block else R4.Reduction)(cfg, 'DEL-f1' + (' (block search)' if block else ''), Sp, Ip,
+                                                       source=True)
+    t = time.time()
+    ok, kept = R4.run(red, jobs)
+    print('%s on the claw with every agent G > y > p: %s; %d admissible states (%.0f s)' % (
+        red.name, 'reduced' if ok.all() else 'NOT reduced', len(kept), time.time() - t), flush=True)
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     opts = dict(a[2:].split('=', 1) for a in sys.argv[1:] if a.startswith('--') and '=' in a)
@@ -309,6 +331,8 @@ def main():
         with gzip.open(opts['write'], 'wt') as f: json.dump(recs, f)
         print('wrote %s: %d records, %d states' % (opts['write'], len(recs), sum(len(r['states']) for r in recs)))
         return
+    if args[0] == 'claw2':
+        return claw_two_agent(block='--full' not in sys.argv, jobs=jobs)
     if args[0] == 'why':
         for name in args[1:]: why(CONFIGS[name](), jobs, zs, int(opts.get('show', 1)))
         return

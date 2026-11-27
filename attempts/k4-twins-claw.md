@@ -16,8 +16,17 @@ never rank their private good first; and at most one of them has a degree-2 good
 such an agent ranks G > p > y). The second statement does not improve K4.MC4's bound: the extremal case t = n₁ is not
 constrained by it.
 
-**What would be needed.** Two-agent gadgets (|S′| = 2 < 3, e.g. f1 deleted with p1, f2 and f3 copied): 6 local goods
-and 2 gadget agents, ~6·10⁵ local states, beyond reduce4's Python enumeration.
+**Two-agent gadget tried.** DEL-f1: delete f1 and p1, keep copies of f2 and f3 (G and their private goods renamed into
+I′; |S′| = 2 < 3, and G′ becomes a degree-2 good of two P3 agents in H′, which is allowed: H′ need not be a core). It has
+520,264 local states, 56,128 admissible for some profile. On the hardest profile (all three agents G > y > p; 12,440
+admissible states):
+- with the extension search restricted to keeping each copy's moved items together (`twins4.BlockReduction`, a
+  restriction of reduce4's search), it does **not** reduce it (829 s on one CPU);
+- reduce4's full extension search did not finish in 30 minutes on 3 CPUs (stopped).
+The full search over all 216 profiles would take about 6 CPU-hours in reduce4's Python (~0.4 s per admissible state).
+
+**What would be needed.** A faster reducer (C, or a search that builds extensions agent by agent with pruning) for
+two-agent gadgets, then other two-agent gadgets (e.g. f1 replaced by a fixed agent on y1).
 
 **Smallest failing configuration.** All three agents of type (G: 4, y: 3, p: 2), i.e. G > y > p.
 - DEL fails at the state where y1, y2, y3 lie together in one outside bundle without outside goods, unenvied.
@@ -25,4 +34,5 @@ and 2 gadget agents, ~6·10⁵ local states, beyond reduce4's Python enumeration
   {y1, z′}, {y2, y3} is an outside bundle, h's bundle unenvied.
 
 Reproduce: `cd k4 && python3 twins4.py why claw --zs=1` (coverage, the failing states);
-`python3 twins4.py explore claw --zs=1`.
+`python3 twins4.py explore claw --zs=1`; `python3 twins4.py claw2 --jobs=1` (the two-agent gadget with the block
+search, ~15 min; `--full` for reduce4's full search).
