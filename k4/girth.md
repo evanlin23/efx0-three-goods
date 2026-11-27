@@ -52,6 +52,7 @@ SINK, PARK, SLACK (general). Everything else below is as marked.
 | K4.GIRTH.OCCYC | Every known OC₁^max failure has pattern P\* (one receiver; a D_T pair sharing two junk goods, or a dangerous–receiver pick swap); "a 2-cycle through two dangerous agents" fails at n = 5 | EVIDENCE | §7, `k4/girth/oc1_cycles.py`, `results/k4_girth_oc1_cycles.log` |
 | K4.GIRTH.RF | Rule RF, per-order form of K4.SDC.RF: at every OC₁-failing maximum-matching SD order, the receiver is unique and moving it to the front gives maximum-matching picks that satisfy OC₁ (with MAXSD ⟹ OC₁^∃max ⟹ TARGET₄) | CONJECTURE (exhaustive at n = 4 via the certified failure list; 86 of 86 orders at n = 5; independently confirmed by the coordinator, K4.SDC.RF) | §7, `k4/girth/oc1_recvfirst.py`, `results/k4_girth_oc1_recvfirst.log`, `results/k4_girth_oc1_orders.log` |
 | K4.GIRTH.DEMOTE | Lemma DEMOTE: at every RF start, w or d owns a one-absorber completion, or the trade (T) or the chain (C) repairs; residue lemmas DEMOTE-0, DEMOTE-2 (with R2 and U1 ⟹ RF) | CONJECTURE (holds on all 292,080 n = 4 and 86 n = 5 failing orders) | §7, `k4/girth/oc1_residue.py`, `results/k4_girth_oc1_residue.log`, `k4/girth/oc1_demote.py`, `results/k4_girth_oc1_demote.log` |
+| K4.GIRTH.RFPATH | Lemma RF-PATH: rotating the last picker u of an SD order to the front changes the picks only along one ejection path x_1, …, x_ℓ (increasing in the order); every x_i loses value, u gains; the path's end is unfrozen at the new picks (any n, strict additive values) | PROVED (written, not refereed) | §7 |
 
 ---
 
@@ -651,6 +652,35 @@ the RF path; w = x₁ is the holder of u's top good at Y.
   agent, i.e. Corollary U1 (K4.MULTI.U), 31,520; **open residue: one receiver and |D_T′| = 0 (64,160) or 2 (43,520)**.
   Every sampled R2 and U1 case completes at the picks; all 295 one-move cases lie in the residue. At n = 5, 82 of 86
   are in R2's class and 4 in the residue with |D_T′| = 2.
+
+**Lemma RF-PATH (PROVED, written here, not refereed; any n, any strict additive valuations).** Let σ be an order
+whose serial-dictatorship picks Y give every agent a good, u = σ_n its last picker, t the top good of u (in R_u),
+σ′ = (u, σ_1, …, σ_{n−1}) and Y′ = SD(σ′). If t = Y_u then Y′ = Y. Otherwise:
+- (a) t is the pick of another agent x_1, and there are agents x_1, …, x_ℓ (ℓ ≥ 1), in increasing σ-order, with
+  Y′_u = t = Y_{x_1}, Y′_{x_i} = Y_{x_{i+1}} (1 ≤ i < ℓ), and Y′_{x_ℓ} a good that no agent picks at Y after x_ℓ's turn
+  other than u (a junk good of Y, or Y_u), or nothing; every other agent has Y′_a = Y_a;
+- (b) every x_i (1 ≤ i ≤ ℓ) strictly loses value, and u strictly gains;
+- (c) if d = x_ℓ receives a good g, then no agent wants g at Y′ (d is unfrozen at Y′); moreover σ_{n−1} is unfrozen at
+  Y′, so at an RF start with one receiver, d = σ_{n−1}.
+
+*Proof.* In serial dictatorship an agent j can want i's pick only if i picked before j (otherwise j could have taken
+it); so the last picker of any order is unfrozen. t is not junk: junk is never picked, so it was available to u at its
+turn in σ, and u took Y_u ≠ t. Let A_k and A′_k be the goods still free just before σ_k picks (k ≤ n − 1) in σ and in
+σ′. We show by induction that A′_k = A_k ∖ {m_k} for a *missing good* m_k ∈ A_k (or A′_k = A_k from some point on).
+At k = 1, A′_1 = M ∖ {t} and m_1 = t. Let a = σ_k. If Y_a ≠ m_k, then Y_a ∈ A′_k ⊆ A_k, so a picks Y_a again, and
+m_{k+1} = m_k. If Y_a = m_k, a is *ejected*: it picks its best good g in A_k ∖ {m_k} (or nothing), with v_a(g) <
+v_a(Y_a) because g was free when a chose Y_a in σ and values are strict; then A_{k+1} = A_k ∖ {m_k} and A′_{k+1} =
+A_{k+1} ∖ {g}, so m_{k+1} = g. The ejected agents are therefore x_1 (the holder of t), then the later holder of
+x_1's new good, and so on, which is (a) and (b). The chain stops at the first ejected agent whose new good is picked
+by nobody later in σ before u; such a good is junk at Y or Y_u, because u picks last in σ. For (c): an agent j after d
+in σ′ keeps its pick, and g was free at j's turn in σ (junk is never picked, and Y_u is taken only by u, last), so j
+prefers Y_j to g; an agent before d in σ′ had g free at its turn in σ′, so it prefers its pick to g; u holds its top
+good. So nobody wants g. σ_{n−1} is the last picker of σ′, hence unfrozen. ∎
+
+So DEMOTE (a) holds in general, and the exhaustive counts of (a) are a check of this proof. At an OC₁^max failure
+with one receiver, the receiver is σ_n for every order σ giving Y (the last picker is always a receiver; this is the
+first half of TTC's RF-ROT), so RF = the rotation of σ, as RF-ROT says. What remains of DEMOTE is the completion part
+(b)–(c), equivalently the residue lemmas below.
 
 **Lemma DEMOTE, precise form, checked on every failing order** (`k4/girth/oc1_residue.py`,
 `results/k4_girth_oc1_residue.log`; raw checker `k4/sdc/oc1_mc2_rand.Inst`; every move used is confirmed to be an
