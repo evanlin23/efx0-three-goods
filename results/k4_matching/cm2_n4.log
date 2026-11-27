@@ -1,0 +1,17 @@
+$ python3 k4/matching/cm2.py n4
+n4cex-0 picks [1, 2, 5, 6] | first moves 15 | first moves after which an EX* exchange repairs 4 | first moves after which some second move repairs 4
+n4cex-1 picks [4, 5, 6, 2] | first moves 21 | first moves after which an EX* exchange repairs 7 | first moves after which some second move repairs 7
+n4cex-2 picks [6, 5, 3, 4] | first moves 24 | first moves after which an EX* exchange repairs 4 | first moves after which some second move repairs 4
+n4cex-3 picks [6, 4, 5, 3] | first moves 32 | first moves after which an EX* exchange repairs 5 | first moves after which some second move repairs 5
+n4cex-4 picks [1, 3, 4, 5] | first moves 22 | first moves after which an EX* exchange repairs 7 | first moves after which some second move repairs 7
+n4cex-5 picks [1, 5, 4, 6] | first moves 15 | first moves after which an EX* exchange repairs 4 | first moves after which some second move repairs 4
+n4cex-6 picks [2, 4, 6, 3] | first moves 16 | first moves after which an EX* exchange repairs 4 | first moves after which some second move repairs 4
+n4cex-7 picks [4, 6, 5, 2] | first moves 21 | first moves after which an EX* exchange repairs 7 | first moves after which some second move repairs 7
+n4cex-8 picks [0, 2, 6, 5] | first moves 25 | first moves after which an EX* exchange repairs 4 | first moves after which some second move repairs 4
+n4cex-9 picks [2, 7, 3, 6] | first moves 25 | first moves after which an EX* exchange repairs 4 | first moves after which some second move repairs 4
+n4cex-10 picks [2, 5, 6, 7] | first moves 22 | first moves after which an EX* exchange repairs 7 | first moves after which some second move repairs 7
+CM (one exchange) False, OC1 False 11
+CM2 holds 11
+OC2 holds 11
+starts 11
+time 0 s

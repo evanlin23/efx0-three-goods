@@ -1,0 +1,16 @@
+$ python3 k4/matching/cm_big.py gen 800 30 32 6 7
+... 100 instances, 0 s
+... 200 instances, 0 s
+... 300 instances, 1 s
+... 400 instances, 1 s
+... 500 instances, 1 s
+... 600 instances, 1 s
+... 700 instances, 1 s
+... 800 instances, 2 s
+CM holds, owner end 1
+CM holds, owner k 15
+hard perfect starts 16
+instances 800
+non-perfect starts 2061
+perfect starts 4248
+time 2 s

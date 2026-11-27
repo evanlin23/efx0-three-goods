@@ -1,0 +1,46 @@
+$ KNOWN_HARD=1 python3 k4/matching/gr.py compute/k4-oc1max-cert:results/k4_oc1max/n5/ (cd476cf7) partial6.json.gz | 702250 distinct starts
+... 20000 33 s
+... 40000 65 s
+... 60000 98 s
+... 80000 120 s
+... 100000 167 s
+... 120000 203 s
+... 140000 229 s
+... 160000 245 s
+... 180000 253 s
+... 200000 261 s
+... 220000 273 s
+... 240000 292 s
+... 260000 318 s
+... 280000 344 s
+... 300000 377 s
+... 320000 412 s
+... 340000 447 s
+... 360000 486 s
+... 380000 509 s
+... 400000 543 s
+... 420000 578 s
+... 440000 614 s
+... 460000 664 s
+... 480000 680 s
+... 500000 818 s
+... 520000 955 s
+... 540000 1119 s
+... 560000 1271 s
+... 580000 1341 s
+... 600000 1349 s
+... 620000 1357 s
+... 640000 1366 s
+... 660000 1375 s
+... 680000 1383 s
+... 700000 1392 s
+GR safe True 702250
+GR safe True | 5_pure m=8 #164 127992
+GR safe True | 5_pure m=8 #374 122166
+GR safe True | 5_pure m=8 #379 109541
+GR safe True | 5_pure m=8 #464 170177
+GR safe True | 5_pure m=9 #778 82193
+GR safe True | 5_pure m=9 #808 90181
+states, stop: final round 1110833
+states, stop: final round (with a P1 settlement) 134822
+time 1393 s

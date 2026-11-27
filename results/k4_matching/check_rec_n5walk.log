@@ -1,0 +1,4 @@
+$ python3 k4/matching/check_rec.py ../../results/k4_matching/n5_walk164.jsonl ../../results/k4_matching/rec_n5walk_witnesses.json.gz | 1498 distinct starts, 1498 witnesses
+verified, after one move of I- 1498
+all starts certified: True
+time 1 s

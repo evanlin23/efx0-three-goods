@@ -1,0 +1,40 @@
+starts with a LIFT pair True 3179
+--- starts where some LIFT pair has the feature:
+JOINT without P1pair False 3179
+JOINT without P1pair True 2774
+JOINT without P2canon False 1752
+JOINT without P2canon True 2966
+JOINT without P2pair False 2926
+JOINT without P2pair True 2987
+JOINT without a_in_H02 False 3179
+JOINT without a_in_H02 True 2774
+JOINT without h_not_k False 3179
+JOINT without h_not_k True 2774
+JOINT without h_takes_all False 3179
+JOINT without h_takes_all True 2966
+JOINT without inert False 3179
+JOINT without inert True 2774
+JOINT without others_pairs False 3179
+JOINT without others_pairs True 2774
+JOINT without z_unfrozen_B1 False 3179
+JOINT without z_unfrozen_B1 True 2774
+JOINT: all features at once (LIFT-red hypotheses + h takes all junk) False 3179
+JOINT: all features at once (LIFT-red hypotheses + h takes all junk) True 2774
+LIFT-red hypotheses and h takes all junk False 2926
+LIFT-red hypotheses and h takes all junk True 2987
+LIFT-red hypotheses only (z unfrozen at B1, P1 pair and junk-free, P2 canonical, h not k) False 2926
+LIFT-red hypotheses only (z unfrozen at B1, P1 pair and junk-free, P2 canonical, h not k) True 3179
+P1 H0 size 2, P2 H0 size 1 1307
+P1 H0 size 2, P2 H0 size 2 3179
+P1 H0 size 2, P2 H0 size 3 1505
+P2 H0 contains z base at B1 True 3179
+P2 head = P1 head False 3179
+P2 head = P1 head True 800
+P2 head valued no junk at Y (inert) False 1307
+P2 head valued no junk at Y (inert) True 3179
+max size of other multi-good bundles 2 3179
+max size of other multi-good bundles 3 1060
+owner takes all junk: EFX0 False 373
+owner takes all junk: EFX0 True 3179
+z frozen at B1 False 3179
+z frozen at B1 True 1307

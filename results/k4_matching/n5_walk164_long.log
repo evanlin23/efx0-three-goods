@@ -1,0 +1,13 @@
+$ python3 k4/matching/fail_walk.py cex5 20000 11 12 13 14
+seed 11: profiles 7374, distinct hard starts 5418
+seed 12: profiles 7456, distinct hard starts 5439
+seed 13: profiles 7806, distinct hard starts 5790
+seed 14: profiles 7781, distinct hard starts 5814
+OC2-REC True 4
+hard 4
+profiles 30417
+visits: OC2-REC True 25655
+visits: hard 25655
+distinct hard (profile, start) pairs over all seeds: 22445
+wrote ../../results/k4_matching/n5_walk164_long.jsonl
+time 337 s

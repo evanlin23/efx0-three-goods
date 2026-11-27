@@ -1,0 +1,6 @@
+$ KNOWN_HARD= python3 k4/matching/gr.py ../../results/k4_matching/data/onemove_hard_hall2071.jsonl.gz | 1737 distinct starts
+GR safe True 1737
+GR safe True | all 1737
+states, stop: ED repair 54
+states, stop: final round 1683
+time 3 s

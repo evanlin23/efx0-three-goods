@@ -1,0 +1,6 @@
+$ python3 k4/matching/twin_hunt.py rf5 500 1
+instances 500
+... 200 0 s
+... 400 1 s
+failures: (a) 0, (b) 0, (b) for every receiver 0
+time 1 s

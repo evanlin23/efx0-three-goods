@@ -1,0 +1,19 @@
+$ RMAX=2 DMAX=4 LSTAR=now ROUNDS=minimal EXPLORE=1 python3 k4/matching/round_rsd.py n4export | 112880 distinct starts
+... 10000 13 s
+... 20000 25 s
+... 30000 35 s
+... 40000 48 s
+... 50000 60 s
+... 60000 71 s
+... 70000 82 s
+... 80000 94 s
+... 90000 105 s
+... 100000 117 s
+... 110000 143 s
+EXPLORE: no dead end reachable False 16240
+EXPLORE: no dead end reachable True 96640
+ROUND-RSD: T sizes [[2], [2]] 103600
+ROUND-RSD: T sizes [[2], [3]] 9280
+ROUND-RSD: least number of rounds = 2 112880
+ROUND-RSD: round sizes [1, 1] 112880
+time 151 s

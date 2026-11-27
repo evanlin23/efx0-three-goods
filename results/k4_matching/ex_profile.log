@@ -1,0 +1,60 @@
+$ python3 k4/matching/ex_profile.py results/k4_matching/hard_cores_1500_92.jsonl results/k4_matching/hard_cores_150_93.jsonl results/k4_matching/hard_cores_3000_91.jsonl results/k4_matching/hard_logs.jsonl results/k4_matching/hard_screen.jsonl results/k4_matching/hard_special.jsonl results/k4_matching/hard_suite.jsonl
+chain length 1 1125
+chain length 2 777
+chain length 3 158
+chain length 4 10
+dangerous agents on the chain: 1 1269
+dangerous agents on the chain: 2 695
+dangerous agents on the chain: 3 102
+dangerous agents on the chain: 4 4
+delta_oa(Y) = 1 | delta(Y, end) = 1, d = 0, s = 0 536
+delta_oa(Y) = 1 | delta(Y, end) = 1, d = 0, s = 1 450
+delta_oa(Y) = 1 | delta(Y, end) = 1, d = 0, s = 2 339
+delta_oa(Y) = 1 | delta(Y, end) = 1, d = 0, s = 3 69
+delta_oa(Y) = 1 | delta(Y, end) = 1, d = 0, s = 4 1
+delta_oa(Y) = 1 | delta(Y, end) = 1, d = 1, s = 1 76
+delta_oa(Y) = 1 | delta(Y, end) = 1, d = 1, s = 2 30
+delta_oa(Y) = 1 | delta(Y, end) = 1, d = 1, s = 3 1
+delta_oa(Y) = 1 | delta(Y, end) = 1, d = 2, s = 2 3
+delta_oa(Y) = 1 | delta(Y, end) = 1, d = 2, s = 3 1
+delta_oa(Y) = 1 | delta(Y, end) = 2, d = 0, s = 0 205
+delta_oa(Y) = 1 | delta(Y, end) = 2, d = 0, s = 1 33
+delta_oa(Y) = 1 | delta(Y, end) = 2, d = 0, s = 2 10
+delta_oa(Y) = 1 | delta(Y, end) = 2, d = 1, s = 1 15
+delta_oa(Y) = 1 | delta(Y, end) = 2, d = 2, s = 2 1
+delta_oa(Y) = 1 | delta(Y, end) = 3, d = 0, s = 0 62
+delta_oa(Y) = 1 | delta(Y, end) = 3, d = 0, s = 1 13
+delta_oa(Y) = 1 | delta(Y, end) = 3, d = 1, s = 1 6
+delta_oa(Y) = 1 | delta(Y, end) = 4, d = 0, s = 0 21
+delta_oa(Y) = 1 | delta(Y, end) = 4, d = 0, s = 1 4
+delta_oa(Y) = 1 | delta(Y, end) = 4, d = 0, s = 2 1
+delta_oa(Y) = 1 | delta(Y, end) = 4, d = 1, s = 1 1
+delta_oa(Y) = 1 | delta(Y, end) = 5, d = 0, s = 0 7
+delta_oa(Y) = 1 | delta(Y, end) = 6, d = 0, s = 0 2
+delta_oa(Y) = 2 | delta(Y, end) = 2, d = 0, s = 0 45
+delta_oa(Y) = 2 | delta(Y, end) = 2, d = 0, s = 1 38
+delta_oa(Y) = 2 | delta(Y, end) = 2, d = 0, s = 2 4
+delta_oa(Y) = 2 | delta(Y, end) = 2, d = 0, s = 3 1
+delta_oa(Y) = 2 | delta(Y, end) = 2, d = 1, s = 1 42
+delta_oa(Y) = 2 | delta(Y, end) = 2, d = 1, s = 2 9
+delta_oa(Y) = 2 | delta(Y, end) = 3, d = 0, s = 0 21
+delta_oa(Y) = 2 | delta(Y, end) = 3, d = 0, s = 1 6
+delta_oa(Y) = 2 | delta(Y, end) = 3, d = 1, s = 1 2
+delta_oa(Y) = 2 | delta(Y, end) = 4, d = 0, s = 0 5
+delta_oa(Y) = 2 | delta(Y, end) = 5, d = 0, s = 0 1
+delta_oa(Y) = 2 | delta(Y, end) = 5, d = 0, s = 1 1
+delta_oa(Y) = 3 | delta(Y, end) = 3, d = 0, s = 0 3
+delta_oa(Y) = 3 | delta(Y, end) = 3, d = 0, s = 1 1
+delta_oa(Y) = 3 | delta(Y, end) = 3, d = 0, s = 2 1
+delta_oa(Y) = 3 | delta(Y, end) = 3, d = 1, s = 1 1
+delta_oa(Y) = 3 | delta(Y, end) = 4, d = 0, s = 0 1
+delta_oa(Y) = 3 | delta(Y, end) = 5, d = 0, s = 0 1
+hard starts 2071
+middle or end junk used 1031
+no EX triple with owner k 1
+s = 0 910
+s = 1 689
+s = 2 398
+s = 3 72
+s = 4 1
+time 1 s

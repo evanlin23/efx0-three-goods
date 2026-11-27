@@ -1,0 +1,13 @@
+$ python3 k4/matching/twin_hunt.py softtwin6 60 12
+instances 60
+(a) every-form holds True 236
+(b) RF-exists for some receiver holds True 236
+(b) RF-exists for u holds True 236
+OC1max-failing starts 236
+final best score 0 48
+final best score 1 9
+final best score 2 3
+profiles 8913
+receivers = 1 236
+failures: (a) 0, (b) 0, (b) for every receiver 0
+time 221 s

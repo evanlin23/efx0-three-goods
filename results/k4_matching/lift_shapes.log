@@ -1,0 +1,24 @@
+$ python3 k4/matching/lift_shapes.py | 3182 starts
+LIFT recipe (all of the above but owner = z): False 1
+LIFT recipe (all of the above but owner = z): True 3181
+P1 at z with shared set; P2 removes DEMAND: False 1
+P1 at z with shared set; P2 removes DEMAND: True 3181
+P1 ends at the lone holder z: False 1
+P1 ends at the lone holder z: True 3181
+P1 head takes a shared danger set: True 3182
+P2 ends at z: False 1
+P2 ends at z: True 3181
+P2 gives z its favourite good: False 1
+P2 gives z its favourite good: True 3181
+P2 has length 1: False 1872
+P2 has length 1: True 1310
+P2 head is in D: True 3182
+P2 removes every DEMAND agent of P1 (starts at it or unfreezes it): True 3182
+holders at Y = 1 3181
+holders at Y = 2 1
+owner = P2 head: True 3182
+owner = z: False 1
+owner = z: True 3181
+repair: True 3182
+LIFT recipe misses PW5 (k = 5) [[[0, 5, 6, 7, 8], [1, 5, 6, 7, 8], [2, 5, 6, 7, 8], [0, 1, 2, 3], [0, 1, 2, 4]], [[10, 9, 8, 7, 6], [10, 9, 8, 7, 6], [10, 9, 8, 7, 6], [6, 4, 2, 1], [6, 4, 2, 1]]] picks [0, 1, 2, 3, 4]
+time 6 s

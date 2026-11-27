@@ -1,0 +1,9 @@
+$ python3 k4/matching/twin_hunt.py twin5
+instances 70
+(a) every-form holds True 94
+(b) RF-exists for some receiver holds True 94
+(b) RF-exists for u holds True 94
+OC1max-failing starts 94
+receivers = 1 94
+failures: (a) 0, (b) 0, (b) for every receiver 0
+time 1 s
