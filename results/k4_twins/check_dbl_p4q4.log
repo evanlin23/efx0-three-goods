@@ -1,0 +1,23 @@
+check_twins4.py ../results/k4_twins/dbl_p4q4.json.gz: 245 records; types re-enumerated by check_reductions4: 6 (3 goods), 288 (4 goods)
+  dbl-P4-P4-c1       2 records,     40 admissible states: 82944 of 82944 profiles covered
+  dbl-P4-Q4-c1       8 records,   1054 admissible states: 82944 of 82944 profiles covered
+  dbl-Q4-Q4-c2      10 records,   1204 admissible states: 80152 of 82944 profiles covered
+  dbl-Q4-Q4-c1      45 records,  26532 admissible states: 71512 of 82944 profiles covered
+  dbl-P4-P4          6 records,    682 admissible states: 82944 of 82944 profiles covered
+  dbl-P4-Q4         36 records,  21230 admissible states: 81944 of 82944 profiles covered
+  dbl-Q4-Q4        138 records, 427062 admissible states: 50392 of 82944 profiles covered
+  profiles no reduction covers written to ../results/k4_twins/dbl_p4q4_uncovered.json (sha256 0f2d02c320550a0e32284775cfe9c1d3cf71ad24dcee609960a08bc350be35d6)
+RESULT: OK
+check_twins4.py ../results/k4_twins/dbl_p4q4.json.gz: 245 records; types re-enumerated by check_reductions4: 6 (3 goods), 288 (4 goods)
+  selftest base record dbl-P4-P4/DEL: covered 70824
+  selftest a state deleted                                      -> rejected (problems: [], covered 0)
+  selftest a good dropped from an extension                     -> rejected (problems: ['1 stored extensions violate Lemma M1'], covered 0)
+  selftest an extra gadget agent (not smaller)                  -> rejected (problems: ['22 stored states are not local states'], covered 0)
+  selftest unenvied bundle dropped                              -> rejected (problems: ['22 stored states are not local states'], covered 0)
+  selftest gadget goods not declared in I' (GAD-h(a=2,y=2,z0'=3)) -> rejected (problems: ["gadget agent h values a good outside I' + D", '138 stored states are not local states'], covered 0)
+  selftest a gadget agent valuing 5 goods                       -> rejected (problems: ['gadget agent h values more than 4 goods', '138 stored states are not local states'], covered 0)
+  selftest a record whose agents differ from its configuration  -> rejected (problems: ['record declares a configuration different from dbl-P4-P4'], covered 0)
+  selftest a record whose I differs from its configuration      -> rejected (problems: ['record declares a configuration different from dbl-P4-P4'], covered 0)
+  selftest a record filed under another configuration           -> rejected (problems: ['record declares a configuration different from dbl-Q4-Q4-c2'], covered 0)
+  selftest interior good into a W bundle (domination)           -> rejected (problems: ['10 stored extensions violate Lemma M1'], covered 0)
+RESULT: OK
