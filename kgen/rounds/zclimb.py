@@ -8,6 +8,7 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import rndlib
 from stress import is_core
 VMAX = 3000
+ZCLASS = os.environ.get('ZCLASS', 'OC1')   # OC1 (k4/sdc's official move) or OC1P (OC1', kgen/rounds.md §4.6)
 
 
 def connected(Z):
@@ -36,9 +37,9 @@ def objective(Z):
     res, _ = rndlib.oc1z(Z)
     per = [r for r in res if r['perfect']]
     if not per: return (1, 0, 0.0), res
-    fails = sum(1 for r in per if r['OC1'] == 0)
-    h = min(per, key=lambda r: (r['OC1'], r['msum']))
-    return (-fails, h['OC1'], round(h['msum'], 9)), res
+    fails = sum(1 for r in per if r[ZCLASS] == 0)
+    h = min(per, key=lambda r: (r[ZCLASS], r['OC1'], r['msum']))
+    return (-fails, h[ZCLASS], h['OC1'], round(h['msum'], 9)), res
 
 
 def mutate(Z, rng):
@@ -76,11 +77,11 @@ def main():
                 Z, c, res = W, c2, res2
                 if c[0] < 0:
                     for x in res:
-                        if x['perfect'] and x['OC1'] == 0:
-                            print('ZFAIL vals', json.dumps(Z), 'picks', list(x['picks']), 'order', list(x['order']), flush=True)
+                        if x['perfect'] and x[ZCLASS] == 0:
+                            print('ZFAIL', ZCLASS, 'vals', json.dumps(Z), 'picks', list(x['picks']), 'order', list(x['order']), flush=True)
                             fp = os.environ.get('FAILS')
                             if fp:
-                                with open(fp, 'a') as f: f.write(json.dumps({'vals': Z, 'picks': list(x['picks']), 'order': list(x['order'])}) + '\n')
+                                with open(fp, 'a') as f: f.write(json.dumps({'class': ZCLASS, 'vals': Z, 'picks': list(x['picks']), 'order': list(x['order'])}) + '\n')
                     break
         print('round', r, 'final', c, 'vals', json.dumps(Z), 'time %.0f' % (time.time() - t0), flush=True)
     print('time %.0f s' % (time.time() - t0))

@@ -607,7 +607,7 @@ ll rnd2_count_margin(int n_, int m_, const ll *vals, const int *picks, ll cap_, 
    For X (complete EFX0) the witness test: keep (one optional addition + one absorber), or exactly one path of passers
    s(a) = loc(a), with H's maximal (relevant junk in the bundle).
    rnd_oc1z: per distinct perfect start, counts of EXT1 (picks extend, one absorber), OC1 and MD, and OC1 margins. */
-static ll z_cnt[MAXS][3]; static double z_msum[MAXS];
+static ll z_cnt[MAXS][4]; static double z_msum[MAXS];
 static int z_perfect[MAXS];
 
 static int oc1z_start(int s, double *mg) {
@@ -633,6 +633,7 @@ static int oc1z_start(int s, double *mg) {
             if (bg <= 1) { double d = (double)vJr[t] / tot_i[t]; if (d > best) best = d; res |= 2; }
         }
         if (res & 1) res |= 2;
+        if (res & 2) res |= 8;
         *mg = best; return res;
     }
     for (int E = Mv;; E = (E - 1) & Mv) {
@@ -658,6 +659,26 @@ static int oc1z_start(int s, double *mg) {
             }
             int e = x0; while (succ[e] >= 0) e = succ[e];
             int ring = (loc[e] == x0 && v[x0][y[e]] > 0);
+            /* OC1' (kgen/rounds.md §4.6): a non-end path agent b holding the end's pick and valuing it may take it */
+            {
+                int okp = 1; int tk = loc[e]; int takes = (onp[tk] && tk != e && v[tk][y[e]] > 0);
+                double gmp = 1e9;
+                for (int b = 0; b < n && okp; b++) if (pred[b] >= 0) {
+                    ll l = v[b][y[pred[b]]] + vJr[b] + ((takes && tk == b) ? v[b][y[e]] : 0);
+                    if (!(l > v[b][y[b]])) okp = 0; else { double d = (double)(l - v[b][y[b]]) / tot_i[b]; if (d < gmp) gmp = d; }
+                }
+                if (okp) {
+                    ll l = vJr[x0] + ((takes && tk == x0) ? v[x0][y[e]] : 0);
+                    if (!(l > v[x0][y[x0]])) okp = 0;
+                }
+                if (okp) {
+                    int out[MAXN];
+                    for (int a = 0; a < n; a++) out[a] = onp[a] ? nJ0[a] : nJr[a] + nJ0[a];
+                    if (!takes) out[loc[e]]++;
+                    int big = 0; for (int a = 0; a < n; a++) if (out[a] >= 2) big++;
+                    if (big <= 1) res |= 8;
+                }
+            }
             if (ok) {
                 ll l = vJr[x0] + (ring ? v[x0][y[e]] : 0);
                 if (!(l > v[x0][y[x0]])) ok = 0; else { double d = (double)(l - v[x0][y[x0]]) / tot_i[x0]; if (d < gm) gm = d; }
@@ -689,6 +710,7 @@ static void dfsz(int idx) {
             if (r & 1) z_cnt[s][0]++;
             if (r & 2) { z_cnt[s][1]++; z_msum[s] += (em < mg ? em : mg); }
             if (r & 4) z_cnt[s][2]++;
+            if ((r & 8) || (r & 2)) z_cnt[s][3]++;
         }
         return;
     }
@@ -736,13 +758,13 @@ int rnd_oc1z(int n_, int m_, const ll *vals, int *out_picks, int *out_order, int
     }
     for (int s = 0; s < nst; s++) {
         z_perfect[s] = 1; for (int a = 0; a < n; a++) if (pick[s][a] < 0) z_perfect[s] = 0;
-        z_cnt[s][0] = z_cnt[s][1] = z_cnt[s][2] = 0; z_msum[s] = 0;
+        z_cnt[s][0] = z_cnt[s][1] = z_cnt[s][2] = z_cnt[s][3] = 0; z_msum[s] = 0;
     }
     dfsz(0);
     for (int s = 0; s < nst; s++) {
         for (int a = 0; a < n; a++) { out_picks[s * n + a] = pick[s][a]; out_order[s * n + a] = sorder[s][a]; }
         out_perfect[s] = z_perfect[s];
-        for (int k = 0; k < 3; k++) out_cnt[s * 3 + k] = z_cnt[s][k];
+        for (int k = 0; k < 4; k++) out_cnt[s * 4 + k] = z_cnt[s][k];
         out_msum[s] = z_msum[s];
     }
     *out_nefx = nefx;

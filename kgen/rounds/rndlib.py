@@ -123,10 +123,11 @@ def oc1z(vals):
     n, m, A = _arr(vals)
     NS = 5040
     picks = (ctypes.c_int * (NS * n))(); order = (ctypes.c_int * (NS * n))(); perf = (ctypes.c_int * NS)()
-    cnt = (LL * (NS * 3))(); ms = (ctypes.c_double * NS)(); nefx = LL()
+    cnt = (LL * (NS * 4))(); ms = (ctypes.c_double * NS)(); nefx = LL()
     ns = _L.rnd_oc1z(n, m, A, picks, order, perf, cnt, ms, ctypes.byref(nefx))
     out = []
     for s in range(ns):
         out.append({'picks': tuple(picks[s * n + a] for a in range(n)), 'order': tuple(order[s * n + a] for a in range(n)),
-                    'perfect': bool(perf[s]), 'EXT1': cnt[s * 3], 'OC1': cnt[s * 3 + 1], 'MD': cnt[s * 3 + 2], 'msum': ms[s]})
+                    'perfect': bool(perf[s]), 'EXT1': cnt[s * 4], 'OC1': cnt[s * 4 + 1], 'MD': cnt[s * 4 + 2],
+                    'OC1P': cnt[s * 4 + 3], 'msum': ms[s]})
     return out, nefx.value

@@ -141,3 +141,42 @@ if __name__ == '__main__':
     print('instance', json.dumps(V), 'order', order, 'k =', max(sum(1 for x in r if x > 0) for r in V))
     print('[k4/sdc pipeline]', sdc_pipeline(V, order), '%.0fs' % (time.time() - t0), flush=True)
     print('[brute force]    ', brute(V, order), '%.0fs' % (time.time() - t0), flush=True)
+
+
+def one_chain_prime(V, bases):
+    """OC1' (kgen/rounds.md §4.6): ONE chain x_0..x_t (t >= 0, or none); every NON-END agent x_i (i < t) may take,
+    besides junk it values, goods of the end's base B_{x_t} that it values (the start x_0 as in a ring; a middle agent
+    in addition to the base it receives); the end x_t takes B_{x_{t-1}} plus junk; the rest of B_{x_t} becomes junk;
+    every chain agent strictly gains.  Written from that definition, independent of rnd.c."""
+    n, m = len(V), len(V[0]); used = set(g for b in bases for g in b)
+    J = sorted(g for g in range(m) if g not in used); out = {tuple(frozenset(b) for b in bases)}
+    for L in range(1, n + 1):
+        for seq in itertools.permutations(range(n), L):
+            if any(not bases[seq[i]] for i in range(L - 1)): continue
+            endb = sorted(bases[seq[-1]]) if L > 1 else []
+            # each junk good: to one chain agent that values it, or nowhere; each end good: to a non-end agent that
+            # values it, or released
+            optsJ = [[None] + [k for k in range(L) if V[seq[k]][g] > 0] for g in J]
+            optsE = [[None] + [k for k in range(L - 1) if V[seq[k]][g] > 0] for g in endb]
+            for aJ in itertools.product(*optsJ):
+                for aE in itertools.product(*optsE):
+                    H = [set() for _ in seq]
+                    for g, k in zip(J, aJ):
+                        if k is not None: H[k].add(g)
+                    for g, k in zip(endb, aE):
+                        if k is not None: H[k].add(g)
+                    new = [set(b) for b in bases]
+                    if L == 1:
+                        if not H[0]: continue
+                        new[seq[0]] = set(bases[seq[0]]) | H[0]
+                    else:
+                        new[seq[0]] = set(H[0])
+                        for i in range(1, L): new[seq[i]] = set(bases[seq[i - 1]]) | H[i]
+                    if all(val(V, a, new[a]) > val(V, a, bases[a]) for a in seq):
+                        out.add(tuple(frozenset(b) for b in new))
+    return out
+
+
+def oc1_prime(V, order):
+    y = sd(V, order); b0 = [frozenset([g]) if g is not None else frozenset() for g in y]
+    return any(completion(V, list(s), 1) is not None for s in one_chain_prime(V, b0))
