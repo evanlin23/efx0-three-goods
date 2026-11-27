@@ -1222,3 +1222,48 @@ and there is one holder, so (W3) fails. The swap repair of §11 avoids the count
 
 So 120 SLOT2 starts remain. They need a slot that cuts a danger set and a worthless-good cure at the same time; Lemma M
 decides each such combination exactly. RING2 needs the swap lemma.
+
+## 14. The existence half of REC-S: (K) locally, and the phantom class
+
+**(K) is local.** k keeps T. Outside T it values only Y_k and at most one more good ℓ, since |R_k| ≤ 4. Neither good
+alone can threaten k in most positions:
+- v_k(Y_k) = p_k < v_k(T);
+- a junk good alone is worth at most p_k, by (G2).
+
+So the allocation X of the reduced instance threatens k only if one of two things happens:
+- **(K-a)** one bundle holds both Y_k and ℓ, worth more than T to k after the least good is removed;
+- **(K-b)** ℓ is a pick that k values above T, and ℓ sits in a bundle of two or more goods (in Theorem S's allocation,
+  ℓ is the receiver's good next to h, or the released Y_{z′} in W).
+
+`rec_k.py` (`rec_k.log`) runs over E(k) for every order, every improving pool pair T and every Theorem S case of I⁻:
+
+| data | (R) cases | (K-a) fails | (K-b) fails | k's best pool pair T\* has a case with (R) and (K) |
+|---|---|---|---|---|
+| walk failures (4,955 starts) | 8,686 | 0 | 0 | 4,955 |
+| matching session's n = 5 walks (22,445) | 134,670 | 0 | 0 | 22,445 |
+| n = 4 export (112,880) | 605,360 | 0 | 9,600 | **112,880** |
+
+"(K) fails iff (K-a) or (K-b)" matched the raw threat test in every case. So the coordinator's suggestion holds on all
+data: **choosing T as k's best improving pool pair always leaves a (K)-safe Theorem S case.** Only (K-b) ever bites, and
+only for a worse pair. A proof needs one of two things:
+- an argument that the best pair rules out (K-b), i.e. k never values a pick above its best pool pair while that pick's
+  holder receives the slot;
+- or a Theorem S case avoiding ℓ's holder, which (S-c) permits whenever another holder exists.
+
+**The phantom class (the inductive form of REC-S).** After settling k, the reduced instance carries k as a *phantom*:
+an agent with a fixed bundle T_k and a threshold τ_k = v_k(T_k), which values at most two goods outside T_k (Y_k and ℓ).
+In the language of Lemma M^c, a phantom is a non-eligible agent with requirement τ_k and no base:
+- (C1) asks that no multi-good bundle threaten it;
+- a holder whose good the phantom values above τ_k becomes *phantom-frozen*: it may not take a slot, which is exactly
+  (K-b);
+- (L) is automatic for the real agents (§12, remark): they value each good of T_k below their holding, so the phantoms
+  never threaten them.
+
+A class closed under "settle, delete, recurse" (RSD) is therefore: *an SD start of the real agents, plus a set of
+phantoms with fixed pairs, where each phantom is unthreatened by every other phantom's pair.* Each step settles one
+more sharer by E(k) with its best pool pair T. It must check one new condition, that T threatens no existing phantom;
+k values at most two goods of the rest, so this is again a local "keep b and c apart" test. Lemma SD-E, Theorem S
+(with phantom-frozen holders removed from the receivers) and Lemma M^c (phantoms as non-eligible agents with fixed
+requirements) all apply verbatim in this class. If every two-move start reaches a phantom-class start where Theorem S
+applies after at most one settlement, OC₂^max follows. What remains is the existence argument (Sub-lemma
+**RSD-EX**, open): at a hard start with no one-move repair, k's best pool pair is (K)-safe for some Theorem S case.
