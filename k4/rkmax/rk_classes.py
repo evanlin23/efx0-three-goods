@@ -129,6 +129,46 @@ def sprime_cases(P, Y, ro, first=True):
     return out
 
 
+def sink1_cases(P, Y, ro, first=True):
+    """Lemma SINK1 (k4/rkmax.md §7): one canonical chain, then a sink-shaped completion.
+    k frozen; P = (k = x_0, ..., x_t = z) with x_i wanting Y_{x_{i-1}} and z unfrozen at Y; H_0 an improving subset of
+    (J + {Y_z}) for k; B' the state after P; F = (J + {Y_z}) - H_0 the free goods.  Owner o in {k, z}; at most one good
+    g of F to one agent r != o with |B'_r| = 1; o takes the rest of F.  The allocation A is checked by raw EFX0 (Lemma
+    SINK1's three conditions are exactly that check).  Contains Lemma S' (o = k) and Lemma RF-B (o = z = d, no g)."""
+    import itertools
+    n = P.n; J = list(ro['J']); W_ = ro['wants']; p = [P.val[i][Y[i]] if Y[i] is not None else 0 for i in range(n)]
+    out = []
+    for k in ro['F']:
+        chains = []
+        def ext(path):
+            x = path[-1]
+            if len(path) >= 2 and x in ro['U']: chains.append(tuple(path))
+            if x in ro['U']: return
+            for y in range(n):
+                if y not in path and (y, x) in W_: ext(path + [y])
+        ext([k])
+        for ch in chains:
+            z = ch[-1]; pool = [g for g in J + [Y[z]] if g in P.rel[k]]
+            for rr in range(1, len(pool) + 1):
+                for H0 in itertools.combinations(pool, rr):
+                    if P.u(k, H0) <= p[k]: continue
+                    minimal = not any(P.u(k, [g for g in H0 if g != h]) > p[k] for h in H0)
+                    Bp = [[Y[i]] if Y[i] is not None else [] for i in range(n)]; Bp[k] = list(H0)
+                    for s in range(1, len(ch)): Bp[ch[s]] = [Y[ch[s - 1]]]
+                    Fr = [g for g in J + [Y[z]] if g not in H0]
+                    for o in ((k, z) if minimal else (z,)):   # owner k: A_k = pool minus g whatever H_0 is
+                        for g in [None] + Fr:
+                            rs = [None] if g is None else [r for r in range(n) if r != o and len(Bp[r]) == 1]
+                            for r in rs:
+                                A = [list(b) for b in Bp]
+                                A[o] += [x for x in Fr if x != g]
+                                if g is not None: A[r] = A[r] + [g]
+                                if P.efx0(A):
+                                    out.append((k, ch, H0, o, g, r))
+                                    if first: return out
+    return out
+
+
 def rfb_cases(P, Y, ro):
     """Lemma RF-B (k4/oc1_hall.md §24.8, refereed CORRECT): agents d != k, S subset of J with
     (B1) |S| = 2, v_k(S) > p_k; (B2) d wants Y_k and nobody else does; (B3) nobody wants Y_d;

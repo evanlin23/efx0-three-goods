@@ -7,10 +7,13 @@ balanced (as in oc1_mc2_rand.gen) and Y stays a residue start.  Objective (minim
 whose signature beats sigma(Y), then the lexicographic gap.  Objective 0 means Y is sigma-maximal and a residue start:
 a counterexample to HS-MAX; it is then checked for OC1 (a failure there refutes RKMAX).
     python3 rk_climb.py SEEDS STEPS SEED          # seeds from the n = 4 export
-    RAND=5 python3 rk_climb.py SEEDS STEPS SEED   # seeds from random n = 5 cores"""
+    RAND=5 python3 rk_climb.py SEEDS STEPS SEED   # seeds from random n = 5 cores
+    MECH=sink1 ...                                # residue = hard and no Lemma SINK1 case (default: no S', no RF-B)
+    SEEDFILE=EXPORT ...                           # seeds from the profiles of another failure export (e.g. n = 5)"""
 import sys, os, gzip, json, random, itertools, collections, time, multiprocessing as mp
 from rklib import Prof
-from rk_classes import theta, sprime_cases, rfb_cases
+from rk_classes import theta, sprime_cases, rfb_cases, sink1_cases
+MECH = os.environ.get('MECH', 'sprime')
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..')
 
@@ -29,7 +32,9 @@ def residue(sets, vals, Y):
     ro = P.roles(Y)
     if any(not theta(P, Y, ro, z) for z in ro['U']): return None
     if P.one_absorber([frozenset([g]) for g in Y]) is not None: return None
-    if sprime_cases(P, Y, ro) or rfb_cases(P, Y, ro): return None
+    if MECH == 'sink1':
+        if sink1_cases(P, Y, ro): return None
+    elif sprime_cases(P, Y, ro) or rfb_cases(P, Y, ro): return None
     sY = P.sigma(Y); better = [P.sigma(M) for M in mm if P.sigma(M) > sY]
     gap = tuple(a - b for a, b in zip(max(better), sY)) if better else (0, 0, 0, 0)
     return (len(better), gap), P
@@ -56,8 +61,8 @@ def climb(args):
     return {'best': best, 'found': False}
 
 
-def seeds_n4(N, rng):
-    d = json.load(gzip.open(os.path.join(ROOT, 'results', 'k4_oc1max', 'two_move_starts_n4.json.gz')))
+def seeds_n4(N, rng, F=None):
+    d = json.load(gzip.open(F or os.path.join(ROOT, 'results', 'k4_oc1max', 'two_move_starts_n4.json.gz')))
     prof = [(h['sets'], st['vals']) for h in d['hypergraphs'] for st in h['starts']]
     rng.shuffle(prof); out = []
     for sets, vals in prof:
@@ -83,9 +88,10 @@ def seeds_rand(N, n, rng):
 if __name__ == '__main__':
     N, STEPS, SEED = map(int, sys.argv[1:4]); rng = random.Random(SEED)
     RAND = int(os.environ.get('RAND', '0'))
-    print('$ RAND=%d python3 k4/rkmax/rk_climb.py' % RAND, *sys.argv[1:], flush=True)
+    print('$ MECH=%s RAND=%d SEEDFILE=%s python3 k4/rkmax/rk_climb.py' % (MECH, RAND, os.path.basename(os.environ.get('SEEDFILE', '-'))), *sys.argv[1:], flush=True)
     t0 = time.time()
-    S = seeds_rand(N, RAND, rng) if RAND else seeds_n4(N, rng)
+    SEEDFILE = os.environ.get('SEEDFILE')
+    S = seeds_rand(N, RAND, rng) if RAND else seeds_n4(N, rng, SEEDFILE)
     print('seeds', len(S), '%.0f s' % (time.time() - t0), flush=True)
     T = collections.Counter()
     with mp.Pool() as pool:

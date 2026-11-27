@@ -13,9 +13,10 @@ lexicographically maximal, OC₁ holds. RKMAX ⟹ OC₁^∃max ⟹ TARGET₄ (Le
 | **RKDOM** (§3) | OC₁ at every maximum matching that no maximum matching rank-dominates (sorted ranks); implies RKMAX, RS, leximin | certified at n ≤ 4 (witness + minimal checker); on the complete n = 5 lists every failing start is dominated (K4.RKMAX.N5) |
 | Starved receivers (§4) | at every known failing start a receiver has rank 3 or 4 and a two- or three-agent change through it dominates | evidence |
 | **Lemma S′** (§5) | Theorem S with any canonical chain and the kept-out good to any single-good holder | proved (written), not refereed; K4.RKMAX.SPRIME |
-| **HS-MAX ⟹ RKMAX** (§5) | at a perfect σ-maximal start: picks complete, or Lemma S′, or Lemma RF-B | the implication is proved (Prop. HSR); HS-MAX itself: 0 gaps on 2.5 million σ-optimal vectors (n = 4, 5 exports; random n = 5 cores); K4.RKMAX.HSMAX |
+| HS-MAX (§5) | at a perfect σ-maximal start: picks complete, or Lemma S′, or Lemma RF-B | **refuted** at n = 4 by an adversarial climb (44 σ-maximal starts, OC₁ holds at all; §7), after 0 gaps on 2.5 million σ-optimal vectors of the exports and random cores; K4.RKMAX.HSMAX |
+| **Lemma SINK₁, HS-MAX′ ⟹ RKMAX** (§7) | one canonical chain, then owner k or head z absorbs, one good to one other agent; HS-MAX′: picks complete or SINK₁ | SINK₁ proved (definitions); HS-MAX′ conjecture: covers everything above, and climbs against it find nothing; K4.RKMAX.SINK1, K4.RKMAX.HSMAX2 |
 | Zero-move form | every σ-optimal start completes at the picks | refuted at n = 2 (`attempts/k4-rkmax-zero-move.md`) |
-| Open | HS-MAX; the smallest open class is U0 (§6) | — |
+| Open | HS-MAX′; the U0 analysis of §6 shows a proof cannot be local to the conflict | — |
 
 Notation as in `k4/sdc.md` §29–§31 and `k4/oc1_hall.md`: picks Y (a matching of agents to relevant goods), p_i =
 v_i(Y_i), junk J (unmatched goods), *i wants j's pick* if v_i(Y_j) > p_i, *frozen* agents (someone wants their pick),
@@ -209,7 +210,8 @@ unfrozen wanter w of Y_{x_{t−1}}*: such an r is a holder at B′ and values on
 and the proof of Theorem S (step 3) derives (S′-c) from (S-b), (S-c), (S-d′). Lemma S′ allows any canonical chain (not
 only a longest one) and any holder r, in particular a second receiver.
 
-**Conjecture HS-MAX.** In every strict connected k = 4 core, at every σ-maximal maximum-matching start Y at which every
+**Conjecture HS-MAX** (REFUTED, §7; kept here because the censuses below are its evidence and carry over to
+HS-MAX′). In every strict connected k = 4 core, at every σ-maximal maximum-matching start Y at which every
 agent holds a pick:
 - the picks have a one-absorber completion; or
 - some (k, P, h, r) meets (S′-a)–(S′-c); or
@@ -247,13 +249,13 @@ all with |D_T| = 2.
 
 ## 6. Where the proof stops
 
-**The open statement is HS-MAX (§5).** Everything else on the route is proved:
-- RKMAX ⟸ HS-MAX for perfect σ-maximal starts (Proposition HSR);
+**The open statement was HS-MAX (§5); after §7 it is HS-MAX′.** Everything else on the route is proved:
+- RKMAX ⟸ HS-MAX′ for perfect σ-maximal starts (Lemma SINK₁);
 - RKMAX ⟹ OC₁^∃max ⟹ TARGET₄ (Lean `EFX.OC1Max.target4_of_conjOC1exmax`; the argmax step is Lemma PO plus
   finiteness).
 
-At a hard σ-maximal start, a proof of HS-MAX must produce Lemma S′'s or Lemma RF-B's inequalities from two
-hypotheses:
+At a hard σ-maximal start, a proof of HS-MAX′ must produce a SINK₁ case (in particular Lemma S′'s or Lemma RF-B's
+inequalities) from two hypotheses:
 - hardness: by Prop. T0, every receiver z has Θ(z) ≠ ∅;
 - σ-maximality: Lemma COMP, in particular every inequality of Lemma GAIN.
 
@@ -292,6 +294,56 @@ A proof in U0 would have to show that the value conflict forces rank_z(Y_k) ≤ 
 or else a repair outside S′. Ranks and the value conflict are logically independent, so σ-maximality has to be used
 together with hardness, through the other agents. I did not find that argument.
 
+**The σ-raise is not local** (`k4/rkmax/rk_u0_local.py`, `results/k4_rkmax/rk_u0_local_n4.log`; 1-in-20 sample).
+- In 122 of the 5,763 U0 residue starts, no σ-raising matching differs from Y only on k, z and the agents of the
+  longest canonical chains. In 436, none differs only on {k, z}.
+- Example: sets [[0,1,2,6],[1,2,5,6],[3,4,5,6],[3,4,5,6]], vals [[1,4,8,6],[2,8,7,4],[3,5,7,6],[4,5,8,6]], picks
+  (2, 5, 4, 6), k = 3, z = 2. Here σ is raised only through z's top: agent 1 holds it, and agent 1's top is held by
+  agent 0, who can fall back to junk.
+- So any proof of HS-MAX or HS-MAX′ in U0 must use the agents outside the conflict. These starts were the climb's seeds
+  for the refutation of §7.
+
 **Non-perfect starts.** HS-MAX is stated for perfect starts. A non-perfect σ-maximal start needs Lemma RED with ranks
 recomputed in the reduced instance, and σ-maximality does not transfer directly. All 230 non-perfect σ-optimal
 vectors met (random cores) complete at the reduced picks.
+
+## 7. HS-MAX is false as stated; the sink form HS-MAX′
+
+**Refuted by an adversarial climb** (`k4/rkmax/rk_climb.py`, `results/k4_rkmax/rk_climb_n4.log`; 45 s).
+- *Seeds.* 200 residue starts of the n = 4 export profiles: Pareto-optimal maximum matchings that are hard and covered
+  by none of T0, S′ and RF-B.
+- *Moves.* Change one value of one agent, keeping the values strict and balanced and the start a residue start, to
+  push the start towards σ-maximality.
+- *Result.* 44 of the 200 climbs reach σ-maximality. These are 44 σ-maximal n = 4 starts, outside the export profiles,
+  at which HS-MAX fails. At every one of them **OC₁ holds** (one move repairs), so RKMAX survives and is consistent with
+  its n = 4 certificate.
+- *Shape.* All 44 have one receiver of rank 3 and two truly dangerous agents sharing a junk pair S; 43 are in class
+  (1, 3, 2), 1 in (1, 2, 2). Example: sets [[0,1,2,6],[1,2,5,6],[3,4,5,6],[3,4,5,6]], vals
+  [[1,8,23,18],[24,28,15,26],[5,3,7,6],[7,3,9,8]], picks (2, 1, 6, 5).
+  - Lemma RF-B's chain "k = 2 takes S = {3, 4}, the receiver d = 1 takes Y_2 = 6" is official, but (B5) fails. Agent 0
+    values all three goods of Z = {6, 1, 0}, and 18 + 8 + 1 − 1 = 26 > 23.
+  - The repair is Hall's RF-B″ shape (`k4/oc1_hall.md` §24.11). d absorbs Z ∖ {1}, and agent 3, unfrozen once k holds S,
+    takes the good 1.
+
+**Lemma SINK₁ (one canonical chain, then a sink-shaped completion).** Let Y be a perfect start (null agents allowed)
+and P = (k = x₀, …, x_t = z) a canonical chain, i.e. x_i wants Y_{x_{i−1}} and z is unfrozen at Y. Let H₀ be an
+improving set of k inside J ∪ {Y_z}, B′ the state after the chain P with H₀, and F = (J ∪ {Y_z}) ∖ H₀ the free goods.
+Choose an owner o ∈ {k, z}, and optionally one good g ∈ F and an agent r ≠ o with |B′_r| = 1. Let A be: o takes F ∖ {g}
+on top of B′_o, r takes g on top of B′_r, everyone else keeps B′. If A is EFX₀, then OC₁ holds at Y: the chain is an
+official move, and A is a one-absorber completion of B′ with absorber o.
+
+Lemma S′ is the case o = k (A_k = W for every H₀ ⊆ W), and Lemma RF-B is the case o = z = d, H₀ = S, no g. SINK₁ is the
+canonical-chain case of girth's SINK form (`k4/girth.md` §7). Its proof is the definition of the moves and of the
+one-absorber completion. The content is the census: for a given start the condition is a finite, explicit search
+over chains, H₀, o, g and r, with no further moves. The three conditions behind "A is EFX₀" are local:
+- r's state good is unwanted at A;
+- A_o threatens nobody at A;
+- when o = z, H₀ threatens nobody at A.
+
+Every case is re-checked with raw EFX₀ (`sink1_cases` in `k4/rkmax/rk_classes.py`).
+
+SINK₁ covers all 44 climb counterexamples to HS-MAX, each with owner = the head, one good to another agent.
+
+**Conjecture HS-MAX′.** In every strict connected k = 4 core, at every perfect σ-maximal maximum-matching start, the
+picks have a one-absorber completion, or Lemma SINK₁ applies. HS-MAX′ ⟹ RKMAX at perfect starts, and the earlier
+censuses (0 gaps, §5) remain valid for it, since SINK₁ contains S′ and RF-B.

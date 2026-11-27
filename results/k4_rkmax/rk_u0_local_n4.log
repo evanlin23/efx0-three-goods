@@ -1,0 +1,12 @@
+$ python3 k4/rkmax/rk_u0_local.py 20
+NONLOCAL {"sets": [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], "vals": [[1, 4, 8, 6], [2, 8, 7, 4], [3, 5, 7, 6], [4, 5, 8, 6]], "picks": [2, 5, 4, 6], "k": 3, "z": 2}
+NONLOCAL {"sets": [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], "vals": [[1, 4, 8, 6], [2, 8, 7, 4], [3, 5, 7, 6], [4, 5, 8, 6]], "picks": [2, 5, 6, 4], "k": 2, "z": 3}
+NONLOCAL {"sets": [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], "vals": [[2, 4, 8, 5], [2, 8, 7, 4], [5, 3, 7, 6], [5, 4, 8, 6]], "picks": [2, 5, 3, 6], "k": 3, "z": 2}
+  longest chain length 1 122
+  longest chain length 2 5513
+  longest chain length 3 128
+  sigma-raise inside {k, z} + longest chains: False 122
+  sigma-raise inside {k, z} + longest chains: True 5641
+  sigma-raise inside {k, z}: False 436
+  sigma-raise inside {k, z}: True 5327
+U0 residue start 5763

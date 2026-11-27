@@ -1,0 +1,7 @@
+$ python3 k4/rkmax/rk_hsmax_cex.py
+1 strict, balanced: True 44
+2 sigma-maximal maximum matching, PO, SD: True 44
+3 hard (rklib and mmlib): True 44
+4 no T0 / S' / RF-B case: True 44
+5 OC1: M, SINK1 applies: True 44
+instances 44

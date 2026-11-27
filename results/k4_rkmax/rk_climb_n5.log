@@ -1,0 +1,2 @@
+$ RAND=5 python3 k4/rkmax/rk_climb.py 100 2000 3
+(stopped after ~10 min while still collecting random n = 5 seeds; superseded by the MECH=sink1 runs)
