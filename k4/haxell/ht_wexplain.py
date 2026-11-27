@@ -6,7 +6,8 @@ welfare, ending EFX0), and at states with none, every improving composite of two
 nonempty set of one holder's goods to an agent; swap the holders of two goods; rotate bundles along a cycle of agents.
 Prints the states with the fewest improving composites and their composites.
 
-    python3 k4/haxell/ht_wexplain.py "n m d g v g v ... d g v ..." [SHOW=3] [SUB=1]"""
+    python3 k4/haxell/ht_wexplain.py "n m d g v g v ... d g v ..." [SHOW=3] [SUB=1] [AUG=0]
+AUG=1 instead lists the states where no composite of at most two moves shrinks the pool, with their W^sub steps."""
 import sys, itertools
 
 
@@ -19,7 +20,7 @@ def parse(s):
     return n, m, val
 
 
-def run(n, m, val, show=3, sub=True):
+def run(n, m, val, show=3, sub=True, aug=False):
     POOL = -1
 
     def bundles(o):
@@ -67,10 +68,21 @@ def run(n, m, val, show=3, sub=True):
         p, q = o.count(POOL), t.count(POOL)
         return q < p or (q == p and welfare(t) > welfare(o))
 
+    def shrinks(o, t):
+        return t.count(POOL) < o.count(POOL)
+
     res = []
     for o in itertools.product(list(range(n)) + [POOL], repeat=m):
         if POOL not in o or not efx0(o):
             continue
+        if aug:      # states with no pool-shrinking composite of at most two moves, and their W^sub steps
+            if any(shrinks(o, t2) and efx0(t2) for t1, _ in moves(o) for t2, _ in moves(t1)) or \
+               any(shrinks(o, t) and efx0(t) for t, _ in moves(o)):
+                continue
+            steps = [(mv, None, t) for t, mv in moves(o) if better(o, t) and efx0(t)]
+            if not steps:
+                steps = [(mv1, mv2, t2) for t1, mv1 in moves(o) for t2, mv2 in moves(t1) if better(o, t2) and efx0(t2)]
+            res.append((len(steps), o, steps)); continue
         one = [mv for t, mv in moves(o) if better(o, t) and efx0(t)]
         if one:
             continue
@@ -81,7 +93,8 @@ def run(n, m, val, show=3, sub=True):
                     two.append((mv1, mv2, t2))
         res.append((len(two), o, two))
     res.sort(key=lambda r: r[0])
-    print('states with no improving single move:', len(res))
+    print('states with no pool-shrinking composite of two moves (their W^sub steps listed):' if aug else
+          'states with no improving single move:', len(res))
     for cnt, o, two in res[:show]:
         X = bundles(o)
         print('state', X, 'pool', [g for g in range(m) if o[g] < 0], 'welfare', welfare(o),
@@ -91,7 +104,7 @@ def run(n, m, val, show=3, sub=True):
             if t2 in seen:
                 continue
             seen.add(t2)
-            print('   ', mv1, '+', mv2, '->', bundles(t2), 'pool', [g for g in range(m) if t2[g] < 0],
+            print('   ', mv1, *(['+', mv2] if mv2 else []), '->', bundles(t2), 'pool', [g for g in range(m) if t2[g] < 0],
                   'welfare', welfare(t2))
     return res
 
@@ -100,4 +113,4 @@ if __name__ == '__main__':
     a = dict(x.split('=') for x in sys.argv[2:] if '=' in x)
     n, m, val = parse(sys.argv[1])
     print('$ python3 k4/haxell/ht_wexplain.py', *sys.argv[1:]); print('values', val)
-    run(n, m, val, int(a.get('SHOW', '3')), a.get('SUB', '1') == '1')
+    run(n, m, val, int(a.get('SHOW', '3')), a.get('SUB', '1') == '1', a.get('AUG', '0') == '1')

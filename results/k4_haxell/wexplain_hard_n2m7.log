@@ -1,0 +1,15 @@
+$ python3 k4/haxell/ht_wexplain.py 2 7 4 0 18 1 19 3 10 6 48 4 2 13 4 6 5 10 6 27 SHOW=2
+values [[18, 19, 0, 10, 0, 0, 48], [0, 0, 13, 0, 6, 10, 27]]
+states with no improving single move: 3
+state [[0, 1, 2, 3, 4], [6]] pool [5] welfare 74 improving two-move composites: 10
+    ('give', 0, (2, 4), 1) + ('swap', 5, 6) -> [[0, 1, 3], [2, 4, 5]] pool [6] welfare 76
+    ('give', 'pool', (5,), 0) + ('rotate', (0, 1)) -> [[6], [0, 1, 2, 3, 4, 5]] pool [] welfare 77
+    ('swap', 0, 5) + ('rotate', (0, 1)) -> [[6], [1, 2, 3, 4, 5]] pool [0] welfare 77
+    ('swap', 1, 5) + ('rotate', (0, 1)) -> [[6], [0, 2, 3, 4, 5]] pool [1] welfare 77
+    ('swap', 3, 5) + ('rotate', (0, 1)) -> [[6], [0, 1, 2, 4, 5]] pool [3] welfare 77
+state [[0, 1, 2, 3, 5], [6]] pool [4] welfare 74 improving two-move composites: 10
+    ('give', 0, (2, 5), 1) + ('swap', 4, 6) -> [[0, 1, 3], [2, 4, 5]] pool [6] welfare 76
+    ('give', 'pool', (4,), 0) + ('rotate', (0, 1)) -> [[6], [0, 1, 2, 3, 4, 5]] pool [] welfare 77
+    ('swap', 0, 4) + ('rotate', (0, 1)) -> [[6], [1, 2, 3, 4, 5]] pool [0] welfare 77
+    ('swap', 1, 4) + ('rotate', (0, 1)) -> [[6], [0, 2, 3, 4, 5]] pool [1] welfare 77
+    ('swap', 3, 4) + ('rotate', (0, 1)) -> [[6], [0, 1, 2, 4, 5]] pool [3] welfare 77
