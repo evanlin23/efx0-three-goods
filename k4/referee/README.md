@@ -40,6 +40,7 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 27 | Theorem D1-C (Fact R, Tool T, Lemmas O, C3, HC) and Proposition D1-H₃ (`k4/d1.md` §3, §6, `a9232a0`) | `proof/k4-d1` | `d1.md` | **CORRECT** (D1-H₃: SMT, not re-proved; sample of 6,818 cores, 0 failures); the tied-model remark is not reproduced as printed |
 | 28 | Lemmas MAX₃ and RED₃ (`k4/k3_oc1.md` §11, `974853c`) | `claude/k4-k3-oc1` | `k3_oc1.md` addendum | **CORRECT** (RED₃ is RED; does not use k ≤ 3) |
 | 29 | ksens's exhaustive k = 3 one-chain claim, n ≤ 4 (`k4/ksens.md` §8, `08883f6`) | `claude/k4-ksens` | `ksens.md` §6 | **CONFIRMED exhaustively** at n = 3 and n = 4 (all counts match); scope is m ≥ n; m < n also holds |
+| 30 | Lemma M^c (compensated matching form; `k4/oc1max_multi.md` §9, `3d157f3`) | `proof/k4-oc1max-multi` | `oc1max_multi.md` §9 | **CORRECT** ((G2) is exactly what the per-allocation claim needs; F_s enumeration and (C3) sound; 391,846 owner tests, 0 mismatches) |
 | – | Literature: EFX₀ for n = 2 | – | `lit_n2.md` | Plaut–Roughgarden Thm 4.3 (EFX₀, monotone) covers existence; not `kgen/n3.md` Theorem 2 (picks kept / one chain) |
 
 **Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the

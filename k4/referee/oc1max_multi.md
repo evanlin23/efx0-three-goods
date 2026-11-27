@@ -232,3 +232,54 @@ agents are unthreatened by J". It does not: that is implied by D_T = {k}.
 | mutation: drop E_J ⊆ {z} | 2,613 | **21** |
 
 Both hypotheses are used.
+
+## 9. Addendum: Lemma M^c, the compensated matching form (`k4/oc1max_multi.md` §9 at `3d157f3`; coordinator's queue, 2026-11-27)
+
+Read: §9 in full. Check: `k4/referee/mc_ref.py`, run by `mc_ref_runs.sh`, log `results/k4_referee/mc_ref.log`. It is
+my own code: the formula written from the text, compared with a raw brute force over every S^c-shaped allocation.
+
+**Verdict: CORRECT.** The three points the coordinator asked about:
+
+- **(G2)'s role.** It is used in the Claim, the per-allocation characterization, at one place. A two-good bundle
+  {y_j, z_j} with z_j junk threatens i only through y_j, because v_i(z_j) ≤ b_i ≤ t_i. So the only new threats are:
+  - frozen singles j ∈ F_s whose good i wants, giving the term v_i(y_j) of τ_i;
+  - the unchanged multi-good bundles, giving the term max_h v_i(B_q ∖ h);
+  - X itself.
+
+  Without (G2), a wanted junk good z_j would need its own requirement, and the Claim would be false as stated.
+- **The Claim.** EFX₀ ⟺ (t_i ≥ τ_i(F_s) for all i, and X threatens no i ≠ o at t_i). Re-derived bundle by bundle:
+  - singletons;
+  - X;
+  - unchanged multi-good B_q, q ≠ o;
+  - holders' {y_j, z_j} (y_j unwanted);
+  - frozen singles' {y_j, z_j}.
+
+  Correct.
+- **(⇒) and (⇐), and the enumeration over F_s.**
+  - (⇒): agents that receive nothing have t_i = b_i and so are not needy. That gives (C1), since only N₁ ∪ F_s
+    receive. A needy receiver must value its good, else t_i = b_i, so its good is an edge. The goods received form the
+    (C3) matching with ≥ |H| − d edges.
+  - (⇐): an unmatched j ∈ F_s only removes terms from τ (τ(F_s′) ≤ τ(F_s)). So requiring the matching for the larger
+    F_s is sound, and enumerating every F_s ⊆ F₁ is exactly right.
+  - (C2) is the owner's requirement.
+- **(C3) and the deficiency formula.** Mendelsohn–Dulmage, as in Lemma M: a matching covering the needy agents and a
+  maximum matching combine into one that does both. Correct.
+- **Special cases.**
+  - With F_s = ∅ and (G1), every τ_i = b_i and the needy agents are the exposed holders, so this is Lemma M.
+  - At single-good states, S^c is the one-absorber shape.
+
+  Both correct.
+
+**Computation (evidence).**
+- States: SD picks of random instances (k ≤ 4, n = 3–5; half with random 4-sets in m = n + 2, n + 3), and states one
+  or two random improving chains away, kept when (G2) holds.
+- Every owner; d = 0 and 1.
+
+| run | states with (G2) | with frozen singles / multi-good bundles | owner tests | mismatches |
+|---|---|---|---|---|
+| two seeds × 15,000 instances | 48,930 | 26,952 / 18,930 | 391,846 | **0** |
+| mutation: F_s = ∅ only | 2,414 | 1,275 / 914 | 19,140 | **68** |
+| mutation: τ without the frozen-slot term | 2,414 | | 19,140 | **576** |
+| mutation: edges without the compensation bound b_i + v_i(h) ≥ τ_i | 2,414 | | 19,140 | **38** |
+
+So the frozen-slot enumeration, the frozen-slot requirement and the compensation bound are each necessary.
