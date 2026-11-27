@@ -160,6 +160,14 @@ cannot be completed) glued by identifying s goods, every strict profile searched
 
 The last core has goods of degree 7 and 6 (every agent values one of the two glued goods).
 
+Sweep (`glue.py --s=1,2 --pairs=12 --per=1 --limit=900`, `results/k4_hunt/glue_sweep1.log`): every profile of each
+glued pair; all certified except at the 900 s limit. The hardest are one-good glues of two all-4-good gadgets
+(n = 8, m = 13, β = 12): GM4-C + GM4-C certified in 734 s (5,484 allocations); GM4-C + GM4-D timed out at 900 s
+(7,490 allocations, undecided); **GM4-P + GM4-P** ([[0,2,5,6],[1,4,5,6],[2,3,4,6],[3,4,5,6],[4,8,11,12],[7,10,11,12],
+[8,9,10,12],[9,10,11,12]]) timed out at 900 s and was then **certified in 1,729 s with 9,415 allocations**, the
+largest certificate of this workstream (`named_glue_hard2_cores.json.gz`, check `check_named_glue_hard2.log`: OK).
+Two-good glues are easier (21–275 s).
+
 **Result of the β = 5 candidate run** (`results/k4_hunt/mc_n6_b5.log`): all 30,337 candidates certified (every
 profile of the cut domains), 0 counterexamples; 27,585 CPU-s; per m: 9: max 1.8 s; 10: 2.2 s; 11: 3.5 s; 12: 6.4 s;
 13: 8.4 s; 14: 13.2 s (the m = 14 cores are all-P4/Q4, no cuts, 288⁶ profiles); largest certificate 4,792 allocations

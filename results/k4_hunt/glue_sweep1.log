@@ -1,0 +1,16 @@
+command: python3 k4/hunt/glue.py --s=1,2 --pairs=12 --per=1 --limit=900 --seed=11 --tag=sweep1
+GM4-S+GM4-G s=1 [2]~[0]: n=8 m=12 beta=10 certified 153.8s {'allocs': 1413, 'clauses': 2712, 'bits': 241, 'auts': 2}
+GM4-S+GM4-G s=2 [2, 4]~[4, 1]: n=8 m=11 beta=11 certified 90.8s {'allocs': 689, 'clauses': 1330, 'bits': 201, 'auts': 2}
+GM4-C+GM4-C s=1 [6]~[1]: n=8 m=13 beta=12 certified 734.1s {'allocs': 5484, 'clauses': 10746, 'bits': 353, 'auts': 2}
+GM4-C+GM4-C s=2 [5, 6]~[5, 0]: n=8 m=12 beta=13 certified 275.1s {'allocs': 2279, 'clauses': 8628, 'bits': 331, 'auts': 4}
+GM4-P+GM4-P s=1 [4]~[0]: n=8 m=13 beta=12 timeout 900.8s {'allocs': 6607, 'clauses': 6607, 'bits': 349, 'auts': 1}
+GM4-P+GM4-P s=2 [0, 4]~[4, 1]: n=8 m=12 beta=13 timeout 900.1s {'allocs': 5546, 'clauses': 5546, 'bits': 345, 'auts': 1}
+GM4-H+GM4-H s=1 [3]~[0]: n=8 m=11 beta=8 certified 18.6s {'allocs': 192, 'clauses': 575, 'bits': 98, 'auts': 4}
+GM4-H+GM4-H s=2 [0, 4]~[2, 1]: n=8 m=10 beta=9 certified 21.5s {'allocs': 172, 'clauses': 320, 'bits': 80, 'auts': 2}
+GM4-B+GM4-H s=1 [0]~[5]: n=8 m=12 beta=10 certified 106.9s {'allocs': 855, 'clauses': 2524, 'bits': 203, 'auts': 4}
+GM4-B+GM4-H s=2 [1, 2]~[5, 0]: n=8 m=11 beta=11 certified 109.1s {'allocs': 874, 'clauses': 1604, 'bits': 190, 'auts': 2}
+GM4-C+GM4-D s=1 [3]~[4]: n=8 m=13 beta=12 timeout 900.1s {'allocs': 7490, 'clauses': 14938, 'bits': 366, 'auts': 2}
+GM4-C+GM4-D s=2 [2, 6]~[3, 5]: n=8 m=12 beta=13 certified 273.3s {'allocs': 2309, 'clauses': 8091, 'bits': 331, 'auts': 4}
+GM4-S+GM4-Q s=1 [0]~[6]: n=8 m=12 beta=8 certified 41.9s {'allocs': 364, 'clauses': 1382, 'bits': 155, 'auts': 4}
+GM4-S+GM4-Q s=2 [1, 3]~[5, 0]: n=8 m=11 beta=9 certified 124.9s {'allocs': 811, 'clauses': 811, 'bits': 141, 'auts': 1}
+GM4-F+GM4-F s=1 [1]~[1]: n=8 m=13 beta=8 certified 116.9s {'allocs': 1232, 'clauses': 2464, 'bits': 210, 'auts': 2}
