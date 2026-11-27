@@ -491,8 +491,16 @@ only it reports the known traps (n = 2 trap, g834) and none elsewhere.
 - The clean PW(f, W, r) grid of `k4/ksens/fam_ladder.clean`, f ≤ 5, W ≤ 4, r ≤ 8 (n ≤ 9, m ≤ 17, k = max(r + 1, f + 1)
   ≤ 9): see `probe_pwgrid.log` (no trap among the cells finished so far; the status block gives the final count).
 
-**Full census at k ≥ 5 on random instances** (`gstar_run.py gen:…`; values 1–40): see `gstarc_gen_n*k*.log` and the
-status block. Earlier ones: no G₂ trap at k = 5–8 for n ≤ 4 (§3.4).
+**Full census at k ≥ 5 on random instances** (`gstar_run.py gen:…`; values 1–40; `gstarc_gen_n*k*.log`, finished):
+17 cells with n ≤ 5 and k = 5–10 (n = 2: k = 7, 8; n = 3: m = 8, 10; n = 4: m = 8, 9; n = 5: m = 8). That is 43,050
+instances and 135,083,927 partial EFX₀ states, with **no G₂ trap (radius 2)** and 251 traps for single moves. The cell
+n = 3, m = 8, k = 5 was re-run after a crash (a permission error while the binary was rebuilt). Earlier: no G₂ trap at
+k = 5–8 for n ≤ 4 (§3.4).
+
+**The PW grid, finished.** The full census covers the 45 cells with n ≤ 6 and (n + 1)^m ≤ 3·10⁸ (`gstarc_pwgrid.log`):
+6,347,959 partial EFX₀ states, **no G₂ trap**, and 12 single-move traps, three in each PW(f, 1, 4) cell. Conjecture W
+(two single moves with rotations, `measure_rot2_pwgrid.log`) on the 26 cells with n ≤ 5: no stuck state for welfare or
+leximin. Pool-shrinking alone fails in 24 of the 26.
 
 ## 6. The one-step lemma: candidate measures, and what decides them
 
