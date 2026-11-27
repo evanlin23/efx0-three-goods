@@ -1,1 +1,29 @@
 $ python3 k4/oc1_hall/rf_rkmax.py two_move_starts_n5_partial6.json.gz two_move_starts_n5_sel2.json.gz
+n=5 class (1, 1) 2790
+n=5 class (1, 1): K (chain from k in D_T', H0 in its junk; k -> d) 2786
+n=5 class (1, 1): K (chain from k in D_T', H0 in its junk; length 1, head frozen) 4
+n=5 class (2, 0) 285270
+n=5 class (2, 0): P (picks complete) 282974
+n=5 class (2, 0): T (a receiver trades with a pick-dangerous agent) 2296
+n=5 class (2, 1) 381161
+n=5 class (2, 1): P (picks complete) 381161
+n=5 class (2, 2) 27365
+n=5 class (2, 2): P (picks complete) 27365
+n=5 class (3, 0) 1446671
+n=5 class (3, 0): P (picks complete) 1446671
+n=5 class (3, 1) 160212
+n=5 class (3, 1): P (picks complete) 160212
+n=5 class (3, 2) 5723
+n=5 class (3, 2): P (picks complete) 5723
+n=5 profiles 1284180
+n=5 sigma-maximal vector is the unique max-matching vector: False 1284180
+n=5 sigma-maximal vectors per profile: 1 440227
+n=5 sigma-maximal vectors per profile: 2 760206
+n=5 sigma-maximal vectors per profile: 3 32815
+n=5 sigma-maximal vectors per profile: 4 27422
+n=5 sigma-maximal vectors per profile: 5 640
+n=5 sigma-maximal vectors per profile: 6 22870
+
+real	6m39.321s
+user	24m28.374s
+sys	0m12.447s

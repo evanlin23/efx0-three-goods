@@ -2472,4 +2472,29 @@ The hard one-receiver classes do not vanish at the σ-maximal starts, but they s
 - U1-type starts needing a K chain: 9,720 here, against 0 at the RF starts. There all 31,520 U1 starts complete at Y′
   (`k4/girth.md` §7). Corollary U1 (K4.MULTI.U1, written proof) gives OC₁ at every U1 start either way.
 
-**n = 5** (the full exports): `rf_rkmax_n5.log`, running; the log is a placeholder until it finishes.
+**n = 5** (all 1,284,180 distinct profiles of the exports `partial6` and `sel2`; 2,309,192 σ-maximal vectors, 1 to 6
+per profile; `rf_rkmax_n5.log`). OC₁ holds at all of them, so there are **0 RKMAX failures**.
+
+| (\|U\|, \|D_T\|) | vectors | P | K | T |
+|---|---|---|---|---|
+| (3, 0) | 1,446,671 | 1,446,671 | – | – |
+| (2, 1) | 381,161 | 381,161 | – | – |
+| (2, 0) | 285,270 | 282,974 | – | 2,296 |
+| (3, 1) | 160,212 | 160,212 | – | – |
+| (2, 2) | 27,365 | 27,365 | – | – |
+| (3, 2) | 5,723 | 5,723 | – | – |
+| (1, 1) U1 | 2,790 | – | 2,790 (2,786 to the receiver, 4 to a frozen head) | – |
+
+**At n = 5 the hard one-receiver classes vanish at the σ-maximal starts.** There is no (1, 0), (1, 2) or (1, 3)
+vector. The only one-receiver class is U1, and Corollary U1 (K4.MULTI.U1, written proof) proves OC₁ there. The only
+other moves needed are 2,296 trades in the two-receiver class (2, 0).
+
+At n = 4 the one-receiver classes do occur: (1, 0) 5,840, (1, 1) 20,080, (1, 2) 1,920. So RKMAX's n = 4 hard part is
+smaller than RF's but not empty. A proof of RKMAX would therefore need:
+- the n = 4 table, already closed by the certificate;
+- why σ-maximality excludes |U| = 1 with |D_T| ≠ 1 at n ≥ 5. This is EVIDENCE on these exports, not a statement about
+  all n = 5 cores;
+- R2-type trades, where two receivers occur.
+
+The scope is that of the exports: the profiles are those with some failing maximum-matching start, and the
+lists are complete for 3 of the 9 hypergraphs.
