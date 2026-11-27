@@ -1234,3 +1234,10 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   off-export walk (241,728 failing n = 5 starts), already from the first listed order. This includes the #440
   every-form failures and the 3,267 two-receiver starts.
 - RF-canon is the sharpest surviving statement on the RF route: one explicit order per failing start.
+
+### 2026-11-27 13:34 UTC: burst 16 (single-session mode)
+- Merged #185.
+- **Own angle: RF-canon by FAIL-STRUCT₀ case** (`k4/sdc/rf_canon_bycase.py`).
+  - YRMH-F's outcome mostly completes at the picks (87–100% by case) and mostly has no truly dangerous agent (77%).
+  - FAIL-STRUCT₀'s necessary shape is absent at only 33% of the outcomes. So FAIL-STRUCT₀ alone would settle
+    RF-canon only there, and a proof needs a sufficient completion condition at Z.
