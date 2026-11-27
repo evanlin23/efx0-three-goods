@@ -813,3 +813,60 @@ Distinct values make b_a the unique favourite. The proof never uses |T_k|. ∎
   The earlier phantoms' pairs never threaten the round's new phantoms, since they were real agents then.
 
 The text names only "the other members of K". The census (single-round, no earlier phantoms) is unaffected.
+
+## 16. Addendum: Corollary S^φ(round) (K4.MULTI.SPHIR; §17 on `proof/k4-oc1max-multi-2` at `d10b8f20`; 2026-11-27)
+
+**Verdict: CORRECT.** Theorem S^φ holds verbatim when the phantoms were settled in rounds, under the invariants as the
+corollary states them. Scripts `sphir_ref.py` and `sphir_prefix_ref.py` (own code), runs `sphir_ref_runs.sh`, log
+`results/k4_referee/sphir_ref.log`.
+
+**Re-derivation.** S^φ's proof (§14 above) splits the pairs of the final allocation into four kinds and uses the
+invariants only at the final state.
+- *Real vs real.* Theorem S in the current instance I. Its start is a perfect SD start by SD-E(round).
+- *Real agent i vs T_φ* (any |T_φ|). By (P1\*), T_φ does not threaten i at i's value after φ's round.
+  - That value is at most p_i at every later start, because chain agents gain and SD-E(round) gives the next start.
+  - And p_i ≤ v_i(X_i) in Theorem S's allocation.
+  - Threats only weaken as values rise.
+- *Phantom φ vs a real bundle.*
+  - Singletons never threaten.
+  - W is covered by (S-φ1).
+  - {B′_r, h} is covered by (S-φ2), and by (S-φ3) when h = Y_z.
+  - When h is junk, (P3) covers it. Junk of I is of three kinds:
+    - junk at φ's round's start, worth < p_φ < τ_φ to φ by SD with strict values;
+    - picks released by φ's own round or by a later round, covered by the stated (P3) hypothesis;
+    - for earlier phantoms, junk covered by induction.
+- *Phantom vs phantom.*
+  - Round-mates: (L\*) at the round's end, at their τ.
+  - A new set vs an earlier phantom: the stated (P2).
+  - An earlier set T_φ vs a later phantom ψ: ψ was real at φ's round, so (P1\*) and monotonicity up to τ_ψ cover it.
+- *Remark.* The move count OC_{|Φ|+1} stands. The settlements of one round, applied one after another in I₀, are
+  each an official move: the chains are disjoint, the T's disjoint, and each T lies in junk plus its own head's pick.
+
+**Census** (own code). Up to two rounds of ≤ 2 settlements, with:
+- E-prefix chains (x_l the σ-earliest wanter, any stopping head);
+- T_k of size 1–3, improving, disjoint;
+- the SD property of σ − K checked directly;
+- (L\*) at the round's end, (P2) toward earlier phantoms, (P3) for released picks.
+
+At every reached state I evaluate every Theorem S case (relaxed, longest chain) against (S-φ1)–(S-φ3) and raw EFX₀
+in I₀.
+
+| data | Theorem S cases after one round of one / two rounds of one / one round of two | hypotheses without EFX₀ | EFX₀ without hypotheses |
+|---|---|---|---|
+| 280 5_pure starts (all orders) | 4,342 / 134 / 48 | **0** | 0 |
+| n = 4 export, 112,880 starts | 636,720 / 0 / 0 | **0** | 0 |
+| random strict perfect starts, n = 4–6 (322,948 starts) | 16,986 / 299 / 55 | **0** | 0 |
+
+- (P1\*) and (P3) re-checked raw at every final state: 0 failures.
+- Dropping the (P3) round check (mutation) admits 6 states that violate (P3).
+  - None of them reaches a failing Theorem S case in this data. So the data do not show that the hypothesis is
+    necessary.
+  - The proof does use it: phantom vs {B′_r, h} with h a released pick.
+- Only 103 cases follow a round of two. Rounds of two are rarely followed by a Theorem S case at these sizes.
+
+**Multi's E-prefix claim**, on matching's 280 5_pure ROUND-RSD witnesses: reproduced exactly.
+- 146 of the 410 rounds contain a chain that is no E-prefix under any SD order of the round's start.
+- In the other 264, one common order makes every chain an E-prefix.
+- (H) holds in all 410.
+- So matching's witnesses as found are not all covered by SD-E(round). That is why multi's E-prefix search
+  (`round_e.py`, not re-run here) matters.
