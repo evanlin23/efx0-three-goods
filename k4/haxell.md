@@ -802,9 +802,11 @@ failures need n = 4, so n = 2 is still a fair, bounded target.
     agents (45,999 classes; `n2types_k4_theorem.log`), through `gstar_measure` (C). Every class has its partial EFX₀
     states (6,639,927 in all) checked.
   - *The cases.* Pool-shrinking fails at exactly 20 states, one per class, all of the shape of the attempts file: each
-    agent holds a misplaced good, and the swap of the two misplaced goods is the second alternative. The 20 were
-    confirmed by the independent Python checker of `ht_n2claim.py`. The same checker re-runs all 45,999 classes in
-    `n2types_k4_fullcheck.log`.
+    agent holds a misplaced good, and the swap of the two misplaced goods is the second alternative. **Two implementations agree.** The
+    independent Python checker of `ht_n2claim.py` re-ran all 45,999 classes (6,208,383 partial EFX₀ states with a
+    nonempty pool; `n2types_k4_fullcheck.log`) and found exactly the same 20 failing instances.
+    - The second alternative at the 20 states is a witness (the swap), checked in Python against the raw definition.
+      `attempts/k4_haxell_n2aug.py` replays one of them with no shared code.
   - *Not covered.* Ties (the n = 2 value grid with ties has no W^sub or L^sub stuck state, but it is a grid, not every
     weak type). Goods valued by nobody: there pure augmentation fails even with strict values. Example: m = 7,
     v_A = (0, 680, 0, 3218, 0, 2915, 400), v_B = (0, 5170, 0, 9035, 147, 3445, 1810), state ({3}, {0, 1, 2, 4, 6})
