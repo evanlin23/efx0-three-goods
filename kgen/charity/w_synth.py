@@ -123,6 +123,11 @@ def run(n, k, p, sizes, tlim=600, fixed=None, vmax=None, q=None, dump=None):
         T.add(z3.Sum([hv(i, i) for i in range(n)]) >= z3.RealVal(wX))
         rt = T.check()
         if rt == z3.unsat:
+            if dump:                                       # for negative controls of w_cert.py (must be sat)
+                import json
+                json.dump({'n': n, 'k': k, 'p': p, 'bundles': B, 'pool': P, 'm': m,
+                           'support': None if fixed is None else [sorted(x) for x in fixed[3]],
+                           'cuts': cutlist, 'found': [[str(x) for x in row] for row in V]}, open(dump, 'w'))
             assert efx0_frac(V, B), 'outer model: X not EFX0'
             assert all(sum(V[i][g] for g in P) <= sum(V[i][g] for g in B[i]) for i in range(n))
             assert all(sum(1 for g in range(m) if V[i][g]) <= k for i in range(n))
