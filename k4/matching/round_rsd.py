@@ -21,7 +21,9 @@ candidate settlements, of any size: an arc s -> s' when s's T threatens an agent
 chain.  The members must be pairwise compatible, and (L*) is still checked at the round's end.  Two sharper forms:
 ROUNDS=minimal takes singletons, plus the pairs neither of whose members passes (L*) alone; ROUNDS=scc2 takes
 singletons, plus the 2-cycles of the threat graph.  With EXPLORE=1 the
-script also walks every sequence of admissible rounds and reports whether a dead end is reachable.
+script also walks every sequence of admissible rounds and reports whether a dead end is reachable.  With
+KNOWN_HARD=1 the root completion test is skipped, for inputs already certified hard.  This can only lose a
+zero-round repair, never accept a wrong witness, since check_rsd.py re-checks every witness.
 
     [RMAX=2] [DMAX=4] [LSTAR=now|defer] [ROUNDS=all|scc] [EXPLORE=1] [RSD_WIT=out.json.gz]
     python3 k4/matching/round_rsd.py INPUT [INPUT ...]"""
@@ -141,13 +143,20 @@ def rounds(I, alive, goods, B):
             yield [(alive[km], [inv[g] for g in T], [alive[p] for p in P]) for km, P, T in combo], full
 
 
-def search(I, alive, goods, B, dead, d):
-    X = lifted_completion(I, B, dead) if alive else (B if I.efx0(B) else None)
+def search(I, alive, goods, B, dead, d, memo=None):
+    """memo caches, per state, the lifted completion and the admissible rounds across the iterative deepening."""
+    memo = {} if memo is None else memo
+    key = (tuple(alive), json.dumps(B))
+    if key not in memo:
+        X = lifted_completion(I, B, dead) if alive else (B if I.efx0(B) else None)
+        memo[key] = [X, None]
+    X = memo[key][0]
     if X is not None: return [('X', X)]
     if d == 0: return None
-    for settled, full in rounds(I, alive, goods, B):
+    if memo[key][1] is None: memo[key][1] = list(rounds(I, alive, goods, B))
+    for settled, full in memo[key][1]:
         K = [k for k, _, _ in settled]; Tall = set(g for _, T, _ in settled for g in T)
-        r = search(I, [a for a in alive if a not in K], [g for g in goods if g not in Tall], full, dead | set(K), d - 1)
+        r = search(I, [a for a in alive if a not in K], [g for g in goods if g not in Tall], full, dead | set(K), d - 1, memo)
         if r is not None: return [(settled, full)] + r
     return None
 
@@ -171,9 +180,11 @@ def explore(I, alive, goods, B, dead, d, memo, C):
 
 def job(row):
     I = M(row['sets'], row['vals']); B = [[g] for g in row['picks']]; C = collections.Counter(); wit = None
-    found = None
+    found = None; memo = {}
+    if row.get('known_hard') or os.environ.get('KNOWN_HARD') == '1':   # the input already certifies that the start has no completion (skip the root test)
+        memo[(tuple(range(I.n)), json.dumps(B))] = [None, None]
     for d in range(DMAX + 1):
-        r = search(I, list(range(I.n)), list(range(I.m)), B, frozenset(), d)
+        r = search(I, list(range(I.n)), list(range(I.m)), B, frozenset(), d, memo)
         if r is not None: found = (d, r); break
     if found is None:
         C['ROUND-RSD: none with <= %d rounds' % DMAX] += 1
