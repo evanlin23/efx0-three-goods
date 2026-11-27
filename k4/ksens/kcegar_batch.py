@@ -10,6 +10,8 @@
     python3 k4/ksens/kcegar_batch.py named6 D [--jobs=4] [--limit=SEC]                designed k = 6 hypergraphs (NAMED6 below)
 --any-start: every SD start, not only the maximum-matching ones (the official move rule either way).
 --kmin=K: (genbg) only hypergraphs in which some agent values at least K goods.
+--ckpt=FILE: append every finished hypergraph's record to FILE (JSON lines) and skip the ones already there, so a run
+             can be resumed after the container is reclaimed.
 A FAIL is re-checked on its integer representative by ocsat (SAT; empty passes allowed) for D <= 1, by ocseq (SAT, D
 chains) and by brute force (every state of up to D chains from the definition, raw-EFX0 backtracking completions)."""
 import sys, json, time, collections, multiprocessing as mp
@@ -116,10 +118,22 @@ if __name__ == '__main__':
         D = int(args[1]); tasks = [(nm, s, D, limit) for nm, s in named6()]
     else:
         D = int(args[1]); tasks = [(nm, s, D, limit) for nm, s in named()]
-    print('hypergraphs', len(tasks), flush=True); C = collections.Counter()
+    C = collections.Counter(); ck = opt.get('ckpt')
+    if ck:
+        import os
+        done = {}
+        if os.path.exists(ck):
+            for l in open(ck):
+                try: r = json.loads(l); done[r['name']] = r['result']
+                except Exception: pass
+        for r in done.values(): C[r] += 1
+        tasks = [t for t in tasks if t[0] not in done]; ckf = open(ck, 'a')
+        print('checkpoint %s: %d done (%s), %d to go' % (ck, len(done), dict(C), len(tasks)), flush=True)
+    print('hypergraphs', len(tasks), flush=True)
     with mp.Pool(jobs) as P:
         for rec in P.imap_unordered(job, tasks, chunksize=1):
             C[rec['result']] += 1
+            if ck: ckf.write(json.dumps(rec) + '\n'); ckf.flush()
             if rec['result'] != 'certified' or args[0] in ('named', 'named6'): print(json.dumps(rec), flush=True)
             if sum(C.values()) % 100 == 0: print('...', sum(C.values()), dict(C), '%.0f s' % (time.time() - t0), flush=True)
     print(dict(C), 'time %.0f s' % (time.time() - t0))
