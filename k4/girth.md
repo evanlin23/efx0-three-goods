@@ -454,6 +454,94 @@ What is not settled: whether a fixed labeling rule works (per run, 2–9% fail),
 proof would need an invariant of LSS's states, as in Conjecture LR-dyn). The parking search is exponential in the number of
 leftover goods; it is a test of existence, not an algorithm.
 
+## 6. Exhaustive certification of DYN∃ for n ≤ 4 (CERTIFIED)
+
+The coordinator's decisive test of Conjecture DYN in its existence form: on every k = 4 core with at most four agents
+and every strict profile, does SOME labeling complete? (All earlier DYN evidence was random.)
+
+**Statement certified (K4.GIRTH.DYN4).** Let H be a connected k = 4 core hypergraph with n ≤ 4 agents (the 5 + 51 +
+1,002 hypergraphs of `results/k4_certs_{2,3,4}_*.json.gz`, i.e. those of K4.R3 and K4.R4), and give every agent a
+strict core type (K4.OT: strictly balanced, all disjoint subset sums of its relevant goods distinct; p + q < s + t when
+it has two private goods; the domains of `k4/check4.py`, 288 types for a 4-good agent and 6 for a 3-good agent, up to
+288⁴ ≈ 6.9·10⁹ profiles per hypergraph). Then for some labeling (vertex 0, an order of its neighbours, an order of the
+rest; LSS's priority) the following pipeline ends with a complete EFX₀ allocation:
+1. LSS's Algorithm 2 with FixProp3 and the G1 repair (§5: the envied agent takes the most valuable subset of its
+   unallocated goods that beats its bundle and keeps EFX₀; skipped if there is none);
+2. if the state is EFX₀: dynamic parking with envy-cycle rotation, a depth-first search: put one leftover good on a
+   currently non-envied agent if EFX₀ (raw check) survives; when every agent is envied, rotate the bundles along an
+   envy cycle (Lemma EC; at most 50 cycles per node); at most 200,000 search nodes (running out counts as failure).
+
+By K4.CORE and K4.TIE this is a constructive route to EFX₀ for every instance with ≤ 4 relevant goods per agent whose
+core components have ≤ 4 agents. EFX₀ existence there was already CERTIFIED by direct search (K4.R3, K4.R4); what is
+new is that LSS's algorithm, repaired as in §5, finds it for some labeling, everywhere. Nothing is claimed for n ≥ 5
+beyond the sample below.
+
+**Method** (`k4/girth/dyncert.py`). Every decision of the pipeline is a comparison v_i(S) vs v_i(T) for one agent i;
+after cancelling common goods it compares two disjoint subsets of R_i (or is decided by positivity when one side is
+empty), so in a strict type its answer is a function of the type. A run on a representative profile records every
+comparison it makes; all profiles that answer them alike form a product of per-agent type sets (a *box*) on which the
+run is identical, so its outcome holds on the whole box. Covering: a stack of (box, next labeling); run the next
+labeling on the box's representative; the recorded class is certified if the run succeeds, else it is pushed with the
+following labeling; the rest of the box is split into disjoint boxes that keep the same labeling. By induction every
+profile of a box waiting at labeling li fails labelings 0, …, li − 1, so a box that runs out of labelings would consist of
+counterexamples (none occurred; any would be re-checked with lss.py). A hypergraph is CERTIFIED when the certified
+classes add up to the whole profile count. Labelings: all of them (≤ 24 at n = 4), the n *default* ones (blocks in
+increasing agent order, one per vertex 0) first.
+
+**Checks.**
+- `dyncert.Run` is written separately from `lss.py`; `dyncert.FastRun` (bitmask bundles, used by the covering) makes
+  the same comparisons in the same order: `python3 k4/girth/dyncert.py --selftest` (identical outcome and class on 5,868
+  runs). `k4/girth/dyncert_xcheck.py` (`results/k4_girth_dyncert_xcheck.log`): outcomes agree with `lss.py` run by run, and
+  profiles sampled inside recorded classes give the recorded outcome with `lss.py`.
+- *Second, independent covering* (`k4/girth/dyncert_sym.py`): it runs `lss.py`'s own pipeline, unchanged
+  (`lss.Run.alg2_safe`, `lss.is_efx0`, `lss.park_dynamic_ec`), on instances whose values are symbolic linear forms that
+  answer every comparison from the representative and record it (anything other than a {−1, 0, 1}-comparison raises);
+  classes are computed from the type values directly, with separately written bookkeeping. `--selftest`: profiles
+  sampled in its classes give the same outcome with numbers (2,400 samples of 600 runs).
+
+**Results** (`python3 k4/girth/dyncert_summary.py results/k4_girth_dyncert_*.log`; 4 CPUs):
+
+| cores | hypergraphs | strict profiles | runs | result | log |
+|---|---|---|---|---|---|
+| n = 2 | 5 | 189,216 | 3,855 | all CERTIFIED | `results/k4_girth_dyncert_2.log` |
+| n = 3 | 51 | 299,837,376 | 1,130,416 | all CERTIFIED | `results/k4_girth_dyncert_3.log` |
+| n = 4, one 4-good agent | 135 | 7,247,232 | 268,107 | all CERTIFIED | `results/k4_girth_dyncert_4_n4_1.log` |
+| n = 4, two | 309 | 724,847,616 | 5,361,575 | all CERTIFIED | `results/k4_girth_dyncert_4_n4_2.log` |
+| n = 4, three | 339 | (running) | | 195 of 339 CERTIFIED so far | `results/k4_girth_dyncert_4_n4_3.log` |
+| n = 4, four (pure) | 219 | (queued) | | | `results/k4_girth_dyncert_4_pure.log` |
+| n = 5, one 4-good agent | 1,735 | 574,615,296 | 13,418,885 | all CERTIFIED | `results/k4_girth_dyncert_5_n4_1.log` |
+
+No profile on which every labeling fails was found. The n = 5 row covers every core with one 4-good agent (not a
+sample); the other n = 5 cores (two to four 4-good agents, 29,849 hypergraphs) would need about 10⁷ CPU-seconds in
+Python, so only samples are run (queued).
+
+**Which labelings are needed.**
+- *Vertex 0 is the only freedom needed so far.* With the n default labelings alone (`--family=default`) every n = 3
+  core is certified (`results/k4_girth_dyncert_3_default.log`), and at n = 5 with one 4-good agent the default
+  labelings suffice on all 1,735 cores (on 1,733 of them labeling #0, vertex 0 = agent 0, alone).
+- *No labeling rule that reads only the hypergraph* (REFUTED, `attempts/k4-girth-uniform-labeling.md`): 6 of the 51
+  n = 3 cores, all with three 4-good agents, have no labeling that works on every profile
+  (`results/k4_girth_dyncert_3_uniform.log`); on the smallest (n = 3, m = 6, every pair sharing two goods) two
+  profiles split the six labelings 3 + 3. The labeling must depend on the values.
+- *Exchange moves do not remove the dependence* (`k4/girth/dynx.py`, `results/k4_girth_dynx_3{,_base}.log`): letting
+  any agent trade its bundle for a better subset of its bundle and the leftovers (EFX₀ kept, every value weakly up) in
+  the parking search raises the number of n = 3 labelings that work on every profile only from 246 to 253 of 300, on
+  the same 37 of 51 cores.
+
+**Conjecture DOM** (CONJECTURE; `k4/girth/dom_test.py`). *For every labeling, the state X that LSS's Algorithm 2 with
+the G1 repair leaves has a dominating completion: a complete EFX₀ allocation Z with v_i(Z_i) ≥ v_i(X_i) for every
+agent.* Where every parking move set above fails, such completions exist and come from *generalized rotations*: on
+the n = 3, m = 7 profile {0: 2, 3: 5, 4: 4, 6: 8}, {1: 6, 3: 3, 5: 4, 6: 8}, {2: 1, 4: 4, 5: 6, 6: 8} with labels
+(0, 1, 2), Algorithm 2 leaves {3} | {6} | {2, 4, 5} with goods 0, 1 unallocated, parking is stuck, and
+{6} | {1, 3} | {0, 2, 4, 5} dominates it: agent 0 takes agent 1's good, agent 1 takes agent 0's good plus a leftover,
+which is no envy-cycle rotation (agent 1 does not envy {3}). Evidence: random strict profiles, every labeling, brute
+force over all allocations: n = 3, 312,884 profiles (1,840,372 runs); n = 4 with m ≤ 10, 33,053 profiles (669,972
+runs); no state without a dominating completion (`results/k4_girth_dom_{3,4}.log`; for comparison, parking with
+envy-cycle rotation fails on about 3·10⁻⁵ of all runs, §5, which would be about 80 of these). Exhaustive
+at n = 3 (covering, every labeling): running (`results/k4_girth_dom_exhaustive_3.log`). DOM does not follow from
+LSS's Properties (3) and (4) alone: the PL state of `attempts/k4-girth-linear-pl.md` satisfies both and has no
+completion. If DOM holds, TARGET₄ reduces to a completion lemma for the states of Algorithm 2, with no labeling search.
+
 ## Reproduce
 
 All plain Python (python-sat not needed); run from the repository root. Times on 4 CPUs.
