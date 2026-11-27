@@ -1,0 +1,9 @@
+$ git show origin/compute/k4-oc1max-cert:results/k4_oc1max/two_move_starts_n4.json.gz > two_move_starts_n4.json.gz   (commit a96c877)
+$ python3 k4/ttc/rf_check.py two_move_starts_n4.json.gz 50
+  one receiver everywhere: RF start satisfies OC1 3840
+  one receiver everywhere: bad outcomes with 2 agents at their top 1280
+  one receiver everywhere: good outcomes with 1 agents at their top 1280
+  one receiver everywhere: good outcomes with 2 agents at their top 3840
+  some outcome with >= 2 receivers: RF start satisfies OC1 5730
+profiles: one receiver everywhere 640
+profiles: some outcome with >= 2 receivers 2219

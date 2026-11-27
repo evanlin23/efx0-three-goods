@@ -1296,6 +1296,25 @@ common top good make every order's earlier one wanted by the later one.
 - (ii′) is the statement to prove. At n = 4 it holds, since OC₁^∃max is certified there. The structure to use is
   that all 640 have paired tops.
 
+**(ii′) is a special case of RF at n = 4** (`rf_check.py`, `rf_check_n4.log`).
+- RF (girth session): for a failing order, move the start's receiver to the front; it works at all n = 4 failing
+  orders.
+- At the 640 one-receiver-everywhere profiles, RF's order gives a perfect start satisfying OC₁ at all 3,840 failing
+  orders. At every 50th of the other failing profiles (2,219 profiles), it does so at all 5,730 failing orders.
+- So the good one-receiver outcome of (ii′) is RF's.
+
+**Lemma RF-ROT (proved).** At a start with exactly one receiver, the receiver is the last picker of the order, so RF is
+the rotation σ ↦ (σ_n, σ_1, …, σ_{n−1}).
+- *Proof:* the last picker is always a receiver, since a wanter of y_j picks after j.
+- *In the rotated order,* σ_n picks first and takes its top good, and σ_{n−1} becomes the last picker, hence a
+  receiver of the new start.
+- *What a proof of RF must show:* this rotation never leaves a pickless agent, and gives OC₁. At the 640 the rotated
+  start is always perfect.
+
+*The shape of the good outcomes at the 640:* each profile has 2 bad perfect outcomes, each with 2 agents at their top
+good, and its good outcomes have 1 or 2 agents at their top. The number of agents at their top does not separate good
+from bad.
+
 ## 12. Next steps
 
 1. *OC₁-E / OC₁-ED at larger n.* Adversarial climbs at n = 6–8 with the endpoint objective:
