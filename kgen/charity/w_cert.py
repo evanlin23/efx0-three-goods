@@ -15,6 +15,7 @@ bundle worthless to all.  Strict inequalities are kept strict (QF_LRA).
 
     python3 kgen/charity/w_cert.py CUTFILE [CUTFILE ...]
     python3 kgen/charity/w_cert.py --core CUTFILE COREFILE [--min]
+    python3 kgen/charity/w_cert.py --check-core CUTFILE COREFILE
 --core: also extract an unsat core of the cuts (cvc5), re-check the core alone, and write {"core": [indices]} to
 COREFILE (for w_milp_cert.py); --min shrinks the core by deletion (one cvc5 call per cut)."""
 import sys, json, time, gzip
@@ -28,8 +29,9 @@ def lin(terms):
     return terms[0] if len(terms) == 1 else '(+ %s)' % ' '.join(terms)
 
 
-def encode(D, named=False, only=None):
-    """named: name each cut assertion cut_<t> (for unsat cores); only: indices of the cuts to include."""
+def encode(D, named=False, only=None, guard=False):
+    """named: name each cut assertion cut_<t> (for unsat cores); only: indices of the cuts to include;
+    guard: assert each cut as (=> g_<t> cut) with a fresh Boolean g_<t> (for assumption-based cores)."""
     n, k, p, B, P, m = D['n'], D['k'], D['p'], D['bundles'], D['pool'], D['m']
     sup = D['support']
     V = lambda i, g: 'v_%d_%d' % (i, g)
@@ -85,8 +87,12 @@ def encode(D, named=False, only=None):
                 if i != j:
                     for h in Y[j]:
                         disj.append('(> %s %s)' % (val(i, [g for g in Y[j] if g != h]), val(i, Y[i])))
-        out.append(('(assert (! (or %s) :named cut_%d))' % (' '.join(disj), t)) if named else
-                   '(assert (or %s))' % ' '.join(disj))
+        if guard:
+            out.append('(declare-const g_%d Bool)' % t)
+            out.append('(assert (=> g_%d (or %s)))' % (t, ' '.join(disj)))
+        else:
+            out.append(('(assert (! (or %s) :named cut_%d))' % (' '.join(disj), t)) if named else
+                       '(assert (or %s))' % ' '.join(disj))
     out.append('(check-sat)')
     if named:
         out.append('(get-unsat-core)')
@@ -131,6 +137,13 @@ if __name__ == '__main__':
         print('  core alone: cvc5 says %s' % r2, flush=True)
         assert r2 == 'unsat'
         json.dump({'core': core}, open(out, 'w'))
+        sys.exit(0)
+    if sys.argv[1] == '--check-core':                      # cvc5 on a given subset of the cuts (e.g. w_core_z3.py's)
+        f, cf = sys.argv[2], sys.argv[3]; D = json.load(gzip.open(f, 'rt') if f.endswith('.gz') else open(f))
+        core = set(json.load(open(cf))['core']); t0 = time.time()
+        r = solve(encode(D, only=core))
+        print('%s: %d of %d cuts (%s): cvc5 says %s (%.1f s)' % (f.split('/')[-1], len(core), len(D['cuts']),
+                                                            cf.split('/')[-1], r, time.time() - t0), flush=True)
         sys.exit(0)
     for f in sys.argv[1:]:
         D = json.load(gzip.open(f, 'rt') if f.endswith('.gz') else open(f)); t0 = time.time()

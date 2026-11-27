@@ -1,0 +1,1 @@
+$ python3 kgen/charity/w_core_z3.py w_cuts_s4k5.json.gz w_core_s4k5.json
