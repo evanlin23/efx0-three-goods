@@ -1200,3 +1200,15 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
 - **Own angle.** TTC's canonical rule YRMH-F at #440 (`k4/sdc/rf_canon_440.py`): from all four orders giving the
   failing start it yields a receiver-first maximum matching whose picks complete. Plain rotation fails from one of
   them. So RF-canon survives the k = 4 counterexample to the every-form.
+
+### 2026-11-27 09:34 UTC: burst 12 (single-session mode)
+- Merged #181. Archived the hunt session (its work was pushed and #104 stays a draft). All child sessions are now
+  archived.
+- **Own angle: FAIL-STRUCT made precise and checked** (ledger K4.SDC.FAILSTRUCT0; `k4/sdc/failstruct_check.py`).
+  - Every OC₁-failing maximum-matching start in all data has exactly one receiver and |D_T| ∈ {0, 2, 3}:
+    - |D_T| = 0 ⟹ a dangerous agent and the receiver value each other's picks (S2);
+    - |D_T| ≥ 2 ⟹ two truly dangerous agents compete for junk, i.e. their minimal threatening junk sets intersect
+      (S1′).
+  - Coverage: n = 4 complete (112,880), n = 5 complete lists (583,680), partial lists (702,250).
+  - The draft's pair form fails at #447, where |D_T| = 3; the generalization S1′ is needed. The draft's S3 is never
+    needed.

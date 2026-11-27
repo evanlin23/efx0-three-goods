@@ -1,0 +1,9 @@
+$ python3 k4/sdc/failstruct_check.py ../../results/k4_oc1max/two_move_starts_n4.json.gz
+S1' (two D_T agents with intersecting minimal threatening junk sets): True 112880
+shapes S1 30960
+shapes S1S2 81920
+starts 112880
+with S1' : S1' 30960
+with S1' : S1'S2 81920
+|D|=2 |D_T|=2 receivers=1 27760
+|D|=3 |D_T|=2 receivers=1 85120

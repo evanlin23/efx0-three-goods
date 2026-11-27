@@ -1,0 +1,17 @@
+$ python3 k4/sdc/failstruct_check.py ../../results/k4_base_phantom/data/two_move_starts_n5_sel2.json.gz
+UNCOVERED [[[0, 2, 5, 8], [1, 6, 7, 8], [3, 6, 9, 10], [4, 7, 9, 10], [5, 8, 9, 10]], [[3, 4, 8, 6], [1, 6, 8, 4], [2, 10, 6, 3], [2, 8, 3, 4], [10, 8, 3, 6]], [5, 1, 6, 7, 8], 4, 3, 1]
+UNCOVERED [[[0, 2, 5, 8], [1, 6, 7, 8], [3, 6, 9, 10], [4, 7, 9, 10], [5, 8, 9, 10]], [[3, 6, 10, 8], [1, 6, 8, 4], [2, 10, 6, 3], [2, 8, 3, 4], [10, 8, 3, 6]], [5, 1, 6, 7, 8], 4, 3, 1]
+UNCOVERED [[[0, 2, 5, 8], [1, 6, 7, 8], [3, 6, 9, 10], [4, 7, 9, 10], [5, 8, 9, 10]], [[3, 4, 8, 6], [1, 6, 8, 4], [2, 10, 6, 3], [3, 8, 2, 4], [10, 8, 3, 6]], [5, 1, 6, 7, 8], 4, 3, 1]
+S1' (two D_T agents with intersecting minimal threatening junk sets): False 276480
+S1' (two D_T agents with intersecting minimal threatening junk sets): True 307200
+shapes NONE 115200
+shapes S1 38400
+shapes S1S3 153600
+shapes S2 276480
+starts 583680
+with S1' : S1' 153600
+with S1' : S1'S3 153600
+with S1' : S2 276480
+|D|=4 |D_T|=0 receivers=1 276480
+|D|=4 |D_T|=2 receivers=1 192000
+|D|=4 |D_T|=3 receivers=1 115200
