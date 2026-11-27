@@ -3,8 +3,9 @@ kgen/charity/cgm_check.py on branch claude/kgen-charity, read there): relevant s
 {4,5,6} (k = 6, n = 3, m = 7).  kcegar at D = 1 and D = 2 over every strict profile (the six-good agent by the LP
 route), and the CGM values themselves (one chain from each maximum-matching start; ocsat and brute force).
 
-    python3 k4/ksens/kcegar_cgm.py [--grid6=FILE] [--D=D] [--limit=SEC]
---grid6: grid mode for the six-good agent (a subset of its types); --D: only that D (default 1 then 2); --limit: per D
+    python3 k4/ksens/kcegar_cgm.py [--grid6=FILE [--exact6]] [--D=D] [--limit=SEC]
+--grid6: grid mode for the six-good agent (a subset of its types; with --exact6 cuts are confirmed by the exact LP, so
+every strict profile is covered); --D: only that D (default 1 then 2); --limit: per D
 (default 7200 s)."""
 import json, time, sys
 import _paths
@@ -28,7 +29,7 @@ if __name__ == '__main__':
     lim = float(next((a[8:] for a in sys.argv if a.startswith('--limit=')), 7200))
     for D in Ds:
         g6 = next((a[8:] for a in sys.argv if a.startswith('--grid6=')), None)
-        t = time.time(); C = kcegar.Cegar(SETS, D=D, grid6=g6); r, w = C.run(time_limit=lim)
+        t = time.time(); C = kcegar.Cegar(SETS, D=D, grid6=g6, grid_exact='--exact6' in sys.argv); r, w = C.run(time_limit=lim)
         print('every strict profile, D = %d: %s (%d iterations, %d LP calls, %.0f s)%s' % (
-            D, r, C.iters, C.lpcalls, time.time() - t, (' ' + json.dumps(w)) if w else ''), flush=True)
+            D, r, C.iters, C.lpcalls, time.time() - t, (' ' + json.dumps(w)) if w else ''), dict(C.gstats), flush=True)
         C.close()

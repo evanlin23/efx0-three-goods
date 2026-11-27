@@ -8,10 +8,14 @@
                                                      per agent of degree d (an analogue of the k = 4 cores of
                                                      k4/search4.py; no reduction lemma behind it at k = 5)
     python3 k4/ksens/kcegar_batch.py named6 D [--jobs=4] [--limit=SEC]                designed k = 6 hypergraphs (NAMED6 below)
+    python3 k4/ksens/kcegar_batch.py core n K D [m ...] [--jobs=4] [--limit=SEC]       the core-like class of core5 with K
+                                                     in place of 5 (agent degrees 3-K with at least one K)
 --any-start: every SD start, not only the maximum-matching ones (the official move rule either way).
 --kmin=K: (genbg) only hypergraphs in which some agent values at least K goods.
 --grid6=FILE: six-good agents take the grid types of FILE (typesk.py; a subset of all strict types, so 'certified'
              then covers that subset only; a FAIL is a genuine counterexample).
+--exact6: with --grid6, every grid cut is confirmed by the exact LP (ratlp.py) and bits the grid misses get the LP's
+             point, so 'certified' covers every strict profile (kcegar_exact_check.py validates this).
 --prio=LOG: (any mode) run first the one-good extensions of the hypergraphs with a FAIL line in LOG.
 --ckpt=FILE: append every finished hypergraph's record to FILE (JSON lines) and skip the ones already there (except
              timeouts, which are tried again), so a run can be resumed after the container is reclaimed.
@@ -101,9 +105,10 @@ def recheck(R, vals, Y, D, A=1):
 def job(task):
     name, sets, D, limit = task; t0 = time.time()
     g6 = next((a[8:] for a in sys.argv if a.startswith('--grid6=')), None)
-    C = kcegar.Cegar(sets, D=D, require_max='--any-start' not in sys.argv, grid6=g6); r, w = C.run(time_limit=limit); rec = {'name': name, 'sets': sets, 'D': D, 'result': r,
+    ex = '--exact6' in sys.argv
+    C = kcegar.Cegar(sets, D=D, require_max='--any-start' not in sys.argv, grid6=g6, grid_exact=ex); r, w = C.run(time_limit=limit); rec = {'name': name, 'sets': sets, 'D': D, 'result': r,
         'iterations': C.iters, 'kinds': dict(C.kinds), 'types': [len(t) if t is not None else ('grid' if C.G[i] else 'LP') for i, t in enumerate(C.T)],
-        'grid6': g6,
+        'grid6': g6, 'exact6': ex, 'grid_stats': dict(C.gstats),
         'lp_calls': C.lpcalls}
     if r == 'FAIL': rec['recheck'] = recheck(C.R, w[0], w[1], D)
     C.close(); rec['time'] = round(time.time() - t0, 1); return rec
@@ -124,18 +129,20 @@ if __name__ == '__main__':
             for idx, line in enumerate(out):
                 G = nx.from_graph6_bytes(line); sets = [sorted(g - n for g in G[i]) for i in range(n)]
                 if max(map(len, sets)) >= kmin: tasks.append(('n%d_m%d_%d' % (n, m, idx), sets, D, limit))
-    elif args[0] == 'core5':
-        n, D = map(int, args[1:3]); ms = [int(a) for a in args[3:]] or list(range(n, 5 * n + 1))
+    elif args[0] in ('core5', 'core'):
+        if args[0] == 'core5': n, D = map(int, args[1:3]); K = 5; ms = [int(a) for a in args[3:]]
+        else: n, K, D = map(int, args[1:4]); ms = [int(a) for a in args[4:]]
+        ms = ms or list(range(n, K * n + 1))
         import subprocess, networkx as nx
         tasks = []
         for m in ms:
-            out = subprocess.run(['nauty-genbg', '-c', '-q', '-d3:1', '-D5:%d' % n, str(n), str(m)], capture_output=True).stdout.split()
+            out = subprocess.run(['nauty-genbg', '-c', '-q', '-d3:1', '-D%d:%d' % (K, n), str(n), str(m)], capture_output=True).stdout.split()
             for idx, line in enumerate(out):
                 G = nx.from_graph6_bytes(line); sets = [sorted(g - n for g in G[i]) for i in range(n)]
-                if max(map(len, sets)) < 5: continue
+                if max(map(len, sets)) < K: continue
                 deg = {g: sum(g in x for x in sets) for g in range(m)}
                 if any(sum(deg[g] == 1 for g in x) > len(x) - 2 for x in sets): continue
-                tasks.append(('core5_n%d_m%d_%d' % (n, m, idx), sets, D, limit))
+                tasks.append(('core%d_n%d_m%d_%d' % (K, n, m, idx), sets, D, limit))
     elif args[0] == 'named6':
         D = int(args[1]); tasks = [(nm, s, D, limit) for nm, s in named6()]
     else:

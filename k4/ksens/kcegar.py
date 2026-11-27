@@ -87,13 +87,14 @@ def agent_types(R):
 
 class Cegar:
     def __init__(self, sets, m=None, D=2, A=1, empty_pass=False, require_max=True, lazy=True, lp_min=6, grid6=None,
-                 grid_fast=True):
+                 grid_fast=True, grid_exact=False):
         self.R = [sorted(s) for s in sets]; self.n = n = len(sets)
         self.m = m or 1 + max(max(s) for s in sets); self.D, self.A, self.ep = D, A, empty_pass
         self.gridd = json.load(gzip.open(grid6, 'rt'))['k'] if grid6 is not None else None   # 6; less to validate the mode
         self.G = [grid6 is not None and len(R) == self.gridd for R in self.R]
         self.LP = [len(R) >= lp_min and not self.G[i] for i, R in enumerate(self.R)]   # lp_min < 6: test the LP route
         self.R6 = None; self.grid_fast = grid_fast; self.gpool = [[] for _ in sets]
+        self.gexact = grid_exact; self.gextra = [[] for _ in sets]; self.gstats = collections.Counter()
         if grid6 is not None and any(self.G):
             import numpy as _np
             self.R6 = _np.array(json.load(gzip.open(grid6, 'rt'))['reps'], dtype=_np.int64)
@@ -330,7 +331,9 @@ class Cegar:
         """grid mode: a value dict for agent i, or None after adding a blocking clause.  Same answers as
         realize_grid_ref (the first version, kept as the reference): a recent point satisfying every bit is tried first;
         then every bit is a precomputed bitset over the grid (its sign at each grid point), the first point of the AND
-        of all of them is the answer, and the core is found by the same progressive deletion, on prefix ANDs."""
+        of all of them is the answer, and the core is found by the same progressive deletion, on prefix ANDs.  With
+        grid_exact every cut is first confirmed by the exact LP of ratlp.py; a bit set that the grid misses but the LP
+        realizes gets the LP's point (kept in gextra), so the verdicts cover every strict profile, not only the grid."""
         if not self.grid_fast: return self.realize_grid_ref(i, lits)
         np = self.np; R = self.R[i]; d = len(R)
         sing = {}; other = []
@@ -349,11 +352,12 @@ class Cegar:
         order = sorted(R, key=lambda g: -wins[g]); pos = {g: k for k, g in enumerate(order)}
         # signed rows of every bit, in the agent's coordinates R
         A = np.array([self.rowv[l] if l > 0 else [-x for x in self.rowv[-l]] for l in lits], dtype=np.int64).reshape(-1, d)
-        pool = self.gpool[i]
+        pool = self.gpool[i] + self.gextra[i]
         if pool:
             P = np.array(pool, dtype=np.int64); okp = (P @ A.T > 0).all(1)
             if okp.any():
                 vec_ = pool[int(np.argmax(okp))]; return self._grid_found(i, vec_)
+        pool = self.gpool[i]
         # each non-singleton bit is a comparison v(S) > v(T) in ranking coordinates: a packed bitset over the grid
         keys = []
         for l in other:
@@ -378,7 +382,20 @@ class Cegar:
             if not base.any(): break
             cur = np.bitwise_and.accumulate(Mk[rest], axis=0) & base
             k = int(np.argmin(cur.any(1))); core.append(rest[k]); rest = rest[:k]
-        self.S.add_clause([-other[k] for k in core] + [-l for l in sing.values()]); self.cuts += 1
+        cut = [other[k] for k in core] + list(sing.values())
+        if self.gexact:
+            # exact mode: the grid core is a cut only if no positive real point satisfies it (rational LP); otherwise
+            # the whole bit set goes to the LP, which gives a point outside the grid or an exact core
+            import ratlp
+            sg = lambda l: self.rowv[l] if l > 0 else [-x for x in self.rowv[-l]]
+            self.gstats['core LP'] += 1
+            if ratlp.realize_check([sg(l) for l in cut], d):
+                self.gstats['full LP'] += 1; st, w = ratlp.realize_fast([sg(l) for l in lits], d)
+                if st == 'ok':
+                    self.gstats['points off the grid'] += 1; vec_ = [int(x) for x in w]
+                    self.gextra[i].append(vec_); return self._grid_found(i, vec_)
+                cut = [lits[k] for k in w]; self.gstats['LP cores'] += 1
+        self.S.add_clause([-l for l in cut]); self.cuts += 1
         return None
 
     def _grid_found(self, i, vec_):
