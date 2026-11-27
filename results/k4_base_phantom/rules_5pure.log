@@ -1,0 +1,91 @@
+$ RULES=any,noP1,P1ok,E+noP1,E python3 k4/base_phantom/rules.py 5pure results/k4_base_phantom/data/n5_5pure_s5o0_two_move_starts.jsonl.gz - 1
+distinct starts: 280
+  rule           terminal states                               safe  unsafe |   good  not good
+  any            completion                                      157     123 |    280       0
+  any            completion or a base repair <= C0               172     108 |    280       0
+  any            completion or a base repair <= ED               173     107 |    280       0
+  any            completion or a base repair <= C1               173     107 |    280       0
+  any            completion or a base repair <= C3               173     107 |    280       0
+  any            completion, or a final round                    221      59 |    280       0
+  any            completion, or a final round or a base repair <= C0    221      59 |    280       0
+  any            completion, or a final round or a base repair <= ED    221      59 |    280       0
+  any>           completion                                      157     123 |    280       0
+  any>           completion or a base repair <= C0               172     108 |    280       0
+  any>           completion or a base repair <= ED               173     107 |    280       0
+  any>           completion or a base repair <= C1               173     107 |    280       0
+  any>           completion or a base repair <= C3               173     107 |    280       0
+  any>           completion, or a final round                    221      59 |    280       0
+  any>           completion, or a final round or a base repair <= C0    221      59 |    280       0
+  any>           completion, or a final round or a base repair <= ED    221      59 |    280       0
+  noP1           completion                                      252      28 |    261      19
+  noP1           completion or a base repair <= C0               267      13 |    268      12
+  noP1           completion or a base repair <= ED               268      12 |    268      12
+  noP1           completion or a base repair <= C1               268      12 |    268      12
+  noP1           completion or a base repair <= C3               268      12 |    268      12
+  noP1           completion, or a final round                    280       0 |    280       0
+  noP1           completion, or a final round or a base repair <= C0    280       0 |    280       0
+  noP1           completion, or a final round or a base repair <= ED    280       0 |    280       0
+  noP1>          completion                                      260      20 |    280       0
+  noP1>          completion or a base repair <= C0               274       6 |    280       0
+  noP1>          completion or a base repair <= ED               275       5 |    280       0
+  noP1>          completion or a base repair <= C1               275       5 |    280       0
+  noP1>          completion or a base repair <= C3               275       5 |    280       0
+  noP1>          completion, or a final round                    280       0 |    280       0
+  noP1>          completion, or a final round or a base repair <= C0    280       0 |    280       0
+  noP1>          completion, or a final round or a base repair <= ED    280       0 |    280       0
+  P1ok           completion                                      253      27 |    263      17
+  P1ok           completion or a base repair <= C0               268      12 |    269      11
+  P1ok           completion or a base repair <= ED               269      11 |    269      11
+  P1ok           completion or a base repair <= C1               269      11 |    269      11
+  P1ok           completion or a base repair <= C3               269      11 |    269      11
+  P1ok           completion, or a final round                    280       0 |    280       0
+  P1ok           completion, or a final round or a base repair <= C0    280       0 |    280       0
+  P1ok           completion, or a final round or a base repair <= ED    280       0 |    280       0
+  P1ok>          completion                                      260      20 |    280       0
+  P1ok>          completion or a base repair <= C0               274       6 |    280       0
+  P1ok>          completion or a base repair <= ED               275       5 |    280       0
+  P1ok>          completion or a base repair <= C1               275       5 |    280       0
+  P1ok>          completion or a base repair <= C3               275       5 |    280       0
+  P1ok>          completion, or a final round                    280       0 |    280       0
+  P1ok>          completion, or a final round or a base repair <= C0    280       0 |    280       0
+  P1ok>          completion, or a final round or a base repair <= ED    280       0 |    280       0
+  E+noP1         completion                                      260      20 |    261      19
+  E+noP1         completion or a base repair <= C0               267      13 |    268      12
+  E+noP1         completion or a base repair <= ED               268      12 |    268      12
+  E+noP1         completion or a base repair <= C1               268      12 |    268      12
+  E+noP1         completion or a base repair <= C3               268      12 |    268      12
+  E+noP1         completion, or a final round                    280       0 |    280       0
+  E+noP1         completion, or a final round or a base repair <= C0    280       0 |    280       0
+  E+noP1         completion, or a final round or a base repair <= ED    280       0 |    280       0
+  E+noP1>        completion                                      268      12 |    280       0
+  E+noP1>        completion or a base repair <= C0               274       6 |    280       0
+  E+noP1>        completion or a base repair <= ED               275       5 |    280       0
+  E+noP1>        completion or a base repair <= C1               275       5 |    280       0
+  E+noP1>        completion or a base repair <= C3               275       5 |    280       0
+  E+noP1>        completion, or a final round                    280       0 |    280       0
+  E+noP1>        completion, or a final round or a base repair <= C0    280       0 |    280       0
+  E+noP1>        completion, or a final round or a base repair <= ED    280       0 |    280       0
+  E              completion                                      167     113 |    280       0
+  E              completion or a base repair <= C0               173     107 |    280       0
+  E              completion or a base repair <= ED               174     106 |    280       0
+  E              completion or a base repair <= C1               174     106 |    280       0
+  E              completion or a base repair <= C3               174     106 |    280       0
+  E              completion, or a final round                    222      58 |    280       0
+  E              completion, or a final round or a base repair <= C0    222      58 |    280       0
+  E              completion, or a final round or a base repair <= ED    222      58 |    280       0
+  E>             completion                                      167     113 |    280       0
+  E>             completion or a base repair <= C0               173     107 |    280       0
+  E>             completion or a base repair <= ED               174     106 |    280       0
+  E>             completion or a base repair <= C1               174     106 |    280       0
+  E>             completion or a base repair <= C3               174     106 |    280       0
+  E>             completion, or a final round                    222      58 |    280       0
+  E>             completion, or a final round or a base repair <= C0    222      58 |    280       0
+  E>             completion, or a final round or a base repair <= ED    222      58 |    280       0
+  unsafe under noP1 or noP1> with base ED, 12 cases; smallest:
+     [[[0, 3, 5, 8], [1, 4, 8, 9], [2, 3, 4, 9], [2, 6, 7, 9], [5, 6, 7, 8]], [[3, 4, 8, 6], [4, 2, 7, 10], [8, 3, 4, 6], [8, 2, 4, 5], [8, 2, 3, 4]], [5, 1, 2, 9, 8]]
+     [[[0, 3, 7, 8], [1, 2, 6, 7], [1, 4, 5, 6], [2, 6, 7, 8], [3, 4, 5, 8]], [[3, 10, 4, 8], [8, 2, 7, 4], [10, 3, 6, 8], [2, 8, 4, 7], [8, 3, 2, 4]], [3, 1, 6, 7, 8]]
+     [[[0, 3, 7, 8], [1, 2, 6, 7], [1, 4, 5, 6], [2, 6, 7, 8], [3, 4, 5, 8]], [[3, 10, 4, 8], [8, 2, 7, 4], [10, 3, 6, 8], [1, 6, 4, 8], [8, 3, 2, 4]], [3, 1, 6, 7, 8]]
+  unsafe under P1ok or P1ok> with base ED, 11 cases; smallest:
+     [[[0, 3, 5, 8], [1, 4, 8, 9], [2, 3, 4, 9], [2, 6, 7, 9], [5, 6, 7, 8]], [[3, 4, 8, 6], [4, 2, 7, 10], [8, 3, 4, 6], [8, 2, 4, 5], [8, 2, 3, 4]], [5, 1, 2, 9, 8]]
+     [[[0, 3, 7, 8], [1, 2, 6, 7], [1, 4, 5, 6], [2, 6, 7, 8], [3, 4, 5, 8]], [[3, 10, 4, 8], [8, 2, 7, 4], [10, 3, 6, 8], [2, 8, 4, 7], [8, 3, 2, 4]], [3, 1, 6, 7, 8]]
+     [[[0, 3, 7, 8], [1, 2, 6, 7], [1, 4, 5, 6], [2, 6, 7, 8], [3, 4, 5, 8]], [[3, 10, 4, 8], [8, 2, 7, 4], [10, 3, 6, 8], [1, 6, 4, 8], [8, 3, 2, 4]], [3, 1, 6, 7, 8]]

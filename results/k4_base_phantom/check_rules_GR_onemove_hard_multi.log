@@ -1,0 +1,6 @@
+$ MODE=GR python3 k4/base_phantom/check_rules.py results/k4_base_phantom/data/onemove_hard_multi.jsonl.gz 1
+distinct starts checked: 8081
+      8081  SAFE
+        85  base used: ED repair
+      7996  base used: final round
+      8081  states visited

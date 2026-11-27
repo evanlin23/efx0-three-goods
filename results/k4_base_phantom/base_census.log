@@ -1,0 +1,21 @@
+$ python3 k4/base_phantom/base_census.py onemove_hard_multi.jsonl.gz onemove_hard_hall2071.jsonl.gz onemove_hard_pw291.jsonl.gz
+rows per file: {'onemove_hard_multi.jsonl.gz': 8383, 'onemove_hard_hall2071.jsonl.gz': 2071, 'onemove_hard_pw291.jsonl.gz': 291} ; distinct starts: 8539
+  8539 SD characterization = brute force over orders: True
+  8539 one-absorber-hard at the picks: True
+  8539 picks a perfect SD outcome: True
+form (i)    fails at   35 distinct starts; per file (distinct) {'onemove_hard_multi.jsonl.gz': 35, 'onemove_hard_hall2071.jsonl.gz': 32, 'onemove_hard_pw291.jsonl.gz': 0}
+form (iR)   fails at   35 distinct starts; per file (distinct) {'onemove_hard_multi.jsonl.gz': 35, 'onemove_hard_hall2071.jsonl.gz': 32, 'onemove_hard_pw291.jsonl.gz': 0}
+form (ii)   fails at   23 distinct starts; per file (distinct) {'onemove_hard_multi.jsonl.gz': 23, 'onemove_hard_hall2071.jsonl.gz': 21, 'onemove_hard_pw291.jsonl.gz': 0}
+form (i')   fails at   18 distinct starts; per file (distinct) {'onemove_hard_multi.jsonl.gz': 18, 'onemove_hard_hall2071.jsonl.gz': 17, 'onemove_hard_pw291.jsonl.gz': 0}
+form (iii)  fails at    6 distinct starts; per file (distinct) {'onemove_hard_multi.jsonl.gz': 6, 'onemove_hard_hall2071.jsonl.gz': 6, 'onemove_hard_pw291.jsonl.gz': 0}
+form (iii) failures:
+  ls-alt-rule-n4m7 n=4 m=7 sets=[[0, 1, 2, 3], [0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]] vals=[[3, 6, 10, 8], [2, 8, 4, 3], [4, 2, 5, 8], [4, 3, 2, 8]] picks=[2, 5, 6, 3]
+  Q2 n=4 m=8 sets=[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]] vals=[[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]] picks=[3, 7, 5, 4]
+  nsw-strict-n4m8 n=4 m=8 sets=[[0, 3, 5, 7], [1, 4, 5, 6], [2, 4, 6, 7], [3, 6, 7]] vals=[[2, 8, 4, 7], [2, 8, 3, 4], [2, 10, 6, 7], [4, 3, 2]] picks=[3, 4, 7, 6]
+  nsw-strict-n4m9 n=4 m=9 sets=[[0, 4, 5, 6], [1, 4, 6, 8], [2, 5, 7, 8], [3, 7, 8]] vals=[[3, 4, 10, 8], [3, 2, 4, 8], [1, 8, 6, 4], [2, 3, 4]] picks=[5, 6, 7, 8]
+  c4one-one-rotation-m8 n=5 m=8 sets=[[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]] vals=[[2, 8, 3, 4], [3, 4, 2], [2, 4, 3], [2, 4, 3], [2, 4, 3]] picks=[7, 2, 1, 5, 6]
+  c4one-one-rotation-m9 n=5 m=9 sets=[[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]] vals=[[2, 3, 4], [2, 4, 3], [2, 3, 8, 4], [2, 3, 4], [4, 2, 3]] picks=[7, 5, 8, 3, 4]
+(iii) failures inside (i) failures: True
+(i) and (iR) fail at the same starts: True
+(i) failures by (n, m): {(3, 6): 15, (3, 7): 3, (4, 7): 7, (4, 8): 4, (4, 9): 1, (5, 8): 3, (5, 9): 2}
+wrote results/k4_base_phantom/base35.jsonl (35 rows)
