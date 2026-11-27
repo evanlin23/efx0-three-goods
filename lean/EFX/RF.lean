@@ -19,6 +19,9 @@ dropped. `ConjRF` is a `Prop`, not an axiom (with any move relation: `ConjRFWith
 - RF∃ implies OC₁^∃max (`conjOC1exmaxWith_of_conjRFsomeWith`): MAXSD gives a maximum-matching order; either OC₁
   holds there, or the receiver-first order of RF∃ is a maximum-matching order where it does.
 - With `EFX.OC1Max.target4_of_conjOC1exmax`, both give TARGET₄ (`target4_of_conjRF`, `target4_of_conjRFsome`).
+- `Receiver` counts a pickless agent vacuously, so `ConjRF` also asks RF of pickless receivers. `EFX/RFPick.lean`
+  drops them: by Lemma REC-∃ a failing start has a receiver that holds a pick, so RF for pick-holding receivers
+  (`ConjRFpick`) already implies RF∃ (`target4_of_conjRFpick`).
 -/
 
 set_option autoImplicit false

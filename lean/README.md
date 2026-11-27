@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 1394 audited statements, 2672 theorems, standard axioms only
+    CHECK PASSED: 1401 audited statements, 2679 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -335,6 +335,11 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   amended: at a maximum-matching start where OC₁ fails, for every receiver u, OC₁ at every maximum-matching order with
   u first, one of which exists) and its weakest form RF∃ (`ConjRFsome`, some receiver) imply OC₁^∃max, hence TARGET₄
   (**`EFX.OC1Max.target4_of_conjRF`**, `target4_of_conjRFsome`); every start has a receiver (`exists_receiver`).
+- `EFX/RFPick.lean`: **Lemma REC-∃ and RF for pick-holding receivers** (`k4/referee/rfmin.md` §1, ledger
+  K4.SDC.RFPICK.LEAN): at a maximum-matching start where no pick holder is a receiver, the picks complete with one
+  absorber (`oneAbsorber_of_noReceiver`, by Lemma MAX and Lemma M), so a failing start has a pick-holding receiver
+  (`exists_pick_receiver`); RF for those receivers (`ConjRFpick`) implies RF∃, OC₁^∃max and TARGET₄
+  (**`EFX.OC1Max.target4_of_conjRFpick`**).
 - `EFX/OC1MaxExamples.lean`: non-vacuity of `EFX/OC1Max.lean` by `decide`, on the MC2 core of `k4/sdc.md` §31 where OC
   fails: the failing start (index order) is not a maximum-matching start (`EFX.OC1Max.Ex.not_maximum_MC2`); the order
   3, 4, 0, 1, 2 picks a maximum matching with a one-absorber completion (`EFX.OC1Max.Ex.maximum_ordM`,
