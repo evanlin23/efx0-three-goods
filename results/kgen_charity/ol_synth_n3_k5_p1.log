@@ -1,0 +1,2 @@
+$ ol_synth.run(3, 5, sizes, q, L=1) over all sizes (P1 at n = 3, k = 5)
+q 1 sizes (2, 2, 1) UNSAT 81 cuts 1.6 s
