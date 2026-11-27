@@ -959,7 +959,11 @@ Logs: `round_rsd_n5partial_s50.log`, `check_round_rsd_n5partial_s50.log`, `rsd_n
   - the three complete n = 5 lists: all 583,680 (per core: 276,480 / 115,200 / 192,000);
   - the 280 5_pure starts;
   - the one-move hard starts: 8,081 + 1,737 + 291. ED repairs end 85 + 54 of them.
-- The other session reports the same with two implementations of its own (n = 4 certified; sel2 running).
+  - the certifier's whole partial n = 5 export (702,250 starts on six hypergraphs, lists cut by a time cap):
+    `gr_n5partial6.log`. 134,822 states stop at a final round that needs a P1 settlement. This matches the other
+    session's count exactly.
+- The other session reports the same with two implementations of its own (K4.BASE.GR.SEL2 on PR #152: sel2
+  583,680 SAFE, with the same per-hypergraph split and stop types; n = 4 SAFE; partial6 SAFE).
 - So the existential choice of ROUND-IND can be replaced by GR's rule on all data. The rule: take a final round or
   an ED repair when one exists; otherwise any P1-free round. Dead ends come only from P1 settlements taken too early.
 - The base-phantom session also reports that order matters. Expanding P1-free rounds before checking for a final
