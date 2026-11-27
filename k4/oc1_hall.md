@@ -2315,8 +2315,9 @@ requirement τ_i, since each single junk good is below b_i. So the needy agents 
 - Wherever the chain is official (d wants Y′_k, and S is improving for k), an S^c completion exists after it at
   **128,074 of 128,074** export DEMOTE-2 starts that do not complete at the picks. So Lemma M^c's (C1)–(C3) holds there,
   by M^c's exactness.
-- On the stored failures it holds at 38 of 43. The other 5 need a chain to a frozen head, or one of the two exceptions
-  below.
+- On the stored failures it holds at 38 of 43. At the other 5, k → d leaves no one-absorber completion of any shape,
+  S^c or not. They are repaired by another K chain, whose head is frozen, or they are the middle-junk exception below.
+  A per-start recount gives 38 S^c, 5 by another K chain and 1 exception.
 - At the remaining 5,710 export starts no such chain is official. There d wants neither pick, or S is not improving for
   the one it wants, and the repair is a chain to a frozen head. After it the released pick is wanted, so (G2) fails
   and M^c does not apply as stated.
