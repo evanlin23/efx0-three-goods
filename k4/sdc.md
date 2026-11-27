@@ -2079,3 +2079,29 @@ profiles had missed them. The coordinator replayed both independently.
   - Result: the picks already have a one-absorber completion. One agent absorbs junk of both copies. The other copy's
     junk is worth 0 to everyone in a copy, so in EFX₀ it acts as a sink.
   - So the copies do not separate. OC₂^max holds at that start.
+
+**What (K) of Theorem REC-S asks, locally** (coordinator, 2026-11-27 01:50 UTC; multi §12 has the theorem).
+- Setting: in REC-S, agent k ends with T (two of its at most four relevant goods), and the other bundles come from a
+  completion in I⁻ = I − k − T. Write k's remaining relevant goods as p (its SD pick, now held by its earliest wanter)
+  and g (if k values a fourth good). T is improving, so v_k(T) > v_k(p).
+- A bundle B threatens k exactly when v_k(B) − min_{h∈B} v_k(h) > v_k(T). Only B ∩ {p, g} counts, and by bundle:
+  - B ∩ R_k = {p}: never, since v_k(p) < v_k(T).
+  - B ∩ R_k = {g}: exactly when |B| ≥ 2 and v_k(g) > v_k(T).
+  - B ⊇ {p, g}: exactly when max(v_k(p), v_k(g)) > v_k(T) for |B| = 2, and when v_k(p) + v_k(g) > v_k(T) for |B| ≥ 3.
+- So (K) is a constraint on I⁻'s completion only:
+  - **if v_k(g) > v_k(T), g must end in a singleton bundle**, i.e. its holder takes no junk;
+  - p and g must not share a bundle in the cases above.
+- The other half of the lift is automatic. Nobody EFX₀-envies T: for |T| = 2 the test is max_{h∈T} v_i(h) ≤ v_i(B_i).
+  That holds because junk is never envied as a singleton at an SD start and moves only raise values (Y_z ∈ T is LIFT's
+  case).
+- Hence the inductive hypothesis that a recursion (RSD: settle, delete, recurse) needs is: **OC₂^max on instances with
+  a set of goods that must end in singleton bundles, and some forbidden pairs.** When k's best improving pool pair
+  beats every other good of k, the constraint is empty, and (K) holds for every completion of I⁻.
+- Three-move hunt, negative (`k4/sdc/three_move_hunt.py`, `three_move_climb.py`; logs `results/k4_sdc/three_move_*`).
+  - Random extensions of the 12 two-move seeds by one agent leave almost every start at 0 or 1 moves: 1 two-move start
+    among about 250 cores.
+  - Climbs bottom out at one-move starts.
+  - A new agent with its own pick is a sink for the seed's junk: core agents value its pick at 0, and SD junk is never
+    envied as a singleton.
+  - So multi-move starts need every pick to be wanted. Random extension is the wrong tool, and exhaustive ordinal
+    certification (the certifier's n = 5 lists) is the right one.
