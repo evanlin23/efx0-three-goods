@@ -191,6 +191,7 @@ def make_instance(rec, rng):
     return dict(vals=vals, goods=goods, outside_agents=OA, outside_goods=OG)
 
 MUT = None
+LABEL = "K4.MC8"
 EXCLUDED = {"dbl-Q3-Q3", "dbl-Q3-Q3-c1", "dbl-Q3-P4", "dbl-Q3-P4-c1", "dbl-P4-P4", "dbl-P4-P4-c1", "dbl-Q3-Q4-c1",
             "dbl-P4-Q4-c1"}
 
@@ -221,7 +222,7 @@ def main(files, N, seed, configs=None):
                 c[cfg + "_COVERAGE_FAIL"] += 1
                 if len(ex) < 6:
                     ex.append(("coverage", cfg, {k: v for k, v in H["vals"].items()}))
-    print(json.dumps(dict(source=f"K4.MC8 concrete check N={N} per config seed={seed}", **dict(sorted(c.items())))))
+    print(json.dumps(dict(source=f"{LABEL} concrete check N={N} per config seed={seed} mutation={MUT}", **dict(sorted(c.items())))))
     for e in ex[:6]:
         print("EXAMPLE", json.dumps(e)[:1500])
 
