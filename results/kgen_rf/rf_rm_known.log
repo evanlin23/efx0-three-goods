@@ -1,0 +1,38 @@
+$ python3 kgen/rf/rf_rm.py known
+kcegar_k5_n3_D1.log:n3_m6_92: failing max vectors [(4, 5, 1)]; RM-optimal [(4, 3, 5), (4, 5, 1), (5, 4, 1), (3, 4, 5), (5, 3, 4), (3, 5, 4)] (signature (1, 1, 1, 0, 0)); RM-optimal failing: [(4, 5, 1)]
+kcegar_k5_n3_D1.log:n3_m6_93: failing max vectors [(3, 5, 1)]; RM-optimal [(4, 3, 5), (4, 5, 3), (3, 4, 5), (5, 4, 3), (5, 3, 1), (3, 5, 1)] (signature (1, 1, 1, 0, 0)); RM-optimal failing: [(3, 5, 1)]
+kcegar_k5_n3_D1.log:n3_m6_96: failing max vectors [(3, 4, 5)]; RM-optimal [(5, 4, 2), (4, 2, 5), (3, 4, 5), (5, 2, 4), (4, 5, 2), (3, 5, 4)] (signature (1, 1, 1, 0, 0)); RM-optimal failing: [(3, 4, 5)]
+kcegar_k5_n3_D1.log:n3_m6_103: failing max vectors [(5, 3, 4)]; RM-optimal [(4, 3, 2), (3, 4, 2), (5, 4, 3), (3, 2, 4), (4, 2, 3), (5, 3, 4)] (signature (1, 1, 1, 0, 0)); RM-optimal failing: [(5, 3, 4)]
+kcegar_k5_n3_D1.log:n3_m6_104: failing max vectors [(2, 4, 1)]; RM-optimal [(4, 3, 2), (5, 4, 2), (2, 4, 1), (4, 2, 1), (2, 3, 4), (5, 2, 4)] (signature (1, 1, 1, 0, 0)); RM-optimal failing: [(2, 4, 1)]
+kcegar_k5_n3_D1.log:n3_m6_110: failing max vectors [(4, 5, 2)]; RM-optimal [(5, 4, 2), (4, 3, 5), (4, 5, 2), (5, 3, 4), (0, 4, 5), (0, 5, 4)] (signature (1, 1, 1, 0, 0)); RM-optimal failing: [(4, 5, 2)]
+kcegar_k5_n3_D1.log:n3_m6_111: failing max vectors [(4, 0, 5)]; RM-optimal [(1, 5, 4), (4, 5, 3), (5, 0, 4), (5, 4, 3), (1, 4, 5), (4, 0, 5)] (signature (1, 1, 1, 0, 0)); RM-optimal failing: [(4, 0, 5)]
+kcegar_k5_n3_D1.log:n3_m7_15: failing max vectors [(2, 5, 6)]; RM-optimal [(6, 5, 3), (6, 4, 5), (2, 6, 5), (5, 4, 6), (5, 6, 3), (2, 5, 6)] (signature (1, 1, 1, 0, 0)); RM-optimal failing: [(2, 5, 6)]
+kcegar_k5_n3_D1.log:n3_m7_19: failing max vectors [(5, 4, 6)]; RM-optimal [(6, 4, 3), (5, 6, 4), (6, 3, 4), (4, 3, 6), (5, 4, 6), (4, 6, 3)] (signature (1, 1, 1, 0, 0)); RM-optimal failing: [(5, 4, 6)]
+kcegar_k5_n3_D1.log:n3_m7_116: failing max vectors [(5, 3, 6)]; RM-optimal [(5, 3, 6), (6, 3, 5), (5, 6, 4), (2, 6, 5), (6, 5, 4), (2, 5, 6)] (signature (1, 1, 1, 0, 0)); RM-optimal failing: [(5, 3, 6)]
+kcegar_k5_n3_D1.log:n3_m7_117: failing max vectors [(4, 3, 6)]; RM-optimal [(4, 6, 5), (6, 4, 5), (6, 3, 4), (4, 3, 6), (2, 4, 6), (2, 6, 4)] (signature (1, 1, 1, 0, 0)); RM-optimal failing: [(4, 3, 6)]
+kcegar_k5_n3_D1.log:n3_m7_121: failing max vectors [(1, 5, 6)]; RM-optimal [(1, 5, 6), (6, 4, 5), (1, 6, 5), (5, 6, 4), (5, 4, 6), (6, 5, 4)] (signature (1, 1, 1, 0, 0)); RM-optimal failing: [(1, 5, 6)]
+kcegar_k5_n3_D1.log:n3_m8_98: failing max vectors [(5, 6, 7)]; RM-optimal [(6, 7, 3), (5, 7, 6), (5, 6, 7), (7, 4, 6), (7, 6, 3), (6, 4, 7)] (signature (1, 1, 1, 0, 0)); RM-optimal failing: [(5, 6, 7)]
+RD5: failing max vectors [(1, 3, 4, 2)]; RM-optimal [(3, 1, 4, 2)] (signature (2, 1, 0, 1, 0)); RM-optimal failing: none
+kgen-n4-k5 (not balanced): failing max vectors [(4, 2, 6, 1)]; RM-optimal [(6, 2, 4, 1), (6, 1, 4, 2)] (signature (2, 2, 0, 0, 0)); RM-optimal failing: none
+rf_climb_k5_n4.log:154000113: failing max vectors [(4, 3, 2, 0)]; RM-optimal [(0, 1, 3, 4), (0, 3, 4, 6)] (signature (2, 1, 1, 0, 0)); RM-optimal failing: none
+rf_climb_k5_n4.log:154000375: failing max vectors [(4, 2, 6, 3)]; RM-optimal [(2, 4, 3, 1)] (signature (2, 2, 0, 0, 0)); RM-optimal failing: none
+rf_climb_k5_n4.log:154000378: failing max vectors [(5, 0, 2, 4)]; RM-optimal [(5, 1, 2, 0), (0, 1, 2, 5)] (signature (2, 1, 1, 0, 0)); RM-optimal failing: none
+rf_climb_k6_n3.log:163000349: failing max vectors [(4, 2, 0)]; RM-optimal [(2, 1, 0), (0, 2, 3), (4, 2, 0), (0, 1, 2), (4, 0, 2), (2, 0, 3)] (signature (1, 1, 1, 0, 0, 0)); RM-optimal failing: [(4, 2, 0)]
+rf_climb_k6_n4.log:164000105: failing max vectors [(0, 3, 4, 1)]; RM-optimal [(1, 4, 3, 0)] (signature (2, 2, 0, 0, 0)); RM-optimal failing: none
+rf_climb_k6_n4.log:164000053: failing max vectors [(6, 0, 5, 1)]; RM-optimal [(5, 1, 4, 0), (5, 0, 4, 1)] (signature (2, 1, 1, 0, 0, 0)); RM-optimal failing: none
+rf_climb_k6_n4.log:164000159: failing max vectors [(4, 1, 0, 2)]; RM-optimal [(0, 4, 6, 1), (0, 1, 6, 4)] (signature (2, 2, 0, 0, 0, 0)); RM-optimal failing: none
+rf_climb_k6_n4.log:164000158: failing max vectors [(3, 4, 0, 1)]; RM-optimal [(2, 1, 3, 4)] (signature (2, 2, 0, 0, 0, 0)); RM-optimal failing: none
+rf_climb_k6_n4.log:164000192: failing max vectors [(1, 0, 4, 5)]; RM-optimal [(4, 0, 5, 3), (0, 6, 5, 3)] (signature (2, 2, 0, 0, 0, 0)); RM-optimal failing: none
+rf_climb_k6_n4.log:164000285: failing max vectors [(4, 0, 5, 1)]; RM-optimal [(1, 5, 0, 2)] (signature (2, 2, 0, 0, 0)); RM-optimal failing: none
+rf_climb_k6_n4.log:164000321: failing max vectors [(0, 3, 1, 2)]; RM-optimal [(5, 0, 2, 1), (5, 0, 1, 3)] (signature (2, 2, 0, 0, 0, 0)); RM-optimal failing: none
+rf_climb_k6_n4.log:164000326: failing max vectors [(5, 1, 2, 0)]; RM-optimal [(5, 2, 1, 0), (0, 1, 2, 4), (5, 1, 2, 0), (0, 2, 4, 1), (0, 4, 2, 1), (0, 2, 1, 4)] (signature (2, 1, 0, 1, 0, 0)); RM-optimal failing: [(5, 1, 2, 0)]
+rf_climb_k6_n4.log:164000368: failing max vectors [(1, 3, 2, 6)]; RM-optimal [(1, 4, 2, 3), (2, 4, 1, 3)] (signature (2, 1, 1, 0, 0)); RM-optimal failing: none
+15   ... of which some RM-optimal vector fails
+111 RM-optimal vectors
+15 RM-optimal: OC1 fails
+38 RM-optimal: one move repairs
+58 RM-optimal: picks complete
+28 instances
+28 instances with a failing max vector
+193 max SD vectors
+time 0 s
