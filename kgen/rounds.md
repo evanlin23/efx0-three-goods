@@ -79,6 +79,9 @@ every refutation below is confirmed by three independent programs.
       - Climbs on strict cores at n = 5, 6 have found no failure.
       - The only MD allocations it misses have an agent that keeps its own pick and also holds a pickless agent's
         pick.
+      - **REC-S's two-move repair is one round (§4.10).** At all 112,880 n = 4 starts, REC-S's final allocation is a
+        round of OC₁′ moves whose only structure is one chain spliced from E(k) and P₂. E(k) itself is never a
+        witness chain. A splice lemma (sketched, with one exception case) would give REC-S ⇒ ROUND-P.
     - It is a one-move alternative to the campaign's current target OC₂^max (two sequential moves).
     - On all 11 of the certifier's instances, every MD allocation has a starved agent, so the obstruction is the same
       k-independent one.
@@ -692,6 +695,67 @@ the objective is failing starts, then the witness count and margin at the hardes
 - CLIMB_RESULT
 - `is_core` alone does not enforce distinct subset sums. Without that constraint the climbs drift to exact ties, such
   as v₀(6) + v₀(7) = v₀(8), so the strict form is enforced (ZSTRICT = 1).
+
+### 4.10 REC-S and ROUND-P: the two moves splice into one round
+*Question (coordinator).* Is REC-S's first chain E(k) (`k4/oc1max_multi.md` §12 on `proof/k4-oc1max-multi`) always one
+of ROUND-P's chains? If so, the two might share one proof.
+
+**Answer on the data: no, but REC-S's repair is itself a one-round repair.**
+`recs_vs_rndp.py` reads multi's REC-S witnesses, one per n = 4 start with no one-move repair
+(`recs_witnesses_n4.json.gz`), and tests every MD EFX₀ allocation with every Lemma RC path structure
+(`recs_vs_rndp_n4.log`):
+
+| test (112,880 starts) | RNDOZ (round of OC₁′ moves) | RNDPZ (ROUND-P) |
+|---|---|---|
+| REC-S's P₁ = E(k) is a chain of some witness round | **0** | **0** |
+| P₁ is a prefix of some witness chain | 0 | 0 |
+| some dangerous agent's E(k) is a witness chain | 0 | 65,920 |
+| REC-S's final allocation X is a one-round witness | **112,880** | **112,880** |
+| X has a structure that is one chain on exactly the agents of E(k) and P₂ | 112,880 (its only structure) | 112,880 (only structure at 39,280) |
+
+- E(k) is never a chain of a witness round, nor a prefix of one.
+- REC-S's own final allocation X is always a witness of a round of OC₁′ moves (RNDOZ). Its round structure is a
+  *single* chain on exactly the agents of E(k) and P₂: the two moves splice.
+  - Example: 4_pure#20, picks (6, 5, 4, 3), order (0, 1, 3, 2).
+  - E(0) = (0, 1, 2), with agent 0 taking T = {1, 2}.
+  - The second move P₂ = (3, 2), with agent 3 taking H₀ = {4, 5}. These are agent 2's released pick 4 and the head's
+    good 5 = Y₁.
+  - One chain from the picks reaches the same allocation, 0 → 1 → 3 → 2. Agent 1's pick goes to agent 3, and agent 3
+    also takes the end's pick 4 (an OC₁′ take).
+- n = 5 (the 23,943 walk rows near 5_pure#164, sampled).
+  - The earliest-wanter chains are long. At idx 164, E(2) = (2, 0, 3), because agent 0 wants good 3 and picks before
+    agent 3. The coordinator's P₁ = (2, 3) there is a general canonical chain, not E(2).
+  - The witness rounds there are short swaps, and no dangerous agent's E(k) is a witness chain (`rndp_walk5_*.log`).
+
+**Why the moves splice (sketch, not refereed).**
+
+Notation:
+- Y is a perfect start.
+- P₁ = (x₀, …, x_t) is a chain from Y, with x₀ taking H₀ ⊆ J ∪ {Y_{x_t}}; the state after it is B₁.
+- P₂ = (u₀, …, u_s) is an official chain from B₁ that leaves x₀'s bundle alone; the state after it is B₂.
+
+1. *At most one received pick per bundle.* Every bundle of B₂ contains at most one pick that is not a released pick
+   (a released pick is Y_{x_t} after P₁, or the head's B₁ good if P₂'s start does not take it). This holds because
+   each bundle is either a B₁ bundle (one pick, or H₀) or B₁[u_{i−1}] plus junk of B₁. Call the owner of that pick the
+   bundle's *composite predecessor*.
+2. *The composite structure.* The composite passer graph a → (holder of Y_a in B₂) is a set of vertex-disjoint paths
+   and cycles. A cycle becomes a ring: its end's pick is taken by the start, which is the ring of a plain round. A
+   path end whose pick was released is an end with a predecessor, because it holds a received pick.
+3. *Gains.* Every agent's value only rises along the two moves: v_b(B₂[b]) > v_b(B₁[b]) ≥ v_b(Y_b), with B₁ > Y on
+   P₁. In the round each agent counts its composite predecessor's pick, its relevant junk and the released picks it
+   may take. So its round gain equals v_b(B₂[b]) − v_b(Y_b) > 0 unless b holds a released pick that the round
+   forbids it to take.
+4. *The completion is unchanged,* so it still has one absorber.
+
+So the two moves are one ROUND-P round (pooled) except in one case. **The exception:** an agent that is an *end* of
+the composite structure holds a released pick that it needs. A typical case is P₂'s head taking Y_{x_t} as junk.
+Then only the wide form of §4.2, where ends may take, covers it. When P₂ meets P₁ (always at n = 4 in multi's data:
+P₂'s head is an agent of E(k)), the composite is a single chain or two chains on the same agents. The released picks
+are then taken by non-end agents of their own chain, which is a round of OC₁′ moves.
+
+Consequence: *REC-S existence implies ROUND-P* at every start where the exception does not occur. A proof of the
+splice, with the exception closed, would reduce ROUND-P to REC-S's open existence part (§23.4 item 4 of
+`k4/oc1_hall.md`). On the data the exception never occurs: 112,880 of 112,880 n = 4 starts.
 
 ## 5. n = 3
 
