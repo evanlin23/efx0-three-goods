@@ -858,7 +858,29 @@ trade with (F1)–(F3) exists at every one of the 42,009 trade starts of DEMOTE-
 trade with (F1)–(F3). So the trade case at n = 5 is closed up to the facts (F1)–(F3), which are now hypergraph and
 order facts about Y: d wants p's pick; nobody off the path wants d's pick; and Y_p's hyperedge is {p, d, u}.
 
-*Open:* (F1)–(F3) from the hardness of Y.
+*Open:* (F1)–(F3) from the hardness of Y. Burst 6 settles (F2) and replaces (F1), (F3) by a weaker target.
+
+**Lemma ORD and (F2) (PROVED, written here, not refereed; any n, strict additive values).** In RF-T's setting,
+σ = (a₁, …, a_{n−2}, d, u): u is the last agent of σ and d the last of σ′. Hence only u can want Y_d at Y, and (F2)
+holds. More generally, every agent other than u is frozen at Y, and every agent other than d is frozen at Y′.
+
+*Proof.* Under serial dictatorship an agent a can want b's pick only if b picks before a: if a picks first, Y_b was
+free at a's turn and a chose Y_a, so v_a(Y_a) > v_a(Y_b). So the last picker of an order is a receiver. Y has the one
+receiver u, so u = σ_n. Y′ has the one receiver d (RF-T's setting; RF-PATH (c) says d is unfrozen), and the last
+picker of σ′ = (u, σ − u) is σ_{n−1}, so d = σ_{n−1}. An agent that wants Y_d at Y picks after d in σ, so it is u.
+u is on the path, so no off-path agent wants Y_d, which is (F2). ∎
+
+*Checks.* In the counterfactual sample below, all 454 RF-T settings have u = σ_n and d = σ′_n. (F2) holds at all of
+them, while Y fails OC₁ at none. In a sample of the wider stage "path length ≥ 2, d takes junk", (F2) holds at all
+306 configurations where Y′ has one receiver. With |U′| ≥ 2 it fails at 254 of 729: there the extra receiver is
+typically the agent that wants Y_d.
+
+*Consequences for RF-T.* With ORD, the proof of Corollary RF-T′ reduces (W-d) to the single inequality
+- **(F1′)** v_d(Y_p) + v_d(Y_u) > v_d(Y_d) (d's X-bundle {Y_p, Y_u} beats Y_d; implied by (F1)).
+
+The off-path agents are handled by (F2), the path agents and u as in that proof. (W-p) can fail only at an agent q ∉
+{p, d, u} that picks after p in σ: either an off-path agent wanting Y_p at Y, or a path agent x_s with v(Y_p) >
+v(X_{x_s}). Agents before p had Y_p free at their turn.
 
 **The SINK form of DEMOTE** (CONJECTURE; proposed jointly with oc1-hall; `k4/girth/oc1_sink.py`,
 `results/k4_girth_oc1_sink.log`). At every RF start with maximum-matching picks, Y′ or the state after one DEMOTE move
@@ -889,6 +911,48 @@ re-coded). Is the RF start Y′ σ-maximal for its profile?
 The failing start Y is never σ-maximal (0 in every class). So at n = 5 the residue classes DEMOTE-0 and (1, 3) never
 arise at a rank-maximal start: a proof of RKMAX would not meet them there. At n = 4 they arise rarely. RF raises σ at
 most but not all RF starts (n = 5 DEMOTE-0: 104,429 of 113,484; (1, 3): all 7,733).
+
+**One-receiver σ-maximal starts at n = 5** (burst 6, coordinator's question after oc1-hall's census, `k4/oc1_hall.md`
+§24.14 on `claude/k4-oc1-hall`, which found σ-maximal vectors with one receiver and |D_T| ∈ {0, 2}, e.g. 5_pure#358).
+Do NA, RF-A1\*, RF-T′ and the 3-ring certificate cover them? `k4/girth/oc1_rkmax_rand.py` regenerates them
+independently: 120 random strict balanced order types per pure n = 5 core (560,880 profiles), all 120 SD orders, the
+maximum-matching vectors, σ as in `k4/girth/oc1_rkmax.py`, and every σ-maximal vector with exactly one receiver d
+(`results/k4_girth_oc1_rkmax_rand.log`; every vector that needs a move, with its repairing moves, in
+`results/k4_girth_oc1_rkmax_moves_n5.jsonl.gz`). The forms are tested intrinsically (at the vector itself) and, for
+RF-A1\*, RF-T′ and the 3-ring, under every *virtual RF* realization: an order τ giving the vector with first picker
+u₀ such that u₀ is a receiver of Y = SD(τ − u₀, u₀), which makes the vector the RF start of (Y, u₀) (the setting of
+RF-PATH and RF-T; Y need not fail). EVIDENCE.
+
+| class (\|U\|, \|D_T\|) | vectors | complete at the picks | one move | OC₁ fails |
+|---|---|---|---|---|
+| (1, 0) | 311 | 250 | 61 | 0 |
+| (1, 1) | 57 | 4 | 53 | 0 |
+| (1, 2) | 7 | 0 | 7 | 0 |
+
+- *(1, 0), at the picks* (250): NA (no owner) at all 136 with |J| ≤ 1; the receiver d owns a one-absorber completion
+  (DEMOTE (i)) at all 114 with |J| ≥ 2. RF-A1\* (owner w ≠ d) is never needed.
+- *(1, 0), one move* (61): the 3-ring certificate (some official 3-ring c₁ → c₂ → d, then d absorbs all remaining
+  junk) covers **17**. RF-T′'s certificate (the canonical X with (F1)–(F3)) applies at **none**, under any virtual RF.
+  The other 44 split as follows:
+  - 23 trades (T) (c₁ pick-dangerous takes {Y_d, j}, d takes Y_{c₁}), not in RF-T's shape;
+  - 1 3-ring (T\*) without the certificate;
+  - **17 chains with a pick-dangerous tail** (|J| = 2: 14; |J| = 3: 3): c ∈ D_p takes all of J, its pick goes to the
+    receiver (11), a frozen agent (5) or another pick-dangerous agent (1). This form is outside DEMOTE's (C), whose
+    tail is truly dangerous: at an RF start of DEMOTE-0, D_T′ = ∅, and the tail is never needed;
+  - **3 two-junk trades**: c takes {Y_d, j, j′}, d takes Y_c (|J| = 3).
+- *(1, 1)* (= U1, Corollary U1): 4 at the picks (owner d); 48 (C), 5 (T). The RF-B form (the head absorbs its old
+  pick and all the junk left) holds at 21.
+- *(1, 2)*: all 7 by (C); the RF-B form holds at 4.
+- *SINK* (absorber w or d of a virtual RF, at the picks or after one DEMOTE move) holds at every vector with |J| ≥ 2
+  except the 20 that need the two new forms. After those, at most one good is left (c takes all of J, or all but one
+  junk good), so the SINK shape holds there trivially.
+- On oc1-hall's 12 logged profiles (`results/k4_girth_oc1_rkmax_hall.log`; their random integer values): (1, 0) 22,
+  all NA (|J| = 1); (1, 2) 5: (C) 4 (RF-B form at 2), and on 5_pure#358 a trade (T) outside the named forms, with SINK
+  holding after it.
+
+So the answer is **no**: on one-receiver σ-maximal starts, NA / owner d / the 3-ring certificate cover 250 + 17 of the
+311 (1, 0) vectors. A proof of RKMAX along these lines also needs (a) the trade (T) outside RF-T's |J| = 3 shape,
+(b) chains with a pick-dangerous tail, (c) two-junk trades; U1 and DEMOTE-2 behave as at RF starts.
 
 **DEMOTE-0 at n = 5, the whole class** (113,484 starts of the full exports). The joint statement with the k3-oc1
 session is **"NA (no owner) at the picks; otherwise RF-T′ or the 3-ring"** (`k4/k3_oc1.md` §13.5 on
