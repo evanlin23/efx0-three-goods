@@ -1,0 +1,5 @@
+$ MODE=GR python3 k4/base_phantom/check_rules.py results/k4_base_phantom/data/onemove_hard_pw291.jsonl.gz 1
+distinct starts checked: 291
+       291  SAFE
+       291  base used: final round
+       291  states visited

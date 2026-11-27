@@ -1,0 +1,85 @@
+$ RULES=any,noP1,P1ok,E+noP1,E python3 k4/base_phantom/rules.py n5partial results/k4_base_phantom/data/two_move_starts_n5_partial6_s50.jsonl.gz - 1
+distinct starts: 14047
+  rule           terminal states                               safe  unsafe |   good  not good
+  any            completion                                    10548    3499 |  14047       0
+  any            completion or a base repair <= C0             10548    3499 |  14047       0
+  any            completion or a base repair <= ED             10548    3499 |  14047       0
+  any            completion or a base repair <= C1             10548    3499 |  14047       0
+  any            completion or a base repair <= C3             10548    3499 |  14047       0
+  any            completion, or a final round                  12676    1371 |  14047       0
+  any            completion, or a final round or a base repair <= C0  12676    1371 |  14047       0
+  any            completion, or a final round or a base repair <= ED  12676    1371 |  14047       0
+  any>           completion                                    10548    3499 |  14047       0
+  any>           completion or a base repair <= C0             10548    3499 |  14047       0
+  any>           completion or a base repair <= ED             10548    3499 |  14047       0
+  any>           completion or a base repair <= C1             10548    3499 |  14047       0
+  any>           completion or a base repair <= C3             10548    3499 |  14047       0
+  any>           completion, or a final round                  12676    1371 |  14047       0
+  any>           completion, or a final round or a base repair <= C0  12676    1371 |  14047       0
+  any>           completion, or a final round or a base repair <= ED  12676    1371 |  14047       0
+  noP1           completion                                    12882    1165 |  12882    1165
+  noP1           completion or a base repair <= C0             14047       0 |  14047       0
+  noP1           completion or a base repair <= ED             14047       0 |  14047       0
+  noP1           completion or a base repair <= C1             14047       0 |  14047       0
+  noP1           completion or a base repair <= C3             14047       0 |  14047       0
+  noP1           completion, or a final round                  14047       0 |  14047       0
+  noP1           completion, or a final round or a base repair <= C0  14047       0 |  14047       0
+  noP1           completion, or a final round or a base repair <= ED  14047       0 |  14047       0
+  noP1>          completion                                    14047       0 |  14047       0
+  noP1>          completion or a base repair <= C0             14047       0 |  14047       0
+  noP1>          completion or a base repair <= ED             14047       0 |  14047       0
+  noP1>          completion or a base repair <= C1             14047       0 |  14047       0
+  noP1>          completion or a base repair <= C3             14047       0 |  14047       0
+  noP1>          completion, or a final round                  14047       0 |  14047       0
+  noP1>          completion, or a final round or a base repair <= C0  14047       0 |  14047       0
+  noP1>          completion, or a final round or a base repair <= ED  14047       0 |  14047       0
+  P1ok           completion                                    13470     577 |  13470     577
+  P1ok           completion or a base repair <= C0             14047       0 |  14047       0
+  P1ok           completion or a base repair <= ED             14047       0 |  14047       0
+  P1ok           completion or a base repair <= C1             14047       0 |  14047       0
+  P1ok           completion or a base repair <= C3             14047       0 |  14047       0
+  P1ok           completion, or a final round                  14047       0 |  14047       0
+  P1ok           completion, or a final round or a base repair <= C0  14047       0 |  14047       0
+  P1ok           completion, or a final round or a base repair <= ED  14047       0 |  14047       0
+  P1ok>          completion                                    14047       0 |  14047       0
+  P1ok>          completion or a base repair <= C0             14047       0 |  14047       0
+  P1ok>          completion or a base repair <= ED             14047       0 |  14047       0
+  P1ok>          completion or a base repair <= C1             14047       0 |  14047       0
+  P1ok>          completion or a base repair <= C3             14047       0 |  14047       0
+  P1ok>          completion, or a final round                  14047       0 |  14047       0
+  P1ok>          completion, or a final round or a base repair <= C0  14047       0 |  14047       0
+  P1ok>          completion, or a final round or a base repair <= ED  14047       0 |  14047       0
+  E+noP1         completion                                    12882    1165 |  12882    1165
+  E+noP1         completion or a base repair <= C0             14047       0 |  14047       0
+  E+noP1         completion or a base repair <= ED             14047       0 |  14047       0
+  E+noP1         completion or a base repair <= C1             14047       0 |  14047       0
+  E+noP1         completion or a base repair <= C3             14047       0 |  14047       0
+  E+noP1         completion, or a final round                  14047       0 |  14047       0
+  E+noP1         completion, or a final round or a base repair <= C0  14047       0 |  14047       0
+  E+noP1         completion, or a final round or a base repair <= ED  14047       0 |  14047       0
+  E+noP1>        completion                                    14047       0 |  14047       0
+  E+noP1>        completion or a base repair <= C0             14047       0 |  14047       0
+  E+noP1>        completion or a base repair <= ED             14047       0 |  14047       0
+  E+noP1>        completion or a base repair <= C1             14047       0 |  14047       0
+  E+noP1>        completion or a base repair <= C3             14047       0 |  14047       0
+  E+noP1>        completion, or a final round                  14047       0 |  14047       0
+  E+noP1>        completion, or a final round or a base repair <= C0  14047       0 |  14047       0
+  E+noP1>        completion, or a final round or a base repair <= ED  14047       0 |  14047       0
+  E              completion                                    10942    3105 |  14047       0
+  E              completion or a base repair <= C0             11108    2939 |  14047       0
+  E              completion or a base repair <= ED             11108    2939 |  14047       0
+  E              completion or a base repair <= C1             11108    2939 |  14047       0
+  E              completion or a base repair <= C3             11108    2939 |  14047       0
+  E              completion, or a final round                  12695    1352 |  14047       0
+  E              completion, or a final round or a base repair <= C0  12861    1186 |  14047       0
+  E              completion, or a final round or a base repair <= ED  12861    1186 |  14047       0
+  E>             completion                                    10942    3105 |  14047       0
+  E>             completion or a base repair <= C0             11108    2939 |  14047       0
+  E>             completion or a base repair <= ED             11108    2939 |  14047       0
+  E>             completion or a base repair <= C1             11108    2939 |  14047       0
+  E>             completion or a base repair <= C3             11108    2939 |  14047       0
+  E>             completion, or a final round                  12695    1352 |  14047       0
+  E>             completion, or a final round or a base repair <= C0  12861    1186 |  14047       0
+  E>             completion, or a final round or a base repair <= ED  12861    1186 |  14047       0
+  unsafe under noP1 or noP1> with base ED, 0 cases; smallest:
+  unsafe under P1ok or P1ok> with base ED, 0 cases; smallest:

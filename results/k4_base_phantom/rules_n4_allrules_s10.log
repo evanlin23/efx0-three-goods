@@ -1,0 +1,309 @@
+$ RULES=any,E,Efull,full,best,bestk,sat,noP1,P1junk,P1ok,pair,triple,E+best,E+bestk,Efull+bestk,full+bestk,E+noP1,bestk+noP1,E+P1ok python3 k4/base_phantom/rules.py n4s10 results/k4_base_phantom/data/two_move_starts_n4.json.gz - 10
+distinct starts: 11288
+  rule           terminal states                               safe  unsafe |   good  not good
+  any            completion                                     9653    1635 |  11288       0
+  any            completion or a base repair <= C0              9653    1635 |  11288       0
+  any            completion or a base repair <= ED              9653    1635 |  11288       0
+  any            completion or a base repair <= C1              9653    1635 |  11288       0
+  any            completion or a base repair <= C3              9653    1635 |  11288       0
+  any            completion, or a final round                   9653    1635 |  11288       0
+  any            completion, or a final round or a base repair <= C0   9653    1635 |  11288       0
+  any            completion, or a final round or a base repair <= ED   9653    1635 |  11288       0
+  any>           completion                                     9653    1635 |  11288       0
+  any>           completion or a base repair <= C0              9653    1635 |  11288       0
+  any>           completion or a base repair <= ED              9653    1635 |  11288       0
+  any>           completion or a base repair <= C1              9653    1635 |  11288       0
+  any>           completion or a base repair <= C3              9653    1635 |  11288       0
+  any>           completion, or a final round                   9653    1635 |  11288       0
+  any>           completion, or a final round or a base repair <= C0   9653    1635 |  11288       0
+  any>           completion, or a final round or a base repair <= ED   9653    1635 |  11288       0
+  E              completion                                     9653    1635 |  11288       0
+  E              completion or a base repair <= C0              9974    1314 |  11288       0
+  E              completion or a base repair <= ED              9974    1314 |  11288       0
+  E              completion or a base repair <= C1              9974    1314 |  11288       0
+  E              completion or a base repair <= C3              9974    1314 |  11288       0
+  E              completion, or a final round                   9974    1314 |  11288       0
+  E              completion, or a final round or a base repair <= C0   9974    1314 |  11288       0
+  E              completion, or a final round or a base repair <= ED   9974    1314 |  11288       0
+  E>             completion                                     9653    1635 |  11288       0
+  E>             completion or a base repair <= C0              9974    1314 |  11288       0
+  E>             completion or a base repair <= ED              9974    1314 |  11288       0
+  E>             completion or a base repair <= C1              9974    1314 |  11288       0
+  E>             completion or a base repair <= C3              9974    1314 |  11288       0
+  E>             completion, or a final round                   9974    1314 |  11288       0
+  E>             completion, or a final round or a base repair <= C0   9974    1314 |  11288       0
+  E>             completion, or a final round or a base repair <= ED   9974    1314 |  11288       0
+  Efull          completion                                     9653    1635 |  11288       0
+  Efull          completion or a base repair <= C0              9974    1314 |  11288       0
+  Efull          completion or a base repair <= ED              9974    1314 |  11288       0
+  Efull          completion or a base repair <= C1              9974    1314 |  11288       0
+  Efull          completion or a base repair <= C3              9974    1314 |  11288       0
+  Efull          completion, or a final round                   9974    1314 |  11288       0
+  Efull          completion, or a final round or a base repair <= C0   9974    1314 |  11288       0
+  Efull          completion, or a final round or a base repair <= ED   9974    1314 |  11288       0
+  Efull>         completion                                     9653    1635 |  11288       0
+  Efull>         completion or a base repair <= C0              9974    1314 |  11288       0
+  Efull>         completion or a base repair <= ED              9974    1314 |  11288       0
+  Efull>         completion or a base repair <= C1              9974    1314 |  11288       0
+  Efull>         completion or a base repair <= C3              9974    1314 |  11288       0
+  Efull>         completion, or a final round                   9974    1314 |  11288       0
+  Efull>         completion, or a final round or a base repair <= C0   9974    1314 |  11288       0
+  Efull>         completion, or a final round or a base repair <= ED   9974    1314 |  11288       0
+  full           completion                                     9653    1635 |  11288       0
+  full           completion or a base repair <= C0              9653    1635 |  11288       0
+  full           completion or a base repair <= ED              9653    1635 |  11288       0
+  full           completion or a base repair <= C1              9653    1635 |  11288       0
+  full           completion or a base repair <= C3              9653    1635 |  11288       0
+  full           completion, or a final round                   9653    1635 |  11288       0
+  full           completion, or a final round or a base repair <= C0   9653    1635 |  11288       0
+  full           completion, or a final round or a base repair <= ED   9653    1635 |  11288       0
+  full>          completion                                     9653    1635 |  11288       0
+  full>          completion or a base repair <= C0              9653    1635 |  11288       0
+  full>          completion or a base repair <= ED              9653    1635 |  11288       0
+  full>          completion or a base repair <= C1              9653    1635 |  11288       0
+  full>          completion or a base repair <= C3              9653    1635 |  11288       0
+  full>          completion, or a final round                   9653    1635 |  11288       0
+  full>          completion, or a final round or a base repair <= C0   9653    1635 |  11288       0
+  full>          completion, or a final round or a base repair <= ED   9653    1635 |  11288       0
+  best           completion                                     9653    1635 |  11256      32
+  best           completion or a base repair <= C0              9653    1635 |  11288       0
+  best           completion or a base repair <= ED              9653    1635 |  11288       0
+  best           completion or a base repair <= C1              9653    1635 |  11288       0
+  best           completion or a base repair <= C3              9653    1635 |  11288       0
+  best           completion, or a final round                   9653    1635 |  11288       0
+  best           completion, or a final round or a base repair <= C0   9653    1635 |  11288       0
+  best           completion, or a final round or a base repair <= ED   9653    1635 |  11288       0
+  best>          completion                                     9653    1635 |  11288       0
+  best>          completion or a base repair <= C0              9653    1635 |  11288       0
+  best>          completion or a base repair <= ED              9653    1635 |  11288       0
+  best>          completion or a base repair <= C1              9653    1635 |  11288       0
+  best>          completion or a base repair <= C3              9653    1635 |  11288       0
+  best>          completion, or a final round                   9653    1635 |  11288       0
+  best>          completion, or a final round or a base repair <= C0   9653    1635 |  11288       0
+  best>          completion, or a final round or a base repair <= ED   9653    1635 |  11288       0
+  bestk          completion                                     9653    1635 |  11216      72
+  bestk          completion or a base repair <= C0              9653    1635 |  11288       0
+  bestk          completion or a base repair <= ED              9653    1635 |  11288       0
+  bestk          completion or a base repair <= C1              9653    1635 |  11288       0
+  bestk          completion or a base repair <= C3              9653    1635 |  11288       0
+  bestk          completion, or a final round                   9653    1635 |  11288       0
+  bestk          completion, or a final round or a base repair <= C0   9653    1635 |  11288       0
+  bestk          completion, or a final round or a base repair <= ED   9653    1635 |  11288       0
+  bestk>         completion                                     9653    1635 |  11288       0
+  bestk>         completion or a base repair <= C0              9653    1635 |  11288       0
+  bestk>         completion or a base repair <= ED              9653    1635 |  11288       0
+  bestk>         completion or a base repair <= C1              9653    1635 |  11288       0
+  bestk>         completion or a base repair <= C3              9653    1635 |  11288       0
+  bestk>         completion, or a final round                   9653    1635 |  11288       0
+  bestk>         completion, or a final round or a base repair <= C0   9653    1635 |  11288       0
+  bestk>         completion, or a final round or a base repair <= ED   9653    1635 |  11288       0
+  sat            completion                                     2566    8722 |   2566    8722
+  sat            completion or a base repair <= C0              3875    7413 |   3875    7413
+  sat            completion or a base repair <= ED              3875    7413 |   3875    7413
+  sat            completion or a base repair <= C1              3875    7413 |   3875    7413
+  sat            completion or a base repair <= C3              3875    7413 |   3875    7413
+  sat            completion, or a final round                   3875    7413 |   3875    7413
+  sat            completion, or a final round or a base repair <= C0   3875    7413 |   3875    7413
+  sat            completion, or a final round or a base repair <= ED   3875    7413 |   3875    7413
+  sat>           completion                                     9653    1635 |  11288       0
+  sat>           completion or a base repair <= C0              9653    1635 |  11288       0
+  sat>           completion or a base repair <= ED              9653    1635 |  11288       0
+  sat>           completion or a base repair <= C1              9653    1635 |  11288       0
+  sat>           completion or a base repair <= C3              9653    1635 |  11288       0
+  sat>           completion, or a final round                   9653    1635 |  11288       0
+  sat>           completion, or a final round or a base repair <= C0   9653    1635 |  11288       0
+  sat>           completion, or a final round or a base repair <= ED   9653    1635 |  11288       0
+  noP1           completion                                    11288       0 |  11288       0
+  noP1           completion or a base repair <= C0             11288       0 |  11288       0
+  noP1           completion or a base repair <= ED             11288       0 |  11288       0
+  noP1           completion or a base repair <= C1             11288       0 |  11288       0
+  noP1           completion or a base repair <= C3             11288       0 |  11288       0
+  noP1           completion, or a final round                  11288       0 |  11288       0
+  noP1           completion, or a final round or a base repair <= C0  11288       0 |  11288       0
+  noP1           completion, or a final round or a base repair <= ED  11288       0 |  11288       0
+  noP1>          completion                                    11288       0 |  11288       0
+  noP1>          completion or a base repair <= C0             11288       0 |  11288       0
+  noP1>          completion or a base repair <= ED             11288       0 |  11288       0
+  noP1>          completion or a base repair <= C1             11288       0 |  11288       0
+  noP1>          completion or a base repair <= C3             11288       0 |  11288       0
+  noP1>          completion, or a final round                  11288       0 |  11288       0
+  noP1>          completion, or a final round or a base repair <= C0  11288       0 |  11288       0
+  noP1>          completion, or a final round or a base repair <= ED  11288       0 |  11288       0
+  P1junk         completion                                    11288       0 |  11288       0
+  P1junk         completion or a base repair <= C0             11288       0 |  11288       0
+  P1junk         completion or a base repair <= ED             11288       0 |  11288       0
+  P1junk         completion or a base repair <= C1             11288       0 |  11288       0
+  P1junk         completion or a base repair <= C3             11288       0 |  11288       0
+  P1junk         completion, or a final round                  11288       0 |  11288       0
+  P1junk         completion, or a final round or a base repair <= C0  11288       0 |  11288       0
+  P1junk         completion, or a final round or a base repair <= ED  11288       0 |  11288       0
+  P1junk>        completion                                    11288       0 |  11288       0
+  P1junk>        completion or a base repair <= C0             11288       0 |  11288       0
+  P1junk>        completion or a base repair <= ED             11288       0 |  11288       0
+  P1junk>        completion or a base repair <= C1             11288       0 |  11288       0
+  P1junk>        completion or a base repair <= C3             11288       0 |  11288       0
+  P1junk>        completion, or a final round                  11288       0 |  11288       0
+  P1junk>        completion, or a final round or a base repair <= C0  11288       0 |  11288       0
+  P1junk>        completion, or a final round or a base repair <= ED  11288       0 |  11288       0
+  P1ok           completion                                    11288       0 |  11288       0
+  P1ok           completion or a base repair <= C0             11288       0 |  11288       0
+  P1ok           completion or a base repair <= ED             11288       0 |  11288       0
+  P1ok           completion or a base repair <= C1             11288       0 |  11288       0
+  P1ok           completion or a base repair <= C3             11288       0 |  11288       0
+  P1ok           completion, or a final round                  11288       0 |  11288       0
+  P1ok           completion, or a final round or a base repair <= C0  11288       0 |  11288       0
+  P1ok           completion, or a final round or a base repair <= ED  11288       0 |  11288       0
+  P1ok>          completion                                    11288       0 |  11288       0
+  P1ok>          completion or a base repair <= C0             11288       0 |  11288       0
+  P1ok>          completion or a base repair <= ED             11288       0 |  11288       0
+  P1ok>          completion or a base repair <= C1             11288       0 |  11288       0
+  P1ok>          completion or a base repair <= C3             11288       0 |  11288       0
+  P1ok>          completion, or a final round                  11288       0 |  11288       0
+  P1ok>          completion, or a final round or a base repair <= C0  11288       0 |  11288       0
+  P1ok>          completion, or a final round or a base repair <= ED  11288       0 |  11288       0
+  pair           completion                                     8871    2417 |  10506     782
+  pair           completion or a base repair <= C0              9653    1635 |  11288       0
+  pair           completion or a base repair <= ED              9653    1635 |  11288       0
+  pair           completion or a base repair <= C1              9653    1635 |  11288       0
+  pair           completion or a base repair <= C3              9653    1635 |  11288       0
+  pair           completion, or a final round                   9653    1635 |  11288       0
+  pair           completion, or a final round or a base repair <= C0   9653    1635 |  11288       0
+  pair           completion, or a final round or a base repair <= ED   9653    1635 |  11288       0
+  pair>          completion                                     9653    1635 |  11288       0
+  pair>          completion or a base repair <= C0              9653    1635 |  11288       0
+  pair>          completion or a base repair <= ED              9653    1635 |  11288       0
+  pair>          completion or a base repair <= C1              9653    1635 |  11288       0
+  pair>          completion or a base repair <= C3              9653    1635 |  11288       0
+  pair>          completion, or a final round                   9653    1635 |  11288       0
+  pair>          completion, or a final round or a base repair <= C0   9653    1635 |  11288       0
+  pair>          completion, or a final round or a base repair <= ED   9653    1635 |  11288       0
+  triple         completion                                        0   11288 |      0   11288
+  triple         completion or a base repair <= C0                 0   11288 |      0   11288
+  triple         completion or a base repair <= ED                 0   11288 |      0   11288
+  triple         completion or a base repair <= C1                 0   11288 |      0   11288
+  triple         completion or a base repair <= C3                 0   11288 |      0   11288
+  triple         completion, or a final round                      0   11288 |      0   11288
+  triple         completion, or a final round or a base repair <= C0      0   11288 |      0   11288
+  triple         completion, or a final round or a base repair <= ED      0   11288 |      0   11288
+  triple>        completion                                     9653    1635 |  11288       0
+  triple>        completion or a base repair <= C0              9653    1635 |  11288       0
+  triple>        completion or a base repair <= ED              9653    1635 |  11288       0
+  triple>        completion or a base repair <= C1              9653    1635 |  11288       0
+  triple>        completion or a base repair <= C3              9653    1635 |  11288       0
+  triple>        completion, or a final round                   9653    1635 |  11288       0
+  triple>        completion, or a final round or a base repair <= C0   9653    1635 |  11288       0
+  triple>        completion, or a final round or a base repair <= ED   9653    1635 |  11288       0
+  E+best         completion                                     9974    1314 |  11256      32
+  E+best         completion or a base repair <= C0              9974    1314 |  11288       0
+  E+best         completion or a base repair <= ED              9974    1314 |  11288       0
+  E+best         completion or a base repair <= C1              9974    1314 |  11288       0
+  E+best         completion or a base repair <= C3              9974    1314 |  11288       0
+  E+best         completion, or a final round                   9974    1314 |  11288       0
+  E+best         completion, or a final round or a base repair <= C0   9974    1314 |  11288       0
+  E+best         completion, or a final round or a base repair <= ED   9974    1314 |  11288       0
+  E+best>        completion                                     9974    1314 |  11288       0
+  E+best>        completion or a base repair <= C0              9974    1314 |  11288       0
+  E+best>        completion or a base repair <= ED              9974    1314 |  11288       0
+  E+best>        completion or a base repair <= C1              9974    1314 |  11288       0
+  E+best>        completion or a base repair <= C3              9974    1314 |  11288       0
+  E+best>        completion, or a final round                   9974    1314 |  11288       0
+  E+best>        completion, or a final round or a base repair <= C0   9974    1314 |  11288       0
+  E+best>        completion, or a final round or a base repair <= ED   9974    1314 |  11288       0
+  E+bestk        completion                                     9974    1314 |  11216      72
+  E+bestk        completion or a base repair <= C0              9974    1314 |  11288       0
+  E+bestk        completion or a base repair <= ED              9974    1314 |  11288       0
+  E+bestk        completion or a base repair <= C1              9974    1314 |  11288       0
+  E+bestk        completion or a base repair <= C3              9974    1314 |  11288       0
+  E+bestk        completion, or a final round                   9974    1314 |  11288       0
+  E+bestk        completion, or a final round or a base repair <= C0   9974    1314 |  11288       0
+  E+bestk        completion, or a final round or a base repair <= ED   9974    1314 |  11288       0
+  E+bestk>       completion                                     9974    1314 |  11288       0
+  E+bestk>       completion or a base repair <= C0              9974    1314 |  11288       0
+  E+bestk>       completion or a base repair <= ED              9974    1314 |  11288       0
+  E+bestk>       completion or a base repair <= C1              9974    1314 |  11288       0
+  E+bestk>       completion or a base repair <= C3              9974    1314 |  11288       0
+  E+bestk>       completion, or a final round                   9974    1314 |  11288       0
+  E+bestk>       completion, or a final round or a base repair <= C0   9974    1314 |  11288       0
+  E+bestk>       completion, or a final round or a base repair <= ED   9974    1314 |  11288       0
+  Efull+bestk    completion                                     9974    1314 |  11216      72
+  Efull+bestk    completion or a base repair <= C0              9974    1314 |  11288       0
+  Efull+bestk    completion or a base repair <= ED              9974    1314 |  11288       0
+  Efull+bestk    completion or a base repair <= C1              9974    1314 |  11288       0
+  Efull+bestk    completion or a base repair <= C3              9974    1314 |  11288       0
+  Efull+bestk    completion, or a final round                   9974    1314 |  11288       0
+  Efull+bestk    completion, or a final round or a base repair <= C0   9974    1314 |  11288       0
+  Efull+bestk    completion, or a final round or a base repair <= ED   9974    1314 |  11288       0
+  Efull+bestk>   completion                                     9974    1314 |  11288       0
+  Efull+bestk>   completion or a base repair <= C0              9974    1314 |  11288       0
+  Efull+bestk>   completion or a base repair <= ED              9974    1314 |  11288       0
+  Efull+bestk>   completion or a base repair <= C1              9974    1314 |  11288       0
+  Efull+bestk>   completion or a base repair <= C3              9974    1314 |  11288       0
+  Efull+bestk>   completion, or a final round                   9974    1314 |  11288       0
+  Efull+bestk>   completion, or a final round or a base repair <= C0   9974    1314 |  11288       0
+  Efull+bestk>   completion, or a final round or a base repair <= ED   9974    1314 |  11288       0
+  full+bestk     completion                                     9653    1635 |  11216      72
+  full+bestk     completion or a base repair <= C0              9653    1635 |  11288       0
+  full+bestk     completion or a base repair <= ED              9653    1635 |  11288       0
+  full+bestk     completion or a base repair <= C1              9653    1635 |  11288       0
+  full+bestk     completion or a base repair <= C3              9653    1635 |  11288       0
+  full+bestk     completion, or a final round                   9653    1635 |  11288       0
+  full+bestk     completion, or a final round or a base repair <= C0   9653    1635 |  11288       0
+  full+bestk     completion, or a final round or a base repair <= ED   9653    1635 |  11288       0
+  full+bestk>    completion                                     9653    1635 |  11288       0
+  full+bestk>    completion or a base repair <= C0              9653    1635 |  11288       0
+  full+bestk>    completion or a base repair <= ED              9653    1635 |  11288       0
+  full+bestk>    completion or a base repair <= C1              9653    1635 |  11288       0
+  full+bestk>    completion or a base repair <= C3              9653    1635 |  11288       0
+  full+bestk>    completion, or a final round                   9653    1635 |  11288       0
+  full+bestk>    completion, or a final round or a base repair <= C0   9653    1635 |  11288       0
+  full+bestk>    completion, or a final round or a base repair <= ED   9653    1635 |  11288       0
+  E+noP1         completion                                    11288       0 |  11288       0
+  E+noP1         completion or a base repair <= C0             11288       0 |  11288       0
+  E+noP1         completion or a base repair <= ED             11288       0 |  11288       0
+  E+noP1         completion or a base repair <= C1             11288       0 |  11288       0
+  E+noP1         completion or a base repair <= C3             11288       0 |  11288       0
+  E+noP1         completion, or a final round                  11288       0 |  11288       0
+  E+noP1         completion, or a final round or a base repair <= C0  11288       0 |  11288       0
+  E+noP1         completion, or a final round or a base repair <= ED  11288       0 |  11288       0
+  E+noP1>        completion                                    11288       0 |  11288       0
+  E+noP1>        completion or a base repair <= C0             11288       0 |  11288       0
+  E+noP1>        completion or a base repair <= ED             11288       0 |  11288       0
+  E+noP1>        completion or a base repair <= C1             11288       0 |  11288       0
+  E+noP1>        completion or a base repair <= C3             11288       0 |  11288       0
+  E+noP1>        completion, or a final round                  11288       0 |  11288       0
+  E+noP1>        completion, or a final round or a base repair <= C0  11288       0 |  11288       0
+  E+noP1>        completion, or a final round or a base repair <= ED  11288       0 |  11288       0
+  bestk+noP1     completion                                    11216      72 |  11216      72
+  bestk+noP1     completion or a base repair <= C0             11288       0 |  11288       0
+  bestk+noP1     completion or a base repair <= ED             11288       0 |  11288       0
+  bestk+noP1     completion or a base repair <= C1             11288       0 |  11288       0
+  bestk+noP1     completion or a base repair <= C3             11288       0 |  11288       0
+  bestk+noP1     completion, or a final round                  11288       0 |  11288       0
+  bestk+noP1     completion, or a final round or a base repair <= C0  11288       0 |  11288       0
+  bestk+noP1     completion, or a final round or a base repair <= ED  11288       0 |  11288       0
+  bestk+noP1>    completion                                    11288       0 |  11288       0
+  bestk+noP1>    completion or a base repair <= C0             11288       0 |  11288       0
+  bestk+noP1>    completion or a base repair <= ED             11288       0 |  11288       0
+  bestk+noP1>    completion or a base repair <= C1             11288       0 |  11288       0
+  bestk+noP1>    completion or a base repair <= C3             11288       0 |  11288       0
+  bestk+noP1>    completion, or a final round                  11288       0 |  11288       0
+  bestk+noP1>    completion, or a final round or a base repair <= C0  11288       0 |  11288       0
+  bestk+noP1>    completion, or a final round or a base repair <= ED  11288       0 |  11288       0
+  E+P1ok         completion                                    11288       0 |  11288       0
+  E+P1ok         completion or a base repair <= C0             11288       0 |  11288       0
+  E+P1ok         completion or a base repair <= ED             11288       0 |  11288       0
+  E+P1ok         completion or a base repair <= C1             11288       0 |  11288       0
+  E+P1ok         completion or a base repair <= C3             11288       0 |  11288       0
+  E+P1ok         completion, or a final round                  11288       0 |  11288       0
+  E+P1ok         completion, or a final round or a base repair <= C0  11288       0 |  11288       0
+  E+P1ok         completion, or a final round or a base repair <= ED  11288       0 |  11288       0
+  E+P1ok>        completion                                    11288       0 |  11288       0
+  E+P1ok>        completion or a base repair <= C0             11288       0 |  11288       0
+  E+P1ok>        completion or a base repair <= ED             11288       0 |  11288       0
+  E+P1ok>        completion or a base repair <= C1             11288       0 |  11288       0
+  E+P1ok>        completion or a base repair <= C3             11288       0 |  11288       0
+  E+P1ok>        completion, or a final round                  11288       0 |  11288       0
+  E+P1ok>        completion, or a final round or a base repair <= C0  11288       0 |  11288       0
+  E+P1ok>        completion, or a final round or a base repair <= ED  11288       0 |  11288       0
+  unsafe under noP1 or noP1> with base ED, 0 cases; smallest:
+  unsafe under P1ok or P1ok> with base ED, 0 cases; smallest:
