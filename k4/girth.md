@@ -754,6 +754,20 @@ EFX₀ at all 43,520 distinct n = 4 B starts. At the 2 distinct n = 5 B starts (
 agents have a pick that only d wants, and the repair is EFX₀ for one choice only: the agent **off the RF path** (its pick
 is unchanged by RF), which is also the one whose pick d values more. So at n ≥ 5, Lemma RF-B needs this tie-break.
 
+**n = 5 sample of the certifier's failure export** (`two_move_starts_n5_partial6.json.gz` on `compute/k4-oc1max-cert`,
+702,250 starts on 6 hypergraphs, a partial list; 150 per hypergraph, each re-checked to fail OC₁ with the raw checker;
+`k4/girth/oc1_demote_n5.py`, `results/k4_girth_oc1_demote_n5.log`): 900 starts, 2,569 failing orders.
+- Lemma DEMOTE's uniform statement "(i) or (T) or (C) or (C′)" holds at **all 2,567** maximum-matching RF starts
+  ((i) 2,136, (T) 82, (C) 341, (C′) 8), and the change is one ejection path from u in all 2,567 (RF-PATH).
+- **The per-order form of RF fails at 2 orders**, both on 5_pure#374 (sets [[0,1,5,7],[1,4,5,7],[2,3,4,6],[2,3,6,7],
+  [4,5,6,7]]), e.g. values [[2,3,10,6],[4,8,6,5],[5,3,6,7],[3,8,10,6],[6,3,10,2]], picks Y = (1,5,4,6,7) from the
+  only order (3,2,1,4,0), receiver 0. RF gives (0,3,2,1,4) with picks (5,7,4,6,—): the ejection path 0 → 1 → 4 ends
+  with agent 4 getting nothing (the "or nothing" case of RF-PATH), so the picks are not a maximum matching. The other
+  23 orders beginning with the receiver all work. Two natural fixes repair this order: d (here 4) just before its
+  ejector x_{ℓ−1} (here 1), i.e. (0,3,2,4,1), picks (5,1,4,6,7), after one move; or d second, (0,4,3,2,1), picks
+  (5,7,4,3,6), at once. So RF must be stated as "some order beginning with the receiver" (as the coordinator's
+  K4.SDC.RF does by excluding non-maximum vectors), or with a rule for the case where d gets nothing.
+
 **Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every
 strict connected k = 4 core, at every serial-dictatorship order o whose picks form a maximum matching and fail OC₁,
 the receiver u is unique, and the order (u, o − u) has maximum-matching picks that satisfy OC₁. With K4.SDC.MAXSD this
@@ -804,6 +818,7 @@ python3 k4/girth/oc1_rfrot.py                                   # §7 consistenc
 python3 k4/girth/oc1_rf_a2.py                                   # §7 residue A2 explicitly -> results/k4_girth_oc1_rf_a2.log
 python3 k4/girth/oc1_r2n5.py                                    # §7 RF and DEMOTE at the two-receiver n = 5 starts -> results/k4_girth_oc1_r2n5.log
 python3 k4/girth/oc1_rf_b_check.py                              # §7 third check of oc1-hall's repair for residue B -> results/k4_girth_oc1_rf_b_check.log
+python3 k4/girth/oc1_demote_n5.py two_move_starts_n5_partial6.json.gz 150 7   # §7 DEMOTE and RF at n = 5 -> results/k4_girth_oc1_demote_n5.log
 ```
 Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
 partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).
