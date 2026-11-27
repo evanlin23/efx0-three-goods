@@ -1,4 +1,4 @@
-$ python3 k4/k3oc1/rf/a1_perturb.py RESIDUE 25 40 SEED, SEED = 1..4 (summed; HARD lines in a1_perturb_hard_n5.jsonl.gz)
+$ python3 k4/k3oc1/rf/a1_perturb.py RESIDUE 25 40 SEED, SEED = 1..4 (summed; HARD lines in a1_perturb_hard_n5.gz)
 492  perturb d: shape kept, facts (False, False, False), Y hard False
 67  perturb d: shape kept, facts (False, False, False), Y hard True
 77579  perturb d: shape kept, facts (False, True, True), Y hard False

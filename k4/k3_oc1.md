@@ -1150,10 +1150,10 @@ takes RF-T′'s (F1)–(F3)). The census is `rf/a1_hardness_census.py`, `a1_hard
     start), the values of d, k2 or u are re-sampled, 40 times each. Perturbations that keep the RF shape are kept:
     388,000 of them, 167,000 with the facts holding and 221,000 with a fact broken. For each broken one, the test is
     whether Y is still hard (exact: every official chain, brute-force completion).
-  - **Where RF-A1\*'s form is defined (d values a good of J′): 0 hard starts without the facts, among 220,974.**
-  - **Hard starts without the facts: 93, none in RF-A1\*'s scope.** In all of them d values no good of J′, which is
-    girth's trade shape (`a1_perturb_hard_n5.gz`). At all 93 the RF start Y′ is repaired by one move, so RF holds
-    there.
+  - **Breaking one or two facts never leaves Y hard: 0 of 220,304.**
+  - **Breaking all three: 763 instances, 93 of them hard.** In all 93, d values no good of J′, so RF-A1\*'s form is
+    undefined; this is girth's trade shape (`a1_perturb_hard_n5.gz`). At all 93 the RF start Y′ is repaired by one
+    move, so RF holds there.
 - **The mechanism behind the contrapositive** (`rf/a1_repairs.py`). When a fact is broken, Y never completes at the
   picks, but one move repairs it. Uniformly, a truly dangerous agent takes the shared junk pair and the receiver u
   takes its pick:
