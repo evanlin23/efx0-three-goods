@@ -1,0 +1,21 @@
+$ python3 k4/rkmax/rk_starve.py two_move_starts_n4.json.gz 1
+   (S3) x role D, x in Theta(u) False, fallback Y_u, ranks u 4>1 x 1>2 31360
+   (S3) x role D, x in Theta(u) False, fallback Y_u, ranks u 4>1 x 1>3 33920
+   (S3) x role D, x in Theta(u) False, fallback junk, ranks u 4>1 x 1>2 2560
+   (S3) x role D, x in Theta(u) False, fallback junk, ranks u 4>1 x 1>3 5120
+   (S3) x role DT, x in Theta(u) True, fallback junk, ranks u 3>1 x 2>3 6000
+   (S3) x role DT, x in Theta(u) True, fallback junk, ranks u 4>1 x 1>2 2560
+   (S3) x role DT, x in Theta(u) True, fallback junk, ranks u 4>1 x 1>3 2560
+   (S3) x role DT, x in Theta(u) True, fallback junk, ranks u 4>1 x 2>3 10240
+   (S3) x role DT, x in Theta(u) True, fallback junk, ranks u 4>1 x 2>4 10240
+   (S3) x role F, x in Theta(u) False, fallback Y_u, ranks u 4>1 x 1>2 10560
+   (S3) x role F, x in Theta(u) False, fallback Y_u, ranks u 4>1 x 1>3 8000
+(S1) some receiver has rank >= 3: True 112880
+(S2) a dominating 2-agent change through a receiver: False 5120
+(S2) a dominating 2-agent change through a receiver: True 107760
+(S3) ... with the receiver taking its top: False 5120
+(S3) ... with the receiver taking its top: True 107760
+receiver ranks [3] 6000
+receiver ranks [4] 106880
+starts 112880
+time 2 s

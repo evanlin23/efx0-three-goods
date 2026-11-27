@@ -1,0 +1,17 @@
+$ python3 k4/rkmax/rk_dom_export.py two_move_starts_n5_partial6.json.gz 1
+hypergraph 5_pure 374 complete=False starts 122166
+hypergraph 5_pure 379 complete=False starts 109541
+hypergraph 5_pure 464 complete=False starts 170177
+hypergraph 5_pure 808 complete=False starts 90181
+hypergraph 5_pure 778 complete=False starts 82193
+hypergraph 5_pure 164 complete=False starts 127992
+a minimal dominating change raises a receiver: False 3460
+a minimal dominating change raises a receiver: True 698790
+fewest agents changed by a dominating matching: 2 702250
+rank-dominated: True 702250
+receiver ranks [3] 220958
+receiver ranks [4] 481292
+sigma-dominated: True 702250
+start is a maximum matching 702250
+starts 702250
+time 525 s

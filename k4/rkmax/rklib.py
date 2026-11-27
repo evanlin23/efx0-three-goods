@@ -21,7 +21,7 @@ class Prof:
 
     def __init__(self, sets, vals, m=None):
         self.n = len(sets)
-        self.m = m if m is not None else 1 + max(g for s in sets for g in s)
+        self.m = m if m is not None else 1 + max((g for s in sets for g in s), default=-1)
         self.val = [dict() for _ in range(self.n)]
         for i, (s, x) in enumerate(zip(sets, vals)):
             for g, y in zip(s, x):

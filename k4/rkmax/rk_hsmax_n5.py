@@ -1,6 +1,7 @@
-"""Conjecture HS-MAX at n = 5 (k4/rkmax.md §5): at every sigma-optimal maximum-matching start, the picks complete,
-or the hypotheses of a proved repair hold (Prop. T0 / Theorems U and S / Lemma RF-B).  rk_classes.classify_fast on
+"""Conjecture HS-MAX at n = 4, 5 (k4/rkmax.md §5): at every sigma-optimal maximum-matching start, the picks complete,
+or the hypotheses of a proved repair hold (Prop. T0 / Lemma S' (contains Theorems U and S) / Lemma RF-B).  rk_classes.classify_fast on
 the sigma-optimal vectors of the profiles of an n = 5 failure export (FILE), or of random MC2-class cores.
+    python3 rk_hsmax_n5.py n4                 # the n = 4 export profiles
     python3 rk_hsmax_n5.py FILE STRIDE
     python3 rk_hsmax_n5.py rand N n SEED"""
 import sys, os, gzip, json, collections, time, random, multiprocessing as mp
@@ -23,7 +24,14 @@ def job(task):
 
 if __name__ == '__main__':
     print('$ python3 k4/rkmax/rk_hsmax_n5.py', *[os.path.basename(a) for a in sys.argv[1:]], flush=True)
-    if sys.argv[1] == 'rand':
+    if sys.argv[1] == 'n4':
+        d = json.load(gzip.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'results',
+                                             'k4_oc1max', 'two_move_starts_n4.json.gz')))
+        prof = {}
+        for h in d['hypergraphs']:
+            for st in h['starts']: prof[(json.dumps(h['sets']), json.dumps(st['vals']))] = (h['sets'], st['vals'])
+        tasks = list(prof.values())
+    elif sys.argv[1] == 'rand':
         N, n, SEED = map(int, sys.argv[2:5])
         with mp.Pool() as pool: tasks = pool.map(rand_task, [(n, SEED * 1000003 + t) for t in range(N)])
     else:
