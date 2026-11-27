@@ -80,6 +80,28 @@ def check(rec):
                 for g, h in zip(sorted(gs), sorted(gs)[1:]):
                     clauses.append([lit(a, 1 << idx[a][g], 1 << idx[a][h])])
 
+    if rec.get("np"):
+        # non-peelability, valid for a counterexample with the fewest agents (monotone/threshold.md,
+        # section 2, item 8): v_i(P) < v_i(R_i - P) whenever P is one good of R_i, or a nonempty set of
+        # goods that no other agent values
+        for i in range(n):
+            mine = set(R[i])
+            priv = sorted(g for g in mine if not any(g in R[j] for j in range(n) if j != i))
+            cand = set()
+            for g in mine:
+                cand.add(frozenset([g]))
+            for size in range(1, len(priv) + 1):
+                from itertools import combinations
+                for c in combinations(priv, size):
+                    cand.add(frozenset(c))
+            for P in cand:
+                rest = mine - P
+                if not rest:
+                    return True  # agent i is always peelable: no minimal counterexample here
+                a = sum(1 << idx[i][g] for g in P)
+                b = sum(1 << idx[i][g] for g in rest)
+                clauses.append([lit(i, a, b)])
+
     def loc(i, goods):
         s = 0
         for g in goods:

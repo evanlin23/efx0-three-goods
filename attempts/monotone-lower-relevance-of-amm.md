@@ -16,8 +16,12 @@ allocation. That would be a monotone counterexample with lower relevance.
    `results/monotone/amm_modify.jsonl`). Control: with c free on all 8 goods the same search returns a
    counterexample (verified by brute force).
 3. **Two agents ignore one good each, the third unchanged.** Pin a; b ignores d_b, c ignores d_c, both
-   arbitrary monotone on their 7 goods. All cases up to the symmetries fixing a
-   (`results/monotone/amm_modify_level2.jsonl`; see the table at the end).
+   arbitrary monotone on their 7 goods. There are 17 cases up to the symmetries fixing a (swapping the two
+   goods of a type; swapping (b, B) with (c, C)), written d_b/d_c: A1/A1, A1/A2, A1/B1, A1/C1, A1/x, A1/y, B1/B1,
+   B1/B2, B1/C1, B1/x, B1/y, C1/B1, C1/x, C1/y, x/x, x/y, y/y. **UNSAT in all 17** (314–405 allocations each,
+   ≤ 24 s; `results/monotone/amm_modify_level2.jsonl`).
+4. **No agent pinned, every agent ignores a good** (k = 7 on 8 goods): this is the general n = 3, m = 8, k = 7
+   search of `monotone/threshold.md`.
 
 ## Smallest failing configuration
 

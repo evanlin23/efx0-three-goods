@@ -11,7 +11,7 @@ Per hypergraph:
      L independently.
 Writes one JSON line per hypergraph to the output file.
 
-Usage: python3 monotone/run_search.py n m k out.jsonl [--jobs J]
+Usage: python3 monotone/run_search.py n m k out.jsonl [--jobs J] [--time-limit S] [--np] [--no-rank-check]
 """
 import sys
 import os
@@ -56,10 +56,33 @@ def sb_clauses(n, R, agents):
     return out
 
 
-def cegar(n, m, R, enc="order", solver="cadical153", time_limit=None, sb=True):
+def np_clauses(n, R, agents):
+    """Non-peelability (monotone/threshold.md §2, item 8): in a counterexample with the fewest agents no
+    agent can be peeled by L2's general step, so v_i(P) < v_i(R_i - P) for every P that is a single good
+    of R_i or a nonempty set of goods private to i."""
+    out = []
+    for i in range(n):
+        ag = agents[i]
+        others = set(g for j in range(n) if j != i for g in R[j])
+        priv = [g for g in R[i] if g not in others]
+        full = ag.local(sum(1 << g for g in R[i]))
+        Ps = set(ag.local(1 << g) for g in R[i])
+        for mask in range(1, 1 << len(priv)):
+            Ps.add(ag.local(sum(1 << priv[t] for t in range(len(priv)) if (mask >> t) & 1)))
+        for P in Ps:
+            if P != full:
+                out.append([ag.lt(P, full & ~P)])
+            else:
+                out.append([])  # R_i itself private (or |R_i| = 1): i is always peelable
+    return out
+
+
+def cegar(n, m, R, enc="order", solver="cadical153", time_limit=None, sb=True, npl=False):
     pool, clauses, agents = build(n, R, enc)
     if sb:
         clauses.extend(sb_clauses(n, R, agents))
+    if npl:
+        clauses.extend(np_clauses(n, R, agents))
     L = []
     t0 = time.time()
     with Solver(name=solver, bootstrap_with=clauses) as s:
@@ -86,11 +109,13 @@ def cegar(n, m, R, enc="order", solver="cadical153", time_limit=None, sb=True):
                 return "TIMEOUT", L, None, time.time() - t0
 
 
-def check_list_unsat(n, m, R, L, enc, solver="cadical153", sb=True):
+def check_list_unsat(n, m, R, L, enc, solver="cadical153", sb=True, npl=False):
     """Is 'every allocation in L fails EFX0' (plus symmetry breaking) unsatisfiable under encoding enc?"""
     pool, clauses, agents = build(n, R, enc)
     if sb:
         clauses.extend(sb_clauses(n, R, agents))
+    if npl:
+        clauses.extend(np_clauses(n, R, agents))
     for X in L:
         cl = alloc_clause(n, m, agents, X)
         if not cl:
@@ -101,11 +126,11 @@ def check_list_unsat(n, m, R, L, enc, solver="cadical153", sb=True):
 
 
 def job(args):
-    n, m, types, time_limit = args
+    n, m, types, time_limit, npl, rankcheck = args
     R = to_R(types, n)
-    status, L, subs, dt = cegar(n, m, R, "order", time_limit=time_limit, sb=True)
+    status, L, subs, dt = cegar(n, m, R, "order", time_limit=time_limit, sb=True, npl=npl)
     rec = {"n": n, "m": m, "types": list(types), "R": R, "deg": [len(r) for r in R],
-           "status": status, "time": round(dt, 2), "cert_size": len(L), "sb": True}
+           "status": status, "time": round(dt, 2), "cert_size": len(L), "sb": True, "np": npl}
     if status == "SAT":
         ok, info = verify_counterexample(n, m, R, subs)
         rec["verified"] = ok
@@ -114,9 +139,9 @@ def job(args):
     elif status == "UNSAT":
         # certificate: complete allocations as owner lists (owner of good 0, ..., good m-1)
         rec["cert"] = [[next(a for a in range(n) if (X[a] >> g) & 1) for g in range(m)] for X in L]
-        rec["rank_on_cert_unsat"] = check_list_unsat(n, m, R, L, "rank")
-        rec["order_on_cert_unsat"] = check_list_unsat(n, m, R, L, "order")
-        if not (rec["rank_on_cert_unsat"] and rec["order_on_cert_unsat"]):
+        rec["rank_on_cert_unsat"] = check_list_unsat(n, m, R, L, "rank", npl=npl) if rankcheck else None
+        rec["order_on_cert_unsat"] = check_list_unsat(n, m, R, L, "order", npl=npl)
+        if not (rec["rank_on_cert_unsat"] in (True, None) and rec["order_on_cert_unsat"]):
             rec["status"] = "DISAGREE"
     return rec
 
@@ -130,12 +155,14 @@ def main():
         jobs = int(sys.argv[sys.argv.index("--jobs") + 1])
     if "--time-limit" in sys.argv:
         time_limit = float(sys.argv[sys.argv.index("--time-limit") + 1])
+    npl = "--np" in sys.argv          # add non-peelability constraints (threshold.md §2, item 8)
+    rankcheck = "--no-rank-check" not in sys.argv
     hs = enumerate_hypergraphs(n, m, k)
     print(f"n={n} m={m} k<={k}: {len(hs)} hypergraphs", flush=True)
     t0 = time.time()
     counts = {}
     with open(out, "w") as f, Pool(jobs) as pool:
-        for rec in pool.imap_unordered(job, [(n, m, h, time_limit) for h in hs]):
+        for rec in pool.imap_unordered(job, [(n, m, h, time_limit, npl, rankcheck) for h in hs]):
             counts[rec["status"]] = counts.get(rec["status"], 0) + 1
             f.write(json.dumps(rec) + "\n")
             f.flush()
