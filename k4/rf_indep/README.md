@@ -43,7 +43,7 @@ fails, and any receiver u of Y. Then:
 D=<dir>; for f in two_move_starts_n5_sel2.json.gz two_move_starts_n5_partial6.json.gz \
                   5_pure_s5o0_summary.jsonl.gz 5_pure_s5o1_summary.jsonl.gz; do
   git show origin/compute/k4-oc1max-cert:results/k4_oc1max/n5/$f > $D/$f; done
-python3 k4/rf_indep/rf_check.py --data $D --orig all --orig-py 100      # about 20 min on 4 CPUs
+python3 k4/rf_indep/rf_check.py --data $D --orig all --orig-py 100      # about 4 min on 4 CPUs
 ```
 
 `--orig all` also runs the OC₁ search at every failing start Y itself, where it should answer F. `--orig-py 100`
@@ -92,7 +92,7 @@ Every hypergraph has ν = 5, and all three computations of ν agree.
 | stored maximum-matching RF starts | 650 | 650 |
 | stored pickless rotations | 16 | 16 |
 
-All rotation vectors are among the u-first vectors above, so they all satisfy OC₁, as Hall found.
+Every maximum-matching rotation vector is a u-first vector above, so all 1,526,623 (and the 650 stored) satisfy OC₁, as Hall found.
 
 **OC₁ at the failing starts themselves.** The search answers F at all 1,285,930 export starts, agreeing with the
 certifier. 100 per hypergraph were re-checked by the pure-Python search, which also gives F.
