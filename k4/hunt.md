@@ -180,6 +180,18 @@ CPU-hours (β = 6: 59, β = 7: 145, β = 8: 161, β = 9: 65); n = 7, β = 5 ≈ 
 14: 11.7, 15: 9.0, 16: 2.4, 17: 0.5). Both are one dedicated multi-day run on 4 CPUs, resumable (`run_mc.py`
 checkpoints), and n = 7, β = 5 is the cheaper next step.
 
+### 3.5 Hypergraph climb with exact evaluation (`climb_h.py`)
+
+From the three β = 5 candidates with the largest certificates at m = 12, 13, 14 (`climb_starts_b5.json`), 60 random
+moves each (swap, add or drop one good of one agent; the result must be a connected core without an agent holding two
+private goods, with a good of degree ≥ 3), every move evaluated by a complete search over all strict profiles, accepted
+if the certificate (base allocations, images not counted) does not shrink by more than 5. 150 cores evaluated
+(`results/k4_hunt/climb_b5.jsonl`): all certified, none timed out. The climbs all drift to dense cores of Q4 agents with
+few goods: from scores 50–131 to 1,878–2,160 base allocations at n = 6, m = 10–11, β = 8–9, e.g.
+[[0,7,8,9],[3,5,6,8],[0,1,3,5],[2,3,7,8],[2,4,6,9],[1,2,4,5]] (every agent Q4, every good of degree 2 or 3; 2,160).
+Certificate size grows with the number of 4-good agents and β, not toward a failure: no evaluated core came close to
+an uncovered profile without allocation.
+
 ## 4. Patterns
 
 Certificate size (allocations the CEGAR needs to cover every profile of a core) as a hardness measure; random or

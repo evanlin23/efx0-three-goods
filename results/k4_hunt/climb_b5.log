@@ -1,0 +1,39 @@
+command: python3 k4/hunt/climb_h.py results/k4_hunt/climb_starts_b5.json --steps=60 --limit=300 --nongraphical --seed=5 --tag=b5
+start b5-m14-top: n=6 m=14 certified score=107 4.2s
+  step 7: accept n=6 m=14 beta=5 score=109 certified 5.0s
+  step 9: accept n=6 m=13 beta=6 score=481 certified 7.5s
+  step 10: accept n=6 m=12 beta=7 score=1068 certified 12.7s
+  step 12: accept n=6 m=12 beta=7 score=1065 certified 11.9s
+  step 15: accept n=6 m=12 beta=7 score=1546 certified 14.3s
+  step 32: accept n=6 m=12 beta=7 score=1683 certified 15.8s
+  step 34: accept n=6 m=11 beta=8 score=1783 certified 17.2s
+  step 35: accept n=6 m=11 beta=8 score=1963 certified 18.0s
+  step 37: accept n=6 m=11 beta=8 score=2042 certified 21.1s
+  step 39: accept n=6 m=10 beta=9 score=2149 certified 22.5s
+best from b5-m14-top: score=2149 m=10 [[0, 1, 2, 6], [0, 6, 7, 9], [1, 3, 6, 7], [1, 3, 5, 8], [2, 4, 5, 9], [0, 3, 4, 8]]
+start b5-m13-top: n=6 m=13 certified score=131 2.3s
+  step 1: accept n=6 m=12 beta=6 score=287 certified 4.9s
+  step 5: accept n=6 m=12 beta=6 score=448 certified 5.5s
+  step 6: accept n=6 m=11 beta=7 score=450 certified 5.6s
+  step 9: accept n=6 m=11 beta=8 score=798 certified 11.4s
+  step 14: accept n=6 m=11 beta=8 score=1121 certified 13.1s
+  step 16: accept n=6 m=11 beta=8 score=1252 certified 15.0s
+  step 23: accept n=6 m=11 beta=8 score=1315 certified 15.4s
+  step 24: accept n=6 m=11 beta=8 score=1711 certified 16.1s
+  step 46: accept n=6 m=11 beta=8 score=1797 certified 18.3s
+  step 56: accept n=6 m=11 beta=8 score=1878 certified 18.1s
+best from b5-m13-top: score=1878 m=11 [[0, 1, 6, 8], [0, 3, 5, 9], [0, 1, 6, 9], [0, 1, 4, 7], [2, 3, 4, 5], [2, 5, 7, 10]]
+start b5-m12-top: n=6 m=12 certified score=50 1.9s
+  step 0: accept n=6 m=12 beta=5 score=92 certified 1.5s
+  step 1: accept n=6 m=12 beta=5 score=274 certified 2.4s
+  step 3: accept n=6 m=12 beta=6 score=559 certified 5.1s
+  step 9: accept n=6 m=12 beta=6 score=579 certified 5.8s
+  step 16: accept n=6 m=11 beta=7 score=641 certified 6.2s
+  step 18: accept n=6 m=11 beta=7 score=693 certified 5.9s
+  step 23: accept n=6 m=11 beta=7 score=975 certified 7.5s
+  step 28: accept n=6 m=11 beta=7 score=1041 certified 8.6s
+  step 40: accept n=6 m=11 beta=7 score=1081 certified 10.0s
+  step 45: accept n=6 m=11 beta=7 score=1132 certified 9.5s
+  step 46: accept n=6 m=10 beta=8 score=1283 certified 12.1s
+  step 53: accept n=6 m=10 beta=9 score=2160 certified 22.7s
+best from b5-m12-top: score=2160 m=10 [[0, 7, 8, 9], [3, 5, 6, 8], [0, 1, 3, 5], [2, 3, 7, 8], [2, 4, 6, 9], [1, 2, 4, 5]]
