@@ -12,11 +12,13 @@
 --kmin=K: (genbg) only hypergraphs in which some agent values at least K goods.
 --grid6=FILE: six-good agents take the grid types of FILE (typesk.py; a subset of all strict types, so 'certified'
              then covers that subset only; a FAIL is a genuine counterexample).
+--prio=LOG: (any mode) run first the one-good extensions of the hypergraphs with a FAIL line in LOG.
 --ckpt=FILE: append every finished hypergraph's record to FILE (JSON lines) and skip the ones already there, so a run
              can be resumed after the container is reclaimed.
 A FAIL is re-checked on its integer representative by ocsat (SAT; empty passes allowed) for D <= 1, by ocseq (SAT, D
 chains) and by brute force (every state of up to D chains from the definition, raw-EFX0 backtracking completions)."""
-import sys, json, time, collections, multiprocessing as mp
+import os, sys, json, time, collections, itertools, multiprocessing as mp
+os.environ.setdefault('OPENBLAS_NUM_THREADS', '1')
 import _paths
 import kcegar, k3max, brute, ocsat, ocseq
 
@@ -63,6 +65,22 @@ def named6():
                 if len(other) >= 2: ext('cex%d+%d,%d@%d' % (c + 1, other[0], other[1], i), S, i, other[:2])
                 break
     return out
+
+
+def canon(S):
+    """isomorphism class of a hypergraph (agents and goods relabelled): the multiset of the goods' agent sets, minimized
+    over agent permutations (goods with the same agent set are interchangeable, so this is complete)"""
+    n = len(S); goods = sorted(set(g for s in S for g in s))
+    return min(tuple(sorted(tuple(sorted(p.index(i) for i in range(n) if g in S[i])) for g in goods))
+               for p in map(list, itertools.permutations(range(n))))
+
+
+def extensions(S):
+    """every hypergraph obtained by giving one agent one more good (a new good, or a good it does not value)"""
+    m = 1 + max(max(s) for s in S)
+    for i, s in enumerate(S):
+        for g in [x for x in range(m) if x not in s] + [m]:
+            yield [sorted(set(t) | {g}) if j == i else list(t) for j, t in enumerate(S)]
 
 
 def recheck(R, vals, Y, D, A=1):
@@ -122,6 +140,18 @@ if __name__ == '__main__':
         D = int(args[1]); tasks = [(nm, s, D, limit) for nm, s in named6()]
     else:
         D = int(args[1]); tasks = [(nm, s, D, limit) for nm, s in named()]
+    if 'prio' in opt:
+        # run first the hypergraphs that are one-good extensions of a hypergraph with a FAIL line in the given log
+        # (e.g. the k = 5, D = 1 failures for a k = 6, D = 2 sweep); the set of tasks is unchanged, only the order
+        prio = set()
+        for l in open(opt['prio']):
+            if '"result": "FAIL"' not in l: continue
+            S = json.loads(l)['sets']
+            for H in extensions(S): prio.add(canon(H))
+        key = {t[0]: (canon(t[1]) not in prio) for t in tasks}
+        tasks.sort(key=lambda t: key[t[0]])
+        print('priority (one-good extensions of the FAIL hypergraphs of %s): %d of %d tasks first' % (
+            opt['prio'], sum(not v for v in key.values()), len(tasks)), flush=True)
     C = collections.Counter(); ck = opt.get('ckpt')
     if ck:
         import os

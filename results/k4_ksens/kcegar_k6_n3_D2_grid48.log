@@ -4,3 +4,12 @@ hypergraphs 950
 $ python3 k4/ksens/kcegar_batch.py genbg 3 6 2 --kmin=6 --jobs=1 --limit=1800 --grid6=/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz --ckpt=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_n3_D2_grid48.ckpt.jsonl
 checkpoint /home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_n3_D2_grid48.ckpt.jsonl: 15 done ({'certified': 15}), 935 to go
 hypergraphs 935
+$ python3 k4/ksens/kcegar_batch.py genbg 3 6 2 --kmin=6 --jobs=2 --limit=5400 --grid6=/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz --prio=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k5_n3_D1.log --ckpt=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_n3_D2_grid48.ckpt.jsonl
+priority (one-good extensions of the FAIL hypergraphs of /home/user/efx0-three-goods/results/k4_ksens/kcegar_k5_n3_D1.log): 36 of 950 tasks first
+checkpoint /home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_n3_D2_grid48.ckpt.jsonl: 25 done ({'certified': 25}), 925 to go
+hypergraphs 925
+--- restarted with the faster grid check (realize_grid, 2026-11-27T04:36:30Z) ---
+$ python3 k4/ksens/kcegar_batch.py genbg 3 6 2 --kmin=6 --jobs=2 --limit=5400 --grid6=/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz --prio=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k5_n3_D1.log --ckpt=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_n3_D2_grid48.ckpt.jsonl
+priority (one-good extensions of the FAIL hypergraphs of /home/user/efx0-three-goods/results/k4_ksens/kcegar_k5_n3_D1.log): 36 of 950 tasks first
+checkpoint /home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_n3_D2_grid48.ckpt.jsonl: 25 done ({'certified': 25}), 925 to go
+hypergraphs 925

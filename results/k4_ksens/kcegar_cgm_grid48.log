@@ -2,3 +2,9 @@ $ python3 k4/ksens/kcegar_cgm.py
 CGM values, start (5, 4, 6): picks complete (A=1) False; one chain (A=1): ocsat True, brute True
 CGM values, start (5, 2, 4): picks complete (A=1) True; one chain (A=1): ocsat True, brute True
 CGM values, start (2, 4, 5): picks complete (A=1) True; one chain (A=1): ocsat True, brute True
+every strict profile, D = 1: certified (2566 iterations, 0 LP calls, 6731 s)
+--- D = 2 restarted with the faster grid check (2026-11-27T04:36:30Z) ---
+$ python3 k4/ksens/kcegar_cgm.py --grid6=/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz --D=2 --limit=36000
+CGM values, start (5, 4, 6): picks complete (A=1) False; one chain (A=1): ocsat True, brute True
+CGM values, start (5, 2, 4): picks complete (A=1) True; one chain (A=1): ocsat True, brute True
+CGM values, start (2, 4, 5): picks complete (A=1) True; one chain (A=1): ocsat True, brute True

@@ -49,6 +49,7 @@ the ranking's singleton literals (sound: the clause only excludes that ranking).
 
     python3 k4/ksens/kcegar.py '[[sets]]' D [--A=1] [--empty-pass] [--any-start] [--grid6=FILE]"""
 import sys, os, json, gzip, itertools, time, collections
+os.environ.setdefault('OPENBLAS_NUM_THREADS', '1')   # one BLAS thread: the grid products are small, and runs share CPUs
 import _paths
 import brute, k3max
 from pysat.solvers import Cadical153
@@ -85,16 +86,18 @@ def agent_types(R):
 
 
 class Cegar:
-    def __init__(self, sets, m=None, D=2, A=1, empty_pass=False, require_max=True, lazy=True, lp_min=6, grid6=None):
+    def __init__(self, sets, m=None, D=2, A=1, empty_pass=False, require_max=True, lazy=True, lp_min=6, grid6=None,
+                 grid_fast=True):
         self.R = [sorted(s) for s in sets]; self.n = n = len(sets)
         self.m = m or 1 + max(max(s) for s in sets); self.D, self.A, self.ep = D, A, empty_pass
         self.gridd = json.load(gzip.open(grid6, 'rt'))['k'] if grid6 is not None else None   # 6; less to validate the mode
         self.G = [grid6 is not None and len(R) == self.gridd for R in self.R]
         self.LP = [len(R) >= lp_min and not self.G[i] for i, R in enumerate(self.R)]   # lp_min < 6: test the LP route
-        self.R6 = None
+        self.R6 = None; self.grid_fast = grid_fast; self.gpool = [[] for _ in sets]
         if grid6 is not None and any(self.G):
             import numpy as _np
             self.R6 = _np.array(json.load(gzip.open(grid6, 'rt'))['reps'], dtype=_np.int64)
+            self.R6f = self.R6.astype(_np.float32)
         assert lazy or not any(self.LP), 'the one-hot mode needs type lists (at most five goods per agent)'
         self.T = [None if self.LP[i] or self.G[i] else agent_types(R) for i, R in enumerate(self.R)]
         self.pool = IDPool(); self.S = Cadical153(); self.cmpv = {}; self.iters = 0; self.kinds = collections.Counter()
@@ -317,7 +320,69 @@ class Cegar:
         return ty
 
     def realize_grid(self, i, lits):
-        """grid mode: a value dict for agent i, or None after adding a blocking clause"""
+        """grid mode: a value dict for agent i, or None after adding a blocking clause.  Same answers as
+        realize_grid_ref (the first version, kept as the reference): a recent point satisfying every bit is tried first,
+        then the whole grid in one product (float32, exact: |entries| <= 6 * 48), and the core is found by progressive
+        deletion on prefix ANDs of the sign matrix."""
+        if not self.grid_fast: return self.realize_grid_ref(i, lits)
+        np = self.np; R = self.R[i]; d = len(R)
+        sing = {}; other = []
+        for l in lits:
+            row = self.rowv[abs(l)]
+            if sum(1 for x in row if x) == 2:
+                a = next(R[c] for c, x in enumerate(row) if x == 1); b = next(R[c] for c, x in enumerate(row) if x == -1)
+                sing[(a, b) if l > 0 else (b, a)] = l          # a beats b
+            else: other.append(l)
+        wins = {g: sum(1 for (a, b) in sing if a == g) for g in R}
+        if sorted(wins.values()) != list(range(d)):          # not transitive: block a 3-cycle
+            for a, b, c in itertools.permutations(R, 3):
+                if (a, b) in sing and (b, c) in sing and (c, a) in sing:
+                    self.S.add_clause([-sing[(a, b)], -sing[(b, c)], -sing[(c, a)]]); self.cuts += 1; return None
+            raise AssertionError('incomplete ranking bits')
+        order = sorted(R, key=lambda g: -wins[g]); pos = {g: k for k, g in enumerate(order)}
+        # signed rows of every bit, in the agent's coordinates R
+        A = np.array([self.rowv[l] if l > 0 else [-x for x in self.rowv[-l]] for l in lits], dtype=np.int64).reshape(-1, d)
+        pool = self.gpool[i]
+        if pool:
+            P = np.array(pool, dtype=np.int64); okp = (P @ A.T > 0).all(1)
+            if okp.any():
+                vec_ = pool[int(np.argmax(okp))]; return self._grid_found(i, vec_)
+        Wo = np.zeros((len(other), d), dtype=np.float32)       # the non-singleton bits, in ranking coordinates
+        for k, l in enumerate(other):
+            row = self.rowv[abs(l)]; s = 1 if l > 0 else -1
+            for c, x in enumerate(row): Wo[k, pos[R[c]]] = s * x
+        R6f = self.R6f
+        def survivors(cols, alive=None):
+            """the grid points (indices, increasing) satisfying the bits cols in order, or (None, k) at the first
+            column k that leaves none"""
+            for k in cols:
+                pts = R6f if alive is None else R6f[alive]
+                keep = (pts @ Wo[k]) > 0
+                alive = np.nonzero(keep)[0] if alive is None else alive[keep]
+                if not len(alive): return None, k
+            return (np.arange(len(R6f)) if alive is None else alive), None
+        alive, crit = survivors(range(len(other)))
+        if alive is not None:
+            v = self.R6[int(alive[0])]; vec_ = [int(v[pos[g]]) for g in R]
+            pool.insert(0, vec_); del pool[64:]
+            return self._grid_found(i, vec_)
+        core = [crit]; rest = list(range(crit))                # progressive deletion, as in realize_grid_ref
+        while True:
+            base, _ = survivors(core)
+            if base is None: break
+            _, crit = survivors(rest, base)
+            core.append(crit); rest = rest[:rest.index(crit)]
+        self.S.add_clause([-other[k] for k in core] + [-l for l in sing.values()]); self.cuts += 1
+        return None
+
+    def _grid_found(self, i, vec_):
+        if vec_ != self.rep_of[i]:
+            self.rep_of[i] = vec_
+            self.S.set_phases([b if sum(a * x for a, x in zip(self.rowv[b], vec_)) > 0 else -b for b in self.bits_of[i]])
+        return {g: x for g, x in zip(self.R[i], vec_)}
+
+    def realize_grid_ref(self, i, lits):
+        """grid mode, first version (the reference for realize_grid)"""
         np = self.np; R = self.R[i]; d = len(R); col = {g: c for c, g in enumerate(R)}
         sing = {}; other = []
         for l in lits:
