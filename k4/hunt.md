@@ -165,6 +165,12 @@ in all): `results/k4_hunt/check_mc_n6_b5_full.log` on the full certificate (ever
 and `results/k4_hunt/check_mc_n6_b5.log` (**RESULT OK**) on the committed orbit-compressed one
 (`results/k4_hunt/cert_mc_n6_b5_orb.json.gz`, 11 MB). With K4.MC7: **a minimal counterexample to TARGET₄ with n = 6 has β ≥ 6** (for the coordinator).
 
+### 3.3b Structured families from the suite (`k4/suite/`)
+
+| core | n | m | β | result |
+|---|---|---|---|---|
+| c4-H2 (`k4/c4.md` §7, H_t with t = 2; seven PP4 agents) | 9 | 23 | 5 | **certified under every strict profile**, 395 s, 1,111 allocations, 256 automorphisms (`named_suite_H2.json.gz`, check `check_named_suite_H2.log`, sat2: OK) |
+
 ### 3.4 Samples beyond the complete runs (hunting; each sampled core is still a complete search)
 
 | set | sampled | certified | slowest | certificate / check |

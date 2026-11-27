@@ -135,6 +135,8 @@ def main():
                     for n_, m, sets, dom, kinds in surv:
                         G = CM.graph(sets, m)
                         h = (n_, m, nx.weisfeiler_lehman_graph_hash(G, node_attr='c'))
+                        if sample and h not in cb:          # sample mode: keep only candidates a record may match
+                            stats['raw survivors without a matching record hash'] += 1; continue
                         if any(nx.is_isomorphic(G, G2, node_match=lambda a, b: a['c'] == b['c']) for G2 in buckets[h]): continue
                         buckets[h].append(G)
                         left.append((n_, m, sets, dom, kinds)); nb += 1
