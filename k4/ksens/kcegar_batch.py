@@ -7,7 +7,9 @@
                                                      agent degrees 3-5 with at least one 5, at most d - 2 private goods
                                                      per agent of degree d (an analogue of the k = 4 cores of
                                                      k4/search4.py; no reduction lemma behind it at k = 5)
+    python3 k4/ksens/kcegar_batch.py named6 D [--jobs=4] [--limit=SEC]                designed k = 6 hypergraphs (NAMED6 below)
 --any-start: every SD start, not only the maximum-matching ones (the official move rule either way).
+--kmin=K: (genbg) only hypergraphs in which some agent values at least K goods.
 A FAIL is re-checked on its integer representative by ocsat (SAT; empty passes allowed) for D <= 1, by ocseq (SAT, D
 chains) and by brute force (every state of up to D chains from the definition, raw-EFX0 backtracking completions)."""
 import sys, json, time, collections, multiprocessing as mp
@@ -27,6 +29,34 @@ def named():
                 out.append(('cex%d+new@%d' % (c + 1, i), [s + [m] if j == i else s for j, s in enumerate(S)]))
                 other = [g for g in range(m) if g not in S[i]]
                 if other: out.append(('cex%d+%d@%d' % (c + 1, other[0], i), [s + [other[0]] if j == i else s for j, s in enumerate(S)]))
+                break
+    return out
+
+
+def named6():
+    """k = 6 hypergraphs built from the known two-chain instances: an agent extended by one or two goods (new goods
+    or goods of the instance)"""
+    import refute_rd_k5 as RD
+    from round_known import KGEN
+    from refute_oc1max_k4 import CEX
+    from refute_oc1_k5_n3 import SETS as N3
+    out = []
+    def ext(name, S, i, extra):
+        T = [sorted(set(s) | set(extra)) if j == i else list(s) for j, s in enumerate(S)]
+        if max(map(len, T)) == 6: out.append((name, T))
+    m = lambda S: 1 + max(max(s) for s in S)
+    for nm, S in [('RD5', RD.SETS), ('kgen-n4', KGEN[0]), ('N3K5', N3)]:
+        for i, s in enumerate(S):
+            if len(s) == 5:
+                ext('%s+new@%d' % (nm, i), S, i, [m(S)])
+                other = [g for g in range(m(S)) if g not in s]
+                if other: ext('%s+%d@%d' % (nm, other[0], i), S, i, [other[0]])
+    for c, (S, V, P) in enumerate(CEX[:4]):
+        for i, s in enumerate(S):
+            if len(s) == 4:
+                ext('cex%d+2new@%d' % (c + 1, i), S, i, [m(S), m(S) + 1])
+                other = [g for g in range(m(S)) if g not in s]
+                if len(other) >= 2: ext('cex%d+%d,%d@%d' % (c + 1, other[0], other[1], i), S, i, other[:2])
                 break
     return out
 
@@ -65,8 +95,10 @@ if __name__ == '__main__':
         tasks = []
         for m in ms:
             out = subprocess.run(['nauty-genbg', '-c', '-q', '-d1:1', '-D%d:%d' % (k, n), str(n), str(m)], capture_output=True).stdout.split()
+            kmin = int(opt.get('kmin', 0))
             for idx, line in enumerate(out):
-                G = nx.from_graph6_bytes(line); tasks.append(('n%d_m%d_%d' % (n, m, idx), [sorted(g - n for g in G[i]) for i in range(n)], D, limit))
+                G = nx.from_graph6_bytes(line); sets = [sorted(g - n for g in G[i]) for i in range(n)]
+                if max(map(len, sets)) >= kmin: tasks.append(('n%d_m%d_%d' % (n, m, idx), sets, D, limit))
     elif args[0] == 'core5':
         n, D = map(int, args[1:3]); ms = [int(a) for a in args[3:]] or list(range(n, 5 * n + 1))
         import subprocess, networkx as nx
@@ -79,12 +111,14 @@ if __name__ == '__main__':
                 deg = {g: sum(g in x for x in sets) for g in range(m)}
                 if any(sum(deg[g] == 1 for g in x) > len(x) - 2 for x in sets): continue
                 tasks.append(('core5_n%d_m%d_%d' % (n, m, idx), sets, D, limit))
+    elif args[0] == 'named6':
+        D = int(args[1]); tasks = [(nm, s, D, limit) for nm, s in named6()]
     else:
         D = int(args[1]); tasks = [(nm, s, D, limit) for nm, s in named()]
     print('hypergraphs', len(tasks), flush=True); C = collections.Counter()
     with mp.Pool(jobs) as P:
         for rec in P.imap_unordered(job, tasks, chunksize=1):
             C[rec['result']] += 1
-            if rec['result'] != 'certified' or args[0] == 'named': print(json.dumps(rec), flush=True)
+            if rec['result'] != 'certified' or args[0] in ('named', 'named6'): print(json.dumps(rec), flush=True)
             if sum(C.values()) % 100 == 0: print('...', sum(C.values()), dict(C), '%.0f s' % (time.time() - t0), flush=True)
     print(dict(C), 'time %.0f s' % (time.time() - t0))

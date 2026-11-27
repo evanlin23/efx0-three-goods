@@ -13,6 +13,10 @@ Solved by a Phase-I simplex over Fractions (Bland's rule, so no cycling) on x = 
   dual value in the final Phase-I tableau (a Farkas certificate: a nonnegative combination of those rows and of unit
   vectors is zero or negative).  The core is re-checked by a second LP call before it is returned.
 
+realize_fast: the same answers, found by a float simplex (numpy) and then confirmed exactly: a feasible point is rounded,
+perturbed and checked on integers; an infeasible core is re-checked by the exact LP (small, so fast).  Anything not
+confirmed falls back to realize().
+
     python3 k4/ksens/ratlp.py          self-test against the type lists of kcegar.reps (d <= 5)"""
 from fractions import Fraction as F
 import itertools, random
@@ -88,6 +92,55 @@ def realize_check(rows, d):
     return _phase1(rows, d)[0] == 0
 
 
+def _phase1_float(rows, d, eps=1e-9):
+    import numpy as np
+    r = len(rows); A = np.array(rows, dtype=float); b = 1 - A.sum(1)
+    art = [j for j in range(r) if b[j] > 0]; na = len(art); ncol = d + r + na
+    T = np.zeros((r, ncol + 1)); basis = []
+    for j in range(r):
+        T[j, :d] = A[j]; T[j, d + j] = -1; T[j, ncol] = b[j]
+        if b[j] > 0: k = art.index(j); T[j, d + r + k] = 1; basis.append(d + r + k)
+        else: T[j] = -T[j]; basis.append(d + j)
+    isart = np.array([bv >= d + r for bv in basis])
+    obj = T[isart].sum(0) if isart.any() else np.zeros(ncol + 1); obj[d + r:ncol] = 0
+    for _ in range(50 * (r + d) + 100):
+        cand = np.nonzero(obj[:ncol] > eps)[0]
+        if not len(cand): break
+        e = cand[0]; col = T[:, e]; pos = col > eps
+        if not pos.any(): break
+        ratio = np.full(r, np.inf); ratio[pos] = T[pos, ncol] / col[pos]
+        mn = ratio.min(); ties = np.nonzero(ratio <= mn + eps)[0]
+        i = min(ties, key=lambda k: basis[k])
+        T[i] /= T[i, e]
+        f = T[:, e].copy(); f[i] = 0; T -= np.outer(f, T[i])
+        obj -= obj[e] * T[i]; basis[i] = e
+    else:
+        return None
+    x = np.zeros(d)
+    for i, bv in enumerate(basis):
+        if bv < d: x[bv] = T[i, ncol]
+    return obj[ncol], x, obj[d:d + r]
+
+
+def realize_fast(rows, d):
+    """realize(), via a float simplex whose answers are confirmed exactly (fallback: realize())"""
+    if not rows: return realize(rows, d)
+    res = _phase1_float(rows, d)
+    if res is not None:
+        opt, x, duals = res
+        if opt < 1e-7:
+            v = x + 1; best = None
+            for scale in (10 ** 6, 10 ** 9):
+                vi = [max(1, int(round(t * scale))) for t in v]; K = 1 << (d + 1)
+                out = [K * t + (1 << g) for g, t in enumerate(vi)]
+                if all(sum(a[g] * out[g] for g in range(d)) > 0 for a in rows): best = out; break
+            if best is not None: return 'ok', best
+        else:
+            core = [j for j in range(len(rows)) if abs(duals[j]) > 1e-9]
+            if core and not realize_check([rows[j] for j in core], d): return 'conflict', core
+    return realize(rows, d)
+
+
 if __name__ == '__main__':
     import _paths, kcegar
     rng = random.Random(1); bad = 0; tot = 0
@@ -111,6 +164,10 @@ if __name__ == '__main__':
                     if all(sum(a[g] * u[g] for g in range(d)) > 0 for a in rows2): truth = True; break
                 if truth: break
             st2, w2 = realize(rows2, d); tot += 1
+            st3, w3 = realize_fast(rows2, d); tot += 1
+            if st3 != st2: bad += 1; print('FAST MISMATCH', d, rows2, st2, st3)
+            if st3 == 'conflict' and realize_check([rows2[k] for k in w3], d): bad += 1; print('BAD FAST CORE', d, rows2, w3)
+            if st3 == 'ok' and not all(sum(a[g] * w3[g] for g in range(d)) > 0 for a in rows2): bad += 1; print('BAD FAST POINT')
             if (st2 == 'ok') != truth: bad += 1; print('MISMATCH', d, rows2, st2, truth)
             if st2 == 'conflict' and realize_check([rows2[k] for k in w2], d): bad += 1; print('BAD CORE', d, rows2, w2)
     print('self-test: %d LP calls against the type lists, %d mismatches' % (tot, bad))

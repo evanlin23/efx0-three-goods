@@ -1,1 +1,2 @@
-$ (kcegar LP-route validation) agents with >= lp_min goods use the exact LP (ratlp) instead of the type list; verdicts must agree
+$ python3 k4/ksens/kcegar_lp_check.py
+RD5 D=1: type lists FAIL (1541 iterations, 2.2 s); LP route for agents with >= 5 goods FAIL (1820 iterations, 3330 LP calls, 11.9 s); agree

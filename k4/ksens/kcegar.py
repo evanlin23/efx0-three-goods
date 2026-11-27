@@ -265,7 +265,7 @@ class Cegar:
                 else: hit = 0
                 if hit is None:
                     import ratlp
-                    self.lpcalls += 1; st, w = ratlp.realize(rows, len(self.R[i]))
+                    self.lpcalls += 1; st, w = ratlp.realize_fast(rows, len(self.R[i]))
                     if st != 'ok':
                         self.S.add_clause([-lits[k] for k in w]); self.cuts += 1
                         return None
