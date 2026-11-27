@@ -775,3 +775,59 @@ before any proof effort: DYN, W₃/W^sub, VM1, RD², OL and OC₂^max.
   profiles); larger cases running. "One labeling per hypergraph" is refuted.
 - **Monotone** (PR #112): MONO.N3K6 CERTIFIED: three agents with ≤ 6 relevant goods always have monotone EFX₀, so
   the n = 3 monotone threshold is 7 or 8.
+
+### 2026-11-27 00:40 UTC: hourly burst 4
+**Status.** TARGET₄ is open. The central candidate is **OC₂^max**: at most two sequential moves from maximum-matching
+starts.
+- Certified:
+  - OC₂^max for every strict profile with n ≤ 4, re-checked by the referee: 35,858 sampled witnesses, 0 disagreements;
+  - **OC₁^∃max** (some maximum-matching order needs ≤ 1 move) for every strict profile with n ≤ 4 (∃-CEGAR,
+    independent checker);
+  - **R2 at n = 4**: all 112,880 failing (profile, picks) pairs on the 11 hypergraphs have exactly one receiver.
+- n = 5, in progress:
+  - 5_n4_1 (1,735 cores): OC₂^max certified, and OC₁^max holds;
+  - 5_pure, first ~700 cores: 128 hypergraphs with OC₁^max failures, every one single-receiver, OC₂^max holds.
+  - The coordinator replayed one MC2-class n = 5 failure (5_pure idx 164): a strict MC2 core, OC₁ fails, two moves
+    repair.
+- Refereed this hour, all CORRECT:
+  - EX\*, LIFT-red, LIFT-1, LIFT (the second move's tools);
+  - Theorem U / U1;
+  - T6 and its certificate;
+  - M3 (monotone k ≤ 3);
+  - K4.MC8;
+  - D1-chain, Prop. 3′, D1-red, D1-C₀, D1-C′;
+  - Lemma R1;
+  - Prop. H (with a fix);
+  - Lemma EC.
+
+**Open core at k = 4** (Hall §23.2):
+- D1-H2: computer-verified on the three-agent core; CONTRACT reduces t = 1 to it modulo S1 and S2; t ≥ 2 is open
+  (proof/k4-d1).
+- R2-M: M^c's condition at the post-chain state with owner x₀. Lemma R2-G2 is proved and R2 is certified at n = 4
+  (TTC).
+- LIFT-SHAPE⁺: the shape of the two chains; holds on all 8,073 failing starts (matching).
+- SLOT and RING: existence counts, since plain Lemma M certifies every repair (multi).
+- Shared tool: Lemma M^c (multi, written; matching re-implemented it, 0 mismatches; queued for the referee). It is an
+  exact one-move criterion on all data.
+
+**One-move alternatives still alive:**
+- OC₁′ (kgen-rounds: middle chain agents may take goods of the end's released base). It holds on all 11 n = 4
+  hypergraphs' stored starts; the certifier's exhaustive test comes after its n = 5 chunk.
+- VM1-chain (VM): exhaustive certification running; holds on 3,485 VM1-failing cores.
+- DYN∃ (girth): certified at n ≤ 3 and for most n = 4 classes.
+- W^sub (Haxell): 0 stuck on 470M n = 2 and 742M n = 3 states.
+
+**Dispatch this burst:**
+- p3: prove MG (OC₁^max on multigraph cores, p ≤ 2). MG5 is certified at n ≤ 5, and every known failure needs a
+  3-valuer good.
+- Lean: formalize Lemma M, LIFT-1 and T6.
+- paper: next revision with this hour's referee verdicts and certificates, plus the open-core section.
+- sd-induct: retired after PR #103, with its three-move search covered by the certifier and TTC.
+- ksens: k = 6 three-move test and k = 5 exhaustive two-move test.
+- Haxell: finish the n = 3 grid and try a W^sub proof at n = 2.
+- multi: the SLOT and RING existence proofs.
+- Hall: the numbered open-core list.
+- kgen-rounds: RD²⁺ grids, and whether every two-move repair compresses into one OC₁′ move.
+
+**Correction:** the matching session's n = 4 walk count is 3,179 (not 3,190 or 3,308; the earlier figures counted the
+11 stored instances twice). No "holds on all" claim changes.
