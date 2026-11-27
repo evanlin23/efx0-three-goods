@@ -1135,8 +1135,9 @@ allocations on random strict cores (n = 4, m = 7: 5,452; n = 5, m = 8: 2,315).
 | no single junk move suffices: (U2) | 234 | 39 |
 | *U0 or U1* | **5,055 (92.7 %)** | **2,225 (96.1 %)** |
 
-- (U2) is always available on the data. Every non-witness has an MD allocation with larger Φ (§4.12), at distance 3
-  in most of these cases.
+- (U2) is always available on the data. Every non-witness has an MD allocation with larger Φ (§4.12). In these
+  cases it is reached by another kind of two-good move (a pick moving between other agents) or at distance 3–5
+  (`phi_local_*.log`).
 - So the fallback needs a second step.
 - What a proof of UNTANGLE needs:
   - a rule for choosing h, e.g. the good of X_q that the agents violating (O1) value most;
