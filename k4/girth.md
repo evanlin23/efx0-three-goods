@@ -679,6 +679,14 @@ DEMOTE-2 class 4 (all by (C)), 0 fails. The residue lemmas to prove are the rest
 With R2 and Corollary U1 (which by the table also yield (i) itself at n = 4), DEMOTE-0 and DEMOTE-2 would prove RF,
 hence OC₁^∃max and TARGET₄. 161,520 distinct (profile, Y′, w, d) cases were checked.
 
+**Consistency with TTC's Lemma RF-ROT** (proved on `claude/k4-ttc`, k4/ttc.md §14.7, PR #125, as relayed by the
+coordinator; [unverified]: not read here). RF-ROT says that at a one-receiver start the receiver is the last picker, so
+RF is the rotation (σ_n, σ_1, …, σ_{n−1}), and σ_{n−1} becomes a receiver of the RF start. On the data
+(`k4/girth/oc1_rfrot.py`, `results/k4_girth_oc1_rfrot.log`): the receiver is the last picker in all 292,080 n = 4 and
+86 n = 5 failing orders, and σ_{n−1} is a receiver at the RF picks in all of them. The RF path's end d is σ_{n−1}
+exactly when the RF start has one receiver (139,200 of 139,200; 4 of 4). With two or more receivers it is σ_{n−1} in
+43,520 of 152,880 (n = 4) and 11 of 82 (n = 5); d is a receiver in every case (Lemma DEMOTE (a)).
+
 **Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every
 strict connected k = 4 core, at every serial-dictatorship order o whose picks form a maximum matching and fail OC₁,
 the receiver u is unique, and the order (u, o − u) has maximum-matching picks that satisfy OC₁. With K4.SDC.MAXSD this
@@ -725,6 +733,7 @@ python3 k4/girth/oc1_orders.py 150 2                            # §7 reorders, 
 python3 k4/girth/oc1_rf_owner.py 97                             # §7 owners of the completions at the RF picks -> results/k4_girth_oc1_rf_owner.log
 python3 k4/girth/oc1_demote.py 97                               # §7 Lemma DEMOTE data -> results/k4_girth_oc1_demote.log
 python3 k4/girth/oc1_residue.py 2                               # §7 Lemma DEMOTE, every failing order -> results/k4_girth_oc1_residue.log
+python3 k4/girth/oc1_rfrot.py                                   # §7 consistency with TTC's RF-ROT -> results/k4_girth_oc1_rfrot.log
 ```
 Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
 partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).
