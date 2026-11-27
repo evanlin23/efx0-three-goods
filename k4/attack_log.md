@@ -989,7 +989,7 @@ mechanisms, only **ROUND-P** (one round of vertex-disjoint OC₁′ moves) survi
 
 - 03:29 UTC: spawned **base-phantom** (session_01BYMGebS9uNs3yyqMaMxxm7, branch proof/k4-base-phantom). Its task is the base case of ROUND-RSD: OC₁ with phantom constraints at the 6 + 35 + T3 + RING2 starts where reduction fails. The d1 session, whose work is complete (PR #113), handed over its tools.
 
-### 2026-11-27 03:47 UTC: hourly burst 7
+### 2026-11-27 03:37 UTC: hourly burst 7
 **Headline: Conjecture RF (receiver first)** (ledger K4.SDC.RF, `k4/sdc.md` §31 end).
 - At a maximum-matching start where OC₁ fails, put the start's unique receiver first. Every resulting maximum-matching
   order satisfies OC₁.

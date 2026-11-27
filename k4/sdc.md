@@ -2106,7 +2106,7 @@ profiles had missed them. The coordinator replayed both independently.
   - So multi-move starts need every pick to be wanted. Random extension is the wrong tool, and exhaustive ordinal
     certification (the certifier's n = 5 lists) is the right one.
 
-**Conjecture RF (receiver first)** (2026-11-27 03:45 UTC). The rule is from the certifier's good-order export (rule (b)).
+**Conjecture RF (receiver first)** (2026-11-27 03:37 UTC). The rule is from the certifier's good-order export (rule (b)).
 The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py` and `k4/sdc/receiver_first_n5.py`.
 - **Statement.** In every strict connected k = 4 core, consider a maximum-matching SD start Y where OC₁ fails. Then:
   - Y has exactly one receiver u, an agent whose pick no other agent prefers to its own (TTC's R2);
