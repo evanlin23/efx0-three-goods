@@ -1,0 +1,14 @@
+$ python3 k4/oc1max_multi/walk_fail.py 2000 7
+4_n4_3#58 distinct failing (profile, start) pairs 255
+4_pure#20 distinct failing (profile, start) pairs 399
+4_n4_3#77 distinct failing (profile, start) pairs 525
+4_pure#21 distinct failing (profile, start) pairs 56
+4_pure#24 distinct failing (profile, start) pairs 189
+4_pure#23 distinct failing (profile, start) pairs 683
+4_pure#26 distinct failing (profile, start) pairs 761
+4_pure#29 distinct failing (profile, start) pairs 521
+4_pure#36 distinct failing (profile, start) pairs 151
+4_pure#38 distinct failing (profile, start) pairs 324
+4_pure#45 distinct failing (profile, start) pairs 514
+TTC-n5-core distinct failing (profile, start) pairs 577
+total 4955 time 266 s

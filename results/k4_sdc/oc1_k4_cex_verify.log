@@ -1,0 +1,15 @@
+m 10 picks [3, 9, 1, 6, None, None]
+junk [0, 2, 4, 5, 7, 8]
+free completions of the picks: 8 | absorber counts: [2]
+one-absorber completions of the picks: 0
+distinct states after one improving move: 92
+states with a one-absorber completion: 0
+OC1 at this start: FAILS
+--- permissive (empty bases may be handed on):
+m 10 picks [3, 9, 1, 6, None, None]
+junk [0, 2, 4, 5, 7, 8]
+free completions of the picks: 8 | absorber counts: [2]
+one-absorber completions of the picks: 0
+distinct states after one improving move: 168
+states with a one-absorber completion: 27
+OC1 at this start: HOLDS

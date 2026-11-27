@@ -1,0 +1,4 @@
+strict cores 26 hypergraph classes 3
+  n 4 m 7 instances 1 sets [[0, 2, 3, 5], [0, 2, 4, 5], [1, 3, 4, 6], [0, 1, 3, 4]]
+  n 4 m 7 instances 16 sets [[2, 3, 4, 5], [0, 1, 2, 3], [0, 1, 2, 6], [2, 3, 4, 5]]
+  n 4 m 7 instances 9 sets [[0, 3, 5, 6], [0, 1, 3, 4], [1, 2, 5, 6], [0, 1, 3, 4]]

@@ -1,0 +1,2 @@
+{"source": "k = 3 one chain, exhaustive n = 3", "hypergraphs": 57, "hypergraphs_m>=n": 52, "profiles_m>=n": 25816, "starts_m>=n": 44972, "need_chain_m>=n": 1538, "hypergraphs_m<n": 5, "profiles_m<n": 17, "starts_m<n": 64}
+{"source": "k = 3 one chain, exhaustive n = 4", "hypergraphs": 437, "hypergraphs_m>=n": 396, "profiles_m>=n": 1885816, "starts_m>=n": 4982948, "need_chain_m>=n": 126994, "hypergraphs_m<n": 41, "profiles_m<n": 28681, "starts_m<n": 290465}

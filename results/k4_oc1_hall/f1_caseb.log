@@ -1,0 +1,366 @@
+$ python3 k4/oc1_hall/f1_caseb.py screen
+CASE B, NO SWAP induct-g-r0 [[[0, 1, 2, 3], [1, 2, 3]], [[2, 3, 8, 4], [2, 4, 3]]] picks (2, 3) x 0 W [1] picks complete True
+CASE B, NO SWAP lb4-n2m5-upgrade [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] picks (3, 4) x 1 W [0] picks complete True
+CASE B, NO SWAP ls-no-exchange-n2m4 [[[0, 1, 2, 3], [0, 1, 2, 3]], [[4, 1, 6, 8], [2, 3, 4, 8]]] picks (2, 3) x 1 W [0] picks complete True
+case B starts 61
+case B: picks complete or some swap 61
+case B: some swap works 58
+shown 3
+|W|=1 n=2 min|H0|=2: picks complete 8
+|W|=1 n=2 min|H0|=2: picks complete or some swap 12
+|W|=1 n=2 min|H0|=2: some swap works 11
+|W|=1 n=2 min|H0|=2: some swap, owner w 10
+|W|=1 n=2 min|H0|=2: some swap, owner x 11
+|W|=1 n=2 min|H0|=2: starts 12
+|W|=1 n=2 min|H0|=3: picks complete 2
+|W|=1 n=2 min|H0|=3: picks complete or some swap 10
+|W|=1 n=2 min|H0|=3: some swap works 8
+|W|=1 n=2 min|H0|=3: some swap, owner w 8
+|W|=1 n=2 min|H0|=3: some swap, owner x 8
+|W|=1 n=2 min|H0|=3: starts 10
+|W|=1 n=3 min|H0|=2: picks complete 0
+|W|=1 n=3 min|H0|=2: picks complete or some swap 1
+|W|=1 n=3 min|H0|=2: some swap works 1
+|W|=1 n=3 min|H0|=2: some swap, owner non-wanter 1
+|W|=1 n=3 min|H0|=2: some swap, owner w 1
+|W|=1 n=3 min|H0|=2: some swap, owner x 1
+|W|=1 n=3 min|H0|=2: starts 1
+|W|=1 n=3 min|H0|=3: picks complete 5
+|W|=1 n=3 min|H0|=3: picks complete or some swap 5
+|W|=1 n=3 min|H0|=3: some swap works 5
+|W|=1 n=3 min|H0|=3: some swap, owner non-wanter 5
+|W|=1 n=3 min|H0|=3: some swap, owner w 5
+|W|=1 n=3 min|H0|=3: some swap, owner x 5
+|W|=1 n=3 min|H0|=3: starts 5
+|W|=1 n=4 min|H0|=2: picks complete 2
+|W|=1 n=4 min|H0|=2: picks complete or some swap 2
+|W|=1 n=4 min|H0|=2: some swap works 2
+|W|=1 n=4 min|H0|=2: some swap, owner non-wanter 2
+|W|=1 n=4 min|H0|=2: some swap, owner w 2
+|W|=1 n=4 min|H0|=2: some swap, owner x 2
+|W|=1 n=4 min|H0|=2: starts 2
+|W|=1 n=4 min|H0|=3: picks complete 1
+|W|=1 n=4 min|H0|=3: picks complete or some swap 1
+|W|=1 n=4 min|H0|=3: some swap works 1
+|W|=1 n=4 min|H0|=3: some swap, owner non-wanter 1
+|W|=1 n=4 min|H0|=3: some swap, owner w 1
+|W|=1 n=4 min|H0|=3: some swap, owner x 1
+|W|=1 n=4 min|H0|=3: starts 1
+|W|=2 n=3 min|H0|=2: picks complete 6
+|W|=2 n=3 min|H0|=2: picks complete or some swap 6
+|W|=2 n=3 min|H0|=2: some swap works 6
+|W|=2 n=3 min|H0|=2: some swap, owner other wanter 1
+|W|=2 n=3 min|H0|=2: some swap, owner w 5
+|W|=2 n=3 min|H0|=2: some swap, owner x 1
+|W|=2 n=3 min|H0|=2: starts 6
+|W|=2 n=3 min|H0|=3: picks complete 19
+|W|=2 n=3 min|H0|=3: picks complete or some swap 20
+|W|=2 n=3 min|H0|=3: some swap works 20
+|W|=2 n=3 min|H0|=3: some swap, owner other wanter 19
+|W|=2 n=3 min|H0|=3: some swap, owner x 10
+|W|=2 n=3 min|H0|=3: starts 20
+|W|=2 n=4 min|H0|=2: picks complete 1
+|W|=2 n=4 min|H0|=2: picks complete or some swap 2
+|W|=2 n=4 min|H0|=2: some swap works 2
+|W|=2 n=4 min|H0|=2: some swap, owner non-wanter 1
+|W|=2 n=4 min|H0|=2: some swap, owner other wanter 2
+|W|=2 n=4 min|H0|=2: some swap, owner x 2
+|W|=2 n=4 min|H0|=2: starts 2
+|W|=2 n=4 min|H0|=3: picks complete 2
+|W|=2 n=4 min|H0|=3: picks complete or some swap 2
+|W|=2 n=4 min|H0|=3: some swap works 2
+|W|=2 n=4 min|H0|=3: some swap, owner non-wanter 1
+|W|=2 n=4 min|H0|=3: some swap, owner other wanter 2
+|W|=2 n=4 min|H0|=3: some swap, owner w 2
+|W|=2 n=4 min|H0|=3: some swap, owner x 2
+|W|=2 n=4 min|H0|=3: starts 2
+time 0 s
+$ python3 k4/oc1_hall/f1_caseb.py suite
+CASE B, NO SWAP induct-g-r0 [[[0, 1, 2, 3], [1, 2, 3]], [[2, 3, 8, 4], [2, 4, 3]]] picks (2, 3) x 0 W [1] picks complete True
+CASE B, NO SWAP lb4-n2m5-upgrade [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] picks (3, 4) x 1 W [0] picks complete True
+CASE B, NO SWAP ls-no-exchange-n2m4 [[[0, 1, 2, 3], [0, 1, 2, 3]], [[4, 1, 6, 8], [2, 3, 4, 8]]] picks (2, 3) x 1 W [0] picks complete True
+case B starts 61
+case B: picks complete or some swap 61
+case B: some swap works 58
+shown 3
+|W|=1 n=2 min|H0|=2: picks complete 8
+|W|=1 n=2 min|H0|=2: picks complete or some swap 12
+|W|=1 n=2 min|H0|=2: some swap works 11
+|W|=1 n=2 min|H0|=2: some swap, owner w 10
+|W|=1 n=2 min|H0|=2: some swap, owner x 11
+|W|=1 n=2 min|H0|=2: starts 12
+|W|=1 n=2 min|H0|=3: picks complete 2
+|W|=1 n=2 min|H0|=3: picks complete or some swap 10
+|W|=1 n=2 min|H0|=3: some swap works 8
+|W|=1 n=2 min|H0|=3: some swap, owner w 8
+|W|=1 n=2 min|H0|=3: some swap, owner x 8
+|W|=1 n=2 min|H0|=3: starts 10
+|W|=1 n=3 min|H0|=2: picks complete 0
+|W|=1 n=3 min|H0|=2: picks complete or some swap 1
+|W|=1 n=3 min|H0|=2: some swap works 1
+|W|=1 n=3 min|H0|=2: some swap, owner non-wanter 1
+|W|=1 n=3 min|H0|=2: some swap, owner w 1
+|W|=1 n=3 min|H0|=2: some swap, owner x 1
+|W|=1 n=3 min|H0|=2: starts 1
+|W|=1 n=3 min|H0|=3: picks complete 5
+|W|=1 n=3 min|H0|=3: picks complete or some swap 5
+|W|=1 n=3 min|H0|=3: some swap works 5
+|W|=1 n=3 min|H0|=3: some swap, owner non-wanter 5
+|W|=1 n=3 min|H0|=3: some swap, owner w 5
+|W|=1 n=3 min|H0|=3: some swap, owner x 5
+|W|=1 n=3 min|H0|=3: starts 5
+|W|=1 n=4 min|H0|=2: picks complete 2
+|W|=1 n=4 min|H0|=2: picks complete or some swap 2
+|W|=1 n=4 min|H0|=2: some swap works 2
+|W|=1 n=4 min|H0|=2: some swap, owner non-wanter 2
+|W|=1 n=4 min|H0|=2: some swap, owner w 2
+|W|=1 n=4 min|H0|=2: some swap, owner x 2
+|W|=1 n=4 min|H0|=2: starts 2
+|W|=1 n=4 min|H0|=3: picks complete 1
+|W|=1 n=4 min|H0|=3: picks complete or some swap 1
+|W|=1 n=4 min|H0|=3: some swap works 1
+|W|=1 n=4 min|H0|=3: some swap, owner non-wanter 1
+|W|=1 n=4 min|H0|=3: some swap, owner w 1
+|W|=1 n=4 min|H0|=3: some swap, owner x 1
+|W|=1 n=4 min|H0|=3: starts 1
+|W|=2 n=3 min|H0|=2: picks complete 6
+|W|=2 n=3 min|H0|=2: picks complete or some swap 6
+|W|=2 n=3 min|H0|=2: some swap works 6
+|W|=2 n=3 min|H0|=2: some swap, owner other wanter 1
+|W|=2 n=3 min|H0|=2: some swap, owner w 5
+|W|=2 n=3 min|H0|=2: some swap, owner x 1
+|W|=2 n=3 min|H0|=2: starts 6
+|W|=2 n=3 min|H0|=3: picks complete 19
+|W|=2 n=3 min|H0|=3: picks complete or some swap 20
+|W|=2 n=3 min|H0|=3: some swap works 20
+|W|=2 n=3 min|H0|=3: some swap, owner other wanter 19
+|W|=2 n=3 min|H0|=3: some swap, owner x 10
+|W|=2 n=3 min|H0|=3: starts 20
+|W|=2 n=4 min|H0|=2: picks complete 1
+|W|=2 n=4 min|H0|=2: picks complete or some swap 2
+|W|=2 n=4 min|H0|=2: some swap works 2
+|W|=2 n=4 min|H0|=2: some swap, owner non-wanter 1
+|W|=2 n=4 min|H0|=2: some swap, owner other wanter 2
+|W|=2 n=4 min|H0|=2: some swap, owner x 2
+|W|=2 n=4 min|H0|=2: starts 2
+|W|=2 n=4 min|H0|=3: picks complete 2
+|W|=2 n=4 min|H0|=3: picks complete or some swap 2
+|W|=2 n=4 min|H0|=3: some swap works 2
+|W|=2 n=4 min|H0|=3: some swap, owner non-wanter 1
+|W|=2 n=4 min|H0|=3: some swap, owner other wanter 2
+|W|=2 n=4 min|H0|=3: some swap, owner w 2
+|W|=2 n=4 min|H0|=3: some swap, owner x 2
+|W|=2 n=4 min|H0|=3: starts 2
+time 0 s
+$ python3 k4/oc1_hall/f1_caseb.py logs
+CASE B, NO SWAP log174 [[[0, 3, 2, 5], [0, 2, 1, 6], [2, 3, 4, 0]], [[10, 24, 19, 31], [35, 43, 33, 40], [65, 27, 15, 24]]] picks (5, 6, 2) x 2 W [1] picks complete True
+CASE B, NO SWAP log558 [[[0, 3, 6, 7], [1, 4, 6, 7], [2, 5, 8], [3, 4, 5, 8]], [[8, 1, 6, 4], [4, 8, 3, 2], [4, 2, 3], [5, 8, 6, 4]]] picks (0, 4, 2, 5) x 1 W [3] picks complete True
+CASE B, NO SWAP log946 [[[7, 0, 1, 4], [9, 0, 5, 1], [5, 3, 1], [6, 8, 2, 4]], [[12, 15, 7, 4], [6, 22, 12, 7], [12, 14, 8], [13, 2, 6, 20]]] picks (7, 0, 3, 4) x 1 W [0] picks complete True
+CASE B, NO SWAP log1525 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] picks (3, 4) x 1 W [0] picks complete True
+CASE B, NO SWAP log1689 [[[0, 1, 2, 3], [1, 2, 3]], [[2, 3, 8, 4], [2, 4, 3]]] picks (2, 3) x 0 W [1] picks complete True
+case B starts 130
+case B: picks complete or some swap 130
+case B: some swap works 125
+shown 5
+|W|=1 n=2 min|H0|=2: picks complete 2
+|W|=1 n=2 min|H0|=2: picks complete or some swap 5
+|W|=1 n=2 min|H0|=2: some swap works 4
+|W|=1 n=2 min|H0|=2: some swap, owner w 3
+|W|=1 n=2 min|H0|=2: some swap, owner x 4
+|W|=1 n=2 min|H0|=2: starts 5
+|W|=1 n=2 min|H0|=3: picks complete 1
+|W|=1 n=2 min|H0|=3: picks complete or some swap 3
+|W|=1 n=2 min|H0|=3: some swap works 2
+|W|=1 n=2 min|H0|=3: some swap, owner w 2
+|W|=1 n=2 min|H0|=3: some swap, owner x 2
+|W|=1 n=2 min|H0|=3: starts 3
+|W|=1 n=3 min|H0|=2: picks complete 40
+|W|=1 n=3 min|H0|=2: picks complete or some swap 50
+|W|=1 n=3 min|H0|=2: some swap works 50
+|W|=1 n=3 min|H0|=2: some swap, owner non-wanter 50
+|W|=1 n=3 min|H0|=2: some swap, owner w 47
+|W|=1 n=3 min|H0|=2: some swap, owner x 50
+|W|=1 n=3 min|H0|=2: starts 50
+|W|=1 n=3 min|H0|=3: picks complete 3
+|W|=1 n=3 min|H0|=3: picks complete or some swap 4
+|W|=1 n=3 min|H0|=3: some swap works 3
+|W|=1 n=3 min|H0|=3: some swap, owner non-wanter 3
+|W|=1 n=3 min|H0|=3: some swap, owner w 3
+|W|=1 n=3 min|H0|=3: some swap, owner x 3
+|W|=1 n=3 min|H0|=3: starts 4
+|W|=1 n=4 min|H0|=2: picks complete 27
+|W|=1 n=4 min|H0|=2: picks complete or some swap 28
+|W|=1 n=4 min|H0|=2: some swap works 28
+|W|=1 n=4 min|H0|=2: some swap, owner non-wanter 28
+|W|=1 n=4 min|H0|=2: some swap, owner w 28
+|W|=1 n=4 min|H0|=2: some swap, owner x 28
+|W|=1 n=4 min|H0|=2: starts 28
+|W|=1 n=4 min|H0|=3: picks complete 6
+|W|=1 n=4 min|H0|=3: picks complete or some swap 6
+|W|=1 n=4 min|H0|=3: some swap works 4
+|W|=1 n=4 min|H0|=3: some swap, owner non-wanter 4
+|W|=1 n=4 min|H0|=3: some swap, owner w 4
+|W|=1 n=4 min|H0|=3: some swap, owner x 4
+|W|=1 n=4 min|H0|=3: starts 6
+|W|=1 n=5 min|H0|=2: picks complete 8
+|W|=1 n=5 min|H0|=2: picks complete or some swap 8
+|W|=1 n=5 min|H0|=2: some swap works 8
+|W|=1 n=5 min|H0|=2: some swap, owner non-wanter 8
+|W|=1 n=5 min|H0|=2: some swap, owner w 8
+|W|=1 n=5 min|H0|=2: some swap, owner x 8
+|W|=1 n=5 min|H0|=2: starts 8
+|W|=2 n=3 min|H0|=2: picks complete 12
+|W|=2 n=3 min|H0|=2: picks complete or some swap 14
+|W|=2 n=3 min|H0|=2: some swap works 14
+|W|=2 n=3 min|H0|=2: some swap, owner other wanter 8
+|W|=2 n=3 min|H0|=2: some swap, owner w 14
+|W|=2 n=3 min|H0|=2: some swap, owner x 9
+|W|=2 n=3 min|H0|=2: starts 14
+|W|=2 n=3 min|H0|=3: picks complete 5
+|W|=2 n=3 min|H0|=3: picks complete or some swap 6
+|W|=2 n=3 min|H0|=3: some swap works 6
+|W|=2 n=3 min|H0|=3: some swap, owner other wanter 5
+|W|=2 n=3 min|H0|=3: some swap, owner x 1
+|W|=2 n=3 min|H0|=3: starts 6
+|W|=2 n=4 min|H0|=2: picks complete 5
+|W|=2 n=4 min|H0|=2: picks complete or some swap 5
+|W|=2 n=4 min|H0|=2: some swap works 5
+|W|=2 n=4 min|H0|=2: some swap, owner non-wanter 5
+|W|=2 n=4 min|H0|=2: some swap, owner other wanter 5
+|W|=2 n=4 min|H0|=2: some swap, owner w 5
+|W|=2 n=4 min|H0|=2: some swap, owner x 5
+|W|=2 n=4 min|H0|=2: starts 5
+|W|=2 n=4 min|H0|=3: picks complete 1
+|W|=2 n=4 min|H0|=3: picks complete or some swap 1
+|W|=2 n=4 min|H0|=3: some swap works 1
+|W|=2 n=4 min|H0|=3: some swap, owner non-wanter 1
+|W|=2 n=4 min|H0|=3: some swap, owner other wanter 1
+|W|=2 n=4 min|H0|=3: some swap, owner w 1
+|W|=2 n=4 min|H0|=3: some swap, owner x 1
+|W|=2 n=4 min|H0|=3: starts 1
+time 0 s
+$ python3 k4/oc1_hall/f1_caseb.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+CASE B, NO SWAP r113 [[[0, 2, 4, 5], [1, 3, 4, 5], [3, 4, 5]], [[8, 6, 5, 4], [3, 2, 6, 10], [3, 2, 4]]] picks (0, 5, 3) x 1 W [2] picks complete True
+CASE B, NO SWAP r208 [[[0, 4, 5], [1, 2, 3, 4], [1, 2, 3, 5]], [[3, 4, 2], [8, 5, 4, 2], [8, 2, 3, 4]]] picks (4, 2, 1) x 2 W [1] picks complete True
+CASE B, NO SWAP r274 [[[0, 2, 3, 4], [1, 2, 3, 4], [1, 3, 4]], [[8, 5, 2, 4], [4, 2, 3, 8], [3, 2, 4]]] picks (0, 4, 1) x 1 W [2] picks complete True
+CASE B, NO SWAP r316 [[[0, 1, 2, 3], [1, 2, 3]], [[2, 3, 10, 6], [3, 4, 2]]] picks (2, 1) x 0 W [1] picks complete True
+CASE B, NO SWAP r431 [[[0, 2, 5, 6], [1, 3, 4, 6], [3, 4, 5, 6]], [[4, 8, 10, 3], [8, 7, 2, 4], [3, 6, 10, 2]]] picks (2, 1, 5) x 2 W [0] picks complete True
+CASE B, NO SWAP r448 [[[0, 2, 3, 4], [1, 3, 4], [2, 3, 4]], [[2, 10, 3, 6], [4, 3, 2], [4, 3, 2]]] picks (2, 1, 3) x 0 W [2] picks complete True
+CASE B, NO SWAP r521 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[3, 10, 8, 4], [2, 3, 10, 6], [5, 3, 7, 6]]] picks (1, 4, 5) x 1 W [2] picks complete True
+CASE B, NO SWAP r563 [[[0, 1, 2, 3], [0, 1, 2, 3]], [[2, 4, 8, 3], [7, 6, 10, 2]]] picks (2, 0) x 0 W [1] picks complete True
+case B starts 1286
+case B: picks complete or some swap 1286
+case B: some swap works 1254
+shown 8
+|W|=1 n=2 min|H0|=2: picks complete 68
+|W|=1 n=2 min|H0|=2: picks complete or some swap 94
+|W|=1 n=2 min|H0|=2: some swap works 94
+|W|=1 n=2 min|H0|=2: some swap, owner w 74
+|W|=1 n=2 min|H0|=2: some swap, owner x 94
+|W|=1 n=2 min|H0|=2: starts 94
+|W|=1 n=2 min|H0|=3: picks complete 6
+|W|=1 n=2 min|H0|=3: picks complete or some swap 6
+|W|=1 n=2 min|H0|=3: some swap works 1
+|W|=1 n=2 min|H0|=3: some swap, owner w 1
+|W|=1 n=2 min|H0|=3: some swap, owner x 1
+|W|=1 n=2 min|H0|=3: starts 6
+|W|=1 n=3 min|H0|=2: picks complete 1024
+|W|=1 n=3 min|H0|=2: picks complete or some swap 1044
+|W|=1 n=3 min|H0|=2: some swap works 1044
+|W|=1 n=3 min|H0|=2: some swap, owner non-wanter 1044
+|W|=1 n=3 min|H0|=2: some swap, owner w 1018
+|W|=1 n=3 min|H0|=2: some swap, owner x 1042
+|W|=1 n=3 min|H0|=2: starts 1044
+|W|=1 n=3 min|H0|=3: picks complete 86
+|W|=1 n=3 min|H0|=3: picks complete or some swap 86
+|W|=1 n=3 min|H0|=3: some swap works 59
+|W|=1 n=3 min|H0|=3: some swap, owner non-wanter 59
+|W|=1 n=3 min|H0|=3: some swap, owner w 59
+|W|=1 n=3 min|H0|=3: some swap, owner x 59
+|W|=1 n=3 min|H0|=3: starts 86
+|W|=2 n=3 min|H0|=2: picks complete 50
+|W|=2 n=3 min|H0|=2: picks complete or some swap 52
+|W|=2 n=3 min|H0|=2: some swap works 52
+|W|=2 n=3 min|H0|=2: some swap, owner other wanter 44
+|W|=2 n=3 min|H0|=2: some swap, owner w 42
+|W|=2 n=3 min|H0|=2: some swap, owner x 44
+|W|=2 n=3 min|H0|=2: starts 52
+|W|=2 n=3 min|H0|=3: picks complete 4
+|W|=2 n=3 min|H0|=3: picks complete or some swap 4
+|W|=2 n=3 min|H0|=3: some swap works 4
+|W|=2 n=3 min|H0|=3: some swap, owner other wanter 4
+|W|=2 n=3 min|H0|=3: some swap, owner w 3
+|W|=2 n=3 min|H0|=3: some swap, owner x 3
+|W|=2 n=3 min|H0|=3: starts 4
+time 0 s
+$ python3 k4/oc1_hall/f1_caseb.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+CASE B, NO SWAP r33 [[[0, 1, 2, 4], [0, 2, 4], [1, 3, 5, 6], [3, 5, 6]], [[3, 6, 10, 2], [3, 4, 2], [1, 8, 4, 6], [3, 2, 4]]] picks (2, 0, 3, 6) x 0 W [1] picks complete True
+CASE B, NO SWAP r139 [[[0, 2, 3, 4], [1, 5, 6, 7], [3, 4, 6, 7], [5, 6, 7]], [[4, 2, 8, 3], [2, 8, 3, 4], [5, 8, 4, 2], [4, 2, 3]]] picks (3, 5, 4, 7) x 1 W [3] picks complete True
+CASE B, NO SWAP r141 [[[0, 5, 6, 7], [1, 5, 6], [2, 3, 4, 7], [2, 3, 4, 7]], [[2, 4, 3, 8], [4, 3, 2], [7, 4, 2, 8], [8, 4, 10, 3]]] picks (7, 1, 2, 4) x 0 W [2] picks complete True
+CASE B, NO SWAP r249 [[[0, 2, 5, 6], [1, 4, 6], [3, 4, 5, 6], [3, 4, 5, 6]], [[2, 8, 5, 4], [4, 3, 2], [7, 2, 10, 4], [2, 3, 10, 6]]] picks (2, 1, 3, 5) x 3 W [2] picks complete True
+CASE B, NO SWAP r253 [[[0, 2, 5, 6], [1, 5, 6, 9], [3, 7, 8, 9], [4, 7, 8, 9]], [[8, 4, 5, 6], [3, 8, 4, 6], [3, 7, 6, 5], [2, 8, 4, 3]]] picks (0, 5, 8, 7) x 3 W [2] picks complete True
+CASE B, NO SWAP r329 [[[0, 2, 4, 6], [1, 5, 6, 7], [3, 5, 7], [4, 5, 6, 7]], [[6, 4, 3, 8], [8, 4, 2, 5], [4, 3, 2], [6, 3, 10, 2]]] picks (0, 1, 3, 6) x 3 W [0] picks complete True
+CASE B, NO SWAP r713 [[[0, 1, 2, 3], [1, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[10, 4, 3, 8], [7, 2, 4, 10], [2, 4, 3, 8], [10, 7, 4, 2]]] picks (0, 1, 5, 2) x 2 W [1] picks complete True
+CASE B, NO SWAP r754 [[[0, 3, 4, 7], [1, 5, 6, 7], [2, 5, 6, 7], [3, 4, 7]], [[7, 6, 3, 5], [8, 4, 6, 5], [2, 3, 6, 10], [3, 2, 4]]] picks (0, 1, 7, 3) x 2 W [3] picks complete True
+case B starts 604
+case B: picks complete or some swap 604
+case B: some swap works 590
+shown 8
+|W|=1 n=4 min|H0|=2: picks complete 519
+|W|=1 n=4 min|H0|=2: picks complete or some swap 521
+|W|=1 n=4 min|H0|=2: some swap works 521
+|W|=1 n=4 min|H0|=2: some swap, owner non-wanter 521
+|W|=1 n=4 min|H0|=2: some swap, owner w 517
+|W|=1 n=4 min|H0|=2: some swap, owner x 517
+|W|=1 n=4 min|H0|=2: starts 521
+|W|=1 n=4 min|H0|=3: picks complete 36
+|W|=1 n=4 min|H0|=3: picks complete or some swap 36
+|W|=1 n=4 min|H0|=3: some swap works 22
+|W|=1 n=4 min|H0|=3: some swap, owner non-wanter 22
+|W|=1 n=4 min|H0|=3: some swap, owner w 22
+|W|=1 n=4 min|H0|=3: some swap, owner x 22
+|W|=1 n=4 min|H0|=3: starts 36
+|W|=2 n=4 min|H0|=2: picks complete 40
+|W|=2 n=4 min|H0|=2: picks complete or some swap 40
+|W|=2 n=4 min|H0|=2: some swap works 40
+|W|=2 n=4 min|H0|=2: some swap, owner non-wanter 39
+|W|=2 n=4 min|H0|=2: some swap, owner other wanter 40
+|W|=2 n=4 min|H0|=2: some swap, owner w 39
+|W|=2 n=4 min|H0|=2: some swap, owner x 37
+|W|=2 n=4 min|H0|=2: starts 40
+|W|=2 n=4 min|H0|=3: picks complete 4
+|W|=2 n=4 min|H0|=3: picks complete or some swap 4
+|W|=2 n=4 min|H0|=3: some swap works 4
+|W|=2 n=4 min|H0|=3: some swap, owner non-wanter 4
+|W|=2 n=4 min|H0|=3: some swap, owner other wanter 4
+|W|=2 n=4 min|H0|=3: some swap, owner w 4
+|W|=2 n=4 min|H0|=3: some swap, owner x 4
+|W|=2 n=4 min|H0|=3: starts 4
+|W|=3 n=4 min|H0|=2: picks complete 3
+|W|=3 n=4 min|H0|=2: picks complete or some swap 3
+|W|=3 n=4 min|H0|=2: some swap works 3
+|W|=3 n=4 min|H0|=2: some swap, owner other wanter 3
+|W|=3 n=4 min|H0|=2: some swap, owner w 3
+|W|=3 n=4 min|H0|=2: some swap, owner x 3
+|W|=3 n=4 min|H0|=2: starts 3
+time 1 s
+$ python3 k4/oc1_hall/f1_caseb.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
+case B starts 28
+case B: picks complete or some swap 28
+case B: some swap works 28
+|W|=1 n=5 min|H0|=2: picks complete 26
+|W|=1 n=5 min|H0|=2: picks complete or some swap 26
+|W|=1 n=5 min|H0|=2: some swap works 26
+|W|=1 n=5 min|H0|=2: some swap, owner non-wanter 26
+|W|=1 n=5 min|H0|=2: some swap, owner w 26
+|W|=1 n=5 min|H0|=2: some swap, owner x 26
+|W|=1 n=5 min|H0|=2: starts 26
+|W|=2 n=5 min|H0|=2: picks complete 2
+|W|=2 n=5 min|H0|=2: picks complete or some swap 2
+|W|=2 n=5 min|H0|=2: some swap works 2
+|W|=2 n=5 min|H0|=2: some swap, owner non-wanter 2
+|W|=2 n=5 min|H0|=2: some swap, owner other wanter 2
+|W|=2 n=5 min|H0|=2: some swap, owner w 2
+|W|=2 n=5 min|H0|=2: some swap, owner x 2
+|W|=2 n=5 min|H0|=2: starts 2
+time 0 s

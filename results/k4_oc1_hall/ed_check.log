@@ -1,0 +1,96 @@
+$ python3 k4/oc1_hall/ed_check.py special
+  S*-hard, one-absorber complete at the picks: CANON-S* 1
+  S*-hard, one-absorber complete at the picks: ED-OA 1
+  S*-hard, one-absorber complete at the picks: ED-S* 1
+  S*-hard, one-absorber complete at the picks: ED-S* with head junk 1
+  one-absorber-hard: CANON-S* 14
+  one-absorber-hard: ED-OA 16
+  one-absorber-hard: ED-S* 16
+  one-absorber-hard: ED-S* with head junk 9
+S*-hard, one-absorber complete at the picks 1
+one-absorber-hard 16
+time 0 s
+$ python3 k4/oc1_hall/ed_check.py screen
+NO ED-S* REPAIR S*-hard, one-absorber complete at the picks lb4-owner-needs-from-base-n4m8 [[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], [[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]]] picks (4, 6, 7, 5) False
+NO ED-S* REPAIR S*-hard, one-absorber complete at the picks lb4-owner-needs-from-base-n4m8 [[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], [[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]]] picks (6, 5, 4, 7) False
+  S*-hard, one-absorber complete at the picks: CANON-S* 37
+  S*-hard, one-absorber complete at the picks: ED-OA 38
+  S*-hard, one-absorber complete at the picks: ED-S* 38
+  S*-hard, one-absorber complete at the picks: ED-S* with head junk 38
+  S*-hard, one-absorber complete at the picks: ED-S* with t = 0 4
+  one-absorber-hard: CANON-S* 182
+  one-absorber-hard: ED-OA 194
+  one-absorber-hard: ED-S* 194
+  one-absorber-hard: ED-S* with head junk 140
+S*-hard, one-absorber complete at the picks 40
+one-absorber-hard 194
+time 2 s
+$ python3 k4/oc1_hall/ed_check.py suite
+NO ED-S* REPAIR S*-hard, one-absorber complete at the picks lb4-owner-needs-from-base-n4m8 [[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], [[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]]] picks (4, 6, 7, 5) False
+NO ED-S* REPAIR S*-hard, one-absorber complete at the picks lb4-owner-needs-from-base-n4m8 [[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], [[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]]] picks (6, 5, 4, 7) False
+  S*-hard, one-absorber complete at the picks: CANON-S* 34
+  S*-hard, one-absorber complete at the picks: ED-OA 35
+  S*-hard, one-absorber complete at the picks: ED-S* 35
+  S*-hard, one-absorber complete at the picks: ED-S* with head junk 35
+  S*-hard, one-absorber complete at the picks: ED-S* with t = 0 4
+  one-absorber-hard: CANON-S* 184
+  one-absorber-hard: ED-OA 196
+  one-absorber-hard: ED-S* 196
+  one-absorber-hard: ED-S* with head junk 148
+S*-hard, one-absorber complete at the picks 37
+one-absorber-hard 196
+time 3 s
+$ python3 k4/oc1_hall/ed_check.py logs
+NO ED-S* REPAIR S*-hard, one-absorber complete at the picks log573 [[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], [[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]]] picks (4, 6, 7, 5) False
+NO ED-S* REPAIR S*-hard, one-absorber complete at the picks log573 [[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], [[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]]] picks (6, 5, 4, 7) False
+  S*-hard, one-absorber complete at the picks: CANON-S* 104
+  S*-hard, one-absorber complete at the picks: ED-OA 104
+  S*-hard, one-absorber complete at the picks: ED-S* 104
+  S*-hard, one-absorber complete at the picks: ED-S* with head junk 104
+  S*-hard, one-absorber complete at the picks: ED-S* with t = 0 37
+  one-absorber-hard: CANON-S* 1348
+  one-absorber-hard: ED-OA 1364
+  one-absorber-hard: ED-S* 1364
+  one-absorber-hard: ED-S* with head junk 781
+S*-hard, one-absorber complete at the picks 106
+one-absorber-hard 1364
+time 8 s
+$ python3 k4/oc1_hall/ed_check.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+  S*-hard, one-absorber complete at the picks: CANON-S* 143
+  S*-hard, one-absorber complete at the picks: ED-OA 143
+  S*-hard, one-absorber complete at the picks: ED-S* 143
+  S*-hard, one-absorber complete at the picks: ED-S* with head junk 143
+  S*-hard, one-absorber complete at the picks: ED-S* with t = 0 49
+  one-absorber-hard: CANON-S* 293
+  one-absorber-hard: ED-OA 293
+  one-absorber-hard: ED-S* 293
+  one-absorber-hard: ED-S* with head junk 212
+S*-hard, one-absorber complete at the picks 143
+one-absorber-hard 293
+time 3 s
+$ python3 k4/oc1_hall/ed_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+  S*-hard, one-absorber complete at the picks: CANON-S* 40
+  S*-hard, one-absorber complete at the picks: ED-OA 40
+  S*-hard, one-absorber complete at the picks: ED-S* 40
+  S*-hard, one-absorber complete at the picks: ED-S* with head junk 40
+  S*-hard, one-absorber complete at the picks: ED-S* with t = 0 16
+  one-absorber-hard: CANON-S* 215
+  one-absorber-hard: ED-OA 215
+  one-absorber-hard: ED-S* 215
+  one-absorber-hard: ED-S* with head junk 144
+S*-hard, one-absorber complete at the picks 40
+one-absorber-hard 215
+time 4 s
+$ python3 k4/oc1_hall/ed_check.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
+  S*-hard, one-absorber complete at the picks: CANON-S* 1
+  S*-hard, one-absorber complete at the picks: ED-OA 1
+  S*-hard, one-absorber complete at the picks: ED-S* 1
+  S*-hard, one-absorber complete at the picks: ED-S* with head junk 1
+  S*-hard, one-absorber complete at the picks: ED-S* with t = 0 1
+  one-absorber-hard: CANON-S* 30
+  one-absorber-hard: ED-OA 30
+  one-absorber-hard: ED-S* 30
+  one-absorber-hard: ED-S* with head junk 19
+S*-hard, one-absorber complete at the picks 1
+one-absorber-hard 30
+time 1 s

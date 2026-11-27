@@ -1,0 +1,81 @@
+$ python3 k4/sdind/e5_step.py special
+frozen cur-free safe: X 77
+frozen cur-free safe: least distance 0 77
+frozen cur-free thr: BEST move works 4
+frozen cur-free thr: X 4
+frozen cur-free thr: least distance 1 4
+frozen cur-frozen safe: X 261
+frozen cur-frozen safe: least distance 0 261
+frozen cur-frozen thr: X 60
+frozen cur-frozen thr: least distance 1 45
+frozen cur-frozen thr: least distance 2 8
+frozen cur-frozen thr: least distance None 7
+instances 4
+unfrozen cur-free safe: X 56
+unfrozen cur-free safe: least distance 0 56
+time 0 s
+$ python3 k4/sdind/e5_step.py screen 5
+BEST FAILS frozen cur-free thr C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] picks [2, 4, 5, 6] present (1, 2, 3) f 0 X {0: 2, 1: 2, 3: 2} least d 1
+BEST FAILS frozen cur-free thr C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] picks [2, 4, 5, 6] present (2, 3) f 0 X {0: 2, 1: 2, 3: 2} least d 1
+BEST FAILS frozen cur-free thr C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] picks [2, 4, 5, 6] present (2,) f 0 X {0: 2, 1: 2, 3: 2} least d 1
+BEST FAILS unfrozen cur-free thr gap-btcyc-n4-m8-pure122 [[[0, 2, 5, 6], [0, 3, 4, 6], [1, 2, 4, 7], [1, 3, 5, 7]], [[3, 10, 2, 6], [2, 10, 3, 6], [2, 10, 3, 6], [2, 8, 3, 4]]] picks [6, 3, 2, 7] present (0, 2) f 3 X {0: 0, 1: 0, 4: 2, 5: 0} least d 1
+BEST FAILS unfrozen cur-free thr gap-local-n3-m7-n3c43 [[[0, 3, 4, 6], [1, 3, 5, 6], [2, 4, 5, 6]], [[3, 10, 6, 2], [2, 10, 3, 6], [4, 10, 7, 2]]] picks [3, 6, 4] present (0, 1) f 2 X {0: 0, 1: 1, 2: 1, 5: 1} least d 1
+BEST FAILS unfrozen cur-free thr gap-phi-n4-m10-pure183 [[[0, 2, 5, 8], [1, 4, 7, 9], [3, 5, 6, 9], [6, 7, 8, 9]], [[2, 6, 10, 3], [6, 3, 10, 2], [3, 10, 2, 6], [3, 8, 4, 2]]] picks [5, 7, 9, 8] present (0, 2) f 3 X {0: 0, 1: 2, 2: 2, 3: 2, 4: 2, 6: 2} least d 2
+frozen cur-free safe: X 1454
+frozen cur-free safe: least distance 0 1454
+frozen cur-free thr: BEST move works 260
+frozen cur-free thr: X 407
+frozen cur-free thr: least distance 1 363
+frozen cur-free thr: least distance 2 39
+frozen cur-free thr: least distance None 5
+frozen cur-frozen safe: X 12461
+frozen cur-frozen safe: least distance 0 12461
+frozen cur-frozen thr: X 3736
+frozen cur-frozen thr: least distance 1 1871
+frozen cur-frozen thr: least distance 2 1547
+frozen cur-frozen thr: least distance 3 117
+frozen cur-frozen thr: least distance 4 84
+frozen cur-frozen thr: least distance 5 17
+frozen cur-frozen thr: least distance 6 1
+frozen cur-frozen thr: least distance None 99
+instances 167
+unfrozen cur-free safe: X 3488
+unfrozen cur-free safe: least distance 0 3488
+unfrozen cur-free thr: BEST move works 1224
+unfrozen cur-free thr: X 1247
+unfrozen cur-free thr: least distance 1 1240
+unfrozen cur-free thr: least distance 2 7
+time 1 s
+$ python3 k4/sdind/e5_step.py suite 5
+BEST FAILS frozen cur-free thr adaptive-cover-multi4 [[[0, 1, 2, 3], [0, 1, 2, 3]], [[2, 4, 5, 8], [2, 4, 5, 8]]] picks [3, 2] present (1,) f 0 X {0: 1, 1: 1} least d 1
+BEST FAILS frozen cur-free thr adaptive-cover-multi4 [[[0, 1, 2, 3], [0, 1, 2, 3]], [[2, 4, 5, 8], [2, 4, 5, 8]]] picks [2, 3] present (0,) f 1 X {0: 0, 1: 0} least d 1
+BEST FAILS unfrozen cur-free thr c4-H1 [[[0, 1, 2, 3], [4, 7, 10, 0], [5, 8, 11, 0], [6, 9, 12, 0], [4, 5, 6, 1]], [[8, 6, 5, 4], [8, 6, 4, 3], [8, 6, 4, 3], [8, 6, 4, 3], [8, 6, 4, 3]]] picks [0, 4, 8, 6, 5] present (1, 2, 3, 4) f 0 X {1: 4, 2: 4, 3: 4, 7: 1, 9: 3, 10: 4, 11: 2, 12: 4} least d 1
+BEST FAILS unfrozen cur-free thr c4-H1 [[[0, 1, 2, 3], [4, 7, 10, 0], [5, 8, 11, 0], [6, 9, 12, 0], [4, 5, 6, 1]], [[8, 6, 5, 4], [8, 6, 4, 3], [8, 6, 4, 3], [8, 6, 4, 3], [8, 6, 4, 3]]] picks [0, 4, 8, 6, 5] present (1, 2, 3, 4) f 0 X {1: 4, 2: 4, 3: 4, 7: 1, 9: 4, 10: 4, 11: 2, 12: 3} least d 1
+BEST FAILS unfrozen cur-free thr c4-H1 [[[0, 1, 2, 3], [4, 7, 10, 0], [5, 8, 11, 0], [6, 9, 12, 0], [4, 5, 6, 1]], [[8, 6, 5, 4], [8, 6, 4, 3], [8, 6, 4, 3], [8, 6, 4, 3], [8, 6, 4, 3]]] picks [0, 4, 8, 6, 5] present (1, 2, 3, 4) f 0 X {1: 4, 2: 4, 3: 4, 7: 3, 9: 1, 10: 4, 11: 2, 12: 4} least d 1
+BEST FAILS frozen cur-free thr c4x-n2m5-base-needs [[[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 3, 4, 8], [2, 3, 4, 8]]] picks [4, 3] present (1,) f 0 X {0: 1, 1: 1, 2: 1} least d 1
+frozen cur-free safe: X 1743
+frozen cur-free safe: least distance 0 1743
+frozen cur-free thr: BEST move works 345
+frozen cur-free thr: X 484
+frozen cur-free thr: least distance 1 440
+frozen cur-free thr: least distance 2 39
+frozen cur-free thr: least distance None 5
+frozen cur-frozen safe: X 15383
+frozen cur-frozen safe: least distance 0 15383
+frozen cur-frozen thr: X 5707
+frozen cur-frozen thr: least distance 1 1938
+frozen cur-frozen thr: least distance 2 2589
+frozen cur-frozen thr: least distance 3 224
+frozen cur-frozen thr: least distance 4 303
+frozen cur-frozen thr: least distance 5 214
+frozen cur-frozen thr: least distance 6 258
+frozen cur-frozen thr: least distance 7 24
+frozen cur-frozen thr: least distance None 157
+instances 157
+unfrozen cur-free safe: X 4113
+unfrozen cur-free safe: least distance 0 4113
+unfrozen cur-free thr: BEST move works 2771
+unfrozen cur-free thr: X 2804
+unfrozen cur-free thr: least distance 1 2797
+unfrozen cur-free thr: least distance 2 7
+time 20 s

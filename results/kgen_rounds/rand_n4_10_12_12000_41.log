@@ -1,0 +1,159 @@
+$ python3 kgen/rounds/stress.py rand all 4 10 12 12000 41
+bigsmall 10 inst 357
+bigsmall 10 need_chain_A1 81
+bigsmall 10 need_chain_free 55
+bigsmall 10 starts 650
+bigsmall 11 inst 322
+bigsmall 11 need_chain_A1 45
+bigsmall 11 need_chain_free 24
+bigsmall 11 starts 525
+bigsmall 12 inst 321
+bigsmall 12 need_chain_A1 59
+bigsmall 12 need_chain_free 33
+bigsmall 12 starts 545
+corr 10 inst 340
+corr 10 need_chain_A1 808
+corr 10 need_chain_free 74
+corr 10 starts 2590
+corr 11 inst 308
+corr 11 need_chain_A1 1741
+corr 11 need_chain_free 33
+corr 11 starts 2257
+corr 12 inst 352
+corr 12 need_chain_A1 2179
+corr 12 need_chain_free 11
+corr 12 starts 2258
+generic 10 inst 322
+generic 10 need_chain_A1 117
+generic 10 need_chain_free 1
+generic 10 starts 638
+generic 11 inst 327
+generic 11 need_chain_A1 459
+generic 11 starts 589
+generic 12 inst 351
+generic 12 need_chain_A1 620
+generic 12 starts 622
+ident 10 inst 338
+ident 10 need_chain_A1 2520
+ident 10 starts 8112
+ident 11 inst 304
+ident 11 need_chain_A1 5376
+ident 11 starts 7296
+ident 12 inst 358
+ident 12 need_chain_A1 7968
+ident 12 starts 8592
+lex 10 inst 341
+lex 10 starts 635
+lex 11 inst 329
+lex 11 starts 614
+lex 12 inst 330
+lex 12 starts 574
+near 10 inst 343
+near 10 need_chain_A1 5139
+near 10 starts 5862
+near 11 inst 306
+near 11 need_chain_A1 5144
+near 11 starts 5144
+near 12 inst 351
+near 12 need_chain_A1 5714
+near 12 starts 5714
+pairs 10 inst 319
+pairs 10 need_chain_A1 295
+pairs 10 need_chain_free 4
+pairs 10 starts 625
+pairs 11 inst 340
+pairs 11 need_chain_A1 544
+pairs 11 starts 612
+pairs 12 inst 341
+pairs 12 need_chain_A1 643
+pairs 12 need_chain_free 2
+pairs 12 starts 655
+pw 10 inst 322
+pw 10 need_chain_A1 1808
+pw 10 need_chain_free 970
+pw 10 starts 1824
+pw 11 inst 330
+pw 11 need_chain_A1 1868
+pw 11 need_chain_free 978
+pw 11 starts 1868
+pw 12 inst 348
+pw 12 need_chain_A1 1948
+pw 12 need_chain_free 1020
+pw 12 starts 1948
+small 10 inst 346
+small 10 need_chain_A1 186
+small 10 need_chain_free 1
+small 10 starts 833
+small 11 inst 311
+small 11 need_chain_A1 596
+small 11 starts 662
+small 12 inst 343
+small 12 need_chain_A1 697
+small 12 starts 698
+threetype 10 inst 338
+threetype 10 need_chain_A1 496
+threetype 10 need_chain_free 4
+threetype 10 starts 2174
+threetype 11 inst 341
+threetype 11 need_chain_A1 1288
+threetype 11 starts 1904
+threetype 12 inst 321
+threetype 12 need_chain_A1 1656
+threetype 12 starts 1844
+tops 10 inst 345
+tops 10 need_chain_A1 56
+tops 10 starts 345
+tops 11 inst 333
+tops 11 need_chain_A1 329
+tops 11 starts 333
+tops 12 inst 322
+tops 12 need_chain_A1 322
+tops 12 starts 322
+twotype 10 inst 325
+twotype 10 need_chain_A1 486
+twotype 10 need_chain_free 22
+twotype 10 starts 2364
+twotype 11 inst 359
+twotype 11 need_chain_A1 1420
+twotype 11 starts 2548
+twotype 12 inst 316
+twotype 12 need_chain_A1 1776
+twotype 12 starts 2216
+min RND1 witnesses bigsmall 10 1
+min RND1 witnesses bigsmall 11 71
+min RND1 witnesses bigsmall 12 1
+min RND1 witnesses corr 10 207
+min RND1 witnesses corr 11 269
+min RND1 witnesses corr 12 2161
+min RND1 witnesses generic 10 755
+min RND1 witnesses generic 11 2598
+min RND1 witnesses generic 12 11507
+min RND1 witnesses ident 10 4
+min RND1 witnesses ident 11 103
+min RND1 witnesses ident 12 437
+min RND1 witnesses lex 10 1
+min RND1 witnesses lex 11 1
+min RND1 witnesses lex 12 1
+min RND1 witnesses near 10 1424
+min RND1 witnesses near 11 4857
+min RND1 witnesses near 12 13192
+min RND1 witnesses pairs 10 1012
+min RND1 witnesses pairs 11 2739
+min RND1 witnesses pairs 12 11224
+min RND1 witnesses pw 10 270
+min RND1 witnesses pw 11 1486
+min RND1 witnesses pw 12 6406
+min RND1 witnesses small 10 1708
+min RND1 witnesses small 11 7473
+min RND1 witnesses small 12 30453
+min RND1 witnesses threetype 10 64
+min RND1 witnesses threetype 11 1827
+min RND1 witnesses threetype 12 1108
+min RND1 witnesses tops 10 1696
+min RND1 witnesses tops 11 6104
+min RND1 witnesses tops 12 23347
+min RND1 witnesses twotype 10 208
+min RND1 witnesses twotype 11 1117
+min RND1 witnesses twotype 12 4898
+TOTAL {'inst': 12000, 'need_chain_A1': 54384, 'need_chain_free': 3232, 'starts': 76992}
+time 579 s

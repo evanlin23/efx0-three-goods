@@ -1,0 +1,27 @@
+$ python3 k4/sdind/e14_both_pot.py screen 5
+cases 121
+every X' works with <= 1 move to u 119
+instances 167
+pot -holdval: every maximizer works 121
+pot -util: every maximizer works 121
+pot holdval: every maximizer works 119
+pot leximin: every maximizer works 119
+pot nlarge: every maximizer works 119
+pot ujunk: every maximizer works 119
+pot util: every maximizer works 119
+some X' works with <= 1 move to u 121
+time 0 s
+$ python3 k4/sdind/e14_both_pot.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz:1500:92
+NO X' WITH ONE MOVE r1179 [[[0, 3, 6, 7], [1, 4, 6, 7], [2, 5, 8], [3, 4, 5, 8]], [[8, 1, 6, 4], [4, 8, 3, 2], [4, 2, 3], [5, 8, 6, 4]]] picks [0, 1, 2, 4] u 0
+cases 5142
+every X' works with <= 1 move to u 5103
+instances 1500
+pot -holdval: every maximizer works 5123
+pot -util: every maximizer works 5126
+pot holdval: every maximizer works 5135
+pot leximin: every maximizer works 5135
+pot nlarge: every maximizer works 5126
+pot ujunk: every maximizer works 5138
+pot util: every maximizer works 5137
+some X' works with <= 1 move to u 5141
+time 10 s
