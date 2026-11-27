@@ -5,7 +5,8 @@ copies and runs out of memory at beta = 5).  Same generator (mincex_shapes.hyper
 (mincex_shapes.restricted_domains), but isomorphic copies are dropped as they are generated and only the profile count of
 each surviving candidate is kept.  Prints, per (n, m): candidates listed, left after isomorphism, left after K4.MC5,
 max and total profiles.  Measures the size of a beta = 5 certification; certifies nothing.
-    python3 k4/mincex_shapes_count.py BETA [--nmin=N] [--nmax=N]"""
+    python3 k4/mincex_shapes_count.py BETA [--nmin=N] [--nmax=N] [--kinds]   (--kinds: tally the surviving candidates by
+    agent kinds P3/Q3/P4/Q4, by the number of goods of degree >= 3, and by whether a P3 agent is present)"""
 import sys, collections, time
 import numpy as np
 import networkx as nx
@@ -20,7 +21,7 @@ def main():
     t0 = time.time(); fail = MS.px_uncovered()
     print('px tables built [%.0f s]' % (time.time() - t0), flush=True)
     buckets = collections.defaultdict(list); listed = collections.Counter(); iso = collections.Counter()
-    left = collections.defaultdict(list); last = None
+    left = collections.defaultdict(list); last = None; comp = collections.Counter()
     for n, m, sets in MS.hypergraphs(beta, nmax):
         if n < nmin: continue
         if last != n:
@@ -32,8 +33,17 @@ def main():
         buckets[h].append(G); iso[(n, m)] += 1
         dom, kinds, rules = MS.restricted_domains(sets, m, fail)
         size = int(np.prod([len(d) for d in dom], dtype=object))
-        if size: left[(n, m)].append(size)
+        if size:
+            left[(n, m)].append(size)
+            deg = collections.Counter(g for S in sets for g in S)
+            ks = collections.Counter(MS.kind(S, deg) for S in sets)
+            hi = sum(1 for g, d in deg.items() if d >= 3)
+            comp[(n, 'P3=%d Q3=%d P4=%d Q4=%d' % (ks['P3'], ks['Q3'], ks['P4'], ks['Q4']))] += 1
+            comp[(n, 'goods of degree >= 3: %d' % hi)] += 1
+            comp[(n, 'has a P3 agent: %s' % (ks['P3'] > 0))] += 1
     if last is not None: report(last, listed, iso, left, t0)
+    if '--kinds' in sys.argv:
+        for (n, k), c in sorted(comp.items()): print('  kinds n = %d: %s: %d' % (n, k, c))
 
 
 def report(n, listed, iso, left, t0):

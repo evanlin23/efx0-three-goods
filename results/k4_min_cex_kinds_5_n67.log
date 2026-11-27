@@ -1,0 +1,179 @@
+$ cd k4 && python3 mincex_shapes_count.py 5 --nmin=6 --nmax=7 --kinds   (gadget-search lines omitted)
+px tables built [5 s]
+  n = 6, m = 9: 4049 listed, 3603 up to isomorphism, 3488 left after K4.MC5 (profiles: max 2239488, total 3174656496)
+  n = 6, m = 10: 10896 listed, 9513 up to isomorphism, 8992 left after K4.MC5 (profiles: max 107495424, total 344863977488)
+  n = 6, m = 11: 13041 listed, 11212 up to isomorphism, 10360 left after K4.MC5 (profiles: max 5159780352, total 18577998402048)
+  n = 6, m = 12: 7295 listed, 6328 up to isomorphism, 5839 left after K4.MC5 (profiles: max 247669456896, total 584286808264704)
+  n = 6, m = 13: 1827 listed, 1584 up to isomorphism, 1490 left after K4.MC5 (profiles: max 11888133931008, total 9957660589817856)
+  n = 6, m = 14: 168 listed, 168 up to isomorphism, 168 left after K4.MC5 (profiles: max 570630428688384, total 95865912019648512)
+  [n = 6 done, 30 s]
+  n = 7, m = 11: 16630 listed, 15571 up to isomorphism, 14842 left after K4.MC5 (profiles: max 13436928, total 33347853552)
+  n = 7, m = 12: 42376 listed, 38743 up to isomorphism, 35434 left after K4.MC5 (profiles: max 644972544, total 3133329347056)
+  n = 7, m = 13: 50204 listed, 45186 up to isomorphism, 40092 left after K4.MC5 (profiles: max 30958682112, total 156775455523152)
+  n = 7, m = 14: 29812 listed, 26626 up to isomorphism, 23426 left after K4.MC5 (profiles: max 1486016741376, total 5010545330908416)
+  n = 7, m = 15: 8915 listed, 7904 up to isomorphism, 7081 left after K4.MC5 (profiles: max 71328803586048, total 105470133483995136)
+  n = 7, m = 16: 1277 listed, 1127 up to isomorphism, 1056 left after K4.MC5 (profiles: max 3423782572130304, total 1487649378435858432)
+  n = 7, m = 17: 75 listed, 75 up to isomorphism, 75 left after K4.MC5 (profiles: max 164341563462254592, total 12325617259669094400)
+  [n = 7 done, 211 s]
+  kinds n = 6: P3=0 Q3=0 P4=4 Q4=2: 42
+  kinds n = 6: P3=0 Q3=0 P4=5 Q4=1: 73
+  kinds n = 6: P3=0 Q3=0 P4=6 Q4=0: 53
+  kinds n = 6: P3=0 Q3=1 P4=3 Q4=2: 106
+  kinds n = 6: P3=0 Q3=1 P4=4 Q4=1: 302
+  kinds n = 6: P3=0 Q3=1 P4=5 Q4=0: 200
+  kinds n = 6: P3=0 Q3=2 P4=2 Q4=2: 169
+  kinds n = 6: P3=0 Q3=2 P4=3 Q4=1: 572
+  kinds n = 6: P3=0 Q3=2 P4=4 Q4=0: 476
+  kinds n = 6: P3=0 Q3=3 P4=1 Q4=2: 106
+  kinds n = 6: P3=0 Q3=3 P4=2 Q4=1: 572
+  kinds n = 6: P3=0 Q3=3 P4=3 Q4=0: 588
+  kinds n = 6: P3=0 Q3=4 P4=0 Q4=2: 42
+  kinds n = 6: P3=0 Q3=4 P4=1 Q4=1: 302
+  kinds n = 6: P3=0 Q3=4 P4=2 Q4=0: 476
+  kinds n = 6: P3=0 Q3=5 P4=0 Q4=1: 73
+  kinds n = 6: P3=0 Q3=5 P4=1 Q4=0: 200
+  kinds n = 6: P3=1 Q3=0 P4=2 Q4=3: 54
+  kinds n = 6: P3=1 Q3=0 P4=3 Q4=2: 291
+  kinds n = 6: P3=1 Q3=0 P4=4 Q4=1: 395
+  kinds n = 6: P3=1 Q3=0 P4=5 Q4=0: 142
+  kinds n = 6: P3=1 Q3=1 P4=1 Q4=3: 100
+  kinds n = 6: P3=1 Q3=1 P4=2 Q4=2: 806
+  kinds n = 6: P3=1 Q3=1 P4=3 Q4=1: 1423
+  kinds n = 6: P3=1 Q3=1 P4=4 Q4=0: 597
+  kinds n = 6: P3=1 Q3=2 P4=0 Q4=3: 54
+  kinds n = 6: P3=1 Q3=2 P4=1 Q4=2: 806
+  kinds n = 6: P3=1 Q3=2 P4=2 Q4=1: 2092
+  kinds n = 6: P3=1 Q3=2 P4=3 Q4=0: 1137
+  kinds n = 6: P3=1 Q3=3 P4=0 Q4=2: 291
+  kinds n = 6: P3=1 Q3=3 P4=1 Q4=1: 1423
+  kinds n = 6: P3=1 Q3=3 P4=2 Q4=0: 1137
+  kinds n = 6: P3=1 Q3=4 P4=0 Q4=1: 395
+  kinds n = 6: P3=1 Q3=4 P4=1 Q4=0: 597
+  kinds n = 6: P3=2 Q3=0 P4=0 Q4=4: 12
+  kinds n = 6: P3=2 Q3=0 P4=1 Q4=3: 156
+  kinds n = 6: P3=2 Q3=0 P4=2 Q4=2: 659
+  kinds n = 6: P3=2 Q3=0 P4=3 Q4=1: 673
+  kinds n = 6: P3=2 Q3=0 P4=4 Q4=0: 196
+  kinds n = 6: P3=2 Q3=1 P4=0 Q4=3: 156
+  kinds n = 6: P3=2 Q3=1 P4=1 Q4=2: 1214
+  kinds n = 6: P3=2 Q3=1 P4=2 Q4=1: 1877
+  kinds n = 6: P3=2 Q3=1 P4=3 Q4=0: 643
+  kinds n = 6: P3=2 Q3=2 P4=0 Q4=2: 659
+  kinds n = 6: P3=2 Q3=2 P4=1 Q4=1: 1877
+  kinds n = 6: P3=2 Q3=2 P4=2 Q4=0: 960
+  kinds n = 6: P3=2 Q3=3 P4=0 Q4=1: 673
+  kinds n = 6: P3=2 Q3=3 P4=1 Q4=0: 643
+  kinds n = 6: P3=3 Q3=0 P4=0 Q4=3: 104
+  kinds n = 6: P3=3 Q3=0 P4=1 Q4=2: 450
+  kinds n = 6: P3=3 Q3=0 P4=2 Q4=1: 451
+  kinds n = 6: P3=3 Q3=0 P4=3 Q4=0: 110
+  kinds n = 6: P3=3 Q3=1 P4=0 Q4=2: 450
+  kinds n = 6: P3=3 Q3=1 P4=1 Q4=1: 832
+  kinds n = 6: P3=3 Q3=1 P4=2 Q4=0: 276
+  kinds n = 6: P3=3 Q3=2 P4=0 Q4=1: 451
+  kinds n = 6: P3=3 Q3=2 P4=1 Q4=0: 276
+  kinds n = 6: P3=4 Q3=0 P4=0 Q4=2: 115
+  kinds n = 6: P3=4 Q3=0 P4=1 Q4=1: 119
+  kinds n = 6: P3=4 Q3=0 P4=2 Q4=0: 33
+  kinds n = 6: P3=4 Q3=1 P4=0 Q4=1: 119
+  kinds n = 6: P3=4 Q3=1 P4=1 Q4=0: 46
+  kinds n = 6: P3=5 Q3=0 P4=0 Q4=1: 12
+  kinds n = 6: P3=5 Q3=0 P4=1 Q4=0: 3
+  kinds n = 6: goods of degree >= 3: 0: 685
+  kinds n = 6: goods of degree >= 3: 1: 6120
+  kinds n = 6: goods of degree >= 3: 2: 12928
+  kinds n = 6: goods of degree >= 3: 3: 8732
+  kinds n = 6: goods of degree >= 3: 4: 1805
+  kinds n = 6: goods of degree >= 3: 5: 67
+  kinds n = 6: has a P3 agent: False: 4352
+  kinds n = 6: has a P3 agent: True: 25985
+  kinds n = 7: P3=0 Q3=0 P4=6 Q4=1: 35
+  kinds n = 7: P3=0 Q3=0 P4=7 Q4=0: 40
+  kinds n = 7: P3=0 Q3=1 P4=5 Q4=1: 145
+  kinds n = 7: P3=0 Q3=1 P4=6 Q4=0: 195
+  kinds n = 7: P3=0 Q3=2 P4=4 Q4=1: 339
+  kinds n = 7: P3=0 Q3=2 P4=5 Q4=0: 527
+  kinds n = 7: P3=0 Q3=3 P4=3 Q4=1: 426
+  kinds n = 7: P3=0 Q3=3 P4=4 Q4=0: 834
+  kinds n = 7: P3=0 Q3=4 P4=2 Q4=1: 339
+  kinds n = 7: P3=0 Q3=4 P4=3 Q4=0: 834
+  kinds n = 7: P3=0 Q3=5 P4=1 Q4=1: 145
+  kinds n = 7: P3=0 Q3=5 P4=2 Q4=0: 527
+  kinds n = 7: P3=0 Q3=6 P4=0 Q4=1: 35
+  kinds n = 7: P3=0 Q3=6 P4=1 Q4=0: 195
+  kinds n = 7: P3=1 Q3=0 P4=4 Q4=2: 137
+  kinds n = 7: P3=1 Q3=0 P4=5 Q4=1: 365
+  kinds n = 7: P3=1 Q3=0 P4=6 Q4=0: 214
+  kinds n = 7: P3=1 Q3=1 P4=3 Q4=2: 473
+  kinds n = 7: P3=1 Q3=1 P4=4 Q4=1: 1644
+  kinds n = 7: P3=1 Q3=1 P4=5 Q4=0: 1091
+  kinds n = 7: P3=1 Q3=2 P4=2 Q4=2: 700
+  kinds n = 7: P3=1 Q3=2 P4=3 Q4=1: 3168
+  kinds n = 7: P3=1 Q3=2 P4=4 Q4=0: 2617
+  kinds n = 7: P3=1 Q3=3 P4=1 Q4=2: 473
+  kinds n = 7: P3=1 Q3=3 P4=2 Q4=1: 3168
+  kinds n = 7: P3=1 Q3=3 P4=3 Q4=0: 3406
+  kinds n = 7: P3=1 Q3=4 P4=0 Q4=2: 137
+  kinds n = 7: P3=1 Q3=4 P4=1 Q4=1: 1644
+  kinds n = 7: P3=1 Q3=4 P4=2 Q4=0: 2617
+  kinds n = 7: P3=1 Q3=5 P4=0 Q4=1: 365
+  kinds n = 7: P3=1 Q3=5 P4=1 Q4=0: 1091
+  kinds n = 7: P3=2 Q3=0 P4=2 Q4=3: 125
+  kinds n = 7: P3=2 Q3=0 P4=3 Q4=2: 862
+  kinds n = 7: P3=2 Q3=0 P4=4 Q4=1: 1433
+  kinds n = 7: P3=2 Q3=0 P4=5 Q4=0: 587
+  kinds n = 7: P3=2 Q3=1 P4=1 Q4=3: 225
+  kinds n = 7: P3=2 Q3=1 P4=2 Q4=2: 2451
+  kinds n = 7: P3=2 Q3=1 P4=3 Q4=1: 5334
+  kinds n = 7: P3=2 Q3=1 P4=4 Q4=0: 2649
+  kinds n = 7: P3=2 Q3=2 P4=0 Q4=3: 125
+  kinds n = 7: P3=2 Q3=2 P4=1 Q4=2: 2451
+  kinds n = 7: P3=2 Q3=2 P4=2 Q4=1: 7904
+  kinds n = 7: P3=2 Q3=2 P4=3 Q4=0: 5141
+  kinds n = 7: P3=2 Q3=3 P4=0 Q4=2: 862
+  kinds n = 7: P3=2 Q3=3 P4=1 Q4=1: 5334
+  kinds n = 7: P3=2 Q3=3 P4=2 Q4=0: 5141
+  kinds n = 7: P3=2 Q3=4 P4=0 Q4=1: 1433
+  kinds n = 7: P3=2 Q3=4 P4=1 Q4=0: 2649
+  kinds n = 7: P3=3 Q3=0 P4=0 Q4=4: 15
+  kinds n = 7: P3=3 Q3=0 P4=1 Q4=3: 306
+  kinds n = 7: P3=3 Q3=0 P4=2 Q4=2: 1672
+  kinds n = 7: P3=3 Q3=0 P4=3 Q4=1: 2241
+  kinds n = 7: P3=3 Q3=0 P4=4 Q4=0: 788
+  kinds n = 7: P3=3 Q3=1 P4=0 Q4=3: 306
+  kinds n = 7: P3=3 Q3=1 P4=1 Q4=2: 3183
+  kinds n = 7: P3=3 Q3=1 P4=2 Q4=1: 6405
+  kinds n = 7: P3=3 Q3=1 P4=3 Q4=0: 2837
+  kinds n = 7: P3=3 Q3=2 P4=0 Q4=2: 1672
+  kinds n = 7: P3=3 Q3=2 P4=1 Q4=1: 6405
+  kinds n = 7: P3=3 Q3=2 P4=2 Q4=0: 4219
+  kinds n = 7: P3=3 Q3=3 P4=0 Q4=1: 2241
+  kinds n = 7: P3=3 Q3=3 P4=1 Q4=0: 2837
+  kinds n = 7: P3=4 Q3=0 P4=0 Q4=3: 199
+  kinds n = 7: P3=4 Q3=0 P4=1 Q4=2: 1185
+  kinds n = 7: P3=4 Q3=0 P4=2 Q4=1: 1618
+  kinds n = 7: P3=4 Q3=0 P4=3 Q4=0: 518
+  kinds n = 7: P3=4 Q3=1 P4=0 Q4=2: 1185
+  kinds n = 7: P3=4 Q3=1 P4=1 Q4=1: 3089
+  kinds n = 7: P3=4 Q3=1 P4=2 Q4=0: 1422
+  kinds n = 7: P3=4 Q3=2 P4=0 Q4=1: 1618
+  kinds n = 7: P3=4 Q3=2 P4=1 Q4=0: 1422
+  kinds n = 7: P3=5 Q3=0 P4=0 Q4=2: 315
+  kinds n = 7: P3=5 Q3=0 P4=1 Q4=1: 534
+  kinds n = 7: P3=5 Q3=0 P4=2 Q4=0: 186
+  kinds n = 7: P3=5 Q3=1 P4=0 Q4=1: 534
+  kinds n = 7: P3=5 Q3=1 P4=1 Q4=0: 324
+  kinds n = 7: P3=6 Q3=0 P4=0 Q4=1: 69
+  kinds n = 7: P3=6 Q3=0 P4=1 Q4=0: 29
+  kinds n = 7: goods of degree >= 3: 0: 3874
+  kinds n = 7: goods of degree >= 3: 1: 25240
+  kinds n = 7: goods of degree >= 3: 2: 47055
+  kinds n = 7: goods of degree >= 3: 3: 34978
+  kinds n = 7: goods of degree >= 3: 4: 10053
+  kinds n = 7: goods of degree >= 3: 5: 806
+  kinds n = 7: has a P3 agent: False: 4616
+  kinds n = 7: has a P3 agent: True: 117390
+
+real	3m33.072s
+user	3m38.246s
+sys	0m3.422s

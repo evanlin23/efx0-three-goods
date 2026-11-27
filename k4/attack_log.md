@@ -1332,3 +1332,21 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   reductions that cut the list by orders of magnitude, not through more certification. The 1,080 unreduced Q4-open px
   profiles are the natural first target.
 - A1 is still stopped, pending the user's decision.
+
+### 2026-11-27 21:40 UTC: burst 24 (track A2: what dominates the β = 5 list)
+- `k4/mincex_shapes_count.py 5 --nmin=6 --nmax=7 --kinds` (log `results/k4_min_cex_kinds_5_n67.log`, 213 s).
+  - The surviving candidates contain a P3 agent (3 goods, one private) in 25,985 of 30,337 at n = 6 (86%) and 117,390
+    of 122,006 at n = 7 (96%).
+  - Graphical candidates (no good of degree ≥ 3) number 685 at n = 6 and 3,874 at n = 7. These are covered by the
+    multigraph theorem (ledger T3), as at β = 4.
+- So the lever for β = 5 is a reduction for P3 agents. K4.MC3 and K4.MC5 only restrict P3 agents that share a degree-2
+  good.
+- What a P3 agent f = {p private, a, b} needs if it keeps {p} alone (balance gives v_f(p) < v_f(a) + v_f(b)):
+  - a and b are not together in a bundle with a third good;
+  - each of a and b is alone in its bundle or worth at most v_f(p) to f;
+  - if {a, b} is a whole bundle, max(v_f(a), v_f(b)) ≤ v_f(p).
+
+  A P3 reduction would be a gadget that forces this on the smaller instance, or one of f's other options ({p, a},
+  {p, b}). The next step is to test such a gadget on the reduce4 machinery for one P3 neighbourhood type.
+- Kill-rule count for the β = 5 sub-line: 2 bursts, no certified artifact yet.
+- A1 is still stopped, pending the user's decision.
