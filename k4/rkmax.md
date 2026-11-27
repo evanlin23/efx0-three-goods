@@ -378,3 +378,14 @@ censuses (0 gaps, §5) remain valid for it, since SINK₁ contains S′ and RF-B
 
   So a counterexample to HS-MAX′ would be a σ-maximal U0 start, and a SINK form with rings (girth's (T), (T\*)) would
   then be the next candidate.
+- *U0-targeted climb* (`SEEDOK=1`, only seeds at which OC₁ holds, i.e. U0 starts; `rk_climb_sink1_n4_u0.log`; 300
+  seeds × 10,000 steps): no counterexample. Every climb stays at least **3** maximum matchings of larger σ away from
+  σ-maximality, so U0 starts look robustly σ-dominated. This is evidence for HS-MAX′ exactly where it could break.
+- *Climbs against RKMAX itself* (`k4/rkmax/rk_climb_oc1.py`). Seeds are failing n = 5 starts; each step changes one
+  value, keeping OC₁ failing, and minimizes the number of maximum matchings of larger σ.
+  - partial6, 300 seeds × 2,000 steps (`results/k4_rkmax/rk_climb_oc1_n5_partial6.log`): no counterexample. The
+    closest failing start still has **16** maximum matchings of larger σ (and at least 3 that rank-dominate it).
+  - sel2, 200 seeds × 2,000 steps (`rk_climb_oc1_n5_sel2.log`): closest 5. These hypergraphs are certified anyway
+    (K4.RKMAX.N5).
+
+  Failing starts stay far from σ-maximality, which is the margin a proof of RKMAX through domination would exploit.

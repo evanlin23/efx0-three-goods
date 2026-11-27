@@ -9,7 +9,8 @@ a counterexample to HS-MAX; it is then checked for OC1 (a failure there refutes 
     python3 rk_climb.py SEEDS STEPS SEED          # seeds from the n = 4 export
     RAND=5 python3 rk_climb.py SEEDS STEPS SEED   # seeds from random n = 5 cores
     MECH=sink1 ...                                # residue = hard and no Lemma SINK1 case (default: no S', no RF-B)
-    SEEDFILE=EXPORT ...                           # seeds from the profiles of another failure export (e.g. n = 5)"""
+    SEEDFILE=EXPORT ...                           # seeds from the profiles of another failure export (e.g. n = 5)
+    SEEDOK=1 ...                                  # only seeds at which OC1 holds (a failing seed cannot reach 0 at n = 4)"""
 import sys, os, gzip, json, random, itertools, collections, time, multiprocessing as mp
 from rklib import Prof
 from rk_classes import theta, sprime_cases, rfb_cases, sink1_cases
@@ -65,10 +66,12 @@ def seeds_n4(N, rng, F=None):
     d = json.load(gzip.open(F or os.path.join(ROOT, 'results', 'k4_oc1max', 'two_move_starts_n4.json.gz')))
     prof = [(h['sets'], st['vals']) for h in d['hypergraphs'] for st in h['starts']]
     rng.shuffle(prof); out = []
+    only_ok = os.environ.get('SEEDOK', '0') == '1'     # keep only residue starts at which OC1 holds (U0-type seeds)
     for sets, vals in prof:
         P = Prof(sets, vals); nu, mm = P.max_matchings()
         for Y in mm:
-            if residue(sets, vals, Y) is not None: out.append((sets, vals, Y)); break
+            if residue(sets, vals, Y) is not None and (not only_ok or P.oc1(Y) != 'F'):
+                out.append((sets, vals, Y)); break
         if len(out) >= N: break
     return out
 
