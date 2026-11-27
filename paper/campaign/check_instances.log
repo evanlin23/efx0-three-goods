@@ -73,5 +73,8 @@ Thm REC-S on Prop 7.4 instance 1: E(2) = (2, 1) takes {3, 4}; SD-E; chain (0, 1)
 §12.3 (VM1, P34): strict connected core; the two-move completion ({0,2,4},{6},{5},{1,3}) is EFX0 OK 
 §11.10 (R2 at n = 5, 5_pure #650): core; perfect SD start with receivers {1, 2}; OC1 fails; RF holds for each receiver OK ([1, 2], {1: True, 2: True})
 §11.10 (base case, T3): picks (0, 1, 4), D = {0, 2}; the round settling 2 with {1, 3} is improving with (L*); after it OC1 holds without phantoms, but no EFX0 allocation keeps agent 2 at {1, 3} OK 
-# 0 failed; 29 s
+§11.10 (RF every-order form, k = 5): OC1 fails at (6,5,4,3), receiver 2; among the six 2-first vectors only (6,5,3,4) fails (so RF-exists holds) OK ([2], [(1, 5, 3, 6), (1, 6, 3, 5), (5, 2, 3, 6), (5, 6, 3, 4), (6, 2, 3, 5), (6, 5, 3, 4)], [(6, 5, 3, 4)])
+§11.10 (RKMAX plan (a), 5_pure #358): sigma-optima (5,6,7,2,4), (5,7,6,2,4), sigma = (3,1,0,1); one receiver 3, junk {0,1,3}; one move repairs, the picks do not complete (as printed, with two ties, and for a strict perturbation, a strict connected core) OK [((5, 6, 7, 2, 4), [3], [0, 1, 3], False, True), ((5, 7, 6, 2, 4), [3], [0, 1, 3], False, True)]
+Lemma REC-∃ (§11.10): 57 random maximum-matching starts without a receiver: a pickless agent exists, nobody values junk, and the completion is EFX0 OK (0 failures)
+# 0 failed; 33 s
 exit=0
