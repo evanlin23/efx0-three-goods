@@ -2185,6 +2185,19 @@ OC₁ is checked with the raw checker `oc1_mc2_rand.Inst.check`.
   - At the other 266,880 rotations that raise σ, x₁ held its own top, which is u's top. So level 1 cancels, and the
     gain comes from deeper levels of the path.
   - A proof that the RF rotation raises σ therefore has to track the whole ejection path.
+- **At k = 5 the RKMAX form is FALSE** (ksens and kgen-n3, independently; coordinator replay `k4/sdc/rkmax_k5_cex.py`,
+  `results/k4_sdc/rkmax_k5_cex.log`; ledger K4.SDC.RKMAX.K5).
+  - Instance N3K5: sets [[0,2,3,4,5],[1,2,3,4,5],[1,4,5]], vals [[3,22,23,38,43],[15,17,27,40,43],[1,2,4]].
+  - The three agents share their top two goods, so in every order the first picker gets rank 1, the second rank 2 and
+    the third rank 3. Every SD vector then has σ = (1,1,1,0,0), and RKMAX reduces to OC₁^max, which fails at (4, 5, 1).
+  - All 13 n = 3, k = 5 hypergraphs where OC₁^max fails refute it (ksens, `k4/ksens/refute_rkmax_k5.py`). Leximin and
+    rank sum fail the same way; at k = 6 kgen-n3 also has an n = 4 failure.
+  - RF holds for every strict profile at n = 3, k = 5 (ksens, rfcegar, certified). The receiver separates the vectors
+    that σ cannot.
+  - Consequence: RKMAX is a k = 4 statement, like OC₁^max itself. A proof must use k ≤ 4. For general k, RF is the
+    candidate, not RKMAX.
+  - At k = 4 there is no contradiction. At n = 3 a tie σ = (1,1,1) reduces RKMAX to OC₁^max, which is certified at
+    n ≤ 4.
 - **Independent confirmation (referee, item 64; `k4/referee/rkmax.md`, PR #157).**
   - The n = 4 claim is CONFIRMED by a second implementation, with its own SD, ν, raw EFX₀ and move set.
   - There are 198,400 σ-optima: 187,560 complete at the picks and 10,840 need one move.
