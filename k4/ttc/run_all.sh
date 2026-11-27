@@ -89,3 +89,7 @@ python3 r2_slots.py walk /tmp/cex.json 300 1 > $L/r2_slots_walk_n4.log
 python3 r2_slots.py sweep 2,3,4 100 1 71 > $L/r2_slots_n6_sample.log
 python3 oc2max_fp.py grow /tmp/cex.json 1000 6 1 4 mc2 > $L/oc2max_grow_n5_mc2.log
 python3 oc2max_fp.py grow /tmp/cex.json 500 7 2 2 > $L/oc2max_grow_n6.log
+python3 oc2max_fp.py grow /tmp/cex.json 1000 8 1 4 hunt keep > $L/oc2max_hunt_n5.log
+# MC_DIR: k4/oc1max_multi of branch proof/k4-oc1max-multi (commit 3d157f3)
+MC_DIR=$MC_DIR python3 r2_mc.py walk /tmp/cex.json 300 1 > $L/r2_mc_walk_n4.log
+MC_DIR=$MC_DIR python3 r2_mc.py sweep 2,3,4 100 1 71 > $L/r2_mc_n6_sample.log

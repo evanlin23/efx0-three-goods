@@ -945,7 +945,8 @@ starts are the same. At every start with two receivers, one move gave a completi
   (1,251 with two receivers), with no OC₁^max failure.
 - `oc2max_grow_n6.log` (two agents added, 22 walks × 500 steps): 9,368 n = 6 instances and 33,493 hard starts
   (3,840 with two receivers, 93 with three), with no OC₁^max failure.
-- Running at the end of burst 7: `oc2max_hunt_n5.log` (`hunt keep`, scored by the fewest good first moves).
+- `oc2max_hunt_n5.log` (`hunt keep`, 44 walks × 1,000 steps, scored by the fewest good first moves): 37,990
+  instances and 39,588 hard starts, with no OC₁^max failure.
 
 *A failed design:* seeds in which the agent holding the receiver's top good needs the picks of three other owners
 (values 20; 8, 7, 6), meant to force three moves (`three_owner_seeds.json`; `grow … 300 21 0 1 hunt keep`,
@@ -1070,6 +1071,24 @@ Frozen slots are handled by enumerating F_s; for a fixed F_s the condition is a 
 R2★'s completions are S^c completions whose owner (x₀ or z) receives at most one junk good beyond its base, that is,
 |J ∖ H| ≤ 1. So step 4 is the statement that after the chain some (H, F_s) with |J ∖ H| ≤ 1 meets (C1)–(C3). The
 counting argument must produce it: a Hall-type deficiency δ^c ≤ 0 from Lemma PL and the second receiver.
+
+**Lemma R2-G2 (proved).** From a perfect start, after any chain whose end x_t = z is a receiver, (G2) holds: no junk
+good is wanted. So Lemma M^c applies at the new state.
+
+*Proof.* The new junk is (J ∖ H₀) together with y_z, if x₀ did not take y_z. Values never fall along a move.
+- For g ∈ J and any agent i: v_i(g) ≤ v_i(y_i) by (I2), and v_i(y_i) ≤ v_i(B′_i).
+- For y_z and i ≠ z: z was a receiver, so v_i(y_z) ≤ v_i(y_i) ≤ v_i(B′_i).
+- For i = z: z's step was improving, so v_z(B′_z) > v_z(y_z). ∎
+
+**The sharpened target (R2-M).** At a hard perfect start with |U| ≥ 2, some canonical chain from x₀ ∈ D to a
+receiver z satisfies Lemma M^c's (C1)–(C3) at the new state, with **owner x₀** and |J′ ∖ H| ≤ 1.
+- `r2_mc.py` uses the M^c model of `proof/k4-oc1max-multi` (`k4/oc1max_multi/mc.py`, 3d157f3, `max_rest = 1`).
+- Owner x₀ works at 79/79 (n = 4, `r2_mc_walk_n4.log`) and 466/466 (n = 6, `r2_mc_n6_sample.log`).
+- Owner z works at 79/79 and 461/466. Another receiver as owner works at 76/79 and 412/466.
+- (G2) held after every canonical chain to a receiver, as Lemma R2-G2 says.
+
+So R2 reduces to one matching statement at the post-chain state, with the dangerous agent that started the chain as
+owner. Its proof needs a Hall-type count for the needy agents.
 
 **No frozen slot is needed** (`r2_slots.py`): at every hard start with |U| ≥ 2, some R2★ chain has a completion in
 which no agent frozen at the new state receives junk. That is F_s = ∅ in Lemma M^c, the plain matching case: 79/79 at
