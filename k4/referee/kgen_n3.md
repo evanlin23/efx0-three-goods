@@ -113,7 +113,7 @@ Proposition A and Corollary A1 (§15.17), Lemmas G6, G7 (§15.18). One wording r
 - Induction with Lemma P, applied to I minus the earlier peeled agents and their picks. There the hypothesis reads as
   stated, and the picks are unchanged.
 - When z_r is lifted, the witness bundles lie in M_r ∖ {y_{z_r}}. Singletons added later cause no envy.
-- The base case is Theorem 2 (§9; not part of this item).
+- The base case is Theorem 2 (§9), refereed CORRECT at the top of this report.
 - Correct.
 
 **§15.2 and §15.5, G1–G4.**
@@ -176,4 +176,4 @@ Lemma P and Corollary 3 were checked against my OC₁ test (`cert_ref.oc_depth`,
 
 *Limits.*
 - Drafts that need LB upgrades are not exercised by my check.
-- Theorem 2 (§9) is used but was not part of this item.
+- Theorem 2 (§9) is used; it is refereed CORRECT at the top of this report.
