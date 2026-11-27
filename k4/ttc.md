@@ -4,6 +4,25 @@ Workstream `proof/k4-ttc` (branch `claude/k4-ttc`, draft PR #101). Code: `k4/ttc
 log); logs: `results/k4_ttc/`. Notation as in `k4/sdc.md` (§2, §28–§30). Everything called evidence below is evidence
 only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator integrates.
 
+## Status (burst 7): R2 is owned here; stated, evidenced, a first step proved, the plan written (§14.6)
+
+- **R2** (leaf 5a of the case tree, `k4/oc1_hall.md` §23.2): at a perfect serial-dictatorship start with at least two
+  receivers (pick holders nobody values above their own pick), one move gives a one-absorber completion.
+  - At the picks there are no multi-good holders, so blocked holders cannot arise. R2⁺, at post-move states, is false
+    (§14.5).
+- **Evidence:** R2 holds at every hard start with two or more receivers tested. That is 79 in an n = 4 walk and 466
+  in an n = 6 sweep sample, plus 4,027 in grown n = 5 walks (there OC₁^max held everywhere). Every known OC₁^max
+  failure has exactly one receiver.
+- **Strong form R2★, which the data suggest is the proof target:** some canonical chain from a dangerous agent to a
+  receiver leaves junk that can be spread one good per agent, so no owner is needed (79/79, 466/466).
+- **Proved:** Lemma R2-0. If |J| ≤ |U|, the picks complete with one junk good per receiver. So a hard start with two
+  receivers has at least three junk goods.
+- **k ≤ 4 is necessary:** PW5 (k = 5) has two receivers and fails. Lemma PL (`claude/k4-ksens`) is the k = 4 count a
+  proof must use.
+- **Open:** steps 1, 3 and 4 of the plan in §14.6. Rule out a 2-cycle of the pointer map; handle agents sharing one
+  good of H₀, and the released pick; count the slots, presumably by Lemma M with no owner.
+- **Requested:** an exhaustive n = 4 check of R2 and R2★ from the certifier.
+
 ## Status (burst 6): OC₁^max falls at n = 4; two moves always suffice so far, by a pointer rule in the MC2 class
 
 **OC₁^max is refuted** (§14.2).
@@ -908,7 +927,8 @@ pointer fixed point exists, and after it, the bases have a one-absorber completi
 **One receiver.** Every OC₁^max failure tested has exactly one receiver (one unfrozen agent): 97 of 97 in the short
 n = 4 walk and 17 of 17 at n = 5 (the `receivers` lines of the `_short` logs). The 11 instances and the n = 6 hardest
 starts are the same. At every start with two receivers, one move gave a completion (151 + 140 starts).
-- *Conjecture R2 (evidence only):* at a maximum-matching start with at least two receivers, OC₁^max holds.
+- *Conjecture R2 (evidence only):* at a maximum-matching start with at least two receivers, OC₁^max holds. The
+  precise statement, a proof plan and more evidence are in §14.6.
 - R2 would confine OC₁^max failures to the one-receiver regime. There, every completion keeping the bases puts all the
   junk with a single agent (Lemma 2(a): frozen agents take none), so the picks extend iff that one bundle is safe.
 - A proof of OC₂^max could then split: two receivers (one move, R2), or one receiver (the danger set must become a
@@ -916,9 +936,11 @@ starts are the same. At every start with two receivers, one move gave a completi
 
 ### 14.4 Longer runs (`oc2max_fp.py`)
 
-Grown walks at n = 5 (with and without `mc2`, and `hunt keep`, scored by the fewest good first moves) and at n = 6
-(two agents added) are running at the end of burst 6 (`oc2max_grow_n5.log`, `oc2max_grow_n5_mc2.log`,
-`oc2max_grow_n6.log`, `oc2max_hunt_n5.log`).
+- `oc2max_grow_n5.log` (44 grown walks × 1,000 steps, no `mc2`): 36,615 distinct n = 5 instances and 116,196 hard
+  maximum starts, with no OC₁^max failure. 4,027 of those starts have two receivers. The 17 failures of the short run
+  came from one lineage: failures cluster.
+- Still running at the end of burst 6: `oc2max_grow_n5_mc2.log`, `oc2max_grow_n6.log` (two agents added) and
+  `oc2max_hunt_n5.log` (`hunt keep`, scored by the fewest good first moves).
 
 *A failed design:* seeds in which the agent holding the receiver's top good needs the picks of three other owners
 (values 20; 8, 7, 6), meant to force three moves (`three_owner_seeds.json`; `grow … 300 21 0 1 hunt keep`,
@@ -955,6 +977,81 @@ exhaustive type search on these incidences was sent to sd-induct for its fixed-i
 suffices. Among the first moves at OC₁^max failures, most bad moves leave two or more receivers (`oc2max_fp.py` counts
 "first moves at OC₁^max failures"). Agents holding two or more goods count as unfrozen, but they can still be blocked,
 for example a holder of another agent's exact danger set. So R2 is stated only at serial-dictatorship starts.
+
+### 14.6 Conjecture R2 (owned here; leaf 5a of `k4/oc1_hall.md` §23.2)
+
+**Setting.**
+- A strict connected k = 4 core.
+- Y is a *perfect* serial-dictatorship start: every agent holds exactly one pick y_i. Maximum-matching starts reduce
+  to perfect ones by leaf 0 of the case tree (Lemma RED with Lemma MAX), so R2 is stated for perfect starts.
+- J is the junk.
+- *Frozen:* an agent j is frozen if some other agent i values y_j above y_i. F is the set of frozen agents.
+- *Receivers:* U = N ∖ F, the pick holders that nobody values above their own pick.
+- *Dangerous:* D ⊆ F, the frozen agents that value some junk good.
+
+At the picks every base is a single good, so "frozen" is all there is: no agent holds another agent's exact danger set.
+That kind of blocked holder exists only after a move, and it is why R2 does not extend to post-move states (R2⁺ is
+false, §14.5).
+
+**Conjecture R2.** If |U| ≥ 2, then Y has a one-absorber completion, or after one official move (an addition, chain
+or ring of `de_free`) the bases have one.
+
+**Strong form R2★ (what the data show).** If |U| ≥ 2 and Y has no one-absorber completion, then there is a canonical
+chain (x₀, …, x_t) with:
+- x₀ ∈ D;
+- x₁ valuing y_{x₀} above y_{x₁};
+- x_t = z ∈ U;
+
+after which the junk has a completion that gives *every agent at most one junk good*, so no absorber is needed. On
+the same data, that chain also repairs with z, with x₀, or with a receiver off the path as owner.
+
+**Evidence** (`r2_shape.py`). In both data sets, at every hard start with |U| ≥ 2: R2 holds, R2★ holds, and some minimal
+pointer fixed point of §11 repairs except on 6 and 5 starts.
+
+| data | hard perfect starts | with \|U\| = 1 | with \|U\| ≥ 2 | log |
+|---|---|---|---|---|
+| random walk over types around the 11 n = 4 cores (11 × 300 steps) | 630 | 551 | 79 | `r2_shape_walk_n4.log` |
+| n = 6 sweep sample (n4 = 2, 3, 4, stride 100, 9,162 hypergraphs, 1 profile) | 1,487 | 1,021 | 466 (441 with two, 25 with three) | `r2_shape_n6_sample.log` |
+
+Together with §14.3 (every OC₁^max failure has |U| = 1): no failure of R2 is known at k = 4.
+
+**k ≤ 4 is necessary.** At k = 5, PW5 (`claude/k4-ksens`, `k4/ksens.md` §1, a written proof) is a perfect start with
+two receivers (the wanters w₁ and w₂) and no completion after any one chain.
+- Three frozen agents share a pool D of four junk goods, every pair of which is dangerous.
+- One repair uses two goods of D. The leftover pair still threatens the other two frozen agents, and the two receivers
+  give only one slot.
+- Lemma PL of that note is the k ≤ 4 count: a frozen agent with |R_x| ≤ 4 values at most three junk goods, so after
+  it takes a junk danger set H (|H| ≥ 2) it values at most one more, worth less than its pick. The same holds for
+  every agent that values two goods of H. At k = 4 the leftover of a shared pool is at most one good, and one slot
+  takes it.
+
+**Proved first step (Lemma R2-0).** At a perfect start, if |J| ≤ |U|, the picks have a completion in which every
+agent receives at most one junk good.
+
+*Proof.* Give the junk goods to distinct receivers.
+- Bundles with one good are never strongly envied.
+- Take a bundle {y_u, g} with u ∈ U and an agent i ≠ u. Removing g leaves y_u, and v_i(y_u) ≤ v_i(y_i) because u is
+  unwanted. Removing y_u leaves g, and v_i(g) ≤ v_i(y_i) by (I2), since junk ranks below the pick for its valuers.
+- Every agent's own bundle is worth at least its pick. ∎
+
+So a hard start with |U| ≥ 2 has |J| ≥ |U| + 1 ≥ 3.
+
+**Proof plan for R2** (the open steps are marked).
+1. *A fixed point exists.* By Proposition T0 (case tree, leaf 2), every receiver z has a dangerous agent threatened by
+   J ∪ {y_z}. Follow §11's pointer map on U: each z points to such an x, and want arrows from x lead back to some
+   receiver. With |U| ≥ 2 the map has a fixed point (z, x, a want path from x to z), or a 2-cycle (z₁ → x₁ ⇝ z₂ →
+   x₂ ⇝ z₁). **Open:** rule out the 2-cycle, or turn it into a ring (§11's "longer cycle").
+2. *The chain.* x₀ = x takes a minimal danger set H₀ ⊆ (J ∪ {y_z}) ∩ R_x, and the want path carries y_x to z.
+3. *Leftover danger.* By Lemma PL(b, c), x and every agent that shares two goods of H₀ have no junk danger set left.
+   **Open:** the agents that share at most one good of H₀ (PL's "what PL does not cover"), and the released pick when
+   z's pick is not in H₀.
+4. *Slots.* The remaining receivers (|U| − 1 ≥ 1 of them, still unwanted after the chain), together with x₀ and the
+   agents the chain unfroze, take the remaining junk one good each, as in Lemma R2-0. **Open:** the count
+   |J ∖ H₀| ≤ available slots, presumably from Lemma M at the new bases (`k4/matching.md`), with its exposed-holder
+   matching handling the frozen slots of Lemma 1.
+
+R2★ says that step 4 needs no owner at all, so Lemma M's owner-free case, a pure matching of junk to safe agents,
+should be the counting tool.
 
 ## 12. Next steps
 
