@@ -340,7 +340,8 @@ So GR never gets stuck on **1,285,930 n = 5 starts**, the certifier's whole n = 
 session's independent `k4/matching/gr.py` (row K4.MATCH.GRX on `proof/k4-matching`) also finds 276,480 / 115,200 /
 192,000 starts safe. On partial6 the same implementation finds 702,250 / 702,250 safe with exactly the stop counts of
 `gr.py`: 1,110,833 final rounds with a P1-free round available, 134,822 B2 final rounds and no ED stop. A third
-re-check here (`check_rules.py`, ten chunks, `check_rules_GR_n5sel2_part*.log`) is in progress.
+re-check here (`check_rules.py`, ten chunks, `check_rules_GR_n5sel2_part*.log`) is **partial**: it was stopped at the
+campaign's wind-down after chunks 0–6 (408,576 starts, all safe); chunks 7–9 were not run.
 
 Further facts:
 - *GR is a rule, and its stops matter.* The multi session's census (`k4/oc1max_multi.md` §18 on `proof/k4-oc1max-multi-2`)
