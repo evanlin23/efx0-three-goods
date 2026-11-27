@@ -6,8 +6,9 @@ Workstream `proof/k4-ttc` (`k4/ttc.md` §14.6). **Status:**
   `results/k4_ttc/r2_owner_check.log`).
   - R2-M fails on 306 of the 1,002 n = 4 cores.
   - R2★ fails on 5 of the 20 R2-M failures re-verified by the certifier's raw brute force.
-- *Not refuted:* R2 itself, which is CERTIFIED at n ≤ 4 (K4.SDC.R2.N4), and the target **R2-O** below, which holds on
-  both replayed examples.
+- *Also refuted, later:* R2-O and R2-O′ (another receiver owns), on 9 of the 1,002 n = 4 cores (section below).
+- *Not refuted:* R2 itself, which is CERTIFIED at n ≤ 4 (K4.SDC.R2.N4), and **R2-C** (some canonical chain to a
+  receiver repairs, any owner), which is CERTIFIED at n = 4 by the certifier.
 
 ## The refuted targets
 
