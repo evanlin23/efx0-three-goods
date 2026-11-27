@@ -338,8 +338,9 @@ perfect starts, as for K4.MATCH.CM2, it would imply TARGET₄. It is ROUND-IND (
 So GR never gets stuck on **1,285,930 n = 5 starts**, the certifier's whole n = 5 export, in about 22 minutes (`gr.py`,
 `gr_n5sel2.log`, `gr_n5partial6.log`). On the complete sel2 lists this is **certified** (K4.BASE.GR.SEL2): the matching
 session's independent `k4/matching/gr.py` (row K4.MATCH.GRX on `proof/k4-matching`) also finds 276,480 / 115,200 /
-192,000 starts safe. A third re-check here (`check_rules.py`, ten chunks, `check_rules_GR_n5sel2_part*.log`) is in
-progress.
+192,000 starts safe. On partial6 the same implementation finds 702,250 / 702,250 safe with exactly the stop counts of
+`gr.py`: 1,110,833 final rounds with a P1-free round available, 134,822 B2 final rounds and no ED stop. A third
+re-check here (`check_rules.py`, ten chunks, `check_rules_GR_n5sel2_part*.log`) is in progress.
 
 Further facts:
 - Without step 2, GR with an ED or even a C3 base gets stuck at the 12 starts of §4.4.
