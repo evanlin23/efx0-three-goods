@@ -434,3 +434,65 @@ At k = 3 a b-holder has no junk danger set: its only good below b is c. Two top-
 are killed together by one DE chain, since the pair then sits in a pair holder's bundle (§6). So the k = 4 mechanism
 is exactly the first k = 3 fact that fails at k = 4, **(DE-a)** of §7: at k = 4 a b-holder can be endangered by, and
 gain from, {c, d} when c + d > b.
+
+## 11. Reduction of maximum-matching starts to perfect starts (k = 3, DE's language)
+
+Joint work with the kgen-n3 session, at the coordinator's request; this section is the reduction, and the case
+analysis of perfect starts is kgen-n3's part. Setting: DE's core case (every agent values exactly three goods
+a > b > c, strictly balanced; dead goods allowed), an order π whose draft Y is a *maximum-matching start*: its picks
+match ν agents, the maximum matching size of the bipartite graph agents–relevant goods.
+
+**Notation.**
+- U is the set of pickless agents.
+- An *alternating path* from u ∈ U is u, g₁, a₁, g₂, a₂, … with g_i ∈ R_{a_{i−1}} (a₀ = u) and g_i = Y_{a_i}.
+- S is the set of agents on such paths (other than U), and T the rest. J is the junk.
+
+**Lemma MAX₃ (`k4/sdc.md` §31, Hall session).** No agent of U ∪ S values a junk good. Hence:
+- (i) every good that an agent of U ∪ S values is the pick of an agent of S;
+- (ii) at the draft no agent of S is exposed for any owner (Lemma 1), since an exposed agent has a good of its pair in J;
+- (iii) S is closed: the holder of a good valued by an agent of U ∪ S is in S.
+
+*Proof.* An agent u ∈ U values no junk good, since at u's turn every junk good was free. If a ∈ S valued g ∈ J,
+take an alternating path u, g₁, a₁, …, g_s, a_s = a. Then (u ← g₁, a₁ ← g₂, …, a ← g) is an augmenting path, so the
+matching is not maximum. (i) follows because a valued good is not junk, so it is a pick, of some agent b, and b is
+reachable. (ii) and (iii) follow from (i). ∎
+
+**Lemma RED₃ (`k4/sdc.md` §31, coordinator; checked here in DE's terms).** Let I′ have the agents T ∪ U and the goods
+{Y_t : t ∈ T} ∪ J, with values restricted. The agents of U become *null agents*, valuing nothing, by (i).
+1. Y′ = (Y_t)_{t∈T}, with nothing for U, is the draft of π restricted to I′. At t's turn, Y_t is still free and still
+   t's favourite among the goods of I′ that are free.
+2. Every move of I′ (an improving chain of §29) is a move of I: the values agree on I′'s goods.
+3. Every one-absorber EFX₀ completion X′ of I′, at Y′ or after a move, extends to one of I, by giving each s ∈ S
+   the singleton {Y_s}:
+   - a singleton is never envied;
+   - agents of U ∪ S value nothing in the bundles of T ∪ U, by (i);
+   - a T agent compares bundles of T ∪ U with the same values in I and in I′;
+   - the absorber count is unchanged.
+
+So OC₁ at Y follows from OC₁ at the perfect start Y′ of I′: every agent of I′ that values a good holds a pick.
+
+**The class after the reduction.** A T agent that values a pick of S keeps only its other goods in I′. So I′ is an
+instance in which every agent values at most three goods, strictly balanced when it values three, plus null agents.
+DE's machinery covers it with two changes.
+- *Agents with one or two goods are never exposed.* In Theorem 1′'s case analysis, an agent with R_i = {a, b} that
+  holds a sees at most b in another bundle; one that holds b, or nothing, sees nothing, since its wanted goods are
+  held alone. So Lemma 1 and Theorem 1′ hold verbatim, with exposure only for three-good top-holders.
+- *Null agents are terminals.* They hold nothing, want nothing, are never threatened, and as owners they fall under
+  Lemma 1 (b) with E_o = N₀ (the top-holders whose pairs are junk), or (c).
+
+So the statement the case analysis has to prove is:
+
+> **(P) Perfect starts.** In every instance where each agent values at most three goods (strictly balanced when
+> three), null agents allowed, at the draft of every order in which every non-null agent picks, a one-absorber
+> completion exists, or one improving move gives one.
+
+(P) with no small and no null agents is the perfect-start part of OT₁, which holds on all data (§10).
+
+**Non-perfect hard maximum-matching starts exist** (`max_gadget.py`). In the data of §10 every hard
+maximum-matching draft was perfect, but that is a small-n effect. Take any hard perfect draft I₀ and add:
+- three agents s₁, s₂, s₃ valuing a new cycle g₁, g₂, g₃ (rankings rotated), placed last in the order;
+- a pickless agent u valuing {g₁, g₂, g₃}.
+
+The picks remain a maximum matching, and S = {s₁, s₂, s₃} values no junk. Of 3,000 hard perfect n = 5 drafts, 384
+stay hard with the gadget (n = 9), and the null agent u's extra slot does not suffice there. One DE trade repairs
+every one of the 384.
