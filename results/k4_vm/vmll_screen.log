@@ -1,0 +1,5 @@
+$ python3 k4/vm/vmll_test.py special logs screen
+EFX0         214
+instances    214
+failures 0
+slowest instance 0.02 s; time 0 s

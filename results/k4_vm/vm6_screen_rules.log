@@ -1,0 +1,30 @@
+$ python3 k4/vm/vm6_test.py screen --variants=x-eager,x-eagerL,x-eagerLL
+instances                            168
+x-eager: every run EFX0              128
+x-eager: first run (all choices 0) EFX0 156
+x-eager: runs                        23171
+x-eager: runs EFX0                   22956
+x-eager: some run EFX0               163
+x-eagerL: every run EFX0             141
+x-eagerL: first run (all choices 0) EFX0 164
+x-eagerL: runs                       24417
+x-eagerL: runs EFX0                  24308
+x-eagerL: some run EFX0              168
+x-eagerLL: every run EFX0            162
+x-eagerLL: first run (all choices 0) EFX0 168
+x-eagerLL: runs                      458
+x-eagerLL: runs EFX0                 451
+x-eagerLL: some run EFX0             168
+  stuck kind ('x-eager', 'no_safe') 215
+  stuck kind ('x-eagerL', 'no_safe') 109
+  stuck kind ('x-eagerLL', 'no_safe') 7
+  x-eager [first run]: no EFX0 run on 12: lb4-n2m5-upgrade(n=2,m=5), c4-lbplus-rotation-n3m6(n=3,m=6), lil-text-n3(n=3,m=7), c4x-n3m8-pure-top7(n=3,m=8), count-n3m8(n=3,m=8), f1-bigtop-n3-m8-n3c46(n=3,m=8), gap-itlocal-n3-m8-n3c46(n=3,m=8), hall-btown-core46(n=3,m=8), red-a2-hstar(n=3,m=8), lil-noncore-n3(n=3,m=9), gap-phi-n4-m8-pure104(n=4,m=8), gap-w-n4-m10-pure179(n=4,m=10)
+    smallest: lb4-n2m5-upgrade {"sets": [[0, 2, 3, 4], [1, 2, 3, 4]], "vals": [[1, 4, 6, 8], [2, 4, 5, 8]], "m": 5}
+    smallest: c4-lbplus-rotation-n3m6 {"sets": [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], "vals": [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]], "m": 6}
+  x-eagerL [first run]: no EFX0 run on 4: lb4-n2m5-upgrade(n=2,m=5), c4-lbplus-rotation-n3m6(n=3,m=6), lil-text-n3(n=3,m=7), gap-phi-n4-m8-pure104(n=4,m=8)
+    smallest: lb4-n2m5-upgrade {"sets": [[0, 2, 3, 4], [1, 2, 3, 4]], "vals": [[1, 4, 6, 8], [2, 4, 5, 8]], "m": 5}
+    smallest: c4-lbplus-rotation-n3m6 {"sets": [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], "vals": [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]], "m": 6}
+  x-eager: no EFX0 run on 5: c4x-n3m8-pure-top7(n=3,m=8), count-n3m8(n=3,m=8), f1-bigtop-n3-m8-n3c46(n=3,m=8), gap-itlocal-n3-m8-n3c46(n=3,m=8), red-a2-hstar(n=3,m=8)
+    smallest: c4x-n3m8-pure-top7 {"sets": [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], "vals": [[3, 4, 2, 8], [3, 4, 2, 8], [3, 4, 2, 8]], "m": 8}
+    smallest: count-n3m8 {"sets": [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], "vals": [[3, 6, 2, 10], [3, 6, 2, 10], [3, 6, 2, 10]], "m": 8}
+time 14 s

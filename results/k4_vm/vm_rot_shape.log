@@ -1,0 +1,20 @@
+$ python3 k4/vm/vm_rot_shape.py screen
+  c4-one-rotation-owner-r-n3m6 n=3 m=6 arrows (taker, holder, kind, pool goods in the bundle taken, of which the taker values): [(1, 2, 'pair', 1, 1), (2, 1, 'want', 0, 0)]
+  c4min-tlam-n3-m6 n=3 m=6 arrows (taker, holder, kind, pool goods in the bundle taken, of which the taker values): [(0, 1, 'pair', 2, 2), (1, 0, 'want', 0, 0)]
+  c4x-n3m5-big-bases n=3 m=5 arrows (taker, holder, kind, pool goods in the bundle taken, of which the taker values): [(1, 2, 'want', 0, 0), (2, 1, 'pair', 1, 1)]
+  c4x-n3m6-onefour-a n=3 m=6 arrows (taker, holder, kind, pool goods in the bundle taken, of which the taker values): [(0, 2, 'pair', 2, 2), (2, 0, 'want', 0, 0)]
+  c4x-n3m6-onefour-b n=3 m=6 arrows (taker, holder, kind, pool goods in the bundle taken, of which the taker values): [(0, 2, 'pair', 2, 2), (2, 0, 'want', 0, 0)]
+  c4x-n4m7-frozen-slots-some n=4 m=7 arrows (taker, holder, kind, pool goods in the bundle taken, of which the taker values): [(0, 3, 'pair', 3, 3), (3, 0, 'want', 0, 0)]
+  induct-pot-env-tiebreaks n=3 m=5 arrows (taker, holder, kind, pool goods in the bundle taken, of which the taker values): [(1, 2, 'want', 0, 0), (2, 1, 'pair', 1, 1)]
+  induct-v-r3 n=3 m=6 arrows (taker, holder, kind, pool goods in the bundle taken, of which the taker values): [(0, 2, 'pair', 2, 2), (2, 0, 'want', 0, 0)]
+  lil-text-n3 n=3 m=7 arrows (taker, holder, kind, pool goods in the bundle taken, of which the taker values): [(1, 2, 'pair', 2, 2), (2, 1, 'want', 0, 0)]
+  red-lil-nokeep-b n=3 m=7 arrows (taker, holder, kind, pool goods in the bundle taken, of which the taker values): [(0, 2, 'want', 0, 0), (2, 0, 'pair', 1, 1)]
+cycle shapes (kind, pool goods): {(('pair', 1), ('want', 0)): 4, (('pair', 2), ('want', 0)): 5, (('pair', 3), ('want', 0)): 1}
+$ python3 k4/vm/vm_rot_shape.py named:/tmp/claude-0/-home-user-efx0-three-goods/454962d1-b841-5e80-a394-b61ed54ba228/scratchpad/ext
+  T3 n=3 m=6 arrows (taker, holder, kind, pool goods in the bundle taken, of which the taker values): [(0, 1, 'pair', 1, 1), (1, 2, 'pair', 1, 1), (2, 0, 'want', 0, 0)]
+  vmx-cex-n3 n=3 m=6 arrows (taker, holder, kind, pool goods in the bundle taken, of which the taker values): [(0, 2, 'pair', 2, 2), (2, 0, 'want', 0, 0)]
+cycle shapes (kind, pool goods): {(('pair', 1), ('pair', 1), ('want', 0)): 1, (('pair', 2), ('want', 0)): 1}
+$ python3 k4/vm/vm_rot_shape.py k5
+  RD5 n=4 m=7 arrows (taker, holder, kind, pool goods in the bundle taken, of which the taker values): [(0, 2, 'pair', 1, 1), (2, 0, 'want', 0, 0)]
+  RD4 n=4 m=7 arrows (taker, holder, kind, pool goods in the bundle taken, of which the taker values): [(0, 1, 'pair', 2, 2), (1, 0, 'want', 0, 0)]
+cycle shapes (kind, pool goods): {(('pair', 1), ('want', 0)): 1, (('pair', 2), ('want', 0)): 1}

@@ -1,0 +1,8 @@
+$ python3 k4/referee/rsd_ref.py two_move_starts_n4.json.gz rsd_n4_witnesses.json.gz 4   # export sha256 6159e38d...; witnesses at 8498cde0
+{"source": "K4.MATCH.RSD.N4 witnesses re-validated", "T_sizes_2_2": 103600, "T_sizes_2_3": 9280, "distinct_rows_covered": 112880, "phantom_tests": 677280, "rows": 112880, "valid": 112880, "witnesses": 112880}
+
+real	0m11.001s
+user	0m24.562s
+sys	0m5.634s
+$ python3 k4/referee/rsd_ref.py phantom 300000 1
+{"source": "Lemma PHANTOM random N=300000 seed=1", "tests": 258691}

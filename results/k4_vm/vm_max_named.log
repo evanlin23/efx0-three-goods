@@ -1,0 +1,19 @@
+$ python3 k4/vm/vm_max.py named:/tmp/claude-0/-home-user-efx0-three-goods/454962d1-b841-5e80-a394-b61ed54ba228/scratchpad/ext
+V-M matchings                                 238
+V-M matchings that are maximum                49
+instances                                     95
+instances: every V-M matching maximum         15
+instances: some V-M matching maximum          24
+  maximum / no-move completes                                                 42
+  maximum / no-move fails                                                     7
+  no-move success / keeps picks                                               99
+  no-move success / keeps picks / one-absorber                                39
+  no-move success / picks moved by rotation                                   93
+  not maximum / no-move completes                                             189
+  non-maximum V-M matching: r3943 n=5 m=7 nu=5 maximum-flags=[False, True, True, True]
+  non-maximum V-M matching: oc1_core_candidate n=5 m=9 nu=5 maximum-flags=[False, False, False, True]
+  non-maximum V-M matching: oc1_counterexample_n5 n=5 m=9 nu=5 maximum-flags=[False, False, False, True]
+  non-maximum V-M matching: B< n=6 m=10 nu=6 maximum-flags=[False, False]
+  non-maximum V-M matching: B> n=6 m=10 nu=6 maximum-flags=[False, False]
+  non-maximum V-M matching: ttc84:10 n=6 m=10 nu=6 maximum-flags=[False, False]
+time 35 s
