@@ -1,0 +1,10 @@
+$ git show origin/compute/k4-oc1max-cert:results/k4_oc1max/two_move_starts_n4.json.gz > two_move_starts_n4.json.gz   (commit a96c877)
+$ python3 k4/ttc/rf_rules.py export two_move_starts_n4.json.gz
+starts 112880
+(receivers tested) 112880
+ROT every listed o 112880
+ROT first listed o 112880
+ROT some listed o 112880
+SHORT 112880
+YRMH every listed o 112880
+YRMH first listed o 112880

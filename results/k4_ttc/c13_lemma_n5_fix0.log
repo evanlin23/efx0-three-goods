@@ -1,0 +1,9 @@
+$ git show origin/claude/k4-girth:results/k4_girth_rf_n5_class13.jsonl.gz > class13.jsonl.gz   (commit 7e4633de)
+$ python3 k4/ttc/c13.py class13.jsonl.gz lemma        (with hypothesis (0), referee fix)
+  and its allocation is EFX0 (raw) 7248
+  value form: allocation EFX0 (raw) 7733
+  value form: {x, y} valued exactly by the other two truly dangerous agents 7733
+  {x, y} valued exactly by the other two truly dangerous agents 7248
+Lemma C13 hypotheses FAIL 485
+Lemma C13 hypotheses hold 7248
+Lemma C13 with (3) in value form: hypotheses hold 7733
