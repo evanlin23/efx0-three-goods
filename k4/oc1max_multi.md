@@ -1428,3 +1428,32 @@ meets (S-φ1), (S-φ2) and the head condition. Everything else is a written proo
 - LIFT (refereed) for the moves;
 - S^φ for the completion;
 - (P1)–(P3) for the invariants.
+
+**Triple settlements, and the seven REC-S gaps of kgen-rounds** (`sphi.py` with TMAX=3 and ZERO=1;
+`sphi_gaps7.log`; the rows are in `recs_gaps7_kgen.jsonl`).
+
+kgen-rounds found seven n = 5 starts with no REC-S repair: 5_pure #38, #419, #447, #773, #813, #963 and #1073
+(`results/kgen_rounds/recs_gaps_5pure.log` on `proof/kgen-rounds`). At #773 and #963 no frozen agent has an improving
+junk pair. Two extensions are tried there.
+
+*Extension 1: settling by a triple.* k takes an improving pool triple T, so |R_k ∖ T| ≤ 1 and k values only Y_k
+outside T. Then v_k(Y_k) = p_k < τ_k, so k is a *satisfied* phantom and never threatened.
+- LIFT's hypothesis is no longer automatic: removing one good of T leaves two goods. So the settlement must check
+  **(L\*)**: T threatens no other agent of the current instance. 55 triples fail it on these seven starts.
+- With (L\*) in place of (P1), Theorem S^φ's proof goes through unchanged.
+
+*Extension 2: completing at once.* The last step may also be a completion of the reduced start with no further move.
+This is the matching session's RSD form.
+
+Counting total moves (two moves = OC₂^max):
+
+| settlement sets | last step | repaired in two moves |
+|---|---|---|
+| pairs | S^φ move | 0 (#38 needs three) |
+| pairs and triples | S^φ move | #773, #963 |
+| pairs | completion at once | 2 |
+| pairs and triples | either | **#38, #773, #813, #963** |
+
+**5_pure #1073, #419 and #447 are repaired by none of these forms** within two settlements. Their repairs need a first
+move that is not a settlement, such as the wider OC₁′ move. "Hypotheses ⇒ raw EFX₀" held in every case here, with 0
+violations.
