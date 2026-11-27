@@ -1561,23 +1561,34 @@ Each leaf is a named statement with its status and the session that owns it.
 | 4d | several truly dangerous agents, or DEMAND with none | SLOT (581 starts) | **open** | k4-oc1max-multi |
 | 4e | the head is a second dangerous agent | Lemma RING-red (rings with owner k) proves 151 starts, T3 with order (0, 1, 2) among them; RING (45 starts) is open | proof plus open residue | k4-oc1max-multi |
 | 4f | disjoint danger sets: one move | "one chain repairs" when no two dangerous agents share a pool danger set | **evidence** (k4-oc1max-multi, `k4/oc1max_multi/sharing.py`). Without sharing: 7,755 starts, all repaired by one move. 7,681 have a canonical chain from D owned by k, and 7,237 are covered by written lemmas (KEEP 4,657, OWN 632, D-red 1,835, RING-red 113). The 74 others fail only by CROWD (58) or the T3 ring shape (16), never by DEMAND. With sharing: 628 starts, all one move, 623 canonical. So sharing is necessary for every known two-move start, but not sufficient | k4-oc1max-multi |
-| 5 | **no one-move repair**: the second move | Sub-lemma OC2-LIFT (below) | **open**; evidence on all 12 known instances. They all have one unfrozen pick holder, and the obstacles of their canonical chains are only DEMAND and CROWD, never HEAD. At n = 4, D_T = the two sharers; at the TTC core, D_T = ∅ (k4-oc1max-multi's `cex_check.log`) | k4-oc1max-multi (working on it); matching (EX\*) |
-| 5a | R2, then LIFT-EX (1)–(2) | **R2** (TTC session): a start with two or more receivers (unfrozen pick holders) has a one-move repair. With exactly one receiver z (LIFT-EX (1)), the first chain P₁ goes from a dangerous k to z, and its H₀ ⊆ J ∪ {y_z} also improves a second dangerous agent (LIFT-EX (2), the shared pool danger set) | R2: **open** (claude/k4-ttc). Evidence: every known start with no one-move repair has one receiver, and the k = 5 failure PW5 has two. LIFT-EX (2): **open** | TTC session (R2); k4-oc1max-multi and matching (LIFT-EX (2)) |
-| 5b | LIFT-1 and Lemma LIFT-red | P₂ is canonical and ends at z, giving z its favourite good; its first agent h ≠ P₁'s head owns. LIFT-red, a written proof by matching (`k4/matching.md` §6), shows that only h's bundle can threaten at B₂, so the second move is exactly Lemma M's condition at B₂ for owner h (LIFT-1) | LIFT-red: written proof, not refereed. LIFT-1: **open**. Its hypotheses are met by some pair on all 3,190 n = 4 failing profile–start pairs, with H = ∅ on 2,997 | matching |
-| 5c | Conjecture LIFT-EX = 5a + 5b | the explicit exchange form of OC2-LIFT | evidence: all 3,190 n = 4 pairs, the TTC n = 5 core, RD5 (k = 5). It fails at PW5 (k = 5), so it uses k ≤ 4 | matching |
-| 5d | alternative route: Sub-lemma OC2-REC with Lemma LIFT | **Lemma LIFT** (written proof): if k holds a pair T that every other agent values below its own holding, then every move of I⁻ = I − k − T is a move of I, and every one-absorber completion of I⁻ that threatens nothing of k lifts, with X_k = T. **OC2-REC:** some sharer's canonical chain P₁ leaves (a) a reduced state that is a perfect SD start of I⁻, and (b) OC₁ in I⁻, with a completion that does not threaten k. Step (b) is again the one-move theory (D-red, KEEP, OWN, Theorem U in I⁻), and the shape extends to s sharers (one settling chain each) | LIFT: written proof, not refereed. OC2-REC: **open**; evidence: the 12 known failures and 4,356 n = 4 failures from value walks. At the 12, the move in I⁻ is a clean canonical chain | k4-oc1max-multi (`k4/oc1max_multi.md` §8) |
+| 5 | **no one-move repair: the second move.** One statement, **Sub-lemma SHARE₂** (K4.OCH.SHARE2), stated below the table | (i) and (ii) below | **open** | see 5a–5c |
+| 5a | SHARE₂ (i), the shape: R2 plus LIFT-EX (1)–(2) | exactly one receiver z (the contrapositive of R2); some dangerous k has a canonical chain P₁ to z whose H₀ = T is a shared pool danger set | **open**. R2 belongs to the TTC session. Evidence: all known instances | TTC session; k4-oc1max-multi |
+| 5b | SHARE₂ (ii), route M (matching) | Lemma LIFT-red (written) reduces (ii) to **LIFT-1**: Lemma M at B₂ for owner h, the first agent of P₂. LIFT-EX = (i) + (ii) in this route's terms | LIFT-red: written, not refereed. LIFT-1: **open**. Evidence: 3,190 n = 4 pairs, with H = ∅ on 2,997 | matching |
+| 5c | SHARE₂ (ii), route R (multi) | **Lemma LIFT** (written) deletes k and T. Then (ii) becomes **OC2-REC**: B₁ minus k and T is a perfect SD start of I⁻ = I − k − T, and has a one-move repair in I⁻ whose completion does not threaten k. This is the one-move theory again (D-red, KEEP, OWN, Theorem U in I⁻), and it extends to s sharers | LIFT: written, not refereed. OC2-REC: **open**. Evidence: the 12, plus 4,356 n = 4 walk failures | k4-oc1max-multi |
+| 5d | a wider single move instead: **OC₁′** (kgen-rounds) | non-end chain agents may also take goods of the end's released base. It repairs every known OC₁ failure in one move. If it holds, leaf 5 merges into leaves 3 and 4 with the wider move | **under test** (certifier, exhaustive at n = 4) | proof/kgen-rounds; compute/k4-oc1max-cert |
 | 6 | three moves needed? | three sharers of one pool pair with no slots | being searched (n = 5–7) | compute/k4-oc1max-cert |
+
+> **Sub-lemma SHARE₂ (K4.OCH.SHARE2; leaf 5, one statement; names reconciled 00:04).** Let Y be a one-absorber-hard
+> perfect start (k ≤ 4, strict) with no one-move repair.
+> - **(i) Shape.** Y has exactly one receiver z. Some dangerous agent k has a canonical chain P₁ to z whose set
+>   H₀ = T ⊆ J ∪ {y_z} is improving for k and for a second dangerous agent (a shared pool danger set).
+> - **(ii) Second move.** At the state B₁ after P₁, some canonical chain P₂ ends at z and gives z its favourite good,
+>   and the state after P₂ has a one-absorber completion in which k keeps exactly T.
+>
+> *How the names map.*
+> - OC2-LIFT (§23.3) is the earlier, weaker form. It follows from (ii), because z then wants nothing, so every DEMAND
+>   agent that z alone froze is unfrozen.
+> - LIFT-EX (matching) is (i) together with (ii), certified by Lemma M at B₂ (route M, LIFT-red then LIFT-1).
+> - OC2-REC (multi) is (ii) certified in I⁻ = I − k − T (route R, Lemma LIFT).
+> - Both routes produce the same P₂. They differ only in how the final completion is certified.
 
 **The open core at k = 4** (coordinator's summary, 00:00). OC₂^max follows from the proved and written leaves and
 three precise lemmas:
 1. **D1-HJ** (leaf 3b; `proof/k4-d1`). At a hard start where every canonical chain from the only dangerous agent k has
    HEAD, some chain whose head adds at most one junk good, with a minimal H₀, repairs with owner k.
 2. **R2** (leaf 5a; TTC session). Two or more receivers ⟹ one move.
-3. **LIFT-1 together with LIFT-EX (2)** (leaves 5a, 5b; matching and `proof/k4-oc1max-multi`). With one receiver, the
-   first chain absorbs a shared pool danger set. The second chain then ends at the receiver and gives it its
-   favourite good, and Lemma M holds at B₂ for the second chain's first agent.
-   The alternative route OC2-REC (leaf 5d) replaces LIFT-1: delete k and its pair after P₁ (Lemma LIFT), and the
-   second move becomes the one-move theory of the smaller instance.
+3. **SHARE₂** (leaf 5). Its shape (i), given R2, and its second move (ii), proved by route M (LIFT-1, leaf 5b) or by
+   route R (OC2-REC, leaf 5c). This item is not needed if **OC₁′** (leaf 5d) holds, since then one wider move suffices.
 
 Leaves 4d (SLOT) and 4e (RING) of the one-move side are still open as well. They cover starts with one move, which R2
 and LIFT do not touch.
