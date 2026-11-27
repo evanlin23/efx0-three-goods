@@ -742,3 +742,120 @@ there, since Y_z is unwanted by (U).
 walks stay near the 12 known instances, all with one unfrozen pick holder and two sharers. Three sharers, the case
 where two moves may not be enough (Hall §22), are being searched for by `compute/k4-oc1max-cert`.
 
+
+## 9. Lemma M^c: the compensated matching form of the completion
+
+Requested by the coordinator as a shared tool. It extends the matching session's Lemma M (`k4/matching.md` §1,
+refereed CORRECT) in two ways:
+- *frozen slots:* a frozen single-good agent may take a junk good if every wanter of its good is compensated
+  (Lemma 1's (S1));
+- *compensated (G1):* a fixed multi-good bundle may threaten an agent, if that agent is compensated by its own junk
+  good.
+
+Both are needed: frozen slots for the one-absorber completions that S\* misses (Hall §13, matching §5), compensated
+(G1) for RING (§7: 27 of its 45 starts).
+
+**Shape S^c.** At a state B with owner o:
+- o takes the junk not handed out;
+- every other agent with at most one base good takes at most one junk good. These agents are the *holders* N₁
+  (unfrozen, base unwanted, empty bases included) and the *frozen singles* F₁;
+- agents with two or more base goods, Q_m, take nothing.
+
+At a state of single goods (a perfect start), S^c is exactly the one-absorber shape. Checked: S^c ⟺ one-absorber at
+all 13,338 single-good states below.
+
+**Lemma M^c (K4.MULTI.MC).** Let B satisfy (G2): no junk good is wanted, i.e. v_i(g) ≤ v_i(B_i) for every agent i and
+every junk good g. Fix an owner o, and write b_i = v_i(B_i). For a set H of junk goods and a set F_s ⊆ F₁ of frozen
+slots, put X = B_o ∪ (J ∖ H), and define each agent's requirement τ_i as the largest of:
+- b_i (for i ≠ o);
+- max_h v_i(B_q ∖ h), over the non-owner multi-good bundles B_q, q ∈ Q_m ∖ {i};
+- v_i(y_j), over the j ∈ F_s whose good y_j agent i wants at B.
+
+An agent i ≠ o is *needy* if τ_i > b_i or X threatens i at b_i. The *eligible* agents are N₁ ∪ F_s. The graph
+Γ^c(H, F_s) on H × eligible has h ~ i iff either:
+- i is not needy; or
+- i values h, b_i + v_i(h) ≥ τ_i, and X does not threaten i at b_i + v_i(h).
+
+Then, for every d ≥ 0, B has an S^c completion with owner o and d dummy slots iff some (H, F_s) satisfies all three
+conditions:
+- **(C1)** every needy agent is eligible;
+- **(C2)** v_o(X) ≥ τ_o;
+- **(C3)** Γ^c(H, F_s) has a matching that covers every needy agent and has at least |H| − d edges.
+
+Hence the compensated deficiency is
+
+> δ^c(B, o) = min over (H, F_s) with (C1), (C2) and the needy agents coverable of |H| − ν(Γ^c(H, F_s)).
+
+*Proof.* The heart is a claim about a fixed S^c-shaped allocation. Write t_i = v_i(X_i), and let F_s be the frozen
+singles that receive a good.
+
+**Claim.** The allocation is EFX₀ iff t_i ≥ τ_i(F_s) for every agent, and X_o threatens no agent i ≠ o at t_i.
+
+*Proof of the claim.* Bundles of at most one good never violate EFX₀. The others are of three kinds.
+- *X_o.* It threatens i at t_i or not, which is the second condition.
+- *A multi-good B_q (q ∈ Q_m, unchanged).* It threatens i iff max_h v_i(B_q ∖ h) > t_i. The case q = o is X_o.
+- *A two-good bundle X_j = B_j ∪ {z_j}, j ∈ N₁ ∪ F₁.* Removing one good leaves the other, so it threatens i iff
+  v_i(y_j) > t_i or v_i(z_j) > t_i.
+  - By (G2), v_i(z_j) ≤ b_i ≤ t_i.
+  - For a holder j, y_j is unwanted, so v_i(y_j) ≤ b_i ≤ t_i.
+  - For a frozen single j, it threatens i iff i wants y_j at B and v_i(y_j) > t_i.
+
+  (If B_j = ∅, X_j is a singleton.) ∎
+
+*(⇒)* Given a completion, let H be the junk given away (to agents or dummies) and F_s the frozen singles that receive
+a good. Then t_i ≥ τ_i for every agent, by the claim.
+- An agent that receives nothing has t_i = b_i. So it is not needy, and non-eligible agents receive nothing: (C1).
+- (C2) holds, since t_o = v_o(X).
+- A needy agent with t_i > b_i received a good h with b_i + v_i(h) = t_i ≥ τ_i, not threatened by X at t_i: an edge
+  of Γ^c.
+- A needy agent with τ_i ≤ b_i that received nothing would be threatened by X at b_i. So every needy agent received a
+  good, and the received goods form a matching covering them, with at least |H| − d edges.
+
+*(⇐)* Given (H, F_s) and such a matching:
+- o takes X;
+- matched agents take their goods;
+- the unmatched goods of H go to dummies (at most d).
+
+Then t_i ≥ τ_i for every agent:
+- a non-needy agent has τ_i ≤ b_i;
+- a needy agent is matched along a compensating edge;
+- the owner has (C2).
+
+X threatens nobody else:
+- a non-needy agent is unthreatened at b_i ≤ t_i;
+- a needy agent is unthreatened by its edge condition.
+
+If some j ∈ F_s receives nothing, the requirements were only raised, so they still hold. The claim gives EFX₀.
+
+*The formula.* As for Lemma M: by Mendelsohn–Dulmage, a matching covering the needy agents and a maximum matching
+combine into one that does both. ∎
+
+*Special cases.*
+- F_s = ∅ with no multi-good bundle threatening anybody ((G1)) is Lemma M. The needy agents are then the exposed
+  holders.
+- At a perfect start (no Q_m), Lemma M^c is an exact matching form of Lemma 1. The coupling of frozen slots that Lemma
+  M's Remark 2 mentions is handled by enumerating F_s: for each choice of frozen slots, the condition is an ordinary
+  bipartite matching.
+
+*Checks* (`mc.py`; `mc_small.log`, `mc_walk.log`, `mc_n5.log`). States: every hard |D| ≥ 2 start of §1 and every
+state one official move reaches from it; every walk failure of §8, every state one move reaches, and a sample of
+two-move states. Every owner; d = 0 and 1. The model is compared with a raw brute force over all S^c-shaped
+allocations (`mc.brute`, raw EFX₀).
+
+| data | states with (G2) | owner tests (× 2 values of d) | mismatches |
+|---|---|---|---|
+| the small data sets (1,872 starts) | 34,824 | 139,436 | **0** |
+| the 4,955 walk failures (one and two moves) | 152,009 | 625,326 | **0** |
+| n = 5 core lists (6,511 starts) | 292,312 | 1,461,560 | **0** |
+| all | 479,145 | **2,226,322** | **0** |
+
+States without (G2) are skipped (3,740, 8,994 and 66,863). There a junk good is wanted, which canonical chains never produce
+(D-red 1).
+
+**Uses.**
+- **RING.** At 27 of the 45 RING starts, the repair has an agent off the chain that wants a good of x₀'s new bundle and
+  is compensated by its own junk good. That is (C3) with a needy agent whose requirement comes from a Q_m bundle.
+  Lemma M^c certifies these repairs exactly, where Lemma 2\* (which assumes (G1)) cannot.
+- **Frozen slots** (the matching session's 88 non-S\* starts; TTC's R2★ step 4): F_s ≠ ∅.
+- **The deficiency δ^c** is the right measure for an exchange argument with compensation: an EX\*-type lemma with
+  Γ^c in place of Γ.
