@@ -1,0 +1,10 @@
+$ python3 kgen/rounds/splice_search.py walk /tmp/claude-0/-home-user-efx0-three-goods/1bef8951-d60e-5a6c-a841-d862b0933832/scratchpad/multi/n5_walk164.jsonl 1 500 3
+... 500 {'starts': 500, 'REC-S repairs': 1000, ('RNDOZ', 'X is a one-round witness'): 1000, ('RNDPZ', 'X is a one-round witness'): 1000, ('WIDE', 'X is a one-round witness'): 1000, ('case', 'Yz in T', 'h junk', 'u0 passes', 'RNDOZ holds'): 1000} 0s
+... 1000 {'starts': 1000, 'REC-S repairs': 2000, ('RNDOZ', 'X is a one-round witness'): 2000, ('RNDPZ', 'X is a one-round witness'): 2000, ('WIDE', 'X is a one-round witness'): 2000, ('case', 'Yz in T', 'h junk', 'u0 passes', 'RNDOZ holds'): 2000} 1s
+('RNDOZ', 'X is a one-round witness') 2996
+('RNDPZ', 'X is a one-round witness') 2996
+('WIDE', 'X is a one-round witness') 2996
+('case', 'Yz in T', 'h junk', 'u0 passes', 'RNDOZ holds') 2996
+REC-S repairs 2996
+starts 1498
+time 1 s

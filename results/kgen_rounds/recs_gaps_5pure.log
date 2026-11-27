@@ -1,0 +1,29 @@
+$ python3 kgen/rounds/recs_gaps.py results/kgen_rounds/splice_search_5pure.log | starts without a REC-S repair: 7
+{"list": "5_pure", "idx": 38, "sets": [[0, 1, 3, 8], [2, 3, 7, 8], [2, 5, 6, 7], [4, 5, 6, 8], [4, 6, 7, 8]], "vals": [[2, 4, 8, 7], [2, 8, 3, 4], [3, 10, 4, 8], [6, 10, 3, 8], [5, 3, 6, 7]], "picks": [3, 2, 5, 8, 7], "orders": [[0, 2, 3, 4, 1], [2, 0, 3, 4, 1], [2, 3, 0, 4, 1], [2, 3, 4, 0, 1]]}
+   recs_witness: None | reduce_s E-form reached: ['(a) SD', 'P1 with LIFT hypothesis', 'SD-E tests'] | general form reached: ['(a) SD', 'P1 with LIFT hypothesis'] | violations 0
+   junk [0, 1, 4, 6] dangerous [0, 2, 3, 4] E(k) {0: [(0, 1)], 2: [(2, 3, 4, 1)], 3: [(3, 4, 1)], 4: [(4, 1)]} improving pool pairs {0: [], 2: [], 3: [(4, 6)], 4: [(4, 6)]}
+   rnd.c: {'EXT1': 0, 'OC1': 0, 'OC1P': 17, 'RND1Z': 0, 'RNDOZ': 17, 'RNDPZ': 17, 'MD': 17}
+{"list": "5_pure", "idx": 773, "sets": [[0, 2, 7, 8], [1, 6, 7, 8], [2, 6, 7, 8], [3, 4, 5, 6], [3, 4, 5, 8]], "vals": [[3, 10, 8, 6], [2, 7, 4, 8], [8, 4, 2, 5], [3, 2, 4, 8], [4, 3, 2, 8]], "picks": [2, 1, 7, 6, 8], "orders": [[0, 3, 4, 2, 1], [0, 4, 3, 2, 1], [3, 0, 4, 2, 1], [3, 4, 0, 2, 1], [4, 0, 3, 2, 1], [4, 3, 0, 2, 1]]}
+   recs_witness: None | reduce_s E-form reached: [] | general form reached: [] | violations 0
+   junk [0, 3, 4, 5] dangerous [0, 3, 4] E(k) {0: [(0, 2, 1)], 3: [(3, 2, 1)], 4: [(4, 2, 1)]} improving pool pairs {0: [], 3: [], 4: []}
+   rnd.c: {'EXT1': 0, 'OC1': 0, 'OC1P': 4, 'RND1Z': 7, 'RNDOZ': 7, 'RNDPZ': 7, 'MD': 7}
+{"list": "5_pure", "idx": 813, "sets": [[0, 3, 5, 8], [1, 4, 5, 7], [2, 3, 6, 8], [2, 6, 7, 8], [4, 6, 7, 8]], "vals": [[3, 8, 10, 6], [1, 6, 8, 4], [6, 10, 3, 8], [5, 4, 6, 8], [4, 3, 8, 10]], "picks": [3, 5, 8, 7, 4], "orders": [[1, 0, 2, 3, 4]]}
+   recs_witness: None | reduce_s E-form reached: ['(a) SD', 'P1 with LIFT hypothesis', 'SD-E tests'] | general form reached: ['(a) SD', 'P1 with LIFT hypothesis'] | violations 0
+   junk [0, 1, 2, 6] dangerous [0, 1, 2, 3] E(k) {0: [(0, 2, 3, 4)], 1: [(1, 0, 2, 3, 4)], 2: [(2, 3, 4)], 3: [(3, 4)]} improving pool pairs {0: [], 1: [], 2: [(2, 6)], 3: [(2, 6)]}
+   rnd.c: {'EXT1': 0, 'OC1': 0, 'OC1P': 15, 'RND1Z': 3, 'RNDOZ': 18, 'RNDPZ': 18, 'MD': 18}
+{"list": "5_pure", "idx": 963, "sets": [[0, 1, 5, 7], [1, 6, 7, 8], [2, 3, 4, 6], [2, 3, 4, 8], [5, 6, 7, 8]], "vals": [[3, 6, 10, 8], [2, 8, 4, 7], [2, 3, 4, 8], [2, 4, 3, 8], [7, 6, 3, 5]], "picks": [5, 1, 6, 8, 7], "orders": [[0, 2, 3, 4, 1], [0, 3, 2, 4, 1], [2, 0, 3, 4, 1], [2, 3, 0, 4, 1], [3, 0, 2, 4, 1], [3, 2, 0, 4, 1]]}
+   recs_witness: None | reduce_s E-form reached: [] | general form reached: [] | violations 0
+   junk [0, 2, 3, 4] dangerous [0, 2, 3] E(k) {0: [(0, 4, 1)], 2: [(2, 4, 1)], 3: [(3, 4, 1)]} improving pool pairs {0: [], 2: [], 3: []}
+   rnd.c: {'EXT1': 0, 'OC1': 0, 'OC1P': 9, 'RND1Z': 7, 'RNDOZ': 12, 'RNDPZ': 12, 'MD': 12}
+{"list": "5_pure", "idx": 1073, "sets": [[0, 3, 7, 8], [1, 2, 6, 7], [1, 4, 5, 6], [2, 6, 7, 8], [3, 4, 5, 8]], "vals": [[3, 10, 4, 8], [8, 2, 7, 4], [10, 3, 6, 8], [2, 8, 4, 7], [8, 3, 2, 4]], "picks": [3, 1, 6, 7, 8], "orders": [[0, 1, 2, 4, 3], [0, 1, 4, 2, 3], [0, 4, 1, 2, 3], [1, 0, 2, 4, 3], [1, 0, 4, 2, 3], [1, 2, 0, 4, 3]]}
+   recs_witness: None | reduce_s E-form reached: ['(a) SD', 'P1 with LIFT hypothesis', 'SD-E tests'] | general form reached: ['(a) SD', 'P1 with LIFT hypothesis'] | violations 0
+   junk [0, 2, 4, 5] dangerous [0, 1, 2, 4] E(k) {0: [(0, 4, 3)], 1: [(1, 2, 3)], 2: [(2, 3)], 4: [(4, 3)]} improving pool pairs {0: [], 1: [], 2: [(4, 5)], 4: [(4, 5)]}
+   rnd.c: {'EXT1': 0, 'OC1': 0, 'OC1P': 11, 'RND1Z': 11, 'RNDOZ': 20, 'RNDPZ': 20, 'MD': 20}
+{"list": "5_pure", "idx": 419, "sets": [[0, 2, 6, 7], [1, 4, 8, 9], [3, 5, 8, 9], [4, 5, 7, 9], [6, 7, 8, 9]], "vals": [[6, 3, 10, 8], [4, 8, 2, 3], [2, 8, 4, 3], [6, 7, 5, 3], [10, 7, 2, 6]], "picks": [6, 4, 5, 9, 7], "orders": [[0, 1, 2, 4, 3], [0, 1, 4, 2, 3], [0, 2, 1, 4, 3], [0, 2, 4, 1, 3], [0, 4, 1, 2, 3], [0, 4, 2, 1, 3], [1, 0, 2, 4, 3], [1, 0, 4, 2, 3], [1, 2, 0, 4, 3], [2, 0, 1, 4, 3], [2, 0, 4, 1, 3], [2, 1, 0, 4, 3]]}
+   recs_witness: None | reduce_s E-form reached: ['(a) SD', 'P1 with LIFT hypothesis', 'SD-E tests'] | general form reached: ['(a) SD', 'P1 with LIFT hypothesis'] | violations 0
+   junk [0, 1, 2, 3, 8] dangerous [0, 1, 2, 4] E(k) {0: [(0, 4, 3)], 1: [(1, 3)], 2: [(2, 3)], 4: [(4, 3)]} improving pool pairs {0: [], 1: [], 2: [], 4: [(8, 9)]}
+   rnd.c: {'EXT1': 0, 'OC1': 0, 'OC1P': 0, 'RND1Z': 55, 'RNDOZ': 55, 'RNDPZ': 55, 'MD': 56}
+{"list": "5_pure", "idx": 447, "sets": [[0, 2, 5, 8], [1, 6, 7, 8], [3, 6, 9, 10], [4, 7, 9, 10], [5, 8, 9, 10]], "vals": [[3, 4, 8, 6], [1, 6, 8, 4], [2, 10, 6, 3], [2, 8, 3, 4], [10, 8, 3, 6]], "picks": [5, 1, 6, 7, 8], "orders": [[0, 2, 3, 4, 1], [0, 2, 4, 3, 1], [0, 3, 2, 4, 1], [0, 3, 4, 2, 1], [0, 4, 2, 3, 1], [0, 4, 3, 2, 1], [2, 0, 3, 4, 1], [2, 0, 4, 3, 1], [2, 3, 0, 4, 1], [3, 0, 2, 4, 1], [3, 0, 4, 2, 1], [3, 2, 0, 4, 1]]}
+   recs_witness: None | reduce_s E-form reached: ['(a) SD', 'P1 with LIFT hypothesis', 'SD-E tests'] | general form reached: ['(a) SD', 'P1 with LIFT hypothesis'] | violations 0
+   junk [0, 2, 3, 4, 9, 10] dangerous [0, 2, 3, 4] E(k) {0: [(0, 4, 1)], 2: [(2, 1)], 3: [(3, 1)], 4: [(4, 1)]} improving pool pairs {0: [], 2: [], 3: [], 4: [(9, 10)]}
+   rnd.c: {'EXT1': 0, 'OC1': 0, 'OC1P': 96, 'RND1Z': 236, 'RNDOZ': 236, 'RNDPZ': 236, 'MD': 238}

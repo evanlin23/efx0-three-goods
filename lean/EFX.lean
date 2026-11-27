@@ -100,3 +100,8 @@ import EFX.OC1MaxMoves
 import EFX.LemmaM
 import EFX.Lift1
 import EFX.T6
+import EFX.SDE
+import EFX.RecS
+import EFX.ThmU
+import EFX.Phantom
+import EFX.SDERound

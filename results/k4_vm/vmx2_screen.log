@@ -1,0 +1,12 @@
+$ python3 k4/vm/vm6_test.py screen --variants=x2-choice
+instances                            168
+x2-choice: every run EFX0            49
+x2-choice: first run (all choices 0) EFX0 165
+x2-choice: runs                      108437
+x2-choice: runs EFX0                 103046
+x2-choice: some run EFX0             168
+  stuck kind ('x2-choice', 'no_safe') 5391
+  x2-choice [first run]: no EFX0 run on 3: D3(n=3,m=6), nsw-strict-n4m8(n=4,m=8), gap-phi-n4-m8-pure104(n=4,m=8)
+    smallest: D3 {"sets": [[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], "vals": [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]], "m": 6}
+    smallest: nsw-strict-n4m8 {"sets": [[0, 3, 5, 7], [1, 4, 5, 6], [2, 4, 6, 7], [3, 6, 7]], "vals": [[2, 8, 4, 7], [2, 8, 3, 4], [2, 10, 6, 7], [4, 3, 2]], "m": 8}
+time 13 s

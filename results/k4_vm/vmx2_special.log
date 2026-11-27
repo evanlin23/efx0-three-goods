@@ -1,0 +1,9 @@
+$ python3 k4/vm/vm6_test.py special --variants=x2-choice
+instances                            4
+x2-choice: every run EFX0            0
+x2-choice: first run (all choices 0) EFX0 4
+x2-choice: runs                      1200
+x2-choice: runs EFX0                 1137
+x2-choice: some run EFX0             4
+  stuck kind ('x2-choice', 'no_safe') 63
+time 0 s

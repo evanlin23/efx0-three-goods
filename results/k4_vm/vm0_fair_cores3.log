@@ -1,0 +1,17 @@
+$ python3 k4/vm/vm0_fair.py cores:3:1500:31
+fair: every selected extends                  1490
+fair: repair from every selected              1491
+fair: repair from some selected               1500
+fair: some selected extends                   1499
+instances                                     1500
+rmax: every selected extends                  1484
+rmax: repair from every selected              1488
+rmax: repair from some selected               1499
+rmax: some selected extends                   1497
+vm: every selected extends                    1404
+vm: repair from every selected                1440
+vm: repair from some selected                 1491
+vm: some selected extends                     1486
+  vm: no selected outcome repairs (9): core3:125(n=3,m=5), core3:1365(n=3,m=5), core3:591(n=3,m=5), core3:997(n=3,m=5), core3:1022(n=3,m=6), core3:1027(n=3,m=6), core3:1099(n=3,m=6), core3:1310(n=3,m=6), core3:299(n=3,m=6)
+  rmax: no selected outcome repairs (1): core3:997(n=3,m=5)
+time 1 s
