@@ -22,7 +22,9 @@ Method (as in the coverage check of k4/oc1cert/brute.py on branch compute/k4-oc1
   - Spot check: for random profiles, the box answer equals a direct brute force over all allocations from integer
     values.
 
-    python3 kgen/opb3_cover.py [SPOTS]"""
+With RESUME=file.jsonl, finished cores are recorded there and skipped on a rerun.
+
+    [RESUME=F.jsonl] python3 kgen/opb3_cover.py [SPOTS]"""
 import sys, os, gzip, json, itertools, collections, time, random, multiprocessing as mp
 import numpy as np
 
@@ -125,11 +127,12 @@ def cover(C, boxes):
     return cov
 
 
-def job(rec):
+def job(arg):
+    pos, rec = arg
     t0 = time.time(); C = Core(rec['sets']); out = collections.Counter(); bad = {}
     out['types match the list'] = int([len(V) for V in C.V] == rec['domains'])
     nu, Ys = C.matchings(); out['nu = %d' % nu] += 1
-    if nu < 3: return rec['idx'], out, bad, time.time() - t0
+    if nu < 3: return pos, out, bad, time.time() - t0
     for Y in Ys:
         boxes = C.witness_boxes(Y)
         covs = {k: cover(C, b) for k, b in boxes.items()}
@@ -142,7 +145,7 @@ def job(rec):
                 if miss and k not in bad:
                     b = np.argwhere(~sub)[0]; prof = [int(np.flatnonzero(a)[j]) for a, j in zip(A, b)]
                     bad[k] = {'picks': Y, 'order': order, 'values': [[int(C.V[i][prof[i]][g]) for g in C.sets[i]] for i in range(3)]}
-    return rec['idx'], out, bad, time.time() - t0
+    return pos, out, bad, time.time() - t0
 
 
 def brute_opb(sets, vals, order, absorber):
@@ -176,15 +179,26 @@ if __name__ == '__main__':
     print('types: %d for 3 goods, %d for 4 goods' % (len(TYPES[3]), len(TYPES[4])), flush=True)
     recs = json.load(gzip.open(os.path.join(ROOT, 'results', 'k4_certs_3.json.gz')))['cores']
     T = collections.Counter(); allbad = {}
+    resume = os.environ.get('RESUME')            # a .jsonl of finished cores (list position, counts); appended to
+    done = {}
+    if resume and os.path.exists(resume):
+        for line in open(resume): r = json.loads(line); done[r['pos']] = r
+    todo = [(p, r) for p, r in enumerate(recs) if p not in done]
+    for p, r in sorted(done.items()):
+        T.update(r['out']); T['cores'] += 1
+        for k, b in r['bad'].items(): T['%s: cores with an uncovered profile' % k] += 1; allbad.setdefault(k, (p, b))
+    print('resumed %d cores, %d to do' % (len(done), len(todo)), flush=True)
     with mp.Pool(int(os.environ.get('PROCS', mp.cpu_count()))) as pool:
-        for idx, out, bad, dt in pool.imap_unordered(job, recs):
+        for pos, out, bad, dt in pool.imap_unordered(job, todo):
             T.update(out); T['cores'] += 1
             for k, b in bad.items():
-                T['%s: cores with an uncovered profile' % k] += 1; allbad.setdefault(k, (idx, b))
-            print('core %2d: %s%s (%.0f s)' % (idx, ', '.join('%s %d' % kv for kv in sorted(out.items()) if 'uncovered' in kv[0] and kv[1]) or 'all covered',
+                T['%s: cores with an uncovered profile' % k] += 1; allbad.setdefault(k, (pos, b))
+            if resume:
+                with open(resume, 'a') as f: f.write(json.dumps({'pos': pos, 'out': dict(out), 'bad': bad}) + '\n')
+            print('core at list position %2d (idx %d, m = %d): %s%s (%.0f s)' % (pos, recs[pos]['idx'], recs[pos]['m'], ', '.join('%s %d' % kv for kv in sorted(out.items()) if 'uncovered' in kv[0] and kv[1]) or 'all covered',
                   '' if out['types match the list'] else ' TYPE COUNT MISMATCH', dt), flush=True)
     for k in sorted(T): print(T[k], k)
-    for k, (idx, b) in allbad.items(): print('first uncovered (%s): core %d' % (k, idx), json.dumps(b))
+    for k, (idx, b) in allbad.items(): print('first uncovered (%s): core at list position %d' % (k, idx), json.dumps(b))
     # spot check: box answers versus a direct brute force on concrete integer profiles
     rng = random.Random(1); agree = collections.Counter()
     small = [r for r in recs if 1 + max(g for S in r['sets'] for g in S) <= 7]
