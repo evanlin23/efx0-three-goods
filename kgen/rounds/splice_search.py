@@ -73,8 +73,31 @@ def job(row):
     for r in reps:
         X = r['X']
         res = {f: bool(RV.structures(V, y, X, pooled, wide)) for f, pooled, wide in (('RNDOZ', False, False), ('RNDPZ', True, False), ('WIDE', True, True))}
+        res['case'] = splice_case(V, y, r)
         out.append((r, res))
     return row, out
+
+
+def splice_case(V, y, r):
+    """the case of the splice lemma (kgen/rounds.md §4.10) a REC-S repair falls in:
+    Yz in T / released; h a pick or junk; u0 keeps its own pick (u0 = z, or u0 = x_l with u_s = x_{l+1})."""
+    P1, P2, T, X = r['P1'], r['P2'], set(r['T']), r['X']; z, u0 = P1[-1], P2[0]
+    W = set(X[u0]); picks = set(y); n = len(V)
+    hold = {g: i for i in range(n) for g in X[i]}
+    yz = 'Yz in T' if y[z] in T else 'Yz released'
+    extra = [g for i in range(n) if i != u0 for g in X[i] if g not in picks and False]
+    # h: the good of J1 + B1[u_s] not in W (given to one other agent)
+    keep = 'u0 keeps its pick' if hold[y[u0]] == u0 else 'u0 passes'
+    hp = 'h junk'
+    for i in range(n):
+        if i == u0: continue
+        for g in X[i]:
+            if g in picks and hold[g] == i and g != y[i]:
+                pass
+    # h is a pick iff some agent other than u0 and k holds two picks
+    twop = [i for i in range(n) if i not in (u0,) and sum(1 for g in X[i] if g in picks) >= 2 and i != P1[0]]
+    if twop: hp = 'h a pick'
+    return (yz, hp, keep)
 
 
 if __name__ == '__main__':
@@ -88,7 +111,9 @@ if __name__ == '__main__':
             C['starts'] += 1; C['REC-S repairs'] += len(out)
             if not out: C['starts with NO REC-S repair'] += 1
             for r, res in out:
-                for f, ok in res.items(): C[(f, 'X is a one-round witness' if ok else 'X is NOT')] += 1
+                for f, ok in res.items():
+                    if f != 'case': C[(f, 'X is a one-round witness' if ok else 'X is NOT')] += 1
+                C[('case',) + res['case'] + ('RNDOZ holds' if res['RNDOZ'] else 'RNDOZ FAILS',)] += 1
                 if not res['RNDPZ']:
                     C['SPLICE EXCEPTIONS (X not a ROUND-P witness)'] += 1
                     if shown < 20:

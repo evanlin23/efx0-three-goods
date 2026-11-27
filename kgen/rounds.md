@@ -79,9 +79,11 @@ every refutation below is confirmed by three independent programs.
       - Climbs on strict cores at n = 5, 6 have found no failure.
       - The only MD allocations it misses have an agent that keeps its own pick and also holds a pickless agent's
         pick.
-      - **REC-S's two-move repair is one round (§4.10).** At all 112,880 n = 4 starts, REC-S's final allocation is a
-        round of OC₁′ moves whose only structure is one chain spliced from E(k) and P₂. E(k) itself is never a
-        witness chain. A splice lemma (sketched, with one exception case) would give REC-S ⇒ ROUND-P.
+      - **REC-S's two-move repair is one round (§4.10).** Lemma SPLICE (proof written, not refereed): a REC-S repair's
+        final allocation is a round of OC₁′ moves, except in one configuration (EX) that never occurs in the data.
+        All 265,549 REC-S repairs at n = 4 and n = 5 check. E(k) itself is never a witness chain.
+      - **REC-S's existence part fails at 7 n = 5 starts** of the certifier's 5_pure chunk; two of them are its
+        residual case. ROUND-P holds at all 7 (§4.10).
     - It is a one-move alternative to the campaign's current target OC₂^max (two sequential moves).
     - On all 11 of the certifier's instances, every MD allocation has a starved agent, so the obstruction is the same
       k-independent one.
@@ -727,35 +729,129 @@ of ROUND-P's chains? If so, the two might share one proof.
     agent 3. The coordinator's P₁ = (2, 3) there is a general canonical chain, not E(2).
   - The witness rounds there are short swaps, and no dangerous agent's E(k) is a witness chain (`rndp_walk5_*.log`).
 
-**Why the moves splice (sketch, not refereed).**
+**Every REC-S repair, at n = 4 and n = 5** (`splice_search.py`, `splice_search_*.log`).
+`splice_search.py` enumerates every REC-S repair, not only multi's first one. That means every listed order, dangerous
+k, pool pair T and Theorem S case, built with multi's own code (`k4/oc1max_multi`: mmlib, dred, reduce_check, theorem_s,
+reduce_s). It then tests each final allocation for a round structure.
 
-Notation:
-- Y is a perfect start.
-- P₁ = (x₀, …, x_t) is a chain from Y, with x₀ taking H₀ ⊆ J ∪ {Y_{x_t}}; the state after it is B₁.
-- P₂ = (u₀, …, u_s) is an official chain from B₁ that leaves x₀'s bundle alone; the state after it is B₂.
+| data | starts | REC-S repairs | one-round witness (RNDOZ / RNDPZ / WIDE) |
+|---|---|---|---|
+| the 112,880 n = 4 starts without a one-move repair | 112,880 | 216,880 | all / all / all |
+| the certifier's n = 5 OC₁^max failures (`oc1_fails` of `5_pure_s5o0_summary.jsonl.gz` on `compute/k4-oc1max-cert`) | 280 | 783 | all / all / all |
+| the matching session's hard n = 5 walk starts near 5_pure#164 | 23,943 | 47,886 | all / all / all |
 
-1. *At most one received pick per bundle.* Every bundle of B₂ contains at most one pick that is not a released pick
-   (a released pick is Y_{x_t} after P₁, or the head's B₁ good if P₂'s start does not take it). This holds because
-   each bundle is either a B₁ bundle (one pick, or H₀) or B₁[u_{i−1}] plus junk of B₁. Call the owner of that pick the
-   bundle's *composite predecessor*.
-2. *The composite structure.* The composite passer graph a → (holder of Y_a in B₂) is a set of vertex-disjoint paths
-   and cycles. A cycle becomes a ring: its end's pick is taken by the start, which is the ring of a plain round. A
-   path end whose pick was released is an end with a predecessor, because it holds a received pick.
-3. *Gains.* Every agent's value only rises along the two moves: v_b(B₂[b]) > v_b(B₁[b]) ≥ v_b(Y_b), with B₁ > Y on
-   P₁. In the round each agent counts its composite predecessor's pick, its relevant junk and the released picks it
-   may take. So its round gain equals v_b(B₂[b]) − v_b(Y_b) > 0 unless b holds a released pick that the round
-   forbids it to take.
-4. *The completion is unchanged,* so it still has one absorber.
+All 265,549 repairs fall into three of the proof's cases below:
+- Y_z ∈ T and h is junk: 48,057;
+- Y_z released and h is junk: 217,326;
+- Y_z released and h a pick: 166.
 
-So the two moves are one ROUND-P round (pooled) except in one case. **The exception:** an agent that is an *end* of
-the composite structure holds a released pick that it needs. A typical case is P₂'s head taking Y_{x_t} as junk.
-Then only the wide form of §4.2, where ends may take, covers it. When P₂ meets P₁ (always at n = 4 in multi's data:
-P₂'s head is an agent of E(k)), the composite is a single chain or two chains on the same agents. The released picks
-are then taken by non-end agents of their own chain, which is a round of OC₁′ moves.
+P₂'s start never keeps its own pick.
 
-Consequence: *REC-S existence implies ROUND-P* at every start where the exception does not occur. A proof of the
-splice, with the exception closed, would reduce ROUND-P to REC-S's open existence part (§23.4 item 4 of
-`k4/oc1_hall.md`). On the data the exception never occurs: 112,880 of 112,880 n = 4 starts.
+**Lemma SPLICE (a REC-S repair is one round of OC₁′ moves).** *Proof written here; not refereed.*
+
+Setting:
+- Y is a perfect start with strict values, J its junk, and p_a = v_a(Y_a).
+- *Move 1:* E(k) = (k = x₀, x₁, …, x_t = z) with t ≥ 1. Each x_l (l ≥ 1) takes exactly Y_{x_{l−1}}, and k takes
+  T ⊆ (J ∪ {Y_z}) ∩ R_k with v_k(T) > p_k. Every agent of the move strictly gains. The state is B₁, and the junk of B₁
+  is J₁ = (J ∪ {Y_z}) ∖ T.
+- *Move 2:* P₂ = (u₀, …, u_s) with s ≥ 1 and k ∉ P₂. Each u_i (i ≥ 1) takes exactly B₁[u_{i−1}], and u₀ takes
+  H₀′ ⊆ J₁ ∪ B₁[u_s]. Every agent of the move strictly gains (against its B₁ bundle).
+- *The allocation:* X_{u₀} = W := (J₁ ∪ B₁[u_s]) ∖ {h}, one other agent w ≠ k receives h, and every other agent keeps
+  its bundle after move 2.
+
+These are exactly the shapes that `k4/oc1max_multi/check_recs.py` checks (its items 3, 4 and 7–9). X is EFX₀ by
+REC-S; that is not used below.
+
+*Claim.* X is a witness of one round of vertex-disjoint chains from Y in which:
+- every chain's non-end agents take only goods of their own chain end's base (a round of OC₁′ moves);
+- the completion has one absorber.
+
+The one exception is the configuration (EX) below.
+
+(EX): u₀ = z, Y_z ∉ T, u_s = x₁, and v_z(X_z ∖ {Y_z}) ≤ v_z(Y_z). In words: the second move starts at E(k)'s head,
+which keeps its own released pick, and ends at x₁, so Y_k lands with z.
+
+*Proof.* Let f(a) be the holder of Y_a in X; f is defined on every agent, since X is complete.
+- An agent outside E(k) and P₂ keeps Y_a, and so does every other agent.
+- Every chain agent's received good is a single good. In each move the receiver gets exactly its predecessor's
+  bundle, and those bundles are single picks except k's T.
+
+*Count of picks per bundle.*
+- k holds no pick, or Y_z if Y_z ∈ T.
+- u₀ holds the picks of W: at most two, namely B₁[u_s]'s pick and Y_z if Y_z ∈ J₁.
+- w holds its bundle's pick plus h, if h is a pick.
+- Every other agent holds exactly one pick.
+
+The goods of W ∖ (picks) and of h are junk of Y. So f is a functional graph on the agents in which:
+- k has in-degree 0, or 1 when Y_z ∈ T;
+- at most one agent v ∈ {u₀, w} has in-degree 2;
+- every other agent has in-degree 1.
+
+There are n edges and in-degrees sum to n. So:
+- (a) either f is a permutation (k holds Y_z, no agent holds two picks);
+- (b) or k has in-degree 0 and exactly one agent v has in-degree 2. Then the component of k is a "rho": a tail
+  k → … → a → v joining a cycle v → c₁ → … → c_r → v. Every other component is a cycle.
+
+*Round structure.* Turn each component into chains:
+- *A cycle a₁ → a₂ → … → a_r → a₁ (r ≥ 2)* becomes the chain a₁ → … → a_r, whose end's pick Y_{a_r} is held and taken
+  by the start a₁. This is a ring, an OC₁′ take of its own chain's end.
+  - Choose a₁ to be an agent that values its received pick. Any x_l (l ≥ 1) or u_i (i ≥ 1) on the cycle does,
+    because it wants that good.
+  - A cycle of length ≥ 2 contains such an agent: its agents are all in E(k) ∪ P₂ ∪ {k}, and a cycle through k
+    contains z.
+- *A fixed point* (f(a) = a) is off every chain. It keeps its pick and adds any relevant junk of X_a.
+- *The rho of case (b)* becomes the single chain k → … → a → v → c₁ → … → c_r. Its end c_r has a predecessor, and
+  c_r's pick lies at v, a non-end agent of the same chain.
+  - v takes it if v values it. Otherwise it is an outside good of v.
+  - The start k takes T, which is non-empty and relevant to k.
+
+This is valid when f(v) ≠ v. If f(v) = v (v keeps its own pick), v is a fixed point holding a second pick Y_a.
+- Then the tail k → … → a ends at a, with a's pick outside at v. This is valid when a has a predecessor, i.e. a ≠ k:
+  v is off the chains and simply absorbs Y_a.
+- If a = k, then k → v is forced, and v is an end that holds its own pick. Its gain then needs
+  v_v(X_v ∖ {Y_v}) > p_v.
+  - Since only u₀ can keep its own pick while holding a second one, v = u₀.
+  - a = k means B₁[u_s] = Y_k, so u_s = x₁.
+  - v = u₀ keeps Y_{u₀} ∈ W only if u₀ = z with Y_z ∈ J₁. The case u₀ = x_l with u_s = x_{l+1} has a ≠ k.
+  - This is exactly (EX).
+
+*Gains.* Every chain agent b has f(b) ≠ b, so b ∈ E(k) ∪ P₂ ∪ {k}. Its round value counts its predecessor's pick,
+its relevant junk and the end pick it takes, which is v_b(X_b) minus worthless goods, i.e. v_b(X_b). Values never
+drop between the moves:
+- v_b(X_b) ≥ v_b(B₂[b]) ≥ v_b(B₁[b]) ≥ p_b;
+- at least one of these is strict, because b gained strictly in the move that moved its pick.
+
+The only exception is the end v of (EX), whose own pick is outside.
+
+*One absorber.* The outside goods of an agent are its worthless junk and its untaken end picks.
+- Only u₀ holds junk beyond its base: W.
+- w has at most one extra good, h.
+- Every other bundle is its base: one received pick, or T for k.
+
+So only u₀ can have two or more outside goods. ∎
+
+Consequences:
+- **REC-S ⇒ ROUND-P.** At every start where REC-S applies with a repair outside (EX), a round of OC₁′ moves (RNDOZ,
+  hence ROUND-P) holds.
+- **The repair's structure.** It is a single chain when the components merge, which happens when P₂ meets E(k).
+  Otherwise it is that chain plus rings.
+- **(EX) never occurs in the data,** because P₂'s start never keeps its own pick there.
+- So a proof of REC-S's open existence part (`k4/oc1_hall.md` §23.4 item 4) outside (EX) would prove ROUND-P^max on
+  those starts.
+
+**REC-S's existence part fails at n = 5.** At 7 of the 280 stored n = 5 OC₁^max-failing starts of the certifier's
+5_pure chunk, no REC-S repair exists (`recs_gaps.py`, `recs_gaps_5pure.log`). This is confirmed with multi's own
+`recs_witness.witness` and `reduce_s.study`, in both the E(k) and the general canonical-chain forms, with 0
+violations.
+- **5_pure#773 and #963 are REC-S's residual case.** No dangerous agent has an improving pool pair, so (L) is vacuous.
+  `k4/oc1_hall.md` §23.4 item 4 said no such start was known.
+- **#38, #419, #447, #813 and #1073** meet (L) and Lemma SD-E, but have no Theorem S case in I⁻.
+- What holds at these 7:
+  - ROUND-P and RNDOZ hold at all 7;
+  - OC₁′ at 6 (not #419, one of the 24 OC₁′ counterexamples);
+  - one plain round at 6 (not #38).
+- OC₂^max is certified on the chunk, so these starts have two-move repairs, but not REC-S's.
+- ROUND-P^max survives where REC-S does not.
 
 ## 5. n = 3
 

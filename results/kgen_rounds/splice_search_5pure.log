@@ -9,7 +9,10 @@ NO REC-S REPAIR {"list": "5_pure", "idx": 447, "sets": [[0, 2, 5, 8], [1, 6, 7, 
 ('RNDOZ', 'X is a one-round witness') 783
 ('RNDPZ', 'X is a one-round witness') 783
 ('WIDE', 'X is a one-round witness') 783
+('case', 'Yz in T', 'h junk', 'u0 passes', 'RNDOZ holds') 171
+('case', 'Yz released', 'h a pick', 'u0 passes', 'RNDOZ holds') 166
+('case', 'Yz released', 'h junk', 'u0 passes', 'RNDOZ holds') 446
 REC-S repairs 783
 starts 280
 starts with NO REC-S repair 7
-time 1 s
+time 0 s
