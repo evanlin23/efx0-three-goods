@@ -916,6 +916,19 @@ only. Results:
 Logs: `round_rsd_n5partial_s50.log`, `check_round_rsd_n5partial_s50.log`, `rsd_n5partial_s50.log`,
 `n5_census_n5partial_s50.log`.
 
+**Three complete n = 5 lists** (compute/k4-oc1max-cert commit 9ec251aa,
+`results/k4_oc1max/n5/two_move_starts_n5_sel2.json.gz`, copied to `results/k4_matching/data/`).
+- The lists hold every two-move start (type profile, picks) of the cores 5_pure m = 10 #419, m = 11 #447 and
+  m = 9 #38: 276,480 + 115,200 + 192,000 = 583,680 starts.
+- Completeness is the certifier's: an OC₁^max certificate of the three cores with exactly these pairs excluded, checked
+  independently there (`check_two_move_starts_n5_sel2.log` at 14904a87: "every certified hypergraph (3) covered").
+- **ROUND-RSD repairs all 583,680** (`round_rsd_n5sel2.log`). Every start of #419 and #447 takes one round of two
+  settlements, T sizes (2, 3). Every start of #38 takes two rounds of one, sizes (2, 2).
+- The 583,680 witnesses (`round_rsd_n5sel2_witnesses.json.gz`) are re-checked by `check_rsd.py`
+  (`check_round_rsd_n5sel2.log`): 583,680 / 583,680. Ledger K4.MATCH.ROUNDRSD.SEL2, CERTIFIED.
+- So the two RSD-X cores are repaired by a single round at every type profile, and the 4b-type core #38 by two
+  sequential settlements.
+
 **The base case** (the coordinator's question; `attempts/k4-matching-rsd-base.md`; ledger K4.MATCH.RSD.BASE). The
 data are all 10,109 distinct one-absorber-hard starts with a one-move repair: multi's 8,081, Hall's 1,737, and 291
 PW starts. On them, pure reduction with a completion at once gives:

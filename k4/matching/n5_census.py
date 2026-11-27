@@ -19,7 +19,8 @@ complete export).  For every input start (sets, vals, picks), with this note's c
     a Lemma EX* exchange in I- (rec_ex): a Hall-type condition at the reduced state.
 
 Input: JSONL (or .jsonl.gz) rows with sets, vals, picks; or the n = 4 export (results/k4_matching/data/
-two_move_starts_n4.json.gz) with `n4export[:STRIDE]`; or `cex5` for the n = 5 counterexample of
+two_move_starts_n4.json.gz) with `n4export[:STRIDE]`; or any export in the certifier's format, `PATH.json.gz[:STRIDE]`
+(every STRIDE-th start of each hypergraph); or `cex5` for the n = 5 counterexample of
 attempts/k4-matching-lift-shape.md.
 
     python3 k4/matching/n5_census.py INPUT [INPUT ...]"""
@@ -159,6 +160,17 @@ def load(arg):
         rows = [dict(sets=hg['sets'], vals=s['vals'], picks=s['picks'], orders=s.get('orders'))
                 for hg in d['hypergraphs'] for s in hg['starts']]
         return rows[::st]
+    path, _, st = arg.partition(':')
+    if path.endswith('.json.gz'):   # an export: {hypergraphs: [{list, idx, sets, starts: [{vals, picks, orders}]}]};
+        st = int(st) if st else 1     # PATH:STRIDE keeps every STRIDE-th start of each hypergraph
+        d = json.load(gzip.open(path, 'rt')); rows = []
+        for hg in d['hypergraphs']:
+            m = 1 + max(max(s) for s in hg['sets'])
+            for t, s in enumerate(hg['starts']):
+                if t % st == 0:
+                    rows.append(dict(list=hg.get('list'), m=m, idx=hg.get('idx'), sets=hg['sets'], vals=s['vals'],
+                                     picks=s['picks'], orders=s.get('orders')))
+        return rows
     op = gzip.open if arg.endswith('.gz') else open
     return [json.loads(l) for l in op(arg, 'rt') if l.strip()]
 
