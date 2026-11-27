@@ -483,7 +483,9 @@ their four ε-failures, two zero versions satisfy OC₁. The other two are the t
     hypergraphs where OC₁^max fails (`certifier_two_move_starts_n4.json.gz`, from `compute/k4-oc1max-cert`).
     - rnd.c reproduces every pick vector and agrees that OC₁ fails at all 112,880. **OC₁′ holds at all 112,880**
       (`oc1p_vs_oc2.py`, `oc1p_vs_oc2.log`).
-    - The forward brute force agrees on a random 331 and is being run on all of them (`oc1p_vs_oc2_forward_*.log`).
+    - **Second implementation:** the forward brute force (`verify_k4zero.oc1_prime`, no rnd.c) also finds OC₁′ at all
+      112,880 (`oc1p_vs_oc2_forward.py`, `oc1p_vs_oc2_forward_0.log`, `oc1p_vs_oc2_forward_1.log`). It also checks
+      that the certifier's picks are the SD picks of the listed order.
     - With the certifier's certification of OC₁^max on every other n = 4 start, this gives **OC₁′^max for every
       strict connected k = 4 core with n = 4**. It rests on the certifier's ordinal type reduction (OC₁′'s gains
       compare subset sums, so OC₁′ depends only on the types) and on this workstream's implementations.
@@ -627,7 +629,7 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 | KGEN.ROUND3 | ROUND⁺ at n = 3 | CONJECTURE | EVIDENCE only (§5.1); a proof would reprove CGM |
 | KGEN.ID | Identical valuations: the picks of every order extend (any n, zeros allowed) | PROVED | `kgen/rounds.md` §5.2 (written proof; checked on 15,684 starts) |
 | K4.SDC.OC1MAX | (existing row, REFUTED by the certifier) OC₁^max on strict connected k = 4 cores | REFUTED | additional artifacts: `attempts/kgen-rounds-oc1max-c4k.md`, `results/kgen_rounds/c4k_oc1_max_orders.log`, `results/kgen_rounds/zcore_fails.json`, `results/kgen_rounds/verify_zfails.log`, `results/kgen_rounds/vs_certifier.log` |
-| K4.SDC.OC1PRIME | Conjecture OC₁′^max: as K4.SDC.OC1MAX, with non-end chain agents allowed to take goods of the end's base (one move; implies MD) | CONJECTURE (n = 4: holds at all 112,880 OC₁-failing starts) | `oc1p_vs_oc2.log` (n = 4 with the certifier's export; with its OC₁^max certificate this would make n = 4 CERTIFIED once the second implementation, `oc1p_vs_oc2_forward_*.log`, is complete), `vs_certifier.log`, `xcheck_oc1p_150_6.log`, `verify_zfails.log`, `oc1p*_*.log`. False at k = 5 (PW5) and at positive values (two disjoint swaps) |
+| K4.SDC.OC1PRIME | Conjecture OC₁′^max: as K4.SDC.OC1MAX, with non-end chain agents allowed to take goods of the end's base (one move; implies MD) | CONJECTURE; at n = 4 holds at all 112,880 OC₁^max-failing starts, by two implementations (with the certifier's OC₁^max certificate, candidate for CERTIFIED at n = 4) | `oc1p_vs_oc2.log`, `oc1p_vs_oc2_forward_0.log`, `oc1p_vs_oc2_forward_1.log` (n = 4, with the certifier's export), `vs_certifier.log`, `xcheck_oc1p_150_6.log`, `verify_zfails.log`, `oc1p*_*.log`. False at k = 5 (PW5) and at positive values (two disjoint swaps) |
 | K4.SDC.OC1PERF | OC₁ (and one round) at perfect starts for every instance with ≤ 4 relevant goods per agent (the target of Lemma RED's route; the LOOSE form of OC₁^max) | REFUTED | `kgen/rounds/k4w_check.py`, `results/kgen_rounds/k4w_check.log` (K4W, no worthless good), `results/kgen_rounds/verify_k4zero_W4.log` (W4) |
 
 ## 7. Next
