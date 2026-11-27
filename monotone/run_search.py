@@ -18,6 +18,7 @@ import os
 import json
 import time
 from multiprocessing import Pool
+import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from hypergraphs import enumerate_hypergraphs, to_R
@@ -107,8 +108,11 @@ def cegar(n, m, R, enc="order", solver="cadical153", time_limit=None, sb=True, n
         while True:
             if not s.solve():
                 return "UNSAT", L, None, time.time() - t0
-            model = set(l for l in s.get_model() if l > 0)
-            subs = [agents[i].decode(model) for i in range(n)]
+            mdl = s.get_model()
+            truth = np.zeros(len(mdl) + 2, dtype=bool)
+            pos = np.array([l for l in mdl if l > 0], dtype=np.int64)
+            truth[pos] = True
+            subs = [agents[i].decode_np(truth) for i in range(n)]
             X = find_efx0_fast(n, m, R, subs)
             if X is None:
                 # confirm with the independent Python search on full tables before reporting SAT

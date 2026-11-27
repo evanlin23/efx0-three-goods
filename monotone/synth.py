@@ -113,6 +113,25 @@ class AgentEnc:
         self.ltc[key] = lit
         return lit
 
+    def decode_np(self, truth):
+        """truth: numpy bool array indexed by variable id (model). Same result as decode()."""
+        import numpy as np
+        if self.enc == "order":
+            if not hasattr(self, "_litmat"):
+                N = self.N
+                lm = np.zeros((N, N), dtype=np.int64)
+                for S in range(N):
+                    for T in range(N):
+                        if S != T:
+                            lm[T, S] = self.plit(T, S)  # literal "v(T) < v(S)"
+                self._litmat = lm
+            lm = self._litmat
+            val = np.where(lm > 0, truth[np.abs(lm)], ~truth[np.abs(lm)])
+            np.fill_diagonal(val, False)
+            return [int(x) for x in val.sum(axis=0)]
+        xs = np.array([[self.x[S][t] for t in range(1, self.V)] for S in range(self.N)], dtype=np.int64)
+        return [int(x) for x in truth[xs].sum(axis=1)]
+
     def decode(self, model_set):
         if self.enc == "rank":
             return [sum(1 for t in range(1, self.V) if self.x[S][t] in model_set) for S in range(self.N)]
