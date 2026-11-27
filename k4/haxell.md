@@ -771,9 +771,10 @@ failures need n = 4, so n = 2 is still a fair, bounded target.
   moves (`n2aug_grid_k4.log`, which lists 12). In the smallest, m = 5: v_A = (2, 4, 7, 2, 0), v_B = (4, 2, 7, 0, 2), the
   state is ({1, 4}, {0, 3}) and good 2 (worth 7 to both) is pooled. Each agent holds a good it values at 0 that the
   other wants, and the step is the welfare swap of goods 3 and 4.
-- *With strict values, pure augmentation looks enough* (**Claim A2**: some composite of at most two moves shrinks the
+- *With strict values, pure augmentation looked enough* (**Claim A2**: some composite of at most two moves shrinks the
   pool). There was no failure on 1,067,080 random partial EFX₀ states with real values (`ht_n2claim.py`;
-  `n2claim_m9.log`: m ≤ 9 and any k; `n2claim_m10k4.log`: m ≤ 10 and k ≤ 4). This is random evidence only.
+  `n2claim_m9.log`: m ≤ 9 and any k; `n2claim_m10k4.log`: m ≤ 10 and k ≤ 4). **But Claim A2 is false**
+  (`attempts/k4-haxell-n2-pure-augmentation.md`); the exhaustive check below finds the rare types the samples missed.
   - How the augmentations are made, counting the first augmenting composite in the enumeration order (so these
     shares describe the steps found, not which kinds are required): a single placement in 91% of the states.
   - Otherwise, one of:
@@ -786,9 +787,32 @@ failures need n = 4, so n = 2 is still a fair, bounded target.
   - An earlier version of the script tested only the families "B's bundle grows", "A's bundle grows" and "trade,
     then place". It reported failures that the exact checkers rejected: "swap two agents' goods, then place" was
     missing. So a proof of Claim A2 must include that family.
+- **Theorem N2 (computer-verified; k ≤ 4, strict values).** Let n = 2, let every agent value between one and four
+  goods, let every good be valued by someone, and let each agent's values be strict (no two distinct sets of its valued
+  goods have equal value). Then from every partial EFX₀ allocation with a nonempty pool, at least one of these holds:
+  - a composite of at most two moves of §6 reaches a partial EFX₀ allocation with a smaller pool;
+  - a single swap of a good of A's with a good of B's gives a partial EFX₀ allocation in which **both** agents are
+    strictly better off.
+
+  Hence W^sub and L^sub hold for these instances, and so does the lemma with any measure that rises when both agents
+  gain.
+  - *Why the check is complete.* Pool-shrinking and the second alternative depend only on the agents' strict order
+    types: EFX₀ compares disjoint sets of an agent's goods, and the gains are "a valued good for a worthless one".
+    `ht_n2types.py` runs every strict type profile once, up to the interchangeability of goods valued by the same
+    agents (45,999 classes; `n2types_k4_theorem.log`), through `gstar_measure` (C). Every class has its partial EFX₀
+    states (6,639,927 in all) checked.
+  - *The cases.* Pool-shrinking fails at exactly 20 states, one per class, all of the shape of the attempts file: each
+    agent holds a misplaced good, and the swap of the two misplaced goods is the second alternative. The 20 were
+    confirmed by the independent Python checker of `ht_n2claim.py`. The same checker re-runs all 45,999 classes in
+    `n2types_k4_fullcheck.log`.
+  - *Not covered.* Ties (the n = 2 value grid with ties has no W^sub or L^sub stuck state, but it is a grid, not every
+    weak type). Goods valued by nobody: there pure augmentation fails even with strict values (m = 7 example in
+    `ht_n2claim.py`'s first log), while W^sub and L^sub still have steps. k ≥ 5.
 - *So the n = 2 proof splits.*
-  - For strict values: prove Claim A2. The six blocking inequalities (the four obvious completions and "g alone") are
-    the hypotheses. The families to exhibit are "g to one agent, then a transfer, a swap or a trade".
+  - For strict values and k ≤ 4: Theorem N2 (computer-verified). A written proof would exhibit the families "g to one
+    agent, then a transfer, a swap or a trade" from the six blocking inequalities (the four obvious completions and
+    "g alone"), plus the misplaced swap. By `ht_n2rules.py`, six rules each sometimes needed alone cover every hard
+    strict state found: trade then place; g to one agent then one good or a set back; swap then place.
   - For ties: use the measure, or perturb. A perturbation argument needs care, since a step for perturbed values need
     not be one for the tied values.
   - Neither part is written.

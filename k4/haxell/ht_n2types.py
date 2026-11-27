@@ -10,10 +10,11 @@ Enumeration.  Agent A values goods 0..kA-1, agent B any kB of the m goods such t
 Goods valued only by A, by both, or only by B are interchangeable within their class, and a strict type orders single
 goods strictly.  So every orbit has exactly one profile whose A-values increase on A-only goods and on shared goods,
 and whose B-values increase on B-only goods; only those profiles are run.  Each instance goes to gstar_measure 2 1 0 1
-(phi0: states with no pool-shrinking composite of two moves); any failure is printed.  CHECK=N re-runs N random
-instances through the independent Python checker of ht_n2claim.py.
+(phi0: states with no pool-shrinking composite of two moves); any failure is printed.  At each failing state, a single
+swap of two agents' goods that keeps EFX0 and raises both agents is searched (Theorem N2 of k4/haxell.md §6).  CHECK=N
+re-runs N random instances (CHECK=-1: all) through the independent Python checker of ht_n2claim.py.
 
-    python3 k4/haxell/ht_n2types.py [K=4] [PROCS=2] [CHECK=0]"""
+    python3 k4/haxell/ht_n2types.py [K=4] [PROCS=2] [CHECK=0]     (CHECK=-1: re-check every instance in Python)"""
 import sys, os, json, itertools, subprocess, collections, threading, time, random
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(HERE, '..', '..')
 args = dict(a.split('=') for a in sys.argv[1:] if '=' in a)
@@ -90,11 +91,37 @@ if __name__ == '__main__':
     for key in sorted(C):
         print(key, C[key])
     print('instances with a failure:', len(fails))
+    # Theorem N2 (k4/haxell.md §6): at every state without a pool-shrinking composite, some single swap of two agents'
+    # goods keeps EFX0 and raises both agents (type-determined: EFX0 is ordinal, and the check uses strict gains).
+    sys.argv = ['x']; sys.path.insert(0, HERE)
+    import ht_n2claim as H
+    nstates = npareto = 0
+    for src in fails:
+        w = list(map(int, src.split())); m = w[1]; t = 2; v = []
+        for i in range(2):
+            d = w[t]; t += 1; r = {w[t + 2 * j]: w[t + 2 * j + 1] for j in range(d)}; t += 2 * d
+            v.append([r.get(g, 0) for g in range(m)])
+        for own in itertools.product((0, 1, -1), repeat=m):
+            if -1 not in own:
+                continue
+            XA = [g for g in range(m) if own[g] == 0]; XB = [g for g in range(m) if own[g] == 1]
+            if not H.ok(v[0], v[1], XA, XB) or H.augment(v[0], v[1], own, m) is not None:
+                continue
+            nstates += 1; found = None
+            for a, b in itertools.product(XA, XB):
+                YA = [g for g in XA if g != a] + [b]; YB = [g for g in XB if g != b] + [a]
+                if H.ok(v[0], v[1], YA, YB) and v[0][b] > v[0][a] and v[1][a] > v[1][b]:
+                    found = (a, b); break
+            npareto += found is not None
+            print('  no pool-shrinking composite:', src, 'state A', XA, 'B', XB, '| Pareto swap', found, flush=True)
+    print('states without a pool-shrinking composite: %d; with a swap that keeps EFX0 and raises both agents: %d' %
+          (nstates, npareto))
     if CHECK:            # independent re-check (ht_n2claim.augment, pure Python) of random instances
         sys.argv = ['x']; sys.path.insert(0, HERE)
         import ht_n2claim as H
         rng = random.Random(1); bad = 0; states = 0
-        for m, vA, vB in rng.sample(allinst, min(CHECK, len(allinst))):
+        chosen = allinst if CHECK < 0 else rng.sample(allinst, min(CHECK, len(allinst)))
+        for m, vA, vB in chosen:
             a = [vA.get(g, 0) for g in range(m)]; b = [vB.get(g, 0) for g in range(m)]
             for own in itertools.product((0, 1, -1), repeat=m):
                 if -1 not in own:
@@ -106,5 +133,5 @@ if __name__ == '__main__':
                 if H.augment(a, b, own, m) is None:
                     bad += 1; print('PYTHON FAIL', line(m, vA, vB), own, flush=True)
         print('python re-check: %d instances, %d partial EFX0 states with a nonempty pool, %d failures' %
-              (min(CHECK, len(allinst)), states, bad))
+              (len(chosen), states, bad))
     print('time %.0f s' % (time.time() - t0))
