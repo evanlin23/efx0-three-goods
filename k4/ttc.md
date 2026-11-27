@@ -1130,8 +1130,21 @@ R2-C ("some canonical chain to a receiver repairs, any owner") on all 1,002 n = 
   empty.
 - The exhaustive n = 4 check of R2-E has been requested. Sampled data misled once already (R2-M).
 
-**Result:** R2-C is CERTIFIED at n = 4. R2★ fails on 230 cores, and R2-O generous and R2-O′ fail on 9
-(`attempts/k4-ttc-r2-owner-free.md`; the third case of `r2_owner_check.log` replays one of the 9).
+**Result** (certifier, final n = 4 counts; every strict profile of all 1,002 cores, perfect hard starts with
+|U| ≥ 2; certified parts independently checked, failures raw-verified; files `cert_4_r2{c,op,og,o,star}.json.gz` on
+`compute/k4-oc1max-cert`, PR #120, row K4.SDC.R2C.N4):
+
+| form | owner | cores failing (of 1,002) |
+|---|---|---|
+| **R2-C** | any | **0: CERTIFIED** |
+| R2-O′ | a receiver other than the end z, on or off the chain, or none | 9 |
+| R2-O generous | a receiver off the chain, or none | 9 (the same) |
+| R2★ | none (owner-free) | 230 |
+| R2-M | x₀, S^c with at most one junk good | 306 |
+| R2-O strict | a receiver off the chain | 308 |
+
+On the 9 R2-O′ failures the owner must be the chain's end z or a non-receiver. The third case of
+`r2_owner_check.log` replays one of them; see `attempts/k4-ttc-r2-owner-free.md`.
 
 **The sharpened target (R2-M; refuted, see above).** At a hard perfect start with |U| ≥ 2, some canonical chain from x₀ ∈ D to a
 receiver z satisfies Lemma M^c's (C1)–(C3) at the new state, with **owner x₀** and |J′ ∖ H| ≤ 1.
