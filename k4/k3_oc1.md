@@ -507,8 +507,9 @@ hardest case.
 | 3 | 97 | 0 | 8,732 | 294 | 0 |
 | 3 | 97 | 1 | 8,732 | 510 | 0 |
 | 4 | 738 | 0 | 434,113 | 8,064 | 0 |
+| 4 | 738 | 1 | 434,113 | 11,840 | 0 |
 
-(Runs with n = 4 and one dead good, and with n = 5, are in progress.)
+(n = 5, 6,911 classes, is running.)
 
 **Toward (b): how the least-ω trade repairs one-terminal perfect drafts** (`mechanism.py`). Take the 2,847 hard
 perfect drafts with T = {ℓ} after LB's upgrades and |E_ℓ| ≥ 2 (n ≤ 6 logs). After the least-ω trade, Lemma 1's

@@ -1,1 +1,6 @@
 $ python3 k4/k3oc1/perfect_small.py 4 1 (738 classes)
+hard 11840
+hypergraphs 738
+perfect drafts 434113
+profiles 218079
+time 56 s
