@@ -384,10 +384,10 @@ the FOUND cases are re-checked by brute force or, for CH-F, by SAT and MILP.
 | 3 | 3 | 1 | 1, 2 | none (UNSAT for every size vector) | `w_synth_n3_k3_p1.log`, `w_synth_n3_k3_p1_q2.log` |
 | 3 | 3 | 2 | 2 | none | `w_synth_n3_k3_p2.log` |
 | 3 | 4 | 2 | 2 | none | `w_synth_n3_k4_p2.log` |
-| 3 | 4 | 1 | 1 | (running) | `w_synth_n3_k4_p1.log` |
+| 3 | 4 | 1 | 1 | none: implied by P1 at n = 3, k = 4 (§9, exhaustive), since a welfare maximum with the fewest unallocated goods is a Pareto maximum (anything dominating it has at least its total, and with equal values allocates more goods); the direct search was stopped after 6 size vectors, all UNSAT | `ol_synth_n3_k4_p1.log`, `w_synth_n3_k4_p1.log` |
 | 4 | 3 | 1 | — | exists (the cut of GM4-G) | `w_brute.log` |
 | 4 | 3 | 2 | 2, 3 | none | `w_synth_n4_k3_p2.log`, `w_synth_n4_k3_p2_q3.log` |
-| 4 | 4 | 2 | 2 | partial (slow: about 80 s per size vector) | `w_synth_n4_k4_p2.log` |
+| 4 | 4 | 2 | 2 | partial: UNSAT for (2, 2, 2, 1), (2, 2, 2, 2), (3, 2, 2, 1); stopped | `w_synth_n4_k4_p2.log` |
 
 So the smallest welfare maximum stranding a good at k = 3 has n = 4; the smallest stranding two has 5 ≤ n ≤ 12 at
 k = 3 and 4 ≤ n ≤ 9 at k = 4 (n = 4 pending).
