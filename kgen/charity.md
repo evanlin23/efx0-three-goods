@@ -819,6 +819,24 @@ cascades, and the cascade depth is what an argument must bound. They also point 
 and (11, 447) defeat every sequential settlement (their §16), so a lock argument must allow simultaneous settlement
 there.
 
+**Remark PH-C (lock cascades; written proof).** Lock without asking q to be content: settle the holder q of φ's
+lockable good ℓ with {ℓ}, assuming only the second condition of PH-L(b) (q strongly envies no phantom's bundle at
+value v_q(ℓ); automatic when q's bundle is exactly {ℓ} and the state with the phantoms is EFX₀, as at the SD start).
+(a) *The number of active phantoms never goes up.* φ becomes satisfied (PH-L(b)), every other satisfied phantom stays
+satisfied (deleting ℓ only lowers v_ψ(R_ψ ∩ ·)), and q is the only new phantom. So the count drops by one if q is
+content with ℓ alone and is unchanged otherwise.
+(b) *A cascade visits distinct agents and ends in one of three ways.* If q is active, lock q's lockable good ℓ′ (one
+with v_q(O_q ∖ {ℓ′}) ≤ v_q(ℓ)) at its holder, and so on. Each locked agent leaves N, so no agent recurs and the depth
+is at most |N|. The cascade stops at (1) a content holder: every phantom of the chain is satisfied, net −1; (2) an
+active phantom with no lockable good (its outside demand needs two goods, e.g. three outside goods each worth
+0.6 v_q(ℓ)): net 0; or (3) a lockable good that is in the pool or in a bundle that is not a singleton: net 0, and
+PH-L does not apply as stated.
+So the depth of a cascade is not what costs charity; what costs is how it ends. Under the accounting of "Without
+(H1)" below, each cascade of type (2) or (3) leaves one active phantom, costing at most k − 1 pool goods, exactly as
+the unlocked φ would have. Locking therefore helps only at type (1) endings. At the n = 5 walk starts above the
+cascade ends at type (1) after one step at 67,335 of the 134,670 settlements (and at some settlement of every
+start); how the others end was not reported.
+
 **Without (H1)** (a settled sharer that still values remaining goods above its bundle), the phantom is active. What
 survives, by the same locality as Lemma CH1:
 - a phantom φ strongly envies X_s ∪ {g} only if it values g and a good of X_s, or it already envies X_s. In the
