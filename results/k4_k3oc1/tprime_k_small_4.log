@@ -1,0 +1,4 @@
+$ python3 k4/k3oc1/tprime_k.py source:small:4
+|T| 1: k 20
+|T| 1: none 3176
+FAIL lines: 0; NEEDK lines (owner k needed) in tprime_k_needk.gz: 20

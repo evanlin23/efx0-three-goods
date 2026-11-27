@@ -1,0 +1,27 @@
+$ python3 k4/k3oc1/t2k_owners.py gapfile:... (n = 6 two-terminal, then n = 4, 5)
+|T| 2: draft: every rotation works with none-or-k False 128
+|T| 2: draft: every rotation works with none-or-k True 10112
+|T| 2: draft: every rotation works with none-or-k-or-e True 10240
+|T| 2: draft: some rotation works with none-or-k True 10240
+|T| 2: rotation owners e+other 192
+|T| 2: rotation owners k+e+other 64
+|T| 2: rotation owners none+k+e+other 26752
+|T| 1: draft: every rotation works with none-or-k True 1040
+|T| 1: draft: every rotation works with none-or-k-or-e True 1040
+|T| 1: draft: some rotation works with none-or-k True 1040
+|T| 1: rotation owners none+k+e 188
+|T| 1: rotation owners none+k+e+other 1892
+|T| 1: draft: every rotation works with none-or-k False 112
+|T| 1: draft: every rotation works with none-or-k True 1632
+|T| 1: draft: every rotation works with none-or-k-or-e True 1744
+|T| 1: draft: some rotation works with none-or-k True 1744
+|T| 1: rotation owners e+other 112
+|T| 1: rotation owners k+e 100
+|T| 1: rotation owners none+k+e+other 3692
+|T| 1: draft: every rotation works with none-or-k False 72
+|T| 1: draft: every rotation works with none-or-k True 23696
+|T| 1: draft: every rotation works with none-or-k-or-e True 23768
+|T| 1: draft: some rotation works with none-or-k True 23768
+|T| 1: rotation owners e 72
+|T| 1: rotation owners none+k+e 2768
+|T| 1: rotation owners none+k+e+other 46200

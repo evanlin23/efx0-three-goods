@@ -1,0 +1,399 @@
+$ python3 k4/k3oc1/te_sample.py mixed:5:0 30 5
+# progress 20 hypergraphs 22 s
+# progress 40 hypergraphs 22 s
+# progress 60 hypergraphs 22 s
+# progress 80 hypergraphs 22 s
+# progress 100 hypergraphs 22 s
+# progress 120 hypergraphs 22 s
+# progress 140 hypergraphs 22 s
+# progress 160 hypergraphs 22 s
+# progress 180 hypergraphs 22 s
+# progress 200 hypergraphs 22 s
+# progress 220 hypergraphs 23 s
+# progress 240 hypergraphs 23 s
+# progress 260 hypergraphs 23 s
+# progress 280 hypergraphs 23 s
+# progress 300 hypergraphs 23 s
+# progress 320 hypergraphs 23 s
+# progress 340 hypergraphs 23 s
+# progress 360 hypergraphs 23 s
+# progress 380 hypergraphs 23 s
+# progress 400 hypergraphs 23 s
+# progress 420 hypergraphs 23 s
+# progress 440 hypergraphs 23 s
+# progress 460 hypergraphs 23 s
+# progress 480 hypergraphs 23 s
+# progress 500 hypergraphs 23 s
+# progress 520 hypergraphs 23 s
+# progress 540 hypergraphs 23 s
+# progress 560 hypergraphs 23 s
+# progress 580 hypergraphs 23 s
+# progress 600 hypergraphs 23 s
+# progress 620 hypergraphs 23 s
+# progress 640 hypergraphs 23 s
+# progress 660 hypergraphs 23 s
+# progress 680 hypergraphs 24 s
+# progress 700 hypergraphs 24 s
+# progress 720 hypergraphs 24 s
+# progress 740 hypergraphs 24 s
+# progress 760 hypergraphs 24 s
+# progress 780 hypergraphs 24 s
+# progress 800 hypergraphs 24 s
+# progress 820 hypergraphs 24 s
+# progress 840 hypergraphs 24 s
+# progress 860 hypergraphs 24 s
+# progress 880 hypergraphs 24 s
+# progress 900 hypergraphs 24 s
+# progress 920 hypergraphs 24 s
+# progress 940 hypergraphs 24 s
+# progress 960 hypergraphs 24 s
+# progress 980 hypergraphs 24 s
+# progress 1000 hypergraphs 24 s
+# progress 1020 hypergraphs 24 s
+# progress 1040 hypergraphs 24 s
+# progress 1060 hypergraphs 24 s
+# progress 1080 hypergraphs 24 s
+# progress 1100 hypergraphs 25 s
+# progress 1120 hypergraphs 25 s
+# progress 1140 hypergraphs 25 s
+# progress 1160 hypergraphs 25 s
+# progress 1180 hypergraphs 25 s
+# progress 1200 hypergraphs 25 s
+# progress 1220 hypergraphs 25 s
+# progress 1240 hypergraphs 25 s
+# progress 1260 hypergraphs 25 s
+# progress 1280 hypergraphs 25 s
+# progress 1300 hypergraphs 25 s
+# progress 1320 hypergraphs 25 s
+# progress 1340 hypergraphs 25 s
+# progress 1360 hypergraphs 25 s
+# progress 1380 hypergraphs 25 s
+# progress 1400 hypergraphs 25 s
+# progress 1420 hypergraphs 25 s
+# progress 1440 hypergraphs 25 s
+# progress 1460 hypergraphs 25 s
+# progress 1480 hypergraphs 25 s
+# progress 1500 hypergraphs 25 s
+# progress 1520 hypergraphs 26 s
+# progress 1540 hypergraphs 26 s
+# progress 1560 hypergraphs 26 s
+# progress 1580 hypergraphs 26 s
+# progress 1600 hypergraphs 26 s
+# progress 1620 hypergraphs 26 s
+# progress 1640 hypergraphs 26 s
+# progress 1660 hypergraphs 26 s
+# progress 1680 hypergraphs 26 s
+# progress 1700 hypergraphs 26 s
+# progress 1720 hypergraphs 26 s
+# progress 1740 hypergraphs 26 s
+# progress 1760 hypergraphs 26 s
+# progress 1780 hypergraphs 26 s
+# progress 1800 hypergraphs 26 s
+# progress 1820 hypergraphs 26 s
+# progress 1840 hypergraphs 26 s
+# progress 1860 hypergraphs 26 s
+# progress 1880 hypergraphs 27 s
+# progress 1900 hypergraphs 27 s
+# progress 1920 hypergraphs 27 s
+# progress 1940 hypergraphs 27 s
+# progress 1960 hypergraphs 27 s
+# progress 1980 hypergraphs 27 s
+# progress 2000 hypergraphs 27 s
+# progress 2020 hypergraphs 27 s
+# progress 2040 hypergraphs 27 s
+# progress 2060 hypergraphs 27 s
+# progress 2080 hypergraphs 27 s
+# progress 2100 hypergraphs 27 s
+# progress 2120 hypergraphs 27 s
+# progress 2140 hypergraphs 27 s
+# progress 2160 hypergraphs 27 s
+# progress 2180 hypergraphs 27 s
+# progress 2200 hypergraphs 27 s
+# progress 2220 hypergraphs 27 s
+# progress 2240 hypergraphs 27 s
+# progress 2260 hypergraphs 28 s
+# progress 2280 hypergraphs 28 s
+# progress 2300 hypergraphs 28 s
+# progress 2320 hypergraphs 28 s
+# progress 2340 hypergraphs 28 s
+# progress 2360 hypergraphs 28 s
+# progress 2380 hypergraphs 28 s
+# progress 2400 hypergraphs 28 s
+# progress 2420 hypergraphs 28 s
+# progress 2440 hypergraphs 28 s
+# progress 2460 hypergraphs 28 s
+# progress 2480 hypergraphs 28 s
+# progress 2500 hypergraphs 28 s
+# progress 2520 hypergraphs 28 s
+# progress 2540 hypergraphs 28 s
+# progress 2560 hypergraphs 28 s
+# progress 2580 hypergraphs 28 s
+# progress 2600 hypergraphs 28 s
+# progress 2620 hypergraphs 29 s
+# progress 2640 hypergraphs 29 s
+# progress 2660 hypergraphs 29 s
+# progress 2680 hypergraphs 29 s
+# progress 2700 hypergraphs 29 s
+# progress 2720 hypergraphs 29 s
+# progress 2740 hypergraphs 29 s
+# progress 2760 hypergraphs 29 s
+# progress 2780 hypergraphs 29 s
+# progress 2800 hypergraphs 29 s
+# progress 2820 hypergraphs 29 s
+# progress 2840 hypergraphs 29 s
+# progress 2860 hypergraphs 29 s
+# progress 2880 hypergraphs 29 s
+# progress 2900 hypergraphs 29 s
+# progress 2920 hypergraphs 29 s
+# progress 2940 hypergraphs 29 s
+# progress 2960 hypergraphs 29 s
+# progress 2980 hypergraphs 30 s
+# progress 3000 hypergraphs 30 s
+# progress 3020 hypergraphs 30 s
+# progress 3040 hypergraphs 30 s
+# progress 3060 hypergraphs 30 s
+# progress 3080 hypergraphs 30 s
+# progress 3100 hypergraphs 30 s
+# progress 3120 hypergraphs 30 s
+# progress 3140 hypergraphs 30 s
+# progress 3160 hypergraphs 30 s
+# progress 3180 hypergraphs 30 s
+# progress 3200 hypergraphs 30 s
+# progress 3220 hypergraphs 30 s
+# progress 3240 hypergraphs 30 s
+# progress 3260 hypergraphs 30 s
+# progress 3280 hypergraphs 30 s
+# progress 3300 hypergraphs 30 s
+# progress 3320 hypergraphs 30 s
+# progress 3340 hypergraphs 30 s
+# progress 3360 hypergraphs 31 s
+# progress 3380 hypergraphs 31 s
+# progress 3400 hypergraphs 31 s
+# progress 3420 hypergraphs 31 s
+# progress 3440 hypergraphs 31 s
+# progress 3460 hypergraphs 31 s
+# progress 3480 hypergraphs 31 s
+# progress 3500 hypergraphs 31 s
+# progress 3520 hypergraphs 31 s
+# progress 3540 hypergraphs 31 s
+# progress 3560 hypergraphs 31 s
+# progress 3580 hypergraphs 31 s
+# progress 3600 hypergraphs 31 s
+# progress 3620 hypergraphs 31 s
+# progress 3640 hypergraphs 31 s
+# progress 3660 hypergraphs 31 s
+# progress 3680 hypergraphs 31 s
+# progress 3700 hypergraphs 31 s
+# progress 3720 hypergraphs 31 s
+# progress 3740 hypergraphs 32 s
+# progress 3760 hypergraphs 32 s
+# progress 3780 hypergraphs 32 s
+# progress 3800 hypergraphs 32 s
+# progress 3820 hypergraphs 32 s
+# progress 3840 hypergraphs 32 s
+# progress 3860 hypergraphs 32 s
+# progress 3880 hypergraphs 32 s
+# progress 3900 hypergraphs 32 s
+# progress 3920 hypergraphs 32 s
+# progress 3940 hypergraphs 32 s
+# progress 3960 hypergraphs 32 s
+# progress 3980 hypergraphs 32 s
+# progress 4000 hypergraphs 32 s
+# progress 4020 hypergraphs 32 s
+# progress 4040 hypergraphs 32 s
+# progress 4060 hypergraphs 32 s
+# progress 4080 hypergraphs 33 s
+# progress 4100 hypergraphs 33 s
+# progress 4120 hypergraphs 33 s
+# progress 4140 hypergraphs 33 s
+# progress 4160 hypergraphs 33 s
+# progress 4180 hypergraphs 33 s
+# progress 4200 hypergraphs 33 s
+# progress 4220 hypergraphs 33 s
+# progress 4240 hypergraphs 33 s
+# progress 4260 hypergraphs 33 s
+# progress 4280 hypergraphs 33 s
+# progress 4300 hypergraphs 33 s
+# progress 4320 hypergraphs 33 s
+# progress 4340 hypergraphs 33 s
+# progress 4360 hypergraphs 33 s
+# progress 4380 hypergraphs 33 s
+# progress 4400 hypergraphs 33 s
+# progress 4420 hypergraphs 34 s
+# progress 4440 hypergraphs 34 s
+# progress 4460 hypergraphs 34 s
+# progress 4480 hypergraphs 34 s
+# progress 4500 hypergraphs 34 s
+# progress 4520 hypergraphs 34 s
+# progress 4540 hypergraphs 34 s
+# progress 4560 hypergraphs 34 s
+# progress 4580 hypergraphs 34 s
+# progress 4600 hypergraphs 34 s
+# progress 4620 hypergraphs 34 s
+# progress 4640 hypergraphs 34 s
+# progress 4660 hypergraphs 34 s
+# progress 4680 hypergraphs 34 s
+# progress 4700 hypergraphs 34 s
+# progress 4720 hypergraphs 34 s
+# progress 4740 hypergraphs 34 s
+# progress 4760 hypergraphs 35 s
+# progress 4780 hypergraphs 35 s
+# progress 4800 hypergraphs 35 s
+# progress 4820 hypergraphs 35 s
+# progress 4840 hypergraphs 35 s
+# progress 4860 hypergraphs 35 s
+# progress 4880 hypergraphs 35 s
+# progress 4900 hypergraphs 35 s
+# progress 4920 hypergraphs 35 s
+# progress 4940 hypergraphs 35 s
+# progress 4960 hypergraphs 35 s
+# progress 4980 hypergraphs 35 s
+# progress 5000 hypergraphs 35 s
+# progress 5020 hypergraphs 35 s
+# progress 5040 hypergraphs 35 s
+# progress 5060 hypergraphs 35 s
+# progress 5080 hypergraphs 35 s
+# progress 5100 hypergraphs 36 s
+# progress 5120 hypergraphs 36 s
+# progress 5140 hypergraphs 36 s
+# progress 5160 hypergraphs 36 s
+# progress 5180 hypergraphs 36 s
+# progress 5200 hypergraphs 36 s
+# progress 5220 hypergraphs 36 s
+# progress 5240 hypergraphs 36 s
+# progress 5260 hypergraphs 36 s
+# progress 5280 hypergraphs 36 s
+# progress 5300 hypergraphs 36 s
+# progress 5320 hypergraphs 36 s
+# progress 5340 hypergraphs 36 s
+# progress 5360 hypergraphs 36 s
+# progress 5380 hypergraphs 36 s
+# progress 5400 hypergraphs 37 s
+# progress 5420 hypergraphs 37 s
+# progress 5440 hypergraphs 37 s
+# progress 5460 hypergraphs 37 s
+# progress 5480 hypergraphs 37 s
+# progress 5500 hypergraphs 37 s
+# progress 5520 hypergraphs 37 s
+# progress 5540 hypergraphs 37 s
+# progress 5560 hypergraphs 37 s
+# progress 5580 hypergraphs 37 s
+# progress 5600 hypergraphs 37 s
+# progress 5620 hypergraphs 37 s
+# progress 5640 hypergraphs 37 s
+# progress 5660 hypergraphs 37 s
+# progress 5680 hypergraphs 37 s
+# progress 5700 hypergraphs 37 s
+# progress 5720 hypergraphs 38 s
+# progress 5740 hypergraphs 38 s
+# progress 5760 hypergraphs 38 s
+# progress 5780 hypergraphs 38 s
+# progress 5800 hypergraphs 38 s
+# progress 5820 hypergraphs 38 s
+# progress 5840 hypergraphs 38 s
+# progress 5860 hypergraphs 38 s
+# progress 5880 hypergraphs 38 s
+# progress 5900 hypergraphs 38 s
+# progress 5920 hypergraphs 38 s
+# progress 5940 hypergraphs 38 s
+# progress 5960 hypergraphs 38 s
+# progress 5980 hypergraphs 38 s
+# progress 6000 hypergraphs 38 s
+# progress 6020 hypergraphs 39 s
+# progress 6040 hypergraphs 39 s
+# progress 6060 hypergraphs 39 s
+# progress 6080 hypergraphs 39 s
+# progress 6100 hypergraphs 39 s
+# progress 6120 hypergraphs 39 s
+# progress 6140 hypergraphs 39 s
+# progress 6160 hypergraphs 39 s
+# progress 6180 hypergraphs 39 s
+# progress 6200 hypergraphs 39 s
+# progress 6220 hypergraphs 39 s
+# progress 6240 hypergraphs 39 s
+# progress 6260 hypergraphs 39 s
+# progress 6280 hypergraphs 39 s
+# progress 6300 hypergraphs 40 s
+# progress 6320 hypergraphs 40 s
+# progress 6340 hypergraphs 40 s
+# progress 6360 hypergraphs 40 s
+# progress 6380 hypergraphs 40 s
+TE-any [[0, 2, 1], [0, 1, 3], [2, 4, 5], [2, 6, 7], [4, 9, 8]] 10 picks (1, 0, 5, 2, 4)
+TE-ruleP-NEK [[0, 2, 1], [0, 1, 3], [2, 4, 5], [2, 6, 7], [4, 9, 8]] 10 picks (1, 0, 5, 2, 4)
+TE-ruleP-any_owner [[0, 2, 1], [0, 1, 3], [2, 4, 5], [2, 6, 7], [4, 9, 8]] 10 picks (1, 0, 5, 2, 4)
+TE-any [[0, 2, 1], [0, 3, 1], [2, 4, 5], [2, 7, 6], [4, 9, 8]] 10 picks (1, 0, 5, 2, 4)
+TE-ruleP-NEK [[0, 2, 1], [0, 3, 1], [2, 4, 5], [2, 7, 6], [4, 9, 8]] 10 picks (1, 0, 5, 2, 4)
+TE-ruleP-any_owner [[0, 2, 1], [0, 3, 1], [2, 4, 5], [2, 7, 6], [4, 9, 8]] 10 picks (1, 0, 5, 2, 4)
+# progress 6400 hypergraphs 40 s
+# progress 6420 hypergraphs 40 s
+# progress 6440 hypergraphs 40 s
+# progress 6460 hypergraphs 40 s
+# progress 6480 hypergraphs 40 s
+# progress 6500 hypergraphs 40 s
+# progress 6520 hypergraphs 40 s
+# progress 6540 hypergraphs 40 s
+# progress 6560 hypergraphs 40 s
+# progress 6580 hypergraphs 41 s
+# progress 6600 hypergraphs 41 s
+# progress 6620 hypergraphs 41 s
+# progress 6640 hypergraphs 41 s
+# progress 6660 hypergraphs 41 s
+# progress 6680 hypergraphs 41 s
+# progress 6700 hypergraphs 41 s
+# progress 6720 hypergraphs 41 s
+# progress 6740 hypergraphs 41 s
+# progress 6760 hypergraphs 41 s
+# progress 6780 hypergraphs 41 s
+# progress 6800 hypergraphs 41 s
+# progress 6820 hypergraphs 42 s
+# progress 6840 hypergraphs 42 s
+# progress 6860 hypergraphs 42 s
+# progress 6880 hypergraphs 42 s
+# progress 6900 hypergraphs 42 s
+hypergraphs 6911
+perfect drafts 398814
+profiles 207330
+|T| 1: T'_k k 9
+|T| 1: T'_k none 1802
+|T| 1: T-E (N/E/K) every True 1811
+|T| 1: T-E (N/E/K) every least-omega True 1811
+|T| 1: T-E (N/E/K) every most-T True 1811
+|T| 1: T-E (N/E/K) some True 1811
+|T| 1: T-E any owner, every least-omega rotation True 1811
+|T| 1: T-E any owner, every rotation True 1811
+|T| 1: hard perfect 1811
+|T| 1: least omega' <= 0 False 9
+|T| 1: least omega' <= 0 True 1802
+|T| 1: rule P (N/E/K; junk-pair k exist) True 1406
+|T| 1: rule P (N/E/K; no junk-pair k) True 405
+|T| 1: rule P (any owner; junk-pair k exist) True 1406
+|T| 1: rule P (any owner; no junk-pair k) True 405
+|T| 2: T'_k k 41
+|T| 2: T'_k none 121
+|T| 2: T-E (N/E/K) every False 3
+|T| 2: T-E (N/E/K) every True 159
+|T| 2: T-E (N/E/K) every least-omega True 162
+|T| 2: T-E (N/E/K) every most-T True 162
+|T| 2: T-E (N/E/K) some True 162
+|T| 2: T-E any owner, every least-omega rotation True 162
+|T| 2: T-E any owner, every rotation False 2
+|T| 2: T-E any owner, every rotation True 160
+|T| 2: hard perfect 162
+|T| 2: least omega' <= 0 False 42
+|T| 2: least omega' <= 0 True 120
+|T| 2: rule P (N/E/K; junk-pair k exist) False 2
+|T| 2: rule P (N/E/K; junk-pair k exist) True 160
+|T| 2: rule P (any owner; junk-pair k exist) False 2
+|T| 2: rule P (any owner; junk-pair k exist) True 160
+|T| 3: T'_k k 7
+|T| 3: T-E (N/E/K) every True 7
+|T| 3: T-E (N/E/K) every least-omega True 7
+|T| 3: T-E (N/E/K) every most-T True 7
+|T| 3: T-E (N/E/K) some True 7
+|T| 3: T-E any owner, every least-omega rotation True 7
+|T| 3: T-E any owner, every rotation True 7
+|T| 3: hard perfect 7
+|T| 3: least omega' <= 0 False 7
+|T| 3: rule P (N/E/K; junk-pair k exist) True 7
+|T| 3: rule P (any owner; junk-pair k exist) True 7
+time 42 s

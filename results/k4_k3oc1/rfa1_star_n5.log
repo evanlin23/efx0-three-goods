@@ -1,0 +1,7 @@
+$ python3 k4/k3oc1/rf/rfa1_star.py RESIDUE   (RESIDUE: girth's build, see rf_dea_full_n5.log)
+59744   extra q: its two best goods of W are both junk of Y' (so (A1-iv*) follows from D_T' = empty): False
+18307   extra q: its two best goods of W are both junk of Y' (so (A1-iv*) follows from D_T' = empty): True
+242 d values no good of J' (A1 form undefined)
+38976 hypotheses (A1-i..iii, iv*) False, (A1-iv) False, X EFX0 False
+39075 hypotheses (A1-i..iii, iv*) True, (A1-iv) False, X EFX0 True
+32368 hypotheses (A1-i..iii, iv*) True, (A1-iv) True, X EFX0 True

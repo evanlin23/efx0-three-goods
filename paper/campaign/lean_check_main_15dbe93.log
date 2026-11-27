@@ -1,0 +1,43 @@
+# lean/check.sh on main at 15dbe933 (adds lean/EFX/BaseR.lean and lean/EFX/Sep.lean, PR #151), run by the paper/campaign session (2026-11-27); excerpt
+# (summary lines, then the axiom certificates of the declarations this draft cites)
+Build completed successfully (116 jobs).
+lake build exit=0 errors=0 warnings=0 sorry-mentions=0 axiom-lines=1389 expected=1389 nonstandard-axiom-lines=0 theorems=2666
+10049 declarations in the EFX library use only propext, Classical.choice, Quot.sound
+CHECK PASSED: 1389 audited statements, 2666 theorems, standard axioms only
+exit=0
+info: EFX/OC1Max.lean:898:0: 'EFX.OC1Max.sdpo' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:902:0: 'EFX.OC1Max.exists_order_maximum' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:905:0: 'EFX.OC1Max.max_no_augment' depends on axioms: [propext, Quot.sound]
+info: EFX/OC1Max.lean:908:0: 'EFX.OC1Max.picks_no_junk' depends on axioms: [propext, Quot.sound]
+info: EFX/OC1Perf.lean:335:0: 'EFX.OC1Max.red' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OCVariants.lean:166:0: 'EFX.OC1Max.target4_of_conjOC2max' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OCVariants.lean:169:0: 'EFX.OC1Max.target4_of_conjOC2perf' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/RF.lean:77:0: 'EFX.OC1Max.conjOC1exmaxWith_of_conjRFWith' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/RF.lean:78:0: 'EFX.OC1Max.conjOC1exmax_of_conjRF' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/RF.lean:79:0: 'EFX.OC1Max.target4_of_conjRF' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/Phantom.lean:382:0: 'EFX.Round.liftStar' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/RoundRSD.lean:449:0: 'EFX.Round.inv_round' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/RoundRSD.lean:450:0: 'EFX.Round.inv_of_reach' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/RoundRSD.lean:451:0: 'EFX.Round.lift_base' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/RoundRSD.lean:452:0: 'EFX.Round.exists_efx0_of_rounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/RoundRSD.lean:454:0: 'EFX.Round.exists_efx0_of_roundRSD' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/RoundRSD.lean:455:0: 'EFX.Round.target4_of_roundRSD' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/ThmS.lean:393:0: 'EFX.OC1Max.thmS' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/ThmS.lean:394:0: 'EFX.OC1Max.thmS_oc1' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/ThmS.lean:395:0: 'EFX.OC1Max.thmS_of_Sd' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/ThmS.lean:396:0: 'EFX.OC1Max.thmS_of_DT' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/SPhi.lean:269:0: 'EFX.Round.oc1PhiAt_of_sPhi' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/SPhi.lean:270:0: 'EFX.Round.exists_efx0_of_sPhi' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/SPhi.lean:271:0: 'EFX.Round.oc1PhiAt_of_sPhiCase' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/SPhi.lean:272:0: 'EFX.Round.conjBasePhi_of_sPhi' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1MaxCex.lean:447:0: 'EFX.OC1Max.not_conjOC1max' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1MaxCex.lean:452:0: 'EFX.OC1Max.not_conjOC1max_T6' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/Sep.lean:172:0: 'EFX.Round.sep_small' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/Sep.lean:173:0: 'EFX.Round.sep_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/Sep.lean:174:0: 'EFX.Round.sep_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/Sep.lean:175:0: 'EFX.Round.sep_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/Sep.lean:177:0: 'EFX.Round.liftSep' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/BaseR.lean:335:0: 'EFX.Round.conjGR_iff_conjBaseR' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/BaseR.lean:341:0: 'EFX.Round.liftedAt_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/BaseR.lean:344:0: 'EFX.Round.target4_of_conjBaseR' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/BaseR.lean:345:0: 'EFX.Round.target4_of_conjGR' depends on axioms: [propext, Classical.choice, Quot.sound]

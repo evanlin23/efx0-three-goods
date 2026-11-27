@@ -1,0 +1,7 @@
+$ python3 k4/k3oc1/gap_scan.py certs:5
+GAP, |T| = 1 1744
+covered by B* (not R1C) 1944
+covered by R1C 584
+hard perfect 4272
+hypergraphs 15
+time 11 s

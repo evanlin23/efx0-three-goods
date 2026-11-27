@@ -1,0 +1,6 @@
+$ python3 k4/k3oc1/oc1_fast.py small:4 0 1
+distinct drafts 167080
+hard 6536
+hypergraphs 40
+profiles 51840
+time 2 s

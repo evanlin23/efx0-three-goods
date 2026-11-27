@@ -1,0 +1,23 @@
+$ python3 rs_dual_full.py /home/user/efx0-three-goods/results/k4_oc1max/two_move_starts_n4.json.gz
+profiles 111600
+  160 ('D1', 'M', 'all dangerous slack')
+  10680 ('D1', 'M', 'some dangerous tight')
+  100720 ('D1', 'P', 'all dangerous slack')
+  101560 ('D1', 'P', 'some dangerous tight')
+  160 ('D2', 'NO canonical tight chain')
+  10680 ('D2', 'canonical tight chain repairs')
+  160 ('D2wide', 'NO repair inside the tight closure')
+  10680 ('D2wide', 'a repair inside the tight closure')
+  10840 ('RS-optimal', 'M')
+  202280 ('RS-optimal', 'P')
+violations: 480
+   ('D1 fails', '4_pure#23', [[2, 3, 10, 6], [2, 8, 7, 4], [6, 10, 8, 3], [4, 8, 6, 5]], (4, 6, 3, 5))
+   ('D2wide fails', '4_pure#23', [[2, 3, 10, 6], [2, 8, 7, 4], [6, 10, 8, 3], [4, 8, 6, 5]], (4, 6, 3, 5))
+   ('D2 fails', '4_pure#23', [[2, 3, 10, 6], [2, 8, 7, 4], [6, 10, 8, 3], [4, 8, 6, 5]], (4, 6, 3, 5))
+   ('D1 fails', '4_pure#23', [[2, 3, 10, 6], [2, 8, 7, 4], [6, 10, 8, 3], [4, 8, 6, 5]], (5, 6, 3, 4))
+   ('D2wide fails', '4_pure#23', [[2, 3, 10, 6], [2, 8, 7, 4], [6, 10, 8, 3], [4, 8, 6, 5]], (5, 6, 3, 4))
+   ('D2 fails', '4_pure#23', [[2, 3, 10, 6], [2, 8, 7, 4], [6, 10, 8, 3], [4, 8, 6, 5]], (5, 6, 3, 4))
+   ('D1 fails', '4_pure#23', [[2, 3, 10, 6], [3, 10, 8, 4], [6, 10, 8, 3], [4, 8, 6, 5]], (4, 6, 3, 5))
+   ('D2wide fails', '4_pure#23', [[2, 3, 10, 6], [3, 10, 8, 4], [6, 10, 8, 3], [4, 8, 6, 5]], (4, 6, 3, 5))
+   ('D2 fails', '4_pure#23', [[2, 3, 10, 6], [3, 10, 8, 4], [6, 10, 8, 3], [4, 8, 6, 5]], (4, 6, 3, 5))
+   ('D1 fails', '4_pure#23', [[2, 3, 10, 6], [3, 10, 8, 4], [6, 10, 8, 3], [4, 8, 6, 5]], (5, 6, 3, 4))

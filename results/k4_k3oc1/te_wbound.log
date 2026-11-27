@@ -1,0 +1,19 @@
+$ python3 k4/k3oc1/te_wbound.py gapfile:results/k4_k3oc1/gap_small_4.gap.gz gapfile:results/k4_k3oc1/gap_certs_5.gap.gz gapfile:results/k4_k3oc1/gap_small_5.gap.gz
+19064 |T| 1: D - omega = 0
+6816 |T| 1: D - omega = 1
+672 |T| 1: D - omega = 2
+26552 |T| 1: crude bound gives (R) True
+$ python3 k4/k3oc1/te_wbound.py gapfile:results/k4_k3oc1/gap_certs_6_0.gap.gz
+34672 |T| 1: D - omega = 0
+10976 |T| 1: D - omega = 1
+832 |T| 1: D - omega = 2
+46480 |T| 1: crude bound gives (R) True
+4288 |T| 2: D - omega = 0
+4224 |T| 2: crude bound gives (R) True
+$ python3 k4/k3oc1/te_wbound.py gapfile:results/k4_k3oc1/gap_certs_6_1.gap.gz
+37856 |T| 1: D - omega = 0
+10864 |T| 1: D - omega = 1
+928 |T| 1: D - omega = 2
+49648 |T| 1: crude bound gives (R) True
+6016 |T| 2: D - omega = 0
+6016 |T| 2: crude bound gives (R) True

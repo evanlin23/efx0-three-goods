@@ -1,0 +1,10 @@
+$ python3 k4/k3oc1/lift4.py special 5 detype comp
+exact-hard: every least-omega chain repairs (exact) False 1
+exact-hard: every least-omega chain repairs (exact) True 15
+exact-hard: every max rank-score chain repairs (exact) True 16
+hard (DE-shape); picks exact False; one chain DE-shape True; one chain exact True 69
+hard (DE-shape); picks exact True; one chain DE-shape True; one chain exact True 6
+instances 4
+picks pass DE-shape 99
+starts 174
+time 0 s

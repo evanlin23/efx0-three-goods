@@ -1,0 +1,5 @@
+$ python3 k4/k3oc1/t2k_every.py gapfile:... T=2 (n = 6)
+|T| 2: drafts: every rotation completes True 10240
+|T| 2: length-zero (k a terminal) completing False 1856
+|T| 2: length-zero (k a terminal) completing True 2304
+|T| 2: rotations completing True 27008

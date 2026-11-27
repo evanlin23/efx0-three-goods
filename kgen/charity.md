@@ -1,10 +1,10 @@
 # Bounded charity in terms of relevant goods (CH(k))
 
-Workstream `proof/kgen-charity` (branch `claude/kgen-charity`, draft PR #105). Scripts: `kgen/charity/`; logs:
+Workstream `proof/kgen-charity` (branch `claude/kgen-charity`; bursts 1–7 merged in PR #105, current draft PR #124). Scripts: `kgen/charity/`; logs:
 `results/kgen_charity/`. Everything called evidence below is evidence only (PROMPT.md §5 rule 3). No ledger row is
 changed here; the coordinator integrates.
 
-## Status (end of burst 3)
+## Status (end of burst 8; wound down at the coordinator's request, long runs stopped)
 
 | item | statement | status | artifact |
 |---|---|---|---|
@@ -16,13 +16,14 @@ changed here; the coordinator integrates.
 | CH-E | for every σ ≥ 2 and k ≥ 3: a Pareto maximum (P1's hypothesis) leaving σ − 1 goods out, n = O(σ²) | PROVED (written proof; exhaustive check without SAT for σ ≤ 4, SAT for σ ≤ 7) | §5, `refute_pm.py`, `refute_pm_k*.log`, `pm_family_sat.log` |
 | P1 threshold | P1 (K4.SDC.P1: Pareto maxima are complete) holds for k ≤ 2, for n = 2 at every k (P1₂), and for n = 3 with k ≤ 4 (exhaustive); it fails at k = 3 with n = 4 (m = 7, every agent values exactly 3 goods) and **at n = 3 with k = 5** (m = 7, every agent values exactly 5 goods; so the n = 3 threshold is k = 5) | PROVED for k ≤ 2 (CH6 + CH4′) and for n = 2 (P1₂, written proof); exhaustive at n = 3, k ≤ 4 (z3, one implementation); REFUTED at k = 3 (CH-E with σ = 2; brute force over all 5⁷ partial allocations) and at n = 3, k = 5 (found by z3, verified by brute force over all 4⁷ partial allocations); CGM's example (n = 3, k = 6) fails it too | §5, §9, `refute_pm_k3.log`, `ol_synth_n3_k4_p1.log`, `p1_n3k5.log`, `cgm_check.log` |
 | PM(k) | Pareto maxima leave ≤ f(k) goods out | REFUTED for every k ≥ 3 and every f (CH-E) | §5 |
-| W(k, f) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f goods out (§6 for the exact statement); W(k, f) ⇒ CH(k) | f = 0 REFUTED at k = 3 (n = 4, m = 7) and k = 4 (GM4-G); **f = 1 REFUTED at k = 3 and k = 4** (CH-F: n = 12, m = 17 and n = 9, m = 14, integer values; each verified by SAT and by MILP); f ≥ 2: §6 | §6, `w_brute.log`, `w_counterexample*.log`, `attempts/kgen-charity-welfare-maxima.md` |
+| W(k, f) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f goods out (§6 for the exact statement); W(k, f) ⇒ CH(k) | f = 0 REFUTED at k = 3 (n = 4, m = 7) and k = 4 (GM4-G); **f = 1 REFUTED at k = 3 and k = 4** (CH-F: n = 12, m = 17 and n = 9, m = 14, integer values; each verified by SAT and by MILP); f ≥ 2 open: no values make S′(4, 5) strand three goods (z3, 2,243 cuts; the cvc5 and MILP re-checks were stopped unfinished, so single implementation); S′(4, 4) stopped unfinished (§6) | §6, `w_brute.log`, `w_counterexample*.log`, `attempts/kgen-charity-welfare-maxima.md`, `w_cuts_s4k5.json.gz`, `w_core_s4k5.json` |
 | L(k, 0) | the leximin maximum (then fewest unallocated) is complete | REFUTED at k = 3 and k = 4 (n = 4, m = 7; brute force); complete on the CH-F and S′ instances | §6, `lex_brute.log`, `lex_check.log` |
 | W small n | no welfare maximum strands a good for n = 3, k = 3; none strands two for n = 3, k = 3, 4 and n = 4, k = 3 | exhaustive by one implementation (z3 CEGAR over real values, all m ≤ nk + n by Lemma W0) | §6, `w_synth_n*.log` |
 | DU | an instance whose incidence graph has ≥ 2 components with agents has a complete EFX₀ allocation | PROVED (written proof; recipe checked on 2,000 random unions and on copies of the stranded instances) | §3, Prop. DU, `union_dump.log` |
 | CH-KD | every agent values ≤ k goods, every good has ≤ d valuers: some EFX₀ state with strong charity leaves ≤ min{(k − 2)d − 1, R(d)} goods out (|P|! ≤ d^{|P|−1}); at k = 4: ≤ 2, 4, 6, 9 for d = 2, 3, 4, 5 | PROVED (self-contained proof, §8; CH-A, CH-B marked correct by the referee, k4/referee/charity.md) | §8 |
 | PH | CKMS's rules with fixed phantom bundles satisfying L2's conditions (each phantom weakly prefers its bundle to all remaining goods it values; its bundle is a single good or worthless to the others): EFX₀ for all, nobody envies the pool, Theorem CH-KD's bound | PROVED (written proof) | §10 |
-| OL | from any EFX₀ state with strong charity, some complete EFX₀ allocation leaves at most one agent worse off | CONJECTURE: PROVED at n = 2 (P1₂, no loser); exhaustive (z3, one implementation) at n = 3, k ≤ 4 and n = 4, k = 3; holds on every stranded state found (S′, CH-F, 20 curated Pareto maxima, CGM's three-agent example, CKMS stops, 1,458 random charity states) | §9, `ol_synth_*.log`, `losers.log`, `ol_check*.log`, `cgm_check.log` |
+| PH⁺, PH-L, PH-C | PH from any EFX₀ start with (iii); an active phantom whose demand hinges on one good ℓ is neutralised by settling ℓ's holder q with {ℓ}, which is free when q is content with ℓ alone; lock cascades never raise the number of active phantoms, and only a content ending lowers it | PROVED (written proofs); how often the lock applies: the multi session's census (k = 4, n = 4, 5), reported, not re-run here | §10 |
+| OL | from any EFX₀ state with strong charity, some complete EFX₀ allocation leaves at most one agent worse off | CONJECTURE: PROVED at n = 2 (P1₂, no loser); exhaustive (z3, one implementation) at n = 3, k ≤ 4 and n = 4, k = 3; partial at n = 3, k = 5 (7 size vectors UNSAT, m ≤ 9, then stopped); holds on every stranded state found (S′, CH-F, 20 curated Pareto maxima, CGM's three-agent example, CKMS stops, 1,458 random charity states) | §9, `ol_synth_*.log`, `losers.log`, `ol_check*.log`, `cgm_check.log` |
 | least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
 
 **Conclusion so far.** The rainbow-cycle method works with genuine zeros and gives *exact* EFX₀ with O(√(kn))
@@ -402,10 +403,18 @@ envy. A proof for general σ would have to organise such asymmetries along the r
 **Larger σ.** Whether S′(σ, k) carries values making its σ − 1 stranded goods a welfare maximum for every σ (which
 would refute W(k) for every f, with Θ(√n) goods) is being tested by the same exact search; σ = 3 succeeds at k = 3 and k = 4 (CH-F). For σ = 4 (three goods
 stranded): on S′(4, 5)'s hypergraph (no relays: each source has three champion children; n = 16, m = 23) **no real
-values work** — UNSAT after 2,243 cuts, 4,833 s (`w_synth_family_s4k5_real.log`; single implementation); the integer
-search with values ≤ 80 had stopped at its time limit (`w_synth_family_s4k5.log`). S′(4, 4) (with relays, n = 20) is
-still running (`w_synth_family_s4k4_real.log`; the integer search stopped at its limit). So the S′ pattern does not
-scale to three stranded goods without relays; whether W(4, 2) fails is open.
+values work** by z3 — UNSAT after 2,243 cuts, 4,833 s (`w_synth_family_s4k5_real.log`), reproduced by a rerun that
+dumps its cut list (UNSAT after 2,243 cuts, 5,323 s; `w_synth_family_s4k5_real_cuts.log`, `w_cuts_s4k5.json.gz`).
+z3 with one guard literal per cut (`w_core_z3.py`) confirms that the dumped cuts alone are UNSAT and needs 890 of them
+(`w_core_s4k5.json`). The independent re-checks, cvc5 on a separately written SMT-LIB encoding (`w_cert.py`, on the
+full list and on the 890-cut core) and a HiGHS MILP in homogeneous form (`w_milp_cert.py`, on the core), were
+**stopped without an answer** at the wind-down (after 2.8 h, 2.3 h and 0.5 h; `w_cert_s4k5_full.log`,
+`w_cert_s4k5_core.log`, `w_milp_s4k5_core.log`, all PARTIAL). Both re-check tools agree with z3 on the controls
+(`w_cert_controls.log`). So S′(4, 5) is still a single-implementation (z3) result, not a certified one. The integer
+search with values ≤ 80 had stopped at its time limit (`w_synth_family_s4k5.log`). S′(4, 4) (with relays, n = 20):
+stopped with no answer after 3,150 cuts (`w_synth_family_s4k4_real_cuts.log`, PARTIAL; the cut list is in
+`w_cuts_s4k4_partial.json.gz` for a resumed run; the integer search stopped at its limit). So, on z3's word, the S′
+pattern does not scale to three stranded goods without relays; whether W(4, 2) fails is open.
 
 **Leximin maxima** (the lexicographic selection: maximise the smallest value, then the next, …, then the fewest
 unallocated goods; `chlib.leximin_max`, SAT with nested cardinality thresholds; `lex_check.py`, `lex_check.log`):
@@ -614,7 +623,7 @@ n = 4 stranding of §5 in 36 cuts and correctly finds none at n = 3, k = 3.
 | 3 | 3 | OL holds | `ol_synth_n3_k3.log` |
 | 3 | 4 | OL holds (43 size vectors, pool sizes 1–2, m ≤ 12); P1 holds too (no stranded Pareto maximum) | `ol_synth_n3_k4.log`, `ol_synth_n3_k4_p1.log` |
 | 4 | 3 | OL holds (43 size vectors, pool sizes 1–3, m ≤ 12) | `ol_synth_n4_k3.log` |
-| 3 | 5 | P1 fails (Proposition P1₃,₅, brute-force checked); OL: being searched | `p1_n3k5.log`, `ol_synth_n3_k5_q*.log` |
+| 3 | 5 | P1 fails (Proposition P1₃,₅, brute-force checked), OL holds on its four instances (one loser); the OL search is partial: UNSAT for sizes (2, 2, 1), (2, 2, 2), (3, 2, 1), (3, 2, 2), (3, 3, 1) at q = 1 and (2, 2, 2), (3, 2, 2) at q = 2 (m ≤ 9); stopped at its time limit on (3, 3, 2) (each size vector took up to 45 min; the remaining ones, up to m = 15, were not run) | `p1_n3k5.log`, `ol_synth_n3_k5_q*.log` |
 
 **Proposition P1₂ (two agents: Pareto maxima are complete; written proof).** In every additive instance with two
 agents (any number of goods, any values ≥ 0), every Pareto maximum is complete. Equivalently, every partial EFX₀
@@ -740,17 +749,118 @@ completely: so **L2 extends from complete allocations to charity** — peeling a
 costs charity. A recursion that settles only such agents keeps the hypotheses of CH-KD at every level, and the bound
 holds for the final pool, independently of n and of the number of phantoms.
 
+**Proposition PH⁺ (any start).** PH holds with the rules started from any state X⁰ of N on M′ such that X⁰ together
+with the phantoms is EFX₀; (H3) is then not needed, only (iii) at X⁰ (no agent of N strongly envies a phantom's
+bundle at the start). For a phantom holding a pair F_φ = {x, y}, (iii) says v_j(x), v_j(y) ≤ v_j(X⁰_j) for every
+j ∈ N. *Proof.* Every rule changes values of agents of N only upwards: on a rotation, a path of U2, or as the
+receiver of a minimal envied set (U1, U2), an agent takes a bundle it envied, and all other values are unchanged; so
+(iii) persists, and (ii), (iv) hold as in PH. The rules terminate from any state, since (R), (U1), (U2) raise
+Σ_{i∈N} v_i(X_i) and (U0) keeps it and shrinks the pool. Steps 3–5 of §8 use only that no rule applies at the final
+state, not how it was reached, and by (H1) every agent blocking U0 there is in N. ∎
+
+**Comparison with the phantom class of `k4/oc1max_multi.md` §14** (branch `proof/k4-oc1max-multi`, read at 8924c6b).
+There a settled sharer k keeps a pool pair T_k with threshold τ_k = v_k(T_k) and values at most two remaining goods:
+Y_k, with v_k(Y_k) = p_k < τ_k, and possibly one more good ℓ.
+- Their (L), real agents valuing each good of T_k below their holding, is condition (iii) for a pair. PH⁺ is the
+  version needed from their SD start, which is not empty.
+- k is satisfied in the sense of (H1) iff p_k + v_k(ℓ) ≤ τ_k. Then neither of their failure modes (K-a) and (K-b) can
+  occur, and PH⁺ gives CH-KD's charity bound for the rest with k deleted.
+- k is active iff p_k + v_k(ℓ) > τ_k. Their (K-a) is the case where k strongly envies a bundle holding both Y_k and ℓ
+  and a third good, so the active phantom imposes "keep Y_k and ℓ apart, unless they form a whole bundle".
+- (K-b), v_k(ℓ) > τ_k, is a phantom that envies a single good. Its holder's bundle must then stay exactly {ℓ}: it is
+  *frozen* (their phantom-frozen holder). This case escapes the locality bullet below as first written, which said
+  that φ blocks only pool goods it values. The correct statement is the corrected first bullet.
+
+*How often the settled sharer is satisfied* (the multi session's census: `k4/oc1max_multi/phantom_sat.py`,
+`results/k4_oc1max_multi/phantom_sat.log` on `proof/k4-oc1max-multi-2`, PR #126; numbers as they reported them by
+message, not re-run here). Settling k by
+E(k) with its best improving pool pair T\*, k is satisfied iff v_k(R_k ∖ T\*) ≤ v_k(T\*):
+
+| data | best-pair settlements | satisfied | active, ℓ a pick (frozen) | active, ℓ a pool good | starts with a satisfied option |
+|---|---|---|---|---|---|
+| their 4,955 walk failures | 9,910 | 1,235 | 7,603 | 1,072 | 879 |
+| n = 4 export (112,880 starts) | 584,160 | 113,600 | 387,680 | 82,880 | 38,720 |
+| n = 5 walks near 5_pure#164 (22,445 starts) | 134,670 | 0 | 134,670 | 0 | 0 |
+
+So PH⁺ deletes the settled agent for free at a minority of starts, and at most starts, and at all of the n = 5 walk
+starts, every best-pair settlement is active of the freezing kind. An RSD argument needs the active case: either a
+bound on active phantoms, or handling ℓ's frozen singleton directly.
+
+**Proposition PH-L (locking the wanted good; written proof).** Let φ be a phantom with τ_φ = v_φ(F_φ) and outside
+goods O_φ = R_φ ∩ M′, and let ℓ ∈ O_φ satisfy v_φ(O_φ ∖ {ℓ}) ≤ τ_φ (φ's demand hinges on one good).
+(a) In any allocation of M′ in which ℓ's bundle is exactly {ℓ}, φ strongly envies no bundle.
+(b) Suppose an agent q ∈ N is *content with ℓ alone*:
+   - v_q(R_q ∩ M′ ∖ {ℓ}) ≤ v_q(ℓ), and
+   - v_q(F_ψ ∖ {h}) ≤ v_q(ℓ) for every phantom ψ and every h ∈ F_ψ.
+   Settle q with {ℓ} as a new phantom, and let M″ = M′ ∖ {ℓ}. Then φ and q satisfy (H1) on M″, every other phantom
+   that satisfied (H1) still does, (iv) holds, and PH⁺ applies to N ∖ {q} on M″ from any EFX₀ start that satisfies
+   (iii).
+*Proof.* (a) A bundle B ∌ ℓ has v_φ(B) ≤ v_φ(O_φ ∖ {ℓ}) ≤ τ_φ, so φ does not even envy it, and {ℓ} ∖ {ℓ} = ∅.
+(b) On M″, v_φ(R_φ ∩ M″) = v_φ(O_φ ∖ {ℓ}) ≤ τ_φ and v_q(R_q ∩ M″) ≤ v_q(ℓ), which is (H1) for both. Deleting ℓ only
+lowers every other phantom's v_ψ(R_ψ ∩ ·). For (iv): nobody strongly envies the single good {ℓ}, and q does not
+strongly envy any F_ψ, by the second condition. Every agent of N strongly envies {ℓ} at no state, so (iii) for the new
+phantom is free. ∎
+
+For the multi session's phantoms (k = 4, F = T\*, O = {Y_k, ℓ}, p_k = v_k(Y_k) < τ_k), **every active phantom has a
+lockable good**:
+- ℓ always qualifies, since v_k(O ∖ {ℓ}) = p_k < τ_k.
+- Y_k also qualifies when v_k(ℓ) ≤ τ_k.
+So in their (K-b) case (ℓ a pick, held by q), k is neutralised as soon as q is content with ℓ alone, and q then
+leaves with {ℓ} as a second satisfied phantom. In (K-a), the same holds with either ℓ or Y_k and its holder. At their
+SD start q's bundle is {ℓ}, so the second condition of (b) for ψ = k is their (L). The question for an RSD argument
+becomes whether the holder of the locked good is content with it alone, which is again a local condition on at most
+three other goods q values.
+
+*How often the lock applies* (the multi session's census, `k4/oc1max_multi/phantom_sat.py` and
+`results/k4_oc1max_multi/phantom_sat.log` on `proof/k4-oc1max-multi-2`, log read at 13bf637; not re-run here). Over
+active best-pair settlements with ℓ a pick held by q, "content" meaning v_q(R_q ∖ ({ℓ} ∪ T\*)) ≤ v_q(ℓ) and
+v_q(T\* ∖ h) ≤ v_q(ℓ):
+
+| data | active ℓ-pick settlements | q content with ℓ alone | starts with a content option |
+|---|---|---|---|
+| their walk failures | 7,603 | 1,539 | 1,539 of 4,599 |
+| n = 4 export | 387,680 | 268,800 | 89,600 of 112,880 |
+| n = 5 walks near 5_pure#164 | 134,670 | 67,335 | 22,445 of 22,445 |
+
+So PH-L neutralises the active phantom at about 70% of the n = 4 settlements and at every n = 5 walk start, but not
+always. The lock holder q is nearly always a sharer itself (99% at n = 4), so where q is not content the lock
+cascades, and the cascade depth is what an argument must bound. They also point out that the 5_pure cores (10, 419)
+and (11, 447) defeat every sequential settlement (their §16), so a lock argument must allow simultaneous settlement
+there.
+
+**Remark PH-C (lock cascades; written proof).** Lock without asking q to be content: settle the holder q of φ's
+lockable good ℓ with {ℓ}, assuming only the second condition of PH-L(b) (q strongly envies no phantom's bundle at
+value v_q(ℓ); automatic when q's bundle is exactly {ℓ} and the state with the phantoms is EFX₀, as at the SD start).
+(a) *The number of active phantoms never goes up.* φ becomes satisfied (PH-L(b)), every other satisfied phantom stays
+satisfied (deleting ℓ only lowers v_ψ(R_ψ ∩ ·)), and q is the only new phantom. So the count drops by one if q is
+content with ℓ alone and is unchanged otherwise.
+(b) *A cascade visits distinct agents and ends in one of three ways.* If q is active, lock q's lockable good ℓ′ (one
+with v_q(O_q ∖ {ℓ′}) ≤ v_q(ℓ)) at its holder, and so on. Each locked agent leaves N, so no agent recurs and the depth
+is at most |N|. The cascade stops at (1) a content holder: every phantom of the chain is satisfied, net −1; (2) an
+active phantom with no lockable good (its outside demand needs two goods, e.g. three outside goods each worth
+0.6 v_q(ℓ)): net 0; or (3) a lockable good that is in the pool or in a bundle that is not a singleton: net 0, and
+PH-L does not apply as stated.
+So the depth of a cascade is not what costs charity; what costs is how it ends. Under the accounting of "Without
+(H1)" below, each cascade of type (2) or (3) leaves one active phantom, costing at most k − 1 pool goods, exactly as
+the unlocked φ would have. Locking therefore helps only at type (1) endings. At the n = 5 walk starts above the
+cascade ends at type (1) after one step at 67,335 of the 134,670 settlements (and at some settlement of every
+start); how the others end was not reported.
+
 **Without (H1)** (a settled sharer that still values remaining goods above its bundle), the phantom is active. What
 survives, by the same locality as Lemma CH1:
-- a phantom φ can strongly envy X_s ∪ {g} only if it values g (and a good of X_s); so it can block, i.e. champion,
-  only pool goods in R_φ ∖ F_φ, at most k − 1 per phantom (k − |R_φ ∩ F_φ|);
+- a phantom φ strongly envies X_s ∪ {g} only if it values g and a good of X_s, or it already envies X_s. In the
+  second case φ blocks U0 at s for every pool good: X_s is *frozen* (taking h = g shows v_φ(X_s) > v_φ(F_φ)), and
+  the champion option may then avoid g. Each bundle φ envies holds one of the ≤ k − |R_φ ∩ F_φ| goods it values
+  outside F_φ, so φ freezes at most that many bundles. Apart from frozen bundles, φ can block, i.e. champion, only
+  the pool goods in R_φ ∖ F_φ, at most k − 1 per phantom (k − |R_φ ∩ F_φ|);
 - condition (iii) is still free under value-monotone rules once it holds at the start (thresholds t_j = the largest
   v_j(F_φ ∖ h) are lower bounds that never break);
 - but U1 and U2 must now also keep φ from strongly envying the new bundles, and a minimal envied subset of the pool
   may be envied only by φ, which cannot receive it; so the rule system itself needs a change (a phantom-aware U1).
-  With that change, CH-KD's Steps 3–5 apply to the pool goods valued by no active phantom, so the open part of the
-  pool is P ∩ ∪_{φ active} R_φ, at most (k − 1) times the number of active phantoms that value pool goods. That is
-  n-independent only if the recursion keeps the number of active phantoms bounded.
+  With that change, CH-KD's Steps 3–5 apply to the pool goods valued by no active phantom, at sources no phantom
+  envies, so the open part is the pool goods in ∪_{φ active} R_φ together with the frozen sources. Both are at most
+  (k − 1) times the number of active phantoms. That is n-independent only if the recursion keeps the number of
+  active phantoms bounded.
 
 So the clean inductive hypothesis is "every phantom is satisfied (H1) and unthreatened by construction (H3)", and it
 yields CH-KD's n-independent charity; any recursion that settles sharers which still want remaining goods (REC-S

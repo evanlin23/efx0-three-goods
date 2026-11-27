@@ -1,0 +1,58 @@
+# sum of te_exhaustive_mixed5_1_{0..3}.log ($ python3 k4/k3oc1/te_sample.py mixed:5:1 0 0 SHARD 4: every profile of every class, one dead good); OMEGA2 lines in te_exhaustive_mixed5_1.omega2.gz
+hypergraphs 6911
+perfect drafts 27769471
+profiles 10343383
+|T| 1: T'_k k 23722
+|T| 1: T'_k none 310688
+|T| 1: T-E (N/E/K) every False 80
+|T| 1: T-E (N/E/K) every True 334330
+|T| 1: T-E (N/E/K) every least-omega True 334410
+|T| 1: T-E (N/E/K) every most-T True 334410
+|T| 1: T-E (N/E/K) some True 334410
+|T| 1: T-E any owner, every least-omega rotation True 334410
+|T| 1: T-E any owner, every rotation False 80
+|T| 1: T-E any owner, every rotation True 334330
+|T| 1: hard perfect 334410
+|T| 1: least omega' <= 0 False 25478
+|T| 1: least omega' <= 0 True 308932
+|T| 1: least omega' <= 1 False 2392
+|T| 1: least omega' <= 1 True 332018
+|T| 1: rule P (N/E/K; junk-pair k exist) True 179210
+|T| 1: rule P (N/E/K; no junk-pair k) False 16
+|T| 1: rule P (N/E/K; no junk-pair k) True 155184
+|T| 1: rule P (any owner; junk-pair k exist) True 179210
+|T| 1: rule P (any owner; no junk-pair k) False 16
+|T| 1: rule P (any owner; no junk-pair k) True 155184
+|T| 2: T'_k k 17708
+|T| 2: T'_k none 9524
+|T| 2: T-E (N/E/K) every False 208
+|T| 2: T-E (N/E/K) every True 27024
+|T| 2: T-E (N/E/K) every least-omega False 16
+|T| 2: T-E (N/E/K) every least-omega True 27216
+|T| 2: T-E (N/E/K) every most-T False 16
+|T| 2: T-E (N/E/K) every most-T True 27216
+|T| 2: T-E (N/E/K) some True 27232
+|T| 2: T-E any owner, every least-omega rotation True 27232
+|T| 2: T-E any owner, every rotation False 80
+|T| 2: T-E any owner, every rotation True 27152
+|T| 2: hard perfect 27232
+|T| 2: least omega' <= 0 False 17988
+|T| 2: least omega' <= 0 True 9244
+|T| 2: least omega' <= 1 False 6916
+|T| 2: least omega' <= 1 True 20316
+|T| 2: rule P (N/E/K; junk-pair k exist) False 160
+|T| 2: rule P (N/E/K; junk-pair k exist) True 27072
+|T| 2: rule P (any owner; junk-pair k exist) False 64
+|T| 2: rule P (any owner; junk-pair k exist) True 27168
+|T| 3: T'_k k 704
+|T| 3: T-E (N/E/K) every True 704
+|T| 3: T-E (N/E/K) every least-omega True 704
+|T| 3: T-E (N/E/K) every most-T True 704
+|T| 3: T-E (N/E/K) some True 704
+|T| 3: T-E any owner, every least-omega rotation True 704
+|T| 3: T-E any owner, every rotation True 704
+|T| 3: hard perfect 704
+|T| 3: least omega' <= 0 False 704
+|T| 3: least omega' <= 1 False 704
+|T| 3: rule P (N/E/K; junk-pair k exist) True 704
+|T| 3: rule P (any owner; junk-pair k exist) True 704

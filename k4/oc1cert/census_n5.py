@@ -4,6 +4,7 @@ For each stored OC1^max-failing start of a chunk summary (results/k4_oc1max/n5/*
 - the least number of sequential official moves to a one-absorber completion (three_move_hunt.depth, up to 3);
 - ROUND-P (roundp_check.round_p with R = 2: one round of at most two vertex-disjoint OC1' moves);
 - the number of receivers.
+Per chunk also: how many cores have nu = n, and whether every core with OC1^max failures has nu = n.
 The coordinator's code is used unmodified, from a checkout of main given as SDC_DIR (its k4/sdc directory).
 
     python3 k4/oc1cert/census_n5.py SDC_DIR SUMMARY.jsonl.gz OUT.json.gz [--jobs=2]"""
@@ -35,13 +36,16 @@ if __name__ == '__main__':
     src, out = os.path.abspath(sys.argv[2]), os.path.abspath(sys.argv[3])
     opt = dict(a[2:].split('=', 1) for a in sys.argv[4:] if a.startswith('--') and '=' in a)
     print('$ python3 k4/oc1cert/census_n5.py SDC_DIR', *sys.argv[2:], flush=True)
-    tasks = []
+    tasks = []; T = collections.Counter()
     for l in gzip.open(src, 'rt'):
         if not l.strip(): continue
-        r = json.loads(l)
+        r = json.loads(l); n = len(r['sets'])
+        T['cores: nu = n' if r['nu'] == n else 'cores: nu < n'] += 1
+        if r.get('oc1_fails'):
+            T['cores with OC1^max failures: nu = n' if r['nu'] == n else 'cores with OC1^max failures: NU < N'] += 1
         for f in r.get('oc1_fails') or []: tasks.append((r['list'], r['idx'], r['sets'], f['vals'], f['picks']))
     print('stored failing starts', len(tasks), flush=True)
-    T = collections.Counter(); res = []; t0 = time.time()
+    res = []; t0 = time.time()
     with mp.Pool(int(opt.get('jobs', 2))) as pool:
         for x in pool.imap_unordered(job, tasks):
             res.append(x)

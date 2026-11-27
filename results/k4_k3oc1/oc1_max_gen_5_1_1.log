@@ -1,0 +1,6 @@
+$ python3 k4/k3oc1/oc1_max.py gen:5:1 1 4
+hypergraphs 163
+perfect drafts 3780692
+perfect: hard 69072
+profiles 1267488
+time 190 s

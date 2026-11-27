@@ -1,0 +1,7 @@
+$ python3 k4/k3oc1/oc1_lb.py small:5 0 test=simple
+draft completes 256832876
+hypergraphs 277
+one DE trade repairs; every max-score trade repairs True 1641364
+profiles 2153952
+starts 258474240
+time 277 s

@@ -527,6 +527,7 @@ def main(quick=False):
     check_revision5()
     check_revision6()
     check_revision7()
+    check_revision8()
     print('# %d failed; %.0f s' % (report.failed, time.time() - t0))
     return report.failed
 
@@ -1270,6 +1271,106 @@ def check_revision7():
     report('§11.10 (base case, T3): picks (0, 1, 4), D = {0, 2}; the round settling 2 with {1, 3} is improving with '
            '(L*); after it OC1 holds without phantoms, but no EFX0 allocation keeps agent 2 at {1, 3}',
            picks == (0, 1, 4) and D == {0, 2} and U == {1} and improving and lstar and oc1at and not phi)
+
+
+# ---------------- revision 8: RF's forms, RKMAX, Lemma REC-∃ ----------------
+
+def sd_vectors(I):
+    """Every SD pick vector with an order giving it."""
+    out = {}
+    for o in itertools.permutations(range(I.n)):
+        out.setdefault(I.sd(o), o)
+    return out
+
+
+def check_revision8():
+    # RF's every-order form fails at k = 5 (ledger K4.SDC.RF.K5EVERY): twins 2 and 3
+    I = from_sets([[0, 1, 2, 5, 6], [1, 2, 4, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]],
+                  [[3, 35, 33, 43, 39], [20, 26, 16, 43, 32], [8, 2, 7, 4], [8, 2, 7, 4]])
+    Y = (6, 5, 4, 3)
+    F, D, U, J = frozen_sets(I, Y)
+    first2 = [o for o in itertools.permutations(range(4)) if o[0] == 2]
+    vecs = {I.sd(o) for o in first2 if None not in I.sd(o)}
+    bad = [q for q in vecs if not oc1_holds(I, q)]
+    ok = (any(I.sd(o) == Y for o in itertools.permutations(range(4))) and not oc1_holds(I, Y) and U == {2}
+          and I.sd((2, 1, 0, 3)) == (6, 5, 3, 4) and bad == [(6, 5, 3, 4)] and len(vecs) == 6)
+    report('§11.10 (RF every-order form, k = 5): OC1 fails at (6,5,4,3), receiver 2; among the six 2-first vectors '
+           'only (6,5,3,4) fails (so RF-exists holds)', ok, str((sorted(U), sorted(vecs), bad)))
+
+    # RKMAX plan (a) is false (5_pure #358): the sigma-maximal vectors have one receiver; OC1 needs one move there
+    I = from_sets([[0, 1, 4, 5], [1, 3, 6, 7], [2, 3, 6, 7], [2, 4, 5, 7], [4, 5, 6, 7]],
+                  [[17, 4, 2, 19], [13, 14, 20, 16], [2, 16, 20, 17], [5, 17, 15, 7], [20, 17, 4, 8]])
+    nu = I.nu()
+
+    def sig(q):
+        r = [0] * 5
+        for a in range(I.n):
+            if q[a] is None:
+                continue
+            rank = 1 + sum(1 for g in I.R[a] if I.v[a][g] > I.v[a][q[a]])
+            r[rank - 1] += 1
+        return tuple(r[:4])
+    mm = [q for q in sd_vectors(I) if sum(x is not None for x in q) == nu]
+    best = max(sig(q) for q in mm)
+    opt = sorted(q for q in mm if sig(q) == best)
+    info = []
+    for q in opt:
+        F, D, U, J = frozen_sets(I, q)
+        pick_ok = has_one_absorber_completion(I, tuple(frozenset({x}) for x in q))
+        info.append((q, sorted(U), sorted(J), pick_ok, oc1_holds(I, q)))
+    # the printed integers have two subset-sum ties (17 + 2 = 19 for agent 0, 5 + 17 = 15 + 7 for agent 3); the strict
+    # perturbation 1000 v + small offsets is a strict connected core with the same sigma-optima, receivers and verdicts
+    rp = random.Random(0)
+    Ip = from_sets([[0, 1, 4, 5], [1, 3, 6, 7], [2, 3, 6, 7], [2, 4, 5, 7], [4, 5, 6, 7]],
+                   [[x * 1000 + rp.randint(1, 99) for x in row]
+                    for row in [[17, 4, 2, 19], [13, 14, 20, 16], [2, 16, 20, 17], [5, 17, 15, 7], [20, 17, 4, 8]]])
+    mmp = [q for q in sd_vectors(Ip) if sum(x is not None for x in q) == Ip.nu()]
+
+    def sigp(q):
+        r = [0] * 5
+        for a in range(Ip.n):
+            if q[a] is not None:
+                r[sum(1 for g in Ip.R[a] if Ip.v[a][g] > Ip.v[a][q[a]])] += 1
+        return tuple(r[:4])
+    bestp = max(sigp(q) for q in mmp)
+    optp = sorted(q for q in mmp if sigp(q) == bestp)
+    infop = [(q, sorted(frozen_sets(Ip, q)[2]), has_one_absorber_completion(Ip, tuple(frozenset({x}) for x in q)),
+              oc1_holds(Ip, q)) for q in optp]
+    ok = (I.core_failures() == ['tie 0', 'tie 3'] and opt == [(5, 6, 7, 2, 4), (5, 7, 6, 2, 4)] and best == (3, 1, 0, 1)
+          and all(u == [3] and j == [0, 1, 3] and not pk and oc for _, u, j, pk, oc in info)
+          and Ip.core_failures() == [] and optp == opt and bestp == best
+          and all(u == [3] and not pk and oc for _, u, pk, oc in infop))
+    report('§11.10 (RKMAX plan (a), 5_pure #358): sigma-optima (5,6,7,2,4), (5,7,6,2,4), sigma = (3,1,0,1); one '
+           'receiver 3, junk {0,1,3}; one move repairs, the picks do not complete (as printed, with two ties, and '
+           'for a strict perturbation, a strict connected core)', ok, str(info))
+
+    # Lemma REC-∃ on random instances: a maximum-matching start with no receiver holding a pick completes, with all
+    # junk to one pickless agent
+    rnd = random.Random(11)
+    tested = bad = 0
+    for _ in range(4000):
+        n = rnd.randint(2, 5); m = rnd.randint(n, n + 4)
+        vals = []
+        for a in range(n):
+            R = rnd.sample(range(m), rnd.randint(1, min(4, m)))
+            vals.append({g: rnd.randint(1, 60) for g in R})
+        I = Inst(vals, m)
+        q = I.sd(list(rnd.sample(range(n), n)))
+        if sum(x is not None for x in q) != I.nu():
+            continue
+        F, D, U, J = frozen_sets(I, q)
+        if U:
+            continue
+        tested += 1
+        pl = [a for a in range(n) if q[a] is None]
+        X = [set() if x is None else {x} for x in q]
+        if not pl or any(J & I.R[a] for a in range(n)):
+            bad += 1
+            continue
+        X[pl[0]] |= J
+        bad += not I.efx0(X)
+    report('Lemma REC-∃ (§11.10): %d random maximum-matching starts without a receiver: a pickless agent exists, '
+           'nobody values junk, and the completion is EFX0' % tested, tested > 30 and bad == 0, '(%d failures)' % bad)
 
 if __name__ == '__main__':
     sys.exit(1 if main(quick=len(sys.argv) > 1 and sys.argv[1] == 'quick') else 0)

@@ -1,0 +1,8 @@
+$ python3 k4/k3oc1/propA_check.py gapfile:results/k4_k3oc1/gap_small_4.gap.gz gapfile:results/k4_k3oc1/gap_certs_5.gap.gz gapfile:results/k4_k3oc1/gap_small_5.gap.gz
+44752 (k with alpha, beta): explicit completion EFX0 True
+4032 drafts: some k satisfies alpha and beta False
+22520 drafts: some k satisfies alpha and beta True
+$ python3 k4/k3oc1/propA_check.py gapfile:results/k4_k3oc1/gap_certs_6_0.gap.gz gapfile:results/k4_k3oc1/gap_certs_6_1.gap.gz
+173472 (k with alpha, beta): explicit completion EFX0 True
+4912 drafts: some k satisfies alpha and beta False
+91216 drafts: some k satisfies alpha and beta True

@@ -1,0 +1,47 @@
+$ python3 k4/oc1cert/good_orders.py results/k4_oc1max/n5/5_pure_s5o2_summary.jsonl.gz good_orders_5_pure_s5o2.json.gz --jobs=2
+failing starts 295 hypergraphs 139
+(good, bad) pick vectors 10, 1 18
+(good, bad) pick vectors 10, 2 4
+(good, bad) pick vectors 11, 1 49
+(good, bad) pick vectors 11, 2 3
+(good, bad) pick vectors 12, 1 33
+(good, bad) pick vectors 12, 2 1
+(good, bad) pick vectors 13, 1 21
+(good, bad) pick vectors 13, 2 6
+(good, bad) pick vectors 14, 1 17
+(good, bad) pick vectors 14, 2 8
+(good, bad) pick vectors 15, 1 18
+(good, bad) pick vectors 16, 1 8
+(good, bad) pick vectors 16, 2 4
+(good, bad) pick vectors 17, 1 8
+(good, bad) pick vectors 17, 2 4
+(good, bad) pick vectors 18, 1 4
+(good, bad) pick vectors 18, 2 1
+(good, bad) pick vectors 19, 1 5
+(good, bad) pick vectors 20, 1 7
+(good, bad) pick vectors 20, 2 1
+(good, bad) pick vectors 20, 4 1
+(good, bad) pick vectors 23, 1 1
+(good, bad) pick vectors 25, 1 1
+(good, bad) pick vectors 27, 1 1
+(good, bad) pick vectors 7, 1 12
+(good, bad) pick vectors 8, 1 25
+(good, bad) pick vectors 8, 2 1
+(good, bad) pick vectors 9, 1 33
+bad pick vectors with 1 receivers 327
+bad pick vectors with 2 receivers 4
+good pick vectors with 1 receivers 1398
+good pick vectors with 2 receivers 1958
+good pick vectors with 3 receivers 240
+good pick vectors: OC1 fails 0
+good pick vectors: one move repairs 1176
+good pick vectors: picks complete 2420
+starts 295
+candidate rules (True: the rule picks a good order; False: a bad one; None: it picks nothing):
+   every pick vector with the most receivers is good {True: 295}
+   some pick vector with the most receivers is good {True: 295}
+   every pick vector with >= 2 receivers is good {False: 4, True: 291}
+   the most frequent pick vector is good {True: 295}
+   every order starting with a receiver of the failing start is good {True: 295}
+   Hamming distance from the failing picks to the nearest good picks {2: 295}
+wrote good_orders_5_pure_s5o2.json.gz 18 s
