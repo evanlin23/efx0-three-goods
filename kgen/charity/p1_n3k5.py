@@ -7,7 +7,10 @@ Checks, none of them z3 (own brute force over raw definitions, plus chlib's SAT 
      in X (so no complete EFX0 allocation weakly dominates X), and the fewest such agents (OL asks for <= 1);
   3. brute force over all 4^7 partial allocations: the Pareto maxima weakly above X (in values; then most goods
      allocated) are all incomplete; so P1 (Pareto maxima are complete) fails;
-  4. chlib.improve (SAT) on X and losers.fewest_losers (SAT), for agreement.
+  4. chlib.improve (SAT) on X and losers.fewest_losers (SAT), for agreement;
+  5. the three other size vectors for which the search found values ((3, 2, 2), (3, 3, 1), (3, 3, 2), rational
+     values as logged): X EFX0 with strong charity and, by brute force over all complete allocations, no complete EFX0
+     allocation leaves nobody worse off; the fewest worse off.
 
     python3 kgen/charity/p1_n3k5.py"""
 import itertools
@@ -72,5 +75,31 @@ if __name__ == '__main__':
     k, Lw, Y = fewest_losers(I, X)
     print('losers.fewest_losers (SAT): %d' % k)
     assert k == best[0]
+    OTHER = {(3, 2, 2): [{0: '49/12', 1: '25/24', 2: '1', 3: '121/24', 7: '2'},
+                         {2: '25/12', 3: '25/3', 4: '1', 5: '25/6', 6: '125/24'},
+                         {0: '77/12', 1: '1', 5: '103/24', 6: '19/6', 7: '13/12'}],
+             (3, 3, 1): [{0: '1', 1: '1', 2: '6/5', 4: '43/20', 7: '11/10'}, {0: '21/10', 4: '63/20', 5: '1', 6: '21/5'},
+                         {1: '21/10', 2: '21/5', 3: '1', 6: '147/20', 7: '21/5'}],
+             (3, 3, 2): [{0: '19/16', 1: '1', 2: '35/8', 5: '9/2', 8: '17/8'},
+                         {0: '17/8', 4: '1', 5: '69/8', 6: '103/16', 7: '13/4'},
+                         {2: '85/8', 3: '1', 6: '119/16', 7: '17/4', 8: '17/8'}]}
+    for sz, raw in OTHER.items():
+        W = [{g: Fraction(x) for g, x in d.items()} for d in raw]; mm = sum(sz) + 1
+        BB = []; g0 = 0
+        for sx in sz:
+            BB.append(set(range(g0, g0 + sx))); g0 += sx
+        vv = lambda i, S: sum(W[i].get(g, 0) for g in S)
+        ef = lambda Y: all(not Y[j] or vv(i, Y[j]) - min(W[i].get(h, 0) for h in Y[j]) <= vv(i, Y[i])
+                           for i in range(n) for j in range(n) if i != j)
+        uu = [vv(i, BB[i]) for i in range(n)]
+        hist = {}
+        for asg in itertools.product(range(n), repeat=mm):
+            Y = [{g for g in range(mm) if asg[g] == a} for a in range(n)]
+            if ef(Y):
+                L = sum(1 for i in range(n) if vv(i, Y[i]) < uu[i]); hist[L] = hist.get(L, 0) + 1
+        ok = ef(BB) and all(vv(i, {mm - 1}) <= uu[i] for i in range(n)) and max(len(d) for d in W) <= 5
+        print('sizes %s, m %d: X EFX0 with strong charity %s; complete EFX0 allocations by agents worse off: %s' % (
+            sz, mm, ok, dict(sorted(hist.items()))))
+        assert ok and 0 not in hist
     print('verified: P1 fails at n = 3, k = 5 (no complete EFX0 allocation weakly dominates X; every Pareto maximum '
           'above X leaves a good unallocated); OL holds here (fewest losers %d)' % best[0])

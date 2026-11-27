@@ -652,8 +652,10 @@ allocations (`p1_n3k5.py`, `p1_n3k5.log`, own code, no z3): X is the only EFX₀
 value, so X is a Pareto maximum and leaves a good out. Of the 3⁷ complete allocations 18 are EFX₀; 17 leave exactly
 one agent worse off than in X and one leaves two, so OL holds here (e.g. ({0, 1, 2, 3}, {4, 6}, {5}), values
 (114, 123, 178): b loses). Found by `ol_synth.run(3, 5, [3, 2, 1], 1, L=1)` (z3, 196 cuts, `ol_synth_n3_k5_p1.log`;
-three more size vectors, (3, 2, 2), (3, 3, 1) and (3, 3, 2), also gave counterexamples before the search was stopped).
-So the smallest-n failures of P1 are n = 3 at k = 5 and n = 4 at k = 3, against P1₂ at n = 2; with n = 3 the exact
+three more size vectors, (3, 2, 2), (3, 3, 1) and (3, 3, 2), also gave counterexamples before the search was stopped;
+the same script checks them by brute force over complete allocations: none weakly dominates its X, and the fewest
+agents worse off is 1 in each). Seven goods is the fewest at n = 3: with m = 6 the only shape OL0(b) allows is sizes
+(2, 2, 1) with one good out, UNSAT in the same search. So the smallest-n failures of P1 are n = 3 at k = 5 and n = 4 at k = 3, against P1₂ at n = 2; with n = 3 the exact
 threshold is k = 5.
 
 **The literature's obstruction satisfies OL.** Chaudhury–Garg–Mehlhorn ("EFX exists for three agents", arXiv

@@ -8,4 +8,7 @@ EFX0 allocations weakly above X in every value: 1; Pareto maxima among them: 1
   Pareto maximum [[0, 1, 2], [3, 4], [5]] values [114, 147, 178], 6 of 7 goods allocated
 chlib.improve(X) (SAT): no dominating EFX0 allocation: X is a Pareto maximum
 losers.fewest_losers (SAT): 1
+sizes (3, 2, 2), m 8: X EFX0 with strong charity True; complete EFX0 allocations by agents worse off: {1: 16, 2: 4}
+sizes (3, 3, 1), m 8: X EFX0 with strong charity True; complete EFX0 allocations by agents worse off: {1: 32, 2: 1}
+sizes (3, 3, 2), m 9: X EFX0 with strong charity True; complete EFX0 allocations by agents worse off: {1: 36, 2: 9, 3: 3}
 verified: P1 fails at n = 3, k = 5 (no complete EFX0 allocation weakly dominates X; every Pareto maximum above X leaves a good unallocated); OL holds here (fewest losers 1)
