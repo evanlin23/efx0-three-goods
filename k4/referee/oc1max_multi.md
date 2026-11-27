@@ -573,3 +573,130 @@ sampling only (item 21).
 - Check 7 now requires H₀′ ⊆ R_{k′}. The result is still 112,880 ok, with 8,241 negative tests rejected.
 - One small point: the coverage comparison prints its counts but does not change the exit status, so a reader must
   read the log line.
+
+## 13. Addendum: Lemma WG, Proposition K-loc and the phantom class (`k4/oc1max_multi.md` §13–§14 at `6b6cf7b`; 2026-11-27)
+
+**Read.** §13 and §14 in full.
+
+**Check.** `k4/referee/kloc_ref.py`, `phantom_ref.py` and `phantom_cex.py`, run by `kloc_ref_runs.sh`, log
+`results/k4_referee/kloc_ref.log`.
+- It is my own code (the `rec_s_ref`, `theorem_s_ref` and `cert_ref` helpers), raw EFX₀.
+- Data, read as data: the n = 4 export (112,880 starts) and the 4,955 walk failures.
+
+| item | verdict |
+|---|---|
+| Lemma WG | **CORRECT**. (W1) is never used in the proof and can be dropped |
+| Proposition K-loc | **WRONG as stated**. The localization misses the case where P′ moves ℓ to the receiver. Counterexample below; all 9,600 (K) failures at n = 4 are of this kind. The corrected statement is exact on all data |
+| The phantom class (question 3) | **GAP**. Its stated invariants are preserved under settle-delete-recurse, but it lacks (G2) for phantoms, which Theorem S and Lemma M^c use. An explicit instance violates it after two settlements. A local fix is given |
+
+### Lemma WG
+
+Allocation: o takes X = B_o ∪ (J ∩ R_i), and |H| distinct holders take one good of H each. Its bundles:
+- X threatens nobody, by (W2); values only rise.
+- {B_u, g} with u a holder threatens nobody: B_u is unwanted (u is a holder), and g is unwanted by (G2). For o,
+  v_o(B_u) ≤ v_o(B_o) ≤ v_o(X).
+- The other multi-good bases threaten nobody, by (G1).
+
+(W1) appears nowhere in this argument. So the lemma holds for any kept-out set H ⊆ J with X = B_o ∪ (J ∖ H): "X
+threatens nobody and there are |H| holders". It is plain Lemma M with no needy agent. (W1) only explains why
+H = J ∖ R_i is the natural choice.
+
+*Evidence.* At random states after canonical chains with (G1) and (G2), every owner o and every agent i, the
+allocation was built and tested with raw EFX₀ whenever (W2) and (W3) held: **79,459 cases, 0 failures**, 49,466 of
+them without (W1).
+
+### Proposition K-loc is false as stated
+
+K-loc says that (K) holds for every Theorem S case of I⁻ whose receiver r and head z′ avoid q, where q is the
+holder at B₁ of a pick ℓ with v_k(ℓ) > v_k(T), and whose head is not x₁ when k values a third pool good.
+
+**The gap.** The proof says "q still holds ℓ at B₁. In X⁻, ℓ is in a multi-good bundle only if q is the receiver r of h,
+or q is P′'s head". But P′ moves picks. If q lies on P′ before the head, ℓ passes to q's successor. If that successor
+is the receiver (the head z′, unfrozen after P′), then {ℓ, h} threatens k although r ≠ q and z′ ≠ q.
+
+**Counterexample** (the first one the n = 4 export gives; re-derived by hand).
+- *Instance.* n = 4, m = 7, with values
+  - v₀ = {0: 1, 1: 6, 4: 4, 5: 8};
+  - v₁ = {1: 3, 4: 4, 5: 10, 6: 8};
+  - v₂ = {2: 5, 3: 4, 4: 6, 6: 8};
+  - v₃ = {2: 3, 3: 6, 5: 10, 6: 8}.
+
+  The order (0, 3, 2, 1) gives the picks (5, 1, 4, 6). J = {0, 2, 3}.
+- *First move.* k = 3, E(3) = (3, 2, 1), and T = {2, 3}, with v₃(T) = 9 > 8.
+- *The pick.* ℓ = 5, worth 10 > 9 to k. It is agent 0's pick, so q = 0.
+- *Theorem S in I⁻.* At B₁ = (5, 4, 6) for agents 0, 1, 2, with J⁻ = {0, 1}, the relaxed form applies to k′ = 0 with
+  the longest chain P′ = (0, 1) and h = 0:
+  - (S-a): W⁻ = {1, 4} is worth 10 > 8;
+  - (S-b) and (S-c) are vacuous;
+  - (S-d′): agent 1 is unfrozen after P′ with value 10, and W⁻ leaves at most 4.
+- *The allocation.* X⁻ = ({1, 4}, {0, 5}, {6}), and k keeps {2, 3}.
+- *The failure.* The receiver is the head z′ = 1 ≠ q, and z′ ≠ x₁ = 2, so K-loc predicts that (K) holds. But
+  v₃({0, 5} ∖ {0}) = 10 > 9: agent 1's bundle threatens k.
+
+ℓ went from q = k′ along P′ to the head, which then received h.
+
+**On all data** (every order giving the picks, every k ∈ D, every improving pool pair of E(k), every Theorem S case):
+
+| data | cases | (K) fails | K-loc predicts (K) holds, but it fails | corrected form: counterexamples / false alarms |
+|---|---|---|---|---|
+| n = 4 export | 636,720 | 9,600 | **9,600** (in every one, ℓ travels along P′ to the receiver) | **0 / 0** |
+| walk failures | 32,164 | 0 | 0 | 0 / 0 |
+
+So every one of the 9,600 (K-b) failures at n = 4 already "avoids q" in K-loc's sense. The census sentence "always
+have a sibling case that avoids q" has to be re-read accordingly.
+
+**Correction (exact on all data).** Let ℓ⁺ be the agent that holds ℓ after P′: q itself if q ∉ P′, and q's successor
+on P′ if q ∈ P′ ∖ {z′}. Then (K) holds for every Theorem S case with q ≠ z′ and ℓ⁺ ≠ r, and z′ ≠ x₁ when k values a
+third pool good. Conversely, on the data, (K) fails exactly when one of these conditions fails.
+
+The proof is K-loc's, with "q" replaced by "ℓ⁺" in the receiver condition. RSD-EX must then choose a Theorem S case
+in which ℓ does not end at the receiver, not merely one whose receiver is not q.
+
+### The phantom class: closed, but missing (G2) for phantoms
+
+**What is preserved** (re-derived).
+- *Real agents' (L) is automatic.* At settle time, each good of T_p is worth less than p_i to a real agent i, and real
+  agents' values only rise in later steps.
+- *Earlier phantoms never threaten later ones.* A later phantom q was real when p was settled, so
+  v_q(g) < v_q(B₁(p)_q) ≤ τ_q for g ∈ T_p. This half of "unthreatened by every other phantom's pair" is automatic.
+- *The new pair against earlier phantoms* must be checked, as the note says.
+- *SD-E recurses,* since the starts stay strict and perfect.
+
+**What is missing.** (G2) for phantoms: no junk good of the current instance is worth more than τ_p to a phantom p.
+- Theorem S's step 3 uses v_i(h) ≤ (i's value) for every agent, phantoms included.
+- Lemma M^c's Claim uses (G2): a slot bundle {y_j, z_j} threatens only through y_j.
+
+A phantom can have a wanted pick ℓ outside its pair (the (K-b) situation). If a later settlement chain *ends* at ℓ's
+holder q, then ℓ is released. Either it goes into T′, which threatens p and is forbidden, or it becomes junk wanted by
+p. After the first settlement this cannot happen: the junk is J ∖ T and Y_z, all worth at most p_k < τ_k. It can happen
+from the second settlement on.
+
+**Instance** (`phantom_cex.py`, hand-built).
+- *Instance.* n = 4, m = 8, with values
+  - v₀ = {0: 10, 6: 6, 7: 5};
+  - v₁ = {0: 9, 1: 5};
+  - v₂ = {1: 10, 2: 6, 4: 4, 5: 3};
+  - v₃ = {2: 8, 3: 4}.
+
+  The order is (0, 1, 2, 3), the picks are (0, 1, 2, 3), J = {4, 5, 6, 7} and D = {0, 2}.
+- *First settlement.* k = 2 with E(2) = (2, 3) and T = {4, 5} (τ₂ = 7). Agent 2 values agent 1's pick 1 at 10 > 7.
+  SD-E holds in I⁻.
+- *Second settlement* in I⁻, with D⁻ = {0}: E(0) = (0, 1) and T′ = {6, 7}, which is improving (11 > 10). T′ does not
+  threaten the phantom, since agent 2 values both goods at 0.
+- *The violation.* The head of E(0) is agent 1, so good 1 is released into the junk {1, 3}. The phantom values good 1
+  at 10 > 7.
+- *No completion remains.* Placing goods 1 and 3 on the two real agents in any way threatens the phantom: by brute
+  force, no EFX₀ completion keeps both phantoms' pairs.
+
+Every condition of the class as stated holds along this path.
+
+**Fix.** Add the invariant: *no settlement chain E(k′), and no final chain P′, ends at a phantom-frozen agent*, i.e.
+an agent holding a good some phantom values above its threshold.
+- Equivalently, count phantoms as wanters when choosing a head. Such a chain then simply does not exist.
+- With this, the next instance's junk (J ∖ T′) ∪ {Y_{z′}} is unwanted by phantoms, by induction. (G2) then holds for
+  real agents and phantoms alike, and Theorem S, SD-E and M^c apply as the note says.
+- The final-step part of this condition is K-loc's head case.
+
+On the data the situation never arose. A second settlement whose head holds a phantom-wanted pick occurs in 0 of the
+9,600 second settlements at n = 4, and never in the walk failures. So the gap is in the statement, not in any reported
+count.
