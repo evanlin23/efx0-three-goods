@@ -1,0 +1,14 @@
+$ python3 k4/haxell/ht_n3types.py K=3 MMIN=2 MMAX=7 K=3 MMIN=2 MMAX=7 RADIUS=2
+shapes 93 instances sent 14016 return codes [0, 0]
+instances 14016
+instances m=2 13
+instances m=3 660
+instances m=4 3789
+instances m=5 5169
+instances m=6 3527
+instances m=7 858
+instances with a Pareto-stuck state 0
+partial EFX0 states 3419454
+phi0 stuck states 7129
+phi19 (Pareto) stuck states 0
+time 10 s

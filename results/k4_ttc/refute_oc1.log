@@ -1,0 +1,43 @@
+sets [[0, 2, 3, 1], [1, 4, 5, 9], [1, 2, 0, 8], [1, 6, 7, 8], [3, 6, 9], [1, 3, 6, 9]] vals [[2, 7, 8, 3], [3, 6, 4, 9], [12, 2, 4, 8], [12, 6, 3, 4], [7, 2, 10], [7, 8, 4, 1]] m 10
+order [0, 1, 2, 3, 4, 5] picks [3, 9, 1, 6, None, None] junk [0, 2, 4, 5, 7, 8]
+1. picks: one-absorber completion False | free completion True
+2. improving moves: 97 (additions 16, chains 71, rings 10)
+   moves after which the bases have a one-absorber completion: 0
+   moves after which the bases have a free completion (OC): 6 [('chain', (0, 4)), ('chain', (0, 5)), ('chain', (1, 4)), ('chain', (1, 5)), ('chain', (3, 4))]
+OC1 FAILS for this order (independent replay)
+order [0, 1, 2, 3, 4, 5] picks [3, 9, 1, 6, None, None] junk [0, 2, 4, 5, 7, 8]
+1. picks: one-absorber completion False | free completion True
+2. improving moves: 97 (additions 16, chains 71, rings 10)
+   moves after which the bases have a one-absorber completion: 0
+   moves after which the bases have a free completion (OC): 6 [('chain', (0, 4)), ('chain', (0, 5)), ('chain', (1, 4)), ('chain', (1, 5)), ('chain', (3, 4))]
+OC1 FAILS for this order (independent replay)
+order [0, 1, 2, 3, 4, 5] picks [3, 9, 1, 6, None, None] junk [0, 2, 4, 5, 7, 8]
+1. picks: one-absorber completion False | free completion True
+2. improving moves: 57 (additions 10, chains 42, rings 5)
+   moves after which the bases have a one-absorber completion: 0
+   moves after which the bases have a free completion (OC): 6 [('chain', (0, 4)), ('chain', (0, 5)), ('chain', (1, 4)), ('chain', (1, 5)), ('chain', (3, 4))]
+OC1 FAILS for this order (independent replay)
+order [0, 1, 2, 3, 4, 5] picks [3, 9, 1, 6, None, None] junk [0, 2, 4, 5, 7, 8]
+1. picks: one-absorber completion False | free completion True
+2. improving moves: 57 (additions 10, chains 42, rings 5)
+   moves after which the bases have a one-absorber completion: 0
+   moves after which the bases have a free completion (OC): 6 [('chain', (0, 4)), ('chain', (0, 5)), ('chain', (1, 4)), ('chain', (1, 5)), ('chain', (3, 4))]
+OC1 FAILS for this order (independent replay)
+order [0, 1, 2, 3, 4, 5] picks [3, 9, 1, 6, None, None] junk [0, 2, 4, 5, 7, 8]
+1. picks: one-absorber completion False | free completion True
+2. improving moves: 59 (additions 10, chains 44, rings 5)
+   moves after which the bases have a one-absorber completion: 0
+   moves after which the bases have a free completion (OC): 6 [('chain', (0, 4)), ('chain', (0, 5)), ('chain', (1, 4)), ('chain', (1, 5)), ('chain', (3, 4))]
+OC1 FAILS for this order (independent replay)
+order [0, 1, 2, 3, 4, 5] picks [3, 9, 1, 6, None, None] junk [0, 2, 4, 5, 7, 8]
+1. picks: one-absorber completion False | free completion True
+2. improving moves: 112 (additions 10, chains 89, rings 13)
+   moves after which the bases have a one-absorber completion: 0
+   moves after which the bases have a free completion (OC): 6 [('chain', (0, 4)), ('chain', (0, 5)), ('chain', (1, 4)), ('chain', (1, 5)), ('chain', (3, 4))]
+OC1 FAILS for this order (independent replay)
+order [0, 1, 2, 3, 4, 5] picks [3, 9, 1, 6, None, None] junk [0, 2, 4, 5, 7, 8]
+1. picks: one-absorber completion False | free completion True
+2. improving moves: 109 (additions 10, chains 87, rings 12)
+   moves after which the bases have a one-absorber completion: 0
+   moves after which the bases have a free completion (OC): 6 [('chain', (0, 4)), ('chain', (0, 5)), ('chain', (1, 4)), ('chain', (1, 5)), ('chain', (3, 4))]
+OC1 FAILS for this order (independent replay)

@@ -1,0 +1,4 @@
+$ python3 k4/ksens/kcegar_cgm.py
+CGM values, start (5, 4, 6): picks complete (A=1) False; one chain (A=1): ocsat True, brute True
+CGM values, start (5, 2, 4): picks complete (A=1) True; one chain (A=1): ocsat True, brute True
+CGM values, start (2, 4, 5): picks complete (A=1) True; one chain (A=1): ocsat True, brute True

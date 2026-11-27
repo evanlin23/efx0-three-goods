@@ -1,0 +1,4 @@
+$ python3 kgen/charity/w_synth.py 4 4 2 16 20 900
+sizes (2, 2, 2, 1) m 9: UNSAT after 499 cuts, 76.6 s
+sizes (2, 2, 2, 2) m 10: UNSAT after 752 cuts, 350.3 s
+sizes (3, 2, 2, 1) m 10: UNSAT after 904 cuts, 645.7 s

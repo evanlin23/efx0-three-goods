@@ -1,0 +1,16 @@
+$ git show origin/compute/k4-oc1max-cert:results/k4_oc1max/oc1max_cex_n4.json > cex.json   (commit dbc2631)
+$ python3 k4/ttc/oc2max_fp.py grow cex.json 1000 6 1 4 mc2
+grown walks 44 steps each 1000 extra agents 1 MC2 class  
+FP+1 every fails 47193
+FP+1 every holds 57260
+FP+1 some FAILS 47019
+FP+1 some holds 57434
+NO MINIMAL FIXED POINT 47019
+OC1^max holds 104453
+distinct instances visited 36100
+maximum starts without a completion 104453
+minimal fixed point exists 57434
+receivers 1: OC1^max holds 103202
+receivers 2: OC1^max holds 1251
+visited instances with an OC1^max failure 0
+time 908 s

@@ -1,0 +1,58 @@
+configuration dbl-P4-P4: agents {'e': ('g0', 'g1', 'a', 'pe'), 'f': ('g0', 'g1', 'x', 'pf')}, I = ['g0', 'g1', 'pe', 'pf'], D = ['a', 'x'], 82944 profiles
+  DEL      reduces   70824 of 82944 (0.0 s)
+  KEEP-e   reduces   70824 of 82944 (113.4 s)
+  KEEP-f   reduces   70824 of 82944 (112.5 s)
+  gadget h on ['a', 'x', "z0'"] (43 menu valuations): 82944 of 82944 reduced, new 12120
+    h = {'a': 0, 'x': 0, "z0'": 1} reduces 70824
+    h = {'a': 0, 'x': 2, "z0'": 1} reduces 17208
+    h = {'a': 2, 'x': 0, "z0'": 1} reduces 17208
+    h = {'a': 3, 'x': 4, "z0'": 2} reduces 4580
+    h = {'a': 4, 'x': 2, "z0'": 1} reduces 3512
+    h = {'a': 2, 'x': 4, "z0'": 1} reduces 3512
+  gadget h on ['a', 'x', "z0'", "z1'"] (1665 menu valuations): 82944 of 82944 reduced, new 0
+    h = {'a': 0, 'x': 0, "z0'": 0, "z1'": 1} reduces 70824
+    h = {'a': 0, 'x': 2, "z0'": 0, "z1'": 1} reduces 17208
+    h = {'a': 2, 'x': 0, "z0'": 0, "z1'": 1} reduces 17208
+    h = {'a': 3, 'x': 4, "z0'": 0, "z1'": 2} reduces 4580
+    h = {'a': 4, 'x': 2, "z0'": 0, "z1'": 1} reduces 3512
+    h = {'a': 2, 'x': 4, "z0'": 0, "z1'": 1} reduces 3512
+  together: 82944 of 82944 profiles
+configuration dbl-P4-Q4: agents {'e': ('g0', 'g1', 'a', 'pe'), 'f': ('g0', 'g1', 'x', 'y')}, I = ['g0', 'g1', 'pe'], D = ['a', 'x', 'y'], 82944 profiles
+  DEL      reduces   22808 of 82944 (0.1 s)
+  KEEP-e   reduces   22808 of 82944 (210.9 s)
+  KEEP-f   reduces   40608 of 82944 (49.9 s)
+  gadget h on ['a', 'x', 'y', "z0'"] (1665 menu valuations): 81944 of 82944 reduced, new 41336
+    h = {'a': 0, 'x': 2, 'y': 2, "z0'": 3} reduces 39808
+    h = {'a': 0, 'x': 0, 'y': 2, "z0'": 1} reduces 10800
+    h = {'a': 0, 'x': 2, 'y': 0, "z0'": 1} reduces 10800
+    h = {'a': 8, 'x': 2, 'y': 2, "z0'": 3} reduces 9368
+    h = {'a': 0, 'x': 2, 'y': 4, "z0'": 1} reduces 5412
+    h = {'a': 0, 'x': 4, 'y': 2, "z0'": 1} reduces 5412
+    ... 36 gadgets in a greedy cover
+  gadget h on ['a', 'x', "z0'", "z1'"] (1665 menu valuations): 39452 of 82944 reduced, new 0
+    h = {'a': 0, 'x': 0, "z0'": 0, "z1'": 1} reduces 22808
+    h = {'a': 0, 'x': 2, "z0'": 0, "z1'": 1} reduces 10800
+    h = {'a': 2, 'x': 0, "z0'": 0, "z1'": 1} reduces 6912
+    h = {'a': 2, 'x': 4, "z0'": 0, "z1'": 1} reduces 2232
+    h = {'a': 4, 'x': 2, "z0'": 0, "z1'": 1} reduces 860
+    h = {'a': 4, 'x': 2, "z0'": 0, "z1'": 3} reduces 4728
+    ... 8 gadgets in a greedy cover
+  gadget h on ['a', 'y', "z0'", "z1'"] (1665 menu valuations): 39452 of 82944 reduced, new 0
+    h = {'a': 0, 'y': 0, "z0'": 0, "z1'": 1} reduces 22808
+    h = {'a': 0, 'y': 2, "z0'": 0, "z1'": 1} reduces 10800
+    h = {'a': 2, 'y': 0, "z0'": 0, "z1'": 1} reduces 6912
+    h = {'a': 2, 'y': 4, "z0'": 0, "z1'": 1} reduces 2232
+    h = {'a': 4, 'y': 2, "z0'": 0, "z1'": 1} reduces 860
+    h = {'a': 4, 'y': 2, "z0'": 0, "z1'": 3} reduces 4728
+    ... 8 gadgets in a greedy cover
+  gadget h on ['x', 'y', "z0'", "z1'"] (1665 menu valuations): 69440 of 82944 reduced, new 0
+    h = {'x': 2, 'y': 2, "z0'": 0, "z1'": 3} reduces 39808
+    h = {'x': 0, 'y': 2, "z0'": 0, "z1'": 1} reduces 10800
+    h = {'x': 2, 'y': 0, "z0'": 0, "z1'": 1} reduces 10800
+    h = {'x': 2, 'y': 4, "z0'": 0, "z1'": 1} reduces 5412
+    h = {'x': 4, 'y': 2, "z0'": 0, "z1'": 1} reduces 5412
+    h = {'x': 0, 'y': 0, "z0'": 0, "z1'": 1} reduces 22808
+    ... 10 gadgets in a greedy cover
+  together: 81944 of 82944 profiles
+configuration dbl-Q4-Q4: agents {'e': ('g0', 'g1', 'a', 'b'), 'f': ('g0', 'g1', 'x', 'y')}, I = ['g0', 'g1'], D = ['a', 'b', 'x', 'y'], 82944 profiles
+  DEL      reduces    3832 of 82944 (0.3 s)

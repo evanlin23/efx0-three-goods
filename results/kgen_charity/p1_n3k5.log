@@ -1,0 +1,14 @@
+$ python3 kgen/charity/p1_n3k5.py
+values (x 24): [{0: 24, 1: 38, 2: 52, 4: 64, 6: 51}, {0: 74, 2: 24, 3: 24, 4: 123, 5: 172}, {0: 26, 2: 127, 3: 24, 5: 178, 6: 76}]
+relevant goods per agent: [5, 5, 5]
+X = [[0, 1, 2], [3, 4], [5]] values [114, 147, 178] pool [6] | EFX0 True | strong charity True
+complete allocations: 18 EFX0; by number of agents worse off than in X: {1: 17, 2: 1}
+fewest worse off: 1, e.g. [[0, 1, 2, 3], [4, 6], [5]] with values [114, 123, 178]
+EFX0 allocations weakly above X in every value: 1; Pareto maxima among them: 1
+  Pareto maximum [[0, 1, 2], [3, 4], [5]] values [114, 147, 178], 6 of 7 goods allocated
+chlib.improve(X) (SAT): no dominating EFX0 allocation: X is a Pareto maximum
+losers.fewest_losers (SAT): 1
+sizes (3, 2, 2), m 8: X EFX0 with strong charity True; complete EFX0 allocations by agents worse off: {1: 16, 2: 4}
+sizes (3, 3, 1), m 8: X EFX0 with strong charity True; complete EFX0 allocations by agents worse off: {1: 32, 2: 1}
+sizes (3, 3, 2), m 9: X EFX0 with strong charity True; complete EFX0 allocations by agents worse off: {1: 36, 2: 9, 3: 3}
+verified: P1 fails at n = 3, k = 5 (no complete EFX0 allocation weakly dominates X; every Pareto maximum above X leaves a good unallocated); OL holds here (fewest losers 1)

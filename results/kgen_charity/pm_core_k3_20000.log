@@ -1,0 +1,4 @@
+$ python3 kgen/charity/pm_search.py core 1 11 20000 4 5 3
+Pareto maxima enumerated 63621
+instances 20000
+time 162 s

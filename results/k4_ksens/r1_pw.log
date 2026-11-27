@@ -1,0 +1,17 @@
+$ python3 k4/ksens/r1_pw.py
+PW(3, 2, 4) clean: k 5 n 5 m 9 | all orders: 19 starts, OC1 fails on 1 | R1 orders: 16 starts, OC1 fails on 0, picks extend (one absorber, no chain) on 12
+PW(3, 2, 4) random: k 5 n 5 m 9 | all orders: 14 starts, OC1 fails on 1 | R1 orders: 11 starts, OC1 fails on 0, picks extend (one absorber, no chain) on 7
+PW(3, 2, 4) random: k 5 n 5 m 9 | all orders: 10 starts, OC1 fails on 1 | R1 orders: 7 starts, OC1 fails on 0, picks extend (one absorber, no chain) on 3
+PW(3, 2, 4) random: k 5 n 5 m 9 | all orders: 13 starts, OC1 fails on 1 | R1 orders: 10 starts, OC1 fails on 0, picks extend (one absorber, no chain) on 6
+PW(4, 2, 4) clean: k 5 n 6 m 10 | all orders: 33 starts, OC1 fails on 1 | R1 orders: 20 starts, OC1 fails on 0, picks extend (one absorber, no chain) on 16
+PW(4, 2, 4) random: k 5 n 6 m 10 | all orders: 22 starts, OC1 fails on 1 | R1 orders: 15 starts, OC1 fails on 0, picks extend (one absorber, no chain) on 11
+PW(4, 2, 4) random: k 5 n 6 m 10 | all orders: 20 starts, OC1 fails on 1 | R1 orders: 12 starts, OC1 fails on 0, picks extend (one absorber, no chain) on 8
+PW(4, 2, 4) random: k 5 n 6 m 10 | all orders: 21 starts, OC1 fails on 1 | R1 orders: 14 starts, OC1 fails on 0, picks extend (one absorber, no chain) on 10
+PW(3, 3, 5) clean: k 6 n 6 m 11 | all orders: 82 starts, OC1 fails on 1 | R1 orders: 78 starts, OC1 fails on 0, picks extend (one absorber, no chain) on 72
+PW(3, 3, 5) random: k 6 n 6 m 11 | all orders: 29 starts, OC1 fails on 1 | R1 orders: 25 starts, OC1 fails on 0, picks extend (one absorber, no chain) on 19
+PW(3, 3, 5) random: k 6 n 6 m 11 | all orders: 27 starts, OC1 fails on 1 | R1 orders: 23 starts, OC1 fails on 0, picks extend (one absorber, no chain) on 17
+PW(3, 3, 5) random: k 6 n 6 m 11 | all orders: 29 starts, OC1 fails on 1 | R1 orders: 25 starts, OC1 fails on 0, picks extend (one absorber, no chain) on 19
+PW(4, 3, 6) clean: k 7 n 7 m 13 | all orders: 229 starts, OC1 fails on 13 | R1 orders: 198 starts, OC1 fails on 6, picks extend (one absorber, no chain) on 144
+PW(4, 3, 6) random: k 7 n 7 m 13 | all orders: 69 starts, OC1 fails on 13 | R1 orders: 53 starts, OC1 fails on 6, picks extend (one absorber, no chain) on 22
+PW(4, 3, 6) random: k 7 n 7 m 13 | all orders: 65 starts, OC1 fails on 13 | R1 orders: 54 starts, OC1 fails on 6, picks extend (one absorber, no chain) on 20
+PW(4, 3, 6) random: k 7 n 7 m 13 | all orders: 67 starts, OC1 fails on 13 | R1 orders: 54 starts, OC1 fails on 6, picks extend (one absorber, no chain) on 20

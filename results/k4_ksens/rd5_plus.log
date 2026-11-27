@@ -1,0 +1,4 @@
+$ python3 k4/ksens/rd5_plus.py
+instances 40
+most rounds needed by a start: 0 33
+most rounds needed by a start: 1 7

@@ -1,0 +1,89 @@
+$ python3 k4/ttc/oc1max_hard.py results/k4_ttc/oc1max_n6_n4_2.log 8
+sets [[0, 2, 3, 7], [1, 2, 6], [3, 4, 5, 6], [3, 5, 7], [4, 5, 7], [4, 6, 7]] vals [[6, 10, 2, 7], [2, 3, 4], [2, 7, 8, 4], [2, 3, 4], [4, 3, 2], [4, 3, 2]] picks [7, 2, 5, 3, 4, 6] junk [0, 1]
+  agent 0: pick 7 (7), frozen by [3], junk it values {0: 6}
+  agent 1: pick 2 (3), frozen by [0], junk it values {1: 2}
+  agent 2: pick 5 (8), frozen by [3], junk it values {}
+  agent 3: pick 3 (2), RECEIVER, junk it values {}
+  agent 4: pick 4 (4), frozen by [5], junk it values {}
+  agent 5: pick 6 (3), frozen by [1], junk it values {}
+  receivers [3] ; the picks: one-absorber completion False , free completion False
+    junk to {0: 3, 1: 3} : agent 0 envies [3, 0, 1] minus 1 (8 > 7)
+  3 distinct moves, 1 repairing (SAT count 1)
+    path (0, 3) new bases {0: [0, 3], 3: [7]} completion [[0, 3, 1], [2], [5], [7], [4], [6]]
+sets [[0, 2, 3, 5], [1, 6, 7], [2, 3, 6, 7], [4, 5, 7], [4, 6, 7], [5, 6, 7]] vals [[7, 2, 8, 4], [2, 4, 3], [4, 6, 1, 8], [3, 4, 2], [4, 3, 2], [4, 3, 2]] picks [3, 6, 2, 4, 7, 5] junk [0, 1]
+  agent 0: pick 3 (8), frozen by [2], junk it values {0: 7}
+  agent 1: pick 6 (4), frozen by [4], junk it values {1: 2}
+  agent 2: pick 2 (4), RECEIVER, junk it values {}
+  agent 3: pick 4 (3), frozen by [4], junk it values {}
+  agent 4: pick 7 (2), frozen by [2], junk it values {}
+  agent 5: pick 5 (4), frozen by [3], junk it values {}
+  receivers [2] ; the picks: one-absorber completion False , free completion False
+    junk to {0: 2, 1: 2} : agent 0 envies [2, 0, 1] minus 1 (9 > 8)
+  4 distinct moves, 1 repairing (SAT count 1)
+    path (0, 2) new bases {0: [0, 2], 2: [3]} completion [[0, 2, 1], [6], [3], [4], [7], [5]]
+sets [[0, 2, 3], [1, 5, 6, 7], [2, 3, 6, 7], [4, 5, 7], [4, 6, 7], [5, 6, 7]] vals [[2, 4, 3], [6, 4, 5, 8], [6, 4, 8, 3], [3, 4, 2], [3, 2, 4], [4, 3, 2]] picks [2, 7, 3, 4, 6, 5] junk [0, 1]
+  agent 0: pick 2 (4), frozen by [2], junk it values {0: 2}
+  agent 1: pick 7 (8), frozen by [4], junk it values {1: 6}
+  agent 2: pick 3 (4), RECEIVER, junk it values {}
+  agent 3: pick 4 (3), frozen by [4], junk it values {}
+  agent 4: pick 6 (2), frozen by [2], junk it values {}
+  agent 5: pick 5 (4), frozen by [3], junk it values {}
+  receivers [2] ; the picks: one-absorber completion False , free completion False
+    junk to {0: 2, 1: 2} : agent 0 envies [3, 0, 1] minus 1 (5 > 4)
+  4 distinct moves, 1 repairing (SAT count 1)
+    path (0, 2) new bases {0: [0, 3], 2: [2]} completion [[0, 3, 1], [7], [2], [4], [6], [5]]
+sets [[0, 2, 3, 7], [1, 5, 6, 7], [2, 3, 7], [4, 5, 6], [4, 6, 7], [5, 6, 7]] vals [[8, 3, 10, 4], [8, 4, 10, 3], [2, 3, 4], [4, 3, 2], [3, 4, 2], [4, 2, 3]] picks [3, 6, 2, 5, 4, 7] junk [0, 1]
+  agent 0: pick 3 (10), frozen by [2], junk it values {0: 8}
+  agent 1: pick 6 (10), frozen by [4], junk it values {1: 8}
+  agent 2: pick 2 (2), RECEIVER, junk it values {}
+  agent 3: pick 5 (3), frozen by [5], junk it values {}
+  agent 4: pick 4 (3), frozen by [3], junk it values {}
+  agent 5: pick 7 (3), frozen by [2], junk it values {}
+  receivers [2] ; the picks: one-absorber completion False , free completion False
+    junk to {0: 2, 1: 2} : agent 0 envies [2, 0, 1] minus 1 (11 > 10)
+  5 distinct moves, 1 repairing (SAT count 1)
+    path (0, 2) new bases {0: [0, 2], 2: [3]} completion [[0, 2, 1], [6], [3], [5], [4], [7]]
+sets [[0, 2, 3, 7], [1, 6, 7], [2, 3, 5, 7], [4, 5, 7], [4, 6, 7], [5, 6, 7]] vals [[6, 5, 7, 3], [3, 2, 4], [4, 8, 6, 5], [3, 2, 4], [2, 3, 4], [2, 4, 3]] picks [3, 7, 2, 5, 4, 6] junk [0, 1]
+  agent 0: pick 3 (7), frozen by [2], junk it values {0: 6}
+  agent 1: pick 7 (4), frozen by [2, 3, 4], junk it values {1: 3}
+  agent 2: pick 2 (4), RECEIVER, junk it values {}
+  agent 3: pick 5 (2), frozen by [2], junk it values {}
+  agent 4: pick 4 (2), frozen by [3], junk it values {}
+  agent 5: pick 6 (4), frozen by [4], junk it values {}
+  receivers [2] ; the picks: one-absorber completion False , free completion False
+    junk to {0: 2, 1: 2} : agent 0 envies [2, 0, 1] minus 1 (11 > 7)
+  3 distinct moves, 1 repairing (SAT count 1)
+    path (0, 2) new bases {0: [0, 2], 2: [3]} completion [[0, 2, 1], [7], [3], [5], [4], [6]]
+sets [[0, 2, 3], [1, 4, 5, 7], [2, 3, 4, 7], [4, 6, 7], [5, 6, 7], [5, 6, 7]] vals [[3, 4, 2], [8, 6, 10, 3], [8, 2, 3, 4], [3, 4, 2], [3, 2, 4], [3, 2, 4]] picks [2, 5, 3, 4, 7, 6] junk [0, 1]
+  agent 0: pick 2 (4), frozen by [2], junk it values {0: 3}
+  agent 1: pick 5 (10), frozen by [5], junk it values {1: 8}
+  agent 2: pick 3 (2), RECEIVER, junk it values {}
+  agent 3: pick 4 (3), frozen by [2], junk it values {}
+  agent 4: pick 7 (4), frozen by [2, 5], junk it values {}
+  agent 5: pick 6 (2), frozen by [3], junk it values {}
+  receivers [2] ; the picks: one-absorber completion False , free completion False
+    junk to {0: 2, 1: 2} : agent 0 envies [3, 0, 1] minus 1 (5 > 4)
+  4 distinct moves, 1 repairing (SAT count 1)
+    path (0, 2) new bases {0: [0, 3], 2: [2]} completion [[0, 3, 1], [5], [2], [4], [7], [6]]
+sets [[0, 2, 3], [1, 4, 7], [2, 3, 4, 7], [4, 5, 6, 7], [5, 6, 7], [5, 6, 7]] vals [[3, 4, 2], [2, 4, 3], [8, 3, 6, 4], [10, 4, 8, 3], [4, 2, 3], [3, 4, 2]] picks [2, 4, 3, 6, 5, 7] junk [0, 1]
+  agent 0: pick 2 (4), frozen by [2], junk it values {0: 3}
+  agent 1: pick 4 (4), frozen by [2, 3], junk it values {1: 2}
+  agent 2: pick 3 (3), RECEIVER, junk it values {}
+  agent 3: pick 6 (8), frozen by [5], junk it values {}
+  agent 4: pick 5 (4), frozen by [5], junk it values {}
+  agent 5: pick 7 (2), frozen by [2], junk it values {}
+  receivers [2] ; the picks: one-absorber completion False , free completion False
+    junk to {0: 2, 1: 2} : agent 0 envies [3, 0, 1] minus 1 (5 > 4)
+  4 distinct moves, 1 repairing (SAT count 1)
+    path (0, 2) new bases {0: [0, 3], 2: [2]} completion [[0, 3, 1], [4], [2], [6], [5], [7]]
+sets [[0, 2, 3, 6], [1, 4, 5, 7], [2, 3, 7], [4, 5, 7], [4, 6, 7], [5, 6, 7]] vals [[3, 4, 6, 8], [1, 4, 6, 8], [2, 4, 3], [4, 2, 3], [4, 2, 3], [4, 3, 2]] picks [3, 7, 2, 5, 4, 6] junk [0, 1]
+  agent 0: pick 3 (6), frozen by [2], junk it values {0: 3}
+  agent 1: pick 7 (8), frozen by [2, 3], junk it values {1: 1}
+  agent 2: pick 2 (2), RECEIVER, junk it values {}
+  agent 3: pick 5 (2), frozen by [5], junk it values {}
+  agent 4: pick 4 (4), frozen by [3], junk it values {}
+  agent 5: pick 6 (3), frozen by [0], junk it values {}
+  receivers [2] ; the picks: one-absorber completion False , free completion False
+    junk to {0: 2, 1: 2} : agent 0 envies [2, 0, 1] minus 1 (7 > 6)
+  3 distinct moves, 1 repairing (SAT count 1)
+    path (0, 2) new bases {0: [0, 2], 2: [3]} completion [[0, 2, 1], [7], [3], [5], [4], [6]]

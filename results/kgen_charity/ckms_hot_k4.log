@@ -1,0 +1,17 @@
+$ python3 kgen/charity/ch_ckms.py 50 400 3 7 4 10 hot
+instances n=3 80
+instances n=4 80
+instances n=5 80
+instances n=6 80
+instances n=7 80
+n=3 empty: pool 0 400
+n=3 sd: pool 0 400
+n=4 empty: pool 0 400
+n=4 sd: pool 0 400
+n=5 empty: pool 0 400
+n=5 sd: pool 0 400
+n=6 empty: pool 0 400
+n=6 sd: pool 0 400
+n=7 empty: pool 0 400
+n=7 sd: pool 0 400
+time 1 s

@@ -1,0 +1,18 @@
+$ python3 kgen/charity/ch_least.py 6 200 3 7 4 8 rand
+n=3 k=6 least charity 0 7
+n=3 k=7 least charity 0 10
+n=3 k=8 least charity 0 23
+n=4 k=5 least charity 0 1
+n=4 k=6 least charity 0 3
+n=4 k=7 least charity 0 13
+n=4 k=8 least charity 0 23
+n=5 k=5 least charity 0 1
+n=5 k=6 least charity 0 1
+n=5 k=7 least charity 0 4
+n=5 k=8 least charity 0 34
+n=6 k=6 least charity 0 1
+n=6 k=7 least charity 0 9
+n=6 k=8 least charity 0 30
+n=7 k=7 least charity 0 6
+n=7 k=8 least charity 0 34
+slowest instance 0.3 s; time 4 s

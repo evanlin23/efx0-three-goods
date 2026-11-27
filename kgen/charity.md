@@ -1,0 +1,771 @@
+# Bounded charity in terms of relevant goods (CH(k))
+
+Workstream `proof/kgen-charity` (branch `claude/kgen-charity`, draft PR #105). Scripts: `kgen/charity/`; logs:
+`results/kgen_charity/`. Everything called evidence below is evidence only (PROMPT.md §5 rule 3). No ledger row is
+changed here; the coordinator integrates.
+
+## Status (end of burst 3)
+
+| item | statement | status | artifact |
+|---|---|---|---|
+| CH-A | every additive instance with ≤ k relevant goods per agent has a partial EFX₀ allocation with strong charity and \|P\|(\|P\| − 1) ≤ e(k − 2)n, so \|P\| ≤ 1 + √(e(k − 2)n); \|P\| = 0 for k ≤ 2 | PROVED (written proof, §3; lemmas asserted on every stopping state computed) | §2–§3, `chlib.py` |
+| CH-B | if every good is valued by at most d agents (any k, any n), the same with \|P\| < e·d | PROVED (written proof, §3) | §3 |
+| CH-M | CH-A (with k − 1 for k − 2) and CH-B for monotone valuations, R_i the support of v_i | PROVED (written proof only) | §3, Remark CH-M |
+| CH-C | at every CKMS stopping state, \|P\| < σ ≤ (k − 2) · min_{g∈P} \|V(g)\| | PROVED | §2, Lemma CH4 |
+| CH-D | for every σ ≥ 2: a k = 3 instance and a state leaving σ − 1 goods out at which no CKMS rule applies under any champion choice (n ≈ 1.5σ²) | PROVED (written proof; checked for σ ≤ 7, k = 3, 4) | §4, `stuck_family.py`, `stuck_family_k*.log` |
+| CH-E | for every σ ≥ 2 and k ≥ 3: a Pareto maximum (P1's hypothesis) leaving σ − 1 goods out, n = O(σ²) | PROVED (written proof; exhaustive check without SAT for σ ≤ 4, SAT for σ ≤ 7) | §5, `refute_pm.py`, `refute_pm_k*.log`, `pm_family_sat.log` |
+| P1 threshold | P1 (K4.SDC.P1: Pareto maxima are complete) holds for k ≤ 2, for n = 2 at every k (P1₂), and for n = 3 with k ≤ 4 (exhaustive); it fails at k = 3 with n = 4 (m = 7, every agent values exactly 3 goods) and **at n = 3 with k = 5** (m = 7, every agent values exactly 5 goods; so the n = 3 threshold is k = 5) | PROVED for k ≤ 2 (CH6 + CH4′) and for n = 2 (P1₂, written proof); exhaustive at n = 3, k ≤ 4 (z3, one implementation); REFUTED at k = 3 (CH-E with σ = 2; brute force over all 5⁷ partial allocations) and at n = 3, k = 5 (found by z3, verified by brute force over all 4⁷ partial allocations); CGM's example (n = 3, k = 6) fails it too | §5, §9, `refute_pm_k3.log`, `ol_synth_n3_k4_p1.log`, `p1_n3k5.log`, `cgm_check.log` |
+| PM(k) | Pareto maxima leave ≤ f(k) goods out | REFUTED for every k ≥ 3 and every f (CH-E) | §5 |
+| W(k, f) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f goods out (§6 for the exact statement); W(k, f) ⇒ CH(k) | f = 0 REFUTED at k = 3 (n = 4, m = 7) and k = 4 (GM4-G); **f = 1 REFUTED at k = 3 and k = 4** (CH-F: n = 12, m = 17 and n = 9, m = 14, integer values; each verified by SAT and by MILP); f ≥ 2: §6 | §6, `w_brute.log`, `w_counterexample*.log`, `attempts/kgen-charity-welfare-maxima.md` |
+| L(k, 0) | the leximin maximum (then fewest unallocated) is complete | REFUTED at k = 3 and k = 4 (n = 4, m = 7; brute force); complete on the CH-F and S′ instances | §6, `lex_brute.log`, `lex_check.log` |
+| W small n | no welfare maximum strands a good for n = 3, k = 3; none strands two for n = 3, k = 3, 4 and n = 4, k = 3 | exhaustive by one implementation (z3 CEGAR over real values, all m ≤ nk + n by Lemma W0) | §6, `w_synth_n*.log` |
+| DU | an instance whose incidence graph has ≥ 2 components with agents has a complete EFX₀ allocation | PROVED (written proof; recipe checked on 2,000 random unions and on copies of the stranded instances) | §3, Prop. DU, `union_dump.log` |
+| CH-KD | every agent values ≤ k goods, every good has ≤ d valuers: some EFX₀ state with strong charity leaves ≤ min{(k − 2)d − 1, R(d)} goods out (|P|! ≤ d^{|P|−1}); at k = 4: ≤ 2, 4, 6, 9 for d = 2, 3, 4, 5 | PROVED (self-contained proof, §8; CH-A, CH-B marked correct by the referee, k4/referee/charity.md) | §8 |
+| PH | CKMS's rules with fixed phantom bundles satisfying L2's conditions (each phantom weakly prefers its bundle to all remaining goods it values; its bundle is a single good or worthless to the others): EFX₀ for all, nobody envies the pool, Theorem CH-KD's bound | PROVED (written proof) | §10 |
+| OL | from any EFX₀ state with strong charity, some complete EFX₀ allocation leaves at most one agent worse off | CONJECTURE: PROVED at n = 2 (P1₂, no loser); exhaustive (z3, one implementation) at n = 3, k ≤ 4 and n = 4, k = 3; holds on every stranded state found (S′, CH-F, 20 curated Pareto maxima, CGM's three-agent example, CKMS stops, 1,458 random charity states) | §9, `ol_synth_*.log`, `losers.log`, `ol_check*.log`, `cgm_check.log` |
+| least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
+
+**Conclusion so far.** The rainbow-cycle method works with genuine zeros and gives *exact* EFX₀ with O(√(kn))
+charity (CH-A), and charity < e·d when goods have ≤ d valuers (CH-B, independent of n and k); both look new and extend
+to monotone valuations (CH-M). Disconnected instances never need charity (DU). But an n-independent f(k) cannot come
+from CKMS's rules (CH-D), from Pareto-maximality (CH-E), or — for f ≤ 1 — from welfare maximality (CH-F): each can
+strand goods at k = 3, where complete EFX₀ is a theorem, and the first two strand Θ(√n). Value-monotone methods work
+exactly up to k = 2 (CH-E′). A proof of CH(k), k ≥ 3, must lower some agent's value at some step, as LB⁺ does at
+k = 3. At k = 4 the only n-independent bounds proved are for instances whose goods have few valuers (CH-B′); the open
+case is connected instances whose unallocated goods all have many valuers, which is the shape of S, S′ and CH-F.
+
+## 0. Statement and conventions
+
+Additive valuations v_i ≥ 0, R_i = {g : v_i(g) > 0}, |R_i| ≤ k; V(g) = {i : v_i(g) > 0}, the valuers of g. A *state*
+is a partial allocation X = (X_1, …, X_n) with pool P = M ∖ ∪X_i.
+- *EFX₀*: v_i(X_i) ≥ v_i(X_j ∖ h) for all i ≠ j and h ∈ X_j. Agent i *strongly envies* a set B if
+  v_i(B ∖ h) > v_i(X_i) for some h ∈ B.
+- *Strong charity*: v_i(P) ≤ v_i(X_i) for every i (Chaudhury–Kavitha–Mehlhorn–Sgouritsa, "CKMS"). *Weak charity*:
+  v_i(g) ≤ v_i(X_i) for every i and g ∈ P.
+- *Envy graph* G_X: i → j iff v_i(X_j) > v_i(X_i). Sources: in-degree 0; S = the set of sources, σ = |S|; C(s) = the
+  agents reachable from s (s included).
+
+**CH(k).** There is f(k) such that every additive instance with |R_i| ≤ k for all i has an EFX₀ state with strong
+charity and |P| ≤ f(k). f(2) = 0 (serial dictatorship, L2), f(3) = 0 (LEDGER row T); TARGET₄ is f(4) = 0.
+
+**Literature used** (read for this note; the agent-side survey `research_notes/EFX literature from the agent side/
+agent_count_side.md` §4 covers the rest):
+- CKMS, arXiv 1907.04596v3, §2 (pp. 8–12) read: Algorithm 1–3, Lemma 2 (cycle rotation), Definition 3 (most envious
+  agent), Lemmas 4–7 (rules U0, U1, U2), Theorem 8 (EFX, strong charity, |P| < number of sources). Their EFX is the
+  all-goods form, which for nonnegative additive values is EFX₀; nothing in §2 assumes positive values.
+- Chaudhury–Garg–Mehlhorn–Mehta–Misra, arXiv 2103.01628, §4 (pp. 11–14) read: the group champion graph and the
+  reduction from charity to the rainbow cycle number R(d), for (1 − ε)-EFX.
+- Sivashankar, arXiv 2607.27455v1, §1–3 and §5 (pp. 1–7) read: Theorem 3, the packing inequality
+  (k − 1)! Σ|V_i| ≤ Π|V_i| for k-partite digraphs with the in-neighbour condition and no rainbow cycle, hence
+  R(d) < ed. Its proof (an injection from (permutation, terminal vertex) pairs to transversals) was re-derived here.
+- BCFF (n − 2, additive), Mahara (n − 2, monotone), Ghosal et al. (t types: t − 2): as recorded in the survey, not
+  re-read. The survey found no charity bound in terms of relevant goods per agent or valuers per good.
+
+## 1. Kill-or-confirm data
+
+- **Least charity** (`ch_least.py`: SAT with a cardinality bound on the pool; the encoding is checked against the raw
+  definitions on 36,000 fixed assignments, `enc_check.log`, 0 mismatches; every witness is re-checked by the raw
+  definitions). 2,800 random instances, least charity 0 on every one:
+
+  | log | instances | n | relevant goods per agent | values |
+  |---|---|---|---|---|
+  | `least_k4.log`, `least_k4_small.log` | 600 + 600 | 3–9 | 3–4 | 1..100; 1..6 (ties) |
+  | `least_k4_hot.log` | 400 | 3–9 | 2–4, a few goods valued by many agents | 1..100 |
+  | `least_k6.log`, `least_k6_small.log` | 400 + 400 | 3–8 | 3–6 | 1..100; 1..6 |
+  | `least_k8.log`, `least_k8_hot.log` | 200 + 200 | 3–7 | 4–8; 2–8 with hot goods | 1..100 |
+
+  This is the expected answer (EFX₀ is believed to exist), not information about CH(k): the least charity is 0
+  exactly when a complete EFX₀ allocation exists.
+- **Where CKMS's rules stop** (`ch_ckms.py`, `ch_screen.py`): the exact rules U0/U1/U2, from the empty allocation and
+  from random serial-dictatorship picks, random tie-breaks; a nonzero stop is then continued with *every* champion
+  option (the "robust" stop).
+  - Random instances (`ckms_rand_k{3,4,6,8}.log`, `ckms_hot_k4.log`; 2,000 instances, n = 2–7, 10 runs each):
+    20,000 runs, 13 stop with one good out under their tie-break, 1 under every option (k = 8, n = 5). Every
+    instance with a nonzero stop has least charity 0.
+  - The 168 curated k = 4 instances (the DE4 screen set, `ch_screen.log`, 40 runs each): 101 runs on 28 instances stop
+    with one good out, 68 of them robustly (GM4-*, ls-*, hall-bt4, …, down to n = 2); never two.
+  - So CKMS's own potential (welfare, increased locally) strands goods on hard k = 4 instances, which is P1's
+    phenomenon. §4 and §5 show that this is not a small-n accident: both the local rules and Pareto maxima can
+    strand Θ(√n) goods at k = 3.
+- **Structure of the stops** (asserted on every stop by `chlib.stuck_report`): every source holds ≥ 2 goods, every
+  champion values the pool good and a good of the source's bundle and is not reachable from that source, and
+  σ ≤ Σ_{t∈V(g)} μ_t (Lemmas CH1–CH4 below).
+
+## 2. Lemmas on stopping states
+
+A *champion option* of a set B is a pair (Z, t): Z ⊆ B is an inclusion-wise minimal envied subset (some agent envies
+Z, nobody envies Z ∖ h for any h ∈ Z) and t envies Z. CKMS's "most envious agent" picks one option by a tie-break.
+A *stopping state* (for a fixed champion selection c(s, g)) is an EFX₀ state with acyclic G_X to which none of U0
+(add a pool good to some bundle keeping EFX₀), U1 (someone envies P) and U2 (a cycle as in CKMS Algorithm 2, with the
+selected champions) applies. A *robust stopping state* is one where U2 applies for no selection.
+
+**Lemma CH0 (envied bundles cannot grow).** If w envies X_i, then w strongly envies X_i ∪ {g} for every good g.
+*Proof.* Removing g from X_i ∪ {g} leaves X_i, which w envies. ∎
+So U0 can only add to sources.
+
+**Lemma CH1 (locality of U0).** Let X be EFX₀ with weak charity, s a source, g ∈ P.
+1. If t strongly envies X_s ∪ g, then t ≠ s, v_t(g) > 0, t values a good of X_s, and |X_s| ≥ 2.
+2. For every champion option (Z, t) of X_s ∪ g: g ∈ Z, every good of Z is in R_t, and ∅ ≠ Z ∖ g ⊆ X_s.
+
+*Proof.* (1) Strong envy gives h ∈ X_s ∪ g with v_t((X_s ∪ g) ∖ h) > v_t(X_t). h ≠ g, since v_t(X_s) ≤ v_t(X_t) (s is
+a source). So v_t(X_s ∖ h) + v_t(g) > v_t(X_t) ≥ max(v_t(X_s), v_t(g)), the last by weak charity. Hence
+v_t(g) > v_t(h) ≥ 0, and v_t(X_s ∖ h) > 0: t values a good of X_s other than h, so |X_s| ≥ 2. (2) If g ∉ Z then
+Z ⊆ X_s is envied by t, against v_t(X_s) ≤ v_t(X_t). A good of Z worth 0 to t could be removed with t still envying,
+against minimality. Z = {g} is not envied, by weak charity. ∎
+
+So a pool good can be blocked at a source only by its own valuers, and only through goods they value in that source's
+bundle. This is the "local" structure of route (a). With CKMS Lemma 4(b), |Z| ≤ |X_s| when U0 fails at (s, g).
+
+**Lemma CH2 (sources of a stopping state).** At a stopping state with P ≠ ∅, every source holds at least two goods,
+and for every g ∈ P its bundle contains a good valued by some valuer of g other than s.
+*Proof.* U1 fails, so strong charity, hence weak charity, holds. U0 fails at (s, g), so someone strongly envies
+X_s ∪ g; apply Lemma CH1(1). ∎
+
+**Lemma CH3 (champions of a stopping state).** At a stopping state, for every s ∈ S and g ∈ P, the selected champion
+t = c(s, g) satisfies: t ∈ V(g); t ≠ s and t ∉ C(s); R_t meets X_s, X_t and P.
+*Proof.* X_s ∪ g is strongly envied (U0 fails), hence envied, so an option exists. CH1(2) gives t ∈ V(g) and
+R_t ∩ X_s ≠ ∅. If t ∈ C(s), the one-term cycle (s_0, g_0) = (s, g), t_1 = t ∈ C(s_0) satisfies U2's precondition.
+v_t(X_t) ≥ v_t(g) > 0 by weak charity, so R_t meets X_t. ∎
+
+**Lemma CH4 (counting).** At a stopping state with P ≠ ∅, for every g ∈ P,
+σ ≤ Σ_{t ∈ V(g)} μ_t, where μ_t = |{s ∈ S ∖ {t} : R_t ∩ X_s ≠ ∅}| ≤ |R_t| − 2.
+Hence σ ≤ (k − 2)|V(g)|, and with CKMS Theorem 8, |P| ≤ σ − 1 ≤ (k − 2) · min_{g ∈ P} |V(g)| − 1.
+*Proof.* s ↦ c(s, g) maps S into V(g), and c(s, g) ≠ s values a good of X_s (CH3), so t receives at most μ_t
+sources. R_t contains g ∈ P, a good of X_t, and one good of each bundle X_s counted in μ_t; these bundles are
+pairwise disjoint, differ from X_t (s ≠ t) and from P. So |R_t| ≥ 2 + μ_t. ∎
+
+**Corollary CH4′.** k ≤ 2: every stopping state is complete, so CKMS's algorithm alone proves f(2) = 0. k = 3: a
+stopping state leaves fewer goods out than any pool good has valuers; if some pool good has a single valuer, it is
+complete.
+
+**Lemma CH5 (shortest rainbow cycles are executable).** Let D be the *source digraph*: vertices S, and an edge
+s →_g s′ (colour g ∈ P) whenever some champion option (Z, t) of X_s ∪ g has t ∈ C(s′). A cycle of D is *rainbow* if
+its vertices and its colours are distinct. If D has a rainbow cycle, take a shortest one,
+(s_0, g_0), …, (s_{ℓ−1}, g_{ℓ−1}) with options (Z_i, t_{i+1}), t_{i+1} ∈ C(s_{i+1}). Then the agents t_1, …, t_ℓ are
+distinct and any envy paths π_i from s_i to t_i are pairwise vertex-disjoint; so U2 applies along it and gives an
+EFX₀ state in which every agent on the paths strictly gains (CKMS Lemma 7).
+*Proof.* If π_a and π_b (a ≠ b) share a vertex u, then t_b is reachable from u, hence t_b ∈ C(s_a). The option
+(Z_{b−1}, t_b) of X_{s_{b−1}} ∪ g_{b−1} then gives an edge s_{b−1} → s_a, and s_a → s_{a+1} → ⋯ → s_{b−1} → s_a is a
+rainbow cycle of length (b − a) mod ℓ ∈ [1, ℓ − 1], shorter. Equal t's are a special case (they share t). ∎
+
+CKMS's Lemma 6 produces such a cycle with disjoint paths by construction, and CKMS's Lemma 7 uses disjointness
+implicitly; CH5 says that any rainbow cycle of D can be shortened to an executable one, which is what the
+rainbow-cycle reduction needs. (Implemented: `chlib.shortest_rainbow`, `chlib.apply_u2`, which asserts disjointness.)
+
+**Lemma CH6 (Pareto maxima are robust stopping states).** If X is EFX₀, no EFX₀ state Y has v_i(Y_i) ≥ v_i(X_i) for
+all i with strict inequality for some i, and none with the same values allocates more goods, then X is a robust
+stopping state; in particular it has strong charity.
+*Proof.* A cycle rotation (CKMS Lemma 2), U1 (Lemma 5) and U2 (Lemma 7, with CH5 for any option) each give an EFX₀
+state that is weakly better for all and strictly better for some; U0 gives one with values ≥ and one more good. ∎
+The same holds for a welfare maximum with the fewest unallocated goods.
+
+## 3. Exact charity from the rainbow cycle number (Theorems CH-A, CH-B)
+
+**Proposition CH-R.** At a stopping state, fix for each agent a an assigned source σ(a) with a ∈ C(σ(a)) (any
+choice). Let Q_g = {c(s, g) : s ∈ S} and build the |P|-partite digraph Γ with parts V_g = {g} × σ(Q_g) and, for
+g ≠ h, an edge (g, s₁) → (h, s₂) iff σ(c(s₂, g)) = s₁. Then every vertex of V_h has an in-neighbour in V_g for every g ≠ h, and Γ has
+no rainbow cycle. So by Sivashankar's Theorem 3, with p = |P| and n_g = |V_g| ≤ |Q_g| ≤ |V(g)|,
+
+    (p − 1)! · Σ_g n_g ≤ Π_g n_g.
+
+*Proof.* (h, s₂) has the in-neighbour (g, σ(c(s₂, g))) ∈ V_g: the champion exists because U0 fails at (s₂, g).
+A rainbow cycle (g_1, s_1) → (g_2, s_2) → ⋯ → (g_ℓ, s_ℓ) → (g_1, s_1) (distinct g's) means
+c(s_{i+1}, g_i) ∈ C(s_i), i.e. edges s_{i+1} →_{g_i} s_i of D, so a closed walk in D with distinct colours. Its
+vertices may repeat; a shortest closed sub-walk between two visits of the same vertex is a rainbow cycle of D, and by
+CH5 U2 applies, contradicting stopping. (This is CGMMM's Lemma 14 with ε = 0: "valuable" becomes "positively
+valued", which is what keeps the parts small.) ∎
+
+**Theorem CH-B (charity bounded by valuers per good).** If every good is valued by at most d agents, every stopping
+state — so the output of CKMS's algorithm from the empty allocation — has |P| < e·d (|P| ≤ R(d)), whatever n and k.
+*Proof.* n_g ≤ d for every part, and Sivashankar's Theorem 3 gives p! ≤ d^{p−1}, hence p < ed. ∎
+For d = 2 this gives |P| ≤ 2, weaker than the known complete EFX₀ on multigraphs; for d ≥ 3 it is, as far as the
+survey found, new. In (p, q) language (`proofs/pq_bounded.md`) it is a charity bound for (d, ∞)-bounded instances.
+
+**Theorem CH-A (charity bounded by relevant goods per agent).** If every agent values at most k goods, every
+stopping state has p(p − 1) ≤ e(k − 2)n, so |P| ≤ 1/2 + √(e(k − 2)n + 1/4) = O(√(kn)); and |P| = 0 when k ≤ 2.
+*Proof.* A champion t ∈ Q_g values g, a good of X_t and a good of X_s for a source s ≠ t (CH3), so it values at most
+k − 2 pool goods and lies in at most k − 2 sets Q_g. Hence Σ_g n_g ≤ Σ_g |Q_g| ≤ (k − 2)n. By AM–GM,
+Π n_g ≤ (Σ n_g / p)^p, so the packing inequality gives (p − 1)! p^p ≤ (Σ n_g)^{p−1}; with (p − 1)! ≥ ((p − 1)/e)^{p−1},
+Σ n_g ≥ ((p − 1)/e) p^{p/(p−1)} ≥ p(p − 1)/e. For k ≤ 2 use CH4′. ∎
+
+Together with CKMS: |P| ≤ min{σ − 1, (k − 2) min_g |V(g)| − 1, 1/2 + √(e(k − 2)n + 1/4), R(max_g |V(g)|)}.
+For exact EFX the best general charity is n − 2 (BCFF, Mahara, as recorded in the survey); CH-A is sublinear for
+k = o(n), and CH-B is n-independent. Neither statement was found in the surveyed literature; the
+rainbow-cycle line states its results for (1 − ε)-EFX only, because without sparsity "valuable" needs ε > 0.
+
+**Remark CH-M (monotone valuations; written proof, not machine-checked).** CKMS's rules and Theorem 8 are stated for
+normalized monotone valuations. Call R_i the *support* of v_i if v_i(S) = v_i(S ∩ R_i) for every S, and read
+"t values h" as h ∈ R_t. Then CH0–CH2, CH5, CH6, CH-R and CH-B hold verbatim with V(g) = {i : g ∈ R_i}; CH3 holds
+without its clause "R_t meets X_t"; and CH4, CH-A and CH-C hold with k − 1 in place of k − 2 (and "complete for
+k ≤ 1"). In CH1, a good outside R_t changes no value of t, which replaces "v_t(g) > 0"; weak charity
+v_t({g}) ≤ v_t(P) ≤ v_t(X_t) follows from strong charity by monotonicity. The only step that uses additivity is
+"t values a good of its own bundle" in CH3: with complements v_t({g}) can be 0, so a champion may hold nothing it
+values, which costs one in the count μ_t ≤ |R_t| − 1.
+
+**Algorithmic remark.** CH-A and CH-B are existence statements about every stopping state. CKMS's algorithm reaches
+a stopping state in pseudo-polynomial time if U2 is applied whenever *some* rainbow cycle exists; finding one is a
+colourful-cycle problem, and CKMS's own Lemma 6 only guarantees one when |P| ≥ σ. For CH-B, Sivashankar's Lemma 4
+finds a rainbow cycle in expected O(p²) time once p > e·d, which gives a randomized pseudo-polynomial algorithm with
+charity ⌈ed⌉; for CH-A, whose parts have unequal sizes, the running time is not analysed here.
+
+**Proposition DU (disjoint unions are always completable; written proof, checked).** If the incidence graph
+(agents and goods, an edge i–g when g ∈ R_i) has at least two connected components that contain agents, the instance
+has a complete EFX₀ allocation. (Additive valuations; also monotone ones with R_i the support, as in CH-M.)
+*Proof.* Let I_1, …, I_c (c ≥ 2) be the components with agents and J the goods valued by nobody. In each I_r take a
+CKMS stopping state X^r: EFX₀ inside I_r, strong charity v_a(P_r) ≤ v_a(X^r_a), an acyclic envy graph and so a
+source s_r. Give P_r to s_{r+1} (indices mod c) and J to s_1. Let a ∈ I_r look at the bundle B of agent b.
+- b ∈ I_r: B = X^r_b ∪ E with E worthless to a, and E ≠ ∅ only if b is a source of I_r. Removing h ∈ E leaves
+  v_a(X^r_b) ≤ v_a(X^r_a) (b unenvied); removing h ∈ X^r_b leaves v_a(X^r_b ∖ h) ≤ v_a(X^r_a) (EFX₀ in I_r).
+- b ∉ I_r: a values at most the goods of P_r in B, and v_a(P_r) ≤ v_a(X^r_a) by strong charity.
+Received goods are worthless to their receiver, so no agent's own value changes. ∎
+
+So a counterexample to EFX₀ — and any family of instances that needs many unallocated goods in CH(k) — must be
+connected: unenvied pools of different components absorb each other. With CH1 this is the global form of the
+local fact that a pool good conflicts only with sources whose bundles hold a good valued by one of its valuers.
+`union_dump.py` builds the allocation of the proof and checks it with the raw definition on 2,000 random unions of
+2–4 instances and on 2–3 copies of GM4-E, GM4-G, S(3, 3), S′(3, 3) taken with their stranded states
+(`union_dump.log`). Two copies of GM4-G, whose welfare maximum strands a good, have a complete welfare maximum
+(`w_union.log`). Not found in the surveyed literature.
+
+## 4. The method cannot do better: stopping states with Θ(√n) goods out at k = 3 (Proposition CH-D)
+
+**Construction S(σ, k)** (σ ≥ 2, k ≥ 3; `stuck_family.py`). Pool goods g_1, …, g_{σ−1}.
+- Source s_j (j ∈ Z_σ) holds {x_j, x′_j}, values x′_j at 1 and its children (below) at 2.
+- For every pool good g and every j, a champion c(g, j) holds {y_{g,j}} and values y_{g,j} at 10, x_j at 6, g at 6.
+- The champions c(·, j − 1) hang below s_j in a tree: each internal node is a relay holding one good that its parent
+  values at 2; a relay values its children's goods at 2 and nothing else; the source has ≤ k − 1 children, a relay ≤ k.
+
+Every agent values at most k goods (champions 3), every good is valued, n = σ + σ(σ − 1) + (number of relays)
+≤ 1.5σ² + O(σ) at k = 3.
+
+**Proposition CH-D.** The state of S(σ, k) is EFX₀ with strong charity, leaves σ − 1 goods out, and is a robust
+stopping state.
+*Proof.*
+1. *Envy graph.* Champions envy nobody (v(X_{s_j}) = 6 ≤ 10); relays and sources envy exactly their children. So G_X
+   is the forest of trees, acyclic, its sources are s_0, …, s_{σ−1}, and C(s_j) is s_j's tree, which contains the
+   champions c(·, j − 1) and no other champion.
+2. *EFX₀ and charity.* The only bundles with two goods are {x_j, x′_j}; their valuers other than s_j are the
+   champions c(·, j), who see 6 ≤ 10. Pool goods are valued only by champions, each valuing one pool good at 6 ≤ 10.
+3. *U0, U1.* By CH0 only sources can take a good. X_{s_j} ∪ g is strongly envied by c(g, j): removing x′_j, worth 0 to
+   it, leaves 12 > 10. U1 fails by 2.
+4. *U2, every option.* An envier of a subset of {x_j, x′_j, g} values one of these goods: s_j (values only x′_j, at
+   its own value 1), c(g′, j) (only x_j, 6 ≤ 10, when g′ ≠ g), c(g, j″) (only g, when j″ ≠ j), or c(g, j). So the
+   only option is ({x_j, g}, c(g, j)), and c(g, j) ∈ C(s_{j+1}) only. The source digraph D has edges s_j →_g s_{j+1}
+   for all g and no others; its only cycle has length σ and needs σ distinct colours, but there are σ − 1. ∎
+
+Checked for σ = 2..7 at k = 3 and σ = 2..6 at k = 4 by the raw definitions, `chlib.u0_moves`, the U2 search over all
+options, and a run of CKMS with all options that makes no move (`stuck_family_k3.log`, `stuck_family_k4.log`).
+
+**Consequences.**
+- At every fixed k ≥ 3 the bound of CH-A is tight up to a constant factor *for stopping states*: σ − 1 ≥ √(n/1.5) − 2
+  against CH-A's √(e(k − 2)n) + 1. Analysing the stopping states of U0/U1/U2 (with any tie-break, and with the
+  rainbow-cycle number in any form) cannot prove CH(k), not even CH(3).
+- The states are not Pareto maxima: one SAT improvement completes each of S(2..4, 3) (`chlib.improve`, recorded in
+  §5). So the obstruction is to the *local* rule set, not to value-monotone methods as such.
+- Route (a) (charge the charity to the valuers of the unallocated good) is exactly Lemma CH4, and S(σ, 3) shows that
+  charge is tight: there each pool good has σ valuers, one per source, and σ ≤ (k − 2)|V(g)| holds with equality.
+  (`attempts/kgen-charity-local-rules.md`.)
+
+## 5. Global potential: Pareto maxima strand Θ(√n) goods too (Proposition CH-E); P1 fails at k = 3
+
+A *Pareto maximum* is an EFX₀ state that no EFX₀ state Pareto-dominates and that allocates the most goods among the
+states with its value vector (the hypothesis of K4.SDC.P1). By CH6 it is a robust stopping state with strong
+charity, so CH1–CH5 apply; Pareto maxima exist in every instance. **PM(k)**: every Pareto maximum leaves at most f(k)
+goods out (it would imply CH(k)); P1 is PM with f = 0.
+
+**Lemma PM1 (holders pay).** At a Pareto maximum, let (Z, t) be a champion option of X_a ∪ P′ for any agent a ≠ t and
+any P′ ⊆ P, i.e. t envies Z, nobody envies Z ∖ h. Then a values some good of Z ∩ X_a, unless Z ⊆ P.
+*Proof.* Otherwise let t take Z, let a keep X_a ∖ Z, and return X_t to the pool. t strictly gains, a loses nothing
+(Z ∩ X_a is worth 0 to it), the others keep their bundles. Nobody envies Z ∖ h for any h, so nobody strongly envies
+Z; a's bundle only shrank; every value is at least what it was. So the new state is EFX₀ and Pareto-dominates X. ∎
+This is what kills the stalls S(σ, k) of §4, where the champion of X_{s_j} ∪ g uses x_j, worth 0 to s_j.
+
+**Construction S′(σ, k)** (σ ≥ 2, k ≥ 3): S(σ, k) with every agent valuing its own bundle. Source s_j holds
+{x_j, x′_j}, values each at 2 and its ≤ k − 2 children at 5; a relay holds {z}, values z at 4 and its ≤ k − 1
+children at 5; champion c(g, j) holds {y_{g,j}} and values y_{g,j} at 10, x_j at 6 and g at 6; the champions
+c(·, j − 1) are the leaves of s_j's tree; the pool is g_1, …, g_{σ−1}. Every agent values at most k goods.
+
+**Proposition CH-E.** The state X of S′(σ, k) is EFX₀ with strong charity, leaves σ − 1 goods out, and is a Pareto
+maximum.
+*Proof.* EFX₀ and charity as in CH-D (the only two-good bundles are the sources'; champions see 6 ≤ 10 there; parents
+envy only singletons). Let Y be EFX₀ with v_a(Y_a) ≥ v_a(X_a) =: u_a for all a. Call a *displaced* if it does not
+hold its own goods (y for a champion, z for a relay, both x_j and x′_j for a source).
+1. *A displaced relay or source holds a child's good.* Its own goods are worth ≤ 4 and it loses part of them, so it
+   needs a good worth 5, and the only ones it values are its children's. That child is then displaced.
+2. *A displaced champion c(g, i) holds x_i and g* (10 needs 6 + 6), so s_i is displaced.
+3. Following 1 down s_i's tree from a displaced s_i reaches a displaced leaf, a champion c(g, i − 1), which by 2
+   holds a pool good and displaces s_{i−1}. If anyone is displaced, then some source is (from a displaced relay go
+   down its tree by 1 to a displaced champion c(g, i), and use 2). By 3 the set of displaced sources is closed under
+   i ↦ i − 1, so all σ sources are displaced, and the σ leaves c(·, i − 1) reached are distinct champions holding
+   σ distinct pool goods. There are σ − 1.
+So nobody is displaced, every agent holds its own goods, and every good it values that is not its own is either
+someone else's own good or (champions only) a pool good g. A champion c(g, j) holding g as well: its parent values
+y_{g,j} at 5, holds its own goods worth 4 and nothing else it values, and sees {y_{g,j}, g} minus g worth 5 > 4. So
+v(Y) = u. Finally no pool good can be added at equal values: to a source, c(g, j) sees x_j and g (12 > 10 after
+removing x′_j); to a relay or champion a, a's parent sees a's own good, worth 5 > 4, after removing g. ∎
+
+So **PM(k) fails for every k ≥ 3 and every f**: with n = O(σ²) agents a Pareto maximum leaves σ − 1 = Ω(√n) goods
+out. With σ = 2 it is a **refutation of P1 at k = 3** (n = 4, m = 7, every agent values exactly three goods; the table
+is in `attempts/kgen-charity-pareto-maxima.md`): no partial EFX₀ allocation dominates it (brute force over all 5⁷),
+and each of its 58 complete EFX₀ allocations leaves some agent worse off. K4.SDC.P1's moral ("a value-monotone
+procedure can stop with goods left over") therefore holds at k = 3 as well; LB⁺ is not value-monotone, so there is
+no conflict with TARGET.
+
+**Corollary CH-E′ (the threshold is k = 3).** P1 holds when every agent values at most two goods: a Pareto maximum
+is a robust stopping state (CH6), and stopping states are complete for k ≤ 2 (CH4′). With CH-E: Pareto maxima are
+always complete for k ≤ 2, and for k ≥ 3 they can leave Ω(√n) goods out. The same dichotomy holds for CKMS's
+stopping states (CH4′, CH-D).
+
+Checks: `refute_pm.py` (standalone, no SAT: rebuilds S′ from this description, raw EFX₀, enumerates every
+value-feasible family of relevant parts and every placement of the remaining goods; σ ≤ 4 at k = 3, 4) and the SAT
+test `chlib.improve` for σ ≤ 7 (`pm_family_sat.log`). On S′(2, 3) the welfare maximum and the leximin maximum over
+partial EFX₀ allocations are complete (§6, Question W).
+
+Data on curated and random instances (`pm_search.py`, exact per instance by a CEGAR over Pareto maxima, which agrees
+with the P1 replay on GM4-E: five Pareto maxima, one leaving one good out):
+- the 168 curated k = 4 instances: 20 have a Pareto maximum leaving one good out, none leaving two
+  (`pm_screen_1.log`, `pm_screen_2.log`);
+- 20,600 random instances with k = 3, n ≤ 5 (`pm_rand_k3.log`, `pm_core_k3.log`, `pm_core_k3_20000.log`): no Pareto
+  maximum leaves a good out. S′(2, 3) is a structured instance that random sampling does not produce.
+
+## 6. The welfare maximum (Question W)
+
+**Definition.** For an instance I let w*(I) be the largest total value Σ_i v_i(X_i) over partial EFX₀ allocations
+X (no charity condition), and p*(I) the fewest unallocated goods among the partial EFX₀ allocations with total
+w*(I). For f ≥ 0:
+
+> **W(k, f).** Every additive instance in which every agent values at most k goods has p*(I) ≤ f.
+
+**W(k)** says W(k, f) holds for some f independent of n. A welfare maximum with p*(I) unallocated goods is a robust
+stopping state (CH6), so it has strong charity and CH-A/B/C apply; W(k, f) implies CH(k) with the same f. W is
+scale-sensitive across agents: rescaling one agent (v_i ↦ λ_i v_i) changes neither EFX₀ nor the Pareto order but
+changes w*, so W over all instances also covers every weighted welfare Σ λ_i v_i.
+
+**Lemma W0 (what a smallest counterexample looks like).** If some instance with n agents has p*(I) ≥ p, then some
+instance with the same n and k has p*(I) ≥ p and a welfare maximum X leaving p*(I) goods out in which (i) every
+unallocated good is valued by some agent, and (ii) every bundle holds at most one good valued by nobody. In particular
+m ≤ nk + n, and the values can be taken in {0} ∪ [1, ∞).
+*Proof.* (i) holds for every such X: a pool good valued by nobody can be added to a source (CH0: a source exists
+since a welfare maximum has an acyclic envy graph), keeping EFX₀ and the total, which leaves fewer goods out.
+(ii) Let X_j hold two goods h, h′ valued by nobody, and delete h′ from the instance. Removing h′ from any EFX₀
+allocation keeps it EFX₀ and keeps its total and (or lowers) its number of unallocated goods; conversely an EFX₀
+allocation Y′ of the smaller instance, after rotating envy cycles (which raises the total), has a source, which can
+take h′. So the largest totals with at most p − 1 goods unallocated agree in the two instances, and X ∖ h′ keeps the
+total w* with p*(I) ≥ p goods out. Repeat. Each agent values at most k goods, so at most nk goods are valued; scaling
+all values by one constant gives the last clause. ∎
+
+### Results
+
+**W(k, 0) is false at k = 3 and k = 4.** On GM4-G the largest total (32) is attained only with one good unallocated,
+complete EFX₀ allocations reach 31; the same holds for GM4-G cut to three goods per agent, a k = 3 instance with the
+hypergraph of S′(2, 3) (`w_brute.py`, no SAT, `w_brute.log`). On GM4-E, which K4.SDC.P1 lists as total-value-stuck,
+the largest total is tied with complete allocations.
+
+**Proposition CH-F (W(3, 1) and W(4, 1) are false).** S′(3, 4)'s hypergraph (n = 9, m = 14, every agent valuing at
+most four goods) with integer values ≤ 40, and S′(3, 3)'s hypergraph (with relays: n = 12, m = 17, every agent valuing
+at most three goods) with integer values ≤ 60, each have their stranded state (two goods out; totals 198 and 484) as
+their only welfare maxima: every EFX₀ allocation leaving at most one good out has total ≤ 197, resp. ≤ 483. Values
+and tables: `w_counterexample.py` (`k4`, `k3`), `attempts/kgen-charity-welfare-maxima.md`. *Checks:* the states by
+the raw definitions; the two maxima (overall, and with ≤ 1 out) by the SAT welfare maximiser `chlib.welfare_max` and
+by a separately written MILP (scipy, HiGHS), which agree (`w_counterexample.log`, `w_counterexample_k3.log`); the
+values were found by the exact z3 search `w_synth_family.py` (real values first, then bounded integers). So W(k)
+needs f ≥ 2 at k = 3 and k = 4: welfare maxima strand two goods even where complete EFX₀ is a theorem.
+
+**Exact search for small n** (`w_synth.py`, z3 CEGAR over *real* values: an outer problem chooses valuations that make
+a stranded state of given bundle sizes EFX₀ with strong charity, a robust stopping state (CH6: no good can be added,
+≥ q + 1 sources, sources hold ≥ 2 goods) and strictly heavier than every allocation found so far that leaves fewer
+than p goods out; an inner problem looks for a new such allocation; UNSAT of the outer problem rules the sizes out).
+By Lemma W0 the sizes with m ≤ nk + n cover every instance, and since a welfare maximum leaves fewer goods out than it
+has sources, stranded counts q = p, …, n − 1 cover every welfare maximum leaving ≥ p out. Single implementation;
+the FOUND cases are re-checked by brute force or, for CH-F, by SAT and MILP.
+
+| n | k | strands ≥ p | stranded counts q searched | result | log |
+|---|---|---|---|---|---|
+| 3 | 3 | 1 | 1, 2 | none (UNSAT for every size vector) | `w_synth_n3_k3_p1.log`, `w_synth_n3_k3_p1_q2.log` |
+| 3 | 3 | 2 | 2 | none | `w_synth_n3_k3_p2.log` |
+| 3 | 4 | 2 | 2 | none | `w_synth_n3_k4_p2.log` |
+| 3 | 4 | 1 | 1 | none: implied by P1 at n = 3, k = 4 (§9, exhaustive), since a welfare maximum with the fewest unallocated goods is a Pareto maximum (anything dominating it has at least its total, and with equal values allocates more goods); the direct search was stopped after 6 size vectors, all UNSAT | `ol_synth_n3_k4_p1.log`, `w_synth_n3_k4_p1.log` |
+| 4 | 3 | 1 | — | exists (the cut of GM4-G) | `w_brute.log` |
+| 4 | 3 | 2 | 2, 3 | none | `w_synth_n4_k3_p2.log`, `w_synth_n4_k3_p2_q3.log` |
+| 4 | 4 | 2 | 2 | partial: UNSAT for (2, 2, 2, 1), (2, 2, 2, 2), (3, 2, 2, 1); stopped | `w_synth_n4_k4_p2.log` |
+
+So the smallest welfare maximum stranding a good at k = 3 has n = 4; the smallest stranding two has 5 ≤ n ≤ 12 at
+k = 3 and 4 ≤ n ≤ 9 at k = 4 (n = 4 pending).
+
+**Why the values must be asymmetric.** With uniform values (every champion y = 2A, x = A, g = A + 1; every
+parent valuing its children equally) the S′ state is the welfare maximum for σ = 2 but not for σ = 3. There a
+champion takes y, x_j, x′_j and g at once (2A + 2A + 1 against 2A) while its parent takes the sibling champion's good,
+and the parent, valuing both children equally, does not strongly envy the bundle that now holds its old favourite.
+In the z3 solutions each parent values one child about twice the other (s₂: 8 and 4), which turns this into strong
+envy. A proof for general σ would have to organise such asymmetries along the relay trees.
+
+**Larger σ.** Whether S′(σ, k) carries values making its σ − 1 stranded goods a welfare maximum for every σ (which
+would refute W(k) for every f, with Θ(√n) goods) is being tested by the same exact search; σ = 3 succeeds at k = 3 and k = 4 (CH-F). For σ = 4 (three goods
+stranded): on S′(4, 5)'s hypergraph (no relays: each source has three champion children; n = 16, m = 23) **no real
+values work** — UNSAT after 2,243 cuts, 4,833 s (`w_synth_family_s4k5_real.log`; single implementation); the integer
+search with values ≤ 80 had stopped at its time limit (`w_synth_family_s4k5.log`). S′(4, 4) (with relays, n = 20) is
+still running (`w_synth_family_s4k4_real.log`; the integer search stopped at its limit). So the S′ pattern does not
+scale to three stranded goods without relays; whether W(4, 2) fails is open.
+
+**Leximin maxima** (the lexicographic selection: maximise the smallest value, then the next, …, then the fewest
+unallocated goods; `chlib.leximin_max`, SAT with nested cardinality thresholds; `lex_check.py`, `lex_check.log`):
+- *L(k, 0) fails at k = 3 and k = 4:* on GM4-E, GM4-G and the k = 3 cut of GM4-G the leximin maximum leaves one
+  good out; the leximin-best complete EFX₀ allocations are strictly below ((4, 4, 7, 8) against (4, 4, 7, 9), and
+  (6, 8, 8, 9) against (7, 8, 8, 9)); brute force over all 5⁷ partial allocations, `lex_brute.py`, `lex_brute.log`.
+- On both CH-F instances and on S′(2..4, 3), S′(2..3, 4) the leximin maximum is complete. So leximin and welfare
+  strand on different instances; whether a leximin maximum can strand two goods is open.
+
+**Earlier data, kept:** the welfare maximum is complete on 166 of the 168 curated k = 4 instances (GM4-G and its copy
+are the exceptions, `w_screen.log`), on 8,400 random instances (`w_rand_*.log`), on the S and S′ families with their
+default values (`w_family.log`) and with GM4-G's values for σ ≥ 3 (`w_family_vals.log`); on the coordinator's n = 6
+core B< (OC₁ fails there) the welfare maximum is complete, 164 against 158 with one good out, and no Pareto maximum
+strands a good (`w_Bless.log`); two disjoint copies of GM4-G have a complete welfare maximum (Proposition DU,
+`w_union.log`); value hill-climbs stall at ties (`w_climb*.log`); S′(2, 3)'s default stranded state is not a
+supported point, so no rescaling of it is a counterexample (`welfare_support.log`).
+
+## 7. What can be proved at k = 4 without n (the weakest form)
+
+The weakest open form of CH(k) asks only for a partial EFX₀ allocation with at most f(k) goods unallocated (no
+condition on the pool), f independent of n. CH-D, CH-E and CH-F show that no argument that only uses a stopping state
+of CKMS's rules, a Pareto maximum, or (for f ≤ 1) a welfare maximum can give it at k = 3 or k = 4. What the lemmas do
+give, n-independently, and already in the strong form (nobody envies the pool):
+
+**Corollary CH-B′ (k = 4, few valuers per good).** Let every agent value at most four goods and every good be valued
+by at most d agents. Then some partial EFX₀ allocation with strong charity leaves at most
+- 2 goods out if d = 2 (R(2) = 2, CGMMM §1, read; also < (k − 2)d = 4 by CH-C),
+- 4 goods out if d = 3 (the packing inequality: p! ≤ 3^{p−1} fails at p = 5; CH-C gives ≤ 5), and 3 if R(3) = 3,
+  which Sivashankar attributes to Kirchweger–Szeider [unverified],
+- 6 goods out if d = 4 (p! ≤ 4^{p−1} fails at p = 7), and 4 if R(4) = 4 [unverified, same source].
+In general p ≤ min{R(d), (k − 2)d − 1} with R(d) < ed.
+
+**Corollary CH-C′.** For every k and every instance, CKMS's stopping states leave fewer than
+(k − 2) · min_{g ∈ P} |V(g)| goods out: the charity is small as soon as one unallocated good has few valuers.
+
+**Proposition DU** (§3): if the incidence graph is disconnected (two components with agents), nothing need be left
+out. So an instance needing charity must be connected, and in CH(k) the obstruction is global, as in S and S′.
+
+So the open case at k = 4 is exactly: connected instances whose unallocated goods all have many valuers. In every
+construction above (S, S′, CH-F) every pool good has σ valuers, one per source, and the stranding comes from the
+cyclic order of the sources. A proof must break that cycle by a move that lowers some agent's value (LB⁺'s rotation
+at k = 3), and the families of §4–§6 are the test cases for any candidate move.
+
+## 8. A charity bound that depends only on k and d (self-contained)
+
+This section restates Theorems CH-B, CH-B′ and CH-C as one result with a complete proof, so that it can be refereed
+without §2–§3.
+
+**Setting.** n agents, goods M, additive valuations v_i ≥ 0, R_i = {g : v_i(g) > 0}, V(g) = {i : g ∈ R_i}. A *state*
+is a partial allocation X = (X_1, …, X_n) with pool P = M ∖ ∪_i X_i. X is *EFX₀* if v_i(X_i) ≥ v_i(X_j ∖ {h}) for all
+i ≠ j and h ∈ X_j; the pool has *strong charity* if v_i(P) ≤ v_i(X_i) for every i. Agent i *envies* a set B if
+v_i(B) > v_i(X_i). G_X is the envy graph (i → j iff i envies X_j), S its sources, σ = |S|, C(s) the agents reachable
+from s (s included).
+
+**Theorem CH-KD.** Suppose every agent values at most k goods and every good is valued by at most d ≥ 1 agents. Then
+there is an EFX₀ state with strong charity whose pool P satisfies
+1. P = ∅ if k ≤ 2;
+2. |P| ≤ (k − 2) · min_{g ∈ P} |V(g)| − 1 ≤ (k − 2)d − 1 if k ≥ 3;
+3. |P| ≤ R(d) < e·d, where R(d) is the rainbow cycle number; precisely, |P|! ≤ d^{|P|−1}.
+
+For k = 4 this gives |P| ≤ 2, 4, 6 and 9 when d = 2, 3, 4 and 5 (part 3: the largest p with p! ≤ d^{p−1} is 2, 4, 6, 9;
+part 2: 3, 5, 7, 9). If R(3) = 3 and R(4) = 4, as Sivashankar reports from Kirchweger–Szeider [unverified],
+the cases d = 3, 4 improve to 3 and 4. No bound here depends on n. The table (`kd_table.py`, `kd_table.log`) lists
+min{(k − 2)d − 1, max{p : p! ≤ d^{p−1}}}:
+
+| d | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| packing: max p with p! ≤ d^{p−1} | 1 | 2 | 4 | 6 | 9 | 11 | 14 | 16 | 19 | 21 |
+| **k = 4** | 1 | 2 | 4 | 6 | 9 | 11 | 13 | 15 | 17 | 19 |
+| k = 5 | 1 | 2 | 4 | 6 | 9 | 11 | 14 | 16 | 19 | 21 |
+
+So for k = 4 and d ≥ 5 part 2 decides (2d − 1). R(5), R(6) are not known (Sivashankar lists exact values only up to
+R(4), p. 2); if R(d) = d, the conjecture recorded there, then f(4) ≤ min(2d − 1, d) = d.
+
+*Champions and the source digraph.* For a set B that some agent envies, a *champion option* of B is a pair (Z, t)
+with Z ⊆ B, t envying Z, and nobody envying Z ∖ {h} for any h ∈ Z (an inclusion-minimal envied subset with one of its
+enviers; CKMS, Definition 3). For a state X, the *source digraph* D has vertex set S and, for each s ∈ S and g ∈ P
+such that X_s ∪ {g} is envied, an edge s →_g s′ coloured g for every option (Z, t) of X_s ∪ {g} and every source s′
+with t ∈ C(s′). A cycle of D is *rainbow* if its vertices are distinct and its colours are distinct.
+
+**The rules** (Chaudhury–Kavitha–Mehlhorn–Sgouritsa, CKMS, Algorithm 2, with U2 taken along a shortest rainbow cycle):
+- (R) if G_X has a cycle, rotate bundles along it (each agent on it takes the bundle it envies);
+- (U0) if some g ∈ P can be added to some bundle so that the state stays EFX₀, add it;
+- (U1) if some agent envies P, let (Z, i) be an option of P; give Z to i and put X_i ∪ (P ∖ Z) in the pool;
+- (U2) if D has a rainbow cycle, take a shortest one s_0 →_{g_0} s_1 → ⋯ → s_{ℓ−1} →_{g_{ℓ−1}} s_0 with options
+  (Z_i, t_{i+1}) of X_{s_i} ∪ {g_i}, t_{i+1} ∈ C(s_{i+1}), and envy paths π_{i+1} from s_{i+1} to t_{i+1}; each agent
+  on π_{i+1} other than t_{i+1} takes the bundle of its successor on the path, t_{i+1} takes Z_i, and
+  (X_{s_i} ∪ {g_i}) ∖ Z_i joins the pool.
+
+**Step 1 (U2 is well defined).** In a shortest rainbow cycle the agents t_1, …, t_ℓ are distinct and the paths
+π_1, …, π_ℓ are pairwise vertex-disjoint. *Proof.* If π_a and π_b (a ≠ b) share a vertex, then t_b is reachable from
+s_a, so the option (Z_{b−1}, t_b) of X_{s_{b−1}} ∪ {g_{b−1}} gives an edge s_{b−1} →_{g_{b−1}} s_a, and
+s_a → s_{a+1} → ⋯ → s_{b−1} → s_a is a rainbow cycle with (b − a) mod ℓ ∈ [1, ℓ − 1] edges. Equal t's share a vertex.
+A source has in-degree 0, so it lies only on its own path. ∎
+
+**Step 2 (a stopping state exists).** Each rule keeps the state EFX₀. (R): CKMS Lemma 2. (U0): by its condition.
+(U1): CKMS Lemma 5 — the new bundle Z is not strongly envied because nobody envies Z ∖ {h}, and i's value rose.
+(U2): CKMS Lemma 7, whose proof applies verbatim once the paths are disjoint (Step 1): every agent off the t's holds
+an old bundle and is weakly better off, and each t_{i+1} holds Z_i, of which nobody envies Z_i ∖ {h}. Rules (R), (U1)
+and (U2) strictly increase Σ_i v_i(X_i) (agents on the cycle or paths and the t's strictly gain; CKMS Lemmas 2, 5,
+7), and (U0) keeps it and shrinks the pool. There are finitely many states, so from the empty allocation some
+sequence of rules reaches a state where none applies. There G_X is acyclic, so σ ≥ 1, and since U1 fails, the pool has
+strong charity, so in particular v_t(g) ≤ v_t(X_t) for all t and g ∈ P (*weak charity*). Fix such a state; assume
+P ≠ ∅ from here on (otherwise nothing is to prove).
+
+**Step 3 (champions are local valuers).** Let s ∈ S, g ∈ P. Then X_s ∪ {g} is envied, and every option (Z, t) of it
+has g ∈ Z ⊆ R_t (every good of Z is valued by t), Z ∖ {g} ≠ ∅ is a subset of X_s, t ≠ s and t ∉ C(s); moreover t
+values a good of X_t. *Proof.* U0 fails for (s, g), so some agent strongly envies X_s ∪ {g}, hence envies it.
+If g ∉ Z then Z ⊆ X_s and t envies X_s, impossible for a source (if t = s, impossible anyway). A good of Z worth 0 to t
+could be dropped with t still envying, against minimality. Z = {g} is not envied by weak charity, so Z ∖ {g} ≠ ∅.
+If t ∈ C(s) the one-edge cycle s →_g s is rainbow and U2 would apply. Finally v_t(X_t) ≥ v_t(g) > 0. ∎
+
+**Step 4 (part 1 and part 2).** Fix g ∈ P and pick for each s ∈ S one option (Z_s, t_s) of X_s ∪ {g}. By Step 3,
+t_s ∈ V(g), t_s ≠ s and t_s values a good of X_s. An agent t values g, a good of its own bundle X_t, and one good of
+each bundle X_s with t_s = t; these bundles are disjoint from each other and from P, and differ from X_t. So t = t_s
+for at most |R_t| − 2 ≤ k − 2 sources, and σ ≤ (k − 2)|V(g)|. If k ≤ 2 this contradicts σ ≥ 1, so P = ∅ (part 1).
+Next, |P| ≤ σ − 1: otherwise walk in D from any source, each time leaving along an edge of a colour not used yet
+(every vertex has an out-edge of every colour, by Step 3 and since t_s lies in C(s′) for some source s′); after at most
+σ ≤ |P| steps a vertex repeats, and the closed segment is a rainbow cycle. With the previous bound, part 2 follows.
+
+**Step 5 (part 3: the rainbow cycle reduction with ε = 0).** Fix for every agent a an assigned source σ(a) with
+a ∈ C(σ(a)), and for every s ∈ S and g ∈ P one option, with champion c(s, g). Let Q_g = {c(s, g) : s ∈ S} and build
+the |P|-partite digraph Γ with parts V_g = {g} × σ(Q_g) and, for g ≠ h, an edge (g, s₁) → (h, s₂) iff
+σ(c(s₂, g)) = s₁. Then
+- every vertex (h, s₂) has the in-neighbour (g, σ(c(s₂, g))) ∈ V_g in every other part V_g;
+- Γ has no rainbow cycle (one meeting each part at most once): a cycle (g_1, s_1) → ⋯ → (g_ℓ, s_ℓ) → (g_1, s_1) with
+  distinct g's means c(s_{i+1}, g_i) ∈ C(s_i), i.e. edges s_{i+1} →_{g_i} s_i of D, a closed walk of D with distinct
+  colours; between two visits of one vertex it contains a rainbow cycle of D, and U2 would apply;
+- |V_g| ≤ |Q_g| ≤ |V(g)| ≤ d, since champions of g value g (Step 3).
+Sivashankar's Theorem 3 (packing inequality): a digraph with nonempty parts V_1, …, V_p, the in-neighbour condition
+and no rainbow cycle satisfies (p − 1)! Σ|V_i| ≤ Π|V_i|; with |V_i| ≤ d and AM–GM this gives p! ≤ d^{p−1}, hence
+p < ed. This is part 3; R(d) is by definition the largest p for which such a digraph exists. ∎
+
+**Corollary CH-KD′ (only hot pool goods cost anything).** At every stopping state and for every d ≥ 1,
+|P| ≤ R(d) + |H_d|, where H_d = {g ∈ P : |V(g)| > d} are the pool goods with more than d valuers; more precisely
+|P ∖ H_d|! ≤ d^{|P ∖ H_d| − 1}. *Proof.* The parts V_g with g ∈ P ∖ H_d induce a sub-digraph of Γ (Step 5) that still
+has the in-neighbour property between any two of its parts and no rainbow cycle, with parts of size ≤ d; apply the
+packing inequality to it. (This is CGMMM's low/high split, Lemma 15, with ε = 0.) ∎
+So in a connected instance the charity beyond R(d) is paid only for unallocated goods with many valuers, and every
+construction in §4–§6 strands exactly such goods (σ valuers each). An n-independent f(k) needs a bound on |H_d| at
+some reachable state, which neither the counting of Step 4 (σ ≤ (k − 2)|V(g)|) nor the packing inequality gives.
+
+**Remarks.**
+- What is new compared with CGMMM: their reduction needs ε > 0 because a good is "valuable" to an agent when it is
+  worth more than an ε-fraction of her bundle, and without sparsity every agent may find every good valuable. With
+  genuine zeros, Step 3 shows that only valuers of g can champion g, so ε = 0 works and the parts are bounded by the
+  number of valuers. The perturbation lemma (L1), which makes all values positive, would destroy exactly this.
+- The proof of Step 5 never uses k, so part 3 holds for any number of relevant goods per agent; parts 1–2 never use
+  d. For monotone valuations, with R_i the support of v_i, the same proof works with k − 1 in place of k − 2 in
+  parts 1–2 (Remark CH-M).
+- Tightness in n is not an issue here (the bound has no n); tightness in d of part 3 is that of R(d) (R(d) ≥ d,
+  CGMMM). For the method, part 2 is tight: in S(σ, 3) (§4) every pool good has σ valuers and σ − 1 goods are left.
+
+**Citations** (read for this note unless marked):
+- [CKMS] B. R. Chaudhury, T. Kavitha, K. Mehlhorn, A. Sgouritsa, "A Little Charity Guarantees Almost
+  Envy-Freeness", arXiv 1907.04596v3 (SODA 2020; SIAM J. Comput. 50(4), 2021). Read: §2, pp. 8–12 (Algorithms 1–3,
+  Lemmas 2, 4–7, Theorem 8).
+- [CGMMM] B. R. Chaudhury, J. Garg, K. Mehlhorn, R. Mehta, P. Misra, "Improving EFX Guarantees through Rainbow
+  Cycle Number", arXiv 2103.01628 (EC 2021). Read: §1 (Definition 2, the proof that R(1) = 1 and R(2) ≤ 2) and §4
+  (the group champion graph, Observations 11–13, Lemmas 14–15).
+- [Siv] V. Sivashankar, "A Linear Bound on the Rainbow Cycle Number and Approximate EFX", arXiv 2607.27455v1 (2026).
+  Read: §1–§3 and §5 (Theorem 3 with its proof, the lower bound R(d) ≥ d).
+- [KS] M. Kirchweger, S. Szeider, on computing small rainbow cycle numbers with SAT modulo symmetries: R(3) = 3,
+  R(4) = 4 — [unverified], known only through [Siv], p. 2.
+
+## 9. The many-valuers case: one loser suffices on every stranded state found (Conjecture OL)
+
+In every construction above (S, S′, CH-F) each unallocated good has σ valuers, one per source, which is the case left
+open by CH-KD. The question is what *non-monotone* move repairs these states. Computation (`losers.py`, SAT: the
+largest number of agents keeping their value over complete EFX₀ allocations) gives a uniform answer:
+
+| stranded states | stranded goods | fewest agents worse off in a complete EFX₀ allocation | log |
+|---|---|---|---|
+| S(σ, 3), σ = 2..5 (robust CKMS stops, not Pareto maxima) | σ − 1 | 0 | `losers.log` |
+| S′(σ, 3), σ = 2..5; S′(σ, 4), σ = 2..4 (Pareto maxima) | σ − 1 | 1, always a champion | `losers.log` |
+| CH-F k = 3 and k = 4 (welfare maxima) | 2 | 1, a champion | `losers.log` |
+| the 20 Pareto maxima with a pool on the curated k = 4 instances | 1 | 1 | `ol_check.log` |
+| 15 robust CKMS stops with a pool, 1,008 random EFX₀ states with strong charity (curated instances) | ≥ 1 | 0 or 1 | `ol_check.log` |
+| 450 random EFX₀ states with strong charity on 150 random k ≤ 4 instances, n = 3..6 | ≥ 1 | 0 | `ol_check_rand4.log` |
+
+**Conjecture OL (one loser).** If X is an EFX₀ state with strong charity in an instance with at most k relevant goods
+per agent (k ≤ 4 at least), some complete EFX₀ allocation leaves at most one agent worse off than in X.
+
+**Lemma OL0 (reductions).** If OL fails for some instance with n agents and k, it fails for one with the same n and
+k in which (a) every good is valued by some agent, so m ≤ nk, and (b) X is a Pareto maximum (allocating the most
+goods for its value vector), hence a robust CKMS stopping state (CH6): no pool good can be added to any bundle, X has
+at least |P| + 1 sources, every source holds ≥ 2 goods and every bundle is nonempty.
+*Proof.* (a) Delete a good j valued by nobody. X ∖ j is EFX₀ with strong charity and the same values. If the smaller
+instance had a complete EFX₀ allocation Y′ with ≤ 1 agent below X, rotate its envy cycles (values only rise), add j to
+a source (EFX₀ is kept: j is worth 0 to all and the source is unenvied): a complete EFX₀ allocation of the original
+with ≤ 1 agent below X. (b) Among the EFX₀ states weakly above X in every value, take one, X*, maximal in the Pareto
+order (values, then the number of allocated goods). Anything dominating X* would be weakly above X, so X* is a Pareto
+maximum, and CH6 applies. An agent below X in a complete Y is below X* too (v_i(Y_i) < v_i(X_i) ≤ v_i(X*_i)), so if
+every Y has ≥ 2 agents below X, every Y has ≥ 2 below X*. ∎
+
+**Exact search for small n** (`ol_synth.py`; z3 CEGAR over real values, as for W in §6: the outer problem chooses
+values making a stranded state of given bundle sizes and pool size q a stopping state as in OL0(b), and forcing every
+complete allocation found so far to be non-EFX₀ or to have ≥ 2 losers; the inner problem looks for a complete EFX₀
+allocation with ≤ 1 loser). By OL0, sizes with m ≤ nk and q = 1, …, n − 1 cover every counterexample. Single
+implementation. A positive control with the threshold lowered to one loser (the P1 obstruction) finds the k = 3,
+n = 4 stranding of §5 in 36 cuts and correctly finds none at n = 3, k = 3.
+
+| n | k | result | log |
+|---|---|---|---|
+| 2 | any | OL holds with no loser (Proposition P1₂, proved); the search: UNSAT for every size vector at k = 3, 4 | `ol_synth_n2_k3.log`, `ol_synth_n2_k4.log` |
+| 3 | 3 | OL holds | `ol_synth_n3_k3.log` |
+| 3 | 4 | OL holds (43 size vectors, pool sizes 1–2, m ≤ 12); P1 holds too (no stranded Pareto maximum) | `ol_synth_n3_k4.log`, `ol_synth_n3_k4_p1.log` |
+| 4 | 3 | OL holds (43 size vectors, pool sizes 1–3, m ≤ 12) | `ol_synth_n4_k3.log` |
+| 3 | 5 | P1 fails (Proposition P1₃,₅, brute-force checked); OL: being searched | `p1_n3k5.log`, `ol_synth_n3_k5_q*.log` |
+
+**Proposition P1₂ (two agents: Pareto maxima are complete; written proof).** In every additive instance with two
+agents (any number of goods, any values ≥ 0), every Pareto maximum is complete. Equivalently, every partial EFX₀
+allocation is weakly dominated, agent by agent, by a complete EFX₀ allocation; so OL holds at n = 2 with no loser.
+*Proof.* Let X = (X_A, X_B) be a Pareto maximum with a good g unallocated, and M the set of all goods. No good can be
+added to either bundle keeping EFX₀ (that would allocate more at the same or higher values). Adding g to X_A can only
+be blocked by B, so B strongly envies X_A ∪ {g}: v_B(X_A ∪ {g}) ≥ v_B((X_A ∪ {g}) ∖ h) > v_B(X_B) for some h, hence
+v_B(M) ≥ v_B(X_A ∪ {g}) + v_B(X_B) > 2 v_B(X_B). Symmetrically v_A(X_B ∪ {g}) > v_A(X_A).
+Let (Q_1, Q_2) be a partition of M that maximizes, for A, first min(v_A(Q_1), v_A(Q_2)) and then the number of goods
+in the strictly cheaper bundle (if there is one). It is EFX₀ for A from both sides: if v_A(Q_1) < v_A(Q_2) and
+v_A(Q_2 ∖ h) > v_A(Q_1) for some h ∈ Q_2, moving h to Q_1 either raises the minimum (v_A(h) > 0) or keeps it and
+enlarges the cheaper bundle (v_A(h) = 0); and if v_A(Q_1) = v_A(Q_2) there is nothing to check. Its minimum is at
+least that of (X_A, M ∖ X_A), which is v_A(X_A) because M ∖ X_A ⊇ X_B ∪ {g}. Let B take its favourite of Q_1, Q_2
+and A the other. B gets ≥ v_B(M)/2 > v_B(X_B) and envies nothing; A gets ≥ v_A(X_A) and strongly envies nothing. This
+complete EFX₀ allocation dominates X, a contradiction. For the equivalent form, lift any partial EFX₀ allocation to a
+Pareto maximum above it (as in OL0(b)). ∎
+(The cut-and-choose step is Plaut–Roughgarden's two-agent argument with their leximin++ rule [unverified: not
+re-read here; the proof above is self-contained].) So P1 holds at n = 2 for every k and fails at n = 4 for k = 3
+(§5). At n = 3 it holds for k ≤ 4 (exhaustive, `ol_synth_n3_k4_p1.log`; k = 3 in `ol_synth_n3_k3.log`) and fails at
+k = 5 (Proposition P1₃,₅ below) and k = 6 (CGM's example, below). The exact searches agree: no Pareto maximum strands a good at
+n = 2 for k ≤ 6 (`ol_synth_n2_p1.log`), nor on 3,000 random two-agent instances with m ≤ 9, half of them with every
+good relevant to both agents (`p1_n2.py`, `p1_n2.log`).
+
+**Proposition P1₃,₅ (P1 fails at n = 3, k = 5; checked by brute force).** Values (goods 0–6; blank = 0):
+
+| agent | 0 | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|---|
+| a | 24 | 38 | 52 | | 64 | | 51 |
+| b | 74 | | 24 | 24 | 123 | 172 | |
+| c | 26 | | 127 | 24 | | 178 | 76 |
+
+X = ({0, 1, 2}, {3, 4}, {5}), good 6 unallocated, values (114, 147, 178). Every agent values exactly five goods. X is
+EFX₀ with strong charity (v_a(6) = 51 ≤ 114, v_c(6) = 76 ≤ 178, v_b(6) = 0). Brute force over all 4⁷ partial
+allocations (`p1_n3k5.py`, `p1_n3k5.log`, own code, no z3): X is the only EFX₀ allocation weakly above X in every
+value, so X is a Pareto maximum and leaves a good out. Of the 3⁷ complete allocations 18 are EFX₀; 17 leave exactly
+one agent worse off than in X and one leaves two, so OL holds here (e.g. ({0, 1, 2, 3}, {4, 6}, {5}), values
+(114, 123, 178): b loses). Found by `ol_synth.run(3, 5, [3, 2, 1], 1, L=1)` (z3, 196 cuts, `ol_synth_n3_k5_p1.log`;
+three more size vectors, (3, 2, 2), (3, 3, 1) and (3, 3, 2), also gave counterexamples before the search was stopped;
+the same script checks them by brute force over complete allocations: none weakly dominates its X, and the fewest
+agents worse off is 1 in each). Seven goods is the fewest at n = 3: with m = 6 the only shape OL0(b) allows is sizes
+(2, 2, 1) with one good out, UNSAT in the same search. So the smallest-n failures of P1 are n = 3 at k = 5 and n = 4 at k = 3, against P1₂ at n = 2; with n = 3 the exact
+threshold is k = 5.
+
+**The literature's obstruction satisfies OL.** Chaudhury–Garg–Mehlhorn ("EFX exists for three agents", arXiv
+2002.05119, §5, Table 3 and Theorem 21, read) give three agents and seven goods, with agent 1 valuing six of them
+(k = 6), and the partial EFX allocation ({g2, g3, g4}, {g1, g5}, {g6}), g7 unallocated, which no complete EFX
+allocation Pareto-dominates; they use it to argue that Pareto-improving algorithms cannot work. Here (`cgm_check.py`,
+`cgm_check.log`): it is EFX₀ with strong charity and a Pareto maximum (so P1 fails at n = 3 for k = 6), and a complete
+EFX₀ allocation leaves exactly one agent worse off: ({g3, g4, g7}, {g1, g2, g5}, {g6}) with values (15, 15, 10)
+against (16, 15, 10) (brute force over all 3⁷ complete allocations: 21 are EFX₀, the fewest losers is 1).
+
+**OL and the Haxell session's W^sub** (`k4/haxell.md` on `claude/k4-haxell`, read at its burst-2 status). W^sub says:
+from every partial EFX₀ allocation with a nonempty pool, at most two moves (single-good reassignment, swap, rotation
+of bundles along a cycle, or a set of goods given to one agent) reach a partial EFX₀ allocation with a smaller pool, or
+the same pool and larger welfare. Both statements imply EFX₀ existence (OL applied to a Pareto maximum, which exists;
+W^sub by iterating on the well-founded measure (|pool|, −welfare)). They are not comparable as stated:
+- W^sub is local and stepwise: each step may lower values (the pool shrinks at the price of welfare: on the CH-F
+  states the Haxell session reports 198 → 197 with one good out, then completion), and nothing bounds how many agents
+  end up below the start.
+- OL is global and one-shot: it bounds the *losers* of the final allocation relative to the start by one, and says
+  nothing about how many moves separate them.
+- The one-loser repair of S′(4, 4) is a set transfer of the pool to one agent combined with a shift along an envy path
+  whose source keeps its bundle — a composite of W^sub's moves, but a path shift is not a cycle rotation, so it is not
+  a single W^sub move as defined.
+So OL is a single-step version of W^sub only in the weaker sense "one transition to complete, at the cost of one
+agent". A common strengthening worth testing: from every stranded Pareto maximum, some complete EFX₀ allocation with
+at most one loser is reachable by at most two W^sub moves.
+
+OL with X = a Pareto maximum contains TARGET_k, so it is not easier than TARGET₄. Its interest is the shape it
+prescribes for a proof: whatever is stranded, one agent's sacrifice repairs it, however many goods are out (σ − 1 in
+S′(5, 3)). In S′(4, 4) the repair is a single move: the loser c(g₀, j₂) drops its good y and takes all three pool
+goods (worth 6 to it, against 10); its parent relay takes y; the source above takes the relay's good as an extra.
+Nobody strongly envies the loser's new bundle because the pool was unenvied — Proposition DU's dumping, inside one
+component, paid for by one agent.
+
+*On "a valuer that is a source absorbs the good".* At a stopping state this never happens without a loss: if a source
+t values g ∈ P, U0 fails at (t, g), and by Lemma CH3 every champion of X_t ∪ {g} is a valuer of g outside C(t), and
+not t itself. So the rainbow-cycle structure gives the opposite of an absorbing source valuer: every source valuer of
+a pool good is out-competed by a valuer it cannot reach. In every one-loser repair found, the loser is a valuer of a
+pool good that is *not* a source (a champion), and the source that ends up absorbing extra goods absorbs its child's
+bundle, not the pool good.
+
+**Lemma AB (one-loser absorption along an envy path).** Let X be EFX₀ with strong charity and pool P, and let
+s = u_0 → u_1 → ⋯ → u_r = a (r ≥ 1) be an envy path from a source s. Let Y give X_{u_0} ∪ X_{u_1} to u_0, X_{u_{i+1}} to
+u_i (0 < i < r) and P to a, everything else unchanged. Then Y allocates every good, every agent but a is weakly better
+off (u_0, …, u_{r−1} strictly), and Y is EFX₀ iff (i) a strongly envies no bundle of Y and (ii) nobody strongly
+envies X_{u_0} ∪ X_{u_1}.
+*Proof.* Every bundle of Y other than Y_{u_0} and Y_a is a bundle of X, and every agent other than a values its Y-bundle
+at least as much as its X-bundle, so their EFX₀ conditions toward old bundles carry over. Toward Y_a = P:
+v_i(P ∖ h) ≤ v_i(P) ≤ v_i(X_i) by strong charity. The rest is (i) and (ii). ∎
+
+AB moves are not the general mechanism (`ab_check.py`, `ab_check.log`): some AB move completes S′(σ, 3) for σ = 3..5,
+S′(σ, 4) for σ = 4, 5 and CH-F k = 3, but none completes S′(2, ·), S′(3, 4), CH-F k = 4, any of the 20 curated Pareto
+maxima or the 14 CKMS stops; the one-loser completions there move goods off the path as well. A proof of OL, or of a
+charity form of it (one loser per round that strictly shrinks the pool, keeping strong charity), needs the general
+one-loser repair, which is the open step.
+
+## 10. Fixed phantom bundles: an inductive hypothesis for recursions that settle agents one at a time
+
+A recursion that settles an agent with a bundle, deletes both and recurses (the two-move programme's REC-S; L2's
+peeling is the classical case) leaves each deleted agent φ as a *phantom*: a fixed bundle F_φ that must stay
+unthreatened while the rest is allocated. With phantoms Φ, remaining agents N and remaining goods M′ = M ∖ ∪F_φ, the
+whole allocation is EFX₀ iff (i) it is EFX₀ among N, (ii) no phantom strongly envies a bundle of an agent of N,
+(iii) no agent of N strongly envies a phantom's bundle, and (iv) the phantoms are mutually EFX₀.
+
+**Proposition PH (charity with satisfied phantoms; written proof).** Assume
+- (H1) every phantom weakly prefers its bundle to all remaining goods it values: v_φ(F_φ) ≥ v_φ(R_φ ∩ M′);
+- (H2) the phantoms' bundles are mutually EFX₀;
+- (H3) every F_φ is a single good or is worth 0 to every agent of N.
+Run CKMS's rules (§8: R, U0, U1, U2 along shortest rainbow cycles) on N and M′ from the empty allocation, with EFX₀
+checked against all of N ∪ Φ. The stopping state, together with the phantoms, is EFX₀ for every agent, nobody —
+phantoms included — envies the pool, and the pool obeys Theorem CH-KD (k and d measured on N and M′: every agent of N
+values ≤ k goods of M′, every good of M′ has ≤ d valuers in N). In particular it is empty for k ≤ 2.
+*Proof.* By (H1) a phantom values every subset B ⊆ M′ at v_φ(B) ≤ v_φ(R_φ ∩ M′) ≤ v_φ(F_φ), so it envies no subset
+of M′: it never strongly envies a bundle formed from M′ (condition (ii)), never envies the pool, and is never the
+envier of a champion option. So phantoms play no role in U0, U1, U2 or the source digraph, and Steps 1–5 of §8 run
+unchanged on N. Condition (iii) holds at the empty start by (H3) (nobody strongly envies a single good, and a bundle
+worth 0 to j cannot be strongly envied by j), and it is preserved because every rule weakly raises every value of an
+agent of N while the phantoms' bundles do not change. (iv) is (H2). ∎
+
+(H1) and (H3) are exactly L2's peeling conditions R1/R2 without the requirement that the residual be solved
+completely: so **L2 extends from complete allocations to charity** — peeling an agent that satisfies R1 or R2 never
+costs charity. A recursion that settles only such agents keeps the hypotheses of CH-KD at every level, and the bound
+holds for the final pool, independently of n and of the number of phantoms.
+
+**Without (H1)** (a settled sharer that still values remaining goods above its bundle), the phantom is active. What
+survives, by the same locality as Lemma CH1:
+- a phantom φ can strongly envy X_s ∪ {g} only if it values g (and a good of X_s); so it can block, i.e. champion,
+  only pool goods in R_φ ∖ F_φ, at most k − 1 per phantom (k − |R_φ ∩ F_φ|);
+- condition (iii) is still free under value-monotone rules once it holds at the start (thresholds t_j = the largest
+  v_j(F_φ ∖ h) are lower bounds that never break);
+- but U1 and U2 must now also keep φ from strongly envying the new bundles, and a minimal envied subset of the pool
+  may be envied only by φ, which cannot receive it; so the rule system itself needs a change (a phantom-aware U1).
+  With that change, CH-KD's Steps 3–5 apply to the pool goods valued by no active phantom, so the open part of the
+  pool is P ∩ ∪_{φ active} R_φ, at most (k − 1) times the number of active phantoms that value pool goods. That is
+  n-independent only if the recursion keeps the number of active phantoms bounded.
+
+So the clean inductive hypothesis is "every phantom is satisfied (H1) and unthreatened by construction (H3)", and it
+yields CH-KD's n-independent charity; any recursion that settles sharers which still want remaining goods (REC-S
+proper) must pay for each such sharer, at most k − 1 goods each in the charity accounting, unless the sharer's demand
+is discharged before it is deleted.
+
+## 11. Open
+
+1. **Non-monotone moves.** CH-D and CH-E show that a proof of CH(k), k ≥ 3, must sometimes lower an agent's value.
+   The two known mechanisms are LB⁺'s rotation (k = 3) and Kaviani–Seddighin–Shahrezaei's virtual values
+   (`proofs/pq_bounded.md` §2.1, their rule that may lower actual utilities). A charity version of either, with the
+   S′ family as the test case, is the next step.
+2. **Combine CH-B with relevant goods.** In CH-A the only obstacle to an n-independent bound is pool goods with many
+   valuers; in S and S′ every pool good has σ valuers.
+3. **Route (c)** (serial-dictatorship picks plus one absorber, `k4/sdc.md` §29–§30) was not pursued beyond the
+   observation that from SD picks every unfrozen agent can take one junk good for free (a two-good bundle {y_a, j}
+   with y_a unwanted is strongly envied by nobody, because every agent values j at most its own pick); CKMS runs from
+   SD picks behave like runs from the empty allocation (`ch_screen.log`, `ch_ckms.py`).

@@ -1,0 +1,5 @@
+$ python3 k4/ksens/pwk_check.py 200
+clean values: configurations 60 not EFX0 0
+random values of the family: instances 8000 not EFX0 0
+referee instance [[31, 20, 19, 29], [31, 17, 26, 23], [12, 8, 5]] : earlier completion EFX0 False ; fixed completion EFX0 True
+W = 0 (no wanters): starts 305 without a one-absorber completion of the picks 0

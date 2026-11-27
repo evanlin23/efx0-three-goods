@@ -1,0 +1,14 @@
+PW f 3 W 2 r 4 k 5 n 5 m 9 T 60 failing {'oc': 60, 'oc1': 60, 'md': 0} 1s
+PW f 4 W 2 r 4 k 5 n 6 m 10 T 60 failing {'oc': 60, 'oc1': 60, 'md': 0} 2s
+PW f 3 W 3 r 5 k 6 n 6 m 11 T 20 failing {'oc': 20, 'oc1': 20, 'md': 0} 1s
+PW f 4 W 3 r 5 k 6 n 7 m 12 T 20 failing {'oc': 20, 'oc1': 20, 'md': 0} 2s
+PW f 3 W 2 r 3 k 4 n 5 m 8 T 60 failing {'oc': 0, 'oc1': 0, 'md': 0} 1s
+PW f 4 W 2 r 3 k 5 n 6 m 9 T 60 failing {'oc': 0, 'oc1': 0, 'md': 0} 1s
+PW f 3 W 3 r 3 k 4 n 6 m 9 T 60 failing {'oc': 0, 'oc1': 0, 'md': 0} 0s
+PW f 4 W 3 r 3 k 5 n 7 m 10 T 60 failing {'oc': 0, 'oc1': 0, 'md': 0} 1s
+PW f 2 W 2 r 3 k 4 n 4 m 7 T 60 failing {'oc': 0, 'oc1': 0, 'md': 0} 0s
+PW f 5 W 2 r 3 k 6 n 7 m 10 T 60 failing {'oc': 0, 'oc1': 0, 'md': 0} 2s
+PW f 3 W 1 r 3 k 4 n 4 m 7 T 60 failing {'oc': 0, 'oc1': 0, 'md': 0} 0s
+PW f 2 W 2 r 4 k 5 n 4 m 8 T 60 failing {'oc': 0, 'oc1': 0, 'md': 0} 0s
+PW f 3 W 1 r 4 k 5 n 4 m 8 T 60 failing {'oc': 0, 'oc1': 0, 'md': 0} 1s
+PW f 4 W 1 r 4 k 5 n 5 m 9 T 60 failing {'oc': 0, 'oc1': 0, 'md': 0} 1s

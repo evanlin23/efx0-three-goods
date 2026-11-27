@@ -1,0 +1,259 @@
+$ git show origin/compute/k4-oc1max-cert:results/k4_oc1max/oc1max_cex_n4.json > cex.json  (commit dbc2631)
+$ python3 k4/ttc/oc1max_cex_n4.py cex.json
+instance 0 (4_n4_3 #58): sets [[0, 1, 2, 5], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 6]] vals [[2, 10, 4, 7], [10, 3, 4, 8], [3, 5, 6, 7], [3, 2, 4]] order [0, 3, 2, 1] picks [1, 2, 5, 6]
+  is_core4 [], nu 4, two private goods False, 4-good agents 3
+  OC1^max: one-absorber completion at the picks or after one of 15 moves: SAT False, brute force False
+  wants {0: [], 1: [0, 2, 3], 2: [3], 3: []}; frozen [0, 2, 3]; receivers [1]; dangerous {0: {0: 2}, 2: {3: 3, 4: 5}, 3: {3: 3, 4: 2}}; junk [0, 3, 4]
+  agents holding their worst relevant good: [1]
+    target [[0, 2, 5], [1], [3, 4], [6]] utilities [13, 10, 8, 4], picks taken from {0: [1, 2], 1: [0], 2: [], 3: []}
+    target [[0, 2, 5], [1], [6], [3, 4]] utilities [13, 10, 7, 5], picks taken from {0: [1, 2], 1: [0], 2: [3], 3: []}
+    target [[2, 5], [0, 1], [3, 4], [6]] utilities [11, 10, 8, 4], picks taken from {0: [1, 2], 1: [0], 2: [], 3: []}
+    target [[2, 5], [0, 1], [6], [3, 4]] utilities [11, 10, 7, 5], picks taken from {0: [1, 2], 1: [0], 2: [3], 3: []}
+    target [[2, 5], [1], [0, 6], [3, 4]] utilities [11, 10, 7, 5], picks taken from {0: [1, 2], 1: [0], 2: [3], 3: []}
+    target [[2, 5], [1], [3, 4], [0, 6]] utilities [11, 10, 8, 4], picks taken from {0: [1, 2], 1: [0], 2: [], 3: []}
+  6 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 6 of 6 targets (blocking agents [0]): no single move reaches a target (a proof, given the target list)
+  two-move repairs (first move, canonical?, repairing second moves, canonical ones):
+     ((2, 1), True, [(0, 1), (0, 1)], [(0, 1), (0, 1)])
+     ((3, 1), True, [(0, 1, 2), (0, 1, 2)], [(0, 1, 2), (0, 1, 2)])
+     ((3, 2), True, [(0, 1), (0, 1)], [(0, 1), (0, 1)])
+     ((3, 2, 1), True, [(0, 1), (0, 1)], [(0, 1), (0, 1)])
+  OC2^max True; canonical first chains 4; CC2 (some canonical + canonical) True; every canonical first chain finishes canonically True
+instance 1 (4_n4_3 #77): sets [[0, 4, 5, 6], [1, 2, 3, 5], [1, 3, 5, 6], [2, 4, 6]] vals [[2, 3, 10, 6], [3, 10, 6, 8], [5, 3, 7, 6], [4, 3, 2]] order [3, 1, 2, 0] picks [4, 5, 6, 2]
+  is_core4 [], nu 4, two private goods False, 4-good agents 3
+  OC1^max: one-absorber completion at the picks or after one of 21 moves: SAT False, brute force False
+  wants {0: [1, 2], 1: [3], 2: [1], 3: []}; frozen [1, 2, 3]; receivers [0]; dangerous {1: {1: 3, 3: 6}, 2: {1: 5, 3: 3}}; junk [0, 1, 3]
+  agents holding their worst relevant good: []
+    target [[0, 5], [2], [1, 3], [4, 6]] utilities [12, 10, 8, 5], picks taken from {0: [1], 1: [3], 2: [], 3: [0, 2]}
+    target [[5], [0, 2], [1, 3], [4, 6]] utilities [10, 10, 8, 5], picks taken from {0: [1], 1: [3], 2: [], 3: [0, 2]}
+    target [[5], [2], [0, 1, 3], [4, 6]] utilities [10, 10, 8, 5], picks taken from {0: [1], 1: [3], 2: [], 3: [0, 2]}
+    target [[5], [2], [1, 3], [0, 4, 6]] utilities [10, 10, 8, 5], picks taken from {0: [1], 1: [3], 2: [], 3: [0, 2]}
+  4 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 4 of 4 targets (blocking agents [3]): no single move reaches a target (a proof, given the target list)
+  two-move repairs (first move, canonical?, repairing second moves, canonical ones):
+     ((1, 0), True, [(1, 2, 3)], [])
+     ((1, 0), True, [(1, 2, 3)], [])
+     ((1, 2), True, [(0, 3, 1, 2), (0, 3, 1, 2)], [])
+     ((1, 2, 0), True, [(0, 3, 1, 2), (0, 3, 1, 2)], [])
+     ((1, 2, 0), True, [(0, 3, 1, 2), (3, 1, 2, 0)], [(3, 1, 2, 0)])
+     ((2, 0), True, [(0, 3, 1), (0, 3, 1)], [])
+     ((2, 0), True, [(0, 3, 1), (3, 1, 0)], [(3, 1, 0)])
+  OC2^max True; canonical first chains 7; CC2 (some canonical + canonical) True; every canonical first chain finishes canonically False
+instance 2 (4_pure #20): sets [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]] vals [[2, 5, 4, 8], [5, 3, 6, 7], [10, 3, 8, 6], [10, 2, 3, 6]] order [0, 1, 2, 3] picks [6, 5, 3, 4]
+  is_core4 [], nu 4, two private goods False, 4-good agents 4
+  OC1^max: one-absorber completion at the picks or after one of 24 moves: SAT False, brute force False
+  wants {0: [], 1: [0], 2: [], 3: [0, 1, 2]}; frozen [0, 1, 2]; receivers [3]; dangerous {0: {0: 2, 1: 5, 2: 4}, 1: {1: 5, 2: 3}}; junk [0, 1, 2]
+  agents holding their worst relevant good: [3]
+    target [[0, 6], [1, 2], [4, 5], [3]] utilities [10, 8, 11, 10], picks taken from {0: [], 1: [], 2: [1, 3], 3: [2]}
+    target [[1, 2], [0, 6], [4, 5], [3]] utilities [9, 7, 11, 10], picks taken from {0: [], 1: [0], 2: [1, 3], 3: [2]}
+    target [[1, 2], [6], [0, 4, 5], [3]] utilities [9, 7, 11, 10], picks taken from {0: [], 1: [0], 2: [1, 3], 3: [2]}
+    target [[6], [1, 2], [0, 4, 5], [3]] utilities [8, 8, 11, 10], picks taken from {0: [], 1: [], 2: [1, 3], 3: [2]}
+    target [[1, 2], [6], [4, 5], [0, 3]] utilities [9, 7, 11, 10], picks taken from {0: [], 1: [0], 2: [1, 3], 3: [2]}
+    target [[6], [1, 2], [4, 5], [0, 3]] utilities [8, 8, 11, 10], picks taken from {0: [], 1: [], 2: [1, 3], 3: [2]}
+  6 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 6 of 6 targets (blocking agents [2]): no single move reaches a target (a proof, given the target list)
+  two-move repairs (first move, canonical?, repairing second moves, canonical ones):
+     ((0, 1), True, [(2, 3)], [(2, 3)])
+     ((0, 1, 3), True, [(2, 3)], [(2, 3)])
+     ((0, 3), True, [(0, 1, 2, 3), (1, 2, 3)], [])
+     ((1, 3), True, [(2, 3)], [(2, 3)])
+  OC2^max True; canonical first chains 9; CC2 (some canonical + canonical) True; every canonical first chain finishes canonically False
+instance 3 (4_pure #21): sets [[0, 1, 2, 6], [1, 2, 4, 5], [3, 4, 5, 6], [3, 4, 5, 6]] vals [[2, 7, 4, 10], [3, 5, 6, 7], [3, 5, 6, 7], [1, 4, 6, 8]] order [0, 2, 1, 3] picks [6, 4, 5, 3]
+  is_core4 [], nu 4, two private goods False, 4-good agents 4
+  OC1^max: one-absorber completion at the picks or after one of 32 moves: SAT False, brute force False
+  wants {0: [], 1: [2], 2: [0], 3: [0, 1, 2]}; frozen [0, 1, 2]; receivers [3]; dangerous {0: {0: 2, 1: 7, 2: 4}, 1: {1: 3, 2: 5}}; junk [0, 1, 2]
+  agents holding their worst relevant good: [3]
+    target [[1, 2], [0, 5], [3, 4], [6]] utilities [11, 7, 8, 8], picks taken from {0: [], 1: [2], 2: [1, 3], 3: [0]}
+    target [[1, 2], [5], [0, 3, 4], [6]] utilities [11, 7, 8, 8], picks taken from {0: [], 1: [2], 2: [1, 3], 3: [0]}
+    target [[6], [1, 2], [0, 3, 4], [5]] utilities [10, 8, 8, 6], picks taken from {0: [], 1: [], 2: [1, 3], 3: [2]}
+    target [[1, 2], [5], [3, 4], [0, 6]] utilities [11, 7, 8, 8], picks taken from {0: [], 1: [2], 2: [1, 3], 3: [0]}
+    target [[6], [1, 2], [3, 4], [0, 5]] utilities [10, 8, 8, 6], picks taken from {0: [], 1: [], 2: [1, 3], 3: [2]}
+  5 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 5 of 5 targets (blocking agents [2]): no single move reaches a target (a proof, given the target list)
+  two-move repairs (first move, canonical?, repairing second moves, canonical ones):
+     ((0, 2, 1), True, [(2, 3)], [(2, 3)])
+     ((0, 2, 1, 3), True, [(2, 3)], [(2, 3)])
+     ((0, 2, 3), True, [(1, 2, 3)], [])
+     ((0, 3), True, [(1, 2)], [])
+     ((1, 3), True, [(2, 3)], [(2, 3)])
+  OC2^max True; canonical first chains 13; CC2 (some canonical + canonical) True; every canonical first chain finishes canonically False
+instance 4 (4_pure #23): sets [[0, 1, 4, 5], [1, 3, 5, 6], [2, 3, 4, 6], [2, 4, 5, 6]] vals [[2, 3, 10, 6], [7, 10, 6, 2], [3, 10, 8, 6], [5, 8, 6, 4]] order [1, 2, 3, 0] picks [1, 3, 4, 5]
+  is_core4 [], nu 4, two private goods False, 4-good agents 4
+  OC1^max: one-absorber completion at the picks or after one of 22 moves: SAT False, brute force False
+  wants {0: [2, 3], 1: [], 2: [1], 3: [2]}; frozen [1, 2, 3]; receivers [0]; dangerous {1: {6: 2}, 2: {2: 3, 6: 6}, 3: {2: 5, 6: 4}}; junk [0, 2, 6]
+  agents holding their worst relevant good: []
+    target [[0, 4], [1, 5], [3], [2, 6]] utilities [12, 13, 10, 9], picks taken from {0: [2], 1: [0, 3], 2: [1], 3: []}
+    target [[4], [0, 1, 5], [3], [2, 6]] utilities [10, 13, 10, 9], picks taken from {0: [2], 1: [0, 3], 2: [1], 3: []}
+    target [[4], [1, 5], [0, 3], [2, 6]] utilities [10, 13, 10, 9], picks taken from {0: [2], 1: [0, 3], 2: [1], 3: []}
+    target [[4], [1, 5], [3], [0, 2, 6]] utilities [10, 13, 10, 9], picks taken from {0: [2], 1: [0, 3], 2: [1], 3: []}
+  4 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 4 of 4 targets (blocking agents [1]): no single move reaches a target (a proof, given the target list)
+  two-move repairs (first move, canonical?, repairing second moves, canonical ones):
+     ((2, 0), True, [(1, 2, 3)], [(1, 2, 3)])
+     ((2, 0), True, [(1, 2, 3)], [(1, 2, 3)])
+     ((2, 3), True, [(0, 1, 2, 3), (0, 1, 2, 3)], [])
+     ((2, 3, 0), True, [(0, 1, 2, 3), (0, 1, 2, 3)], [])
+     ((2, 3, 0), True, [(0, 1, 2, 3), (1, 2, 3, 0)], [(1, 2, 3, 0)])
+     ((3, 0), True, [(0, 1, 2), (0, 1, 2)], [])
+     ((3, 0), True, [(0, 1, 2), (1, 2, 0)], [(1, 2, 0)])
+  OC2^max True; canonical first chains 7; CC2 (some canonical + canonical) True; every canonical first chain finishes canonically False
+instance 5 (4_pure #24): sets [[0, 1, 4, 5], [1, 4, 5, 6], [2, 3, 4, 6], [2, 3, 5, 6]] vals [[1, 8, 6, 4], [8, 4, 2, 7], [3, 5, 6, 7], [4, 5, 2, 8]] order [0, 3, 2, 1] picks [1, 5, 4, 6]
+  is_core4 [], nu 4, two private goods False, 4-good agents 4
+  OC1^max: one-absorber completion at the picks or after one of 15 moves: SAT False, brute force False
+  wants {0: [], 1: [0, 2, 3], 2: [3], 3: []}; frozen [0, 2, 3]; receivers [1]; dangerous {0: {0: 1}, 2: {2: 3, 3: 5}, 3: {2: 4, 3: 5}}; junk [0, 2, 3]
+  agents holding their worst relevant good: [1]
+    target [[0, 4, 5], [1], [2, 3], [6]] utilities [11, 8, 8, 8], picks taken from {0: [1, 2], 1: [0], 2: [], 3: []}
+    target [[0, 4, 5], [1], [6], [2, 3]] utilities [11, 8, 7, 9], picks taken from {0: [1, 2], 1: [0], 2: [3], 3: []}
+    target [[4, 5], [0, 1], [2, 3], [6]] utilities [10, 8, 8, 8], picks taken from {0: [1, 2], 1: [0], 2: [], 3: []}
+    target [[4, 5], [0, 1], [6], [2, 3]] utilities [10, 8, 7, 9], picks taken from {0: [1, 2], 1: [0], 2: [3], 3: []}
+    target [[4, 5], [1], [0, 6], [2, 3]] utilities [10, 8, 7, 9], picks taken from {0: [1, 2], 1: [0], 2: [3], 3: []}
+    target [[4, 5], [1], [2, 3], [0, 6]] utilities [10, 8, 8, 8], picks taken from {0: [1, 2], 1: [0], 2: [], 3: []}
+  6 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 6 of 6 targets (blocking agents [0]): no single move reaches a target (a proof, given the target list)
+  two-move repairs (first move, canonical?, repairing second moves, canonical ones):
+     ((2, 1), True, [(0, 1), (0, 1)], [(0, 1), (0, 1)])
+     ((3, 1), True, [(0, 1, 2), (0, 1, 2)], [(0, 1, 2), (0, 1, 2)])
+     ((3, 2), True, [(0, 1), (0, 1)], [(0, 1), (0, 1)])
+     ((3, 2, 1), True, [(0, 1), (0, 1)], [(0, 1), (0, 1)])
+  OC2^max True; canonical first chains 4; CC2 (some canonical + canonical) True; every canonical first chain finishes canonically True
+instance 6 (4_pure #26): sets [[0, 2, 3, 6], [1, 2, 4, 5], [1, 4, 5, 6], [3, 4, 5, 6]] vals [[2, 10, 6, 7], [4, 8, 5, 2], [5, 7, 3, 6], [3, 10, 2, 6]] order [0, 1, 2, 3] picks [2, 4, 6, 3]
+  is_core4 [], nu 4, two private goods False, 4-good agents 4
+  OC1^max: one-absorber completion at the picks or after one of 16 moves: SAT False, brute force False
+  wants {0: [], 1: [0], 2: [1], 3: [1, 2]}; frozen [0, 1, 2]; receivers [3]; dangerous {0: {0: 2}, 1: {1: 4, 5: 2}, 2: {1: 5, 5: 3}}; junk [0, 1, 5]
+  agents holding their worst relevant good: []
+    target [[0, 3, 6], [2], [1, 5], [4]] utilities [15, 8, 8, 10], picks taken from {0: [2, 3], 1: [0], 2: [], 3: [1]}
+    target [[3, 6], [0, 2], [1, 5], [4]] utilities [13, 8, 8, 10], picks taken from {0: [2, 3], 1: [0], 2: [], 3: [1]}
+    target [[3, 6], [2], [0, 1, 5], [4]] utilities [13, 8, 8, 10], picks taken from {0: [2, 3], 1: [0], 2: [], 3: [1]}
+    target [[3, 6], [2], [1, 5], [0, 4]] utilities [13, 8, 8, 10], picks taken from {0: [2, 3], 1: [0], 2: [], 3: [1]}
+  4 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 4 of 4 targets (blocking agents [0]): no single move reaches a target (a proof, given the target list)
+  two-move repairs (first move, canonical?, repairing second moves, canonical ones):
+     ((1, 2), True, [(0, 1, 2, 3), (0, 1, 2, 3)], [(0, 1, 2, 3), (0, 1, 2, 3)])
+     ((1, 2, 3), True, [(0, 1, 2, 3), (0, 1, 2, 3)], [(0, 1, 2, 3), (0, 1, 2, 3)])
+     ((1, 3), True, [(0, 1, 2), (0, 1, 2)], [(0, 1, 2), (0, 1, 2)])
+     ((2, 3), True, [(0, 1, 3), (0, 1, 3)], [(0, 1, 3), (0, 1, 3)])
+  OC2^max True; canonical first chains 5; CC2 (some canonical + canonical) True; every canonical first chain finishes canonically False
+instance 7 (4_pure #29): sets [[0, 4, 5, 6], [1, 2, 3, 6], [1, 3, 5, 6], [2, 4, 5, 6]] vals [[2, 3, 6, 10], [6, 10, 3, 8], [4, 5, 6, 8], [8, 6, 4, 5]] order [3, 1, 2, 0] picks [4, 6, 5, 2]
+  is_core4 [], nu 4, two private goods False, 4-good agents 4
+  OC1^max: one-absorber completion at the picks or after one of 21 moves: SAT False, brute force False
+  wants {0: [1, 2], 1: [3], 2: [1], 3: []}; frozen [1, 2, 3]; receivers [0]; dangerous {1: {1: 6, 3: 3}, 2: {1: 4, 3: 5}}; junk [0, 1, 3]
+  agents holding their worst relevant good: []
+    target [[0, 6], [2], [1, 3], [4, 5]] utilities [12, 10, 9, 10], picks taken from {0: [1], 1: [3], 2: [], 3: [0, 2]}
+    target [[6], [0, 2], [1, 3], [4, 5]] utilities [10, 10, 9, 10], picks taken from {0: [1], 1: [3], 2: [], 3: [0, 2]}
+    target [[6], [2], [0, 1, 3], [4, 5]] utilities [10, 10, 9, 10], picks taken from {0: [1], 1: [3], 2: [], 3: [0, 2]}
+    target [[6], [2], [1, 3], [0, 4, 5]] utilities [10, 10, 9, 10], picks taken from {0: [1], 1: [3], 2: [], 3: [0, 2]}
+  4 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 4 of 4 targets (blocking agents [3]): no single move reaches a target (a proof, given the target list)
+  two-move repairs (first move, canonical?, repairing second moves, canonical ones):
+     ((1, 0), True, [(1, 2, 3)], [])
+     ((1, 0), True, [(1, 2, 3)], [])
+     ((1, 2), True, [(0, 3, 1, 2), (0, 3, 1, 2)], [])
+     ((1, 2, 0), True, [(0, 3, 1, 2), (0, 3, 1, 2)], [])
+     ((1, 2, 0), True, [(0, 3, 1, 2), (3, 1, 2, 0)], [(3, 1, 2, 0)])
+     ((2, 0), True, [(0, 3, 1), (0, 3, 1)], [])
+     ((2, 0), True, [(0, 3, 1), (3, 1, 0)], [(3, 1, 0)])
+  OC2^max True; canonical first chains 7; CC2 (some canonical + canonical) True; every canonical first chain finishes canonically False
+instance 8 (4_pure #36): sets [[0, 2, 4, 5], [0, 2, 5, 6], [1, 3, 4, 6], [1, 3, 5, 6]] vals [[8, 4, 1, 6], [8, 2, 4, 7], [5, 4, 2, 8], [5, 3, 6, 7]] order [0, 2, 3, 1] picks [0, 2, 6, 5]
+  is_core4 [], nu 4, two private goods False, 4-good agents 4
+  OC1^max: one-absorber completion at the picks or after one of 25 moves: SAT False, brute force False
+  wants {0: [], 1: [0, 2, 3], 2: [], 3: [2]}; frozen [0, 2, 3]; receivers [1]; dangerous {0: {4: 1}, 2: {1: 5, 3: 4, 4: 2}, 3: {1: 5, 3: 3}}; junk [1, 3, 4]
+  agents holding their worst relevant good: [1]
+    target [[2, 4, 5], [0], [1, 3], [6]] utilities [11, 8, 9, 7], picks taken from {0: [1, 3], 1: [0], 2: [], 3: [2]}
+    target [[2, 5], [0, 4], [1, 3], [6]] utilities [10, 8, 9, 7], picks taken from {0: [1, 3], 1: [0], 2: [], 3: [2]}
+    target [[2, 5], [0], [1, 3], [4, 6]] utilities [10, 8, 9, 7], picks taken from {0: [1, 3], 1: [0], 2: [], 3: [2]}
+    target [[2, 4, 5], [0], [6], [1, 3]] utilities [11, 8, 8, 8], picks taken from {0: [1, 3], 1: [0], 2: [], 3: []}
+    target [[2, 5], [0, 4], [6], [1, 3]] utilities [10, 8, 8, 8], picks taken from {0: [1, 3], 1: [0], 2: [], 3: []}
+    target [[2, 5], [0], [4, 6], [1, 3]] utilities [10, 8, 10, 8], picks taken from {0: [1, 3], 1: [0], 2: [], 3: []}
+  6 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 6 of 6 targets (blocking agents [0]): no single move reaches a target (a proof, given the target list)
+  two-move repairs (first move, canonical?, repairing second moves, canonical ones):
+     ((2, 1), True, [(0, 1, 2, 3), (0, 1, 3), (0, 1, 3)], [(0, 1, 2, 3), (0, 1, 3), (0, 1, 3)])
+     ((2, 3), True, [(0, 1), (0, 1)], [(0, 1), (0, 1)])
+     ((2, 3, 1), True, [(0, 1), (0, 1)], [(0, 1), (0, 1)])
+     ((3, 1), True, [(0, 1), (0, 1)], [(0, 1), (0, 1)])
+  OC2^max True; canonical first chains 7; CC2 (some canonical + canonical) True; every canonical first chain finishes canonically False
+instance 9 (4_pure #38): sets [[0, 2, 3, 6], [1, 4, 5, 7], [2, 3, 6, 7], [4, 5, 6, 7]] vals [[2, 10, 7, 4], [2, 5, 4, 8], [10, 3, 4, 8], [4, 5, 6, 8]] order [0, 1, 3, 2] picks [2, 7, 3, 6]
+  is_core4 [], nu 4, two private goods False, 4-good agents 4
+  OC1^max: one-absorber completion at the picks or after one of 25 moves: SAT False, brute force False
+  wants {0: [], 1: [], 2: [0, 1, 3], 3: [1]}; frozen [0, 1, 3]; receivers [2]; dangerous {0: {0: 2}, 1: {1: 2, 4: 5, 5: 4}, 3: {4: 4, 5: 5}}; junk [0, 1, 4, 5]
+  agents holding their worst relevant good: [2]
+    target [[0, 1, 3, 6], [4, 5], [2], [7]] utilities [13, 9, 10, 8], picks taken from {0: [2, 3], 1: [], 2: [0], 3: [1]}
+    target [[0, 1, 3, 6], [7], [2], [4, 5]] utilities [13, 8, 10, 9], picks taken from {0: [2, 3], 1: [], 2: [0], 3: []}
+    target [[0, 3, 6], [1, 7], [2], [4, 5]] utilities [13, 10, 10, 9], picks taken from {0: [2, 3], 1: [], 2: [0], 3: []}
+    target [[0, 3, 6], [4, 5], [1, 2], [7]] utilities [13, 9, 10, 8], picks taken from {0: [2, 3], 1: [], 2: [0], 3: [1]}
+    target [[0, 3, 6], [7], [1, 2], [4, 5]] utilities [13, 8, 10, 9], picks taken from {0: [2, 3], 1: [], 2: [0], 3: []}
+    target [[0, 3, 6], [4, 5], [2], [1, 7]] utilities [13, 9, 10, 8], picks taken from {0: [2, 3], 1: [], 2: [0], 3: [1]}
+    target [[1, 3, 6], [0, 7], [2], [4, 5]] utilities [11, 8, 10, 9], picks taken from {0: [2, 3], 1: [], 2: [0], 3: []}
+    target [[3, 6], [0, 1, 7], [2], [4, 5]] utilities [11, 10, 10, 9], picks taken from {0: [2, 3], 1: [], 2: [0], 3: []}
+    target [[3, 6], [0, 7], [1, 2], [4, 5]] utilities [11, 8, 10, 9], picks taken from {0: [2, 3], 1: [], 2: [0], 3: []}
+    target [[1, 3, 6], [4, 5], [0, 2], [7]] utilities [11, 9, 10, 8], picks taken from {0: [2, 3], 1: [], 2: [0], 3: [1]}
+    target [[1, 3, 6], [7], [0, 2], [4, 5]] utilities [11, 8, 10, 9], picks taken from {0: [2, 3], 1: [], 2: [0], 3: []}
+    target [[3, 6], [1, 7], [0, 2], [4, 5]] utilities [11, 10, 10, 9], picks taken from {0: [2, 3], 1: [], 2: [0], 3: []}
+    target [[3, 6], [4, 5], [0, 2], [1, 7]] utilities [11, 9, 10, 8], picks taken from {0: [2, 3], 1: [], 2: [0], 3: [1]}
+    target [[1, 3, 6], [4, 5], [2], [0, 7]] utilities [11, 9, 10, 8], picks taken from {0: [2, 3], 1: [], 2: [0], 3: [1]}
+    target [[3, 6], [1, 7], [2], [0, 4, 5]] utilities [11, 10, 10, 9], picks taken from {0: [2, 3], 1: [], 2: [0], 3: []}
+    target [[3, 6], [4, 5], [1, 2], [0, 7]] utilities [11, 9, 10, 8], picks taken from {0: [2, 3], 1: [], 2: [0], 3: [1]}
+  16 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 16 of 16 targets (blocking agents [0]): no single move reaches a target (a proof, given the target list)
+  two-move repairs (first move, canonical?, repairing second moves, canonical ones):
+     ((1, 2), True, [(0, 2, 1, 3), (0, 2, 1, 3), (0, 2, 3), (0, 2, 3)], [(0, 2, 1, 3), (0, 2, 1, 3), (0, 2, 3), (0, 2, 3)])
+     ((1, 3), True, [(0, 2), (0, 2)], [(0, 2), (0, 2)])
+     ((1, 3, 2), True, [(0, 2), (0, 2)], [(0, 2), (0, 2)])
+     ((3, 2), True, [(0, 2), (0, 2)], [(0, 2), (0, 2)])
+  OC2^max True; canonical first chains 7; CC2 (some canonical + canonical) True; every canonical first chain finishes canonically False
+instance 10 (4_pure #45): sets [[0, 2, 5, 7], [1, 5, 6, 7], [2, 3, 4, 6], [3, 4, 6, 7]] vals [[2, 10, 7, 6], [2, 3, 10, 6], [10, 6, 3, 8], [5, 3, 7, 6]] order [0, 2, 3, 1] picks [2, 5, 6, 7]
+  is_core4 [], nu 4, two private goods False, 4-good agents 4
+  OC1^max: one-absorber completion at the picks or after one of 22 moves: SAT False, brute force False
+  wants {0: [], 1: [2, 3], 2: [0], 3: [2]}; frozen [0, 2, 3]; receivers [1]; dangerous {0: {0: 2}, 2: {3: 6, 4: 3}, 3: {3: 5, 4: 3}}; junk [0, 1, 3, 4]
+  agents holding their worst relevant good: []
+    target [[0, 5, 7], [1, 6], [2], [3, 4]] utilities [15, 12, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+    target [[0, 5, 7], [6], [1, 2], [3, 4]] utilities [15, 10, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+    target [[0, 5, 7], [6], [2], [1, 3, 4]] utilities [15, 10, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+    target [[1, 5, 7], [0, 6], [2], [3, 4]] utilities [13, 10, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+    target [[5, 7], [0, 1, 6], [2], [3, 4]] utilities [13, 12, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+    target [[5, 7], [0, 6], [1, 2], [3, 4]] utilities [13, 10, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+    target [[5, 7], [0, 6], [2], [1, 3, 4]] utilities [13, 10, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+    target [[1, 5, 7], [6], [0, 2], [3, 4]] utilities [13, 10, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+    target [[5, 7], [1, 6], [0, 2], [3, 4]] utilities [13, 12, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+    target [[5, 7], [6], [0, 1, 2], [3, 4]] utilities [13, 10, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+    target [[5, 7], [6], [0, 2], [1, 3, 4]] utilities [13, 10, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+    target [[1, 5, 7], [6], [2], [0, 3, 4]] utilities [13, 10, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+    target [[5, 7], [1, 6], [2], [0, 3, 4]] utilities [13, 12, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+    target [[5, 7], [6], [1, 2], [0, 3, 4]] utilities [13, 10, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+    target [[5, 7], [6], [2], [0, 1, 3, 4]] utilities [13, 10, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
+  15 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 15 of 15 targets (blocking agents [0]): no single move reaches a target (a proof, given the target list)
+  two-move repairs (first move, canonical?, repairing second moves, canonical ones):
+     ((2, 1), True, [(0, 2, 3), (0, 2, 3)], [(0, 2, 3), (0, 2, 3)])
+     ((2, 1), True, [(0, 2, 3), (0, 2, 3)], [(0, 2, 3), (0, 2, 3)])
+     ((2, 3), True, [(0, 2, 3, 1), (0, 2, 3, 1), (0, 2, 3, 1), (0, 2, 3, 1)], [(0, 2, 3, 1), (0, 2, 3, 1), (0, 2, 3, 1), (0, 2, 3, 1)])
+     ((2, 3, 1), True, [(0, 2, 3, 1), (0, 2, 3, 1), (0, 2, 3, 1), (0, 2, 3, 1)], [(0, 2, 3, 1), (0, 2, 3, 1), (0, 2, 3, 1), (0, 2, 3, 1)])
+     ((2, 3, 1), True, [(0, 2, 3, 1), (0, 2, 3, 1), (1, 0, 2, 3)], [(0, 2, 3, 1), (0, 2, 3, 1)])
+     ((3, 1), True, [(0, 2, 1), (0, 2, 1), (0, 2, 1), (0, 2, 1)], [(0, 2, 1), (0, 2, 1), (0, 2, 1), (0, 2, 1)])
+     ((3, 1), True, [(0, 2, 1), (0, 2, 1), (1, 0, 2)], [(0, 2, 1), (0, 2, 1)])
+  OC2^max True; canonical first chains 7; CC2 (some canonical + canonical) True; every canonical first chain finishes canonically True
+instances 11
+CC2 holds 11
+Lemma T6 certifies the failure 11
+OC1^max fails (SAT and brute force) 11
+OC2^max holds 11
+every canonical first chain works 3
+every repairing first move is canonical 11
+least most-owners 2 11
+minimal fixed points (§11) as first moves:
+  instance 0: 3 minimal fixed-point first chains [(2, 1), (3, 1), (3, 2, 1)]; finished by some move: 3; by a minimal fixed point: 0
+  instance 1: 3 minimal fixed-point first chains [(1, 0), (1, 2, 0), (2, 0)]; finished by some move: 3; by a minimal fixed point: 0
+  instance 2: 3 minimal fixed-point first chains [(0, 1, 3), (0, 3), (1, 3)]; finished by some move: 3; by a minimal fixed point: 0
+  instance 3: 4 minimal fixed-point first chains [(0, 2, 1, 3), (0, 2, 3), (0, 3), (1, 3)]; finished by some move: 4; by a minimal fixed point: 0
+  instance 4: 3 minimal fixed-point first chains [(2, 0), (2, 3, 0), (3, 0)]; finished by some move: 3; by a minimal fixed point: 0
+  instance 5: 3 minimal fixed-point first chains [(2, 1), (3, 1), (3, 2, 1)]; finished by some move: 3; by a minimal fixed point: 0
+  instance 6: 3 minimal fixed-point first chains [(1, 2, 3), (1, 3), (2, 3)]; finished by some move: 3; by a minimal fixed point: 0
+  instance 7: 3 minimal fixed-point first chains [(1, 0), (1, 2, 0), (2, 0)]; finished by some move: 3; by a minimal fixed point: 0
+  instance 8: 3 minimal fixed-point first chains [(2, 1), (2, 3, 1), (3, 1)]; finished by some move: 3; by a minimal fixed point: 0
+  instance 9: 3 minimal fixed-point first chains [(1, 2), (1, 3, 2), (3, 2)]; finished by some move: 3; by a minimal fixed point: 0
+  instance 10: 3 minimal fixed-point first chains [(2, 1), (2, 3, 1), (3, 1)]; finished by some move: 3; by a minimal fixed point: 0
+  every minimal fixed point is finished by one more move 11
+  instances 11
+  some minimal fixed point exists 11
+  some minimal fixed point is finished by one more move 11
+  two minimal fixed points suffice 0

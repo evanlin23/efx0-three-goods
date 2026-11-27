@@ -1,0 +1,5 @@
+$ greedy shrink of the RD counterexample (drop goods while some start fails one round, free completion)
+drop agent 3 good 1 -> k 5, m 7, sizes [5, 4, 4, 5], failing starts [(1, 3, 4, 2), (1, 4, 3, 2)]
+drop agent 3 good 3 -> k 5, m 7, sizes [5, 4, 4, 4], failing starts [(1, 3, 4, 2), (1, 4, 3, 2)]
+drop agent 1 good 4 -> k 5, m 7, sizes [5, 3, 4, 4], failing starts [(1, 3, 4, 2)]
+MINIMAL [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]] k 5 failing starts [(1, 3, 4, 2)]

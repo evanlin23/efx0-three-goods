@@ -1,0 +1,15 @@
+kgen-n4 (attempts/kgen-n4-oc1.md on branch claude/kgen-n3, strict version): [[[0, 4, 5, 6, 7], [1, 2, 5, 6], [1, 4, 6], [0, 1, 2, 3, 7]], [[34, 38, 35, 37, 33], [10, 5, 4, 2], [2, 3, 1], [52, 54, 53, 4, 51]]]
+complete EFX0 allocations (brute force): 127 ; distinct starts 6 ; mismatches ocsat/brute 0
+  fails: picks (4, 2, 6, 1) order (0, 3, 1, 2) ocsat {'oc': False, 'oc1': False} brute {'oc': False, 'oc1': False} least chains (A=1, ocseq) 2
+SD-C True MD True
+$ drop one good of a 5-good agent (agents 0 and 3), test OC1 / OC over every order
+agent 0 drops good 0 (value 34): k 5, OC1 True, OC True
+agent 0 drops good 4 (value 38): k 5, OC1 True, OC True
+agent 0 drops good 5 (value 35): k 5, OC1 True, OC True
+agent 0 drops good 6 (value 37): k 5, OC1 True, OC True
+agent 0 drops good 7 (value 33): k 5, OC1 True, OC True
+agent 3 drops good 0 (value 52): k 5, OC1 True, OC True
+agent 3 drops good 1 (value 54): k 5, OC1 True, OC True
+agent 3 drops good 2 (value 53): k 5, OC1 True, OC True
+agent 3 drops good 3 (value 4): k 5, OC1 True, OC True
+agent 3 drops good 7 (value 51): k 5, OC1 True, OC True

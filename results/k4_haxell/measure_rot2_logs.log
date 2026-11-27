@@ -1,0 +1,50 @@
+$ python3 k4/haxell/gstar_measure_run.py logs NMAX=5 MMAX=9 MAXSTATES=2000000 RADIUS=2 ROT=1
+instances 1520
+partial EFX0 states 4668436
+stuck states, phi0 26454
+stuck states, phi1 0
+stuck states, phi10 0
+stuck states, phi11 0
+stuck states, phi12 0
+stuck states, phi13 0
+stuck states, phi14 0
+stuck states, phi15 0
+stuck states, phi16 0
+stuck states, phi17 0
+stuck states, phi18 0
+stuck states, phi2 0
+stuck states, phi3 23807
+stuck states, phi4 3542
+stuck states, phi5 761
+stuck states, phi6 414
+stuck states, phi7 226
+stuck states, phi8 6
+stuck states, phi9 414
+instances with a stuck state, phi0 1005
+instances with a stuck state, phi1 0
+instances with a stuck state, phi10 0
+instances with a stuck state, phi11 0
+instances with a stuck state, phi12 0
+instances with a stuck state, phi13 0
+instances with a stuck state, phi14 0
+instances with a stuck state, phi15 0
+instances with a stuck state, phi16 0
+instances with a stuck state, phi17 0
+instances with a stuck state, phi18 0
+instances with a stuck state, phi2 0
+instances with a stuck state, phi3 970
+instances with a stuck state, phi4 677
+instances with a stuck state, phi5 224
+instances with a stuck state, phi6 247
+instances with a stuck state, phi7 65
+instances with a stuck state, phi8 3
+instances with a stuck state, phi9 247
+first instance with a stuck state for phi0 : log0 [[[0, 1, 3, 4], [1, 2, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 6, 8, 4], [3, 2, 4], [5, 3, 6, 7], [7, 10, 4, 2]]]
+first instance with a stuck state for phi3 : log0 [[[0, 1, 3, 4], [1, 2, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 6, 8, 4], [3, 2, 4], [5, 3, 6, 7], [7, 10, 4, 2]]]
+first instance with a stuck state for phi4 : log0 [[[0, 1, 3, 4], [1, 2, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 6, 8, 4], [3, 2, 4], [5, 3, 6, 7], [7, 10, 4, 2]]]
+first instance with a stuck state for phi5 : log9 [[[2, 0, 5, 6], [5, 2, 4, 6], [2, 1, 5, 3]], [[21, 7, 27, 50], [16, 19, 24, 38], [34, 6, 37, 23]]]
+first instance with a stuck state for phi6 : log2 [[[0, 2, 3, 4], [1, 3, 5, 6], [2, 4, 5, 6], [3, 4, 5, 6]], [[2, 4, 8, 7], [4, 3, 8, 10], [3, 10, 8, 6], [7, 6, 3, 5]]]
+first instance with a stuck state for phi7 : log324 [[[3, 0, 4, 1], [4, 2, 6, 0], [0, 5, 4, 2], [0, 1, 4, 3]], [[7, 8, 28, 22], [6, 9, 5, 7], [15, 7, 8, 10], [15, 2, 6, 22]]]
+first instance with a stuck state for phi8 : log30 [[[1, 3, 2, 4], [4, 0, 3], [2, 0, 3, 4]], [[3, 8, 30, 26], [47, 40, 34], [27, 33, 31, 19]]]
+first instance with a stuck state for phi9 : log2 [[[0, 2, 3, 4], [1, 3, 5, 6], [2, 4, 5, 6], [3, 4, 5, 6]], [[2, 4, 8, 7], [4, 3, 8, 10], [3, 10, 8, 6], [7, 6, 3, 5]]]
+time 78 s

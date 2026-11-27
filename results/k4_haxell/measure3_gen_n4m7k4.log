@@ -1,0 +1,47 @@
+$ python3 k4/haxell/gstar_measure_run.py gen:300:57:4:7:4 NMAX=4 MMAX=7 RADIUS=3
+instances 300
+partial EFX0 states 723519
+stuck states, phi0 28
+stuck states, phi1 0
+stuck states, phi10 0
+stuck states, phi11 0
+stuck states, phi12 0
+stuck states, phi13 0
+stuck states, phi14 0
+stuck states, phi15 0
+stuck states, phi16 0
+stuck states, phi17 0
+stuck states, phi18 0
+stuck states, phi2 0
+stuck states, phi3 19
+stuck states, phi4 21
+stuck states, phi5 0
+stuck states, phi6 1
+stuck states, phi7 0
+stuck states, phi8 0
+stuck states, phi9 1
+instances with a stuck state, phi0 15
+instances with a stuck state, phi1 0
+instances with a stuck state, phi10 0
+instances with a stuck state, phi11 0
+instances with a stuck state, phi12 0
+instances with a stuck state, phi13 0
+instances with a stuck state, phi14 0
+instances with a stuck state, phi15 0
+instances with a stuck state, phi16 0
+instances with a stuck state, phi17 0
+instances with a stuck state, phi18 0
+instances with a stuck state, phi2 0
+instances with a stuck state, phi3 10
+instances with a stuck state, phi4 9
+instances with a stuck state, phi5 0
+instances with a stuck state, phi6 1
+instances with a stuck state, phi7 0
+instances with a stuck state, phi8 0
+instances with a stuck state, phi9 1
+first instance with a stuck state for phi0 : g2 [[[2, 4, 5, 6], [0, 1, 3, 4], [0, 2, 3, 5], [0, 1, 2, 5]], [[27, 16, 10, 37], [3, 8, 18, 21], [14, 10, 37, 16], [3, 37, 36, 12]]]
+first instance with a stuck state for phi3 : g2 [[[2, 4, 5, 6], [0, 1, 3, 4], [0, 2, 3, 5], [0, 1, 2, 5]], [[27, 16, 10, 37], [3, 8, 18, 21], [14, 10, 37, 16], [3, 37, 36, 12]]]
+first instance with a stuck state for phi4 : g2 [[[2, 4, 5, 6], [0, 1, 3, 4], [0, 2, 3, 5], [0, 1, 2, 5]], [[27, 16, 10, 37], [3, 8, 18, 21], [14, 10, 37, 16], [3, 37, 36, 12]]]
+first instance with a stuck state for phi6 : g226 [[[0, 1, 5, 6], [0, 2, 5, 6], [0, 1, 4, 6], [0, 1, 2, 3]], [[1, 37, 2, 3], [33, 32, 14, 38], [12, 2, 3, 21], [23, 34, 7, 4]]]
+first instance with a stuck state for phi9 : g226 [[[0, 1, 5, 6], [0, 2, 5, 6], [0, 1, 4, 6], [0, 1, 2, 3]], [[1, 37, 2, 3], [33, 32, 14, 38], [12, 2, 3, 21], [23, 34, 7, 4]]]
+time 8 s

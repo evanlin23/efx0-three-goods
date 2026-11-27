@@ -1,0 +1,8 @@
+PWQ f 3 W 2 r 2: k 5 n 5 m 7, T 20, failing {'one chain': 0, 'one round (free)': 0, 'one round (A=1)': 0, 'md': 0}, 0s
+PWQ f 3 W 2 r 3: k 6 n 5 m 8, T 20, failing {'one chain': 0, 'one round (free)': 0, 'one round (A=1)': 0, 'md': 0}, 0s
+PWQ f 4 W 2 r 3: k 6 n 6 m 9, T 20, failing {'one chain': 0, 'one round (free)': 0, 'one round (A=1)': 0, 'md': 0}, 1s
+PWQ f 3 W 3 r 3: k 7 n 6 m 9, T 20, failing {'one chain': 0, 'one round (free)': 0, 'one round (A=1)': 0, 'md': 0}, 1s
+PWQ f 4 W 3 r 2: k 6 n 7 m 9, T 20, failing {'one chain': 0, 'one round (free)': 0, 'one round (A=1)': 0, 'md': 0}, 1s
+PWQ f 4 W 3 r 3: k 7 n 7 m 10, T 20, failing {'one chain': 0, 'one round (free)': 0, 'one round (A=1)': 0, 'md': 0}, 2s
+PWQ f 5 W 3 r 3: k 7 n 8 m 11, T 20, failing {'one chain': 0, 'one round (free)': 0, 'one round (A=1)': 0, 'md': 0}, 4s
+PWQ f 4 W 2 r 4: k 7 n 6 m 10, T 20, failing {'one chain': 0, 'one round (free)': 0, 'one round (A=1)': 0, 'md': 0}, 2s

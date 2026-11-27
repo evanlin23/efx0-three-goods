@@ -1629,14 +1629,15 @@ holds a pick.
    - Smallest test (k4-d1's data): n = 4, m = 7, sets [[1,2,4,5],[2,4],[0,3,4,5],[2,5,6]], values
      [[26,29,24,25],[20,29],[22,17,30,23],[29,21,25]], order (2, 1, 0, 3), picks (1, 2, 4, 6), k = 2, chains (2, 1, 0) and
      (2, 1, 3). It is not a core, since agent 1 values two goods. A strict-core example is expected from the SMT run.
-3. **R2-M** (TTC session).
+3. **R2-M** (TTC session). **Superseded (§24):** R2-M, R2★ and R2-O are refuted at n = 4. The item is now **R2-C**.
    - Statement: at a hard perfect start with at least two receivers, some canonical chain from a dangerous agent to a
      receiver meets Lemma M^c's (C1)–(C3), with owner x₀ and |J′ ∖ H| ≤ 1.
    - Smallest test (this note's data, `k4/oc1_hall/r2_smallest.py`, `r2_smallest.log`): c4-pareto-moves-n3m6.
      Sets [[0,1,2,3],[0,1,4,5],[2,3,4,5]], values [[8,6,4,1],[4,2,8,5],[4,6,8,3]], order (0, 2, 1), picks (0, 5, 4),
      D = {2}, receivers {0, 1}, |J| = 3, which matches Lemma R2-0's bound.
    - At n = 4 the smallest is Q2, picks (3, 7, 5, 4).
-4. **The second move: OC2-REC** (`proof/k4-oc1max-multi`; tested exhaustively by matching). The 4a/4b split of 00:51 is
+4. **The second move: OC2-REC** (`proof/k4-oc1max-multi`; tested exhaustively by matching). **Update (§24):** SD-E and
+   REC-S are refereed CORRECT, and K4.MULTI.RECS.N4 is certified and confirmed by the referee. The 4a/4b split of 00:51 is
    merged back (01:10), because OC2-REC covers both.
    - Statement: at a hard perfect start with no one-move repair (one receiver z, by item 3):
      - some dangerous k has a canonical chain P₁ in which k takes a pool pair T, and Lemma LIFT's hypothesis holds;
@@ -1744,3 +1745,99 @@ Test instances:
 The second move therefore works on the *wanters* of the DEMAND agent, not on the agent itself. A proof should pair
 Lemma D-red's DEMAND with an unfreezing chain, in the style of Lemma Ωʳ (§4, §8): the chain to the unique unfrozen
 agent gives it its top good.
+
+## 24. The two-part theorem plan for OC₂^max (integration, 01:37)
+
+PR #100 (§1–§23) is merged into main (c6a7a44a). This section updates the open core of §23.4 and restates it as a
+plan in two parts. Statuses are the owners'; "refereed" means `claude/k4-referee`'s `k4/referee/README.md`.
+
+### 24.1 New since §23.4
+
+- **Lemma SD-E and Theorem REC-S, with Lemma LIFT:** refereed **CORRECT** (referee item 33).
+  - (L) is redundant: strictness, a perfect start and T ⊆ J ∪ {Y_z} imply it.
+  - SD-E needs a perfect start.
+  - Strictness and the earliest-wanter choice are both needed (the referee checked mutations).
+  - So item 4's mechanism is proved. What remains open there is existence.
+- **K4.MULTI.RECS.N4:** certified by k4-oc1max-multi and **CONFIRMED** by the referee (item 35; all 112,880 witnesses
+  re-validated with the referee's own code, each a genuine Theorem S case). So OC₂^max at n = 4 has the explicit
+  mechanism SD-E + LIFT + Theorem S, in addition to the certifier's certificate.
+- **R2's proof targets** (TTC, `attempts/k4-ttc-r2-owner-free.md` on `claude/k4-ttc`; certifier's exhaustive runs):
+  - **R2-M** (Lemma M^c with owner x₀): **REFUTED** on 306 of the 1,002 n = 4 cores.
+  - **R2★** (no owner): **REFUTED** on 5 of the 20 re-verified R2-M failures.
+  - **R2-O / R2-O′** (another receiver owns): **REFUTED** on 9 of the 1,002 n = 4 cores. In one example the owner must
+    be the other receiver, and in another it must be z or x₀. So no single owner rule survives.
+  - **What survives:** R2 itself (CERTIFIED at n ≤ 4, K4.SDC.R2.N4) and **R2-C**: some canonical chain (x₀
+    dangerous, x₁ wanting y_{x₀}) ending at a receiver is followed by a one-absorber completion with *some* owner.
+    R2-C is CERTIFIED at n = 4 by the certifier.
+- **Neighbouring routes, refuted** (recorded for the plan; not leaves of this tree):
+  - **T′_k** (k = 3; `proof/k4-k3-oc1`, `attempts/k4-k3oc1-tprime-k.md`): "some rotation into a terminal completes
+    with no owner or owner k". It fails at n = 7 (m = 11), where the owner must be the terminal.
+  - **W^sub with welfare** and **L^sub with leximin** (`proof/k4-haxell`, `attempts/k4-haxell-wsub-welfare.md`,
+    `attempts/k4-haxell-lsub-leximin.md`): the two-move set-move lemmas. Both are refuted at n = 4, k = 4, at
+    different states.
+
+### 24.2 The plan: two parts
+
+OC₂^max at a hard perfect start Y (k ≤ 4, strict, every good relevant; Lemma RED reduces maximum-matching starts to
+perfect starts):
+
+**Part 1: OC₁ wherever one move suffices.**
+- Proved coverage: Theorem U and Theorem S (`proof/k4-oc1max-multi`) cover 88.8% of the hard starts with |D| ≥ 2
+  (coordinator's figure). |D| = 1 is covered by §21 and k4-d1's D1-C, D1-H₃′ and CONTRACT.
+- Residue, each item open, with its owner:
+  - **D1-H2 in general** (k4-d1): all-HEAD starts with extra active agents or wanters. Tests: D1H-X, S2-X, S1-X.
+  - **D1 with t ≥ 2** (k4-d1): the four-agent SMT check is in progress.
+  - **SLOT2, RING2, KEEP-C** (k4-oc1max-multi's current residue; KEEP-C smallest n4_4#1715.0).
+  - **R2-C** at starts with at least two receivers (TTC). It is certified at n = 4, and it is the one-move statement
+    there.
+
+**Part 2: the second move elsewhere.**
+- **REC-S existence** (k4-oc1max-multi): at every hard perfect start with no one-move repair, REC-S's hypotheses hold
+  for some dangerous k and some pool pair T.
+- REC-S itself (SD-E + LIFT + Theorem S in I⁻) is refereed, and it is certified at n = 4 (K4.MULTI.RECS.N4).
+- Tests: 4_n4_3#58 and the sequential-only start (n = 4), and 5_pure#164 (n = 5).
+- The residual case, where no first chain takes a pool pair, has no known instance.
+
+**Common to both:** no third move (the certifier's search at n = 5–7).
+
+### 24.3 The question raised: can Part 1 be dropped?
+
+The coordinator asks whether REC-S, or its iteration RSD, applies at *every* hard start, not only the two-move ones. If
+it does, Part 1 is unnecessary, and OC₂^max follows from REC-S existence alone. Some of these repairs would use two
+moves where one suffices, which OC₂^max allows.
+
+What is needed is the census, on k4-oc1max-multi's 8,383 hard |D| ≥ 2 starts and on the |D| = 1 starts, of how many
+satisfy REC-S's hypotheses for some (k, T). Requested from k4-oc1max-multi, with the matching session as a second
+implementation.
+
+Two reasons to expect exceptions:
+- Starts with D = {k} and no shared pool pair. REC-S's T need not be shared, but its LIFT step deletes k and T, and the
+  second dangerous agent is what makes the reduction useful.
+- Starts whose only repair is a ring through two dangerous agents (RING, smallest T3).
+
+The census will show whether these are real.
+
+**Census result (k4-oc1max-multi, `rsd.py`; logs `rsd.log`, `rsd_recs.log`, `rsd_d2.log` at c336946e and later, on
+`proof/k4-oc1max-multi`; their implementation, not re-run here):** Part 1 **cannot be dropped** this way. The data are
+the 8,383 hard |D| ≥ 2 perfect starts. The 197 starts with |D| = 1 were not run.
+- (a) REC-S (one settlement by E(k) with a pool pair, then Theorem S in I⁻, (K) checked raw in I) holds at **3,278**.
+- (b) RSD with Theorem S as the last step:
+  - with one or two settlements: 3,301, and 5,082 fail;
+  - allowing zero settlements: 7,441 (Theorem S at the picks) + 515 (one settlement) + 17 (two) = 7,973, and **410
+    fail**.
+- Most failures of (a) are starts that Theorem S repairs at the picks through KEEP (2,522), CLEAN (1,729) or OWN (599).
+  Settling first breaks them.
+- Smallest failures of (a):
+  - a RING start: T3, order (0, 2, 1), picks (0, 1, 4). 44 RING starts fail.
+  - another kind: c4x-n3m5-big-bases (n = 3, m = 5), order (0, 2, 1), picks (1, 4, 3), D = {0, 2}. k = 0 has no
+    improving pool pair. With k = 2, the pair {2, 4} via E(2) = (2, 1) leaves a reduced start that completes with no
+    move at all (agent 1 takes junk 0), and Theorem S does not produce that.
+- **With any last step** (`rsd_any.log`): one settlement by E(k) with a pool pair, then *any* official move of I⁻ or
+  none, with a one-absorber completion lifted and checked raw EFX₀ in I. This repairs **8,021 of 8,383**, and **362
+  fail**.
+  - By mechanism: CLEAN 211, KEEP 90, ED/RING 43, CAN-k 10, RING-red 8.
+  - The count is a lower bound for "settle first": only one witness completion of I⁻ per absorber is lifted.
+  - Smallest failures: T3, order (0, 2, 1); c4x-n3m6-3good-first (n = 3, m = 6), order (0, 1, 2), picks (5, 4, 3).
+- **Conclusion:** settling first fails at hundreds of starts that one move repairs. **Part 1 is needed in I itself**,
+  not only in I⁻. The plan of §24.2 stands, with both parts.
+
