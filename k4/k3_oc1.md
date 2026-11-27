@@ -541,7 +541,18 @@ hardest case.
 | 4 | 738 | 0 | 434,113 | 8,064 | 0 |
 | 4 | 738 | 1 | 434,113 | 11,840 | 0 |
 
-(The n = 5 run, 6,911 classes, was stopped unfinished to free CPU for the gap scan of §12.)
+(The n = 5 run of `perfect_small.py`, 6,911 classes, was stopped unfinished to free CPU for the gap scan of §12.)
+
+**(P) at n = 5, exhaustive, no dead good** (`te_sample.py mixed:5:0 0 0 SHARD 4`; `te_exhaustive_mixed5_0_*.log`,
+summed in `te_exhaustive_mixed5_0.summary.log`).
+- **The run.** All 6,911 classes, all 10,343,383 rankings, and the drafts of every order: 27,769,471 perfect drafts,
+  265,254 of them hard (237,318 with |T| = 1, 27,232 with |T| = 2, 704 with |T| = 3).
+- **The result: one move always suffices.** Every hard draft has a valid Rule E rotation, and **every least-ω′ one
+  completes** (Conjecture T-ω of §12.1). T′_k and T-E∃ hold too.
+- **The test is sound.** It uses the exact test `lb2`, whose positive answers are constructions, sound by Lemma 1,
+  Theorem 1′ and the soundness of k's slot. `lb2` was also checked against brute force on every n ≤ 4 class of this
+  type (`mixed_check_*.log`).
+- **What fails here.** "Every rotation completes" fails on 144 drafts, and rule P fails on 64 two-terminal drafts.
 
 **Toward (b): how the least-ω trade repairs one-terminal perfect drafts** (`mechanism.py`). Take the 2,847 hard
 perfect drafts with T = {ℓ} after LB's upgrades and |E_ℓ| ≥ 2 (n ≤ 6 logs). After the least-ω trade, Lemma 1's
@@ -786,8 +797,9 @@ lemma.
 - **T′_k is exhaustive on the whole class at n = 4** (`tprime_k_mixed_4_*.log`): 8,064 hard drafts with no dead good
   and 11,840 with one, no failure. Owner k is needed on 512 and 1,762 of them.
 - **Sample at n = 5** (6,911 classes; 30 profiles each with no dead good, 15 with one; `te_sample_mixed5_*.log`):
-  3,354 hard drafts. T′_k and T-E∃ have no failure; rule P fails on 2 two-terminal drafts. The exhaustive n = 5 run
-  is in progress.
+  3,354 hard drafts. T′_k and T-E∃ have no failure; rule P fails on 2 two-terminal drafts.
+- **Exhaustive at n = 5 with no dead good** (§11): 265,254 hard drafts. T′_k, T-E∃ and T-ω hold on all of them,
+  so (P) holds there. The run with one dead good is in progress.
 
 **The crossed configuration** (64 two-terminal gap drafts at n = 6, one hypergraph; `t2k_gap6_T2.log`,
 `t2k_crossed64.log`).
