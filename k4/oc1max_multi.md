@@ -1457,3 +1457,24 @@ Counting total moves (two moves = OC₂^max):
 **5_pure #1073, #419 and #447 are repaired by none of these forms** within two settlements. Their repairs need a first
 move that is not a settlement, such as the wider OC₁′ move. "Hypotheses ⇒ raw EFX₀" held in every case here, with 0
 violations.
+
+**Depth ≥ 3, and the exact obstruction** (`rsd_gaps.py`, `rsd_gaps.log`; coordinator's request). Depth 3 and 4 with
+S^φ change nothing. The available settlements at the seven starts were therefore listed directly. For each, the
+completions of the reduced instance after at most one move were counted, and how many of them lift.
+- *#38, #773, #813, #963* are repaired by settle-then-complete, as above.
+- *#1073:* settling 2 by (2, 3) with T = {4, 5} leaves 32 completions after at most one move, and 2 of them lift.
+  Settling 4 by (4, 3) with T = {4, 5} leaves 36, and 3 lift. So **#1073 is repaired by "settle, then one move of I⁻"**.
+  That move is not a Theorem S move, so the gap is in S^φ's coverage, not in RSD's form.
+- ***#419 and #447: RSD cannot repair them at any depth.*** The obstruction is the same at both:
+  - The other sharers (1 and 2 at #419; 2 and 3 at #447) have only *triples* as improving pool sets. Each of these
+    triples threatens agent 4, so (L\*) fails.
+  - The only settlement is therefore agent 4, by (4, 3) with T = {8, 9} at #419, and by (4, 1) with T = {9, 10} at
+    #447.
+  - After it, the reduced instance has 10 completions after at most one move, and every one of them threatens the
+    phantom 4. No second settlement is possible.
+
+  So agent 4 blocks both routes. As a real agent it is threatened by every other sharer's settlement. As a phantom,
+  every repair of the rest threatens it. This is the **central-sharer obstruction (RSD-X)**.
+- The repair of these two is kgen-rounds' ROUND-P: one OC₁′ move or two disjoint moves. RSD-IND therefore needs a
+  first step that is not a settlement. The natural candidate is an OC₁′-style move that gives agent 4 its pair *and*
+  moves the others at once.

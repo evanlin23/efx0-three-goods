@@ -1,0 +1,24 @@
+$ python3 k4/oc1max_multi/rsd_gaps.py results/k4_oc1max_multi/recs_gaps7_kgen.jsonl
+5_pure#38 picks [3, 2, 5, 8, 7] dangerous [0, 2, 3, 4]
+   settle 3 by (3, 4, 1), T (4, 6): 12 completions of I- after <= 1 move, 0 lift; second settlements: none possible
+   settle 4 by (4, 1), T (4, 6): 16 completions of I- after <= 1 move, 16 lift; second settlements: ['second 2 by (2, 3, 1), T (2, 7): 12 completions, 12 lift']
+5_pure#773 picks [2, 1, 7, 6, 8] dangerous [0, 3, 4]
+   settle 3 by (3, 2, 1), T (3, 4, 5): 8 completions of I- after <= 1 move, 8 lift; second settlements: ['second 0 by (0, 2, 1), T (0, 7): 6 completions, 6 lift']
+   settle 4 by (4, 2, 1), T (3, 4, 5): 8 completions of I- after <= 1 move, 8 lift; second settlements: ['second 0 by (0, 2, 1), T (0, 7): 6 completions, 6 lift']
+5_pure#813 picks [3, 5, 8, 7, 4] dangerous [0, 1, 2, 3]
+   settle 2 by (2, 3, 4), T (2, 6): 24 completions of I- after <= 1 move, 0 lift; second settlements: none possible
+   settle 3 by (3, 4), T (2, 6): 12 completions of I- after <= 1 move, 12 lift; second settlements: ['second 1 by (1, 0, 2, 4), T (4, 7): 6 completions, 6 lift', 'second 1: triple fails (L*)']
+5_pure#963 picks [5, 1, 6, 8, 7] dangerous [0, 2, 3]
+   settle 2 by (2, 4, 1), T (2, 3, 4): 16 completions of I- after <= 1 move, 16 lift; second settlements: ['second 0 by (0, 4, 1), T (0, 7): 6 completions, 6 lift', 'second 0 by (0, 4, 1), T (1, 7): 3 completions, 3 lift', 'second 0 by (0, 4, 1), T (0, 1, 7): 3 completions, 3 lift']
+   settle 3 by (3, 4, 1), T (2, 3, 4): 16 completions of I- after <= 1 move, 16 lift; second settlements: ['second 0 by (0, 4, 1), T (0, 7): 6 completions, 6 lift', 'second 0 by (0, 4, 1), T (1, 7): 3 completions, 3 lift', 'second 0 by (0, 4, 1), T (0, 1, 7): 3 completions, 3 lift']
+5_pure#1073 picks [3, 1, 6, 7, 8] dangerous [0, 1, 2, 4]
+   settle 2 by (2, 3), T (4, 5): 32 completions of I- after <= 1 move, 2 lift; second settlements: ['second 0 by (0, 4), T (0, 8): 18 completions, 2 lift', 'second 0 by (0, 4), T (7, 8): 9 completions, 1 lift', 'second 0: triple fails (L*)']
+   settle 4 by (4, 3), T (4, 5): 36 completions of I- after <= 1 move, 3 lift; second settlements: none possible
+5_pure#419 picks [6, 4, 5, 9, 7] dangerous [0, 1, 2, 4]
+   settle 1 by (1, 3), T (1, 8, 9): triple fails (L*), threatens [4]
+   settle 2 by (2, 3), T (3, 8, 9): triple fails (L*), threatens [4]
+   settle 4 by (4, 3), T (8, 9): 10 completions of I- after <= 1 move, 0 lift; second settlements: none possible
+5_pure#447 picks [5, 1, 6, 7, 8] dangerous [0, 2, 3, 4]
+   settle 2 by (2, 1), T (3, 9, 10): triple fails (L*), threatens [4]
+   settle 3 by (3, 1), T (4, 9, 10): triple fails (L*), threatens [4]
+   settle 4 by (4, 1), T (9, 10): 10 completions of I- after <= 1 move, 0 lift; second settlements: none possible
