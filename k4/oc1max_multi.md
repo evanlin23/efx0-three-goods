@@ -1612,6 +1612,7 @@ those 35. They are this note's RING2 and the T3 family (§11).
 | 5_pure, 280 two-move starts (`n5_5pure_s5o0`) | 280 | **280** | 1 round: 2; 2 rounds: 278 | 0 |
 | n = 5 walks near 5_pure#164 | 22,445 | **22,445** | 2 rounds | 0 |
 | n = 4 export | 112,880 | **112,880** | 2 rounds | 0 |
+| certifier's partial n = 5 export, every 50th start (`two_move_starts_n5_partial6_s50`, `round_e_n5partial.log`; the matching session's run agrees) | 14,047 | **14,047** | 2 rounds | 0 |
 
 So on all these data the repair is built entirely from refereed parts:
 - the starts, by SD-E(round);
