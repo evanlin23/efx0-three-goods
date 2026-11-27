@@ -4,22 +4,37 @@ $ python3 kgen/k3max_t1acyc.py small:5 1 4
 488 |J| = 1, |E_t| = 2: every rotation keeps the want graph acyclic True
 56 |J| = 1, |E_t| = 2: every rotation leaves a terminal (before upgrades) False
 576 |J| = 1, |E_t| = 2: every rotation leaves a terminal (before upgrades) True
+80 |J| = 1, |E_t| = 2: some rotation is a top chain (every receiver gets its top) False
+552 |J| = 1, |E_t| = 2: some rotation is a top chain (every receiver gets its top) True
+632 |J| = 1, |E_t| = 2: some rotation keeps the want graph acyclic True
 32 |J| = 1, |E_t| = 3
 32 |J| = 1, |E_t| = 3: every rotation keeps the want graph acyclic True
 32 |J| = 1, |E_t| = 3: every rotation leaves a terminal (before upgrades) True
+32 |J| = 1, |E_t| = 3: some rotation is a top chain (every receiver gets its top) True
+32 |J| = 1, |E_t| = 3: some rotation keeps the want graph acyclic True
 2904 |J| = 2, |E_t| = 2
 448 |J| = 2, |E_t| = 2: every rotation keeps the want graph acyclic False
 2456 |J| = 2, |E_t| = 2: every rotation keeps the want graph acyclic True
 184 |J| = 2, |E_t| = 2: every rotation leaves a terminal (before upgrades) False
 2720 |J| = 2, |E_t| = 2: every rotation leaves a terminal (before upgrades) True
+368 |J| = 2, |E_t| = 2: some rotation is a top chain (every receiver gets its top) False
+2536 |J| = 2, |E_t| = 2: some rotation is a top chain (every receiver gets its top) True
+2904 |J| = 2, |E_t| = 2: some rotation keeps the want graph acyclic True
 32 |J| = 2, |E_t| = 3
 32 |J| = 2, |E_t| = 3: every rotation keeps the want graph acyclic True
 32 |J| = 2, |E_t| = 3: every rotation leaves a terminal (before upgrades) True
+32 |J| = 2, |E_t| = 3: some rotation is a top chain (every receiver gets its top) True
+32 |J| = 2, |E_t| = 3: some rotation keeps the want graph acyclic True
 2568 |J| = 3, |E_t| = 2
 336 |J| = 3, |E_t| = 2: every rotation keeps the want graph acyclic False
 2232 |J| = 3, |E_t| = 2: every rotation keeps the want graph acyclic True
 112 |J| = 3, |E_t| = 2: every rotation leaves a terminal (before upgrades) False
 2456 |J| = 3, |E_t| = 2: every rotation leaves a terminal (before upgrades) True
+336 |J| = 3, |E_t| = 2: some rotation is a top chain (every receiver gets its top) False
+2232 |J| = 3, |E_t| = 2: some rotation is a top chain (every receiver gets its top) True
+2568 |J| = 3, |E_t| = 2: some rotation keeps the want graph acyclic True
 64 |J| = 3, |E_t| = 3
 64 |J| = 3, |E_t| = 3: every rotation keeps the want graph acyclic True
 64 |J| = 3, |E_t| = 3: every rotation leaves a terminal (before upgrades) True
+64 |J| = 3, |E_t| = 3: some rotation is a top chain (every receiver gets its top) True
+64 |J| = 3, |E_t| = 3: some rotation keeps the want graph acyclic True

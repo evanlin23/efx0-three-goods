@@ -1,0 +1,4 @@
+$ python3 kgen/k3max_ruleE.py small:4
+1184 Rule E rotation keeps the want graph acyclic for every k: True
+1184 Rule E: some k reaches |J'| <= |T'| (T1' with Rule E): True
+1184 drafts
