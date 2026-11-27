@@ -2153,6 +2153,16 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
   - Consequence for the RF proof plan: at n ≥ 5 the R2 class is no longer covered by R2. A uniform proof of girth's "(i)
     owner w or d, or (T), or (C)" is the route, and it never used R2 on the data.
 
+- **Amendment (2026-11-27 06:36 UTC): at k = 5 the every-order form fails through twins** (ksens, `k4/ksens/refute_rf_k5.py`;
+  coordinator replay `k4/sdc/rf_k5_twin_cex.py`, `results/k4_sdc/rf_k5_twin_cex.log`; ledger K4.SDC.RF.K5EVERY).
+  - Instance: n = 4, sets [[0,1,2,5,6],[1,2,4,5,6],[3,4,5,6],[3,4,5,6]], vals [[3,35,33,43,39],[20,26,16,43,32],[8,2,7,4],
+    [8,2,7,4]]. Agents 2 and 3 are twins.
+  - At the failing start (6,5,4,3) the receiver is 2. The 2-first order (2,1,0,3) gives (6,5,3,4): the same start with the
+    twins swapped, which fails again.
+  - Five of the six 2-first vectors work, so **RF∃** ("some receiver-first maximum-matching order satisfies OC₁") holds.
+  - RF∃ is what the Lean frame uses, and it is the robust target. At k = 4 the every-form still stands on all data, but a
+    proof should aim at RF∃, or at "every u-first order up to relabelling twins".
+
 **Conjecture RKMAX (rank-maximal start)** (2026-11-27 05:40 UTC, coordinator; ledger K4.SDC.RKMAX). An extremal form
 of OC₁^∃max that needs no rule from the failing start.
 - **Ranks.** At pick vector Y, rank_i(Y) = 1 + #{g ∈ R_i : v_i(g) > v_i(Y_i)}. Values are strict, so ranks are
