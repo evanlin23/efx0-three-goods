@@ -1357,6 +1357,19 @@ needs a check.
 So active phantoms are the rule. An inductive argument must bound how many there are: each active phantom freezes the
 bundle of ℓ, at most one per phantom.
 
+*Locking (the charity session's Proposition PH-L, `kgen/charity.md` §10 on `claude/kgen-charity`, not read here in
+full).* An active phantom k with ℓ a pick held by q is neutralised if q is *content with ℓ alone*:
+v_q(R_q ∖ ({ℓ} ∪ T\*)) ≤ v_q(ℓ) and v_q(T\* ∖ h) ≤ v_q(ℓ). Then q can be settled with {ℓ}.
+
+| data | active settlements, ℓ a pick | q content with ℓ alone | q itself dangerous | starts with an active ℓ-pick settlement whose q is content |
+|---|---|---|---|---|
+| walk failures | 7,603 | 1,539 | 6,501 | 1,539 of 4,599 |
+| n = 4 export | 387,680 | 268,800 | 383,600 | 89,600 of 112,880 |
+| n = 5 walks | 134,670 | 67,335 | 134,670 | 22,445 of 22,445 |
+
+So the lock is not always available, and q is almost always a sharer itself, so the lock cascades. The depth of that
+cascade is the quantity to bound.
+
 ## 15. Can Part 1 be dropped? The RSD census (the integrator's §24.3 request)
 
 The question: can "settle a sharer first" (REC-S, or its iteration RSD) replace the one-move theory at *every* hard
