@@ -1,11 +1,10 @@
 # input: the 7 rows of results/kgen_rounds/recs_gaps_5pure.log on proof/kgen-rounds (f436bf9a), copied to results/k4_oc1max_multi/recs_gaps7_kgen.jsonl
-$ DEPTH=2 TMAX=2 ZERO=0 python3 k4/oc1max_multi/sphi.py results/k4_oc1max_multi/recs_gaps7_kgen.jsonl
+$ DEPTH=2 TMAX=2 ZERO=0 HEADRULE=strict python3 k4/oc1max_multi/sphi.py results/k4_oc1max_multi/recs_gaps7_kgen.jsonl
   S^phi hypotheses hold 8
   raw EFX0 8
 last-step cases 8
 least total moves (settlements + last move): 3 1
 least total moves (settlements + last move): None 6
-settlement chains ending at a phantom-frozen agent (skipped) 1
 starts 7
 uncovered: 5_pure#1073 1
 uncovered: 5_pure#419 1
@@ -13,14 +12,13 @@ uncovered: 5_pure#447 1
 uncovered: 5_pure#773 1
 uncovered: 5_pure#813 1
 uncovered: 5_pure#963 1
-$ DEPTH=2 TMAX=3 ZERO=0 python3 k4/oc1max_multi/sphi.py results/k4_oc1max_multi/recs_gaps7_kgen.jsonl
+$ DEPTH=2 TMAX=3 ZERO=0 HEADRULE=strict python3 k4/oc1max_multi/sphi.py results/k4_oc1max_multi/recs_gaps7_kgen.jsonl
   S^phi hypotheses hold 44
   raw EFX0 44
 last-step cases 44
 least total moves (settlements + last move): 2 2
 least total moves (settlements + last move): 3 1
 least total moves (settlements + last move): None 4
-settlement chains ending at a phantom-frozen agent (skipped) 1
 starts 7
 triple settlements tried 24
 triples failing (L*) (skipped) 55
@@ -28,28 +26,24 @@ uncovered: 5_pure#1073 1
 uncovered: 5_pure#419 1
 uncovered: 5_pure#447 1
 uncovered: 5_pure#813 1
-$ DEPTH=2 TMAX=2 ZERO=1 python3 k4/oc1max_multi/sphi.py results/k4_oc1max_multi/recs_gaps7_kgen.jsonl
-completions at once after settlements 5
-least total moves (settlements + last move): 2 2
-least total moves (settlements + last move): None 5
-settlement chains ending at a phantom-frozen agent (skipped) 1
+$ DEPTH=2 TMAX=2 ZERO=1 HEADRULE=strict python3 k4/oc1max_multi/sphi.py results/k4_oc1max_multi/recs_gaps7_kgen.jsonl
+completions at once after settlements 17
+least total moves (settlements + last move): 2 3
+least total moves (settlements + last move): None 4
 starts 7
-uncovered: 5_pure#1073 1
 uncovered: 5_pure#419 1
 uncovered: 5_pure#447 1
 uncovered: 5_pure#773 1
 uncovered: 5_pure#963 1
-$ DEPTH=2 TMAX=3 ZERO=1 python3 k4/oc1max_multi/sphi.py results/k4_oc1max_multi/recs_gaps7_kgen.jsonl
+$ DEPTH=2 TMAX=3 ZERO=1 HEADRULE=strict python3 k4/oc1max_multi/sphi.py results/k4_oc1max_multi/recs_gaps7_kgen.jsonl
   S^phi hypotheses hold 36
   raw EFX0 36
-completions at once after settlements 5
+completions at once after settlements 17
 last-step cases 36
-least total moves (settlements + last move): 2 4
-least total moves (settlements + last move): None 3
-settlement chains ending at a phantom-frozen agent (skipped) 1
+least total moves (settlements + last move): 2 5
+least total moves (settlements + last move): None 2
 starts 7
 triple settlements tried 24
 triples failing (L*) (skipped) 55
-uncovered: 5_pure#1073 1
 uncovered: 5_pure#419 1
 uncovered: 5_pure#447 1

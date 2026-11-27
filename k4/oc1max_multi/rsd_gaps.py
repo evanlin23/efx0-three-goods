@@ -1,6 +1,6 @@
 """The obstruction to RSD at kgen-rounds' REC-S gaps (k4/oc1max_multi.md §16): for each start, every settlement
 available by an earliest-wanter chain (pair, or triple with (L*)), and for each the number of completions of the reduced
-instance after at most one official move, and how many of them lift (raw EFX0 in the full instance, the settled agent
+instance after at most one official move (every one-absorber completion), and how many of them lift (raw EFX0 in the full instance, the settled agent
 keeping its set); then the same after a second settlement.
 
     python3 k4/oc1max_multi/rsd_gaps.py ROWS.jsonl     (rows: sets, vals, picks, orders, list, idx)
@@ -11,6 +11,7 @@ from mmlib import Inst, base_from_picks, junk, dangerous, moves, oa_absorbers
 from reduce_s import earliest_chain
 from dred import apply_chain
 from reduce_check import reduced
+from sphi import all_oa
 
 
 def settle(I, b, order):
@@ -31,7 +32,7 @@ def settle(I, b, order):
 def lifts(I, fixed, I3, b3, lab_a, lab_g):
     tot = ok = 0
     for B3 in [b3] + list(moves(I3, b3)):
-        for o, X in oa_absorbers(I3, B3, want_witness=True).items():
+        for X in all_oa(I3, B3):          # every one-absorber completion (not one witness per absorber)
             A = [list(fixed.get(a, [])) for a in range(I.n)]
             for j, a in enumerate(lab_a): A[a] = [lab_g[g] for g in X[j]]
             tot += 1; ok += I.efx0(A)
