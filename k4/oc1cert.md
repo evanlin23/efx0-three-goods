@@ -85,6 +85,18 @@ OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
     (`k4/oc1cert/exists_n5.py`; `results/k4_oc1max/n5/exists_5_pure_s5o0.json.gz`, 230,031 entries, log
     `exists_5_pure_s5o0.log`).
   - Independent check: `check_exists.py` passes all 137 with 0 invalid entries (`check_exists_5_pure_s5o0.log`).
+- **Which orders are good** (`k4/oc1cert/good_orders.py`, raw `Inst` code only).
+  - What it does: at each failing start, it runs all n! SD orders, keeps the maximum-matching ones (ν picks) and
+    groups them by pick vector. Each pick vector gets the raw OC₁ result, its orders, receivers, frozen agents and
+    junk.
+  - Chunk 1's 280 stored failing starts, at least one per failing core (`results/k4_oc1max/n5/good_orders_5_pure_s5o0.json.gz`,
+    log `good_orders_5_pure_s5o0.log`):
+    - Every start has 7–25 good pick vectors and 1–4 bad ones.
+    - Every bad pick vector has exactly one receiver.
+    - Every start has a pick vector with ≥ 2 receivers, and every such pick vector is good.
+    - Every order that starts with the failing start's receiver is good.
+    - The nearest good pick vector always differs from the failing one in exactly 2 agents.
+    - The most frequent pick vector is good at 279 of the 280.
 
 **OC₁′^max (kgen-rounds' move, `kgen/rounds.md` §4.6 on proof/kgen-rounds) holds at n ≤ 4 and fails at n = 5.**
 - The move: as OC₁'s, except that every non-end chain agent may also take goods of the end's base that it values.
