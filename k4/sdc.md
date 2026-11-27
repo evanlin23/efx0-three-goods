@@ -2216,6 +2216,8 @@ This is a precise, data-checked form of k3-oc1's draft Theorem FAIL-STRUCT (`k4/
     - |D_T| ∈ {2, 3} ⟹ (S1′) at 200,734.
     - 3,267 of them have two receivers, all with |D_T| = 2, consistent with K4.SDC.R2.N5. So the draft's clause
       "exactly one receiver", which this statement first copied, is dropped. It holds at n ≤ 4 and on the exports.
+  - **Outside k = 4** (burst 14, `k4/sdc/failstruct_extra.py`): the k = 5 failing starts N3K5, n3_m6_93 and RF5, and the
+    k = 4 set-twin start #440, all have |D_T| = 2 with (S1′). The dichotomy is not visibly k = 4 specific on these.
 - **Use.** A proof of RF∃ / RF-canon can split on |D_T|: the (S2) case is the pick-swap mechanism, and the (S1′) case
   is the shared-junk mechanism of RF-A1*, RF-B′ and C13. Proving FAIL-STRUCT₀ itself, i.e. "a failing start has
   this shape", is the structural half that k3-oc1, girth and Hall reduced the remaining facts to.

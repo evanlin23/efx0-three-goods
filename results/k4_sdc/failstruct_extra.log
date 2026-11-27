@@ -1,0 +1,5 @@
+$ python3 k4/sdc/failstruct_extra.py
+N3K5 (k=5, n=3) ["S1' (two D_T agents with intersecting minimal threatening junk sets): True", 'shapes S1S2', "with S1' : S1'S2", '|D|=2 |D_T|=2 receivers=1']
+n3_m6_93 (k=5, n=3) ["S1' (two D_T agents with intersecting minimal threatening junk sets): True", 'shapes S1S2', "with S1' : S1'S2", '|D|=2 |D_T|=2 receivers=1']
+RF5 (k=5, n=4) ["S1' (two D_T agents with intersecting minimal threatening junk sets): True", 'shapes S1S2', "with S1' : S1'S2", '|D|=2 |D_T|=2 receivers=1']
+5_pure #440 (k=4, n=5) ["S1' (two D_T agents with intersecting minimal threatening junk sets): True", 'shapes S1', "with S1' : S1'", '|D|=3 |D_T|=2 receivers=1']
