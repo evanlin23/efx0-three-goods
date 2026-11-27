@@ -1,0 +1,21 @@
+$ python3 k4/vm/vm6_test.py cores:4:800:42 --variants=x-choice,x-stuck --limit=600 --samples=100
+instances                            800
+x-choice: every run EFX0             665
+x-choice: first run (all choices 0) EFX0 797
+x-choice: runs                       291764
+x-choice: runs EFX0                  290428
+x-choice: some run EFX0              800
+x-stuck: every run EFX0              703
+x-stuck: first run (all choices 0) EFX0 792
+x-stuck: runs                        263116
+x-stuck: runs EFX0                   262249
+x-stuck: some run EFX0               800
+  stuck kind ('x-choice', 'no_safe') 1336
+  stuck kind ('x-stuck', 'no_safe') 867
+  x-stuck [first run]: no EFX0 run on 8: core4:381(n=4,m=7), core4:459(n=4,m=7), core4:332(n=4,m=7), core4:372(n=4,m=7), core4:739(n=4,m=7), core4:628(n=4,m=8), core4:140(n=4,m=8), core4:86(n=4,m=8)
+    smallest: core4:381 {"sets": [[0, 2, 3], [1, 2, 3, 4], [1, 5, 6], [4, 5, 6]], "vals": [[2, 4, 3], [8, 10, 3, 4], [4, 3, 2], [2, 3, 4]], "m": 7}
+    smallest: core4:459 {"sets": [[0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 6], [4, 5, 6]], "vals": [[3, 6, 7, 5], [4, 6, 8, 3], [2, 3, 4], [2, 4, 3]], "m": 7}
+  x-choice [first run]: no EFX0 run on 3: core4:448(n=4,m=9), core4:230(n=4,m=9), core4:224(n=4,m=10)
+    smallest: core4:448 {"sets": [[0, 2, 6, 7], [1, 5, 6, 8], [3, 5, 8], [4, 7, 8]], "vals": [[2, 3, 10, 6], [2, 4, 8, 3], [4, 3, 2], [4, 2, 3]], "m": 9}
+    smallest: core4:230 {"sets": [[0, 2, 6, 7], [1, 4, 5, 8], [3, 4, 8], [5, 6, 7, 8]], "vals": [[3, 5, 6, 7], [6, 8, 10, 3], [4, 2, 3], [4, 7, 10, 2]], "m": 9}
+time 48 s

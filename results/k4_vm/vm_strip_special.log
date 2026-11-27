@@ -1,0 +1,13 @@
+$ python3 k4/vm/vm_strip_test.py special
+instances                                4
+strip-rot-first: every run EFX0          0
+strip-rot-first: some run EFX0           4
+strip-rot: every run EFX0                0
+strip-rot: some run EFX0                 4
+strip: every run EFX0                    0
+strip: some run EFX0                     3
+  stuck kind ('strip', 'no_safe') 2504
+  stuck kind ('strip-rot', 'no_safe') 1028
+  stuck kind ('strip-rot-first', 'no_safe') 268
+  strip: no EFX0 run (1): T3(n=3,m=6)
+time 2 s

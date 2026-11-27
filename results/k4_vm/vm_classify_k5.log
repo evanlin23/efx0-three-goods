@@ -1,0 +1,8 @@
+$ python3 k4/vm/vm_classify.py k5
+HDT          2   kgen-n4-ties(n=4,m=7), PW4(n=5,m=8)
+absorbers    1   kgen-n4-strict(n=4,m=8)
+unfreezing   0   
+rotation     2   RD4(n=4,m=7), RD5(n=4,m=7)
+one move     1   PW5(n=5,m=9)
+NONE         0   
+time 0 s

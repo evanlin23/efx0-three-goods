@@ -1,0 +1,9 @@
+$ python3 attempts/k4_vm_vm1_pw235.py
+V-M matchings: [[[6], [1], [2], [0], [4]]]
+states with no move: 1 ; within one move: 12
+OK: no state within one move completes (superset of VM1)
+two moves suffice, e.g. [[5, 8], [2, 7, 9], [1], [0], [4, 6, 3]]
+
+real	0m0.218s
+user	0m0.218s
+sys	0m0.000s

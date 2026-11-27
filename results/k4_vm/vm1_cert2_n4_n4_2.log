@@ -1,0 +1,311 @@
+$ python3 k4/vm/vm1chain_cert2.py 4 4_n4_2
+  k4_certs_4_n4_2.json.gz idx 1 n=4 m=5: 317 boxes {'none': 317}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 0 n=4 m=5: 69 boxes {'none': 69}, 24 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 0 n=4 m=4: 65 boxes {'none': 65}, 24 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 1 n=4 m=4: 142 boxes {'none': 142}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 2 n=4 m=5: 483 boxes {'none': 483}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 3 n=4 m=5: 305 boxes {'none': 305}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 5 n=4 m=5: 311 boxes {'none': 311}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 6 n=4 m=5: 173 boxes {'none': 173}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 4 n=4 m=5: 531 boxes {'none': 531}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 8 n=4 m=5: 279 boxes {'none': 279}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 9 n=4 m=5: 122 boxes {'none': 122}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 10 n=4 m=5: 281 boxes {'none': 281}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 7 n=4 m=5: 948 boxes {'none': 948}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 11 n=4 m=5: 353 boxes {'none': 353}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 12 n=4 m=5: 559 boxes {'none': 559}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 13 n=4 m=5: 285 boxes {'none': 285}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 14 n=4 m=5: 470 boxes {'none': 470}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 15 n=4 m=5: 86 boxes {'none': 86}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.1 s
+  k4_certs_4_n4_2.json.gz idx 0 n=4 m=6: 246 boxes {'none': 234, 'upgrade': 12}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 1 n=4 m=6: 224 boxes {'none': 218, 'upgrade': 6}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 3 n=4 m=6: 206 boxes {'none': 196, 'upgrade': 10}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 4 n=4 m=6: 242 boxes {'none': 222, 'upgrade': 20}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 2 n=4 m=6: 672 boxes {'none': 654, 'upgrade': 18}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 5 n=4 m=6: 368 boxes {'none': 368}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 7 n=4 m=6: 358 boxes {'none': 354, 'upgrade': 4}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 6 n=4 m=6: 423 boxes {'none': 402, 'upgrade': 21}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 8 n=4 m=6: 727 boxes {'none': 722, 'upgrade': 4, 'exchange': 1}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 9 n=4 m=6: 1164 boxes {'none': 1138, 'upgrade': 26}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 12 n=4 m=6: 268 boxes {'none': 261, 'upgrade': 7}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 11 n=4 m=6: 670 boxes {'none': 650, 'exchange': 5, 'upgrade': 15}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 10 n=4 m=6: 1199 boxes {'none': 1182, 'upgrade': 15, 'exchange': 2}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 13 n=4 m=6: 156 boxes {'none': 156}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 14 n=4 m=6: 388 boxes {'none': 383, 'upgrade': 5}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 17 n=4 m=6: 357 boxes {'none': 352, 'upgrade': 5}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 16 n=4 m=6: 413 boxes {'none': 409, 'exchange': 4}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 19 n=4 m=6: 111 boxes {'none': 107, 'exchange': 4}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.1 s
+  k4_certs_4_n4_2.json.gz idx 15 n=4 m=6: 1286 boxes {'none': 1274, 'upgrade': 8, 'exchange': 4}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.8 s
+  k4_certs_4_n4_2.json.gz idx 18 n=4 m=6: 767 boxes {'none': 747, 'upgrade': 15, 'exchange': 5}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 20 n=4 m=6: 465 boxes {'none': 452, 'upgrade': 13}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 21 n=4 m=6: 249 boxes {'none': 235, 'upgrade': 14}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 23 n=4 m=6: 132 boxes {'none': 130, 'upgrade': 2}, 12 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 22 n=4 m=6: 626 boxes {'none': 600, 'upgrade': 24, 'exchange': 2}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 24 n=4 m=6: 1164 boxes {'none': 1142, 'upgrade': 18, 'exchange': 4}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 27 n=4 m=6: 709 boxes {'none': 697, 'upgrade': 12}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 25 n=4 m=6: 1281 boxes {'none': 1263, 'upgrade': 14, 'exchange': 4}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 26 n=4 m=6: 1307 boxes {'none': 1292, 'exchange': 4, 'upgrade': 11}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.8 s
+  k4_certs_4_n4_2.json.gz idx 28 n=4 m=6: 469 boxes {'none': 462, 'upgrade': 7}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 29 n=4 m=6: 800 boxes {'none': 788, 'upgrade': 10, 'exchange': 2}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 31 n=4 m=6: 685 boxes {'none': 672, 'exchange': 7, 'upgrade': 6}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 32 n=4 m=6: 407 boxes {'none': 398, 'upgrade': 9}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 30 n=4 m=6: 1310 boxes {'none': 1286, 'upgrade': 20, 'exchange': 4}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.8 s
+  k4_certs_4_n4_2.json.gz idx 34 n=4 m=6: 685 boxes {'none': 671, 'upgrade': 12, 'exchange': 2}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 33 n=4 m=6: 1158 boxes {'none': 1140, 'upgrade': 16, 'exchange': 2}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 35 n=4 m=6: 687 boxes {'none': 662, 'upgrade': 20, 'exchange': 5}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 38 n=4 m=6: 326 boxes {'none': 309, 'upgrade': 14, 'exchange': 3}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 36 n=4 m=6: 1091 boxes {'none': 1071, 'upgrade': 15, 'exchange': 5}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 37 n=4 m=6: 643 boxes {'none': 629, 'upgrade': 14}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 39 n=4 m=6: 325 boxes {'none': 320, 'upgrade': 5}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 40 n=4 m=6: 669 boxes {'none': 659, 'upgrade': 10}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 41 n=4 m=6: 674 boxes {'none': 668, 'exchange': 4, 'upgrade': 2}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 42 n=4 m=6: 660 boxes {'none': 647, 'upgrade': 9, 'exchange': 4}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 43 n=4 m=6: 618 boxes {'none': 594, 'upgrade': 17, 'exchange': 7}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 45 n=4 m=6: 351 boxes {'none': 343, 'exchange': 8}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 46 n=4 m=6: 241 boxes {'none': 233, 'upgrade': 8}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 44 n=4 m=6: 1183 boxes {'none': 1171, 'exchange': 3, 'upgrade': 9}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 48 n=4 m=6: 661 boxes {'none': 648, 'upgrade': 13}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 49 n=4 m=6: 425 boxes {'none': 418, 'exchange': 3, 'upgrade': 4}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 47 n=4 m=6: 652 boxes {'none': 638, 'upgrade': 14}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 51 n=4 m=6: 370 boxes {'none': 361, 'upgrade': 9}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 50 n=4 m=6: 1102 boxes {'none': 1079, 'upgrade': 19, 'exchange': 4}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 52 n=4 m=6: 100 boxes {'none': 96, 'upgrade': 4}, 24 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 54 n=4 m=6: 187 boxes {'none': 186, 'upgrade': 1}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 53 n=4 m=6: 68 boxes {'none': 68}, 48 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 56 n=4 m=6: 219 boxes {'none': 217, 'upgrade': 2}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 55 n=4 m=6: 152 boxes {'none': 150, 'upgrade': 2}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 57 n=4 m=6: 360 boxes {'none': 355, 'upgrade': 5}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 58 n=4 m=6: 364 boxes {'none': 358, 'upgrade': 6}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 59 n=4 m=6: 347 boxes {'none': 342, 'exchange': 2, 'upgrade': 3}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 60 n=4 m=6: 726 boxes {'none': 713, 'upgrade': 13}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 61 n=4 m=6: 385 boxes {'none': 381, 'exchange': 4}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 0 n=4 m=7: 198 boxes {'none': 193, 'exchange': 4, 'upgrade': 1}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 1 n=4 m=7: 921 boxes {'none': 892, 'exchange': 7, 'upgrade': 22}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 4 n=4 m=7: 472 boxes {'none': 452, 'upgrade': 20}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 3 n=4 m=7: 516 boxes {'none': 497, 'upgrade': 14, 'exchange': 5}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 2 n=4 m=7: 957 boxes {'none': 914, 'upgrade': 40, 'exchange': 3}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 8 n=4 m=7: 454 boxes {'none': 440, 'upgrade': 13, 'exchange': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 7 n=4 m=7: 464 boxes {'none': 452, 'upgrade': 10, 'exchange': 2}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 6 n=4 m=7: 537 boxes {'none': 519, 'upgrade': 17, 'exchange': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 5 n=4 m=7: 487 boxes {'none': 470, 'exchange': 4, 'upgrade': 13}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 9 n=4 m=7: 289 boxes {'none': 277, 'exchange': 4, 'upgrade': 8}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 11 n=4 m=7: 90 boxes {'none': 82, 'upgrade': 8}, 32 automorphisms, bitmap, 0 plain failing profiles {}, 0.1 s
+  k4_certs_4_n4_2.json.gz idx 12 n=4 m=7: 181 boxes {'none': 158, 'upgrade': 23}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 10 n=4 m=7: 514 boxes {'none': 498, 'upgrade': 12, 'exchange': 4}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 13 n=4 m=7: 479 boxes {'none': 473, 'upgrade': 6}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 16 n=4 m=7: 331 boxes {'none': 304, 'upgrade': 27}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 14 n=4 m=7: 754 boxes {'none': 737, 'upgrade': 17}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 15 n=4 m=7: 588 boxes {'none': 557, 'upgrade': 30, 'exchange': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 17 n=4 m=7: 953 boxes {'none': 922, 'exchange': 6, 'upgrade': 25}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 18 n=4 m=7: 519 boxes {'none': 482, 'upgrade': 36, 'exchange': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 19 n=4 m=7: 501 boxes {'none': 474, 'exchange': 7, 'upgrade': 20}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 21 n=4 m=7: 522 boxes {'none': 507, 'upgrade': 14, 'exchange': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 20 n=4 m=7: 886 boxes {'none': 856, 'exchange': 4, 'upgrade': 26}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 22 n=4 m=7: 811 boxes {'none': 790, 'exchange': 1, 'upgrade': 20}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 23 n=4 m=7: 843 boxes {'none': 824, 'exchange': 7, 'upgrade': 12}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 25 n=4 m=7: 509 boxes {'none': 487, 'exchange': 9, 'upgrade': 13}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 24 n=4 m=7: 845 boxes {'none': 822, 'exchange': 3, 'upgrade': 20}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 26 n=4 m=7: 476 boxes {'none': 474, 'upgrade': 2}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 27 n=4 m=7: 572 boxes {'none': 557, 'upgrade': 15}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 30 n=4 m=7: 432 boxes {'none': 432}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 29 n=4 m=7: 353 boxes {'none': 353}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 28 n=4 m=7: 1001 boxes {'none': 966, 'upgrade': 29, 'exchange': 6}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 32 n=4 m=7: 635 boxes {'none': 629, 'upgrade': 6}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 31 n=4 m=7: 1272 boxes {'none': 1260, 'upgrade': 12}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.8 s
+  k4_certs_4_n4_2.json.gz idx 33 n=4 m=7: 787 boxes {'none': 761, 'upgrade': 26}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 34 n=4 m=7: 1198 boxes {'none': 1185, 'upgrade': 13}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 36 n=4 m=7: 498 boxes {'none': 494, 'upgrade': 3, 'exchange': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 35 n=4 m=7: 758 boxes {'none': 749, 'upgrade': 9}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 37 n=4 m=7: 635 boxes {'none': 632, 'upgrade': 3}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 40 n=4 m=7: 564 boxes {'none': 555, 'upgrade': 9}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 39 n=4 m=7: 1442 boxes {'none': 1430, 'upgrade': 12}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.8 s
+  k4_certs_4_n4_2.json.gz idx 41 n=4 m=7: 798 boxes {'none': 792, 'exchange': 2, 'upgrade': 4}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 38 n=4 m=7: 1241 boxes {'none': 1233, 'exchange': 3, 'upgrade': 5}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 1.1 s
+  k4_certs_4_n4_2.json.gz idx 42 n=4 m=7: 823 boxes {'none': 810, 'exchange': 6, 'upgrade': 7}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 43 n=4 m=7: 648 boxes {'none': 628, 'upgrade': 20}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 45 n=4 m=7: 182 boxes {'none': 182}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 44 n=4 m=7: 561 boxes {'none': 540, 'exchange': 3, 'upgrade': 18}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 46 n=4 m=7: 771 boxes {'none': 750, 'exchange': 2, 'upgrade': 19}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 48 n=4 m=7: 548 boxes {'none': 545, 'exchange': 3}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 49 n=4 m=7: 739 boxes {'none': 725, 'upgrade': 14}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 47 n=4 m=7: 883 boxes {'none': 862, 'exchange': 2, 'upgrade': 19}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 51 n=4 m=7: 388 boxes {'none': 381, 'upgrade': 6, 'exchange': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 50 n=4 m=7: 819 boxes {'none': 798, 'upgrade': 20, 'exchange': 1}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 54 n=4 m=7: 1019 boxes {'none': 1007, 'upgrade': 11, 'exchange': 1}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.8 s
+  k4_certs_4_n4_2.json.gz idx 52 n=4 m=7: 1429 boxes {'none': 1398, 'upgrade': 26, 'exchange': 5}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 1.1 s
+  k4_certs_4_n4_2.json.gz idx 53 n=4 m=7: 1630 boxes {'none': 1612, 'upgrade': 8, 'exchange': 10}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 1.0 s
+  k4_certs_4_n4_2.json.gz idx 55 n=4 m=7: 1430 boxes {'none': 1400, 'upgrade': 25, 'exchange': 5}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 1.0 s
+  k4_certs_4_n4_2.json.gz idx 56 n=4 m=7: 406 boxes {'none': 400, 'upgrade': 6}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 57 n=4 m=7: 756 boxes {'none': 740, 'upgrade': 14, 'exchange': 2}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 60 n=4 m=7: 891 boxes {'none': 881, 'upgrade': 10}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 58 n=4 m=7: 1466 boxes {'none': 1422, 'upgrade': 42, 'exchange': 2}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 59 n=4 m=7: 1546 boxes {'none': 1506, 'upgrade': 40}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 1.0 s
+  k4_certs_4_n4_2.json.gz idx 62 n=4 m=7: 418 boxes {'none': 404, 'upgrade': 13, 'exchange': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 61 n=4 m=7: 1300 boxes {'none': 1283, 'upgrade': 11, 'exchange': 6}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 64 n=4 m=7: 686 boxes {'none': 669, 'upgrade': 16, 'exchange': 1}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 65 n=4 m=7: 859 boxes {'none': 844, 'upgrade': 13, 'exchange': 2}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 63 n=4 m=7: 1354 boxes {'none': 1337, 'upgrade': 17}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 69 n=4 m=7: 721 boxes {'none': 717, 'upgrade': 4}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 68 n=4 m=7: 716 boxes {'none': 708, 'upgrade': 8}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 66 n=4 m=7: 1527 boxes {'none': 1504, 'upgrade': 23}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 1.0 s
+  k4_certs_4_n4_2.json.gz idx 70 n=4 m=7: 421 boxes {'none': 419, 'upgrade': 2}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 67 n=4 m=7: 1648 boxes {'none': 1633, 'exchange': 9, 'upgrade': 6}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 1.1 s
+  k4_certs_4_n4_2.json.gz idx 72 n=4 m=7: 434 boxes {'none': 428, 'exchange': 2, 'upgrade': 4}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 71 n=4 m=7: 726 boxes {'none': 723, 'upgrade': 3}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 74 n=4 m=7: 313 boxes {'none': 287, 'upgrade': 25, 'exchange': 1}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 75 n=4 m=7: 181 boxes {'none': 177, 'upgrade': 4}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 73 n=4 m=7: 758 boxes {'none': 750, 'upgrade': 8}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 76 n=4 m=7: 331 boxes {'none': 329, 'upgrade': 2}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 78 n=4 m=7: 238 boxes {'none': 235, 'upgrade': 3}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 77 n=4 m=7: 804 boxes {'none': 796, 'upgrade': 8}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 79 n=4 m=7: 127 boxes {'none': 127}, 24 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 80 n=4 m=7: 117 boxes {'none': 114, 'upgrade': 2, 'exchange': 1}, 24 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 81 n=4 m=7: 189 boxes {'none': 185, 'upgrade': 3, 'exchange': 1}, 24 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 82 n=4 m=7: 483 boxes {'none': 478, 'upgrade': 5}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 83 n=4 m=7: 421 boxes {'none': 414, 'upgrade': 7}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 84 n=4 m=7: 479 boxes {'none': 474, 'upgrade': 5}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 85 n=4 m=7: 131 boxes {'none': 131}, 12 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 86 n=4 m=7: 117 boxes {'none': 117}, 24 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 88 n=4 m=7: 477 boxes {'none': 474, 'exchange': 2, 'upgrade': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 87 n=4 m=7: 1055 boxes {'none': 1038, 'upgrade': 17}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 90 n=4 m=7: 588 boxes {'none': 568, 'upgrade': 19, 'exchange': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 89 n=4 m=7: 1034 boxes {'none': 1010, 'upgrade': 23, 'exchange': 1}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.8 s
+  k4_certs_4_n4_2.json.gz idx 91 n=4 m=7: 896 boxes {'none': 881, 'upgrade': 13, 'exchange': 2}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 92 n=4 m=7: 890 boxes {'none': 882, 'upgrade': 7, 'exchange': 1}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 93 n=4 m=7: 923 boxes {'none': 908, 'upgrade': 14, 'exchange': 1}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 95 n=4 m=7: 738 boxes {'none': 732, 'upgrade': 6}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 94 n=4 m=7: 1336 boxes {'none': 1299, 'upgrade': 36, 'exchange': 1}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 1.0 s
+  k4_certs_4_n4_2.json.gz idx 97 n=4 m=7: 417 boxes {'none': 408, 'upgrade': 9}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 96 n=4 m=7: 802 boxes {'none': 787, 'upgrade': 15}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 98 n=4 m=7: 762 boxes {'none': 748, 'upgrade': 12, 'exchange': 2}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 99 n=4 m=7: 460 boxes {'none': 443, 'upgrade': 16, 'exchange': 1}, 6 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 100 n=4 m=7: 592 boxes {'none': 588, 'upgrade': 2, 'exchange': 2}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 101 n=4 m=7: 849 boxes {'none': 829, 'upgrade': 20}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 102 n=4 m=7: 290 boxes {'none': 283, 'upgrade': 7}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 103 n=4 m=7: 138 boxes {'none': 134, 'upgrade': 4}, 24 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 106 n=4 m=7: 318 boxes {'none': 307, 'upgrade': 11}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 105 n=4 m=7: 175 boxes {'none': 173, 'exchange': 1, 'upgrade': 1}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 0 n=4 m=8: 242 boxes {'none': 238, 'upgrade': 4}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 104 n=4 m=7: 30 boxes {'none': 29, 'upgrade': 1}, 72 automorphisms, bitmap, 0 plain failing profiles {}, 0.1 s
+  k4_certs_4_n4_2.json.gz idx 1 n=4 m=8: 200 boxes {'none': 195, 'upgrade': 5}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 3 n=4 m=8: 124 boxes {'none': 121, 'upgrade': 3}, 24 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 2 n=4 m=8: 563 boxes {'none': 548, 'upgrade': 15}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 4 n=4 m=8: 262 boxes {'none': 246, 'upgrade': 16}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 5 n=4 m=8: 397 boxes {'exchange': 3, 'none': 375, 'upgrade': 19}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 6 n=4 m=8: 311 boxes {'none': 297, 'exchange': 1, 'upgrade': 13}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 8 n=4 m=8: 215 boxes {'none': 192, 'upgrade': 23}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 7 n=4 m=8: 614 boxes {'none': 583, 'exchange': 1, 'upgrade': 30}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 10 n=4 m=8: 122 boxes {'none': 121, 'upgrade': 1}, 32 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 9 n=4 m=8: 140 boxes {'none': 135, 'upgrade': 5}, 32 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 12 n=4 m=8: 293 boxes {'none': 285, 'upgrade': 8}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 11 n=4 m=8: 582 boxes {'none': 572, 'upgrade': 10}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 13 n=4 m=8: 283 boxes {'none': 274, 'upgrade': 9}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 14 n=4 m=8: 116 boxes {'none': 116}, 32 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 17 n=4 m=8: 575 boxes {'none': 571, 'upgrade': 4}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 15 n=4 m=8: 633 boxes {'none': 622, 'upgrade': 9, 'exchange': 2}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 18 n=4 m=8: 568 boxes {'none': 551, 'upgrade': 17}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 16 n=4 m=8: 878 boxes {'none': 876, 'upgrade': 2}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 21 n=4 m=8: 518 boxes {'none': 516, 'upgrade': 2}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 20 n=4 m=8: 922 boxes {'none': 907, 'upgrade': 15}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.8 s
+  k4_certs_4_n4_2.json.gz idx 19 n=4 m=8: 1029 boxes {'none': 1005, 'upgrade': 23, 'exchange': 1}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 22 n=4 m=8: 1002 boxes {'none': 980, 'upgrade': 21, 'exchange': 1}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 24 n=4 m=8: 910 boxes {'none': 895, 'upgrade': 13, 'exchange': 2}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 23 n=4 m=8: 1054 boxes {'none': 1020, 'upgrade': 34}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 1.1 s
+  k4_certs_4_n4_2.json.gz idx 26 n=4 m=8: 565 boxes {'none': 554, 'upgrade': 10, 'exchange': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 25 n=4 m=8: 927 boxes {'none': 912, 'upgrade': 15}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 28 n=4 m=8: 215 boxes {'none': 212, 'exchange': 3}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 29 n=4 m=8: 517 boxes {'none': 508, 'exchange': 4, 'upgrade': 5}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 27 n=4 m=8: 980 boxes {'none': 962, 'upgrade': 12, 'exchange': 6}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 1.0 s
+  k4_certs_4_n4_2.json.gz idx 32 n=4 m=8: 531 boxes {'none': 530, 'upgrade': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 30 n=4 m=8: 1048 boxes {'none': 1028, 'upgrade': 18, 'exchange': 2}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 1.1 s
+  k4_certs_4_n4_2.json.gz idx 33 n=4 m=8: 306 boxes {'none': 304, 'exchange': 2}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 31 n=4 m=8: 998 boxes {'none': 980, 'exchange': 5, 'upgrade': 13}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 1.1 s
+  k4_certs_4_n4_2.json.gz idx 35 n=4 m=8: 527 boxes {'none': 515, 'exchange': 4, 'upgrade': 8}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 36 n=4 m=8: 243 boxes {'none': 240, 'upgrade': 2, 'exchange': 1}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 37 n=4 m=8: 180 boxes {'none': 180}, 12 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 34 n=4 m=8: 1059 boxes {'none': 1037, 'upgrade': 22}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 39 n=4 m=8: 524 boxes {'none': 519, 'upgrade': 5}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 38 n=4 m=8: 613 boxes {'none': 609, 'exchange': 1, 'upgrade': 3}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 41 n=4 m=8: 703 boxes {'none': 682, 'upgrade': 21}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 40 n=4 m=8: 1068 boxes {'none': 1049, 'upgrade': 19}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 42 n=4 m=8: 748 boxes {'none': 726, 'upgrade': 22}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 43 n=4 m=8: 1057 boxes {'none': 1037, 'upgrade': 20}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 44 n=4 m=8: 975 boxes {'none': 947, 'upgrade': 27, 'exchange': 1}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.8 s
+  k4_certs_4_n4_2.json.gz idx 46 n=4 m=8: 559 boxes {'none': 554, 'upgrade': 5}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 45 n=4 m=8: 942 boxes {'none': 922, 'upgrade': 20}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 47 n=4 m=8: 331 boxes {'none': 326, 'exchange': 2, 'upgrade': 3}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 49 n=4 m=8: 519 boxes {'none': 506, 'exchange': 2, 'upgrade': 11}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 50 n=4 m=8: 566 boxes {'none': 563, 'upgrade': 2, 'exchange': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 48 n=4 m=8: 665 boxes {'none': 640, 'exchange': 4, 'upgrade': 21}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 51 n=4 m=8: 510 boxes {'none': 500, 'upgrade': 9, 'exchange': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 52 n=4 m=8: 492 boxes {'none': 490, 'upgrade': 2}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 53 n=4 m=8: 535 boxes {'none': 531, 'upgrade': 4}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 54 n=4 m=8: 510 boxes {'none': 498, 'upgrade': 12}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 55 n=4 m=8: 361 boxes {'none': 347, 'upgrade': 13, 'exchange': 1}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 57 n=4 m=8: 572 boxes {'none': 568, 'upgrade': 4}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 58 n=4 m=8: 353 boxes {'none': 347, 'upgrade': 6}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 56 n=4 m=8: 1576 boxes {'none': 1561, 'upgrade': 15}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 1.1 s
+  k4_certs_4_n4_2.json.gz idx 59 n=4 m=8: 808 boxes {'none': 804, 'upgrade': 4}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 60 n=4 m=8: 619 boxes {'none': 616, 'upgrade': 3}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 61 n=4 m=8: 1031 boxes {'none': 1027, 'upgrade': 4}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 64 n=4 m=8: 871 boxes {'none': 866, 'upgrade': 5}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 62 n=4 m=8: 1169 boxes {'none': 1160, 'upgrade': 9}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 1.0 s
+  k4_certs_4_n4_2.json.gz idx 63 n=4 m=8: 1684 boxes {'none': 1661, 'upgrade': 22, 'exchange': 1}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 1.4 s
+  k4_certs_4_n4_2.json.gz idx 65 n=4 m=8: 1118 boxes {'none': 1112, 'exchange': 2, 'upgrade': 4}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 1.0 s
+  k4_certs_4_n4_2.json.gz idx 68 n=4 m=8: 440 boxes {'none': 436, 'upgrade': 4}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 67 n=4 m=8: 1115 boxes {'none': 1085, 'upgrade': 29, 'exchange': 1}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 1.0 s
+  k4_certs_4_n4_2.json.gz idx 69 n=4 m=8: 337 boxes {'none': 337}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 66 n=4 m=8: 1771 boxes {'none': 1743, 'upgrade': 28}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 1.3 s
+  k4_certs_4_n4_2.json.gz idx 70 n=4 m=8: 754 boxes {'none': 743, 'upgrade': 11}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 73 n=4 m=8: 360 boxes {'none': 355, 'upgrade': 4, 'exchange': 1}, 12 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 71 n=4 m=8: 838 boxes {'none': 836, 'upgrade': 2}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.8 s
+  k4_certs_4_n4_2.json.gz idx 74 n=4 m=8: 455 boxes {'none': 450, 'upgrade': 5}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 72 n=4 m=8: 865 boxes {'none': 862, 'upgrade': 3}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 75 n=4 m=8: 718 boxes {'none': 704, 'upgrade': 14}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 78 n=4 m=8: 294 boxes {'none': 293, 'upgrade': 1}, 12 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 77 n=4 m=8: 939 boxes {'none': 926, 'upgrade': 13}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 80 n=4 m=8: 287 boxes {'none': 285, 'exchange': 1, 'upgrade': 1}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 79 n=4 m=8: 472 boxes {'none': 465, 'upgrade': 7}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 76 n=4 m=8: 1389 boxes {'none': 1370, 'upgrade': 19}, 1 automorphisms, bitmap, 0 plain failing profiles {}, 1.2 s
+  k4_certs_4_n4_2.json.gz idx 82 n=4 m=8: 159 boxes {'none': 159}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 81 n=4 m=8: 565 boxes {'none': 562, 'upgrade': 3}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 83 n=4 m=8: 472 boxes {'none': 467, 'upgrade': 4, 'exchange': 1}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 84 n=4 m=8: 1009 boxes {'none': 984, 'upgrade': 25}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 87 n=4 m=8: 214 boxes {'none': 210, 'upgrade': 4}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 85 n=4 m=8: 502 boxes {'none': 493, 'upgrade': 9}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 86 n=4 m=8: 386 boxes {'none': 383, 'upgrade': 3}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 88 n=4 m=8: 217 boxes {'none': 217}, 12 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 89 n=4 m=8: 241 boxes {'none': 238, 'upgrade': 3}, 12 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 0 n=4 m=9: 135 boxes {'none': 133, 'exchange': 1, 'upgrade': 1}, 32 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 1 n=4 m=9: 222 boxes {'none': 215, 'upgrade': 7}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 2 n=4 m=9: 171 boxes {'none': 169, 'upgrade': 2}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 4 n=4 m=9: 405 boxes {'none': 397, 'exchange': 2, 'upgrade': 6}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 5 n=4 m=9: 591 boxes {'none': 573, 'upgrade': 17, 'exchange': 1}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.8 s
+  k4_certs_4_n4_2.json.gz idx 3 n=4 m=9: 738 boxes {'none': 711, 'upgrade': 27}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 1.1 s
+  k4_certs_4_n4_2.json.gz idx 6 n=4 m=9: 638 boxes {'none': 614, 'upgrade': 24}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 1.0 s
+  k4_certs_4_n4_2.json.gz idx 7 n=4 m=9: 303 boxes {'none': 297, 'upgrade': 6}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 8 n=4 m=9: 184 boxes {'none': 184}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.3 s
+  k4_certs_4_n4_2.json.gz idx 9 n=4 m=9: 220 boxes {'none': 212, 'upgrade': 7, 'exchange': 1}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 10 n=4 m=9: 327 boxes {'none': 325, 'upgrade': 2}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 13 n=4 m=9: 202 boxes {'none': 201, 'upgrade': 1}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.2 s
+  k4_certs_4_n4_2.json.gz idx 12 n=4 m=9: 240 boxes {'none': 232, 'upgrade': 8}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 11 n=4 m=9: 607 boxes {'none': 598, 'upgrade': 9}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.8 s
+  k4_certs_4_n4_2.json.gz idx 14 n=4 m=9: 406 boxes {'none': 402, 'upgrade': 2, 'exchange': 2}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+  k4_certs_4_n4_2.json.gz idx 17 n=4 m=9: 528 boxes {'none': 526, 'upgrade': 2}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 15 n=4 m=9: 937 boxes {'none': 934, 'upgrade': 3}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 1.1 s
+  k4_certs_4_n4_2.json.gz idx 16 n=4 m=9: 1062 boxes {'none': 1045, 'upgrade': 17}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 1.1 s
+  k4_certs_4_n4_2.json.gz idx 19 n=4 m=9: 694 boxes {'none': 689, 'upgrade': 5}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.8 s
+  k4_certs_4_n4_2.json.gz idx 18 n=4 m=9: 985 boxes {'none': 977, 'upgrade': 8}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 1.2 s
+  k4_certs_4_n4_2.json.gz idx 21 n=4 m=9: 346 boxes {'none': 346}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 20 n=4 m=9: 670 boxes {'none': 667, 'upgrade': 3}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 1.0 s
+  k4_certs_4_n4_2.json.gz idx 23 n=4 m=9: 506 boxes {'none': 501, 'upgrade': 5}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 22 n=4 m=9: 712 boxes {'none': 700, 'upgrade': 12}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.9 s
+  k4_certs_4_n4_2.json.gz idx 25 n=4 m=9: 375 boxes {'none': 370, 'upgrade': 5}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 26 n=4 m=9: 320 boxes {'none': 319, 'upgrade': 1}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 27 n=4 m=9: 331 boxes {'none': 331}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.5 s
+  k4_certs_4_n4_2.json.gz idx 24 n=4 m=9: 1080 boxes {'none': 1064, 'upgrade': 16}, 2 automorphisms, bitmap, 0 plain failing profiles {}, 1.3 s
+  k4_certs_4_n4_2.json.gz idx 28 n=4 m=9: 620 boxes {'none': 616, 'upgrade': 4}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.7 s
+  k4_certs_4_n4_2.json.gz idx 0 n=4 m=10: 208 boxes {'none': 205, 'upgrade': 3}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.4 s
+  k4_certs_4_n4_2.json.gz idx 29 n=4 m=9: 710 boxes {'none': 707, 'upgrade': 3}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.8 s
+  k4_certs_4_n4_2.json.gz idx 1 n=4 m=10: 304 boxes {'none': 302, 'upgrade': 2}, 8 automorphisms, bitmap, 0 plain failing profiles {}, 0.6 s
+total {'hypergraphs': 309, 'boxes': 186248, 'plain failing profiles': 0, 'runs none': 182860, 'runs upgrade': 3045, 'runs exchange': 343} ; time 44 s

@@ -1,0 +1,20 @@
+$ python3 k4/vm/vm0_test.py special
+S1 passes (some V-M matching extends)              3
+f2: S1 fails, some run EFX0                        0
+f2: S1 passes, no run EFX0                         0
+f2: every run EFX0                                 0
+f2: some run EFX0                                  3
+f2rot: S1 fails, some run EFX0                     1
+f2rot: S1 passes, no run EFX0                      0
+f2rot: every run EFX0                              0
+f2rot: some run EFX0                               4
+instances                                          4
+nof2: S1 fails, some run EFX0                      0
+nof2: S1 passes, no run EFX0                       0
+nof2: every run EFX0                               0
+nof2: some run EFX0                                3
+nof2rot: S1 fails, some run EFX0                   1
+nof2rot: S1 passes, no run EFX0                    0
+nof2rot: every run EFX0                            0
+nof2rot: some run EFX0                             4
+time 0 s

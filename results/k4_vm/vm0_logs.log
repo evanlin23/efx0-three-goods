@@ -1,0 +1,22 @@
+$ python3 k4/vm/vm0_test.py logs
+S1 passes (some V-M matching extends)              34
+f2: S1 fails, some run EFX0                        0
+f2: S1 passes, no run EFX0                         0
+f2: every run EFX0                                 11
+f2: some run EFX0                                  34
+f2rot: S1 fails, some run EFX0                     6
+f2rot: S1 passes, no run EFX0                      0
+f2rot: every run EFX0                              12
+f2rot: some run EFX0                               40
+instances                                          42
+nof2: S1 fails, some run EFX0                      0
+nof2: S1 passes, no run EFX0                       1
+nof2: every run EFX0                               10
+nof2: some run EFX0                                33
+nof2rot: S1 fails, some run EFX0                   4
+nof2rot: S1 passes, no run EFX0                    1
+nof2rot: every run EFX0                            11
+nof2rot: some run EFX0                             37
+  nof2 S1 passes, no run EFX0: log:refute_p1:38 n=4 m=7 null
+  nof2rot S1 passes, no run EFX0: log:refute_p1:38 n=4 m=7 null
+time 2 s
