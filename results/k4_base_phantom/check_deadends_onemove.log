@@ -1,4 +1,6 @@
 $ python3 k4/base_phantom/check_deadends.py results/k4_base_phantom/deadends_onemove.jsonl.gz 1
+      325    with phantoms: some phantom has an "l alone" constraint on a present base: False
+      298    with phantoms: some phantom has an "l alone" constraint on a present base: True
         6  verified: 0 rounds, feasible True, one-move repair True
       206  verified: 1 rounds, feasible False, one-move repair False
        72  verified: 1 rounds, feasible True, one-move repair False

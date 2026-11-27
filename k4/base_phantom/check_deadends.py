@@ -225,7 +225,11 @@ def check(d):
             break
     assert has_move == (d['base'] is not None), 'one-move repair mismatch'
     assert feasible(I, X, alive) == d['feasible'], 'feasibility mismatch'
-    return len(d['path']), d['feasible'], d['base'] is not None
+    # does some phantom keep an "l alone" constraint on a present agent's base (a good outside its set worth more
+    # to it than its set, held alone or with others by a present agent)?
+    lock = any(any(I.v[f][g] > I.val(f, X[f]) for a in alive for g in X[a] if g in I.v[f] and g not in X[f])
+               for f in range(I.n) if f not in alive)
+    return len(d['path']), d['feasible'], d['base'] is not None, lock
 
 
 if __name__ == '__main__':
@@ -236,8 +240,10 @@ if __name__ == '__main__':
     C = collections.Counter()
     recs = [json.loads(line) for t, line in enumerate(gzip.open(fn, 'rt')) if t % stride == 0]
     with mp.Pool(4) as pool:
-        for depth, feas, mv in pool.imap_unordered(check, recs, chunksize=32):
+        for depth, feas, mv, lock in pool.imap_unordered(check, recs, chunksize=32):
             C['verified: %d rounds, feasible %s, one-move repair %s' % (depth, feas, mv)] += 1
+            if depth:
+                C['  with phantoms: some phantom has an "l alone" constraint on a present base: %s' % lock] += 1
     for k in sorted(C):
         print('  %7d  %s' % (C[k], k))
-    print('all records verified:', sum(C.values()))
+    print('all records verified:', sum(v for k, v in C.items() if k.startswith('verified')))

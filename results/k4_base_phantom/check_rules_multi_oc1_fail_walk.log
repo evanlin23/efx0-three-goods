@@ -1,4 +1,4 @@
-$ python3 k4/base_phantom/check_rules.py results/k4_base_phantom/data/multi_oc1_fail_walk.jsonl.gz 1
+$ MODE=plain python3 k4/base_phantom/check_rules.py results/k4_base_phantom/data/multi_oc1_fail_walk.jsonl.gz 1
 distinct starts checked: 4955
       4955  SAFE
      24788  states visited

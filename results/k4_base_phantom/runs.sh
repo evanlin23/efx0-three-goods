@@ -21,3 +21,6 @@ python3 k4/base_phantom/rules.py 5pure $D/n5_5pure_s5o0_two_move_starts.jsonl.gz
 python3 k4/base_phantom/rules.py walk $D/multi_oc1_fail_walk.jsonl.gz > $O/rules_walk.log
 python3 k4/base_phantom/rules.py n5partial $D/two_move_starts_n5_partial6_s50.jsonl.gz > $O/rules_n5partial.log
 python3 k4/base_phantom/rules.py n4 $D/two_move_starts_n4.json.gz > $O/rules_n4.log
+for f in two_move_starts_n4.json.gz multi_oc1_fail_walk.jsonl.gz two_move_starts_n5_partial6_s50.jsonl.gz; do
+  python3 k4/base_phantom/check_rules.py $D/$f > $O/check_rules_${f%%.*}.log
+done

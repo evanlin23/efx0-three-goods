@@ -1,0 +1,6 @@
+$ MODE=GR python3 k4/base_phantom/check_rules.py results/k4_base_phantom/data/onemove_hard_hall2071.jsonl.gz 1
+distinct starts checked: 1737
+      1737  SAFE
+        54  base used: ED repair
+      1682  base used: final round
+      1737  states visited
