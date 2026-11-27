@@ -610,7 +610,7 @@ to the front of o.
 - Structure: in every failing order the receiver picks after its pick-swap partner (0 exceptions in 1,540 + 86 sampled
   orders where it has one). Its top good is always another agent's pick, never junk: at n = 4 the pick of a truly
   dangerous agent in 18,800 starts, of a pick-dangerous one in 70,400, of a frozen non-dangerous one in 23,680; at
-  n = 5 always a dangerous agent's pick (its pick-swap partner's). After RF the receiver holds a good someone wants
+  n = 5 always a pick-dangerous agent's pick. After RF the receiver holds a good someone wants
   (all 292,080), so it is no longer a receiver.
 - The coordinator's other candidates (exhaustive at n = 4 / raw at n = 5): "the receiver just before its pick-swap
   partner" works on every order where it applies (213,760 of 213,760; 86 of 86); "swap the two agents of some Berge
