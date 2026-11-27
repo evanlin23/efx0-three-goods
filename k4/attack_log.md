@@ -689,3 +689,145 @@ before any proof effort: DYN, W₃/W^sub, VM1, RD², OL and OC₂^max.
 - **Certifier**: n = 5 chunk 1 (868 hypergraphs) is all OC₂^max-certified and independently checked.
   - Mechanism on all 11: one unfrozen agent, and two frozen agents sharing one junk danger pair. That is the PW5
     mechanism at k = 4.
+
+### 2026-11-26 23:59 UTC: referee confirms the OC₁^max refutation; D1 lemmas and the multi reductions refereed; VM1 on cores refuted
+- **Referee** (`k4/referee/oc1_hall_d1.md`, `k4/referee/oc1max_multi.md` on claude/k4-referee):
+  - Hall §21–§22, **CORRECT**: Lemma D1-chain, Prop. 3′, Lemma D1-red (with Remarks 1–2), Lemma D1-C₀ and
+    Prop. D1-C′. They were checked on 126,879 hard starts, 0 failures.
+  - **The OC₁^max refutation is confirmed by brute force**: cex1, cex2 and the TTC n = 5 core are strict and perfect.
+    No chain state or addition has a one-absorber completion, and two sequential chains repair each.
+  - proof/k4-oc1max-multi, **CORRECT**: D-red, T0, KEEP, SET, OWN, Corollaries TR and KEEP-1, and RING-red. Four
+    wording fixes, no gap. 172,394 chains tested, and every hypothesis is necessary. Theorem U is next.
+- **VM**: VM1 is refuted on strict connected k = 4 cores too. C0: n = 5, m = 8, MC2 class, three checks. The
+  coordinator confirms C0 is a strict MC2 core and that the stated two-move completion is EFX₀. From every
+  maximum-matching SD order, OC₁ holds at C0, so VM1 fails because its start is a V-M matching. VM1-chain (one DE
+  chain allowed) completes all 5 failing cores and all 315 PW instances up to k = 9 except PW(3,3,8).
+- **TTC**: hand-built three-owner and ladder designs give no three-move start. Informal reason: at k = 4 an agent's
+  private junk plus its pick leaves room for only two foreign picks (cf. Lemma T6), and each move unfreezes agents. R2
+  does not extend to post-move states (blocked holders).
+- **kgen-rounds**: C4K, a further n = 4 OC₁^max failure on a strict core, four checks. Its hypergraph is isomorphic to
+  the certifier's instance 2 (coordinator's check), so it is consistent with the certificate.
+- **Lean** (formal/k4-oc1max, PR #109, head 598e135):
+  - `EFX.OC1Max.not_conjOC1max` and `not_conjOC1perf` machine-check the refutation on instance 1 (no completion at
+    all, after any OneMove);
+  - OCVariants.lean adds ConjOCkmax / ConjOC2max ⟹ TARGET₄ and the ∃-order frame ConjOC1exmax ⟹ TARGET₄.
+  - The coordinator's independent check.sh re-run is in progress; it compiled with 0 errors and 0 warnings.
+- **Ledger**: new CONJECTURE row K4.SDC.OC1EXMAX (the ∃-order form).
+
+### 2026-11-27 00:04 UTC: Lean refutation of OC₁^max verified independently; OC₁′ (one-move candidate); Lemma LIFT (recursion)
+- **Lean** (formal/k4-oc1max, PR #109, head 598e135). The coordinator re-ran `lean/check.sh` independently: **CHECK
+  PASSED**, 1,278 audited statements, 2,417 theorems, standard axioms only.
+  - `EFX.OC1Max.not_conjOC1max : ¬ ConjOC1max (Fin 4) (Fin 7)` is **machine-checked on instance 1**, together with
+    the core, connected, strict and maximum hypotheses. No completion at all exists at the picks or after any OneMove.
+  - Also machine-checked: ConjOCkmax ⟹ TARGET₄, ConjOC2max ⟹ TARGET₄, the perfect-start variants, and ConjOC1exmax
+    ⟹ TARGET₄.
+- **kgen-rounds: OC₁′**, a one-move candidate. It is the official move, except that non-end chain agents may also take
+  goods of the end's released base. Every agent still gains, so it implies MD and TARGET₄.
+  - It repairs every known OC₁ failure at perfect starts: 77 zero-version starts plus 16 new climb instances (14
+    strict n = 4 cores on 3 hypergraphs), C4K, K4W and W4. Two implementations agree.
+  - The certifier is asked to test OC₁′^max exhaustively at n = 4.
+- **multi: Lemma LIFT** (written proof, k4/oc1max_multi.md §8). After a chain that settles one sharer k with a pair T,
+  delete k and T. Moves of the reduced instance I⁻ are moves of I, and its non-threatening completions lift. So OC₂
+  becomes "settle one sharer, then OC₁ in I⁻".
+  - It holds on the 12 known failures and 4,356 walk failures. The open part is Sub-lemma OC2-REC.
+  - Leaf-4f census: 7,755 of 8,383 one-move starts have no sharing. Sharing is necessary for every known two-move
+    start but not sufficient.
+- **kgen-n3**: OPB₃ is **refuted** exhaustively at n = 3, k = 4 (smallest: m = 5). The OPB line is closed. kgen-n3 and
+  k3-oc1 are set to prove OC₁ at maximum-matching starts for k = 3, every n (exhaustively true up to n = 6).
+- **Referee**: Lemma R1 and the starved-agent certificate are CORRECT, with a fix to a printed repair. Prop. H is
+  CORRECT WITH FIXES (a sign in one display).
+- **Open core at k = 4** (Hall §23.2, one owner each):
+  - D1-HJ: proof/k4-d1;
+  - R2: TTC;
+  - LIFT-1 + LIFT-EX(2), or equivalently OC2-REC: matching and multi;
+  - SLOT and RING: multi.
+
+### 2026-11-27 00:19 UTC: the second move's tools are refereed; what is left is existence of shapes
+- **Referee**:
+  - **CORRECT** (`k4/referee/lift.md`, `k4/referee/oc1max_multi.md` §8):
+    - Lemma EX\* (= Lemma M at the post-move state);
+    - Lemma LIFT-red (its junk-free P₁ condition is necessary: 14 pairs fail without it);
+    - Lemma LIFT-1 (slightly stronger than stated: "t is z's favourite" is unnecessary);
+    - multi's Lemma LIFT;
+    - **Theorem U / Corollary U1**. The hypothesis the Hall session worried about is implied by D_T = {k}.
+  - Tested on 98,086 random perfect starts plus 1,388 one-move-failing starts, 0 failures. Every mutation produces
+    failures.
+- **So the k = 4 second move is now:**
+  - refereed lemmas: EX\*, LIFT-red, LIFT-1, LIFT;
+  - plus an existence statement: LIFT-SHAPE⁺ (matching) or OC2-REC (multi). It holds on all 8,073 distinct failing
+    starts (n = 4 and 5).
+  - **Count correction** (matching session): the n = 4 walk count is 3,179, not 3,190 or 3,308, because the 11 stored
+    instances had been counted twice. No "holds on all" claim changes.
+- **Open core at k = 4** (each with an owner):
+  - D1-HJ, now D1-H in the MC2 class: the three-agent core is computer-verified (Prop. D1-H₃); the reduction to the
+    core is open (proof/k4-d1);
+  - R2 (TTC): Lemma R2-0 is proved; R2★ is the strong form, at 79/79 + 466/466 + 4,027 starts;
+  - LIFT-SHAPE⁺ (matching);
+  - SLOT and RING (multi), which need the new compensated Lemma M^c, now being built.
+  - Plus the one-move alternative OC₁′ (kgen-rounds; it holds on the 11), under the certifier's test.
+- **Certifier**: the referee independently re-checked the 11 n = 4 counterexamples and a sample of 35,858 OC₂^max
+  witnesses, 0 disagreements. n = 5 is running.
+- **VM**:
+  - VM1 holds on all 11 OC₁^max cores with zero moves (V-M starts avoid the obstruction).
+  - VM1-chain holds on 3,485 VM1-failing cores from targeted walks.
+  - Exhaustive VM1-chain certification: n = 2 done, n = 3 and 4 running.
+- **DYN** (girth): ∃-labeling certified exhaustively at n = 2, 3 and for n = 4 with ≤ 2 four-good agents (≈ 10⁹
+  profiles); larger cases running. "One labeling per hypergraph" is refuted.
+- **Monotone** (PR #112): MONO.N3K6 CERTIFIED: three agents with ≤ 6 relevant goods always have monotone EFX₀, so
+  the n = 3 monotone threshold is 7 or 8.
+
+### 2026-11-27 00:40 UTC: hourly burst 4
+**Status.** TARGET₄ is open. The central candidate is **OC₂^max**: at most two sequential moves from maximum-matching
+starts.
+- Certified:
+  - OC₂^max for every strict profile with n ≤ 4, re-checked by the referee: 35,858 sampled witnesses, 0 disagreements;
+  - **OC₁^∃max** (some maximum-matching order needs ≤ 1 move) for every strict profile with n ≤ 4 (∃-CEGAR,
+    independent checker);
+  - **R2 at n = 4**: all 112,880 failing (profile, picks) pairs on the 11 hypergraphs have exactly one receiver.
+- n = 5, in progress:
+  - 5_n4_1 (1,735 cores): OC₂^max certified, and OC₁^max holds;
+  - 5_pure, first ~700 cores: 128 hypergraphs with OC₁^max failures, every one single-receiver, OC₂^max holds.
+  - The coordinator replayed one MC2-class n = 5 failure (5_pure idx 164): a strict MC2 core, OC₁ fails, two moves
+    repair.
+- Refereed this hour, all CORRECT:
+  - EX\*, LIFT-red, LIFT-1, LIFT (the second move's tools);
+  - Theorem U / U1;
+  - T6 and its certificate;
+  - M3 (monotone k ≤ 3);
+  - K4.MC8;
+  - D1-chain, Prop. 3′, D1-red, D1-C₀, D1-C′;
+  - Lemma R1;
+  - Prop. H (with a fix);
+  - Lemma EC.
+
+**Open core at k = 4** (Hall §23.2):
+- D1-H2: computer-verified on the three-agent core; CONTRACT reduces t = 1 to it modulo S1 and S2; t ≥ 2 is open
+  (proof/k4-d1).
+- R2-M: M^c's condition at the post-chain state with owner x₀. Lemma R2-G2 is proved and R2 is certified at n = 4
+  (TTC).
+- LIFT-SHAPE⁺: the shape of the two chains; holds on all 8,073 failing starts (matching).
+- SLOT and RING: existence counts, since plain Lemma M certifies every repair (multi).
+- Shared tool: Lemma M^c (multi, written; matching re-implemented it, 0 mismatches; queued for the referee). It is an
+  exact one-move criterion on all data.
+
+**One-move alternatives still alive:**
+- OC₁′ (kgen-rounds: middle chain agents may take goods of the end's released base). It holds on all 11 n = 4
+  hypergraphs' stored starts; the certifier's exhaustive test comes after its n = 5 chunk.
+- VM1-chain (VM): exhaustive certification running; holds on 3,485 VM1-failing cores.
+- DYN∃ (girth): certified at n ≤ 3 and for most n = 4 classes.
+- W^sub (Haxell): 0 stuck on 470M n = 2 and 742M n = 3 states.
+
+**Dispatch this burst:**
+- p3: prove MG (OC₁^max on multigraph cores, p ≤ 2). MG5 is certified at n ≤ 5, and every known failure needs a
+  3-valuer good.
+- Lean: formalize Lemma M, LIFT-1 and T6.
+- paper: next revision with this hour's referee verdicts and certificates, plus the open-core section.
+- sd-induct: retired after PR #103, with its three-move search covered by the certifier and TTC.
+- ksens: k = 6 three-move test and k = 5 exhaustive two-move test.
+- Haxell: finish the n = 3 grid and try a W^sub proof at n = 2.
+- multi: the SLOT and RING existence proofs.
+- Hall: the numbered open-core list.
+- kgen-rounds: RD²⁺ grids, and whether every two-move repair compresses into one OC₁′ move.
+
+**Correction:** the matching session's n = 4 walk count is 3,179 (not 3,190 or 3,308; the earlier figures counted the
+11 stored instances twice). No "holds on all" claim changes.
