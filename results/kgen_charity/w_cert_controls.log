@@ -1,6 +1,26 @@
-$ python3 kgen/charity/w_cert.py results/kgen_charity/w_cert_controls/c_221.json results/kgen_charity/w_cert_controls/c_222.json results/kgen_charity/w_cert_controls/c_321.json results/kgen_charity/w_cert_controls/c_321_drop.json results/kgen_charity/w_cert_controls/f_s3k4.json
+$ python3 kgen/charity/w_cert.py c_221.json c_222.json c_321.json c_321_drop.json f_s3k4.json
 c_221.json: n 3, m 6, k 3, X leaves 1 out, cuts 16 (each leaving <= 0 out), fixed support False: cvc5 says unsat (0.1 s)
-c_222.json: n 3, m 7, k 3, X leaves 1 out, cuts 25 (each leaving <= 0 out), fixed support False: cvc5 says unsat (0.2 s)
+c_222.json: n 3, m 7, k 3, X leaves 1 out, cuts 25 (each leaving <= 0 out), fixed support False: cvc5 says unsat (0.1 s)
 c_321.json: n 3, m 7, k 3, X leaves 1 out, cuts 21 (each leaving <= 0 out), fixed support False: cvc5 says unsat (0.1 s)
 c_321_drop.json: n 3, m 7, k 3, X leaves 1 out, cuts 20 (each leaving <= 0 out), fixed support False: cvc5 says sat (0.1 s)
-f_s3k4.json: n 9, m 14, k 4, X leaves 2 out, cuts 170 (each leaving <= 1 out), fixed support True: cvc5 says sat (0.1 s)
+f_s3k4.json: n 9, m 14, k 4, X leaves 2 out, cuts 170 (each leaving <= 1 out), fixed support True: cvc5 says sat (0.2 s)
+$ python3 kgen/charity/w_cert.py --core c_221.json core_c_221.json --min
+c_221.json: 16 cuts; cvc5 unsat, core of 4 cuts (0.1 s)
+  deletion-minimal core: 4 cuts (0.1 s)
+  core alone: cvc5 says unsat
+$ python3 kgen/charity/w_milp_cert.py c_221.json core_c_221.json
+c_221.json: n 3, m 6, 4 cuts used; MILP with 101 variables: Optimization terminated successfully. (HiGHS Status 7: Optimal); eps* = 1.4654943925052095e-15, dual bound 1.4654943925052095e-15 (1.0 s)
+$ python3 kgen/charity/w_cert.py --core c_222.json core_c_222.json --min
+c_222.json: 25 cuts; cvc5 unsat, core of 5 cuts (0.2 s)
+  deletion-minimal core: 4 cuts (0.4 s)
+  core alone: cvc5 says unsat
+$ python3 kgen/charity/w_milp_cert.py c_222.json core_c_222.json
+c_222.json: n 3, m 7, 4 cuts used; MILP with 124 variables: Optimization terminated successfully. (HiGHS Status 7: Optimal); eps* = -0.0, dual bound -0.0 (1.5 s)
+$ python3 kgen/charity/w_cert.py --core c_321.json core_c_321.json --min
+c_321.json: 21 cuts; cvc5 unsat, core of 5 cuts (0.1 s)
+  deletion-minimal core: 5 cuts (0.3 s)
+  core alone: cvc5 says unsat
+$ python3 kgen/charity/w_milp_cert.py c_321.json core_c_321.json
+c_321.json: n 3, m 7, 5 cuts used; MILP with 130 variables: Optimization terminated successfully. (HiGHS Status 7: Optimal); eps* = 2.4003214583900306e-16, dual bound 2.4003214583900306e-16 (2.8 s)
+$ python3 kgen/charity/w_milp_cert.py c_321_drop.json
+c_321_drop.json: n 3, m 7, 20 cuts used; MILP with 337 variables: Optimization terminated successfully. (HiGHS Status 7: Optimal); eps* = 0.05882352941176471, dual bound 0.05882352941176471 (12.9 s)

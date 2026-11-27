@@ -13,8 +13,12 @@ Encoding: v_i(g) real, = 0 off agent i's support and >= 1 on it (fixed support),
 b_ig with b -> v >= 1, not b -> v = 0 and sum_g b_ig <= k; every pool good valued by someone; at most one good per
 bundle worthless to all.  Strict inequalities are kept strict (QF_LRA).
 
-    python3 kgen/charity/w_cert.py CUTFILE [CUTFILE ...]"""
-import sys, json, time
+    python3 kgen/charity/w_cert.py CUTFILE [CUTFILE ...]
+    python3 kgen/charity/w_cert.py --core CUTFILE COREFILE [--min]
+    python3 kgen/charity/w_cert.py --check-core CUTFILE COREFILE
+--core: also extract an unsat core of the cuts (cvc5), re-check the core alone, and write {"core": [indices]} to
+COREFILE (for w_milp_cert.py); --min shrinks the core by deletion (one cvc5 call per cut)."""
+import sys, json, time, gzip
 import cvc5
 
 
@@ -25,12 +29,14 @@ def lin(terms):
     return terms[0] if len(terms) == 1 else '(+ %s)' % ' '.join(terms)
 
 
-def encode(D):
+def encode(D, named=False, only=None, guard=False):
+    """named: name each cut assertion cut_<t> (for unsat cores); only: indices of the cuts to include;
+    guard: assert each cut as (=> g_<t> cut) with a fresh Boolean g_<t> (for assumption-based cores)."""
     n, k, p, B, P, m = D['n'], D['k'], D['p'], D['bundles'], D['pool'], D['m']
     sup = D['support']
     V = lambda i, g: 'v_%d_%d' % (i, g)
     val = lambda i, G: lin([V(i, g) for g in G if sup is None or g in sup[i]])
-    out = ['(set-logic QF_LRA)' if sup is not None else '(set-logic QF_LRA)']
+    out = (['(set-option :produce-unsat-cores true)'] if named else []) + ['(set-logic QF_LRA)']
     for i in range(n):
         for g in range(m):
             if sup is not None and g not in sup[i]:
@@ -71,7 +77,9 @@ def encode(D):
         src.append('(ite src_%d 1.0 0.0)' % j)
     out.append('(assert (>= %s %d.0))' % (lin(src), len(P) + 1))
     WX = lin([V(i, g) for i in range(n) for g in B[i] if sup is None or g in sup[i]])
-    for Y in D['cuts']:
+    for t, Y in enumerate(D['cuts']):
+        if only is not None and t not in only:
+            continue
         assert len(Y) == n + 1 and sorted(g for Yi in Y for g in Yi) == list(range(m)) and len(Y[n]) <= p - 1, Y
         disj = ['(< %s %s)' % (lin([V(i, g) for i in range(n) for g in Y[i] if sup is None or g in sup[i]]), WX)]
         for i in range(n):
@@ -79,8 +87,15 @@ def encode(D):
                 if i != j:
                     for h in Y[j]:
                         disj.append('(> %s %s)' % (val(i, [g for g in Y[j] if g != h]), val(i, Y[i])))
-        out.append('(assert (or %s))' % ' '.join(disj))
+        if guard:
+            out.append('(declare-const g_%d Bool)' % t)
+            out.append('(assert (=> g_%d (or %s)))' % (t, ' '.join(disj)))
+        else:
+            out.append(('(assert (! (or %s) :named cut_%d))' % (' '.join(disj), t)) if named else
+                       '(assert (or %s))' % ' '.join(disj))
     out.append('(check-sat)')
+    if named:
+        out.append('(get-unsat-core)')
     return '\n'.join(out)
 
 
@@ -89,21 +104,49 @@ def solve(text):
     s.setOption('produce-models', 'false')
     sm = cvc5.SymbolManager(tm); ip = cvc5.InputParser(s, sm)
     ip.setStringInput(cvc5.InputLanguage.SMT_LIB_2_6, text, 'cert')
-    res = None
+    res = None; core = None
     while True:
         cmd = ip.nextCommand()
         if cmd.isNull():
             break
-        r = cmd.invoke(s, sm)
-        if 'sat' in r or 'unknown' in r:
-            res = r.strip()
-    return res
+        r = cmd.invoke(s, sm).strip()
+        if r in ('sat', 'unsat', 'unknown'):
+            res = r
+        elif r.startswith('('):
+            core = sorted(int(x[4:]) for x in r.strip('()').split() if x.startswith('cut_'))
+    return (res, core) if core is not None else res
 
 
 if __name__ == '__main__':
-    print('$ python3 kgen/charity/w_cert.py', *sys.argv[1:], flush=True)
+    print('$ python3 kgen/charity/w_cert.py', *[a.split('/')[-1] for a in sys.argv[1:]], flush=True)
+    if sys.argv[1] == '--core':
+        f, out = sys.argv[2], sys.argv[3]; D = json.load(gzip.open(f, 'rt') if f.endswith('.gz') else open(f)); t0 = time.time()
+        r, core = solve(encode(D, named=True))
+        assert r == 'unsat', r
+        print('%s: %d cuts; cvc5 unsat, core of %d cuts (%.1f s)' % (f.split('/')[-1], len(D['cuts']), len(core),
+                                                                      time.time() - t0), flush=True)
+        if '--min' in sys.argv:
+            keep = list(core)
+            for t in list(core):
+                trial = [x for x in keep if x != t]
+                if solve(encode(D, only=set(trial))) == 'unsat':
+                    keep = trial
+            core = keep
+            print('  deletion-minimal core: %d cuts (%.1f s)' % (len(core), time.time() - t0), flush=True)
+        r2 = solve(encode(D, only=set(core)))
+        print('  core alone: cvc5 says %s' % r2, flush=True)
+        assert r2 == 'unsat'
+        json.dump({'core': core}, open(out, 'w'))
+        sys.exit(0)
+    if sys.argv[1] == '--check-core':                      # cvc5 on a given subset of the cuts (e.g. w_core_z3.py's)
+        f, cf = sys.argv[2], sys.argv[3]; D = json.load(gzip.open(f, 'rt') if f.endswith('.gz') else open(f))
+        core = set(json.load(open(cf))['core']); t0 = time.time()
+        r = solve(encode(D, only=core))
+        print('%s: %d of %d cuts (%s): cvc5 says %s (%.1f s)' % (f.split('/')[-1], len(core), len(D['cuts']),
+                                                            cf.split('/')[-1], r, time.time() - t0), flush=True)
+        sys.exit(0)
     for f in sys.argv[1:]:
-        D = json.load(open(f)); t0 = time.time()
+        D = json.load(gzip.open(f, 'rt') if f.endswith('.gz') else open(f)); t0 = time.time()
         text = encode(D)
         r = solve(text)
         print('%s: n %d, m %d, k %d, X leaves %d out, cuts %d (each leaving <= %d out), fixed support %s: cvc5 says %s '

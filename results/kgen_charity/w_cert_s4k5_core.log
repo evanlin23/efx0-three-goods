@@ -1,0 +1,4 @@
+$ python3 kgen/charity/w_core_z3.py w_cuts_s4k5.json.gz w_core_s4k5.json
+z3: unsat under all 2243 cuts; core of 890 cuts (645.1 s)
+$ python3 kgen/charity/w_cert.py --check-core w_cuts_s4k5.json.gz w_core_s4k5.json
+(stopped by hand after 2 h 17 min without an answer, at the coordinator's wind-down; PARTIAL: the z3 core above stands, the cvc5 check of it gave no result)
