@@ -9,9 +9,10 @@ EFX0.  For each hypergraph:
   in pi (after the earlier agents' picks Y), its favourite remaining good is Y_i (no remaining good, if Y_i is none),
   intersected with W's improving conditions and EFX0 of X.
 - After an exact type-class reduction, it decides whether some profile lies outside every box.
-  - For n <= 4 (default ENGINE=dense) this is an exhaustive dense check: boolean matrix products over class tuples,
-    no SAT.
-  - Otherwise (or with ENGINE=sat) Glucose decides it.
+  - By default Glucose decides it.  Each distinct agent mask gets its own literal (y <-> the agent's type lies in the
+    mask), and each box becomes the clause "some agent's y is false".
+  - With ENGINE=dense and n <= 4 it is instead an exhaustive dense check: boolean matrix products over class tuples,
+    no SAT.  This is only practical when there are few classes.
   - No profile outside: every profile has an order whose maximum-matching picks satisfy OC1.
 
     python3 k4/oc1cert/check_exists.py CERT.json.gz"""
@@ -55,7 +56,7 @@ def check_core(rec):
         sig = collections.defaultdict(list)
         for t in range(len(H.types[i])): sig[tuple(bool(b[i][t]) for b in boxes)].append(t)
         cls.append(list(sig.items()))
-    if n <= 4 and os.environ.get('ENGINE', 'dense') == 'dense':
+    if os.environ.get('ENGINE', 'sat') == 'dense' and n <= 4:
         return dense(rec, H, cls, boxes, bad, t0)
     S = Glucose4(); top = [0]
     def new():
@@ -64,8 +65,17 @@ def check_core(rec):
     for zi in z:
         S.add_clause(zi)
         for a, b in itertools.combinations(zi, 2): S.add_clause([-a, -b])
+    # one literal per distinct agent mask (y <-> the agent's class lies in the mask), so learned clauses are about masks
+    ylit = {}
+    def y(i, bi):
+        key = (i, tuple(k for k, (sg, ts) in enumerate(cls[i]) if sg[bi]))
+        if key not in ylit:
+            v = ylit[key] = new()
+            S.add_clause([-v] + [z[i][k] for k in key[1]])
+            for k in key[1]: S.add_clause([-z[i][k], v])
+        return ylit[key]
     for bi in range(len(boxes)):
-        S.add_clause([z[i][k] for i in range(n) for k, (sg, ts) in enumerate(cls[i]) if not sg[bi]])
+        S.add_clause([-y(i, bi) for i in range(n)])
     if S.solve():
         mod = set(l for l in S.get_model() if l > 0)
         prof = [cls[i][next(k for k, v in enumerate(zi) if v in mod)][1][0] for i, zi in enumerate(z)]

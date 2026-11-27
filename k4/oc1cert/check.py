@@ -196,7 +196,7 @@ def check_core(rec):
     # optional excluded (type profile, picks) pairs (known failures, e.g. export_fails.py): they may stay uncovered
     excl = collections.defaultdict(list)
     if rec.get('excluded'):
-        tix = [{H.sig(i, {g: x for g, x in zip(H.sets[i], v)}): t for t, v in enumerate(H.types[i])} for i in range(n)]
+        tix = [{H.sig(i, v): t for t, v in enumerate(H.types[i])} for i in range(n)]     # H.types[i][t]: good -> value
         for e in rec['excluded']:
             excl[tuple(e['picks'])].append(tuple(tix[i][H.sig(i, dict(zip(H.sets[i], e['vals'][i])))] for i in range(n)))
     efx = {}
@@ -252,7 +252,7 @@ def check_core(rec):
         for a, b, c in itertools.permutations(range(n), 3):
             solver.add_clause([-bef[(a, b)], -bef[(b, c)], bef[(a, c)]])
         for i in range(n):
-            for k, ((req, _), ts) in enumerate(cls[i]):
+            for k, ((req, *_), ts) in enumerate(cls[i]):
                 for j in req: solver.add_clause([-z[i][k], bef[(j, i)]])
         for bi, b in enumerate(boxes):
             solver.add_clause([z[i][k] for i in range(n) for k, (sg, ts) in enumerate(cls[i]) if not sg[1][bi]])
