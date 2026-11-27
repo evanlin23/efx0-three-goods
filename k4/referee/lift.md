@@ -131,3 +131,44 @@ Two runs of 25,000 iterations; each draws one random instance and one profile ne
 - LIFT-1 holds without the favourite-good assumption.
 - The second move is therefore reduced, by proved lemmas, to the shape statements LIFT-SHAPE⁺ (matching) or OC2-REC
   (multi). Those remain open.
+
+## 7. Addendum: LIFT-1 with (L2′) and case (b), and K4.MATCH.LIFT.N4 (`k4/matching.md` §6 at `7e6cd80`; 2026-11-27)
+
+The matching session weakened (L2) to (L2′), v_z(H₀² ∩ R_z) ≤ v_z(t) + v_z(g), and added case (b) (commits `83281b6`,
+`7e6cd80`). It also reports LIFT-EX and LIFT-SHAPE⁺ refuted at n = 5 (`5fc71a9`). That refutation does not touch
+LIFT-red or LIFT-1, which are conditional lemmas.
+
+**Verdict: CORRECT** (both cases).
+- **Case (a).** (L2′) is used only in step 4's case |A| = 2, G = {g}, where the bound needed is exactly
+  v_z(A) ≤ v_z(t) + v_z(g). With G = ∅ it reduces to the old (L2). The other cases are unchanged, and each good of X is
+  worth less than t to z anyway (§3).
+- **Case (b).** Under (Lb), v_z(X ∩ R_z) ≤ v_z(t), h takes all of X. Steps 1–3 and 5 use neither (L1) nor (L2′).
+  - z keeps the singleton {t}, which threatens nobody even if t is wanted.
+  - X threatens z only if v_z(X ∖ e) > v_z(t) for some e, and (Lb) excludes this.
+
+  Correct.
+
+**Computation (evidence).** `lift_ref.py` with (L2′) and case (b), on random perfect starts and failing starts near
+the 11:
+
+| check | tests | failures |
+|---|---|---|
+| case (a) with (L2′) | 2,687 | 0 |
+| case (b) | 2,122 | 0 |
+| mutation: (L2′) dropped | 452 | **26** |
+
+**K4.MATCH.LIFT.N4, re-checked in full** (`k4/referee/liftn4_ref.py`, log `results/k4_referee/liftn4_ref.log`).
+- The data: the certifier's export of every n = 4 start with no one-move repair
+  (`results/k4_oc1max/two_move_starts_n4.json.gz`, 112,880 starts).
+- The matching session's witnesses were *not* used. For every start, my own search found a LIFT-SHAPE⁺ witness from
+  scratch and checked:
+  - the SD picks, and that the start is perfect;
+  - hardness (no one-absorber completion at the picks or after any official move), and exactly one holder;
+  - a P₁ from a dangerous agent with the pair also improving a second dangerous agent;
+  - a canonical P₂ with z ending at its favourite good;
+  - (L3), and (L1) with (L2′) or (Lb);
+  - that LIFT-1's allocation is raw EFX₀.
+- **All 112,880 pass**: 108,400 with case (a) found first, 4,480 with case (b).
+  - The case split differs from the note's 109,680 / 3,200 only because my search returns the first witness found,
+    trying case (a) first.
+  - The claim is existence, and it is confirmed.
