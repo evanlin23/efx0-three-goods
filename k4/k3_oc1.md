@@ -608,7 +608,7 @@ exposed agent of a terminal t into t has a one-absorber completion. For |T| = 1 
     |T| = 1 and 140,076 with |T| = 2.
 
   B\* is its deficit-one case with owner k.
-- The no-owner form fails on 13,412 n = 6 drafts with |T| ≤ 2, and also on these:
+- The no-owner form fails on 21,416 of the n = 6 drafts (14,484 with |T| = 1, 6,932 with |T| = 2), and also on these:
   - n = 4: 20 drafts, all with |T| = 1 and covered by B\*;
   - n = 5, m = 9: 132 with |T| = 1 and 96 with |T| = 2, covered by B\*;
   - the 800 two-terminal gap drafts above.
