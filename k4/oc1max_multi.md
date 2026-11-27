@@ -1592,3 +1592,33 @@ reduction failing at 35 of 10,109 one-move starts:
 
 So the base case must be an OC₁-type move with phantoms. Theorem S^φ's own move is such a move, but it does not cover
 those 35. They are this note's RING2 and the T3 family (§11).
+
+**ROUND-RSD inside the refereed tools** (`round_prefix.py`, `round_prefix.log`; `round_e.py`, `round_e.log`).
+- The matching session's ROUND-RSD (`k4/matching/round_rsd.py` on `proof/k4-matching`, commit 47e0bfd9) allows any
+  canonical chains and checks the SD property directly. So Lemma SD-E(round), which needs earliest-wanter prefixes,
+  does not cover its witnesses as found. On its 280 5_pure witnesses, 146 of the 410 rounds use a chain that is not an
+  E-prefix under any SD order of the round's start. (H) holds in all 410.
+- `round_e.py` therefore searches only the rounds SD-E(round) covers:
+  - every chain is an E-prefix;
+  - (H) holds;
+  - (L\*) holds at the round's end, toward every agent and every earlier phantom;
+  - (P3) holds for released picks.
+
+  At most two rounds of at most two settlements are allowed, followed by a completion at once (every one-absorber
+  completion, lifted, raw EFX₀).
+
+| data | starts | repaired | rounds needed | SD-E(round) violations |
+|---|---|---|---|---|
+| 5_pure, 280 two-move starts (`n5_5pure_s5o0`) | 280 | **280** | 1 round: 2; 2 rounds: 278 | 0 |
+| n = 5 walks near 5_pure#164 | 22,445 | **22,445** | 2 rounds | 0 |
+| n = 4 export | 112,880 | **112,880** | 2 rounds | 0 |
+
+So on all these data the repair is built entirely from refereed parts:
+- the starts, by SD-E(round);
+- the moves, by LIFT;
+- the invariants, by (L\*) at the end of each round, (P2) and (P3);
+- the completion, which is checked raw.
+
+What remains open:
+- the existence of such rounds at every two-move start (ROUND-IND);
+- the base case at the one-move starts that pure reduction misses (the T3 family, §11).
