@@ -529,10 +529,11 @@ exhaustive ordinal search.
 | 3 | 7 | 1..2 | 357,760 | 846,088 | 0 | 0 |
 | 3 | 8 | 1..2 | 2,829,056 | 6,577,716 | 0 | 0 |
 | 4 | 5 | 1..2 | 52,360 | 357,835 | 0 | 0 |
+| 3 | 6 | 1..3 | 64,836,045 | 127,496,212 | 0 | 0 |
 | 4 | 6 | 1..2 | 766,480 | 4,445,602 | 0 | 0 |
+| 4 | 7 | 1..2 | 11,716,640 | 62,363,869 | 0 | 0 |
 
-(`grid_n3.log`, `grid_n4.log`; runs at n = 3, m = 6 with values 1..3 and at n = 4, m = 7 with values 1..2 are in
-progress.)
+(`grid_n3.log`, `grid_n4.log`.)
 - Not one start on these grids needs even a second round.
 - The ROUND⁺ failures of §3 need finely tuned values: RD5⁺ fails only when v₀(4) + v₀(5) < v₀(1) by any margin,
   with values two orders of magnitude apart. Small grids do not contain them.
