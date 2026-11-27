@@ -111,6 +111,7 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | **Prop. RF-B4, Lemma REPAIR-Y** (§24.8) | n = 4: every B start (DEMOTE-2) meets Lemma RF-B, from the §22 pair, the SD structure and (U-b) v_u(Y_{k′}) ≥ v_u(Y_u) + v_u(Y_k); REPAIR-Y derives (U-b) from Y's failure when \|J ∖ S\| = 1 | written proofs from facts certified at all 43,520 starts; (U-b) derived at 38,400, evidence at 5,120; general n open |
 | **Conjecture RF-S** (§24.9) | DEMOTE-2 at any n: some k ∈ D_T′ takes an improving H₀ ⊆ S (the junk both truly dangerous agents value), then a chain from k leaves a one-absorber completion. Lemma RF-B covers only 60.6% of DEMOTE-2 at n = 5; RF-PATH for any receiver holds at all 7,608,052 n = 5 failing orders | evidence: 140,111/140,111 (n = 5 exports), 48/48 (stored), 43,520/43,520 (n = 4) |
 | **Conjecture RF at n = 5; Lemma RF-B′** (§24.10) | OC₁ holds at all 1,526,623 maximum-matching RF starts of the n = 5 exports (9 hypergraphs, 3 with complete failure lists; RF from every receiver), and main's statement of RF holds at the 3,460 pickless rotations. RF-B′: after "k takes S, d takes Y′_k", (G2) holds, so Lemma M^c's (C1)–(C3) is the exact test | RF: evidence, 0 failures. RF-B′: written proof, any n; an S^c completion exists after the chain at 128,074/128,074 |
+| **Conjecture RF-rot∃** (§24.15) | the RF target after #129: some order giving Y has a rotation (u, o − u), or its "d second" variant, whose picks are a maximum matching satisfying OC₁. Twins at k = 4: set-twin pick swaps at 44,800 n = 4 failing orders, all satisfying OC₁; 0 exact twins; none at n = 5 | evidence (0 failures on all n = 4 data and the n = 5 exports); open: the reductions' hypotheses from Y's hardness |
 | **Lemma MAX** (§19) | if the picks form a maximum matching, no agent reachable from a pickless agent by an alternating path values a junk good. So no pickless agent wants a dangerous frozen agent, or any agent on a want-chain above one, and the pickless-bin pigeonhole of §16/§18 cannot form | written proof (§19); checked at every maximum-matching start of special, screen and the K4.MC2 core |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
 | refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `attempts/k4-oc1-hall-canonical-chains.md` |
@@ -2584,3 +2585,50 @@ n = 5 cores, 60 random strict profiles each, seed 2; each agent's values a rando
 So RKMAX's proof cannot skip the hard one-receiver classes at n ≥ 5. It would need DEMOTE-0/2-type arguments there
 too, at a much smaller frequency than at RF starts. The export data are biased toward the failing profiles of 9
 hypergraphs.
+
+### 24.15 The target statement for the RF proof: Rule RF-rot for some order (after #129)
+
+*Scope* (coordinator, 06:35 and 06:38). The every-order form of RF fails at k = 5, through twins (K4.SDC.RF.K5EVERY).
+Only RF∃ is needed in Lean (`target4_of_conjRFsome`).
+
+**Rule RF-rot.** Take σ′ = (u, o − u). If its picks leave an agent pickless, take (u, d, o − u − d), where d is the RF
+path's end.
+- On the n = 5 exports the rotation's picks satisfy OC₁ at all 1,526,623 maximum-matching RF starts (§24.10).
+- At the 3,460 pickless rotations, "d second" gives a maximum matching with OC₁ (`rf_n5_pickless.log`).
+
+**Twins at k = 4** (`k4/oc1_hall/rf_twins.py`, `rf_twins.log`). The question: can k ≤ 4 exclude the k = 5 failure,
+where the rotation is a pick swap between u and its twin w, the holder of u's top good?
+*Definitions.* A **set-twin** of u is an agent w with R_w = R_u, the same goods. An **exact twin** also has v_w = v_u on
+every good. ksens's k = 5 counterexample uses exact twins. Then the swap start is isomorphic to Y, so OC₁ fails there
+too.
+- **n = 4** (all 292,080 failing orders): w is a **set-twin** of u at 69,120, and **an exact twin at none**: the values
+  always differ. At **44,800** the rotation is exactly the set-twin pick swap. There Y′ assigns the same picks to the
+  same sets as Y, with the twins exchanged; the values differ, so Y′ is a different start.
+- **OC₁ holds at all of them**: every n = 4 rotation satisfies OC₁ (`results/k4_sdc/receiver_first_check_n4.log`, with
+  the certifier's OC₁^max certificate).
+- **n = 5** (all 7,608,052 failing orders of the exports): no receiver is even a set-twin of w.
+
+So k ≤ 4 does **not** exclude the set-twin swap. At k = 4 the swapped start is simply not a failing one on the data.
+An exact-twin swap at a failing start would contradict the n = 4 certificate, and none occurs at n ≤ 4. Whether one can
+occur at n ≥ 5 with k = 4 is open, and the matching session is hunting for it.
+
+**Chosen target (option (ii)):**
+
+> **Conjecture RF-rot∃.** At every OC₁^max-failing maximum-matching SD start Y with receiver u, some order o giving Y
+> has a rotation (u, o − u), or its "d second" variant when the rotation leaves an agent pickless, whose picks form a
+> maximum matching satisfying OC₁.
+
+The every-o form is recorded as an observation at k = 4: all n = 4 orders, and all n = 5 orders of the exports. It is
+not a target. Its proof would have to show that twin-swapped starts satisfy OC₁, which the reductions of §24.8–24.13
+do not address.
+
+The reductions to prove from Y's hardness for the chosen rotation:
+- DEMOTE-2: RF-B′ / M^c, with SINK;
+- DEMOTE-0: RF-A1\*, NA, RF-T′;
+- (1, 3): girth's and k3-oc1's form.
+
+*Cited for the next step* (girth, `claude/k4-girth`, PR #161; [unverified] here):
+- **Lemma ORD.** At a start with one receiver, that receiver is the order's last picker. So at Y only u can want Y_d.
+- **An independent RKMAX regeneration**: 560,880 strict balanced order-type profiles, 375 one-receiver σ-maximal
+  vectors, no OC₁ failure. It found new repair shapes at σ-maximal starts: chains with a pick-dangerous tail, and
+  two-junk trades.
