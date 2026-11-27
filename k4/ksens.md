@@ -829,14 +829,22 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
   - A start with no cached witness is decided by exact backtracking.
   - ocsat (SAT) agrees on every maximum-matching start at n = 3 (43,751) and on 8,693 sampled at n = 4 (5,770 of them
     with m ≥ 6), with 0 mismatches.
+  - A second, independent method, the ordinal CEGAR `kcegar.py`, certifies one chain for every strict profile and
+    every maximum-matching start of all 52, 396 and 3,988 hypergraphs at n = 3, 4, 5 (`kcegar_k3_n*_D1.log`).
+    At D = 0 (no chain) it fails on exactly the 15 n = 3 hypergraphs where k3max found a start needing a chain.
 - *So at k = 3 one chain suffices,* and the ladder's jump to two chains happens at k = 4.
   - At k = 4: one chain fails at n = 4 (§5), and two sequential moves are certified for every strict profile of
     every core with n ≤ 4 (`k4/oc1cert.md` on `compute/k4-oc1max-cert`).
   - The scope is connected instances. In a disjoint union each component may need its own chain; a round handles
     that.
-  - The k3-oc1 session reports an every-order failure at k = 3 under the official rule, at n = 5 outside the cores
-    [unverified here: read only in a commit message on `claude/k4-k3-oc1`]. This is consistent with the above, which
-    covers every start only for n ≤ 4.
+  - *Every start at n = 5 (`kcegar_k3_n5_D1_any.log`).* One chain, official rule, fails on exactly one of the 3,988
+    hypergraphs, and only from a start that is not maximum-matching.
+    - The hypergraph: sets [[0,2,6], [1,4,7], [3,5,8], [6,7,8], [6,7,8]], all values (2, 3, 4).
+    - The start: picks 6, 7, 8 for agents 0–2, and agents 3, 4 get nothing (3 picks, ν = 5).
+    - No one-chain state has a one-absorber completion (51 states). 6 have a free one, and with empty passes 34
+      states have a one-absorber completion (brute force and ocsat).
+    - This is the k = 3 failure reported by the k3-oc1 session (`claude/k4-k3-oc1`, there read only in a commit
+      message), now checked here. It has the MC2 shape of `k4/sdc.md` §31: the pickless agents value only picks.
 
 **Unrestricted k: every agent values every good** (`general_rounds.py`, `general_rounds_*.log`, `rd5_full.log`,
 `kgen_n3_rounds.log`).

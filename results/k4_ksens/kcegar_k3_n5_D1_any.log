@@ -1,0 +1,4 @@
+$ python3 k4/ksens/kcegar_batch.py genbg 5 3 1 --jobs=1 --any-start
+hypergraphs 3988
+{"name": "n5_m9_18", "sets": [[0, 2, 6], [1, 4, 7], [3, 5, 8], [6, 7, 8], [6, 7, 8]], "D": 1, "result": "FAIL", "iterations": 2, "kinds": {"picks": 1}, "types": [12, 12, 12, 12, 12], "recheck": {"vals": [[2, 3, 4], [2, 3, 4], [2, 3, 4], [2, 3, 4], [2, 3, 4]], "picks": [6, 7, 8, null, null], "brute (empty passes allowed) repairs within D": true, "ocseq repairs within D": true, "states": 112}, "time": 0.0}
+{'certified': 3987, 'FAIL': 1} time 107 s

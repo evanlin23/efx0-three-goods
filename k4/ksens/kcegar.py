@@ -13,8 +13,13 @@ order type.  Representatives: types5.py for five goods (516 per ranking, 61,920 
 d <= 4 goods (grid bound d times the largest (d-1)-minor of a {-1, 0, 1} matrix: 1, 2, 6, 16), giving 1, 2, 12, 336
 types.
 
-Outer SAT (CaDiCaL): exactly one type per agent (one-hot); comparison bits c_i(S, T) <-> [v_i(S) > v_i(T)] defined
-lazily as the disjunction of the types with that sign; picks p_i(g) or none_i, a matching of size nu; Y is an SD outcome:
+Outer SAT (CaDiCaL), two encodings of the types:
+  lazy (default): the comparison bits c_i(S, T) = [v_i(S) > v_i(T)] are free variables, created when first needed.
+    After each solve, each agent's assigned bits are checked against its type list (numpy): if no strict type has
+    those signs, a minimal conflicting set of the bits is extracted (progressive deletion) and blocked by a clause,
+    and the outer is solved again.  Exact, because agents' types are independent.
+  --onehot: exactly one type per agent (one-hot); each bit is defined as the disjunction of the types with that sign.
+Both: picks p_i(g) or none_i, a matching of size nu; Y is an SD outcome:
 (a) every good i prefers to its pick (every good of R_i, when i has no pick) is picked by another agent, and (b) the
 digraph "i prefers Y_j to Y_i" is acyclic, encoded with a strict total order before(j, i) (then that order produces
 Y); every witness found so far does not apply.
@@ -68,15 +73,19 @@ def agent_types(R):
 
 
 class Cegar:
-    def __init__(self, sets, m=None, D=2, A=1, empty_pass=False, require_max=True):
+    def __init__(self, sets, m=None, D=2, A=1, empty_pass=False, require_max=True, lazy=True):
         self.R = [sorted(s) for s in sets]; self.n = n = len(sets)
         self.m = m or 1 + max(max(s) for s in sets); self.D, self.A, self.ep = D, A, empty_pass
         self.T = [agent_types(R) for R in self.R]
         self.pool = IDPool(); self.S = Cadical153(); self.cmpv = {}; self.iters = 0; self.kinds = collections.Counter()
+        self.lazy = lazy; self.cuts = 0; self.bitv = {}; self.bits_of = [[] for _ in range(n)]
+        import numpy as np
+        self.np = np; self.TV = [np.array([[t[g] for g in self.R[i]] for t in self.T[i]], dtype=np.int64) for i in range(n)]
         v = self.pool.id
         self.TRUE = v(('TRUE',)); self.S.add_clause([self.TRUE])
-        self.t = [[v(('t', i, k)) for k in range(len(self.T[i]))] for i in range(n)]
-        for i in range(n): self._exactly_one(self.t[i])
+        if not lazy:
+            self.t = [[v(('t', i, k)) for k in range(len(self.T[i]))] for i in range(n)]
+            for i in range(n): self._exactly_one(self.t[i])
         self.p = [{g: v(('p', i, g)) for g in self.R[i]} for i in range(n)]
         self.none = [v(('none', i)) for i in range(n)]
         for i in range(n): self._exactly_one(list(self.p[i].values()) + [self.none[i]])
@@ -125,9 +134,13 @@ class Cegar:
         if (A, B) > (B, A): return -self.cmp(i, B, A)
         key = (i, A, B)
         if key in self.cmpv: return self.cmpv[key]
-        sat = [k for k, val in enumerate(self.T[i]) if sum(val[g] for g in A) > sum(val[g] for g in B)]
-        if len(sat) == len(self.T[i]): lit = self.TRUE
-        elif not sat: lit = -self.TRUE
+        col = {g: c for c, g in enumerate(self.R[i])}; TV = self.TV[i]
+        mask = TV[:, [col[g] for g in A]].sum(1) > TV[:, [col[g] for g in B]].sum(1)
+        sat = None if self.lazy else [int(k) for k in self.np.nonzero(mask)[0]]
+        if mask.all(): lit = self.TRUE
+        elif not mask.any(): lit = -self.TRUE
+        elif self.lazy:
+            lit = self.pool.id(('c',) + key); self.bitv[lit] = mask; self.bits_of[i].append(lit)
         else:
             lit = self.pool.id(('c',) + key); tl = self.t[i]
             if 2 * len(sat) <= len(tl):
@@ -186,8 +199,13 @@ class Cegar:
         while True:
             if time_limit and time.time() - t0 > time_limit: return 'timeout', None
             if not self.S.solve(): return 'certified', None
-            mdl = set(l for l in self.S.get_model() if l > 0); self.iters += 1
-            ty = [next(k for k, x in enumerate(self.t[i]) if x in mdl) for i in range(self.n)]
+            mdl = set(l for l in self.S.get_model() if l > 0)
+            if self.lazy:
+                ty = self.realize(mdl)
+                if ty is None: continue          # a realizability cut was added
+            else:
+                ty = [next(k for k, x in enumerate(self.t[i]) if x in mdl) for i in range(self.n)]
+            self.iters += 1
             Y = tuple(next((g for g, x in self.p[i].items() if x in mdl), None) for i in range(self.n))
             vals = [self.T[i][ty[i]] for i in range(self.n)]
             Q = self.inner(vals, Y)
@@ -195,7 +213,33 @@ class Cegar:
             cl = [-self.p[i][Y[i]] if Y[i] is not None else -self.none[i] for i in range(self.n)]
             cl += [-self.cmp(i, a, b) for i, a, b in set((i, frozenset(a), frozenset(b)) for i, a, b in Q)]
             self.S.add_clause([l for l in cl if l != -self.TRUE])
-            if verbose and self.iters % 200 == 0: print('   iter', self.iters, dict(self.kinds), '%.0f s' % (time.time() - t0), flush=True)
+            if verbose and self.iters % 200 == 0:
+                print('   iter', self.iters, 'cuts', self.cuts, dict(self.kinds), '%.0f s' % (time.time() - t0), flush=True)
+
+    def realize(self, mdl):
+        """lazy mode: a type per agent with the signs the model gives its bits, or None after blocking a minimal
+        conflicting set of bits of one agent (progressive deletion: the first prefix that empties the type set ends
+        with a critical bit; repeat on the bits before it, keeping the critical ones)"""
+        np = self.np; ty = []
+        for i in range(self.n):
+            lits = [b if b in mdl else -b for b in self.bits_of[i]]
+            vec = lambda l: self.bitv[l] if l > 0 else ~self.bitv[-l]
+            ok = np.ones(len(self.T[i]), dtype=bool)
+            for l in lits: ok &= vec(l)
+            if ok.any(): ty.append(int(np.argmax(ok))); continue
+            core = []; rest = lits
+            while True:
+                base = np.ones(len(self.T[i]), dtype=bool)
+                for l in core: base &= vec(l)
+                if not base.any(): break
+                cur = base.copy(); crit = None
+                for k, l in enumerate(rest):
+                    cur &= vec(l)
+                    if not cur.any(): crit = k; break
+                core.append(rest[crit]); rest = rest[:crit]
+            self.S.add_clause([-l for l in core]); self.cuts += 1
+            return None
+        return ty
 
     def close(self):
         self.S.delete()
@@ -204,6 +248,7 @@ class Cegar:
 if __name__ == '__main__':
     sets = json.loads(sys.argv[1]); D = int(sys.argv[2])
     A = int(next((a[4:] for a in sys.argv if a.startswith('--A=')), 1))
-    C = Cegar(sets, D=D, A=A, empty_pass='--empty-pass' in sys.argv, require_max='--any-start' not in sys.argv)
+    C = Cegar(sets, D=D, A=A, empty_pass='--empty-pass' in sys.argv, require_max='--any-start' not in sys.argv,
+              lazy='--onehot' not in sys.argv)
     r, w = C.run(verbose=True)
-    print(r, 'iterations', C.iters, dict(C.kinds), json.dumps(w) if w else '')
+    print(r, 'iterations', C.iters, 'realizability cuts', C.cuts, dict(C.kinds), json.dumps(w) if w else '')

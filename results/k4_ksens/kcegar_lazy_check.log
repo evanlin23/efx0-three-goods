@@ -1,0 +1,13 @@
+$ (kcegar lazy-mode validation) the 11 k = 4 hypergraphs at D = 1 and D = 2; k = 3, n = 3 at D = 0 and D = 1 against the one-hot mode
+#1 D=1 FAIL (263 iterations, 214 cuts, 0.2 s) | D=2 certified (1911 iterations, 279 cuts, 1.2 s)
+#2 D=1 FAIL (1703 iterations, 327 cuts, 1.1 s) | D=2 certified (2121 iterations, 329 cuts, 1.4 s)
+#3 D=1 FAIL (79 iterations, 154 cuts, 0.1 s) | D=2 certified (2833 iterations, 349 cuts, 2.0 s)
+#4 D=1 FAIL (139 iterations, 189 cuts, 0.1 s) | D=2 certified (2817 iterations, 356 cuts, 2.2 s)
+#5 D=1 FAIL (723 iterations, 338 cuts, 0.7 s) | D=2 certified (3781 iterations, 424 cuts, 3.2 s)
+#6 D=1 FAIL (414 iterations, 341 cuts, 0.3 s) | D=2 certified (4087 iterations, 426 cuts, 3.3 s)
+#7 D=1 FAIL (860 iterations, 407 cuts, 0.7 s) | D=2 certified (3358 iterations, 434 cuts, 2.6 s)
+#8 D=1 FAIL (599 iterations, 350 cuts, 0.4 s) | D=2 certified (3355 iterations, 429 cuts, 2.4 s)
+#9 D=1 FAIL (891 iterations, 407 cuts, 0.6 s) | D=2 certified (6033 iterations, 439 cuts, 4.9 s)
+#10 D=1 FAIL (612 iterations, 367 cuts, 0.5 s) | D=2 certified (4567 iterations, 442 cuts, 4.8 s)
+#11 D=1 FAIL (4599 iterations, 446 cuts, 4.5 s) | D=2 certified (4776 iterations, 446 cuts, 4.9 s)
+k = 3, n = 3: lazy and one-hot agree on 104 of 104 (hypergraph, D) pairs
