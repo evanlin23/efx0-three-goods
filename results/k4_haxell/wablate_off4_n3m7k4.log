@@ -1,0 +1,1 @@
+$ python3 k4/haxell/ht_wclimb.py 3 7 4 STEPS=1500 CLIMBERS=3 RESTART=300 OFF=4 SEED=74
