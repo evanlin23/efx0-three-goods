@@ -1,0 +1,32 @@
+n5p6.json.gz
+   changed agents 2                                   702250
+   changed agents 3                                   588336
+   changed agents 4                                   1473974
+   changed agents 5                                   709059
+   class |U'|=1 |D_T'|=0                              166889
+   class |U'|=1 |D_T'|=1                              501802
+   class |U'|=1 |D_T'|=2                              189376
+   class |U'|=1 |D_T'|=3                              7733
+   class |U'|=2 |D_T'|=0                              1256409
+   class |U'|=2 |D_T'|=1                              643491
+   class |U'|=2 |D_T'|=2                              79428
+   class |U'|=3 |D_T'|=0                              450551
+   class |U'|=3 |D_T'|=1                              171921
+   class |U'|=3 |D_T'|=2                              6019
+   starts with a private-top agent                    0
+   u-first max pick vectors                           3473619
+   u-first pick vectors, not maximum                  62604
+n5s2.json.gz
+   changed agents 2                                   583680
+   changed agents 3                                   115200
+   changed agents 4                                   698880
+   changed agents 5                                   278400
+   class |U'|=1 |D_T'|=0                              46800
+   class |U'|=1 |D_T'|=1                              86400
+   class |U'|=1 |D_T'|=2                              39600
+   class |U'|=2 |D_T'|=0                              72000
+   class |U'|=2 |D_T'|=1                              379200
+   class |U'|=2 |D_T'|=2                              192000
+   class |U'|=3 |D_T'|=0                              860160
+   starts with a private-top agent                    0
+   u-first max pick vectors                           1676160

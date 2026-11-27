@@ -1,0 +1,90 @@
+fates of the dangerous agents in the ABS' moves at RF-PRIV gap starts: 400000 cores, n = 4..6, seed 14
+    every ABS' move keeps some dangerous agent frozen on its pick              50
+    some ABS' move in which every dangerous agent moves or is freed            1606
+    some ABS' move with fates in {junk, freed} only                            1272
+    some ABS' move with fates in {junk, pick+, freed}                          1592
+    |D_full| = 1: some ABS' move with fates freed                              41
+    |D_full| = 1: some ABS' move with fates junk                               375
+    |D_full| = 1: some ABS' move with fates kept                               7
+    |D_full| = 1: some ABS' move with fates pick+                              371
+    |D_full| = 2: some ABS' move with fates better+better                      1
+    |D_full| = 2: some ABS' move with fates better+freed                       5
+    |D_full| = 2: some ABS' move with fates better+junk                        176
+    |D_full| = 2: some ABS' move with fates better+kept                        1
+    |D_full| = 2: some ABS' move with fates better+pick+                       171
+    |D_full| = 2: some ABS' move with fates freed+freed                        16
+    |D_full| = 2: some ABS' move with fates freed+junk                         797
+    |D_full| = 2: some ABS' move with fates freed+kept                         4
+    |D_full| = 2: some ABS' move with fates freed+pick+                        692
+    |D_full| = 2: some ABS' move with fates junk+kept                          566
+    |D_full| = 2: some ABS' move with fates junk+pick+                         882
+    |D_full| = 2: some ABS' move with fates kept+pick+                         464
+    |D_full| = 2: some ABS' move with fates pick++pick+                        613
+    |D_full| = 3: some ABS' move with fates better+better+junk                 13
+    |D_full| = 3: some ABS' move with fates better+better+kept                 1
+    |D_full| = 3: some ABS' move with fates better+better+pick+                12
+    |D_full| = 3: some ABS' move with fates better+freed+junk                  42
+    |D_full| = 3: some ABS' move with fates better+freed+pick+                 34
+    |D_full| = 3: some ABS' move with fates better+junk+kept                   44
+    |D_full| = 3: some ABS' move with fates better+junk+pick+                  60
+    |D_full| = 3: some ABS' move with fates better+kept+pick+                  40
+    |D_full| = 3: some ABS' move with fates better+pick++pick+                 39
+    |D_full| = 3: some ABS' move with fates freed+freed+junk                   89
+    |D_full| = 3: some ABS' move with fates freed+freed+pick+                  76
+    |D_full| = 3: some ABS' move with fates freed+junk+kept                    110
+    |D_full| = 3: some ABS' move with fates freed+junk+pick+                   150
+    |D_full| = 3: some ABS' move with fates freed+kept+kept                    1
+    |D_full| = 3: some ABS' move with fates freed+kept+pick+                   94
+    |D_full| = 3: some ABS' move with fates freed+pick++pick+                  118
+    |D_full| = 3: some ABS' move with fates junk+kept+kept                     70
+    |D_full| = 3: some ABS' move with fates junk+kept+pick+                    131
+    |D_full| = 3: some ABS' move with fates junk+pick++pick+                   61
+    |D_full| = 3: some ABS' move with fates kept+kept+pick+                    55
+    |D_full| = 3: some ABS' move with fates kept+pick++pick+                   101
+    |D_full| = 3: some ABS' move with fates pick++pick++pick+                  51
+    |D_full| = 4: some ABS' move with fates better+better+freed+junk           1
+    |D_full| = 4: some ABS' move with fates better+better+freed+pick+          1
+    |D_full| = 4: some ABS' move with fates better+better+junk+pick+           1
+    |D_full| = 4: some ABS' move with fates better+freed+freed+junk            1
+    |D_full| = 4: some ABS' move with fates better+freed+freed+pick+           1
+    |D_full| = 4: some ABS' move with fates better+freed+junk+kept             2
+    |D_full| = 4: some ABS' move with fates better+freed+junk+pick+            3
+    |D_full| = 4: some ABS' move with fates better+freed+pick++pick+           2
+    |D_full| = 4: some ABS' move with fates better+junk+kept+kept              1
+    |D_full| = 4: some ABS' move with fates better+junk+kept+pick+             2
+    |D_full| = 4: some ABS' move with fates better+kept+kept+pick+             1
+    |D_full| = 4: some ABS' move with fates better+kept+pick++pick+            1
+    |D_full| = 4: some ABS' move with fates freed+freed+junk+kept              3
+    |D_full| = 4: some ABS' move with fates freed+freed+junk+pick+             2
+    |D_full| = 4: some ABS' move with fates freed+freed+kept+pick+             2
+    |D_full| = 4: some ABS' move with fates freed+freed+pick++pick+            1
+    |D_full| = 4: some ABS' move with fates freed+junk+kept+kept               2
+    |D_full| = 4: some ABS' move with fates freed+junk+kept+pick+              6
+    |D_full| = 4: some ABS' move with fates freed+junk+pick++pick+             2
+    |D_full| = 4: some ABS' move with fates freed+kept+kept+pick+              1
+    |D_full| = 4: some ABS' move with fates freed+kept+pick++pick+             4
+    |D_full| = 4: some ABS' move with fates freed+pick++pick++pick+            2
+    |D_full| = 4: some ABS' move with fates junk+kept+kept+pick+               3
+    |D_full| = 4: some ABS' move with fates junk+kept+pick++pick+              2
+    |D_full| = 4: some ABS' move with fates kept+kept+pick++pick+              3
+    |D_full| = 4: some ABS' move with fates kept+pick++pick++pick+             1
+  gap starts, |D_full| = 1                                                     380
+  gap starts, |D_full| = 2                                                     1066
+  gap starts, |D_full| = 3                                                     204
+  gap starts, |D_full| = 4                                                     6
+  |D_full| = 1: least fate set that some ABS' move stays inside: {junk, freed} 380
+  |D_full| = 2: least fate set that some ABS' move stays inside: {junk, freed, pick+, better, kept} 24
+  |D_full| = 2: least fate set that some ABS' move stays inside: {junk, freed, pick+, better} 1
+  |D_full| = 2: least fate set that some ABS' move stays inside: {junk, freed, pick+} 238
+  |D_full| = 2: least fate set that some ABS' move stays inside: {junk, freed} 803
+  |D_full| = 3: least fate set that some ABS' move stays inside: {junk, freed, pick+, better, kept} 24
+  |D_full| = 3: least fate set that some ABS' move stays inside: {junk, freed, pick+, better} 12
+  |D_full| = 3: least fate set that some ABS' move stays inside: {junk, freed, pick+} 79
+  |D_full| = 3: least fate set that some ABS' move stays inside: {junk, freed} 89
+  |D_full| = 4: least fate set that some ABS' move stays inside: {junk, freed, pick+, better, kept} 2
+  |D_full| = 4: least fate set that some ABS' move stays inside: {junk, freed, pick+, better} 1
+  |D_full| = 4: least fate set that some ABS' move stays inside: {junk, freed, pick+} 3
+
+real	3m59.547s
+user	14m37.034s
+sys	0m44.493s

@@ -1,0 +1,3 @@
+random private-top cores: 400 instances, n = 4..6
+  maximum-matching pick vectors, one move repairs     3
+  maximum-matching pick vectors, picks complete       1294

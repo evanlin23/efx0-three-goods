@@ -1,0 +1,32 @@
+random private-top cores: 20000 instances, n = 4..6
+    has a repair with d in D, w unfrozen, |H0| = 2           87
+    two-agent repair: d in D, w frozen, |H0| = 2             27
+    two-agent repair: d in D, w frozen, |H0| = 3             1
+    two-agent repair: d in D, w unfrozen, |H0| = 2           87
+    two-agent repair: d in D, w unfrozen, |H0| = 3           17
+    two-agent repair: d not in D, w frozen, |H0| = 2         1
+  after one move, owner f possible                           103
+  max starts                                                 62531
+  picks do not complete                                      103
+  repair: chain through D, f fixed, 2 agents change          100
+  repair: chain through D, f fixed, 3 agents change          95
+  repair: chain through D, f fixed, 4 agents change          49
+  repair: chain through D, f fixed, 5 agents change          12
+  repair: chain through D, f moves, 2 agents change          5
+  repair: chain through D, f moves, 3 agents change          14
+  repair: chain through D, f moves, 4 agents change          9
+  repair: chain through D, f moves, 5 agents change          7
+  repair: chain through D, f moves, 6 agents change          2
+  repair: no D agent moves, f fixed, 1 agents change         10
+  repair: no D agent moves, f fixed, 2 agents change         1
+  repair: no D agent moves, f fixed, 3 agents change         1
+  repair: no D agent moves, f moves, 1 agents change         31
+  two-agent chain d -> w with owner f: exists                93
+  two-agent chain d -> w with owner f: none                  10
+  |D_full| = 1                                               24
+  |D_full| = 2                                               65
+  |D_full| = 3                                               14
+  example [[[0, 1, 4, 5], [1, 2, 3, 6], [0, 3, 4, 7], [1, 2, 4, 8], [2, 3, 4]], [[27, 28, 40, 7], [30, 28, 27, 40], [29, 12, 40, 37], [23, 27, 16, 18], [39, 8, 40]], [1, 6, 4, 8, 2], [0, 1, 2, 3, 4, null], 1]
+  example [[[1, 3, 4], [0, 1, 4, 5], [0, 1, 2, 6], [1, 2, 3, 4]], [[34, 18, 29], [18, 23, 1, 25], [37, 38, 33, 31], [24, 17, 28, 38]], [3, 5, 1, 4], [1, null], 1]
+  example [[[2, 3, 4, 6], [0, 1, 4, 7], [0, 2, 3, 5], [1, 5, 8], [1, 2, 5, 9], [1, 5, 10]], [[20, 36, 9, 34], [15, 39, 34, 37], [29, 14, 35, 34], [10, 11, 14], [30, 3, 22, 37], [33, 26, 13]], [3, 1, 5, 8, 9, 10], [0, 1, 2, 3, 4, 5, null], 3]
+  example [[[1, 2, 5, 6], [0, 2, 3, 7], [3, 4, 8], [0, 3, 5, 9], [0, 1, 4, 5]], [[31, 32, 21, 37], [26, 16, 27, 25], [38, 6, 35], [23, 14, 30, 22], [10, 26, 25, 34]], [6, 0, 3, 9, 5], [0, 1, 2, 3, 4, null], 0]
