@@ -84,7 +84,7 @@ if __name__ == '__main__':
             w = ln.split()
             with lock:
                 src = sent[k].popleft()
-            d = {w[2 * t + 4]: int(w[2 * t + 5]) for t in range(19)}
+            d = {w[i]: int(w[i + 1]) for i in range(4, len(w) - 1, 2) if w[i].startswith('phi')}
             with lock:
                 C['instances'] += 1; C['partial EFX0 states'] += int(w[3]); C['instances m=%s' % w[1]] += 1
                 for key in phis:
