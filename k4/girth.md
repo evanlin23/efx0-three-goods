@@ -16,14 +16,15 @@ the coordinator integrates.
 - §7 **One-receiver σ-maximal starts** (coordinator's question): no OC₁ failure in 560,880 profiles. NA / owner d /
   the 3-ring certificate cover 267 of 311 (1, 0) vectors. RF-A1\* is never needed and RF-T′ never applies. The other
   44 need trades outside RF-T's shape, chains with a pick-dangerous tail (a form outside DEMOTE), or two-junk trades.
-- §6 pure n = 4 DYN∃: 163 of 219 cores certified so far, no failure (running).
+- §6 pure n = 4 DYN∃: **PARTIAL**, 170 of 219 cores certified, no failure. The run was stopped at the session
+  wind-down; resume with `--skip-done` (command at the end of the log).
 
 **Status (burst 5).** Refereed CORRECT by the coordinator's review: Theorem T1, Proposition HT, Lemmas
 SINK, PARK, SLACK (general). Everything else below is as marked.
-- §6 (CERTIFIED, the coordinator's decisive test): **DYN∃ holds on every connected k = 4 core with n ≤ 4 and on every
+- §6 (CERTIFIED, the coordinator's decisive test): **DYN∃ holds on every connected k = 4 core with n ≤ 4 (pure n = 4: 170 of 219 cores, PARTIAL) and on every
   n = 5 core with one 4-good agent**: for every strict profile SOME labeling of LSS's Algorithm 2 (G1 repair) followed
   by dynamic parking with envy-cycle rotation completes. Exhaustive covering of the order types (`k4/girth/dyncert.py`):
-  n = 2, 3 (all), n = 4 with one, two, three 4-good agents (all 783; 3.6·10¹⁰ profiles), pure n = 4 (running), n = 5 with
+  n = 2, 3 (all), n = 4 with one, two, three 4-good agents (all 783; 3.6·10¹⁰ profiles), pure n = 4 (PARTIAL: 170 of 219 cores, run stopped), n = 5 with
   one 4-good agent (all 1,735). No profile where every labeling fails. Independent second covering through `lss.py`
   with symbolic values (`k4/girth/dyncert_sym.py`): n = 2, n = 3 and n = 4 with one 4-good agent agree (all certified).
 - §6 (findings): the n default labelings (choice of vertex 0 only) suffice at n = 3 and on the n = 5 cores with one
@@ -39,7 +40,8 @@ SINK, PARK, SLACK (general). Everything else below is as marked.
 - Earlier bursts: §1 digest (girth ≥ 3 used five times, girth ≥ 4 once, only for 3-cycles through vertex 0); §2
   faithful runs (EVIDENCE); §3 Lemmas SINK, PARK, SLACK, §5 Lemma EC and stuck states (PROVED); §4 Theorem T1,
   Proposition HT (PROVED), PL and LR (REFUTED), LR-dyn (CONJECTURE); §5 DYN evidence and refuted variants.
-- Next: pure n = 4 and the independent covering on samples of the larger classes (running); a second exhaustive
+- Next: the remaining 49 pure n = 4 cores and the independent covering on samples of the larger classes (stopped at
+  the wind-down); a second exhaustive
   encoding of DOM; a proof route for DOM (a completion lemma for Algorithm 2's states).
 
 **Ledger candidates** (for the coordinator; LEDGER.md is not edited here). Proposed IDs:
@@ -60,7 +62,7 @@ SINK, PARK, SLACK (general). Everything else below is as marked.
 | K4.GIRTH.FAITH | Faithful LSS on degree-≤ 4 instances with short cycles: failures by girth use | EVIDENCE | §2, `results/k4_girth_faithful.log`, `attempts/k4-girth-faithful.md` |
 | K4.GIRTH.SINK2 | LSS's orientation + one sink with 2-cycles | REFUTED (n = 2) | `attempts/k4-girth-sink-2cycles.md` |
 | K4.GIRTH.DYNP | DYN without the G1 repair | REFUTED (n = 4 core profile) | `attempts/k4-girth-dyn-plain.md` |
-| K4.GIRTH.DYN4 | DYN∃ (some labeling; Algorithm 2 with the G1 repair, then dynamic parking with envy-cycle rotation) completes on every strict profile of every connected k = 4 core with n ≤ 4, and of every n = 5 core with one 4-good agent | CERTIFIED (pure n = 4 running; independent covering for n ≤ 3 and n = 4 with one 4-good agent) | §6, `k4/girth/dyncert.py`, `k4/girth/dyncert_sym.py`, `results/k4_girth_dyncert_*.log`, `results/k4_girth_dyncert_sym_*.log`, `results/k4_girth_dyncert_selftest.log`, `results/k4_girth_dyncert_xcheck.log` |
+| K4.GIRTH.DYN4 | DYN∃ (some labeling; Algorithm 2 with the G1 repair, then dynamic parking with envy-cycle rotation) completes on every strict profile of every connected k = 4 core with n ≤ 4, and of every n = 5 core with one 4-good agent | CERTIFIED except pure n = 4 (PARTIAL: 170 of 219 cores certified, run stopped); independent covering for n ≤ 3 and n = 4 with one 4-good agent) | §6, `k4/girth/dyncert.py`, `k4/girth/dyncert_sym.py`, `results/k4_girth_dyncert_*.log`, `results/k4_girth_dyncert_sym_*.log`, `results/k4_girth_dyncert_selftest.log`, `results/k4_girth_dyncert_xcheck.log` |
 | K4.GIRTH.UNI | One labeling per core hypergraph works for every profile | REFUTED (n = 3, m = 6) | `attempts/k4-girth-uniform-labeling.md`, `attempts/k4_girth_uniform.py`, `results/k4_girth_dyncert_3_uniform.log` |
 | K4.GIRTH.DYNX | With exchange moves in the parking, every labeling completes | REFUTED (n = 3: 253 of 300 labelings) | `k4/girth/dynx.py`, `results/k4_girth_dynx_3.log` |
 | K4.GIRTH.DOM | For every labeling, Algorithm 2 (G1 repair) leaves a state with a dominating complete EFX₀ allocation (⟹ TARGET₄) | CONJECTURE (exhaustive at n = 3 by one implementation) | §6, `k4/girth/dom_test.py`, `results/k4_girth_dom_*.log` |
@@ -537,12 +539,12 @@ increasing agent order, one per vertex 0) first.
 | n = 4, one 4-good agent | 135 | 7,247,232 | 268,107 | all CERTIFIED; independent covering: all CERTIFIED (366,486 runs) | `results/k4_girth_dyncert_4_n4_1.log`, `results/k4_girth_dyncert_sym_4_n4_1.log` |
 | n = 4, two | 309 | 724,847,616 | 5,361,575 | all CERTIFIED | `results/k4_girth_dyncert_4_n4_2.log` |
 | n = 4, three | 339 | 34,971,844,608 | 57,987,455 | all CERTIFIED | `results/k4_girth_dyncert_4_n4_3.log` |
-| n = 4, four (pure) | 219 | (queued) | | | `results/k4_girth_dyncert_4_pure.log` |
+| n = 4, four (pure) | 219 | **PARTIAL: 170 certified, 0 failures** (run stopped; 49 cores not run) | | | `results/k4_girth_dyncert_4_pure.log` |
 | n = 5, one 4-good agent | 1,735 | 574,615,296 | 13,418,885 | all CERTIFIED | `results/k4_girth_dyncert_5_n4_1.log` |
 
 No profile on which every labeling fails was found. The n = 5 row covers every core with one 4-good agent (not a
 sample); the other n = 5 cores (two to four 4-good agents, 29,849 hypergraphs) would need about 10⁷ CPU-seconds in
-Python, so only samples are run (queued).
+Python, so only samples are run (not run: stopped at the wind-down).
 
 **Which labelings are needed.**
 - *Vertex 0 is the only freedom needed so far.* With the n default labelings alone (`--family=default`) every n = 3
