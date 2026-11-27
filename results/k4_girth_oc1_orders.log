@@ -1,0 +1,40 @@
+$ python3 k4/girth/oc1_orders.py 150 2
+  4_n4_3#58 done
+  4_n4_3#77 done
+  4_pure#20 done
+  4_pure#21 done
+  4_pure#23 done
+  4_pure#24 done
+  4_pure#26 done
+  4_pure#29 done
+  4_pure#36 done
+  4_pure#38 done
+  4_pure#45 done
+n=4: 1580 failing profiles, 2868 failing orders
+   adj (some adjacent transposition) works                            2868 of     2868 (100.0%)
+   any order works                                                    2868 of     2868 (100.0%)
+   profiles: every other maximum-matching pick vector satisfies OC1     1574 of     1580 (99.6%)
+   receiver already before its swap partner                              0 of     1540 (0.0%)
+   recv<d (some swap) works                                           1540 of     1540 (100.0%)
+   recv<d applicable                                                  1540 of     2868 (53.7%)
+   recvfirst works                                                    2868 of     2868 (100.0%)
+   rev2cyc (every 2-cycle) works                                      2650 of     2868 (92.4%)
+   rev2cyc (some 2-cycle) works                                       2868 of     2868 (100.0%)
+   swapDD (first pair) works                                          2738 of     2868 (95.5%)
+   swapDD (some pair) works                                           2850 of     2868 (99.4%)
+   swapDD applicable                                                  2868 of     2868 (100.0%)
+   swapDT applicable                                                  2868 of     2868 (100.0%)
+   swapDT works                                                       2850 of     2868 (99.4%)
+n=5: 24 failing profiles, 86 failing orders
+   adj (some adjacent transposition) works                              86 of       86 (100.0%)
+   any order works                                                      86 of       86 (100.0%)
+   profiles: every other maximum-matching pick vector satisfies OC1       22 of       24 (91.7%)
+   receiver already before its swap partner                              0 of       86 (0.0%)
+   recv<d (some swap) works                                             86 of       86 (100.0%)
+   recv<d applicable                                                    86 of       86 (100.0%)
+   recvfirst works                                                      86 of       86 (100.0%)
+   rev2cyc (every 2-cycle) works                                        24 of       86 (27.9%)
+   rev2cyc (some 2-cycle) works                                         86 of       86 (100.0%)
+   swapDD (first pair) works                                            34 of       80 (42.5%)
+   swapDD (some pair) works                                             46 of       80 (57.5%)
+   swapDD applicable                                                    80 of       86 (93.0%)

@@ -1,0 +1,6 @@
+===== 5_pure m=10 idx 419 picks (6, 4, 5, 9, 7) J [0, 1, 2, 3, 8] F [0, 1, 2, 4] D [0, 1, 2, 4] one-absorber at picks False
+  one-move repairs: 0 of 19
+  two-move repairs (state pairs): 18 ; with vertex-disjoint moves: 12 ; example: ([('chain', (0, 4), {0: (0, 7), 1: ()})], [('chain', (1, 3), {0: (1, 8, 9), 1: ()})])
+===== 5_pure m=11 idx 447 picks (5, 1, 6, 7, 8) J [0, 2, 3, 4, 9, 10] F [0, 2, 3, 4] D [0, 2, 3, 4] one-absorber at picks False
+  one-move repairs: 0 of 41
+  two-move repairs (state pairs): 66 ; with vertex-disjoint moves: 24 ; example: ([('chain', (0, 4), {0: (0, 8), 1: ()})], [('chain', (1, 2), {0: (6,), 1: (3, 9, 10)})])

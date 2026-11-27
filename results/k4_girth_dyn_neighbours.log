@@ -1,0 +1,2 @@
+$ python3 k4/girth/dyn_neighbours.py 300 7
+{'profiles': 48000, 'completed': 48000}

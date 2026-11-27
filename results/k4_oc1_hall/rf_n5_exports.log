@@ -1,0 +1,51 @@
+$ python3 k4/oc1_hall/rf_n5.py two_move_starts_n5_partial6.json.gz two_move_starts_n5_sel2.json.gz
+5_pure#164: RF starts 127992, DEMOTE-2 14110, with a candidate meeting (B1)-(B5) 14110
+5_pure#374: RF starts 148822, DEMOTE-2 29072, with a candidate meeting (B1)-(B5) 27158
+5_pure#379: RF starts 109541, DEMOTE-2 0, with a candidate meeting (B1)-(B5) 0
+5_pure#38: RF starts 307200, DEMOTE-2 0, with a candidate meeting (B1)-(B5) 0
+5_pure#419: RF starts 276480, DEMOTE-2 0, with a candidate meeting (B1)-(B5) 0
+5_pure#447: RF starts 115200, DEMOTE-2 0, with a candidate meeting (B1)-(B5) 0
+5_pure#464: RF starts 260774, DEMOTE-2 78051, with a candidate meeting (B1)-(B5) 39075
+5_pure#778: RF starts 93893, DEMOTE-2 18878, with a candidate meeting (B1)-(B5) 4597
+5_pure#808: RF starts 90181, DEMOTE-2 0, with a candidate meeting (B1)-(B5) 0
+DEMOTE-2 candidate off the RF path: meets (B1)-(B5) False 43134
+DEMOTE-2 candidate off the RF path: meets (B1)-(B5) True 84940
+DEMOTE-2 candidate on the RF path: meets (B1)-(B5) False 16431
+DEMOTE-2, no candidate at all 12037
+DEMOTE-2, no candidate: failed B2 d wants Y'_k, nobody else does: False 160
+DEMOTE-2, no candidate: failed B5 every i valuing >= 2 goods of Z: v_i(Z) - min <= p_i: False 44062
+DEMOTE-2, tier 2 (chain k -> d with T = S, then any completion): False 12037
+DEMOTE-2, tier 2 (chain k -> d with T = S, then any completion): True 43134
+DEMOTE-2, tier 3 (a canonical chain from k with H0 = S, then any completion): True 12037
+DEMOTE-2, tier 3 kind: length 1, head frozen 12037
+DEMOTE-2, tier 3 kind: length 2, head d 12037
+DEMOTE-2, tier 3 kind: length 2, head frozen 12037
+DEMOTE-2, tier 3 kind: length 3, head d 12037
+DEMOTE-2, two candidates: the one d values more meets (B1)-(B5): False; the other: False 928
+DEMOTE-2, two candidates: the one d values more meets (B1)-(B5): False; the other: True 241
+DEMOTE-2, two candidates: the one d values more meets (B1)-(B5): True; the other: False 15262
+DEMOTE-2: ... and FULL(k, S) is EFX0 for it: True 84940
+DEMOTE-2: FULL(k, S) EFX0 for some candidate anyway: False 55171
+DEMOTE-2: candidates k<-d: 0 12037
+DEMOTE-2: candidates k<-d: 1 111643
+DEMOTE-2: candidates k<-d: 2 16431
+DEMOTE-2: some candidate meets (B1)-(B5): False 55171
+DEMOTE-2: some candidate meets (B1)-(B5): True 84940
+DEMOTE-2: |S| = 2 140111
+RF starts 1530083
+RF starts by (|U'|, |D_T'|) = (1, 0) 113484
+RF starts by (|U'|, |D_T'|) = (1, 1) 2782
+RF starts by (|U'|, |D_T'|) = (1, 2) 140111
+RF starts by (|U'|, |D_T'|) = (1, 3) 7733
+RF starts by (|U'|, |D_T'|) = (2, 0) 480959
+RF starts by (|U'|, |D_T'|) = (2, 1) 363402
+RF starts by (|U'|, |D_T'|) = (2, 2) 26472
+RF starts by (|U'|, |D_T'|) = (3, 0) 391680
+RF starts with a pickless agent 3460
+RF-PATH (one ejection path in o-order, ejected agents lose, end unfrozen at Y'): True 7608052
+failing orders 7608052
+failing starts with 1 receivers 1285930
+
+real	1m37.372s
+user	3m34.824s
+sys	0m4.098s

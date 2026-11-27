@@ -1,0 +1,2 @@
+$ python3 k4/girth/lr_climb.py 2 1100
+no counterexample; restarts 1, evaluations 303766, best score 0
