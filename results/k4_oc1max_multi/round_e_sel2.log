@@ -1,0 +1,8 @@
+# input: results/k4_matching/data/two_move_starts_n5_sel2.json.gz on proof/k4-matching (a18c5939; sha256 d1f6f0821cf2e83a0a441ca814b5c402534265d105a8356add81300c11293093): every two-move start of 5_pure m = 10 #419, m = 11 #447, m = 9 #38, exported by the certifier (completeness certified at 14904a87 on compute/k4-oc1max-cert, per the matching session); fetched with git show
+$ RMAX=2 python3 k4/oc1max_multi/round_e.py results/k4_matching/data/two_move_starts_n5_sel2.json.gz
+rounds needed: 1 391680
+rounds needed: 2 192000
+rounds tried 3087360
+starts 583680
+not repaired: 0 []
+wrote 583680 witnesses to results/k4_oc1max_multi/round_e_sel2_witnesses.json.gz
