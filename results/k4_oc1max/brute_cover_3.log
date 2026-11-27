@@ -1,0 +1,7 @@
+$ python3 k4/oc1cert/brute.py cover results/k4_oc1max/cert_3.json.gz
+boxes 17153
+hypergraphs covered 51
+nonempty (order, matching) regions 9210
+profiles x orders checked 1799024256
+time 154 s
+RESULT ok

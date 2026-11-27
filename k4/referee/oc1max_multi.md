@@ -283,3 +283,129 @@ my own code: the formula written from the text, compared with a raw brute force 
 | mutation: edges without the compensation bound b_i + v_i(h) ≥ τ_i | 2,414 | | 19,140 | **38** |
 
 So the frozen-slot enumeration, the frozen-slot requirement and the compensation bound are each necessary.
+
+## 10. Addendum: Theorem S, Lemma HS, HS-U1, and the SLOT residue (`k4/oc1max_multi.md` §10 at `b107719`; 2026-11-27)
+
+**Read.** §10 in full, and the ledger rows K4.MULTI.S and K4.MULTI.SLOT2 at `b107719`. §3 (Theorem U, KEEP) and §9
+are unchanged.
+
+**Checks.** All my own code, raw EFX₀; nothing from `k4/oc1max_multi/` was run or imported.
+- `k4/referee/theorem_s_ref.py`, run by `theorem_s_ref_runs.sh`, log `results/k4_referee/theorem_s_ref.log`.
+- `k4/referee/slot2_ref.py`, log `results/k4_referee/slot2_ref.log`.
+- The 8,383 starts of K4.MULTI.DATA (`results/k4_oc1max_multi/hard2_starts*.jsonl.gz` at `b107719`) are read as data.
+  The picks are recomputed from each stored order.
+
+**Verdict.**
+- Theorem S (both forms, (S-d) and (S-d′)): **CORRECT**.
+- Lemma HS and HS-U1: **CORRECT**.
+- The coverage claims are reproduced exactly: 5,945 / 6,679 / 7,441 starts, and 2,880 for Theorem U alone.
+- **Fix:** the log613 instance is printed with wrong values for agents 1 and 2, and with the printed values its
+  narrative is false (details below). Two wording remarks follow as well.
+
+**The proof, re-derived.**
+- *Step 0, the move.*
+  - k is frozen, so the walk of D1-chain gives a canonical chain from k, and a longest one exists.
+  - (S-a) makes W ∩ R_k improving.
+  - The chain is official: each x_i wants Y_{x_{i−1}} at the picks, and z wants a.
+  - h ∉ W ⊇ H₀, so h ∈ J′, and k's final bundle H₀ ∪ (J′ ∖ {h}) is Π ∖ {h} = W.
+  - H₀ may contain Y_z, as official chains allow (H₀ ⊆ Π).
+- *Step 1, the receiver.*
+  - The SD order strictly increases along P: x_i wants Y_{x_{i−1}} at the picks, so x_{i−1} picked first.
+  - So no agent of P other than x_{t−1} and z can value a above its pick, and k never wants a at B′.
+  - Hence whether z is frozen after P does not depend on H₀. This is what makes (S-d′) well defined at chain level.
+  - If z is frozen after P, every wanter w of a at B′ is off P and wanted a at the picks. w is unfrozen at the picks:
+    otherwise the walk up from w would give a strictly longer canonical chain, whose agents are distinct by the SD
+    order.
+  - w holds a pick (perfect start), and w is unfrozen at B′: a wanter of Y_w at B′ would have wanted it at the picks,
+    since values only rise.
+  - So w is a holder with value p_w, and *every* wanter works, not just some.
+- *Step 3, EFX₀ of A.* A has only two bundles with two or more goods: W, and {B′_r, h}.
+  - **{B′_r, h}** threatens i only if v_i(B′_r) > v_i(A_i) or v_i(h) > v_i(A_i).
+    - The first is excluded because r is a holder at B′ and values only rise; for k, v_k(B′_r) ≤ v_k(H₀) ≤ v_k(W).
+    - The second is excluded because h ∈ J was available at i's SD turn, so v_i(h) ≤ p_i (null agents value nothing).
+    - With h = Y_z, v_i(Y_z) ≤ p_i because the head is unfrozen at the picks.
+  - **W** is checked over a partition of the agents other than k:
+    - z: by (S-d), W ∩ R_z ⊆ {Y_z} and v_z(W) ≤ p_z < v_z(a); (S-d′) assumes the conclusion;
+    - D ∖ {k}: (S-b), since threats are antitone in the value;
+    - unfrozen pick holders other than z, w among them: (S-c);
+    - F ∖ D: W ∩ R_i ⊆ {Y_z}, worth at most p_i;
+    - pickless agents: null.
+
+    z is unfrozen at the picks, so it is not in D. The partition is exhaustive.
+  - A is a partition of all goods.
+  - Hardness is not used.
+- *Lemma HS.* With z unfrozen at B′:
+  - (S2) is exactly "W does not threaten z at v_z(a) + v_z(h)";
+  - (S3) covers everyone else at unchanged values;
+  - {a, h} threatens nobody, as above.
+
+  Correct.
+- *HS-U1.* With one unfrozen pick holder, step 1 shows that a wanter of a at B′ would be a second one. Correct.
+
+**Wording remarks** (no change to any claim).
+1. *"With h = Y_z … the relaxed form is Theorem U."* It *contains* Theorem U, and is slightly more general:
+   - it needs no hardness;
+   - (S-a) is v_k(J) > p_k instead of k ∈ D_T;
+   - (S-d′) with a frozen head needs only that J does not threaten z at v_z(a), not z ∉ E_J.
+
+   Theorem U's hypotheses imply (S-a)–(S-c) and (S-d′), as the three bullets of the note say.
+2. *log613, k = 2: "Every improving pair leaves agent 1 frozen and threatened."* With the data's values, the only
+   improving H₀ ⊆ Π ∩ R₂ is the triple {4, 5, 6} (9 > 8; every pair is worth ≤ 7). "Pair" must mean (chain, H₀). The
+   conclusion is right: the only holder is 0, so |H| ≤ 1, and the owner's bundle contains a good worthless to agent 1.
+
+**Fix (log613's values).**
+
+| | §10 prints | K4.MULTI.DATA (`hard2_starts.jsonl.gz`) |
+|---|---|---|
+| R₁ | {2: 8, 4: 2, 5: 3, 6: 4} | {2: 8, 4: 4, 5: 2, 6: 3} |
+| R₂ | {3: 7, 4: 3, 5: 5, 6: 6} | {3: 8, 4: 3, 5: 4, 6: 2} |
+
+R₀ agrees. With the **data's** values, the narrative is right throughout:
+- p = (4, 8, 8);
+- for k = 1, the only improving H₀ is {4, 5, 6};
+- with |H| = 1, X threatens 2 at 8 (9 > 8), and 2 values neither good of J′ = {0, 1}, so 2 is a needy holder with an
+  empty neighbourhood;
+- with H = {0, 1}, the allocation ({1, 2}, {4, 5, 6}, {0, 3}) is EFX₀.
+
+With the **printed** values the same picks arise (order (1, 2, 0)), but X = {4, 5, 6} threatens agent 2 even with
+H = {0, 1}: v₂({4, 5, 6}) minus its cheapest good is 11 > p₂ = 7. So the printed |H| = 2 allocation is *not* EFX₀.
+Replace the two lists by the data's.
+
+**Computation (evidence).**
+- For every k ∈ D, every longest canonical chain from k, and every h ∈ J ∪ {Y_z} meeting the hypotheses, the test
+  takes **every** improving H₀ ⊆ W (not only minimal ones).
+- When the head is frozen, it uses **every** wanter of a.
+- It checks step 1's claims about the wanter, that the move is official, that A is a partition, and that A is raw EFX₀.
+
+| run | starts | Theorem S tests (S-d / S-d′ only / h = Y_z) | failures | Lemma HS | HS-U1 |
+|---|---|---|---|---|---|
+| K4.MULTI.DATA | 8,383 | 64,486 / 20,600 / 16,330 | **0** | 83,133, 0 failures | 129,701, 0 failures |
+| random perfect starts, not necessarily hard, ties in 30% (n = 3–5, two seeds) | 135,028 | 59,924 / 17,528 / 26,766 | **0** | 65,707, 0 failures | 14,235, 0 failures |
+
+Mutations: each hypothesis is used. The failures are allocations that are not EFX₀; for the first mutation, the
+second number counts wanters that are not holders.
+
+| mutation | data: tests / failures | random: tests / failures |
+|---|---|---|
+| any canonical chain, not only longest | 129,817 / **16,265** (and 22,406 step-1 wanters not holders) | 14,727 / **490** (651) |
+| drop (S-b) | 330,645 / **223,529** | 15,207 / **1,254** |
+| drop (S-c) | 136,410 / **34,994** | 16,444 / **2,543** |
+| drop (S-d) and (S-d′) | 114,777 / **13,361** | 15,857 / **1,956** |
+
+**Coverage, recomputed independently on K4.MULTI.DATA.**
+- Some (k, longest P, h) meets the hypotheses at:
+  - **5,945** starts with (S-d);
+  - **6,679** with (S-d′), h ∈ J;
+  - **7,441** with (S-d′), h ∈ J ∪ {Y_z}.
+- Theorem U's hypotheses (D_T = {k}, E_J ⊆ {z}, and z ∈ E_J ⟹ z unfrozen after P, at some longest chain) hold at
+  **2,880**.
+- All four match §10. I did not recompute the per-regime split, since it depends on the session's regime classifier.
+
+**The SLOT residue (K4.MULTI.SLOT2, a conjecture; spot check of the named instances).**
+- At log720, log613 and n4_3#947.0 (matched by name and picks), no (k, longest P, h ∈ J ∪ {Y_z}) meets Theorem S.
+- The least kept-out set over every S\* completion with owner k ∈ D, after every canonical chain from k and every
+  improving H₀ ⊆ Π (brute force), is **1, 2 and 3** respectively, as the table says.
+- Witnesses:
+  - log720: chain (0, 2, 3), H₀ = {0, 2}, agent 2 takes 8;
+  - log613: chain (1, 0), H₀ = {4, 5, 6}, agents 0 and 2 take 0 and 1;
+  - n4_3#947.0: chain (4, 2, 3), H₀ = {5, 8}, three holders take one good each.

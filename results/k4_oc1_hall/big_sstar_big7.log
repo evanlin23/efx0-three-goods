@@ -1,0 +1,57 @@
+$ python3 k4/oc1_hall/big_sstar.py big:7 1000 23 100 DF_HMAX=4 DF_TMAX=99
+... {'instances': 20, 'distinct starts': 195, 'picks complete in S*': 190, 'hard starts': 5, 'hard start repaired: D agent owns': 5} 1 s
+... {'instances': 40, 'distinct starts': 381, 'picks complete in S*': 373, 'hard starts': 8, 'hard start repaired: D agent owns': 8} 1 s
+... {'instances': 60, 'distinct starts': 493, 'picks complete in S*': 480, 'hard starts': 13, 'hard start repaired: D agent owns': 13} 2 s
+... {'instances': 80, 'distinct starts': 622, 'picks complete in S*': 607, 'hard starts': 15, 'hard start repaired: D agent owns': 15} 2 s
+... {'instances': 100, 'distinct starts': 783, 'picks complete in S*': 764, 'hard starts': 19, 'hard start repaired: D agent owns': 19} 3 s
+... {'instances': 120, 'distinct starts': 917, 'picks complete in S*': 892, 'hard starts': 25, 'hard start repaired: D agent owns': 25} 3 s
+... {'instances': 140, 'distinct starts': 1037, 'picks complete in S*': 1009, 'hard starts': 28, 'hard start repaired: D agent owns': 28} 4 s
+... {'instances': 160, 'distinct starts': 1204, 'picks complete in S*': 1170, 'hard starts': 34, 'hard start repaired: D agent owns': 34} 4 s
+... {'instances': 180, 'distinct starts': 1363, 'picks complete in S*': 1328, 'hard starts': 35, 'hard start repaired: D agent owns': 35} 5 s
+... {'instances': 200, 'distinct starts': 1492, 'picks complete in S*': 1457, 'hard starts': 35, 'hard start repaired: D agent owns': 35} 5 s
+... {'instances': 220, 'distinct starts': 1650, 'picks complete in S*': 1612, 'hard starts': 38, 'hard start repaired: D agent owns': 38} 6 s
+... {'instances': 240, 'distinct starts': 1765, 'picks complete in S*': 1721, 'hard starts': 44, 'hard start repaired: D agent owns': 44} 6 s
+... {'instances': 260, 'distinct starts': 1943, 'picks complete in S*': 1886, 'hard starts': 57, 'hard start repaired: D agent owns': 57} 7 s
+... {'instances': 280, 'distinct starts': 2133, 'picks complete in S*': 2070, 'hard starts': 63, 'hard start repaired: D agent owns': 63} 8 s
+... {'instances': 300, 'distinct starts': 2286, 'picks complete in S*': 2223, 'hard starts': 63, 'hard start repaired: D agent owns': 63} 9 s
+... {'instances': 320, 'distinct starts': 2408, 'picks complete in S*': 2345, 'hard starts': 63, 'hard start repaired: D agent owns': 63} 9 s
+... {'instances': 340, 'distinct starts': 2582, 'picks complete in S*': 2513, 'hard starts': 69, 'hard start repaired: D agent owns': 69} 10 s
+... {'instances': 360, 'distinct starts': 2702, 'picks complete in S*': 2628, 'hard starts': 74, 'hard start repaired: D agent owns': 74} 10 s
+... {'instances': 380, 'distinct starts': 2849, 'picks complete in S*': 2765, 'hard starts': 84, 'hard start repaired: D agent owns': 84} 11 s
+... {'instances': 400, 'distinct starts': 2953, 'picks complete in S*': 2869, 'hard starts': 84, 'hard start repaired: D agent owns': 84} 11 s
+... {'instances': 420, 'distinct starts': 3107, 'picks complete in S*': 3012, 'hard starts': 95, 'hard start repaired: D agent owns': 95} 12 s
+... {'instances': 440, 'distinct starts': 3239, 'picks complete in S*': 3139, 'hard starts': 100, 'hard start repaired: D agent owns': 100} 12 s
+... {'instances': 460, 'distinct starts': 3377, 'picks complete in S*': 3270, 'hard starts': 107, 'hard start repaired: D agent owns': 107} 13 s
+... {'instances': 480, 'distinct starts': 3571, 'picks complete in S*': 3458, 'hard starts': 113, 'hard start repaired: D agent owns': 113} 14 s
+... {'instances': 500, 'distinct starts': 3708, 'picks complete in S*': 3595, 'hard starts': 113, 'hard start repaired: D agent owns': 113} 14 s
+... {'instances': 520, 'distinct starts': 3881, 'picks complete in S*': 3766, 'hard starts': 115, 'hard start repaired: D agent owns': 115} 15 s
+... {'instances': 540, 'distinct starts': 4024, 'picks complete in S*': 3907, 'hard starts': 117, 'hard start repaired: D agent owns': 117} 15 s
+... {'instances': 560, 'distinct starts': 4202, 'picks complete in S*': 4079, 'hard starts': 123, 'hard start repaired: D agent owns': 123} 18 s
+... {'instances': 580, 'distinct starts': 4339, 'picks complete in S*': 4214, 'hard starts': 125, 'hard start repaired: D agent owns': 125} 18 s
+... {'instances': 600, 'distinct starts': 4472, 'picks complete in S*': 4345, 'hard starts': 127, 'hard start repaired: D agent owns': 127} 19 s
+... {'instances': 620, 'distinct starts': 4626, 'picks complete in S*': 4492, 'hard starts': 134, 'hard start repaired: D agent owns': 134} 19 s
+... {'instances': 640, 'distinct starts': 4782, 'picks complete in S*': 4644, 'hard starts': 138, 'hard start repaired: D agent owns': 138} 20 s
+... {'instances': 660, 'distinct starts': 4919, 'picks complete in S*': 4775, 'hard starts': 144, 'hard start repaired: D agent owns': 144} 20 s
+... {'instances': 680, 'distinct starts': 5099, 'picks complete in S*': 4953, 'hard starts': 146, 'hard start repaired: D agent owns': 146} 21 s
+... {'instances': 700, 'distinct starts': 5269, 'picks complete in S*': 5114, 'hard starts': 155, 'hard start repaired: D agent owns': 155} 21 s
+... {'instances': 720, 'distinct starts': 5407, 'picks complete in S*': 5245, 'hard starts': 162, 'hard start repaired: D agent owns': 162} 22 s
+... {'instances': 740, 'distinct starts': 5527, 'picks complete in S*': 5365, 'hard starts': 162, 'hard start repaired: D agent owns': 162} 22 s
+... {'instances': 760, 'distinct starts': 5692, 'picks complete in S*': 5521, 'hard starts': 171, 'hard start repaired: D agent owns': 171} 23 s
+... {'instances': 780, 'distinct starts': 5773, 'picks complete in S*': 5601, 'hard starts': 172, 'hard start repaired: D agent owns': 172} 23 s
+... {'instances': 800, 'distinct starts': 5923, 'picks complete in S*': 5751, 'hard starts': 172, 'hard start repaired: D agent owns': 172} 24 s
+... {'instances': 820, 'distinct starts': 6091, 'picks complete in S*': 5910, 'hard starts': 181, 'hard start repaired: D agent owns': 181} 24 s
+... {'instances': 840, 'distinct starts': 6248, 'picks complete in S*': 6062, 'hard starts': 186, 'hard start repaired: D agent owns': 186} 25 s
+... {'instances': 860, 'distinct starts': 6424, 'picks complete in S*': 6236, 'hard starts': 188, 'hard start repaired: D agent owns': 188} 26 s
+... {'instances': 880, 'distinct starts': 6566, 'picks complete in S*': 6377, 'hard starts': 189, 'hard start repaired: D agent owns': 189} 26 s
+... {'instances': 900, 'distinct starts': 6730, 'picks complete in S*': 6539, 'hard starts': 191, 'hard start repaired: D agent owns': 191} 26 s
+... {'instances': 920, 'distinct starts': 6870, 'picks complete in S*': 6675, 'hard starts': 195, 'hard start repaired: D agent owns': 195} 27 s
+... {'instances': 940, 'distinct starts': 6976, 'picks complete in S*': 6777, 'hard starts': 199, 'hard start repaired: D agent owns': 199} 27 s
+... {'instances': 960, 'distinct starts': 7149, 'picks complete in S*': 6940, 'hard starts': 209, 'hard start repaired: D agent owns': 209} 28 s
+... {'instances': 980, 'distinct starts': 7314, 'picks complete in S*': 7104, 'hard starts': 210, 'hard start repaired: D agent owns': 210} 29 s
+... {'instances': 1000, 'distinct starts': 7503, 'picks complete in S*': 7289, 'hard starts': 214, 'hard start repaired: D agent owns': 214} 29 s
+distinct starts 7503
+hard start repaired: D agent owns 214
+hard starts 214
+instances 1000
+picks complete in S* 7289
+time 29 s

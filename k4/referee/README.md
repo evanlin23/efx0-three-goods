@@ -42,6 +42,7 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 29 | ksens's exhaustive k = 3 one-chain claim, n ≤ 4 (`k4/ksens.md` §8, `08883f6`) | `claude/k4-ksens` | `ksens.md` §6 | **CONFIRMED exhaustively** at n = 3 and n = 4 (all counts match); scope is m ≥ n; m < n also holds |
 | 30 | Lemma M^c (compensated matching form; `k4/oc1max_multi.md` §9, `3d157f3`) | `proof/k4-oc1max-multi` | `oc1max_multi.md` §9 | **CORRECT** ((G2) is exactly what the per-allocation claim needs; F_s enumeration and (C3) sound; 391,846 owner tests, 0 mismatches) |
 | 31 | LIFT-1 with (L2′) and case (b); K4.MATCH.LIFT.N4 (`k4/matching.md` §6, `7e6cd80`) | `proof/k4-matching` | `lift.md` §7 | **CORRECT**; LIFT-SHAPE⁺ re-verified on all 112,880 n = 4 exported starts with my own witness search |
+| 32 | Theorem S, Lemma HS, HS-U1; SLOT residue spot check (`k4/oc1max_multi.md` §10, `b107719`) | `proof/k4-oc1max-multi` | `oc1max_multi.md` §10 | **CORRECT**; coverage 5,945 / 6,679 / 7,441 (U alone 2,880) reproduced. **Fix:** log613 is printed with wrong values for agents 1 and 2 (with them its \|H\| = 2 allocation is not EFX₀); the data's values make the narrative right |
 | – | Literature: EFX₀ for n = 2 | – | `lit_n2.md` | Plaut–Roughgarden Thm 4.3 (EFX₀, monotone) covers existence; not `kgen/n3.md` Theorem 2 (picks kept / one chain) |
 
 **Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the
