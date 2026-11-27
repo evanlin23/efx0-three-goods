@@ -10,3 +10,7 @@ python3 norecv_ref.py 20000 3 6 6 > norecv_ref_n6.log
 python3 k4/referee/leanrf_ref.py cores5 200 > results/k4_referee/leanrf_ref_cores5.log      # from the repository root
 python3 leanrf_ref.py 4000000 5 6 2 > leanrf_ref_n6.log
 python3 leanrf_ref.py 400000 6 7 2 > leanrf_ref_n7.log
+# Lemma ABS' and Lemma CH (RFMIN.md §6 at 6dc5e9c1)
+python3 absp_ref.py absp 200000 2 4 > absp_ref_absp_k4.log
+python3 absp_ref.py absp 100000 3 5 > absp_ref_absp_k5.log
+python3 absp_ref.py ch 30000 2 > absp_ref_ch.log

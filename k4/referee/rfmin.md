@@ -216,3 +216,79 @@ pickless agent is known, and at n ≤ 5 none exists.
   - use RF∃ (`ConjRFsomeWith`); at perfect starts it is the tested statement, and REC-∃ gives a pick-holding receiver
     at every failing start; or
   - restrict `Receiver` to pick holders and prove existence by REC-∃. In Lean that needs Lemma MAX's augmenting path.
+
+## Addendum (07:00): Lemma ABS′ and Lemma CH (`k4/RFMIN.md` §6 at `6dc5e9c1`)
+
+**Read:** §6 from "The exact count after the move" to Conjecture RF-PRIV⁺, line by line.
+**Check:** `k4/referee/absp_ref.py`, logs `results/k4_referee/absp_ref_*.log`. The code is my own, with raw EFX₀ and
+my own official moves. Nothing from `k4/rfmin/` is run.
+
+### Lemma ABS′: CORRECT
+
+Re-derived case by case. The construction: receivers take their most valuable free good if the free goods are worth more
+than b_r to them, and f takes the rest.
+- *Values only rise*, so b_i ≤ v_i(X_i).
+- *X_f = {p} ∪ F, against i ≠ f.* By (A0), v_i(p) = 0, so the minimum over X_f is 0 and the threat is v_i(F).
+  - A non-receiver: (A3).
+  - A receiver that took nothing: F ⊆ the goods free at its turn, which are worth at most b_r to it.
+  - A receiver with B_r = ∅: it values no free good, by (A1).
+  - A receiver that took g_r: **|R_r| ≤ 4** leaves at most two valued free goods h, h′ in F, each ≤ b_r by (A1) and
+    ≤ v_r(g_r). So v_r(F) ≤ b_r + v_r(g_r).
+  - One case the text leaves implicit: a receiver whose singleton y_r is worth 0 to it has b_r = 0, so by (A1) it
+    values no free good. The "at most three free goods" count is then not needed. Harmless.
+- *{y_r, g_r}, against i ≠ r.* y_r is unwanted (receiver), and g_r was free (A1). Both are ≤ b_i. Correct.
+- *Unchanged multi-good B_q.* These are non-receivers by definition, and (A2) covers them. Correct.
+- *One absorber.* Receivers take at most one good each. Correct.
+- *ABS is the case B = Y.* Pickless agents are ABS′-receivers that take nothing, by SD2. Correct.
+
+Strictness is not used. k ≤ 4 is used exactly where stated.
+
+*Random test at general states* (`absp`): random strict instances, the picks and every state one official move away
+(additions, chains, rings), and every f with a private singleton.
+
+| run | full (A0)–(A3) | without (A1) | without (A2) | without (A3) |
+|---|---|---|---|---|
+| k ≤ 4, 200,000 instances | **608,054 cases, 0 failures** | 234 of 3,422 fail | 210,068 of 219,137 fail | 26,698 of 28,791 fail |
+| k ≤ 5, 100,000 instances | 45 of 252,837 fail | 167 of 2,388 | 122,404 of 131,927 | 19,538 of 22,054 |
+
+### Lemma CH: CORRECT
+
+1. *Acyclicity and picks.*
+   - If i wants Y_j, then Y_j was gone at i's turn, so j precedes i. Wanting is therefore acyclic, and the walk from d
+     ends at an unwanted pick.
+   - A pickless x_i would give the matching d–h, x₁–Y_d, …, x_i–Y_{x_{i−1}}, plus all other picks, one edge larger
+     (h ∈ J ∩ R_d is unmatched). Correct; this uses the maximum matching.
+2. *The facts at B′.*
+   - f is not in the chain: it holds its top, so it wants nothing, and nobody values p.
+   - (A0): correct.
+   - (A1): junk is below every pick (SD1/SD2), Y_{x_t} is unwanted at Y, and x_t's value rose. Every value at B′ is at
+     least the pick value. Correct.
+   - (A2) for |H₀| = 2: H₀ ∖ h is one junk good. Correct.
+   - d's (A3): J′ ∩ R_d ⊆ {c}, with c junk or c = Y_{x_t}. This uses |R_d| ≤ 4 and |H₀| ≥ 2. Correct.
+   - The move is official (§29), since every passed base is a nonempty pick.
+3. *Only (V1) or (V2) can fail.* At B′:
+   - pickless agents are receivers;
+   - the non-receivers other than f are d, which meets (A3), chain members whose new good is wanted (V2), and agents
+     outside the chain whose pick is wanted (V1).
+   - A wanter at B′ is a wanter at Y, since values only rose. So a q in (V1) is frozen at Y. If q ∉ D^full, only
+     Y_{x_t} can lift v_q(J′) above p_q. Correct.
+
+*Random test* (`ch`): 30,000 random strict connected instances with 3–4 goods per agent and agent 0's top good
+private, n = 4–6, every maximum-matching start, every frozen d valuing junk, every improving pair or triple H₀, and
+every wanter chain (all branches).
+
+| quantity | count |
+|---|---|
+| maximum-matching starts (f holds its private top at all) | 74,549 |
+| chains tried (\|H₀\| = 2 / 3) | 23,832 / 3,581 |
+| a pickless chain member; a cycle of wanting; f in a chain | 0; 0; 0 |
+| official moves | 27,413 of 27,413 |
+| (A0) and (A1) at B′; d meets (A3) | 27,413; 27,413 |
+| (A2) at B′ when \|H₀\| = 2 | 23,832 of 23,832 |
+| ABS′ holds at B′ / fails with (V1) or (V2) present / **fails without either** | 21,569 / 2,263 / **0** |
+| ABS′ construction raw EFX₀ where it holds | 21,569 of 21,569 |
+| (V1) with q ∉ D^full: q values Y_{x_t} | 623 of 623 |
+
+**Not checked:**
+- the data tables of §6 (`privtop_absp.py`, `privtop_chains.py` counts);
+- Conjectures RF-PRIV′ and RF-PRIV⁺, which are evidence only.
