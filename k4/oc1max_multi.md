@@ -1094,7 +1094,8 @@ the SD outcome of σ with k deleted. In particular it is a perfect start of I⁻
 Since every agent takes its B₁ good, the goods left over are exactly the junk of B₁ in I⁻. ∎
 
 So part (a) of OC2-REC holds for E(k) with *any* pool pair. Checked (`reduce_s.py`) at every dangerous k and every
-pool pair T of E(k), at all 4,955 walk failures and the 12 known failures: 0 violations.
+pool pair T of E(k), for every listed order, at all 4,955 walk failures, the 12 known failures and the matching session's 23,943
+n = 5 walk rows: 0 violations.
 
 **Theorem REC-S (K4.MULTI.RECS): OC₂ by settling a sharer, then Theorem S or U one size down.** Let Y be a perfect start
 with strict values, k ∈ D, E(k) with head z, and T ⊆ (J ∪ {Y_z}) ∩ R_k an improving pair. Suppose:
