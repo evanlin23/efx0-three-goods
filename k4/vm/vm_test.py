@@ -5,7 +5,7 @@ against ordinary EFX and EFX0 (raw definitions).  EVIDENCE only.
     python3 k4/vm/vm_test.py SOURCE [--limit=N] [--samples=N] [--readings=all|main] [--show=K] [--jobs=J]
 SOURCE: screen | suite | special | logs | cores:K:N:SEED (K = 3..6 agents) | gen:N:SEED[:nmax:mmax:vmax[:ties|noties[:kmax]]]
 """
-import sys, os, json, collections, random, time, zlib, multiprocessing as mp
+import json, sys, os, collections, random, time, zlib, multiprocessing as mp
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vmlib as V
 import data
@@ -93,6 +93,14 @@ def items_for(src):
         return out
     if src == 'de_m8':
         return data.de_m8()
+    if src.startswith('json:'):                           # json:FILE, one instance per line: [NAME<TAB>]JSON
+        out = []
+        for k, line in enumerate(open(src[5:])):
+            line = line.strip()
+            if not line or line.startswith('#'): continue
+            nm, js = line.split('\t', 1) if '\t' in line else ('json#%d' % k, line)
+            J = json.loads(js); out.append((nm, J['sets'], J['vals'], J['m']))
+        return out
     if src.startswith('pw:'):
         f, W, r, T, seed = map(int, src.split(':')[1:])
         return data.pw(f, W, r, T, seed)
