@@ -1,0 +1,6 @@
+$ DEPTH=2 python3 k4/oc1max_multi/sphi.py results/k4_oc1max_multi/oc1_fail_walk.jsonl.gz results/k4_oc1max_multi/oc1max_cex12.jsonl results/k4_matching/n5_walk164_long.jsonl.gz n4rows (the n = 4 export flattened)
+  S^phi hypotheses hold 381125
+  raw EFX0 381125
+last-step cases 385925
+least settlements reaching an S^phi case: 1 140292
+starts 140292

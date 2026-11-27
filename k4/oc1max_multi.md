@@ -1379,3 +1379,52 @@ smallest failures are:
 
 **Conclusion: Part 1 (OC₁ where one move suffices) cannot be dropped.** REC-S is the second move. It is not a
 replacement for the first.
+
+## 16. Theorem S^φ: Theorem S with phantoms (the inductive step of RSD)
+
+**Setting (the phantom class, with the fix of §14).** I₀ is the full instance. Φ is a set of settled agents, the
+phantoms, each with a fixed pair T_φ and threshold τ_φ = v_φ(T_φ). I is the current instance: the agents outside Φ and
+the goods outside ∪T_φ. Y is a perfect SD start of I, with strict values. The invariants are:
+- **(P1)** every real agent i values each good of each T_φ below p_i. This is automatic: at φ's settlement it is (L)
+  (§12, remark), and values only rise.
+- **(P2)** no pair T_φ threatens another phantom at its threshold. Only the newest pair needs a check: earlier pairs
+  never threaten later phantoms, because a later phantom was a real agent at each earlier settlement (referee, §13).
+- **(P3)** (G2) for phantoms: every junk good of I is worth at most τ_φ to every phantom φ. This holds by induction
+  when no chain ends at a phantom-frozen agent (§14).
+
+**Theorem S^φ (K4.MULTI.SPHI).** In this setting, let (k, P, h) meet Theorem S's hypotheses in I (relaxed form,
+h ∈ J ∪ {Y_z}). Let W be the owner's bundle and r the receiver of h. Suppose:
+- **(S-φ1)** W threatens no phantom φ at τ_φ;
+- **(S-φ2)** r's good is not phantom-wanted: v_φ(B′_r) ≤ τ_φ for every φ.
+
+Then Theorem S's allocation of I, with every phantom keeping T_φ, is EFX₀ in I₀. Its move P is an official move of I₀
+(Lemma LIFT 1, once per phantom, since the junk of I is the junk of I₀). So OC₂ holds via the settlements, then P.
+
+*Proof.* Every pair of agents is covered by one of these cases:
+- *Real vs real:* Theorem S (refereed).
+- *A real agent i vs T_φ:* removing a good of T_φ leaves one good, worth less than p_i ≤ v_i(X_i) by (P1).
+- *A phantom φ vs a real bundle:*
+  - singletons never threaten;
+  - W is covered by (S-φ1);
+  - the two-good bundle {B′_r, h} threatens φ iff v_φ(B′_r) > τ_φ or v_φ(h) > τ_φ. The first is excluded by (S-φ2).
+    The second is excluded by (P3) for h junk; for h = Y_z, z is not phantom-frozen by the §14 fix.
+- *Phantom vs phantom:* (P2). ∎
+
+Corrected Proposition K-loc (§14) is (S-φ1) ∧ (S-φ2) for a single phantom, spelled out through ℓ's travel along P′.
+
+**Checks** (`sphi.py`, `sphi.log`). RSD runs with at most two settlements. At the last step, *every* Theorem S case is
+evaluated against S^φ's hypotheses and the raw EFX₀ definition in I₀.
+
+| data | starts | last-step cases | S^φ hypotheses hold | raw EFX₀ | hypotheses without EFX₀ | EFX₀ without hypotheses |
+|---|---|---|---|---|---|---|
+| walk failures, the 12, n = 5 walks, n = 4 export | 140,292 | 385,925 | 381,125 | 381,125 | **0** | **0** |
+
+So the hypotheses are sufficient (the theorem) and, on this data, also necessary. Every one of the 140,292 failing
+starts reaches an S^φ case after exactly one settlement.
+
+*What RSD-IND (K4.MATCH.RSDIND) now needs is existence alone:* at every stage, some settlement or some Theorem S case
+meets (S-φ1), (S-φ2) and the head condition. Everything else is a written proof:
+- SD-E (refereed) for the starts;
+- LIFT (refereed) for the moves;
+- S^φ for the completion;
+- (P1)–(P3) for the invariants.
