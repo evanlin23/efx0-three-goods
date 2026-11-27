@@ -1673,3 +1673,47 @@ followed directly by a completion at once; `round_e_p1free.log`):
 
 So the rule loses nothing on these data. P1 settlements still occur often, but only in the final round, where
 S^φ(round) handles them.
+
+## 18. ROUND-IND: which round-choice rule never gets stuck?
+
+Greedy rounds dead-end at 16,240 n = 4 starts (matching), so ROUND-IND is existential. The question here is the weakest
+*rule* for choosing rounds that never gets stuck. `round_safe.py` (`round_safe.log`) takes every admissible first round
+of `round_e.admissible_rounds` at every start:
+- E-prefix chains, |K| ≤ 2;
+- (H), (L\*), (P2) and (P3);
+- SD-E(round), asserted.
+
+Each round is classified as follows:
+- a *P1-free* round (every settled k values each good outside T_k at most τ_k) is **safe** if the state it leaves is
+  still repairable (further rounds, P1 rounds only as the last round, then a completion at once);
+- a *P1* round is safe if it completes at once.
+
+| data | starts | (G0) some round safe | (G1) every P1-free round safe | P1-free rounds (all / safe) | starts with a P1-free round |
+|---|---|---|---|---|---|
+| kgen-rounds' seven REC-S gaps | 7 | 7 | 7 | 173 / 173 | 6 |
+| walk failures | 4,955 | 4,955 | 4,955 | 6,906 / 6,906 | 4,955 |
+| **n = 4 export (all)** | 112,880 | 112,880 | **112,880** | 564,720 / 564,720 | 112,880 |
+| **5_pure #419, #447, #38, complete** | 583,680 | 583,680 | **583,680** | 28,968,960 / 28,968,960 | 583,680 |
+| 5_pure two-move sample (`n5_5pure_s5o0`) | 280 | 280 | 279 | 2,142 / 2,124 | 268 |
+
+(G2) holds everywhere: when no P1-free round is admissible (12 sample starts and #1073), some P1 round completes at
+once.
+
+So the rule **"take any admissible P1-free round; when there is none, finish with a P1 round"** holds at every n = 4
+start and at all 583,680 adversarial n = 5 starts. It fails at exactly one start of all data.
+
+**The counterexample to (G1): 5_pure #963, sample profile v₀ = {0: 3, 1: 6, 5: 10, 7: 8}, v₁ = {1: 2, 6: 3, 7: 4,
+8: 8}, v₂ = {2: 4, 3: 6, 4: 5, 6: 8}, v₃ = {2: 5, 3: 4, 4: 6, 8: 8}, v₄ = {5: 7, 6: 6, 7: 3, 8: 5}, picks (5, 1, 6, 8, 7).**
+Agents 2 and 3 share the junk set {2, 3, 4}.
+- *Settling 3* by (3, 4, 1) with any pair is safe.
+- *Settling 2* by (2, 4, 1) with any pair is a dead end, even with three or four more rounds allowed. After it:
+  - agent 3's only chain (3, 1) releases good 7, which 3 does not value, so 3 has one pool good and no improving set;
+  - agent 0's pool pair {0, 1} is worth 9 < 10;
+  - no completion at once exists.
+
+The other two profiles of #963 in the sample are safe either way. So (G1) is false in general, and the right rule must
+choose *which* sharer to settle. In this example it is the sharer whose departure leaves the other's chain a valued
+released pick.
+
+What is open is **ROUND-IND(G0)**, existence. On all data it holds as: every two-move start has a safe round, and in all
+but one start every P1-free round is safe. The refinement of (G1) that excludes #963 is the next target.
