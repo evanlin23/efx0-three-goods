@@ -136,8 +136,10 @@ Evidence (`k4/rkmax/rk_dominance.py`, `results/k4_rkmax/rk_dominance_n4.log`; `k
 - n = 5, the certifier's COMPLETE failure lists (`two_move_starts_n5_sel2.json.gz` on compute/k4-oc1max-cert; 5_pure
   #419, #447, #38): all 583,680 failing starts are rank-dominated, each by a matching that changes two agents
   (`results/k4_rkmax/rk_dom_export_n5_sel2.log`, 652 s). Since the lists are complete, **RKDOM, and so RKMAX, hold on
-  every strict profile of these three hypergraphs** (given the type reduction; single implementation of the
-  dominance step, the lists themselves are the certifier's).
+  every strict profile of these three hypergraphs** (given the type reduction; the lists themselves are the
+  certifier's). The witnesses are stored (`results/k4_rkmax/dom_witness_n5_sel2.json.gz`, 1.5 MB) and the minimal
+  checker accepts all 583,680 (`results/k4_rkmax/rk_dom_check_n5_sel2.log`; run it with the export from
+  compute/k4-oc1max-cert).
 - n = 5, the partial lists (`two_move_starts_n5_partial6.json.gz`; 5_pure #374, #379, #464, #808, #778, #164): all
   702,250 failing starts are rank-dominated, each by a two-agent change (`results/k4_rkmax/rk_dom_export_n5_partial6.log`).
   This is evidence only: the lists are partial.
@@ -218,8 +220,10 @@ agent holds a pick:
 
 So the open part of the route is a statement about the picks alone: inequalities between subset sums of single agents,
 plus the existence of a one-absorber completion of single picks (an exact slot criterion, Lemma 1 of `k4/oc1_hall.md`
-§1). No move has to be found. Non-perfect σ-maximal starts (some agent pickless) need Lemma RED (`k4/sdc.md` §31) with
-ranks recomputed in the reduced instance. None occurred in the data below.
+§1). No move has to be found. Non-perfect σ-maximal starts (some agent pickless) need Lemma RED (`k4/sdc.md` §31, written, not
+refereed). σ-maximality does not transfer to RED's reduced instance, since ranks there are recomputed. The census
+classifies such a start in the reduced instance and also checks OC₁ at it directly. In every non-perfect case found
+(230, random cores) the reduced picks complete and OC₁ holds directly.
 
 **Evidence** (`rk_hsmax_n5.py`, logs `results/k4_rkmax/rk_hsmax_*.log`; every σ-optimal vector, mechanisms tried in
 the order T0, S′, RF-B, completion at the picks, with every claimed allocation re-checked by raw EFX₀):
@@ -229,6 +233,8 @@ the order T0, S′, RF-B, completion at the picks, with every claimed allocation
 | n = 4, all 111,600 export profiles (`rk_hsmax_n4.log`) | 198,400 | 20,760 | 125,480 | 2,304 | 49,856 | **0** |
 | n = 5, complete lists sel2, all 583,680 profiles (`rk_hsmax_n5_sel2.log`) | 1,004,160 | 860,160 | 115,200 | 12,960 | 15,840 | **0** |
 | n = 5, partial lists partial6, all 700,500 profiles (`rk_hsmax_n5_partial6.log`) | 1,305,032 | 769,262 | 419,090 | 16,002 | 100,678 | **0** |
+| 3,000 random strict MC2-class cores, n = 5 (`rk_hsmax_rand5.log`) | 4,709 | 3,841 | 532 | 42 | 100 + 194 non-perfect (RED) | **0** |
+| 1,500 random strict MC2-class cores, n = 6 (`rk_hsmax_rand6.log`) | 2,349 | 1,978 | 256 | 18 | 61 + 36 non-perfect (RED) | **0** |
 
 Counts are by the first mechanism that applies, in the order T0, S′, RF-B, completion. Before Lemma S′ was added
 (Theorems U and S only), partial6 had 880 gap vectors, all on one hypergraph, all with the shape that S′ covers: the
@@ -287,4 +293,5 @@ or else a repair outside S′. Ranks and the value conflict are logically indepe
 together with hardness, through the other agents. I did not find that argument.
 
 **Non-perfect starts.** HS-MAX is stated for perfect starts. A non-perfect σ-maximal start needs Lemma RED with ranks
-recomputed in the reduced instance, and σ-maximality does not transfer directly. None occurred in the data.
+recomputed in the reduced instance, and σ-maximality does not transfer directly. All 230 non-perfect σ-optimal
+vectors met (random cores) complete at the reduced picks.

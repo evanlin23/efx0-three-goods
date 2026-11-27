@@ -1,0 +1,2 @@
+$ python3 k4/rkmax/rk_dom_check.py two_move_starts_n5_sel2.json.gz dom_witness_n5_sel2.json.gz
+ok 583680
