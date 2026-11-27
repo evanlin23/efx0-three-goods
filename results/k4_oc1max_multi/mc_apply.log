@@ -1,0 +1,5 @@
+$ python3 k4/oc1max_multi/mc_apply.py results/k4_oc1max_multi/hard2_starts.jsonl.gz results/k4_oc1max_multi/hard2_starts_n5.jsonl.gz
+('RING', 'best Lemma M^c certificate: plain (Lemma M)') 45
+('RING', 'starts') 45
+('SLOT', 'best Lemma M^c certificate: plain (Lemma M)') 585
+('SLOT', 'starts') 585

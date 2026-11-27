@@ -1,0 +1,13 @@
+4_n4_3 58 {'starts': 1280, 'OC1 fails (agrees with certifier)': 1280, "OC1' holds": 1280} 0s
+4_n4_3 77 {'starts': 1360, 'OC1 fails (agrees with certifier)': 1360, "OC1' holds": 1360} 0s
+4_pure 20 {'starts': 47440, 'OC1 fails (agrees with certifier)': 47440, "OC1' holds": 47440} 4s
+4_pure 21 {'starts': 50000, 'OC1 fails (agrees with certifier)': 50000, "OC1' holds": 50000} 5s
+4_pure 23 {'starts': 50640, 'OC1 fails (agrees with certifier)': 50640, "OC1' holds": 50640} 5s
+4_pure 24 {'starts': 90960, 'OC1 fails (agrees with certifier)': 90960, "OC1' holds": 90960} 9s
+4_pure 26 {'starts': 91600, 'OC1 fails (agrees with certifier)': 91600, "OC1' holds": 91600} 9s
+4_pure 29 {'starts': 93040, 'OC1 fails (agrees with certifier)': 93040, "OC1' holds": 93040} 9s
+4_pure 36 {'starts': 99440, 'OC1 fails (agrees with certifier)': 99440, "OC1' holds": 99440} 10s
+4_pure 38 {'starts': 112240, 'OC1 fails (agrees with certifier)': 112240, "OC1' holds": 112240} 11s
+4_pure 45 {'starts': 112880, 'OC1 fails (agrees with certifier)': 112880, "OC1' holds": 112880} 11s
+TOTAL {'starts': 112880, 'OC1 fails (agrees with certifier)': 112880, "OC1' holds": 112880}
+forward brute force on a random sample of 331 starts: 0 mismatches

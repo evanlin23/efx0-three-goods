@@ -3,9 +3,9 @@ import EFX.K3Extras
 /-!
 # Draft and Exchange, preliminaries: threats, safety and peeling
 
-The preliminaries of the short proof of the k = 3 result (`paper/k3-simple/long.tex`: the model of §1, §2 "Peeling",
-and the threats `θ_i` of Appendix B; Lemmas threats and safety are those of §3.1 "Model, threats and safety" of the
-earlier version of the paper, kept here; the soundness proof of §4 now argues the cases of safety inline), over the
+The preliminaries of the paper (`paper/k3-simple/main.tex`: the model of §1, §2 "Peeling",
+and the threats `θ_i` of Appendix D; Lemmas threats and safety below are the case analysis of safety that the
+soundness proof of §4 argues inline), over the
 list layer of `EFX/Lists.lean` (agents and goods are lists, an allocation is an owner map `X : G → A`, the bundle of
 `j` is `bundle goods X j`).
 
@@ -32,9 +32,8 @@ list layer of `EFX/Lists.lean` (agents and goods are lists, an allocation is an 
   - Corollary "two relevant goods" is `EFX.Inst.sdRun_efx0` (and `EFX.sdRun_efx0` over lists, `EFX/K3Extras.lean`):
     `EFX.SDRun` is every run of serial dictatorship in any order of the agents, with any favourite at every step,
     nothing once no good is left, the last agent taking all remaining goods. This is the paper's statement; the
-    `example`s below check the type. (`EFX.serialDictatorship` and `EFX.exists_efx0_of_count` are only the
-    existence form.)
-  - Lemma "when nobody can leave" (`lem:R1fail`; "when R1 applies to nobody" in the earlier version) is
+    `example`s below check the type.
+  - Lemma "when nobody can leave" (`lem:R1fail`) is
     `EFX.not_R1` with `EFX.K3.r1Step_eq_none`. `EFX.not_R1`'s hypothesis is "no good `p` has `v_i(G ∖ {p}) ≤ v_i(p)`" (not rule R1 itself) and its conclusion "at least three relevant
     goods, and `2 v_i(g) < v_i(G)` for every `g`", so `R1fail` states the paper's version: R1 as `EFX.K3.r1Step`,
     at most three relevant goods; conclusion exactly three, and strictly balanced. `r1_of_two` is the paper's
