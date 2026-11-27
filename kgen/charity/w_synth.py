@@ -44,7 +44,7 @@ def efx0_frac(V, Y):
     return True
 
 
-def run(n, k, p, sizes, tlim=600, fixed=None, vmax=None, q=None, dump=None):
+def run(n, k, p, sizes, tlim=600, fixed=None, vmax=None, q=None, dump=None, resume=False):
     """fixed = (B, P, m, support): a given stranded state and the relevant sets (values free on them, 0 elsewhere).
     q: the number of goods the state X leaves out (default p); X must beat every EFX0 allocation leaving <= p - 1 out."""
     if q is None:
@@ -92,14 +92,37 @@ def run(n, k, p, sizes, tlim=600, fixed=None, vmax=None, q=None, dump=None):
     # inner problem variables
     x = [[z3.Bool('x_%d_%d' % (g, a)) for a in range(n + 1)] for g in range(m)]
     cuts = 0; t0 = time.time(); cutlist = []
+
+    def add_cut(Y):                                        # welfare(Y) < welfare(X) or Y is not EFX0
+        viol = []
+        for i in range(n):
+            for j in range(n):
+                if i != j:
+                    for h in Y[j]:
+                        viol.append(val(i, [g for g in Y[j] if g != h]) > val(i, Y[i]))
+        S.add(z3.Or([z3.Sum([val(i, Y[i]) for i in range(n)]) < WX] + viol))
+        cutlist.append([sorted(Yi) for Yi in Y])
+
+    def save(path, extra=None):
+        import json, os
+        D = {'n': n, 'k': k, 'p': p, 'bundles': B, 'pool': P, 'm': m,
+             'support': None if fixed is None else [sorted(x) for x in fixed[3]], 'cuts': cutlist}
+        D.update(extra or {})
+        json.dump(D, open(path + '.tmp', 'w')); os.replace(path + '.tmp', path)
+    if dump and resume:                                    # restart from the partial cut list of an interrupted run
+        import json, os
+        if os.path.exists(dump + '.partial'):
+            D0 = json.load(open(dump + '.partial'))
+            assert D0['bundles'] == B and D0['pool'] == P and D0['m'] == m
+            for Y in D0['cuts']:
+                add_cut(Y)
+            cuts = len(cutlist)
+            print('resumed with %d cuts from %s.partial' % (cuts, dump), flush=True)
     while True:
         r = S.check()
         if r == z3.unsat:
             if dump:
-                import json
-                json.dump({'n': n, 'k': k, 'p': p, 'bundles': B, 'pool': P, 'm': m,
-                           'support': None if fixed is None else [sorted(x) for x in fixed[3]],
-                           'cuts': cutlist}, open(dump, 'w'))
+                save(dump)
             return 'UNSAT', cuts, time.time() - t0, None
         if r != z3.sat:
             return 'UNKNOWN', cuts, time.time() - t0, None
@@ -124,10 +147,7 @@ def run(n, k, p, sizes, tlim=600, fixed=None, vmax=None, q=None, dump=None):
         rt = T.check()
         if rt == z3.unsat:
             if dump:                                       # for negative controls of w_cert.py (must be sat)
-                import json
-                json.dump({'n': n, 'k': k, 'p': p, 'bundles': B, 'pool': P, 'm': m,
-                           'support': None if fixed is None else [sorted(x) for x in fixed[3]],
-                           'cuts': cutlist, 'found': [[str(x) for x in row] for row in V]}, open(dump, 'w'))
+                save(dump, {'found': [[str(x) for x in row] for row in V]})
             assert efx0_frac(V, B), 'outer model: X not EFX0'
             assert all(sum(V[i][g] for g in P) <= sum(V[i][g] for g in B[i]) for i in range(n))
             assert all(sum(1 for g in range(m) if V[i][g]) <= k for i in range(n))
@@ -138,16 +158,10 @@ def run(n, k, p, sizes, tlim=600, fixed=None, vmax=None, q=None, dump=None):
         Y = [[g for g in range(m) if z3.is_true(TM.eval(x[g][a], model_completion=True))] for a in range(n + 1)]
         assert efx0_frac(V, Y[:n]) and len(Y[n]) <= p - 1
         assert sum(V[i][g] for i in range(n) for g in Y[i]) >= wX
-        # cut: welfare(Y) < welfare(X) or Y is not EFX0
-        viol = []
-        for i in range(n):
-            for j in range(n):
-                if i != j:
-                    for h in Y[j]:
-                        viol.append(val(i, [g for g in Y[j] if g != h]) > val(i, Y[i]))
-        S.add(z3.Or([z3.Sum([val(i, Y[i]) for i in range(n)]) < WX] + viol))
-        cutlist.append([sorted(Yi) for Yi in Y])
+        add_cut(Y)
         cuts += 1
+        if dump and cuts % 25 == 0:
+            save(dump + '.partial')
 
 
 if __name__ == '__main__':
