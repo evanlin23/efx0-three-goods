@@ -18,6 +18,8 @@ re-checked by brute force from the definitions (rf_replay.py's oc1).
 --any-receiver: drop the receiver constraint (u any agent with a pick in Y).  Not RF; a weaker-premise control that
 must fail where some non-receiver-first order fails, to show the FAIL path works.
 
+RFT (--twins): RF up to relabelling twins (Z a twin image of Y is excused); see the class docstring.  --ordinal-twins:
+the same with 'twins' = same relevant set and same ranking of single goods.
 RFE (--exists): the weak form RF-exists, "some u-first order gives maximum-matching picks that satisfy OC1" (enough for
 OC1^exists-max); see the class docstring.
 
@@ -177,6 +179,73 @@ class RFE(RF):
                 return 'FAIL', (vals, Y, Zs, u)
 
 
+class RFT(RF):
+    """RF up to relabelling twins: for every failing maximum-matching start Y and receiver u, every u-first maximum-matching
+    vector Z satisfies OC1 unless Z is Y with the picks of identical-type agents (twins) permuted.  Twins are agents with
+    the same relevant set and the same strict type; an XOR literal per comparison bit says 'these two agents differ
+    here', created for every disjoint comparison of the common relevant set, so 'same type' is exact.  When a FAIL has Z
+    a twin image of Y under the current profile, the cut  not Y or not Z or not u or (some moved twin pair differs)
+    excludes exactly such profiles."""
+
+    def __init__(self, sets, ordinal=False, **kw):
+        """ordinal=True: 'twins' are agents with the same relevant set and the same ranking of single goods (the XORs
+        run over the singleton comparisons only)"""
+        super().__init__(sets, **kw)
+        n = self.n; v = self.pool.id; self.xor = {}; self.ordinal = ordinal
+        for i, j in itertools.combinations(range(n), 2):
+            if self.R[i] != self.R[j]: continue
+            R = self.R[i]; xs = []
+            for a in range(1, 1 << len(R)):
+                for b in range(a + 1, 1 << len(R)):
+                    if a & b: continue
+                    if ordinal and (bin(a).count('1') > 1 or bin(b).count('1') > 1): continue
+                    A = tuple(R[t] for t in range(len(R)) if a >> t & 1); B = tuple(R[t] for t in range(len(R)) if b >> t & 1)
+                    bi, bj = self.cmp(i, A, B), self.cmp(j, A, B)
+                    if bi == bj: continue
+                    x = v(('xor', i, j, A, B)); xs.append(x)
+                    self.S.add_clause([-x, bi, bj]); self.S.add_clause([-x, -bi, -bj])
+            self.xor[(i, j)] = xs
+
+    def twin_image(self, vals, Y, Z):
+        """the moved pairs if Z is Y with picks permuted within classes of identical-type agents, else None"""
+        n = self.n; cls = []
+        for i in range(n):
+            for c in cls:
+                j = c[0]
+                same = (sorted(self.R[i], key=vals[i].get) == sorted(self.R[j], key=vals[j].get)) if self.ordinal else vals[i] == vals[j]
+                if self.R[i] == self.R[j] and same: c.append(i); break
+            else: cls.append([i])
+        for c in cls:
+            if sorted(map(str, (Y[i] for i in c))) != sorted(map(str, (Z[i] for i in c))): return None
+        moved = [i for i in range(n) if Y[i] != Z[i]]
+        return [(i, j) for i, j in itertools.combinations(moved, 2) if (i, j) in self.xor]
+
+    def run(self, time_limit=None, verbose=False):
+        t0 = time.time()
+        while True:
+            if time_limit and time.time() - t0 > time_limit: return 'timeout', None
+            if not self.S.solve(): return 'certified', None
+            mdl = set(l for l in self.S.get_model() if l > 0)
+            ty = self.realize(mdl)
+            if ty is None: continue
+            self.iters += 1
+            Y = tuple(next((g for g, x in self.p[i].items() if x in mdl), None) for i in range(self.n))
+            Z = tuple(next((g for g, x in self.p2[i].items() if x in mdl), None) for i in range(self.n))
+            u = next(i for i in range(self.n) if self.u[i] in mdl)
+            vals = [ty[i] if self.LP[i] or self.G[i] else self.T[i][ty[i]] for i in range(self.n)]
+            Q = self.inner(vals, Y)
+            if Q is not None: self._cut(Y, Q); self.kinds['Y repaired'] += 1; continue
+            Q = self.inner(vals, Z)
+            if Q is not None: self._cut(Z, Q); self.kinds['Z repaired'] += 1; continue
+            tw = self.twin_image(vals, Y, Z)
+            if tw:
+                cl = [-self.p[i][Y[i]] if Y[i] is not None else -self.none[i] for i in range(self.n)]
+                cl += [-self.p2[i][Z[i]] if Z[i] is not None else -self.none2[i] for i in range(self.n)]
+                cl += [-self.u[u]] + [x for pr in tw for x in self.xor[pr]]
+                self.S.add_clause(cl); self.kinds['twin image'] += 1; continue
+            return 'FAIL', (vals, Y, Z, u)
+
+
 def recheck_e(R, vals, Y, Zs, u):
     """brute force: Y a failing maximum-matching SD start, u a receiver, and every u-first order's picks either not a
     maximum matching or failing OC1"""
@@ -212,7 +281,9 @@ def recheck(R, vals, Y, Z, u, any_receiver=False):
 
 if __name__ == '__main__':
     sets = json.loads(sys.argv[1]); ar = '--any-receiver' in sys.argv; ex = '--exists' in sys.argv
-    C = (RFE if ex else RF)(sets, any_receiver=ar, grid6=next((a[8:] for a in sys.argv if a.startswith('--grid6=')), None),
+    tw = '--twins' in sys.argv or '--ordinal-twins' in sys.argv
+    kw = {'ordinal': True} if '--ordinal-twins' in sys.argv else {}
+    C = (RFE if ex else RFT if tw else RF)(sets, **kw, any_receiver=ar, grid6=next((a[8:] for a in sys.argv if a.startswith('--grid6=')), None),
                             grid_exact='--exact6' in sys.argv)
     t0 = time.time(); r, w = C.run()
     print(r, 'iterations', C.iters, dict(C.kinds), '%.1f s' % (time.time() - t0))

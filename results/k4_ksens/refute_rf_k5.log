@@ -1,4 +1,5 @@
 $ python3 k4/ksens/refute_rf_k5.py
+--- RF5 (agents 2, 3 twins) [[[0, 1, 2, 5, 6], [1, 2, 4, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], [[3, 35, 33, 43, 39], [20, 26, 16, 43, 32], [8, 2, 7, 4], [8, 2, 7, 4]]]
 strict profile (all subset sums of each agent distinct): True ; nu = 4
 Y = (6, 5, 4, 3) from orders [(1, 0, 3, 2), (1, 3, 0, 2), (3, 1, 0, 2)] ; maximum matching: True
 OC1 at Y [brute A1, SAT A1, brute free, SAT free]: (None, None, False, False)
@@ -9,5 +10,19 @@ receivers of Y: [2]
   u = 2: picks (5, 6, 3, 4) from [(2, 0, 1, 3)]; maximum matching True; OC1 [brute A1, SAT A1, brute free, SAT free] ('one chain', 'one chain', True, True)
   u = 2: picks (6, 2, 3, 5) from [(2, 3, 0, 1)]; maximum matching True; OC1 [brute A1, SAT A1, brute free, SAT free] ('picks', 'picks', True, True)
   u = 2: picks (6, 5, 3, 4) from [(2, 1, 0, 3)]; maximum matching True; OC1 [brute A1, SAT A1, brute free, SAT free] (None, None, False, False)
-RF fails: receiver-first maximum-matching vectors with no OC1 (both checkers): [(2, (6, 5, 3, 4))]
+RF fails: receiver-first maximum-matching vectors with no OC1 (both checkers): [(2, (6, 5, 3, 4))] ; agents 2, 3 identical: True
 OK: Conjecture RF fails at k = 5, n = 4 0 s
+--- RF5b (agents 2, 3 same ranking, not twins) [[[0, 1, 2, 5, 6], [1, 2, 4, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], [[3, 22, 23, 43, 38], [20, 26, 16, 43, 32], [10, 2, 7, 4], [8, 1, 6, 4]]]
+strict profile (all subset sums of each agent distinct): True ; nu = 4
+Y = (6, 5, 4, 3) from orders [(1, 0, 3, 2), (1, 3, 0, 2), (3, 1, 0, 2)] ; maximum matching: True
+OC1 at Y [brute A1, SAT A1, brute free, SAT free]: (None, None, False, False)
+receivers of Y: [2]
+  u = 2: picks (2, 5, 3, 6) from [(2, 1, 3, 0)]; maximum matching True; OC1 [brute A1, SAT A1, brute free, SAT free] ('one chain', 'one chain', True, True)
+  u = 2: picks (2, 6, 3, 5) from [(2, 3, 1, 0)]; maximum matching True; OC1 [brute A1, SAT A1, brute free, SAT free] ('picks', 'picks', True, True)
+  u = 2: picks (5, 2, 3, 6) from [(2, 0, 3, 1)]; maximum matching True; OC1 [brute A1, SAT A1, brute free, SAT free] ('picks', 'picks', True, True)
+  u = 2: picks (5, 6, 3, 4) from [(2, 0, 1, 3)]; maximum matching True; OC1 [brute A1, SAT A1, brute free, SAT free] ('one chain', 'one chain', True, True)
+  u = 2: picks (6, 2, 3, 5) from [(2, 3, 0, 1)]; maximum matching True; OC1 [brute A1, SAT A1, brute free, SAT free] ('picks', 'picks', True, True)
+  u = 2: picks (6, 5, 3, 4) from [(2, 1, 0, 3)]; maximum matching True; OC1 [brute A1, SAT A1, brute free, SAT free] (None, None, False, False)
+RF fails: receiver-first maximum-matching vectors with no OC1 (both checkers): [(2, (6, 5, 3, 4))] ; agents 2, 3 identical: False
+OK: Conjecture RF fails at k = 5, n = 4 0 s
+both confirmed

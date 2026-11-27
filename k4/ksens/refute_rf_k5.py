@@ -24,9 +24,13 @@ from maxmatch import nu
 SETS = [[0, 1, 2, 5, 6], [1, 2, 4, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]]
 VALS = [[3, 35, 33, 43, 39], [20, 26, 16, 43, 32], [8, 2, 7, 4], [8, 2, 7, 4]]
 Y = (6, 5, 4, 3)
+# RF5b: the same hypergraph and start with agents 2 and 3 NOT twins (same ranking 3 > 5 > 6 > 4, different values),
+# found by rfcegar.RFT (RF up to relabelling twins): the twin-swap failure does not need exact twins
+VALS_B = [[3, 22, 23, 43, 38], [20, 26, 16, 43, 32], [10, 2, 7, 4], [8, 1, 6, 4]]
 
-if __name__ == '__main__':
-    print('$ python3 k4/ksens/refute_rf_k5.py', flush=True); t0 = time.time()
+
+def main(SETS, VALS, Y, label):
+    print('---', label, json.dumps([SETS, VALS])); t0 = time.time()
     n, m = len(SETS), 1 + max(max(s) for s in SETS)
     strict = all(len(set(sum(c) for r in range(len(v) + 1) for c in itertools.combinations(v, r))) == 1 << len(v) for v in VALS)
     I = brute.Inst(SETS, VALS, m); O = ocsat.OC(SETS, VALS, m); v = nu(SETS, VALS)
@@ -59,6 +63,14 @@ if __name__ == '__main__':
                 u, Z, os_, mx, r))
             if mx and r[0] is None and r[1] is None: fails.append((u, Z))
     O.close()
-    ok = strict and orders and rec and fails
-    print('RF fails: receiver-first maximum-matching vectors with no OC1 (both checkers):', fails)
+    ok = bool(strict and orders and rec and fails)
+    twins = VALS[2] == VALS[3]
+    print('RF fails: receiver-first maximum-matching vectors with no OC1 (both checkers):', fails, '; agents 2, 3 identical:', twins)
     print('OK: Conjecture RF fails at k = 5, n = 4' if ok else 'NOT CONFIRMED', '%.0f s' % (time.time() - t0))
+    return ok
+
+
+if __name__ == '__main__':
+    print('$ python3 k4/ksens/refute_rf_k5.py', flush=True)
+    a = main(SETS, VALS, Y, 'RF5 (agents 2, 3 twins)'); b = main(SETS, VALS_B, Y, 'RF5b (agents 2, 3 same ranking, not twins)')
+    print('both confirmed' if a and b else 'NOT BOTH CONFIRMED')
