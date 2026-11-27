@@ -29,7 +29,9 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
 - **Open:** the Hall-type count that proves R2-M. Its inputs are Lemma PL (the head, and every agent sharing two goods
   of H₀, keep no junk danger) and the second receiver as an unconditional slot; it also needs a fixed point of the
   pointer map (step 1).
-- **Requested:** an exhaustive n = 4 check of R2 and R2★ from the certifier.
+- **R2 is CERTIFIED at n ≤ 4** (certifier, K4.SDC.R2.N4: all 112,880 failing pairs have one receiver), and the
+  receiver counts are replayed here (`r2_replay_n4.log`). R2★ and R2-M at n = 4, on the hard starts with |U| ≥ 2, are
+  requested.
 
 ## Status (burst 6): OC₁^max falls at n = 4; two moves always suffice so far, by a pointer rule in the MC2 class
 
@@ -1026,6 +1028,18 @@ pointer fixed point of §11 repairs except on 6 and 5 starts.
 | n = 6 sweep sample (n4 = 2, 3, 4, stride 100, 9,162 hypergraphs, 1 profile) | 1,487 | 1,021 | 466 (441 with two, 25 with three) | `r2_shape_n6_sample.log` |
 
 Together with §14.3 (every OC₁^max failure has |U| = 1): no failure of R2 is known at k = 4.
+
+**R2 is CERTIFIED at n ≤ 4** by the certifier (`compute/k4-oc1max-cert`, ledger row K4.SDC.R2.N4 in PR #114),
+exhaustively over every strict profile of every k = 4 core:
+- all 112,880 OC₁^max-failing (profile, picks) pairs at n = 4 have exactly one receiver;
+- the other n = 4 cores and every core with n ≤ 3 have no OC₁^max failure.
+
+*Replayed here* with this workstream's code (`r2_replay_n4.py`, `r2_replay_n4.log`, on their export
+`results/k4_oc1max/two_move_starts_n4.json.gz` at a96c877): the receiver sets of all 112,880 pairs agree, each a
+single receiver. On 300 sampled pairs, the listed order gives the picks and no chain or addition repairs.
+
+*At n = 5* (partial, their first chunk): the first recorded failing start of each of 128 failing hypergraphs is
+perfect, with exactly one receiver. 105 of the 128 are MC2-class.
 
 **k ≤ 4 is necessary.** At k = 5, PW5 (`claude/k4-ksens`, `k4/ksens.md` §1, a written proof) is a perfect start with
 two receivers (the wanters w₁ and w₂) and no completion after any one chain.

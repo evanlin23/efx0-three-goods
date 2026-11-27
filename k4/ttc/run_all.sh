@@ -93,3 +93,4 @@ python3 oc2max_fp.py grow /tmp/cex.json 1000 8 1 4 hunt keep > $L/oc2max_hunt_n5
 # MC_DIR: k4/oc1max_multi of branch proof/k4-oc1max-multi (commit 3d157f3)
 MC_DIR=$MC_DIR python3 r2_mc.py walk /tmp/cex.json 300 1 > $L/r2_mc_walk_n4.log
 MC_DIR=$MC_DIR python3 r2_mc.py sweep 2,3,4 100 1 71 > $L/r2_mc_n6_sample.log
+python3 r2_replay_n4.py /tmp/two_move_starts_n4.json.gz > $L/r2_replay_n4.log   # from compute/k4-oc1max-cert a96c877
