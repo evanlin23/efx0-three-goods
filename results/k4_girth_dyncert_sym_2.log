@@ -1,0 +1,7 @@
+$ python3 k4/girth/dyncert_sym.py 2 --jobs=4 (5 cores, 4 jobs)
+k4_certs_2.json.gz#m5#0      profiles          864 covered          864 runs       64 boxes-without-labeling 0 0.7s CERTIFIED
+k4_certs_2.json.gz#m4#0      profiles         1728 covered         1728 runs      174 boxes-without-labeling 0 0.7s CERTIFIED
+k4_certs_2.json.gz#m6#0      profiles        20736 covered        20736 runs      304 boxes-without-labeling 0 0.2s CERTIFIED
+k4_certs_2.json.gz#m4#1      profiles        82944 covered        82944 runs     2654 boxes-without-labeling 0 1.9s CERTIFIED
+k4_certs_2.json.gz#m5#1      profiles        82944 covered        82944 runs     3960 boxes-without-labeling 0 3.0s CERTIFIED
+TOTAL {'profiles': 189216, 'covered': 189216, 'runs': 7156, 'cex': 0, 'cores': 5} 3s

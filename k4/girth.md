@@ -507,7 +507,7 @@ increasing agent order, one per vertex 0) first.
 | n = 3 | 51 | 299,837,376 | 1,130,416 | all CERTIFIED | `results/k4_girth_dyncert_3.log` |
 | n = 4, one 4-good agent | 135 | 7,247,232 | 268,107 | all CERTIFIED | `results/k4_girth_dyncert_4_n4_1.log` |
 | n = 4, two | 309 | 724,847,616 | 5,361,575 | all CERTIFIED | `results/k4_girth_dyncert_4_n4_2.log` |
-| n = 4, three | 339 | (running) | | 195 of 339 CERTIFIED so far | `results/k4_girth_dyncert_4_n4_3.log` |
+| n = 4, three | 339 | 34,971,844,608 | 57,987,455 | all CERTIFIED | `results/k4_girth_dyncert_4_n4_3.log` |
 | n = 4, four (pure) | 219 | (queued) | | | `results/k4_girth_dyncert_4_pure.log` |
 | n = 5, one 4-good agent | 1,735 | 574,615,296 | 13,418,885 | all CERTIFIED | `results/k4_girth_dyncert_5_n4_1.log` |
 
