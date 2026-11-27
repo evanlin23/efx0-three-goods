@@ -12,7 +12,8 @@ Climb: a random instance (n agents, m goods, every agent valuing 1..k goods, eve
 score does not get worse; RESTART steps without strict improvement start a new instance.
 
     python3 k4/haxell/ht_wclimb.py n m k [STEPS=2000] [CLIMBERS=4] [VMAX=60] [RESTART=300] [SEED=1] [SUB=1] [MEASURE=1]
-                                     [OFF=0]   (OFF: move kinds switched off, the bitmask of gstar_measure.c)"""
+                                     [OFF=0]   (OFF: move kinds switched off, the bitmask of gstar_measure.c)
+                                     [START="n m d g v ..."]   (every climb starts and restarts from this instance)"""
 import sys, os, random, subprocess, time
 import multiprocessing as mpc
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -59,7 +60,7 @@ def mutate(rng, V, n, m, k, vmax):
 
 
 def climber(args):
-    n, m, k, steps, vmax, restart, seed, sub, measure, off = args
+    n, m, k, steps, vmax, restart, seed, sub, measure, off, start = args
     rng = random.Random(seed)
     P = subprocess.Popen([os.path.join(HERE, 'gstar_measure'), '2', '1', str(measure), str(sub), '1', '1', str(off)],
                          stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, bufsize=1)
@@ -70,7 +71,8 @@ def climber(args):
         r1min, smin = int(w[j + 1]), int(w[j + 2])
         return ((0, smin) if smin >= 0 else (1, r1min)), w
     best_overall = None; found = []
-    V = rand_inst(rng, n, m, k, vmax); sc, _ = score(V); since = 0
+    fresh = (lambda: dict(start)) if start else (lambda: rand_inst(rng, n, m, k, vmax))
+    V = fresh(); sc, _ = score(V); since = 0
     for t in range(steps):
         W = mutate(rng, V, n, m, k, vmax); sw, w = score(W)
         if sw <= sc:
@@ -79,12 +81,12 @@ def climber(args):
             V, sc = W, sw
             if sc == (0, 0):
                 found.append((line(V, n, m), ' '.join(w))); best_overall = (sc, line(V, n, m))
-                V = rand_inst(rng, n, m, k, vmax); sc, _ = score(V)
+                V = fresh(); sc, _ = score(V)
         since += 1
         if best_overall is None or sc < best_overall[0]:
             best_overall = (sc, line(V, n, m))
         if since > restart:
-            V = rand_inst(rng, n, m, k, vmax); sc, _ = score(V); since = 0
+            V = fresh(); sc, _ = score(V); since = 0
     P.stdin.close(); P.wait()
     return seed, best_overall, found
 
@@ -95,11 +97,19 @@ if __name__ == '__main__':
     steps = int(a.get('STEPS', '2000')); C = int(a.get('CLIMBERS', '4')); vmax = int(a.get('VMAX', '60'))
     restart = int(a.get('RESTART', '300')); seed = int(a.get('SEED', '1')); sub = int(a.get('SUB', '1'))
     measure = int(a.get('MEASURE', '1')); off = int(a.get('OFF', '0'))
+    start = None
+    if 'START' in a:       # an instance line "n m d g v ...": every climb starts (and restarts) from it
+        w = list(map(int, a['START'].split())); assert (w[0], w[1]) == (n, m); start = {}; t = 2
+        for i in range(n):
+            d = w[t]; t += 1
+            for _ in range(d):
+                start[(i, w[t])] = w[t + 1]; t += 2
+        assert valid(start, n, m, k)
     print('$ python3 k4/haxell/ht_wclimb.py', *sys.argv[1:], flush=True)
     t0 = time.time(); allfound = []
     with mpc.Pool(min(C, os.cpu_count() or 1)) as pool:
         for s, best, found in pool.imap_unordered(climber, [(n, m, k, steps, vmax, restart, seed * 1000 + c, sub,
-                                                               measure, off) for c in range(C)]):
+                                                               measure, off, start) for c in range(C)]):
             print('climber', s, 'hardest score', best[0], 'instance', best[1], flush=True)
             for f in found:
                 print('COUNTEREXAMPLE', f[0], '|', f[1], flush=True)
