@@ -1,7 +1,8 @@
 """Lemma LIFT-1 (k4/matching.md §6): its hypotheses (L1)-(L3) on the data, and its construction against raw EFX0.
 
 For every start of results/k4_matching/data/oc1max_cex_n4.json and results/k4_matching/n4_failing_walk.jsonl, over the
-LIFT pairs meeting Lemma LIFT-red's hypotheses (z unfrozen after P1; |H0 of P1| = 2 inside J + {y_z}; P2 canonical
+LIFT pairs meeting Lemma LIFT-red's hypotheses (z unfrozen after P1; |H0 of P1| = 2 inside J + {y_z}; no junk for
+P1's agents after its head; P2 canonical
 ending at z with z's favourite good; h not P1's head):
   (L1) z is unfrozen at B2;
   (L2) v_z(H0 of P2, restricted to R_z) <= v_z(favourite good);
@@ -22,6 +23,7 @@ def job(row):
     D = I.dangerous(base); z = I.holders(base)[0]; C = collections.Counter(); found = False; fails = collections.Counter()
     for P1, H01, Hs1, B1 in chain_moves(I, base, D):
         if P1[-1] != z or len(H01) != 2 or z in I.frozen(B1) or not set(H01) <= set(J) | {Y[z]}: continue
+        if any(Hs1.get(i) for i in range(1, len(P1))): continue   # no junk for P1's agents after its head
         sharers = [q for q in D if q != P1[0] and I.V(q, [g for g in H01 if g in I.R[q]]) > I.V(q, base[q])]
         if not sharers: continue
         for P2, H02, Hs2, B2 in chain_moves(I, B1):

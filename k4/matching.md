@@ -19,7 +19,7 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
 | CM ⟺ OC₁ on the data (§3, §5) | one exchange (Lemma EX / EX\*) repairs exactly when one move gives an S\* completion, at every hard perfect start tested: the 2,371 starts, the 30 of the 11 n = 4 instances, the walks near the n = 4 failures. Near those failures, 88 starts satisfy OC₁ only through a non-S\* completion (a compensated frozen slot) | computed |
 | Lemma EX\* (§5) | the exchange at any state: Lemma M applied after a move, read in the slot graph before it (ownership moved, chain agents' demands re-evaluated, the chain's new slots added) | written proof (§5), a corollary of Lemma M; 0 violations |
 | **Conjecture CM₂** (§5) | from every perfect start, some first move leads to a state where a Lemma EX\* exchange repairs. CM₂ ⟹ OC₂ at perfect starts ⟹ OC₂^max ⟹ TARGET₄ | evidence: all 30 hard maximum-matching starts of the 11 n = 4 failure instances, every start visited by the walks near them (OC₁ failing: 4,513 visits, 3,308 distinct; OC₁ only non-S\*: 88), PW5, RD5. Where OC₁ fails, the first moves after which an EX\* exchange repairs are exactly those after which any second move repairs |
-| Lemma LIFT-1 (§6) | under LIFT-red's hypotheses and (L1) z unfrozen after P₂, (L2) z values h's new bundle at most as much as its favourite good, (L3) every other agent values at most one good of h's bundle plus the junk: h takes that bundle minus z's best junk good, z takes its favourite good plus that junk good, and the allocation is EFX₀ | written proof (§6; uses \|R_z\| ≤ 4, and Lemma PL(c) for the second sharer); construction EFX₀ (raw) on all 12,581 pairs meeting (L1)–(L3) |
+| Lemma LIFT-1 (§6) | under LIFT-red's hypotheses and (L1) z unfrozen after P₂, (L2) z values h's new bundle at most as much as its favourite good, (L3) every other agent values at most one good of h's bundle plus the junk: h takes that bundle minus z's best junk good, z takes its favourite good plus that junk good, and the allocation is EFX₀ | written proof (§6; uses \|R_z\| ≤ 4, and Lemma PL(c) for the second sharer); construction EFX₀ (raw) on all 8,949 pairs meeting (L1)–(L3) |
 | **Conjecture LIFT-EX** (§6) | the second move, in exchange form (OC2-LIFT). At a perfect start with no one-move repair there is exactly one holder z; a chain from a dangerous agent to z absorbs a danger set shared with a second dangerous agent; a second chain ending at z gives z its favourite good, and its head owns (Lemma EX\* holds) | evidence: all 3,190 n = 4 failing profile–start pairs, the TTC n = 5 core, RD5; false at PW5 (k = 5, two holders). Lemma LIFT-red (written proof) reduces its last step to one condition, (LIFT-1) |
 | exchange accounting (§3) | what a repairing chain pays for: in 910 of the 2,071 hard starts, deleting the chain agents' demands alone (s = 0) clears an end-owned deficiency of up to 6 | computed |
 
@@ -496,7 +496,8 @@ pairs of each of the 3,190 starts:
 
 **Lemma LIFT-red (K4.MATCH.LIFTRED; written proof).** Assume:
 - Y is a perfect start and z is a holder of Y;
-- P₁ is an official chain ending at z, with |H₀¹| = 2 and H₀¹ ⊆ J ∪ {y_z};
+- P₁ is an official chain ending at z, with |H₀¹| = 2 and H₀¹ ⊆ J ∪ {y_z}, in which the agents after the head take no
+  junk;
 - z is a holder of B₁ (unfrozen after P₁);
 - P₂ is a canonical chain at B₁ (each agent after the head takes its predecessor's bundle alone) ending at z, and z's
   new bundle is a single good;
@@ -513,7 +514,8 @@ agent i ≠ h at v_i(B₂_i).
    - y_z: it is unwanted at Y because z is a holder of Y, and values only rose;
    - a = B₁_z, released or taken by h: it is unwanted at B₁ because z is a holder of B₁, and values only rose.
 3. The bundles other than X are:
-   - single goods: z holds its favourite good, and the other agents of P₂ and everybody else hold one good;
+   - single goods: z holds its favourite good, and the other agents of P₁ and P₂ (they take no junk) and everybody else
+     hold one good;
    - P₁'s head's pair H₀¹. It may have moved one step along P₂, if P₂ passes through P₁'s head.
 
    A single good threatens nobody. A pair of goods that are both unwanted at B₂ threatens nobody: removing one good
@@ -574,14 +576,17 @@ base. This allocation is EFX₀ and S\*-shaped with owner h.
 
 *Check* (`k4/matching/lift1_check.py`, `results/k4_matching/lift1_check.log`).
 - On all 3,190 n = 4 failing starts, some LIFT-red pair meets (L1)–(L3).
-- The lemma's allocation, built for every one of the 12,581 pairs meeting them, is EFX₀ (raw) every time.
+- The lemma's allocation, built for every one of the 8,949 pairs meeting them, is EFX₀ (raw) every time.
+- These counts are with P₁'s junk-free condition. An earlier version of the lemma omitted that condition; the proof
+  needs it, because middle agents taking junk would hold multi-good bundles.
 - No sharer violates (L3).
 
 **So the second move is a pure shape statement.** By Lemmas LIFT-red and LIFT-1, OC₂ at a start with no one-move
 repair follows from:
 
-> **LIFT-SHAPE⁺.** There is exactly one holder z. Some official chain P₁ from a dangerous agent k ends at z, with
-> |H₀¹| = 2, H₀¹ ⊆ J ∪ {y_z} improving a second dangerous agent, and z unfrozen after P₁. Some canonical chain P₂ at
+> **LIFT-SHAPE⁺.** There is exactly one holder z. Some official chain P₁ from a dangerous agent k ends at z, with no
+> junk for its agents after the head, |H₀¹| = 2, H₀¹ ⊆ J ∪ {y_z} improving a second dangerous agent, and z unfrozen
+> after P₁. Some canonical chain P₂ at
 > B₁, with a head h ≠ k, ends at z and gives z its favourite good as a single good. (L1)–(L3) hold.
 
 No completion search is left in it, only which goods sit where, and the value comparisons (L1)–(L3):
