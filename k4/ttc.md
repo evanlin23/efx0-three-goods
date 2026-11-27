@@ -1066,6 +1066,15 @@ R2★'s completions are S^c completions whose owner (x₀ or z) receives at most
 |J ∖ H| ≤ 1. So step 4 is the statement that after the chain some (H, F_s) with |J ∖ H| ≤ 1 meets (C1)–(C3). The
 counting argument must produce it: a Hall-type deficiency δ^c ≤ 0 from Lemma PL and the second receiver.
 
+**No frozen slot is needed** (`r2_slots.py`): at every hard start with |U| ≥ 2, some R2★ chain has a completion in
+which no agent frozen at the new state receives junk. That is F_s = ∅ in Lemma M^c, the plain matching case: 79/79 at
+n = 4 (`r2_slots_walk_n4.log`) and 466/466 at n = 6 (`r2_slots_n6_sample.log`).
+- In the first such completion found, the junk goes to unwanted single-good holders (940 goods at n = 6), to x₀ (410),
+  to multi-good agents of the path (65), and to frozen singles (71) only in completions for which another chain exists
+  without them.
+- The new junk can outnumber the unwanted holders plus x₀, by up to 2. The path's multi-good agents then take the
+  excess, so the count in step 4 has to include them.
+
 ## 12. Next steps
 
 1. *OC₁-E / OC₁-ED at larger n.* Adversarial climbs at n = 6–8 with the endpoint objective:
