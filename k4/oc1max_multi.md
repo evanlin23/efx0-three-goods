@@ -614,7 +614,18 @@ Each statement is local. Each is checked on all 8,383 starts, and is stated with
   - Smallest left: T3 with the order (0, 2, 1), picks (0, 1, 4), D = {0, 2}. Its repair is the swap 0 ↔ 2: agent 2
     takes 0, and agent 0 takes 2's pick 4 plus junk 2. But agent 1 wants 4 (30 > 22), so k = 0 cannot own ((R2)
     fails), and the S\* owners are 1 and 2. T3 with the order (0, 1, 2) is covered by RING-red.
-  - So RING needs RING-red with another owner: the analogue of OWN for rings.
+  - *RING-OWN* (`ring.py`, `ring.log`; written proof, Lemma 2\* with H = ∅ and owner o ≠ k). The conditions are:
+    (O1) every multi-good bundle other than o's threatens nobody; (O2) o holds at most one good and is unfrozen;
+    (O3) every non-holder other than o is unthreatened by B′_o ∪ J′. Checked: 22,571 (ring, owner) pairs, 0
+    violations. But it covers *none* of the 45.
+  - *Why* (`ring_comp.py`, `ring_comp.log`):
+    - At 27 of the 45, a repair has an agent off the chain that wants a good of x₀'s new bundle (in T3 (0, 2, 1),
+      agent 1 wants the pick 4 that agent 0 receives). That agent is safe only because the completion gives it its
+      own junk good (agent 1 takes 3: 22 + 12 > 30). So x₀'s bundle violates (G1) of Lemma 2\*. What is needed
+      there is Lemma 2\* with *compensated (G1)*: agents threatened by a fixed multi-good bundle are matched to
+      compensating junk, as they are for the owner's bundle.
+    - The other 18 are repaired only by ED chains without such a wanter, such as an unfrozen head taking junk with
+      slots. The smallest is Q2, picks (3, 7, 5, 4).
 - **The existence part.** In every regime the lemmas assume the right chain. What is missing is an argument that a
   hard start has a KEEP, OWN or clean chain, or else the SLOT or RING configuration.
 

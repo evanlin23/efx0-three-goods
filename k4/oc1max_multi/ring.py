@@ -57,6 +57,25 @@ def ring_red(I, base, path, Ht, H0):
     return nb, True
 
 
+def ring_own(I, base, path, Ht, H0, o):
+    """Lemma RING-OWN: the ring with owner o != k.  Lemma 2* with H = {} applies when
+      (O1) every multi-good bundle other than o's threatens nobody at the state's values;
+      (O2) o holds at most one good and is unfrozen at the state;
+      (O3) every non-holder other than o (frozen singletons, multi-good holders) is unthreatened by B'_o + J'.
+    (O2) also excludes non-movable holders (nobody wants B'_o, and |B'_o| <= 1)."""
+    k = path[0]; nb = apply_ring(I, base, path, Ht, H0); n = I.n
+    if o == k: return nb, False
+    val = [I.V(i, nb[i]) for i in range(n)]; Jp = junk(I, nb)
+    if len(nb[o]) > 1 or o in frozen(I, nb): return nb, False                                        # (O2)
+    for j in range(n):                                                                               # (O1)
+        if j != o and len(nb[j]) >= 2 and any(i != j and I.threat(i, val[i], nb[j]) for i in range(n)): return nb, False
+    W = list(nb[o]) + Jp; F2 = set(frozen(I, nb))
+    for q in range(n):                                                                               # (O3)
+        if q == o: continue
+        if (q in F2 or len(nb[q]) >= 2) and I.threat(q, val[q], W): return nb, False
+    return nb, True
+
+
 if __name__ == '__main__':
     sys.path.insert(0, HERE)
     from regimes import mechanism
@@ -66,7 +85,7 @@ if __name__ == '__main__':
             I = Inst(rec['inst']['sets'], rec['inst']['vals'], rec['inst']['m'])
             base = base_from_picks(tuple(rec['picks'])); J = junk(I, base); D = rec['D']
             p = [I.V(i, base[i]) for i in range(I.n)]
-            found = False
+            found = False; found_own = False
             for k in D:
                 for path, Ht in rings(I, base, k, J):
                     d = path[-1]; yd = base[d][0]
@@ -76,6 +95,12 @@ if __name__ == '__main__':
                         for G in itertools.combinations(Jk, r):
                             H0 = (yd,) + G
                             if yd not in I.R[k] or I.V(k, H0) <= p[k]: continue
+                            for o in range(I.n):
+                                nb2, ok2 = ring_own(I, base, path, Ht, H0, o)
+                                if not ok2: continue
+                                T['RING-OWN (ring, owner) pairs'] += 1
+                                if not sstar(I, nb2, o): viol.append(('OWN', rec['name'], rec['picks'], path, Ht, H0, o))
+                                else: found_own = True
                             nb, ok = ring_red(I, base, path, Ht, H0)
                             if not ok: continue
                             T['RING-red rings'] += 1
@@ -83,6 +108,7 @@ if __name__ == '__main__':
                             else: found = True
             mech, _ = mechanism(I, rec)
             T[('mechanism ' + mech, 'RING-red ring' if found else 'no RING-red ring')] += 1
+            T[('mechanism ' + mech, 'RING-OWN ring' if found_own else 'no RING-OWN ring')] += 1
     print('$ python3 k4/oc1max_multi/ring.py', *sys.argv[1:])
     for k in sorted(T, key=str): print(k, T[k])
-    print('RING-red violations:', len(viol), viol[:5])
+    print('RING-red / RING-OWN violations:', len(viol), viol[:5])
