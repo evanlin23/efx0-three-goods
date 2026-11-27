@@ -62,7 +62,9 @@ def check(st):
             while True:
                 ws = [i for i in A if i != E[-1] and len(cur[E[-1]]) == 1 and v[i].get(cur[E[-1]][0], 0) > val[i]]
                 if not ws: break
-                E.append(min(ws, key=lambda i: pos[i]))
+                nxt = min(ws, key=lambda i: pos[i])
+                if nxt in E: return '2b want-cycle (not an SD state)'      # hardening (referee): never loops
+                E.append(nxt)
             if len(P) < 2 or P != E[:len(P)]: return '2b not an E(k) prefix'
             if used & set(P): return '2b chains not disjoint'
             used |= set(P); z = P[-1]

@@ -1570,7 +1570,7 @@ k ∈ K. In the census below this is checked raw, as part of the lifted EFX₀ t
 So ROUND-RSD's proof tools are SD-E(round) under (H) and (L\*) at the end of the round, with Theorem S^φ and the
 completion at once as the last step.
 
-**Corollary S^φ(round) (K4.MULTI.SPHIR).** Theorem S^φ (§16, with (S-φ3)) holds verbatim when the phantoms were settled
+**Corollary S^φ(round) (K4.MULTI.SPHIR).** *Refereed CORRECT (`k4/referee/oc1max_multi.md` §16).* Theorem S^φ (§16, with (S-φ3)) holds verbatim when the phantoms were settled
 in rounds (SD-E(round), refereed). The invariants then read:
 - **(P1\*)** (L\*) at the end of each round: no T_k threatens a real agent at its value after the round. Values only rise
   afterwards, so it persists.
@@ -1643,6 +1643,9 @@ certified at 14904a87 on `compute/k4-oc1max-cert`; the matching session's copy i
     nothing, and is raw EFX₀.
 - Result: **583,680 ok**. All 17,511 negative tests are rejected. The witness starts equal the export's as a multiset
   (sha256 recorded): 0 missing, 0 extra.
+- *Audit:* the referee read `check_rounds.py` line by line and re-validated every witness with its own code
+  (58,370 mutants, 0 accepted; `k4/referee/oc1max_multi.md` §17): **CONFIRMED**. Following the referee's robustness
+  remark, the checker's E(k) loop now rejects a want-cycle instead of looping; none occurs in these inputs.
 - *Second checker:* the matching session's `check_rsd.py --inline` (its own implementation) verifies all 583,680
   witnesses from the raw definitions, and finds their starts equal to its copy of the export
   (`results/k4_matching/check_rsd_multi_round_e_sel2.log` on `proof/k4-matching`).
