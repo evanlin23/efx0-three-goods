@@ -1306,3 +1306,15 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   proved and trivial. But v^ε is not 4-limited, so Theorem VM does not apply; the bridge only restates EFX₀.
   Smallest instance: V-M's (S3) n = 2, m = 3, with replay `attempts/k4_eps_bridge.py`.
 - Next: A2, the β = 5 minimal-counterexample candidates (n ≤ 12 by K4.MC4).
+
+### 2026-11-27 19:40 UTC: burst 22 (track A1)
+- The n = 6, two-4-good-agent frontier job was stopped by the harness at its 2-hour background limit (19:35 UTC). It
+  had done 43,370 / 119,283 cores: all of m = 4–8, and 4,571 of m = 9's 36,867. There were 0 D2 failures and 0
+  counterexamples. The checkpoint parses completely.
+- The harness asks not to restart a job that reached the longest allowed timeout. It is not restarted, pending the
+  user's decision.
+- Kept: a compact per-core summary (m, idx, sets, D2 failures, counterexample flag, number of allocations) in
+  `results/k4_frontier_6_n4_2_partial_summary.jsonl.gz`. The full checkpoint (13.6 MB gzipped, with allocations) stays
+  in the container, gitignored.
+- A partial certificate for m ≤ 8 cannot pass `k4/check4_fast.py`, which requires completeness for every m. So no
+  ledger row yet; this is EVIDENCE.
