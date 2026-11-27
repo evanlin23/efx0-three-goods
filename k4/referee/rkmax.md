@@ -22,6 +22,9 @@ Referee: `proof/k4-referee`, 2026-11-27.
   makes RKMAX at n = 4 a two-implementation certificate.
 - **"RKMAX ⟺ every failing start has a σ-larger maximum-matching SD vector": CORRECT** (§1).
 - **"RKMAX ⟹ OC₁^∃max": CORRECT**, given Lemma MAXSD (§1).
+- **n = 5** (§2b): every σ-optimum satisfies OC₁ at all 583,680 profiles of the complete lists of 5_pure #419, #447
+  and #38. This is a second implementation of the coordinator's `e6227707` claim. A 1-in-200 sample of the partial
+  lists also shows no failure.
 - **Text remark** on the "RF and σ" counts (§3): "raises σ at 111,600 pairs" means 111,600 of the 112,880 pairs. At
   the other 1,280 pairs no listed rotation raises σ, although some other u-first maximum-matching order does.
 
@@ -94,6 +97,24 @@ Notes:
   so RKMAX holds there trivially. Inside it, the table shows RKMAX at every profile. By type invariance (§1), the
   integer representatives stand for all strict profiles of their types. So RKMAX at n = 4 now rests on two
   implementations: the coordinator's and this one.
+
+## 2b. n = 5 (`rkmax_ref.py sigma`; `rkmax_ref_n5_*.log`)
+
+In sigma mode, OC₁ is checked only at the σ-optimal MM vectors. All 120 orders are run at each exported profile.
+
+| export (`compute/k4-oc1max-cert`, `results/k4_oc1max/n5/`) | profiles | MM vectors | σ-optima | every σ-optimum OC₁ | optima completing at the picks / needing one move |
+|---|---|---|---|---|---|
+| `two_move_starts_n5_sel2.json.gz`: complete lists of 5_pure #419, #447, #38 | 583,680 | 5,466,240 | 1,004,160 | **583,680 of 583,680** | 1,004,160 / 0 |
+| `two_move_starts_n5_partial6.json.gz`: partial lists, every 200th profile | 3,503 | 44,425 | 6,485 | 3,503 of 3,503 | 6,461 / 24 |
+
+- **The complete lists.** This is a second implementation of the coordinator's n = 5 claim (`e6227707`,
+  `extremal_rank_n5_sel2.log`: σ-optimal vectors satisfy OC₁ at all 583,680). The optimum-set sizes agree:
+  163,200 × 1 + 420,480 × 2 = 1,004,160 σ-optima. My LMR count (1,004,160) and RS count
+  (163,200 + 2 · 391,680 + 4 · 28,800 = 1,061,760) also agree; OC₁ at those optima was not re-run here. Since the
+  lists are complete for these three cores, RKMAX on them now rests on two implementations. One caveat: I did not
+  re-derive the completeness of the n = 5 lists, which is the certifier's claim.
+- At these three cores every σ-optimum completes at the picks: no move is needed.
+- The partial lists, sampled at 1 in 200, show no failure.
 
 ## 3. "RF and σ"
 
