@@ -1,0 +1,12 @@
+$ python3 k4/referee/rkmax_ref.py sigma two_move_starts_n5_sel2.json.gz 4
+profiles in export 583680, this run 583680
+  LMR: optima                                        1004160
+  MM vectors                                         5466240
+  RS: optima                                         1061760
+  TOP: optima                                        3262080
+  profiles                                           583680
+  sigma: every optimum OC1                           583680
+  sigma: optima                                      1004160
+  sigma: optima completing at the picks              1004160
+  sigma: optima needing one move                     0
+  sigma: some optimum OC1                            583680

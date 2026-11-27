@@ -1,0 +1,34 @@
+$ python3 k4/oc1_hall/rf_n5_all.py 5_pure_s5o0_summary.jsonl.gz 5_pure_s5o1_summary.jsonl.gz
+DEMOTE-2: after "k takes S, d takes Y'_k" (official): S^c completion False 5
+DEMOTE-2: after "k takes S, d takes Y'_k" (official): S^c completion True 38
+RF starts 666
+RF starts with a pickless agent 16
+class (1, 0) 53
+class (1, 0): P (picks complete) 40
+class (1, 0): RAW one move repairs 3
+class (1, 0): T (a receiver trades with a pick-dangerous agent) 10
+class (1, 1) 3
+class (1, 1): K (chain from k in D_T', H0 in its junk; k -> d) 2
+class (1, 1): P (picks complete) 1
+class (1, 2) 48
+class (1, 2): K (chain from k in D_T', H0 in S; k -> d) 19
+class (1, 2): K (chain from k in D_T', H0 in S; length 1, head frozen) 28
+class (1, 2): RAW one move repairs 1
+class (1, 3) 2
+class (1, 3): RAW one move repairs 2
+class (2, 0) 456
+class (2, 0): P (picks complete) 447
+class (2, 0): T (a receiver trades with a pick-dangerous agent) 9
+class (2, 1) 73
+class (2, 1): K (chain from k in D_T', H0 in its junk; length 1, head a receiver) 4
+class (2, 1): K (chain from k in D_T', H0 in its junk; length 1, head frozen) 4
+class (2, 1): P (picks complete) 65
+class (2, 2) 10
+class (2, 2): K (chain from k in D_T', H0 in S; length 1, head a receiver) 2
+class (2, 2): P (picks complete) 8
+class (3, 0) 5
+class (3, 0): P (picks complete) 5
+pickless rotation: (start, u) pairs 16
+pickless rotation: some u-first order gives a maximum matching: True 16
+pickless rotation: u-first maximum-matching pick vectors: OC1 one move repairs 20
+pickless rotation: u-first maximum-matching pick vectors: OC1 picks complete 61

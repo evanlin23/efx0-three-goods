@@ -1,5 +1,6 @@
 """The three test instances of open-core item 1 (k4/oc1_hall.md §23.4: D1-H2 in general), found by proof/k4-d1 and
-re-verified here: D1H-X (the extension is needed), S2-X (an extra active agent) and S1-X (three wanters).  For each:
+re-verified here: D1H-X (the extension is needed; not a core), D1H-Y (the extension is needed; a strict core outside
+K4.MC2), S2-X (an extra active agent), S1-X (three wanters) and T2-X (t = 2, a strict core).  For each:
 is_core4 on the dense value matrix, hardness (brute force), D, the wanters of Y_k, the unfrozen agents valuing junk,
 all-HEAD, and whether a canonical chain from k or an extension (x_0..x_{t-1}, u, u') -- u' another wanter of a taking
 y_u plus junk -- leaves an S* completion owned by k with a minimal improving H_0 (D1-H2).
@@ -17,6 +18,8 @@ sys.path.insert(0, os.path.join(_paths.ROOT, 'k4', 'c4_verify_H'))
 from hcore import is_core4
 CASES = [('D1H-X', [[0,1,5,7],[3,4,6,7],[0,2,5,7]], [[26,3,25,27],[19,17,25,30],[9,14,7,29]], (0,1,2)),
          ('S2-X', [[0,1,5,7],[3,4,6,7],[0,2,5,7],[8,6,7,3]], [[26,3,25,27],[19,17,25,30],[9,14,7,29],[14,11,1,7]], (0,1,2,3)),
+         ('D1H-Y', [[0,4,3,5],[2,6,4,5],[0,1,3,5]], [[20,13,21,23],[17,14,18,23],[8,11,7,23]], (0,1,2)),
+         ('T2-X', [[0,4,5,6],[0,1,2],[1,2,4],[1,3,5,6]], [[8,6,5,4],[4,3,2],[4,3,2],[8,4,3,2]], (0,1,2,3)),
          ('S1-X', [[0,7,5,6],[0,1,4,8],[0,2,7,5],[0,3,8,4]], [[37,13,33,25],[25,12,5,10],[24,15,12,6],[27,24,18,22]], (0,1,2,3))]
 
 

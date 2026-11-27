@@ -16,7 +16,7 @@ with a completion, a final round or an ED repair (MODE=GR).  MODE=GRR instead ke
 exists and uses the base only where none does (more states visited; a stronger requirement, false on 8 of the 280
 sampled 5_pure starts).
 
-    [MODE=GR|GRR] python3 k4/base_phantom/check_rules.py FILE [STRIDE]
+    [MODE=GR|GRR] python3 k4/base_phantom/check_rules.py FILE [STRIDE] [OFFSET]
 """
 import sys, os, json, gzip, collections, multiprocessing as mp
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -112,7 +112,8 @@ def job(row):
 if __name__ == '__main__':
     fn = sys.argv[1]
     stride = int(sys.argv[2]) if len(sys.argv) > 2 else 1
-    print('$ MODE=%s python3 k4/base_phantom/check_rules.py' % MODE, fn, stride)
+    off = int(sys.argv[3]) if len(sys.argv) > 3 else 0
+    print('$ MODE=%s python3 k4/base_phantom/check_rules.py' % MODE, fn, stride, off)
     seen = set()
     rows = []
     for r in rows_of(fn):
@@ -120,7 +121,7 @@ if __name__ == '__main__':
         if k not in seen:
             seen.add(k)
             rows.append(r)
-    rows = rows[::stride]
+    rows = rows[off::stride]
     print('distinct starts checked:', len(rows))
     C = collections.Counter()
     with mp.Pool(4) as pool:

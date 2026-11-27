@@ -137,3 +137,92 @@ alternating path values a junk good, so no dangerous frozen agent is wanted (thr
 - (2): want arrows from a pickless agent form an alternating path. Want-chains are acyclic at SD picks.
 
 **CORRECT.** It is a standard augmenting-path argument.
+
+## Addendum: the RF residue proofs at n = 4, Lemmas RF-A1, RF-B, REPAIR-Y and Proposition RF-B4 (`k4/oc1_hall.md` §24.6, §24.8 on `claude/k4-oc1-hall` at `01f986d4`, PR #129; coordinator's priority item, 2026-11-27)
+
+**Verdict: all four CORRECT.** Scripts `rfres_ref.py` and `rfb_rand_ref.py` (own code; nothing from `k4/oc1_hall/` run),
+runs `rfres_ref_runs.sh`, log `results/k4_referee/rfres_ref.log`. Data: the certifier's n = 4 export
+`two_move_starts_n4.json.gz` (sha256 `6159e38d…`): 112,880 starts and 292,080 failing orders.
+
+**Lemma RF-B (any n).** Re-derived pair by pair.
+- Every agent prefers its pick to every junk good. So S never threatens anyone but k, and everyone's value is at least
+  its pick value.
+- Z is handled as follows:
+  - k by (B4): v_k(Z) − min ≤ p_k < v_k(S);
+  - agents valuing ≥ 2 goods of Z by (B5);
+  - every other agent through its single valued good: junk, Y′_d (unwanted, B3) or Y′_k (wanted only by d, B2).
+- The chain (k, d) is official. d's completion takes Y′_d back plus J′ ∖ S, so d is the only absorber.
+
+**Lemma REPAIR-Y (any n).** Re-derived.
+- X_u = {Y_k, Y_u} threatens nobody: Y_u is unwanted, Y_k is wanted only by u, and k values Y_k below v_k(S).
+- X_{k′} = {Y_{k′}, ℓ} threatens nobody: its wanters are only k and u, bounded by (F-k) and (R3).
+- S and ℓ are junk.
+- The chain (k, u) is official, and the completion gives u and k′ one good each.
+- The contrapositive is sound. Y fails OC₁, and (R1), (R2), (F-k) and the wanter condition hold, so (R3)'s bound must
+  fail. That is (U-b), strictly.
+
+**Proposition RF-B4 (n = 4).** The structural remarks are re-derived:
+- (B3) is RF-PATH (c);
+- (B1) and (B4) follow from R_k = {Y′_k, Y′_{k′}} ∪ S;
+- (B5) is void for k′;
+- no two agents want each other's picks under SD;
+- (B2) holds because the possible wanters of Y′_k are d, k′ and u, k′ does not want it, and u holds its top good;
+- with (U-b), v_u(Z) − min ≤ v_u(Y_u) + v_u(Y_k) ≤ v_u(Y_{k′}) < v_u(t), which is (B5).
+
+**Lemma RF-A1 (conditional).** Correct. I re-derived it **directly**, without Lemma 2\*, by checking every pair of the
+completion X = (w: W = {Y_d} ∪ (J′ ∖ {h}), d: {g, h}, others their Y′-pick):
+- *{g, h}* are junk of Y, by (A1-i) and since d takes junk. u holds Y_w, above Y_u and every junk good. w took Y_d at
+  its σ′-turn while g and h were free. Everyone else keeps Y_a.
+- *d vs W.* W ∩ R_d = {Y_d}. Since d is truly dangerous with J ∩ R_d = {g, h}, v_d(g) + v_d(h) > v_d(Y_d). A threat
+  by a single junk good would contradict SD.
+- *u vs W:* (A1-ii).
+- *k2 vs W:* W ∩ R_{k2} ⊆ {x}, a junk good of Y′ (below p_{k2} by SD) or Y_d (unwanted, (A1-iii)).
+- *Any other frozen q vs W.* Y_d is worthless to q by (A1-iv), and |W| ≥ 2. So the threat is
+  v_q(J′ ∖ {h}) ≤ v_q(J′) − min_{J′} v_q ≤ p′_q, because D_T′ = ∅.
+- |U′| = 1, so no unfrozen agent other than d remains.
+
+**The n = 4 facts, recomputed with my own code** (receiver, RF order, SD, roles, threats, raw EFX₀):
+
+| item | my count | Hall's |
+|---|---|---|
+| failing orders; unique receiver = the last picker | 292,080; at all | 292,080 |
+| distinct RF starts: R2 / U1 / A / B | 161,520: 67,120 / 16,320 / 34,560 / 43,520 | the same |
+| A1 (u → w → d, d takes junk) / A2 | 32,000 / 2,560 | 32,000 / 2,560 |
+| A1: (A1-i), (A1-ii), (A1-iii), (A1-iv); the completion raw EFX₀ | 32,000 each; 32,000 | 32,000 |
+| B: a unique candidate k (pick wanted by d only); w = d | 43,520; 43,520 | the same |
+| B: (B1)–(B5), FULL(k, S) raw EFX₀ | 43,520 each; 43,520 | 43,520 |
+| B: fact (a), "only u values two goods of Z", R_u = {t, Y_{k′}, Y_u, Y_k}, (U-b) | 43,520 each | 43,520 |
+| REPAIR-Y at Y with \|J ∖ S\| = 1: (R1), (R2), (F-k) and the wanter condition hold; (R3)'s bound fails; the allocation is not EFX₀; (U-b) strict | 38,400; 38,400; 38,400; 38,400 | 38,400 |
+
+**RF-B and REPAIR-Y as general lemmas** (random strict instances, n = 3–6, ≤ 4 goods, 300,000 SD starts):
+- 12,365 (d, k, S) meet (B1)–(B5): **0** non-EFX₀;
+- 35,369 (u, d, k, k′, S) meet (R1)–(R3): **0** non-EFX₀;
+- *mutant* with (B5) dropped and (R3)'s bound dropped: 1,374 and 395 violations. So the hypotheses are needed and
+  the test bites.
+
+**For the campaign.**
+- At n = 4, residues A1 and B have written proofs from facts that I re-certified independently on the export (single
+  implementation before; now two). A2 is closed by enumeration.
+- At general n, the open part is why the hypotheses hold: (A1-i)–(A1-iv), and (a) plus (U-b). At n = 5, RF-B covers
+  only 61 % of DEMOTE-2 (Hall §24.9, not re-run here).
+
+## Addendum: Lemma RF-B′ (`k4/oc1_hall.md` §24.10 at `7336e31c`; coordinator's queue, 2026-11-27)
+
+**Verdict: CORRECT.** Its new content is (G2) at B′. The exactness is Lemma M^c, refereed CORRECT in
+`oc1max_multi.md` §9, whose characterization needs only (G2) and allows multi-good bundles such as B′_k = S.
+
+*(G2), re-derived.*
+- The free goods at B′ are J′ ∖ S and Y′_d.
+- Junk is below every pick value, and every value at B′ is at least the pick value.
+- Y′_d is unwanted by every i ≠ d (the hypothesis), and v_d(Y′_d) = p_d < v_d(Y′_k).
+
+*RF-B as the case o = d, H = F_s = ∅.* B′_k = S raises no τ_i, since each single junk good is below b_i. So "no needy
+agent" means "Z threatens nobody", which is (B2), (B4) and (B5). Correct.
+
+*Check* (`rfbp_rft_ref.py rfbp`; 40,000 random SD starts, n = 3–5; every unwanted d, every k whose pick d wants, every
+improving S ⊆ J′ of size 1–3):
+- 4,369 states, (G2) at all 4,369;
+- 17,344 owner tests of my M^c formula (`mc_ref.py`) against the brute-force S^c test: 0 mismatches;
+- 16,732 of the tests have an S^c completion.
+
+Log `results/k4_referee/rfbp_rft_ref.log`.

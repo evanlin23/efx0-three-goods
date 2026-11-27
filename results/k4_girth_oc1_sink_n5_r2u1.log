@@ -1,0 +1,4 @@
+$ python3 k4/girth/oc1_sink.py stream two_move_starts_n5_partial6.json.gz two_move_starts_n5_sel2.json.gz 10 3
+   n=5    R2         after (C), absorber w                  5791
+   n=5    R2         at Y', absorber d                    120597
+   n=5    U1         after (T), absorber d                   285

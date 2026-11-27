@@ -1,0 +1,9 @@
+$ python3 k4/oc1_hall/rf_na_check.py two_move_starts_n5_partial6.json.gz two_move_starts_n5_sel2.json.gz
+  ... on 5_pure#374: False 274
+  ... on 5_pure#374: True 32368
+  ... on 5_pure#464: True 80842
+DEMOTE-0 starts 113484
+DEMOTE-0 starts with a no-owner completion: False 274
+DEMOTE-0 starts with a no-owner completion: True 113210
+assignments: criterion False, ohlib False, raw False 6481071
+assignments: criterion True, ohlib True, raw True 327969

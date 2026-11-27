@@ -77,7 +77,7 @@ Code: `k4/oc1_hall/` (`ohlib.py` is shared). Logs: `results/k4_oc1_hall/`. Every
 
 Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PROMPT.md §5 rule 3).
 
-## Status (end of burst 8)
+## Status (end of burst 9)
 
 | | statement | status |
 |---|---|---|
@@ -106,6 +106,11 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | Lemmas M, EX of `proof/k4-matching` (§23.1) | second reading: M is correct; EX is correct as a sufficient condition but not exact (it cannot compensate the head: lb4-n2m5-upgrade) | read here; `ex_not_exact.log` |
 | **Sub-lemma OC2-LIFT** (§23.3; K4.OCH.LIFT) | with no one-move repair, a canonical first chain from D is followed by a move that removes every DEMAND agent (starts at it or unfreezes it) and completes. The coordinator's literal form, a chain from the DEMAND agent, holds on only 6 of 12 | **open**; evidence 12/12 known failures; smallest 4_n4_3#58 (n = 4, m = 7) |
 | Case tree for OC₂^max (§23.2) | 15 leaves with status and owner session; open: 3b (all-HEAD, k4-d1), 4d SLOT and 4e RING (k4-oc1max-multi), 4f (unverified), 5 OC2-LIFT, 6 (three moves, certifier) | plan |
+| **Lemma RF-A1** (§24.6) | residue A1 of Conjecture RF (one receiver, D_T′ = ∅, path u → w → d, d takes junk): w owns an S\* completion, keeping out d's favourite good of J′ | written proof conditional on (A1-i)–(A1-iv), certified at all 32,000 n = 4 A1 starts |
+| **Lemma RF-B** (§24.8) | at picks Y′ with (B1)–(B5): "k takes S, d takes Y′_k", then d absorbs Y′_d and J′ ∖ S, is EFX₀ (one move, owner d) | written proof, any n; conclusion checked at all 43,520 n = 4 B starts and both n = 5 ones (two EFX₀ checkers) |
+| **Prop. RF-B4, Lemma REPAIR-Y** (§24.8) | n = 4: every B start (DEMOTE-2) meets Lemma RF-B, from the §22 pair, the SD structure and (U-b) v_u(Y_{k′}) ≥ v_u(Y_u) + v_u(Y_k); REPAIR-Y derives (U-b) from Y's failure when \|J ∖ S\| = 1 | written proofs from facts certified at all 43,520 starts; (U-b) derived at 38,400, evidence at 5,120; general n open |
+| **Conjecture RF-S** (§24.9) | DEMOTE-2 at any n: some k ∈ D_T′ takes an improving H₀ ⊆ S (the junk both truly dangerous agents value), then a chain from k leaves a one-absorber completion. Lemma RF-B covers only 60.6% of DEMOTE-2 at n = 5; RF-PATH for any receiver holds at all 7,608,052 n = 5 failing orders | evidence: 140,111/140,111 (n = 5 exports), 48/48 (stored), 43,520/43,520 (n = 4) |
+| **Conjecture RF at n = 5; Lemma RF-B′** (§24.10) | OC₁ holds at all 1,526,623 maximum-matching RF starts of the n = 5 exports (9 hypergraphs, 3 with complete failure lists; RF from every receiver), and main's statement of RF holds at the 3,460 pickless rotations. RF-B′: after "k takes S, d takes Y′_k", (G2) holds, so Lemma M^c's (C1)–(C3) is the exact test | RF: evidence, 0 failures. RF-B′: written proof, any n; an S^c completion exists after the chain at 128,074/128,074 |
 | **Lemma MAX** (§19) | if the picks form a maximum matching, no agent reachable from a pickless agent by an alternating path values a junk good. So no pickless agent wants a dangerous frozen agent, or any agent on a want-chain above one, and the pickless-bin pigeonhole of §16/§18 cannot form | written proof (§19); checked at every maximum-matching start of special, screen and the K4.MC2 core |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
 | refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `attempts/k4-oc1-hall-canonical-chains.md` |
@@ -1613,6 +1618,12 @@ holds a pick.
    - Test instances, all re-verified here (`k4/oc1_hall/d1h2_tests.py`, `d1h2_tests.log`: hard, all-HEAD, D1-H2 holds):
      - **D1H-X** (n = 3, m = 8): the extension is needed. It is *not a core*: `is_core4` says agent 1 has 3 private
        goods of 4.
+     - **D1H-Y** (n = 3, m = 7, *strict core*, outside K4.MC2: agent 1 has two private goods, with p + q = 31 < s + t = 41).
+       Data: sets [[0,4,3,5],[2,6,4,5],[0,1,3,5]], values [[20,13,21,23],[17,14,18,23],[8,11,7,23]], order (0, 1, 2), picks
+       (5, 4, 1). No canonical chain with *any* improving H₀ leaves a completion owned by k or by the head. The extension
+       (0, 2, 1) repairs, with agent 1 taking agent 2's pick together with its two private goods. So canonical D1-LONG
+       fails on strict cores. Inside K4.MC2 no counterexample is known: k4-d1's breaker climb found 97,572 strict-core
+       no-canonical starts, none of them in MC2, and canonical D1-H holds on all MC2 three-agent cores by SMT.
      - **S2-X** (n = 4, m = 9, strict core): an extra active agent. Data: sets [[0,1,5,7],[3,4,6,7],[0,2,5,7],[8,6,7,3]],
        values [[26,3,25,27],[19,17,25,30],[9,14,7,29],[14,11,1,7]], picks (7, 6, 2, 8). A canonical chain repairs.
      - **S1-X** (n = 4, m = 9, strict core): three wanters of Y_k. Data: sets [[0,7,5,6],[0,1,4,8],[0,2,7,5],[0,3,8,4]],
@@ -1623,12 +1634,18 @@ holds a pick.
 2. **D1 for t ≥ 2** (`proof/k4-d1`).
    - Statement: D1-H2 at all-HEAD starts whose longest canonical chain has t ≥ 2.
    - Test set: 456 starts in k4-d1's data; in 449 of them a middle agent is a free slot after the chain.
-   - The four-agent t = 2 core (k → x → {z, w}), exact SMT phase 1 (k4-d1): 756 of 15,284 structures admit hard
-     all-HEAD starts. All 756 models are raw-checked and each is repaired by a canonical chain. Phase 2 (no repair for
-     any values) is running.
-   - Smallest test (k4-d1's data): n = 4, m = 7, sets [[1,2,4,5],[2,4],[0,3,4,5],[2,5,6]], values
-     [[26,29,24,25],[20,29],[22,17,30,23],[29,21,25]], order (2, 1, 0, 3), picks (1, 2, 4, 6), k = 2, chains (2, 1, 0) and
-     (2, 1, 3). It is not a core, since agent 1 values two goods. A strict-core example is expected from the SMT run.
+   - **Proposition D1-H4 (CERTIFIED by k4-d1).** D1-H2 holds on every four-agent t = 2 core (k → x → {z, w}).
+     756 of the 15,284 structures admit hard all-HEAD starts. Both z3 encodings give UNSAT for "no repair", ties
+     included. All 756 models are raw-checked and repaired canonically.
+   - In the K4.MC2 class, 112 of 6,034 structures admit hard all-HEAD starts. Every model is a strict core and is
+     repaired canonically.
+   - **Status:** t = 2 is settled on the four-agent core. Open: t ≥ 3, or t = 2 with extra agents.
+   - Smallest strict-core test, **T2-X** (k4-d1; re-verified by `d1h2_tests.py`: `is_core4` = [], hard, all-HEAD).
+     Data: n = 4, m = 7, sets [[0,4,5,6],[0,1,2],[1,2,4],[1,3,5,6]], values [[8,6,5,4],[4,3,2],[4,3,2],[8,4,3,2]], order
+     (0, 1, 2, 3). The canonical chains are (0, 1, 2) and (0, 1, 3), and (0, 1, 2) with H₀ = {4, 5} repairs with owner
+     k.
+   - An earlier, smaller non-core test (k4-d1's data): n = 4, m = 7, order (2, 1, 0, 3), picks (1, 2, 4, 6). Agent 1
+     values only two goods.
 3. **R2-M** (TTC session). **Superseded (§24):** R2-M, R2★ and R2-O are refuted at n = 4. The item is now **R2-C**.
    - Statement: at a hard perfect start with at least two receivers, some canonical chain from a dangerous agent to a
      receiver meets Lemma M^c's (C1)–(C3), with owner x₀ and |J′ ∖ H| ≤ 1.
@@ -1791,7 +1808,8 @@ perfect starts):
   - **R2-C** at starts with at least two receivers (TTC). It is certified at n = 4, and it is the one-move statement
     there.
 
-**Part 2: the second move elsewhere.**
+**Part 2: the second move elsewhere.** (Amended in §24.4: a *round* of two simultaneous moves is needed at some n = 5
+starts. REC-S existence alone is not enough.)
 - **REC-S existence** (k4-oc1max-multi): at every hard perfect start with no one-move repair, REC-S's hypotheses hold
   for some dangerous k and some pool pair T.
 - REC-S itself (SD-E + LIFT + Theorem S in I⁻) is refereed, and it is certified at n = 4 (K4.MULTI.RECS.N4).
@@ -1841,3 +1859,728 @@ the 8,383 hard |D| ≥ 2 perfect starts. The 197 starts with |D| = 1 were not ru
 - **Conclusion:** settling first fails at hundreds of starts that one move repairs. **Part 1 is needed in I itself**,
   not only in I⁻. The plan of §24.2 stands, with both parts.
 
+### 24.4 n = 5: two starts where every settle-and-lift form fails, but OC₂ holds by a round (02:30)
+
+Found by the matching session (`attempts/k4-matching-rsd-lstar.md` and `k4/matching.md` §6 on `proof/k4-matching`,
+36ef09e6) in the certifier's chunk 5_pure_s5o0. Re-checked here by `k4/oc1_hall/round_n5_check.py`
+(`round_n5_check.log`).
+
+**5_pure m = 10, idx 419.**
+- Sets [[0,2,6,7],[1,4,8,9],[3,5,8,9],[4,5,7,9],[6,7,8,9]], values [[6,3,10,8],[4,8,2,3],[2,8,4,3],[6,7,5,3],[10,7,2,6]],
+  picks (6, 4, 5, 9, 7).
+- Here: no one-move repair (0 of 19 moves). There are 18 two-move repairs, 12 of them by vertex-disjoint moves, for
+  example chain (0, 4), with agent 0 taking {0, 7}, then chain (1, 3), with agent 1 taking {1, 8, 9}.
+
+**5_pure m = 11, idx 447.**
+- Sets [[0,2,5,8],[1,6,7,8],[3,6,9,10],[4,7,9,10],[5,8,9,10]], values [[3,4,8,6],[1,6,8,4],[2,10,6,3],[2,8,3,4],[10,8,3,6]],
+  picks (5, 1, 6, 7, 8).
+- Here: no one-move repair (0 of 41). There are 66 two-move repairs, 24 of them by vertex-disjoint moves.
+
+**Why every sequential proof form fails.** Each chain's absorbed set threatens an agent that only the *other* chain
+improves. In idx 419:
+- {0, 7} threatens agent 3, which only (1, 3) lifts;
+- {1, 8, 9} threatens agent 4, which only (0, 4) lifts.
+
+So whichever chain is settled first, its set T threatens a present agent at that agent's current value. The lift
+condition (L\*) then fails at every order. This defeats OC2-REC, REC-S and RSD at every depth (matching, two
+independent encodings). Applied together, the two chains commute and repair, and **OC₂^max holds** there. They are also
+the coordinator's ROUND-P.
+
+**Consequences for the plan:**
+- **Part 2 is amended.** The second move is either a settle-and-lift repair (REC-S / OC2-REC; on the chunk 273 and 274
+  of 280) or a **round** of two vertex-disjoint moves whose lift is checked only at the end. That deferred form is
+  **RSD-D** (matching, K4.MATCH.RSDD), and it repairs all 280 sampled n = 5 starts of the chunk.
+- An induction in RSD-D form must carry *demands* as well as phantom constraints. A present agent threatened by a
+  deleted T must end with at least v_i(T) − min_T v_i. That is Lemma M's exposed slot that must be compensated.
+- **Item 4a is restored** (§23.4's split of 00:51 was right after all): *disjoint repairs that must be applied
+  together*. Tests: 5_pure m = 10 #419 and m = 11 #447. **Owner: proof/kgen-rounds** (assigned by the coordinator,
+  02:32). It has been asked for a direct ROUND-P proof sketch.
+- **Candidate unification, ROUND-RSD** (matching, under test): a round of *simultaneous* settlements, then delete the
+  settled agents and their sets, and recurse. If it holds, Part 2 and item 4a become a single induction.
+- **Item 4b** is the settle-and-lift case (OC2-REC / REC-S). On the chunk, the only 4b start REC-S misses is 5_pure
+  m = 9 idx 38, and OC2-REC and RSD cover it.
+- The census of the chunk (280 sampled two-move starts): 240 are 4a-type, 40 are 4b-type, and all have one holder.
+
+
+### 24.5 The RF route (receiver first): a one-move plan via OC₁^∃max (04:04)
+
+**Conjecture RF** (K4.SDC.RF; `k4/sdc.md` §31; `k4/girth.md` §7 on `claude/k4-girth`).
+- Statement: at every maximum-matching SD order o whose picks fail OC₁, the receiver u is unique. The order
+  (u, o − u) then has maximum-matching picks Y′ that satisfy OC₁.
+- RF ⟹ OC₁^∃max ⟹ TARGET₄. The second implication is in Lean (`EFX.OC1Max.target4_of_conjOC1exmax`).
+- RF is certified at n = 4 (all 292,080 failing orders, given the certifier's export and type reduction). It holds on
+  all 86 stored failing orders at n = 5.
+- So this route needs **one** move, at a different order, instead of two moves at the given order.
+
+**Lemma DEMOTE** (girth's candidate; evidence). The RF start Y′ differs from Y only along one path
+P = (u = x₀, x₁ = w, …, x_ℓ = d), with ℓ ≤ 2:
+- x_i takes Y_{x_{i+1}}, and d takes Y_u or a junk good;
+- every x_i with i ≥ 1 loses value;
+- d is unfrozen at Y′.
+
+**The classes of the RF starts** (n = 4, all 292,080 RF starts; girth's `oc1_demote.log`):
+
+| class at Y′ | starts | status |
+|---|---|---|
+| \|U′\| ≥ 2 (R2's class) | 152,880 | R2: certified at n ≤ 4, open in general (item 3, R2-C) |
+| \|U′\| = 1, \|D_T′\| = 1 | 31,520 | **Corollary U1** (K4.MULTI.U): proved, in Lean |
+| **\|U′\| = 1, \|D_T′\| = 0** | 64,160 | **open residue A** |
+| **\|U′\| = 1, \|D_T′\| = 2** | 43,520 | **open residue B** |
+
+Girth's data on the residue:
+- "w or d owns" a completion at once;
+- otherwise one move repairs: a chain k → d when |D_T′| = 2, or a trade between d and a pick-dangerous agent when
+  |D_T′| = 0.
+
+The two residue lemmas are attacked below with Lemma 2\*, M^c and Theorems U/S (§24.6).
+
+### 24.6 The RF residue at n = 4, exactly (`k4/oc1_hall/rf_residue.py`, `rf_residue.log`; `rf_a1.py`, `rf_a1.log`)
+
+Data: the certifier's complete n = 4 export (`results/k4_oc1max/two_move_starts_n4.json.gz`), all 292,080 failing
+orders. That gives 161,520 distinct RF starts (profile, Y′):
+
+| class | distinct RF starts |
+|---|---|
+| R2 class (\|U′\| ≥ 2) | 67,120 |
+| U1 class | 16,320 |
+| residue A (\|D_T′\| = 0) | 34,560 |
+| residue B (\|D_T′\| = 2) | 43,520 |
+
+d is the unique receiver of Y′, and w is the agent whose pick u takes. Completions are tested at Y′ by raw enumeration,
+and OC₁ at Y′ by SAT and `de_free.moves`. **OC₁ holds at Y′ in every residue start** (78,080 of 78,080). By type:
+
+| type | shape | starts | at the picks Y′ | after one move |
+|---|---|---|---|---|
+| **A1** (\|D_T′\| = 0, ℓ = 2) | u → w → d, d takes a junk good g | 32,000 | **an S\* completion owned by w, at all 32,000** | — |
+| A2 (\|D_T′\| = 0, ℓ = 1) | w = d, which takes junk | 2,560 | 1,280: a one-absorber completion owned by d, with a frozen slot (never S\*) | 1,280 |
+| B (\|D_T′\| = 2) | always w = d (ℓ = 1) | 43,520 | 15,840: a one-absorber completion owned by d (never S\*) | 27,680 |
+
+**Lemma RF-A1 (candidate; exhaustive at n = 4).** In residue A1, with owner w, the only holder is d, so Lemma 2\* asks
+for a single good h ∈ J′ = (J ∖ {g}) ∪ {Y_u}. The good that works is **d's favourite good of J′**, and it is the only
+one, at all 32,000 starts. The completion is: w takes {Y_d} ∪ (J′ ∖ {h}), d takes {g, h}, and everyone else keeps
+their pick.
+
+Observations a proof can use (all at all 32,000):
+- d is frozen at Y;
+- d never values Y_u;
+- w is never truly dangerous at Y (it is dangerous at Y in 20,160);
+- a wrong h fails either by not compensating d (66,560 rejections) or by leaving a dangerous agent threatened by
+  {Y_d} ∪ J′ ∖ {h} (6,400).
+
+The proof obligation splits in two:
+- (a) d with {g, h} is safe against w's bundle. The danger is Y_d together with d's fourth good. SD at Y′ gives
+  v_d(g) ≥ v_d(h) ≥ v_d(r) for d's other junk goods, and SD at Y gives v_d(Y_d) ≥ v_d(g).
+- (b) No frozen agent is threatened by {Y_d} ∪ J′ ∖ {h}. This should come from D_T′ = ∅ together with the hardness
+  of Y.
+
+**A2 and B** (w = d, ℓ = 1) need either a frozen slot at Y′ (Lemma M^c, not Lemma 2\*) or one move: a chain k → d in
+B, or a d–Dp trade in A2 (girth's DEMOTE (c)). These are the harder residue. They are also where the two truly
+dangerous agents of the n = 4 mechanism (§22) sit.
+
+**Lemma RF-A1 (conditional; written proof).** Let Y′ be an RF start of type A1:
+- Y′ is the SD outcome of (u, o − u) at a perfect start, and |U′| = 1 with U′ = {d}, D_T′ = ∅;
+- the RF path is u → w → d: u takes Y_w, w takes Y_d, and d takes a junk good g of Y;
+- J′ = (J ∖ {g}) ∪ {Y_u}.
+
+Suppose:
+- **(A1-i)** d is truly dangerous at Y, its junk goods at Y are a pair {g, h}, and J′ ∩ R_d = {h};
+- **(A1-ii)** among the goods of W := {Y_d} ∪ (J′ ∖ {h}), u values exactly Y_d and Y_u, and
+  v_u(Y_d) + v_u(Y_u) < v_u(Y_w);
+- **(A1-iii)** the other truly dangerous agent k2 of Y values g and h, and does not want Y_d;
+- **(A1-iv)** no frozen agent of Y′ other than w, u and k2 values Y_d.
+
+Then Y′ has an S\* completion: w takes W, d takes {g, h}, and everyone else keeps their pick.
+
+*Proof.* Apply Lemma 2\* at Y′ (a perfect SD start, so (G1) and (G2) hold) with owner w, holders N₁ = {d}, and
+H = {h}, matched to d.
+- *d is admissible for h.* d values h, and by (A1-i), (W_w ∖ {h}) ∩ R_d = {Y_d}. The goods of d are Y_d, g, h and at
+  most one more, which is a pick. So d is threatened only if v_d(Y_d) > v_d(g) + v_d(h). But J ∩ R_d = {g, h}
+  threatens d at Y, so v_d(g) + v_d(h) > v_d(Y_d). Moreover d is non-movable (it wants Y_d ∈ B′_w), and it is matched.
+- *(H1) for u.* By (A1-ii), every subset of W that u values is worth less than v_u(Y_w) = p′_u.
+- *(H1) for k2.* k2's goods are Y_{k2}, g, h and at most one more good x. Since g, h ∉ W, at most x lies in W. A single
+  good threatens k2 only if k2 wants it: if x is junk at Y′, by (I2); if x = Y_d, by (A1-iii).
+- *(H1) for every other frozen q ≠ w.* By (A1-iv), W ∩ R_q ⊆ J′. Since D_T′ = ∅, J′ does not threaten q at p′_q, and
+  being threatened is monotone.
+- There are no multi-good holders, and d is the only holder.
+
+So Lemma 2\*'s condition holds, and its construction gives the completion. ∎
+
+*Check* (`k4/oc1_hall/rf_a1_facts.py`, `rf_a1_facts.log`). (A1-i)–(A1-iv) hold at all 32,000 A1 starts at n = 4,
+together with J′ = J − g + Y_u, u and k2 frozen at Y′, and |D_T(Y)| = 2. The raw S\* test with owner w agrees at all
+32,000 (`rf_a1.log`). So at n = 4 residue A1 is closed: the facts are certified by enumeration and the lemma by
+proof.
+
+*What a general proof needs:* (A1-i)–(A1-iv) from the hardness of Y and the RF order. (A1-i) and (A1-iii) are §22's
+n = 4 mechanism, a junk pair shared by the two truly dangerous agents. At n = 5 the known failures have D_T = ∅
+(girth, §7), so A1 there, if it occurs, will need a different argument.
+
+### 24.7 Residue B at n = 4 (`k4/oc1_hall/rf_b.py`, `rf_b.log`)
+
+The setting: all 43,520 B starts of the n = 4 export, where |U′| = 1, |D_T′| = 2 and w = d.
+- **The §22 mechanism persists at Y′.** At every B start the two truly dangerous agents k₁, k₂ share two junk goods
+  of J′.
+- d takes Y_u at 42,240 starts and a junk good at 1,280.
+
+| B starts | number | how they are repaired |
+|---|---|---|
+| complete at the picks Y′ | 15,840 | **always with a compensated frozen slot** (S^c shape, never S\*). The absorber found first is d (12,000) or a truly dangerous agent (3,840) |
+| need one move | 27,680 | **all** by a chain k → d: k ∈ D_T′ takes a minimal improving T ⊆ J′ ∪ {Y′_d}, and d (demoted, so it wants Y_k) takes Y_k. After it, k owns an S\* completion at 25,120, and other owners work at the rest |
+
+Examples, both on the hypergraph 4_n4_3#58 = [[0,1,2,5],[1,2,5,6],[3,4,5,6],[3,4,6]], RF order (1, 3, 2, 0),
+Y′ = (2, 1, 5, 6), d = 0, D_T′ = {2, 3}:
+- *Complete at the picks:* values [[2,10,6,7],[8,2,4,7],[5,3,6,7],[2,3,4]]. The completion is [[2,0,4],[1],[5,3],[6]]:
+  owner d, and the frozen agent 2 takes junk good 3 as a compensated slot.
+- *Chain:* values [[1,8,4,6],[8,2,4,7],[5,3,6,7],[3,2,4]]. In the chain (2, 0), agent 2 takes the shared pair {3, 4}
+  and d takes Y_2 = 5. The completion is [[5,0,2],[1],[3,4],[6]], owned by d.
+
+**Candidate Lemma RF-B (exhaustive at n = 4).** At a B start, either:
+- (B-1) the picks Y′ have a one-absorber completion owned by d or by a truly dangerous agent, with one compensated
+  frozen slot (Lemma M^c's condition); or
+- (B-2) some chain k → d, with k ∈ D_T′ and a minimal T, leaves a one-absorber completion.
+
+**A route for (B-2), with k owning:** Lemma D-red after the chain, with owner k.
+- DEMAND by the other truly dangerous agent k′ should vanish when T is the shared pair, since k′'s junk danger set is
+  then inside k's bundle.
+- HEAD (d frozen after taking Y_k and threatened) and CROWD then remain, as in §21.
+
+This is untested as a proof. The data say k owns at 25,120 of the 27,680.
+
+**Residue A2** (2,560 starts, |D_T′| = 0, w = d): 1,280 complete at the picks with owner d and a frozen slot, and 1,280
+need one move (girth's d–Dp trade). Not yet analysed here.
+
+*Superseded by §24.8:* a single explicit repair works at every B start, including those that complete at Y′.
+
+### 24.8 Residue B (DEMOTE-2) closed at n = 4 by one explicit repair: Lemma RF-B
+
+Scripts and logs:
+- `k4/oc1_hall/rf_b_facts.py`, `rf_b_facts.log`: all 43,520 distinct B starts at n = 4, and the 2 distinct B starts
+  (4 orders) of the 24 stored n = 5 failures;
+- `k4/oc1_hall/rf_b_u.py`, `rf_b_u.log`: the facts about u, and the contrapositive.
+
+Notation: B start = an RF start Y′ with one receiver d and D_T′ = {k, k′}; this is girth's DEMOTE-2 (`k4/girth.md`
+§7). u = the old receiver, holding its top good t. S = the two junk goods that k and k′ share.
+
+**Census.**
+- **The choice of k.** k is the truly dangerous agent whose pick is wanted by d and by nobody else.
+  - n = 4: at all 43,520 B starts exactly one truly dangerous agent has its pick wanted by d and not by the other one.
+  - n = 5: at both B starts both truly dangerous agents have a pick that only d wants. For one of them (B5) fails, and
+    so does FULL (a third agent values two goods of Z and is threatened). The working one is the agent off the RF
+    path, and also the one whose pick d values more (girth, third check with `lss.is_efx0`, `k4/girth/oc1_rf_b_check.py`
+    on `claude/k4-girth`).
+- **FULL(k, S) is EFX₀ at every B start**: 43,520 of 43,520 at n = 4, 2 of 2 at n = 5.
+  - In FULL(k, S), k takes S and d takes Z = {Y′_k, Y′_d} ∪ (J′ ∖ S). Every other agent keeps its pick.
+  - This includes the 15,840 starts that already complete at Y′.
+  - Checked with `ohlib.efx0` and with the raw checker's own `Inst.efx0` (`k4/sdc/oc1_mc2_rand.py`).
+  - The chain "k takes S, d takes Y′_k" is an official move of `Inst.moves` at every 40th n = 4 start (1,088 of
+    1,088) and at both n = 5 starts.
+- **Nothing else of this form works.** At the 27,680 one-move starts no minimal improving T ≠ S gives an EFX₀ FULL(k, T),
+  and at n = 4 FULL fails for the other truly dangerous agent wherever d wants its pick.
+
+So at n = 4 DEMOTE-2 is girth's (C) with H = S, H_d = ∅ and owner d, at every B start: (i) is never needed.
+
+**Lemma RF-B (PROVED here, any n, strict additive valuations; not refereed).** Let Y′ be serial-dictatorship picks
+in which every agent holds a good, with junk J′ and p_i = v_i(Y′_i). Let d ≠ k be agents, S ⊆ J′, and
+Z = {Y′_k, Y′_d} ∪ (J′ ∖ S). Suppose:
+- (B1) |S| = 2 and v_k(S) > p_k;
+- (B2) d wants Y′_k, and no other agent does;
+- (B3) no agent wants Y′_d;
+- (B4) k values no good of Z other than Y′_k;
+- (B5) every agent i ∉ {k, d} that values two or more goods of Z has v_i(Z) − min_{g ∈ Z} v_i(g) ≤ p_i.
+
+Then the chain "k takes S, d takes Y′_k" (an official chain with head d, which releases Y′_d), followed by "d takes the
+free goods Y′_d and J′ ∖ S", gives an EFX₀ allocation. So OC₁ holds at Y′, with a completion owned by d in which no
+other agent receives anything.
+
+*Proof.* Let X_k = S, X_d = Z and X_a = {Y′_a} for every other agent a; X allocates every good.
+- *Values.* Every agent prefers its pick to every junk good, since that good was free at its turn. Then:
+  v_k(X_k) > p_k by (B1); v_d(X_d) ≥ v_d(Y′_k) > p_d by (B2); v_a(X_a) = p_a otherwise. So v_i(X_i) ≥ p_i for all i.
+- *Singletons* never violate EFX₀.
+- *X_k = S* has two goods, so it threatens i only if i values one of them above v_i(X_i). Both are junk, so each is
+  worth less than p_i ≤ v_i(X_i) to every i ≠ k.
+- *X_d = Z.*
+  - For k: by (B4), v_k(Z) − min_Z v_k ≤ v_k(Z) = p_k < v_k(S).
+  - For i ∉ {k, d} valuing two or more goods of Z: (B5).
+  - For i ∉ {k, d} valuing at most one good g of Z: v_i(Z) − min_Z v_i ≤ v_i(g) ≤ p_i. A junk good is below the
+    pick; Y′_d is unwanted (B3); Y′_k is not wanted by i (B2).
+- *The move.* k's new bundle S ⊆ J′ is improving (B1), and d's new bundle {Y′_k} is improving (B2). So (k, d) is an
+  official chain whose head d releases Y′_d. The completion gives the free goods Y′_d and J′ ∖ S to d alone. ∎
+
+The lemma uses neither k ∈ D_T′ nor that S is shared. Those enter only through the hypotheses.
+
+**Which hypotheses are structural.** At an RF start with |R_i| ≤ 4 for every agent:
+- (B3) is Lemma RF-PATH (c) (girth, proved).
+- (B1) follows from k ∈ D_T′ together with R_k ∩ J′ = S. J′ threatens k at p_k, so v_k(J′ ∖ g) > p_k for some g, and
+  v_k(J′ ∖ g) ≤ v_k(J′ ∩ R_k) = v_k(S).
+- Suppose k values S and wants Y′_{k′}. Then R_k = {Y′_k, Y′_{k′}} ∪ S. So R_k ∩ J′ = S, which gives (B1), and
+  R_k ∩ Z = {Y′_k}, which gives (B4).
+- k′ values S and its pick, so it values at most one good of Z, and (B5) is void for k′.
+- If k wants Y′_{k′}, then k′ does not want Y′_k. In serial dictatorship, i wants j's pick only if j picked first, so
+  two agents never want each other's picks.
+
+**Proposition RF-B4 (n = 4; a written argument from exhaustively certified facts).** At each of the 43,520 B starts:
+- (a) k and k′ share two junk goods S, and k wants Y′_{k′} (so k′ does not want Y′_k). This is the §22 pair. Hence
+  R_k = {Y′_k, Y′_{k′}} ∪ S.
+- (b) Hence (B1), (B3) and (B4) hold by the remarks above. (B2) holds too: k is frozen; its possible wanters are d,
+  k′ and u; k′ does not want Y′_k, and u holds its top good. So d is the unique wanter.
+- (c) The only agent other than k and d that values two goods of Z is u, and:
+  - R_u = {t, Y_{k′}, Y_u, Y_k}, with t = Y_d = Y′_u. So u values no junk good of Y, and its goods in Z are Y_u and
+    Y_k (Y_u = Y′_d when d takes Y_u; Y_u ∈ J′ ∖ S when d takes a junk good).
+  - **(U-b)** v_u(Y_{k′}) ≥ v_u(Y_u) + v_u(Y_k).
+
+  So v_u(Z) − min_Z v_u ≤ v_u(Y_u) + v_u(Y_k) ≤ v_u(Y_{k′}) < v_u(t) = p_u, which is (B5).
+
+So Lemma RF-B applies at every B start: **DEMOTE-2 holds at n = 4 by a written proof from certified facts**. The
+facts (a) and (c) are checked at all 43,520 starts (`rf_b_facts.log`, `rf_b_u.log`). At the 2 n = 5 B starts (B1)–(B5)
+hold, (B5) vacuously: no agent other than k and d values two goods of Z.
+
+**Where (U-b) comes from: Lemma REPAIR-Y (PROVED, any n).** (U-b) is the only cardinal fact Proposition RF-B4 uses
+beyond u's ranking. It is forced by the failure of OC₁ at Y.
+
+Let Y be picks in which every agent holds a good, with junk J. Let u, d, k, k′ be agents with t = Y_d, and S ⊆ J with
+|S| = 2 and J ∖ S = {ℓ}. Suppose:
+- (R1) v_k(S) > p_k, and u wants Y_k;
+- (R2) Y_u is unwanted, and no agent other than u wants Y_k (for d at n = 4: v_d(t) > v_d(Y_k), fact (F-d));
+- (R3) every agent wanting Y_{k′} is k or u, with v_k(Y_{k′}) ≤ v_k(S) (F-k) and v_u(Y_{k′}) ≤ v_u(Y_u) + v_u(Y_k).
+
+Then the chain "k takes S, u takes Y_k" (head u, releasing Y_u), followed by the completion "u takes Y_u back, k′ takes
+ℓ", is EFX₀. So OC₁ holds at Y.
+
+*Proof.* The allocation is X_d = {t}, X_u = {Y_k, Y_u}, X_k = S, X_{k′} = {Y_{k′}, ℓ}, and every other agent keeps its
+pick. Every agent's value is at least its pick value: for k by (R1), for u since it wants Y_k.
+- *S and ℓ* are junk, worth less than every pick.
+- *X_u* threatens i only if i values Y_k or Y_u above v_i(X_i). Y_u is unwanted (R2). Y_k is wanted only by u (R2),
+  and k values it at p_k < v_k(S).
+- *X_{k′}* threatens i only through Y_{k′}, whose wanters are bounded by (R3).
+
+The chain is official by (R1), and the completion gives u one free good and k′ one. ∎
+
+So at a failing start where (R1), (R2), (F-k) and the wanter condition of (R3) hold, (U-b) must hold, strictly. At
+n = 4, d holds t at Y and does not want Y_k or Y_{k′} (F-d), and k′ does not want Y_k, so the wanters in (R2) and (R3)
+are as required.
+- At n = 4 these facts hold at all 43,520 B starts (`rf_b_u.log`: (U-a), (U-c), (F-k), (F-d)). So **(U-b) is
+  derived, not just observed**, at the 38,400 B starts with |J ∖ S| = 1.
+- At the other 5,120 (|J ∖ S| = 2) it is EVIDENCE: violating (U-b) alone in u's values, keeping its ranking and (B5),
+  again makes Y repairable after the same chain, with k′ taking both leftovers (3,840) or k and k′ one each (1,280).
+- *The perturbation check* (`rf_b_u.log`): u's values are changed to violate only (U-b), keeping u's ranking and
+  v_u(t) ≥ v_u(Y_u) + v_u(Y_k). The SD picks Y and Y′ are unchanged. REPAIR-Y is then official and EFX₀ at 38,400 of
+  38,400.
+
+**What this gives for the coordinator's target**, "(i) or (T) or (C) at every RF start" (girth's DEMOTE):
+- At n = 4, residue B (DEMOTE-2) now has a written proof from facts certified exhaustively: Lemma RF-B and
+  Proposition RF-B4.
+- Residue A1 has one too: Lemma RF-A1, §24.6.
+- Residue A2 is closed by enumeration; girth: one core, 4_pure#24.
+- R2 and U1 are certified.
+- At n = 5, the 2 B starts satisfy Lemma RF-B's hypotheses outright.
+
+**Open for general n:** why every DEMOTE-2 start has an agent k meeting (B1)–(B5). The n = 4 mechanism is (a) plus
+(U-b). Proving it needs the structure of OC₁^max failures at general n, which differs at n = 5: there D_T = ∅ at Y,
+and D_T′ arises only at Y′.
+
+### 24.9 n = 5: Lemma RF-B covers 61% of DEMOTE-2; "k takes the shared junk" covers all of it
+
+Script `k4/oc1_hall/rf_n5.py`. Data, all from `compute/k4-oc1max-cert` (commit d830b54a), with logs here:
+- the certifier's two complete n = 5 failure exports, `results/k4_oc1max/n5/two_move_starts_n5_partial6.json.gz` and
+  `two_move_starts_n5_sel2.json.gz`: 9 hypergraphs, 1,285,930 failing starts, 7,608,052 failing orders
+  (`rf_n5_exports.log`);
+- the stored failures of its 5_pure chunk summaries, `oc1_fails` of `5_pure_s5o0_summary.jsonl.gz` and `s5o1`: 568
+  starts, 5 of them with two receivers, which are R2's n = 5 counterexamples (`rf_n5_stored.log`).
+
+RF is run from **every** receiver. Distinct (profile, Y′) pairs are counted once.
+
+**Lemma RF-PATH for any receiver: confirmed on this data** (coordinator's request). At every failing order and every
+receiver u moved to the front, the agents whose picks change form one ejection path u → x₁ → … → d in o-order, every
+x_i strictly loses, u gains, and d is unfrozen at Y′: 7,608,052 of 7,608,052 (exports) and 2,121 of 2,121 (stored,
+two-receiver starts included).
+
+**Classes of the 1,530,083 distinct export RF starts** (|U′|, |D_T′|):
+
+| (\|U′\|, \|D_T′\|) | starts |
+|---|---|
+| (2, 0) | 480,959 |
+| (3, 0) | 391,680 |
+| (2, 1) | 363,402 |
+| (1, 2) = DEMOTE-2 | 140,111 |
+| (1, 0) = DEMOTE-0 | 113,484 |
+| (2, 2) | 26,472 |
+| (1, 3) | 7,733 |
+| (1, 1) = U1 | 2,782 |
+| pickless agent | 3,460 |
+
+**DEMOTE-2 at n = 5, by tier:**
+
+| tier | repair | exports (140,111) | stored (48) |
+|---|---|---|---|
+| 1 | **Lemma RF-B**: some candidate k meets (B1)–(B5), so FULL(k, S) is EFX₀ (checked) | 84,940 | 21 |
+| 2 | the same chain "k takes S, d takes Y′_k", then some other one-absorber completion | 43,134 | 22 |
+| 3 | a canonical chain from k ∈ D_T′ with H₀ = S whose head is another frozen agent, or which has length 2 or 3 ending at d; then some completion | 12,037 | 3 |
+| — | none of these | **0** | 2 |
+
+- Tier 3 is exactly the starts with no candidate k, i.e. where d wants the pick of neither truly dangerous agent, or
+  of one that the other also wants.
+- The 2 stored starts outside the tiers are repaired by the official moves below; S is still the key.
+  - 5_pure, Y′ = (5, 0, 4, 7, 6). k₁ takes S = {2, 3}, then a chain k₁ → a₀ → k₀ in which the middle agent a₀ also
+    adds a junk good, so the chain is not canonical.
+  - The shape of R2's counterexamples: k and k′ share **three** junk goods, |S| = 3. k takes an improving two-good
+    subset of S.
+- *Choice of k.* On the RF path, a candidate never meets (B1)–(B5) (16,431 exports, 10 stored), so "k off the RF
+  path" is necessary, as girth suggested. It is not sufficient: 43,134 off-path candidates fail, mostly on (B5).
+  "The candidate whose pick d values more" works at 15,262 of the 16,431 two-candidate starts and fails at 1,169;
+  at 241 of those the other candidate works.
+- *(B5) violators* (stored data): u, at 8 starts (the n = 4 inequality (U-b) is not forced at n = 5), and frozen agents
+  off the path that value Y′_k together with junk or Y_u (24).
+
+**What this means for the RF route.**
+- Lemma RF-B remains proved, but **it is an n = 4 mechanism**: it covers 60.6% of DEMOTE-2 at n = 5.
+- The common structure at n = 5 is the first step: a truly dangerous agent takes (an improving subset of) the junk it
+  shares with the other. It covers 140,111 of 140,111 export starts and 48 of 48 stored ones.
+- After the chain k → d the state satisfies (G2): the free goods are junk, below every pick, and Y′_d, unwanted by
+  RF-PATH (c). So the exact test there is Lemma M^c (`k4/oc1max_multi.md` §9).
+
+**Conjecture RF-S** (EVIDENCE: 140,111 of 140,111 n = 5 export starts, 48 of 48 stored, 43,520 of 43,520 at n = 4).
+At every DEMOTE-2 RF start, some k ∈ D_T′ takes an improving set H₀ ⊆ S, where S is the set of junk goods valued by
+both truly dangerous agents. Then some chain from k, each agent taking its predecessor's pick and possibly junk, leaves
+a one-absorber completion.
+
+**Open:**
+- a proof of RF-S beyond n = 4, presumably Lemma M^c at the post-chain state;
+- DEMOTE-0 and the new class (1, 3) at n = 5, with 113,484 and 7,733 starts, which this note has not analysed.
+
+### 24.10 Conjecture RF at n = 5: OC₁ at every RF start of the exports; Lemma RF-B′
+
+Scripts `k4/oc1_hall/rf_n5_all.py` and `rf_n5_pickless.py`; logs `rf_n5_all_exports.log`, `rf_n5_all_stored.log` and
+`rf_n5_pickless.log`. Data as in §24.9, with one caveat on completeness. The export flags its failure lists as
+**complete** for 5_pure #38, #419 and #447 (`sel2`), and as partial for #164, #374, #379, #464, #778 and #808
+(`partial6`). RF is run from every receiver.
+
+**Conjecture RF (as stated on main, `k4/sdc.md`) holds on all of these data** (EVIDENCE):
+- At all **1,526,623** distinct RF starts whose picks are a maximum matching, OC₁ holds, with 0 failures under the raw
+  checker's fallback.
+- At the **3,460** rotations (u, o − u) that leave an agent pickless, some u-first order gives a maximum matching, and
+  all 26,524 u-first maximum-matching pick vectors satisfy OC₁.
+- All 3,460 pickless rotations are on 5_pure#374, and each is a path u → x₁ → d whose end d gets nothing. Girth's fixes
+  both work at all 3,460 (`rf_n5_pickless.log`):
+  - "d just before its ejector x₁": a maximum matching, and OC₁ after one move;
+  - "d second": a maximum matching, completing at the picks at 3,076 and after one move at 384.
+  So the per-order rotation (u, o − u) of `k4/girth.md` §7 needs the max-matching proviso that main's statement has.
+- On the stored failures (568 starts, 5 with two receivers) the same holds: OC₁ at all 650 maximum-matching RF starts,
+  and main's statement at the 16 pickless rotations.
+
+**The one table (exports; first repair found, in the order P, K, T, RAW):**
+- **P**: the picks complete.
+- **K**: a canonical chain from some k ∈ D_T′, with H₀ an improving subset of S (|D_T′| ≥ 2) or of k's own junk
+  (|D_T′| = 1), then a one-absorber completion.
+- **T**: girth's trade, "p takes {Y′_r, j}, r takes Y′_p".
+- **RAW**: any official move.
+
+| class (\|U′\|, \|D_T′\|) | starts | P | K | T | RAW (one move) | fails |
+|---|---|---|---|---|---|---|
+| (2, 0) | 480,959 | 480,959 | – | – | – | 0 |
+| (3, 0) | 391,680 | 391,680 | – | – | – | 0 |
+| (2, 1) | 363,402 | 305,802 | 57,600 (head: a receiver) | – | – | 0 |
+| (1, 2) DEMOTE-2 | 140,111 | 6,327 | 133,784 (k → d: 50,023; head frozen, length 1: 83,757; length 2: 4) | – | – | 0 |
+| (1, 0) DEMOTE-0 | 113,484 | 113,210 | – | 242 | 32 | 0 |
+| (2, 2) | 26,472 | 26,472 | – | – | – | 0 |
+| (1, 3) | 7,733 | – | 0 | – | 7,733 | 0 |
+| (1, 1) U1 | 2,782 | 2,782 | – | – | – | 0 |
+| pickless rotation | 3,460 | main's statement holds; girth's two fixes work | | | | 0 |
+
+- At DEMOTE-2 the "K" kinds are the first chain found, not the only one. The (1, 3) class has no improving subset of
+  the junk shared by all three truly dangerous agents, so its first step is not of type K. It and DEMOTE-0 are
+  girth's.
+- **Every R2-class start, |U′| ≥ 2, completes at the picks or after a K chain.** R2 itself is refuted at n = 5
+  (K4.SDC.R2.N5), but its class at RF starts is harmless on these data.
+
+**Lemma RF-B′ (PROVED here, any n; the M^c form of DEMOTE-2's first step).**
+
+Let Y′ be serial-dictatorship picks in which every agent holds a good, J′ the junk and p_i = v_i(Y′_i). Let d be an
+agent whose pick no one wants (RF-PATH (c)). Let k ≠ d be an agent whose pick d wants, and S ⊆ J′ with v_k(S) > p_k.
+Let B′ be the state after the official chain "k takes S, d takes Y′_k", in which the head d releases Y′_d.
+
+Then B′ satisfies (G2), so Lemma M^c (`k4/oc1max_multi.md` §9) applies at B′. For every owner o, B′ has an S^c
+completion with owner o iff some (H, F_s) meets (C1)–(C3). In that case OC₁ holds at Y′.
+
+*Proof of (G2).* The free goods of B′ are J′ ∖ S and Y′_d. The values at B′ are v_k(S) > p_k for k,
+v_d(Y′_k) > p_d for d, and p_i for every other agent. So every value at B′ is at least the pick value.
+- A good g ∈ J′ was free at every agent's turn, so v_i(g) < p_i for every i.
+- No agent other than d wants Y′_d at Y′, so v_i(Y′_d) ≤ p_i for i ≠ d; and v_d(Y′_d) = p_d < v_d(Y′_k).
+
+So no free good is wanted at B′. ∎
+
+*Lemma RF-B is the special case o = d, H = F_s = ∅.* With X = Z, the multi-good bundle B′_k = S raises nobody's
+requirement τ_i, since each single junk good is below b_i. So the needy agents are exactly those Z threatens, and
+(C1) with H = ∅ asks that there be none. That is (B4) and (B5) together with (B2).
+
+*Data.*
+- Wherever the chain is official (d wants Y′_k, and S is improving for k), an S^c completion exists after it at
+  **128,074 of 128,074** export DEMOTE-2 starts that do not complete at the picks. So Lemma M^c's (C1)–(C3) holds there,
+  by M^c's exactness.
+- On the stored failures it holds at 38 of 43. At the other 5, k → d leaves no one-absorber completion of any shape,
+  S^c or not. They are repaired by another K chain, whose head is frozen, or they are the middle-junk exception below.
+  A per-start recount gives 38 S^c, 5 by another K chain and 1 exception.
+- At the remaining 5,710 export starts no such chain is official. There d wants neither pick, or S is not improving for
+  the one it wants, and the repair is a chain to a frozen head. After it the released pick is wanted, so (G2) fails
+  and M^c does not apply as stated.
+
+**The two exceptions among the stored DEMOTE-2 starts** (the coordinator's (b)):
+- *Middle junk:* 5_pure, Y′ = (5, 0, 4, 7, 6), sets [[0,1,5,6],[0,4,6,7],[1,4,6,7],[2,3,5,7],[2,3,6,7]], values
+  [[2,7,10,6],[2,8,4,7],[2,8,4,7],[6,2,10,7],[5,4,6,8]]. The truly dangerous agent 4 takes S = {2, 3}. Then a chain
+  4 → 0 → 3 follows, in which agent 0 takes Y′_4 = 6 together with the junk good 1, and agent 3 takes Y′_0 = 5.
+  The chain is official but not canonical.
+- *|S| = 3:* the twin shape of R2's n = 5 counterexamples. The two truly dangerous agents share three junk goods, and
+  k takes an improving two-good subset of S. Tier K of `rf_n5_all.py` covers it.
+
+**For the proof of RF-S:** the target at n = 5 is to show the following. At every DEMOTE-2 start, either some k ∈ D_T′
+whose pick d wants has an improving H₀ ⊆ S such that B′ meets (C1)–(C3) for some owner (128,074 of 128,074 where the
+chain is official), or there is a chain to a frozen head (5,710).
+
+### 24.11 After DEMOTE-2's first step: the completions (`k4/oc1_hall/rf_bprime.py`, `rf_bprime.log`)
+
+Every S^c-shaped completion of the post-chain state B′ (after "k takes S, d takes Y′_k") is enumerated, with raw EFX₀.
+The data are all 43,520 n = 4 B starts and every 20th DEMOTE-2 start of `partial6`: 6,896 n = 5 starts, of which 676
+have no official chain k → d.
+
+| | n = 4 | n = 5 (sample) |
+|---|---|---|
+| starts with an official chain k → d | 43,520 | 6,220 |
+| … some chain leaves an S^c completion | 43,520 | 6,220 |
+| … one with **no frozen slot**, i.e. an S\* completion: Lemma M / 2\* suffice, not only M^c | 43,520 | 6,220 |
+| … k′ is unfrozen after that chain | 43,520 | 6,220 |
+| simplest shape: owner d, no singles (FULL, Lemma RF-B) | 43,520 | 4,163 |
+| simplest shape: owner d, k′ takes Y′_d | 0 | 1,441 |
+| simplest shape: owner d, k′ takes a junk good | 0 | 100 |
+| simplest shape: owner k′, no singles | 0 | 401 |
+| simplest shape: another owner, no singles | 0 | 115 |
+
+- *k′ is released.* After k takes S, k no longer wants Y′_{k′}. At n = 4 k was k′'s only wanter, so k′ is unfrozen at
+  B′ and becomes a holder, admissible for one free good (Lemma 2\*). The second official chain at a start never
+  leaves an S^c completion, and after it k′ stays frozen.
+- **Candidate Lemma RF-B″** (EVIDENCE: 5,704 of the 6,220 n = 5 sampled starts, 92%; all of n = 4). Write
+  Z = {Y′_k, Y′_d} ∪ (J′ ∖ S). After the chain the completion has owner d, and either:
+  - d takes all of Z (FULL); or
+  - d takes Z ∖ {g} for one good g ∈ Z ∖ {Y′_k}, and k′, now unfrozen, takes g.
+
+  The data show that such a completion exists. They do not show which agents Z itself threatens.
+  - The other 516 starts need owner k′ or another agent. That is the S\* count of Lemma 2\* with that owner.
+- *Next:* find, from RF's structure, which agents Z ∖ {g} can threaten. At n = 4 the only candidate is u, and Prop.
+  RF-B4 covers it by (U-b). At n = 5 there are also off-path frozen agents (§24.9).
+
+**Who Z threatens after the chain** (`k4/oc1_hall/rf_bpp.py`, `rf_bpp.log`; every 10th DEMOTE-2 start of
+`partial6`, the first k whose chain is official; 12,575 starts):
+
+| Z threatens | starts | k′ taking one good g ∈ Z ∖ {Y′_k} gives EFX₀ |
+|---|---|---|
+| nobody (FULL) | 8,402 | – |
+| one off-path agent (neither k′ nor u) | 3,858 | 3,858 (g = Y′_d or a junk good) |
+| u | 312 | 193 |
+| one on-path agent | 3 | 0 |
+
+**Z never threatens two agents** on this sample. When it threatens an off-path agent a, k′ absorbs the one good that
+makes the threat. The 122 others (u or on-path, no fix by k′) use another owner or the other chain.
+
+*These completions are Lemma 2\* instances.* "d takes Z ∖ {g}, k′ takes g" is an S\* completion of B′ with:
+- owner d, kept-out set H = {g};
+- k′ as the holder for g. This needs k′ to be unfrozen at B′, and no agent to want g, which holds because g is junk
+  or Y′_d.
+
+Threats only shrink when a good is removed (v(T) − min_T v is monotone under removing an element). So Lemma 2\*'s
+condition here is exactly: k′ is unfrozen at B′, and Z ∖ {g} threatens nobody at B′. Nothing new is needed on the
+completion side. What remains for RF-S is the two structural facts:
+- (R-a) k takes S and thereby releases k′; at n = 4 k was its only wanter;
+- (R-b) Z, or Z minus one good, threatens nobody.
+At n = 4 the second is Prop. RF-B4. At n = 5 it is the census above.
+
+**Girth's Lemma RF-T (DEMOTE-0, trade case; written proof in `k4/girth.md` §7, `k4/girth/oc1_trade.py`,
+`results/k4_girth_oc1_trade.log` on `claude/k4-girth`; [unverified] here).**
+- *Setting.* One receiver d, D_T′ = ∅, an RF path of length ℓ ≥ 2 on which d takes a junk good g. A pick-dangerous p
+  trades with d.
+- *The completion X.* Every bundle has at most two goods: x_{ℓ−1} gets {Y_d, z}, d gets {Y_p, Y_u}, p gets {g, j},
+  and the other path agents shift along the path.
+- *Claim.* X is EFX₀ iff (W-d) nobody but x_{ℓ−1} wants Y_d and (W-p) nobody but d wants Y_p, both at X.
+- *Data.* X is EFX₀ at all 42,009 n = 5 trade starts. Open: (W-d) and (W-p) from Y's hardness.
+
+This is the same pattern as here: a completion lemma whose only hypotheses are "these goods have no other wanter".
+
+**Girth's DEMOTE-0 and (1, 3) at n = 5** (`k4/girth/oc1_residue_n5.py`, `results/k4_girth_oc1_residue_n5.log` on
+`claude/k4-girth`; [unverified] here, but girth's class counts agree exactly with §24.10's):
+- DEMOTE-0 (113,484): 71,443 complete at Y′, all by RF-A1's form (w takes J′ ∖ {h}, d takes h, d's favourite junk
+  good); 42,009 by the trade (T) with d; 32 by a 3-ring (T\*), all on 5_pure#374.
+- (1, 3) (7,733): all by the chain k → d with a D_T agent taking a junk pair.
+- Girth's explicit forms, checked raw on every start:
+  - DEMOTE-0 trades: "p takes {Y′_d, j}, d takes Y′_p" (p pick-dangerous), then a completion with **no absorber**:
+    every remaining junk good goes to a different agent.
+  - (1, 3): the chain starts at w, which is truly dangerous at Y′. w takes an improving junk pair H and d takes Y′_w.
+    Then d takes Y′_d plus one junk good, and w takes the last one, or the same with d and w exchanged.
+  - RF-B's FULL form works at none of the (1, 3) starts. There k = w lies on the RF path, unlike DEMOTE-2.
+
+So, with §24.10, the uniform statement has no exception on all n = 4 data and on the n = 5 exports. The statement:
+(i) w or d owns; or (T/T\*) a ring of length 2 or 3 through a receiver; or (C/C′) a two-agent chain from a D_T agent.
+
+**Joint Conjecture SINK** (with girth; `k4/girth.md` §7, `k4/girth/oc1_sink.py`, `results/k4_girth_oc1_sink.log` on
+`claude/k4-girth`). *Statement.* Y′, or the state after one DEMOTE move ((T), (T\*), (C) or (C′)), has an EFX₀
+completion in which all remaining free goods go to one agent a ∈ {w, d}, except at most one good to one other agent.
+
+*Evidence.*
+- Girth: all 161,520 distinct n = 4 RF starts, every class, and all 121,217 n = 5 DEMOTE-0 and (1, 3) starts. 0
+  exceptions.
+- Here, DEMOTE-2 at n = 5. A sample of every 20th partial6 start with an official chain k → d: SINK with owner d after
+  "k takes S, d takes Y′_k" at 6,220 of 6,220. The full census (`k4/oc1_hall/rf_sink.py`, `rf_sink.log`): **SINK holds at all
+  140,111 n = 5 DEMOTE-2 starts.** 6,327 hold at Y′, 128,074 after (C) k → d, and 5,710 after (C′), a chain to a frozen
+  head (5,706 of length 1, 4 of length 2). 0 exceptions.
+- With girth's counts, SINK holds on every RF start of the n = 4 export and of the n = 5 classes (1, 0), (1, 2) and
+  (1, 3). The n = 5 R2 classes complete at the picks or after a K chain (§24.10); SINK was not tested on them here.
+
+**Girth's Corollary RF-T′** (DEMOTE-0 trade case at n = 5, written proof in `k4/girth.md` §7; [unverified] here).
+RF-T's explicit completion is EFX₀ if:
+- (F1) d wants Y_p at Y;
+- (F2) no agent off the RF path other than u wants Y_d at Y;
+- (F3) Y_p is valued only by p, d and u.
+
+At every one of the 42,009 trade starts some trade meets (F1)–(F3). Left open there: (F1)–(F3) from Y's hardness, and
+32 sporadic 3-ring starts on 5_pure#374.
+
+**Girth: SINK on the n = 5 R2 and U1 classes** (`results/k4_girth_oc1_sink_n5_r2u1.log` on `claude/k4-girth`, every
+10th start of `partial6` and `sel2`; [unverified] here):
+- all 126,388 R2 starts hold: 120,597 at Y′ with absorber d, and 5,791 after a chain (C) with absorber w;
+- all 285 U1 starts hold, after (T) with absorber d.
+
+So SINK has no known exception at n = 4 or n = 5. The n = 5 R2 and U1 classes are covered by this sample only.
+
+### 24.12 The same class table at RKMAX's σ-maximal starts (`k4/oc1_hall/rf_rkmax.py`; coordinator's request)
+
+*Conjecture RKMAX* (`k4/sdc.md` §31, K4.SDC.RKMAX). OC₁ holds at every maximum-matching SD vector whose rank signature
+σ = (#agents holding their rank-1 good, …, #rank 4) is lexicographically maximal.
+
+Here every distinct profile of the failure exports is taken, every order run, and each σ-maximal maximum-matching
+vector classified as in §24.10: (|U|, |D_T|), then the first repair P, K, T or RAW.
+
+**n = 4** (all 111,600 profiles of the n = 4 export; 198,400 σ-maximal vectors, 1 to 6 per profile;
+`rf_rkmax_n4.log`). OC₁ holds at all of them, so there are **0 RKMAX failures**.
+
+| (\|U\|, \|D_T\|) | vectors | P | K | T | RAW |
+|---|---|---|---|---|---|
+| (2, 1) | 95,000 | 95,000 | – | – | – |
+| (2, 0) | 74,920 | 74,920 | – | – | – |
+| (1, 1) | 20,080 | 10,360 | 9,720 | – | – |
+| (1, 0) | 5,840 | 5,680 | – | 80 | 80 |
+| (1, 2) | 1,920 | 960 | 960 | – | – |
+| (2, 2) | 640 | 640 | – | – | – |
+
+The hard one-receiver classes do not vanish at the σ-maximal starts, but they shrink. One-move cases:
+- (1, 2): 960 here, against 27,680 at the RF starts;
+- (1, 0): 160 here, against 1,280 there;
+- U1-type starts needing a K chain: 9,720 here, against 0 at the RF starts. There all 31,520 U1 starts complete at Y′
+  (`k4/girth.md` §7). Corollary U1 (K4.MULTI.U1, written proof) gives OC₁ at every U1 start either way.
+
+**n = 5** (all 1,284,180 distinct profiles of the exports `partial6` and `sel2`; 2,309,192 σ-maximal vectors, 1 to 6
+per profile; `rf_rkmax_n5.log`). OC₁ holds at all of them, so there are **0 RKMAX failures**.
+
+| (\|U\|, \|D_T\|) | vectors | P | K | T |
+|---|---|---|---|---|
+| (3, 0) | 1,446,671 | 1,446,671 | – | – |
+| (2, 1) | 381,161 | 381,161 | – | – |
+| (2, 0) | 285,270 | 282,974 | – | 2,296 |
+| (3, 1) | 160,212 | 160,212 | – | – |
+| (2, 2) | 27,365 | 27,365 | – | – |
+| (3, 2) | 5,723 | 5,723 | – | – |
+| (1, 1) U1 | 2,790 | – | 2,790 (2,786 to the receiver, 4 to a frozen head) | – |
+
+**At n = 5 the hard one-receiver classes vanish at the σ-maximal starts.** There is no (1, 0), (1, 2) or (1, 3)
+vector. The only one-receiver class is U1, and Corollary U1 (K4.MULTI.U1, written proof) proves OC₁ there. The only
+other moves needed are 2,296 trades in the two-receiver class (2, 0).
+
+At n = 4 the one-receiver classes do occur: (1, 0) 5,840, (1, 1) 20,080, (1, 2) 1,920. So RKMAX's n = 4 hard part is
+smaller than RF's but not empty. A proof of RKMAX would therefore need:
+- the n = 4 table, already closed by the certificate;
+- why σ-maximality excludes |U| = 1 with |D_T| ≠ 1 at n ≥ 5. This is EVIDENCE on these exports, not a statement about
+  all n = 5 cores;
+- R2-type trades, where two receivers occur.
+
+The scope is that of the exports: the profiles are those with some failing maximum-matching start, and the
+lists are complete for 3 of the 9 hypergraphs.
+
+### 24.13 Lemma RF-A1\* (k3-oc1's weakening of RF-A1): second reading, CORRECT
+
+The source is `k4/k3_oc1.md` §13.5 on `claude/k4-k3-oc1` (commit e7c03f69): Lemma RF-A1 of §24.6 with (A1-iv) weakened
+to:
+- **(A1-iv\*)** every frozen q of Y′ outside {w, u, k2} that values Y_d has v_q(W) − min_W v_q ≤ p′_q.
+
+(A1-i) and (A1-iii) are restated in the form the proof uses:
+- (A1-i) J ∩ R_d = {g, h}, v_d(g) + v_d(h) > v_d(Y_d), J′ ∩ R_d = {h};
+- (A1-iii) some k2 ≠ d values g and h, and v_{k2}(Y_d) ≤ p′_{k2}.
+
+*Read line by line: the proof is correct.* Each case checks:
+- *X_d = {g, h}* threatens nobody. g is unwanted at Y′ by RF-PATH (c), and h is junk below every pick.
+- *d* is not threatened by W, by (A1-i).
+- *u* is not threatened by W, by (A1-ii).
+- *k2* values at most one good x of W. This uses |R_{k2}| ≤ 4, with g, h and k2's pick outside W. So x is junk, or
+  x = Y_d and (A1-iii) bounds it.
+- *A frozen q that values Y_d* is covered by (A1-iv\*).
+- *A frozen q that does not value Y_d*: W ∩ R_q ⊆ J′ ∖ {h}, and D_T′ = ∅ bounds v_q(J′) − min_{J′} v_q by p′_q.
+  Since v_q(J′ ∖ {h}) ≤ v_q(J′) − min_{J′} v_q, q is not threatened. If q values no junk at all, the value is 0.
+- *Every other agent* is frozen, since U′ = {d}.
+
+(A1-iv) makes (A1-iv\*) vacuous, so RF-A1\* implies RF-A1. Two remarks, neither affecting correctness:
+- if k2 = w or k2 = u, the k2 case is vacuous or is u's case;
+- the step "q is not truly dangerous" means: if q values a junk good it is dangerous, hence not truly dangerous since
+  D_T′ = ∅; and if it values none, the value is 0.
+
+*Independent data check* (`k4/oc1_hall/rf_a1star_check.py`, `rf_a1star_check.log`; written here from the statement,
+own EFX₀ test and the raw checker's). n = 5 exports, DEMOTE-0 starts whose path is u → w → d with d taking junk:
+110,661.
+- d values no good of J′: 242.
+- (A1-i)–(A1-iv\*) hold at **71,443**: 32,368 with (A1-iv), 39,075 only with (A1-iv\*). **X is EFX₀ at all 71,443**,
+  under both checkers.
+- At the other 38,976, (A1-iv\*) fails and X is not EFX₀. So on this path shape the hypotheses are exact, as k3-oc1
+  states.
+- 0 violations. The counts agree with k3-oc1's and girth's.
+
+So at n = 5 the at-once part of DEMOTE-0 is Lemma RF-A1\* plus its four facts. Open: those facts from Y's hardness.
+
+**Lemma NA (k3-oc1, `k4/k3_oc1.md` §13.5): second reading, CORRECT.**
+
+*Statement.* Let Y′ be perfect SD picks and f an injection J′ → agents. Let X give each agent its pick together with
+f⁻¹(a). Then X is EFX₀ iff every agent i that wants the pick of a receiving agent a ≠ i has v_i(X_i) ≥ v_i(Y′_a).
+
+*Proof, read.* Every bundle has at most two goods. Against {Y′_a, j}, EFX₀ for i asks for v_i(X_i) ≥ v_i(Y′_a) and
+v_i(X_i) ≥ v_i(j). The second always holds, since j was free at i's turn in σ′ and so v_i(j) < p′_i ≤ v_i(X_i). The
+first holds automatically when i does not want Y′_a. This is Lemma M^c's claim with no owner (H = J′).
+
+*Independent check* (`k4/oc1_hall/rf_na_check.py`, `rf_na_check.log`; all 113,484 n = 5 DEMOTE-0 starts, every
+injection J′ → agents):
+- the criterion agrees with both raw EFX₀ checkers on **all 6,809,040 assignments**, with 0 disagreements;
+- **a no-owner completion exists at all 113,210 DEMOTE-0 starts that complete at the picks**, the 71,443 of
+  RF-A1\*'s shape included. It exists at none of the 274 that need a move (girth's 242 trades and 32 3-rings).
+
+So at n = 5 Lemma NA alone covers DEMOTE-0's whole at-once part. What it needs is a compensation fact: the junk can be
+placed one good per agent so that every wanter of a receiving agent's pick is compensated. RF-A1\* is an alternative
+with owner w on 71,443 of these starts.
+
+### 24.14 RKMAX plan (a) is false as stated: σ-maximal starts with one receiver and |D_T| ∈ {0, 2} at n = 5
+
+Coordinator's item (a) asks for a proof that at n ≥ 5 σ-maximality excludes |U| = 1 with |D_T| ∈ {0, 2, 3}. On the
+export profiles no such vector occurs (§24.12). On random strict profiles they do.
+
+Data: `k4/oc1_hall/rf_rkmax_rand.py`, `rf_rkmax_rand.log`. EVIDENCE with a verified counterexample: all 4,674 pure
+n = 5 cores, 60 random strict profiles each, seed 2; each agent's values a random 4-subset of 1..20.
+
+**Counterexample** (verified with the raw checker's own SD and an independent classification):
+- 5_pure idx 358, sets [[0,1,4,5],[1,3,6,7],[2,3,6,7],[2,4,5,7],[4,5,6,7]], m = 8;
+- values [[17,4,2,19],[13,14,20,16],[2,16,20,17],[5,17,15,7],[20,17,4,8]];
+- 10 maximum-matching SD vectors; the σ-maximal ones are (5, 7, 6, 2, 4) and (5, 6, 7, 2, 4), with σ = (3, 1, 0, 1);
+- at both, J = {0, 1, 3}, U = {3}, D_T = {0, 1}: class (1, 2), i.e. DEMOTE-2-type;
+- OC₁ holds after one move.
+
+**Census** (280,380 profiles; 60 had no maximum-matching vector):
+- One-receiver σ-maximal vectors:
+  - (1, 0): 161 (21 need one move; some are degenerate cores with m = n and no junk);
+  - (1, 1): 12;
+  - (1, 2): 5 (all need one move);
+  - (1, 3): none seen.
+- **No OC₁ failure at any σ-maximal vector, so RKMAX itself survives.**
+- One-receiver vectors are rare at σ-maximal starts: 178 of 432,385 σ-maximal vectors. For comparison, 9,233 have two
+  receivers and the rest three or more.
+
+So RKMAX's proof cannot skip the hard one-receiver classes at n ≥ 5. It would need DEMOTE-0/2-type arguments there
+too, at a much smaller frequency than at RF starts. The export data are biased toward the failing profiles of 9
+hypergraphs.

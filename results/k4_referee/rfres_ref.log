@@ -1,0 +1,7 @@
+{"source": "Hall RF residue facts at n = 4 (own code)", "A1": 32000, "A1_LEMMA_VIOLATION": 0, "A1_completion_EFX0": 32000, "A1_i": 32000, "A1_ii": 32000, "A1_iii": 32000, "A1_iv": 32000, "A_other": 2560, "B_B1": 43520, "B_B2": 43520, "B_B3": 43520, "B_B4": 43520, "B_B5": 43520, "B_FULL_EFX0": 43520, "B_JminusS_1": 38400, "B_LEMMA_RFB_VIOLATION": 0, "B_candidates_1": 43520, "B_fact_Ub": 43520, "B_fact_a": 43520, "B_fact_c_Ru": 43520, "B_fact_c_only_u": 43520, "B_w_equals_d": 43520, "RF_starts": 161520, "RY_LEMMA_VIOLATION": 0, "RY_R1_R2_Fk_wanters": 38400, "RY_R3u_holds": 0, "RY_Ub_strict": 38400, "RY_allocation_EFX0": 0, "class_A": 34560, "class_B": 43520, "class_R2": 67120, "class_U1": 16320, "orders": 292080}
+
+real	0m8.952s
+user	0m8.788s
+sys	0m0.124s
+{"source": "Lemma RF-B / REPAIR-Y random N=300000 seed=1", "RFB_VIOLATION": 0, "RFB_hyp": 12365, "RY_VIOLATION": 0, "RY_hyp": 35369}
+{"source": "MUTANT (B5 and the R3 bound dropped) N=100000 seed=2", "RFB_VIOLATION": 1374, "RFB_hyp": 5534, "RY_VIOLATION": 395, "RY_hyp": 11924}

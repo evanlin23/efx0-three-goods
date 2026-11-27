@@ -13,6 +13,7 @@ gadgets listed per configuration (a twin kept, its partner deleted).
 
 Usage: twins4.py explore CONFIG ... [--jobs=J] [--zs=0,1,2]  coverage only (no certificate)
        twins4.py certify CONFIG ... --write=OUT.json.gz [--zs=...]   greedy certificate (k4/check_twins4.py re-checks)
+       twins4.py certify2 CONFIG ... --write=OUT.json.gz [--zs=1]  with two-agent gadget menus (k4/reduce4c.py)
        twins4.py why CONFIG ... [--show=K]      failing local states for the first K profiles not reduced
        twins4.py claw2 [--full]                  the two-agent claw gadget on its hardest profile (attempts/k4-twins-claw.md)
        twins4.py list                                       the configuration names
@@ -85,9 +86,11 @@ def tri_config(k1, k2, k3):
     return R4.Config('tri-%s-%s-%s' % (k1, k2, k3), S, I, D)
 
 
-def claw_config():
-    S = {'f%d' % i: ('G', 'y%d' % i, 'p%d' % i) for i in (1, 2, 3)}
-    return R4.Config('claw', S, {'G', 'p1', 'p2', 'p3'}, {'y1', 'y2', 'y3'})
+def claw_config(ys=('y1', 'y2', 'y3'), name='claw'):
+    """Three P3 agents f_i on (G, y_i, p_i), G of degree 3 (interior); the y_i are boundary goods, possibly equal
+    (claw-y12: y1 = y2; claw-y123: all equal)."""
+    S = {'f%d' % i: ('G', y, 'p%d' % i) for i, y in zip((1, 2, 3), ys)}
+    return R4.Config(name, S, {'G', 'p1', 'p2', 'p3'}, set(ys))
 
 
 def star_config(r):
@@ -118,6 +121,8 @@ for _ke, _kf in (('Q3', 'Q3'), ('Q3', 'P4'), ('P4', 'P4'), ('Q3', 'Q4'), ('P4', 
 for _t in itertools.combinations_with_replacement(('Q3', 'P4', 'Q4'), 3):
     CONFIGS['tri-%s-%s-%s' % _t] = (lambda t=_t: tri_config(*t))
 CONFIGS['claw'] = claw_config
+CONFIGS['claw-y12'] = lambda: claw_config(('y1', 'y1', 'y3'), 'claw-y12')
+CONFIGS['claw-y123'] = lambda: claw_config(('y1', 'y1', 'y1'), 'claw-y123')
 for _r in (1, 2, 3, 4):
     CONFIGS['star-Q4-%d' % _r] = (lambda r=_r: star_config(r))
 
@@ -255,6 +260,63 @@ def certify(cfg, jobs=4, zs=(0, 1, 2), copies=False):
     return union, recs
 
 
+def pair_structures(cfg):
+    """Two fixed gadget agents for a configuration whose boundary is (y1, y2, y3) (the claw): h1 and h2 each value some
+    boundary goods and one gadget good of their own (z1', z2'); every structure is a forest on the boundary goods."""
+    D = sorted(cfg.D)
+    out = []
+    if len(D) == 3:
+        for c in D:
+            a, b = [x for x in D if x != c]
+            out.append(((c, a), (c, b)))              # a path a - h1 - c - h2 - b
+            out.append((tuple(D), (c,)))              # h1 on all three, h2 pendant at c
+        return out
+    subs = [T for k in range(1, len(D) + 1) for T in itertools.combinations(D, k)]
+    for i, T1 in enumerate(subs):                     # every unordered pair sharing at most one good (no cycle)
+        for T2 in subs[i:]:
+            if len(set(T1) & set(T2)) <= 1: out.append((T1, T2))
+    return out
+
+
+def certify_two(cfg, jobs=4, zs=(1,), structures=None):
+    """Greedy certificate from DEL, the one-agent menus and two-agent menu pairs (k4/reduce4c.py: C extension search,
+    every proposal rebuilt and checked by reduce4). Each chosen reduction is re-run directly and must agree."""
+    import reduce4c as RC
+    cands = []
+    ok, kept = R4.run(R4.Reduction(cfg, 'DEL', {}, set(), source=True), jobs)
+    cands.append((ok, R4.Reduction(cfg, 'DEL', {}, set(), source=True), kept, False))
+    for nz in zs:
+        for okm, goods, M in gadget_menu(cfg, nz, jobs):
+            Ip = set(goods) - set(cfg.D)
+            for k in np.nonzero(okm.any(1))[0]:
+                name = 'GAD-h(' + ','.join('%s=%d' % (g, v) for g, v in zip(goods, M[k])) + ')'
+                red = R4.Reduction(cfg, name, {'h': ('fix', {g: int(v) for g, v in zip(goods, M[k])})}, Ip, source=True)
+                cands.append((okm[k].reshape(cfg.shape), red, None, False))
+    for g1, g2 in (structures or pair_structures(cfg)):
+        spec = [('h1', list(g1) + ["z1'"], R4.menu(len(g1) + 1)), ('h2', list(g2) + ["z2'"], R4.menu(len(g2) + 1))]
+        t = time.time()
+        ok2, ns = RC.gadget_search2(cfg, spec, {"z1'", "z2'"}, jobs=jobs)
+        print('  two-agent search h1 on %s, h2 on %s: %d states, %d profiles reduced (%.0f s)' % (
+            spec[0][1], spec[1][1], ns, ok2.reshape(-1, ok2.shape[-1]).any(0).sum(), time.time() - t), flush=True)
+        for i, j in zip(*np.nonzero(ok2.any(2))):
+            v1 = dict(zip(spec[0][1], map(int, spec[0][2][i]))); v2 = dict(zip(spec[1][1], map(int, spec[1][2][j])))
+            name = 'GAD2-h1(%s)-h2(%s)' % (','.join('%s=%d' % kv for kv in v1.items()), ','.join('%s=%d' % kv for kv in v2.items()))
+            red = R4.Reduction(cfg, name, {'h1': ('fix', v1), 'h2': ('fix', v2)}, {"z1'", "z2'"}, source=True)
+            cands.append((ok2[i, j].reshape(cfg.shape), red, None, True))
+    union = np.zeros(cfg.shape, dtype=bool)
+    for ok, _, _, _ in cands: union |= ok
+    need, recs = union.copy(), []
+    while need.any():
+        ok, red, kept, two = max(cands, key=lambda c: int((c[0] & need).sum()))
+        if kept is None:
+            ok2, kept = (RC.run(red, jobs) if two else R4.run(red, jobs))
+            assert (ok2 == ok).all(), 'search and direct run disagree: %s' % red.name
+        recs.append(R4.record(red, R4.select(cfg, kept, ok), int(ok.sum())))
+        print('    %-58s reduces %6d, new %6d' % (red.name, ok.sum(), (ok & need).sum()), flush=True)
+        need &= ~ok
+    return union, recs
+
+
 def failing_state(red, prof):
     """An admissible local state of Y (for profile prof) with no extension under which every agent of S is safe."""
     cfg = red.cfg
@@ -316,6 +378,19 @@ def main():
     zs = tuple(int(x) for x in opts.get('zs', '0,1,2').split(','))
     if args[0] == 'list':
         for k in CONFIGS: print(k)
+        return
+    if args[0] == 'certify2':
+        import gzip, json
+        recs = []
+        for name in args[1:]:
+            cfg = CONFIGS[name]()
+            print('configuration %s: agents %s, I = %s, D = %s, %d profiles' % (cfg.name, cfg.S, sorted(cfg.I),
+                                                                               sorted(cfg.D), int(np.prod(cfg.shape))), flush=True)
+            union, r = certify_two(cfg, jobs, zs)
+            print('  reduced: %d of %d profiles (%d records)' % (union.sum(), union.size, len(r)), flush=True)
+            recs += r
+        with gzip.open(opts['write'], 'wt') as f: json.dump(recs, f)
+        print('wrote %s: %d records, %d states' % (opts['write'], len(recs), sum(len(r['states']) for r in recs)))
         return
     if args[0] == 'certify':
         import gzip, json

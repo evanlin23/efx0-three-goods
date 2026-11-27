@@ -131,24 +131,25 @@ theorem USetting.mem_ownerSet_wSet {k : A} {rest : List A} {H₀ : List G} {pre 
         rw [List.mem_singleton.mp e] at hzg
         exact hhJ z hzg
 
-/-- **Theorem S** (K4.MULTI.S, relaxed form (S-d′)). After a longest canonical chain from `k` with head `z`, in
-which `k` takes an improving `H₀ ⊆ W = (J ∖ {h}) ∪ {Y_z}`, if `W` threatens no agent other than `k` and `z` at its
-pick value, and `W` does not threaten `z` at its value in the completion, then the state after the chain has an
-S\* completion owned by `k`, with `h` kept out. -/
-theorem thmS (hσ : σ.Perm agents) (hag : agents.Nodup) (hgd : goods.Nodup)
+/-- **Theorem S's completion, with an explicit receiver.** In Theorem S's setting (no longest-chain condition), the
+receiver `r` of `h` is either the head `z`, unfrozen after the chain and safe at `v_z(a) + v_z(h)`, or, when the head
+is frozen after the chain, any off-chain agent unfrozen at the picks. Then the S\* completion with owner `k` gives `h`
+to `r`, every other junk good to `k`, and keeps every base. -/
+theorem thmS_core (hσ : σ.Perm agents) (hag : agents.Nodup) (hgd : goods.Nodup)
     {k : A} {rest : List A} (hch : CChain v agents (sdPick v σ goods) (k :: rest))
-    (hlong : ∀ rest', CChain v agents (sdPick v σ goods) (k :: rest') → rest'.length ≤ rest.length)
     {z : A} (hz : (k :: rest).getLast? = some z) {h : G} (hh : h ∈ goods) (hhJ : ∀ x, sdPick v σ goods x ≠ some h)
     {H₀ : List G} (hH₀ : H₀.Nodup)
     (hH₀W : ∀ g ∈ H₀, g ∈ goods ∧ 0 < v k g ∧ ((∀ x, sdPick v σ goods x ≠ some g) ∨ sdPick v σ goods z = some g))
     (hH₀h : h ∉ H₀) (himp : mval v (sdPick v σ goods) k < value v k H₀)
     (hW : ∀ i ∈ agents, i ≠ k → i ≠ z →
       ¬ Threat v i (wSet v agents goods σ z h) (mval v (sdPick v σ goods) i))
-    (hZ1 : ¬ Frozen v agents (afterE (sdPick v σ goods) k rest H₀) z →
-      ¬ Threat v z (wSet v agents goods σ z h) (value v z (afterE (sdPick v σ goods) k rest H₀ z) + v z h))
     (hZ2 : Frozen v agents (afterE (sdPick v σ goods) k rest H₀) z →
-      ¬ Threat v z (wSet v agents goods σ z h) (value v z (afterE (sdPick v σ goods) k rest H₀ z))) :
-    SStar v agents goods (afterE (sdPick v σ goods) k rest H₀) k := by
+      ¬ Threat v z (wSet v agents goods σ z h) (value v z (afterE (sdPick v σ goods) k rest H₀ z)))
+    {r : A} (hr : (r = z ∧ ¬ Frozen v agents (afterE (sdPick v σ goods) k rest H₀) z ∧
+        ¬ Threat v z (wSet v agents goods σ z h) (value v z (afterE (sdPick v σ goods) k rest H₀ z) + v z h)) ∨
+      (Frozen v agents (afterE (sdPick v σ goods) k rest H₀) z ∧ r ∈ agents ∧ r ∉ k :: rest ∧
+        ¬ Frozen v agents (fun a => (sdPick v σ goods a).toList) r)) :
+    SStarWith v agents goods (afterE (sdPick v σ goods) k rest H₀) k [h] (fun _ => r) := by
   obtain ⟨pre, p, hs⟩ := exists_setting hσ hag hgd hch hz hH₀ hH₀W himp
   have hk := hs.k_agent
   have hst := hs.validState
@@ -195,34 +196,60 @@ theorem thmS (hσ : σ.Perm agents) (hag : agents.Nodup) (hgd : goods.Nodup)
     rw [List.mem_singleton.mp hg]; exact hhB
   have hinj : ∀ (m : G → A), ∀ g ∈ [h], ∀ g' ∈ [h], m g = m g' → g = g' := fun _ g hg g' hg' _ =>
     (List.mem_singleton.mp hg).trans (List.mem_singleton.mp hg').symm
-  by_cases hzf : Frozen v agents (afterE (sdPick v σ goods) k rest H₀) z
-  · -- the receiver of `h` is an unfrozen second wanter `w` of the head's new good
-    obtain ⟨w, hw, hwc, -, hwun⟩ := hs.wanter_of_frozen hlong hzf
-    have hwk : w ≠ k := fun e => hwc (e ▸ List.mem_cons_self)
-    have hwz : w ≠ z := fun e => hwc (e ▸ hs.z_mem')
-    have hwB : ¬ Frozen v agents (afterE (sdPick v σ goods) k rest H₀) w := by
+  rcases hr with ⟨rfl, hzf, hZ1⟩ | ⟨hzf, hw, hwc, hwun⟩
+  · -- the receiver of `h` is the head itself
+    have hEdge : Edge v agents goods (afterE (sdPick v σ goods) k rest H₀) k [h] h r := by
+      by_cases hpos : 0 < v r h
+      · exact Or.inr ⟨hpos, fun hT => hZ1 (hthr.mp hT)⟩
+      · have h0 : v r h = 0 := by omega
+        refine Or.inl fun hT => hZ1 ?_
+        rw [h0, Nat.add_zero]; exact hthr.mp hT
+    refine sStar_of_slotMatching_spec hgd hst hk hG1 hG2 hHJ hH1 (m := fun _ => r)
+      ⟨fun g hg => ?_, hinj _, fun u hu huk _ hex => ?_⟩
+    · rw [List.mem_singleton.mp hg]
+      exact ⟨hs.z_agent, hs.z_ne_k, ⟨hzf, hlen r hs.z_ne_k⟩, hEdge⟩
+    · by_cases huz : u = r
+      · exact ⟨h, List.mem_singleton_self _, huz.symm⟩
+      · exact absurd hex (hno u hu huk huz)
+  · -- the receiver of `h` is an off-chain agent unfrozen at the picks
+    have hwk : r ≠ k := fun e => hwc (e ▸ List.mem_cons_self)
+    have hwz : r ≠ z := fun e => hwc (e ▸ hs.z_mem')
+    have hwB : ¬ Frozen v agents (afterE (sdPick v σ goods) k rest H₀) r := by
       rintro ⟨g, hg, i, hi, hiw, hlt⟩
       rw [hs.after_off hwc, Option.mem_toList] at hg
       exact hwun (frozen_pick_iff.mpr ⟨i, hi, hiw, g, hg, Nat.lt_of_le_of_lt (hs.value_le i) hlt⟩)
-    refine sStar_of_slotMatching hgd hst hk hG1 hG2 hHJ hH1 (m := fun _ => w)
-      ⟨fun _ _ => ⟨hw, hwk, ⟨hwB, hlen w hwk⟩, Or.inl (hno w hw hwk hwz)⟩, hinj _, fun u hu huk hhu hex => ?_⟩
+    refine sStar_of_slotMatching_spec hgd hst hk hG1 hG2 hHJ hH1 (m := fun _ => r)
+      ⟨fun _ _ => ⟨hw, hwk, ⟨hwB, hlen r hwk⟩, Or.inl (hno r hw hwk hwz)⟩, hinj _, fun u hu huk hhu hex => ?_⟩
     by_cases huz : u = z
     · rw [huz] at hhu; exact absurd hzf hhu.1
     · exact absurd hex (hno u hu huk huz)
-  · -- the receiver of `h` is the head itself
-    have hEdge : Edge v agents goods (afterE (sdPick v σ goods) k rest H₀) k [h] h z := by
-      by_cases hpos : 0 < v z h
-      · exact Or.inr ⟨hpos, fun hT => hZ1 hzf (hthr.mp hT)⟩
-      · have h0 : v z h = 0 := by omega
-        refine Or.inl fun hT => hZ1 hzf ?_
-        rw [h0, Nat.add_zero]; exact hthr.mp hT
-    refine sStar_of_slotMatching hgd hst hk hG1 hG2 hHJ hH1 (m := fun _ => z)
-      ⟨fun g hg => ?_, hinj _, fun u hu huk _ hex => ?_⟩
-    · rw [List.mem_singleton.mp hg]
-      exact ⟨hs.z_agent, hs.z_ne_k, ⟨hzf, hlen z hs.z_ne_k⟩, hEdge⟩
-    · by_cases huz : u = z
-      · exact ⟨h, List.mem_singleton_self _, huz.symm⟩
-      · exact absurd hex (hno u hu huk huz)
+
+/-- **Theorem S** (K4.MULTI.S, relaxed form (S-d′)). After a longest canonical chain from `k` with head `z`, in
+which `k` takes an improving `H₀ ⊆ W = (J ∖ {h}) ∪ {Y_z}`, if `W` threatens no agent other than `k` and `z` at its
+pick value, and `W` does not threaten `z` at its value in the completion, then the state after the chain has an
+S\* completion owned by `k`, with `h` kept out. -/
+theorem thmS (hσ : σ.Perm agents) (hag : agents.Nodup) (hgd : goods.Nodup)
+    {k : A} {rest : List A} (hch : CChain v agents (sdPick v σ goods) (k :: rest))
+    (hlong : ∀ rest', CChain v agents (sdPick v σ goods) (k :: rest') → rest'.length ≤ rest.length)
+    {z : A} (hz : (k :: rest).getLast? = some z) {h : G} (hh : h ∈ goods) (hhJ : ∀ x, sdPick v σ goods x ≠ some h)
+    {H₀ : List G} (hH₀ : H₀.Nodup)
+    (hH₀W : ∀ g ∈ H₀, g ∈ goods ∧ 0 < v k g ∧ ((∀ x, sdPick v σ goods x ≠ some g) ∨ sdPick v σ goods z = some g))
+    (hH₀h : h ∉ H₀) (himp : mval v (sdPick v σ goods) k < value v k H₀)
+    (hW : ∀ i ∈ agents, i ≠ k → i ≠ z →
+      ¬ Threat v i (wSet v agents goods σ z h) (mval v (sdPick v σ goods) i))
+    (hZ1 : ¬ Frozen v agents (afterE (sdPick v σ goods) k rest H₀) z →
+      ¬ Threat v z (wSet v agents goods σ z h) (value v z (afterE (sdPick v σ goods) k rest H₀ z) + v z h))
+    (hZ2 : Frozen v agents (afterE (sdPick v σ goods) k rest H₀) z →
+      ¬ Threat v z (wSet v agents goods σ z h) (value v z (afterE (sdPick v σ goods) k rest H₀ z))) :
+    SStar v agents goods (afterE (sdPick v σ goods) k rest H₀) k := by
+  by_cases hzf : Frozen v agents (afterE (sdPick v σ goods) k rest H₀) z
+  · -- the receiver is an unfrozen second wanter of the head's new good (the longest-chain argument)
+    obtain ⟨pre, p, hs⟩ := exists_setting hσ hag hgd hch hz hH₀ hH₀W himp
+    obtain ⟨w, hw, hwc, -, hwun⟩ := hs.wanter_of_frozen hlong hzf
+    exact sStar_of_sStarWith (thmS_core hσ hag hgd hch hz hh hhJ hH₀ hH₀W hH₀h himp hW hZ2
+      (r := w) (Or.inr ⟨hzf, hw, hwc, hwun⟩))
+  · exact sStar_of_sStarWith (thmS_core hσ hag hgd hch hz hh hhJ hH₀ hH₀W hH₀h himp hW hZ2
+      (r := z) (Or.inl ⟨rfl, hzf, hZ1 hzf⟩))
 
 /-- **Theorem S, as a repair**: the chain is one move, and the state after it has a one-absorber completion. -/
 theorem thmS_oc1 (hσ : σ.Perm agents) (hag : agents.Nodup) (hgd : goods.Nodup)
@@ -362,6 +389,7 @@ end EFX
 #print axioms EFX.OC1Max.mem_wSet
 #print axioms EFX.OC1Max.cchain_isChain'
 #print axioms EFX.OC1Max.USetting.mem_ownerSet_wSet
+#print axioms EFX.OC1Max.thmS_core
 #print axioms EFX.OC1Max.thmS
 #print axioms EFX.OC1Max.thmS_oc1
 #print axioms EFX.OC1Max.thmS_of_Sd

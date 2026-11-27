@@ -1,0 +1,13 @@
+$ python3 k4/girth/oc1_rf_owner.py 97
+n=4  completes at the picks                                           2716
+n=4  completes at the picks with no owner (<= 1 junk each)            2177
+n=4  completes at the picks with the dropped agent as owner           2716
+n=4  completes at the picks with the receiver as owner                  17
+n=4  exactly one dropped agent                                        2024
+n=4  no completion at the picks (a move is needed)                     295
+n=4  sampled RF outcomes                                              3011
+n=5  completes at the picks                                             76
+n=5  completes at the picks with the dropped agent as owner             76
+n=5  exactly one dropped agent                                          79
+n=5  no completion at the picks (a move is needed)                      10
+n=5  sampled RF outcomes                                                86

@@ -1,0 +1,18 @@
+$ python3 k4/oc1_hall/rf_n5_pickless.py two_move_starts_n5_partial6.json.gz two_move_starts_n5_sel2.json.gz
+{"example": true, "sets": [[0, 1, 5, 7], [1, 4, 5, 7], [2, 3, 4, 6], [2, 3, 6, 7], [4, 5, 6, 7]], "vals": [[2, 3, 6, 10], [4, 8, 5, 6], [5, 4, 6, 8], [3, 5, 7, 6], [6, 4, 8, 5]], "Y": [1, 7, 4, 6, 5], "o": [3, 2, 1, 4, 0], "Y'": [7, 5, 4, 6, null], "path": [0, 1, 4]}
+{"example": true, "sets": [[0, 1, 5, 7], [1, 4, 5, 7], [2, 3, 4, 6], [2, 3, 6, 7], [4, 5, 6, 7]], "vals": [[2, 3, 10, 6], [3, 7, 6, 5], [3, 5, 6, 7], [5, 4, 8, 6], [6, 5, 8, 4]], "Y": [1, 5, 4, 6, 7], "o": [3, 2, 1, 4, 0], "Y'": [5, 7, 4, 6, null], "path": [0, 1, 4]}
+{"example": true, "sets": [[0, 1, 5, 7], [1, 4, 5, 7], [2, 3, 4, 6], [2, 3, 6, 7], [4, 5, 6, 7]], "vals": [[2, 3, 10, 6], [4, 8, 6, 5], [5, 3, 6, 7], [3, 5, 7, 6], [6, 5, 8, 4]], "Y": [1, 5, 4, 6, 7], "o": [3, 2, 1, 4, 0], "Y'": [5, 7, 4, 6, null], "path": [0, 1, 4]}
+pickless RF starts on 5_pure#164 0
+pickless RF starts on 5_pure#374 3460
+pickless RF starts on 5_pure#379 0
+pickless RF starts on 5_pure#38 0
+pickless RF starts on 5_pure#419 0
+pickless RF starts on 5_pure#447 0
+pickless RF starts on 5_pure#464 0
+pickless RF starts on 5_pure#778 0
+pickless RF starts on 5_pure#808 0
+fix 1 (d just before its ejector): maximum matching, OC1 one move repairs 3460
+fix 2 (d second): maximum matching, OC1 one move repairs 384
+fix 2 (d second): maximum matching, OC1 picks complete 3076
+pickless RF starts 3460
+the pickless agent is the RF path's end d: True; path length 2 3460
