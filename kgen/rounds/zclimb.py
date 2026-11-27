@@ -1,7 +1,8 @@
 """Direct climb on k = 4 CORES with zero values toward OC1^max failures (kgen/rounds.md §4.5), with rnd.c's zero-aware
 OC1 (rnd_oc1z, cross-checked against k4/sdc's pipeline by xcheck_z.py).  Instances stay k = 4 cores (K4.CORE of
-k4/SCOUT.md, as in stress.is_core, plus connectivity).  Objective (minimized): (-#perfect starts failing OC1, min over
-perfect starts of (OC1 witness count, OC1 margin sum)).  Every failure is printed (ZFAIL) and appended to $FAILS.
+k4/SCOUT.md, as in stress.is_core, plus connectivity).  Objective (minimized): (-#perfect starts failing ZCLASS, min over
+perfect starts of (ZCLASS witness count, ZCLASS margin sum, ...)).  ZSTRICT=1 (default): strict cores (distinct subset
+sums per agent).  Every failure is printed (ZFAIL) and appended to $FAILS.
     python3 kgen/rounds/zclimb.py n m STEPS ROUNDS SEED [seeds=FILE.jsonl]"""
 import sys, os, json, random, time, zlib
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -25,7 +26,20 @@ def connected(Z):
 ZFREE = os.environ.get('ZFREE', '0') == '1'   # no core constraint; random instances all-positive (every start perfect)
 
 
-def ok(Z): return True if ZFREE else (is_core(Z) and connected(Z))
+ZSTRICT = os.environ.get('ZSTRICT', '1') == '1'   # strict cores: every agent's subset sums of relevant goods distinct
+
+
+def strict(Z):
+    for row in Z:
+        r = [x for x in row if x > 0]; sums = set()
+        for mask in range(1 << len(r)):
+            t = sum(r[k] for k in range(len(r)) if mask >> k & 1)
+            if t in sums: return False
+            sums.add(t)
+    return True
+
+
+def ok(Z): return True if ZFREE else (is_core(Z) and connected(Z) and (not ZSTRICT or strict(Z)))
 
 
 def rand_core(n, m, rng):
@@ -75,6 +89,7 @@ def main():
     for r in range(rounds):
         Z = [list(x) for x in rng.choice(seeds)] if seeds else rand_core(n, m, rng)
         if seeds and not ZFREE: Z = [[x if x > 5 else 0 for x in row] for row in Z]
+        if not ok(Z): continue
         c, res = objective(Z)
         for s in range(steps):
             W = mutate(Z, rng)

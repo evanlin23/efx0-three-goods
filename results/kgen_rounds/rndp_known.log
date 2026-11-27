@@ -1,0 +1,26 @@
+112,880 starts {'starts': 112880, 'RND1Z FAILS': 112880, 'RNDPZ holds': 112880} 11s
+('C4K_OC1fail', 'RND1Z FAILS') 2
+('C4K_OC1fail', 'RNDPZ holds') 2
+('C4K_OC1fail', 'starts') 2
+('cert11_n4_OC1fail', 'RND1Z FAILS') 11
+('cert11_n4_OC1fail', 'RNDPZ holds') 11
+('cert11_n4_OC1fail', 'starts') 11
+('cert24_n5_OC1fail', 'RND1Z holds') 26
+('cert24_n5_OC1fail', 'RNDPZ holds') 26
+('cert24_n5_OC1fail', 'starts') 26
+('two_move_n4', 'RND1Z FAILS') 112880
+('two_move_n4', 'RNDPZ holds') 112880
+('two_move_n4', 'starts') 112880
+('zcore_OC1fail', 'RND1Z FAILS') 45
+('zcore_OC1fail', 'RND1Z holds') 2
+('zcore_OC1fail', 'RNDPZ holds') 47
+('zcore_OC1fail', 'starts') 47
+forward ('C4K_OC1fail', 'RND1Z', False) 2
+forward ('C4K_OC1fail', 'RNDPZ', True) 2
+forward ('cert11_n4_OC1fail', 'RND1Z', False) 11
+forward ('cert11_n4_OC1fail', 'RNDPZ', True) 11
+forward ('two_move_n4', 'RND1Z', False) 400
+forward ('two_move_n4', 'RNDPZ', True) 400
+forward ('zcore_OC1fail', 'RND1Z', False) 45
+forward ('zcore_OC1fail', 'RNDPZ', True) 45
+forward re-check of 458 starts (failures, capped, + random sample): 0 mismatches, 24s

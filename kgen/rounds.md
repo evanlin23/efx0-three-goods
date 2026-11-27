@@ -580,6 +580,69 @@ exhaustive ordinal search.
   positive-value failure (§4.2). At n = 4 it follows from the certified OC₁′^max. Two sequential moves (the
   campaign's OC₂^max) and two rounds also survive.
 
+### 4.9 One round and ROUND-P with zeros, at every known k = 4 failure
+*Definitions* (zeros allowed, perfect starts, raw EFX₀, one-absorber completion). A round is a set of vertex-disjoint
+chains x₀ → … → x_t (t ≥ 0).
+- *One plain round (RND1Z).*
+  - Each start x₀ takes relevant junk and, in a ring, goods of its own end's base.
+  - Every later chain agent x_i takes B_{x_{i−1}} plus relevant junk.
+  - A t = 0 agent adds relevant junk.
+  - Every chain agent strictly gains, and the untaken goods of the ends' bases are released.
+- *ROUND-P (RNDPZ).* The same, and in addition every non-end agent x_i (i < t) of a chain with t ≥ 1 may take goods of
+  *any* chain end's base that it values. This is the ledger row K4.SDC.ROUNDP.
+  - It contains OC₁′ (one chain) and the plain round.
+  - The positive-value ROUND-P of §4.2 (`bruter.rounds_pool(receivers=True)`) is wider: there ends and t = 0 agents
+    may also take end goods.
+  - A variant that also lets t = 0 agents take them is `verify_k4zero.round_pool(adders=True)`. It was never needed,
+    because RNDPZ itself never failed.
+
+*Two implementations.*
+- `rnd.c` (`oc1z_start`, bits 16 and 32) tests each complete EFX₀ allocation with Lemma RC: passers s(a) = loc(a), any
+  number of paths, maximal H.
+- `verify_k4zero.round_pool` simulates forward from the definition.
+- `xcheck_roundz.py` compares them at every perfect start of the certifier's 11 (n = 4) and 24 (n = 5) and of 400
+  random k-limited instances: 1,256 starts, 0 mismatches (`xcheck_roundz.log`).
+
+*The coordinator's start* is the certifier's n = 5 instance idx 164: order (1, 4, 2, 0, 3), picks (7, 2, 3, 5, 4).
+OC₁ and OC₁′ fail there. One plain round holds, and all 9 MD allocations are plain-round witnesses, hence ROUND-P
+witnesses too.
+
+**Every known failure** (`rndp_known.py`, `rndp_known.log`; forward re-check of 458 starts, every failure family
+included, 0 mismatches):
+
+| starts | mechanism | OC₁ | OC₁′ | one plain round | ROUND-P |
+|---|---|---|---|---|---|
+| the certifier's 112,880 OC₁^max-failing n = 4 starts (all 11 hypergraphs, every strict type) | starvation | fails | holds | **fails at all 112,880** | **holds at all 112,880** |
+| the certifier's 11 n = 4 instances (OC₁-failing perfect starts) | starvation | fails | holds | fails (11 of 11) | holds |
+| C4K (2 starts) | starvation | fails | holds | fails | holds |
+| zero-core climb failures (§4.5, 47 OC₁-failing starts: 44 at n = 4, 2 at n = 5, 1 at n = 6) | starvation (n = 4) | fails | holds | fails at all 44 with n = 4 and at 1 with n = 5; holds at 1 with n = 5 and at the n = 6 start | holds |
+| the certifier's 24 n = 5 instances (26 OC₁-failing perfect starts) | two cycles | fails | fails (24 instances) | **holds at all 26** | holds |
+
+- The two mechanisms separate cleanly.
+  - At n = 4 (starvation) the plain round never repairs an OC₁^max failure of the certifier's search. The starved
+    agent's second foreign pick is held by a *middle* agent, and only the pooled take reaches it.
+  - At n = 5 (two cycles) the plain round always suffices.
+- ROUND-P holds at every one of them, at the narrow definition above.
+
+**Positive-value failures** (`rndp_positive.py`, `rndp_positive.log`; 112 re-checked forward, 0 mismatches):
+- *Starvation.* At all 158 ROUND⁺ failure starts of `fails*.jsonl` (raw, twins, ε-lifts, KCORE, KCOVER, KIPRIME), the
+  plain round fails, as it must, and the narrow ROUND-P holds.
+- *ROUND-X's failure.* The narrow ROUND-P holds at X4.
+- *Two disjoint swaps.* At the 10 positive-value OC₁′ failures (`fails_oc1p_pos.jsonl`) the plain round already
+  holds.
+
+**Climbs toward a ROUND-P failure** (`zclimb.py`, ZCLASS = RNDPZ; strict connected cores with distinct subset sums;
+the objective is failing starts, then the witness count and margin at the hardest perfect start):
+- Seeds:
+  - the certifier's 24, ×100 (n = 5);
+  - 286 six-agent extensions of them (`seeds_rndp_n6.jsonl`). Each adds a sixth agent, random or a near-twin of an
+    existing agent, with or without one new good. Following the coordinator, no instance is two copies glued at a
+    junk good.
+  - unseeded random strict cores at n = 5, m = 9.
+- CLIMB_RESULT
+- `is_core` alone does not enforce distinct subset sums. Without that constraint the climbs drift to exact ties, such
+  as v₀(6) + v₀(7) = v₀(8), so the strict form is enforced (ZSTRICT = 1).
+
 ## 5. n = 3
 
 ### 5.1 One round survives
