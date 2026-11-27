@@ -1563,8 +1563,8 @@ Each leaf is a named statement with its status and the session that owns it.
 | 4e | the head is a second dangerous agent | Lemma RING-red proves 151 starts. **RING** (45 starts left) is open. 27 of them have an M^c-certified repair with a compensated wanter, but every RING start also has a repair certified by plain Lemma M | proved plus open residue | k4-oc1max-multi |
 | 4f | disjoint danger sets: one move | "one chain repairs" when no two dangerous agents share a pool danger set | **evidence** (k4-oc1max-multi, `k4/oc1max_multi/sharing.py`). Without sharing: 7,755 starts, all repaired by one move. 7,681 have a canonical chain from D owned by k, and 7,237 are covered by written lemmas (KEEP 4,657, OWN 632, D-red 1,835, RING-red 113). The 74 others fail only by CROWD (58) or the T3 ring shape (16), never by DEMAND. With sharing: 628 starts, all one move, 623 canonical. So sharing is necessary for every known two-move start, but not sufficient | k4-oc1max-multi |
 | 5 | **no one-move repair: the second move.** One statement, **Sub-lemma SHARE₂** (K4.OCH.SHARE2), stated below the table | (i) and (ii) below | **open** | see 5a–5c |
-| 5a | the shape of a two-move start: **R2**, then **LIFT-SHAPE⁺** | **R2** (TTC session): two or more receivers ⟹ one move. *Certified at n = 4* (compute/k4-oc1max-cert, PR #114: every failing start has exactly one receiver). At n = 5 the first ~700 pure cores agree. **Lemma R2-G2** (proved): after any chain to a receiver, no junk good is wanted. So R2 reduces to **R2-M**: Lemma M^c's condition with owner x₀. **LIFT-SHAPE⁺:** one receiver z; a canonical P₁ to z with a shared pool pair that leaves z unfrozen; a canonical P₂ to z giving z its favourite good; (L1)–(L3) | R2: certified at n ≤ 4, open in general (R2-M open). LIFT-SHAPE⁺: **certified at n = 4** (K4.MATCH.LIFT.N4, `k4/matching.md` §6 at 7e6cd80; the explicit allocation is raw EFX₀ on all 112,880 starts, and a self-contained checker agrees). At n = 4 the second move only ever needs H = ∅ or H = {z's best junk good}. Open for n ≥ 5 | TTC session (R2); matching and k4-oc1max-multi (LIFT-SHAPE⁺) |
-| 5b | SHARE₂ (ii), route M (matching) | Lemmas LIFT-red and LIFT-1 (k ≤ 4): under (L1)–(L3), h takes X minus z's best junk good g, and z takes {t, g} | **refereed** (with EX\*) | matching |
+| 5a | the shape of a two-move start: **R2**, then **LIFT-SHAPE⁺** | **R2** (TTC session): two or more receivers ⟹ one move. *Certified at n = 4* (compute/k4-oc1max-cert, PR #114: every failing start has exactly one receiver). At n = 5 the first ~700 pure cores agree. **Lemma R2-G2** (proved): after any chain to a receiver, no junk good is wanted. So R2 reduces to **R2-M**: Lemma M^c's condition with owner x₀. **LIFT-SHAPE⁺:** one receiver z; a canonical P₁ to z with a shared pool pair that leaves z unfrozen; a canonical P₂ to z giving z its favourite good; (L1)–(L3) | R2: certified at n ≤ 4, open in general (R2-M open). LIFT-SHAPE⁺: **certified at n = 4** (K4.MATCH.LIFT.N4; 112,880 starts; at n = 4 only H = ∅ or {z's best junk good} is needed), **REFUTED at n = 5** (K4.MATCH.LIFT; 5_pure#164; `attempts/k4-matching-lift-shape.md` on proof/k4-matching; re-verified by `k4/oc1_hall/liftshape_n5_check.py`). Items 1 and 2 hold there, item 3 fails | TTC session (R2); matching and k4-oc1max-multi (LIFT-SHAPE⁺) |
+| 5b | SHARE₂ (ii), route M (matching) | Lemmas LIFT-red and LIFT-1 (k ≤ 4): under (L1)–(L3), h takes X minus z's best junk good g, and z takes {t, g} | **refereed** (with EX\*). With LIFT-SHAPE⁺, this route closes n = 4 only | matching |
 | 5c | SHARE₂ (ii), route R (multi) | Lemma LIFT deletes k and its pair T; then OC2-REC, the one-move theory in I⁻ | LIFT: **refereed**. OC2-REC: open | k4-oc1max-multi |
 | 5d | a wider single move instead: **OC₁′** (kgen-rounds) | non-end chain agents may also take goods of the end's released base. It repairs every known OC₁ failure in one move. If it holds, leaf 5 merges into leaves 3 and 4 with the wider move | **under test** (certifier, exhaustive at n = 4) | proof/kgen-rounds; compute/k4-oc1max-cert |
 | 6 | three moves needed? | three sharers of one pool pair with no slots | none found. OC₂^max is certified at n ≤ 4, and holds on the first ~700 pure n = 5 cores. A targeted search is running at n = 5–7. OC₁^∃max (some maximum-matching order satisfies OC₁) is certified at n = 4 | compute/k4-oc1max-cert |
@@ -1573,14 +1573,17 @@ Each leaf is a named statement with its status and the session that owns it.
 > perfect start (k ≤ 4, strict) with no one-move repair.
 > - **(i) Shape.** Y has exactly one receiver z. Some dangerous agent k has a canonical chain P₁ to z whose set
 >   H₀ = T ⊆ J ∪ {y_z} is improving for k and for a second dangerous agent (a shared pool danger set).
-> - **(ii) Second move.** At the state B₁ after P₁, some canonical chain P₂ ends at z and gives z its favourite good,
->   and the state after P₂ has a one-absorber completion in which k keeps exactly T.
+> - **(ii) Second move.** After P₁, deleting k and T leaves a perfect SD start of I⁻ = I − k − T. That start has a
+>   one-move repair whose completion does not threaten k (OC2-REC). Lemma LIFT (refereed) lifts it back to I.
+>   - The earlier form of (ii), "some canonical P₂ ends at z and gives z its favourite good" (LIFT-SHAPE⁺ item 3), is
+>     certified at n = 4 but **refuted at n = 5** by 5_pure#164 (below). There, the repairing second moves include
+>     chains vertex-disjoint from P₁ that settle an independent danger set.
 >
 > *How the names map.*
 > - OC2-LIFT (§23.3) is the earlier, weaker form. It follows from (ii), because z then wants nothing, so every DEMAND
 >   agent that z alone froze is unfrozen.
 > - LIFT-EX (matching) is (i) together with (ii), certified by Lemma M at B₂ (route M, LIFT-red then LIFT-1).
-> - OC2-REC (multi) is (ii) certified in I⁻ = I − k − T (route R, Lemma LIFT).
+> - OC2-REC (multi) is (ii), now the only general form; route M covers n = 4.
 > - Both routes produce the same P₂. They differ only in how the final completion is certified.
 
 **The open core at k = 4** (coordinator's summary, 00:00). OC₂^max follows from the proved and written leaves and
@@ -1589,8 +1592,8 @@ three precise lemmas:
    no extra active agents. Open: all-HEAD starts with extra active agents or a third wanter (S2 is false, by S2-X),
    and t ≥ 2.
 2. **R2** (leaf 5a; TTC session). Two or more receivers ⟹ one move.
-3. **SHARE₂** (leaf 5). By route M, what remains is only the shape statement LIFT-SHAPE⁺ (leaf 5a): LIFT-red and
-   LIFT-1 are written. Route R (OC2-REC, leaf 5c) is an alternative. This item is not needed if **OC₁′** (leaf 5d) holds, since then one wider move suffices.
+3. **SHARE₂** (leaf 5). Its second move is OC2-REC (route R, leaf 5c). Route M (LIFT-SHAPE⁺) is certified at n = 4
+   and false at n = 5. This item is not needed if **OC₁′** (leaf 5d) holds, since then one wider move suffices.
 
 Leaves 4d (SLOT) and 4e (RING) of the one-move side are still open as well. They cover starts with one move, which R2
 and LIFT do not touch.
@@ -1630,10 +1633,19 @@ holds a pick.
      Sets [[0,1,2,3],[0,1,4,5],[2,3,4,5]], values [[8,6,4,1],[4,2,8,5],[4,6,8,3]], order (0, 2, 1), picks (0, 5, 4),
      D = {2}, receivers {0, 1}, |J| = 3, which matches Lemma R2-0's bound.
    - At n = 4 the smallest is Q2, picks (3, 7, 5, 4).
-4. **LIFT-SHAPE⁺** (matching; alternatively OC2-REC, `proof/k4-oc1max-multi`).
-   - Statement: at a hard perfect start with no one-move repair, leaf 5a's shape holds, including (L1)–(L3).
-   - Smallest test: 4_n4_3#58 (n = 4, m = 7; §22, cex1).
-   - Certified at n = 4 (K4.MATCH.LIFT.N4). Open for n ≥ 5.
+4. **OC2-REC** (`proof/k4-oc1max-multi`; the matching session is testing it exhaustively).
+   - Statement: at a hard perfect start with no one-move repair, which has one receiver z by item 3, some dangerous k
+     has a canonical chain P₁ to z with a shared pool pair T. The reduced state is then a perfect SD start of
+     I − k − T, and it has a one-move repair whose completion does not threaten k. Lemma LIFT (refereed) lifts it back.
+   - Its explicit n = 4 form LIFT-SHAPE⁺ is certified (K4.MATCH.LIFT.N4), but it is false at n = 5. At 5_pure#164
+     no repairing second chain ends at z with z's favourite good:
+     - sets [[0,2,3,7],[1,2,6,7],[3,4,5,6],[3,4,5,7],[4,5,6,7]], values [[1,8,6,4],[4,8,2,7],[6,7,3,5],[7,10,2,6],[7,5,3,6]],
+       picks (7, 2, 3, 5, 4), junk {0, 1, 6}, holder z = 3;
+     - re-verified here (`liftshape_n5_check.py`, `liftshape_n5_check.log`): no one-move repair, 20 repairing pairs of
+       states, 0 of the exact LIFT-SHAPE⁺ form;
+     - one repair is (2, 3), with agent 2 taking {5, 6}, then (1, 0), with agent 1 taking {1, 7}: two disjoint danger
+       sets settled by two disjoint chains.
+   - Smallest tests: 4_n4_3#58 (n = 4) and 5_pure#164 (n = 5).
 5. **SLOT** (`proof/k4-oc1max-multi`).
    - Statement: either |D_T| ≥ 2, or D_T = ∅ with DEMAND from a second dangerous agent that values Y_z. Then some
      canonical chain from some k ∈ D leaves demands that fit Lemma M's count at B′, with owner k.
