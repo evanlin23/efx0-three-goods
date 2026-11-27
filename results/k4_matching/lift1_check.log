@@ -1,0 +1,4 @@
+$ python3 k4/matching/lift1_check.py | 3190 starts
+LIFT-1 construction raw EFX0 True 12581
+some LIFT-red pair meets (L1)-(L3): True 3190
+time 1 s
