@@ -1,0 +1,15 @@
+$ python3 k4/base_phantom/deadends.py n5partial results/k4_base_phantom/data/two_move_starts_n5_partial6_s50.jsonl.gz 
+distinct starts: 14047
+    10548  a dead end is reachable: False
+     3499  a dead end is reachable: True
+    11311  an infeasible state is reachable: False
+     2736  an infeasible state is reachable: True
+      655  dead end with phantoms: constraint kinds ('l-alone on a base', 'none'), feasible False
+      765  dead end with phantoms: constraint kinds ('l-alone on a base', 'pair'), feasible False
+     5707  dead end with phantoms: constraint kinds ('l-alone on a base',), feasible False
+     2133  dead end with phantoms: constraint kinds ('l-alone on a base',), feasible True
+     5613  dead end: 1 phantoms, 1 rounds, feasible False, base class None
+     2133  dead end: 1 phantoms, 1 rounds, feasible True, base class None
+      462  dead end: 2 phantoms, 1 rounds, feasible False, base class None
+     1052  dead end: 2 phantoms, 2 rounds, feasible False, base class None
+    14047  start repaired by rounds and a completion: True

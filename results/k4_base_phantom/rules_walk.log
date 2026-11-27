@@ -1,0 +1,85 @@
+$ RULES=any,noP1,P1ok,E+noP1,E python3 k4/base_phantom/rules.py walk results/k4_base_phantom/data/multi_oc1_fail_walk.jsonl.gz - 1
+distinct starts: 4955
+  rule           terminal states                               safe  unsafe |   good  not good
+  any            completion                                     1951    3004 |   4955       0
+  any            completion or a base repair <= C0              1951    3004 |   4955       0
+  any            completion or a base repair <= ED              1951    3004 |   4955       0
+  any            completion or a base repair <= C1              1951    3004 |   4955       0
+  any            completion or a base repair <= C3              1951    3004 |   4955       0
+  any            completion, or a final round                   1951    3004 |   4955       0
+  any            completion, or a final round or a base repair <= C0   1951    3004 |   4955       0
+  any            completion, or a final round or a base repair <= ED   1951    3004 |   4955       0
+  any>           completion                                     1951    3004 |   4955       0
+  any>           completion or a base repair <= C0              1951    3004 |   4955       0
+  any>           completion or a base repair <= ED              1951    3004 |   4955       0
+  any>           completion or a base repair <= C1              1951    3004 |   4955       0
+  any>           completion or a base repair <= C3              1951    3004 |   4955       0
+  any>           completion, or a final round                   1951    3004 |   4955       0
+  any>           completion, or a final round or a base repair <= C0   1951    3004 |   4955       0
+  any>           completion, or a final round or a base repair <= ED   1951    3004 |   4955       0
+  noP1           completion                                     4955       0 |   4955       0
+  noP1           completion or a base repair <= C0              4955       0 |   4955       0
+  noP1           completion or a base repair <= ED              4955       0 |   4955       0
+  noP1           completion or a base repair <= C1              4955       0 |   4955       0
+  noP1           completion or a base repair <= C3              4955       0 |   4955       0
+  noP1           completion, or a final round                   4955       0 |   4955       0
+  noP1           completion, or a final round or a base repair <= C0   4955       0 |   4955       0
+  noP1           completion, or a final round or a base repair <= ED   4955       0 |   4955       0
+  noP1>          completion                                     4955       0 |   4955       0
+  noP1>          completion or a base repair <= C0              4955       0 |   4955       0
+  noP1>          completion or a base repair <= ED              4955       0 |   4955       0
+  noP1>          completion or a base repair <= C1              4955       0 |   4955       0
+  noP1>          completion or a base repair <= C3              4955       0 |   4955       0
+  noP1>          completion, or a final round                   4955       0 |   4955       0
+  noP1>          completion, or a final round or a base repair <= C0   4955       0 |   4955       0
+  noP1>          completion, or a final round or a base repair <= ED   4955       0 |   4955       0
+  P1ok           completion                                     4955       0 |   4955       0
+  P1ok           completion or a base repair <= C0              4955       0 |   4955       0
+  P1ok           completion or a base repair <= ED              4955       0 |   4955       0
+  P1ok           completion or a base repair <= C1              4955       0 |   4955       0
+  P1ok           completion or a base repair <= C3              4955       0 |   4955       0
+  P1ok           completion, or a final round                   4955       0 |   4955       0
+  P1ok           completion, or a final round or a base repair <= C0   4955       0 |   4955       0
+  P1ok           completion, or a final round or a base repair <= ED   4955       0 |   4955       0
+  P1ok>          completion                                     4955       0 |   4955       0
+  P1ok>          completion or a base repair <= C0              4955       0 |   4955       0
+  P1ok>          completion or a base repair <= ED              4955       0 |   4955       0
+  P1ok>          completion or a base repair <= C1              4955       0 |   4955       0
+  P1ok>          completion or a base repair <= C3              4955       0 |   4955       0
+  P1ok>          completion, or a final round                   4955       0 |   4955       0
+  P1ok>          completion, or a final round or a base repair <= C0   4955       0 |   4955       0
+  P1ok>          completion, or a final round or a base repair <= ED   4955       0 |   4955       0
+  E+noP1         completion                                     4955       0 |   4955       0
+  E+noP1         completion or a base repair <= C0              4955       0 |   4955       0
+  E+noP1         completion or a base repair <= ED              4955       0 |   4955       0
+  E+noP1         completion or a base repair <= C1              4955       0 |   4955       0
+  E+noP1         completion or a base repair <= C3              4955       0 |   4955       0
+  E+noP1         completion, or a final round                   4955       0 |   4955       0
+  E+noP1         completion, or a final round or a base repair <= C0   4955       0 |   4955       0
+  E+noP1         completion, or a final round or a base repair <= ED   4955       0 |   4955       0
+  E+noP1>        completion                                     4955       0 |   4955       0
+  E+noP1>        completion or a base repair <= C0              4955       0 |   4955       0
+  E+noP1>        completion or a base repair <= ED              4955       0 |   4955       0
+  E+noP1>        completion or a base repair <= C1              4955       0 |   4955       0
+  E+noP1>        completion or a base repair <= C3              4955       0 |   4955       0
+  E+noP1>        completion, or a final round                   4955       0 |   4955       0
+  E+noP1>        completion, or a final round or a base repair <= C0   4955       0 |   4955       0
+  E+noP1>        completion, or a final round or a base repair <= ED   4955       0 |   4955       0
+  E              completion                                     1951    3004 |   4955       0
+  E              completion or a base repair <= C0              1951    3004 |   4955       0
+  E              completion or a base repair <= ED              1951    3004 |   4955       0
+  E              completion or a base repair <= C1              1951    3004 |   4955       0
+  E              completion or a base repair <= C3              1951    3004 |   4955       0
+  E              completion, or a final round                   1951    3004 |   4955       0
+  E              completion, or a final round or a base repair <= C0   1951    3004 |   4955       0
+  E              completion, or a final round or a base repair <= ED   1951    3004 |   4955       0
+  E>             completion                                     1951    3004 |   4955       0
+  E>             completion or a base repair <= C0              1951    3004 |   4955       0
+  E>             completion or a base repair <= ED              1951    3004 |   4955       0
+  E>             completion or a base repair <= C1              1951    3004 |   4955       0
+  E>             completion or a base repair <= C3              1951    3004 |   4955       0
+  E>             completion, or a final round                   1951    3004 |   4955       0
+  E>             completion, or a final round or a base repair <= C0   1951    3004 |   4955       0
+  E>             completion, or a final round or a base repair <= ED   1951    3004 |   4955       0
+  unsafe under noP1 or noP1> with base ED, 0 cases; smallest:
+  unsafe under P1ok or P1ok> with base ED, 0 cases; smallest:
