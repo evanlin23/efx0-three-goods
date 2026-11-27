@@ -1172,8 +1172,23 @@ perfect start with |U| ≥ 2, one of the following holds:
 - *Neither (S) nor (L) repairs.* The R2-C repairs are (1, 2, 0) and (3, 0, 2). They pass a middle receiver, and the
   end needs junk to improve: in (1, 2, 0), agent 0 takes g6 + g0 = 8 > 7, and the head 1 takes {g2, g5}.
 - *A third shape,* then: through a middle receiver to a receiver, with junk at the end or at the middle receiver.
-- So the shapes of R2-C repairs do not reduce to a two-case lemma. The certifier is computing exact counts of (S) and
-  of "(S) or (L)" over all 1,002 cores, and the junk positions of the remaining repairs.
+- So the shapes of R2-C repairs do not reduce to a two-case lemma.
+
+**The counts at n = 4** (certifier, 03:11, commit bb9f102d on `compute/k4-oc1max-cert`, PR #120; `check_4_r2sl.log`,
+`r2sl_fails_n4.jsonl`, `verify_r2sl_fails_n4.log`):
+
+| form | cores failing (of 1,002) |
+|---|---|
+| (S) | 273 |
+| (S) or (L) | 48 (954 certified) |
+
+- *At the 48 recorded failures* (one start per core):
+  - every one has an **(E)** repair: the end x_t takes junk, no middle agent takes junk, and the chain passes a middle
+    receiver;
+  - 35 also have a repair in which the end and a middle receiver both take junk;
+  - none has an (S) or (L) repair.
+- *The candidate case list is therefore (S), (L), (E).* It covers the recorded starts, but that is one start per core,
+  not every start. The full census over every (S)-failing start is running at the certifier.
 
 *Evidence for (S) alone (sampled):*
 - (S) holds at 79/79 hard |U| ≥ 2 starts in the n = 4 walk (`r2c_shape_walk_n4.log`), at 466/466 in the n = 6
