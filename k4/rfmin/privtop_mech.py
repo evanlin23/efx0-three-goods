@@ -2,7 +2,9 @@
 t be u's old top and x1 its holder (Y_x1 = t). Checks: (i) before the lift u wants t; (ii) who else wants t (if nobody,
 x1 is unfrozen after the lift); (iii) whether the lifted picks have a one-absorber completion in which x1 takes junk,
 and one in which x1 takes none; (iv) whether the unlifted picks have a completion at all (they must not: OC1 fails).
-Usage: privtop_mech.py FILE.json.gz STRIDE"""
+Modes: x1 (default; the checks above), threats (every lifted completion read in the original values: which bundle
+threatens u), owner (is there a lifted completion with absorber u).
+Usage: privtop_mech.py FILE.json.gz STRIDE [x1|threats|owner]"""
 import sys, os, gzip, json, collections, itertools
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'sdc'))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -54,19 +56,17 @@ def job(args):
             C['lifted: completion with x1 taking junk %s, without %s' % (a, b)] += 1
     return C
 
-if __name__ == '__main__':
+def main():
     path, stride = sys.argv[1], int(sys.argv[2])
-    d = json.load(gzip.open(path))
-    tasks = []
-    for H in d['hypergraphs']:
-        deg = collections.Counter(g for S in H['sets'] for g in S)
-        st = [s for s in H['starts'] if any(s['picks'][u] is not None and deg[s['picks'][u]] == 1 for u in s['receivers'])][::stride]
-        for i in range(0, len(st), 50): tasks.append((H['sets'], st[i:i + 50]))
+    mode = sys.argv[3] if len(sys.argv) > 3 else 'x1'
+    fn = {'x1': job, 'threats': job2, 'owner': job3}[mode]
     T = collections.Counter()
     with Pool(4) as pool:
-        for C in pool.imap_unordered(job, tasks): T.update(C)
-    print(path, 'stride', stride)
+        for C in pool.imap_unordered(fn, tasks_of(path, stride, 20)): T.update(C)
+    print(path, 'stride', stride, 'mode', mode)
     for k, x in sorted(T.items()): print('  %-70s %d' % (k, x))
+
+
 
 
 def first_completion(I, base):
@@ -113,5 +113,33 @@ def job2(args):
     return C
 
 
-if __name__ == '__main__' and len(sys.argv) > 3 and sys.argv[3] == 'threats':
-    pass
+
+def job3(args):
+    """Is there a lifted completion whose absorber is u, the private-top agent after the lift?"""
+    sets, starts = args
+    C = collections.Counter()
+    for s in starts:
+        Y = s['picks']
+        deg = collections.Counter(g for S in sets for g in S)
+        for u in s['receivers']:
+            p = Y[u]
+            if p is None or deg[p] != 1: continue
+            vals = [list(v) for v in s['vals']]; k = sets[u].index(p); vals[u] = lift(vals[u], k)
+            I1 = Inst(sets, vals); base = [[g] if g is not None else [] for g in Y]
+            owners = set(a for a, B in itertools.islice(first_completion(I1, base), 5000))
+            C['completion with absorber u (the private-top agent) exists' if u in owners else 'no completion with absorber u'] += 1
+    return C
+
+
+def tasks_of(path, stride, chunk):
+    d = json.load(gzip.open(path))
+    out = []
+    for H in d['hypergraphs']:
+        deg = collections.Counter(g for S in H['sets'] for g in S)
+        st = [s for s in H['starts'] if any(s['picks'][u] is not None and deg[s['picks'][u]] == 1 for u in s['receivers'])][::stride]
+        for i in range(0, len(st), chunk): out.append((H['sets'], st[i:i + chunk]))
+    return out
+
+
+if __name__ == '__main__':
+    main()

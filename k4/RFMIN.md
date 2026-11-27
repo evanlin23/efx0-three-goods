@@ -252,15 +252,16 @@ Closing it needs the exact one-absorber completability count (the Hall session's
   1,297 maximum-matching pick vectors; 1,294 complete at the picks, 3 after one move, none fail. Random cores rarely fail
   OC₁ at all, so this is weak.
 
-**The lift test, read on the completions** (`k4/rfmin/privtop_mech.py`; samples of the partial6 lifted starts).
+**The lift test, read on the completions** (`k4/rfmin/privtop_mech.py`, `results/k4_rfmin/privtop_mech.log`; samples of the
+partial6 lifted starts).
 - *The first guess is wrong.* The guess was that u's wish freezes the holder x₁ of u's old top t, and that the lift frees
   x₁.
   - At all 1,191 sampled starts (every 20th), t is also wanted by another agent, so x₁ stays frozen after the lift.
   - At 949 of them, no lifted completion gives x₁ any junk; a completion in which x₁ takes none always exists.
 - *What the lift frees.* Only u's valuation changes, so a lifted completion fails in the original values only through u's
-  own safety. At all 240 sampled starts (every 100th), some lifted completion is blocked in the original values by
-  exactly one kind of bundle: a single-junk bundle {g, j}, where g is a good u ranks above its private pick (u's top in 45
-  of them, another such good otherwise).
+  own safety. At all 240 sampled starts (every 100th), some lifted completion is blocked in the original values only by
+  a single-junk bundle {g, j}, where g is a good u ranks above its private pick other than its top. At 45 of them, other
+  lifted completions are blocked by u's top in a single-junk bundle, or by the absorber's bundle.
   - So u's wishes freeze, for junk, the holders of every good u ranks above its private pick.
   - The lift frees those holders as parking slots.
 - *The owner is the private-top agent itself.* At all 478 sampled lifted starts (every 50th), a lifted completion with
@@ -337,7 +338,8 @@ python3 absorb.py data N4 N5P6 N5S2                         # the stored failing
 python3 census.py N4 N5P6 N5S2; python3 classes.py N4; python3 classes.py N5P6 N5S2     # §4, ~30 min for n = 5
 python3 privtop_lift.py N5P6 1; python3 privtop_lift.py N5S2 10                     # §6 lift test, ~10 min
 python3 privtop_random.py 400 7 4 6                                                 # §6 random private-top cores, ~5 min
-python3 privtop_mech.py N5P6 20                                                     # §6 lift mechanism (x1), ~10 min
+python3 privtop_mech.py N5P6 20 x1; python3 privtop_mech.py N5P6 100 threats; python3 privtop_mech.py N5P6 50 owner
+                                                                                    # §6 lift mechanism, ~15 min
 python3 privtop_gap.py 20000 13 4 6                                                 # §6 the starts needing a move, ~20 min
 cd ..; for b in 5 6 7 8 9; do python3 twins_count.py 6 $b --mc9 --write=../results/k4_rfmin/mc_n6_b${b}_mc9.json.gz; done
 ```
