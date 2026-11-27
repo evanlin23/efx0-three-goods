@@ -858,8 +858,11 @@ order facts about Y: d wants p's pick; nobody off the path wants d's pick; and Y
 `results/k4_girth_oc1_sink.log`). At every RF start with maximum-matching picks, Y′ or the state after one DEMOTE move
 ((T)/(T\*) or (C)/(C′)) has a complete EFX₀ allocation in which **all remaining junk goes to one agent a ∈ {w, d},
 except at most one junk good, which goes to one other agent**. It holds at all 161,520 distinct n = 4 RF starts and at
-all 121,217 starts of the n = 5 classes DEMOTE-0 and (1, 3), with no exception. oc1-hall finds it on a 6,220-start
-sample of n = 5 DEMOTE-2 with an official chain k → d. It covers RF-A1 (absorber w, sink d), RF-B (absorber d), Lemma
+all 121,217 starts of the n = 5 classes DEMOTE-0 and (1, 3), with no exception. oc1-hall finds it at **all 140,111
+n = 5 DEMOTE-2 starts**, 0 exceptions (`k4/oc1_hall/rf_sink.py`, `results/k4_oc1_hall/rf_sink.log`, §24.11 on
+`claude/k4-oc1-hall`; [unverified]: relayed, not re-run here): 6,327 at Y′, 128,074 after (C) with H₀ ⊆ S, 5,710 after
+(C′) to a frozen head; the absorber is always w or d. So SINK is exception-free on all n = 4 RF starts and on the
+n = 5 residue classes (1, 0), (1, 2), (1, 3). It covers RF-A1 (absorber w, sink d), RF-B (absorber d), Lemma
 RF-T (d absorbs the one good Y_u, sink x_{ℓ−1}) and the (1, 3) form (absorber d, sink w, or the reverse).
 
 **Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every

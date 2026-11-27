@@ -7,6 +7,7 @@ Checked (raw EFX0, k4/sdc/oc1_mc2_rand.Inst) on every distinct RF start of the c
 residue classes DEMOTE-0 and (1, 3) of the full exports (RESIDUE.jsonl.gz from k4/girth/oc1_residue_n5.py).
 
     python3 k4/girth/oc1_sink.py RESIDUE.jsonl.gz [JOBS]
+    python3 k4/girth/oc1_sink.py stream EXPORT1 EXPORT2 ... STRIDE JOBS   (n = 5 R2 and U1 classes, every STRIDE-th start)
 """
 import collections
 import gzip
@@ -155,7 +156,65 @@ def job_n5(lines):
     return C, fails
 
 
+def job_stream(task):
+    """n = 5 exports, streaming: every start of the chunk (every STRIDE-th), every listed order, every receiver; SINK
+    on the R2 and U1 classes"""
+    name, sets, starts, stride = task
+    n = len(sets)
+    R = [set(s) for s in sets]
+    C = collections.Counter()
+    fails = []
+    seen = set()
+    for t, st in enumerate(starts):
+        if t % stride:
+            continue
+        vals = st['vals']
+        v = [dict(zip(sets[i], vals[i])) for i in range(n)]
+        Y = tuple(st['picks'])
+        rl, J = roles(sets, vals, list(Y))
+        recv = [i for i in range(n) if rl[i] == 'U']
+        for o in st['orders']:
+            for u in recv:
+                Y2 = sd(R, v, [u] + [a for a in o if a != u])
+                key = (tuple(map(tuple, vals)), Y2)
+                if None in Y2 or key in seen:
+                    continue
+                seen.add(key)
+                rl2, _ = roles(sets, vals, list(Y2))
+                if not (rl2.count('U') >= 2 or rl2.count('DT') == 1):
+                    continue
+                cls, verdict = check(sets, vals, Y, Y2, u, path_from(Y, Y2, J, u))
+                C[('n=5', cls, verdict)] += 1
+                if verdict == 'FAILS' and len(fails) < 3:
+                    fails.append((name, sets, vals, Y, Y2))
+    return C, fails
+
+
+def main_stream(exports, stride, jobs):
+    tasks = []
+    for f in exports:
+        d = json.load(gzip.open(f))
+        for h in d['hypergraphs']:
+            for i in range(0, len(h['starts']), 2000):
+                tasks.append(('%s#%d' % (h['list'], h['idx']), h['sets'], h['starts'][i:i + 2000], stride))
+    C = collections.Counter()
+    F = []
+    with mp.Pool(jobs) as pool:
+        for c, f in pool.imap_unordered(job_stream, tasks):
+            C.update(c)
+            F += f
+    for k in sorted(C):
+        print('   %-6s %-10s %-34s %8d' % (k[0], k[1], k[2], C[k]))
+    for f in F[:5]:
+        print('SINK FAILS at', f)
+    sys.stdout.flush()
+
+
 def main():
+    if sys.argv[1] == 'stream':
+        print('$ python3 k4/girth/oc1_sink.py stream', *[os.path.basename(a) for a in sys.argv[2:]], flush=True)
+        main_stream(sys.argv[2:-2], int(sys.argv[-2]), int(sys.argv[-1]))
+        return
     inp = sys.argv[1]
     jobs = int(sys.argv[2]) if len(sys.argv) > 2 else 2
     print('$ python3 k4/girth/oc1_sink.py', os.path.basename(inp), jobs, flush=True)
