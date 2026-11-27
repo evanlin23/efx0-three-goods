@@ -1,0 +1,33 @@
+# negative test: the canonical-chain checker on the OC1^max certificate (additions, chains with junk receivers, rings allowed), which it must reject where those were used
+[k4/p3/can2cert.py check: k4/oc1cert/check.py with moves restricted to canonical chains]
+$ python3 k4/oc1cert/check.py results/k4_p3x/cert_23_mg.json.gz
+own types: {3: 6, 4: 288}
+certificate results/k4_p3x/cert_23_mg.json.gz hypergraphs 26 not certified (failures found, not checked here) 0
+NOT COVERED 2_mg 2 {"uncovered": true, "picks": [0, 1], "vals": [[4, 8, 2, 3], [4, 2, 3]], "order": [1, 0]}
+NOT COVERED 2_mg 5 {"uncovered": true, "picks": [2, 3], "vals": [[1, 8, 4, 6], [2, 8, 4, 3]], "order": [0, 1]}
+NOT COVERED 3_mg 0 {"uncovered": true, "picks": [2, 4, 3], "vals": [[2, 3, 4], [2, 3, 4], [2, 3, 4]], "order": [0, 1, 2]}
+NOT COVERED 3_mg 1 {"uncovered": true, "picks": [0, 1, 2], "vals": [[3, 6, 10, 2], [2, 4, 3], [4, 2, 3]], "order": [2, 1, 0]}
+NOT COVERED 3_mg 2 {"uncovered": true, "picks": [1, 2, 3], "vals": [[1, 4, 6, 8], [4, 2, 3], [4, 2, 3]], "order": [1, 2, 0]}
+NOT COVERED 3_mg 4 {"uncovered": true, "picks": [0, 2, 3], "vals": [[3, 6, 10, 2], [2, 4, 3], [4, 2, 3]], "order": [1, 2, 0]}
+NOT COVERED 3_mg 5 {"uncovered": true, "picks": [2, 5, 3], "vals": [[2, 4, 3], [2, 3, 4], [6, 3, 2, 10]], "order": [0, 1, 2]}
+NOT COVERED 3_mg 6 {"uncovered": true, "picks": [0, 1, 5], "vals": [[4, 2, 3, 8], [7, 3, 5, 6], [2, 3, 4]], "order": [2, 0, 1]}
+NOT COVERED 3_mg 7 {"uncovered": true, "picks": [0, 1, 5], "vals": [[4, 2, 3], [7, 3, 5, 6], [8, 2, 3, 4]], "order": [0, 1, 2]}
+NOT COVERED 3_mg 8 {"uncovered": true, "picks": [0, 1, 2], "vals": [[7, 3, 5, 6], [8, 4, 2, 3], [7, 3, 5, 6]], "order": [0, 1, 2]}
+NOT COVERED 3_mg 9 {"uncovered": true, "picks": [0, 2, 3], "vals": [[4, 2, 8, 3], [7, 3, 5, 6], [8, 1, 4, 6]], "order": [1, 0, 2]}
+NOT COVERED 3_mg 10 {"uncovered": true, "picks": [0, 4, 5], "vals": [[3, 2, 6, 10], [2, 4, 3], [2, 4, 3]], "order": [1, 2, 0]}
+NOT COVERED 3_mg 11 {"uncovered": true, "picks": [0, 3, 6], "vals": [[4, 2, 8, 3], [3, 7, 5, 6], [2, 3, 4]], "order": [1, 0, 2]}
+NOT COVERED 3_mg 12 {"uncovered": true, "picks": [4, 1, 3], "vals": [[1, 4, 8, 6], [4, 2, 3], [4, 8, 2, 3]], "order": [0, 1, 2]}
+NOT COVERED 3_mg 13 {"uncovered": true, "picks": [0, 1, 5], "vals": [[4, 2, 3, 8], [7, 5, 6, 3], [2, 4, 3]], "order": [2, 0, 1]}
+NOT COVERED 3_mg 14 {"uncovered": true, "picks": [0, 3, 2], "vals": [[7, 3, 5, 6], [2, 8, 4, 7], [4, 8, 2, 3]], "order": [0, 1, 2]}
+NOT COVERED 3_mg 15 {"uncovered": true, "picks": [0, 5, 4], "vals": [[7, 3, 5, 6], [2, 7, 8, 4], [4, 8, 2, 3]], "order": [0, 1, 2]}
+NOT COVERED 3_mg 16 {"uncovered": true, "picks": [0, 5, 6], "vals": [[3, 2, 6, 10], [4, 2, 8, 7], [2, 4, 3]], "order": [1, 2, 0]}
+NOT COVERED 3_mg 17 {"uncovered": true, "picks": [0, 4, 5], "vals": [[4, 2, 8, 3], [2, 8, 4, 7], [5, 7, 6, 3]], "order": [1, 0, 2]}
+NOT COVERED 3_mg 18 {"uncovered": true, "picks": [0, 1, 8], "vals": [[8, 1, 4, 6], [4, 2, 3, 8], [1, 4, 6, 8]], "order": [2, 1, 0]}
+NOT COVERED 20
+covered 6
+maximum matchings checked 694
+type classes (sum over matchings and agents) 381
+witnesses applicable (sum over matchings) 190
+slowest hypergraph 0.05 s
+time 0 s
+RESULT FAILED
