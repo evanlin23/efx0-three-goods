@@ -1,0 +1,23 @@
+$ python3 kgen/rounds/stress.py named
+PW5-lift n 5 m 9 EFX allocations 186 starts 19 need chain (A1) 7 one chain fails 1 one round fails 0 min RND1 58
+PW(3,2,5)-lift n 5 m 10 EFX allocations 858 starts 19 need chain (A1) 11 one chain fails 0 one round fails 0 min RND1 292
+PW(4,2,5)-lift n 6 m 11 EFX allocations 4040 starts 33 need chain (A1) 15 one chain fails 1 one round fails 0 min RND1 949
+PW(4,3,5)-lift n 7 m 12 EFX allocations 7092 starts 229 need chain (A1) 13 one chain fails 1 one round fails 0 min RND1 435
+RD5-lift n 4 m 7 EFX allocations 26 starts 10 need chain (A1) 4 one chain fails 0 one round fails 0 min RND1 2
+kgenN4-lift n 4 m 8 EFX allocations 127 starts 6 need chain (A1) 5 one chain fails 1 one round fails 0 min RND1 63
+kgenN4ties-lift n 4 m 7 EFX allocations 30 starts 6 need chain (A1) 2 one chain fails 0 one round fails 0 min RND1 12
+CGM-barrier-lift n 3 m 7 EFX allocations 21 starts 3 need chain (A1) 1 one chain fails 0 one round fails 0 min RND1 15
+GM4-A-lift n 4 m 7 EFX allocations 16 starts 5 need chain (A1) 0 one chain fails 0 one round fails 0 min RND1 1
+GM4-B-lift n 4 m 7 EFX allocations 23 starts 7 need chain (A1) 1 one chain fails 0 one round fails 0 min RND1 3
+GM4-C-lift n 4 m 7 EFX allocations 14 starts 5 need chain (A1) 0 one chain fails 0 one round fails 0 min RND1 1
+GM4-D-lift n 4 m 7 EFX allocations 14 starts 5 need chain (A1) 0 one chain fails 0 one round fails 0 min RND1 1
+GM4-E-lift n 4 m 7 EFX allocations 15 starts 5 need chain (A1) 0 one chain fails 0 one round fails 0 min RND1 1
+GM4-G-lift n 4 m 7 EFX allocations 16 starts 5 need chain (A1) 0 one chain fails 0 one round fails 0 min RND1 1
+tops3-m8 n 3 m 8 EFX allocations 420 starts 1 need chain (A1) 1 one chain fails 0 one round fails 0 min RND1 360
+tops3-m9 n 3 m 9 EFX allocations 1680 starts 1 need chain (A1) 1 one chain fails 0 one round fails 0 min RND1 1620
+tops3-m10 n 3 m 10 EFX allocations 4200 starts 1 need chain (A1) 1 one chain fails 0 one round fails 0 min RND1 3990
+tops4-m8 n 4 m 8 EFX allocations 2520 starts 1 need chain (A1) 0 one chain fails 0 one round fails 0 min RND1 1152
+tops4-m9 n 4 m 9 EFX allocations 7200 starts 1 need chain (A1) 0 one chain fails 0 one round fails 0 min RND1 3120
+tops4-m10 n 4 m 10 EFX allocations 20160 starts 1 need chain (A1) 1 one chain fails 0 one round fails 0 min RND1 11520
+tops4-m11 n 4 m 11 EFX allocations 67200 starts 1 need chain (A1) 1 one chain fails 0 one round fails 0 min RND1 55440
+time 0 s

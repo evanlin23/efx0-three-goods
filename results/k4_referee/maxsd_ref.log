@@ -1,0 +1,6 @@
+{"source": "SDPO/MAXSD/MAX N=4000 n=2..5 m=2..7 ties=False seed=1", "instances": 4000, "sdpo_fail": 0, "sd_not_po": 0, "po_not_sd": 0, "maxsd_fail": 0, "max_starts": 12914, "max_fail": 0}
+{"source": "SDPO/MAXSD/MAX N=500 n=6..6 m=4..8 ties=False seed=2", "instances": 500, "sdpo_fail": 0, "sd_not_po": 0, "po_not_sd": 0, "maxsd_fail": 0, "max_starts": 4933, "max_fail": 0}
+{"source": "SDPO/MAXSD/MAX N=2000 n=2..5 m=2..7 ties=True seed=3", "instances": 2000, "sdpo_fail": 1105, "sd_not_po": 1714, "po_not_sd": 1018, "maxsd_fail": 0, "max_starts": 6858, "max_fail": 0}
+EXAMPLE ('SDPO', [[0, 0, 2, 0, 3, 0], [0, 0, 0, 0, 1, 0], [3, 3, 3, 0, 2, 0]], [], [(2, 4, 1), (4, None, 1)])
+EXAMPLE ('SDPO', [[0, 3, 0, 0, 2], [1, 0, 0, 0, 0], [0, 0, 1, 0, 0], [0, 0, 3, 2, 2], [1, 1, 2, 2, 0]], [(1, 0, 2, 3, None), (1, 0, None, 3, 2)], [])
+EXAMPLE ('SDPO', [[0, 0, 0, 3, 2, 0, 3], [3, 3, 3, 0, 2, 0, 0], [0, 0, 3, 0, 0, 3, 0], [0, 0, 0, 0, 0, 3, 0], [0, 0, 0, 0, 2, 2, 0]], [], [(3, 1, 2, 5, 4), (6, 0, 2, 5, 4)])

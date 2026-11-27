@@ -1,0 +1,14 @@
+$ python3 k4/sdc/oc1_core_cex_verify.py B< orders
+B< sets [[0, 2, 3, 1], [6, 4, 5, 9], [1, 2, 3, 9], [1, 6, 7, 8], [3, 6, 9], [1, 3, 6, 9]] vals [[6, 14, 16, 12], [4, 18, 12, 28], [28, 4, 16, 21], [16, 14, 12, 6], [28, 8, 24], [20, 30, 8, 4]] m 10
+core failures: none (strict connected k = 4 core)
+private goods: {0: [0], 1: [4, 5], 2: [], 3: [7, 8], 4: [], 5: []}
+order 0..5: picks (3, 9, 1, 6, None, None) | moves 57 | OC1 fails
+distinct pick vectors 35 | orders: {'OC1 fails': 24, 'one move repairs': 383, 'picks complete': 313}
+  fails: picks (3, 9, 1, 6, None, None) orders 24 moves 57
+$ python3 k4/sdc/oc1_core_cex_verify.py B> orders
+B> sets [[0, 2, 3, 1], [6, 4, 5, 9], [1, 2, 3, 9], [1, 6, 7, 8], [3, 6, 9], [1, 3, 6, 9]] vals [[6, 14, 16, 12], [4, 18, 12, 28], [28, 4, 16, 19], [16, 14, 12, 6], [28, 8, 24], [20, 30, 8, 4]] m 10
+core failures: none (strict connected k = 4 core)
+private goods: {0: [0], 1: [4, 5], 2: [], 3: [7, 8], 4: [], 5: []}
+order 0..5: picks (3, 9, 1, 6, None, None) | moves 57 | OC1 fails
+distinct pick vectors 35 | orders: {'OC1 fails': 24, 'one move repairs': 383, 'picks complete': 313}
+  fails: picks (3, 9, 1, 6, None, None) orders 24 moves 57

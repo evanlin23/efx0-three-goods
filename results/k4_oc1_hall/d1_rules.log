@@ -1,0 +1,235 @@
+$ python3 k4/oc1_hall/d1_rules.py special
+  |F|=4 |W_k|=1 5
+  |F|=4 |W_k|=1: rule ED-ALL works 5
+  |F|=4 |W_k|=1: rule ED-ANY works 5
+  |F|=4 |W_k|=1: rule ED-MIN works 5
+  |F|=4 |W_k|=1: rule ED-MIN-OR-ALL works 5
+  |F|=4 |W_k|=1: rule SWAP-ALL works 5
+  |F|=4 |W_k|=1: rule SWAP-MIN works 5
+one-absorber-hard starts with |D| = 1 5
+rule ED-ALL works 5
+rule ED-ANY works 5
+rule ED-MIN works 5
+rule ED-MIN-OR-ALL works 5
+rule SWAP-ALL works 5
+rule SWAP-MIN works 5
+time 0 s
+$ python3 k4/oc1_hall/d1_rules.py screen
+  |F|=1 |W_k|=1 4
+  |F|=1 |W_k|=1: rule ED-ALL works 4
+  |F|=1 |W_k|=1: rule ED-ANY works 4
+  |F|=1 |W_k|=1: rule ED-MIN works 4
+  |F|=1 |W_k|=1: rule ED-MIN-OR-ALL works 4
+  |F|=1 |W_k|=1: rule SWAP-ALL works 4
+  |F|=1 |W_k|=1: rule SWAP-MIN works 4
+  |F|=1 |W_k|=2 2
+  |F|=1 |W_k|=2: rule ED-ALL works 2
+  |F|=1 |W_k|=2: rule ED-ANY works 2
+  |F|=1 |W_k|=2: rule ED-MIN works 2
+  |F|=1 |W_k|=2: rule ED-MIN-OR-ALL works 2
+  |F|=1 |W_k|=2: rule SWAP-ALL works 2
+  |F|=1 |W_k|=2: rule SWAP-MIN works 2
+  |F|=2 |W_k|=1 8
+  |F|=2 |W_k|=1: rule ED-ALL works 8
+  |F|=2 |W_k|=1: rule ED-ANY works 8
+  |F|=2 |W_k|=1: rule ED-MIN works 8
+  |F|=2 |W_k|=1: rule ED-MIN-OR-ALL works 8
+  |F|=2 |W_k|=1: rule SWAP-ALL works 8
+  |F|=2 |W_k|=1: rule SWAP-MIN works 8
+one-absorber-hard starts with |D| = 1 14
+rule ED-ALL works 14
+rule ED-ANY works 14
+rule ED-MIN works 14
+rule ED-MIN-OR-ALL works 14
+rule SWAP-ALL works 14
+rule SWAP-MIN works 14
+time 0 s
+$ python3 k4/oc1_hall/d1_rules.py suite
+  |F|=1 |W_k|=1 4
+  |F|=1 |W_k|=1: rule ED-ALL works 4
+  |F|=1 |W_k|=1: rule ED-ANY works 4
+  |F|=1 |W_k|=1: rule ED-MIN works 4
+  |F|=1 |W_k|=1: rule ED-MIN-OR-ALL works 4
+  |F|=1 |W_k|=1: rule SWAP-ALL works 4
+  |F|=1 |W_k|=1: rule SWAP-MIN works 4
+  |F|=1 |W_k|=2 2
+  |F|=1 |W_k|=2: rule ED-ALL works 2
+  |F|=1 |W_k|=2: rule ED-ANY works 2
+  |F|=1 |W_k|=2: rule ED-MIN works 2
+  |F|=1 |W_k|=2: rule ED-MIN-OR-ALL works 2
+  |F|=1 |W_k|=2: rule SWAP-ALL works 2
+  |F|=1 |W_k|=2: rule SWAP-MIN works 2
+  |F|=2 |W_k|=1 8
+  |F|=2 |W_k|=1: rule ED-ALL works 8
+  |F|=2 |W_k|=1: rule ED-ANY works 8
+  |F|=2 |W_k|=1: rule ED-MIN works 8
+  |F|=2 |W_k|=1: rule ED-MIN-OR-ALL works 8
+  |F|=2 |W_k|=1: rule SWAP-ALL works 8
+  |F|=2 |W_k|=1: rule SWAP-MIN works 8
+one-absorber-hard starts with |D| = 1 14
+rule ED-ALL works 14
+rule ED-ANY works 14
+rule ED-MIN works 14
+rule ED-MIN-OR-ALL works 14
+rule SWAP-ALL works 14
+rule SWAP-MIN works 14
+time 0 s
+$ python3 k4/oc1_hall/d1_rules.py logs
+RULE ED-ALL FAILS (ED-ANY works) log558 [[[0, 3, 6, 7], [1, 4, 6, 7], [2, 5, 8], [3, 4, 5, 8]], [[8, 1, 6, 4], [4, 8, 3, 2], [4, 2, 3], [5, 8, 6, 4]]] picks (0, 1, 2, 4) k 3 |F|=1 |W_k|=1
+  |F|=1 |W_k|=1 14
+  |F|=1 |W_k|=1: rule ED-ALL works 13
+  |F|=1 |W_k|=1: rule ED-ANY works 14
+  |F|=1 |W_k|=1: rule ED-MIN works 14
+  |F|=1 |W_k|=1: rule ED-MIN-OR-ALL works 14
+  |F|=1 |W_k|=1: rule SWAP-ALL works 13
+  |F|=1 |W_k|=1: rule SWAP-MIN works 14
+  |F|=1 |W_k|=2 3
+  |F|=1 |W_k|=2: rule ED-ALL works 3
+  |F|=1 |W_k|=2: rule ED-ANY works 3
+  |F|=1 |W_k|=2: rule ED-MIN works 3
+  |F|=1 |W_k|=2: rule ED-MIN-OR-ALL works 3
+  |F|=1 |W_k|=2: rule SWAP-ALL works 3
+  |F|=1 |W_k|=2: rule SWAP-MIN works 3
+  |F|=2 |W_k|=1 31
+  |F|=2 |W_k|=1: rule ED-ALL works 31
+  |F|=2 |W_k|=1: rule ED-ANY works 31
+  |F|=2 |W_k|=1: rule ED-MIN works 31
+  |F|=2 |W_k|=1: rule ED-MIN-OR-ALL works 31
+  |F|=2 |W_k|=1: rule SWAP-ALL works 28
+  |F|=2 |W_k|=1: rule SWAP-MIN works 29
+  |F|=2 |W_k|=2 13
+  |F|=2 |W_k|=2: rule ED-ALL works 13
+  |F|=2 |W_k|=2: rule ED-ANY works 13
+  |F|=2 |W_k|=2: rule ED-MIN works 13
+  |F|=2 |W_k|=2: rule ED-MIN-OR-ALL works 13
+  |F|=2 |W_k|=2: rule SWAP-ALL works 11
+  |F|=2 |W_k|=2: rule SWAP-MIN works 11
+  |F|=3 |W_k|=1 27
+  |F|=3 |W_k|=1: rule ED-ALL works 27
+  |F|=3 |W_k|=1: rule ED-ANY works 27
+  |F|=3 |W_k|=1: rule ED-MIN works 27
+  |F|=3 |W_k|=1: rule ED-MIN-OR-ALL works 27
+  |F|=3 |W_k|=1: rule SWAP-ALL works 15
+  |F|=3 |W_k|=1: rule SWAP-MIN works 15
+  |F|=3 |W_k|=2 9
+  |F|=3 |W_k|=2: rule ED-ALL works 9
+  |F|=3 |W_k|=2: rule ED-ANY works 9
+  |F|=3 |W_k|=2: rule ED-MIN works 9
+  |F|=3 |W_k|=2: rule ED-MIN-OR-ALL works 9
+  |F|=3 |W_k|=2: rule SWAP-ALL works 9
+  |F|=3 |W_k|=2: rule SWAP-MIN works 9
+  |F|=3 |W_k|=3 2
+  |F|=3 |W_k|=3: rule ED-ALL works 2
+  |F|=3 |W_k|=3: rule ED-ANY works 2
+  |F|=3 |W_k|=3: rule ED-MIN works 2
+  |F|=3 |W_k|=3: rule ED-MIN-OR-ALL works 2
+  |F|=3 |W_k|=3: rule SWAP-ALL works 2
+  |F|=3 |W_k|=3: rule SWAP-MIN works 2
+  |F|=4 |W_k|=1 11
+  |F|=4 |W_k|=1: rule ED-ALL works 11
+  |F|=4 |W_k|=1: rule ED-ANY works 11
+  |F|=4 |W_k|=1: rule ED-MIN works 11
+  |F|=4 |W_k|=1: rule ED-MIN-OR-ALL works 11
+  |F|=4 |W_k|=1: rule SWAP-ALL works 9
+  |F|=4 |W_k|=1: rule SWAP-MIN works 10
+  |F|=4 |W_k|=2 2
+  |F|=4 |W_k|=2: rule ED-ALL works 2
+  |F|=4 |W_k|=2: rule ED-ANY works 2
+  |F|=4 |W_k|=2: rule ED-MIN works 2
+  |F|=4 |W_k|=2: rule ED-MIN-OR-ALL works 2
+  |F|=4 |W_k|=2: rule SWAP-ALL works 1
+  |F|=4 |W_k|=2: rule SWAP-MIN works 1
+one-absorber-hard starts with |D| = 1 112
+rule ED-ALL works 111
+rule ED-ANY works 112
+rule ED-MIN works 112
+rule ED-MIN-OR-ALL works 112
+rule SWAP-ALL works 91
+rule SWAP-MIN works 94
+shown ED-ALL 1
+time 1 s
+$ python3 k4/oc1_hall/d1_rules.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+  |F|=1 |W_k|=1 13
+  |F|=1 |W_k|=1: rule ED-ALL works 13
+  |F|=1 |W_k|=1: rule ED-ANY works 13
+  |F|=1 |W_k|=1: rule ED-MIN works 13
+  |F|=1 |W_k|=1: rule ED-MIN-OR-ALL works 13
+  |F|=1 |W_k|=1: rule SWAP-ALL works 13
+  |F|=1 |W_k|=1: rule SWAP-MIN works 13
+  |F|=1 |W_k|=2 2
+  |F|=1 |W_k|=2: rule ED-ALL works 2
+  |F|=1 |W_k|=2: rule ED-ANY works 2
+  |F|=1 |W_k|=2: rule ED-MIN works 2
+  |F|=1 |W_k|=2: rule ED-MIN-OR-ALL works 2
+  |F|=1 |W_k|=2: rule SWAP-ALL works 2
+  |F|=1 |W_k|=2: rule SWAP-MIN works 2
+  |F|=2 |W_k|=1 18
+  |F|=2 |W_k|=1: rule ED-ALL works 18
+  |F|=2 |W_k|=1: rule ED-ANY works 18
+  |F|=2 |W_k|=1: rule ED-MIN works 18
+  |F|=2 |W_k|=1: rule ED-MIN-OR-ALL works 18
+  |F|=2 |W_k|=1: rule SWAP-ALL works 15
+  |F|=2 |W_k|=1: rule SWAP-MIN works 17
+  |F|=2 |W_k|=2 8
+  |F|=2 |W_k|=2: rule ED-ALL works 8
+  |F|=2 |W_k|=2: rule ED-ANY works 8
+  |F|=2 |W_k|=2: rule ED-MIN works 8
+  |F|=2 |W_k|=2: rule ED-MIN-OR-ALL works 8
+  |F|=2 |W_k|=2: rule SWAP-ALL works 7
+  |F|=2 |W_k|=2: rule SWAP-MIN works 7
+one-absorber-hard starts with |D| = 1 41
+rule ED-ALL works 41
+rule ED-ANY works 41
+rule ED-MIN works 41
+rule ED-MIN-OR-ALL works 41
+rule SWAP-ALL works 37
+rule SWAP-MIN works 39
+time 2 s
+$ python3 k4/oc1_hall/d1_rules.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+RULE ED-ALL FAILS (ED-ANY works) r1179 [[[0, 3, 6, 7], [1, 4, 6, 7], [2, 5, 8], [3, 4, 5, 8]], [[8, 1, 6, 4], [4, 8, 3, 2], [4, 2, 3], [5, 8, 6, 4]]] picks (0, 1, 2, 4) k 3 |F|=1 |W_k|=1
+  |F|=1 |W_k|=1 1
+  |F|=1 |W_k|=1: rule ED-ALL works 0
+  |F|=1 |W_k|=1: rule ED-ANY works 1
+  |F|=1 |W_k|=1: rule ED-MIN works 1
+  |F|=1 |W_k|=1: rule ED-MIN-OR-ALL works 1
+  |F|=1 |W_k|=1: rule SWAP-ALL works 0
+  |F|=1 |W_k|=1: rule SWAP-MIN works 1
+  |F|=2 |W_k|=1 2
+  |F|=2 |W_k|=1: rule ED-ALL works 2
+  |F|=2 |W_k|=1: rule ED-ANY works 2
+  |F|=2 |W_k|=1: rule ED-MIN works 2
+  |F|=2 |W_k|=1: rule ED-MIN-OR-ALL works 2
+  |F|=2 |W_k|=1: rule SWAP-ALL works 2
+  |F|=2 |W_k|=1: rule SWAP-MIN works 2
+  |F|=2 |W_k|=2 1
+  |F|=2 |W_k|=2: rule ED-ALL works 1
+  |F|=2 |W_k|=2: rule ED-ANY works 1
+  |F|=2 |W_k|=2: rule ED-MIN works 1
+  |F|=2 |W_k|=2: rule ED-MIN-OR-ALL works 1
+  |F|=2 |W_k|=2: rule SWAP-ALL works 1
+  |F|=2 |W_k|=2: rule SWAP-MIN works 1
+  |F|=3 |W_k|=1 5
+  |F|=3 |W_k|=1: rule ED-ALL works 5
+  |F|=3 |W_k|=1: rule ED-ANY works 5
+  |F|=3 |W_k|=1: rule ED-MIN works 5
+  |F|=3 |W_k|=1: rule ED-MIN-OR-ALL works 5
+  |F|=3 |W_k|=1: rule SWAP-ALL works 5
+  |F|=3 |W_k|=1: rule SWAP-MIN works 5
+  |F|=3 |W_k|=2 2
+  |F|=3 |W_k|=2: rule ED-ALL works 2
+  |F|=3 |W_k|=2: rule ED-ANY works 2
+  |F|=3 |W_k|=2: rule ED-MIN works 2
+  |F|=3 |W_k|=2: rule ED-MIN-OR-ALL works 2
+  |F|=3 |W_k|=2: rule SWAP-ALL works 2
+  |F|=3 |W_k|=2: rule SWAP-MIN works 2
+one-absorber-hard starts with |D| = 1 11
+rule ED-ALL works 10
+rule ED-ANY works 11
+rule ED-MIN works 11
+rule ED-MIN-OR-ALL works 11
+rule SWAP-ALL works 10
+rule SWAP-MIN works 11
+shown ED-ALL 1
+time 2 s
+$ python3 k4/oc1_hall/d1_rules.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
+time 1 s

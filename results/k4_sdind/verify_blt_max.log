@@ -1,0 +1,6 @@
+nu = 6 ; distinct outcomes 35
+orders, picks maximum (6), OC1 needs 0 chain(s) 290
+orders, picks maximum (6), OC1 needs 1 chain(s) 50
+orders, picks size 4, OC1 fails 24
+orders, picks size 5, OC1 needs 0 chain(s) 23
+orders, picks size 5, OC1 needs 1 chain(s) 333

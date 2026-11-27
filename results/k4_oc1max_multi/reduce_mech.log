@@ -1,0 +1,4 @@
+$ python3 k4/oc1max_multi/reduce_mech.py results/k4_oc1max_multi/oc1_fail_walk.jsonl.gz
+best mechanism for the reduced start: CAN-k 32
+best mechanism for the reduced start: CLEAN 4923
+failing starts 4955

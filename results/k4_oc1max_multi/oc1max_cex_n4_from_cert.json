@@ -1,0 +1,903 @@
+{
+ "what": "OC1^max counterexamples at n = 4 (one failing profile per core hypergraph found by k4/oc1cert/cegar.py on results/k4_certs_4_*.json.gz); each verified by k4/sdc/oc1_mc2_rand.Inst.check (raw: OC1 fails) and by k4/oc1cert/brute_verify.py (every allocation, every official one-move state; no completion, one-absorber or free)",
+ "instances": [
+  {
+   "sets": [
+    [
+     0,
+     1,
+     2,
+     5
+    ],
+    [
+     1,
+     2,
+     5,
+     6
+    ],
+    [
+     3,
+     4,
+     5,
+     6
+    ],
+    [
+     3,
+     4,
+     6
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     10,
+     4,
+     7
+    ],
+    [
+     10,
+     3,
+     4,
+     8
+    ],
+    [
+     3,
+     5,
+     6,
+     7
+    ],
+    [
+     3,
+     2,
+     4
+    ]
+   ],
+   "picks": [
+    1,
+    2,
+    5,
+    6
+   ],
+   "list": "4_n4_3",
+   "idx": 58,
+   "brute_force": {
+    "n": 4,
+    "m": 7,
+    "orders giving the picks": 3,
+    "example order": [
+     0,
+     3,
+     2,
+     1
+    ],
+    "picks": 4,
+    "max matching (brute force)": 4,
+    "EFX0 allocations": 14,
+    "one-move states": 20,
+    "states with a completion (kinds)": {
+     "one-absorber": [],
+     "free": []
+    },
+    "picks complete one-absorber": false
+   }
+  },
+  {
+   "sets": [
+    [
+     0,
+     4,
+     5,
+     6
+    ],
+    [
+     1,
+     2,
+     3,
+     5
+    ],
+    [
+     1,
+     3,
+     5,
+     6
+    ],
+    [
+     2,
+     4,
+     6
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     3,
+     10,
+     6
+    ],
+    [
+     3,
+     10,
+     6,
+     8
+    ],
+    [
+     5,
+     3,
+     7,
+     6
+    ],
+    [
+     4,
+     3,
+     2
+    ]
+   ],
+   "picks": [
+    4,
+    5,
+    6,
+    2
+   ],
+   "list": "4_n4_3",
+   "idx": 77,
+   "brute_force": {
+    "n": 4,
+    "m": 7,
+    "orders giving the picks": 1,
+    "example order": [
+     3,
+     1,
+     2,
+     0
+    ],
+    "picks": 4,
+    "max matching (brute force)": 4,
+    "EFX0 allocations": 24,
+    "one-move states": 30,
+    "states with a completion (kinds)": {
+     "one-absorber": [],
+     "free": []
+    },
+    "picks complete one-absorber": false
+   }
+  },
+  {
+   "sets": [
+    [
+     0,
+     1,
+     2,
+     6
+    ],
+    [
+     1,
+     2,
+     5,
+     6
+    ],
+    [
+     3,
+     4,
+     5,
+     6
+    ],
+    [
+     3,
+     4,
+     5,
+     6
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     5,
+     4,
+     8
+    ],
+    [
+     5,
+     3,
+     6,
+     7
+    ],
+    [
+     10,
+     3,
+     8,
+     6
+    ],
+    [
+     10,
+     2,
+     3,
+     6
+    ]
+   ],
+   "picks": [
+    6,
+    5,
+    3,
+    4
+   ],
+   "list": "4_pure",
+   "idx": 20,
+   "brute_force": {
+    "n": 4,
+    "m": 7,
+    "orders giving the picks": 3,
+    "example order": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "picks": 4,
+    "max matching (brute force)": 4,
+    "EFX0 allocations": 18,
+    "one-move states": 33,
+    "states with a completion (kinds)": {
+     "one-absorber": [],
+     "free": []
+    },
+    "picks complete one-absorber": false
+   }
+  },
+  {
+   "sets": [
+    [
+     0,
+     1,
+     2,
+     6
+    ],
+    [
+     1,
+     2,
+     4,
+     5
+    ],
+    [
+     3,
+     4,
+     5,
+     6
+    ],
+    [
+     3,
+     4,
+     5,
+     6
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     7,
+     4,
+     10
+    ],
+    [
+     3,
+     5,
+     6,
+     7
+    ],
+    [
+     3,
+     5,
+     6,
+     7
+    ],
+    [
+     1,
+     4,
+     6,
+     8
+    ]
+   ],
+   "picks": [
+    6,
+    4,
+    5,
+    3
+   ],
+   "list": "4_pure",
+   "idx": 21,
+   "brute_force": {
+    "n": 4,
+    "m": 7,
+    "orders giving the picks": 1,
+    "example order": [
+     0,
+     2,
+     1,
+     3
+    ],
+    "picks": 4,
+    "max matching (brute force)": 4,
+    "EFX0 allocations": 21,
+    "one-move states": 51,
+    "states with a completion (kinds)": {
+     "one-absorber": [],
+     "free": []
+    },
+    "picks complete one-absorber": false
+   }
+  },
+  {
+   "sets": [
+    [
+     0,
+     1,
+     4,
+     5
+    ],
+    [
+     1,
+     3,
+     5,
+     6
+    ],
+    [
+     2,
+     3,
+     4,
+     6
+    ],
+    [
+     2,
+     4,
+     5,
+     6
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     3,
+     10,
+     6
+    ],
+    [
+     7,
+     10,
+     6,
+     2
+    ],
+    [
+     3,
+     10,
+     8,
+     6
+    ],
+    [
+     5,
+     8,
+     6,
+     4
+    ]
+   ],
+   "picks": [
+    1,
+    3,
+    4,
+    5
+   ],
+   "list": "4_pure",
+   "idx": 23,
+   "brute_force": {
+    "n": 4,
+    "m": 7,
+    "orders giving the picks": 1,
+    "example order": [
+     1,
+     2,
+     3,
+     0
+    ],
+    "picks": 4,
+    "max matching (brute force)": 4,
+    "EFX0 allocations": 19,
+    "one-move states": 31,
+    "states with a completion (kinds)": {
+     "one-absorber": [],
+     "free": []
+    },
+    "picks complete one-absorber": false
+   }
+  },
+  {
+   "sets": [
+    [
+     0,
+     1,
+     4,
+     5
+    ],
+    [
+     1,
+     4,
+     5,
+     6
+    ],
+    [
+     2,
+     3,
+     4,
+     6
+    ],
+    [
+     2,
+     3,
+     5,
+     6
+    ]
+   ],
+   "vals": [
+    [
+     1,
+     8,
+     6,
+     4
+    ],
+    [
+     8,
+     4,
+     2,
+     7
+    ],
+    [
+     3,
+     5,
+     6,
+     7
+    ],
+    [
+     4,
+     5,
+     2,
+     8
+    ]
+   ],
+   "picks": [
+    1,
+    5,
+    4,
+    6
+   ],
+   "list": "4_pure",
+   "idx": 24,
+   "brute_force": {
+    "n": 4,
+    "m": 7,
+    "orders giving the picks": 3,
+    "example order": [
+     0,
+     3,
+     2,
+     1
+    ],
+    "picks": 4,
+    "max matching (brute force)": 4,
+    "EFX0 allocations": 20,
+    "one-move states": 22,
+    "states with a completion (kinds)": {
+     "one-absorber": [],
+     "free": []
+    },
+    "picks complete one-absorber": false
+   }
+  },
+  {
+   "sets": [
+    [
+     0,
+     2,
+     3,
+     6
+    ],
+    [
+     1,
+     2,
+     4,
+     5
+    ],
+    [
+     1,
+     4,
+     5,
+     6
+    ],
+    [
+     3,
+     4,
+     5,
+     6
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     10,
+     6,
+     7
+    ],
+    [
+     4,
+     8,
+     5,
+     2
+    ],
+    [
+     5,
+     7,
+     3,
+     6
+    ],
+    [
+     3,
+     10,
+     2,
+     6
+    ]
+   ],
+   "picks": [
+    2,
+    4,
+    6,
+    3
+   ],
+   "list": "4_pure",
+   "idx": 26,
+   "brute_force": {
+    "n": 4,
+    "m": 7,
+    "orders giving the picks": 1,
+    "example order": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "picks": 4,
+    "max matching (brute force)": 4,
+    "EFX0 allocations": 19,
+    "one-move states": 21,
+    "states with a completion (kinds)": {
+     "one-absorber": [],
+     "free": []
+    },
+    "picks complete one-absorber": false
+   }
+  },
+  {
+   "sets": [
+    [
+     0,
+     4,
+     5,
+     6
+    ],
+    [
+     1,
+     2,
+     3,
+     6
+    ],
+    [
+     1,
+     3,
+     5,
+     6
+    ],
+    [
+     2,
+     4,
+     5,
+     6
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     3,
+     6,
+     10
+    ],
+    [
+     6,
+     10,
+     3,
+     8
+    ],
+    [
+     4,
+     5,
+     6,
+     8
+    ],
+    [
+     8,
+     6,
+     4,
+     5
+    ]
+   ],
+   "picks": [
+    4,
+    6,
+    5,
+    2
+   ],
+   "list": "4_pure",
+   "idx": 29,
+   "brute_force": {
+    "n": 4,
+    "m": 7,
+    "orders giving the picks": 1,
+    "example order": [
+     3,
+     1,
+     2,
+     0
+    ],
+    "picks": 4,
+    "max matching (brute force)": 4,
+    "EFX0 allocations": 24,
+    "one-move states": 30,
+    "states with a completion (kinds)": {
+     "one-absorber": [],
+     "free": []
+    },
+    "picks complete one-absorber": false
+   }
+  },
+  {
+   "sets": [
+    [
+     0,
+     2,
+     4,
+     5
+    ],
+    [
+     0,
+     2,
+     5,
+     6
+    ],
+    [
+     1,
+     3,
+     4,
+     6
+    ],
+    [
+     1,
+     3,
+     5,
+     6
+    ]
+   ],
+   "vals": [
+    [
+     8,
+     4,
+     1,
+     6
+    ],
+    [
+     8,
+     2,
+     4,
+     7
+    ],
+    [
+     5,
+     4,
+     2,
+     8
+    ],
+    [
+     5,
+     3,
+     6,
+     7
+    ]
+   ],
+   "picks": [
+    0,
+    2,
+    6,
+    5
+   ],
+   "list": "4_pure",
+   "idx": 36,
+   "brute_force": {
+    "n": 4,
+    "m": 7,
+    "orders giving the picks": 3,
+    "example order": [
+     0,
+     2,
+     3,
+     1
+    ],
+    "picks": 4,
+    "max matching (brute force)": 4,
+    "EFX0 allocations": 18,
+    "one-move states": 34,
+    "states with a completion (kinds)": {
+     "one-absorber": [],
+     "free": []
+    },
+    "picks complete one-absorber": false
+   }
+  },
+  {
+   "sets": [
+    [
+     0,
+     2,
+     3,
+     6
+    ],
+    [
+     1,
+     4,
+     5,
+     7
+    ],
+    [
+     2,
+     3,
+     6,
+     7
+    ],
+    [
+     4,
+     5,
+     6,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     10,
+     7,
+     4
+    ],
+    [
+     2,
+     5,
+     4,
+     8
+    ],
+    [
+     10,
+     3,
+     4,
+     8
+    ],
+    [
+     4,
+     5,
+     6,
+     8
+    ]
+   ],
+   "picks": [
+    2,
+    7,
+    3,
+    6
+   ],
+   "list": "4_pure",
+   "idx": 38,
+   "brute_force": {
+    "n": 4,
+    "m": 8,
+    "orders giving the picks": 3,
+    "example order": [
+     0,
+     1,
+     3,
+     2
+    ],
+    "picks": 4,
+    "max matching (brute force)": 4,
+    "EFX0 allocations": 62,
+    "one-move states": 34,
+    "states with a completion (kinds)": {
+     "one-absorber": [],
+     "free": []
+    },
+    "picks complete one-absorber": false
+   }
+  },
+  {
+   "sets": [
+    [
+     0,
+     2,
+     5,
+     7
+    ],
+    [
+     1,
+     5,
+     6,
+     7
+    ],
+    [
+     2,
+     3,
+     4,
+     6
+    ],
+    [
+     3,
+     4,
+     6,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     10,
+     7,
+     6
+    ],
+    [
+     2,
+     3,
+     10,
+     6
+    ],
+    [
+     10,
+     6,
+     3,
+     8
+    ],
+    [
+     5,
+     3,
+     7,
+     6
+    ]
+   ],
+   "picks": [
+    2,
+    5,
+    6,
+    7
+   ],
+   "list": "4_pure",
+   "idx": 45,
+   "brute_force": {
+    "n": 4,
+    "m": 8,
+    "orders giving the picks": 1,
+    "example order": [
+     0,
+     2,
+     3,
+     1
+    ],
+    "picks": 4,
+    "max matching (brute force)": 4,
+    "EFX0 allocations": 54,
+    "one-move states": 31,
+    "states with a completion (kinds)": {
+     "one-absorber": [],
+     "free": []
+    },
+    "picks complete one-absorber": false
+   }
+  }
+ ]
+}

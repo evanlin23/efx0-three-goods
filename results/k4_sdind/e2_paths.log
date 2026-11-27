@@ -1,0 +1,98 @@
+$ python3 k4/sdind/e2_paths.py special
+EMPTY LEVEL suffix Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks [4, 3, 5, 7] order (1, 0, 2, 3)
+EMPTY LEVEL prefix r3943 [[[0, 1, 3, 4], [2, 3, 4, 5], [2, 3, 6], [2, 5, 6], [4, 5, 6]], [[6, 4, 1, 8], [6, 8, 5, 4], [3, 4, 2], [4, 2, 3], [4, 2, 3]]] picks [4, 5, 3, 2, 6] order (0, 2, 3, 1, 4)
+EMPTY LEVEL prefix r3943 [[[0, 1, 3, 4], [2, 3, 4, 5], [2, 3, 6], [2, 5, 6], [4, 5, 6]], [[6, 4, 1, 8], [6, 8, 5, 4], [3, 4, 2], [4, 2, 3], [4, 2, 3]]] picks [0, 3, 2, 6, 4] order (1, 2, 3, 4, 0)
+EMPTY LEVEL prefix r3943 [[[0, 1, 3, 4], [2, 3, 4, 5], [2, 3, 6], [2, 5, 6], [4, 5, 6]], [[6, 4, 1, 8], [6, 8, 5, 4], [3, 4, 2], [4, 2, 3], [4, 2, 3]]] picks [0, 3, 6, 2, 4] order (1, 3, 2, 4, 0)
+any insertion sequence: least d 0 9
+any insertion sequence: least d 1 3
+every sub-instance I_U has a one-absorber completion 5
+instances 4
+prefix, best order of Y: least d 1 10
+prefix, best order of Y: least d 2 1
+prefix, best order of Y: least d 3 1
+prefix, first order: least d 1 5
+prefix, first order: least d 2 1
+prefix, first order: least d 3 3
+prefix, first order: least d None 3
+starts (one-absorber completion exists) 12
+suffix, best order of Y: least d 0 9
+suffix, best order of Y: least d 1 3
+suffix, first order: least d 0 4
+suffix, first order: least d 1 7
+suffix, first order: least d None 1
+time 0 s
+$ python3 k4/sdind/e2_paths.py screen 5
+EMPTY LEVEL prefix GM4-B [[[0, 2, 5, 6], [1, 4, 5, 6], [2, 3, 4, 6], [3, 4, 5, 6]], [[4, 2, 8, 5], [3, 6, 8, 10], [4, 5, 2, 8], [5, 4, 8, 2]]] picks [0, 5, 6, 3] order (2, 1, 0, 3)
+EMPTY LEVEL prefix GM4-B [[[0, 2, 5, 6], [1, 4, 5, 6], [2, 3, 4, 6], [3, 4, 5, 6]], [[4, 2, 8, 5], [3, 6, 8, 10], [4, 5, 2, 8], [5, 4, 8, 2]]] picks [6, 4, 3, 5] order (3, 0, 1, 2)
+EMPTY LEVEL suffix GM4-D [[[0, 2, 4, 5], [0, 3, 4, 6], [1, 2, 5, 6], [1, 3, 5, 6]], [[10, 7, 2, 6], [8, 4, 1, 6], [1, 4, 8, 6], [3, 6, 10, 2]]] picks [2, 0, 6, 5] order (1, 0, 3, 2)
+EMPTY LEVEL prefix GM4-E [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 10, 6, 2], [3, 4, 8, 2], [4, 2, 3], [2, 4, 3]]] picks [2, 3, 6, 5] order (0, 2, 3, 1)
+EMPTY LEVEL suffix c4-g2-other-runs-n4m7 [[[0, 2, 5], [1, 5, 6], [2, 3, 4, 6], [3, 4, 6]], [[2, 3, 4], [2, 4, 3], [8, 4, 3, 6], [2, 3, 4]]] picks [5, 1, 2, 6] order (0, 2, 3, 1)
+EMPTY LEVEL suffix c4min-moves-neither-n3-m9-n3c50 [[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]], [[4, 7, 10, 2], [4, 2, 3, 8], [2, 4, 3, 8]]] picks [6, 1, 8] order (0, 2, 1)
+any insertion sequence: least d 0 298
+any insertion sequence: least d 1 282
+every sub-instance I_U has a one-absorber completion 439
+instances 167
+prefix, best order of Y: least d 0 16
+prefix, best order of Y: least d 1 158
+prefix, best order of Y: least d 2 192
+prefix, best order of Y: least d 3 119
+prefix, best order of Y: least d 4 65
+prefix, best order of Y: least d 5 12
+prefix, best order of Y: least d None 18
+prefix, first order: least d 0 12
+prefix, first order: least d 1 124
+prefix, first order: least d 2 143
+prefix, first order: least d 3 147
+prefix, first order: least d 4 69
+prefix, first order: least d 5 29
+prefix, first order: least d 6 4
+prefix, first order: least d None 52
+starts (one-absorber completion exists) 580
+suffix, best order of Y: least d 0 298
+suffix, best order of Y: least d 1 282
+suffix, first order: least d 0 222
+suffix, first order: least d 1 302
+suffix, first order: least d 2 17
+suffix, first order: least d 3 8
+suffix, first order: least d 4 6
+suffix, first order: least d None 25
+time 4 s
+$ python3 k4/sdind/e2_paths.py suite 5
+EMPTY LEVEL suffix c4-g2-other-runs-n4m7 [[[0, 2, 5], [1, 5, 6], [2, 3, 4, 6], [3, 4, 6]], [[2, 3, 4], [2, 4, 3], [8, 4, 3, 6], [2, 3, 4]]] picks [5, 1, 2, 6] order (0, 2, 3, 1)
+EMPTY LEVEL prefix c4-one-rotation-owner-r-n3m6 [[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [[2, 4, 8, 3], [2, 3, 4], [2, 4, 3]]] picks [4, 3, 5] order (0, 2, 1)
+EMPTY LEVEL suffix c4min-moves-neither-n3-m9-n3c50 [[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]], [[4, 7, 10, 2], [4, 2, 3, 8], [2, 4, 3, 8]]] picks [6, 1, 8] order (0, 2, 1)
+EMPTY LEVEL prefix c4min-pareto-n3-m7 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[3, 2, 10, 6], [8, 4, 2, 3], [3, 2, 6, 10]]] picks [2, 4, 6] order (0, 1, 2)
+EMPTY LEVEL suffix c4min-w0-n4-m11-n4pc217 [[[3, 6, 7, 8], [0, 2, 6, 10], [1, 5, 9, 10], [4, 7, 8, 9]], [[2, 8, 3, 4], [2, 3, 8, 4], [3, 4, 8, 2], [2, 3, 4, 8]]] picks [6, 10, 5, 9] order (0, 1, 3, 2)
+EMPTY LEVEL prefix c4x-n3m6-onefour-a [[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [[2, 3, 4, 8], [2, 4, 3], [4, 2, 3]]] picks [4, 3, 5] order (1, 2, 0)
+any insertion sequence: least d 0 249
+any insertion sequence: least d 1 280
+every sub-instance I_U has a one-absorber completion 389
+instances 157
+prefix, best order of Y: least d 0 15
+prefix, best order of Y: least d 1 157
+prefix, best order of Y: least d 2 147
+prefix, best order of Y: least d 3 100
+prefix, best order of Y: least d 4 68
+prefix, best order of Y: least d 5 14
+prefix, best order of Y: least d 6 8
+prefix, best order of Y: least d None 20
+prefix, first order: least d 0 11
+prefix, first order: least d 1 121
+prefix, first order: least d 2 114
+prefix, first order: least d 3 115
+prefix, first order: least d 4 71
+prefix, first order: least d 5 35
+prefix, first order: least d 6 14
+prefix, first order: least d None 48
+starts (one-absorber completion exists) 529
+suffix, best order of Y: least d 0 249
+suffix, best order of Y: least d 1 280
+suffix, first order: least d 0 183
+suffix, first order: least d 1 284
+suffix, first order: least d 2 17
+suffix, first order: least d 3 8
+suffix, first order: least d 4 6
+suffix, first order: least d 5 4
+suffix, first order: least d 6 2
+suffix, first order: least d None 25
+time 25 s

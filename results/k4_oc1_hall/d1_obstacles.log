@@ -1,0 +1,91 @@
+$ python3 k4/oc1_hall/d1_obstacles.py special
+  chains with no obstacle 5
+  chains with no obstacle that repair 5
+chains 5
+chains repairing 5
+starts 5
+starts with a canonical chain free of HEAD and CROWD 5
+starts with a repairing canonical chain (owner k, minimal H0) 5
+$ python3 k4/oc1_hall/d1_obstacles.py screen
+NO FREE CHAIN lb4-n2m5-upgrade [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] order (0, 1) picks (4, 3) k 0
+NO FREE CHAIN lil-noncore-n3 [[[0, 1, 2, 3], [0, 4, 5, 6], [0, 6, 7, 8]], [[10, 5, 4, 2], [10, 5, 4, 2], [10, 2, 5, 4]]] order (0, 1, 2) picks (0, 4, 7) k 0
+  chains with no obstacle 16
+  chains with no obstacle that repair 16
+  chains with obstacle a HEAD 5
+  chains with obstacle a HEAD that still repair 5
+  chains with obstacle b CROWD 1
+  chains with obstacle b CROWD that still repair 1
+  starts where every canonical chain has HEAD or CROWD 2
+chains 22
+chains repairing 22
+shown nofree 2
+starts 14
+starts with a canonical chain free of HEAD and CROWD 12
+starts with a repairing canonical chain (owner k, minimal H0) 14
+$ python3 k4/oc1_hall/d1_obstacles.py suite
+NO FREE CHAIN lb4-n2m5-upgrade [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] order (0, 1) picks (4, 3) k 0
+NO FREE CHAIN lil-noncore-n3 [[[0, 1, 2, 3], [0, 4, 5, 6], [0, 6, 7, 8]], [[10, 5, 4, 2], [10, 5, 4, 2], [10, 2, 5, 4]]] order (0, 1, 2) picks (0, 4, 7) k 0
+  chains with no obstacle 16
+  chains with no obstacle that repair 16
+  chains with obstacle a HEAD 5
+  chains with obstacle a HEAD that still repair 5
+  chains with obstacle b CROWD 1
+  chains with obstacle b CROWD that still repair 1
+  starts where every canonical chain has HEAD or CROWD 2
+chains 22
+chains repairing 22
+shown nofree 2
+starts 14
+starts with a canonical chain free of HEAD and CROWD 12
+starts with a repairing canonical chain (owner k, minimal H0) 14
+$ python3 k4/oc1_hall/d1_obstacles.py logs
+NO FREE CHAIN log574 [[[0, 1, 2, 3], [0, 4, 5, 6], [0, 6, 7, 8]], [[10, 5, 4, 2], [10, 5, 4, 2], [10, 2, 5, 4]]] order (0, 1, 2) picks (0, 4, 7) k 0
+NO FREE CHAIN log1525 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] order (0, 1) picks (4, 3) k 0
+  chains with no obstacle 153
+  chains with no obstacle that repair 153
+  chains with obstacle a HEAD 8
+  chains with obstacle a HEAD that still repair 3
+  chains with obstacle b CROWD 2
+  chains with obstacle b CROWD that still repair 1
+  starts where every canonical chain has HEAD or CROWD 2
+chains 163
+chains repairing 157
+shown nofree 2
+starts 112
+starts with a canonical chain free of HEAD and CROWD 110
+starts with a repairing canonical chain (owner k, minimal H0) 112
+SMALLEST failing chain with obstacle a HEAD log152 (3, 5) [[[0, 3, 1], [2, 1, 4], [1, 3, 2, 0]], [[25, 20, 27], [43, 58, 35], [13, 10, 5, 17]]] order [1, 0, 2] picks [0, 1, 3] k 1 chain [1, 2] H0 [2, 4]
+SMALLEST failing chain with obstacle b CROWD log558 (4, 9) [[[0, 3, 6, 7], [1, 4, 6, 7], [2, 5, 8], [3, 4, 5, 8]], [[8, 1, 6, 4], [4, 8, 3, 2], [4, 2, 3], [5, 8, 6, 4]]] order [0, 2, 3, 1] picks [0, 1, 2, 4] k 3 chain [3, 1] H0 [5, 8]
+$ python3 k4/oc1_hall/d1_obstacles.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+NO FREE CHAIN r461 [[[0, 2, 5, 6], [1, 4, 5, 6], [3, 5, 6]], [[2, 4, 3, 8], [3, 6, 5, 7], [3, 2, 4]]] order (1, 0, 2) picks (2, 6, 3) k 1
+NO FREE CHAIN r2749 [[[0, 2, 5, 6], [1, 4, 5, 6], [3, 5, 6]], [[4, 6, 8, 5], [7, 2, 10, 4], [3, 4, 2]]] order (0, 1, 2) picks (5, 1, 3) k 0
+  chains with no obstacle 66
+  chains with no obstacle that repair 66
+  chains with obstacle a HEAD 13
+  chains with obstacle a HEAD that still repair 10
+  chains with obstacle b CROWD 3
+  chains with obstacle b CROWD that still repair 3
+  chains with obstacle c KWANT 4
+  chains with obstacle c KWANT that still repair 4
+  starts where every canonical chain has HEAD or CROWD 2
+chains 86
+chains repairing 83
+shown nofree 2
+starts 41
+starts with a canonical chain free of HEAD and CROWD 39
+starts with a repairing canonical chain (owner k, minimal H0) 41
+SMALLEST failing chain with obstacle a HEAD r1173 (3, 5) [[[0, 2, 3, 4], [1, 3, 4], [2, 3, 4]], [[2, 10, 6, 7], [2, 3, 4], [3, 2, 4]]] order [1, 2, 0] picks [3, 4, 2] k 1 chain [1, 0] H0 [1, 3]
+$ python3 k4/oc1_hall/d1_obstacles.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+  chains with no obstacle 20
+  chains with no obstacle that repair 20
+  chains with obstacle b CROWD 1
+  chains with obstacle b CROWD that still repair 0
+  chains with obstacle c KWANT 2
+  chains with obstacle c KWANT that still repair 2
+chains 23
+chains repairing 22
+starts 11
+starts with a canonical chain free of HEAD and CROWD 11
+starts with a repairing canonical chain (owner k, minimal H0) 11
+SMALLEST failing chain with obstacle b CROWD r1179 (4, 9) [[[0, 3, 6, 7], [1, 4, 6, 7], [2, 5, 8], [3, 4, 5, 8]], [[8, 1, 6, 4], [4, 8, 3, 2], [4, 2, 3], [5, 8, 6, 4]]] order [0, 2, 3, 1] picks [0, 1, 2, 4] k 3 chain [3, 1] H0 [5, 8]
+$ python3 k4/oc1_hall/d1_obstacles.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93

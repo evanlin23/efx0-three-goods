@@ -1,0 +1,12 @@
+$ python3 k4/oc1max_multi/collect.py n5:n4_3,n4_4,pure,n4_1,n4_2 1 17 (NMAX=5) instances 31584
+complete at the picks 99973
+distinct kept starts 6511
+hard, |D| = 1 163
+hard, |D| = 2 1578
+hard, |D| = 3 3571
+hard, |D| = 4 1362
+hard, |D| >= 2, repaired 6511
+max 106647
+max, reduced by RED 257
+non-max 10145
+time 186 s

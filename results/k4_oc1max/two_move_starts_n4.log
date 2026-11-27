@@ -1,0 +1,20 @@
+$ python3 k4/oc1cert/export_fails.py results/k4_oc1max/cert_4.json.gz /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/two_move_starts_n4.json.gz 50
+4_n4_3 58 failing starts 1280 distinct profiles 1280 receivers {1: 1280} 6 s
+4_n4_3 77 failing starts 80 distinct profiles 80 receivers {1: 80} 8 s
+4_pure 20 failing starts 46080 distinct profiles 44800 receivers {1: 46080} 217 s
+4_pure 21 failing starts 2560 distinct profiles 2560 receivers {1: 2560} 233 s
+4_pure 23 failing starts 640 distinct profiles 640 receivers {1: 640} 240 s
+4_pure 24 failing starts 40320 distinct profiles 40320 receivers {1: 40320} 417 s
+4_pure 26 failing starts 640 distinct profiles 640 receivers {1: 640} 422 s
+4_pure 29 failing starts 1440 distinct profiles 1440 receivers {1: 1440} 431 s
+4_pure 36 failing starts 6400 distinct profiles 6400 receivers {1: 6400} 465 s
+4_pure 38 failing starts 12800 distinct profiles 12800 receivers {1: 12800} 620 s
+4_pure 45 failing starts 640 distinct profiles 640 receivers {1: 640} 630 s
+hypergraphs 11
+orders per start 1 23280
+orders per start 3 89600
+raw: OC1 fails 112880
+receivers per start 1 112880
+sampled two-move raw check: two moves repair 2261
+starts 112880
+wrote /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/two_move_starts_n4.json.gz /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/two_move_starts_n4_cert.json.gz 637 s

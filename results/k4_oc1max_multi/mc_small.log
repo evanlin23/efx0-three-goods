@@ -1,0 +1,10 @@
+$ python3 k4/oc1max_multi/mc.py results/k4_oc1max_multi/hard2_starts.jsonl.gz (STEP=1)
+  S^c exists (d = 0) 40511
+  S^c exists (d = 1) 51763
+owner tests (d = 0) 139436
+owner tests (d = 1) 139436
+single-good states 1872
+single-good states: one-absorber == S^c 1872
+states 34824
+states without (G2), skipped 3740
+mismatches between Lemma M^c and brute force: 0 []

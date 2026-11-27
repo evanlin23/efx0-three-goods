@@ -1,0 +1,107 @@
+$ python3 k4/oc1_hall/f2_study.py screen
+  no single culprit 90
+  no single culprit, some owner-k repair: canonical 79
+  no single culprit, some owner-k repair: chain passes through the other frozen agent 50
+  no single culprit, some owner-k repair: not canonical 69
+  no single culprit, some owner-k repair: other frozen agent stays frozen 51
+  no single culprit, some owner-k repair: other frozen agent unfrozen off the chain 23
+  no single culprit, some owner-k repair: t = 1 74
+  no single culprit, some owner-k repair: t = 2 42
+  no single culprit, some owner-k repair: t = 3 9
+  relation: independent, |D| = 1 8
+  relation: independent, |D| = 2 50
+  relation: x wants y, |D| = 2 35
+  some owner with a single culprit 3
+  some owner-k repair: canonical 79
+  some owner-k repair: chain passes through the other frozen agent 53
+  some owner-k repair: not canonical 72
+  some owner-k repair: other frozen agent stays frozen 54
+  some owner-k repair: other frozen agent unfrozen off the chain 23
+  some owner-k repair: t = 1 74
+  some owner-k repair: t = 2 45
+  some owner-k repair: t = 3 12
+hard f=2 starts 93
+time 0 s
+$ python3 k4/oc1_hall/f2_study.py logs
+  no single culprit 512
+  no single culprit, some owner-k repair: canonical 497
+  no single culprit, some owner-k repair: chain passes through the other frozen agent 303
+  no single culprit, some owner-k repair: not canonical 329
+  no single culprit, some owner-k repair: other frozen agent stays frozen 169
+  no single culprit, some owner-k repair: other frozen agent unfrozen off the chain 256
+  no single culprit, some owner-k repair: t = 0 20
+  no single culprit, some owner-k repair: t = 1 456
+  no single culprit, some owner-k repair: t = 2 289
+  no single culprit, some owner-k repair: t = 3 23
+  no single culprit, some owner-k repair: t = 4 1
+  relation: independent, |D| = 1 23
+  relation: independent, |D| = 2 264
+  relation: x wants y, |D| = 1 23
+  relation: x wants y, |D| = 2 214
+  some owner with a single culprit 12
+  some owner-k repair: canonical 507
+  some owner-k repair: chain passes through the other frozen agent 311
+  some owner-k repair: not canonical 338
+  some owner-k repair: other frozen agent stays frozen 173
+  some owner-k repair: other frozen agent unfrozen off the chain 261
+  some owner-k repair: t = 0 20
+  some owner-k repair: t = 1 466
+  some owner-k repair: t = 2 297
+  some owner-k repair: t = 3 26
+  some owner-k repair: t = 4 1
+hard f=2 starts 524
+time 2 s
+$ python3 k4/oc1_hall/f2_study.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+  no single culprit 388
+  no single culprit, some owner-k repair: canonical 388
+  no single culprit, some owner-k repair: chain passes through the other frozen agent 262
+  no single culprit, some owner-k repair: not canonical 309
+  no single culprit, some owner-k repair: other frozen agent stays frozen 212
+  no single culprit, some owner-k repair: other frozen agent unfrozen off the chain 237
+  no single culprit, some owner-k repair: t = 0 49
+  no single culprit, some owner-k repair: t = 1 373
+  no single culprit, some owner-k repair: t = 2 247
+  relation: independent, |D| = 1 9
+  relation: independent, |D| = 2 193
+  relation: x wants y, |D| = 1 21
+  relation: x wants y, |D| = 2 165
+  some owner with a single culprit 0
+  some owner-k repair: canonical 388
+  some owner-k repair: chain passes through the other frozen agent 262
+  some owner-k repair: not canonical 309
+  some owner-k repair: other frozen agent stays frozen 212
+  some owner-k repair: other frozen agent unfrozen off the chain 237
+  some owner-k repair: t = 0 49
+  some owner-k repair: t = 1 373
+  some owner-k repair: t = 2 247
+hard f=2 starts 388
+time 2 s
+$ python3 k4/oc1_hall/f2_study.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+  no single culprit 30
+  no single culprit, some owner-k repair: canonical 29
+  no single culprit, some owner-k repair: chain passes through the other frozen agent 23
+  no single culprit, some owner-k repair: not canonical 28
+  no single culprit, some owner-k repair: other frozen agent stays frozen 25
+  no single culprit, some owner-k repair: other frozen agent unfrozen off the chain 23
+  no single culprit, some owner-k repair: t = 0 2
+  no single culprit, some owner-k repair: t = 1 29
+  no single culprit, some owner-k repair: t = 2 27
+  no single culprit, some owner-k repair: t = 3 14
+  relation: independent, |D| = 1 1
+  relation: independent, |D| = 2 37
+  relation: x wants y, |D| = 1 2
+  relation: x wants y, |D| = 2 9
+  some owner with a single culprit 19
+  some owner-k repair: canonical 48
+  some owner-k repair: chain passes through the other frozen agent 38
+  some owner-k repair: not canonical 46
+  some owner-k repair: other frozen agent stays frozen 33
+  some owner-k repair: other frozen agent unfrozen off the chain 34
+  some owner-k repair: t = 0 3
+  some owner-k repair: t = 1 48
+  some owner-k repair: t = 2 43
+  some owner-k repair: t = 3 18
+hard f=2 starts 49
+time 2 s
+$ python3 k4/oc1_hall/f2_study.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
+time 1 s
