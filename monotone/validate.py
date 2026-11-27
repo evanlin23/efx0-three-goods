@@ -11,6 +11,7 @@
    on the two encodings.
 
 Usage: python3 monotone/validate.py [results/monotone/*.jsonl ...] [--samples N]
+       python3 monotone/validate.py --negative results/monotone/n3_m8_k5.jsonl
 """
 import sys
 import gzip
@@ -105,7 +106,23 @@ def check_cert(rec, samples, rng):
     return fails
 
 
+def negative_test(f, count=30):
+    """The independent checker must reject damaged certificates: keep only the first half of each."""
+    from check_cert import check
+    rows = [json.loads(l) for l in (gzip.open(f, "rt") if f.endswith(".gz") else open(f))][:count]
+    rejected = 0
+    for r in rows:
+        assert check(r), "a full certificate failed"
+        r2 = dict(r)
+        r2["cert"] = r["cert"][: len(r["cert"]) // 2]
+        rejected += not check(r2)
+    print(f"negative test on {f}: {len(rows)} full certificates accepted, {rejected}/{len(rows)} halved ones rejected")
+
+
 def main():
+    if "--negative" in sys.argv:
+        negative_test(sys.argv[sys.argv.index("--negative") + 1])
+        return
     files = [a for a in sys.argv[1:] if not a.startswith("--") and (a.endswith(".jsonl") or a.endswith(".jsonl.gz"))]
     samples = 200
     if "--samples" in sys.argv:

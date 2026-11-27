@@ -78,6 +78,8 @@ Trust chain for an UNSAT claim (PROMPT.md §5 rule 4: two independent implementa
 - **Independent checker** (`monotone/check_cert.py`, no shared code, run on every UNSAT record): order encoding.
   Its clauses come straight from the definition (every i ≠ j and g ∈ X_j, no reduction to maximal sets), with its
   own implementation of the symmetry breaking and of item 8. Solver: Glucose 4.
+- Negative test (`monotone/validate.py --negative`): the independent checker rejects every certificate cut to its
+  first half (30/30 on `n3_m8_k5.jsonl`), so its UNSAT answers are not vacuous.
 - Validation (`monotone/validate.py`): with the known counterexample's values pinned (nondegenerate
   strictification), both encodings of synth.py are SAT on all 6,561 allocation clauses. Random monotone profiles
   (EVIDENCE) never escape a certificate.
