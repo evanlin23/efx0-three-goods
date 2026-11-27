@@ -1,0 +1,20 @@
+$ python3 k4/ttc/rf_rules.py jsonl r2_two_receiver_fails_n5.jsonl      (compute/k4-oc1max-cert results/k4_oc1max/n5/)
+5_pure 650 orders 12 receivers [1, 2] {'ROT every listed o: some receiver': 1, 'ROT first listed o: some receiver': 1, 'ROT some listed o: some receiver': 1, 'YRMH every listed o: some receiver': 1, 'YRMH first listed o: some receiver': 1, 'SHORT: some receiver': 1}
+5_pure 655 orders 6 receivers [1, 2] {'ROT every listed o: some receiver': 1, 'ROT first listed o: some receiver': 1, 'ROT some listed o: some receiver': 1, 'YRMH every listed o: some receiver': 1, 'YRMH first listed o: some receiver': 1, 'SHORT: some receiver': 1}
+5_pure 655 orders 6 receivers [1, 2] {'ROT every listed o: some receiver': 1, 'ROT first listed o: some receiver': 1, 'ROT some listed o: some receiver': 1, 'YRMH every listed o: some receiver': 1, 'YRMH first listed o: some receiver': 1, 'SHORT: some receiver': 1}
+5_pure 1014 orders 6 receivers [0, 4] {'ROT every listed o: some receiver': 1, 'ROT first listed o: some receiver': 1, 'ROT some listed o: some receiver': 1, 'YRMH every listed o: some receiver': 1, 'YRMH first listed o: some receiver': 1, 'SHORT: some receiver': 1}
+5_pure 1050 orders 14 receivers [1, 2] {'ROT every listed o: some receiver': 1, 'ROT first listed o: some receiver': 1, 'ROT some listed o: some receiver': 1, 'YRMH every listed o: some receiver': 1, 'YRMH first listed o: some receiver': 1, 'SHORT: some receiver': 1}
+ROT every listed o: every receiver 4
+ROT every listed o: some receiver 5
+ROT first listed o: every receiver 4
+ROT first listed o: some receiver 5
+ROT some listed o: every receiver 4
+ROT some listed o: some receiver 5
+SHORT: every receiver 4
+SHORT: some receiver 5
+YRMH every listed o: every receiver 5
+YRMH every listed o: some receiver 5
+YRMH first listed o: every receiver 5
+YRMH first listed o: some receiver 5
+starts 5
+starts with 2 receivers 5

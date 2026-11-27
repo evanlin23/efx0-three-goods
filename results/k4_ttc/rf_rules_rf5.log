@@ -1,0 +1,6 @@
+$ python3 k4/ttc/rf_rules.py rf5
+orders [[1, 0, 3, 2], [1, 3, 0, 2], [3, 1, 0, 2]] receivers [2] Y OC1 fails
+  o [1, 0, 3, 2] ROT [2, 1, 0, 3] (6, 5, 3, 4) OC1 fails | YRMH [2, 3, 1, 0] (1, 6, 3, 5) picks complete
+  o [1, 3, 0, 2] ROT [2, 1, 3, 0] (1, 5, 3, 6) one move repairs | YRMH [2, 3, 1, 0] (1, 6, 3, 5) picks complete
+  o [3, 1, 0, 2] ROT [2, 3, 1, 0] (1, 6, 3, 5) picks complete | YRMH [2, 3, 1, 0] (1, 6, 3, 5) picks complete
+{'starts': 1, 'starts with 1 receivers': 1, 'ROT every listed o: every receiver': 0, 'ROT every listed o: some receiver': 0, 'ROT first listed o: every receiver': 0, 'ROT first listed o: some receiver': 0, 'ROT some listed o: every receiver': 1, 'ROT some listed o: some receiver': 1, 'YRMH every listed o: every receiver': 1, 'YRMH every listed o: some receiver': 1, 'YRMH first listed o: every receiver': 1, 'YRMH first listed o: some receiver': 1, 'SHORT: every receiver': 0, 'SHORT: some receiver': 0}

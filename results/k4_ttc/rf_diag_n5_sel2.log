@@ -1,0 +1,40 @@
+$ python3 k4/ttc/rf_diag.py export two_move_starts_n5_sel2.json.gz 1 rf_diag_sel2.jsonl      (compute/k4-oc1max-cert results/k4_oc1max/n5/)
+starts 583680
+  u-first outcomes classified ok (total) 1676160
+  u-first outcomes per receiver: 2 distinct 391680
+  u-first outcomes per receiver: 3 distinct 76800
+  u-first outcomes per receiver: 5 distinct 28800
+  u-first outcomes per receiver: 6 distinct 86400
+AUT-every: every receiver 583680
+AUT-every: some receiver 583680
+RF-exists: every receiver 583680
+RF-exists: some receiver 583680
+ROT or YRMH ok, every receiver 583680
+ROT outcome: ok 583680
+ROT, else YRMH when ROT is pickless: ok, every receiver 583680
+ROT-F outcome: ok 583680
+ROT-F: ok for every receiver 583680
+ROT-F: ok for some receiver 583680
+ROT-L every listed o outcome: ok 5468160
+ROT-L every listed o: ok for every receiver 583680
+ROT-L every listed o: ok for some receiver 583680
+ROT-L outcome: ok 583680
+ROT-L: ok for every receiver 583680
+ROT-L: ok for some receiver 583680
+ROT: ok for every receiver 583680
+ROT: ok for some receiver 583680
+YRMH outcome: ok 583680
+YRMH-F outcome: ok 583680
+YRMH-F: ok for every receiver 583680
+YRMH-F: ok for some receiver 583680
+YRMH-L every listed o outcome: ok 5468160
+YRMH-L every listed o: ok for every receiver 583680
+YRMH-L every listed o: ok for some receiver 583680
+YRMH-L outcome: ok 583680
+YRMH-L: ok for every receiver 583680
+YRMH-L: ok for some receiver 583680
+YRMH: ok for every receiver 583680
+YRMH: ok for some receiver 583680
+starts 583680
+starts with 1 receivers 583680
+dumped 0

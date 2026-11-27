@@ -106,3 +106,15 @@ python3 rf_check.py /tmp/two_move_starts_n4.json.gz 50 > $L/rf_check_n4.log   # 
 # class (1, 3): Lemma C13 with the referee's hypothesis (0) (k4/referee/ttc_c13.md); class13.jsonl.gz from claude/k4-girth 7e4633de
 python3 c13.py /tmp/class13.jsonl.gz lemma > $L/c13_lemma_n5_fix0.log
 python3 c13.py cex > $L/c13_cex_fix0.log
+# which receiver-first order (§14.9); exports from compute/k4-oc1max-cert (n = 4: a96c877; n = 5: sel2, partial6)
+python3 rf_rules.py export /tmp/two_move_starts_n4.json.gz > $L/rf_rules_n4.log
+python3 rf_rules.py rf5 > $L/rf_rules_rf5.log
+python3 rf_diag.py rf5 > $L/rf_diag_rf5.log
+python3 rf_diag.py jsonl /tmp/r2_two_receiver_fails_n5.jsonl > $L/rf_diag_r2two_n5.log   # compute/k4-oc1max-cert results/k4_oc1max/n5/
+python3 rf_diag.py export /tmp/two_move_starts_n4.json.gz 1 /tmp/rf_diag_n4.jsonl > $L/rf_diag_n4.log
+python3 rf_diag.py export /tmp/two_move_starts_n5_partial6.json.gz 1 /tmp/rf_diag_partial6.jsonl > $L/rf_diag_n5_partial6.log
+python3 rf_diag.py export /tmp/two_move_starts_n5_sel2.json.gz 1 /tmp/rf_diag_sel2.jsonl > $L/rf_diag_n5_sel2.log
+python3 rf_maxcheck.py 3000 2 5 8 > $L/rf_maxcheck.log
+python3 rf_rules.py export /tmp/two_move_starts_n5_sel2.json.gz 10 > $L/rf_rules_n5_sel2_stride10.log
+python3 rf_rules.py export /tmp/two_move_starts_n5_partial6.json.gz 10 > $L/rf_rules_n5_partial6_stride10.log
+python3 rf_rules.py jsonl /tmp/r2_two_receiver_fails_n5.jsonl > $L/rf_rules_r2two_n5.log

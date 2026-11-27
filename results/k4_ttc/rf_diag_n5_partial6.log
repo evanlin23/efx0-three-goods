@@ -1,0 +1,47 @@
+$ python3 k4/ttc/rf_diag.py export two_move_starts_n5_partial6.json.gz 1 rf_diag_partial6.jsonl      (compute/k4-oc1max-cert results/k4_oc1max/n5/)
+starts 702250
+  u-first outcomes classified ok (total) 3473619
+  u-first outcomes classified pickless (total) 62604
+  u-first outcomes per receiver: 11 distinct 384
+  u-first outcomes per receiver: 3 distinct 93941
+  u-first outcomes per receiver: 4 distinct 191760
+  u-first outcomes per receiver: 5 distinct 172783
+  u-first outcomes per receiver: 6 distinct 142169
+  u-first outcomes per receiver: 7 distinct 52853
+  u-first outcomes per receiver: 8 distinct 39004
+  u-first outcomes per receiver: 9 distinct 9356
+AUT-every: every receiver 702250
+AUT-every: some receiver 702250
+RF-exists: every receiver 702250
+RF-exists: some receiver 702250
+ROT or YRMH ok, every receiver 701866
+ROT outcome: ok 698790
+ROT outcome: pickless 3460
+ROT, else YRMH when ROT is pickless: ok, every receiver 701866
+ROT-F outcome: ok 702250
+ROT-F: ok for every receiver 702250
+ROT-F: ok for some receiver 702250
+ROT-L every listed o outcome: ok 2139892
+ROT-L every listed o: ok for every receiver 702250
+ROT-L every listed o: ok for some receiver 702250
+ROT-L outcome: ok 702250
+ROT-L: ok for every receiver 702250
+ROT-L: ok for some receiver 702250
+ROT: ok for every receiver 698790
+ROT: ok for some receiver 698790
+YRMH outcome: ok 643106
+YRMH outcome: pickless 59144
+YRMH-F outcome: ok 702250
+YRMH-F: ok for every receiver 702250
+YRMH-F: ok for some receiver 702250
+YRMH-L every listed o outcome: ok 2139892
+YRMH-L every listed o: ok for every receiver 702250
+YRMH-L every listed o: ok for some receiver 702250
+YRMH-L outcome: ok 702250
+YRMH-L: ok for every receiver 702250
+YRMH-L: ok for some receiver 702250
+YRMH: ok for every receiver 643106
+YRMH: ok for some receiver 643106
+starts 702250
+starts with 1 receivers 702250
+dumped 62220
