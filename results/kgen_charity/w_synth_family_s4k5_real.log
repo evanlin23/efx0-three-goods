@@ -1,1 +1,1 @@
-python3: can't open file '/home/user/efx0-three-goods/w_synth_family.py': [Errno 2] No such file or directory
+$ python3 kgen/charity/w_synth_family.py 4 5
