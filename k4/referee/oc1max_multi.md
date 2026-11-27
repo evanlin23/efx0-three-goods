@@ -409,3 +409,92 @@ second number counts wanters that are not holders.
   - log720: chain (0, 2, 3), H₀ = {0, 2}, agent 2 takes 8;
   - log613: chain (1, 0), H₀ = {4, 5, 6}, agents 0 and 2 take 0 and 1;
   - n4_3#947.0: chain (4, 2, 3), H₀ = {5, 8}, three holders take one good each.
+
+## 11. Addendum: Lemma SD-E and Theorem REC-S, with Lemma LIFT (`k4/oc1max_multi.md` §12 and §8; 2026-11-27)
+
+**Read.** §12 in full at `6c3fd95`, and again at `10d3bdf8`, where the proofs are unchanged and only a data row was
+added. Also §8 (Lemma LIFT, unchanged; refereed CORRECT as item 22) and the ledger rows K4.MULTI.SDE and
+K4.MULTI.RECS.
+
+**Checks.** All my own code, raw EFX₀; nothing from `k4/oc1max_multi/` was run or imported.
+- `k4/referee/rec_s_ref.py`, run by `rec_s_ref_runs.sh`, log `results/k4_referee/rec_s_ref.log`.
+- Data, read as data only:
+  - the 12 known failures (`oc1max_cex12.jsonl`);
+  - the 4,955 walk failures (`oc1_fail_walk.jsonl.gz`).
+
+**Verdict.**
+- Lemma SD-E: **CORRECT**. Strict values are needed (mutation). So is the earliest-wanter choice: an arbitrary
+  canonical chain fails.
+- Theorem REC-S: **CORRECT**. Remarks:
+  1. Hypothesis **(L) is redundant.** It always holds under the theorem's other assumptions (strict values, perfect
+     start, T ⊆ J ∪ {Y_z}):
+     - an agent i with a pick values a junk good g at most p_i, since g was available at its turn, and strictly less
+       by strictness;
+     - it values Y_z below p_i if i ≠ z, since Y_z is unwanted at the picks (strict);
+     - for z, v_z(Y_z) = p_z < v_z(a);
+     - and i's value after E(k) is at least p_i.
+
+     (L) never failed in my runs (128,679 improving pairs). It can be dropped, or kept as a remark.
+  2. SD-E's "in particular it is a perfect start of I⁻" needs Y perfect, as everywhere in the note. If Y is not
+     perfect, B₁⁻ is still the SD outcome of σ ∖ k, but a pickless non-null agent of Y can stay pickless and still
+     value a good of I⁻.
+     - Example: agents 0, 1, 2 with v₀ = {0: 9}, v₁ = {0: 5, 1: 4}, v₂ = {0: 1}, σ = (0, 1, 2), so Y = (0, 1, –).
+     - E(0) = (0, 1), and T = ∅.
+     - In I⁻, agent 2 values good 0, which agent 1 holds, and agent 2 gets nothing.
+
+     REC-S assumes a perfect start, so nothing downstream is affected.
+  3. (K) is a genuine hypothesis. It fails at 188 of 6,065 Theorem S cases in my random runs, and every allocation
+     where it fails is not EFX₀ (81 of 81 under the mutation).
+
+**Lemma SD-E, re-derived.**
+- σ increases along E(k): a wanter of Y_j picked after j, so the agents are distinct and the walk ends.
+- Run σ ∖ k in I⁻. By induction, every agent before a has taken its B₁ good, so b_a is still available.
+- Suppose some available g had v_a(g) > v_a(b_a) ≥ p_a. Then:
+  - g is not junk: junk was available at a's turn in I;
+  - g is not Y_z:
+    - for a ≠ z, nobody wants Y_z. **This is the coordinator's first point:** Y_z may be available in I⁻ to agents
+      that picked before z in I, and strictness plus "unwanted" settle it;
+    - for a = z, z's new good beats p_z;
+  - so g = Y_j is a pick that a wants, and σ(j) < σ(a);
+  - g's B₁-holder comes after a, so it is not j. So j = x_l and the holder is x_{l+1}, with
+    σ(x_l) < σ(a) < σ(x_{l+1}). Then a is an earlier wanter of Y_{x_l}, a contradiction.
+- Distinct values make b_a a's unique favourite.
+- With ties the argument gives only v_a(g) ≤ v_a(b_a), and tie-breaking can then hand a the other good. The mutation
+  finds such cases.
+
+**Theorem REC-S, re-derived.**
+- E(k) with T is an official move (§29): T ⊆ (J ∪ {Y_z}) ∩ R_k is improving, and each x_l gains.
+- B₁⁻ = SD(σ ∖ k) is a perfect start of I⁻.
+- Theorem S needs no hardness. Its (G2) and the SD-order facts it uses hold at an SD outcome. So it gives P′ and an
+  EFX₀ S\* completion X⁻ of I⁻. S\* is a one-absorber form, with the owner as absorber.
+- LIFT 1: the conditions of an official move compare one agent's values on the current bundles, together with the pool
+  J ∪ B_{x_t}. No condition mentions frozenness, picks or other agents.
+  - Since k holds T, J(I, B₁) = J(I⁻, B₁⁻), and every other bundle is the same in I and I⁻.
+  - So the move transfers verbatim, also when P′'s owner or head is an agent of E(k), which simply holds its B₁ good.
+    **This is the coordinator's second point.**
+  - In the data, P′'s head is an agent of E(k) in all 9,943 cases, and its owner is one in 57.
+- LIFT 2: pairs inside I⁻ are as in I⁻. T threatens i ≠ k only if a single good of T beats v_i(X_i) ≥ v_i(B₁_i),
+  which (L) excludes. k's view is (K). k receives no junk, so the absorber count is unchanged. Correct.
+
+**Computation (evidence).** Two kinds of test:
+- *SD-E:* every frozen k, the chain E(k), and every T ⊆ J ∪ {Y_z}, including non-improving T.
+- *REC-S:* every k ∈ D, every improving pair T, and every Theorem S case in I⁻:
+  - every longest chain, h ∈ J⁻ ∪ {Y_{z′}}, every improving H₀′ ⊆ W′ ∩ R_{k′}, and every receiver;
+  - each repair is validated in I by simulating both moves as §29 official moves with my certifier-referee code
+    (`cert_ref.apply_move`), then checking that the completion has one absorber, is a partition, and is raw EFX₀.
+
+| run | starts | SD-E tests / failures | REC-S: repairs validated / failures | starts repaired |
+|---|---|---|---|---|
+| 12 known failures | 12 | 752 / **0** | 33 / **0** | **12 of 12** |
+| 4,955 walk failures | 4,955 | 324,224 / **0** | 9,910 / **0** | **4,955 of 4,955** |
+| random strict perfect starts (n = 3–5) | 50,631 (SD-E), 504,183 (REC-S) | 882,284 / **0** | 5,877 / **0** | 2,744 |
+
+| mutation | tests / failures |
+|---|---|
+| SD-E with any canonical chain from k instead of E(k) | 343,136 / **43,272** |
+| SD-E with tied values (tie-break by lowest good index) | 230,612 / **12,894** |
+| REC-S without (K) | 81 / **81** (random); (K) never fails on the 4,967 data starts |
+| REC-S with any canonical P₁, B₁⁻ not required to be SD | 912 non-SD cases / **7** (random) |
+
+The coverage claim of §12 (REC-S repairs all 12 and all 4,955, in the E(k)-only form) is reproduced. I did not re-run
+the matching session's 23,943 n = 5 walk rows.
