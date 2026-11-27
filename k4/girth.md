@@ -788,6 +788,10 @@ where d gets nothing. These are the same numbers as oc1-hall's census.
   truly dangerous at Y′. **One explicit form works at all 7,733:** w takes an improving junk pair H and d takes Y′_w
   (the chain); then d takes its old good Y′_d and one junk good x, and w takes the last junk good y (or the same with
   d and w exchanged). The RF-B form (d absorbs Y′_d and all remaining junk) works at none of them.
+  The TTC session proves this form as **Lemma C13** (any n, a certificate lemma with hypotheses (2)–(4) checked at all
+  7,733; its "two bins" mechanism: the other two truly dangerous agents' pool pair is split between w's and d's
+  bundles), to appear in `k4/ttc.md` §14.8 on `claude/k4-ttc` ([unverified]: relayed by its message; its proof as sent
+  was read here and is correct).
 - Explicit forms in DEMOTE-0: at the 71,443 that complete at once, RF-A1's completion; at all 42,009 trade cases,
   **some trade after which every remaining junk good goes to a different agent** (no absorber).
 - With (T\*) added (tried after (T), before (C)), the counts on all earlier data are unchanged: 292,080 n = 4 orders,
