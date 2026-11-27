@@ -886,6 +886,22 @@ The witnesses are re-checked by `check_rsd.py`, which now also verifies rounds.
 > settlements, with (L\*) at its end, respects them and leads to a reduced instance that satisfies the hypothesis
 > again. With Lemma LIFT\* (rounds) it gives EFX₀ existence by induction on n. Its base case is not pure (below).
 
+**The certifier's partial n = 5 export** (compute/k4-oc1max-cert commit cd476cf7,
+`results/k4_oc1max/n5/two_move_starts_n5_partial6.json.gz`). It holds 702,250 two-move starts on six 5_pure
+hypergraphs (idx 374, 379, 464, 808, 778, 164), every list cut by a CEGAR time cap. A subsample of every 50th start
+per hypergraph, 14,047 starts, is `results/k4_matching/data/two_move_starts_n5_partial6_s50.jsonl.gz`. Evidence
+only. Results:
+- every start is hard (raw) with one holder;
+- ROUND-RSD repairs all 14,047. 7,358 take one round of two and 6,689 take two rounds of one; `check_rsd.py`
+  verifies all of them;
+- RSD (all in two steps), OC2-REC (with its EX\* form) and CM₂ also hold at all 14,047;
+- LIFT-SHAPE⁺ holds at 3,448;
+- 4a / 4b: 13,336 / 711;
+- EX\* is inexact on the second move at 1,608.
+
+Logs: `round_rsd_n5partial_s50.log`, `check_round_rsd_n5partial_s50.log`, `rsd_n5partial_s50.log`,
+`n5_census_n5partial_s50.log`.
+
 **The base case** (the coordinator's question; `attempts/k4-matching-rsd-base.md`; ledger K4.MATCH.RSD.BASE). The
 data are all 10,109 distinct one-absorber-hard starts with a one-move repair: multi's 8,081, Hall's 1,737, and 291
 PW starts. On them, pure reduction with a completion at once gives:
