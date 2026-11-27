@@ -820,11 +820,33 @@ failures need n = 4, so n = 2 is still a fair, bounded target.
     neither worse. That is type-determined (`n2types_k4_pareto_junk{0,1,2}.log`).
   - So **P^sub holds at n = 2** for strict k ≤ 4 instances with at most two junk goods. For junk goods, only the C
     checker has re-run every class; the Pareto composites are witnesses found in Python.
-  - *Why the check is complete.* Pool-shrinking and the second alternative depend only on the agents' strict order
-    types: EFX₀ compares disjoint sets of an agent's goods, and the gains are "a valued good for a worthless one".
-    `ht_n2types.py` runs every strict type profile once, up to the interchangeability of goods valued by the same
-    agents (45,999 classes; `n2types_k4_theorem.log`), through `gstar_measure` (C). Every class has its partial EFX₀
-    states (6,639,927 in all) checked.
+  - *Why the check is complete: two lemmas (PROVED, written here).*
+    - **Lemma TD (type-determinedness).** Let v and w be valuations with the same relevant sets Rᵢ, zero outside
+      them, and for each agent the same strict type on Rᵢ: for disjoint nonempty S, T ⊆ Rᵢ, vᵢ(S) > vᵢ(T) iff
+      wᵢ(S) > wᵢ(T), and never equality. Then for all partial allocations X and Y:
+      - (a) X is partial EFX₀ under v iff under w;
+      - (b) vᵢ(Yᵢ) > vᵢ(Xᵢ) iff wᵢ(Yᵢ) > wᵢ(Xᵢ), and the same for ≥.
+
+      *Proof.* (a) The condition vᵢ(Xⱼ ∖ {h}) ≤ vᵢ(Xᵢ) compares A = (Xⱼ ∖ {h}) ∩ Rᵢ with B = Xᵢ ∩ Rᵢ, which are
+      disjoint. If A = ∅ it holds for both. If A ≠ ∅ = B it fails for both, since values on Rᵢ are positive. If both
+      are nonempty, the type decides it. (b) vᵢ(Yᵢ) − vᵢ(Xᵢ) = vᵢ((Yᵢ ∖ Xᵢ) ∩ Rᵢ) − vᵢ((Xᵢ ∖ Yᵢ) ∩ Rᵢ), a comparison
+      of disjoint sets, with the same three cases. ∎
+
+      So whether a state has a pool-shrinking composite, or a Pareto composite, is the same for every realization of
+      the type profile. Moves do not depend on values.
+    - **Lemma OR (orbit reduction).** Call goods valued by the same set of agents a class. Relabeling goods within
+      their classes maps an instance to an isomorphic one, and every statement here is invariant under relabeling.
+      Give each class a designated agent who values it. Under a strict type, that agent's values on the class are
+      distinct, so exactly one relabeling within each class makes them increase.
+
+      Every orbit of type profiles therefore has exactly one profile in which each designated agent's values increase
+      along its class (A for the A-only and the shared goods, B for the B-only goods). Also, every pair of relevant
+      sets is isomorphic to one with A-only goods first, then shared, then B-only. ∎
+    - The types themselves come from `k4/order_types.json` (K4.OT, CERTIFIED). For one and two goods the strict types
+      are 1 and 2, written out in the script.
+    With these, `ht_n2types.py` runs every strict type profile once up to Lemma OR (45,999 classes;
+    `n2types_k4_theorem.log`) through `gstar_measure` (C). Every class has its partial EFX₀ states (6,639,927 in all)
+    checked.
   - *The cases.* Pool-shrinking fails at exactly 20 states, one per class, all of the shape of the attempts file: each
     agent holds a misplaced good, and the swap of the two misplaced goods is the second alternative. **Two implementations agree.** The
     independent Python checker of `ht_n2claim.py` re-ran all 45,999 classes (6,208,383 partial EFX₀ states with a
