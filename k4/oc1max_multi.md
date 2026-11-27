@@ -1643,6 +1643,9 @@ certified at 14904a87 on `compute/k4-oc1max-cert`; the matching session's copy i
     nothing, and is raw EFX₀.
 - Result: **583,680 ok**. All 17,511 negative tests are rejected. The witness starts equal the export's as a multiset
   (sha256 recorded): 0 missing, 0 extra.
+- *Second checker:* the matching session's `check_rsd.py --inline` (its own implementation) verifies all 583,680
+  witnesses from the raw definitions, and finds their starts equal to its copy of the export
+  (`results/k4_matching/check_rsd_multi_round_e_sel2.log` on `proof/k4-matching`).
 
 So at these three cores, which defeat REC-S and every sequential settlement at #419 and #447, the round step is
 certified in its refereed form: SD-E(round), (L\*) at the end of the round, LIFT, and the S^φ(round) invariants.
