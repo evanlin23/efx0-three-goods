@@ -1149,6 +1149,36 @@ R2-C ("some canonical chain to a receiver repairs, any owner") on all 1,002 n = 
 - So R2's chain sometimes needs a wanter that is not σ-earliest, and junk for a middle agent. R2 is not REC-S with an
   empty second move in general. R2-C, certified at n = 4, remains the target.
 
+**R2-C and the ROUND-P programme** (`kgen/rounds.md` §4.2, §4.6; `k4/sdc/roundp_check.py`).
+- Every R2-C repair is a single OC₁′ move: an official chain is an OC₁′ move in which no middle agent takes the end's
+  released goods. So it is a one-move ROUND-P witness.
+- Checked on the four certifier examples with the coordinator's generator (`oc1prime_verify.prime_states`): every
+  R2-C repairing state is an OC₁′ move state, and `Inst.one_absorber` confirms its completion.
+- So at starts with |U| ≥ 2, R2-C is a sharper statement than OC₁′ and ROUND-P: one *official canonical* chain to a
+  receiver suffices.
+
+**The shape of the R2-C repairs: a dichotomy (lemma candidate for the ROUND-P proof;** `r2c_shape.py`**).** At a hard
+perfect start with |U| ≥ 2, one of the following holds:
+- **(S) a pure want path to the first receiver.** Some canonical chain from x₀ ∈ D repairs, with every x_i
+  (1 ≤ i ≤ t) taking exactly x_{i−1}'s pick, x_t the first receiver on the path, and x₀ taking an improving set inside
+  J ∪ {y_{x_t}}. This is §11's pointer fixed point, with any wanter rather than the earliest.
+- **(L) double absorption.** Some canonical chain repairs that passes a receiver before its end, and in which a
+  dangerous middle agent takes its predecessor's pick together with junk it values. That is the "a middle agent
+  absorbs danger" shape of OC₁′ / ROUND-P, realized inside an official chain.
+
+*Evidence:*
+- (S) holds at 79/79 hard |U| ≥ 2 starts in the n = 4 walk (`r2c_shape_walk_n4.log`), at 466/466 in the n = 6
+  sample (`r2c_shape_n6_sample.log`), and at the R2-O′ counterexample.
+- At 4_n4_3 #77, (S) fails and every repairing chain has shape (L).
+- The exhaustive n = 4 count (how many starts need (L), and whether (L) always holds when (S) fails) is requested
+  from the certifier.
+
+*For a proof:*
+- (S) is exactly the TTC pointer argument of §11: a dangerous agent points at a pool set, and want arrows lead to a
+  receiver.
+- (L) is a second pointer from a middle agent to its own junk.
+- A ROUND-P proof covering "middle agents take junk" would contain R2 as the case of one chain.
+
 **Result** (certifier, final n = 4 counts; every strict profile of all 1,002 cores, perfect hard starts with
 |U| ≥ 2; certified parts independently checked, failures raw-verified; files `cert_4_r2{c,op,og,o,star}.json.gz` on
 `compute/k4-oc1max-cert`, PR #120, row K4.SDC.R2C.N4):
