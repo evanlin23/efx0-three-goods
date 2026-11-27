@@ -1,0 +1,12 @@
+$ python3 kgen/charity/kd_table.py 8 10
+d: packing bound (largest p with p! <= d^(p-1))  k=3  k=4  k=5  k=6  k=7  k=8
+d=1  packing  1      0     1     1     1     1     1
+d=2  packing  2      1     2     2     2     2     2
+d=3  packing  4      2     4     4     4     4     4
+d=4  packing  6      3     6     6     6     6     6
+d=5  packing  9      4     9     9     9     9     9
+d=6  packing 11      5    11    11    11    11    11
+d=7  packing 14      6    13    14    14    14    14
+d=8  packing 16      7    15    16    16    16    16
+d=9  packing 19      8    17    19    19    19    19
+d=10 packing 21      9    19    21    21    21    21

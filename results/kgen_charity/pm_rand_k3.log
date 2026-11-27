@@ -1,0 +1,4 @@
+$ python3 kgen/charity/pm_search.py rand 1 2 300 2 5 3
+Pareto maxima enumerated 711
+instances 300
+time 1 s

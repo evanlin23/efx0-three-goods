@@ -1,0 +1,25 @@
+$ python3 k4/ttc/head_bign.py big:6-9 2000 11 orders=12 tlim=120
+instances n=6 500
+instances n=7 500
+instances n=8 500
+instances n=9 500
+n=6 OC1 (any absorber) seen 50
+n=6 distinct hard starts 50
+n=6 head absorbs: head 50
+n=7 OC1 (any absorber) seen 18
+n=7 distinct hard starts 18
+n=7 head absorbs: head 18
+n=8 OC1 (any absorber) seen 11
+n=8 distinct hard starts 11
+n=8 head absorbs: head 11
+n=9 OC1 (any absorber) seen 14
+n=9 distinct hard starts 14
+n=9 head absorbs: head 14
+time 27 s
+$ python3 k4/ttc/head_bign.py logs nmin=6 nmax=9 orders=12 tlim=120
+instances n=6 47
+instances n=7 10
+n=6 OC1 (any absorber) seen 10
+n=6 distinct hard starts 10
+n=6 head absorbs: head 10
+time 0 s

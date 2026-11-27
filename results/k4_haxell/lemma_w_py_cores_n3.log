@@ -1,0 +1,5 @@
+$ python3 k4/haxell/ht_lemma_w.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz:600:7 NMAX=3 MMAX=7 LIMIT=200
+instances 200
+partial EFX0 states 73883
+stuck states 0
+time 5 s

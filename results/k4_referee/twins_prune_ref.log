@@ -1,0 +1,7 @@
+$ python3 k4/referee/twins_prune_ref.py k4_min_cex_shapes_4.json.gz mc_n6_b5.json.gz   # main; claude/k4-hunt-cegar
+{"source": "shapes4.json.gz", "Gprime_all_completions_excluded": 310, "Gprime_mixed_completions": 0, "cores": 5558, "distinct_Gprime": 1163, "excluded": 2392, "left": 3166, "stated_rule_MISMATCH_with_all_completions": 0, "stated_rule_prunes": 310}
+{"source": "mc_n6_b5.json.gz", "Gprime_all_completions_excluded": 836, "Gprime_mixed_completions": 0, "cores": 30337, "distinct_Gprime": 4143, "excluded": 9455, "left": 20882, "stated_rule_MISMATCH_with_all_completions": 0, "stated_rule_prunes": 836}
+
+real	0m4.750s
+user	0m4.481s
+sys	0m0.237s

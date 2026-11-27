@@ -1,0 +1,6 @@
+$ python3 k4/referee/recs_n4_ref.py recs_witnesses_n4.json.gz two_move_starts_n4.json.gz 4   # witnesses at b8bdc69; export sha256 6159e38d1e70ae16...
+{"source": "K4.MULTI.RECS.N4 witnesses re-validated", "H0_contains_worthless_goods": 0, "REC_S_applies_for_this_order_k_T": 112880, "export_starts": 112880, "export_starts_without_witness": 0, "valid": 112880, "witness_is_a_theorem_S_case": 112880, "witness_starts": 112880, "witness_starts_not_in_export": 0}
+
+real	0m11.208s
+user	0m29.375s
+sys	0m4.759s

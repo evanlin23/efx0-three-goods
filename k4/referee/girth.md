@@ -188,3 +188,137 @@ Read: `k4/girth.md` §5 ("Envy-cycle rotation and the stuck states"), with the d
 | control: the SLACK core on EFX₀ states *without* (3) | 784,999 | **442,797** fail |
 
 So (3) is exactly what the consequence needs.
+
+## 7. Addendum: Lemma RF-PATH (`k4/girth.md` §7 at `8f7ba8aa`, PR #102), with TTC's Lemma RF-ROT (`k4/ttc.md` §14.7 at `d451ea0c`, PR #125) (coordinator's priority item, 2026-11-27)
+
+**Verdict: both CORRECT.** Script `rfpath_ref.py` (own code: serial dictatorship from the definition, no shared code),
+runs `rfpath_ref_runs.sh`, log `results/k4_referee/rfpath_ref.log`.
+
+**The basic fact.** If j picks before i in an SD order, i's pick was free at j's turn, so v_j(Y_j) ≥ v_j(Y_i). Hence j
+does not want Y_i. This holds with ties too, and at non-perfect starts: a pickless j values every free good at 0.
+
+**RF-ROT, re-derived.**
+- By the basic fact, only later pickers can want a pick. So the last picker is a receiver (unfrozen).
+- σ_{n−1} is a receiver unless σ_n wants its pick.
+- With exactly one receiver, that receiver is σ_n, so RF is the rotation (σ_n, σ_1, …, σ_{n−1}).
+- In the rotated order σ_{n−1} picks last, so it is a receiver of the RF start.
+
+**RF-PATH, re-derived step by step.**
+- *t = Y_u.* Then t was free throughout σ and nobody before u took it. Removing it first changes no choice, so Y′ = Y.
+- *t ≠ Y_u.* Then t is not junk: junk is free at u's turn, and u would have taken its top good. So t = Y_{x₁}.
+- *The invariant.* A′_k = A_k ∖ {m_k} with m_k ∈ A_k.
+  - If Y_a ≠ m_k, then Y_a ∈ A′_k ⊆ A_k is still a's best good, and m is unchanged.
+  - If Y_a = m_k, a is ejected and takes its best g ∈ A_k ∖ {m_k}. Since g was free when a chose Y_a in σ,
+    v_a(g) < v_a(Y_a) by strictness. Then A_{k+1} = A_k ∖ {m_k} and A′_{k+1} = A_{k+1} ∖ {g}. If a takes nothing,
+    A′ = A from then on.
+  - g is free after a's turn in σ, so its σ-holder (if any) picks later. This gives the increasing path, (a) and the
+    losses in (b).
+  - The path stops when the missing good is picked by nobody before u, i.e. it is junk of Y or Y_u.
+  - u gains strictly, because t is its strict top.
+- *(c).* Let g be d's new good.
+  - Agents after d in σ′ keep their picks and had g free at their σ-turn, since nobody between d and u picks it.
+  - Agents before d in σ′ (u included) had g free at their σ′-turn.
+  - So nobody wants g. σ_{n−1}, the last picker of σ′, is unfrozen by the basic fact.
+  - Hence at a one-receiver RF start, d = σ_{n−1}. If d receives nothing, its empty bundle is wanted by nobody either,
+    and the conclusion stands.
+
+**Check** (random instances: strict values, n = 2–7, m = n … n + 5; ≤ 4 relevant goods per agent, or up to 12;
+random orders; picks not required to be perfect):
+
+| | ≤ 4 goods | ≤ 12 goods |
+|---|---|---|
+| instances | 400,000 | 400,000 |
+| t = Y_u (Y′ = Y) | 212,951, 0 changed | 208,076, 0 changed |
+| path cases (lengths 1 / 2 / 3 / 4 / ≥ 5) | 187,049 (154,673 / 28,988 / 3,199 / 185 / 4) | 191,924 (150,352 / 35,759 / 5,319 / 469 / 25) |
+| failures of (a) shape, (b) losses, (b) u's gain, (c) d unfrozen, (c) σ_{n−1} unfrozen | **0** | **0** |
+| one-receiver RF starts: d = σ_{n−1} | 18,531 of 18,531 | 23,117 of 23,117 |
+| RF-ROT: last picker a receiver; σ_{n−1} unless σ_n wants its pick; one-receiver starts with receiver ≠ σ_n | 0 / 0 / 0 (30,676 one-receiver starts) | 0 / 0 / 0 (35,171) |
+
+**For the campaign.**
+- RF-PATH and RF-ROT are general SD facts (any n, any strict additive values), and the statement used is exactly
+  what is proved.
+- They give DEMOTE (a) in general, with the remark that ℓ ≤ 2 is a data observation at the OC₁^max failures only.
+  Random orders give paths up to length 6.
+- The open half of RF is the completion statement: "(i) owner w or d, or (T), or (C)".
+
+**Generalized RF-PATH** (`k4/girth.md` §7 at `712a5688`). u is any receiver of a perfect start Y (no agent wants Y_u),
+and σ′ = (u, σ − u). The coordinator's priority item, needed for RF at n ≥ 5: **CORRECT.**
+
+*Re-derivation.*
+- t is a pick of an agent x₁ *before* u in σ: a good picked later, or junk, was free at u's turn.
+- The invariant is A′ = A ∖ {m} before u's old turn. At that turn σ removes Y_u and σ′ does not, so
+  A′ = (A ∖ {m}) ∪ {Y_u} after it. If m = Y_u there, because an earlier ejected agent took Y_u, the runs agree from
+  then on.
+- A non-ejected agent a keeps Y_a. Every other good of A′ was free at a's σ-turn, except Y_u, which a does not want.
+- An ejected agent's new good g is either free at its σ-turn, or Y_u, which it does not want. With strict values,
+  v_a(g) < v_a(Y_a) in both cases.
+- If g = Y_u, or g is picked by nobody later in σ (so g is junk of Y), the chain stops. Otherwise the later σ-holder
+  of g is ejected next. This gives (a) and (b). The path may pass u's old position.
+- *(c), g = Y_u.*
+  - Off-path agents keep their picks, and did not want Y_u at Y.
+  - Path agents and u chose their new goods while Y_u was free in σ′.
+- *(c), g junk of Y.* This is the argument of the u = σ_n case.
+- The receiver hypothesis is used twice: once for non-ejected agents and once for ejected ones.
+
+*Check* (`rfpath_ref.py … receiver`; perfect starts, u a random receiver):
+
+| | ≤ 4 goods | ≤ 12 goods |
+|---|---|---|
+| path cases | 63,983 | 92,645 |
+| of which u is not the last picker | 23,322 | 35,305 |
+| failures of (a), (b) and (c) (d unfrozen; σ_{n−1} parts when u = σ_n) | **0** | **0** |
+
+*Mutation* (u a frozen agent: the hypothesis dropped), 2,132 path cases:
+- 1,474 shape failures;
+- 1,818 loss failures;
+- 392 cases with d wanted.
+
+So the receiver hypothesis is needed, and it is enough.
+
+**On PR #102 as a whole.** My referee verdicts cover:
+- Theorem T1 and Lemmas SINK, PARK, SLACK (§2 above, CORRECT);
+- Lemma EC and the stuck-state consequence (§6, CORRECT);
+- RF-PATH in both forms (here, CORRECT).
+
+Not refereed by me:
+- the DYN∃ certification K4.GIRTH.DYN4 (`dyncert.py`, with girth's own second covering);
+- Conjecture DOM;
+- Rule RF and Lemma DEMOTE (evidence and conjectures).
+
+The PR edits no ledger row.
+
+**Lemma RF-T and Corollary RF-T′** (`k4/girth.md` §7 at `3e64bf0d`; coordinator's queue): **both CORRECT.**
+
+*Re-derivation.*
+- X is complete: J = {g, j, z}, the picks move along the path and the trade, and p is off the path.
+- All bundles have ≤ 2 goods, so EFX₀ fails only by someone valuing a single good of another two-good bundle above
+  its own.
+- g, j, z and Y_u are excluded for everyone:
+  - agents before d in σ′ had them all free;
+  - agents after d are off the path, with junk free at their σ-turn and Y_u unwanted at Y;
+  - d: the trade, and its σ′ choice of g;
+  - p: the trade, z free at its σ-turn, and Y_u unwanted.
+- That leaves exactly (W-d) and (W-p).
+- RF-T′:
+  - path agents x_s (s ≤ ℓ − 2) chose Y′ while Y_d was free;
+  - d is covered by (F1), off-path agents by (F2), and Y_p's valuers by (F3);
+  - u holds its top good, which is neither Y_d nor Y_p.
+- The proof uses neither |U′| = 1 nor D_T′ = ∅.
+
+*Check* (`rfbp_rft_ref.py rft`; 1,500,000 random strict instances, n = 4–7; every trade in the lemma's setting):
+- 844 trades, all with X complete;
+- raw EFX₀ ⟺ (W-d) ∧ (W-p) at all 844 (321 EFX₀, 523 not), 0 mismatches;
+- 144 meet (F1)–(F3), and all 144 are EFX₀.
+
+Log `results/k4_referee/rfbp_rft_ref.log`.
+
+**The SINK form of DEMOTE** (`k4/girth.md` §7 at `ea279bb9`; coordinator's queue). It is stated as a **CONJECTURE**, and
+nothing new in it is written as a proof. Its proved parts are the lemmas it cites. Each of their allocations has the
+SINK shape, which I checked against the statements:
+- RF-A1: w absorbs, and d receives one junk good h. CORRECT, `oc1_hall.md` addendum.
+- RF-B: d absorbs everything left, Y′_d and J′ ∖ S. CORRECT, same addendum.
+- RF-T: d receives the one good Y_u, and x_{ℓ−1} the one good z. CORRECT, above.
+- The (1, 3) form is TTC's Lemma C13, which I have not refereed.
+
+The conjecture's data claims (161,520 n = 4 RF starts; the n = 5 classes) were not re-run here. My n = 4 recomputation
+of the A1 and B classes (`rfres_ref.py`) shows the SINK shape at all 32,000 and 43,520 starts.

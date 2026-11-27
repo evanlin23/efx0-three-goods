@@ -1,0 +1,10 @@
+$ python3 k4/haxell/ht_bfs.py logs NMAX=4 MODEL=G CAP=200000
+instances 1465
+instances with a stuck start 0
+start: depth 0 6
+start: depth 1 9183
+start: depth 2 9663
+start: depth 3 2387
+start: depth 4 135
+starts 21374
+time 13 s

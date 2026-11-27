@@ -1,0 +1,42 @@
+$ python3 k4/vm/vm6_test.py logs --variants=eager,choice,x-choice,x-stuck
+choice: every run EFX0               12
+choice: first run (all choices 0) EFX0 33
+choice: runs                         7418
+choice: runs EFX0                    7018
+choice: some run EFX0                42
+eager: every run EFX0                20
+eager: first run (all choices 0) EFX0 33
+eager: runs                          1996
+eager: runs EFX0                     1909
+eager: some run EFX0                 42
+instances                            42
+x-choice: every run EFX0             12
+x-choice: first run (all choices 0) EFX0 40
+x-choice: runs                       9101
+x-choice: runs EFX0                  8690
+x-choice: some run EFX0              42
+x-stuck: every run EFX0              22
+x-stuck: first run (all choices 0) EFX0 29
+x-stuck: runs                        5960
+x-stuck: runs EFX0                   5703
+x-stuck: some run EFX0               40
+  stuck kind ('choice', 'no_safe') 400
+  stuck kind ('eager', 'no_safe') 87
+  stuck kind ('x-choice', 'no_safe') 411
+  stuck kind ('x-stuck', 'no_safe') 257
+  eager [first run]: no EFX0 run on 9: log:nof_bad_n3:5(n=3,m=5), log:nof_bad_n3:4(n=3,m=5), log:nof_bad_screen:25(n=3,m=6), log:nof_bad_suite:26(n=3,m=6), log:nof_bad_n3:2(n=3,m=6), log:nof_bad_screen:21(n=3,m=6), log:nof_bad_n3:6(n=3,m=6), log:nof_d4:28(n=3,m=6), log:nof_bad_screen:22(n=4,m=8)
+    smallest: log:nof_bad_n3:5 {"sets": [[0, 1, 2, 4], [1, 3, 4], [2, 3, 4]], "vals": [[6, 2, 10, 7], [2, 3, 4], [4, 2, 3]], "m": 5}
+    smallest: log:nof_bad_n3:4 {"sets": [[0, 1, 3, 4], [0, 2, 3, 4], [1, 2, 4]], "vals": [[2, 5, 4, 8], [4, 8, 2, 5], [2, 3, 4]], "m": 5}
+  choice [first run]: no EFX0 run on 9: log:nof_bad_n3:5(n=3,m=5), log:nof_bad_n3:4(n=3,m=5), log:nof_bad_screen:25(n=3,m=6), log:nof_bad_suite:26(n=3,m=6), log:nof_bad_n3:2(n=3,m=6), log:nof_bad_screen:21(n=3,m=6), log:nof_bad_n3:6(n=3,m=6), log:nof_d4:28(n=3,m=6), log:nof_bad_screen:22(n=4,m=8)
+    smallest: log:nof_bad_n3:5 {"sets": [[0, 1, 2, 4], [1, 3, 4], [2, 3, 4]], "vals": [[6, 2, 10, 7], [2, 3, 4], [4, 2, 3]], "m": 5}
+    smallest: log:nof_bad_n3:4 {"sets": [[0, 1, 3, 4], [0, 2, 3, 4], [1, 2, 4]], "vals": [[2, 5, 4, 8], [4, 8, 2, 5], [2, 3, 4]], "m": 5}
+  x-choice [first run]: no EFX0 run on 2: log:nof_bad_screen:21(n=3,m=6), log:nof_bad_n3:6(n=3,m=6)
+    smallest: log:nof_bad_screen:21 {"sets": [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], "vals": [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]], "m": 6}
+    smallest: log:nof_bad_n3:6 {"sets": [[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], "vals": [[4, 6, 1, 8], [6, 1, 4, 8], [2, 6, 3, 10]], "m": 6}
+  x-stuck [first run]: no EFX0 run on 13: log:nof_bad_screen:25(n=3,m=6), log:nof_bad_suite:26(n=3,m=6), log:nof_bad_n3:2(n=3,m=6), log:nof_bad_screen:21(n=3,m=6), log:nof_bad_screen:23(n=3,m=6), log:nof_bad_screen:24(n=3,m=6), log:nof_bad_n3:6(n=3,m=6), log:nof_d4:31(n=3,m=7), log:nof_kstar_n3:37(n=3,m=8), log:nof_bad_n4:11(n=4,m=7), log:nof_bad_screen:22(n=4,m=8), log:nof_d4_nor1:34(n=4,m=8)
+    smallest: log:nof_bad_screen:25 {"sets": [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], "vals": [[2, 3, 4, 8], [2, 4, 3], [4, 2, 3]], "m": 6}
+    smallest: log:nof_bad_suite:26 {"sets": [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], "vals": [[2, 3, 4, 8], [2, 3, 4], [3, 2, 4]], "m": 6}
+  x-stuck: no EFX0 run on 2: log:nof_bad_screen:23(n=3,m=6), log:nof_bad_screen:24(n=3,m=6)
+    smallest: log:nof_bad_screen:23 {"sets": [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], "vals": [[4, 3, 2, 8], [4, 1, 8, 6], [2, 4, 3]], "m": 6}
+    smallest: log:nof_bad_screen:24 {"sets": [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], "vals": [[2, 3, 4, 8], [1, 4, 8, 6], [2, 4, 3]], "m": 6}
+time 4 s

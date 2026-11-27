@@ -1,0 +1,45 @@
+$ python3 k4/haxell/gstar_measure_run.py screen NMAX=4 MMAX=7 MAXSTATES=400000 RADIUS=3
+instances 109
+partial EFX0 states 111591
+stuck states, phi0 63
+stuck states, phi1 0
+stuck states, phi10 0
+stuck states, phi11 0
+stuck states, phi12 0
+stuck states, phi13 0
+stuck states, phi14 0
+stuck states, phi15 0
+stuck states, phi16 0
+stuck states, phi17 0
+stuck states, phi18 0
+stuck states, phi2 0
+stuck states, phi3 55
+stuck states, phi4 4
+stuck states, phi5 0
+stuck states, phi6 0
+stuck states, phi7 0
+stuck states, phi8 0
+stuck states, phi9 0
+instances with a stuck state, phi0 16
+instances with a stuck state, phi1 0
+instances with a stuck state, phi10 0
+instances with a stuck state, phi11 0
+instances with a stuck state, phi12 0
+instances with a stuck state, phi13 0
+instances with a stuck state, phi14 0
+instances with a stuck state, phi15 0
+instances with a stuck state, phi16 0
+instances with a stuck state, phi17 0
+instances with a stuck state, phi18 0
+instances with a stuck state, phi2 0
+instances with a stuck state, phi3 13
+instances with a stuck state, phi4 4
+instances with a stuck state, phi5 0
+instances with a stuck state, phi6 0
+instances with a stuck state, phi7 0
+instances with a stuck state, phi8 0
+instances with a stuck state, phi9 0
+first instance with a stuck state for phi0 : C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]]
+first instance with a stuck state for phi3 : C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]]
+first instance with a stuck state for phi4 : C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]]
+time 1 s

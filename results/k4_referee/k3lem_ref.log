@@ -1,0 +1,9 @@
+{"instance": "crossed n=6", "picks": [2, 3, 4, 5, 0, 1], "hard": true, "T": [4, 5], "valid_rule_e_rotations": 0, "chk_L6_terminals": 2, "chk_L7_no_direct": 1, "chk_L7_ring_completes": 1, "chk_L7_ring_official_and_valid": 1, "chk_L7_segments_disjoint": 1, "chk_hard": 1, "chk_states": 1}
+{"instance": "crossed n=7", "picks": [0, 1, 3, 4, 6, 2, 5], "hard": true, "T": [4, 6], "valid_rule_e_rotations": 0, "chk_L6_terminals": 2, "chk_L7_no_direct": 1, "chk_L7_ring_completes": 1, "chk_L7_ring_official_and_valid": 1, "chk_L7_segments_disjoint": 1, "chk_hard": 1, "chk_states": 1}
+{"source": "k3 Lemmas 4-7, G5, G5' random N=60000 seed=3 mutation=anychain", "draft_G5_CYCLE": 1377, "draft_G5_acyclic": 50783, "draft_L6_terminals": 3535, "draft_hard": 3491, "draft_rotations": 52160, "draft_states": 120116, "upg_G5_CYCLE": 1301, "upg_G5_acyclic": 32839, "upg_L6_terminals": 3527, "upg_hard": 3491, "upg_rotations": 34140, "upg_states": 120116}
+{"source": "k3 Lemmas 4-7, G5, G5' random N=150000 seed=2 mutation=None", "draft_G5_acyclic": 108707, "draft_G5p_tests": 42118, "draft_L5_ok": 108707, "draft_L6_terminals": 8801, "draft_hard": 8709, "draft_rotations": 108707, "draft_states": 300366, "upg_G5_acyclic": 72131, "upg_G5p_tests": 32925, "upg_L5_ok": 72131, "upg_L6_terminals": 8798, "upg_hard": 8709, "upg_rotations": 72131, "upg_states": 300366}
+{"source": "k3 Lemmas 4-7, G5, G5' random N=150000 seed=1 mutation=None", "draft_G5_acyclic": 107658, "draft_G5p_tests": 42059, "draft_L5_ok": 107658, "draft_L6_terminals": 8953, "draft_hard": 8859, "draft_rotations": 107658, "draft_states": 299844, "upg_G5_acyclic": 72022, "upg_G5p_tests": 32876, "upg_L5_ok": 72022, "upg_L6_terminals": 8944, "upg_hard": 8859, "upg_rotations": 72022, "upg_states": 299844}
+
+real	1m57.272s
+user	4m39.907s
+sys	0m0.147s

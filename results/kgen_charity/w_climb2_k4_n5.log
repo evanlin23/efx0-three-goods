@@ -1,0 +1,58 @@
+$ python3 kgen/charity/w_climb.py 42 300 2 rand5 4 0 8
+restart 0: start score -9 (>= 2 out: 89, < 2 out: 98)
+  step 5 score -7 (>= 2 out: 92, < 2 out: 99) 1 s
+  step 10 score -6 (>= 2 out: 94, < 2 out: 100) 1 s
+  step 11 score -5 (>= 2 out: 94, < 2 out: 99) 2 s
+  step 15 score -3 (>= 2 out: 95, < 2 out: 98) 2 s
+  step 24 score -2 (>= 2 out: 92, < 2 out: 94) 3 s
+  step 247 score -1 (>= 2 out: 108, < 2 out: 109) 30 s
+  step 275 score 0 (>= 2 out: 95, < 2 out: 95) 34 s
+restart 0 final score 0, 37 s
+restart 1: start score -1 (>= 2 out: 47, < 2 out: 48)
+  step 44 score 0 (>= 2 out: 53, < 2 out: 53) 4 s
+restart 1 final score 0, 29 s
+restart 2: start score -11 (>= 2 out: 71, < 2 out: 82)
+  step 4 score -10 (>= 2 out: 71, < 2 out: 81) 0 s
+  step 8 score -8 (>= 2 out: 68, < 2 out: 76) 1 s
+  step 9 score -7 (>= 2 out: 68, < 2 out: 75) 1 s
+  step 19 score -6 (>= 2 out: 59, < 2 out: 65) 2 s
+  step 29 score -4 (>= 2 out: 59, < 2 out: 63) 3 s
+  step 42 score -2 (>= 2 out: 66, < 2 out: 68) 4 s
+  step 53 score -1 (>= 2 out: 80, < 2 out: 81) 5 s
+restart 2 final score -1, 34 s
+restart 3: start score -8 (>= 2 out: 81, < 2 out: 89)
+  step 2 score -7 (>= 2 out: 81, < 2 out: 88) 0 s
+  step 21 score -5 (>= 2 out: 83, < 2 out: 88) 3 s
+  step 105 score -3 (>= 2 out: 114, < 2 out: 117) 14 s
+  step 113 score -2 (>= 2 out: 114, < 2 out: 116) 15 s
+  step 285 score -1 (>= 2 out: 115, < 2 out: 116) 38 s
+restart 3 final score -1, 39 s
+restart 4: start score -5 (>= 2 out: 64, < 2 out: 69)
+  step 1 score -3 (>= 2 out: 71, < 2 out: 74) 0 s
+  step 11 score -1 (>= 2 out: 76, < 2 out: 77) 1 s
+  step 43 score 0 (>= 2 out: 83, < 2 out: 83) 5 s
+restart 4 final score 0, 38 s
+restart 5: start score -13 (>= 2 out: 50, < 2 out: 63)
+  step 2 score -11 (>= 2 out: 49, < 2 out: 60) 0 s
+  step 3 score -10 (>= 2 out: 50, < 2 out: 60) 0 s
+  step 7 score -9 (>= 2 out: 50, < 2 out: 59) 1 s
+  step 12 score -6 (>= 2 out: 50, < 2 out: 56) 1 s
+  step 18 score -5 (>= 2 out: 52, < 2 out: 57) 1 s
+  step 19 score -2 (>= 2 out: 52, < 2 out: 54) 1 s
+  step 121 score -1 (>= 2 out: 55, < 2 out: 56) 7 s
+  step 147 score 0 (>= 2 out: 44, < 2 out: 44) 9 s
+restart 5 final score 0, 16 s
+restart 6: start score -6 (>= 2 out: 76, < 2 out: 82)
+  step 44 score -4 (>= 2 out: 96, < 2 out: 100) 4 s
+  step 54 score -3 (>= 2 out: 88, < 2 out: 91) 6 s
+  step 134 score -2 (>= 2 out: 77, < 2 out: 79) 14 s
+  step 158 score -1 (>= 2 out: 78, < 2 out: 79) 16 s
+restart 6 final score -1, 28 s
+restart 7: start score -5 (>= 2 out: 79, < 2 out: 84)
+  step 0 score -4 (>= 2 out: 79, < 2 out: 83) 0 s
+  step 11 score -3 (>= 2 out: 80, < 2 out: 83) 1 s
+  step 53 score -2 (>= 2 out: 77, < 2 out: 79) 5 s
+  step 54 score -1 (>= 2 out: 77, < 2 out: 78) 5 s
+  step 290 score 0 (>= 2 out: 114, < 2 out: 114) 30 s
+restart 7 final score 0, 31 s
+best score over restarts 0

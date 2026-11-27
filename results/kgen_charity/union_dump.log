@@ -1,0 +1,12 @@
+$ python3 kgen/charity/union_dump.py 1 2000
+2 copies of GM4-E (each stranding 1): complete EFX0 by the recipe: True
+3 copies of GM4-E (each stranding 1): complete EFX0 by the recipe: True
+2 copies of GM4-G (each stranding 1): complete EFX0 by the recipe: True
+3 copies of GM4-G (each stranding 1): complete EFX0 by the recipe: True
+2 copies of S(3,3) (each stranding 2): complete EFX0 by the recipe: True
+3 copies of S(3,3) (each stranding 2): complete EFX0 by the recipe: True
+2 copies of S'(3,3) (each stranding 2): complete EFX0 by the recipe: True
+3 copies of S'(3,3) (each stranding 2): complete EFX0 by the recipe: True
+components with a nonempty CKMS pool 1
+random unions: complete EFX0 by the recipe True 2000
+all checks passed

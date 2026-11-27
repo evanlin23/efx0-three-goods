@@ -1,0 +1,4 @@
+$ python3 kgen/charity/pm_search.py screen 2 0 0
+Pareto maxima enumerated 591
+instances 168
+time 1 s

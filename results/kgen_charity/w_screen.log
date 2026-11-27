@@ -1,0 +1,7 @@
+$ python3 kgen/charity/w_search.py screen 0 0
+STRANDED GM4-G 4 7 4 welfare 32 {"inst": {"n": 4, "m": 7, "v": [{"0": 3, "2": 6, "5": 2, "6": 10}, {"1": 1, "4": 6, "5": 8, "6": 4}, {"2": 3, "3": 6, "5": 8, "6": 4}, {"3": 6, "4": 3, "5": 4, "6": 8}]}, "X": [[0, 2], [1, 4], [5], [6]], "pool": [3]}
+STRANDED gm4-G 4 7 4 welfare 32 {"inst": {"n": 4, "m": 7, "v": [{"0": 3, "2": 6, "5": 2, "6": 10}, {"1": 1, "4": 6, "5": 8, "6": 4}, {"2": 3, "3": 6, "5": 8, "6": 4}, {"3": 6, "4": 3, "5": 4, "6": 8}]}, "X": [[0, 2], [1, 4], [5], [6]], "pool": [3]}
+instances 168
+welfare maximum leaves 0 out 166
+welfare maximum leaves 1 out 2
+slowest 0.1 s; time 1 s

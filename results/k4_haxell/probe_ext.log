@@ -1,0 +1,14 @@
+$ python3 k4/haxell/gstar_probe_run.py ext CAP=5000 WALK=6 LEN=8
+RD4            n 4 m  7 k 4 starts  10 probes  481 reached  481 traps 0 cap 0 max_expanded 11
+RD5            n 4 m  7 k 5 starts  10 probes  485 reached  485 traps 0 cap 0 max_expanded 10
+KG8            n 4 m  8 k 5 starts   6 probes  294 reached  294 traps 0 cap 0 max_expanded 9
+KG7            n 4 m  7 k 5 starts   6 probes  288 reached  288 traps 0 cap 0 max_expanded 11
+PW5            n 5 m  9 k 5 starts  19 probes  929 reached  929 traps 0 cap 0 max_expanded 15
+PW4            n 5 m  8 k 4 starts  19 probes  925 reached  925 traps 0 cap 0 max_expanded 10
+instances 6
+probes 3402
+probes cap 0
+probes reached 3402
+probes traps 0
+starts 70
+time 104 s

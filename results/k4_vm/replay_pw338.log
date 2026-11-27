@@ -1,0 +1,9 @@
+$ python3 attempts/k4_vm_vm2_pw338.py
+V-M matchings: [[[0], [1], [2], [3], [4], [5]], [[0], [1], [13], [2], [4], [5]], [[0], [1], [13], [3], [2], [5]], [[0], [1], [13], [3], [4], [2]]]
+states with no move: 4 ; one move: 273 ; two moves: 4554
+OK: no state within two moves completes (superset of VM2)
+three moves suffice, e.g. [[6, 7], [8, 9, 10], [13, 11, 4, 3], [2], [0], [5, 12, 1]]
+
+real	11m32.288s
+user	11m26.708s
+sys	0m0.583s

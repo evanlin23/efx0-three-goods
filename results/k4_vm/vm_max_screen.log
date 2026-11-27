@@ -1,0 +1,19 @@
+$ python3 k4/vm/vm_max.py screen
+V-M matchings                                 449
+V-M matchings that are maximum                426
+instances                                     168
+instances: every V-M matching maximum         153
+instances: some V-M matching maximum          167
+  maximum / no-move completes                                                 380
+  maximum / no-move fails                                                     46
+  no-move success / keeps picks                                               12
+  no-move success / keeps picks / one-absorber                                337
+  no-move success / picks moved by rotation                                   54
+  not maximum / no-move completes                                             23
+  non-maximum V-M matching: induct-lbo-no-rot n=4 m=5 nu=4 maximum-flags=[False, True]
+  non-maximum V-M matching: GM4-H n=4 m=6 nu=4 maximum-flags=[True, False, True, True, True, True]
+  non-maximum V-M matching: dl13-n4m6-fswap n=4 m=6 nu=4 maximum-flags=[False, False]
+  non-maximum V-M matching: gm4-H n=4 m=6 nu=4 maximum-flags=[True, False, True, True, True, True]
+  non-maximum V-M matching: induct-lbo-owner-only n=4 m=6 nu=4 maximum-flags=[False, True]
+  non-maximum V-M matching: c4x-n4m7-frozen-slots-some n=4 m=7 nu=4 maximum-flags=[False, True]
+time 8 s

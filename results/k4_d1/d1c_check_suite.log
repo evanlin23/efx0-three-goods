@@ -1,0 +1,14 @@
+$ python3 k4/d1/d1c_check.py suite
+  hard 14
+easy   (A) 1
+easy   (R) crowded 3
+easy   (R) no crowding 33
+easy   (T) 4
+easy chains with no improving set (Prop. 3') 82
+easy no-HEAD chains 41
+hard   (R) crowded 1
+hard   (R) no crowding 12
+hard no-HEAD chains 13
+instances 158
+starts with D = {k} 149
+time 0 s

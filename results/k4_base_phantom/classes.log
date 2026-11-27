@@ -1,0 +1,11 @@
+$ python3 k4/base_phantom/classes.py onemove_hard_multi.jsonl.gz onemove_hard_hall2071.jsonl.gz onemove_hard_pw291.jsonl.gz
+distinct starts: 8539
+      6  ('  ED repair shape', 'x0 dangerous', 'len 3', 'chain')
+     16  ('  ED repair shape', 'x0 dangerous', 'len 3', 'ring')
+      2  ('  ED repair shape', 'x0 dangerous', 'len 4', 'ring')
+      9  ('  beyond C0: W1 (ED with one junk good at the end) or ED', 'ED')
+     15  ('  beyond C0: W1 (ED with one junk good at the end) or ED', 'W1')
+     29  ('least class C0', 'pure reduction FAILS')
+   8486  ('least class C0', 'pure reduction repairs')
+      6  ('least class ED', 'pure reduction FAILS')
+     18  ('least class ED', 'pure reduction repairs')

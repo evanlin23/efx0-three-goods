@@ -1,0 +1,53 @@
+$ python3 kgen/rounds/recs_vs_rndp.py /tmp/claude-0/-home-user-efx0-three-goods/1bef8951-d60e-5a6c-a841-d862b0933832/scratchpad/multi/recs_witnesses_n4.json.gz 1 3
+... 10000 170s
+... 20000 352s
+... 30000 548s
+... 40000 741s
+... 50000 933s
+... 60000 1123s
+... 70000 1320s
+... 80000 1515s
+... 90000 1708s
+... 100000 1903s
+... 110000 2128s
+('RNDOZ', 'P1 exact', False) 112880
+('RNDOZ', 'P1 prefix', False) 112880
+('RNDOZ', 'X_RECS round', True) 112880
+('RNDOZ', 'X_RECS structure', 'one chain on the agents of E(k) and P2') 112880
+('RNDOZ', 'X_RECS: only a single spliced chain') 112880
+('RNDOZ', 'some E(k) exact', False) 112880
+('RNDPZ', 'P1 exact', False) 112880
+('RNDPZ', 'P1 prefix', False) 112880
+('RNDPZ', 'X_RECS round', True) 112880
+('RNDPZ', 'X_RECS structure', 'one chain on the agents of E(k) and P2') 112880
+('RNDPZ', 'X_RECS structure', 'several chains') 2560
+('RNDPZ', 'X_RECS structure', 'several chains, E(k) or P2 among them') 71040
+('RNDPZ', 'X_RECS: only a single spliced chain') 39280
+('RNDPZ', 'some E(k) exact', False) 46960
+('RNDPZ', 'some E(k) exact', True) 65920
+starts 112880
+example ('RNDOZ', 'P1 exact') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDOZ', 'P1 exact') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDOZ', 'P1 exact') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDOZ', 'P1 prefix') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDOZ', 'P1 prefix') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDOZ', 'P1 prefix') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDOZ', 'some E(k) exact') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDOZ', 'some E(k) exact') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDOZ', 'some E(k) exact') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDOZ', 'X_RECS round chains') {"list": "4_n4_3", "idx": 58, "P1": [2, 1], "P2": [0, 1], "chains": [[[2, 0, 1]]]}
+example ('RNDOZ', 'X_RECS round chains') {"list": "4_n4_3", "idx": 58, "P1": [2, 1], "P2": [0, 1], "chains": [[[2, 0, 1]]]}
+example ('RNDOZ', 'X_RECS round chains') {"list": "4_n4_3", "idx": 58, "P1": [2, 1], "P2": [0, 1], "chains": [[[2, 0, 1]]]}
+example ('RNDPZ', 'P1 exact') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDPZ', 'P1 exact') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDPZ', 'P1 exact') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDPZ', 'P1 prefix') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDPZ', 'P1 prefix') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDPZ', 'P1 prefix') {"list": "4_n4_3", "idx": 58, "picks": [1, 2, 5, 6], "witness": {"order": [0, 3, 2, 1], "k": 2, "P1": [2, 1], "T": [3, 4], "P2": [0, 1], "H0_2": [2, 5], "h": 0, "X": [[2, 5], [0, 1], [3, 4], [6]]}, "Ek": {"0": [0, 1], "2": [2, 1], "3": [3, 2, 1]}, "X_RECS chains": [[[2, 0, 1]]]}
+example ('RNDPZ', 'X_RECS round chains') {"list": "4_n4_3", "idx": 58, "P1": [2, 1], "P2": [0, 1], "chains": [[[2, 0, 1]]]}
+example ('RNDPZ', 'X_RECS round chains') {"list": "4_n4_3", "idx": 58, "P1": [2, 1], "P2": [0, 1], "chains": [[[2, 0, 1]]]}
+example ('RNDPZ', 'X_RECS round chains') {"list": "4_n4_3", "idx": 58, "P1": [2, 1], "P2": [0, 1], "chains": [[[2, 0, 1]]]}
+example ('RNDPZ', 'some E(k) exact') {"list": "4_n4_3", "idx": 58, "picks": [5, 6, 3, 4], "witness": {"order": [0, 1, 3, 2], "k": 0, "P1": [0, 1, 2], "T": [1, 2], "P2": [3, 2], "H0_2": [3, 6], "h": 0, "X": [[1, 2], [5], [0, 4], [3, 6]]}, "Ek": {"0": [0, 1, 2], "1": [1, 2]}, "X_RECS chains": [[[0, 1, 3, 2]], [[0, 1], [3, 2]]]}
+example ('RNDPZ', 'some E(k) exact') {"list": "4_n4_3", "idx": 58, "picks": [5, 6, 3, 4], "witness": {"order": [0, 1, 3, 2], "k": 0, "P1": [0, 1, 2], "T": [1, 2], "P2": [3, 2], "H0_2": [3, 6], "h": 0, "X": [[1, 2], [5], [0, 4], [3, 6]]}, "Ek": {"0": [0, 1, 2], "1": [1, 2]}, "X_RECS chains": [[[0, 1, 3, 2]], [[0, 1], [3, 2]]]}
+example ('RNDPZ', 'some E(k) exact') {"list": "4_n4_3", "idx": 58, "picks": [5, 6, 3, 4], "witness": {"order": [0, 1, 3, 2], "k": 0, "P1": [0, 1, 2], "T": [1, 2], "P2": [3, 2], "H0_2": [3, 6], "h": 0, "X": [[1, 2], [5], [0, 4], [3, 6]]}, "Ek": {"0": [0, 1, 2], "1": [1, 2]}, "X_RECS chains": [[[0, 1, 3, 2]], [[0, 1], [3, 2]]]}
+time 2189 s

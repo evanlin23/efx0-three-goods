@@ -1,0 +1,13 @@
+$ python3 kgen/charity/w_synth.py 3 3 2 10 12 900
+sizes (2, 2, 2) m 8: UNSAT after 0 cuts, 0.0 s
+sizes (3, 2, 2) m 9: UNSAT after 0 cuts, 0.0 s
+sizes (3, 3, 2) m 10: UNSAT after 0 cuts, 0.0 s
+sizes (3, 3, 3) m 11: UNSAT after 0 cuts, 0.0 s
+sizes (4, 2, 2) m 10: UNSAT after 0 cuts, 0.0 s
+sizes (4, 3, 2) m 11: UNSAT after 0 cuts, 0.0 s
+sizes (4, 3, 3) m 12: UNSAT after 0 cuts, 0.0 s
+sizes (4, 4, 2) m 12: UNSAT after 0 cuts, 0.0 s
+sizes (5, 2, 2) m 11: UNSAT after 0 cuts, 0.0 s
+sizes (5, 3, 2) m 12: UNSAT after 0 cuts, 0.0 s
+sizes (6, 2, 2) m 12: UNSAT after 0 cuts, 0.0 s
+summary {'pruned': 56, 'UNSAT': 11}
