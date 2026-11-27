@@ -1604,25 +1604,28 @@ Everything else in the tree is proved, refereed or certified. A start is *hard* 
 at the picks. Every statement is for k ≤ 4 and strict values. A *receiver* is an agent unfrozen at the picks that
 holds a pick.
 
-1. **D1-H2 with extra active agents** (`proof/k4-d1`). The route through S1 ∧ S2 is closed, because S2 is false.
-   - Statement: D1-H2 at all-HEAD hard perfect starts with D = {k} and t = 1 that have extra *active* agents (unfrozen,
-     outside W(a), valuing junk) or a third wanter of a.
-   - Without either, Lemma CONTRACT reduces to the verified three-agent core. CONTRACT also deletes unfrozen agents that
-     value no junk.
-   - **S2 and its weakest needed form S2′ are false**, even in the K4.MC2 class. Smallest counterexample S2-X (k4-d1,
-     `k4/d1/s2_probe.py`; re-verified here by `k4/oc1_hall/s2x_check.py`, `s2x_check.log`: `is_core4` = [], hard,
-     all-HEAD):
-     - n = 4, m = 9, sets [[0,1,5,7],[3,4,6,7],[0,2,5,7],[8,6,7,3]], values [[26,3,25,27],[19,17,25,30],[9,14,7,29],[14,11,1,7]],
-       order (0, 1, 2, 3), picks (7, 6, 2, 8);
-     - D = {0}; agents 1 and 2 want 7; agent 3 is unfrozen and values junk 3.
-   - D1-H2 still holds at S2-X: the canonical chain (0, 2) repairs, because the extra agent supplies a slot. It also
-     holds at all 76 such starts of k4-d1's probe.
-   - S1 (exactly two wanters) has no counterexample in 4,159 climbed starts.
-   - Smallest test: S2-X.
+1. **D1-H2 in general** (`proof/k4-d1`).
+   - Statement: at every all-HEAD hard perfect start with D = {k}, some canonical chain or its extension (x₀, …,
+     x_{t−1}, u, u′) repairs with owner k and a minimal H₀. Extra active agents and extra wanters are allowed.
+   - Both structural observations behind CONTRACT are false on strict cores, so they cannot be the route:
+     - **S2** fails at S2-X;
+     - **S1** (exactly two wanters) fails at S1-X.
+   - Test instances, all re-verified here (`k4/oc1_hall/d1h2_tests.py`, `d1h2_tests.log`: hard, all-HEAD, D1-H2 holds):
+     - **D1H-X** (n = 3, m = 8): the extension is needed. It is *not a core*: `is_core4` says agent 1 has 3 private
+       goods of 4.
+     - **S2-X** (n = 4, m = 9, strict core): an extra active agent. Data: sets [[0,1,5,7],[3,4,6,7],[0,2,5,7],[8,6,7,3]],
+       values [[26,3,25,27],[19,17,25,30],[9,14,7,29],[14,11,1,7]], picks (7, 6, 2, 8). A canonical chain repairs.
+     - **S1-X** (n = 4, m = 9, strict core): three wanters of Y_k. Data: sets [[0,7,5,6],[0,1,4,8],[0,2,7,5],[0,3,8,4]],
+       values [[37,13,33,25],[25,12,5,10],[24,15,12,6],[27,24,18,22]], order (0, 1, 2, 3), picks (0, 1, 2, 3). A
+       canonical chain repairs.
+   - Proved part: the three-agent core (Proposition D1-H₃′), reached through CONTRACT when there are no extra active
+     agents or wanters.
 2. **D1 for t ≥ 2** (`proof/k4-d1`).
    - Statement: D1-H2 at all-HEAD starts whose longest canonical chain has t ≥ 2.
    - Test set: 456 starts in k4-d1's data; in 449 of them a middle agent is a free slot after the chain.
-   - Next: an SMT check of the four-agent core (k, x, z, w).
+   - The four-agent t = 2 core (k → x → {z, w}), exact SMT phase 1 (k4-d1): 756 of 15,284 structures admit hard
+     all-HEAD starts. All 756 models are raw-checked and each is repaired by a canonical chain. Phase 2 (no repair for
+     any values) is running.
    - Smallest test (k4-d1's data): n = 4, m = 7, sets [[1,2,4,5],[2,4],[0,3,4,5],[2,5,6]], values
      [[26,29,24,25],[20,29],[22,17,30,23],[29,21,25]], order (2, 1, 0, 3), picks (1, 2, 4, 6), k = 2, chains (2, 1, 0) and
      (2, 1, 3). It is not a core, since agent 1 values two goods. A strict-core example is expected from the SMT run.

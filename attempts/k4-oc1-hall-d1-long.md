@@ -16,6 +16,9 @@
   picks (7, 6, 2).
 - J = {0, 1, 3, 4, 5}, F = D = {0}, and agents 1 and 2 both want good 7.
 - It is hard: `ohlib.absorb_brute` and the SAT test agree.
+- It is **not a core**: `hcore.is_core4` on the dense value matrix says agent 1 has 3 private goods of 4
+  (`k4/oc1_hall/d1h2_tests.py`). Whether canonical D1-LONG fails on a strict core is therefore not known from this
+  instance.
 - Both canonical chains, (0, 1) and (0, 2), have HEAD for every improving H₀, and no owner k or head works after
   either. After (0, 2) the off-chain second wanter 1 can own.
 - The ED chain (0, 2), in which the head takes 7 together with junk good 0 (or 5), with H₀ = {1, 5} (or {0, 1}),
