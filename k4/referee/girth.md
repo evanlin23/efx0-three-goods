@@ -147,3 +147,44 @@ should say "additive" for F2.
   - HH_t was not rebuilt here.
 - **Conjecture L and PL** are now REFUTED by the session. That does not affect T1, SINK, PARK or SLACK. The F2
   remark of §3 is moot for L.
+
+## 6. Addendum: Lemma EC and the stuck-state consequence (`235bca4`, unchanged at `ab906c8`; coordinator's queue, 2026-11-27)
+
+Read: `k4/girth.md` §5 ("Envy-cycle rotation and the stuck states"), with the definitions of Properties (1)–(4)
+(§1.2) and Lemma SLACK (§3). Check: `k4/referee/girth_ec_ref.py`, run by `girth_ec_ref_runs.sh`, log
+`results/k4_referee/girth_ec_ref.log`. Own code, raw EFX₀, additive and non-additive monotone valuations.
+
+**Verdict: CORRECT** (one premise left implicit, stated below).
+
+- **Lemma EC.** Rotating an envy cycle i₁ → i₂ → … → i₁ (each i_l takes X_{i_{l+1}}) keeps EFX₀ and (3). Re-derived:
+  - the bundles are the same sets, and values weakly rise, strictly on the cycle;
+  - an agent never strongly envies its *old* bundle, now someone else's: v_i(new) > v_i(X_i) ≥ v_i(X_i ∖ g);
+  - toward every other bundle, its value only rose;
+  - agents off the cycle see the same sets at the same values;
+  - (3) persists because U is unchanged.
+
+  Monotonicity is all that is used. Correct.
+- **Stuck states.** No envy cycle means the envy graph is acyclic, so it has a source: a non-envied agent exists. If a
+  non-envied agent u held ≤ 1 good, Lemma SLACK would make every leftover placeable on u, so the state would not be
+  stuck. Correct.
+  - **The implicit premise:** SLACK needs (3) for all agents at the stuck state. "(3) persists" is right: parking steps
+    only raise values and shrink U, and EC keeps (3). But it needs (3) when parking *starts*. That holds for the state
+    LSS's Algorithm 2 hands over, with or without the G1 repair, since Algorithm 2 always ends with FixProp3. It
+    should be said, because the stuck-state statement is false for parking runs started from a state without (3)
+    (control below).
+
+**Computation (evidence).**
+- Instances: 200,000 random instances (n = 2–5, ≤ 4 relevant goods), half additive and half monotone non-additive
+  (sum of the two largest values).
+- States: FixProp3 from the empty allocation, and random EFX₀ partial allocations with (3); then random walks of
+  dynamic-parking steps and envy-cycle rotations (1,094,836 states).
+
+| check | tests | failures |
+|---|---|---|
+| EC at (3)-states: EFX₀ and (3) kept, values weakly up, cycle strictly up | 10,290 rotations | 0 |
+| EC on EFX₀ partial allocations without (3): EFX₀ kept | 124,368 | 0 |
+| SLACK core: a non-envied agent with ≤ 1 good absorbs any leftover (states with (3)) | 2,973,139 | 0 |
+| stuck states: a non-envied agent exists and all non-envied agents hold ≥ 2 goods | 5,221 | 0 |
+| control: the SLACK core on EFX₀ states *without* (3) | 784,999 | **442,797** fail |
+
+So (3) is exactly what the consequence needs.
