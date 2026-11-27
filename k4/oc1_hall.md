@@ -2415,3 +2415,23 @@ This is the same pattern as here: a completion lemma whose only hypotheses are "
 
 So, with §24.10, the uniform statement has no exception on all n = 4 data and on the n = 5 exports. The statement:
 (i) w or d owns; or (T/T\*) a ring of length 2 or 3 through a receiver; or (C/C′) a two-agent chain from a D_T agent.
+
+**Joint Conjecture SINK** (with girth; `k4/girth.md` §7, `k4/girth/oc1_sink.py`, `results/k4_girth_oc1_sink.log` on
+`claude/k4-girth`). *Statement.* Y′, or the state after one DEMOTE move ((T), (T\*), (C) or (C′)), has an EFX₀
+completion in which all remaining free goods go to one agent a ∈ {w, d}, except at most one good to one other agent.
+
+*Evidence.*
+- Girth: all 161,520 distinct n = 4 RF starts, every class, and all 121,217 n = 5 DEMOTE-0 and (1, 3) starts. 0
+  exceptions.
+- Here, DEMOTE-2 at n = 5. A sample of every 20th partial6 start with an official chain k → d: SINK with owner d after
+  "k takes S, d takes Y′_k" at 6,220 of 6,220. The full census of all 140,111 DEMOTE-2 starts, with the (C′) chains
+  included, is `k4/oc1_hall/rf_sink.py`. Its log `rf_sink.log` is a placeholder while it runs.
+
+**Girth's Corollary RF-T′** (DEMOTE-0 trade case at n = 5, written proof in `k4/girth.md` §7; [unverified] here).
+RF-T's explicit completion is EFX₀ if:
+- (F1) d wants Y_p at Y;
+- (F2) no agent off the RF path other than u wants Y_d at Y;
+- (F3) Y_p is valued only by p, d and u.
+
+At every one of the 42,009 trade starts some trade meets (F1)–(F3). Left open there: (F1)–(F3) from Y's hardness, and
+32 sporadic 3-ring starts on 5_pure#374.
