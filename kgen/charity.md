@@ -762,8 +762,9 @@ Y_k, with v_k(Y_k) = p_k < τ_k, and possibly one more good ℓ.
   *frozen* (their phantom-frozen holder). This case escapes the locality bullet below as first written, which said
   that φ blocks only pool goods it values. The correct statement is the corrected first bullet.
 
-*How often the settled sharer is satisfied* (the multi session's census, reported to this session by message on
-2026-11-27, to go into their §14 on a follow-up branch; [unverified here: script not yet committed]). Settling k by
+*How often the settled sharer is satisfied* (the multi session's census: `k4/oc1max_multi/phantom_sat.py`,
+`results/k4_oc1max_multi/phantom_sat.log` on `proof/k4-oc1max-multi-2`, PR #126; numbers as they reported them by
+message, not re-run here). Settling k by
 E(k) with its best improving pool pair T\*, k is satisfied iff v_k(R_k ∖ T\*) ≤ v_k(T\*):
 
 | data | best-pair settlements | satisfied | active, ℓ a pick (frozen) | active, ℓ a pool good | starts with a satisfied option |
@@ -800,6 +801,23 @@ leaves with {ℓ} as a second satisfied phantom. In (K-a), the same holds with e
 SD start q's bundle is {ℓ}, so the second condition of (b) for ψ = k is their (L). The question for an RSD argument
 becomes whether the holder of the locked good is content with it alone, which is again a local condition on at most
 three other goods q values.
+
+*How often the lock applies* (the multi session's census, `k4/oc1max_multi/phantom_sat.py` and
+`results/k4_oc1max_multi/phantom_sat.log` on `proof/k4-oc1max-multi-2`, log read at 13bf637; not re-run here). Over
+active best-pair settlements with ℓ a pick held by q, "content" meaning v_q(R_q ∖ ({ℓ} ∪ T\*)) ≤ v_q(ℓ) and
+v_q(T\* ∖ h) ≤ v_q(ℓ):
+
+| data | active ℓ-pick settlements | q content with ℓ alone | starts with a content option |
+|---|---|---|---|
+| their walk failures | 7,603 | 1,539 | 1,539 of 4,599 |
+| n = 4 export | 387,680 | 268,800 | 89,600 of 112,880 |
+| n = 5 walks near 5_pure#164 | 134,670 | 67,335 | 22,445 of 22,445 |
+
+So PH-L neutralises the active phantom at about 70% of the n = 4 settlements and at every n = 5 walk start, but not
+always. The lock holder q is nearly always a sharer itself (99% at n = 4), so where q is not content the lock
+cascades, and the cascade depth is what an argument must bound. They also point out that the 5_pure cores (10, 419)
+and (11, 447) defeat every sequential settlement (their §16), so a lock argument must allow simultaneous settlement
+there.
 
 **Without (H1)** (a settled sharer that still values remaining goods above its bundle), the phantom is active. What
 survives, by the same locality as Lemma CH1:
