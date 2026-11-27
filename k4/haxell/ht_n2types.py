@@ -97,7 +97,7 @@ if __name__ == '__main__':
     # goods keeps EFX0 and raises both agents (type-determined: EFX0 is ordinal, and the check uses strict gains).
     sys.argv = ['x']; sys.path.insert(0, HERE)
     import ht_n2claim as H
-    nstates = npareto = 0
+    nstates = npareto = npar2 = 0
     for src in fails:
         w = list(map(int, src.split())); m = w[1]; t = 2; v = []
         for i in range(2):
@@ -115,9 +115,27 @@ if __name__ == '__main__':
                 if H.ok(v[0], v[1], YA, YB) and v[0][b] > v[0][a] and v[1][a] > v[1][b]:
                     found = (a, b); break
             npareto += found is not None
-            print('  no pool-shrinking composite:', src, 'state A', XA, 'B', XB, '| Pareto swap', found, flush=True)
-    print('states without a pool-shrinking composite: %d; with a swap that keeps EFX0 and raises both agents: %d' %
-          (nstates, npareto))
+            # a Pareto composite: at most two moves, the pool size kept, EFX0, one agent strictly better and neither
+            # worse (comparisons of an agent's old and new bundle are type-determined: v(Y) > v(X) iff v(Y-X) > v(X-Y))
+            vx = (sum(v[0][g] for g in XA), sum(v[1][g] for g in XB)); par = None
+            def pareto(t):
+                YA = [g for g in range(m) if t[g] == 0]; YB = [g for g in range(m) if t[g] == 1]
+                vy = (sum(v[0][g] for g in YA), sum(v[1][g] for g in YB))
+                return t.count(-1) == own.count(-1) and H.ok(v[0], v[1], YA, YB) and min(vy[0] - vx[0], vy[1] - vx[1]) >= 0 \
+                    and max(vy[0] - vx[0], vy[1] - vx[1]) > 0
+            for t1, k1 in H.moves(own, m):
+                if pareto(t1):
+                    par = k1; break
+                for t2, k2 in H.moves(t1, m):
+                    if pareto(t2):
+                        par = k1 + '+' + k2; break
+                if par:
+                    break
+            npar2 += par is not None
+            print('  no pool-shrinking composite:', src, 'state A', XA, 'B', XB, '| Pareto swap', found,
+                  '| Pareto composite', par, flush=True)
+    print('states without a pool-shrinking composite: %d; with a swap that keeps EFX0 and raises both agents: %d; '
+          'with a Pareto composite of at most two moves: %d' % (nstates, npareto, npar2))
     if CHECK:            # independent re-check (ht_n2claim.augment, pure Python) of random instances
         sys.argv = ['x']; sys.path.insert(0, HERE)
         import ht_n2claim as H
