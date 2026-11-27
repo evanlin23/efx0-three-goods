@@ -23,8 +23,8 @@ def main():
         from hypergraphs import enumerate_hypergraphs
     fams = {}
     for f in glob.glob("results/monotone/n*_m*_k*.jsonl"):
-        mt = re.search(r"n(\d+)_m(\d+)_k(\d+)\.jsonl$", f)
-        n, m, k = map(int, mt.groups())
+        mt = re.search(r"n(\d+)_m(\d+)_k(\d+)(_only)?\.jsonl$", f)
+        n, m, k = map(int, mt.groups()[:3])
         st = defaultdict(int)
         types = set()
         for line in open(f):
@@ -34,6 +34,9 @@ def main():
         complete = None
         if recount:
             hs = set(tuple(h) for h in enumerate_hypergraphs(n, m, k))
+            if f.endswith("_only.jsonl"):
+                # file holds only the hypergraphs whose largest |R_i| equals k (see run_search --only-k)
+                hs = set(h for h in hs if max(sum(1 for t in h if (t >> a) & 1) for a in range(n)) == k)
             complete = (hs == types)
         fams[(n, m, k)] = (dict(st), len(types), complete)
     byk = defaultdict(list)

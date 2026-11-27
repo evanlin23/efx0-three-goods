@@ -11,7 +11,7 @@ Per hypergraph:
      L independently.
 Writes one JSON line per hypergraph to the output file.
 
-Usage: python3 monotone/run_search.py n m k out.jsonl [--jobs J] [--time-limit S] [--np] [--no-rank-check] [--hg cached.json]
+Usage: python3 monotone/run_search.py n m k out.jsonl [--jobs J] [--time-limit S] [--np] [--no-rank-check] [--hg cached.json] [--warm V] [--only-k]
 """
 import sys
 import os
@@ -77,13 +77,30 @@ def np_clauses(n, R, agents):
     return out
 
 
-def cegar(n, m, R, enc="order", solver="cadical153", time_limit=None, sb=True, npl=False):
-    pool, clauses, agents = build(n, R, enc)
+def cegar(n, m, R, enc="order", solver="cadical153", time_limit=None, sb=True, npl=False, V=None, seed=None):
+    """CEGAR. V caps the rank encoding's value levels (V < 2^r is a restriction: SAT answers are still
+    verified counterexamples, UNSAT answers are NOT exact). seed: allocations whose clauses start the loop."""
+    if V is not None:
+        pool = IDPool()
+        clauses = []
+        T = pool.id()
+        clauses.append([T])
+        agents = [AgentEnc(R[i], pool, enc, V, clauses, T) for i in range(n)]
+    else:
+        pool, clauses, agents = build(n, R, enc)
+    L0 = []
+    if seed:
+        for X in seed:
+            cl = alloc_clause(n, m, agents, X)
+            if not cl:
+                return "UNSAT", [X], None, 0.0
+            clauses.append(cl)
+            L0.append(X)
     if sb:
         clauses.extend(sb_clauses(n, R, agents))
     if npl:
         clauses.extend(np_clauses(n, R, agents))
-    L = []
+    L = list(L0)
     t0 = time.time()
     with Solver(name=solver, bootstrap_with=clauses) as s:
         fed = len(clauses)
@@ -126,9 +143,20 @@ def check_list_unsat(n, m, R, L, enc, solver="cadical153", sb=True, npl=False):
 
 
 def job(args):
-    n, m, types, time_limit, npl, rankcheck = args
+    n, m, types, time_limit, npl, rankcheck = args[:6]
+    warm = args[6] if len(args) > 6 else None
     R = to_R(types, n)
-    status, L, subs, dt = cegar(n, m, R, "order", time_limit=time_limit, sb=True, npl=npl)
+    if warm:
+        # phase 1: cheap restricted search (rank encoding, `warm` value levels); a SAT answer is a verified
+        # counterexample; otherwise its allocations seed the exact phase 2
+        st1, L1, subs1, dt1 = cegar(n, m, R, "rank", time_limit=time_limit, sb=True, npl=npl, V=warm)
+        if st1 == "SAT":
+            status, L, subs, dt = st1, L1, subs1, dt1
+        else:
+            status, L, subs, dt = cegar(n, m, R, "order", time_limit=time_limit, sb=True, npl=npl, seed=L1)
+            dt += dt1
+    else:
+        status, L, subs, dt = cegar(n, m, R, "order", time_limit=time_limit, sb=True, npl=npl)
     rec = {"n": n, "m": m, "types": list(types), "R": R, "deg": [len(r) for r in R],
            "status": status, "time": round(dt, 2), "cert_size": len(L), "sb": True, "np": npl}
     if status == "SAT":
@@ -157,15 +185,19 @@ def main():
         time_limit = float(sys.argv[sys.argv.index("--time-limit") + 1])
     npl = "--np" in sys.argv          # add non-peelability constraints (threshold.md §2, item 8)
     rankcheck = "--no-rank-check" not in sys.argv
+    warm = int(sys.argv[sys.argv.index("--warm") + 1]) if "--warm" in sys.argv else None
     if "--hg" in sys.argv:  # cached output of enumerate_hypergraphs(n, m, k), as a JSON list
         hs = [tuple(h) for h in json.load(open(sys.argv[sys.argv.index("--hg") + 1]))]
     else:
         hs = enumerate_hypergraphs(n, m, k)
+    if "--only-k" in sys.argv:
+        # only hypergraphs whose largest |R_i| is exactly k (the others are in the k - 1 files)
+        hs = [h for h in hs if max(len(r) for r in to_R(h, n)) == k]
     print(f"n={n} m={m} k<={k}: {len(hs)} hypergraphs", flush=True)
     t0 = time.time()
     counts = {}
     with open(out, "w") as f, Pool(jobs) as pool:
-        for rec in pool.imap_unordered(job, [(n, m, h, time_limit, npl, rankcheck) for h in hs]):
+        for rec in pool.imap_unordered(job, [(n, m, h, time_limit, npl, rankcheck, warm) for h in hs]):
             counts[rec["status"]] = counts.get(rec["status"], 0) + 1
             f.write(json.dumps(rec) + "\n")
             f.flush()

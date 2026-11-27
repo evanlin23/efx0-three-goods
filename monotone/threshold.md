@@ -83,8 +83,32 @@ Trust chain for an UNSAT claim (PROMPT.md §5 rule 4: two independent implementa
 
 ## 4. Results
 
-See the table in §5 (filled in as the runs finish).
+Every hypergraph listed is UNSAT under the search, and every certificate passed `monotone/check_cert.py`, unless
+the row says otherwise. "Complete" means every admissible m (n + 4 ≤ m ≤ (k − 1)n; m ≥ 8 at n = 3) and every
+hypergraph of §2 for that m.
 
-## 5. Status table
+| n | k | m | hypergraphs | result | files |
+|---|---|---|---|---|---|
+| 2 | any | any | — | EFX₀ exists (Plaut–Roughgarden, Theorem 4.3; also searched for k ≤ 6 as a tooling check) | `results/monotone/n2_*` |
+| 3 | 4 | 8–9 (complete) | 6 | no counterexample | `n3_m{8,9}_k4.jsonl` |
+| 4 | 4 | 8–12 (complete) | 503 | no counterexample | `n4_m{8..12}_k4.jsonl` |
+| 3 | 5 | 8–12 (complete) | 113 | no counterexample | `n3_m{8..12}_k5.jsonl` |
+| 3 | 6 | 8–15 (complete) | 604 | no counterexample | `n3_m{8..15}_k6.jsonl` |
+| 5 | 4 | 9–15 | RUNNING | | `n5_m*_k4.jsonl` |
+| 3 | 7 | 8 | PENDING | | |
 
-(filled in below)
+The modification experiments on the paper's instance (`attempts/monotone-lower-relevance-of-amm.md`) say the
+following, for the restricted family with some agents fixed to the paper's valuations only. With two agents
+fixed, the third cannot drop any good. With one agent fixed, the other two cannot each drop one good (17 cases).
+
+## 5. What this says about the threshold
+
+- Proved: 4 ≤ k* ≤ 8 (Theorem M3; the paper's instance).
+- Certified: a monotone counterexample at k = 4 needs ≥ 5 agents; at k ≤ 6 it needs ≥ 4 agents. So with three agents,
+  the threshold is 7 or 8; it is 8 if no 3-agent counterexample has k = 7.
+- Since monotone EFX₀ at k = 4 would imply TARGET₄ (Theorem M3, Remark 3), the k = 4 rows are also
+  small-n evidence for TARGET₄. They are no stronger than the campaign's additive certificates there (rows K4.*),
+  but they cover the strictly larger monotone class: 912 disjoint-comparison types per 4-good agent against
+  ≥ 336 additive ones (`monotone/types4.py`).
+- Open: the exact value of k*. Is there a counterexample with k ∈ {4, …, 7} and more agents? At n = 3, is 8 the
+  threshold?
