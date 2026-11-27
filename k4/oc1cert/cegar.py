@@ -103,12 +103,13 @@ class Witness:
     """See the module docstring.  fix: {agent: pick or None}; newb: {agent: tuple of goods}; imp: [(agent, new, old)];
     X: owner of every good; moves: the moves as found, applied in turn from the picks (for the certificate and the
     checker), each (kind, path, H)."""
-    __slots__ = ('fix', 'newb', 'imp', 'X', 'moves', 'owner', 'order')
+    __slots__ = ('fix', 'newb', 'imp', 'X', 'moves', 'owner', 'order', 'tags')
 
-    def __init__(self, fix, newb, imp, X, moves, owner=None, order=None):
+    def __init__(self, fix, newb, imp, X, moves, owner=None, order=None, tags=None):
         self.fix, self.newb, self.imp, self.X, self.moves = fix, newb, imp, tuple(X), tuple(moves)
         self.owner = owner        # S* and R2-O runs: the completion's owner
         self.order = order        # R2-E runs: the SD order sigma whose earliest wanters define the chain
+        self.tags = tags          # R2 (L) runs: (dangerous middle agent, an agent wanting its pick, middle receiver)
 
     @property
     def kind(self):
@@ -122,15 +123,17 @@ class Witness:
                        _perm_owner(self.X, ma, mg),
                        [(k, tuple(ma[x] for x in path), tuple(f(h) for h in H)) for k, path, H in self.moves],
                        None if self.owner is None else ma[self.owner],
-                       None if self.order is None else tuple(ma[a] for a in self.order))
+                       None if self.order is None else tuple(ma[a] for a in self.order),
+                       None if self.tags is None else tuple(ma[a] for a in self.tags))
 
     def key(self):
-        return (tuple(sorted(self.fix.items(), key=lambda t: t[0])), self.X, self.moves, self.owner, self.order)
+        return (tuple(sorted(self.fix.items(), key=lambda t: t[0])), self.X, self.moves, self.owner, self.order, self.tags)
 
     def to_json(self):
         d = {'picks': {str(x): y for x, y in sorted(self.fix.items())}, 'X': ''.join(map(str, self.X))}
         if self.owner is not None: d['owner'] = self.owner
         if self.order is not None: d['order'] = list(self.order)
+        if self.tags is not None: d['tags'] = list(self.tags)
         if len(self.moves) <= 1:
             k, path, H = self.moves[0] if self.moves else ('picks', (), ())
             d.update({'kind': k, 'path': list(path), 'H': [list(h) for h in H]})
@@ -409,7 +412,7 @@ class Cert:
                 ass += [-self.iown[j] for j in range(self.n) if j != x0]
                 ass += [-self.inh[j] for j in range(self.n)]
             else:
-                # R2-C: any one-absorber completion
+                # R2-C, (S), (L): any one-absorber completion
                 ass += [-self.inh[j] for j in range(self.n)]
         elif self.r2:
             ass += [-self.inh[j] for j in range(self.n)]       # the plain one-absorber completion
@@ -643,6 +646,20 @@ class Cert:
             x0, x1, z = path[0], path[1], path[-1]
             if not (frozen[x0] and any(g in self.R[x0] and g not in held for g in range(self.m)) and wants(x1, x0) and recv[z]):
                 continue
+            tags = None
+            if self.r2 in ('s', 'l', 'sl'):
+                is_s = all(not Hs[i] for i in range(1, len(path)))
+                lt = None
+                for i in range(1, len(path) - 1):          # (L): a dangerous middle agent taking junk ...
+                    a = path[i]
+                    if Hs[i] and frozen[a]:
+                        wn = next(w for w in range(self.n) if w != a and wants(w, a))
+                        rj = next((path[j] for j in range(1, len(path) - 1) if recv[path[j]]), None)   # ... and a middle receiver
+                        if rj is not None: lt = (a, wn, rj); break
+                if self.r2 == 's' and not is_s: continue
+                if self.r2 == 'l' and lt is None: continue
+                if self.r2 == 'sl' and not is_s and lt is None: continue
+                if not is_s: tags = lt
             st = [list(nb.get(a, base[a])) for a in range(self.n)]
             owner, Xs = None, []
             if self.r2 in ('o', 'og', 'op'):      # the owner: a receiver at the picks, not on the chain
@@ -659,8 +676,12 @@ class Cert:
             req += [(i, (Y[i],), (Y[z],)) for i in range(self.n) if i != z and Y[z] in self.R[i]]
             if owner is not None:
                 req += [(i, (Y[i],), (Y[owner],)) for i in range(self.n) if i != owner and Y[owner] in self.R[i]]
+            if tags is not None:     # (L): wn prefers a's pick to its own; nobody prefers rj's pick to their own
+                a, wn, rj = tags
+                req.append((wn, (Y[a],), (Y[wn],)))
+                req += [(i, (Y[i],), (Y[rj],)) for i in range(self.n) if i != rj and Y[rj] in self.R[i]]
             W = Witness({a: Y[a] for a in range(self.n)}, {a: tuple(st[a]) for a in range(self.n)}, req, Xs[0],
-                        ((kind, path, Hs),), owner)
+                        ((kind, path, Hs),), owner, None, tags)
             cands.append(W)
             if len(cands) >= self.kcand: break
         return sorted(cands, key=self.volume, reverse=True)[:self.keep]

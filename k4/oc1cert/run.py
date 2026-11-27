@@ -5,7 +5,7 @@ written by k4/search4.py), by the ordinal CEGAR of k4/oc1cert/cegar.py.
            [--limit=SEC] [--no-compact] [--depth=D] [--idx=I,J,...] [--summary=S.jsonl.gz]
 An --out ending in .jsonl.gz is written as one JSON record per line (header line first) while the run goes.
 --depth=D: up to D moves in sequence (OC_D form; default 1 = OC1^max).  --prime: OC1' moves (kgen/rounds.md §4.6).  --sstar: S*-shaped completions (k4/oc1_hall.md §2).
---r2=m|star|o|og|op|c|e|e2|eo: TTC's R2-M / R2* / R2-O (strict, generous, R2-O') / R2-C / R2-E (k4/ttc.md §14.6): at every perfect start with >= 2 receivers, a one-absorber completion
+--r2=m|star|o|og|op|c|e|e2|eo|s|l|sl: TTC's R2-M / R2* / R2-O (strict, generous, R2-O') / R2-C / R2-E (k4/ttc.md §14.6): at every perfect start with >= 2 receivers, a one-absorber completion
 of the picks, or a canonical chain to a receiver with the R2-M (owner x0, every agent <= 1 junk, multi-good holders
 other than x0 none) or R2* (every agent <= 1 junk) completion.  --idx: only these core indices (within m).
 
