@@ -694,7 +694,14 @@ the objective is failing starts, then the witness count and margin at the hardes
     existing agent, with or without one new good. Following the coordinator, no instance is two copies glued at a
     junk good.
   - unseeded random strict cores at n = 5, m = 9.
-- CLIMB_RESULT
+- Part 1 (`zclimb_rndpz_*.log`, ZCLASS = RNDPZ): 8 climbs, 1,916 climb rounds, 0 failures. Count climbs bottom out at one witness
+  with slack 1; ratio climbs reach 2 witnesses among 269 MD allocations.
+- Part 2 (`p2_zclimb_rndoz_*.log`) targets the narrowest form, RNDOZ, with 7 climbs: 5,518 climb rounds, 0 failures.
+  - Ratio climbs, seeded from the 120 hardest ROUND-P instances, from 600 walk rows near 5_pure#164, and unseeded at
+    n = 5, m = 9: the best start has 2 witnesses among 557 MD allocations. Both witnesses are the picks extending.
+  - The *hard-start* ratio (`ZOBJ=hardratio`: only starts where the picks do not extend), seeded from the certifier's
+    24 and from the walk rows: the best is 0.076 (18 witnesses). Hard starts stay far from a failure.
+  - A count climb at n = 6: one witness at slack 1.
 - `is_core` alone does not enforce distinct subset sums. Without that constraint the climbs drift to exact ties, such
   as v₀(6) + v₀(7) = v₀(8), so the strict form is enforced (ZSTRICT = 1).
 
