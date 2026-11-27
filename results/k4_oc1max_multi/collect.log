@@ -1,0 +1,72 @@
+$ python3 k4/oc1max_multi/collect.py special (NMAX=5) instances 4
+complete at the picks 12
+distinct kept starts 10
+hard, |D| = 1 5
+hard, |D| = 2 4
+hard, |D| = 3 6
+hard, |D| >= 2, repaired 10
+max 27
+non-max 1
+time 0 s
+$ python3 k4/oc1max_multi/collect.py screen (NMAX=5) instances 168
+complete at the picks 559
+distinct kept starts 166
+duplicate kept starts 2
+hard, |D| = 1 14
+hard, |D| = 2 84
+hard, |D| = 3 77
+hard, |D| = 4 7
+hard, |D| >= 2, repaired 168
+max 741
+non-max 34
+time 1 s
+$ python3 k4/oc1max_multi/collect.py suite (NMAX=5) instances 164
+complete at the picks 509
+distinct kept starts 169
+hard, |D| = 1 14
+hard, |D| = 2 87
+hard, |D| = 3 75
+hard, |D| = 4 7
+hard, |D| >= 2, repaired 169
+max 692
+non-max 34
+time 19 s
+$ python3 k4/oc1max_multi/collect.py logs (NMAX=5) instances 1711
+complete at the picks 2896
+distinct kept starts 1088
+hard, |D| = 1 112
+hard, |D| = 2 678
+hard, |D| = 3 364
+hard, |D| = 4 46
+hard, |D| >= 2, repaired 1088
+max 4096
+non-max 232
+time 2 s
+$ python3 k4/oc1max_multi/collect.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91 (NMAX=5) instances 3000
+complete at the picks 4290
+distinct kept starts 252
+hard, |D| = 1 41
+hard, |D| = 2 252
+hard, |D| >= 2, repaired 252
+max 4583
+time 0 s
+$ python3 k4/oc1max_multi/collect.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92 (NMAX=5) instances 1500
+complete at the picks 3154
+distinct kept starts 171
+hard, |D| = 1 11
+hard, |D| = 2 73
+hard, |D| = 3 98
+hard, |D| >= 2, repaired 171
+max 3336
+non-max 113
+time 1 s
+$ python3 k4/oc1max_multi/collect.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93 (NMAX=5) instances 150
+complete at the picks 492
+distinct kept starts 16
+hard, |D| = 2 2
+hard, |D| = 3 8
+hard, |D| = 4 6
+hard, |D| >= 2, repaired 16
+max 508
+non-max 64
+time 1 s
