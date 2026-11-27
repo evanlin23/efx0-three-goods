@@ -1,7 +1,7 @@
 $ python3 k4/vm/vm1chain_cert.py 2 --level=move --verify
-  k4_certs_2.json.gz idx 0 n=2 m=4: DONE, 30 boxes {'none': 30}, 0 failing profiles {}, 0.1 s
-  k4_certs_2.json.gz idx 1 n=2 m=4: DONE, 115 boxes {'none': 115}, 0 failing profiles {}, 1.1 s
-  k4_certs_2.json.gz idx 0 n=2 m=5: DONE, 36 boxes {'none': 36}, 0 failing profiles {}, 0.0 s
-  k4_certs_2.json.gz idx 1 n=2 m=5: DONE, 177 boxes {'none': 177}, 0 failing profiles {}, 2.4 s
-  k4_certs_2.json.gz idx 0 n=2 m=6: DONE, 75 boxes {'none': 75}, 0 failing profiles {}, 0.4 s
-total {'DONE': 5, 'boxes': 433, 'fail profiles': 0} ; time 4 s
+  k4_certs_2.json.gz idx 0 n=2 m=4: DONE, 6 boxes {'none': 6}, 0 failing profiles {}, 0.0 s (certify_dense)
+  k4_certs_2.json.gz idx 0 n=2 m=5: DONE, 14 boxes {'none': 14}, 0 failing profiles {}, 0.0 s (certify_dense)
+  k4_certs_2.json.gz idx 0 n=2 m=6: DONE, 16 boxes {'none': 16}, 0 failing profiles {}, 0.0 s (certify_dense)
+  k4_certs_2.json.gz idx 1 n=2 m=5: DONE, 25 boxes {'none': 25}, 0 failing profiles {}, 0.0 s (certify_dense)
+  k4_certs_2.json.gz idx 1 n=2 m=4: DONE, 6 boxes {'none': 6}, 0 failing profiles {}, 0.0 s (certify_dense)
+total {'DONE': 5, 'boxes': 67, 'fail profiles': 0} ; time 0 s
