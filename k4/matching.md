@@ -593,6 +593,15 @@ base. This allocation is EFX₀ and S\*-shaped with owner h.
 5. *h is threatened by nobody,* by 2. Its value only rose.
 6. *Shape.* z is a holder at B₂ (by (L1), it holds one good) and takes one junk good. Nobody else but h takes junk. ∎
 
+**Case (b) of Lemma LIFT-1** (needed: the exhaustive n = 4 data have starts where z stays frozen after P₂, so (L1)
+fails). Assume LIFT-red's hypotheses and (L3), and instead of (L1), (L2′):
+- **(Lb)** v_z(X ∩ R_z) ≤ v_z(t), with X = H₀² ∪ J₂.
+
+Then giving h all of X and keeping every other base (z keeps {t}) is EFX₀.
+
+*Proof.* Steps 1–3 and 5 above do not use (L1) or (L2′). z's bundle {t} is a singleton, so it threatens nobody even
+if t is wanted. X threatens z only if v_z(X ∩ R_z) > v_z(t), which (Lb) excludes. ∎
+
 *Where k ≤ 4 is used:*
 - in step 4, through |R_z ∖ {t}| ≤ 3;
 - in (L3) for the second sharer k′ when k′ is off both chains. k′ values both goods of H₀¹: each single good of
@@ -622,14 +631,39 @@ repair follows from:
 > **LIFT-SHAPE⁺** (with (L2′)). There is exactly one holder z. Some official chain P₁ from a dangerous agent k ends at z, with no
 > junk for its agents after the head, |H₀¹| = 2, H₀¹ ⊆ J ∪ {y_z} improving a second dangerous agent, and z unfrozen
 > after P₁. Some canonical chain P₂ at
-> B₁, with a head h ≠ k, ends at z and gives z its favourite good as a single good. (L1)–(L3) hold.
+> B₁, with a head h ≠ k, ends at z and gives z its favourite good as a single good. (L3) holds, and either (L1) and
+> (L2′) hold (case (a)) or (Lb) holds (case (b)).
 
-No completion search is left in it, only which goods sit where, and the value comparisons (L1)–(L3):
+No completion search is left in it, only which goods sit where, and the value comparisons (L1)–(L3) or (Lb):
 - (L3) is automatic for the sharer off both chains;
 - for P₁'s head k off P₂, (L3) fails only if P₁ = (k, z), so that a = y_k ∈ H₀², and k's fourth good is also in X
   (k values both goods of H₀¹ and its pick, so at most one further good).
 
-It holds on all 8,073 distinct failing starts known here, n = 4 and n = 5 (`lift1_check.py`, `multi_check.py`).
+It holds on all 8,073 distinct walk starts (n = 4 and n = 5; `lift1_check.py`, `multi_check.py`; case (b) was added
+after the exhaustive run below) and on all 112,880 n = 4 failures (exhaustive, below).
+
+**Every n = 4 failure (exhaustive).** compute/k4-oc1max-cert exported every n = 4 start with no one-move repair, over
+every strict profile of every core hypergraph: 112,880 starts on 11 hypergraphs. The copy is
+`results/k4_matching/data/two_move_starts_n4.json.gz`, from `results/k4_oc1max/two_move_starts_n4.json.gz` of PR #114.
+Its completeness is that session's certificate (ordinal CEGAR, independently checked there), and its values are
+integer representatives of the strict order types. Every condition of LIFT-SHAPE⁺ compares disjoint sets of goods, so
+the representatives decide it for every profile of that type.
+- `k4/matching/n4_exhaustive.py` (`results/k4_matching/n4_exhaustive.log`):
+  - every one of the 112,880 is hard (raw) and has exactly one holder (item 1);
+  - **LIFT-SHAPE⁺ holds on all 112,880**: 109,680 through case (a), 3,200 through case (b);
+  - Lemma LIFT-1's allocation is raw EFX₀ on all;
+  - CM₂ holds on all;
+  - EX\* is exact on the second move on every 20th start (5,644).
+- The witnesses are in `results/k4_matching/lift_n4_witnesses.json.gz`: P₁, H₀¹, P₂, H₀², owner, case and final
+  allocation per start.
+- They are re-checked by `k4/matching/check_lift_n4.py` (`results/k4_matching/check_lift_n4.log`), a self-contained
+  checker that imports no code of this workstream or of k4/sdc. From the raw definitions it checks the SD picks, the
+  single holder, both chains (official, improving, shape), the stated case's conditions, and that the allocation is
+  the prescribed one, keeps the bases, partitions the goods and is EFX₀. **All 112,880 verified.**
+
+So at n = 4, OC₂ at every start with no one-move repair is certified with the explicit two-move shape of LIFT-SHAPE⁺
+(ledger K4.MATCH.LIFT.N4). The single holder, the shared pair, z's lift to its favourite good and the owner condition
+all hold without exception. This is the shape a proof for general n has to produce.
 
 *Another route to the same move* (multi session, `k4/oc1max_multi.md` §8 on its branch; not refereed here). Lemma
 LIFT (recursion): delete P₁'s head k and its pair T; the reduced state is a perfect SD start of I − k − T, and its
