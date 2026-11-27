@@ -872,6 +872,13 @@ Consequences:
     - `check_recs.py` accepts the witness.
   - Open: is (EX) impossible at a start with no one-move repair? That is what REC-S ⇒ ROUND-P needs, and the
     265,549 hard-start repairs say yes.
+- *The referee on the earlier sketch, which had no (EX).* The verdict was GAP (`k4/referee/rounds_r1.md` addendum,
+  commit 6fd0b357, as relayed by the coordinator; not read here [unverified]).
+  - Its failing case is EX-b: P₂'s head is x₁, P₂'s start does not take Y_k back, Y_z ∉ T, and Y_k's final holder
+    gains nothing from it.
+  - It reports 71 of 13,608 REC-S configurations on random strict starts, every one at a start that still has a
+    ROUND-P witness.
+  - Lemma SPLICE as stated above excludes exactly this case. ROUND-P itself is now targeted directly (§4.11).
 - So a proof of REC-S's open existence part (`k4/oc1_hall.md` §23.4 item 4) outside (EX) would prove ROUND-P^max on
   those starts.
 
