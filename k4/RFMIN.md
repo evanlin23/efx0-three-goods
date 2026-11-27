@@ -30,6 +30,12 @@ values), *frozen* an agent with a pick that some other agent prefers to its own,
    - The receiver-first classes (|U′|, |D_T′|) grow with n: at most (2, 2) at n = 4, up to (1, 3), (2, 2) and (3, 2) at
      n = 5. So the data give no constant bound.
 5. *The list for the hunt* (§5).
+6. *RF-PRIV* (§6): proved when no frozen agent values the junk above its pick (Lemma ABS). The general case is open.
+   - In every stored n = 5 failure whose receiver picked a private good, lifting that good to the receiver's top makes
+     the picks complete (35,299 of 35,299).
+   - At n = 4 the conclusion holds outright.
+7. *Transfer to RKMAX* (§7): Proposition RF-𝒦 and Lemma ABS transfer verbatim; Corollaries RF-TOP and RF-PRIV are
+   RF-specific.
 
 ## 1. Which reductions a minimal RF counterexample admits
 
@@ -218,6 +224,61 @@ For a search for counterexamples to RF at n ≥ 6:
    - The receiver does not hold its top.
    - Receiver-first classes reach (3, 2) at n = 5.
 
+## 6. RF-PRIV: status of a direct proof
+
+RF-PRIV's conclusion is: OC₁ holds at every maximum-matching start of every core in which some agent f's top good p is
+private. It is a sub-case of RF that a proof of RF must contain (Corollary RF-PRIV).
+
+**Proved part.** Lemma ABS gives it whenever no frozen agent values the junk set above its pick. f holds p, which is
+private, so f can be the absorber.
+
+**Not proved.** The case where some frozen agent d has v_d(J) > v_d(Y_d) is open. The natural route is one chain: d takes
+its junk (a pair if possible, H₀ ⊆ J ∩ R_d with v_d(H₀) > v_d(Y_d)), a wanter w of Y_d takes Y_d, and w's old pick is
+released, after which f absorbs. It runs into two gaps:
+- the released pick Y_w can threaten agents that wanted it, unless w is unfrozen;
+- a three-good H₀ can threaten other agents.
+
+Closing it needs the exact one-absorber completability count (the Hall session's Lemma 2*) at the post-move state.
+
+**Evidence.**
+- At n = 4 the conclusion holds outright: no OC₁^max failure at a private-top profile in the complete export (§2).
+- *Lift test* (`k4/rfmin/privtop_lift.py`). Take every stored n = 5 failing start whose receiver u picked a private but
+  non-top good. Raise that good above u's other goods, keeping the type strict and balanced; the picks are unchanged.
+  Then OC₁ holds, and always already **at the picks**: 23,779 of 23,779 (partial6, `results/k4_rfmin/privtop_lift_n5p6.log`)
+  and 11,520 of 11,520 (sel2, every 10th, `privtop_lift_n5s2.log`).
+  - Probable mechanism (an inference, not checked on the completions): before the lift, u wants its top t, so t's holder
+    x₁ is frozen and cannot take junk. After the lift u wants nothing, and the completion uses the room this frees.
+- *Random private-top cores*, n = 4–6, 400 instances (`k4/rfmin/privtop_random.py`, `results/k4_rfmin/privtop_random.log`):
+  1,297 maximum-matching pick vectors; 1,294 complete at the picks, 3 after one move, none fail. Random cores rarely fail
+  OC₁ at all, so this is weak.
+
+**Where private-top agents survive in 𝒦.** K4.MC5 forces y > p > g for a P3 agent next to an E3 agent (Q3 or P4) through a
+degree-2 good, so such an agent's top is not private. In px-Q4's recorded set, 576 of the 1,080 open profiles have the P3
+agent ranking its private good first (`results/k4_min_cex_px_uncovered.json`). So in 𝒦, RF-PRIV concerns:
+- P3 agents next to a Q4 agent through a degree-2 good;
+- P3 agents whose two shared goods both have degree ≥ 3;
+- P4 agents outside px pairs.
+
+## 7. Transfer to Conjecture RKMAX
+
+Conjecture RKMAX (`k4/sdc.md` §31 end on `claude/kind-lamport-y8fdme`, row K4.SDC.RKMAX) says that OC₁ holds at every
+maximum-matching start whose rank signature σ is lexicographically maximal.
+- **Proposition RF-𝒦 transfers verbatim.** RKMAX implies OC₁^∃max, so RKMAX on 𝒦 implies TARGET₄ by the same proof (§1).
+  The candidate lists serve an RKMAX search as they serve an RF search.
+- **Lemma ABS transfers verbatim.** It is about any serial-dictatorship start, so in particular σ-maximal ones. At a
+  σ-maximal start where some agent holds a private good and no frozen agent values the junk above its pick, OC₁ holds.
+  - D_T (θ(J) above the pick) ⊆ D^full (v(J) above the pick). So among the starts with |D_T| = 0, ABS closes those at which
+    D^full is empty as well and some agent holds a private good.
+  - It does not reach Hall's remaining classes (1, 1) and (2, 0) directly.
+- **Lemma RF-TOP transfers; its corollaries do not.** The lemma is about serial dictatorship itself. Its corollaries
+  RF-TOP and RF-PRIV come from RF's universal clause, "every receiver-first maximum-matching order satisfies OC₁".
+  RKMAX asks for OC₁ only at σ-maximal starts, so it implies neither. In a core with a private-top agent, RKMAX needs OC₁
+  at the σ-maximal starts only, while RF needs it at every maximum-matching start.
+  - Conversely, a proof of RF-PRIV's conclusion would prove RKMAX on those cores.
+- **What RF-TOP says about σ.** An agent holding its top good has rank 1, and moving it to the front changes no pick, so
+  σ is unchanged. The σ-raising rotations of `k4/sdc.md` §31 (RF and σ) are therefore rotations of receivers that do not
+  hold their top, which is exactly where RF-PATH has a nonempty ejection path.
+
 ## Reproduce
 
 ```
@@ -226,5 +287,7 @@ python3 absorb.py random 3000 1; python3 absorb.py random 4000 2 --kmin=4 --kmax
 python3 absorb.py random 3000 3 --kmin=4 --kmax=5          # sensitivity: fails at k = 5 (expected), ~3 min
 python3 absorb.py data N4 N5P6 N5S2                         # the stored failing starts (paths in §4), ~30 s
 python3 census.py N4 N5P6 N5S2; python3 classes.py N4; python3 classes.py N5P6 N5S2     # §4, ~30 min for n = 5
+python3 privtop_lift.py N5P6 1; python3 privtop_lift.py N5S2 10                     # §6 lift test, ~10 min
+python3 privtop_random.py 400 7 4 6                                                 # §6 random private-top cores, ~5 min
 cd ..; for b in 5 6 7 8 9; do python3 twins_count.py 6 $b --mc9 --write=../results/k4_rfmin/mc_n6_b${b}_mc9.json.gz; done
 ```
