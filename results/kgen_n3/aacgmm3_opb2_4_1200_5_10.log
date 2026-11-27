@@ -1,0 +1,38 @@
+$ python3 kgen/aacgmm3_opb2.py 4 1200 5 10
+FAIL REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick zeros [[0, 0, 0, 74, 40, 0, 55, 0], [0, 0, 0, 0, 60, 36, 69, 61], [0, 0, 0, 26, 0, 0, 0, 96]] order (0, 1, 2) roles (1, 2, 0) picks [3, 6, 7]
+FAIL invariant 2 lost after REB (X3 feasible for neither agent 2 nor 3) general [[99, 30, 54, 34, 19, 42], [7, 41, 73, 15, 73, 52], [84, 84, 92, 96, 6, 64]] order (0, 1, 2) roles (1, 2, 0) picks [0, 4, 3]
+FAIL case 2 exit not EFX0 general [[42, 81, 43, 95, 99, 78, 47, 21, 22], [97, 28, 7, 7, 21, 88, 8, 87, 34], [91, 86, 86, 64, 14, 26, 18, 51, 62]] order (0, 1, 2) roles (2, 1, 0) picks [4, 0, 2]
+FAIL case 2: agent 2's two-bundle PR blocked by a pick general [[55, 48, 67, 82, 6, 38, 78, 5], [65, 15, 71, 28, 12, 83, 50, 83], [96, 57, 1, 22, 4, 64, 63, 3]] order (0, 1, 2) roles (1, 2, 0) picks [3, 7, 0]
+14400 general: runs
+13254 general: runs ending EFX0
+12624 general: runs ending EFX0 and OC1-reachable
+602 general: runs ending EFX0, not OC1, identity placement
+553 general: runs failing: REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick
+3 general: runs failing: case 2 exit not EFX0
+21 general: runs failing: case 2: agent 2's two-bundle PR blocked by a pick
+569 general: runs failing: invariant 2 lost after REB (X3 feasible for neither agent 2 nor 3)
+2400 general: starts
+2094 general: starts where roles = order ends OC1-reachable
+2394 general: starts where some role assignment ends OC1-reachable
+14400 ident: runs
+14400 ident: runs ending EFX0
+14366 ident: runs ending EFX0 and OC1-reachable
+10 ident: runs ending EFX0, not OC1, identity placement
+2400 ident: starts
+2388 ident: starts where roles = order ends OC1-reachable
+2400 ident: starts where some role assignment ends OC1-reachable
+14400 zeros: runs
+13123 zeros: runs ending EFX0
+12858 zeros: runs ending EFX0 and OC1-reachable
+16 zeros: runs ending EFX0, not OC1, identity placement
+1240 zeros: runs failing: REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick
+37 zeros: runs failing: invariant 2 lost after REB (X3 feasible for neither agent 2 nor 3)
+2400 zeros: starts
+2028 zeros: starts where roles = order ends OC1-reachable
+2400 zeros: starts where some role assignment ends OC1-reachable
+1726 moves: move
+4776 moves: swap
+
+real	0m7.670s
+user	0m7.609s
+sys	0m0.020s

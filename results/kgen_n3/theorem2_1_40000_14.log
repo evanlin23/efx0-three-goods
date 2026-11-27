@@ -1,0 +1,17 @@
+$ python3 kgen/theorem2.py 1 40000 14
+20000 generic: EFX0
+20000 generic: OC1 shape
+20000 generic: starts
+20000 small: EFX0
+20000 small: OC1 shape
+20000 small: starts
+20000 sparse: EFX0
+20000 sparse: OC1 shape
+20000 sparse: starts
+20000 zeros: EFX0
+20000 zeros: OC1 shape
+20000 zeros: starts
+
+real	0m11.696s
+user	0m11.518s
+sys	0m0.004s

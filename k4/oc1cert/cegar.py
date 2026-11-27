@@ -103,11 +103,13 @@ class Witness:
     """See the module docstring.  fix: {agent: pick or None}; newb: {agent: tuple of goods}; imp: [(agent, new, old)];
     X: owner of every good; moves: the moves as found, applied in turn from the picks (for the certificate and the
     checker), each (kind, path, H)."""
-    __slots__ = ('fix', 'newb', 'imp', 'X', 'moves', 'owner')
+    __slots__ = ('fix', 'newb', 'imp', 'X', 'moves', 'owner', 'order', 'tags')
 
-    def __init__(self, fix, newb, imp, X, moves, owner=None):
+    def __init__(self, fix, newb, imp, X, moves, owner=None, order=None, tags=None):
         self.fix, self.newb, self.imp, self.X, self.moves = fix, newb, imp, tuple(X), tuple(moves)
-        self.owner = owner        # S* runs only: the completion's owner
+        self.owner = owner        # S* and R2-O runs: the completion's owner
+        self.order = order        # R2-E runs: the SD order sigma whose earliest wanters define the chain
+        self.tags = tags          # R2 (L) runs: (dangerous middle agent, an agent wanting its pick, middle receiver)
 
     @property
     def kind(self):
@@ -120,14 +122,18 @@ class Witness:
                        [(ma[x], f(a), f(b)) for x, a, b in self.imp],
                        _perm_owner(self.X, ma, mg),
                        [(k, tuple(ma[x] for x in path), tuple(f(h) for h in H)) for k, path, H in self.moves],
-                       None if self.owner is None else ma[self.owner])
+                       None if self.owner is None else ma[self.owner],
+                       None if self.order is None else tuple(ma[a] for a in self.order),
+                       None if self.tags is None else tuple(ma[a] for a in self.tags))
 
     def key(self):
-        return (tuple(sorted(self.fix.items(), key=lambda t: t[0])), self.X, self.moves, self.owner)
+        return (tuple(sorted(self.fix.items(), key=lambda t: t[0])), self.X, self.moves, self.owner, self.order, self.tags)
 
     def to_json(self):
         d = {'picks': {str(x): y for x, y in sorted(self.fix.items())}, 'X': ''.join(map(str, self.X))}
         if self.owner is not None: d['owner'] = self.owner
+        if self.order is not None: d['order'] = list(self.order)
+        if self.tags is not None: d['tags'] = list(self.tags)
         if len(self.moves) <= 1:
             k, path, H = self.moves[0] if self.moves else ('picks', (), ())
             d.update({'kind': k, 'path': list(path), 'H': [list(h) for h in H]})
@@ -406,7 +412,7 @@ class Cert:
                 ass += [-self.iown[j] for j in range(self.n) if j != x0]
                 ass += [-self.inh[j] for j in range(self.n)]
             else:
-                # R2-C: any one-absorber completion
+                # R2-C, (S), (L): any one-absorber completion
                 ass += [-self.inh[j] for j in range(self.n)]
         elif self.r2:
             ass += [-self.inh[j] for j in range(self.n)]       # the plain one-absorber completion
@@ -540,6 +546,86 @@ class Cert:
             tot += math.log(max(1, ok.sum()))
         return tot
 
+    def inner_r2e(self, prof, Y):
+        """R2-E (k4/ttc.md §14.6 on claude/k4-ttc).  The picks have a one-absorber completion; or, for some SD order
+        sigma giving Y, some k in D and some T within (J + {Y_z}) and R_k with v_k(T) > v_k(Y_k), the state after the
+        earliest-wanter chain E(k) has one.
+        - E(k) = (k = x_0, x_1, ..., x_t = z): x_l is the sigma-earliest agent preferring Y_{x_(l-1)} to its own pick,
+          and the chain stops at the first agent whose pick nobody prefers.
+        - In the state, x_l holds Y_{x_(l-1)}, k holds T, and Y_z is junk unless it lies in T.
+        - Variants: 'e2', T is a pair; 'eo', the owner (the only agent with two or more junk goods) is a receiver of Y.
+        Witnesses fix every pick and record sigma; their comparisons pin sigma's SD region, the wanter pattern of
+        E(k) and T's improvement."""
+        base = [(y,) if y is not None else () for y in Y]
+        Xs = self.complete(prof, base, self.tries)
+        if Xs:
+            return sorted([Witness({}, {}, [], X, ()) for X in Xs], key=self.volume, reverse=True)[:1]
+        vals = self.vals_of(prof); n = self.n
+        wants = lambda i, j: Y[j] in vals[i] and vals[i][Y[j]] > vals[i].get(Y[i], 0)
+        held = set(Y); J = [g for g in range(self.m) if g not in held]
+        frozen = [any(wants(i, j) for i in range(n) if i != j) for j in range(n)]
+        recv = [not frozen[j] for j in range(n)]
+        D = [k for k in range(n) if frozen[k] and any(g in self.R[k] for g in J)]
+        cands = []
+        for sigma in itertools.permutations(range(n)):
+            if self.sd_vals(vals, sigma) != tuple(Y): continue
+            pos = {a: q for q, a in enumerate(sigma)}
+            for k in D:
+                path = [k]; ok = True
+                while True:
+                    cur = path[-1]
+                    ws = [i for i in sigma if i != cur and wants(i, cur)]
+                    if not ws: break
+                    if ws[0] in path: ok = False; break       # a cycle: E(k) undefined
+                    path.append(ws[0])
+                if not ok or len(path) < 2: continue
+                z = path[-1]
+                pool = [g for g in J if g in self.R[k]] + ([Y[z]] if Y[z] in self.R[k] else [])
+                for T in nonempty_subsets(pool):
+                    if self.r2 == 'e2' and len(T) != 2: continue
+                    if sum(vals[k][g] for g in T) <= vals[k][Y[k]]: continue
+                    st = [list(b) for b in base]; st[k] = sorted(T)
+                    for l in range(1, len(path)): st[path[l]] = [Y[path[l - 1]]]
+                    owner = None
+                    if self.r2 == 'eo':
+                        Xs = []
+                        for u in range(n):
+                            if recv[u]:
+                                Xs = self.complete(prof, st, 1, shape=('o', u))
+                                if Xs: owner = u; break
+                        if not Xs: Xs = self.complete(prof, st, 1, shape=('star', k))
+                    else:
+                        Xs = self.complete(prof, st, 1)
+                    if not Xs: continue
+                    req = [(k, tuple(sorted(T)), (Y[k],))]
+                    taken = set()
+                    for a in sigma:                               # sigma's SD region
+                        req += [(a, (Y[a],), (g,)) for g in self.sets[a] if g not in taken and g != Y[a]]
+                        taken.add(Y[a])
+                    for l in range(1, len(path)):                 # x_l wants Y_{x_(l-1)}; earlier agents do not
+                        prev = path[l - 1]
+                        req.append((path[l], (Y[prev],), (Y[path[l]],)))
+                        req += [(i, (Y[i],), (Y[prev],)) for i in sigma[:pos[path[l]]] if i != prev and Y[prev] in self.R[i]]
+                    req += [(i, (Y[i],), (Y[z],)) for i in range(n) if i != z and Y[z] in self.R[i]]   # nobody wants Y_z
+                    if owner is not None:
+                        req += [(i, (Y[i],), (Y[owner],)) for i in range(n) if i != owner and Y[owner] in self.R[i]]
+                    W = Witness({a: Y[a] for a in range(n)}, {a: tuple(st[a]) for a in range(n)}, req, Xs[0],
+                                (('chain', tuple(path), (tuple(sorted(T)),) + ((),) * (len(path) - 1)),), owner,
+                                tuple(sigma))
+                    cands.append(W)
+                    if len(cands) >= self.kcand: break
+                if len(cands) >= self.kcand: break
+            if len(cands) >= self.kcand: break
+        return sorted(cands, key=self.volume, reverse=True)[:self.keep]
+
+    def sd_vals(self, vals, order):
+        taken = set(); Y = [None] * self.n
+        for i in order:
+            av = [g for g in self.sets[i] if g not in taken]
+            if av:
+                g = max(av, key=lambda h: vals[i][h]); Y[i] = g; taken.add(g)
+        return tuple(Y)
+
     def inner_r2(self, prof, Y):
         """R2-M / R2*: a one-absorber completion of the picks, else a canonical chain (x0 frozen and valuing junk, x1
         preferring x0's pick to its own, ending at a receiver) whose bases have the R2 shape's completion."""
@@ -560,6 +646,20 @@ class Cert:
             x0, x1, z = path[0], path[1], path[-1]
             if not (frozen[x0] and any(g in self.R[x0] and g not in held for g in range(self.m)) and wants(x1, x0) and recv[z]):
                 continue
+            tags = None
+            if self.r2 in ('s', 'l', 'sl'):
+                is_s = all(not Hs[i] for i in range(1, len(path)))
+                lt = None
+                for i in range(1, len(path) - 1):          # (L): a dangerous middle agent taking junk ...
+                    a = path[i]
+                    if Hs[i] and frozen[a]:
+                        wn = next(w for w in range(self.n) if w != a and wants(w, a))
+                        rj = next((path[j] for j in range(1, len(path) - 1) if recv[path[j]]), None)   # ... and a middle receiver
+                        if rj is not None: lt = (a, wn, rj); break
+                if self.r2 == 's' and not is_s: continue
+                if self.r2 == 'l' and lt is None: continue
+                if self.r2 == 'sl' and not is_s and lt is None: continue
+                if not is_s: tags = lt
             st = [list(nb.get(a, base[a])) for a in range(self.n)]
             owner, Xs = None, []
             if self.r2 in ('o', 'og', 'op'):      # the owner: a receiver at the picks, not on the chain
@@ -576,13 +676,18 @@ class Cert:
             req += [(i, (Y[i],), (Y[z],)) for i in range(self.n) if i != z and Y[z] in self.R[i]]
             if owner is not None:
                 req += [(i, (Y[i],), (Y[owner],)) for i in range(self.n) if i != owner and Y[owner] in self.R[i]]
+            if tags is not None:     # (L): wn prefers a's pick to its own; nobody prefers rj's pick to their own
+                a, wn, rj = tags
+                req.append((wn, (Y[a],), (Y[wn],)))
+                req += [(i, (Y[i],), (Y[rj],)) for i in range(self.n) if i != rj and Y[rj] in self.R[i]]
             W = Witness({a: Y[a] for a in range(self.n)}, {a: tuple(st[a]) for a in range(self.n)}, req, Xs[0],
-                        ((kind, path, Hs),), owner)
+                        ((kind, path, Hs),), owner, None, tags)
             cands.append(W)
             if len(cands) >= self.kcand: break
         return sorted(cands, key=self.volume, reverse=True)[:self.keep]
 
     def inner(self, prof, Y):
+        if self.r2 in ('e', 'e2', 'eo'): return self.inner_r2e(prof, Y)
         if self.r2: return self.inner_r2(prof, Y)
         """Witnesses at (prof, Y): the best completions of the picks, else the best (move sequence, completion) pairs
         with the fewest moves (at most self.depth)."""

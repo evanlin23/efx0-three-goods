@@ -1,0 +1,5 @@
+$ python3 kgen/oc1_t1_k4.py logs
+instances 1637
+starts: picks 37440
+starts: t>=1 4574
+time 9 s

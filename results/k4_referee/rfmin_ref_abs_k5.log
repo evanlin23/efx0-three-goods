@@ -1,0 +1,12 @@
+$ python3 k4/referee/rfmin_ref.py abs 100000 4 5
+  K = 5
+    full failure: violator receiver (|R_i| = 5, took a junk good True) against X_f, junk of X_j it values 3 107
+  f not private: NOT EFX0 or not one-absorber        157379
+  f not private: cases                               305124
+  full: NOT EFX0 or not one-absorber                 107
+  full: cases                                        56170
+  no frozen hypothesis: NOT EFX0 or not one-absorber 9786
+  no frozen hypothesis: cases                        11206
+  smallest failure f not private {"v": [[24, 16, 0, 0], [33, 19, 6, 28], [4, 0, 1, 27]], "order": [2, 0, 1], "f": 0, "X": [[0, 2], [1], [3]]}
+  smallest failure full {"v": [[25, 0, 26, 12, 0, 20, 30], [0, 17, 11, 0, 0, 0, 0], [0, 37, 6, 0, 39, 16, 25]], "order": [1, 2, 0], "f": 2, "X": [[6, 2], [1], [4, 0, 3, 5]]}
+  smallest failure no frozen hypothesis {"v": [[0, 21, 8, 33, 0, 10], [24, 0, 1, 0, 17, 34], [0, 0, 4, 0, 0, 39]], "order": [0, 1, 2], "f": 0, "X": [[3, 0, 1, 4], [5], [2]]}

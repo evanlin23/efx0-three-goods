@@ -1,0 +1,48 @@
+$ python3 k4/oc1cert/good_orders.py results/k4_oc1max/n5/5_pure_s5o0_summary.jsonl.gz good_orders_5_pure_s5o0.json.gz --jobs=2
+failing starts 280 hypergraphs 137
+(good, bad) pick vectors 10, 1 24
+(good, bad) pick vectors 10, 2 7
+(good, bad) pick vectors 11, 1 38
+(good, bad) pick vectors 11, 2 4
+(good, bad) pick vectors 12, 1 24
+(good, bad) pick vectors 12, 2 6
+(good, bad) pick vectors 12, 4 1
+(good, bad) pick vectors 13, 1 29
+(good, bad) pick vectors 13, 2 1
+(good, bad) pick vectors 14, 1 11
+(good, bad) pick vectors 14, 2 5
+(good, bad) pick vectors 15, 1 19
+(good, bad) pick vectors 15, 2 1
+(good, bad) pick vectors 15, 4 1
+(good, bad) pick vectors 16, 1 4
+(good, bad) pick vectors 16, 2 4
+(good, bad) pick vectors 17, 1 7
+(good, bad) pick vectors 17, 2 1
+(good, bad) pick vectors 18, 1 4
+(good, bad) pick vectors 18, 2 5
+(good, bad) pick vectors 19, 1 5
+(good, bad) pick vectors 19, 2 1
+(good, bad) pick vectors 21, 1 2
+(good, bad) pick vectors 22, 2 1
+(good, bad) pick vectors 24, 1 1
+(good, bad) pick vectors 25, 1 1
+(good, bad) pick vectors 7, 1 17
+(good, bad) pick vectors 8, 1 20
+(good, bad) pick vectors 8, 2 2
+(good, bad) pick vectors 9, 1 34
+bad pick vectors with 1 receivers 324
+good pick vectors with 1 receivers 1313
+good pick vectors with 2 receivers 1772
+good pick vectors with 3 receivers 242
+good pick vectors: OC1 fails 0
+good pick vectors: one move repairs 1102
+good pick vectors: picks complete 2225
+starts 280
+candidate rules (True: the rule picks a good order; False: a bad one; None: it picks nothing):
+   every pick vector with the most receivers is good {True: 280}
+   some pick vector with the most receivers is good {True: 280}
+   every pick vector with >= 2 receivers is good {True: 280}
+   the most frequent pick vector is good {False: 1, True: 279}
+   every order starting with a receiver of the failing start is good {True: 280}
+   Hamming distance from the failing picks to the nearest good picks {2: 280}
+wrote good_orders_5_pure_s5o0.json.gz 23 s

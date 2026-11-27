@@ -1,0 +1,28 @@
+$ rkcegar on the 11 k = 4 OC1max-failing cores (refute_oc1max_k4.CEX); RKMAX, then the tops-only control
+cex1 RKMAX certified 3608 {'picks': 714, 'repaired': 896, '1 chains': 182, 'not sigma-maximal': 2712} 1.1 s
+cex1 tops-only FAIL 347 {'picks': 129, 'repaired': 190, '1 chains': 61, 'not sigma-maximal': 156} 0.1 s
+    {"vals": [[2, 8, 4, 5], [8, 2, 4, 7], [5, 3, 6, 7], [3, 2, 4]], "Y": [1, 2, 5, 6], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [2, 1, 0, 1], "max sigma": [2, 2, 0, 0], "OC1 at Y": null}
+cex2 RKMAX certified 4114 {'picks': 655, 'repaired': 911, 'not sigma-maximal': 3203, '1 chains': 256} 1.2 s
+cex2 tops-only certified 3070 {'picks': 789, 'repaired': 1401, 'not sigma-maximal': 1669, '1 chains': 612} 1.2 s
+cex3 RKMAX certified 8408 {'picks': 946, 'repaired': 1755, '1 chains': 809, 'not sigma-maximal': 6653} 2.9 s
+cex3 tops-only FAIL 246 {'picks': 104, 'repaired': 166, '1 chains': 62, 'not sigma-maximal': 79} 0.2 s
+    {"vals": [[2, 6, 7, 10], [5, 4, 6, 8], [5, 7, 3, 6], [1, 8, 4, 6]], "Y": [6, 5, 4, 3], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [2, 1, 0, 1], "max sigma": [2, 1, 1, 0], "OC1 at Y": null}
+cex4 RKMAX certified 8471 {'picks': 861, 'repaired': 1436, 'not sigma-maximal': 7035, '1 chains': 575} 2.7 s
+cex4 tops-only certified 5975 {'picks': 898, 'repaired': 1880, 'not sigma-maximal': 4095, '1 chains': 982} 2.2 s
+cex5 RKMAX certified 9683 {'picks': 1026, 'repaired': 1657, 'not sigma-maximal': 8026, '1 chains': 631} 3.3 s
+cex5 tops-only certified 6547 {'picks': 1148, 'repaired': 2437, 'not sigma-maximal': 4110, '1 chains': 1289} 2.6 s
+cex6 RKMAX certified 9731 {'picks': 1222, 'repaired': 2066, 'not sigma-maximal': 7665, '1 chains': 844} 3.6 s
+cex6 tops-only FAIL 447 {'picks': 106, 'repaired': 179, 'not sigma-maximal': 267, '1 chains': 73} 0.2 s
+    {"vals": [[1, 4, 8, 6], [2, 8, 4, 7], [6, 4, 3, 8], [4, 5, 6, 8]], "Y": [4, 1, 6, 5], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [2, 1, 0, 1], "max sigma": [2, 2, 0, 0], "OC1 at Y": null}
+cex7 RKMAX certified 9418 {'picks': 896, 'repaired': 1478, 'not sigma-maximal': 7940, '1 chains': 582} 3.2 s
+cex7 tops-only certified 6068 {'picks': 1009, 'repaired': 2137, 'not sigma-maximal': 3931, '1 chains': 1128} 2.4 s
+cex8 RKMAX certified 9522 {'picks': 998, 'repaired': 1699, 'not sigma-maximal': 7823, '1 chains': 701} 3.2 s
+cex8 tops-only certified 5889 {'picks': 1080, 'repaired': 2240, 'not sigma-maximal': 3649, '1 chains': 1160} 2.3 s
+cex9 RKMAX certified 9836 {'picks': 1877, 'repaired': 2880, '1 chains': 1003, 'not sigma-maximal': 6956} 3.5 s
+cex9 tops-only FAIL 666 {'picks': 255, 'repaired': 463, '1 chains': 208, 'not sigma-maximal': 202} 0.3 s
+    {"vals": [[6, 7, 2, 10], [5, 4, 8, 6], [6, 10, 2, 7], [1, 8, 6, 4]], "Y": [5, 6, 3, 1], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [2, 1, 0, 1], "max sigma": [2, 2, 0, 0], "OC1 at Y": null}
+cex10 RKMAX certified 7158 {'picks': 1567, 'repaired': 2517, '1 chains': 950, 'not sigma-maximal': 4641} 3.2 s
+cex10 tops-only FAIL 657 {'picks': 261, 'repaired': 458, '1 chains': 197, 'not sigma-maximal': 198} 0.4 s
+    {"vals": [[2, 5, 4, 8], [2, 7, 10, 6], [5, 4, 8, 6], [1, 8, 6, 4]], "Y": [6, 5, 7, 4], "Y an SD vector": true, "Y maximum": true, "sigma(Y)": [2, 1, 0, 1], "max sigma": [2, 2, 0, 0], "OC1 at Y": null}
+cex11 RKMAX certified 7846 {'picks': 1410, 'repaired': 2264, 'not sigma-maximal': 5582, '1 chains': 854} 3.3 s
+cex11 tops-only certified 6050 {'picks': 1527, 'repaired': 3118, 'not sigma-maximal': 2932, '1 chains': 1591} 3.4 s

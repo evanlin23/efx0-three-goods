@@ -322,3 +322,31 @@ SINK shape, which I checked against the statements:
 
 The conjecture's data claims (161,520 n = 4 RF starts; the n = 5 classes) were not re-run here. My n = 4 recomputation
 of the A1 and B classes (`rfres_ref.py`) shows the SINK shape at all 32,000 and 43,520 starts.
+
+## Addendum: replay of the 32 three-ring (T\*) certificates (`k4/girth/oc1_tstar.py`, `results/k4_girth_oc1_tstar.log` at `bbf55da7`)
+
+**Read:** `k4/girth.md` §7 (DEMOTE-0, "32 need a 3-ring (T\*)") and the script, as a statement of the certificate.
+**Check:** `k4/referee/tstar_ref.py` (`tstar_ref_runs.sh`), log `results/k4_referee/tstar_ref.log`. The code is my
+own, with raw EFX₀ and my own move generator. Nothing from `k4/girth/` or `k4/sdc/` is run.
+
+The input is my rebuild of the n = 5 DEMOTE-0 starts from the certifier's two exports: 113,484 starts, of which 274 have
+no one-absorber completion at the picks.
+
+**Result: CONFIRMED.**
+- **OC₁ after one move** (my own search: additions, chains, rings, then one-absorber) holds at all 274.
+- **(T), 242 starts.** Each has an improving trade: a pick-dangerous p takes {Y′_d, j} and d takes Y′_p. At every one,
+  some such trade completes with each remaining junk good going to a different agent, i.e. with no absorber. This is
+  girth's explicit (T) form.
+- **(T\*), 32 starts.** None has an improving trade.
+  - All are on 5_pure#374, with RF path u → d of length 1.
+  - Each has exactly two improving 3-rings c1 → c2 → d: c1 takes {Y′_d, j}, c2 takes Y′_{c1}, d takes Y′_{c2}.
+  - Both are official moves (found by my ring generator), and both become EFX₀ when d then absorbs all remaining junk.
+    So the certificate holds at 32 of 32.
+- **Roles at Y:** u U, d Dp, c1 DT, c2 Dp, and c2 keeps its pick. This is the log's line exactly, and girth.md's
+  "(D_T, D_T, U, D, D)". At Y′, c1 is Dp and c2 is F (frozen, values no junk). That matches girth.md's "a frozen agent f
+  takes Y′_p", with only c1 adding a junk good.
+
+So DEMOTE-0 at n = 5 is covered:
+- 113,210 at once (NA, or RF-A1\* on 71,443);
+- 242 by (T);
+- 32 by (T\*).

@@ -1,0 +1,22 @@
+$ python3 kgen/n2_fallback.py 1 3000 3 11
+F1 b-LPT, move y_a to the other bundle (a chooses): fails 758
+F1 b-LPT, move y_a to the other bundle (a chooses): ok 44
+F2 a-LPT, move y_b to the other bundle (b chooses): fails 758
+F2 a-LPT, move y_b to the other bundle (b chooses): ok 44
+F3 b-LPT without y_a, then y_a away from y_b (a chooses): fails 618
+F3 b-LPT without y_a, then y_a away from y_b (a chooses): ok 184
+F4 a-LPT without y_b, then y_b away from y_a (b chooses): fails 618
+F4 a-LPT without y_b, then y_b away from y_a (b chooses): ok 184
+F5 b-LPT with the picks placed first (a chooses): fails 63
+F5 b-LPT with the picks placed first (a chooses): ok 739
+F6 a-LPT with the picks placed first (b chooses): fails 63
+F6 a-LPT with the picks placed first (b chooses): ok 739
+open-case starts 802
+some fallback works 786
+first failure F1 b-LPT, move y_a to the other bundle (a chooses) [[[619870, 991189, 107193, 945216, 332850, 32076], [23407, 26682, 681099, 567713, 9653, 984770]], [0, 1]]
+first failure F2 a-LPT, move y_b to the other bundle (b chooses) [[[619870, 991189, 107193, 945216, 332850, 32076], [23407, 26682, 681099, 567713, 9653, 984770]], [0, 1]]
+first failure F3 b-LPT without y_a, then y_a away from y_b (a chooses) [[[619870, 991189, 107193, 945216, 332850, 32076], [23407, 26682, 681099, 567713, 9653, 984770]], [0, 1]]
+first failure F4 a-LPT without y_b, then y_b away from y_a (b chooses) [[[619870, 991189, 107193, 945216, 332850, 32076], [23407, 26682, 681099, 567713, 9653, 984770]], [0, 1]]
+first failure F5 b-LPT with the picks placed first (a chooses) [[[619870, 991189, 107193, 945216, 332850, 32076], [23407, 26682, 681099, 567713, 9653, 984770]], [0, 1]]
+first failure F6 a-LPT with the picks placed first (b chooses) [[[619870, 991189, 107193, 945216, 332850, 32076], [23407, 26682, 681099, 567713, 9653, 984770]], [0, 1]]
+first failure none [[[619870, 991189, 107193, 945216, 332850, 32076], [23407, 26682, 681099, 567713, 9653, 984770]], [0, 1]]

@@ -1,0 +1,25 @@
+$ python3 kgen/k3max_release.py gap_small_5.gap.gz 0 2
+7152 |J| = 2: drafts
+332 |J| = 2: least omega' = -1 (omega = 1)
+3039 |J| = 2: least omega' = -2 (omega = 1)
+3773 |J| = 2: least omega' = -3 (omega = 1)
+8 |J| = 2: least omega' = 0 (omega = 1)
+8 |J| = 2: release count r = 1, need omega - 1 = 0
+332 |J| = 2: release count r = 2, need omega - 1 = 0
+3039 |J| = 2: release count r = 3, need omega - 1 = 0
+3773 |J| = 2: release count r = 4, need omega - 1 = 0
+12305 |J| = 2: released goods, former wanters: chain agents only
+668 |J| = 2: released goods, former wanters: t and chain agents
+8129 |J| = 2: released goods, former wanters: t only
+3779 |J| = 2: released goods, former wanters: with an upgraded agent
+4732 |J| = 3: drafts
+1344 |J| = 3: least omega' = -1 (omega = 2)
+3302 |J| = 3: least omega' = -2 (omega = 2)
+86 |J| = 3: least omega' = 0 (omega = 2)
+86 |J| = 3: release count r = 2, need omega - 1 = 1
+1344 |J| = 3: release count r = 3, need omega - 1 = 1
+3302 |J| = 3: release count r = 4, need omega - 1 = 1
+8032 |J| = 3: released goods, former wanters: chain agents only
+326 |J| = 3: released goods, former wanters: t and chain agents
+5174 |J| = 3: released goods, former wanters: t only
+3880 |J| = 3: released goods, former wanters: with an upgraded agent

@@ -1,0 +1,34 @@
+$ python3 kgen/k3max_t1acyc.py small:5 2 4
+568 |J| = 1, |E_t| = 2
+48 |J| = 1, |E_t| = 2: every rotation keeps the want graph acyclic False
+520 |J| = 1, |E_t| = 2: every rotation keeps the want graph acyclic True
+568 |J| = 1, |E_t| = 2: every rotation leaves a terminal (before upgrades) True
+64 |J| = 1, |E_t| = 2: some rotation is a top chain (every receiver gets its top) False
+504 |J| = 1, |E_t| = 2: some rotation is a top chain (every receiver gets its top) True
+568 |J| = 1, |E_t| = 2: some rotation keeps the want graph acyclic True
+3968 |J| = 2, |E_t| = 2
+528 |J| = 2, |E_t| = 2: every rotation keeps the want graph acyclic False
+3440 |J| = 2, |E_t| = 2: every rotation keeps the want graph acyclic True
+320 |J| = 2, |E_t| = 2: every rotation leaves a terminal (before upgrades) False
+3648 |J| = 2, |E_t| = 2: every rotation leaves a terminal (before upgrades) True
+480 |J| = 2, |E_t| = 2: some rotation is a top chain (every receiver gets its top) False
+3488 |J| = 2, |E_t| = 2: some rotation is a top chain (every receiver gets its top) True
+3968 |J| = 2, |E_t| = 2: some rotation keeps the want graph acyclic True
+320 |J| = 2, |E_t| = 3
+320 |J| = 2, |E_t| = 3: every rotation keeps the want graph acyclic True
+320 |J| = 2, |E_t| = 3: every rotation leaves a terminal (before upgrades) True
+320 |J| = 2, |E_t| = 3: some rotation is a top chain (every receiver gets its top) True
+320 |J| = 2, |E_t| = 3: some rotation keeps the want graph acyclic True
+1792 |J| = 3, |E_t| = 2
+224 |J| = 3, |E_t| = 2: every rotation keeps the want graph acyclic False
+1568 |J| = 3, |E_t| = 2: every rotation keeps the want graph acyclic True
+80 |J| = 3, |E_t| = 2: every rotation leaves a terminal (before upgrades) False
+1712 |J| = 3, |E_t| = 2: every rotation leaves a terminal (before upgrades) True
+152 |J| = 3, |E_t| = 2: some rotation is a top chain (every receiver gets its top) False
+1640 |J| = 3, |E_t| = 2: some rotation is a top chain (every receiver gets its top) True
+1792 |J| = 3, |E_t| = 2: some rotation keeps the want graph acyclic True
+160 |J| = 3, |E_t| = 3
+160 |J| = 3, |E_t| = 3: every rotation keeps the want graph acyclic True
+160 |J| = 3, |E_t| = 3: every rotation leaves a terminal (before upgrades) True
+160 |J| = 3, |E_t| = 3: some rotation is a top chain (every receiver gets its top) True
+160 |J| = 3, |E_t| = 3: some rotation keeps the want graph acyclic True

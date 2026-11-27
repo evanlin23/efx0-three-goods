@@ -20,6 +20,10 @@ At a perfect SD start Y (picks y_i, junk J):
   chain; such a receiver must exist.  R2-O generous: or a completion with no owner (nobody takes two junk goods).
   R2-O': the owner, if any, is a receiver other than the chain's end z (on or off the chain).
 - R2-C: any one-absorber completion after a canonical chain.
+- (S): a canonical chain without junk for x_1..x_t; (L): one in which a middle agent dangerous at the start (frozen,
+  valuing junk) takes junk and some middle agent is a receiver; both then a one-absorber completion.
+- R2-E: for some SD order sigma giving Y, the earliest-wanter chain E(k) from some k in D, with k taking an improving
+  T within (J + {Y_z}), then a one-absorber completion.
 For each start: is it perfect, does it have |U| >= 2, is it hard, and do R2-M and R2* hold?
 
     python3 k4/oc1cert/verify_r2.py STARTS.jsonl     (one {"sets", "vals", "picks"} per line)"""
@@ -48,7 +52,7 @@ def canonical_states(I, Y):
                 if H0 and V(x0, H0) > V(x0, base[x0]):
                     nb = [list(b) for b in base]; nb[x0] = list(H0)
                     for t in range(1, len(path)): nb[path[t]] = base[path[t - 1]] + list(Hs[t])
-                    out.append((x0, nb, tuple(path)))
+                    out.append((x0, nb, tuple(path), tuple(tuple(h) for h in Hs)))
         if len(path) >= n: return
         for y in range(n):
             if y in path: continue
@@ -88,6 +92,36 @@ def shaped(I, nb, x0, mode):
     return False
 
 
+def r2e(I, Y, variant='e'):
+    """R2-E: for some SD order sigma giving Y, some k in D and some T within (J + {Y_z}) and R_k worth more to k than
+    Y_k, the state after the earliest-wanter chain E(k) has a one-absorber completion ('e2': |T| = 2; 'eo': the
+    owner, if any, is a receiver of Y)."""
+    n = I.n; J = [g for g in range(I.m) if g not in Y]
+    wants = lambda i, j: I.v[i].get(Y[j], 0) > I.v[i][Y[i]]
+    frozen = [any(wants(i, j) for i in range(n) if i != j) for j in range(n)]
+    U = [j for j in range(n) if not frozen[j]]
+    D = [k for k in range(n) if frozen[k] and any(g in I.R[k] for g in J)]
+    for sigma in itertools.permutations(range(n)):
+        if I.sd(sigma) != Y: continue
+        for k in D:
+            path = [k]
+            while True:
+                ws = [i for i in sigma if i != path[-1] and wants(i, path[-1])]
+                if not ws or ws[0] in path: break
+                path.append(ws[0])
+            if ws or len(path) < 2: continue          # a cycle (ws nonempty at the break): undefined
+            z = path[-1]
+            pool = [g for g in J if g in I.R[k]] + ([Y[z]] if Y[z] in I.R[k] else [])
+            for T in subsets(pool):
+                if not T or (variant == 'e2' and len(T) != 2) or I.V(k, T) <= I.v[k][Y[k]]: continue
+                nb = [[y] for y in Y]; nb[k] = list(T)
+                for l in range(1, len(path)): nb[path[l]] = [Y[path[l - 1]]]
+                if variant == 'eo':
+                    if one_absorber_owner(I, nb, U): return True
+                elif I.one_absorber([list(b) for b in nb]): return True
+    return False
+
+
 if __name__ == '__main__':
     C = collections.Counter()
     for line in open(sys.argv[1]):
@@ -98,18 +132,26 @@ if __name__ == '__main__':
         sts, frozen = canonical_states(I, Y) if perfect else ([], [])
         U = [j for j in range(I.n) if perfect and not frozen[j]]
         hard = not I.one_absorber([[y] for y in Y])
-        r2m = any(shaped(I, nb, x0, 'm') for x0, nb, p in sts)
-        r2s = any(shaped(I, nb, x0, 'star') for x0, nb, p in sts)
-        r2o = any([u for u in U if u not in p] and one_absorber_owner(I, nb, [u for u in U if u not in p]) for x0, nb, p in sts)
-        r2og = any(one_absorber_owner(I, nb, [u for u in U if u not in p]) for x0, nb, p in sts)
-        r2op = any(one_absorber_owner(I, nb, [u for u in U if u != p[-1]]) for x0, nb, p in sts)
-        r2c = any(I.one_absorber([list(b) for b in nb]) for x0, nb, p in sts)
+        r2m = any(shaped(I, nb, x0, 'm') for x0, nb, p, hs in sts)
+        r2s = any(shaped(I, nb, x0, 'star') for x0, nb, p, hs in sts)
+        r2o = any([u for u in U if u not in p] and one_absorber_owner(I, nb, [u for u in U if u not in p]) for x0, nb, p, hs in sts)
+        r2og = any(one_absorber_owner(I, nb, [u for u in U if u not in p]) for x0, nb, p, hs in sts)
+        r2op = any(one_absorber_owner(I, nb, [u for u in U if u != p[-1]]) for x0, nb, p, hs in sts)
+        r2c = any(I.one_absorber([list(b) for b in nb]) for x0, nb, p, hs in sts)
+        r2e_ = r2e(I, Y, 'e') if perfect else False
+        Dset = {j for j in range(I.n) if perfect and frozen[j] and any(g in I.R[j] and g not in Y for g in range(I.m))}
+        def is_S(p, hs): return all(not hs[i] for i in range(1, len(p)))
+        def is_L(p, hs):
+            mid = range(1, len(p) - 1)
+            return any(hs[i] and p[i] in Dset for i in mid) and any(not frozen[p[i]] for i in mid)
+        r2s_ = any(is_S(p, hs) and I.one_absorber([list(b) for b in nb]) for x0, nb, p, hs in sts)
+        r2l_ = any(is_L(p, hs) and I.one_absorber([list(b) for b in nb]) for x0, nb, p, hs in sts)
         res = {'perfect': perfect, 'orders giving the picks': orders, 'receivers': U, 'hard': hard,
                'canonical chain states': len(sts), 'R2-M repairs': r2m, 'R2* repairs': r2s, 'R2-O repairs': r2o, 'R2-O generous repairs': r2og, "R2-O' repairs": r2op,
-               'R2-C repairs': r2c, 'OC1 (Inst.check)': I.check(Y)}
+               'R2-C repairs': r2c, 'R2-E repairs': r2e_, '(S) repairs': r2s_, '(L) repairs': r2l_, 'OC1 (Inst.check)': I.check(Y)}
         verdict = 'R2-M FAILS' if (perfect and orders and len(U) >= 2 and hard and not r2m) else 'R2-M ok or n/a'
         C[verdict] += 1
-        for nm, ok in (('R2*', r2s), ('R2-O', r2o), ('R2-O generous', r2og), ("R2-O'", r2op), ('R2-C', r2c)):
+        for nm, ok in (('R2*', r2s), ('R2-O', r2o), ('R2-O generous', r2og), ("R2-O'", r2op), ('R2-C', r2c), ('R2-E', r2e_), ('(S)', r2s_), ('(S) or (L)', r2s_ or r2l_)):
             C['%s %s' % (nm, 'FAILS' if (perfect and orders and len(U) >= 2 and hard and not ok) else 'ok or n/a')] += 1
         print(verdict, json.dumps({**{k: d[k] for k in ('sets', 'vals', 'picks')}, **res}), flush=True)
     print(dict(C))

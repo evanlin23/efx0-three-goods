@@ -1,0 +1,9 @@
+$ python3 k4/ksens/kcegar_batch.py genbg 3 6 2 --kmin=6 --jobs=2 --limit=7200 --grid6=/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz --exact6 --prio=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k5_n3_D1.log --ckpt=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_n3_D2_exact.ckpt.jsonl
+priority (one-good extensions of the FAIL hypergraphs of /home/user/efx0-three-goods/results/k4_ksens/kcegar_k5_n3_D1.log): 36 of 950 tasks first
+checkpoint /home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_n3_D2_exact.ckpt.jsonl: 0 done ({}), 950 to go
+hypergraphs 950
+--- restarted with exact mode v2 (2026-11-27T05:08:45Z) ---
+$ python3 k4/ksens/kcegar_batch.py genbg 3 6 2 --kmin=6 --jobs=2 --limit=7200 --grid6=/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz --exact6 --prio=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k5_n3_D1.log --ckpt=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_n3_D2_exact.ckpt.jsonl
+priority (one-good extensions of the FAIL hypergraphs of /home/user/efx0-three-goods/results/k4_ksens/kcegar_k5_n3_D1.log): 36 of 950 tasks first
+checkpoint /home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_n3_D2_exact.ckpt.jsonl: 2 done ({'certified': 2}), 948 to go
+hypergraphs 948

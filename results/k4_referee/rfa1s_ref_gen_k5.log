@@ -1,0 +1,15 @@
+$ python3 k4/referee/rfa1s_ref.py gen 400000 3 5
+  K = 5 (max goods per agent)
+    full failure: violator of X_w is a k2 candidate True, |R_i| = 5, values 2 goods of W 23
+  full: NOT EFX0                           23
+  full: cases                              8526
+  no (iv*): NOT EFX0                       3458
+  no (iv*): cases                          11961
+  no D_T'=0: NOT EFX0                      536
+  no D_T'=0: cases                         10268
+  no U'={d}: NOT EFX0                      60321
+  no U'={d}: cases                         273962
+  smallest failure full {"v": [[12, 14, 0, 5, 0, 22, 30], [17, 15, 0, 4, 24, 0, 27], [6, 24, 9, 0, 25, 0, 0], [30, 24, 0, 15, 0, 0, 3]], "Y2": [6, 0, 4, 1], "w": 1, "d": 3, "h": 3}
+  smallest failure no (iv*) {"v": [[11, 0, 21, 13, 0, 27], [7, 0, 0, 27, 18, 22], [9, 27, 14, 26, 0, 20], [8, 22, 15, 12, 9, 0]], "Y2": [2, 3, 5, 1], "w": 1, "d": 0, "h": 0}
+  smallest failure no D_T'=0 {"v": [[0, 17, 11, 22, 2, 0, 10], [15, 0, 0, 19, 12, 6, 17], [0, 30, 8, 15, 0, 4, 25], [14, 15, 22, 0, 0, 0, 6]], "Y2": [6, 3, 1, 2], "w": 3, "d": 0, "h": 4}
+  smallest failure no U'={d} {"v": [[0, 21, 0, 3, 0, 6, 22], [16, 0, 0, 30, 12, 3, 22], [0, 1, 25, 20, 0, 29, 7], [7, 18, 0, 21, 30, 29, 0]], "Y2": [6, 3, 5, 4], "w": 1, "d": 0, "h": 1}

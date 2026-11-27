@@ -1,0 +1,4 @@
+$ python3 kgen/k3max_propA.py gap_certs_6_0.gap.gz 1 2
+41977 (alpha), (beta) hold for k
+1200 drafts: some k with (alpha), (beta): False
+22036 drafts: some k with (alpha), (beta): True

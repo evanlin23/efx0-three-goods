@@ -1,0 +1,52 @@
+$ python3 kgen/aacgmm3_opb.py 4 1200 5 10
+FAIL PR stuck: init zeros [[0, 0, 0, 74, 40, 0, 55, 0], [0, 0, 0, 0, 60, 36, 69, 61], [0, 0, 0, 26, 0, 0, 0, 96]] order (0, 1, 2) roles (1, 0, 2) picks [3, 6, 7]
+FAIL PR stuck: init zeros [[0, 0, 0, 74, 40, 0, 55, 0], [0, 0, 0, 0, 60, 36, 69, 61], [0, 0, 0, 26, 0, 0, 0, 96]] order (0, 1, 2) roles (1, 2, 0) picks [3, 6, 7]
+FAIL case 2 exit not EFX0 (X3 - g_i is not i's best proper subset when g_i must avoid the pick) general [[42, 81, 43, 95, 99, 78, 47, 21, 22], [97, 28, 7, 7, 21, 88, 8, 87, 34], [91, 86, 86, 64, 14, 26, 18, 51, 62]] order (0, 1, 2) roles (2, 1, 0) picks [4, 0, 2]
+FAIL case 2 exit not EFX0 (X3 - g_i is not i's best proper subset when g_i must avoid the pick) general [[42, 81, 43, 95, 99, 78, 47, 21, 22], [97, 28, 7, 7, 21, 88, 8, 87, 34], [91, 86, 86, 64, 14, 26, 18, 51, 62]] order (1, 0, 2) roles (2, 1, 0) picks [4, 0, 2]
+FAIL potential does not rise after: case 1 + PR general [[83, 84, 31, 9, 96, 42, 34], [40, 41, 46, 68, 58, 34, 85], [81, 89, 59, 30, 53, 90, 98]] order (0, 1, 2) roles (0, 1, 2) picks [4, 6, 5]
+FAIL potential does not rise after: case 1 + PR general [[83, 84, 31, 9, 96, 42, 34], [40, 41, 46, 68, 58, 34, 85], [81, 89, 59, 30, 53, 90, 98]] order (0, 1, 2) roles (0, 2, 1) picks [4, 6, 5]
+FAIL PR stuck: case 1 repair general [[85, 17, 89, 1, 9, 3, 61, 83, 2, 29], [33, 98, 96, 36, 44, 96, 68, 65, 39, 55], [26, 96, 42, 26, 57, 20, 13, 30, 78, 32]] order (0, 1, 2) roles (0, 1, 2) picks [2, 1, 8]
+FAIL PR stuck: case 1 repair general [[85, 17, 89, 1, 9, 3, 61, 83, 2, 29], [33, 98, 96, 36, 44, 96, 68, 65, 39, 55], [26, 96, 42, 26, 57, 20, 13, 30, 78, 32]] order (0, 2, 1) roles (0, 1, 2) picks [2, 5, 1]
+FAIL potential does not rise after: case 2, one envied, PR general [[59, 49, 95, 95, 14, 7, 58, 72], [8, 87, 45, 32, 9, 67, 21, 8], [54, 3, 91, 91, 57, 59, 96, 41]] order (0, 1, 2) roles (1, 0, 2) picks [3, 1, 6]
+FAIL potential does not rise after: case 2, one envied, PR general [[59, 49, 95, 95, 14, 7, 58, 72], [8, 87, 45, 32, 9, 67, 21, 8], [54, 3, 91, 91, 57, 59, 96, 41]] order (0, 2, 1) roles (1, 0, 2) picks [3, 1, 6]
+FAIL PR stuck: case 2 (agent 2 cuts) general [[55, 48, 67, 82, 6, 38, 78, 5], [65, 15, 71, 28, 12, 83, 50, 83], [96, 57, 1, 22, 4, 64, 63, 3]] order (0, 1, 2) roles (1, 2, 0) picks [3, 7, 0]
+FAIL PR stuck: case 2 (agent 2 cuts) general [[55, 48, 67, 82, 6, 38, 78, 5], [65, 15, 71, 28, 12, 83, 50, 83], [96, 57, 1, 22, 4, 64, 63, 3]] order (0, 2, 1) roles (1, 2, 0) picks [3, 7, 0]
+FAIL invariant: X3 feasible for neither agent 2 nor 3 general [[29, 86, 25, 61, 42, 18, 3, 78], [46, 4, 42, 25, 81, 75, 75, 94], [16, 45, 68, 60, 39, 7, 97, 4]] order (0, 1, 2) roles (1, 2, 0) picks [1, 7, 6]
+FAIL invariant: X3 feasible for neither agent 2 nor 3 general [[29, 86, 25, 61, 42, 18, 3, 78], [46, 4, 42, 25, 81, 75, 75, 94], [16, 45, 68, 60, 39, 7, 97, 4]] order (0, 2, 1) roles (1, 2, 0) picks [1, 7, 6]
+FAIL PR stuck: case 2 repair (one envied) general [[82, 4, 31, 33, 72, 84, 8, 86], [98, 28, 54, 92, 20, 33, 3, 30], [98, 40, 51, 46, 64, 18, 41, 22]] order (0, 2, 1) roles (2, 1, 0) picks [7, 3, 0]
+FAIL PR stuck: case 2 repair (one envied) general [[82, 4, 31, 33, 72, 84, 8, 86], [98, 28, 54, 92, 20, 33, 3, 30], [98, 40, 51, 46, 64, 18, 41, 22]] order (2, 0, 1) roles (2, 1, 0) picks [7, 3, 0]
+14400 general: runs
+11799 general: runs ending EFX0
+11235 general: runs ending EFX0 and OC1-reachable
+536 general: runs ending EFX0, not OC1: identity placement
+9 general: runs failing: PR stuck: case 1 repair
+21 general: runs failing: PR stuck: case 2 (agent 2 cuts)
+3 general: runs failing: PR stuck: case 2 repair (one envied)
+2503 general: runs failing: PR stuck: init
+3 general: runs failing: case 2 exit not EFX0 (X3 - g_i is not i's best proper subset when g_i must avoid the pick)
+6 general: runs failing: invariant: X3 feasible for neither agent 2 nor 3
+50 general: runs failing: potential does not rise after: case 1 + PR
+6 general: runs failing: potential does not rise after: case 2, one envied, PR
+2400 general: starts
+1830 general: starts where roles = order ends OC1-reachable
+2370 general: starts where some role assignment ends OC1-reachable
+14400 ident: runs
+14400 ident: runs ending EFX0
+14366 ident: runs ending EFX0 and OC1-reachable
+10 ident: runs ending EFX0, not OC1: identity placement
+2400 ident: starts
+2388 ident: starts where roles = order ends OC1-reachable
+2400 ident: starts where some role assignment ends OC1-reachable
+14400 zeros: runs
+6268 zeros: runs ending EFX0
+6128 zeros: runs ending EFX0 and OC1-reachable
+3 zeros: runs ending EFX0, not OC1: identity placement
+8126 zeros: runs failing: PR stuck: init
+6 zeros: runs failing: potential does not rise after: case 1 + PR
+2400 zeros: starts
+818 zeros: starts where roles = order ends OC1-reachable
+1851 zeros: starts where some role assignment ends OC1-reachable
+
+real	0m5.770s
+user	0m5.663s
+sys	0m0.005s

@@ -1,0 +1,26 @@
+$ python3 kgen/k3max_ownt.py gap_small_5.gap.gz
+11296 A  drafts, |J| < 3: some rotation has owner t by Lemma 3: True
+8640 A  drafts, |J| >= 3: some rotation has owner t by Lemma 3: True
+36184 A  rotation: t terminal; frozen exposed of t: a 0 b 0 c 0; Lemma 3 for t True
+168 A  rotation: t terminal; frozen exposed of t: a 0 b 0 c 1; Lemma 3 for t False
+336 A  rotation: t terminal; frozen exposed of t: a 0 b 0 c 1; Lemma 3 for t True
+240 A  rotation: t terminal; frozen exposed of t: a 0 b 1 c 0; Lemma 3 for t False
+784 A  rotation: t terminal; frozen exposed of t: a 0 b 1 c 0; Lemma 3 for t True
+716 A  rotation: t terminal; frozen exposed of t: a 1 b 0 c 0; Lemma 3 for t False
+2588 A  rotation: t terminal; frozen exposed of t: a 1 b 0 c 0; Lemma 3 for t True
+8 A  rotation: t terminal; frozen exposed of t: a 1 b 0 c 1; Lemma 3 for t False
+16 A  rotation: t terminal; frozen exposed of t: a 1 b 0 c 1; Lemma 3 for t True
+16 A  rotation: t terminal; frozen exposed of t: a 1 b 1 c 0; Lemma 3 for t False
+48 A  rotation: t terminal; frozen exposed of t: a 1 b 1 c 0; Lemma 3 for t True
+32 A  rotation: t terminal; frozen exposed of t: a 2 b 0 c 0; Lemma 3 for t False
+48 A  rotation: t terminal; frozen exposed of t: a 2 b 0 c 0; Lemma 3 for t True
+2976 R1 drafts, |J| < 3: some rotation has owner t by Lemma 3: True
+664 R1 drafts, |J| >= 3: some rotation has owner t by Lemma 3: True
+6656 R1 rotation: t terminal; frozen exposed of t: a 0 b 0 c 0; Lemma 3 for t True
+32 R1 rotation: t terminal; frozen exposed of t: a 0 b 0 c 1; Lemma 3 for t False
+144 R1 rotation: t terminal; frozen exposed of t: a 0 b 0 c 1; Lemma 3 for t True
+80 R1 rotation: t terminal; frozen exposed of t: a 0 b 1 c 0; Lemma 3 for t False
+368 R1 rotation: t terminal; frozen exposed of t: a 0 b 1 c 0; Lemma 3 for t True
+32 R2 drafts, |J| < 3: some rotation has owner t by Lemma 3: True
+160 R2 drafts, |J| >= 3: some rotation has owner t by Lemma 3: True
+576 R2 rotation: t terminal; frozen exposed of t: a 0 b 0 c 0; Lemma 3 for t True

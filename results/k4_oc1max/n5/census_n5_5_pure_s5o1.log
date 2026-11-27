@@ -1,0 +1,11 @@
+$ python3 k4/oc1cert/census_n5.py SDC_DIR results/k4_oc1max/n5/5_pure_s5o1_summary.jsonl.gz census_n5_5_pure_s5o1.json.gz --jobs=2
+stored failing starts 288
+(least moves, ROUND-P, receivers) = (2, 1, 1) 241
+(least moves, ROUND-P, receivers) = (2, 1, 2) 5
+(least moves, ROUND-P, receivers) = (2, 2, 1) 42
+ROUND-P 1 246
+ROUND-P 2 42
+least moves 2 288
+receivers 1 283
+receivers 2 5
+wrote census_n5_5_pure_s5o1.json.gz 32 s

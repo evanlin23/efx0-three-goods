@@ -1,0 +1,4 @@
+   no state of level 0 is repaired by one more chain
+   level 1 states 158100 
+   no state of level 1 is repaired by one more chain
+least number of chains > 2 {'level 1 states': 158100, 'level 1 capped': False} 1059 s
