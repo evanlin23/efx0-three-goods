@@ -49,12 +49,12 @@ move-kind ablation (a state with exactly one W^sub step; `k4/haxell.md` §6). It
 this state shape (`results/k4_haxell/wclimb_tight_n4m7k4.log`). Of these, 33 are balanced cores and 17 are strict
 balanced cores. This one was then shrunk by lowering values while keeping it a strict balanced core.
 
-**What it means.** Welfare cannot be the measure of a two-move lemma, even with set moves, at n = 4 and k = 4. The two
+**What it means.** Welfare cannot be the measure of a two-move lemma, even with set moves, at n = 4 and k = 4. Two
 repaired forms survive every one of the 36 failing instances:
 - **W^sub with leximin** (k-independent in form);
 - **W₃** (welfare, three single moves; refuted at k = 5 by W5, `attempts/k4-haxell-conjecture-w.md`).
 
-The welfare evidence above stays valid for welfare at n ≤ 3 and on the small cores. The leximin form is being
-re-tested on the same sets.
+The welfare evidence above stays valid for welfare at n ≤ 3 and on the small cores. **Update:** the leximin form fails
+at another n = 4 instance (`attempts/k4-haxell-lsub-leximin.md`). Three moves rescue all known failures.
 
 **Reproduce:** `python3 attempts/k4_haxell_wsub.py` (raw EFX₀ definition, no shared code; under a second).

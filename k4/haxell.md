@@ -19,21 +19,25 @@ going; their logs are named in §6.
 - **With welfare as the measure, W^sub is REFUTED at n = 4, m = 7, k = 4**, on a k = 4 core with strict, balanced
   values (`attempts/k4-haxell-wsub-welfare.md`; three implementations agree). The adversarial climb found it from
   the tightest state of the ablation: 36 failing instances, one stuck state each.
-  - **With leximin (L^sub) it has a step at all 36**, and so does W₃. L^sub is now the k-independent candidate; the
-    n = 3 grids and the cores are being re-run with both measures (`*_wl_*.log`).
+  - With leximin (L^sub) it has a step at all 36, and so does W₃. **But L^sub fails at another n = 4, m = 7 core
+    instance** (`attempts/k4-haxell-lsub-leximin.md`), found by the leximin climb.
+  - **Three moves rescue all 37 known failures, for both measures**, with single or set moves. The candidates are
+    now the three-move forms W^sub₃ and L^sub₃; with single moves only, three moves fail at k = 5 (W5). The radius
+    grew from two to three at n = 4, so it may grow with n.
+  - The n = 3 grids and the cores are being re-run with both measures at radius 2 (`*_wl_*.log`). They test whether
+    two moves suffice for n ≤ 3 and on cores.
 - **W^sub with welfare had no stuck state** on any of the following, which remain evidence for n ≤ 3 and small cores:
   - the whole n = 2 grid with k ≤ 4 (470.5 million states; leximin too);
   - the n = 3 grid with k ≤ 3, values {1, 2, 4, 7, 12} and m ≤ 5 (742 million states, reduced by symmetry; m ≥ 6 running);
   - every type profile, up to automorphism, of the 20 n = 4 cores with one 4-good agent and m ≤ 5 (223.5 million states).
   Every type profile of every core is out of reach: up to 7·10⁹ profiles per core. The other cores are sampled.
-- **W₃** (three single moves) also has no stuck state on the n = 2 grid, but it fails at k = 5. So L^sub is the
-  k-independent candidate.
+- **W₃** (three single moves) also has no stuck state on the n = 2 grid, but it fails at k = 5.
 - **The move class is nearly minimal**: six of its seven kinds are each necessary, with witnesses at n = 2, 3, 4 found by
   an adversarial climb and re-checked in Python (§6 table). The tightest state found (n = 4) has exactly one step.
 - **Welfare is needed**: pool-shrinking alone fails, even with set moves, at n = 3 with strict values, and in 93% of
   the small-core instances.
-- *Proof*: still open. L^sub for every k would imply EFX₀ in general, so its general form is at least as hard as the
-  EFX conjecture; only the k ≤ 4 form is the target.
+- *Proof*: still open. Any such lemma for every k would imply EFX₀ in general, so its general form is at least as hard
+  as the EFX conjecture; only the k ≤ 4 form is the target.
 
 **Burst 2 (2026-11-26, coordinator's requests).** Evidence only; one new conjecture (W), stated precisely in §6.
 - *CONN₂ on every counterexample to OC/OC₁/OC₁^max* (§5). PW5, RD5, the two kgen n = 4 instances (k = 5), their k = 4
@@ -616,12 +620,17 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
 - *Lemma W^sub (REFUTED at n = 4, k = 4 with welfare: `attempts/k4-haxell-wsub-welfare.md`).* Let X be partial
   EFX₀ with P(X) ≠ ∅. Then there are X₁ and X₂ such that X₁ is X or a move of X, X₂ is X₁ or a move of X₁, X₂ is
   partial EFX₀, and either |P(X₂)| < |P(X)|, or |P(X₂)| = |P(X)| and W(X₂) > W(X). X₁ need not be EFX₀.
-- *Lemma L^sub (CONJECTURE for every |Rᵢ| ≤ 4; the general form is stated for every k).* The same, with the
+- *Lemma L^sub (REFUTED at n = 4, k = 4: `attempts/k4-haxell-lsub-leximin.md`).* The same, with the
   **leximin** order in place of welfare. Let λ(X) be the vector of the values vᵢ(Xᵢ) sorted increasingly. The
   last condition becomes |P(X₂)| = |P(X)| and λ(X₂) > λ(X) lexicographically. This is φ2 of `gstar_measure`. It has
   a step at all 36 states where W^sub fails, and had no stuck state wherever it was run before (the n = 2 grid, the
   skewed sets).
 - *W₃* (welfare, three single-good moves, no set transfers) also has a step at all 36. It fails at k = 5 (W5).
+- *Lemma W^sub₃ / L^sub₃ (CONJECTURE for every |Rᵢ| ≤ 4).* The same with **three** moves, with welfare or leximin
+  as the measure. At n = 4 neither two-move form holds: W^sub fails at WS4 and L^sub at LS4, at different states.
+  Three moves give a step at all 37 known failures, for both measures (`attempts/k4_haxell_wsub.py`). Radius-3
+  climbs are in `r3climb_*.log`. That the radius grew from two to three at n = 4 is a warning that it may grow with
+  n.
 - *Consequence (elementary).* The all-pool allocation is partial EFX₀. Each step decreases (|P|, −W), or
   (|P|, λ) for L^sub, lexicographically, and the states are finite. So the lemma for an instance gives a complete
   EFX₀ allocation of it, and the lemma for all k = 4 instances gives TARGET₄. Formally this is well-founded induction

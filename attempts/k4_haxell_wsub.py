@@ -1,25 +1,27 @@
-"""Reproduces attempts/k4-haxell-wsub-welfare.md from the raw EFX0 definition alone (no shared code).
+"""Reproduces attempts/k4-haxell-wsub-welfare.md and attempts/k4-haxell-lsub-leximin.md from the raw EFX0 definition
+alone (no shared code).
 
-W^sub with welfare (k4/haxell.md §6): from every partial EFX0 allocation with a nonempty pool, a composite of at most
-two moves reaches a partial EFX0 allocation with a smaller pool, or with the same pool and larger welfare.  A move gives
-a nonempty set of one holder's goods (an agent's, or pooled goods) to an agent; or swaps the holders of two goods (the
-pool counting as a holder); or rotates the bundles along a cycle of two or more agents.
+The two-move set-move lemma (k4/haxell.md §6): from every partial EFX0 allocation with a nonempty pool, a composite of
+at most two moves reaches a partial EFX0 allocation with a smaller pool, or with the same pool and a larger measure
+(W^sub: welfare; L^sub: leximin, the increasingly sorted vector of the agents' values, compared lexicographically).
+A move gives a nonempty set of one holder's goods (an agent's, or pooled goods) to an agent; or swaps the holders of
+two goods (the pool counting as a holder); or rotates the bundles along a cycle of two or more agents.
 
-For the instance WS4 (n = 4, m = 7, every agent valuing at most four goods; a k = 4 core with strict, balanced values)
-and its state S, this script enumerates every composite of at most two moves and checks:
-  - none reaches a partial EFX0 allocation with a smaller pool, or the same pool and larger welfare (W^sub fails);
-  - one reaches a partial EFX0 allocation with the same pool and a leximin-larger value vector (W^sub with leximin
-    has a step here);
-  - with single-good moves only (|set| = 1), a composite of three moves reaches an improving allocation (W_3 has a
-    step here).
+Two instances, both n = 4, m = 7, k = 4 cores with strict, balanced values, each with a state S:
+  WS4: no welfare step within two moves (W^sub fails); leximin has one; three single-good moves give a welfare step.
+  LS4: no leximin step within two moves (L^sub fails); welfare has one; three single-good moves give a leximin step.
+At both, composites of three set moves give a step for welfare and for leximin.
 
     python3 attempts/k4_haxell_wsub.py"""
 import itertools
 
-# WS4: VAL[i] = {good: value} (goods 0..6); S[g] = holder of good g (-1 = pooled)
-VAL = [{4: 9, 5: 47, 6: 39}, {1: 8, 2: 3, 4: 2, 5: 4}, {0: 7, 1: 4, 3: 1, 5: 9}, {0: 38, 4: 7, 6: 32}]
-M = 7
-S = (3, 2, 1, 1, 1, 0, -1)
+# VAL[i] = {good: value} (goods 0..6); S[g] = holder of good g (-1 = pooled)
+INST = {
+    'WS4': ([{4: 9, 5: 47, 6: 39}, {1: 8, 2: 3, 4: 2, 5: 4}, {0: 7, 1: 4, 3: 1, 5: 9}, {0: 38, 4: 7, 6: 32}], 7,
+            (3, 2, 1, 1, 1, 0, -1)),
+    'LS4': ([{3: 30, 4: 20, 5: 55, 6: 57}, {1: 31, 3: 12, 4: 5, 5: 39}, {0: 44, 1: 32, 3: 29}, {0: 60, 1: 31, 2: 7, 6: 43}],
+            7, (2, -1, 0, 0, 0, 1, 3)),
+}
 
 
 def run(VAL, m, S):
@@ -68,22 +70,25 @@ def run(VAL, m, S):
         return seen
 
     assert efx0(S) and -1 in S
-    p, w, lx = S.count(-1), welfare(S), leximin(S)
-    two = reach(S, 2, True)
-    wel = [t for t in two if efx0(t) and (t.count(-1) < p or (t.count(-1) == p and welfare(t) > w))]
-    lex = [t for t in two if efx0(t) and (t.count(-1) < p or (t.count(-1) == p and leximin(t) > lx))]
-    three = [t for t in reach(S, 3, False) if efx0(t) and (t.count(-1) < p or (t.count(-1) == p and welfare(t) > w))]
-    return bundles, welfare, leximin, len(two), wel, lex, three
+    p = S.count(-1)
+    def steps(cands, f):
+        return [t for t in cands if efx0(t) and (t.count(-1) < p or (t.count(-1) == p and f(t) > f(S)))]
+    two, three1, three = reach(S, 2, True), reach(S, 3, False), reach(S, 3, True)
+    res = {(r, f.__name__): len(steps(c, f)) for r, c in (('two set moves', two), ('three single moves', three1),
+                                                          ('three set moves', three)) for f in (welfare, leximin)}
+    return bundles, welfare, leximin, len(two), res, steps(two, leximin) + steps(two, welfare)
 
 
 if __name__ == '__main__':
-    bundles, welfare, leximin, n2, wel, lex, three = run(VAL, M, S)
-    show = lambda o: '%s pool %s welfare %d leximin %s' % (bundles(o), [g for g in range(M) if o[g] < 0], welfare(o),
-                                                           leximin(o))
-    print('WS4 state', show(S))
-    print('allocations within two moves:', n2)
-    print('W^sub (welfare) steps:', len(wel))
-    print('W^sub (leximin) steps:', len(lex), *(['e.g. ' + show(lex[0])] if lex else []))
-    print('W_3 (welfare, three single-good moves) steps:', len(three), *(['e.g. ' + show(three[0])] if three else []))
-    assert not wel and lex and three
-    print('reproduced: W^sub with welfare has no step at this state; W^sub with leximin and W_3 have one')
+    for name, (VAL, M, S) in INST.items():
+        bundles, welfare, leximin, n2, res, ex = run(VAL, M, S)
+        show = lambda o: '%s pool %s welfare %d leximin %s' % (bundles(o), [g for g in range(M) if o[g] < 0],
+                                                               welfare(o), leximin(o))
+        print(name, 'state', show(S), '| allocations within two moves:', n2)
+        for (r, f), c in res.items():
+            print('   steps within %s, %s: %d' % (r, f, c))
+        bad = 'welfare' if name == 'WS4' else 'leximin'; good = 'leximin' if name == 'WS4' else 'welfare'
+        assert res[('two set moves', bad)] == 0 and res[('two set moves', good)] > 0
+        assert all(c > 0 for (r, f), c in res.items() if r.startswith('three'))
+        print('   e.g. a %s step within two moves: %s' % (good, show(ex[0])))
+    print('reproduced: W^sub fails at WS4, L^sub at LS4; three moves (single or set) give a step at both, either measure')
