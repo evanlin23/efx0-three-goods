@@ -1,0 +1,4 @@
+$ python3 k4/d1/h2_check.py results/k4_d1/allhead_h1.jsonl.gz results/k4_d1/allhead_hc1.jsonl results/k4_d1/census_logs.jsonl.gz results/k4_d1/census_r3.jsonl.gz results/k4_d1/census_r4.jsonl.gz results/k4_d1/census_suite.jsonl.gz results/k4_d1/hunt_rand1.jsonl.gz results/k4_d1/hunt_rand2.jsonl.gz results/k4_d1/hunt_rand3.jsonl.gz
+  repaired by a canonical chain 3710
+  repaired only by a double chain 1
+all-HEAD hard starts 3711

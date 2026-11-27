@@ -1,0 +1,13 @@
+$ python3 k4/d1/d1c_check.py jsonl results/k4_d1/hunt_rand1.jsonl
+  hard 6405
+easy   (R) crowded 23
+easy   (R) no crowding 707
+easy   (T) 55
+easy chains with no improving set (Prop. 3') 4467
+easy no-HEAD chains 785
+hard   (R) crowded 841
+hard   (R) no crowding 5823
+hard no-HEAD chains 6664
+instances 6067
+starts with D = {k} 11221
+time 9 s

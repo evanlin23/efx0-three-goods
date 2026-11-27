@@ -1,0 +1,14 @@
+$ python3 k4/d1/d1_census.py logs
+  ... repaired by another minimal H0 on the same chain (D1-C) 1
+  ... that fail (would refute Lemma D1-red) 0
+  chains with CROWD that repair 1
+  chains with HEAD that repair 3
+chains 163
+chains free of HEAD and CROWD 153
+chains repairing 157
+chains with CROWD 2
+chains with HEAD 8
+failing CROWD-only chains 1
+starts 112
+starts with a repairing chain 112
+time 1 s
