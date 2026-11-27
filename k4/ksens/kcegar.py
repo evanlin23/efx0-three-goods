@@ -45,9 +45,17 @@ with a decreasing integer representative in [1, B]^6 (a SUBSET of all strict typ
 only profiles whose six-good agents have such a type, while a FAIL is a genuine counterexample).  Realization: the 15
 singleton bits must form a transitive ranking (else a 3-cycle is blocked); under that ranking the other bits are
 checked against the grid list with numpy; a conflict is blocked by a minimal set of those bits together with all
-the ranking's singleton literals (sound: the clause only excludes that ranking).
+the ranking's singleton literals (sound: the clause only excludes that ranking).  The check runs on precomputed
+bitsets (the sign of every comparison of six ranking positions at every grid point), with the same answers as the
+first version (realize_grid_ref; kcegar_grid_check.py).
 
-    python3 k4/ksens/kcegar.py '[[sets]]' D [--A=1] [--empty-pass] [--any-start] [--grid6=FILE]"""
+Exact grid mode (grid_exact=True, --exact6): the grid only proposes.  A core of the bits over the grid points (plus
+every real point found so far) becomes a cut only after ratlp.realize proves it unrealizable over the reals (the LP's
+sub-core is the cut); if the LP realizes it, the LP's strict point joins the points and the core is recomputed.  Points
+and core verdicts are facts about R^6, cached per process (_GX, _CORE_LP).  So 'certified' covers every strict profile
+(kcegar_exact_check.py: an incomplete grid gives the verdicts of the full type lists).
+
+    python3 k4/ksens/kcegar.py '[[sets]]' D [--A=1] [--empty-pass] [--any-start] [--grid6=FILE [--exact6]]"""
 import sys, os, json, gzip, itertools, time, collections
 os.environ.setdefault('OPENBLAS_NUM_THREADS', '1')   # one BLAS thread: the grid products are small, and runs share CPUs
 import _paths
@@ -533,6 +541,7 @@ if __name__ == '__main__':
     sets = json.loads(sys.argv[1]); D = int(sys.argv[2])
     A = int(next((a[4:] for a in sys.argv if a.startswith('--A=')), 1))
     C = Cegar(sets, D=D, A=A, empty_pass='--empty-pass' in sys.argv, require_max='--any-start' not in sys.argv,
-              lazy='--onehot' not in sys.argv, grid6=next((a[8:] for a in sys.argv if a.startswith('--grid6=')), None))
+              lazy='--onehot' not in sys.argv, grid6=next((a[8:] for a in sys.argv if a.startswith('--grid6=')), None),
+              grid_exact='--exact6' in sys.argv)
     r, w = C.run(verbose=True)
     print(r, 'iterations', C.iters, 'realizability cuts', C.cuts, dict(C.kinds), json.dumps(w) if w else '')

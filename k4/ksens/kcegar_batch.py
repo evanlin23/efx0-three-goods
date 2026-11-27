@@ -16,6 +16,8 @@
              then covers that subset only; a FAIL is a genuine counterexample).
 --exact6: with --grid6, every grid cut is confirmed by the exact LP (ratlp.py) and bits the grid misses get the LP's
              point, so 'certified' covers every strict profile (kcegar_exact_check.py validates this).
+--rf: test Conjecture RF instead (rfcegar.py; D is ignored): every receiver-first maximum-matching order of every
+             failing maximum-matching start satisfies OC1, for every strict profile.
 --prio=LOG: (any mode) run first the one-good extensions of the hypergraphs with a FAIL line in LOG.
 --ckpt=FILE: append every finished hypergraph's record to FILE (JSON lines) and skip the ones already there (except
              timeouts, which are tried again), so a run can be resumed after the container is reclaimed.
@@ -105,12 +107,16 @@ def recheck(R, vals, Y, D, A=1):
 def job(task):
     name, sets, D, limit = task; t0 = time.time()
     g6 = next((a[8:] for a in sys.argv if a.startswith('--grid6=')), None)
-    ex = '--exact6' in sys.argv
-    C = kcegar.Cegar(sets, D=D, require_max='--any-start' not in sys.argv, grid6=g6, grid_exact=ex); r, w = C.run(time_limit=limit); rec = {'name': name, 'sets': sets, 'D': D, 'result': r,
+    ex = '--exact6' in sys.argv; rf = '--rf' in sys.argv
+    if rf:
+        import rfcegar
+        C = rfcegar.RF(sets, grid6=g6, grid_exact=ex)
+    else: C = kcegar.Cegar(sets, D=D, require_max='--any-start' not in sys.argv, grid6=g6, grid_exact=ex)
+    r, w = C.run(time_limit=limit); rec = {'name': name, 'sets': sets, 'D': 'RF' if rf else D, 'result': r,
         'iterations': C.iters, 'kinds': dict(C.kinds), 'types': [len(t) if t is not None else ('grid' if C.G[i] else 'LP') for i, t in enumerate(C.T)],
         'grid6': g6, 'exact6': ex, 'grid_stats': dict(C.gstats),
         'lp_calls': C.lpcalls}
-    if r == 'FAIL': rec['recheck'] = recheck(C.R, w[0], w[1], D)
+    if r == 'FAIL': rec['recheck'] = rfcegar.recheck(C.R, *w) if rf else recheck(C.R, w[0], w[1], D)
     C.close(); rec['time'] = round(time.time() - t0, 1); return rec
 
 
