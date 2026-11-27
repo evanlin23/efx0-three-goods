@@ -37,6 +37,7 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 24 | Theorem M3 (monotone EFX₀, \|R_i\| ≤ 3) (`monotone/k3.md`, `06e4b02`) | `claude/monotone-k` | `mono_m3.md` | **CORRECT** (the k = 8 instance as described has no EFX₀ allocation; attribution unverified) |
 | 25 | Lemma T6 and its certificate corollary (`k4/ttc.md` §14.2, `71c7b83`) | `claude/k4-ttc` | `ttc_t6.md` | **CORRECT**; certificate confirmed on all 11 n = 4 cores |
 | 26 | K4.MC8 (double edges; certified reduction) (`k4/TWINS.md`, `29bb2e6`) | `proof/k4-twins` | `twins.md` | **CORRECT**: gadgets legal, 𝒞_β kept, M1(b) applies; 773,190 stored extensions realized on 710 concrete instances, 0 failures |
+| 27 | Theorem D1-C (Fact R, Tool T, Lemmas O, C3, HC) and Proposition D1-H₃ (`k4/d1.md` §3, §6, `a9232a0`) | `proof/k4-d1` | `d1.md` | **CORRECT** (D1-H₃: SMT, not re-proved; sample of 6,818 cores, 0 failures); the tied-model remark is not reproduced as printed |
 | – | Literature: EFX₀ for n = 2 | – | `lit_n2.md` | Plaut–Roughgarden Thm 4.3 (EFX₀, monotone) covers existence; not `kgen/n3.md` Theorem 2 (picks kept / one chain) |
 
 **Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the
