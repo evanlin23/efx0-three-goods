@@ -20,6 +20,7 @@ code (lss.Run.alg2_safe + lss.park_dynamic_ec) over every labeling.
 --skip-done=LOG: leave out cores that LOG already lists as CERTIFIED (resume after a restart; append to a new log).
 --every=E: every E-th core only (a sample spread over the core list); --timecap: stop a core after SECONDS and report
 the coverage reached (status TIMEOUT).
+family=uniform: per core, is there ONE labeling that works for every profile (the first such, or none)?
 family=default: only the n default labelings (one per vertex 0, the other agents in increasing order within the
 neighbour block and the rest block), i.e. the choice of vertex 0 is the only freedom.  Every profile in a box that
 waits for labeling number li fails labelings 0..li-1 (they ran identically on the whole box), so "last used < n"
@@ -288,8 +289,55 @@ def popcount(x):
     return bin(x).count('1')
 
 
+def certify_uniform(name, sets, m):
+    """is there ONE labeling that works for every strict profile of this hypergraph?  Each labeling alone is run
+    through the covering, stopping at its first failing class.  Returns the first uniform labeling (or None)."""
+    from sources import domains
+    t0 = time.time()
+    doms = domains(sets, m)
+    C = Core(sets, m, doms)
+    L = labelings(C, 'all')
+    total = 1
+    for D in doms:
+        total *= len(D)
+    runs = 0
+    witnesses = []                                         # per labeling, a profile (type indices) where it fails
+    for j, lab in enumerate(L):
+        work = [tuple(C.full)]
+        covered = 0
+        ok_all = True
+        while work:
+            box = work.pop()
+            if any(b == 0 for b in box):
+                continue
+            rep = [lowbit_index(b) for b in box]
+            r = FastRun(C, rep, lab)
+            ok = r.go()
+            runs += 1
+            cls = r.box(box)
+            if not ok:
+                ok_all = False
+                witnesses.append(rep)
+                break
+            size = 1
+            for x in cls:
+                size *= popcount(x)
+            covered += size
+            for a in range(C.n):
+                rest = box[a] & ~cls[a]
+                if rest:
+                    work.append(tuple(cls[:a]) + (rest,) + tuple(box[a + 1:]))
+        if ok_all:
+            assert covered == total
+            return dict(name=name, profiles=total, runs=runs, uniform=j, lab=lab, nlab=len(L), time=time.time() - t0)
+    return dict(name=name, profiles=total, runs=runs, uniform=None, lab=None, nlab=len(L), time=time.time() - t0,
+                witnesses=witnesses)
+
+
 def certify(task):
     name, sets, m, family, timecap = task
+    if family == 'uniform':
+        return certify_uniform(name, sets, m)
     sys.path.insert(0, HERE)
     from sources import domains
     t0 = time.time()
@@ -387,7 +435,7 @@ def main():
             skip_log = a[12:]
         if a.startswith('--family='):
             family = a[9:]
-            assert family in ('all', 'default')
+            assert family in ('all', 'default', 'uniform')
         if a.startswith('--limit='):
             limit = int(a[8:])
         if a.startswith('--jobs='):
@@ -406,6 +454,16 @@ def main():
     tot = dict(profiles=0, covered=0, runs=0, cex=0, cores=0, cores_default_orders_suffice=0)
     with mp.Pool(jobs) as pool:
         for res in pool.imap_unordered(certify, tasks):
+            if family == 'uniform':
+                tot['cores'] += 1
+                tot['runs'] += res['runs']
+                u = res['uniform']
+                tot['uniform'] = tot.get('uniform', 0) + (u is not None)
+                tot['uniform by labeling #0'] = tot.get('uniform by labeling #0', 0) + (u == 0)
+                print('%-28s profiles %12d runs %8d %.1fs %s' % (res['name'], res['profiles'], res['runs'], res['time'],
+                      'UNIFORM labeling #%d of %d: labels %s' % (u, res['nlab'], res['lab']) if u is not None
+                      else 'NO UNIFORM LABELING (%d tried)' % res['nlab']), flush=True)
+                continue
             tot['cores'] += 1
             tot['profiles'] += res['profiles']
             tot['covered'] += res['covered']
