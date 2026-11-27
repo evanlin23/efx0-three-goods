@@ -1,0 +1,5 @@
+$ MODE=plain python3 k4/base_phantom/check_rules.py results/k4_base_phantom/data/two_move_starts_n5_partial6_s50.jsonl.gz 1
+distinct starts checked: 14047
+     12882  SAFE
+      1165  UNSAFE
+     99105  states visited

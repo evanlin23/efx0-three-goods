@@ -1,0 +1,5 @@
+$ MODE=GR python3 k4/base_phantom/check_rules.py results/k4_base_phantom/data/n5_5pure_s5o0_two_move_starts.jsonl.gz 1
+distinct starts checked: 280
+       280  SAFE
+       477  base used: final round
+       607  states visited

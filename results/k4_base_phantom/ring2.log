@@ -1,0 +1,11 @@
+$ python3 k4/base_phantom/ring2.py
+distinct multi starts: 8081
+RING starts: 23
+     5  ('RING start', ('C0', 'len 2', 'chain', 'end not in D'), 'pure reduction repairs')
+    10  ('RING start', ('ED', 'len 3', 'ring', 'end in D'), 'pure reduction repairs')
+     6  ('RING start', ('ED', 'len 3', 'ring', 'end not in D'), 'pure reduction FAILS')
+     2  ('RING start', ('ED', 'len 4', 'ring', 'end in D'), 'pure reduction repairs')
+  smallest ('C0', 'len 2', 'chain', 'end not in D') ((3, 7), 'log1480', [3, 6, 1], [0, 1], [0, 2], [[]], [[0, 2], [3, 4, 5, 6], [1]])
+  smallest ('ED', 'len 3', 'ring', 'end in D') ((3, 6), 'c4-one-rotation-two4-n3m6', [2, 4, 5], [0, 1, 2], [1, 5], [[], [3]], [[0, 1, 5], [2], [3, 4]])
+  smallest ('ED', 'len 3', 'ring', 'end not in D') ((4, 7), 'ls-alt-rule-n4m7', [2, 5, 6, 3], [0, 1, 3], [0, 3], [[], [4]], [[0, 1, 3], [2], [6], [4, 5]])
+  smallest ('ED', 'len 4', 'ring', 'end in D') ((4, 7), 'c4-g2-other-runs-n4m7', [2, 5, 3, 6], [1, 0, 2, 3], [1, 6], [[], [], [4]], [[0, 5], [1, 6], [2], [3, 4]])
