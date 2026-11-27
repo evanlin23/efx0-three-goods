@@ -1,0 +1,7 @@
+$ python3 k4/referee/c13_ref.py cex
+  SD(w, d, i) = [0, 1, 2] (expect [0, 1, 2])
+  J' = [3, 4, 5, 6]
+  hypotheses {'1': True, '0': False, '2': True, '3s': True, '3v': True, '4': True}
+  X = [[3, 4, 5], [0, 1, 6], [2]] raw EFX0: False
+  agent 2: v(X_2) = 5, v(X_d - a) = 10
+  official chain + one absorber: True
