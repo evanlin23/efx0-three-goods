@@ -5,7 +5,39 @@ the hard starts, one per line, readable by every analysis script). Notation: `pa
 and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Everything called evidence is evidence only
 (PROMPT.md §5 rule 3).
 
-## Status (end of burst 4)
+## Status (end of burst 5)
+
+**Burst 5: the joint statement with kgen-n3** (OC₁ at maximum-matching starts, DE's core case; §11–§12).
+- **Proved.**
+  - The reduction to perfect starts (Lemmas MAX₃, RED₃; §11).
+  - At perfect starts: Theorems R1C and B\* (§3).
+  - Lemma 4: shared pairs die together.
+  - Lemma 5: the release count. A trade with q pair-takers gives ω′ = ω − r, where r is the number of released
+    goods; no owner is needed iff r ≥ ω, or r ≥ ω − 1 using k's slot.
+  - Lemma 6: in a hard state every terminal has a frozen exposed agent.
+  - Lemma 7: the pointer walk. If no single rotation is valid, the walk closes into a cycle with q ≥ 2 pair arrows
+    (§12.1).
+  - kgen-n3's Lemma G5 (Rule E rotations keep the want graph acyclic), checked.
+- **Conjectured, holding on all data.**
+  - **T′_k**: some rotation from an exposed agent k of a terminal t into t completes, with no owner or owner k.
+    Exhaustive on every hard perfect draft with n ≤ 6 (338,916 at n = 6); no failure on 4,759 sampled n = 7 drafts.
+  - **T-E∃**: some valid Rule E (earliest-wanter) rotation completes, with owner nobody, the chain's end e, or k,
+    plus k's slot.
+  - **The crossed configuration.** Where no single rotation is valid (64 two-terminal gap drafts at n = 6), a ring
+    with two pair arrows completes.
+- **Refuted.**
+  - kgen-n3's T1′ (one terminal, no owner): fails on 360 one-terminal gap drafts at n = 6.
+  - "Two terminals never land in the gap": 10,304 drafts at n = 6.
+  - The every-k forms (kgen-n3's T1-E; T-E): fail at n = 7 on a gap draft of an m = 12 core
+    (`attempts/k4-k3oc1-every-k.md`, independent replay). The choice of k matters: the failing rotations release
+    nothing, while least-ω′ rotations reach ω′ ≤ 0.
+- **Next.**
+  - Prove T-E∃ with k chosen to maximize releases (least ω′), via Lemma 5 and B\*'s count with |T′|. The release
+    lemma is shared with kgen-n3's T1-k.
+  - Larger samples running: n = 7, n = 8 cores, and DE's general core case at n = 5, which is the class the
+    reduction produces.
+
+**Bursts 1–4:**
 
 - **Headline.** OC₁ as tested in `k4/sdc.md` §29 is false at k = 3. On an n = 5 instance outside the ledger's cores
   the picks need two chains of `k4/sdc/de_free.py` (§9, `attempts/k4-k3oc1-oc1-counterexample.md`). On cores, OC₁
