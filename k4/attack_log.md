@@ -831,3 +831,34 @@ starts.
 
 **Correction:** the matching session's n = 4 walk count is 3,179 (not 3,190 or 3,308; the earlier figures counted the
 11 stored instances twice). No "holds on all" claim changes.
+
+### 2026-11-27 01:10 UTC: burst 4, addendum (OC₁′, merging)
+- **OC₁′^max: holds at n = 4, REFUTED at n = 5.** OC₁′ is kgen-rounds' widened single move: non-end chain agents may
+  also take the end's released pick.
+  - n = 4: it holds at all 112,880 OC₁^max-failing starts of the certifier's export. Implementations: kgen-rounds' rnd.c,
+    and the coordinator's own widened generator (`k4/sdc/oc1prime_verify.py`, 140 s). So it holds on every n = 4 core,
+    given the certifier's certificate. On a 1/10 sample, every OC₁′ repair even has a free completion, with no
+    absorber.
+  - n = 5: on the certifier's 5_pure idx 164 (perfect start (7,2,3,5,4)), none of the 21 OC₁′ states completes.
+    Implementations: coordinator, verify_k4zero, rnd.c.
+  - The cause is **two disjoint conflicts**: 0 ↔ 1 must swap, and agent 3, whose pick is worth 2, must be upgraded from
+    agent 4 or agent 2. One round of two disjoint rings repairs it, and so do two sequential moves. Ledger row
+    K4.SDC.OC1PMAX, `k4/sdc.md` §31 end.
+- **Negative: gluing does not compound conflicts.** Two copies of idx 164 glued at junk good 0 (n = 10, a strict
+  connected MC2 core) complete at the picks.
+  - One agent absorbs junk of both copies. Goods of the other copy are worth 0 to it, so in EFX₀ they act as a sink.
+  - The general point: an SD start's junk is never envied as a singleton, so junk can go next to any unwanted pick.
+  - Larger n tends to add sinks. Small, dense cores are where the obstructions live.
+- **Candidates now:**
+  - OC₂^max: certified n ≤ 4; n = 5 running.
+  - ROUND-P^max: one round of vertex-disjoint OC₁′ moves; holds at n = 4 and on idx 164.
+  - OC₁^∃max.
+  - Hall asked to split leaf 4 into 4a (a disjoint second repair, ROUND form) and 4b (a genuinely sequential second
+    move).
+- **Merging (the user authorised merging).**
+  - The ready PRs #94, #103, #108, #109, #110, #111 and #115 were merged into this branch. Ledger conflicts were resolved
+    keeping both sides' rows, with the Lean columns from #109 and the K4.MULTI rows from #115.
+  - On the merged tree: `lean/check.sh` CHECK PASSED (1279 audited statements, 2418 theorems), `check_ledger` 426 rows
+    with 0 problems, `check_certs` 0 problems.
+  - PR #95 is marked ready, to be merged into main once CI is green. Drafts stay open until their sessions mark them
+    ready.
