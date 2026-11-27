@@ -1,0 +1,12 @@
+$ python3 k4/sdc/comp_check.py screen
+  intact: j can take z3 and stop needing y 78
+  j frozen itself 42
+  z2 not j's pick (taken by a later agent) 40
+  z3 picked by someone 43
+compensable direct contests 203
+$ python3 k4/sdc/comp_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 4000 6
+  intact: j can take z3 and stop needing y 1791
+  j frozen itself 228
+  z2 not j's pick (taken by a later agent) 226
+  z3 picked by someone 657
+compensable direct contests 2902

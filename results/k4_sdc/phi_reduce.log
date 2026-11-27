@@ -1,0 +1,8 @@
+base fails True
+zero agent 1 good 0 fails False
+zero agent 1 good 2 fails False
+zero agent 1 good 3 fails True
+zero agent 1 good 4 fails True
+zero agent 1 good 5 fails False
+k <= 4 FAILURE [[23, 0, 0, 50, 55, 0, 1], [63, 0, 28, 0, 0, 62, 17], [0, 29, 42, 0, 56, 0, 49]]
+final kmax 4 [[23, 0, 0, 50, 55, 0, 1], [63, 0, 28, 0, 0, 62, 17], [0, 29, 42, 0, 56, 0, 49]]

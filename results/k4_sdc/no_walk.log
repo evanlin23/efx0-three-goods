@@ -1,0 +1,7 @@
+$ python3 k4/sdc/no_walk.py screen
+{'instances': 168, 'walk reaches a working owner': 168, 'search over needs-holders reaches a working owner': 168, 'failing steps': 16, 'failing steps with a working neighbour': 15}
+$ python3 k4/sdc/no_walk.py suite
+{'instances': 164, 'walk reaches a working owner': 164, 'search over needs-holders reaches a working owner': 164, 'failing steps': 15, 'failing steps with a working neighbour': 14}
+$ python3 k4/sdc/no_walk.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 2
+WALK FAILS r19727 [[[0, 2, 3, 5], [1, 5, 6, 7], [3, 4, 6, 7], [4, 6, 7]], [[3, 6, 10, 2], [5, 2, 4, 8], [10, 3, 8, 6], [2, 4, 3]]]
+{'instances': 20000, 'walk reaches a working owner': 19999, 'search over needs-holders reaches a working owner': 20000, 'failing steps': 99, 'failing steps with a working neighbour': 74, 'shown': 1}

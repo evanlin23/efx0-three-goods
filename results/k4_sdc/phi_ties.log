@@ -1,0 +1,10 @@
+$ python3 k4/sdc/phi_ties.py 6 4000 9
+fav-values: every maximizer SD-consistent 2983
+fav-values: some maximizer SD-consistent 4000
+instances 4000
+leximin: every maximizer SD-consistent 3798
+leximin: some maximizer SD-consistent 3825
+nash: every maximizer SD-consistent 3910
+nash: some maximizer SD-consistent 3921
+utilitarian: every maximizer SD-consistent 3772
+utilitarian: some maximizer SD-consistent 3876

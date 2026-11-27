@@ -1,0 +1,7 @@
+$ python3 k4/de4/refine_hx.py rand 500 4 5100
+     2564      F2-clash cycles: 0, unclean 0
+     2564    (H) holds
+     2000  instances
+     2564  lp-maxima with leftover goods: completable True
+     1301  lp-maxima without leftover goods
+time 34 s

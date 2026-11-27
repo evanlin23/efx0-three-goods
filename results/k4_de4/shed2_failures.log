@@ -1,0 +1,5 @@
+$ SHED=broad python3 k4/de4/shed.py json:results/k4_de4/robust_failures.json 1 1 0
+        5  instances
+        1  lower-pair non-completable maximum: shed-completable True
+        5  robust     non-completable maximum: shed-completable True
+time 3 s

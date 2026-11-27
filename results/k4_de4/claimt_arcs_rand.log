@@ -1,0 +1,22 @@
+$ python3 k4/de4/claimt.py arcs rand 1000 8 9000
+      479  Phi*: partial labelled arc into UR from Ur
+       36  Phi*: partial labelled arc into UR from b
+      123  Phi*: partial labelled arc into UR from fz-a
+        6  Phi*: partial labelled arc into UR from fz-b
+        5  Phi*: partial labelled arc into Ud from Ur
+        1  Phi*: partial labelled arc into Ud from b
+        4  Phi*: partial labelled arc into Ud from fz-a
+        1  Phi*: partial labelled arc into Ur from b
+        9  Phi*: partial labelled arc into Ur from fz-a
+    21876  Phi*: states with leftover goods
+      127  maxima: partial labelled arc into UR from Ur
+       26  maxima: partial labelled arc into UR from b
+       89  maxima: partial labelled arc into UR from fz-a
+        5  maxima: partial labelled arc into UR from fz-b
+        2  maxima: partial labelled arc into Ud from Ur
+        1  maxima: partial labelled arc into Ud from b
+        4  maxima: partial labelled arc into Ud from fz-a
+        1  maxima: partial labelled arc into Ur from b
+        6  maxima: partial labelled arc into Ur from fz-a
+    10399  maxima: states with leftover goods
+     8000  profiles

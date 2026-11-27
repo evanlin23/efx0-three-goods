@@ -1,0 +1,2 @@
+$ python3 k4/de4/check.py algo k4_certs_3.json.gz,k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20
+algorithm DE4 on k4_certs_3.json.gz,k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz: 1053 cores, 20 random profiles each: {'finished': 21060, 'move DE ring': 141, 'move chain': 1353, 'move ring steps': 141, 'move ring steps where Proposition 6 applies': 114}

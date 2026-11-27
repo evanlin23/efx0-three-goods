@@ -1,0 +1,6 @@
+$ python3 k4/de4/topswap.py json:results/k4_de4/unclean_cycles.json 1 1 0
+       58    some swap valid; after Lemma R: (V3)-valid, level sum kept, fewer lower pairs: True
+      116    swap for one lower-pair holder: valid
+       58  double-clash (V3)-valid (H) states
+       75  instances
+time 18 s

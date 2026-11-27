@@ -1,0 +1,8 @@
+$ python3 k4/de4/claimd.py bswap rand 300 8 1000
+       16  Lemma 20' (i): valid True, level change +1
+       14  Lemma 20' (i): valid True, level change +2
+        1  Lemma 20' (i): valid True, level change +3
+       30  Lemma 20' (iii): valid True, level change +0
+       21  Lemma 20' (iii): valid True, level change +1
+        1  Lemma 20' (iii): valid True, level change +2
+     2400  profiles

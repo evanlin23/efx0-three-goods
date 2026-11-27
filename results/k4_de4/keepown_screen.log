@@ -1,0 +1,4 @@
+$ python3 k4/de4/keepown.py screen 1 1 0
+      168  instances
+        5  keep-own swap applies, below Phi*: claim holds True
+time 2 s

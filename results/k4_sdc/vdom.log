@@ -1,0 +1,60 @@
+$ python3 k4/sdc/vdom.py special
+instances 4
+instances with some order not value-dominated 0
+neediest-first R1: picks extend 0
+neediest-first R1: picks value-dominated 4
+neediest-first plain: picks extend 3
+neediest-first plain: picks value-dominated 4
+orders tried 174
+orders whose picks are not value-dominated 0
+time 0 s
+$ python3 k4/sdc/vdom.py screen
+instances 168
+instances with some order not value-dominated 0
+neediest-first R1: picks extend 157
+neediest-first R1: picks value-dominated 168
+neediest-first plain: picks extend 153
+neediest-first plain: picks value-dominated 168
+orders tried 4069
+orders whose picks are not value-dominated 0
+time 1 s
+$ python3 k4/sdc/vdom.py suite
+instances 161
+instances with some order not value-dominated 0
+neediest-first R1: picks extend 151
+neediest-first R1: picks value-dominated 161
+neediest-first plain: picks extend 147
+neediest-first plain: picks value-dominated 161
+orders tried 4447
+orders whose picks are not value-dominated 0
+time 1 s
+$ python3 k4/sdc/vdom.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 4000 91
+instances 4000
+instances with some order not value-dominated 0
+neediest-first R1: picks extend 3981
+neediest-first R1: picks value-dominated 4000
+neediest-first plain: picks extend 3981
+neediest-first plain: picks value-dominated 4000
+orders tried 22560
+orders whose picks are not value-dominated 0
+time 7 s
+$ python3 k4/sdc/vdom.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 3000 92
+instances 3000
+instances with some order not value-dominated 0
+neediest-first R1: picks extend 2984
+neediest-first R1: picks value-dominated 3000
+neediest-first plain: picks extend 2984
+neediest-first plain: picks value-dominated 3000
+orders tried 72000
+orders whose picks are not value-dominated 0
+time 11 s
+$ python3 k4/sdc/vdom.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 600 93
+instances 600
+instances with some order not value-dominated 0
+neediest-first R1: picks extend 598
+neediest-first R1: picks value-dominated 600
+neediest-first plain: picks extend 598
+neediest-first plain: picks value-dominated 600
+orders tried 72000
+orders whose picks are not value-dominated 0
+time 4 s

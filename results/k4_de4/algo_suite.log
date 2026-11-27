@@ -1,0 +1,6 @@
+$ python3 k4/de4/check.py algo
+skipped: c4-H2
+skipped: c4-H5
+skipped: lmbt-HH3
+skipped: lmbt-Hq3
+algorithm DE4 on the suite (n <= 8, m <= 16): {'finished': 155, 'move DE ring': 26, 'move chain': 73, 'move ring steps': 26, 'move ring steps where Proposition 6 applies': 7}

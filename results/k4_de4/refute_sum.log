@@ -1,0 +1,5 @@
+confirmed     the profile is a strict R1-core profile (each agent values 3 or 4 goods, top < sum of the others)
+confirmed     the state [[4, 5], [6, 7], [1], [0], [2, 9], [3, 10]] is valid and (V3)-valid, of the largest robust level sum 26 among 116 (V3)-valid states
+confirmed     among the 10 (V3)-valid states of that level sum it is the only one of the largest total value 996
+confirmed     it is not completable: no way of giving the leftover goods to the agents is EFX0
+confirmed     the 3 maxima of the lower-pair order (fewest lower-pair holders: 0) are all completable

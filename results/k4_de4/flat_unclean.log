@@ -1,0 +1,5 @@
+$ python3 k4/de4/flat.py json:results/k4_de4/unclean_cycles.json 1 1 0
+       32  (V3)-valid (H) states, Phi*
+      674  (V3)-valid (H) states, below Phi*
+       75  instances
+time 22 s

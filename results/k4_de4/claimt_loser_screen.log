@@ -1,0 +1,2 @@
+$ python3 k4/de4/claimt.py loser screen 1 1 1
+        2  no clean raising cycle (kinds LP LP fz-a fz-a): loser rotation raises Phi False; with lateral wants True

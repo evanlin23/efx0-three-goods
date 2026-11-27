@@ -1,0 +1,2 @@
+$ python3 k4/sdc/sdc_ps.py suite
+{'instances': 164, 'every agent can be unenvied': 164, 'agent-instances': 637, 'agent-instances failing': 0}

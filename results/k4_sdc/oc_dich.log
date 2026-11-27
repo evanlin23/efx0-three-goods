@@ -1,0 +1,52 @@
+$ python3 k4/sdc/oc_absorb.py special (OC_A2=0)
+instances 4
+instances with a start not repaired 0
+start: chains needed 0 105
+start: chains needed 1 69
+starts 174
+time 0 s
+$ python3 k4/sdc/oc_absorb.py screen (OC_A2=0)
+instances 168
+instances with a start not repaired 0
+start: chains needed 0 3407
+start: chains needed 1 662
+starts 4069
+time 1 s
+$ python3 k4/sdc/oc_absorb.py suite (OC_A2=0)
+instances 158
+instances with a start not repaired 0
+start: chains needed 0 3530
+start: chains needed 1 797
+starts 4327
+time 1 s
+$ python3 k4/sdc/oc_absorb.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91 (OC_A2=0)
+instances 3000
+instances with a start not repaired 0
+start: chains needed 0 16492
+start: chains needed 1 480
+starts 16972
+time 3 s
+$ python3 k4/sdc/oc_absorb.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92 (OC_A2=0)
+instances 1500
+instances with a start not repaired 0
+start: chains needed 0 35128
+start: chains needed 1 872
+starts 36000
+time 4 s
+$ python3 k4/sdc/oc_absorb.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93 (OC_A2=0)
+NOT REPAIRED r7 [[[0, 2, 5, 7], [1, 7, 8], [3, 4, 5, 6], [3, 4, 8], [6, 7, 8]], [[2, 3, 6, 10], [2, 4, 3], [7, 2, 10, 6], [3, 2, 4], [3, 2, 4]]] picks (5, 7, 3, 4, 8)
+instances 150
+instances with a start not repaired 1
+shown 1
+start: chains needed 0 17609
+start: chains needed 1 387
+start: chains needed None 4
+starts 18000
+time 1 s
+$ python3 k4/sdc/oc_absorb.py logs (OC_A2=0)
+instances 1534
+instances with a start not repaired 0
+start: chains needed 0 36275
+start: chains needed 1 4233
+starts 40508
+time 6 s

@@ -1,0 +1,11 @@
+$ python3 k4/de4/dead.py dead hypergraphs:results/k4_de4/stuck_hypergraphs.json 1000 40 6000
+dead hypergraphs:results/k4_de4/stuck_hypergraphs.json: 40 jobs x 1000 profiles, seeds 6000..6039
+         1      move PR: False; refined walk: True; better state lowering no level: True
+        13      move PR: True; refined walk: False; better state lowering no level: True
+        20      move PR: True; refined walk: True; better state lowering no level: True
+      1815    G0 cycle: trade valid and Pareto-improving
+        34    hard
+       707    one-label cycle: trade valid and Pareto-improving
+      2556  (H) with a dead good
+       334  dead good, completable (not (H))
+exit status 0

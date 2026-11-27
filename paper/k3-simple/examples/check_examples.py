@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Recompute every example and every computed number of paper/k3-simple/long.tex, and test its lemmas and algorithm DE.
+"""Recompute every example and every computed number of the paper (paper/k3-simple/main.tex), and test its lemmas and
+algorithm DE.
 
     python3 paper/k3-simple/examples/check_examples.py          (from the repository root, or from anywhere)
 
 Exit status 0 iff every check passes. One process, no pools; about a minute. check_output.txt (same folder) is a
 copy of what this script prints.
 
-This script implements the definitions of long.tex as now written (states and scores, wants, validity, free agents,
+This script implements the paper's definitions (states and scores, wants, validity, free agents,
 leftover goods, blockers, finishing and completions, want arrows and pair arrows, rings, chains) and algorithm DE
 (Algorithm 1: peeling by rule R1, the draft, then the loop chain / finish / ring), written from the paper's text and
 not from earlier code. Every claim of the proofs that DE relies on is an assert. Allocations are checked against the
@@ -14,21 +15,23 @@ raw definition of EFX0 with exact integer arithmetic. `k3/simplify/po/hall/hall.
 only for cross-checks of claims that are still the same: the improving step of the Improvement Lemma, and DE's output.
 
 Sections (as printed):
-  [1] Introduction: Example "EFX, but not EFX0"; three goods break serial dictatorship; Corollary "two relevant goods".
-  [2] Section 6, "A small example" (also in main.tex): three agents, one ring with one pair arrow, then a completion.
-  [3] Section 7 "A Worked Example" and Figure 1: the draft state, wants, free agents, blockers, the sets H_o, the ten
+  [1] Introduction: a small allocation that is EFX but not EFX0 (an extra example, not in the paper), and the
+      instance of "What is new", which is EFX but not EFX0; three goods break serial dictatorship; two relevant
+      goods suffice.
+  [2] "A small example": three agents, one ring with one pair arrow, then a completion.
+  [3] The worked example and its figure: the draft state, wants, free agents, blockers, the sets H_o, the ten
       candidate completions, no small trade, the four dominating valid states, the arrows and cycles, DE's ring and
       final allocation, raw EFX0 (values 4, 3, 2 and 2,000 random strictly balanced valuations with these rankings).
-  [4] Appendix A, Proposition "when short moves are not enough": both instances, and the remark that two of the four
+  [4] Proposition "when short moves are not enough": both instances, and the remark that two of the four
       cycles with two pair arrows reuse a leftover good.
-  [5] Appendix A, "No bounded number of pair arrows suffices": the ring family for k <= 4 and depths d <= 3, and DE
+  [5] "No bounded number of pair arrows suffices": the ring family for k <= 4 and depths d <= 3, and DE
       from the draft at depth 4 (Conclusion, open problem (2)).
-  [6] Appendix B: Lemma "cases of safety" and Proposition "limits of the shape", by listing every allocation.
+  [6] Lemma "cases of safety" and Proposition "limits of the shape", by listing every allocation.
   [7] Every valid state of every core profile with n = 2 (m <= 6) and n = 3 (m <= 7), up to renaming goods: the
       draft (Lemma "the draft", every order), the finishing test, soundness (every completion), Lemma "ring" (every
       ring), the Improvement Lemma in the form of its proof, short moves (Proposition: none missing for n <= 5), and
       the loop of DE started at every valid state.
-  [8] DE, peeling included, on random instances; comparison with the loop of the previous version of the paper and
+  [8] DE, peeling included, on random instances; comparison with an alternative loop and
       with hall.py.
 """
 import traceback
@@ -246,20 +249,21 @@ class State:
         return H
 
     def arrow(self, s, t):
-        """Definition (rings): the arrow s -> t between agents outside U holding a single good: ('want', y_s) if t wants
-        y_s; ('pair', h) if s is free, t is a blocker of s and the pair of t is {y_s, h} with h leftover; else None"""
+        """Definition (rings): the arrow s -> t between agents outside U holding a single good: ('want', y_t) if s wants
+        y_t; ('pair', h) if t is free, s is a blocker of t and the pair of s is {y_t, h} with h leftover; else None.
+        Goods move against the arrows: along s -> t, the good of t goes to s."""
         if s == t or s in self.U or t in self.U or len(self.Y[s]) != 1 or len(self.Y[t]) != 1:
             return None
-        y = self.Y[s][0]
-        want = y in self.W[t]
+        y = self.Y[t][0]
+        want = y in self.W[s]
         pair = None
-        if s in self.Fset and t in self.blockers(s):
-            b, c = self.rank[t][1], self.rank[t][2]
+        if t in self.Fset and s in self.blockers(t):
+            b, c = self.rank[s][1], self.rank[s][2]
             if y in (b, c):
                 h = c if b == y else b
                 if h in self.J:
                     pair = h
-        assert not (want and pair is not None)          # an arrow from a free agent is never a want arrow
+        assert not (want and pair is not None)          # an arrow into a free agent is never a want arrow
         return ('want', y) if want else (('pair', pair) if pair is not None else None)
 
     def cycle_arrows(self, cyc):
@@ -283,12 +287,12 @@ class State:
         new = list(self.hold)
         k = len(cyc)
         for t, (kind, _) in enumerate(arr):
-            w = cyc[(t + 1) % k]
-            new[w] = PAIR if kind == 'pair' else self.rank[w].index(self.Y[cyc[t]][0]) + 1
+            w = cyc[t]
+            new[w] = PAIR if kind == 'pair' else self.rank[w].index(self.Y[cyc[(t + 1) % k]][0]) + 1
         return tuple(new)
 
     def trade(self, cyc):
-        """trading along a ring: w_{t+1} gets y_t, with h_{t+1} for a pair arrow (its pair)"""
+        """trading along a ring: w_t gets y_{t+1}, with h_t for a pair arrow (its pair)"""
         arr = self.ring_arrows(cyc)
         assert arr is not None, 'not a ring'
         return self.raw_trade(cyc, arr)
@@ -398,8 +402,8 @@ def chain(st, x):
     while len(st.Y[path[-1]]) == 1 and st.wanters(st.Y[path[-1]][0]):
         nxt = st.wanters(st.Y[path[-1]][0])[0]
         assert nxt != x                                  # x holds its top and wants nothing
-        if nxt in path:
-            return 'ring', path[path.index(nxt):], None
+        if nxt in path:                                  # j_s, ..., j_{t-1}: the ring is j_{t-1} -> ... -> j_s
+            return 'ring', path[path.index(nxt):][::-1], None
         path.append(nxt)
     new = list(st.hold)
     new[x] = PAIR
@@ -436,7 +440,8 @@ def proof_ring(st):
     """the ring of the proof of Theorem (Improvement Lemma), under (NC) when no free agent can finish: distinct
     leftover goods (free agents in index order; x_o the first blocker of o whose leftover good is not yet picked,
     q_o = h_{x_o}); sigma(j) = x_j for free j, else the first agent that wants the good of j; follow sigma from the
-    first agent outside U until an agent repeats. Returns (q, x_o, sigma, cycle)."""
+    first agent outside U until an agent repeats; the ring is that cycle in reverse order (sigma(j) -> j is an
+    arrow, and sigma follows the goods). Returns (q, x_o, sigma, cycle)."""
     f = len(st.F)
     q, xo = {}, {}
     for o in st.F:
@@ -455,12 +460,15 @@ def proof_ring(st):
     while sigma[path[-1]] not in seen:
         path.append(sigma[path[-1]])
         seen.add(path[-1])
-    cyc = path[path.index(sigma[path[-1]]):]
-    assert len(cyc) >= 2 and all(len(st.Y[w]) == 1 for w in cyc)
+    cyc = path[path.index(sigma[path[-1]]):][::-1]                 # reverse order: sigma(w_{t+1}) = w_t
+    k = len(cyc)
+    assert k >= 2 and all(len(st.Y[w]) == 1 for w in cyc)
+    assert all(sigma[cyc[(t + 1) % k]] == cyc[t] for t in range(k))
     arr = st.ring_arrows(cyc)
     assert arr is not None                                          # the cycle is a ring
-    for t, w in enumerate(cyc):
-        assert arr[t] == (('pair', q[w]) if w in st.Fset else ('want', st.Y[w][0]))
+    for t in range(k):                                              # the arrow into w_{t+1}
+        w1 = cyc[(t + 1) % k]
+        assert arr[t] == (('pair', q[w1]) if w1 in st.Fset else ('want', st.Y[w1][0]))
     return q, xo, sigma, cyc
 
 
@@ -482,7 +490,7 @@ def improvement(st, x=None):
 def de_loop(rank, m, start=None, stats=None, old_finish=False):
     """the draft (or the valid state `start`) and the loop of Algorithm 1, then its last two lines. Returns
     (X, o, H, trace, final state); trace lists the trades. With old_finish (for comparison only): the loop of the
-    previous version of the paper, in which the first free agent holding nothing finishes, with H = {}, before the
+    alternative loop, in which the first free agent holding nothing finishes, with H = {}, before the
     count is tried; it breaks in the same states, so only the finishing agent can differ."""
     n = len(rank)
     hold = draft(rank) if start is None else tuple(start)
@@ -586,8 +594,8 @@ def with_core(c, Xc):
 
 # ============================================================================================ [1]
 def sec_intro():
-    out('[1] Introduction: Example "EFX, but not EFX0"; serial dictatorship at three goods; Corollary "two relevant '
-        'goods"')
+    out('[1] Introduction: EFX but not EFX0 (an extra example, then the instance of "What is new"); serial '
+        'dictatorship at three goods; serial dictatorship for "two relevant goods"')
     a, b, c = 0, 1, 2
     v = [{a: 3, b: 2}, {c: 1}]
     X = [{b}, {a, c}]
@@ -600,6 +608,8 @@ def sec_intro():
     check(not is_efx0(v, [{0}, {1, 2, 3}]) and val(v[0], {1, 2}) == 5 > 4,
           'values 4, 3, 2 on a, b, c: the agent takes a, b and c end up with a third good; without it they are worth '
           '5 > 4')
+    check(is_efx(v, [{0}, {1, 2, 3}]) and val(v[0], {2, 3}) == 2 and val(v[0], {1, 3}) == 3,
+          '"What is new": the same allocation is EFX; removing b or c leaves 2 or 3 <= 4 (g, worth 0, is not removed)')
     check(is_efx0(v, de(v, 2, 4)), 'DE on the same instance is EFX0 (the second agent is peeled first)')
     # Corollary (two relevant goods): serial dictatorship in any order, a favourite remaining good each (any one of
     # them if several), the last agent taking all remaining goods
@@ -628,7 +638,7 @@ def sec_intro():
 
 # ============================================================================================ [2]
 def sec_small():
-    out('[2] Section 6, "A small example" (agents z, x, o in this index order; goods g0, g1, g2, g3, g4)')
+    out('[2] "A small example" (agents z, x, o in this index order; goods g0, g1, g2, g3, g4)')
     gn = ['g0', 'g1', 'g2', 'g3', 'g4']                       # the goods, numbered 0..4 in index order
     G0, G1, G2, G3, G5 = range(5)
     Z, XX, O = range(3)
@@ -655,12 +665,13 @@ def sec_small():
     X, o, H, trace, fst = de_loop(rank, m)
     t = trace[0] if len(trace) == 1 else {}
     sg = t.get('sigma', {})
-    check(t.get('kind') == 'ring' and sg == {O: XX, XX: O, Z: O} and st.arrow(O, XX) == ('pair', G2)
-          and st.arrow(XX, O) == ('want', G0) and st.arrow(Z, O) == ('want', G5),
-          'sigma(o) = x, a pair arrow (x\'s pair is o\'s g1 and the leftover g2); sigma(x) = sigma(z) = o, want '
-          'arrows (o wants g0, g4)')
-    check(t.get('seq') == [O, XX] and t.get('npair') == 1,
-          'following sigma from z (the first agent outside U) closes the ring o -> x -> o')
+    check(t.get('kind') == 'ring' and sg == {O: XX, XX: O, Z: O} and st.arrow(XX, O) == ('pair', G2)
+          and st.arrow(O, XX) == ('want', G0) and st.arrow(O, Z) == ('want', G5),
+          'sigma(o) = x, for the pair arrow x -> o (x\'s pair is o\'s g1 and the leftover g2); sigma(x) = sigma(z) = o, '
+          'for the want arrows o -> x and o -> z (o wants g0, g4)')
+    check(t.get('seq') == [XX, O] and t.get('npair') == 1,
+          'following sigma from z (the first agent outside U) reaches o, then x, which points back to o: the ring '
+          'x -> o -> x')
     new = t.get('new')
     s2 = State(rank, m, new) if new else None
     check(new == (TOP, PAIR, TOP) and s2.Y[XX] == (G1, G2) and s2.Y[O] == (G0,),
@@ -683,7 +694,7 @@ def nm(i):
 
 
 def sec_worked():
-    out('[3] Section 7 "A Worked Example" (goods g0..g9; agents x1, x1\', x2, x2\', o1, o2 in this index order)')
+    out('[3] The worked example (goods g0..g9; agents x1, x1\', x2, x2\', o1, o2 in this index order)')
     rank, m = RANK6, 10
     v = values_from_ranking(rank)
     check(all(rule_r1(v[i], set(range(m))) is None for i in range(6)) and all(4 < 3 + 2 for _ in rank),
@@ -714,15 +725,19 @@ def sec_worked():
           'all ten candidate completions (finisher o1 or o2, H empty or one leftover good) fail the EFX0 test')
     # arrows and cycles (Figure 1)
     nodes, succ, arr = st.arrow_digraph()
-    fig = {(O1, X1): ('pair', 6), (O1, X1P): ('pair', 7), (O2, X2): ('pair', 8), (O2, X2P): ('pair', 9),
-           (X1, O2): ('want', 0), (X1P, O2): ('want', 1), (X2, O1): ('want', 2), (X2P, O1): ('want', 3)}
-    check(arr == fig, 'Figure 1: the arrows are exactly the pair arrows o1 -> x1 (g6), o1 -> x1\' (g7), o2 -> x2 '
-                      '(g8), o2 -> x2\' (g9) and the want arrows x1 -> o2 (g0), x1\' -> o2 (g1), x2 -> o1 (g2), '
-                      'x2\' -> o1 (g3)')
-    check(not st.wanters(4) and not st.wanters(5),
-          'no ring of want arrows: it would have to leave o1 or o2 by a want arrow, but nobody wants g4 or g5')
-    check(succ[X1] == succ[X1P] == [O2] and all(arr[(O2, t)][0] == 'pair' for t in succ[O2]),
-          'x1 and x1\' have want arrows only to o2, and the arrows from o2 are pair arrows')
+    fig = {(X1, O1): ('pair', 6), (X1P, O1): ('pair', 7), (X2, O2): ('pair', 8), (X2P, O2): ('pair', 9),
+           (O2, X1): ('want', 0), (O2, X1P): ('want', 1), (O1, X2): ('want', 2), (O1, X2P): ('want', 3)}
+    check(arr == fig, 'Figure 1: the arrows are exactly the pair arrows x1 -> o1 (g6), x1\' -> o1 (g7), x2 -> o2 '
+                      '(g8), x2\' -> o2 (g9) and the want arrows o2 -> x1 (g0), o2 -> x1\' (g1), o1 -> x2 (g2), '
+                      'o1 -> x2\' (g3)')
+    check(all(s in (O1, O2) for (s, _), a in arr.items() if a[0] == 'want') and not st.wanters(4)
+          and not st.wanters(5),
+          'no ring of want arrows: every want arrow starts at o1 or o2, so it would have to enter one of them by a '
+          'want arrow, but nobody wants g4 or g5')
+    check(succ[O1] == [X2, X2P] and all(arr[(O1, t)][0] == 'want' for t in succ[O1])
+          and succ[X2] == succ[X2P] == [O2] and arr[(X2, O2)][0] == arr[(X2P, O2)][0] == 'pair',
+          'a ring with one pair arrow, say into o1, would leave o1 by a want arrow; these end at x2 and x2\', which '
+          'want nothing, and the only arrows from x2 and x2\' are pair arrows into o2')
     cycles, rings = cycles_and_rings(st)
     check(len(cycles) == 4 and all(len(c) == 4 and npair(ca) == 2 for c, ca in cycles) and len(rings) == 4,
           'every cycle of these arrows has four agents and two pair arrows (4 cycles, all rings)')
@@ -744,8 +759,9 @@ def sec_worked():
           'sigma(o1) = x1, sigma(x1) = o2 (o2 wants g0), sigma(o2) = x2, sigma(x2) = o1 (o1 wants g2)')
     cyc = t.get('seq', [])
     rot = cyc[cyc.index(O1):] + cyc[:cyc.index(O1)] if O1 in cyc else []
-    check(rot == [O1, X1, O2, X2], f'the ring o1 -> x1 -> o2 -> x2 -> o1 of Figure 1 (walk from x1: '
-                                   f'{" -> ".join(nm(w) for w in cyc)})')
+    check(rot == [O1, X2, O2, X1] and all(sg.get(cyc[(i + 1) % 4]) == cyc[i] for i in range(4)),
+          f'each sigma(j) -> j is an arrow, so this is the ring o1 -> x2 -> o2 -> x1 -> o1 of Figure 1 (as DE '
+          f'lists it: {" -> ".join(nm(w) for w in cyc)} -> {nm(cyc[0]) if cyc else ""})')
     new = t.get('new')
     check(new == (PAIR, TOP, PAIR, TOP, TOP, TOP) and State(rank, m, new).Y[O2] == (0,)
           and State(rank, m, new).Y[O1] == (2,),
@@ -805,11 +821,11 @@ def hypothesis(st):
 
 
 def sec_short():
-    out('[4] Appendix A, Proposition "when short moves are not enough"')
+    out('[4] Proposition "when short moves are not enough"')
     rank, m = RANK6, 10
     st = State(rank, m, draft(rank))
     check(hypothesis(st) and not short_move(st) and len(st.F) == 2 and st.n == 6 and m == 10,
-          'the draft state of Section 7: valid, not all pairs, nobody can finish, no short move; |F| = 2, n = 6 '
+          'the draft state of the worked example: valid, not all pairs, nobody can finish, no short move; |F| = 2, n = 6 '
           '(m = 10)')
     # the m = 8 instance; agents in the order the paper lists them
     names = ['o1', 'o2', 'x1', "x1'", 'x2', "x2'"]
@@ -841,7 +857,8 @@ def sec_short():
         st2 = State(rank, m, new)
         ring_ok &= st2.valid and dominates(new, S) and sum(h == PAIR for h in new) == 2
     check(len(cycles) == 4 and form and len(reuse) == 2 and gives_twice and len(rings) == 2 and ring_ok,
-          'remark: the cycles of arrows are the four o2 -> x -> o1 -> x\' -> o2 with two pair arrows; two use the '
+          'remark: the cycles of arrows are the four o2 -> x\' -> o1 -> x -> o2 (x in {x1, x1\'}, x\' in {x2, x2\'}) '
+          'with two pair arrows; two use the '
           'same leftover good twice (trading would give it to two agents), the other two are rings (each trade: a '
           'valid state, two new pairs)')
     for c, ca in cycles:
@@ -857,7 +874,7 @@ def sec_short():
 
 # ============================================================================================ [5]
 def ring_family(k, d, shared):
-    """Appendix A, 'No bounded number of pair arrows suffices' (as gen_tree of k3/simplify/po/potential/
+    """'No bounded number of pair arrows suffices' (as gen_tree of k3/simplify/po/potential/
     test_exchange.py): agents 0..k-1 are o_0..o_{k-1}, each holding its c and wanting the goods of the two roots of a
     binary tree (o_i and the tree have depth d); inner agents hold their c and want their children's goods; the 2^d
     leaves of the tree of o_{i+1} hold their tops and have b, c = the good of o_i and a leftover good (private, or
@@ -900,7 +917,7 @@ def ring_family(k, d, shared):
 
 
 def sec_rings():
-    out('[5] Appendix A, the ring family: k free agents, trees of depth d (values 4, 3, 2)')
+    out('[5] The ring family: k free agents, trees of depth d (values 4, 3, 2)')
     for k in (2, 3, 4):
         for d in (1, 2, 3):
             for shared in (False, True):
@@ -938,7 +955,7 @@ def sec_rings():
         X, o, H, trace, _ = de_loop(rank, m)
         res[k] = len(trace)
         assert is_efx0(values_from_ranking(rank), X)
-    check(max(res.values()) > 8, 'Conclusion (2), "on the rings of Appendix A many more [trades than 8]": DE from the '
+    check(max(res.values()) > 8, 'Open problems: "on the rings of depth 4, up to 12 trades": DE from the '
                                  'draft on the family with d = 4 (private leftover goods) makes '
                                  + ', '.join(f'{t} trades for k = {k} (n = {k * 31})' for k, t in res.items())
                                  + '; outputs EFX0')
@@ -984,7 +1001,7 @@ def all_allocations(n, m):
 
 
 def sec_limits():
-    out('[6] Appendix B: Lemma "cases of safety" and Proposition "limits of the shape", by listing every allocation')
+    out('[6] Lemma "cases of safety" and Proposition "limits of the shape", by listing every allocation')
     trips = [(4, 3, 2), (5, 4, 3), (10, 9, 2), (7, 5, 3)]      # v(a) > v(b) > v(c) > 0, v(a) < v(b) + v(c)
     for t in trips:
         vi = dict(zip((0, 1, 2), t))                            # agent 0 values a, b, c = g0, g1, g2; g3..g5 at 0
@@ -1215,7 +1232,7 @@ def sec_random(K_general=20000, K_core=20000):
         f'trade, at most {stats["max trades"]} trades; peeled agents {stats["peeled agents"]}; trades: '
         + ', '.join(f'{k} {c}' for k, c in sorted(stats.items()) if k.startswith(('chain', 'ring')))
         + '; ' + ', '.join(f'{k} {c}' for k, c in sorted(stats.items()) if k.startswith('finish')))
-    # comparisons on the cores reached: the loop of the previous version of the paper (a free agent holding nothing
+    # comparisons on the cores reached: an alternative loop (a free agent holding nothing
     # finishes first), and hall.py (whose stop rule takes the first free agent that holds nothing or has
     # |H_o| <= |F| - 1, that is, the rule of this version)
     d_old_o, d_old_X, d_hall, ok = 0, 0, 0, True
@@ -1227,14 +1244,14 @@ def sec_random(K_general=20000, K_core=20000):
         Bh = [{g for g in range(c['m']) if Xh[g] == i} for i in range(len(c['rank']))]
         d_hall += Bh != c['Xc']
         ok &= is_efx0(v, with_core(c, Xo)) and is_efx0(v, with_core(c, Bh)) and len(tro) == c['trades']
-    check(ok, f'on the {len(cores)} cores reached: the previous paper\'s loop (a free agent holding '
+    check(ok, f'on the {len(cores)} cores reached: an alternative loop (a free agent holding '
                               f'nothing finishes first) picks another finishing agent in {d_old_o} run(s), another '
                               f'output in {d_old_X}; hall.py (another tie-break among the leftover goods) differs in {d_hall}; all these outputs EFX0 (raw, '
                               f'the instance\'s values)')
 
 
 def sec_novel(K=2000):
-    out('[9] Section 1, "What is new": an instance of the model that no earlier existence result covers')
+    out('[9] "What is new": an instance of the model that no earlier existence result covers')
     sets = [(0, 1, 6), (0, 1, 7), (0, 2, 8), (2, 3, 4), (3, 5, 9), (4, 5, 10)]
     n, m = len(sets), 1 + max(g for S in sets for g in S)
     valuers = {g: [i for i, S in enumerate(sets) if g in S] for g in range(m)}

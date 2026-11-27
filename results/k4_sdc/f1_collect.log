@@ -1,0 +1,91 @@
+$ python3 k4/sdc/f1_collect.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 30000 101
+NOT EVERY WANTER r1621 [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[4, 5, 8, 6], [2, 7, 10, 6], [5, 6, 8, 4]]] picks (5, 3, 4) x 2 W [0, 1]
+    swap (|W|=1, |H0|=2): every owner outside x+W 323
+    swap (|W|=1, |H0|=2): some owner 414
+    swap (|W|=1, |H0|=2): tried 414
+    swap (|W|=1, |H0|=2): x owns 413
+    swap (|W|=2, |H0|=2): every owner outside x+W 0
+    swap (|W|=2, |H0|=2): some owner 42
+    swap (|W|=2, |H0|=2): tried 43
+    swap (|W|=2, |H0|=2): x owns 40
+  every wanter has a repairing minimal swap 216
+  |W|=1, x has 3 goods, pairs beating the top 1, lower goods JJ 11
+  |W|=1, x has 3 goods, pairs beating the top 1, lower goods Jw 7
+  |W|=1, x has 3 goods, pairs beating the top 1, lower goods wJ 10
+  |W|=1, x has 4 goods, pairs beating the top 100, lower goods JJJ 2
+  |W|=1, x has 4 goods, pairs beating the top 100, lower goods JJp 1
+  |W|=1, x has 4 goods, pairs beating the top 100, lower goods JJw 10
+  |W|=1, x has 4 goods, pairs beating the top 100, lower goods JwJ 2
+  |W|=1, x has 4 goods, pairs beating the top 100, lower goods wJJ 5
+  |W|=1, x has 4 goods, pairs beating the top 110, lower goods JJJ 14
+  |W|=1, x has 4 goods, pairs beating the top 110, lower goods JJp 3
+  |W|=1, x has 4 goods, pairs beating the top 110, lower goods JJw 10
+  |W|=1, x has 4 goods, pairs beating the top 110, lower goods JpJ 3
+  |W|=1, x has 4 goods, pairs beating the top 110, lower goods Jpw 2
+  |W|=1, x has 4 goods, pairs beating the top 110, lower goods JwJ 9
+  |W|=1, x has 4 goods, pairs beating the top 110, lower goods Jwp 1
+  |W|=1, x has 4 goods, pairs beating the top 110, lower goods wJJ 4
+  |W|=1, x has 4 goods, pairs beating the top 111, lower goods JJJ 61
+  |W|=1, x has 4 goods, pairs beating the top 111, lower goods JJp 6
+  |W|=1, x has 4 goods, pairs beating the top 111, lower goods JJw 8
+  |W|=1, x has 4 goods, pairs beating the top 111, lower goods JpJ 8
+  |W|=1, x has 4 goods, pairs beating the top 111, lower goods JwJ 8
+  |W|=1, x has 4 goods, pairs beating the top 111, lower goods pJJ 11
+  |W|=1, x has 4 goods, pairs beating the top 111, lower goods pJw 1
+  |W|=1, x has 4 goods, pairs beating the top 111, lower goods pwJ 2
+  |W|=1, x has 4 goods, pairs beating the top 111, lower goods wJJ 8
+  |W|=2, x has 4 goods, pairs beating the top 110, lower goods JJJ 2
+  |W|=2, x has 4 goods, pairs beating the top 110, lower goods JJw 1
+  |W|=2, x has 4 goods, pairs beating the top 111, lower goods JJJ 3
+  |W|=2, x has 4 goods, pairs beating the top 111, lower goods JJw 2
+  |W|=2, x has 4 goods, pairs beating the top 111, lower goods wJJ 1
+  |W|=2, x has 4 goods, pairs beating the top 111, lower goods wJw 1
+hard one-frozen starts 217
+time 23 s
+$ python3 k4/sdc/f1_collect.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 30000 102
+    swap (|W|=1, |H0|=2): every owner outside x+W 3
+    swap (|W|=1, |H0|=2): some owner 3
+    swap (|W|=1, |H0|=2): tried 3
+    swap (|W|=1, |H0|=2): x owns 3
+    swap (|W|=2, |H0|=2): every owner outside x+W 6
+    swap (|W|=2, |H0|=2): some owner 6
+    swap (|W|=2, |H0|=2): tried 6
+    swap (|W|=2, |H0|=2): x owns 6
+  every wanter has a repairing minimal swap 2
+  |W|=1, x has 4 goods, pairs beating the top 111, lower goods JJJ 1
+  |W|=2, x has 4 goods, pairs beating the top 111, lower goods JJJ 1
+hard one-frozen starts 2
+time 44 s
+$ python3 k4/sdc/f1_collect.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 4000 103
+time 11 s
+$ python3 k4/sdc/f1_collect.py logs
+    swap (|W|=1, |H0|=2): every owner outside x+W 18
+    swap (|W|=1, |H0|=2): some owner 20
+    swap (|W|=1, |H0|=2): tried 20
+    swap (|W|=1, |H0|=2): x owns 20
+    swap (|W|=1, |H0|=3): every owner outside x+W 1
+    swap (|W|=1, |H0|=3): some owner 1
+    swap (|W|=1, |H0|=3): tried 1
+    swap (|W|=1, |H0|=3): x owns 1
+    swap (|W|=2, |H0|=2): every owner outside x+W 0
+    swap (|W|=2, |H0|=2): some owner 2
+    swap (|W|=2, |H0|=2): tried 2
+    swap (|W|=2, |H0|=2): x owns 2
+    swap (|W|=2, |H0|=3): every owner outside x+W 0
+    swap (|W|=2, |H0|=3): some owner 2
+    swap (|W|=2, |H0|=3): tried 2
+    swap (|W|=2, |H0|=3): x owns 2
+  every wanter has a repairing minimal swap 15
+  |W|=1, x has 3 goods, pairs beating the top 1, lower goods wJ 1
+  |W|=1, x has 4 goods, pairs beating the top 000, lower goods JJJ 1
+  |W|=1, x has 4 goods, pairs beating the top 100, lower goods JJJ 2
+  |W|=1, x has 4 goods, pairs beating the top 100, lower goods wJJ 1
+  |W|=1, x has 4 goods, pairs beating the top 110, lower goods JJJ 2
+  |W|=1, x has 4 goods, pairs beating the top 110, lower goods JJw 2
+  |W|=1, x has 4 goods, pairs beating the top 111, lower goods JJJ 2
+  |W|=1, x has 4 goods, pairs beating the top 111, lower goods JJp 1
+  |W|=1, x has 4 goods, pairs beating the top 111, lower goods pJJ 1
+  |W|=2, x has 3 goods, pairs beating the top 1, lower goods JJ 1
+  |W|=2, x has 4 goods, pairs beating the top 000, lower goods JJJ 1
+hard one-frozen starts 15
+time 2 s

@@ -1,0 +1,6 @@
+$ python3 k4/de4/dc_climb.py 12 300 10 advt4x
+round 0 final gap 99 time 358
+round 1 final gap 99 time 908
+round 2 final gap 99 time 1067
+round 3 final gap 99 time 1214
+stopped after 4 rounds (the session's CPU was needed elsewhere)

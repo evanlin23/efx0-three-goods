@@ -1,0 +1,11 @@
+$ python3 k4/de4/run_robust.py results/k4_de4/r4_hypergraph.json.gz 2000 4
+core 0 [[0, 1, 6, 8], [0, 1, 2, 3], [2, 4, 5, 8], [4, 5, 6, 7]] {'var0_every_fail': 11}
+core 0 FAIL var 0 profile 1786788000: [8,4,6,1] [6,7,10,2] [8,2,3,4] [7,6,5,3] state: 101 4 30 c0
+core 0 FAIL var 0 profile 3600110000: [7,8,4,2] [7,4,10,2] [8,2,3,4] [6,10,8,3] state: 102 4 30 c0
+core 0 FAIL var 0 profile 1786788001: [8,4,6,1] [6,7,10,2] [8,2,3,4] [7,6,3,5] state: 101 4 30 c0
+core 0 FAIL var 0 profile 5166756001: [10,7,6,2] [6,4,8,1] [8,2,3,4] [7,6,3,5] state: 101 4 30 c0
+core 0 FAIL var 0 profile 1786788002: [8,4,6,1] [6,7,10,2] [8,2,3,4] [7,5,6,3] state: 101 4 30 c0
+core 0 FAIL var 0 profile 3600110002: [7,8,4,2] [7,4,10,2] [8,2,3,4] [6,10,3,8] state: 102 4 30 c0
+TOTAL results/k4_de4/r4_hypergraph.json.gz 1 cores; var0_maxima 47897495 var0_every_fail 11 var0_some_fail 0 var1_maxima 25931610 var1_every_fail 0 var1_some_fail 0 var2_maxima 25908859 var2_every_fail 0 var2_some_fail 0 var3_maxima 25931610 var3_every_fail 0 var3_some_fail 0 overflow 0 profiles 13759416
+variants: 0 DE4^v3 (control), 1 DE4^v3 + robust upper sets at level 6 (the candidate), 2 the same at 5.5, 3 robust at 6 without (V3) (control)
+exit status 0

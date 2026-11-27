@@ -1,0 +1,59 @@
+$ for each core c of results/k4_certs_3.json.gz and chunk h = 0..7: k4/de4/de4 h 8 < (input of core c)
+# Run in the session of PR #95 by a scratch driver equivalent to "python3 k4/de4/run_exhaustive.py k4_certs_3.json.gz":
+# the same de4.c (byte-identical to k4/de4/de4.c), inputs in the format of check.write_input, with each agent's 288
+# (or 6) strict profiles listed in a different order; per-core totals do not depend on that order.
+# Columns: profiles = strict profiles of the core; states = valid DE4 states summed over them; maxima = maxima
+# (largest level sum, then value-Pareto); every_fail = profiles with a non-completable maximum; some_fail = profiles
+# with no completable maximum.
+core 0 [[0, 1, 2, 3], [1, 2, 3], [1, 2, 3]] profiles 10368 states 58536 maxima 18600 every_fail 0 some_fail 0
+core 1 [[0, 1, 2, 3], [0, 2, 3], [1, 2, 3]] profiles 10368 states 55496 maxima 19448 every_fail 0 some_fail 0
+core 2 [[0, 1, 2, 3], [0, 1, 2, 3], [1, 2, 3]] profiles 497664 states 2912256 maxima 989856 every_fail 0 some_fail 0
+core 3 [[0, 1, 2, 3], [0, 1, 2, 3], [0, 1, 2, 3]] profiles 23887872 states 149962752 maxima 51081984 every_fail 0 some_fail 0
+core 4 [[0, 1, 3, 4], [2, 3, 4], [2, 3, 4]] profiles 10368 states 83712 maxima 19376 every_fail 0 some_fail 0
+core 5 [[0, 2, 3, 4], [1, 3, 4], [2, 3, 4]] profiles 10368 states 85896 maxima 21224 every_fail 0 some_fail 0
+core 6 [[0, 2, 3, 4], [1, 2, 3, 4], [2, 3, 4]] profiles 497664 states 4411056 maxima 1025616 every_fail 0 some_fail 0
+core 7 [[0, 1, 2, 4], [1, 3, 4], [2, 3, 4]] profiles 10368 states 94892 maxima 23888 every_fail 0 some_fail 0
+core 8 [[0, 2, 3, 4], [1, 2, 3, 4], [1, 3, 4]] profiles 497664 states 4928000 maxima 1236272 every_fail 0 some_fail 0
+core 9 [[0, 3, 4], [1, 2, 3, 4], [1, 2, 4]] profiles 10368 states 99460 maxima 26712 every_fail 0 some_fail 0
+core 10 [[0, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]] profiles 497664 states 5150208 maxima 1345632 every_fail 0 some_fail 0
+core 11 [[0, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]] profiles 23887872 states 262219104 maxima 65410416 every_fail 0 some_fail 0
+core 12 [[0, 1, 2, 3], [0, 1, 4], [2, 3, 4]] profiles 10368 states 110864 maxima 32352 every_fail 0 some_fail 0
+core 13 [[0, 1, 3, 4], [0, 2, 3, 4], [1, 2, 4]] profiles 497664 states 5660848 maxima 1585904 every_fail 0 some_fail 0
+core 14 [[0, 1, 3, 4], [0, 2, 3, 4], [1, 2, 3, 4]] profiles 23887872 states 296679168 maxima 82320864 every_fail 0 some_fail 0
+core 15 [[0, 1, 2, 3], [2, 4, 5], [3, 4, 5]] profiles 10368 states 171920 maxima 16848 every_fail 0 some_fail 0
+core 16 [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]] profiles 497664 states 8922616 maxima 834336 every_fail 0 some_fail 0
+core 17 [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] profiles 23887872 states 486475968 maxima 47185344 every_fail 0 some_fail 0
+core 18 [[0, 2, 4, 5], [1, 4, 5], [3, 4, 5]] profiles 10368 states 143064 maxima 16848 every_fail 0 some_fail 0
+core 19 [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]] profiles 10368 states 157404 maxima 15552 every_fail 0 some_fail 0
+core 20 [[0, 2, 4, 5], [1, 3, 4, 5], [3, 4, 5]] profiles 497664 states 7944560 maxima 784144 every_fail 0 some_fail 0
+core 21 [[0, 3, 4, 5], [1, 3, 5], [2, 4, 5]] profiles 10368 states 172160 maxima 17136 every_fail 0 some_fail 0
+core 22 [[0, 3, 4, 5], [1, 3, 4, 5], [2, 4, 5]] profiles 497664 states 8534432 maxima 837088 every_fail 0 some_fail 0
+core 23 [[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]] profiles 23887872 states 441023616 maxima 41911344 every_fail 0 some_fail 0
+core 24 [[0, 2, 3, 4], [1, 2, 5], [3, 4, 5]] profiles 10368 states 188572 maxima 18216 every_fail 0 some_fail 0
+core 25 [[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 5]] profiles 497664 states 9242824 maxima 842576 every_fail 0 some_fail 0
+core 26 [[0, 2, 4], [1, 3, 5], [2, 3, 4, 5]] profiles 10368 states 204512 maxima 20016 every_fail 0 some_fail 0
+core 27 [[0, 2, 4, 5], [1, 3, 5], [2, 3, 4, 5]] profiles 497664 states 9866512 maxima 928800 every_fail 0 some_fail 0
+core 28 [[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]] profiles 23887872 states 497256192 maxima 45429984 every_fail 0 some_fail 0
+core 29 [[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]] profiles 23887872 states 560453280 maxima 50959776 every_fail 0 some_fail 0
+core 30 [[0, 3, 4, 5], [1, 2, 3, 4], [1, 2, 5]] profiles 497664 states 10660320 maxima 980544 every_fail 0 some_fail 0
+core 31 [[0, 4, 5], [1, 2, 3, 4], [1, 2, 3, 5]] profiles 497664 states 11364768 maxima 1115088 every_fail 0 some_fail 0
+core 32 [[0, 1, 2, 3], [0, 1, 4, 5], [2, 3, 4, 5]] profiles 23887872 states 638979840 maxima 61008960 every_fail 0 some_fail 0
+core 33 [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]] profiles 23887872 states 961587072 maxima 56817504 every_fail 0 some_fail 0
+core 34 [[0, 2, 4, 6], [1, 3, 5, 6], [4, 5, 6]] profiles 497664 states 14126376 maxima 946592 every_fail 0 some_fail 0
+core 35 [[0, 2, 5, 6], [1, 4, 5, 6], [3, 5, 6]] profiles 497664 states 13255568 maxima 1009472 every_fail 0 some_fail 0
+core 36 [[0, 2, 4, 5], [1, 4, 6], [3, 5, 6]] profiles 10368 states 301496 maxima 21000 every_fail 0 some_fail 0
+core 37 [[0, 2, 4, 6], [1, 4, 5, 6], [3, 5, 6]] profiles 497664 states 15149704 maxima 1027376 every_fail 0 some_fail 0
+core 38 [[0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]] profiles 23887872 states 784992384 maxima 54597696 every_fail 0 some_fail 0
+core 39 [[0, 2, 3, 6], [1, 3, 4, 5], [4, 5, 6]] profiles 497664 states 16133088 maxima 1026576 every_fail 0 some_fail 0
+core 40 [[0, 2, 4, 5], [1, 3, 6], [3, 4, 5, 6]] profiles 497664 states 17137248 maxima 1042848 every_fail 0 some_fail 0
+core 41 [[0, 2, 5, 6], [1, 3, 4, 6], [3, 4, 5, 6]] profiles 23887872 states 869400000 maxima 54497616 every_fail 0 some_fail 0
+core 42 [[0, 3, 4, 5], [1, 3, 4, 6], [2, 5, 6]] profiles 497664 states 17497920 maxima 1140280 every_fail 0 some_fail 0
+core 43 [[0, 3, 4, 6], [1, 3, 5, 6], [2, 4, 5, 6]] profiles 23887872 states 883370016 maxima 57942768 every_fail 0 some_fail 0
+core 44 [[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] profiles 23887872 states 985041792 maxima 59568416 every_fail 0 some_fail 0
+core 45 [[0, 2, 4, 6], [1, 3, 5, 7], [4, 5, 6, 7]] profiles 23887872 states 1416796416 maxima 50923008 every_fail 0 some_fail 0
+core 46 [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]] profiles 23887872 states 1177094592 maxima 54900864 every_fail 0 some_fail 0
+core 47 [[0, 2, 5, 6], [1, 4, 5, 7], [3, 6, 7]] profiles 497664 states 25037568 maxima 1015744 every_fail 0 some_fail 0
+core 48 [[0, 2, 5, 7], [1, 4, 6, 7], [3, 5, 6, 7]] profiles 23887872 states 1295925984 maxima 53142528 every_fail 0 some_fail 0
+core 49 [[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] profiles 23887872 states 1435428864 maxima 53910048 every_fail 0 some_fail 0
+core 50 [[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] profiles 23887872 states 2005523712 maxima 46605312 every_fail 0 some_fail 0
+TOTAL k4_certs_3.json.gz 51 cores; profiles 439582464 states 15358074608 maxima 1008216392 every_fail 0 some_fail 0

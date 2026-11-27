@@ -1,0 +1,8 @@
+$ SHED=broad python3 k4/de4/shed_climb.py 42 300 6 advt4r
+round 0 final gap 99 time 139
+round 1 final gap 99 time 311
+round 2 final gap 99 time 534
+round 3 final gap 99 time 668
+round 4 final gap 99 time 808
+round 5 final gap 99 time 923
+gaps [(99, 6)]

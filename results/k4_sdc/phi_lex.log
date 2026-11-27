@@ -1,0 +1,5 @@
+$ python3 k4/sdc/phi_lex.py 1 600 4
+PHI4 cex every order: False some order: True {(0, 1, 2): True, (0, 2, 1): True, (1, 0, 2): True, (1, 2, 0): True, (2, 0, 1): False, (2, 1, 0): False}
+PHI general cex every order: False some order: True {(0, 1, 2): True, (0, 2, 1): True, (1, 0, 2): True, (1, 2, 0): True, (2, 0, 1): False, (2, 1, 0): False}
+T3 every order: True some order: True {(0, 1, 2): True, (0, 2, 1): True, (1, 0, 2): True, (1, 2, 0): True, (2, 0, 1): True, (2, 1, 0): True}
+{'inst': 318, 'every order': 318, 'some order': 318}

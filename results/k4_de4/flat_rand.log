@@ -1,0 +1,5 @@
+$ python3 k4/de4/flat.py rand 300 2 6100
+      953  (V3)-valid (H) states, Phi*
+     1517  (V3)-valid (H) states, below Phi*
+      600  instances
+time 21 s

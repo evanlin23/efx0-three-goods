@@ -1,0 +1,7 @@
+$ python3 k4/de4/dead.py dead k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz 1000 40 4000
+dead k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz: 40 jobs x 1000 profiles, seeds 4000..4039
+      5728    G0 cycle: trade valid and Pareto-improving
+        98    one-label cycle: trade valid and Pareto-improving
+      5826  (H) with a dead good
+        98  dead good, completable (not (H))
+exit status 0

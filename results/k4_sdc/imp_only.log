@@ -1,0 +1,43 @@
+$ python3 k4/sdc/imp_only.py special
+envyFree: improving rotations only: least depth 0 3
+envyFree: improving rotations only: least depth 2 1
+instances 4
+none: improving rotations only: least depth 0 3
+none: improving rotations only: least depth 2 1
+shrink: improving rotations only: least depth 0 3
+shrink: improving rotations only: least depth None 1
+some policy: improving rotations only: least depth 0 3
+some policy: improving rotations only: least depth 2 1
+time 0 s
+$ python3 k4/sdc/imp_only.py screen
+IMPROVING FAILS nsw-strict-n4m8 [[[0, 3, 5, 7], [1, 4, 5, 6], [2, 4, 6, 7], [3, 6, 7]], [[2, 8, 4, 7], [2, 8, 3, 4], [2, 10, 6, 7], [4, 3, 2]]]
+envyFree: improving rotations only: least depth 0 147
+envyFree: improving rotations only: least depth 1 20
+envyFree: improving rotations only: least depth None 1
+instances 168
+none: improving rotations only: least depth 0 147
+none: improving rotations only: least depth 1 19
+none: improving rotations only: least depth None 2
+shrink: improving rotations only: least depth 0 148
+shrink: improving rotations only: least depth 1 18
+shrink: improving rotations only: least depth None 2
+some policy: improving rotations only: least depth 0 149
+some policy: improving rotations only: least depth 1 18
+some policy: improving rotations only: least depth None 1
+time 0 s
+$ python3 k4/sdc/imp_only.py suite
+IMPROVING FAILS nsw-strict-n4m8 [[[0, 3, 5, 7], [1, 4, 5, 6], [2, 4, 6, 7], [3, 6, 7]], [[2, 8, 4, 7], [2, 8, 3, 4], [2, 10, 6, 7], [4, 3, 2]]]
+envyFree: improving rotations only: least depth 0 140
+envyFree: improving rotations only: least depth 1 20
+envyFree: improving rotations only: least depth None 1
+instances 161
+none: improving rotations only: least depth 0 140
+none: improving rotations only: least depth 1 19
+none: improving rotations only: least depth None 2
+shrink: improving rotations only: least depth 0 141
+shrink: improving rotations only: least depth 1 19
+shrink: improving rotations only: least depth None 1
+some policy: improving rotations only: least depth 0 142
+some policy: improving rotations only: least depth 1 18
+some policy: improving rotations only: least depth None 1
+time 0 s

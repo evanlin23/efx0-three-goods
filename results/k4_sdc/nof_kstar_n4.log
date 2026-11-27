@@ -1,0 +1,14 @@
+$ python3 k4/sdc/nof_kstar.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 31
+defer lead of B* works 71
+every thr works 71
+failures 71
+first chain works 71
+first thr works 71
+lead of B* frozen 71
+r in B* 71
+some chain works 71
+some thr works 71
+|chain| = 1 63
+|chain| = 2 8
+|thr| = 1 63
+|thr| = 2 8

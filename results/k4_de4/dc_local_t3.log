@@ -1,0 +1,6 @@
+    1   raise within cycle agents + holders of b_u: False
+  194   raise within cycle agents + holders of b_u: True
+  191   raise within the 4 cycle agents: False
+    4   raise within the 4 cycle agents: True
+  195 double-clash (H) state
+states with no raise among the six agents: [[[[0, 2, 4, 5], [1, 3, 6, 7], [1, 2, 4, 8], [0, 3, 7, 8], [0, 2, 8, 9], [1, 3, 4, 10]], [[39, 21, 16, 8], [19, 14, 9, 7], [36, 27, 22, 33], [39, 12, 13, 30], [22, 29, 16, 18], [31, 25, 2, 15]], [[4, 5], [6, 7], [1], [0], [2, 9], [3, 10]]]]

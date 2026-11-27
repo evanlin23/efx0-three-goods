@@ -1,0 +1,4 @@
+screen {'instances': 168, 'NOF holds': 168, 'plain': 157, 'deferred': 11} time 1
+suite {'instances': 164, 'NOF holds': 164, 'plain': 154, 'deferred': 10} time 3
+cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz {'instances': 20000, 'NOF holds': 20000, 'plain': 19931, 'deferred': 69} time 46
+cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz {'instances': 6000, 'NOF holds': 6000, 'plain': 5987, 'deferred': 13} time 20

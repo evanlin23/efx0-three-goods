@@ -1,0 +1,31 @@
+$ python3 k4/sdc/gdt_reach.py special
+UNREACHED T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1) None
+UNREACHED Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks (3, 7, 5, 4) None
+  of these, SAT confirms owner o 23
+GDT states reached 23
+instances 4
+instances with every start reaching a GDT state 2
+instances with some start reaching a GDT state 4
+shown 2
+starts 174
+starts: chains to a GDT state 0 81
+starts: chains to a GDT state 1 52
+starts: chains to a GDT state 2 26
+starts: chains to a GDT state None 15
+time 0 s
+$ python3 k4/sdc/gdt_reach.py screen
+UNREACHED A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] picks (2, 6, 3, 5) None
+UNREACHED B131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 2, 8, 4], [3, 8, 2, 4], [2, 4, 3], [4, 2, 3]]] picks (4, 6, 3, 5) None
+UNREACHED D3 [[[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]]] picks (1, 2, 3) None
+  of these, SAT confirms owner o 580
+GDT states reached 580
+instances 168
+instances with every start reaching a GDT state 88
+instances with some start reaching a GDT state 151
+shown 3
+starts 4069
+starts: chains to a GDT state 0 2089
+starts: chains to a GDT state 1 1098
+starts: chains to a GDT state 2 40
+starts: chains to a GDT state None 842
+time 1 s

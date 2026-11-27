@@ -1,0 +1,6 @@
+$ python3 k4/de4/nrcyc.py rand 300 6 21
+     23    minimal raise size 2 (cycle length 2, clean True)
+      1    minimal raise size 2 (cycle length 3, clean True)
+      1    minimal raise size 2 (cycle length 4, clean True)
+      1    minimal raise size 3 (cycle length 3, clean True)
+     26  (H) state with a non-robust upper holder on a cycle: top False, cycle clean True

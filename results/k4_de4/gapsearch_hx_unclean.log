@@ -1,0 +1,5 @@
+$ MODE=hx UNCLEAN=... python3 k4/de4/gapsearch.py 61 800 60 unclean   (scratch copy of the search, still running when copied)
+round 0 final gap 99 time 288
+round 1 final gap 6 time 524
+round 2 final gap 4 time 621
+round 3 final gap 3 time 778

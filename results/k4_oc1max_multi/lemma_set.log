@@ -1,0 +1,6 @@
+$ python3 k4/oc1max_multi/lemma_set.py results/k4_oc1max_multi/hard2_starts.jsonl.gz results/k4_oc1max_multi/hard2_starts_n5.jsonl.gz
+  completion exists 31563
+owner tests 47248
+owner x_1 (excluded) 16684
+owners whose base k wants (excluded) 824
+mismatches (Lemma SET violations): 0 []

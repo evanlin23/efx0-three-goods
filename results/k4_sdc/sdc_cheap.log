@@ -1,0 +1,16 @@
+$ python3 k4/sdc/sdc_cheap.py screen
+FAIL R1 C127 4 7
+FAIL plain C127 4 7
+FAIL R1 D3 3 6
+FAIL plain D3 3 6
+FAIL R1 c4-lbplus-rotation-n3m6 3 6
+FAIL plain c4-lbplus-rotation-n3m6 3 6
+{'R1 rule extends': 154, 'plain rule extends': 152, 'instances': 168}
+$ python3 k4/sdc/sdc_cheap.py suite
+FAIL R1 c4-lbplus-rotation-n3m6 3 6
+FAIL plain c4-lbplus-rotation-n3m6 3 6
+FAIL R1 c4min-phi-n4-m8-n4pc72 4 8
+FAIL plain c4min-phi-n4-m8-n4pc72 4 8
+FAIL R1 c4min-tlam-n3-m6 3 6
+FAIL plain c4min-tlam-n3-m6 3 6
+{'R1 rule extends': 152, 'plain rule extends': 150, 'instances': 164}

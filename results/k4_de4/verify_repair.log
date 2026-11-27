@@ -1,0 +1,4 @@
+$ python3 k4/de4/verify_repair.py
+     16239  Lemma R holds: True
+     92519  Lemma V holds: True
+exit status 0

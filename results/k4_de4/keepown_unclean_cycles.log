@@ -1,0 +1,4 @@
+$ python3 k4/de4/keepown.py json:results/k4_de4/unclean_cycles.json 1 1 0
+       75  instances
+        5  keep-own swap applies, below Phi*: claim holds True
+time 17 s

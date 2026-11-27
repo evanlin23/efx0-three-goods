@@ -1,0 +1,17 @@
+$ python3 k4/de4/verify_robust.py hyper 60 40 0
+      51  (A) Theorem A': True
+      33  (C) Corollary 10, robust order: True
+     164  (D) the walk closes: trade (V3)-valid and better: True
+    2400  profiles
+exit status 0
+$ python3 k4/de4/verify_robust.py rand 120 30 500
+      10  (A) Theorem A': True
+     608  (C) Corollary 10, robust order: True
+     245  (D) the walk closes: trade (V3)-valid and better: True
+    3600  profiles
+exit status 0
+$ python3 k4/de4/verify_robust.py k4_certs_3.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz 60 30 900
+     264  (C) Corollary 10, robust order: True
+     127  (D) the walk closes: trade (V3)-valid and better: True
+    1800  profiles
+exit status 0

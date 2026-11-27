@@ -1,0 +1,9 @@
+$ python3 k4/sdc/sd_po.py special
+SD outcomes = Pareto-optimal matchings 4
+instances 4
+$ python3 k4/sdc/sd_po.py screen
+SD outcomes = Pareto-optimal matchings 168
+instances 168
+$ python3 k4/sdc/sd_po.py suite
+SD outcomes = Pareto-optimal matchings 160
+instances 160

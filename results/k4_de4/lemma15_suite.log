@@ -1,0 +1,9 @@
+$ python3 k4/de4/lemma15.py suite
+lemma 15, suite instances with n <= 5, m <= 12
+         9    conclusion holds
+         3    u takes {b, k} from r
+         1    u takes {b} from J
+         5    u takes {b} from r
+         9  instances of the hypotheses
+      3241  valid states
+exit status 0

@@ -1,0 +1,7 @@
+$ python3 k4/de4/crossswap.py advt4l 300 4 8300
+        2    (a) applies: claim holds True
+      353    (b) applies: claim holds True
+      972    frozen t with danger set {c_t, d_t} = {j, g}: neither (a) nor (b) applies
+      667  double-clash (V3)-valid (H) states
+      580  instances
+time 656 s

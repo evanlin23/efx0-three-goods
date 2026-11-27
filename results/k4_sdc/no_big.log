@@ -1,0 +1,6 @@
+$ python3 k4/sdc/sdc_no.py big8 400 7
+big8 {'instances': 400, 'NO holds': 400} time 8
+$ python3 k4/sdc/sdc_no.py big12 400 7
+big12 {'instances': 400, 'NO holds': 400} time 75
+$ python3 k4/sdc/sdc_no.py big10 400 7
+big10 {'instances': 400, 'NO holds': 400} time 30

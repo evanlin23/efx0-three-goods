@@ -1,0 +1,13 @@
+$ python3 k4/sdc/nof_roles.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 2
+plain run fails 75
+some working o is frozen and holds its top 74
+working deferrals: 1 15
+working deferrals: 2 60
+working o: chain length 1 53
+working o: chain length 2 69
+working o: chain length 3 13
+working o: first in pi False 64
+working o: first in pi True 71
+working o: frozen True 135
+working o: pick rank 0 110
+working o: pick rank 1 25

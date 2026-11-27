@@ -1,0 +1,42 @@
+$ python3 k4/sdc/mdom.py special
+instances 4
+instances with one 0
+maximal matchings 281
+not dominated 0
+time 0 s
+$ python3 k4/sdc/mdom.py screen
+instances 168
+instances with one 0
+maximal matchings 11414
+not dominated 0
+time 9 s
+$ python3 k4/sdc/mdom.py suite
+instances 158
+instances with one 0
+maximal matchings 12864
+not dominated 0
+time 13 s
+$ python3 k4/sdc/mdom.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+instances 3000
+instances with one 0
+maximal matchings 85868
+not dominated 0
+time 37 s
+$ python3 k4/sdc/mdom.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+instances 1500
+instances with one 0
+maximal matchings 118860
+not dominated 0
+time 88 s
+$ python3 k4/sdc/mdom.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 200 93
+instances 200
+instances with one 0
+maximal matchings 22419
+not dominated 0
+time 20 s
+$ python3 k4/sdc/mdom.py logs
+instances 1527
+instances with one 0
+maximal matchings 88555
+not dominated 0
+time 68 s

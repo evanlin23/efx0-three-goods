@@ -1,0 +1,29 @@
+$ python3 k4/sdc/greedy_kstar.py special
+GREEDY FAILS Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] 7
+  failure reason (per policy): no k* 21
+GREEDY FAILS 7
+greedy succeeds after 0 rotations 105
+greedy succeeds after 1 rotations 60
+greedy succeeds after 2 rotations 2
+instances 4
+instances where greedy fails from some order 1
+shown 1
+starts 174
+time 0 s
+$ python3 k4/sdc/greedy_kstar.py screen
+GREEDY FAILS adaptive-p3 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]]] 2
+GREEDY FAILS c4-pareto-moves-n3m6 [[[0, 1, 2, 3], [0, 1, 4, 5], [2, 3, 4, 5]], [[8, 6, 4, 1], [4, 2, 8, 5], [4, 6, 8, 3]]] 1
+GREEDY FAILS c4one-one-rotation-m8 [[[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]], [[2, 8, 3, 4], [3, 4, 2], [2, 4, 3], [2, 4, 3], [2, 4, 3]]] 31
+GREEDY FAILS c4one-one-rotation-m9 [[[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]], [[2, 3, 4], [2, 4, 3], [2, 3, 8, 4], [2, 3, 4], [4, 2, 3]]] 31
+  failure reason (per policy): no admissible O 36
+  failure reason (per policy): no k* 312
+  failure reason (per policy): no owner r 21
+GREEDY FAILS 123
+greedy succeeds after 0 rotations 3425
+greedy succeeds after 1 rotations 510
+greedy succeeds after 2 rotations 11
+instances 168
+instances where greedy fails from some order 21
+shown 4
+starts 4069
+time 2 s

@@ -1,0 +1,9 @@
+confirmed     the profile is a strict R1-core profile
+confirmed     the state [[4, 5], [6, 7], [1], [0], [2, 9], [3, 10]] is valid and (V3)-valid
+confirmed     (H): J = [8]; everyone holds a good, nobody is threatened by J alone, no free agent has a valid upgrade inside its holding and J
+confirmed     the state is not completable (no way of giving the leftover goods is EFX0)
+confirmed     the arc graph has exactly one cycle, [(0, 2, [4, 8]), (2, 1, [1]), (1, 3, [7, 8]), (3, 0, [0])]
+confirmed     it is an F2-clash cycle whose only shared label, 8, is used by the arcs out of the lower-pair holders 0 and 1
+confirmed     neither arc has a same-giver alternative, so Lemma 18 and Theorem 23 do not apply
+confirmed     no b-swap of Lemma 20' and no keep-own of Lemma 20(d) applies (the b of each lower-pair holder is the top of a robust pair)
+confirmed     a valid state with a larger level sum exists ([[0, 4], [6, 7], [1], [8, 9], [2], [3, 10]], level sum 28 > 26): agent 0 takes its top and keeps its c, agent 3 takes its b and good 9, agent 4 keeps its top

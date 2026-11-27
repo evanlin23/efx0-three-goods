@@ -1,0 +1,6 @@
+$ python3 k4/sdc/blocks_hand.py
+order [0, 1, 2] picks [0, 4, 7] blocks {0: 0, 1: 0, 2: 1}
+upgrades [] threatened agents and their options {0: [('r', [1]), ('r', [2]), ('r', [3])], 1: [('s', [5]), ('s', [6]), ('r', [5]), ('r', [6])], 2: [('s', [3]), ('s', [5]), ('r', [3]), ('r', [5])]} places [0, 1, 1]
+block 0 places 1 need 2
+block 1 places 1 need 1
+plain picks extend (brute force): True [[0, 1, 2, 3], [4, 5, 6], [7]] ; SAT: True

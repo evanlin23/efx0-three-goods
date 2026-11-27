@@ -1,0 +1,13 @@
+$ python3 k4/sdc/k3_disp.py 2 150 6 10
+tries 170782
+bad case 150
+continues past r 17
+continues past r: k* last extends 17
+continues past r: k* last or r last extends 17
+displacement lemma checked 3000
+ends at r, no upgraded agent (Theorem B) 115
+ends at r, no upgraded agent (Theorem B): k* last extends 115
+ends at r, no upgraded agent (Theorem B): k* last or r last extends 115
+through an upgraded agent 18
+through an upgraded agent: k* last extends 17
+through an upgraded agent: k* last or r last extends 18

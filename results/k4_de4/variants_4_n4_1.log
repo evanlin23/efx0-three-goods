@@ -1,0 +1,4 @@
+$ python3 k4/de4/run_variants.py k4_certs_4_n4_1.json.gz 8
+TOTAL k4_certs_4_n4_1.json.gz 135 cores; var0_maxima 19387319 var0_every_fail 0 var0_some_fail 0 var1_maxima 19387319 var1_every_fail 0 var1_some_fail 0 var2_maxima 19331833 var2_every_fail 0 var2_some_fail 0 profiles 8398080
+variants: 0 DE4, 1 DE4 + v3 (a lower-pair holder s b is held), 2 v3 + CD pairs (c+d < b) at level 2.5
+exit status 0

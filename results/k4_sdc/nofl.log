@@ -1,0 +1,15 @@
+$ python3 k4/sdc/nofl.py screen
+instances 168
+plain fails, l* deferred extends 11
+plain run extends 157
+time 0 s
+$ python3 k4/sdc/nofl.py suite
+instances 164
+plain fails, l* deferred extends 10
+plain run extends 154
+time 2 s
+$ python3 k4/sdc/nofl.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 33
+instances 20000
+plain fails, l* deferred extends 92
+plain run extends 19908
+time 23 s

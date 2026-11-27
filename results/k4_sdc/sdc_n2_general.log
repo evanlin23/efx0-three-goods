@@ -1,0 +1,6 @@
+$ for a in "11 2000 2 6 6" "12 2000 2 8 8" "13 1000 2 10 10" "14 2000 2 7 4"; do python3 k4/sdc/sdc_gen.py $a; done
+k 6 n 2 m 6 {True: 2000}
+k 8 n 2 m 8 {True: 2000}
+k 10 n 2 m 10 {True: 1000}
+k 4 n 2 m 7 {True: 2000}
+

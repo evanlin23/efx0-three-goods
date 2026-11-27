@@ -1,0 +1,28 @@
+$ python3 k4/de4/lploc.py rand 300 8 11
+      1     other-taker sig h:Fa>b[b<J](-1) ; u:cd>Fa[a<h](+1) ; x:bc>ab*[a<u,b<o](+1)
+      1     other-taker sig h:Fa>bc*[b<u,c<u](+2) ; u:cd>Fa[a<h](+1)
+      1     other-taker sig h:Fa>bc[b<u,c<u](+1) ; u:cd>Fa[a<h](+1)
+      1     other-taker sig h:Fa>bd[b<J,d<u](+1) ; u:cd>Fa[a<h](+1)
+      1     other-taker sig h:Fa>bd[b<u,d<u](+1) ; u:cd>Fa[a<h](+1)
+      1     other-taker sig h:Fb>c[c<u](-1) ; u:cd>Fa[a<h](+1) ; x:bc>ab*[a<u,b<o](+1)
+      1     other-taker sig h:Fb>cd[c<J,d<u](+2) ; u:cd>Fa[a<h](+1)
+      1     other-taker sig h:Fb>cd[c<u,d<J](+2) ; u:cd>Fa[a<h](+1)
+      1     other-taker sig h:Fc>Fa[a<x](+2) ; u:cd>Fa[a<h](+1) ; x:Fa>b[b<u](-1)
+      2     other-taker sig h:Fc>Fb[b<w](+1) ; w:Fd>Fc[c<h](+1)
+      1     other-taker sig h:Fc>Fb[b<x](+1) ; u:cd>Fa[a<h](+1) ; x:Fa>b[b<J](-1)
+      3     other-taker sig u:cd>Fb[b<w](+0) ; w:Fa>Fb[b<x](-1) ; x:Fa>bc*[b<u,c<u](+2)
+      1     other-taker sig u:cd>Fb[b<w](+0) ; w:Fb>cd[c<u,d<J](+2)
+      1     other-taker sig u:cd>b[b<w](+0) ; w:a>bc*[b<x,c<u](+2) ; x:ad>bd[b<u,d<o](+0)
+      1     other-taker sig u:cd>b[b<w](+0) ; w:bc*>a[a<u](-2) ; x:b>bc*[b<o,c<u](+3)
+      1     other-taker sig u:cd>b[b<w](+0) ; w:bd>bc*[b<o,c<u](+1)
+      1     other-taker sig u:cd>b[b<w](+0) ; w:cd>ad*[a<u,d<o](+1)
+      1     other-taker sig u:cd>bd[b<w,d<o](+2) ; w:ac*>ab*[a<o,b<u](+0)
+      1     other-taker sig u:cd>c[c<o](-1) ; x:a>ac*[a<o,c<u](+2)
+      1     other-taker sig u:cd>c[c<o](-1) ; x:b>bd[b<o,d<u](+2)
+      2     other-taker sig w:ab*>bc*[b<o,c<J](+0) ; x:a>ab*[a<o,b<w](+2)
+     89  LP out-arc, taker h: local raise among {u,x,h,w} 2
+     16  LP out-arc, taker other: local raise among {u,x,h,w} 2
+      9  LP out-arc, taker other: local raise among {u,x,h,w} 3
+      1  LP out-arc, taker other: local raise among {u,x,h,w} None
+     14  LP out-arc, taker w: local raise among {u,x,h,w} 2
+EX ["rand", [[2, 6, 7, 9], [4, 8, 9, 10], [2, 4, 5, 9], [1, 2, 4, 10], [1, 4, 6, 7]], [{"2": 27, "6": 18, "7": 7, "9": 17}, {"4": 23, "8": 19, "9": 7, "10": 15}, {"2": 18, "4": 5, "5": 9, "9": 8}, {"1": 7, "2": 27, "4": 23, "10": 22}, {"1": 16, "4": 27, "6": 29, "7": 4}], [[7, 9], [4], [2], [10], [1, 6]], 0, 1, [8, 9]]

@@ -1,0 +1,4 @@
+$ python3 k4/de4/claimd.py lpkeep rand 400 8 2
+        1  Lemma 20(d): valid True, {a_y, d_u} robust False, level change +0
+        6  Lemma 20(d): valid True, {a_y, d_u} robust True, level change +1
+     3200  profiles

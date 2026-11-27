@@ -1,0 +1,2 @@
+$ sdc_cores k4_certs_2.json.gz,k4_certs_3.json.gz 2000 1 56 cores
+profiles 112000 SD-C-R1 failures 0 time 66

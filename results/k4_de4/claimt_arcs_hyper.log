@@ -1,0 +1,12 @@
+$ python3 k4/de4/claimt.py arcs hyper 200 8 9500
+       72  Phi*: partial labelled arc into UR from Ur
+        6  Phi*: partial labelled arc into UR from b
+       15  Phi*: partial labelled arc into UR from fz-a
+        2  Phi*: partial labelled arc into Ur from Ur
+     2604  Phi*: states with leftover goods
+       32  maxima: partial labelled arc into UR from Ur
+        4  maxima: partial labelled arc into UR from b
+        6  maxima: partial labelled arc into UR from fz-a
+        1  maxima: partial labelled arc into Ur from Ur
+     1535  maxima: states with leftover goods
+     1600  profiles

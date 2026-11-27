@@ -1,0 +1,2 @@
+$ python3 k4/sdc/n2_sdc.py 1 20000 10
+instances 20000 SD-C failures 0

@@ -1,0 +1,25 @@
+$ python3 k4/de4/claimd.py c3 advt1 150 6 601
+        8    of which maxima: LP holder, Lemma 25 in-arcs True
+        8    of which maxima: LP holder, in-arcs True, out-arcs False, labelled False, partial labelled False, on a cycle False
+       59    of which maxima: non-robust upper holder, Lemma 25 in-arcs True
+       45    of which maxima: non-robust upper holder, in-arcs False, out-arcs False, labelled False, partial labelled False, on a cycle False
+        4    of which maxima: non-robust upper holder, in-arcs False, out-arcs True, labelled True, partial labelled True, on a cycle False
+        9    of which maxima: non-robust upper holder, in-arcs True, out-arcs False, labelled False, partial labelled False, on a cycle False
+        1    of which maxima: non-robust upper holder, in-arcs True, out-arcs True, labelled True, partial labelled True, on a cycle False
+      411    of which maxima: robust upper holder, Lemma 25 in-arcs True
+      300    of which maxima: robust upper holder, in-arcs False, out-arcs False, labelled False, partial labelled False, on a cycle False
+       23    of which maxima: robust upper holder, in-arcs False, out-arcs True, labelled False, partial labelled False, on a cycle False
+       88    of which maxima: robust upper holder, in-arcs False, out-arcs True, labelled True, partial labelled True, on a cycle False
+       10  largest level sum, (H): LP holder, Lemma 25 in-arcs True
+       10  largest level sum, (H): LP holder, in-arcs True, out-arcs False, labelled False, partial labelled False, on a cycle False
+       65  largest level sum, (H): non-robust upper holder, Lemma 25 in-arcs True
+       48  largest level sum, (H): non-robust upper holder, in-arcs False, out-arcs False, labelled False, partial labelled False, on a cycle False
+        1  largest level sum, (H): non-robust upper holder, in-arcs False, out-arcs True, labelled False, partial labelled False, on a cycle False
+        5  largest level sum, (H): non-robust upper holder, in-arcs False, out-arcs True, labelled True, partial labelled True, on a cycle False
+       10  largest level sum, (H): non-robust upper holder, in-arcs True, out-arcs False, labelled False, partial labelled False, on a cycle False
+        1  largest level sum, (H): non-robust upper holder, in-arcs True, out-arcs True, labelled True, partial labelled True, on a cycle False
+      444  largest level sum, (H): robust upper holder, Lemma 25 in-arcs True
+      319  largest level sum, (H): robust upper holder, in-arcs False, out-arcs False, labelled False, partial labelled False, on a cycle False
+       24  largest level sum, (H): robust upper holder, in-arcs False, out-arcs True, labelled False, partial labelled False, on a cycle False
+      101  largest level sum, (H): robust upper holder, in-arcs False, out-arcs True, labelled True, partial labelled True, on a cycle False
+      218  profiles

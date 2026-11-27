@@ -1,0 +1,14 @@
+$ python3 k4/sdc/oc1_bign.py 2000 12 7 6 9 120
+instances n=6 500
+instances n=7 500
+instances n=8 500
+instances n=9 500
+n=6 starts: chains needed 0 5939
+n=6 starts: chains needed 1 61
+n=7 starts: chains needed 0 5971
+n=7 starts: chains needed 1 29
+n=8 starts: chains needed 0 5985
+n=8 starts: chains needed 1 15
+n=9 starts: chains needed 0 5990
+n=9 starts: chains needed 1 10
+time 14 s

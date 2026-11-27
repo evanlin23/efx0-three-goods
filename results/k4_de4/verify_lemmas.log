@@ -1,0 +1,8 @@
+$ python3 k4/de4/verify_lemmas.py 3
+lemma4 instances: 21063
+lemma4 triple switches: 17
+prop6 instances: 2537
+prop6 ok: 2537
+states with cor5(a): 36142
+valid states: 52556
+exit status 0

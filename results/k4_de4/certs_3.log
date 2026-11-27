@@ -1,0 +1,2 @@
+$ python3 k4/de4/check.py certs k4_certs_3.json.gz 300
+certs k4_certs_3.json.gz: 51 cores, 15300 profiles (300 per core, seed 1); maxima not completable on 0; DE single-owner rule fails on 0

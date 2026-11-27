@@ -1,0 +1,10 @@
+$ python3 k4/de4/claimt.py cases k4_certs_4_n4_2.json.gz 300 8 6000
+        1    (only (V3)-breaking free self-upgrades, by UR)
+        2    (only (V3)-breaking free self-upgrades, by b)
+       26    lateral: a free self-upgrade keeping (V3)
+      437    simple: Lemma 4
+      601    simple: self-upgrade
+      695    simple: want cycle
+      114    walk closes: (V3)-valid, Pareto-better, Phi raised True
+     1873  DE rule fails, not all-upper
+     2400  profiles

@@ -1,0 +1,4 @@
+$ python3 k4/de4/claimt.py lp k4_certs_4_n4_2.json.gz 300 8 23000
+      103  Lemma 20(b): x -> D, u -> {b_u} valid and Phi-raising: True
+       67  Lemma 20(c): w -> N, u -> {b_u, c_u} valid and Phi-raising: True
+     2400  profiles

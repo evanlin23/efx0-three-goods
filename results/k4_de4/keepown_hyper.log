@@ -1,0 +1,4 @@
+$ python3 k4/de4/keepown.py hyper 200 2 9400
+      400  instances
+       48  keep-own swap applies, below Phi*: claim holds True
+time 3 s

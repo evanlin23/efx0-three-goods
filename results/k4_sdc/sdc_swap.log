@@ -1,0 +1,11 @@
+$ python3 k4/sdc/sdc_swap.py screen 20 1
+STUCK adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]], [2, 1, 0]]
+STUCK adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]], [2, 0, 1]]
+STUCK adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]], [2, 1, 0]]
+bad orders 634
+shown 3
+some single swap extends 542
+walk reaches an extendable outcome 588
+walk steps 1 542
+walk steps 2 42
+walk steps 3 4

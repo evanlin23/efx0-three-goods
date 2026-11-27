@@ -1,0 +1,49 @@
+$ python3 k4/sdc/lemma_omega.py special
+(E) holds for some policy 1
+(L) holds 4
+(L) rotations checked 4
+instances 4
+instances needing rotations 1
+policy envyFree: (E) holds (no trap) 1
+policy envyFree: needs rotations 1
+policy none: (E) holds (no trap) 1
+policy none: needs rotations 1
+policy shrink: (E) holds (no trap) 0
+policy shrink: needs rotations 1
+time 0 s
+$ python3 k4/sdc/lemma_omega.py screen
+(E) FAILS c4min-phi-n4-m8-n4pc72 [[[0, 2, 4, 7], [1, 5, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], [[3, 4, 2, 8], [3, 6, 10, 2], [4, 8, 3, 6], [4, 8, 6, 5]]]
+(E) FAILS c4min-tlam-n3-m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[4, 3, 2, 8], [4, 1, 8, 6], [2, 4, 3]]]
+(E) FAILS c4x-n3m6-3good-first [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 3, 4, 8], [1, 4, 8, 6], [2, 4, 3]]]
+(E) FAILS c4x-n3m6-onefour-a [[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [[2, 3, 4, 8], [2, 4, 3], [4, 2, 3]]]
+(E) holds for some policy 4
+(L) holds 16
+(L) rotations checked 16
+instances 168
+instances needing rotations 20
+policy envyFree: (E) holds (no trap) 4
+policy envyFree: needs rotations 20
+policy none: (E) holds (no trap) 2
+policy none: needs rotations 19
+policy shrink: (E) holds (no trap) 3
+policy shrink: needs rotations 20
+shown 4
+time 0 s
+$ python3 k4/sdc/lemma_omega.py suite
+(E) FAILS c4min-phi-n4-m8-n4pc72 [[[0, 2, 4, 7], [1, 5, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], [[3, 4, 2, 8], [3, 6, 10, 2], [4, 8, 3, 6], [4, 8, 6, 5]]]
+(E) FAILS c4min-tlam-n3-m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[4, 3, 2, 8], [4, 1, 8, 6], [2, 4, 3]]]
+(E) FAILS c4x-n3m6-3good-first [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 3, 4, 8], [1, 4, 8, 6], [2, 4, 3]]]
+(E) FAILS c4x-n3m6-onefour-a [[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [[2, 3, 4, 8], [2, 4, 3], [4, 2, 3]]]
+(E) holds for some policy 3
+(L) holds 16
+(L) rotations checked 16
+instances 161
+instances needing rotations 20
+policy envyFree: (E) holds (no trap) 3
+policy envyFree: needs rotations 20
+policy none: (E) holds (no trap) 1
+policy none: needs rotations 19
+policy shrink: (E) holds (no trap) 3
+policy shrink: needs rotations 20
+shown 4
+time 0 s

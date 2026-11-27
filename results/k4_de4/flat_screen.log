@@ -1,0 +1,5 @@
+$ python3 k4/de4/flat.py screen 1 1 0
+      234  (V3)-valid (H) states, Phi*
+      404  (V3)-valid (H) states, below Phi*
+      168  instances
+time 4 s

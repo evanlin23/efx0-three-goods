@@ -1,0 +1,4 @@
+$ python3 k4/sdc/k4_blocks.py 30 1
+bad runs 625
+blocks to reopen: 1 of 1 611
+blocks to reopen: 2 of 2 14

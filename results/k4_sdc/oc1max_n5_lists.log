@@ -1,0 +1,59 @@
+$ python3 k4/sdc/oc1max_n5_lists.py n4_3,n4_4,pure,n4_1,n4_2 3 11
+hypergraphs 31584
+... 2000 hypergraphs, 11 s
+... 4000 hypergraphs, 22 s
+... 6000 hypergraphs, 53 s
+... 8000 hypergraphs, 92 s
+... 10000 hypergraphs, 147 s
+... 12000 hypergraphs, 158 s
+... 14000 hypergraphs, 184 s
+... 16000 hypergraphs, 218 s
+... 18000 hypergraphs, 261 s
+... 20000 hypergraphs, 350 s
+... 22000 hypergraphs, 378 s
+... 24000 hypergraphs, 453 s
+... 26000 hypergraphs, 486 s
+... 28000 hypergraphs, 496 s
+... 30000 hypergraphs, 513 s
+('n4_1', 'MC2', 'max', 'one move repairs') 2003
+('n4_1', 'MC2', 'max', 'picks complete') 442709
+('n4_1', 'MC2', 'non-max', 'one move repairs') 3503
+('n4_1', 'MC2', 'non-max', 'picks complete') 35625
+('n4_1', 'two-private', 'max', 'one move repairs') 1126
+('n4_1', 'two-private', 'max', 'picks complete') 124718
+('n4_1', 'two-private', 'non-max', 'one move repairs') 2478
+('n4_1', 'two-private', 'non-max', 'picks complete') 12438
+('n4_2', 'MC2', 'max', 'one move repairs') 8938
+('n4_2', 'MC2', 'max', 'picks complete') 1221502
+('n4_2', 'MC2', 'non-max', 'one move repairs') 11905
+('n4_2', 'MC2', 'non-max', 'picks complete') 58695
+('n4_2', 'two-private', 'max', 'one move repairs') 8205
+('n4_2', 'two-private', 'max', 'picks complete') 616958
+('n4_2', 'two-private', 'non-max', 'one move repairs') 13784
+('n4_2', 'two-private', 'non-max', 'picks complete') 28493
+('n4_3', 'MC2', 'max', 'one move repairs') 20240
+('n4_3', 'MC2', 'max', 'picks complete') 1935224
+('n4_3', 'MC2', 'non-max', 'one move repairs') 18939
+('n4_3', 'MC2', 'non-max', 'picks complete') 47357
+('n4_3', 'two-private', 'max', 'one move repairs') 28197
+('n4_3', 'two-private', 'max', 'picks complete') 1444406
+('n4_3', 'two-private', 'non-max', 'OC1 fails') 12
+('n4_3', 'two-private', 'non-max', 'one move repairs') 28058
+('n4_3', 'two-private', 'non-max', 'picks complete') 27527
+('n4_4', 'MC2', 'max', 'one move repairs') 27046
+('n4_4', 'MC2', 'max', 'picks complete') 1734513
+('n4_4', 'MC2', 'non-max', 'one move repairs') 14844
+('n4_4', 'MC2', 'non-max', 'picks complete') 18557
+('n4_4', 'two-private', 'max', 'one move repairs') 39863
+('n4_4', 'two-private', 'max', 'picks complete') 1677410
+('n4_4', 'two-private', 'non-max', 'one move repairs') 20084
+('n4_4', 'two-private', 'non-max', 'picks complete') 12243
+('pure', 'MC2', 'max', 'one move repairs') 14120
+('pure', 'MC2', 'max', 'picks complete') 744331
+('pure', 'MC2', 'non-max', 'one move repairs') 4138
+('pure', 'MC2', 'non-max', 'picks complete') 2411
+('pure', 'two-private', 'max', 'one move repairs') 26932
+('pure', 'two-private', 'max', 'picks complete') 884555
+('pure', 'two-private', 'non-max', 'one move repairs') 5412
+('pure', 'two-private', 'non-max', 'picks complete') 741
+time 538 s

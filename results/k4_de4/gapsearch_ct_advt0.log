@@ -1,0 +1,11 @@
+$ MODE=claimT python3 k4/de4/gapsearch.py 42 600 40 advt0   (scratch copy of the search, still running when copied)
+round 0 final gap 4 time 172
+round 1 final gap 4 time 323
+round 2 final gap 5 time 459
+round 3 final gap 6 time 576
+round 4 final gap 5 time 677
+round 5 final gap 6 time 808
+round 6 final gap 5 time 941
+round 7 final gap 99 time 941
+round 8 final gap 6 time 1056
+round 9 final gap 4 time 1196

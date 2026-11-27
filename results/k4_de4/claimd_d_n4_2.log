@@ -1,0 +1,4 @@
+$ python3 k4/de4/claimd.py d k4_certs_4_n4_2.json.gz 150 8 1100
+        1  F2-clash cycle: Theorem 23
+      542  F2-clash cycle: clean, Lemma 18
+     1200  profiles

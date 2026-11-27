@@ -1,0 +1,18 @@
+$ python3 k4/de4/check.py xcheck
+agree k4_certs_2.json.gz core 0 | C: profiles 47 states 356 maxima 78 every_fail 0 some_fail 0 | Python: profiles 47 states 356 maxima 78 every_fail 0
+agree k4_certs_2.json.gz core 1 | C: profiles 2242 states 21153 maxima 4350 every_fail 0 some_fail 0 | Python: profiles 2242 states 21153 maxima 4350 every_fail 0
+agree k4_certs_2.json.gz core 2 | C: profiles 47 states 558 maxima 71 every_fail 0 some_fail 0 | Python: profiles 47 states 558 maxima 71 every_fail 0
+agree k4_certs_2.json.gz core 3 | C: profiles 2242 states 31243 maxima 3885 every_fail 0 some_fail 0 | Python: profiles 2242 states 31243 maxima 3885 every_fail 0
+agree k4_certs_2.json.gz core 4 | C: profiles 2242 states 43265 maxima 3342 every_fail 0 some_fail 0 | Python: profiles 2242 states 43265 maxima 3342 every_fail 0
+agree k4_certs_3.json.gz core 0 | C: profiles 3 states 16 maxima 5 every_fail 0 some_fail 0 | Python: profiles 3 states 16 maxima 5 every_fail 0
+agree k4_certs_3.json.gz core 5 | C: profiles 3 states 29 maxima 6 every_fail 0 some_fail 0 | Python: profiles 3 states 29 maxima 6 every_fail 0
+agree k4_certs_3.json.gz core 10 | C: profiles 125 states 1317 maxima 343 every_fail 0 some_fail 0 | Python: profiles 125 states 1317 maxima 343 every_fail 0
+agree k4_certs_3.json.gz core 15 | C: profiles 3 states 58 maxima 5 every_fail 0 some_fail 0 | Python: profiles 3 states 58 maxima 5 every_fail 0
+agree k4_certs_3.json.gz core 20 | C: profiles 125 states 1974 maxima 197 every_fail 0 some_fail 0 | Python: profiles 125 states 1974 maxima 197 every_fail 0
+agree k4_certs_3.json.gz core 25 | C: profiles 125 states 2361 maxima 213 every_fail 0 some_fail 0 | Python: profiles 125 states 2361 maxima 213 every_fail 0
+agree k4_certs_3.json.gz core 30 | C: profiles 125 states 2668 maxima 240 every_fail 0 some_fail 0 | Python: profiles 125 states 2668 maxima 240 every_fail 0
+agree k4_certs_3.json.gz core 35 | C: profiles 125 states 3259 maxima 257 every_fail 0 some_fail 0 | Python: profiles 125 states 3259 maxima 257 every_fail 0
+agree k4_certs_3.json.gz core 40 | C: profiles 125 states 4332 maxima 256 every_fail 0 some_fail 0 | Python: profiles 125 states 4332 maxima 256 every_fail 0
+agree k4_certs_3.json.gz core 45 | C: profiles 5971 states 354120 maxima 12749 every_fail 0 some_fail 0 | Python: profiles 5971 states 354120 maxima 12749 every_fail 0
+agree k4_certs_3.json.gz core 50 | C: profiles 5971 states 501271 maxima 11661 every_fail 0 some_fail 0 | Python: profiles 5971 states 501271 maxima 11661 every_fail 0
+xcheck: all agree

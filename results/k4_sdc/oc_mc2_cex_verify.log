@@ -1,0 +1,6 @@
+$ python3 k4/sdc/oc_mc2_cex_verify.py
+core (any): True | core in MC2 class: True | nu 5
+failing picks (0, 1, 2, None, None) orders 12 moves 232 free at picks False
+('max', 'picks complete', 'OC free ok') 50
+('non-max', 'OC1 fails', 'OC free FAILS') 12
+('non-max', 'one move repairs', 'OC free ok') 58

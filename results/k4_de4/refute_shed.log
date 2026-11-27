@@ -1,0 +1,7 @@
+confirmed     the profile is a strict R1-core profile (each agent values 3 or 4 goods, top < sum of the others)
+confirmed     the state [[4, 5], [6, 7], [1], [0], [2, 9], [3, 10]] is (V3)-valid, of the largest robust level sum 26, and no (V3)-valid state of that level sum is value-Pareto-better: a maximum of the robust order
+confirmed     it is not completable
+confirmed     no agent holds an upper set containing its top, so it is not shed-completable (K4.DE4V3R.SHED)
+confirmed     keeping the single good 2 of agent 4 (releasing 9) makes it completable (K4.DE4V3R.SHED2 holds here)
+confirmed     the instance has an EFX0 allocation
+exit 0

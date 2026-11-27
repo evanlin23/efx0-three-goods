@@ -1,0 +1,6 @@
+$ python3 k4/sdc/k3_leader_r.py 1 60 5 8 5
+{'bad case': 60, 'leader r, R1 by index: no rotation': 60, 'leader r, random R1 continuation: runs': 300, 'leader r, random R1 continuation: no rotation': 300}
+$ python3 k4/sdc/k3_leader_r.py 2 40 6 10 5
+{'bad case': 40, 'leader r, R1 by index: no rotation': 40, 'leader r, random R1 continuation: runs': 200, 'leader r, random R1 continuation: no rotation': 200}
+$ python3 k4/sdc/k3_leader_r.py 3 30 8 13 3
+{'bad case': 30, 'leader r, R1 by index: no rotation': 30, 'leader r, random R1 continuation: runs': 90, 'leader r, random R1 continuation: no rotation': 90}

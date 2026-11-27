@@ -1,0 +1,12 @@
+$ python3 k4/sdc/blocks4.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 4000 11
+(P') ... owner's block short by <= 1 3999
+(P) every block self-sufficient, some owner 3983
+Lemma K (K = empty) deficit <= 0 or omega <= 0 3983
+instances 4000
+omega <= 0 2859
+omega > 0: (P) 1124
+omega > 0: Lemma K 1124
+omega > 0: Lemma K but not (P) 0
+omega > 0: least number of short blocks = 0 1124
+omega > 0: least number of short blocks = 1 17
+plain extends 3983

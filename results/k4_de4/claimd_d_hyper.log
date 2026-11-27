@@ -1,0 +1,4 @@
+$ python3 k4/de4/claimd.py d hyper 300 8 300
+        8  F2-clash cycle: Theorem 23
+      609  F2-clash cycle: clean, Lemma 18
+     2400  profiles

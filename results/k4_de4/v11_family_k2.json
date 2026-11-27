@@ -1,0 +1,1 @@
+{"comment": "the hypergraphs of V11 (attempts/k4-de4-variants.md): hungry cycles of length 2 (n = 6) and 3 (n = 9)", "hypergraphs": [[[0, 1, 2, 3], [4, 5, 6, 7], [3, 4, 5, 8], [0, 1, 7, 8], [0, 1, 4], [0, 4, 5]]]}

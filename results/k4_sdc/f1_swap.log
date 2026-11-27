@@ -1,0 +1,42 @@
+$ python3 k4/sdc/f1_swap.py special
+time 0 s
+$ python3 k4/sdc/f1_swap.py screen
+  (A) completion without a chain 102
+  (B) every wanter has a repairing swap 6
+  (B) every wanter repairs with x's best H_0 6
+  (B) some swap repairs 6
+  needs a chain 6
+  needs a chain, |W| = 1 4
+  needs a chain, |W| = 2 2
+outcomes with one frozen agent 108
+time 0 s
+$ python3 k4/sdc/f1_swap.py suite
+  (A) completion without a chain 102
+  (B) every wanter has a repairing swap 6
+  (B) every wanter repairs with x's best H_0 6
+  (B) some swap repairs 6
+  needs a chain 6
+  needs a chain, |W| = 1 4
+  needs a chain, |W| = 2 2
+outcomes with one frozen agent 108
+time 0 s
+$ python3 k4/sdc/f1_swap.py logs
+  (A) completion without a chain 650
+  (B) every wanter has a repairing swap 15
+  (B) every wanter repairs with x's best H_0 15
+  (B) some swap repairs 15
+  needs a chain 15
+  needs a chain, |W| = 1 13
+  needs a chain, |W| = 2 2
+outcomes with one frozen agent 665
+time 2 s
+$ python3 k4/sdc/f1_swap.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 4000 92
+  (A) completion without a chain 3045
+  (B) every wanter has a repairing swap 2
+  (B) every wanter repairs with x's best H_0 1
+  (B) some swap repairs 2
+  needs a chain 2
+  needs a chain, |W| = 1 1
+  needs a chain, |W| = 2 1
+outcomes with one frozen agent 3047
+time 6 s

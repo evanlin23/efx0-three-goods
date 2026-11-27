@@ -1,0 +1,135 @@
+$ python3 k4/sdc/nf_owner.py special
+TWO T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]]
+instances 4
+needs two rotations 1
+no output at the start 1
+time 0 s
+$ python3 k4/sdc/nf_owner.py screen
+NO K-OWNER c4x-n3m6-ef-bases [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[3, 5, 6, 7], [4, 6, 5, 8], [5, 4, 6, 8]]] ['end=r', 'off']
+NO K-OWNER induct-b-r2 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 6], [4, 5, 6]], [[4, 7, 2, 8], [3, 2, 4], [3, 2, 4], [2, 3, 4]]] ['none']
+instances 168
+no output at the start 21
+one rotation 21
+one rotation, classes end=r+k 1
+one rotation, classes end=r+k+none 1
+one rotation, classes end=r+k+off 5
+one rotation, classes end=r+off 1
+one rotation, classes k 6
+one rotation, classes k+none+off 1
+one rotation, classes k+off 5
+one rotation, classes none 1
+one rotation, some output owned by end 0
+one rotation, some output owned by end=r 8
+one rotation, some output owned by k 19
+one rotation, some output owned by k, by r at the chain end, or by none 21
+one rotation, some output owned by mid 0
+one rotation, some output owned by none 3
+one rotation, some output owned by off 12
+shown 2
+time 0 s
+$ python3 k4/sdc/nf_owner.py suite
+NO K-OWNER c4x-n3m6-ef-bases [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[3, 5, 6, 7], [4, 6, 5, 8], [5, 4, 6, 8]]] ['end=r', 'off']
+NO K-OWNER induct-b-r2 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 6], [4, 5, 6]], [[4, 7, 2, 8], [3, 2, 4], [3, 2, 4], [2, 3, 4]]] ['none']
+instances 161
+no output at the start 21
+one rotation 21
+one rotation, classes end=r+k+none 1
+one rotation, classes end=r+k+off 5
+one rotation, classes end=r+off 1
+one rotation, classes k 7
+one rotation, classes k+none+off 1
+one rotation, classes k+off 5
+one rotation, classes none 1
+one rotation, some output owned by end 0
+one rotation, some output owned by end=r 7
+one rotation, some output owned by k 19
+one rotation, some output owned by k, by r at the chain end, or by none 21
+one rotation, some output owned by mid 0
+one rotation, some output owned by none 3
+one rotation, some output owned by off 12
+shown 2
+time 0 s
+$ python3 k4/sdc/nf_owner.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 91
+NO K-OWNER r484 [[[0, 2, 3, 4], [1, 3, 4], [2, 3, 4]], [[4, 6, 8, 1], [3, 4, 2], [4, 3, 2]]] ['none']
+NO K-OWNER r539 [[[0, 2, 3, 4], [1, 2, 3, 4], [1, 3, 4]], [[4, 5, 2, 8], [2, 4, 7, 10], [2, 4, 3]]] ['none']
+NO K-OWNER r790 [[[0, 3, 4], [1, 2, 3, 4], [1, 2, 4]], [[2, 3, 4], [4, 8, 3, 10], [2, 3, 4]]] ['none']
+NO K-OWNER r1173 [[[0, 2, 3, 4], [1, 3, 4], [2, 3, 4]], [[2, 10, 6, 7], [2, 3, 4], [3, 2, 4]]] ['none']
+instances 20000
+no output at the start 118
+one rotation 118
+one rotation, classes end+k+off 2
+one rotation, classes end=r+k 7
+one rotation, classes end=r+k+mid 6
+one rotation, classes end=r+k+mid+off 3
+one rotation, classes end=r+k+none 6
+one rotation, classes end=r+k+none+off 4
+one rotation, classes end=r+k+off 11
+one rotation, classes k 10
+one rotation, classes k+none 25
+one rotation, classes k+none+off 15
+one rotation, classes k+off 11
+one rotation, classes none 18
+one rotation, some output owned by end 2
+one rotation, some output owned by end=r 37
+one rotation, some output owned by k 100
+one rotation, some output owned by k, by r at the chain end, or by none 118
+one rotation, some output owned by mid 9
+one rotation, some output owned by none 68
+one rotation, some output owned by off 46
+shown 4
+time 14 s
+$ python3 k4/sdc/nf_owner.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 92
+NO K-OWNER r453 [[[0, 2, 3, 4], [1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[6, 4, 8, 1], [2, 4, 3], [10, 6, 7, 2], [3, 4, 2]]] ['none']
+NO K-OWNER r1170 [[[0, 1, 5], [1, 3, 4, 5], [2, 3, 4, 5], [2, 4, 5]], [[3, 2, 4], [4, 2, 8, 7], [8, 3, 6, 10], [2, 3, 4]]] ['none']
+NO K-OWNER r1707 [[[0, 1, 2, 4], [0, 2, 5], [1, 3, 4, 5], [3, 4, 5]], [[2, 10, 4, 7], [3, 2, 4], [7, 6, 5, 3], [3, 2, 4]]] ['none']
+NO K-OWNER r2533 [[[0, 2, 3], [1, 3, 4, 5], [2, 4, 5], [3, 4, 5]], [[2, 4, 3], [4, 2, 7, 8], [4, 3, 2], [2, 3, 4]]] ['none']
+instances 20000
+no output at the start 100
+one rotation 100
+one rotation, classes end+k+mid+off 1
+one rotation, classes end+k+none+off 1
+one rotation, classes end+k+off 2
+one rotation, classes end=r+k 6
+one rotation, classes end=r+k+mid 2
+one rotation, classes end=r+k+mid+none 2
+one rotation, classes end=r+k+mid+off 7
+one rotation, classes end=r+k+none 8
+one rotation, classes end=r+k+none+off 11
+one rotation, classes end=r+k+off 9
+one rotation, classes k+mid+off 1
+one rotation, classes k+none 14
+one rotation, classes k+none+off 5
+one rotation, classes k+off 4
+one rotation, classes none 27
+one rotation, some output owned by end 4
+one rotation, some output owned by end=r 45
+one rotation, some output owned by k 73
+one rotation, some output owned by k, by r at the chain end, or by none 100
+one rotation, some output owned by mid 13
+one rotation, some output owned by none 68
+one rotation, some output owned by off 41
+shown 4
+time 23 s
+$ python3 k4/sdc/nf_owner.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 6000 93
+NO K-OWNER r126 [[[0, 1, 4], [1, 3, 5, 6], [2, 3, 5, 6], [2, 4, 6], [4, 5, 6]], [[3, 2, 4], [3, 6, 5, 7], [5, 6, 7, 3], [2, 4, 3], [4, 3, 2]]] ['none']
+NO K-OWNER r651 [[[0, 2, 3, 4], [1, 3, 5, 6], [3, 5, 6], [4, 5, 6], [4, 5, 6]], [[7, 4, 2, 10], [7, 8, 4, 2], [3, 2, 4], [3, 4, 2], [4, 3, 2]]] ['none']
+NO K-OWNER r1167 [[[0, 2, 5], [1, 2, 3, 6], [1, 4, 5, 6], [3, 4, 6], [4, 5, 6]], [[2, 3, 4], [1, 6, 8, 4], [2, 6, 10, 7], [2, 4, 3], [3, 2, 4]]] ['none']
+NO K-OWNER r3140 [[[0, 2, 3], [1, 4, 5, 6], [2, 4, 5, 6], [3, 5, 6], [4, 5, 6]], [[2, 3, 4], [3, 4, 8, 6], [4, 2, 8, 5], [4, 2, 3], [4, 3, 2]]] ['none']
+instances 6000
+no output at the start 19
+one rotation 19
+one rotation, classes end+k+none+off 1
+one rotation, classes end=r+k+none 2
+one rotation, classes end=r+k+none+off 2
+one rotation, classes k+none 2
+one rotation, classes k+none+off 2
+one rotation, classes none 10
+one rotation, some output owned by end 1
+one rotation, some output owned by end=r 4
+one rotation, some output owned by k 9
+one rotation, some output owned by k, by r at the chain end, or by none 19
+one rotation, some output owned by mid 0
+one rotation, some output owned by none 19
+one rotation, some output owned by off 5
+shown 4
+time 7 s

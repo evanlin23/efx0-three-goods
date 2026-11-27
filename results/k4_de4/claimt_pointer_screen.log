@@ -1,0 +1,7 @@
+$ python3 k4/de4/claimt.py pointer screen 1 1 1
+        2    no clean raising cycle: kinds LP LP fz-a fz-a | smallest Phi-raise changes 2 agents: LP->{b:fz-a} fz-a->{b:J,c:LP}
+        2  pointer map total; best cycle with disjoint labels: None
+       74  pointer map total; best cycle with disjoint labels: raise
+        8  some agent threatened by J alone (not tested here)
+EX ["GM4-B", [[0, 2, 5, 6], [1, 4, 5, 6], [2, 3, 4, 6], [3, 4, 5, 6]], [{"0": 4, "2": 2, "5": 8, "6": 5}, {"1": 3, "4": 6, "5": 8, "6": 10}, {"2": 4, "3": 5, "4": 2, "6": 8}, {"3": 5, "4": 4, "5": 8, "6": 2}], [[0, 2], [1, 4], [6], [5]], ["LP", "LP", "fz-a", "fz-a"]]
+EX ["gm4-B", [[0, 2, 5, 6], [1, 4, 5, 6], [2, 3, 4, 6], [3, 4, 5, 6]], [{"0": 4, "2": 2, "5": 8, "6": 5}, {"1": 3, "4": 6, "5": 8, "6": 10}, {"2": 4, "3": 5, "4": 2, "6": 8}, {"3": 5, "4": 4, "5": 8, "6": 2}], [[0, 2], [1, 4], [6], [5]], ["LP", "LP", "fz-a", "fz-a"]]

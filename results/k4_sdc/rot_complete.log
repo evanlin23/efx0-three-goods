@@ -1,0 +1,60 @@
+$ python3 k4/sdc/rot_complete.py special
+instances 4
+instances with a dead start 0
+reachable-set size > 500 0
+starts 178
+starts: least rotations 0 105
+starts: least rotations 1 64
+starts: least rotations 2 9
+time 0 s
+$ python3 k4/sdc/rot_complete.py screen 4000
+instances 168
+instances with a dead start 0
+reachable-set size > 500 0
+starts 4237
+starts: least rotations 0 3556
+starts: least rotations 1 620
+starts: least rotations 2 61
+time 1 s
+$ python3 k4/sdc/rot_complete.py suite 4000
+instances 158
+instances with a dead start 0
+reachable-set size > 500 0
+starts 4485
+starts: least rotations 0 3667
+starts: least rotations 1 757
+starts: least rotations 2 61
+time 1 s
+$ python3 k4/sdc/rot_complete.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 81
+instances 3000
+instances with a dead start 0
+reachable-set size > 500 0
+starts 19928
+starts: least rotations 0 19334
+starts: least rotations 1 594
+time 3 s
+$ python3 k4/sdc/rot_complete.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 82
+instances 1500
+instances with a dead start 0
+reachable-set size > 500 0
+starts 37500
+starts: least rotations 0 36431
+starts: least rotations 1 1069
+time 5 s
+$ python3 k4/sdc/rot_complete.py suite 6000
+instances 161
+instances with a dead start 0
+reachable-set size > 500 0
+starts 4548
+starts: least rotations 0 3717
+starts: least rotations 1 767
+starts: least rotations 2 64
+time 2 s
+$ python3 k4/sdc/rot_complete.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 600 83
+instances 600
+instances with a dead start 0
+reachable-set size > 500 0
+starts 72600
+starts: least rotations 0 71899
+starts: least rotations 1 701
+time 6 s

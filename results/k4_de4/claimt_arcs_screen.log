@@ -1,0 +1,22 @@
+$ python3 k4/de4/claimt.py arcs screen 1 1 1
+        7  Phi*: free agent threatened by J alone (lateral), kind b
+       12  Phi*: partial labelled arc into UR from Ur
+       31  Phi*: partial labelled arc into UR from b
+       72  Phi*: partial labelled arc into UR from fz-a
+        2  Phi*: partial labelled arc into UR from fz-b
+        2  Phi*: partial labelled arc into Ud from Ur
+        1  Phi*: partial labelled arc into Ud from fz-a
+        1  Phi*: partial labelled arc into Ur from b
+        5  Phi*: partial labelled arc into Ur from fz-a
+        4  Phi*: partial labelled arc into Ur from fz-b
+      329  Phi*: states with leftover goods
+        7  maxima: free agent threatened by J alone (lateral), kind b
+        2  maxima: partial labelled arc into UR from Ur
+       26  maxima: partial labelled arc into UR from b
+       63  maxima: partial labelled arc into UR from fz-a
+        2  maxima: partial labelled arc into UR from fz-b
+        1  maxima: partial labelled arc into Ud from Ur
+        1  maxima: partial labelled arc into Ud from fz-a
+        5  maxima: partial labelled arc into Ur from fz-a
+        4  maxima: partial labelled arc into Ur from fz-b
+      236  maxima: states with leftover goods

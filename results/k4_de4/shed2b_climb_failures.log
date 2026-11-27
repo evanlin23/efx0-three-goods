@@ -1,0 +1,5 @@
+$ python3 k4/de4/shed_climb2.py 61 300 8 json:results/k4_de4/robust_failures.json
+round 0 final gap 99 time 103
+round 1 final gap 6 time 268
+round 2 final gap 50 time 409
+stopped: superseded by the run without drift to 99 (shed2c_climb_*.log)

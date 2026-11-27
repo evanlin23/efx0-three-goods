@@ -1,0 +1,5 @@
+$ python3 k4/sdc/refute_md2.py
+X = [[0, 2], [1, 4], [5], [6]] values [9, 7, 8, 8] X is partial EFX0: True unallocated: [3]
+complete EFX0 allocations: 16 ; of these value-dominating X: 0
+REFUTED: two-pair domination fails
+matchings: 337 ; not value-dominated: 0

@@ -1,0 +1,25 @@
+$ python3 k4/de4/lploc.py hyper 300 8 13
+      1     other-taker sig h:Fa>b[b<x](-1) ; u:cd>Fa[a<h](+1) ; x:bc>ac*[a<u,c<o](+1)
+      1     other-taker sig h:Fa>b[b<x](-1) ; u:cd>Fa[a<h](+1) ; x:cd>ac*[a<u,c<o](+1)
+      1     other-taker sig h:Fa>bc*[b<J,c<u](+2) ; u:cd>Fa[a<h](+1)
+      2     other-taker sig h:Fa>bc*[b<u,c<J](+2) ; u:cd>Fa[a<h](+1)
+      3     other-taker sig h:Fb>Fa[a<x](+1) ; u:cd>Fa[a<h](+1) ; x:Fa>b[b<J](-1)
+      3     other-taker sig h:Fb>Fa[a<x](+1) ; u:cd>Fa[a<h](+1) ; x:Fa>b[b<u](-1)
+      1     other-taker sig h:Fc>Fb[b<x](+1) ; u:cd>Fa[a<h](+1) ; x:Fa>b[b<u](-1)
+      1     other-taker sig u:cd>b[b<w](+0) ; w:bc*>ab*[a<x,b<o](+0) ; x:bc>ad*[a<u,d<u](+1)
+      1     other-taker sig u:cd>bc*[b<w,c<o](+3) ; w:ac*>bd[b<u,d<J](-1)
+      1     other-taker sig u:cd>bc[b<w,c<o](+2) ; w:ab*>bc*[b<o,c<J](+0)
+      2     other-taker sig u:cd>bc[b<w,c<o](+2) ; w:ab*>bd[b<o,d<J](-1)
+      1     other-taker sig u:cd>bc[b<w,c<o](+2) ; w:ac*>a[a<o](-2) ; x:b>bc[b<o,c<u](+2)
+      1     other-taker sig u:cd>bc[b<w,c<o](+2) ; w:bc*>ab*[a<u,b<o](+0)
+      1     other-taker sig u:cd>bd[b<w,d<o](+2) ; w:ab*>bc[b<o,c<J](-1)
+      1     other-taker sig u:cd>c[c<o](-1) ; x:a>ab*[a<o,b<u](+2)
+      1     other-taker sig w:a>ab*[a<o,b<x](+2) ; x:bc>bd[b<o,d<J](+0)
+      1     other-taker sig w:c>Fa[a<x](+2) ; x:Fa>b[b<J](-1)
+    129  LP out-arc, taker h: local raise among {u,x,h,w} 2
+     12  LP out-arc, taker other: local raise among {u,x,h,w} 2
+     11  LP out-arc, taker other: local raise among {u,x,h,w} 3
+      2  LP out-arc, taker other: local raise among {u,x,h,w} None
+     33  LP out-arc, taker w: local raise among {u,x,h,w} 2
+EX ["hyper", [[0, 2, 6, 10], [0, 3, 8], [2, 3, 5, 8], [2, 5, 8, 9], [2, 6, 9, 10]], [{"0": 10, "2": 2, "6": 6, "10": 7}, {"0": 3, "3": 4, "8": 2}, {"2": 10, "3": 2, "5": 7, "8": 4}, {"2": 8, "5": 3, "8": 6, "9": 10}, {"2": 5, "6": 2, "9": 8, "10": 4}], [[0], [3, 8], [2, 5], [9], [6, 10]], 4, 0, [6, 10]]
+EX ["hyper", [[0, 2, 6, 10], [0, 3, 8], [2, 3, 5, 8], [2, 5, 8, 9], [2, 6, 9, 10]], [{"0": 5, "2": 8, "6": 4, "10": 2}, {"0": 2, "3": 3, "8": 4}, {"2": 10, "3": 3, "5": 8, "8": 6}, {"2": 3, "5": 8, "8": 6, "9": 4}, {"2": 8, "6": 3, "9": 6, "10": 4}], [[6, 10], [0, 3], [2], [5, 8], [9]], 0, 4, [6, 10]]

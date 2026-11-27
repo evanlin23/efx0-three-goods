@@ -1,0 +1,8 @@
+$ python3 k4/de4/cycle.py walk k4_certs_3.json.gz,k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 250 120
+k4_certs_3.json.gz,k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz: 120 jobs x 250 random profiles
+  resolved by walk2 (keep-own arcs, cycle-closing first): 4
+move: chain or self-upgrade (Lemma 4, 4'): 12902
+move: walk ring (Theorem 9): 5814
+non-completable valid states: 18720
+walk stuck at a free agent holding >= 2 goods: 4
+exit status 0

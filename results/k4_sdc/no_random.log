@@ -1,0 +1,10 @@
+rand {'instances': 150, 'NO holds': 150} time 1
+hyper {'instances': 150, 'NO holds': 150} time 0
+advt4x {'instances': 150, 'NO holds': 150} time 2
+advt3x {'instances': 150, 'NO holds': 150} time 2
+advt2 {'instances': 150, 'NO holds': 150} time 2
+big8 {'instances': 150, 'NO holds': 150} time 3
+k3_7 {'instances': 150, 'NO holds': 150} time 1
+cores:k4_certs_2.json.gz,k4_certs_3.json.gz {'instances': 20000, 'NO holds': 20000} time 24
+gen:3:7:7 {'instances': 1000, 'NO holds': 1000} time 18
+gen:4:8:5 {'instances': 800, 'NO holds': 800} time 4

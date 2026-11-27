@@ -1,0 +1,11 @@
+$ python3 k4/de4/lploc.py screen 1 1 1
+      2     other-taker sig h:Fa>bc*[b<u,c<J](+2) ; u:cd>Fa[a<h](+1)
+      1     other-taker sig h:Fa>bcd*[b<u,c<J,d<J](+2) ; u:cd>Fa[a<h](+1)
+      1     other-taker sig u:cd>b[b<w](+0) ; w:bc*>ab*[a<x,b<o](+0) ; x:a>bc[b<u,c<u](+1)
+      1     other-taker sig u:cd>b[b<w](+0) ; w:bd>bc*[b<o,c<x](+1) ; x:cd>bd[b<u,d<o](+0)
+      1     other-taker sig u:cd>bc[b<w,c<o](+2) ; w:b>Fa[a<x](+1) ; x:Fa>b[b<J](-1)
+      2     other-taker sig u:cd>c[c<o](-1) ; x:b>bc[b<o,c<u](+2)
+      8  LP out-arc, taker h: local raise among {u,x,h,w} 2
+      5  LP out-arc, taker other: local raise among {u,x,h,w} 2
+      3  LP out-arc, taker other: local raise among {u,x,h,w} 3
+     19  LP out-arc, taker w: local raise among {u,x,h,w} 2

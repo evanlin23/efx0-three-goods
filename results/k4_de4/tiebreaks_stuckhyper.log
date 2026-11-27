@@ -1,0 +1,48 @@
+$ python3 k4/de4/run_tiebreaks.py results/k4_de4/stuck_hypergraphs_n4.json.gz 64
+core 1 [[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]] {'crit1_every_fail': 1440, 'crit2_every_fail': 1440, 'crit3_every_fail': 1440, 'crit5_every_fail': 1440}
+core 2 [[0, 1, 2, 4], [1, 3, 4, 5], [2, 3, 4, 5]] {'crit1_every_fail': 1440, 'crit2_every_fail': 1440, 'crit3_every_fail': 1440, 'crit5_every_fail': 1440}
+core 4 [[0, 1, 3, 5], [0, 1, 4, 8], [1, 4, 5, 8]] {'crit1_every_fail': 1440, 'crit2_every_fail': 1440, 'crit3_every_fail': 1440, 'crit5_every_fail': 1440}
+core 12 [[0, 3, 4, 7], [1, 3, 6, 7], [2, 5, 6, 7], [4, 5, 7]] {'crit0_every_fail': 16, 'crit4_every_fail': 16}
+core 1 FAIL crit 1 profile 2495425: [4,8,3,2] [8,4,3,2] [10,7,2,4] state: 2 4 28
+core 1 FAIL crit 2 profile 2495425: [4,8,3,2] [8,4,3,2] [10,7,2,4] state: 2 4 28
+core 1 FAIL crit 3 profile 2495425: [4,8,3,2] [8,4,3,2] [10,7,2,4] state: 2 4 28
+core 1 FAIL crit 5 profile 2495425: [4,8,3,2] [8,4,3,2] [10,7,2,4] state: 2 4 28
+core 1 FAIL crit 1 profile 2495617: [4,8,3,2] [8,4,2,3] [8,6,3,4] state: 2 4 28
+core 1 FAIL crit 2 profile 2495617: [4,8,3,2] [8,4,2,3] [8,6,3,4] state: 2 4 28
+core 1 FAIL crit 3 profile 2495617: [4,8,3,2] [8,4,2,3] [8,6,3,4] state: 2 4 28
+core 1 FAIL crit 5 profile 2495617: [4,8,3,2] [8,4,2,3] [8,6,3,4] state: 2 4 28
+core 1 FAIL crit 1 profile 2495428: [4,8,3,2] [8,4,3,2] [10,4,2,7] state: 2 4 28
+core 1 FAIL crit 2 profile 2495428: [4,8,3,2] [8,4,3,2] [10,4,2,7] state: 2 4 28
+core 1 FAIL crit 3 profile 2495428: [4,8,3,2] [8,4,3,2] [10,4,2,7] state: 2 4 28
+core 1 FAIL crit 5 profile 2495428: [4,8,3,2] [8,4,3,2] [10,4,2,7] state: 2 4 28
+core 1 FAIL crit 1 profile 2495620: [4,8,3,2] [8,4,2,3] [8,4,3,6] state: 2 4 28
+core 1 FAIL crit 2 profile 2495620: [4,8,3,2] [8,4,2,3] [8,4,3,6] state: 2 4 28
+core 1 FAIL crit 3 profile 2495620: [4,8,3,2] [8,4,2,3] [8,4,3,6] state: 2 4 28
+core 1 FAIL crit 5 profile 2495620: [4,8,3,2] [8,4,2,3] [8,4,3,6] state: 2 4 28
+core 1 FAIL crit 1 profile 3500101: [4,3,2,8] [2,8,5,4] [4,2,8,3] state: 10 28 4
+core 1 FAIL crit 2 profile 3500101: [4,3,2,8] [2,8,5,4] [4,2,8,3] state: 10 28 4
+core 1 FAIL crit 3 profile 3500101: [4,3,2,8] [2,8,5,4] [4,2,8,3] state: 10 28 4
+core 1 FAIL crit 5 profile 3500101: [4,3,2,8] [2,8,5,4] [4,2,8,3] state: 10 28 4
+core 1 FAIL crit 1 profile 3500293: [4,3,2,8] [2,8,5,4] [7,2,10,6] state: 10 28 4
+core 1 FAIL crit 2 profile 3500293: [4,3,2,8] [2,8,5,4] [7,2,10,6] state: 10 28 4
+core 1 FAIL crit 3 profile 3500293: [4,3,2,8] [2,8,5,4] [7,2,10,6] state: 10 28 4
+core 1 FAIL crit 5 profile 3500293: [4,3,2,8] [2,8,5,4] [7,2,10,6] state: 10 28 4
+core 1 FAIL crit 1 profile 3500172: [4,3,2,8] [2,8,5,4] [6,4,8,3] state: 10 28 4
+core 1 FAIL crit 2 profile 3500172: [4,3,2,8] [2,8,5,4] [6,4,8,3] state: 10 28 4
+core 1 FAIL crit 3 profile 3500172: [4,3,2,8] [2,8,5,4] [6,4,8,3] state: 10 28 4
+core 1 FAIL crit 5 profile 3500172: [4,3,2,8] [2,8,5,4] [6,4,8,3] state: 10 28 4
+core 1 FAIL crit 1 profile 3500748: [4,3,2,8] [2,8,4,5] [6,4,8,3] state: 10 28 4
+core 1 FAIL crit 2 profile 3500748: [4,3,2,8] [2,8,4,5] [6,4,8,3] state: 10 28 4
+core 1 FAIL crit 3 profile 3500748: [4,3,2,8] [2,8,4,5] [6,4,8,3] state: 10 28 4
+core 1 FAIL crit 5 profile 3500748: [4,3,2,8] [2,8,4,5] [6,4,8,3] state: 10 28 4
+core 1 FAIL crit 1 profile 3500173: [4,3,2,8] [2,8,5,4] [6,3,8,4] state: 10 28 4
+core 1 FAIL crit 2 profile 3500173: [4,3,2,8] [2,8,5,4] [6,3,8,4] state: 10 28 4
+core 1 FAIL crit 3 profile 3500173: [4,3,2,8] [2,8,5,4] [6,3,8,4] state: 10 28 4
+core 1 FAIL crit 5 profile 3500173: [4,3,2,8] [2,8,5,4] [6,3,8,4] state: 10 28 4
+core 1 FAIL crit 1 profile 3500749: [4,3,2,8] [2,8,4,5] [6,3,8,4] state: 10 28 4
+core 1 FAIL crit 2 profile 3500749: [4,3,2,8] [2,8,4,5] [6,3,8,4] state: 10 28 4
+core 1 FAIL crit 3 profile 3500749: [4,3,2,8] [2,8,4,5] [6,3,8,4] state: 10 28 4
+core 1 FAIL crit 5 profile 3500749: [4,3,2,8] [2,8,4,5] [6,3,8,4] state: 10 28 4
+TOTAL results/k4_de4/stuck_hypergraphs_n4.json.gz 16 cores; crit0_maxima 2787243694 crit0_every_fail 16 crit0_some_fail 0 crit1_maxima 2781905686 crit1_every_fail 4320 crit1_some_fail 0 crit2_maxima 2764738638 crit2_every_fail 4320 crit2_some_fail 0 crit3_maxima 2781905686 crit3_every_fail 4320 crit3_some_fail 0 crit4_maxima 2787240014 crit4_every_fail 16 crit4_some_fail 0 crit5_maxima 2764560990 crit5_every_fail 4320 crit5_some_fail 0 profiles 911720448
+criteria: 0 none (DE4), 1 fewest lower pairs, 2 most leftover goods, 3 fewest multi-good holdings, 4 fewest frozen, 5 fewest lower pairs then most leftover
+exit status 0

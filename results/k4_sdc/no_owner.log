@@ -1,0 +1,21 @@
+$ python3 k4/sdc/no_owner.py screen
+LAST works 153
+LEAST works 140
+PRIV works 143
+instances 168
+owners that work: 1 of 1 1
+owners that work: 1 of 2 3
+owners that work: 1 of 3 17
+owners that work: 1 of 4 1
+owners that work: 2 of 2 15
+owners that work: 2 of 3 20
+owners that work: 2 of 4 11
+owners that work: 3 of 3 23
+owners that work: 3 of 4 18
+owners that work: 3 of 5 2
+owners that work: 4 of 4 43
+owners that work: 4 of 5 3
+owners that work: 5 of 5 11
+fails LAST 15 ['D3', 'c4-lbplus-rotation-n3m6', 'c4min-phi-n4-m8-n4pc72', 'c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a']
+fails LEAST 28 ['D3', 'adaptive-p3', 'c4-lbplus-rotation-n3m6', 'c4-one-rotation-two4-n3m6', 'c4min-phi-n4-m8-n4pc72', 'c4min-tlam-n3-m6']
+fails PRIV 25 ['adaptive-p1', 'adaptive-p3', 'c4-gadget-stacking-1copy-n3m6', 'c4-one-rotation-two4-n3m6', 'gap-ipoollocal-n4-m9-n43c304', 'gap-phi-n4-m8-pure104']

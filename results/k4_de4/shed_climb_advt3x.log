@@ -1,0 +1,7 @@
+$ python3 k4/de4/shed_climb.py 33 300 6 advt3x
+round 0 final gap 99 time 175
+round 1 final gap 99 time 321
+round 2 final gap 99 time 488
+round 3 final gap 99 time 623
+round 4 final gap 99 time 803
+stopped after 5 rounds: the conjecture it tests (SHED=top) was refuted meanwhile (refute_shed.py)

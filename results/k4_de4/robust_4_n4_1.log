@@ -1,0 +1,4 @@
+$ python3 k4/de4/run_robust.py k4_certs_4_n4_1.json.gz 8
+TOTAL k4_certs_4_n4_1.json.gz 135 cores; var0_maxima 19387319 var0_every_fail 0 var0_some_fail 0 var1_maxima 17744117 var1_every_fail 0 var1_some_fail 0 var2_maxima 17447043 var2_every_fail 0 var2_some_fail 0 var3_maxima 17744117 var3_every_fail 0 var3_some_fail 0 overflow 0 profiles 8398080
+variants: 0 DE4^v3 (control), 1 DE4^v3 + robust upper sets at level 6 (the candidate), 2 the same at 5.5, 3 robust at 6 without (V3) (control)
+exit status 0

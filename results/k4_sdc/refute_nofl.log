@@ -1,0 +1,44 @@
+$ python3 k4/sdc/refute_nofl.py
+r4253 (n = 4) order [0, 2, 3, 1] picks [5, 1, 4, 6] leaders [0] l* 0
+   plain run extends: False
+   l* deferred, picks [2, 6, 4, 5] extends: False
+   defer 0: extends False 
+   defer 2: extends True [[5], [4, 0, 1], [3, 2], [6]]
+   defer 3: extends False 
+   defer 1: extends False 
+   without R1 priority: order [0, 1, 3, 2] picks [5, 4, 3, 6] extends True [[5], [4, 0, 1], [3, 2], [6]]
+   without R1, one agent deferred (NOF): {0: True, 1: False, 3: True, 2: True}
+   NO(o), o last: {0: True, 1: False, 2: True, 3: True}
+   orders whose picks extend (SD-C): [(0, 1, 2, 3), (0, 1, 3, 2), (0, 3, 1, 2), (1, 0, 2, 3), (1, 0, 3, 2), (1, 2, 0, 3), (1, 2, 3, 0), (1, 3, 0, 2), (1, 3, 2, 0), (3, 0, 1, 2), (3, 1, 0, 2), (3, 1, 2, 0)]
+r3943 (n = 5) order [2, 0, 1, 3, 4] picks [4, 2, 3, 6, 5] leaders [2] l* 2
+   plain run extends: False
+   l* deferred, picks [4, 3, None, 2, 6] extends: False
+   defer 2: extends False 
+   defer 0: extends True [[0, 1, 5], [2], [3], [6], [4]]
+   defer 1: extends True [[4], [5, 0], [3], [2], [6, 1]]
+   defer 3: extends False 
+   defer 4: extends False 
+   without R1 priority: order [2, 3, 1, 0, 4] picks [0, 4, 3, 2, 6] extends True [[0, 1, 5], [4], [3], [2], [6]]
+   without R1, one agent deferred (NOF): {2: False, 3: False, 1: True, 0: True, 4: True}
+   NO(o), o last: {0: True, 1: True, 2: True, 3: True, 4: True}
+T3 (n = 3, m = 6; strict core found by k4/sdc/nf_lb4r.py climb, values rescaled) order [0, 2, 1] picks [0, 1, 4] leaders [0] l* 0
+   plain run extends: False
+   l* deferred, picks [2, 4, 0] extends: False
+   defer 0: extends False 
+   defer 2: extends False 
+   defer 1: extends False 
+   without R1 priority: order [0, 1, 2] picks [0, 4, 1] extends False 
+   without R1, one agent deferred (NOF): {0: False, 1: False, 2: False}
+   NO(o), o last: {0: False, 1: False, 2: False}
+   orders whose picks extend (SD-C): [(2, 0, 1)]
+Q2 (n = 4, m = 8; attempts/k4-rulef-bigtop-first.md) order [0, 1, 2, 3] picks [3, 7, 5, 4] leaders [0] l* 0
+   plain run extends: False
+   l* deferred, picks [1, 3, 5, 4] extends: False
+   defer 0: extends False 
+   defer 1: extends False 
+   defer 2: extends False 
+   defer 3: extends False 
+   without R1 priority: order [0, 3, 2, 1] picks [3, 6, 7, 5] extends True [[3], [6, 0, 1, 2], [7, 4], [5]]
+   without R1, one agent deferred (NOF): {0: True, 3: False, 2: False, 1: True}
+   NO(o), o last: {0: True, 1: True, 2: False, 3: False}
+   orders whose picks extend (SD-C): [(0, 3, 2, 1), (1, 0, 2, 3), (1, 0, 3, 2), (1, 2, 0, 3), (1, 3, 0, 2), (1, 3, 2, 0), (2, 1, 0, 3), (3, 0, 2, 1), (3, 1, 0, 2), (3, 1, 2, 0), (3, 2, 0, 1), (3, 2, 1, 0)]

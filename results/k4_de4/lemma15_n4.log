@@ -1,0 +1,10 @@
+$ python3 k4/de4/lemma15.py k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz 200 40 9000
+lemma 15, k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz: 40 jobs x 200 profiles, seeds 9000..9039
+       215    conclusion holds
+        99    u takes {b, k} from J
+        27    u takes {b, k} from r
+        65    u takes {b} from J
+        24    u takes {b} from r
+       215  instances of the hypotheses
+    337257  valid states
+exit status 0

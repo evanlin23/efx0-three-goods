@@ -1,0 +1,5 @@
+$ python3 k4/de4/adv_t3.py 1500 4 100
+   2004    pattern state valid
+   4972    top states
+   2004  instances
+time 730 s

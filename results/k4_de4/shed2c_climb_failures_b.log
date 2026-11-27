@@ -1,0 +1,10 @@
+$ python3 k4/de4/shed_climb2.py 72 300 8 json:results/k4_de4/robust_failures.json
+round 0 final gap 6 time 179
+round 1 final gap 6 time 293
+round 2 final gap 6 time 421
+round 3 final gap 6 time 593
+round 4 final gap 6 time 775
+round 5 final gap 6 time 892
+round 6 final gap 6 time 1010
+round 7 final gap 6 time 1126
+gaps [(6, 8)]

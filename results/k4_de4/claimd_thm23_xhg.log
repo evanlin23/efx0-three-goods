@@ -1,0 +1,5 @@
+$ python3 k4/de4/claimd.py thm23 xhg 400 8 700
+        4  Theorem 23, replaced ['down-b']: valid and Phi-raising True
+       15  Theorem 23, replaced ['keepR']: valid and Phi-raising True
+      858  Theorem 23, replaced []: valid and Phi-raising True
+     3200  profiles

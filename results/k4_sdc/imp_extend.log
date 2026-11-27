@@ -1,0 +1,101 @@
+$ python3 k4/sdc/imp_extend.py special
+NO MONOTONE REPAIR Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] order (0, 1, 2, 3) Y (3, 7, 5, 4)
+instances 4
+instances with a start without monotone repair 1
+shown 1
+start result 0 105
+start result 1 61
+start result 2 2
+start result None 6
+starts 174
+time 0 s
+$ python3 k4/sdc/imp_extend.py screen
+NO MONOTONE REPAIR c4one-one-rotation-m8 [[[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]], [[2, 8, 3, 4], [3, 4, 2], [2, 4, 3], [2, 4, 3], [2, 4, 3]]] order (1, 0, 3, 4, 2) Y (7, 2, 1, 5, 6)
+NO MONOTONE REPAIR ls-alt-rule-n4m7 [[[0, 1, 2, 3], [0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]], [[3, 6, 10, 8], [2, 8, 4, 3], [4, 2, 5, 8], [4, 3, 2, 8]]] order (0, 1, 2, 3) Y (2, 5, 6, 3)
+instances 168
+instances with a start without monotone repair 2
+shown 2
+start result 0 3540
+start result 1 488
+start result 2 15
+start result None 26
+starts 4069
+time 1 s
+$ python3 k4/sdc/imp_extend.py special order:nf
+instances 4
+instances with a start without monotone repair 0
+start result 0 3
+start result 2 1
+starts 4
+time 0 s
+$ python3 k4/sdc/imp_extend.py screen order:nf
+instances 168
+instances with a start without monotone repair 0
+start result 0 153
+start result 1 15
+starts 168
+time 0 s
+$ python3 k4/sdc/imp_extend.py suite order:nf
+instances 161
+instances with a start without monotone repair 0
+start result 0 147
+start result 1 14
+starts 161
+time 0 s
+$ python3 k4/sdc/imp_extend.py suite
+NO MONOTONE REPAIR c4one-one-rotation-m8 [[[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]], [[2, 8, 3, 4], [3, 4, 2], [2, 4, 3], [2, 4, 3], [2, 4, 3]]] order (1, 0, 3, 4, 2) Y (7, 2, 1, 5, 6)
+NO MONOTONE REPAIR ls-alt-rule-n4m7 [[[0, 1, 2, 3], [0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]], [[3, 6, 10, 8], [2, 8, 4, 3], [4, 2, 5, 8], [4, 3, 2, 8]]] order (0, 1, 2, 3) Y (2, 5, 6, 3)
+instances 158
+instances with a start without monotone repair 2
+shown 2
+start result 0 3807
+start result 1 479
+start result 2 15
+start result None 26
+starts 4327
+time 1 s
+$ python3 k4/sdc/imp_extend.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 2000 91
+instances 2000
+instances with a start without monotone repair 0
+start result 0 10982
+start result 1 282
+starts 11264
+time 2 s
+$ python3 k4/sdc/imp_extend.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 500 92
+instances 500
+instances with a start without monotone repair 0
+start result 0 11715
+start result 1 285
+starts 12000
+time 1 s
+$ python3 k4/sdc/imp_extend.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 91 order:nf
+instances 20000
+instances with a start without monotone repair 0
+start result 0 19922
+start result 1 77
+start result 2 1
+starts 20000
+time 18 s
+$ python3 k4/sdc/imp_extend.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 92 order:nf
+instances 20000
+instances with a start without monotone repair 0
+start result 0 19918
+start result 1 81
+start result 2 1
+starts 20000
+time 30 s
+$ python3 k4/sdc/imp_extend.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 6000 93 order:nf
+instances 6000
+instances with a start without monotone repair 0
+start result 0 5982
+start result 1 18
+starts 6000
+time 12 s
+$ python3 k4/sdc/imp_extend.py logs order:nf
+instances 1587
+instances with a start without monotone repair 0
+start result 0 1326
+start result 1 257
+start result 2 4
+starts 1587
+time 2 s

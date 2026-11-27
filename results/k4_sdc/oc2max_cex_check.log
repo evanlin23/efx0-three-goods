@@ -1,0 +1,15 @@
+$ python3 k4/sdc/oc2max_cex_check.py oc1max_cex_n4.json   (results/k4_oc1max/oc1max_cex_n4.json of compute/k4-oc1max-cert @ cfb3c18) | 11 instances
+instance 0 m 7 nu 4 | stored start needs 2 moves | orders: {'moves needed 0': 16, 'moves needed 1': 5, 'moves needed 2': 3}
+instance 1 m 7 nu 4 | stored start needs 2 moves | orders: {'moves needed 0': 22, 'moves needed 1': 1, 'moves needed 2': 1}
+instance 2 m 7 nu 4 | stored start needs 2 moves | orders: {'moves needed 2': 3, 'moves needed 1': 5, 'moves needed 0': 16}
+instance 3 m 7 nu 4 | stored start needs 2 moves | orders: {'moves needed 1': 6, 'moves needed 2': 1, 'moves needed 0': 17}
+instance 4 m 7 nu 4 | stored start needs 2 moves | orders: {'moves needed 0': 22, 'moves needed 1': 1, 'moves needed 2': 1}
+instance 5 m 7 nu 4 | stored start needs 2 moves | orders: {'moves needed 0': 16, 'moves needed 1': 5, 'moves needed 2': 3}
+instance 6 m 7 nu 4 | stored start needs 2 moves | orders: {'moves needed 2': 1, 'moves needed 1': 4, 'moves needed 0': 19}
+instance 7 m 7 nu 4 | stored start needs 2 moves | orders: {'moves needed 0': 22, 'moves needed 1': 1, 'moves needed 2': 1}
+instance 8 m 7 nu 4 | stored start needs 2 moves | orders: {'moves needed 0': 16, 'moves needed 1': 5, 'moves needed 2': 3}
+instance 9 m 8 nu 4 | stored start needs 2 moves | orders: {'moves needed 1': 2, 'moves needed 2': 3, 'moves needed 0': 19}
+instance 10 m 8 nu 4 | stored start needs 2 moves | orders: {'moves needed 0': 22, 'moves needed 1': 1, 'moves needed 2': 1}
+moves needed 0 207
+moves needed 1 36
+moves needed 2 21

@@ -1,0 +1,18 @@
+$ python3 k4/sdc/de_free_bigk.py 1 300 3 7 6 oc1
+instances 250
+start: least depth 0 1438
+start: least depth 1 62
+starts 1500
+time 1 s
+$ python3 k4/sdc/de_free_bigk.py 2 150 4 7 5 oc1
+instances 119
+start: least depth 0 2804
+start: least depth 1 52
+starts 2856
+time 0 s
+$ python3 k4/sdc/de_free_bigk.py 3 150 3 8 8 oc1
+instances 125
+start: least depth 0 717
+start: least depth 1 33
+starts 750
+time 1 s

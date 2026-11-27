@@ -1,0 +1,6 @@
+$ python3 k4/de4/refine.py screen 1 1 0
+      168  instances
+      322  lp     maxima
+      341  pareto maxima
+      248  sum    maxima
+time 2 s

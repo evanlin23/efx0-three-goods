@@ -1,0 +1,88 @@
+$ python3 k4/de4/run_robust.py k4_certs_4_n4_3.json.gz 400 4
+core 76 [[0, 2, 3, 6], [1, 3, 4, 5], [2, 4, 5, 6], [4, 5, 6]] {'var0_claimT_fail': 74}
+core 77 [[0, 2, 3, 6], [1, 4, 5, 6], [2, 3, 5, 6], [4, 5, 6]] {'var0_claimT_fail': 49}
+core 78 [[0, 2, 3, 6], [1, 4, 5, 6], [2, 3, 4, 5], [4, 5, 6]] {'var0_claimT_fail': 71}
+core 79 [[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 5, 6], [4, 5, 6]] {'var0_claimT_fail': 4}
+core 80 [[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5], [4, 5, 6]] {'var0_claimT_fail': 4}
+core 83 [[0, 2, 3, 5], [1, 4, 6], [2, 4, 5, 6], [3, 4, 5, 6]] {'var0_claimT_fail': 44}
+core 85 [[0, 2, 4, 6], [1, 3, 4, 5], [2, 4, 5, 6], [3, 5, 6]] {'var0_claimT_fail': 51}
+core 87 [[0, 2, 4, 6], [1, 4, 5, 6], [2, 3, 5, 6], [3, 5, 6]] {'var0_claimT_fail': 15}
+core 92 [[0, 2, 4, 6], [1, 4, 5, 6], [2, 3, 4, 5], [3, 5, 6]] {'var0_claimT_fail': 21}
+core 96 [[0, 3, 4, 5], [1, 3, 4, 6], [2, 4, 5, 6], [2, 5, 6]] {'var0_claimT_fail': 16}
+core 110 [[0, 1, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5], [2, 5, 6]] {'var0_claimT_fail': 4}
+core 112 [[0, 1, 4, 6], [1, 5, 6], [2, 3, 4, 5], [2, 3, 5, 6]] {'var0_claimT_fail': 22}
+core 113 [[0, 1, 5, 6], [1, 5, 6], [2, 3, 4, 5], [2, 3, 4, 6]] {'var0_claimT_fail': 106}
+core 117 [[0, 2, 3, 5], [1, 2, 5, 6], [1, 4, 6], [3, 4, 5, 6]] {'var0_claimT_fail': 18}
+core 123 [[0, 4, 5, 6], [1, 2, 3, 4], [1, 3, 5, 6], [2, 5, 6]] {'var0_claimT_fail': 80}
+core 124 [[0, 4, 5, 6], [1, 2, 3, 5], [1, 3, 5, 6], [2, 4, 6]] {'var0_claimT_fail': 47}
+core 127 [[0, 4, 6], [1, 2, 3, 5], [1, 3, 5, 6], [2, 4, 5, 6]] {'var0_claimT_fail': 148}
+core 133 [[0, 1, 2, 4], [0, 2, 4, 6], [1, 3, 5, 6], [3, 5, 6]] {'var0_claimT_fail': 315}
+core 145 [[0, 1, 6, 7], [2, 3, 4, 5], [2, 3, 4, 7], [5, 6, 7]] {'var0_claimT_fail': 52}
+core 176 [[0, 2, 4, 7], [1, 3, 5, 6], [3, 4, 6, 7], [5, 6, 7]] {'var0_claimT_fail': 8}
+core 179 [[0, 2, 5, 7], [1, 3, 4, 6], [3, 4, 6, 7], [5, 6, 7]] {'var0_claimT_fail': 53}
+core 200 [[0, 3, 4, 5], [1, 3, 6, 7], [2, 6, 7], [4, 5, 6, 7]] {'var0_claimT_fail': 410}
+core 202 [[0, 3, 4, 6], [1, 3, 6, 7], [2, 5, 6, 7], [4, 5, 7]] {'var0_claimT_fail': 58}
+core 203 [[0, 3, 4, 6], [1, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]] {'var0_claimT_fail': 64}
+core 206 [[0, 3, 5, 7], [1, 4, 5, 6], [2, 4, 6, 7], [3, 6, 7]] {'var0_claimT_fail': 6}
+core 211 [[0, 3, 4, 6], [1, 5, 6, 7], [2, 5, 7], [3, 4, 6, 7]] {'var0_claimT_fail': 25}
+core 213 [[0, 3, 5, 6], [1, 4, 5, 7], [2, 6, 7], [3, 4, 6, 7]] {'var0_claimT_fail': 40}
+core 215 [[0, 3, 6, 7], [1, 4, 6, 7], [2, 5, 7], [3, 4, 5, 7]] {'var0_claimT_fail': 58}
+core 219 [[0, 2, 3, 4], [1, 5, 6, 7], [2, 3, 4, 7], [5, 6, 7]] {'var0_claimT_fail': 3747}
+core 221 [[0, 2, 3, 5], [1, 5, 6, 7], [2, 3, 4, 7], [4, 6, 7]] {'var0_claimT_fail': 108}
+core 222 [[0, 2, 3, 7], [1, 5, 6, 7], [2, 3, 4, 7], [4, 5, 6]] {'var0_claimT_fail': 896}
+core 223 [[0, 2, 3, 7], [1, 5, 6], [2, 3, 4, 7], [4, 5, 6, 7]] {'var0_claimT_fail': 424}
+core 225 [[0, 2, 4, 6], [1, 3, 5, 7], [2, 3, 4, 7], [5, 6, 7]] {'var0_claimT_fail': 110}
+core 226 [[0, 2, 4, 7], [1, 3, 5, 6], [2, 3, 4, 7], [5, 6, 7]] {'var0_claimT_fail': 214}
+core 228 [[0, 2, 5, 6], [1, 4, 5, 7], [2, 3, 4, 7], [3, 6, 7]] {'var0_claimT_fail': 18}
+core 229 [[0, 2, 5, 7], [1, 4, 6, 7], [2, 3, 4, 7], [3, 5, 6]] {'var0_claimT_fail': 14}
+core 234 [[0, 2, 6, 7], [1, 5, 6, 7], [2, 3, 4, 7], [3, 4, 5]] {'var0_claimT_fail': 54}
+core 236 [[0, 2, 6, 7], [1, 6, 7], [2, 3, 4, 5], [3, 4, 5, 7]] {'var0_claimT_fail': 81}
+core 239 [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 7], [3, 4, 7]] {'var0_claimT_fail': 486}
+core 240 [[0, 1, 2, 6], [1, 2, 5, 7], [3, 4, 5, 6], [3, 4, 7]] {'var0_every_fail': 14, 'var0_claimT_fail': 30}
+core 243 [[0, 2, 3, 7], [1, 2, 5, 6], [1, 4, 5, 6], [3, 4, 7]] {'var0_claimT_fail': 1184}
+core 245 [[0, 2, 7], [1, 2, 3, 7], [1, 4, 5, 6], [3, 4, 5, 6]] {'var0_claimT_fail': 339}
+core 291 [[0, 2, 4, 8], [1, 4, 8], [3, 5, 6, 7], [5, 6, 7, 8]] {'var0_claimT_fail': 29}
+core 305 [[0, 2, 7, 8], [1, 3, 4, 5], [3, 4, 5, 6], [6, 7, 8]] {'var0_claimT_fail': 642}
+core 315 [[0, 3, 4, 7], [1, 5, 6, 8], [2, 5, 8], [3, 4, 6, 7]] {'var0_claimT_fail': 71}
+core 76 CLAIMT var 0 profile 27451200: [5,8,2,4] [3,2,4,8] [3,8,4,2] [4,3,2] state: 41 a 20 10
+core 76 CLAIMT var 0 profile 27494400: [5,8,2,4] [2,4,5,8] [3,8,4,2] [4,3,2] state: 41 a 20 10
+core 77 CLAIMT var 0 profile 1633200: [7,3,6,5] [1,8,6,4] [3,2,8,4] [4,3,2] state: c 10 40 20
+core 77 CLAIMT var 0 profile 1633200: [7,3,6,5] [1,8,6,4] [3,2,8,4] [4,3,2] state: c 20 40 10
+core 78 CLAIMT var 0 profile 26941200: [5,8,4,2] [3,4,8,2] [6,3,10,8] [4,3,2] state: 9 42 20 10
+core 78 CLAIMT var 0 profile 26984400: [5,8,4,2] [2,5,8,4] [6,3,10,8] [4,3,2] state: 9 42 20 10
+core 79 CLAIMT var 0 profile 46628402: [1,6,4,8] [4,10,7,2] [5,7,6,3] [3,4,2] state: 41 2 8 20
+core 79 CLAIMT var 0 profile 119204402: [2,6,7,10] [4,8,7,2] [5,7,6,3] [3,4,2] state: 41 2 8 20
+core 79 CLAIMT var 0 profile 46628403: [1,6,4,8] [4,10,7,2] [5,7,6,3] [2,4,3] state: 41 2 8 20
+core 79 CLAIMT var 0 profile 119204403: [2,6,7,10] [4,8,7,2] [5,7,6,3] [2,4,3] state: 41 2 8 20
+core 80 CLAIMT var 0 profile 75796002: [4,8,7,2] [1,6,8,4] [8,4,6,5] [4,3,2] state: 1 22 4 10
+core 80 CLAIMT var 0 profile 123575202: [4,10,8,3] [1,4,8,6] [8,4,6,5] [4,3,2] state: 1 22 4 10
+core 80 CLAIMT var 0 profile 75796003: [4,8,7,2] [1,6,8,4] [8,4,6,5] [4,2,3] state: 1 22 4 10
+core 80 CLAIMT var 0 profile 123575203: [4,10,8,3] [1,4,8,6] [8,4,6,5] [4,2,3] state: 1 22 4 10
+core 83 CLAIMT var 0 profile 46703600: [1,6,4,8] [2,3,4] [3,6,5,7] [4,8,6,1] state: 21 2 40 10
+core 83 CLAIMT var 0 profile 47733200: [1,4,6,8] [2,3,4] [5,6,4,8] [4,8,6,1] state: 21 2 40 10
+core 83 CLAIMT var 0 profile 46596802: [1,6,4,8] [2,4,3] [6,10,2,7] [5,8,4,6] state: 21 2 40 10
+core 83 CLAIMT var 0 profile 46652002: [1,6,4,8] [3,2,4] [5,8,4,6] [3,8,2,4] state: 21 2 10 40
+core 83 CLAIMT var 0 profile 46596803: [1,6,4,8] [2,4,3] [6,10,2,7] [4,8,5,6] state: 21 2 40 10
+core 83 CLAIMT var 0 profile 46652003: [1,6,4,8] [3,2,4] [5,8,4,6] [2,8,3,4] state: 21 2 10 40
+core 85 CLAIMT var 0 profile 639600: [7,6,3,5] [4,8,1,6] [3,2,8,4] [4,3,2] state: 14 8 40 20
+core 85 CLAIMT var 0 profile 639600: [7,6,3,5] [4,8,1,6] [3,2,8,4] [4,3,2] state: 14 20 40 8
+core 85 CLAIMT var 0 profile 77054002: [4,8,2,7] [2,6,7,10] [8,4,5,6] [3,2,4] state: 1 22 4 40
+core 85 CLAIMT var 0 profile 77054003: [4,8,2,7] [2,6,7,10] [8,4,5,6] [2,3,4] state: 1 22 4 40
+core 87 CLAIMT var 0 profile 46686000: [1,6,4,8] [2,6,10,7] [4,8,6,3] [4,3,2] state: 41 12 20 8
+core 87 CLAIMT var 0 profile 77203200: [2,8,4,7] [4,2,8,3] [6,10,7,2] [4,3,2] state: 41 2 20 8
+core 92 CLAIMT var 0 profile 43364802: [1,6,8,4] [2,4,8,3] [3,8,4,6] [4,3,2] state: 11 42 20 8
+core 92 CLAIMT var 0 profile 43368402: [1,6,8,4] [2,3,8,4] [4,8,5,6] [4,3,2] state: 11 40 8 20
+core 96 CLAIMT var 0 profile 21180402: [4,3,2,8] [2,4,8,7] [8,2,5,4] [4,3,2] state: 1 12 20 4
+core 96 CLAIMT var 0 profile 21191202: [4,3,2,8] [2,4,7,8] [8,4,6,5] [4,3,2] state: 1 12 4 20
+core 110 CLAIMT var 0 profile 76856800: [4,8,2,7] [8,4,5,6] [6,4,1,8] [3,2,4] state: 1 2 30 40
+core 110 CLAIMT var 0 profile 88801600: [3,10,2,6] [8,4,5,6] [7,6,2,10] [3,2,4] state: 1 2 30 40
+core 110 CLAIMT var 0 profile 76856801: [4,8,2,7] [8,4,5,6] [6,4,1,8] [2,3,4] state: 1 2 30 40
+core 110 CLAIMT var 0 profile 88801601: [3,10,2,6] [8,4,5,6] [7,6,2,10] [2,3,4] state: 1 2 30 40
+core 112 CLAIMT var 0 profile 40954002: [4,8,1,6] [4,2,3] [10,7,2,6] [6,4,3,8] state: 1 2 14 40
+core 112 CLAIMT var 0 profile 76745202: [4,8,2,7] [4,2,3] [8,4,1,6] [6,4,3,8] state: 1 2 14 40
+core 112 CLAIMT var 0 profile 40938403: [4,8,1,6] [4,2,3] [7,2,4,8] [5,2,4,8] state: 2 40 28 4
+core 112 CLAIMT var 0 profile 40938403: [4,8,1,6] [4,2,3] [7,2,4,8] [5,2,4,8] state: 40 2 28 4
+core 113 CLAIMT var 0 profile 39825600: [4,8,6,1] [4,3,2] [4,2,3,8] [8,6,4,3] state: 2 20 4 18
+core 113 CLAIMT var 0 profile 39825600: [4,8,6,1] [4,3,2] [4,2,3,8] [8,6,4,3] state: 20 2 4 18
+TOTAL k4_certs_4_n4_3.json.gz 339 cores; var0_maxima 1283174975 var0_every_fail 14 var0_some_fail 0 var1_maxima 943143891 var1_every_fail 0 var1_some_fail 0 var2_maxima 917538881 var2_every_fail 0 var2_some_fail 0 var3_maxima 943144263 var3_every_fail 0 var3_some_fail 0 overflow 0 var0_claimT_fail 10310 var0_top_allupper_noncompletable 0 var1_claimT_fail 0 var1_top_allupper_noncompletable 0 var2_claimT_fail 0 var2_top_allupper_noncompletable 0 var3_claimT_fail 0 var3_top_allupper_noncompletable 0 profiles 485880564
+variants: 0 DE4^v3 (control), 1 DE4^v3 + robust upper sets at level 6 (the candidate), 2 the same at 5.5, 3 robust at 6 without (V3) (control)

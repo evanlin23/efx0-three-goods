@@ -1,0 +1,7 @@
+$ python3 k4/de4/refine_hx.py xhg 500 4 3100
+     1061      F2-clash cycles: 0, unclean 0
+     1061    (H) holds
+     2000  instances
+     1061  lp-maxima with leftover goods: completable True
+     2274  lp-maxima without leftover goods
+time 8 s

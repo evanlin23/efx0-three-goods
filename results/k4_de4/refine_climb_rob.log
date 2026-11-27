@@ -1,0 +1,8 @@
+$ python3 k4/de4/refine_climb.py 21 600 4 json:results/k4_de4/refute_rob_instance.json
+NEAR 2 json:results/k4_de4/refute_rob_instance.json [[[0, 2, 4, 5], [1, 3, 6, 7], [1, 2, 4, 8], [0, 3, 7, 8], [0, 2, 8, 9], [1, 3, 4, 10]], [[40, 21, 13, 9], [20, 10, 7, 9], [37, 36, 19, 22], [36, 21, 17, 33], [14, 29, 6, 13], [23, 17, 1, 11]], [[4, 5], [6, 7], [1], [0], [2, 9], [3, 10]]]
+round 0 final gap 2 time 325
+round 1 final gap 99 time 696
+round 2 final gap 40 time 976
+NEAR 2 json:results/k4_de4/refute_rob_instance.json [[[0, 2, 4, 5], [1, 3, 6, 7], [1, 2, 4, 8], [0, 3, 7, 8], [0, 2, 8, 9], [1, 3, 4, 10]], [[40, 22, 13, 15], [20, 13, 10, 5], [34, 25, 24, 27], [37, 13, 6, 32], [28, 24, 5, 20], [31, 22, 1, 17]], [[4, 5], [6, 7], [1], [0], [2, 9], [3, 10]]]
+round 3 final gap 2 time 1310
+gaps [(2, 2), (40, 1), (99, 1)]

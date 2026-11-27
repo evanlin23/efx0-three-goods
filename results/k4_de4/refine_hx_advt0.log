@@ -1,0 +1,7 @@
+$ python3 k4/de4/refine_hx.py advt0 300 4 2100
+      210      F2-clash cycles: 0, unclean 0
+      210    (H) holds
+      520  instances
+      210  lp-maxima with leftover goods: completable True
+      625  lp-maxima without leftover goods
+time 142 s

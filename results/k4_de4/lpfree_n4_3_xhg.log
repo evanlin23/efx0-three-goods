@@ -1,0 +1,5 @@
+$ CORES=k4_certs_4_n4_3.json.gz XHG=1 python3 k4/de4/lpfree.py 400
+      4    resolved by one replacement: keep-one
+   2400  LP-free profiles
+    848  clean F2-clash cycle (Lemma 18)
+      4  unclean F2-clash cycle at the largest level sum False

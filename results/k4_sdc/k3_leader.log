@@ -1,0 +1,4 @@
+$ python3 k4/sdc/k3_leader.py 1 40 5 8
+{'bad case': 40, 'old leader, R1 by index, extends': 10, 'some leader works': 40, 'a working leader is B*': 40, 'a working leader is r': 40, 'a working leader is k*': 10}
+$ python3 k4/sdc/k3_leader.py 2 30 6 10
+{'bad case': 30, 'old leader, R1 by index, extends': 14, 'some leader works': 30, 'a working leader is B*': 30, 'a working leader is r': 30, 'a working leader is k*': 14}

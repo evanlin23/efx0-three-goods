@@ -1,0 +1,9 @@
+$ python3 k4/sdc/sdc_deficit.py screen r1
+all least-deficit outcomes extend 148
+deficit<=0 588
+deficit<=0 but does not extend 72
+deficit>0 but extends 38
+instances 168
+least deficit <= 0 165
+outcomes 690
+some least-deficit outcome extends 166

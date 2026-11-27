@@ -1,0 +1,24 @@
+# input: results/k4_oc1max/two_move_starts_n4.json.gz on origin/compute/k4-oc1max-cert, sha256 6159e38d1e70ae16c5e92fae390640789bac20b9b1e6787246e9e9450ad65bbb (identical copy on origin/proof/kgen-rounds)
+$ python3 k4/sdc/oc1prime_verify.py /tmp/claude-0/-home-user/a0d763ef-30c3-5e18-a14c-97622129678b/scratchpad/oc1p/starts.json.gz 50
+starts 112880
+witness {"sets": [[0, 1, 2, 5], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 6]], "vals": [[2, 7, 10, 6], [2, 8, 4, 7], [3, 5, 6, 7], [2, 3, 4]], "picks": [2, 1, 5, 6], "state": [[5, 1], [2], [3, 4], [6]]}
+witness {"sets": [[0, 1, 2, 5], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 6]], "vals": [[2, 10, 6, 7], [8, 2, 4, 7], [5, 3, 6, 7], [2, 3, 4]], "picks": [1, 2, 5, 6], "state": [[5, 2], [1], [3, 4], [6]]}
+witness {"sets": [[0, 1, 2, 5], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 6]], "vals": [[2, 10, 6, 7], [8, 2, 4, 7], [5, 4, 6, 8], [2, 3, 4]], "picks": [1, 2, 5, 6], "state": [[5, 2], [1], [3, 4], [6]]}
+witness {"sets": [[0, 1, 2, 5], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 6]], "vals": [[2, 10, 6, 7], [8, 2, 4, 7], [5, 3, 6, 7], [3, 2, 4]], "picks": [1, 2, 5, 6], "state": [[5, 2], [1], [3, 4], [6]]}
+witness {"sets": [[0, 1, 2, 5], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 6]], "vals": [[2, 10, 6, 7], [8, 2, 4, 7], [5, 4, 6, 8], [3, 2, 4]], "picks": [1, 2, 5, 6], "state": [[5, 2], [1], [3, 4], [6]]}
+... 10000 {'SD reproduces picks': 10000, 'maximum matching': 10000, 'OC1 fails (own check)': 200, "OC1' holds": 10000} 10 s
+... 20000 {'SD reproduces picks': 20000, 'maximum matching': 20000, 'OC1 fails (own check)': 400, "OC1' holds": 20000} 20 s
+... 30000 {'SD reproduces picks': 30000, 'maximum matching': 30000, 'OC1 fails (own check)': 600, "OC1' holds": 30000} 29 s
+... 40000 {'SD reproduces picks': 40000, 'maximum matching': 40000, 'OC1 fails (own check)': 800, "OC1' holds": 40000} 37 s
+... 50000 {'SD reproduces picks': 50000, 'maximum matching': 50000, 'OC1 fails (own check)': 1000, "OC1' holds": 50000} 47 s
+... 60000 {'SD reproduces picks': 60000, 'maximum matching': 60000, 'OC1 fails (own check)': 1200, "OC1' holds": 60000} 57 s
+... 70000 {'SD reproduces picks': 70000, 'maximum matching': 70000, 'OC1 fails (own check)': 1400, "OC1' holds": 70000} 65 s
+... 80000 {'SD reproduces picks': 80000, 'maximum matching': 80000, 'OC1 fails (own check)': 1600, "OC1' holds": 80000} 75 s
+... 90000 {'SD reproduces picks': 90000, 'maximum matching': 90000, 'OC1 fails (own check)': 1800, "OC1' holds": 90000} 86 s
+... 100000 {'SD reproduces picks': 100000, 'maximum matching': 100000, 'OC1 fails (own check)': 2000, "OC1' holds": 100000} 99 s
+... 110000 {'SD reproduces picks': 110000, 'maximum matching': 110000, 'OC1 fails (own check)': 2200, "OC1' holds": 110000} 130 s
+OC1 fails (own check) 2258
+OC1' holds 112880
+SD reproduces picks 112880
+maximum matching 112880
+time 140 s

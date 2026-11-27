@@ -1,0 +1,2 @@
+$ python3 k4/sdc/no_k3.py 3 60 8 13
+tries 400000 {'runs': 257034, 'plain run: no bad case': 256994, 'bad case': 40, 'NO(k*) extends': 40, 'NO(r) extends': 19, 'NO(k*) or NO(r) extends': 40, 'plain run extends anyway': 20, 'some owner works': 40}

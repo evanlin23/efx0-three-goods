@@ -1,0 +1,8 @@
+$ python3 k4/de4/refine_hx.py json:results/k4_de4/unclean_cycles.json 1 1 0
+       26      F2-clash cycles: 0, unclean 0
+        2    (H) fails: empty agent
+       26    (H) holds
+       75  instances
+       28  lp-maxima with leftover goods: completable True
+       96  lp-maxima without leftover goods
+time 16 s

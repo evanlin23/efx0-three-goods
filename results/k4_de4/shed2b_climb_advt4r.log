@@ -1,0 +1,4 @@
+$ python3 k4/de4/shed_climb2.py 63 300 8 advt4r
+round 0 final gap 99 time 174
+round 1 final gap 99 time 408
+stopped: superseded by the run without drift to 99 (shed2c_climb_*.log)

@@ -1,0 +1,8 @@
+$ python3 k4/de4/refine_hx.py screen 1 1 0
+      211      F2-clash cycles: 0, unclean 0
+        7    (H) fails: J threat
+      211    (H) holds
+      168  instances
+      218  lp-maxima with leftover goods: completable True
+      104  lp-maxima without leftover goods
+time 2 s

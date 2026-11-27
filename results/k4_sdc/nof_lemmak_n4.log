@@ -1,0 +1,12 @@
+$ python3 k4/sdc/nof_lemmak.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 3000 5
+instances 3000
+plain extends but Lemma K fails (every policy) 1
+plain extends but no LB4r Output (any policy) 1
+plain: K_envyFree 2986
+plain: K_none 2980
+plain: K_shrink 2988
+plain: O_envyFree 2987
+plain: O_none 2982
+plain: O_shrink 2988
+plain: extends 2989
+some candidate has an LB4r Output 3000
