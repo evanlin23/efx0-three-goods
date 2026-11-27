@@ -29,5 +29,17 @@ fails as well. Finding D1 in its §15 form survives: the head must be allowed to
 A strictly valued variant with smaller values, [[26,3,25,27],[2,17,18,19],[4,5,2,10]] on the same sets, refutes the
 owner-k forms (D1-H, D1-LONG) but not the owner-k-or-head form.
 
+**On strict cores too.** D1H-X is not a core: agent 1 has three private goods. Among the 531,787 hard all-HEAD starts
+without a canonical repair found by `k4/d1/h2_climb.py`, 97,572 are strict connected k = 4 cores (`is_core4` passes).
+The smallest, **D1H-Y**:
+- n = 3, m = 7, sets [[0,4,3,5],[2,6,4,5],[0,1,3,5]], values [[20,13,21,23],[17,14,18,23],[8,11,7,23]], order (0, 1, 2),
+  picks (5, 4, 1), D = {0}.
+- Agent 1 has two private goods (2, 6) with p + q = 31 < s + t = 41. Cores allow this; the K4.MC2 class excludes it.
+- No canonical chain repairs, with any improving H₀ and owner k or head (both implementations agree).
+- The extension (0, 2, 1) repairs it: agent 1 takes agent 2's pick together with its two private goods.
+
+So canonical D1-H and D1-LONG are false on strict cores. Inside K4.MC2 they hold on every three-agent core (SMT,
+`k4/d1.md` §6), and no MC2 counterexample is known.
+
 **Repro.** `python3 k4/d1/verify_cex.py` (log `results/k4_d1/verify_cex.log`): two implementations (this
 workstream's `k4/d1/d1lib.py` and the Hall session's `ohlib` plus the SAT test `oc_absorb.extends_A`) agree.
