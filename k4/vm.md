@@ -1328,6 +1328,23 @@ That was fixed after the run, and the totals are unaffected.
   `4_n4_3`, 21 in `4_pure`). So VM1-chain-plain (no rotation) is false, already at n = 3. The n = 3 failures are the 384
   profiles above, all completed with rotation and no move.
 
+### 7.10 VM1 and VM1-chain at n = 5 on the OC₁^max failures (burst 6)
+
+The coordinator's certifier marks the n = 5 profiles where OC₁^max fails. On chunk `5_pure_s5o0`
+(`results/k4_oc1max/n5/5_pure_s5o0_summary.jsonl.gz` on `compute/k4-oc1max-cert`, field `oc1_fails`):
+- the chunk has 935 hypergraphs, all OC₂^max-certified;
+- 137 of them have OC₁^max failures, **280 failing (profile, picks) pairs** in all.
+
+`results/k4_vm/oc1max_cex_n5_pure_s5o0.jsonl` holds them, with the picks dropped because V-M does not use them.
+
+- **VM1 holds on all 280** (`vm1_on_oc1max_n5_pure_s5o0.log`): 277 with no move, 3 with one move. So VM1-chain holds
+  too.
+- With the 24 OC₁′ failures of `results/k4_oc1max/oc1prime_cex_n5_partial.jsonl`, which are 5_pure as well
+  (`vm1_on_oc1max_cex_n5.log`, §7.7), no n = 5 OC₁^max failure seen so far defeats VM1.
+
+The contrast in both directions persists. Where the SD start fails, the V-M start works. The VM1 failures (C0–C4,
+P34) are cores where the SD forms hold.
+
 ## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading
 
 The abstract asserts the source property ("we are able to prove that ... there will be a source") without proof.

@@ -85,15 +85,7 @@ def one(args):
 
 
 def items(src):
-    if src.startswith('json:'):
-        out = []
-        for k, line in enumerate(open(src[5:])):
-            line = line.strip()
-            if not line: continue
-            nm, _, js = line.partition('\t') if '\t' in line else ('json#%d' % k, '', line)
-            J = json.loads(js); out.append((nm, J['sets'], J['vals'], J['m']))
-        return out
-    return items_for(src)
+    return items_for(src)          # json:FILE is handled by vm_test.items_for (comment lines skipped)
 
 
 if __name__ == '__main__':

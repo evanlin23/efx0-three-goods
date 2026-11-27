@@ -1,0 +1,7 @@
+$ python3 k4/vm/vm1_fast.py json:results/k4_vm/oc1max_cex_n5_pure_s5o0.jsonl
+fewest moves 0                 277
+fewest moves 1                 3
+instances                      280
+slowest 0.0 s; time 0 s
+$ python3 k4/vm/vm1_chain.py json:results/k4_vm/oc1max_cex_n5_pure_s5o0.jsonl --seq
+levels: {'VM1': 280} ; time 0 s
