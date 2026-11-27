@@ -118,6 +118,15 @@ OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
   - RF at every failing pair met on chunk 1 (`rf_5_pure_s5o0.jsonl.gz`, `rf_5_pure_s5o0.log`): 550 pairs on the 137
     cores, 2,769 receiver-first maximum pick vectors, no violation. The rerun met exactly the chunk run's pairs on all
     137 cores.
+  - Chunk 2 (`rf_5_pure_s5o1.*`): 484 pairs met on 140 cores, 5 of them with two receivers, 2,355 receiver-first
+    maximum pick vectors, no violation.
+  - **RF at every OC₁^max-failing pair of 5_pure 419, 447 and 38**, the complete lists above
+    (`rf_two_move_starts_n5_sel2.json.gz`, `.log`):
+    - it holds at all 583,680 starts, with 1,676,160 receiver-first maximum pick vectors checked;
+    - none of these starts has a non-maximum receiver-first order;
+    - with the completeness check, this settles RF exhaustively on these three cores.
+- n = 5, chunk 2 (5_pure_s5o1): OC₁^∃max holds on all 935. The 140 failing cores are covered by `exists_5_pure_s5o1.json.gz`,
+  and `check_exists.py` passes them.
 
 **OC₁′^max (kgen-rounds' move, `kgen/rounds.md` §4.6 on proof/kgen-rounds) holds at n ≤ 4 and fails at n = 5.**
 - The move: as OC₁'s, except that every non-end chain agent may also take goods of the end's base that it values.
