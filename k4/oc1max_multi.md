@@ -1134,6 +1134,28 @@ general form (any canonical P₁ with B₁⁻ an SD start) and the E(k)-only for
   meet (L), (R) and (K). The matching session's n = 4 certification (K4.MATCH.REC.N4, 112,880 starts) is the natural
   test set for this exact form.
 
+**Certified at n = 4 (K4.MULTI.RECS.N4).** REC-S's mechanism repairs *every* n = 4 start with no one-move repair. The
+data is the certifier's export: all 112,880 (type profile, picks) pairs over the n = 4 core hypergraphs,
+`results/k4_matching/data/two_move_starts_n4.json.gz` on `proof/k4-matching`; all have strict values.
+- `recs_witness.py` writes one witness per start (`recs_witnesses_n4.json.gz`, `recs_witness_n4.log`): an order, k,
+  E(k), T, the second chain P′ with H₀′ and h, and the final allocation. 112,880 of 112,880 have one.
+- `check_recs.py` checks every witness from the definitions and imports nothing from this workstream
+  (`check_recs_n4.log`):
+  - the picks are the SD outcome of the order;
+  - k is dangerous;
+  - P₁ is E(k);
+  - move 1 is official, and (L) holds;
+  - Lemma SD-E holds;
+  - move 2 is an official canonical chain from a dangerous agent of the reduced state, and does not touch k;
+  - Theorem S's owner bundle W, with h going to one other agent;
+  - the final allocation is complete, extends move 2 by junk only, has one absorber, and is raw EFX₀.
+- Result: **112,880 ok**. All 8,241 negative tests (mutated witnesses) are rejected.
+- The matching session also ran `reduce_s.py` unmodified on the same export, with the same result
+  (`results/k4_matching/reduce_s_n4export.log` on `proof/k4-matching`, commit 4551d91).
+
+So at n = 4, OC₂^max holds by an explicit mechanism: the earliest-wanter chain settles a sharer, then one Theorem S
+chain in the reduced instance. No 4b sub-lemma needs naming at n = 4.
+
 *Smallest test (the integrator's 4_n4_3#58; it is 4a-type, and REC-S covers it too).* The values are R₀ = {0: 2, 1: 10,
 2: 4, 5: 7}, R₁ = {1: 10, 2: 3, 5: 4, 6: 8}, R₂ = {3: 3, 4: 5, 5: 6, 6: 7} and R₃ = {3: 3, 4: 2, 6: 4}, with picks
 (1, 2, 5, 6), J = {0, 3, 4} and D = {0, 2, 3}. The repair:

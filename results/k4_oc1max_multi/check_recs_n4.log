@@ -1,0 +1,4 @@
+$ python3 k4/oc1max_multi/check_recs.py results/k4_oc1max_multi/recs_witnesses_n4.json.gz
+starts 112880 results {'ok': 112880}
+starts with strict values (distinct per agent): 112880
+negative tests 8241 accepted (must be 0): 0 {}
