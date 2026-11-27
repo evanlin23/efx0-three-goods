@@ -78,6 +78,7 @@ every refutation below is confirmed by three independent programs.
 | *k = 4 with zeros:* **OC₁^max on strict connected cores (K4.SDC.OC1MAX)** | | **FAILS** (C4K, m = 7) | | §4.4 | `k4/sdc/oc1_max_orders.py`, k4/sdc pipeline, ocsat, brute force |
 | *k = 4 with zeros:* two rounds on C4K, W4, K4W | | holds | | §4.3, §4.4 | brute force |
 | *k = 4 with zeros:* **OC₁′^max** (middle chain agents may take the end's released goods) | | holds (data: every OC₁ failure, climbs) | holds (data) | §4.6 | rnd.c, forward brute force |
+| OC₁′ at k = 5 / at positive values | | | **fails** (PW5, zeros and lifted) | §4.6 | rnd.c, forward brute force |
 
 ## 1. Definitions and the round characterization
 
@@ -438,8 +439,14 @@ their four ε-failures, two zero versions satisfy OC₁. The other two are the t
     definition (`verify_k4zero.one_chain_prime`). They were compared on 984 perfect starts, 79 of them OC₁-false
     (`xcheck_oc1p.py`, `xcheck_oc1p_150_6.log`).
   - Direct OC₁′ climbs on cores (`oc1p_*.log`, ZCLASS = OC1P) bottom out at one witness. No failure so far.
-- *Caveat.* No OC₁′ failure is known, so the two implementations agree only on its "true" branch. Each finds an
-  explicit witness independently at all 79 OC₁-false starts.
+- *At positive values (unbounded k)* OC₁′ repairs all 66 ROUND⁺ failures (`fails.jsonl`, `fails_twins.jsonl`), where
+  even a round of several chains fails.
+- **OC₁′ is a k ≤ 4 statement.** It fails on ksens's PW5 (k = 5, zeros, the natural order), whose obstruction is a
+  shared danger pool rather than two picks. It also fails on PW5 lifted and on PW(4,2,5) and PW(4,3,5) lifted.
+  - The same PW5 start fails in rnd.c, in the forward brute force, and in k4/sdc's pipeline for OC₁
+    (`oc1p_pw5.log`). This also tests the "false" branch of the two OC₁′ implementations.
+  - It repairs RD5 (k = 5) and kgen's n = 4 instance.
+  - So, like OC₁, OC₁′ must use k ≤ 4. At unbounded k the surviving form is still two rounds (RD²⁺).
 
 ## 5. n = 3
 

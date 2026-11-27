@@ -21,10 +21,14 @@ def connected(Z):
     return len(seen) == n
 
 
-def ok(Z): return is_core(Z) and connected(Z)
+ZFREE = os.environ.get('ZFREE', '0') == '1'   # no core constraint; random instances all-positive (every start perfect)
+
+
+def ok(Z): return True if ZFREE else (is_core(Z) and connected(Z))
 
 
 def rand_core(n, m, rng):
+    if ZFREE: return [rng.sample(range(1, VMAX), m) for _ in range(n)]
     while True:
         Z = []
         for i in range(n):
@@ -51,9 +55,11 @@ def mutate(Z, rng):
         g, h = rng.sample(nz, 2) if len(nz) >= 2 else (nz[0], nz[0]); W[i][g], W[i][h] = W[i][h], W[i][g]
     elif u < 0.92:
         g = rng.choice(nz); W[i][g] = rng.randint(1, VMAX)
-    else:   # move one relevance of agent i to another good
+    elif not ZFREE:   # move one relevance of agent i to another good
         g = rng.choice(nz); z = [h for h in range(m) if W[i][h] == 0]
         if z: h = rng.choice(z); W[i][h] = W[i][g]; W[i][g] = 0
+    else:
+        j = rng.randrange(n); W[i] = [max(1, x + rng.randint(-2, 2)) for x in W[j]]
     return W
 
 
@@ -67,7 +73,7 @@ def main():
     print('$ python3 kgen/rounds/zclimb.py', *sys.argv[1:], flush=True)
     for r in range(rounds):
         Z = [list(x) for x in rng.choice(seeds)] if seeds else rand_core(n, m, rng)
-        if seeds: Z = [[x if x > 5 else 0 for x in row] for row in Z]
+        if seeds and not ZFREE: Z = [[x if x > 5 else 0 for x in row] for row in Z]
         c, res = objective(Z)
         for s in range(steps):
             W = mutate(Z, rng)
