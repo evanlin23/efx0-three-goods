@@ -149,3 +149,35 @@ the edges are q → p → w (log).
   - (I5) is TERM.
   - One reading point: (I3) is about *allocated* goods. An upgrade can return a good that someone values above its
     bundle to the pool, so "held alone" cannot be meant for pool goods.
+
+## 7. Addendum: P34, VM1 fails on a connected k = 4 core (`attempts/k4-vm-vm1-core.md` on `claude/k4-vm` at `b5a2d6a`; coordinator's queue, 2026-11-27)
+
+**Read.**
+- `attempts/k4-vm-vm1-core.md`;
+- `k4/vm.md` §2 (the V-M reconstruction), §6 (the moves) and §7.3 (Conjecture VM1).
+
+**Check.** `k4/referee/vm1_ref.py`, log `results/k4_referee/vm1_ref.log`.
+- It is my own code:
+  - V-M's Phases I–II are written from §2, with every resolution of the matchings enumerated;
+  - VM1's moves are written from §6 and §7.3;
+  - an exhaustive search covers F1 placements and envy-cycle rotations.
+- Raw EFX₀ comes from `cert_ref.py`.
+- Nothing from `k4/vm/` or `attempts/` was run or imported, and the instance is copied from the note.
+
+**Verdict: CONFIRMED.**
+- **The instance is a strict connected k = 4 core.** Every agent has 4 goods and is strictly balanced (8 < 9 for
+  every agent), there are no private goods, every agent's type is strict, and the incidence graph is connected.
+- **The V-M matchings** (Phases I–II, every resolution) are exactly ({5}, {6}, {1}, {3}) and ({5}, {6}, {3}, {1}), as
+  stated:
+  - agents 0 and 1 are strong (8 > 4 + 3);
+  - agents 2 and 3 tie on good 1 at rank 3.
+- **No completion with zero moves or one move.** From both matchings, the only legal moves are agent 0's and agent 1's
+  upgrades to {0, 2, 4}, as the note says. That holds for upgrades with *any* improving S, not only minimal ones, and
+  for unrestricted exchanges.
+- From the matchings and from every state one move away, the search over placements and rotations never reaches a
+  complete EFX₀ allocation. The search is a superset of VM1's schedule: any envy cycle may rotate at any time, and
+  goods are placed in any order.
+- **The two-move completion** ({0, 2, 4}, {6}, {5}, {1, 3}) is EFX₀. It equals one DE chain of length 1 (agent 0
+  takes {0, 2, 4}, agent 2 takes the released 5) followed by placing 1 on agent 3. So VM1-chain completes P34.
+- **Remark: the failure is specific to V-M's matchings.** From the other one-good matchings (110 in all), 44 complete
+  with no move. VM1 fails here because it starts from V-M's rank-greedy matching, which is what the conjecture says.

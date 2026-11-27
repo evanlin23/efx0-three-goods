@@ -1,0 +1,2 @@
+$ python3 kgen/charity/ol_check.py 2 3 rand4
+random charity state: fewest losers 0 450

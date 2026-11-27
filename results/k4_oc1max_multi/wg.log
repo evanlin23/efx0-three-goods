@@ -1,0 +1,9 @@
+$ python3 k4/oc1max_multi/wg.py results/k4_oc1max_multi/hard2_starts.jsonl.gz results/k4_oc1max_multi/hard2_starts_n5.jsonl.gz
+('RING2', 'not covered') 45
+('RING2', 'starts') 45
+('SLOT2', 'WG cases') 75
+('SLOT2', 'covered by Lemma WG') 41
+('SLOT2', 'not covered') 120
+('SLOT2', 'starts') 161
+violations (W1)-(W3) hold, allocation not EFX0: 0 []
+smallest not covered: {'RING2': ((3, 6), 'T3', [0, 1, 4]), 'SLOT2': ((4, 8), 'lb4-last-block-leader-index-n4m8', [4, 6, 7, 3])}

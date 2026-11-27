@@ -1,0 +1,12 @@
+$ git show origin/compute/k4-oc1max-cert:results/k4_oc1max/oc1max_cex_n4.json > cex.json   (commit dbc2631)
+$ python3 k4/ttc/r2_slots.py walk cex.json 300 1
+  first R2* chain: |J'| - (unwanted holders + 1) = -1 31
+  first R2* chain: |J'| - (unwanted holders + 1) = -2 30
+  first R2* chain: |J'| - (unwanted holders + 1) = 0 18
+  first R2* completion: junk goods to frozen single 9
+  first R2* completion: junk goods to unwanted holder 102
+  first R2* completion: junk goods to x_0 61
+  some R2* chain needs no frozen slot 79
+distinct profiles 3264
+hard starts with >= 2 receivers 79
+time 4 s

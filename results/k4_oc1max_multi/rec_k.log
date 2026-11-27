@@ -1,0 +1,13 @@
+$ python3 k4/oc1max_multi/rec_k.py results/k4_oc1max_multi/oc1_fail_walk.jsonl.gz
+(R) cases 8686
+best pool pair T* has a case with (R) and (K) 4955
+starts 4955
+$ python3 k4/oc1max_multi/rec_k.py results/k4_matching/n5_walk164_long.jsonl.gz
+(R) cases 134670
+best pool pair T* has a case with (R) and (K) 22445
+starts 22445
+$ python3 k4/oc1max_multi/rec_k.py n = 4 export rows (two_move_starts_n4.json.gz flattened)
+(K-b) fails 9600
+(R) cases 605360
+best pool pair T* has a case with (R) and (K) 112880
+starts 112880

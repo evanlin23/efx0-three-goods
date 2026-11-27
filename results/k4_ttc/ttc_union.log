@@ -1,0 +1,8 @@
+$ python3 k4/ttc/ttc_union.py special rules=val,minval,minimal,lean,small
+distinct hard starts 16
+some TTC run repairs 16
+time 0 s
+$ python3 k4/ttc/ttc_union.py screen rules=val,minval,minimal,lean,small
+distinct hard starts 194
+some TTC run repairs 194
+time 5 s

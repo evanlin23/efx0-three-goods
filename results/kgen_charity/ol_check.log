@@ -1,0 +1,6 @@
+$ python3 kgen/charity/ol_check.py 1 6
+CKMS stop: fewest losers 0 7
+CKMS stop: fewest losers 1 8
+Pareto maximum: fewest losers 1 20
+random charity state: fewest losers 0 1002
+random charity state: fewest losers 1 6

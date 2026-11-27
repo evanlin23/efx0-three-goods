@@ -1,0 +1,44 @@
+configuration tri-Q3-Q3-P4: agents {'e1': ('g12', 'g13', 'a1'), 'e2': ('g12', 'g23', 'a2'), 'e3': ('g13', 'g23', 'a3', 'p3')}, I = ['g12', 'g13', 'g23', 'p3'], D = ['a1', 'a2', 'a3'], 10368 profiles
+  DEL      reduces    4220 of 10368 (0.5 s)
+  gadget h on ['a1', 'a2', 'a3'] (43 menu valuations): 1016 of 10368 reduced, new 928
+    h = {'a1': 2, 'a2': 4, 'a3': 1} reduces 298
+    h = {'a1': 4, 'a2': 1, 'a3': 2} reduces 258
+    h = {'a1': 1, 'a2': 4, 'a3': 2} reduces 258
+    h = {'a1': 4, 'a2': 2, 'a3': 1} reduces 298
+    h = {'a1': 1, 'a2': 2, 'a3': 4} reduces 200
+    h = {'a1': 2, 'a2': 1, 'a3': 4} reduces 200
+  gadget h on ['a1', 'a2', 'a3', "z0'"] (1665 menu valuations): 10288 of 10368 reduced, new 5140
+    h = {'a1': 0, 'a2': 0, 'a3': 0, "z0'": 1} reduces 4220
+    h = {'a1': 0, 'a2': 2, 'a3': 0, "z0'": 1} reduces 2828
+    h = {'a1': 2, 'a2': 0, 'a3': 0, "z0'": 1} reduces 2828
+    h = {'a1': 0, 'a2': 0, 'a3': 2, "z0'": 1} reduces 1848
+    h = {'a1': 6, 'a2': 10, 'a3': 2, "z0'": 3} reduces 1466
+    h = {'a1': 10, 'a2': 2, 'a3': 6, "z0'": 3} reduces 888
+    ... 13 gadgets in a greedy cover
+  together: 10288 of 10368 profiles
+configuration tri-Q3-Q3-Q3: agents {'e1': ('g12', 'g13', 'a1'), 'e2': ('g12', 'g23', 'a2'), 'e3': ('g13', 'g23', 'a3')}, I = ['g12', 'g13', 'g23'], D = ['a1', 'a2', 'a3'], 216 profiles
+  DEL      reduces      46 of 216 (0.1 s)
+  gadget h on ['a1', 'a2', 'a3'] (43 menu valuations): 102 of 216 reduced, new 102
+    h = {'a1': 1, 'a2': 2, 'a3': 4} reduces 26
+    h = {'a1': 2, 'a2': 4, 'a3': 1} reduces 26
+    h = {'a1': 4, 'a2': 1, 'a3': 2} reduces 26
+    h = {'a1': 1, 'a2': 4, 'a3': 2} reduces 26
+    h = {'a1': 2, 'a2': 1, 'a3': 4} reduces 26
+    h = {'a1': 4, 'a2': 2, 'a3': 1} reduces 26
+  gadget h on ['a1', 'a2', 'a3', "z0'"] (1665 menu valuations): 208 of 216 reduced, new 60
+    h = {'a1': 0, 'a2': 0, 'a3': 0, "z0'": 1} reduces 46
+    h = {'a1': 0, 'a2': 0, 'a3': 2, "z0'": 1} reduces 46
+    h = {'a1': 0, 'a2': 2, 'a3': 0, "z0'": 1} reduces 46
+    h = {'a1': 2, 'a2': 0, 'a3': 0, "z0'": 1} reduces 46
+    h = {'a1': 1, 'a2': 2, 'a3': 3, "z0'": 0} reduces 21
+    h = {'a1': 0, 'a2': 4, 'a3': 2, "z0'": 1} reduces 24
+    ... 12 gadgets in a greedy cover
+  together: 208 of 216 profiles
+    not reduced: {'e1': {'g12': 3, 'g13': 2, 'a1': 4}, 'e2': {'g12': 3, 'g23': 2, 'a2': 4}, 'e3': {'g13': 3, 'g23': 2, 'a3': 4}}
+    not reduced: {'e1': {'g12': 3, 'g13': 2, 'a1': 4}, 'e2': {'g12': 3, 'g23': 2, 'a2': 4}, 'e3': {'g13': 2, 'g23': 3, 'a3': 4}}
+    not reduced: {'e1': {'g12': 3, 'g13': 2, 'a1': 4}, 'e2': {'g12': 2, 'g23': 3, 'a2': 4}, 'e3': {'g13': 3, 'g23': 2, 'a3': 4}}
+    not reduced: {'e1': {'g12': 3, 'g13': 2, 'a1': 4}, 'e2': {'g12': 2, 'g23': 3, 'a2': 4}, 'e3': {'g13': 2, 'g23': 3, 'a3': 4}}
+    not reduced: {'e1': {'g12': 2, 'g13': 3, 'a1': 4}, 'e2': {'g12': 3, 'g23': 2, 'a2': 4}, 'e3': {'g13': 3, 'g23': 2, 'a3': 4}}
+    not reduced: {'e1': {'g12': 2, 'g13': 3, 'a1': 4}, 'e2': {'g12': 3, 'g23': 2, 'a2': 4}, 'e3': {'g13': 2, 'g23': 3, 'a3': 4}}
+    not reduced: {'e1': {'g12': 2, 'g13': 3, 'a1': 4}, 'e2': {'g12': 2, 'g23': 3, 'a2': 4}, 'e3': {'g13': 3, 'g23': 2, 'a3': 4}}
+    not reduced: {'e1': {'g12': 2, 'g13': 3, 'a1': 4}, 'e2': {'g12': 2, 'g23': 3, 'a2': 4}, 'e3': {'g13': 2, 'g23': 3, 'a3': 4}}

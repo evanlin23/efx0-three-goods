@@ -1,0 +1,8 @@
+{"shapes": 46, "canonical_classes": 45999, "note_says": 45999}
+{"source": "Lemma TD N=1500 seed=1", "control_instances": 1082, "control_with_some_EFX0_or_improvement_mismatch": 1081, "td_EFX0_MISMATCH": 0, "td_improvement_pairs": 600000, "td_partial_allocs": 332442, "types_seen_d1": 1, "types_seen_d2": 2, "types_seen_d3": 12, "types_seen_d4": 336}
+{"source": "Theorem N2 on random strict instances N=300 seed=3 m<=8", "by_one": 95890, "by_two": 2657, "instances": 300, "states": 98547}
+{"source": "Theorem N2 on random strict instances N=4000 seed=2 m<=7", "by_one": 559826, "by_two": 29126, "instances": 4000, "states": 588952}
+
+real	0m40.061s
+user	0m43.893s
+sys	0m0.044s

@@ -1,0 +1,131 @@
+$ python3 k4/ttc/oc1max_cex_n4.py results/k4_ttc/oc1max_cex_n5_two_private.json
+instance 0 (None #None): sets [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]] vals [[3, 2, 10, 6], [4, 1, 6, 8], [2, 8, 5, 4], [5, 4, 8, 2], [7, 8, 2, 4]] order [1, 3, 4, 2, 0] picks [4, 6, 0, 5, 1]
+  is_core4 [], nu 5, two private goods True, 4-good agents 5
+  OC1^max: one-absorber completion at the picks or after one of 16 moves: SAT False, brute force False
+  wants {0: [1, 2, 3], 1: [], 2: [1, 3, 4], 3: [], 4: []}; frozen [1, 2, 3, 4]; receivers [0]; dangerous {1: {2: 4, 3: 1}, 3: {2: 5}, 4: {7: 2, 8: 4}}; junk [2, 3, 7, 8]
+  agents holding their worst relevant good: [0, 2]
+    target [[3, 6, 7], [2, 4], [1], [5], [0, 8]] utilities [6, 10, 8, 8, 11], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[3, 6], [2, 4], [1, 7], [5], [0, 8]] utilities [6, 10, 8, 8, 11], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[3, 6, 8], [2, 4], [1], [5], [0, 7]] utilities [6, 10, 8, 8, 9], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[3, 6], [2, 4], [1, 8], [5], [0, 7]] utilities [6, 10, 8, 8, 9], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[3, 6], [2, 4], [1], [5], [0, 7, 8]] utilities [6, 10, 8, 8, 13], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6, 7], [2, 4], [1, 3], [5], [0, 8]] utilities [6, 10, 8, 8, 11], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6], [2, 4], [1, 3, 7], [5], [0, 8]] utilities [6, 10, 8, 8, 11], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6, 8], [2, 4], [1, 3], [5], [0, 7]] utilities [6, 10, 8, 8, 9], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6], [2, 4], [1, 3], [5], [0, 7, 8]] utilities [6, 10, 8, 8, 13], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6, 7], [2, 4], [1], [5], [0, 3, 8]] utilities [6, 10, 8, 8, 11], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6], [2, 4], [1, 7], [5], [0, 3, 8]] utilities [6, 10, 8, 8, 11], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6, 8], [2, 4], [1], [5], [0, 3, 7]] utilities [6, 10, 8, 8, 9], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6], [2, 4], [1, 8], [5], [0, 3, 7]] utilities [6, 10, 8, 8, 9], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6], [2, 4], [1], [5], [0, 3, 7, 8]] utilities [6, 10, 8, 8, 13], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[3, 5, 7], [6], [1], [2, 4], [0, 8]] utilities [10, 8, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[3, 5], [6, 7], [1], [2, 4], [0, 8]] utilities [10, 8, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[3, 5], [6], [1, 7], [2, 4], [0, 8]] utilities [10, 8, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[3, 5, 8], [6], [1], [2, 4], [0, 7]] utilities [10, 8, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[3, 5], [6, 8], [1], [2, 4], [0, 7]] utilities [10, 8, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[3, 5], [6], [1, 8], [2, 4], [0, 7]] utilities [10, 8, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[3, 5], [6], [1], [2, 4], [0, 7, 8]] utilities [10, 8, 8, 9, 13], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5, 7], [3, 6], [1], [2, 4], [0, 8]] utilities [10, 9, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [3, 6, 7], [1], [2, 4], [0, 8]] utilities [10, 9, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [3, 6], [1, 7], [2, 4], [0, 8]] utilities [10, 9, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5, 8], [3, 6], [1], [2, 4], [0, 7]] utilities [10, 9, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [3, 6, 8], [1], [2, 4], [0, 7]] utilities [10, 9, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [3, 6], [1, 8], [2, 4], [0, 7]] utilities [10, 9, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [3, 6], [1], [2, 4], [0, 7, 8]] utilities [10, 9, 8, 9, 13], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5, 7], [6], [1, 3], [2, 4], [0, 8]] utilities [10, 8, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6, 7], [1, 3], [2, 4], [0, 8]] utilities [10, 8, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6], [1, 3, 7], [2, 4], [0, 8]] utilities [10, 8, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5, 8], [6], [1, 3], [2, 4], [0, 7]] utilities [10, 8, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6, 8], [1, 3], [2, 4], [0, 7]] utilities [10, 8, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6], [1, 3], [2, 4], [0, 7, 8]] utilities [10, 8, 8, 9, 13], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5, 7], [6], [1], [2, 4], [0, 3, 8]] utilities [10, 8, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6, 7], [1], [2, 4], [0, 3, 8]] utilities [10, 8, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6], [1, 7], [2, 4], [0, 3, 8]] utilities [10, 8, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5, 8], [6], [1], [2, 4], [0, 3, 7]] utilities [10, 8, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6, 8], [1], [2, 4], [0, 3, 7]] utilities [10, 8, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6], [1, 8], [2, 4], [0, 3, 7]] utilities [10, 8, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6], [1], [2, 4], [0, 3, 7, 8]] utilities [10, 8, 8, 9, 13], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+  41 targets; least "most other owners in one bundle" over the targets: 1
+  Lemma T6 blocks 0 of 41 targets (blocking agents []): not a T6 certificate
+  two-move repairs (first move, canonical?, repairing second moves, canonical ones):
+     ((0, 1), False, [(2, 4), (2, 4), (2, 4)], [])
+     ((0, 1, 2), False, [(0, 4, 2), (0, 4, 2), (0, 4, 2)], [])
+     ((0, 3), False, [(2, 4), (2, 4), (2, 4)], [])
+     ((0, 3, 2), False, [(0, 4, 2), (0, 4, 2), (0, 4, 2)], [])
+     ((2, 4), False, [(0, 1), (0, 3)], [])
+     ((2, 4), False, [(0, 1), (0, 3)], [])
+     ((2, 4), False, [(0, 1), (0, 3)], [])
+  OC2^max True; canonical first chains 0; CC2 (some canonical + canonical) False; every canonical first chain finishes canonically False
+instance 1 (None #None): sets [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]] vals [[3, 2, 10, 6], [4, 2, 7, 10], [2, 8, 5, 4], [5, 4, 8, 2], [7, 8, 2, 4]] order [1, 3, 4, 2, 0] picks [4, 6, 0, 5, 1]
+  is_core4 [], nu 5, two private goods True, 4-good agents 5
+  OC1^max: one-absorber completion at the picks or after one of 16 moves: SAT False, brute force False
+  wants {0: [1, 2, 3], 1: [], 2: [1, 3, 4], 3: [], 4: []}; frozen [1, 2, 3, 4]; receivers [0]; dangerous {1: {2: 4, 3: 2}, 3: {2: 5}, 4: {7: 2, 8: 4}}; junk [2, 3, 7, 8]
+  agents holding their worst relevant good: [0, 2]
+    target [[3, 6], [2, 4], [1, 7], [5], [0, 8]] utilities [6, 11, 8, 8, 11], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[3, 6], [2, 4], [1, 8], [5], [0, 7]] utilities [6, 11, 8, 8, 9], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[3, 6], [2, 4], [1], [5], [0, 7, 8]] utilities [6, 11, 8, 8, 13], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6, 7], [2, 4], [1, 3], [5], [0, 8]] utilities [6, 11, 8, 8, 11], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6], [2, 4], [1, 3, 7], [5], [0, 8]] utilities [6, 11, 8, 8, 11], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6, 8], [2, 4], [1, 3], [5], [0, 7]] utilities [6, 11, 8, 8, 9], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6], [2, 4], [1, 3], [5], [0, 7, 8]] utilities [6, 11, 8, 8, 13], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6, 7], [2, 4], [1], [5], [0, 3, 8]] utilities [6, 11, 8, 8, 11], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6], [2, 4], [1, 7], [5], [0, 3, 8]] utilities [6, 11, 8, 8, 11], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6, 8], [2, 4], [1], [5], [0, 3, 7]] utilities [6, 11, 8, 8, 9], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6], [2, 4], [1, 8], [5], [0, 3, 7]] utilities [6, 11, 8, 8, 9], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[6], [2, 4], [1], [5], [0, 3, 7, 8]] utilities [6, 11, 8, 8, 13], picks taken from {0: [1], 1: [0], 2: [4], 3: [], 4: [2]}
+    target [[3, 5, 7], [6], [1], [2, 4], [0, 8]] utilities [10, 10, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[3, 5], [6, 7], [1], [2, 4], [0, 8]] utilities [10, 10, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[3, 5], [6], [1, 7], [2, 4], [0, 8]] utilities [10, 10, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[3, 5, 8], [6], [1], [2, 4], [0, 7]] utilities [10, 10, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[3, 5], [6, 8], [1], [2, 4], [0, 7]] utilities [10, 10, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[3, 5], [6], [1, 8], [2, 4], [0, 7]] utilities [10, 10, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[3, 5], [6], [1], [2, 4], [0, 7, 8]] utilities [10, 10, 8, 9, 13], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5, 7], [3, 6], [1], [2, 4], [0, 8]] utilities [10, 12, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [3, 6, 7], [1], [2, 4], [0, 8]] utilities [10, 12, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [3, 6], [1, 7], [2, 4], [0, 8]] utilities [10, 12, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [3, 6], [1], [2, 4, 7], [0, 8]] utilities [10, 12, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5, 8], [3, 6], [1], [2, 4], [0, 7]] utilities [10, 12, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [3, 6, 8], [1], [2, 4], [0, 7]] utilities [10, 12, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [3, 6], [1, 8], [2, 4], [0, 7]] utilities [10, 12, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [3, 6], [1], [2, 4, 8], [0, 7]] utilities [10, 12, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [3, 6], [1], [2, 4], [0, 7, 8]] utilities [10, 12, 8, 9, 13], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5, 7], [6], [1, 3], [2, 4], [0, 8]] utilities [10, 10, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6, 7], [1, 3], [2, 4], [0, 8]] utilities [10, 10, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6], [1, 3, 7], [2, 4], [0, 8]] utilities [10, 10, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5, 8], [6], [1, 3], [2, 4], [0, 7]] utilities [10, 10, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6, 8], [1, 3], [2, 4], [0, 7]] utilities [10, 10, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6], [1, 3], [2, 4], [0, 7, 8]] utilities [10, 10, 8, 9, 13], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5, 7], [6], [1], [2, 4], [0, 3, 8]] utilities [10, 10, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6, 7], [1], [2, 4], [0, 3, 8]] utilities [10, 10, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6], [1, 7], [2, 4], [0, 3, 8]] utilities [10, 10, 8, 9, 11], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5, 8], [6], [1], [2, 4], [0, 3, 7]] utilities [10, 10, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6, 8], [1], [2, 4], [0, 3, 7]] utilities [10, 10, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6], [1, 8], [2, 4], [0, 3, 7]] utilities [10, 10, 8, 9, 9], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+    target [[5], [6], [1], [2, 4], [0, 3, 7, 8]] utilities [10, 10, 8, 9, 13], picks taken from {0: [3], 1: [], 2: [4], 3: [0], 4: [2]}
+  41 targets; least "most other owners in one bundle" over the targets: 1
+  Lemma T6 blocks 0 of 41 targets (blocking agents []): not a T6 certificate
+  two-move repairs (first move, canonical?, repairing second moves, canonical ones):
+     ((0, 1), False, [(2, 4), (2, 4), (2, 4)], [])
+     ((0, 1, 2), False, [(0, 4, 2), (0, 4, 2, 1, 3), (0, 4, 2), (0, 4, 2, 1, 3), (0, 4, 2), (0, 4, 2, 1, 3)], [])
+     ((0, 3), False, [(2, 4), (2, 4), (2, 4)], [])
+     ((0, 3, 2), False, [(0, 4, 2), (0, 4, 2), (0, 4, 2)], [])
+     ((2, 4), False, [(0, 1), (0, 3)], [])
+     ((2, 4), False, [(0, 1), (0, 3)], [])
+     ((2, 4), False, [(0, 1), (0, 3)], [])
+  OC2^max True; canonical first chains 0; CC2 (some canonical + canonical) False; every canonical first chain finishes canonically False
+instances 2
+CC2 holds 0
+Lemma T6 certifies the failure 0
+OC1^max fails (SAT and brute force) 2
+OC2^max holds 2
+every canonical first chain works 0
+every repairing first move is canonical 0
+least most-owners 1 2
+minimal fixed points (§11) as first moves:
+  instance 0: 0 minimal fixed-point first chains []; finished by some move: 0; by a minimal fixed point: 0
+  instance 1: 0 minimal fixed-point first chains []; finished by some move: 0; by a minimal fixed point: 0
+  every minimal fixed point is finished by one more move 0
+  instances 2
+  some minimal fixed point exists 0
+  some minimal fixed point is finished by one more move 0
+  two minimal fixed points suffice 0

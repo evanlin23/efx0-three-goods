@@ -1,0 +1,4 @@
+$ python3 kgen/charity/w_climb.py 31 3000 1 rand5 3
+start score 0 (>= 1 out: 48, < 1 out: 48)
+final score 0 time 453 s
+(stopped by hand after the plateau; see kgen/charity.md §6)

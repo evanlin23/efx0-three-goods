@@ -1,0 +1,7 @@
+$ python3 k4/ttc/r2_ek.py sweep 2,3,4 100 1 71
+  E(k) ends at a receiver: always 466
+  R2-E: some E(k) with an improving T repairs 466
+  some E(k) with a PAIR T repairs 466
+  some repairing E(k) has a receiver of Y as owner 466
+hard starts with >= 2 receivers 466
+time 112 s

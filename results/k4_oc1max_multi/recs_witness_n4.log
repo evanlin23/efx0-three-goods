@@ -1,0 +1,4 @@
+# input: results/k4_matching/data/two_move_starts_n4.json.gz on proof/k4-matching at 4551d91a (sha256 6159e38d1e70ae16c5e92fae390640789bac20b9b1e6787246e9e9450ad65bbb), the certifier's export (k4/oc1cert/export_fails.py from results/k4_oc1max/cert_4.json.gz) of every n = 4 start with no one-move repair; fetched with git show
+$ python3 k4/oc1max_multi/recs_witness.py results/k4_matching/data/two_move_starts_n4.json.gz results/k4_oc1max_multi/recs_witnesses_n4.json.gz
+starts 112880 with a witness 112880 without 0
+# the export field of the witness file was then set to the input's repository path and sha256 (the generator records argv[1])

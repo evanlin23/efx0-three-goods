@@ -1,0 +1,10 @@
+sets [[0, 1, 3, 4], [1, 2, 5, 6], [2, 0, 7, 8], [0, 1, 2], [0, 1, 2]] vals [[10, 3, 6, 5], [10, 3, 6, 5], [10, 3, 6, 5], [4, 3, 2], [2, 4, 3]] m 9
+order [0, 1, 2, 3, 4] picks [0, 1, 2, None, None] junk [3, 4, 5, 6, 7, 8]
+1. picks: one-absorber completion False | free completion True
+2. improving moves: 62 (additions 9, chains 48, rings 5)
+   moves after which the bases have a one-absorber completion: 0
+   moves after which the bases have a free completion (OC): 6 [('chain', (0, 3)), ('chain', (0, 4)), ('chain', (1, 3)), ('chain', (1, 4)), ('chain', (2, 3))]
+OC1 FAILS for this order (independent replay)
+is_core4 failures (empty = strict connected k = 4 core): []
+distinct SD outcomes: 11 Counter({'one move': 6, 'one-absorber completion at the picks': 4, 'OC1 FAILS': 1})
+R1-priority SD of order (0, 2, 1, 3, 4): [0, 1, 2, None, None]

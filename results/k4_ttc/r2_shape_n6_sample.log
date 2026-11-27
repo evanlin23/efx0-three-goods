@@ -1,0 +1,38 @@
+$ python3 k4/ttc/r2_shape.py sweep 2,3,4 100 1 71
+hypergraphs 9162
+no OS repair {"sets": [[0, 1, 2, 8], [2, 7, 8], [3, 5, 6, 8], [3, 5, 7], [4, 6, 7], [4, 6, 8]], "vals": [[6, 3, 7, 5], [4, 2, 3], [3, 8, 6, 10], [2, 4, 3], [2, 3, 4], [4, 3, 2]], "m": 9, "order": [0, 1, 2, 4, 3, 5], "picks": [2, 8, 5, 3, 7, 4], "repairs": ["('chain, canonical, ends at a frozen agent', 'no absorber', False)", "('chain, canonical, ends at a receiver', 'absorber x_0', False)", "('chain, canonical, ends at a receiver', 'no absorber', False)", "('chain, non-canonical, ends at a frozen agent', 'no absorber', False)"]}
+no OS repair {"sets": [[0, 2, 3, 4], [1, 5, 6], [3, 5, 8], [4, 7, 8], [5, 6, 7, 8], [6, 7, 8]], "vals": [[6, 4, 5, 8], [4, 3, 2], [3, 4, 2], [4, 3, 2], [6, 1, 8, 4], [2, 4, 3]], "m": 9, "order": [0, 1, 2, 3, 5, 4], "picks": [4, 1, 5, 7, 6, 8], "repairs": ["('chain, canonical, ends at a frozen agent', 'no absorber', False)", "('chain, canonical, ends at a receiver', 'absorber x_0', False)", "('chain, canonical, ends at a receiver', 'no absorber', False)", "('chain, non-canonical, ends at a frozen agent', 'no absorber', False)"]}
+no OS repair {"sets": [[0, 2, 3, 4], [1, 5, 6], [3, 5, 8], [4, 7, 8], [5, 6, 7, 8], [6, 7, 8]], "vals": [[6, 4, 5, 8], [4, 3, 2], [3, 4, 2], [4, 3, 2], [6, 1, 8, 4], [2, 4, 3]], "m": 9, "order": [0, 1, 2, 5, 3, 4], "picks": [4, 1, 5, 8, 6, 7], "repairs": ["('chain, canonical, ends at a frozen agent', 'no absorber', False)", "('chain, canonical, ends at a receiver', 'absorber x_0', False)", "('chain, canonical, ends at a receiver', 'no absorber', False)", "('chain, non-canonical, ends at a frozen agent', 'no absorber', False)"]}
+no OS repair {"sets": [[0, 2, 7], [1, 7, 8], [2, 4, 5, 6], [3, 4, 8], [3, 5, 6, 7], [5, 6, 8]], "vals": [[2, 4, 3], [3, 4, 2], [7, 8, 4, 2], [2, 4, 3], [4, 2, 8, 5], [4, 3, 2]], "m": 9, "order": [0, 1, 3, 2, 4, 5], "picks": [2, 7, 5, 4, 6, 8], "repairs": ["('chain, canonical, ends at a receiver', 'absorber a frozen agent off the path', False)", "('chain, canonical, ends at a receiver', 'no absorber', False)", "('chain, non-canonical, ends at a frozen agent', 'absorber a frozen agent off the path', False)", "('chain, non-canonical, ends at a frozen agent', 'no absorber', False)", "('chain, non-canonical, ends at a receiver', 'no absorber', False)"]}
+no OS repair {"sets": [[0, 1, 6, 7], [0, 4, 7], [1, 4, 8], [2, 3, 6, 7], [2, 5, 8], [3, 5, 8]], "vals": [[8, 6, 3, 4], [4, 3, 2], [4, 3, 2], [10, 7, 4, 2], [3, 2, 4], [3, 2, 4]], "m": 9, "order": [1, 0, 2, 3, 5, 4], "picks": [1, 0, 4, 2, 5, 8], "repairs": ["('chain, canonical, ends at a frozen agent', 'no absorber', False)", "('chain, canonical, ends at a receiver', 'absorber x_t', False)", "('chain, canonical, ends at a receiver', 'no absorber', False)", "('chain, non-canonical, ends at a frozen agent', 'no absorber', False)"]}
+no OS repair {"sets": [[0, 2, 4, 5], [1, 5, 7], [3, 6, 9], [4, 6, 7, 8], [6, 8, 9], [7, 8, 9]], "vals": [[5, 4, 6, 8], [2, 4, 3], [3, 2, 4], [4, 10, 3, 8], [4, 3, 2], [3, 4, 2]], "m": 10, "order": [0, 2, 3, 4, 5, 1], "picks": [5, 1, 9, 6, 8, 7], "repairs": ["('chain, canonical, ends at a receiver', 'absorber x_0', False)", "('chain, non-canonical, ends at a frozen agent', 'absorber x_t', False)", "('chain, non-canonical, ends at a frozen agent', 'no absorber', False)"]}
+no OS repair {"sets": [[0, 2, 4, 5], [1, 5, 7], [3, 6, 9], [4, 6, 7, 8], [6, 8, 9], [7, 8, 9]], "vals": [[5, 4, 6, 8], [2, 4, 3], [3, 2, 4], [4, 10, 3, 8], [4, 3, 2], [3, 4, 2]], "m": 10, "order": [0, 2, 4, 3, 5, 1], "picks": [5, 1, 9, 8, 6, 7], "repairs": ["('chain, canonical, ends at a receiver', 'absorber x_0', False)", "('chain, non-canonical, ends at a frozen agent', 'absorber x_t', False)", "('chain, non-canonical, ends at a frozen agent', 'no absorber', False)"]}
+no OS repair {"sets": [[0, 2, 7, 8], [1, 4, 9], [3, 6, 7, 8], [4, 8, 9], [5, 6, 7], [5, 6, 9]], "vals": [[4, 5, 8, 6], [2, 4, 3], [3, 6, 10, 2], [4, 3, 2], [3, 2, 4], [3, 4, 2]], "m": 10, "order": [0, 1, 2, 3, 4, 5], "picks": [7, 4, 6, 8, 5, 9], "repairs": ["('chain, canonical, ends at a frozen agent', 'absorber x_t', False)", "('chain, canonical, ends at a frozen agent', 'no absorber', False)", "('chain, canonical, ends at a receiver', 'absorber inside the path', False)", "('chain, canonical, ends at a receiver', 'absorber x_0', False)", "('chain, canonical, ends at a receiver', 'absorber x_t', False)", "('chain, canonical, ends at a receiver', 'no absorber', False)"]}
+no OS repair {"sets": [[0, 2, 5, 6], [1, 4, 7], [3, 4, 7, 8], [3, 7, 9], [5, 8, 9], [6, 8, 9]], "vals": [[6, 3, 7, 5], [2, 3, 4], [8, 2, 7, 4], [4, 3, 2], [4, 2, 3], [4, 2, 3]], "m": 10, "order": [0, 1, 2, 3, 4, 5], "picks": [5, 7, 3, 9, 8, 6], "repairs": ["('chain, canonical, ends at a frozen agent', 'absorber a frozen agent off the path', False)", "('chain, canonical, ends at a frozen agent', 'no absorber', False)", "('chain, canonical, ends at a receiver', 'absorber a frozen agent off the path', False)", "('chain, canonical, ends at a receiver', 'absorber x_0', False)", "('chain, canonical, ends at a receiver', 'no absorber', False)", "('chain, non-canonical, ends at a frozen agent', 'no absorber', False)"]}
+no OS repair {"sets": [[0, 2, 5, 8], [1, 3, 4, 8], [3, 6, 7], [4, 6, 9], [5, 7, 9], [7, 8, 9]], "vals": [[5, 3, 6, 7], [5, 2, 8, 4], [3, 4, 2], [2, 3, 4], [2, 4, 3], [2, 4, 3]], "m": 10, "order": [0, 2, 4, 5, 3, 1], "picks": [8, 1, 6, 4, 7, 9], "repairs": ["('chain, canonical, ends at a frozen agent', 'absorber inside the path', False)", "('chain, canonical, ends at a frozen agent', 'no absorber', False)", "('chain, canonical, ends at a receiver', 'absorber x_0', False)", "('chain, canonical, ends at a receiver', 'no absorber', False)", "('chain, non-canonical, ends at a frozen agent', 'absorber inside the path', False)", "('chain, non-canonical, ends at a frozen agent', 'absorber x_t', False)"]}
+  NO repair has the shape OS 202
+  canonical chain to a receiver z repairs with owner another receiver off the path: some 466
+  canonical chain to a receiver z repairs with owner no absorber needed: some 466
+  canonical chain to a receiver z repairs with owner x_0: some 466
+  canonical chain to a receiver z repairs with owner z = x_t: some 466
+  no minimal fixed point repairs 5
+  some canonical chain repairs 466
+  some minimal fixed point (§11) repairs 461
+  some repair has the shape OS (canonical; a receiver absorbs, the chain avoids it or ends at the other) 264
+  some repair: absorber a frozen agent off the path 254
+  some repair: absorber a receiver off the path 317
+  some repair: absorber inside the path 322
+  some repair: absorber x_0 403
+  some repair: absorber x_t 351
+  some repair: addition by frozen 10
+  some repair: addition by receiver 134
+  some repair: chain, canonical, ends at a frozen agent 445
+  some repair: chain, canonical, ends at a receiver 466
+  some repair: chain, non-canonical, ends at a frozen agent 466
+  some repair: chain, non-canonical, ends at a receiver 282
+  some repair: no absorber 458
+R2 holds 466
+hard perfect starts with 1 receivers 1021
+hard perfect starts with 2 receivers 441
+hard perfect starts with 3 receivers 25
+time 233 s
