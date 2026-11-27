@@ -1,0 +1,1 @@
+$ python3 k4/haxell/ht_n3types_check.py K=3 MMAX=9 SAMPLE=14100 SEED=3
