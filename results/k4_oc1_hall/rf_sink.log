@@ -1,1 +1,10 @@
 $ python3 k4/oc1_hall/rf_sink.py two_move_starts_n5_partial6.json.gz two_move_starts_n5_sel2.json.gz
+DEMOTE-2 starts 140111
+SINK after (C') head frozen, length 1 5706
+SINK after (C') head frozen, length 2 4
+SINK after (C) k -> d 128074
+SINK at Y' 6327
+
+real	0m52.330s
+user	2m5.193s
+sys	0m2.223s

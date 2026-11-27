@@ -2424,8 +2424,11 @@ completion in which all remaining free goods go to one agent a ∈ {w, d}, excep
 - Girth: all 161,520 distinct n = 4 RF starts, every class, and all 121,217 n = 5 DEMOTE-0 and (1, 3) starts. 0
   exceptions.
 - Here, DEMOTE-2 at n = 5. A sample of every 20th partial6 start with an official chain k → d: SINK with owner d after
-  "k takes S, d takes Y′_k" at 6,220 of 6,220. The full census of all 140,111 DEMOTE-2 starts, with the (C′) chains
-  included, is `k4/oc1_hall/rf_sink.py`. Its log `rf_sink.log` is a placeholder while it runs.
+  "k takes S, d takes Y′_k" at 6,220 of 6,220. The full census (`k4/oc1_hall/rf_sink.py`, `rf_sink.log`): **SINK holds at all
+  140,111 n = 5 DEMOTE-2 starts.** 6,327 hold at Y′, 128,074 after (C) k → d, and 5,710 after (C′), a chain to a frozen
+  head (5,706 of length 1, 4 of length 2). 0 exceptions.
+- With girth's counts, SINK holds on every RF start of the n = 4 export and of the n = 5 classes (1, 0), (1, 2) and
+  (1, 3). The n = 5 R2 classes complete at the picks or after a K chain (§24.10); SINK was not tested on them here.
 
 **Girth's Corollary RF-T′** (DEMOTE-0 trade case at n = 5, written proof in `k4/girth.md` §7; [unverified] here).
 RF-T's explicit completion is EFX₀ if:
