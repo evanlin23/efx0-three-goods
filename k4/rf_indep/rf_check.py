@@ -25,6 +25,7 @@ two_move_starts_n5_sel2.json.gz, two_move_starts_n5_partial6.json.gz, 5_pure_s5o
 5_pure_s5o1_summary.jsonl.gz.
 """
 import sys, os, gzip, json, itertools, collections, hashlib, subprocess, time, argparse, tempfile, random
+import gc as gc_mod
 from multiprocessing import Pool
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -94,16 +95,28 @@ def prof_key(vals):
     return bytes(x for vv in vals for x in vv)
 
 
+def ybytes(Y):
+    return bytes(255 if y is None else y for y in Y)
+
+
+def compact(st, n):
+    """a start as (profile bytes, picks, listed orders as bytes or None, export receivers or None)"""
+    od = st.get('orders')
+    return (prof_key(st['vals']), tuple(st['picks']),
+            None if od is None else b''.join(bytes(o) for o in od),
+            None if st.get('receivers') is None else tuple(st['receivers']))
+
+
 def work(job):
     hid, starts = job
     h = G['hyps'][hid]; sets, n, nu = h['sets'], h['n'], h['nu']
     perms = G['perms'][n]
     C = collections.Counter(); keys = {}
-    for st in starts:
-        vals, Y = st['vals'], tuple(st['picks'])
+    for pk, Y, od, exrec in starts:
+        vals = unprof(pk, h)
         pref = prefs(sets, vals)
         allp = {o: sd(pref, o) for o in perms}
-        listed = [tuple(o) for o in st['orders']] if st.get('orders') is not None else None
+        listed = None if od is None else [tuple(od[i:i + n]) for i in range(0, len(od), n)]
         giving = [o for o in perms if allp[o] == Y]
         C['starts'] += 1
         C['orders giving Y (all n! orders)'] += len(giving)
@@ -116,9 +129,8 @@ def work(job):
         C['starts with |Y| = nu'] += sum(1 for y in Y if y is not None) == nu
         rec = receivers(sets, vals, Y)
         C['receivers per start %d' % len(rec)] += 1
-        if st.get('receivers') is not None:
-            C['starts whose receivers agree with the export'] += sorted(rec) == sorted(st['receivers'])
-        pk = prof_key(vals)
+        if exrec is not None:
+            C['starts whose receivers agree with the export'] += sorted(rec) == sorted(exrec)
         for u in rec:
             C['(start, receiver) pairs'] += 1
             uf = [o for o in perms if o[0] == u]
@@ -126,11 +138,11 @@ def work(job):
             C['u-first orders'] += len(uf); C['u-first orders giving a maximum matching'] += len(mm)
             C['(start, receiver) pairs with some u-first maximum-matching order (RF a)'] += bool(mm)
             for o in uf:
-                keys[(pk, allp[o], 0)] = 1 if o in mm else 0
+                keys[(pk + ybytes(allp[o]), 0)] = 1 if o in mm else 0
             for o in listed:
                 rot = (u,) + tuple(a for a in o if a != u)
                 Yp = allp[rot]
-                keys[(pk, Yp, 1)] = 1 if sum(1 for y in Yp if y is not None) == nu else 0
+                keys[(pk + ybytes(Yp), 1)] = 1 if sum(1 for y in Yp if y is not None) == nu else 0
     return hid, C, list(keys.items())
 
 
@@ -144,21 +156,42 @@ def task_line(tid, sets, vals, m, B):
     return ' '.join(parts)
 
 
-def run_c(lines, procs, binpath, tag):
+def run_shards(lines, procs, binpath, tag):
+    """write the task lines round-robin into procs files, run rf_oc1 on each; returns [(in, out)] and the count"""
     tmp = tempfile.mkdtemp(prefix='rf_' + tag + '_')
-    shards = [lines[i::procs] for i in range(procs)]
+    fis = [os.path.join(tmp, 'in%d' % i) for i in range(procs)]
+    fhs = [open(f, 'w') for f in fis]; cnt = 0
+    for line in lines:
+        fhs[cnt % procs].write(line + '\n'); cnt += 1
+    for f in fhs: f.close()
     ps = []
-    for i, sh in enumerate(shards):
-        fi = os.path.join(tmp, 'in%d' % i); fo = os.path.join(tmp, 'out%d' % i)
-        with open(fi, 'w') as f: f.write('\n'.join(sh) + ('\n' if sh else ''))
-        ps.append((subprocess.Popen([binpath], stdin=open(fi), stdout=open(fo, 'w')), fo))
-    out = {}
-    for p, fo in ps:
+    for fi in fis:
+        fo = fi.replace('in', 'out')
+        ps.append((subprocess.Popen([binpath], stdin=open(fi), stdout=open(fo, 'w')), fi, fo))
+    for p, fi, fo in ps:
         if p.wait() != 0: raise SystemExit('rf_oc1 failed')
-        for line in open(fo):
-            a = line.split(); out[a[0]] = a[1:]
-    if len(out) != len(lines): raise SystemExit('missing answers: %d of %d' % (len(out), len(lines)))
-    return out
+    return [(fi, fo) for p, fi, fo in ps], cnt
+
+
+def pairs(fi, fo):
+    """(task line, answer tokens) in lockstep; the ids must agree"""
+    n = 0
+    with open(fi) as a, open(fo) as b:
+        for la, lb in zip(a, b):
+            ta = la.split(None, 1)[0]; tb = lb.split()
+            if ta != tb[0]: raise SystemExit('answer out of step: %s %s' % (ta, tb[0]))
+            n += 1
+            yield la.rstrip('\n'), tb[1:]
+    if sum(1 for _ in open(fi)) != n: raise SystemExit('missing answers in ' + fo)
+
+
+def parse_task(line):
+    tok = line.split(); n, m = int(tok[1]), int(tok[2]); p = 3; sets = []; vals = []
+    for i in range(n):
+        k = int(tok[p]); p += 1
+        sets.append([int(tok[p + 2 * q]) for q in range(k)]); vals.append([int(tok[p + 2 * q + 1]) for q in range(k)]); p += 2 * k
+    B = [bits(int(tok[p + i])) for i in range(n)]
+    return tok[0], sets, vals, m, B
 
 
 def bits(x):
@@ -194,24 +227,26 @@ def check_chain(I, B, seq, Hs):
     return NB
 
 
-def verify(job):
-    """job: list of (sets, vals, m, B, answer tokens).  Returns Counter."""
-    C = collections.Counter()
-    for sets, vals, m, B, a in job:
+def verify_shard(fifo):
+    """verify every answer of one shard; returns ({(group class, hid): Counter}, [task lines answered F])"""
+    out = collections.defaultdict(collections.Counter); F = []
+    for line, a in pairs(*fifo):
+        tid, sets, vals, m, B = parse_task(line)
+        gc, hid = tid.split(':')[0], int(tid.split(':')[1])
         I = L.Inst(sets, vals, m); n = I.n
         if a[0] == 'P':
             o = int(a[1]); X = [bits(int(x)) for x in a[2:2 + n]]
-            C['P verified' if check_completion(I, B, o, X) else 'P WITNESS INVALID'] += 1
+            out[(gc, hid)]['P verified' if check_completion(I, B, o, X) else 'P WITNESS INVALID'] += 1
         elif a[0] == 'C':
             t = int(a[1]); seq = [int(x) for x in a[2:3 + t]]
             Hs = [bits(int(x)) for x in a[3 + t:4 + 2 * t]]
             o = int(a[4 + 2 * t]); X = [bits(int(x)) for x in a[5 + 2 * t:5 + 2 * t + n]]
             NB = check_chain(I, B, seq, Hs)
             ok = NB is not None and check_completion(I, NB, o, X)
-            C[('C verified, t = %d' % t) if ok else 'C WITNESS INVALID'] += 1
+            out[(gc, hid)][('C verified, t = %d' % t) if ok else 'C WITNESS INVALID'] += 1
         else:
-            C['F'] += 1
-    return C
+            out[(gc, hid)]['F'] += 1; F.append(line)
+    return dict(out), F
 
 
 def py_oc1(sets, vals, m, B):
@@ -273,13 +308,15 @@ def main():
             meta[hid] = dict(group=set(), complete=complete, list=lst, idx=idx)
         meta[hid]['group'].add(group)
         if args.limit: starts = starts[:args.limit]
-        for i in range(0, len(starts), 4000): jobs.append((hid, group, starts[i:i + 4000]))
+        cs = [compact(st, len(sets)) for st in starts]
+        for i in range(0, len(cs), 4000): jobs.append((hid, group, cs[i:i + 4000]))
 
     for group in ('sel2', 'partial6'):
         d = json.load(gzip.open(os.path.join(args.data, files[group])))
         for h in d['hypergraphs']:
             m = 1 + max(max(s) for s in h['sets'])
             add_hyp(group, h['list'], h['idx'], h['sets'], m, h['nu'], h['complete'], h['starts'])
+        del d
     for group in ('s5o0', 's5o1'):
         for line in gzip.open(os.path.join(args.data, files[group]), 'rt'):
             r = json.loads(line)
@@ -294,89 +331,92 @@ def main():
     for hid, group, starts in jobs[::7]:
         h = hyps[hid]
         for st in starts[:20]:
-            I = L.Inst(h['sets'], st['vals'], h['m']); pref = prefs(h['sets'], st['vals'])
+            vals = unprof(st[0], h)
+            I = L.Inst(h['sets'], vals, h['m']); pref = prefs(h['sets'], vals)
             for o in rnd.sample(list(itertools.permutations(range(h['n']))), 10):
                 tested += 1; bad += sd(pref, o) != L.sd_picks(I, o)
     print('fast SD vs d1lib.sd_picks: %d orders compared, %d differ' % (tested, bad))
 
     # ---- stage A: orders, receivers, u-first pick vectors
     perg = collections.defaultdict(collections.Counter)
-    uf = collections.defaultdict(dict)       # (group class, hid) -> {(prof, Y'): mm}
+    uf = collections.defaultdict(dict)       # (group class, hid) -> {profile + Y' bytes: is a maximum matching}
     rot = collections.defaultdict(dict)
     gclass = lambda g: 'stored' if g == 'stored' else 'export'
+    gc_mod.collect(); gc_mod.freeze()
     with Pool(args.procs, initializer=init_worker, initargs=(hyps,)) as pool:
         for (hid, C, keys), (_, group, _) in zip(pool.imap(work, [(h, s) for h, g, s in jobs]), jobs):
             perg[(group, hid)].update(C)
-            gc = gclass(group)
-            for (pk, Yp, isrot), mm in keys:
-                (rot if isrot else uf)[(gc, hid)][(pk, Yp)] = mm
-    print('stage A done %.0f s' % (time.time() - t0))
+            gcl = gclass(group)
+            for (key, isrot), mm in keys:
+                (rot if isrot else uf)[(gcl, hid)][key] = mm
+    gc_mod.unfreeze()
+    print('stage A done %.0f s' % (time.time() - t0), flush=True)
+    ufsum = {k: (len(d), sum(d.values())) for k, d in uf.items()}
+    rotsum = {k: (len(d), sum(d.values())) for k, d in rot.items()}
+    del rot
 
     # ---- stage B: OC1 at every distinct u-first maximum-matching pick vector
-    tasks = []; tinfo = {}
-    for (gc, hid), dct in sorted(uf.items()):
-        h = hyps[hid]
-        for j, ((pk, Yp), mm) in enumerate(dct.items()):
-            if not mm: continue
-            vals = unprof(pk, h)
-            B = [[y] if y is not None else [] for y in Yp]
-            tid = '%s:%d:%d' % (gc, hid, j)
-            tasks.append(task_line(tid, h['sets'], vals, h['m'], B)); tinfo[tid] = (h['sets'], vals, h['m'], B, gc, hid)
-    print('stage B: %d OC1 tasks' % len(tasks), flush=True)
-    ans = run_c(tasks, args.procs, binpath, 'rf')
-    print('stage B done %.0f s' % (time.time() - t0), flush=True)
+    def gen_tasks():
+        for (gcl, hid), dct in sorted(uf.items()):
+            h = hyps[hid]; n = h['n']
+            for j, (key, mm) in enumerate(dct.items()):
+                if not mm: continue
+                vals = unprof(key[:-n], h)
+                B = [[y] if y != 255 else [] for y in key[-n:]]
+                yield task_line('%s:%d:%d' % (gcl, hid, j), h['sets'], vals, h['m'], B)
+    shards, ntasks = run_shards(gen_tasks(), args.procs, binpath, 'rf')
+    del uf
+    print('stage B: %d OC1 tasks done %.0f s' % (ntasks, time.time() - t0), flush=True)
 
-    # ---- stage C: verify every witness in Python
-    vjobs = collections.defaultdict(list)
-    for tid, a in ans.items():
-        s, v, m, B, gc, hid = tinfo[tid]
-        vjobs[(gc, hid)].append((s, v, m, B, a))
-    ver = collections.defaultdict(collections.Counter)
-    flat = [(k, lst[i:i + 5000]) for k, lst in vjobs.items() for i in range(0, len(lst), 5000)]
+    # ---- stage C: verify every witness in Python; re-check F answers in pure Python
+    ver = collections.defaultdict(collections.Counter); fails = []
+    gc_mod.collect(); gc_mod.freeze()
     with Pool(args.procs) as pool:
-        for (k, _), C in zip(flat, pool.imap(verify, [j for _, j in flat])): ver[k].update(C)
-    fails = [(tid, tinfo[tid]) for tid, a in ans.items() if a[0] == 'F']
-    second = collections.Counter(py_oc1(*info[:4]) for tid, info in fails)
+        for out, F in pool.imap(verify_shard, shards):
+            for k, C in out.items(): ver[k].update(C)
+            fails += F
+        second = collections.Counter(pool.map(py_from_line, fails)) if fails else collections.Counter()
+    gc_mod.unfreeze()
     print('stage C done %.0f s' % (time.time() - t0), flush=True)
 
     # ---- optional: OC1 at the failing starts themselves
     orig = None
     if args.orig != '0':
-        olines = []; rnd = random.Random(2)
+        rnd = random.Random(2)
         byh = collections.defaultdict(list)
         for hid, group, starts in jobs:
             if group == 'stored': continue
             byh[hid].extend(starts)
-        for hid, sts in byh.items():
-            pick = sts if args.orig == 'all' else rnd.sample(sts, min(len(sts), int(args.orig)))
-            h = hyps[hid]
-            for j, st in enumerate(pick):
-                B = [[y] if y is not None else [] for y in st['picks']]
-                olines.append(task_line('orig:%d:%d' % (hid, j), h['sets'], st['vals'], h['m'], B))
-        oans = run_c(olines, args.procs, binpath, 'orig')
-        orig = collections.defaultdict(collections.Counter)
-        for tid, a in oans.items(): orig[int(tid.split(':')[1])][a[0]] += 1
-        if args.orig_py:
-            pj = []; per = collections.Counter(); oinfo = {}
-            for line in olines:
-                tok = line.split(); tid = tok[0]; hid = int(tid.split(':')[1])
-                if oans[tid][0] == 'F' and per[hid] < args.orig_py:
-                    per[hid] += 1; pj.append((hid, line))
+        def gen_orig():
+            for hid, sts in byh.items():
+                pick = sts if args.orig == 'all' else rnd.sample(sts, min(len(sts), int(args.orig)))
+                h = hyps[hid]
+                for j, st in enumerate(pick):
+                    B = [[y] if y is not None else [] for y in st[1]]
+                    yield task_line('orig:%d:%d' % (hid, j), h['sets'], unprof(st[0], h), h['m'], B)
+        oshards, nolines = run_shards(gen_orig(), args.procs, binpath, 'orig')
+        orig = collections.defaultdict(collections.Counter); pj = []
+        for fifo in oshards:
+            for line, a in pairs(*fifo):
+                hid = int(line.split(None, 1)[0].split(':')[1])
+                orig[hid][a[0]] += 1
+                if a[0] == 'F' and orig[hid]['_py'] < args.orig_py:
+                    orig[hid]['_py'] += 1; pj.append((hid, line))
+        if pj:
+            gc_mod.collect(); gc_mod.freeze()
             with Pool(args.procs) as pool:
                 for hid, r in zip([h for h, _ in pj], pool.imap(py_from_line, [l for _, l in pj])):
                     orig[hid]['second implementation (Python) on F: ' + r] += 1
-        print('orig done %.0f s' % (time.time() - t0), flush=True)
+            gc_mod.unfreeze()
+        for C in orig.values(): C.pop('_py', None)
+        print('orig: %d starts done %.0f s' % (nolines, time.time() - t0), flush=True)
 
-    report(hyps, meta, perg, uf, rot, ver, second, orig, args)
+    report(hyps, meta, perg, ufsum, rotsum, ver, second, orig, args)
     print('time %.0f s' % (time.time() - t0))
 
 
 def py_from_line(line):
-    tok = line.split(); n, m = int(tok[1]), int(tok[2]); p = 3; sets = []; vals = []
-    for i in range(n):
-        k = int(tok[p]); p += 1
-        sets.append([int(tok[p + 2 * q]) for q in range(k)]); vals.append([int(tok[p + 2 * q + 1]) for q in range(k)]); p += 2 * k
-    B = [bits(int(tok[p + i])) for i in range(n)]
+    tid, sets, vals, m, B = parse_task(line)
     return py_oc1(sets, vals, m, B)
 
 
@@ -386,7 +426,7 @@ def unprof(pk, h):
     return out
 
 
-def report(hyps, meta, perg, uf, rot, ver, second, orig, args):
+def report(hyps, meta, perg, ufsum, rotsum, ver, second, orig, args):
     def hname(hid): return '%s#%d' % (meta[hid]['list'], meta[hid]['idx'])
     print()
     print('== hypergraphs')
@@ -402,17 +442,17 @@ def report(hyps, meta, perg, uf, rot, ver, second, orig, args):
     print()
     print('== RF at the u-first maximum-matching pick vectors (distinct (profile, Y\') pairs)')
     S = collections.defaultdict(collections.Counter)
-    for (gc, hid), dct in sorted(uf.items()):
+    for (gc, hid), (nd, nmm) in sorted(ufsum.items()):
         cls = gc if gc == 'stored' else ('export-complete' if meta[hid]['complete'] else 'export-partial')
         C = collections.Counter()
-        C['distinct u-first pick vectors'] = len(dct)
-        C['  maximum matchings (RF tests these)'] = sum(dct.values())
-        C['  not maximum matchings (excluded by RF)'] = len(dct) - sum(dct.values())
-        for k, c in ver[(gc, hid)].items(): C['  OC1: ' + k] += c
-        r = rot[(gc, hid)]
-        C['distinct rotation (u, o - u) pick vectors'] = len(r)
-        C['  rotation vectors that are maximum matchings'] = sum(r.values())
-        C['  rotation vectors with a pickless agent'] = len(r) - sum(r.values())
+        C['distinct u-first pick vectors'] = nd
+        C['  maximum matchings (RF tests these)'] = nmm
+        C['  not maximum matchings (excluded by RF)'] = nd - nmm
+        for k, c in sorted(ver[(gc, hid)].items()): C['  OC1: ' + k] += c
+        nr, nrmm = rotsum.get((gc, hid), (0, 0))
+        C['distinct rotation (u, o - u) pick vectors'] = nr
+        C['  rotation vectors that are maximum matchings'] = nrmm
+        C['  rotation vectors with a pickless agent'] = nr - nrmm
         print('--', gc, hname(hid), '(%s)' % cls)
         for k in C: print('   %-75s %d' % (k, C[k]))
         S[cls].update(C); S['ALL ' + gc].update(C)
