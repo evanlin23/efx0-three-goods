@@ -54,7 +54,7 @@ SINK, PARK, SLACK (general). Everything else below is as marked.
 | K4.GIRTH.DEMOTE | Lemma DEMOTE, uniform statement: at every maximum-matching RF start, w or d owns a one-absorber completion, or a ring through a receiver of length 2 or 3 (T/T*), or a 2-agent chain from a truly dangerous agent (C/C′) repairs | CONJECTURE (no exception: all 292,080 n = 4 orders; at n = 5 the full residue classes DEMOTE-0 (113,484) and (1, 3) (7,733) of the certifier's exports, the 86 stored orders, the 64 two-receiver RF starts, 2,567 sampled orders; DEMOTE-2 at n = 5 covered by oc1-hall's census) | §7, `k4/girth/oc1_residue.py`, `k4/girth/oc1_residue_n5.py`, `results/k4_girth_oc1_residue.log`, `results/k4_girth_oc1_residue_n5.log`, `results/k4_girth_oc1_r2n5.log` |
 | K4.GIRTH.SINK | SINK form of DEMOTE (joint with oc1-hall): at every maximum-matching RF start, Y′ or the state after one DEMOTE move has an EFX₀ completion with all remaining junk to one a ∈ {w, d}, except at most one junk good to one other agent | CONJECTURE (0 exceptions: all 161,520 n = 4 RF starts; n = 5 DEMOTE-0, (1, 3) and, by oc1-hall, DEMOTE-2 in full; n = 5 R2 and U1 on a 1-in-10 sample) | §7, `k4/girth/oc1_sink.py`, `results/k4_girth_oc1_sink.log`, `results/k4_girth_oc1_sink_n5_r2u1.log` |
 | K4.GIRTH.RFPATH | Lemma RF-PATH: moving a receiver u of an SD start (e.g. the last picker) to the front of the order changes the picks only along one ejection path x_1, …, x_ℓ (increasing in the order); every x_i loses value, u gains; the path's end is unfrozen at the new picks (any n, strict additive values) | PROVED (written, not refereed) | §7 |
-| K4.GIRTH.RFT | Lemma RF-T and Corollary RF-T′: in DEMOTE-0's trade case, the explicit allocation (p: {Y′_d, j}; d: {Y_p, Y_u}; x_{ℓ−1}: {Y_d, z}; the rest along the path) is EFX₀ iff (W-d) and (W-p), and in particular whenever (F1) d wants Y_p at Y, (F2) no off-path agent wants Y_d at Y, (F3) Y_p is valued only by p, d, u | PROVED (written, not refereed); (F1)–(F3) hold for some trade at every n = 5 trade start (42,009), EVIDENCE | §7, `k4/girth/oc1_trade.py`, `results/k4_girth_oc1_trade.log` |
+| K4.GIRTH.RFT | Lemma RF-T and Corollary RF-T′: in DEMOTE-0's trade case, the explicit allocation (p: {Y′_d, j}; d: {Y_p, Y_u}; x_{ℓ−1}: {Y_d, z}; the rest along the path) is EFX₀ iff (W-d) and (W-p), and in particular whenever (F1) d wants Y_p at Y, (F2) no off-path agent wants Y_d at Y, (F3) Y_p is valued only by p, d, u | PROVED (refereed CORRECT, per the coordinator: referee item 59); (F1)–(F3) hold for some trade at every n = 5 trade start (42,009), EVIDENCE | §7, `k4/girth/oc1_trade.py`, `results/k4_girth_oc1_trade.log` |
 
 ---
 
@@ -802,7 +802,8 @@ So the uniform statement at every maximum-matching RF start reads: **(i) w or d 
 junk good; or (C/C′) a 2-agent chain from a truly dangerous agent taking an improving junk set.** On the complete n = 4
 data and the full n = 5 exports it has no exception.
 
-**Lemma RF-T (the trade case of DEMOTE-0; reduction PROVED, written here, not refereed; facts checked at n = 5).**
+**Lemma RF-T (the trade case of DEMOTE-0; reduction PROVED, written here, refereed CORRECT per the coordinator, item 59;
+facts checked at n = 5).**
 *Setting.* Y′ is an RF start with one receiver d and D_T′ = ∅. Its RF path is u = x₀, x₁, …, x_ℓ = d with ℓ ≥ 2, and d
 takes a junk good g of Y (RF-PATH; J′ = (J ∖ {g}) ∪ {Y_u}). p is a pick-dangerous agent of Y′ holding its own pick
 Y_p, and j ∈ J ∩ R_p, with the trade conditions v_p({g, j}) > v_p(Y_p) and v_d(Y_p) > v_d(g). Suppose J′ ∖ {j} =
@@ -835,7 +836,7 @@ So only Y_d (in x_{ℓ−1}'s bundle) and Y_p (in d's) can be wanted, which is (
 - every valid p is truly dangerous at Y and keeps its pick at Y′, and every j is junk at Y (41,803 starts, the
   unique-trade ones and more).
 
-**Corollary RF-T′ (written proof, not refereed).** In RF-T's setting, suppose
+**Corollary RF-T′ (written proof; refereed CORRECT per the coordinator, item 59).** In RF-T's setting, suppose
 - **(F1)** d wants Y_p at Y (v_d(Y_p) > v_d(Y_d));
 - **(F2)** no agent off the RF path other than u wants Y_d at Y;
 - **(F3)** Y_p is valued only by p, d and u.
