@@ -4,7 +4,7 @@ Workstream `proof/k4-ttc` (branch `claude/k4-ttc`, draft PR #101). Code: `k4/ttc
 log); logs: `results/k4_ttc/`. Notation as in `k4/sdc.md` (§2, §28–§30). Everything called evidence below is evidence
 only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator integrates.
 
-## Status (burst 7): R2 is owned here, CERTIFIED at n ≤ 4; of its proof targets only R2-C (canonical chain to a receiver, any owner) survives, CERTIFIED at n = 4 (§14.6)
+## Status (burst 7): R2 is owned here: CERTIFIED at n ≤ 4, REFUTED at n = 5 (§14.6, `attempts/k4-ttc-r2-n5.md`); at n = 4 its repairs are (S), (L) or (E)
 
 - **R2** (leaf 5a of the case tree, `k4/oc1_hall.md` §23.2): at a perfect serial-dictatorship start with at least two
   receivers (pick holders nobody values above their own pick), one move gives a one-absorber completion.
@@ -998,6 +998,17 @@ for example a holder of another agent's exact danger set. So R2 is stated only a
 
 ### 14.6 Conjecture R2 (owned here; leaf 5a of `k4/oc1_hall.md` §23.2)
 
+**R2 is REFUTED at n = 5** (certifier, b70dd88c; `attempts/k4-ttc-r2-n5.md`, replayed here by the brute force,
+`refute_r2_cex_n5.log`).
+- *The instance,* 5_pure idx 650: a strict connected MC2-class core with ν = 5, picks (g5, g0, g1, g6, g7), receivers
+  {1, 2}, frozen twins 3 and 4 sharing the junk triple {g2, g3, g4}.
+- *What fails:* no completion, free or one-absorber, after any of the 62 moves.
+- *What still holds:*
+  - R2 and R2-C are CERTIFIED at n ≤ 4, so the statement is a small-n phenomenon;
+  - RF and OC₂^max hold at all five n = 5 failures.
+- What follows below records R2 as it was stated and tested.
+
+
 **Setting.**
 - A strict connected k = 4 core.
 - Y is a *perfect* serial-dictatorship start: every agent holds exactly one pick y_i. Maximum-matching starts reduce
@@ -1173,6 +1184,19 @@ perfect start with |U| ≥ 2, one of the following holds:
   end needs junk to improve: in (1, 2, 0), agent 0 takes g6 + g0 = 8 > 7, and the head 1 takes {g2, g5}.
 - *A third shape,* then: through a middle receiver to a receiver, with junk at the end or at the middle receiver.
 - So the shapes of R2-C repairs do not reduce to a two-case lemma.
+
+**The census at n = 4** (certifier, commit 6b8c1e0b; `census_r2_n4.json.gz` and `.log` there). It covers 273 cores
+and 1,550,356 (S)-failing starts; 121 cores were cut at 20 s, and every second start was analysed (775,199).
+- Every repairing chain at every analysed start passes a middle receiver.
+- No shape uses junk at a middle agent that is neither dangerous nor a receiver.
+- The smallest cover, exact and equal to the greedy one, is **{end only, mid-dangerous only}**, both passing a
+  receiver:
+  - junk only at the end: the (E) shape;
+  - junk only at a dangerous middle agent: the (L) shape.
+
+  Both are needed: 25,507 starts have only the second, and 3,643 only the first.
+- So at n = 4 the R2-C repairs are **(S), (L) or (E)**: a pure want path to the first receiver, or a chain past a
+  receiver with junk at a dangerous middle agent or at the end.
 
 **The counts at n = 4** (certifier, 03:11, commit bb9f102d on `compute/k4-oc1max-cert`, PR #120; `check_4_r2sl.log`,
 `r2sl_fails_n4.jsonl`, `verify_r2sl_fails_n4.log`):
