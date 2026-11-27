@@ -111,7 +111,7 @@ that drops "favourite": 2,623 constructions, 0 failures.
 
 ## 5. Computation (evidence)
 
-200,000 instance draws in two runs: 98,086 random perfect starts and 1,388 one-move-failing starts near the 11.
+Two runs of 25,000 iterations; each draws one random instance and one profile near a counterexample. That gives 98,086 random perfect starts and 1,388 one-move-failing starts near the 11.
 
 | claim | tests | failures |
 |---|---|---|

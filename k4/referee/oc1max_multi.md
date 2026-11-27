@@ -219,7 +219,7 @@ agents are unthreatened by J". It does not: that is implied by D_T = {k}.
   at B′ would be a second unfrozen pick holder, so z is unfrozen at B′.
 
 **Computation (evidence).**
-- Starts: 360,000 instances (n = 3–5, k ≤ 4) and 34,795 one-absorber-hard starts, of which 8,466 have D_T = {k}
+- Starts: 300,000 instances (n = 3–5, k ≤ 4; the mutation runs are separate) and 34,795 one-absorber-hard starts, of which 8,466 have D_T = {k}
   (7,868 with |D| ≥ 2).
 - Tested: every longest canonical chain from k and every improving H₀ ⊆ J meeting the hypotheses. The completion was
   checked by brute force, with Y_z forced to z or to an unfrozen second wanter.
