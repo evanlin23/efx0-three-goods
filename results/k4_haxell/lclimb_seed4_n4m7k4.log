@@ -1,1 +1,6 @@
 $ python3 k4/haxell/ht_wclimb.py 4 7 4 STEPS=1500 CLIMBERS=2 RESTART=400 MEASURE=2 SEED=54 START=4 7 3 4 20 5 60 6 42 4 1 25 2 7 4 11 5 27 4 0 37 1 36 3 17 5 44 3 0 58 4 37 6 40
+climber 54000 hardest score (0, 0) instance 4 7 4 3 18 4 27 5 60 6 49 4 1 22 2 5 4 13 5 32 4 0 46 1 44 4 38 6 28 2 0 60 6 51
+COUNTEREXAMPLE 4 7 4 3 18 4 27 5 60 6 49 4 1 22 2 5 4 13 5 32 4 0 46 1 44 4 38 6 28 2 0 60 6 51 | 4 7 states 2506 phi0 0 phi1 0 phi2 1 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi2 2 -1 0 0 0 1 3 slack 0 0 1 4 r2stuck 1
+climber 54001 hardest score (0, 2) instance 4 7 4 0 14 1 5 5 60 6 43 4 1 26 2 12 4 12 5 29 3 0 54 1 11 3 21 4 0 49 4 33 5 51 6 52
+recheck 4 7 4 3 18 4 27 5 60 6 49 4 1 22 2 5 4 13 5 32 4 0 46 1 44 4 38 6 28 2 0 60 6 51 phi2 stuck states 1
+counterexamples 1 time 396 s

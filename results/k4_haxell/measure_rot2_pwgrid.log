@@ -1,0 +1,1 @@
+$ python3 k4/haxell/gstar_measure_run.py pwgrid NMAX=5 MMAX=11 MAXSTATES=12000000 RADIUS=2 ROT=1
