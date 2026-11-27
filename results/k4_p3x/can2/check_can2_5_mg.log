@@ -1,0 +1,5 @@
+[k4/p3/can2cert.py check: k4/oc1cert/check.py with moves restricted to canonical chains]
+$ python3 k4/oc1cert/check.py results/k4_p3x/can2/can2_5_mg.json.gz --lists=5_mg
+own types: {3: 6, 4: 288}
+certificate results/k4_p3x/can2/can2_5_mg.json.gz hypergraphs 686 not certified (failures found, not checked here) 185
+list 5_mg source hypergraphs 686 missing or different 0
