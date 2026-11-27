@@ -20,6 +20,11 @@ Sources:
         from twin5 / twin6).  The score is
         10000 * (b fails) + 1000 * (a fails) + 50 * (twin-swap preconditions: a twin receiver whose twin holds their top
         good) + 5 * (failing starts with a twin receiver) + (OC1^max-failing starts).
+  soft  softtwin6 / softrand6 / softrand5: a twin-preserving climb on values and sets, scored by the coordinator's
+        OC1^max climb score (k4/sdc/oc1max_climb.evaluate: failures, starts needing a move, danger) plus the RF
+        bonus above.  It is meant to reach the failure region from random twin cores.
+  twintop5 / twintop6: at every maximum-matching start of the twin5 / twin6 instances with a twin receiver whose twin
+        holds their common top good, the OC1 status (Conjecture TWIN-TOP: OC1 never fails there).
 Every (a) or (b) failure is printed as JSON.
 
     python3 k4/matching/twin_hunt.py SOURCE [COUNT] [SEED]"""
@@ -193,8 +198,58 @@ def climb(args):
     return T, found
 
 
+def softclimb(args):
+    """Twin-preserving climb with the coordinator's OC1^max climb score (oc1max_climb.evaluate: failures, starts that
+    need a move, danger) plus this hunt's RF bonus; set mutations of a twin are mirrored on its twin."""
+    from oc1max_climb import evaluate as ocev, mutate
+    sets, vals, steps, seed = args
+    rng = random.Random(seed); T = collections.Counter(); found = []
+    tw = twins(sets, vals)
+    if not tw: return T, found
+
+    def total(s, v):
+        sc, fl = ocev(s, v)
+        if fl:
+            C, fails = evaluate(s, v); T.update(C); found.extend(fails); sc += score(C)
+        return sc
+    best = total(sets, vals)
+    for _ in range(steps):
+        r = mutate(sets, vals, rng)
+        if r is None: continue
+        s2, v2 = r
+        a, b = tw[0]
+        # mirror the twin: whichever of the pair changed, copy it onto the other
+        if s2[a] != sets[a] or v2[a] != vals[a]: s2[b], v2[b] = list(s2[a]), list(v2[a])
+        elif s2[b] != sets[b] or v2[b] != vals[b]: s2[a], v2[a] = list(s2[b]), list(v2[b])
+        used = sorted(set().union(*map(set, s2))); ren = {g: t for t, g in enumerate(used)}
+        s2 = [[ren[g] for g in x] for x in s2]
+        if not is_core(s2, v2, False) or (a, b) not in twins(s2, v2): continue
+        T['profiles'] += 1
+        sc = total(s2, v2)
+        if sc >= best: sets, vals, best = s2, v2, sc
+    T['final best score %d' % (best // 1000)] += 1
+    return T, found
+
+
 def job(sv):
     return evaluate(*sv)
+
+
+def twintop(sv):
+    """Every maximum-matching start of the instance with a twin receiver u whose twin holds their common top good:
+    the OC1 status (raw Inst.check) of each (Conjecture TWIN-TOP: it is never 'OC1 fails')."""
+    sets, vals = sv; I = Inst(sets, vals); N = nu(I); tw = twins(sets, vals); ta = set(x for pr in tw for x in pr)
+    C = collections.Counter(); starts = set()
+    for o in itertools.permutations(range(I.n)):
+        p = I.sd(o)
+        if sum(x is not None for x in p) == N: starts.add(p)
+    for P in starts:
+        for u in receivers(I, P):
+            if u not in ta: continue
+            t = [b if a == u else a for a, b in tw if u in (a, b)][0]
+            if P[t] == max(I.v[u], key=lambda g: I.v[u][g]):
+                C['twin-top configuration: ' + I.check(P)] += 1
+    return C, []
 
 
 if __name__ == '__main__':
@@ -204,6 +259,11 @@ if __name__ == '__main__':
     elif src == 'twin6': S = seeds_twin6(rng, COUNT)
     elif src == 'climbtwin5': S = seeds_twin5()
     elif src == 'climbtwin6': S = seeds_twin6(rng, COUNT)
+    elif src == 'softtwin6': S = seeds_twin6(rng, COUNT)
+    elif src == 'twintop5': S = seeds_twin5()
+    elif src == 'twintop6': S = seeds_twin6(rng, COUNT)
+    elif src == 'softrand6': S = seeds_rand(rng, COUNT, 6)
+    elif src == 'softrand5': S = seeds_rand(rng, COUNT, 5)
     elif src == 'dup4': S = seeds_dup4()
     elif src == 'dup5': S = seeds_dup5()
     elif src == 'rf5': S = seeds_rf5(rng, COUNT)
@@ -216,7 +276,11 @@ if __name__ == '__main__':
     print('instances', len(S), flush=True)
     T = collections.Counter(); t0 = time.time(); F = []
     with mp.Pool(int(os.environ.get('PROCS', mp.cpu_count()))) as pool:
-        if src.startswith('climb'):
+        if src.startswith('twintop'):
+            it = pool.imap_unordered(twintop, S, chunksize=2)
+        elif src.startswith('soft'):
+            it = pool.imap_unordered(softclimb, [(s, v, int(os.environ.get('STEPS', '300')), SEED * 7919 + t) for t, (s, v) in enumerate(S)])
+        elif src.startswith('climb'):
             it = pool.imap_unordered(climb, [(s, v, int(os.environ.get('STEPS', '300')), SEED * 7919 + t) for t, (s, v) in enumerate(S)])
         else:
             it = pool.imap_unordered(job, S, chunksize=2)

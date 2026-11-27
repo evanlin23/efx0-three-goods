@@ -1,0 +1,11 @@
+$ python3 k4/matching/twin_hunt.py climbtwin5 0 5
+instances 70
+(a) every-form holds True 20288
+(b) RF-exists for some receiver holds True 20288
+(b) RF-exists for u holds True 20288
+OC1max-failing starts 20288
+failing start with a twin receiver 5376
+profiles 31453
+receivers = 1 20288
+failures: (a) 0, (b) 0, (b) for every receiver 0
+time 212 s

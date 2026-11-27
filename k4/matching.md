@@ -1021,6 +1021,50 @@ The logs are `n5_census_5pure_s5o0.log`, `check_rec_5pure_s5o0.log`, `rsd_5pure_
   - One needs a non-S\* completion.
   - CM₂ still holds at every start, through another first move.
 
+**Twin hunt for Conjecture RF at k = 4** (the coordinator's request; `k4/matching/twin_hunt.py`, logs
+`results/k4_matching/twin_hunt_*.log`; evidence only).
+- Conjecture RF (receiver first, K4.SDC.RF): at an OC₁-failing maximum-matching start, every receiver u has u-first
+  maximum-matching orders, and
+  - (a) in its every-form, all of them satisfy OC₁;
+  - (b) in RF∃, some of them does.
+- At k = 5 the every-form fails through twins (K4.SDC.RF.K5EVERY): the u-first order only swaps two identical agents'
+  picks, and OC₁ fails again at the isomorphic start.
+- The question was whether this happens at k = 4. The hunt searched strict connected k = 4 cores with a twin pair
+  (identical sets and values) at n = 5 and 6. At every OC₁^max-failing start (raw, k4/sdc `Inst.check`) it tested
+  (a) and (b) for every receiver.
+- Second checker: `k4/matching/rf_check.py`, self-contained, with its own official-move enumeration. It reproduces
+  the coordinator's k = 5 replay exactly: the every-form fails at (6,5,3,4), and RF∃ holds with 5 of the 6 vectors.
+
+| source | profiles | OC₁^max-failing starts | (a) fails | (b) fails |
+|---|---|---|---|---|
+| twin5: the 280 stored 5_pure starts whose two agents share a set, values made equal | 70 | 94 | 0 | 0 |
+| climbs from twin5 (4 runs, twin-preserving, rewarding (a), (b) and the twin-swap precondition) | 101,930 | 66,412 | 0 | 0 |
+| soft climb at n = 6 from twin5 plus one agent (the coordinator's OC₁^max climb score) | 8,913 | 236 | 0 | 0 |
+| random twin cores: n = 5 (3,000, plus a 43,770-step soft climb) and n = 6 (400, plus 17,694 steps) | — | 0 | — | — |
+| ksens's RF5 with agents 0 and 1 shrunk to 4 goods, plus 1–2 agents (500) | 500 | 0 | — | — |
+
+Duplicating an agent of the 11 n = 4 failing cores removed the failure in all 2,000 profiles tried.
+
+**Mechanism.** The k = 5 swap needs three things at one failing start:
+- an order producing it that starts with twin t, which takes the twins' common top good b;
+- the other twin u is a receiver;
+- the u-first order then returns the start with the twins swapped.
+
+At k = 4 this never occurs at a failing start.
+- In the climbs, 17,750 failing starts had a twin receiver, and the other twin never held the common top good. This
+  was counted at the 63,068 failing starts of the last three climb runs.
+- Over all maximum-matching starts with that configuration, OC₁ holds every time:
+  - n = 5: 424 starts (344 complete at the picks, 80 after one move);
+  - n = 6: 3,312 starts (3,280 and 32).
+
+So the evidence supports:
+
+> **Conjecture TWIN-TOP (K4.MATCH.TWINTOP).** At k = 4, OC₁ holds at every maximum-matching SD start where a receiver
+> u has a twin t (identical set and values) holding their common most-valued good.
+
+TWIN-TOP would rule out the twin route to RF's every-form at k = 4. A candidate repair for a proof is the chain
+(t, u): t takes its pick's runner-up a together with a junk good c, and u takes b.
+
 ## 7. Climbs and reproduction
 
 **Climbs against CM** (`k4/matching/cm_climb.py`; `results/k4_matching/cm_climb_*.log`). The climbs maximize hard
