@@ -79,7 +79,8 @@ class Checker:
         self.cache[key] = own
         return own
 
-    def moves(self, base):
+    def moves(self, base, pure=False):
+        """pure=True: chain and ring receivers add no junk (H_i empty for i >= 1)"""
         I = self.I; n = I.n; V = I.val
         held = set().union(*base); J = [g for g in range(I.m) if g not in held]
         out = {}
@@ -102,7 +103,7 @@ class Checker:
             if not base[xt] or len(path) >= n: return
             for y in range(n):
                 if y in path: continue
-                for H in subsets([g for g in J if g not in used and g in I.R[y]]):
+                for H in ([()] if pure else subsets([g for g in J if g not in used and g in I.R[y]])):
                     if V(y, base[xt] | set(H)) > V(y, base[y]):
                         ext(path + [y], used | set(H), {**take, len(path): frozenset(H)})
         for x in range(n): ext([x], frozenset(), {})
@@ -116,7 +117,7 @@ class Checker:
                         add(nb, (2, r, 'ring')); return
                     w, pred = cyc[i], cyc[i - 1]
                     if not base[pred]: return
-                    for H in subsets([g for g in J if g not in used and g in I.R[w]]):
+                    for H in ([()] if pure else subsets([g for g in J if g not in used and g in I.R[w]])):
                         if V(w, base[pred] | set(H)) > V(w, base[w]): ring(i + 1, used | set(H), {**take, i: frozenset(H)})
                 ring(0, frozenset(), {})
         return out
@@ -139,10 +140,10 @@ class Checker:
                 if self.complete(st2) is not None: return 'two moves repair', (st1, st2)
         return 'OC2 fails', None
 
-    def simplest_repair(self, picks):
+    def simplest_repair(self, picks, pure=False):
         """the simplest repairing move's tag (kind order: addition < chain < ring, then length), or None"""
         base = tuple(frozenset([p]) if p is not None else frozenset() for p in picks)
-        mv = self.moves(base)
+        mv = self.moves(base, pure)
         for st, tag in sorted(mv.items(), key=lambda kv: kv[1]):
             if self.complete(st) is not None: return tag
         return None

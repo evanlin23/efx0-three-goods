@@ -3,7 +3,8 @@ n = 5 core hypergraphs with p <= P (results/k4_certs_5_*.json.gz), R uniform str
 order: for every maximum pick vector with no one-absorber completion at the picks, the simplest repairing move
 (addition < chain < ring, then by length) by the independent checker k4/p3/oc1max.py. Prints the histogram and one
 example of each kind.
-    python3 k4/p3/oc1max_moves.py R SEED [--p=2] [--stride=1]
+    python3 k4/p3/oc1max_moves.py R SEED [--p=2] [--stride=1] [--pure=1]
+--pure=1 also asks for the simplest repairing move among additions and pure chains / rings (receivers add no junk).
 """
 import sys, os, gzip, json, random, itertools, collections, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -29,6 +30,10 @@ if __name__ == '__main__':
                     if K.complete(base) is not None: H['picks complete'] += 1; continue
                     tag = K.simplest_repair(pk)
                     key = 'FAILS' if tag is None else f'{tag[2]} (length {tag[1]})'
+                    if opt.get('pure'):
+                        tp = K.simplest_repair(pk, pure=True)
+                        H['pure moves: ' + ('NONE REPAIRS' if tp is None else f'{tp[2]} (length {tp[1]})')] += 1
+                        if tp is None: ex.setdefault('pure moves fail', {'sets': c['sets'], 'vals': vals, 'picks': pk})
                     H[key] += 1
                     ex.setdefault(key, {'sets': c['sets'], 'vals': vals, 'picks': pk})
                 K.close()
