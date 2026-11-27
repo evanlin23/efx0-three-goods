@@ -1876,7 +1876,10 @@ the coordinator's ROUND-P.
 - An induction in RSD-D form must carry *demands* as well as phantom constraints. A present agent threatened by a
   deleted T must end with at least v_i(T) − min_T v_i. That is Lemma M's exposed slot that must be compensated.
 - **Item 4a is restored** (§23.4's split of 00:51 was right after all): *disjoint repairs that must be applied
-  together*. Tests: 5_pure m = 10 #419 and m = 11 #447. Natural owner: proof/kgen-rounds (ROUND-P).
+  together*. Tests: 5_pure m = 10 #419 and m = 11 #447. **Owner: proof/kgen-rounds** (assigned by the coordinator,
+  02:32). It has been asked for a direct ROUND-P proof sketch.
+- **Candidate unification, ROUND-RSD** (matching, under test): a round of *simultaneous* settlements, then delete the
+  settled agents and their sets, and recurse. If it holds, Part 2 and item 4a become a single induction.
 - **Item 4b** is the settle-and-lift case (OC2-REC / REC-S). On the chunk, the only 4b start REC-S misses is 5_pure
   m = 9 idx 38, and OC2-REC and RSD cover it.
 - The census of the chunk (280 sampled two-move starts): 240 are 4a-type, 40 are 4b-type, and all have one holder.
