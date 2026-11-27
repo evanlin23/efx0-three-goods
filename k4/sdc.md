@@ -2186,6 +2186,9 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
     - So the canonical conjecture RF-canon ("YRMH-F's outcome satisfies OC₁") is not touched by #440.
     - TTC's remark that RF-canon follows from K4.SDC.RF no longer applies, since the every-form is refuted.
       RF-canon stands as its own conjecture.
+  - **Off the exports** (burst 15, `k4/sdc/rf_canon_offexport.py`, `results/k4_sdc/rf_canon_offexport.log`): YRMH-F
+    works at all 244,995 (start, receiver) pairs of d1's walk (241,728 failing n = 5 starts on 277 cores), already from
+    the first listed order. Ledger K4.SDC.RFCANON.
 
 **Conjecture FAIL-STRUCT₀ (structure of failing starts)** (2026-11-27 09:40 UTC, coordinator; ledger K4.SDC.FAILSTRUCT0).
 This is a precise, data-checked form of k3-oc1's draft Theorem FAIL-STRUCT (`k4/k3_oc1.md` §13.7). It is a

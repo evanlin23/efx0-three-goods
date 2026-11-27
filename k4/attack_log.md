@@ -1226,3 +1226,11 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
 - Own angle (light): FAIL-STRUCT₀ at the named starts outside the exports (`k4/sdc/failstruct_extra.py`). The k = 5
   failing starts N3K5, n3_m6_93 and RF5, and the k = 4 set-twin start #440, all have |D_T| = 2 with competing junk
   (S1′).
+
+### 2026-11-27 12:34 UTC: burst 15 (single-session mode)
+- Merged #184.
+- **Own angle: RF-canon off the exports** (`k4/sdc/rf_canon_offexport.py`, ledger K4.SDC.RFCANON). TTC's canonical rule
+  YRMH-F gives a receiver-first maximum matching satisfying OC₁ at all 244,995 (start, receiver) pairs of d1's
+  off-export walk (241,728 failing n = 5 starts), already from the first listed order. This includes the #440
+  every-form failures and the 3,267 two-receiver starts.
+- RF-canon is the sharpest surviving statement on the RF route: one explicit order per failing start.
