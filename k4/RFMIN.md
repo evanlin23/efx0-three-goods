@@ -428,6 +428,31 @@ released pick in every (V1) with q ∉ D^full. Gap starts, by |D^full|, both sam
 - With two or more dangerous agents, the violations after pair chains are mostly another dangerous agent: 1,972 of
   2,109 at both samples' gap starts.
 
+**What the repairing moves do to the dangerous agents** (`k4/rfmin/privtop_fates.py`; `results/k4_rfmin/privtop_fates_s13.log`,
+`privtop_fates_s14.log`). Every official move after which ABS′ holds is classified by the fate of each d ∈ D^full:
+- *junk*: d's new bundle is junk only, so d starts the chain;
+- *pick+*: d takes a pick together with junk;
+- *better*: d takes a single better pick;
+- *freed*: d keeps its pick and is a receiver afterwards, because every wanter of Y_d got something it prefers;
+- *kept*: d keeps its pick and stays frozen, and the move took enough of its junk.
+
+For each gap start, the table gives the least fate set that some ABS′ move stays inside (both samples, n = 4–6):
+
+| least fate set | \|D^full\| = 1 | 2 | 3 | 4 |
+|---|---|---|---|---|
+| {junk, freed} | **404** | 855 | 97 | 0 |
+| … ∪ {pick+} | 0 | 250 | 85 | 3 |
+| … ∪ {better} | 0 | 1 | 12 | 1 |
+| … ∪ {kept} | 0 | 25 | 24 | 2 |
+
+- With one dangerous agent, some repair always has d take only junk (at 399 of the 404 starts) or frees d (at the
+  other 5). This is the shape of a proof by cases for |D^full| = 1:
+
+  **Conjecture RF-PRIV′₁** (EVIDENCE: 404 of 404). If D^full = {d}, some official move leaves ABS′ for f, and either d
+  takes only junk in it, or d is a receiver after it.
+- With several dangerous agents, 51 of the 1,355 starts need a move that leaves some dangerous agent frozen on its pick.
+  There, other agents take the junk that agent values.
+
 **Conjecture RF-PRIV′** (EVIDENCE: the 1,824 gap starts above, n = 4–7). Let f's top good be private. At every start,
 either the picks have a one-absorber completion, or some official move leads to a state where ABS′ holds for f.
 
@@ -481,5 +506,6 @@ python3 privtop_gap.py 20000 13 4 6                                             
 python3 privtop_absp.py 20000 13 4 6; python3 privtop_absp.py 400000 14 4 6         # §6 Lemma ABS′ after one move, ~5 min
 python3 privtop_absp.py 20000 15 7 7                                                # §6 the same at n = 7, ~3 min
 python3 privtop_chains.py 20000 13 4 6; python3 privtop_chains.py 400000 14 4 6     # §6 Lemma CH, canonical chains, ~5 min
+python3 privtop_fates.py 20000 13 4 6; python3 privtop_fates.py 400000 14 4 6       # §6 fates of the dangerous agents, ~5 min
 cd ..; for b in 5 6 7 8 9; do python3 twins_count.py 6 $b --mc9 --write=../results/k4_rfmin/mc_n6_b${b}_mc9.json.gz; done
 ```
