@@ -955,3 +955,67 @@ Rule E rotation: the 64 of n = 6 and 1 of n = 7. Every time the cycle has length
 and the ring completes. What remains of T-E is the count after
 the rotation, Lemma 5's r against ω for (N), and B\*'s hitting count with |T′| for (E) and (K). That is the release
 lemma shared with kgen-n3's T1.
+
+## 13. Conjecture RF at k = 4 through the k = 3 lens (coordinator's request, 05:25)
+
+The coordinator's questions concern Conjecture RF (`k4/sdc.md` §31 end, ledger K4.SDC.RF), whose completion half
+is open:
+1. Where does the k = 3 one-move proof break at k = 4?
+2. Does receiver-first repair exactly that step?
+3. If so, can the k = 4 completion half be written on the k = 3 template?
+
+*Premise check:* the k = 3 one-move proof is not complete. Proved are the reduction (§11), Theorems R1C and B\*,
+Proposition A (kgen-n3) and Lemmas 4–7. The rest (T-E∃, T-ω) is evidence (§12).
+
+**13.1 The break step.** It is (DE-a) of §7. At k = 3 only an agent holding its top can be threatened by junk, since
+a b-holder's only lower good is c. Lemma 1 / Theorem 1′ and B\*'s step (e) (E′_k ⊆ E_t ∖ {k}) rest on it. At
+k = 4, a b-holder with junk {c, d}, c + d > b, is threatened and gains from {c, d}. (DE-b), validity after the move,
+comes second.
+
+**13.2 Receiver-first does not restore (DE-a)** (`attempts/k4-k3oc1-rf-dea.md`, replay
+`attempts/k4_k3oc1_rf_dea.py`). The test runs over every official chain with an exact completion test, at the n = 5
+RF starts of girth's build (`rf/rf_dea_full.py`, `rf_dea_full_n5.log`).
+- DEMOTE-0: 113,210 of 113,484 complete at the picks, and the 274 that need a move each have a repair in which only
+  top-holders take junk.
+- (1, 3): at **1,876 of 7,733** starts every repairing chain has a non-top-holder taking junk.
+- DEMOTE-2 at n = 4 (Hall's (U-c)): the repairing agent never holds its top.
+
+So the answer to question 2 is no.
+
+**13.3 What does carry over: the shape.**
+- Every DEMOTE move of girth's Lemma DEMOTE is a length-one rotation into the unique receiver d of Y′:
+  - the chain k → d of DEMOTE-2 and (1, 3): k takes junk, d takes Y′_k;
+  - the ring d → p → d of DEMOTE-0's trade: p takes {Y′_d, j}, d takes Y′_p, a ring with one pair arrow.
+- These are T-E's valid rotations of length one (§12.1). The SINK completion (all remaining junk to one agent of
+  {w, d}, at most one good elsewhere) is T-E's completion LE: owner e = d or k, plus one slot for the rotated agent.
+- What changes at k = 4 is who may rotate. A b-holder may take its two lowest goods. Among the DEMOTE-0 starts where
+  the A1 form fails, the trades that work use a b-holder p at 23,911 and a top-holder at 17,856
+  (`rf/rf_dea_moves.py`, `rf_dea_moves_n5.log`).
+
+**13.4 Lemma RF-13 (the (1, 3) class; reduction PROVED, not refereed).** The class belongs to the TTC session
+(`k4/ttc.md` on `claude/k4-ttc`); this lemma was sent there.
+- **Census.** All 7,733 n = 5 starts are on one core, 5_pure#778, in two (Y, Y′) shapes. |J′| = 4, and w has exactly
+  one improving junk pair.
+- **Setting.** The RF path is u → w → d and d takes a junk good g of Y, so Y′_u = Y_w, Y′_w = Y_d, Y′_d = g and
+  J′ = (J ∖ {g}) ∪ {Y_u}. Let H ⊆ J′ with |H| = 2 and v_w(H) > v_w(Y_d), and split J′ ∖ H = A ⊔ B with |B| ≤ 1. X is:
+  u keeps {Y_w}, w gets H ∪ B, d gets {Y_d, g} ∪ A, everyone else keeps its pick.
+- **Claim.**
+  - (a) X is the official chain "w takes H, d takes Y′_w" (head d, which releases g), followed by a one-absorber
+    completion: d absorbs g and A, and w takes the at most one good B.
+  - (b) X is EFX₀ iff (W) v_i(H ∪ B) − min ≤ v_i(X_i) for every i ∉ {w, d}, and (Z) v_i(X_d) − min ≤ v_i(X_i) for
+    every i ≠ d.
+- **Proof.**
+  - (a) w improves by the choice of H. d improves because v_d(Y_d) > v_d(g), by RF-PATH (b): d strictly loses on the
+    path.
+  - (b) Singletons never violate EFX₀, and X_w and X_d are the only multi-good bundles. The displayed inequalities
+    are exactly EFX₀ against them, except d against X_w, which is automatic. Every good of J′ was free at d's turn
+    in σ′: Y_u because u took Y_w first, and the junk of Y except g. So each is worth less than v_d(g) to d. Hence
+    v_d(H ∪ B) − min < 2·v_d(g) < v_d(g) + v_d(Y_d) ≤ v_d(X_d). ∎
+- **Data** (`rf/rf13_lemma.py`, `rf13_lemma_n5.log`). (W) and (Z) hold for both choices of B at all 7,733 starts;
+  B = ∅ never works.
+  - On the common shape (7,248 starts) the stronger form holds: every agent other than a bundle's holder values at
+    most one of its goods, and nobody but d and w values Y_d above its pick.
+  - On the other shape (485 starts) agent 4 values two goods of w's bundle, and only the sum inequality holds.
+- It is the k = 3 completion LE with a b-holder as the rotated agent.
+
+**13.5 Next.** DEMOTE-0's at-once part at n = 5: oc1-hall's RF-A1 facts there (agreed with girth).
