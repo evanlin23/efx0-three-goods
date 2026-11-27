@@ -1350,3 +1350,22 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   {p, b}). The next step is to test such a gadget on the reduce4 machinery for one P3 neighbourhood type.
 - Kill-rule count for the β = 5 sub-line: 2 bursts, no certified artifact yet.
 - A1 is still stopped, pending the user's decision.
+
+### 2026-11-27 22:40 UTC: burst 25 (track A2: a P3 reduction; β = 5 sub-line dropped)
+- A lone P3 agent (S = {e} on (s, t, p), I = {p}, ∂ = {s, t}): `mincex4.explore` reports 6 of 6 profiles reduced by the
+  one-agent gadget menu h on (s, t, z′). **This is not a valid reduction.** Lemma K4.MC1 needs H′ smaller
+  (|S′| < |S|, or |S′| = |S| and |I′| < |I|), and h on (s, t, z′) has |S′| = 1 = |S|, |I′| = 1 = |I|. It just renames
+  e. The smaller form, a gadget on the boundary goods only (|I′| = 0), is the recorded failure
+  `attempts/k4-mincex-drop-private.md` (`k4/mincex_attempts.py drop-private`).
+- So there is no P3 reduction of the simple kind. Without one the β = 5 list (about 1.5·10⁵ candidates by n = 7,
+  growing toward n = 12) cannot be certified.
+- **Kill rule: the β = 5 sub-line is dropped** after 3 bursts without a certified artifact. Its useful outputs are the
+  streaming counter `k4/mincex_shapes_count.py` and the size and kind counts in `results/k4_min_cex_count_5_n7.log`
+  and `results/k4_min_cex_kinds_5_n67.log`.
+- **State of the proof tracks:**
+  - A1 (n = 6, two 4-good agents) needs about 8–12 CPU-hours beyond the 2-hour job limit, pending the user's
+    decision.
+  - A2's named steps are out of reach: β = 5 is infeasible without a new idea, and the 6 graphical all-P4 cores
+    take more than an hour each, single-core (already covered by the multigraph theorem).
+  - A3 is dropped.
+  - What remains needs a genuinely new mathematical idea, which hourly bursts have not produced.
