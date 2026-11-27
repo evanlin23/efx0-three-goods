@@ -1,0 +1,30 @@
+$ python3 k4/oc1max_multi/reduce_s.py results/k4_matching/n5_walk164.jsonl (on proof/k4-matching, commit 60d4ab1; fetched with git show)
+1498 failing starts
+1498 (a) SD
+1498 (a) and a Theorem U/S case in I-
+1498 lifted, k unthreatened
+1498 OC2 by REC-S
+1498 P1 with LIFT hypothesis
+1498 E(k) only: (a) SD
+1498 E(k) only: (a) and a Theorem U/S case in I-
+1498 E(k) only: lifted, k unthreatened
+1498 E(k) only: OC2 by REC-S
+1498 E(k) only: P1 with LIFT hypothesis
+1498 E(k) only: SD-E tests
+violations (Theorem U/S in I-, LIFT, or SD-E): 0 []
+a smallest start not covered: null
+$ python3 k4/oc1max_multi/reduce_s.py results/k4_matching/n5_walk164_long.jsonl.gz (on proof/k4-matching, commit 60d4ab1; fetched with git show)
+22445 failing starts
+22445 OC2 by REC-S
+22445 P1 with LIFT hypothesis
+22445 lifted, k unthreatened
+22445 (a) SD
+22445 (a) and a Theorem U/S case in I-
+22445 E(k) only: OC2 by REC-S
+22445 E(k) only: P1 with LIFT hypothesis
+22445 E(k) only: SD-E tests
+22445 E(k) only: lifted, k unthreatened
+22445 E(k) only: (a) SD
+22445 E(k) only: (a) and a Theorem U/S case in I-
+violations (Theorem U/S in I-, LIFT, or SD-E): 0 []
+a smallest start not covered: null
