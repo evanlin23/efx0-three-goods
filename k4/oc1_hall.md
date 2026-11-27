@@ -2333,3 +2333,43 @@ requirement τ_i, since each single junk good is below b_i. So the needy agents 
 **For the proof of RF-S:** the target at n = 5 is to show the following. At every DEMOTE-2 start, either some k ∈ D_T′
 whose pick d wants has an improving H₀ ⊆ S such that B′ meets (C1)–(C3) for some owner (128,074 of 128,074 where the
 chain is official), or there is a chain to a frozen head (5,710).
+
+### 24.11 After DEMOTE-2's first step: the completions (`k4/oc1_hall/rf_bprime.py`, `rf_bprime.log`)
+
+Every S^c-shaped completion of the post-chain state B′ (after "k takes S, d takes Y′_k") is enumerated, with raw EFX₀.
+The data are all 43,520 n = 4 B starts and every 20th DEMOTE-2 start of `partial6`: 6,896 n = 5 starts, of which 676
+have no official chain k → d.
+
+| | n = 4 | n = 5 (sample) |
+|---|---|---|
+| starts with an official chain k → d | 43,520 | 6,220 |
+| … some chain leaves an S^c completion | 43,520 | 6,220 |
+| … one with **no frozen slot**, i.e. an S\* completion: Lemma M / 2\* suffice, not only M^c | 43,520 | 6,220 |
+| … k′ is unfrozen after that chain | 43,520 | 6,220 |
+| simplest shape: owner d, no singles (FULL, Lemma RF-B) | 43,520 | 4,163 |
+| simplest shape: owner d, k′ takes Y′_d | 0 | 1,441 |
+| simplest shape: owner d, k′ takes a junk good | 0 | 100 |
+| simplest shape: owner k′, no singles | 0 | 401 |
+| simplest shape: another owner, no singles | 0 | 115 |
+
+- *k′ is released.* After k takes S, k no longer wants Y′_{k′}. At n = 4 k was k′'s only wanter, so k′ is unfrozen at
+  B′ and becomes a holder, admissible for one free good (Lemma 2\*). The second official chain at a start never
+  leaves an S^c completion, and after it k′ stays frozen.
+- **Candidate Lemma RF-B″** (EVIDENCE: 5,704 of the 6,220 n = 5 sampled starts, 92%; all of n = 4). Write
+  Z = {Y′_k, Y′_d} ∪ (J′ ∖ S). After the chain the completion has owner d, and either:
+  - d takes all of Z (FULL); or
+  - d takes Z ∖ {g} for one good g ∈ Z ∖ {Y′_k}, and k′, now unfrozen, takes g.
+
+  The data show that such a completion exists. They do not show which agents Z itself threatens.
+  - The other 516 starts need owner k′ or another agent. That is the S\* count of Lemma 2\* with that owner.
+- *Next:* find, from RF's structure, which agents Z ∖ {g} can threaten. At n = 4 the only candidate is u, and Prop.
+  RF-B4 covers it by (U-b). At n = 5 there are also off-path frozen agents (§24.9).
+
+**Girth's DEMOTE-0 and (1, 3) at n = 5** (`k4/girth/oc1_residue_n5.py`, `results/k4_girth_oc1_residue_n5.log` on
+`claude/k4-girth`; [unverified] here, but girth's class counts agree exactly with §24.10's):
+- DEMOTE-0 (113,484): 71,443 complete at Y′, all by RF-A1's form (w takes J′ ∖ {h}, d takes h, d's favourite junk
+  good); 42,009 by the trade (T) with d; 32 by a 3-ring (T\*), all on 5_pure#374.
+- (1, 3) (7,733): all by the chain k → d with a D_T agent taking a junk pair.
+
+So, with §24.10, the uniform statement has no exception on all n = 4 data and on the n = 5 exports. The statement:
+(i) w or d owns; or (T/T\*) a ring of length 2 or 3 through a receiver; or (C/C′) a two-agent chain from a D_T agent.
