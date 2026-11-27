@@ -1145,6 +1145,23 @@ takes RF-T′'s (F1)–(F3)). The census is `rf/a1_hardness_census.py`, `a1_hard
   - A proof for all n has to come from a structural theorem of the form "OC₁ fails at a maximum-matching start ⇒
     P\*-type structure". That is shared work with girth (P\*) and oc1-hall (§21's D1 lemmas for |D| = 1), not a
     per-lemma derivation.
-- **Evidence that would help:** a contrapositive search beyond the exports. On #374, #464 and other n = 5–6 cores,
-  look for perfect starts with this RF shape at which (A1-i) or (A1-iii) fails, and test whether Y is then hard. None
-  is known; the search has not been run.
+- **Contrapositive search** (`rf/a1_perturb.py`, `a1_perturb_n5.log`).
+  - *Method.* At every 25th exported path-2 DEMOTE-0 start (re-derived with the order that gives the stored RF
+    start), the values of d, k2 or u are re-sampled, 40 times each. Perturbations that keep the RF shape are kept:
+    388,000 of them, 167,000 with the facts holding and 221,000 with a fact broken. For each broken one, the test is
+    whether Y is still hard (exact: every official chain, brute-force completion).
+  - **Where RF-A1\*'s form is defined (d values a good of J′): 0 hard starts without the facts, among 220,974.**
+  - **Hard starts without the facts: 93, none in RF-A1\*'s scope.** In all of them d values no good of J′, which is
+    girth's trade shape (`a1_perturb_hard_n5.gz`). At all 93 the RF start Y′ is repaired by one move, so RF holds
+    there.
+- **The mechanism behind the contrapositive** (`rf/a1_repairs.py`). When a fact is broken, Y never completes at the
+  picks, but one move repairs it. Uniformly, a truly dangerous agent takes the shared junk pair and the receiver u
+  takes its pick:
+  - (A1-iii) broken (k2 no longer shares the pair): the chain "d takes {g, h}, u takes Y_d";
+  - (A1-i) broken: "k2 takes {g, h}, u takes Y_{k2}";
+  - (A1-ii) broken: either of them.
+
+  So hardness forces exactly this: each such chain into u leaves the other sharer threatened, which is DEMAND in the
+  sense of Lemma D-red (`k4/oc1max_multi.md`; oc1-hall §22). A proof of (A1-i)–(A1-iii) from hardness should run
+  through D-red: every chain x → u with x truly dangerous and H₀ the shared pair must fail. These chains have no HEAD
+  and no CROWD on this shape, so DEMAND must occur, and DEMAND by the other sharer is (A1-i) + (A1-iii).
