@@ -505,6 +505,30 @@ their four ε-failures, two zero versions satisfy OC₁. The other two are the t
 - **The picture at k = 4 with zeros.** Only starvation has appeared, and **OC₁′^max survives**: every OC₁ failure is
   repaired, and the direct climbs found no failure.
 
+### 4.7 Exhaustive small grids (positive values)
+`grid.py` and `rnd.c`'s `rnd_grid` test every profile with values in {1..V}. Agents' rows are taken as a multiset;
+every order is tested, so permuting agents changes nothing. At every start they check one round (Lemma RC) and, where
+it fails, two rounds (Lemma RC2). The coordinator's lesson applies: OC₁^max survived 11M random tests and fell to
+exhaustive ordinal search.
+
+| n | m | values | profiles | starts | need two rounds | need three |
+|---|---|---|---|---|---|---|
+| 3 | 4 | 1..3 | 91,881 | 223,952 | 0 | 0 |
+| 3 | 5 | 1..3 | 2,421,090 | 5,155,168 | 0 | 0 |
+| 3 | 6 | 1..2 | 45,760 | 111,932 | 0 | 0 |
+| 3 | 7 | 1..2 | 357,760 | 846,088 | 0 | 0 |
+| 3 | 8 | 1..2 | 2,829,056 | 6,577,716 | 0 | 0 |
+| 4 | 5 | 1..2 | 52,360 | 357,835 | 0 | 0 |
+| 4 | 6 | 1..2 | 766,480 | 4,445,602 | 0 | 0 |
+
+(`grid_n3.log`, `grid_n4.log`; runs at n = 3, m = 6 with values 1..3 and at n = 4, m = 7 with values 1..2 are in
+progress.)
+- Not one start on these grids needs even a second round.
+- The ROUND⁺ failures of §3 need finely tuned values: RD5⁺ fails only when v₀(4) + v₀(5) < v₀(1) by any margin,
+  with values two orders of magnitude apart. Small grids do not contain them.
+- So the grids are evidence for ROUND⁺₃ on small values and say little about RD²⁺. An ordinal search, as the
+  certifier did for OC₁^max, would be the right exhaustive test.
+
 ## 5. n = 3
 
 ### 5.1 One round survives
