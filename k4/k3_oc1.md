@@ -1120,4 +1120,31 @@ one, and none of the 274 does.
 Girth's Lemma RF-T′ is a uniform alternative covering 42,009 of these starts with one trade. The facts of RF-A1\*
 and NA from Y's hardness are open.
 
-**13.6 Next.** The facts (A1-i)–(A1-iii), (A1-iv\*) and NA's compensations from hardness, with Hall and girth.
+**13.6 RF-A1\*'s facts from Y's hardness: what they are at Y** (coordinator's request, 06:36; split with girth, who
+takes RF-T′'s (F1)–(F3)). The census is `rf/a1_hardness_census.py`, `a1_hardness_census_n5.log`.
+- **Census.** The 110,661 n = 5 DEMOTE-0 RF starts with path u → w → d fall into **7 shapes** (hypergraph, Y, Y′,
+  path, roles at Y and junk incidence), on two hypergraphs: 5_pure#464 (2 shapes) and 5_pure#374 (5).
+- **In 6 of the 7 shapes, 110,419 starts:**
+  - Y has J = {o, g, h}. Here o is a private junk good of an off-path dangerous agent, and {g, h} is a junk pair
+    valued by exactly d and one other agent k2.
+  - d and k2 are the two truly dangerous agents of Y, u is its receiver, and the fifth agent is frozen.
+  - (A1-i)–(A1-iii) hold at all of them.
+- **The seventh shape** (242 starts, 5_pure#374): no fact holds and no at-once completion exists. These are girth's
+  trade starts.
+- **What deriving the facts from hardness means.** (A1-i) and (A1-iii) say exactly this: d and k2 are truly dangerous
+  at Y and share the junk pair {g, h}. That is the n = 4 mechanism of oc1-hall §22, "two truly dangerous agents
+  sharing a junk danger pair", which is girth's pattern P\* (first branch).
+  - P\* is evidence: complete at n = 4 by enumeration, on the stored and exported data at n = 5. It is not proved.
+  - So deriving (A1-i)–(A1-iii) from "OC₁ fails at Y" is the structural characterization of OC₁^max failures,
+    restricted to this shape. It is not a local lemma.
+  - (A1-ii) is a fact about u. (A1-iv\*) fails exactly where Lemma NA's compensations take over, and NA covers every
+    at-once start anyway.
+- **Assessment.**
+  - The completion half of DEMOTE-0 at n = 5 is closed by proved lemmas, RF-A1\* and NA, both refereed.
+  - Their facts are specific to two hypergraphs, read from partial exports.
+  - A proof for all n has to come from a structural theorem of the form "OC₁ fails at a maximum-matching start ⇒
+    P\*-type structure". That is shared work with girth (P\*) and oc1-hall (§21's D1 lemmas for |D| = 1), not a
+    per-lemma derivation.
+- **Evidence that would help:** a contrapositive search beyond the exports. On #374, #464 and other n = 5–6 cores,
+  look for perfect starts with this RF shape at which (A1-i) or (A1-iii) fails, and test whether Y is then hard. None
+  is known; the search has not been run.
