@@ -643,6 +643,20 @@ included, 0 mismatches):
 - ROUND-P holds at every one of them, at the narrow definition above. So does the round of OC₁′ moves (RNDOZ), at all
   112,880 + 11 + 2 + 47 + 26 starts (`rndp_known.log`).
 
+**More n = 5 data** (coordinator, burst 5).
+- *The certifier's first n = 5 chunk* (list 5_n4_1, 1,735 hypergraphs; `results/k4_oc1max/n5/`). It has no
+  OC₁^max-failing start.
+  - Its depth-2 CEGAR certified every hypergraph with one-move witnesses only (kinds picks, chain and addition; no
+    two-move witness).
+  - Its run logs list no hypergraph where OC₁^max fails.
+  - So ROUND-P and RNDOZ hold on the whole chunk, because they contain OC₁.
+- *The matching session's hard n = 5 starts near 5_pure#164* (`n5_walk164.jsonl` and `n5_walk164_long.jsonl.gz` on
+  `proof/k4-matching` at b62ceed6; `rndp_walk5.py`, `rndp_walk5_short.log`, `rndp_walk5_long.log`): 1,498 + 22,445
+  rows.
+  - OC₁ and OC₁′ fail at every row.
+  - One plain round, RNDOZ and ROUND-P hold at every row.
+  - The forward code agrees at 317 sampled rows.
+
 **Positive-value failures** (`rndp_positive.py`, `rndp_positive.log`; 112 re-checked forward, 0 mismatches):
 - *Starvation.* At all 158 ROUND⁺ failure starts of `fails*.jsonl` (raw, twins, ε-lifts, KCORE, KCOVER, KIPRIME), the
   plain round fails, as it must, and the narrow ROUND-P holds.
