@@ -1,0 +1,15 @@
+C4K [{"1": 2030, "4": 1714, "5": 1395, "6": 1806}, {"1": 2461, "4": 1674, "5": 1357, "6": 1802}, {"0": 1025, "2": 35, "3": 818, "6": 934}, {"0": 1090, "1": 901, "3": 154, "6": 517}]
+   ('balanced', 0, True)
+   ('strict', 0, True)
+   ('private []', 0, True)
+   ('balanced', 1, True)
+   ('strict', 1, True)
+   ('private []', 1, True)
+   ('balanced', 2, True)
+   ('strict', 2, True)
+   ('private [2]', 2, True)
+   ('balanced', 3, True)
+   ('strict', 3, True)
+   ('private []', 3, True)
+   ('connected', True)
+strict connected k = 4 core: True | maximum matching size nu = 4 of n = 4

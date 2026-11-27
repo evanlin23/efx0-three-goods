@@ -1,0 +1,6 @@
+{"clean_proof_completion": 60, "clean_proof_completion_fail": 0, "clean_oc1": 32, "clean_oc1_fail": 0, "general_proof_completion": 300, "general_proof_completion_fail": 15, "general_oc1": 300, "general_oc1_fail": 0}
+EXAMPLE ('general_completion', 2, 1, 3, [[12, 8, 5]])
+EXAMPLE ('general_completion', 3, 1, 3, [[24, 23, 20, 2]])
+EXAMPLE ('general_completion', 3, 1, 3, [[23, 21, 17, 16]])
+EXAMPLE ('general_completion', 2, 1, 3, [[24, 16, 15]])
+{"source": "fixed completion, general values, f<=6, W<=5, r in {2,3}", "tests": 3000, "fail": 0}

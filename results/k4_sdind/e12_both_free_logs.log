@@ -1,0 +1,30 @@
+$ python3 k4/sdind/e12_both_free.py logs 5
+FB FAILS log3 [[[0, 2, 5, 6], [1, 2, 3, 4], [1, 4, 5, 6], [3, 4, 5, 6]], [[5, 6, 7, 3], [6, 3, 8, 10], [4, 8, 6, 5], [8, 2, 4, 7]]] picks [5, 1, 4, 3] u 0 X' {0: 1, 2: 1, 6: 3} least d 1
+FB FAILS log5 [[[3, 2, 6, 1], [1, 0, 6, 4], [5, 1, 4, 0]], [[34, 25, 11, 14], [6, 24, 9, 23], [20, 28, 29, 23]]] picks [3, 0, 4] u 2 X' {1: 0, 2: 1, 5: 0, 6: 1} least d 1
+FB FAILS log9 [[[2, 0, 5, 6], [5, 2, 4, 6], [2, 1, 5, 3]], [[21, 7, 27, 50], [16, 19, 24, 38], [34, 6, 37, 23]]] picks [6, 4, 5] u 2 X' {0: 0, 1: 0, 2: 1, 3: 1} least d 1
+FREE BOTH FAILS log174 [[[0, 3, 2, 5], [0, 2, 1, 6], [2, 3, 4, 0]], [[10, 24, 19, 31], [35, 43, 33, 40], [65, 27, 15, 24]]] picks [5, 2, 3] u 0
+A(I) empty 31
+A(sub) empty 169
+FB works 379767
+SUB EXTENDS BUT I DOES NOT 1
+X' least distance 0 293111
+X' least distance 1 87266
+X' least distance 2 120
+X' least distance 3 25
+X' least distance 4 6
+X' least distance None 3
+cases 4502
+instances 1637
+|R_u| = 1: X' least distance 0 39
+|R_u| = 2: X' least distance 0 251
+|R_u| = 3: X' least distance 0 109554
+|R_u| = 3: X' least distance 1 27994
+|R_u| = 3: X' least distance 2 39
+|R_u| = 3: X' least distance 3 15
+|R_u| = 3: X' least distance 4 6
+|R_u| = 4: X' least distance 0 183267
+|R_u| = 4: X' least distance 1 59272
+|R_u| = 4: X' least distance 2 81
+|R_u| = 4: X' least distance 3 10
+|R_u| = 4: X' least distance None 3
+time 94 s
