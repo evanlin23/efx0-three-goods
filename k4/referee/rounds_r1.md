@@ -363,4 +363,7 @@ allocation, every needy keep-and-add pair):
   junk good from a bundle it envies.
   - On my (O2) example this gives ({0, 5}, {2, 4, 6}, {3}, {1}). My code confirms it is raw EFX₀, MD and a RNDOZ
     witness.
-  - Their counts with U3 and U13 leave 10 of 5,452 (n = 4) to a three-pick rotation. I have not re-run these counts.
+  - So the (O2) case needs a junk move *into* v, not a pick move. My earlier "the second case has to move picks"
+    (sent to kgen-rounds) is corrected accordingly.
+  - Pick moves (a three-pick rotation) are needed only in their residue: 10 of 5,452 at n = 4 after U0, U1, U1′, U3
+    and U13. I have not re-run these counts.
