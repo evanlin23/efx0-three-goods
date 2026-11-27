@@ -779,21 +779,32 @@ of an order.
 - A *chain* is the improving chain of `k4/sdc.md` §29; a *round* is a set of vertex-disjoint chains applied at once
   (§6).
 - A *completion* is a complete EFX₀ allocation keeping every base, free or with one absorber.
-- "Holds" at k = 4 means: on all data, never proved.
+- "Holds" without a label means: on all data, never proved.
 
-| statement (from every start of the given kind, unless "some") | k ≤ 2 | k = 3 | k = 4 | first failure | smallest counterexample | checks |
+Labels: **[P]** proved (written proof); **[Cert]** certified for every strict profile of the stated class (exhaustive
+order-type search or ordinal CEGAR, cross-checked by a second program); **[R]** refuted by an explicit instance that
+two independent checkers confirm; **[E]** evidence only (data, random sampling, climbs). "max" = from maximum-matching
+starts; n is the number of agents.
+
+| statement (from every start of the given kind, unless "some") | k ≤ 2 | k = 3 | k = 4 | k = 5 | k = 6 | first failure; smallest counterexample |
 |---|---|---|---|---|---|---|
-| the picks extend (no chain) | proved (K3.SD2) | **fails** | fails | k = 3 | n = 2, m = 4 (`k3_zero.log`) | SAT, brute force |
-| one chain: OC₁ / OC; also restricted to maximum-matching starts | | holds: every strict profile of every connected hypergraph, every start for n ≤ 4, maximum-matching starts for n = 5 (below) | **fails** | **k = 4** | the certifier's 11 cores, n = 4, m = 7 or 8 (§5); at k = 5 also PW5 (written proof, refereed) and RD5 | SAT, brute force |
-| one chain from R1-priority starts | | | **fails** | **k = 4** | the 11 (§5); PWR1-6 at k = 6 | SAT; brute force for the 11 starts |
-| one chain from the need2 neediest-first start | | | holds (data; the 11 included) | **k = 6** | NF2-6: n = 6, m = 11 (§4) | 2 SAT encodings, SAT-free |
-| one chain from the need2 R1 neediest-first start (LB₄ʳ's Phase 1) | | | holds | none found | | |
-| c chains (the least c that always suffices) | c = 0 | c = 1 (exhaustive, small n) | c = 2: certified for every strict profile of every core with n ≤ 4 (certifier); c = 1 fails | c = 1 at k = 4; c = 2, 3 at k = 2c + 3 found | the 11 (c = 1); PW(c + 2, c + 1, 2c + 2) (§4) | ocseq, brute force |
-| one round of disjoint chains (RD, RD₁) | | | **fails** | **k = 4** | the 11 (§5); RD5 at k = 5 | SAT, brute force over every round |
-| two rounds (RD²), also from maximum-matching starts | | | holds | none found (climbs k = 5, 6, 8; n ≤ 6) | | |
-| SD-C: some order whose picks extend | | holds (data; K4.SDC.K3 open) | holds | none found (k ≤ 8) | | |
-| MD: every start value-dominated | | | holds | none found (k ≤ 8) | | |
-| conclusions of Theorems DT, DT⁺, Lemma GDT, Theorem DT₁ | | | proved | **k = 5** | DT5: n = 2, m = 6; DT1-5: n = 3, m = 8 (§3) | SAT, brute force |
+| the picks extend (no chain) | holds [P] (K3.SD2) | fails [R] | fails | fails | fails | k = 3; n = 2, m = 4 (`k3_zero.log`) |
+| one chain (OC₁, OC), max | | holds [Cert]: every connected hypergraph, n ≤ 5 (k3max, kcegar) | **fails [R]**: n = 4 (the certifier's 11, §5) | **fails [R] at n = 3** (N3K5); PW5, RD5 | fails | **k = 4**; n = 4, m = 7 |
+| one chain, every start | | holds [Cert] for n ≤ 4, both move rules; **fails [R]** at n = 5 under the official rule only (MC2 shape) | fails [R]: the 11 under both rules; B<, MC2 under the official rule only | fails | fails | k = 3 under the official rule (n = 5, m = 9); k = 4 with empty passes |
+| one chain from R1-priority starts | | | fails [R] (the 11) | fails | fails [R] (PWR1-6) | k = 4 |
+| one chain from the need2 neediest-first start | | | holds [E] (the 11 included) | | fails [R] (NF2-6, n = 6) | k = 6 |
+| one chain from the need2 R1 neediest-first start (LB₄ʳ's Phase 1) | | | holds [E] | | | none found |
+| least number of chains that always suffices, max (Conjecture L′: ⌊k/2⌋) | 0 [P] | **1** [Cert], n ≤ 5 | **2**: 2 [Cert] on all cores with n ≤ 4 (certifier) and on the 11 (kcegar); 1 fails | **2**: 2 [Cert] on all 617 connected n = 3 hypergraphs, 25 named ones and the n = 4 core-like class with m ≤ 7 (running); 1 fails | ≥ 2; is 3 needed? kcegar running (designed list, n = 3) | c = 1 at k = 4; c = 2 at k = 7 within PW (PW(4, 3, 6)) |
+| one round of disjoint chains (RD, RD₁), max | | holds [Cert] (one chain suffices) | **fails [R]** (the 11) | fails [R]: N3K5 (n = 3), RD5 | fails | k = 4 |
+| one round with every good valued (unrestricted k, values > 0) | | | | | | fails [R]: N3K5⁺ (n = 3, m = 6), RD5⁺ (n = 4) |
+| two rounds (RD²), max | | holds [Cert] | holds [Cert] where two chains are certified (n ≤ 4 cores) | holds [Cert] on the classes of the row above; [E] elsewhere | running | none found |
+| SD-C: some order whose picks extend | | holds [E] (K4.SDC.K3 open) | holds [E] | holds [E] | holds [E] | none found (k ≤ 8) |
+| MD: every start value-dominated | | | holds [E] | holds [E] | holds [E] | none found (k ≤ 8) |
+| conclusions of Theorems DT, DT⁺, Lemma GDT, Theorem DT₁ | | | proved [P] | fails [R] | fails | k = 5; DT5: n = 2, m = 6; DT1-5: n = 3, m = 8 (§3) |
+
+Checks behind each [R]: SAT (ocsat or ocseq) and a brute force from the definitions (brute.py), with the certifier's
+programs as a third check on the 11. Each [Cert] at k = 5 comes from kcegar alone; kcegar itself is cross-checked
+against the certifier at k = 4 and against k3max at k = 3.
 
 **The k-dependence in one count** (Lemma PL, top of this note).
 - A frozen agent's junk danger sets live inside its at most k − 1 lower goods.
@@ -858,6 +869,8 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
   - A second, independent method, the ordinal CEGAR `kcegar.py`, certifies one chain for every strict profile and
     every maximum-matching start of all 52, 396 and 3,988 hypergraphs at n = 3, 4, 5 (`kcegar_k3_n*_D1.log`).
     At D = 0 (no chain) it fails on exactly the 15 n = 3 hypergraphs where k3max found a start needing a chain.
+    Over every start (`--any-start`, official rule) it certifies all 52 and 396 hypergraphs at n = 3, 4, as k3max
+    found (`kcegar_k3_n*_D1_any.log`).
 - *So at k = 3 one chain suffices,* and the ladder's jump to two chains happens at k = 4.
   - At k = 4: one chain fails at n = 4 (§5), and two sequential moves are certified for every strict profile of
     every core with n ≤ 4 (`k4/oc1cert.md` on `compute/k4-oc1max-cert`).

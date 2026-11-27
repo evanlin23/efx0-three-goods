@@ -1,0 +1,2 @@
+$ python3 k4/ksens/kcegar_batch.py genbg 3 6 2 --kmin=6 --jobs=1 --limit=1800
+hypergraphs 950

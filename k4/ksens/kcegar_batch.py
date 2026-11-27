@@ -79,7 +79,8 @@ def recheck(R, vals, Y, D, A=1):
 def job(task):
     name, sets, D, limit = task; t0 = time.time()
     C = kcegar.Cegar(sets, D=D, require_max='--any-start' not in sys.argv); r, w = C.run(time_limit=limit); rec = {'name': name, 'sets': sets, 'D': D, 'result': r,
-        'iterations': C.iters, 'kinds': dict(C.kinds), 'types': [len(t) for t in C.T]}
+        'iterations': C.iters, 'kinds': dict(C.kinds), 'types': [len(t) if t is not None else 'LP' for t in C.T],
+        'lp_calls': C.lpcalls}
     if r == 'FAIL': rec['recheck'] = recheck(C.R, w[0], w[1], D)
     C.close(); rec['time'] = round(time.time() - t0, 1); return rec
 
