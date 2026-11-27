@@ -31,11 +31,11 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
   proof target. In all three replayed examples the owner lies in {x₀, z} ∪ U.
 - **k ≤ 4 is necessary:** PW5 (k = 5) has two receivers and fails. Lemma PL (`claude/k4-ksens`) is the k = 4 count a
   proof must use.
-- **R2 looks like REC-S with an empty second move** (evidence, `r2_ek_*.log`). At every sampled hard start with
-  |U| ≥ 2, the earliest-wanter chain E(k) of REC-S, with a pool pair, repairs in one move, and a receiver can own:
-  79/79 and 466/466.
-- **Open:** a proof of R2-C, or of R2-E (Lemma SD-E reduces the state after E(k) to a perfect start of I⁻), by
-  Lemma M^c with an owner chosen per case, any rest, frozen slots allowed.
+- **R2 is not REC-S with an empty second move:** R2-E (REC-S's earliest-wanter chain E(k) repairs) held on all
+  sampled data (79/79, 466/466), but the certifier refutes it at n = 4 (4_n4_3 #77). There one canonical cycle serves
+  both dangerous agents, the second as a middle member taking its predecessor's pick plus its junk.
+- **Open:** a proof of R2-C, by Lemma M^c with an owner chosen per case, any rest, frozen slots allowed. The chain
+  must be allowed to pass a receiver and to give junk to a middle dangerous agent.
 
 ## Status (burst 6): OC₁^max falls at n = 4; two moves always suffice so far, by a pointer rule in the MC2 class
 
@@ -1128,7 +1128,22 @@ R2-C ("some canonical chain to a receiver repairs, any owner") on all 1,002 n = 
   and all three of the certifier's R2-M / R2-O counterexamples.
 - So, on this evidence, with two receivers REC-S's first step alone repairs, and R2 is REC-S with the second move P′
   empty.
-- The exhaustive n = 4 check of R2-E has been requested. Sampled data misled once already (R2-M).
+- The exhaustive n = 4 check of R2-E was requested. Sampled data misled once already (R2-M).
+
+**R2-E fails at n = 4** (certifier, 02:00, CEGAR `--r2=e` and its raw `verify_r2.py`; replayed here with `r2_ek.py`).
+- *The instance,* 4_n4_3 #77: sets [[0,4,5,6],[1,2,3,5],[1,3,5,6],[2,4,6]], vals
+  [[4,8,2,7],[3,8,10,6],[3,8,2,4],[3,4,2]], picks (g4, g3, g6, g2); U = {2, 3}, D = {0, 1}, junk {g0, g1, g5}.
+- *Why R2-E fails:* six orders give the start. For each, E(0) = (0, 3) and E(1) = (1, 2), and no improving T after
+  either gives a one-absorber completion.
+- *What repairs it: one cycle serving both dangerous agents.* Every repairing canonical chain is (0, 3, 1, 2) or
+  (1, 2, 0, 3). The chain passes the first unwanted agent and goes on, so it is not an E(k). In (0, 3, 1, 2):
+  - agent 3 takes g4;
+  - agent 1 takes agent 3's pick g2 plus its own junk g1, a danger absorbed by a middle agent;
+  - agent 2 takes g3;
+  - the head 0 takes g0 plus g6, the end's pick.
+- This is double absorption, as in the n = 5 two-private core (`attempts/k4-ttc-fp-plus-one.md`).
+- So R2's chain sometimes needs a wanter that is not σ-earliest, and junk for a middle agent. R2 is not REC-S with an
+  empty second move in general. R2-C, certified at n = 4, remains the target.
 
 **Result** (certifier, final n = 4 counts; every strict profile of all 1,002 cores, perfect hard starts with
 |U| ≥ 2; certified parts independently checked, failures raw-verified; files `cert_4_r2{c,op,og,o,star}.json.gz` on
