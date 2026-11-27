@@ -31,7 +31,7 @@ it.
 - ranks (1, 2, 3, 2), junk {0, 1, 3}, z = 2, k = 3, canonical chain (3, 2) with a = 6;
 - *the conflict:* k needs 3 and 4 = Y_z (4 + 5 > 6). z, holding 6, is threatened by {3, 4, …} (3 + 5 > 6);
 - *σ-raising inside {k, z}:* none. The swap gives equal rank intervals, and "k takes 3, z takes 6" lowers σ;
-- *the only σ-raising changes* run through z's top good 5, held by agent 1, whose top good 2 is held by agent 0. Agent
+- *every σ-raising change uses agents outside {k, z} and the chain*; one runs through z's top good 5, held by agent 1, whose top good 2 is held by agent 0. Agent
   0 falls back to the junk good 1 (rank 1 → 3), agent 1 takes 2 (2 → 1), z takes 5 (3 → 1), so σ rises at level 1;
 - OC₁ holds there by a 3-ring through k and the two outside agents: agent 0 takes Y_3 = 6 plus the junk good 1,
   agent 1 takes Y_0 = 2, and k = 3 takes Y_1 = 5. Afterwards agent 0 absorbs the junk good 0 and z takes the junk good
