@@ -1,0 +1,1 @@
+$ python3 k4/oc1_hall/rf_rkmax.py two_move_starts_n5_partial6.json.gz two_move_starts_n5_sel2.json.gz

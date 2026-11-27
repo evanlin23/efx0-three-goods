@@ -2438,3 +2438,38 @@ RF-T's explicit completion is EFX₀ if:
 
 At every one of the 42,009 trade starts some trade meets (F1)–(F3). Left open there: (F1)–(F3) from Y's hardness, and
 32 sporadic 3-ring starts on 5_pure#374.
+
+**Girth: SINK on the n = 5 R2 and U1 classes** (`results/k4_girth_oc1_sink_n5_r2u1.log` on `claude/k4-girth`, every
+10th start of `partial6` and `sel2`; [unverified] here):
+- all 126,388 R2 starts hold: 120,597 at Y′ with absorber d, and 5,791 after a chain (C) with absorber w;
+- all 285 U1 starts hold, after (T) with absorber d.
+
+So SINK has no known exception at n = 4 or n = 5. The n = 5 R2 and U1 classes are covered by this sample only.
+
+### 24.12 The same class table at RKMAX's σ-maximal starts (`k4/oc1_hall/rf_rkmax.py`; coordinator's request)
+
+*Conjecture RKMAX* (`k4/sdc.md` §31, K4.SDC.RKMAX). OC₁ holds at every maximum-matching SD vector whose rank signature
+σ = (#agents holding their rank-1 good, …, #rank 4) is lexicographically maximal.
+
+Here every distinct profile of the failure exports is taken, every order run, and each σ-maximal maximum-matching
+vector classified as in §24.10: (|U|, |D_T|), then the first repair P, K, T or RAW.
+
+**n = 4** (all 111,600 profiles of the n = 4 export; 198,400 σ-maximal vectors, 1 to 6 per profile;
+`rf_rkmax_n4.log`). OC₁ holds at all of them, so there are **0 RKMAX failures**.
+
+| (\|U\|, \|D_T\|) | vectors | P | K | T | RAW |
+|---|---|---|---|---|---|
+| (2, 1) | 95,000 | 95,000 | – | – | – |
+| (2, 0) | 74,920 | 74,920 | – | – | – |
+| (1, 1) | 20,080 | 10,360 | 9,720 | – | – |
+| (1, 0) | 5,840 | 5,680 | – | 80 | 80 |
+| (1, 2) | 1,920 | 960 | 960 | – | – |
+| (2, 2) | 640 | 640 | – | – | – |
+
+The hard one-receiver classes do not vanish at the σ-maximal starts, but they shrink. One-move cases:
+- (1, 2): 960 here, against 27,680 at the RF starts;
+- (1, 0): 160 here, against 1,280 there;
+- U1-type starts needing a K chain: 9,720 here, against 0 at the RF starts. There all 31,520 U1 starts complete at Y′
+  (`k4/girth.md` §7). Corollary U1 (K4.MULTI.U1, written proof) gives OC₁ at every U1 start either way.
+
+**n = 5** (the full exports): `rf_rkmax_n5.log`, running; the log is a placeholder until it finishes.
