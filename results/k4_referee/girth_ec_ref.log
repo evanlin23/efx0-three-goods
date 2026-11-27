@@ -1,0 +1,2 @@
+{"source": "Lemma EC / stuck states N=100000 seed=1", "instances": 100000, "rotations": 5014, "ec_fail": 0, "ec_free_tests": 62254, "ec_free_fail": 0, "states": 547242, "slack_tests": 1484975, "slack_fail": 0, "stuck": 2540, "stuck_fail": 0, "ctrl_tests": 393360, "ctrl_fail": 222237}
+{"source": "Lemma EC / stuck states N=100000 seed=2", "instances": 100000, "rotations": 5276, "ec_fail": 0, "ec_free_tests": 62114, "ec_free_fail": 0, "states": 547594, "slack_tests": 1488164, "slack_fail": 0, "stuck": 2681, "stuck_fail": 0, "ctrl_tests": 391640, "ctrl_fail": 220560}

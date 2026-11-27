@@ -1,0 +1,1 @@
+{"source": "PR-TP N=2000 n=3..6 m=4..10 seed=21", "instances": 2000, "runs": 8000, "steps": 26351, "steps_unfrozen_threatened": 2051, "steps_frozen_unthreatened": 10964, "step_fail": 0, "stopped_at_threatened_frozen": 872}

@@ -1,0 +1,10 @@
+{"stranded_state_efx0": true, "unallocated": [6, 7], "total": 198}
+{"instance": "k4", "n": 9, "m": 14, "k": 4}
+{"target": 198, "efx0_orientations_with_welfare_at_least_target": 1, "welfare_values": [198]}
+{"orientations_completable_with_at_most_one_out": 0, "examples": []}
+{"sanity_target": 197, "orientations": 8, "best_completable_with_at_most_one_out": [197, [[8], [9], [10], [11], [12], [13], [0, 1], [2, 3], [4]], [5, 6, 7]]}
+{"stranded_state_efx0": true, "unallocated": [6, 7], "total": 484}
+{"instance": "k3", "n": 12, "m": 17, "k": 3}
+{"target": 484, "efx0_orientations_with_welfare_at_least_target": 1, "welfare_values": [484]}
+{"orientations_completable_with_at_most_one_out": 0, "examples": []}
+{"sanity_target": 483, "orientations": 9, "best_completable_with_at_most_one_out": [483, [[8], [9], [10], [11], [12], [13], [14], [0, 1], [15], [2, 3], [16], [4]], [5, 6, 7]]}

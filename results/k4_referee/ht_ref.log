@@ -1,0 +1,6 @@
+{"t": 1, "n": 5, "m": 13, "linear": true, "l_on_3cycle": true, "lss_runs": 0, "lss_fail": 0}
+{"t": 2, "n": 9, "m": 23, "linear": true, "l_on_3cycle": false, "lss_runs": 40, "lss_fail": 0}
+{"t": 3, "n": 13, "m": 33, "linear": true, "l_on_3cycle": false, "lss_runs": 40, "lss_fail": 0}
+{"t": 4, "n": 17, "m": 43, "linear": true, "l_on_3cycle": false, "lss_runs": 40, "lss_fail": 0}
+{"t": 5, "n": 21, "m": 53, "linear": true, "l_on_3cycle": false, "lss_runs": 40, "lss_fail": 0}
+{"t": 6, "n": 25, "m": 63, "linear": true, "l_on_3cycle": false, "lss_runs": 40, "lss_fail": 0}
