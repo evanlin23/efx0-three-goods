@@ -10,7 +10,9 @@ allocations are mapped through the isomorphism, safety masks are computed with c
 definition, vectorized), and coverage of the full product of the domains is decided by SAT (Glucose 4): one type per
 agent, and per allocation "some agent has a type unsafe in it", with one variable per distinct unsafe set of an agent.
 Shape (D2) is not required: TARGET₄ needs EFX₀ only.
-Usage: check_mc_n.py N CERT.json.gz [CERT2.json.gz ...] [--bmin=5] [--bmax=B] [--jobs=J] [--expect=K]"""
+--sample: the certificate covers a sample; candidates without a record are counted, not failed, and every record must
+be a regenerated candidate.
+Usage: check_mc_n.py N CERT.json.gz [CERT2.json.gz ...] [--bmin=5] [--bmax=B] [--jobs=J] [--expect=K] [--sample]"""
 import sys, os, re, json, gzip, hashlib, collections
 import numpy as np
 import networkx as nx
@@ -95,6 +97,7 @@ def main():
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     opt = dict(a[2:].split('=', 1) for a in sys.argv[1:] if a.startswith('--') and '=' in a)
     N = int(args[0]); bmin = int(opt.get('bmin', 5)); bmax = int(opt.get('bmax', 3 * N - 2))
+    sample = '--sample' in sys.argv
     jobs = int(opt.get('jobs', 4))
     print('command: python3 k4/hunt/check_mc_n.py ' + ' '.join(sys.argv[1:]), flush=True)
     pxf = os.path.join(ROOT, 'results', 'k4_min_cex_px_uncovered.json')
@@ -139,6 +142,8 @@ def main():
     print(f'regenerated candidates: {len(left)} (n = {N}, beta {bmin}..{bmax}); orbit counting {"OK" if orbit_ok else "FAILED"}', flush=True)
     with Pool(jobs, initializer=_init, initargs=(cb,)) as pool:
         for sets, kinds, res, err in pool.imap_unordered(check_one, left, chunksize=4):
+            if err == 'no isomorphic core in the certificate' and sample:
+                stats['not in the sample'] += 1; continue
             if err:
                 stats[err] += 1; ok = False
                 if stats[err] <= 10: print(f'  {err}: {"".join(kinds)} {sets}', flush=True)
@@ -147,6 +152,18 @@ def main():
             stats['covered' if cov else 'NOT COVERED'] += 1
             stats['profiles'] += prof
             if not cov: ok = False; print(f'  NOT COVERED: {"".join(kinds)} {sets}', flush=True)
+    if sample:                                    # every certificate record must be one of the regenerated candidates
+        reg = collections.defaultdict(list)
+        for n_, m, sets, dom, kinds in left:
+            reg[(n_, m, nx.weisfeiler_lehman_graph_hash(CM.graph(sets, m), node_attr='c'))].append(CM.graph(sets, m))
+        stray = 0
+        for (n_, m, h), rs in cb.items():
+            for r in rs:
+                G = CM.graph(r['sets'], r['m'])
+                if not any(nx.is_isomorphic(G, G2, node_match=lambda a, b: a['c'] == b['c']) for G2 in reg[(n_, m, h)]):
+                    stray += 1
+        print(f'certificate records that are not regenerated candidates: {stray}', flush=True)
+        if stray: ok = False
     print(f'checked {len(left)} candidates: {dict(stats)}', flush=True)
     if 'expect' in opt and int(opt['expect']) != stats['covered']: print('EXPECT FAILED'); ok = False
     ok = ok and orbit_ok
