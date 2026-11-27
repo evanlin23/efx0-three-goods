@@ -429,7 +429,7 @@ receivers at Y and split the counts.
 
 The proof breaks at "some agent wants Y_p, and it is u": p can be a receiver at Y.
 
-The smallest kind, from the log:
+The smallest kind, from `rft_ref_example.log` (`rft_ref.py 2 7 1`, its first counterexample):
 - the core `[[0,2,4,7],[1,3,5,7],[2,4,6,7],[3,5,6,7],[4,5,6,7]]`, σ = (0, 3, 1, 4, 2), with u = 1, d = 2, p = 0, g = 4,
   j = 0, z = 5;
 - Y has receivers {0, 1, 2, 4}; nobody wants Y_p, and u values Y_p at 0;
