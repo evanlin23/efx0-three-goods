@@ -1,0 +1,7 @@
+picks (4, 3) B' [[2, 3], [4]] J' [0, 1] frozen after [] s = 1 (N is empty: no agent off the chain)
+  H = () X = [2, 3, 0, 1] (1') for the head: False ; matching with >= |H| - s edges: True
+  H = (0,) X = [2, 3, 1] (1') for the head: False ; matching with >= |H| - s edges: True
+  H = (1,) X = [2, 3, 0] (1') for the head: False ; matching with >= |H| - s edges: True
+  H = (0, 1) X = [2, 3] (1') for the head: True ; matching with >= |H| - s edges: False
+EX's hypothesis holds for some H: False
+S* completion owned by k (head compensated by junk 1): [[2, 3, 0], [4, 1]] EFX0 (raw): True

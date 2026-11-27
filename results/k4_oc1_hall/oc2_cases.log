@@ -1,0 +1,235 @@
+$ python3 k4/oc1_hall/oc2_cases.py
+===== 4_n4_3#58 n 4 m 7 picks [1, 2, 5, 6] J [0, 3, 4] F [0, 2, 3] D [0, 2, 3] J alone threatens [2, 3]
+  SHARED pool danger sets (k, k', T, z): [(2, 3, (3, 4), 1)]
+  e.g. first chain (2, 1) {0: (3, 4), 1: ()} DEMAND [3] ; second (from another agent of D) chain (0, 1) {0: (2, 5), 1: ()} canonical
+  e.g. first chain (2, 1) {0: (3, 4), 1: ()} DEMAND [3] ; second (from an agent unfrozen at the picks) chain (1, 0) {0: (1,), 1: (2,)} 
+  repairing pairs: ('LIFT', 'no DEMAND after the first chain') 2
+  repairing pairs: ('LIFT', 'second move removes every DEMAND (starts at it or unfreezes it)') 6
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 0') 4
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 0') 8
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 1') 12
+===== 4_n4_3#77 n 4 m 7 picks [4, 5, 6, 2] J [0, 1, 3] F [1, 2, 3] D [1, 2] J alone threatens [1, 2]
+  SHARED pool danger sets (k, k', T, z): [(1, 2, (1, 3), 0)]
+  e.g. first chain (1, 0) {0: (1, 3), 1: ()} DEMAND [] ; second (from the same first agent) chain (1, 2, 3) {0: (2,), 1: (), 2: (4,)} 
+  e.g. first chain (1, 0) {0: (1, 3), 1: ()} DEMAND [] ; second (from another agent of D) chain (2, 3, 1) {0: (1, 3), 1: (4,), 2: ()} 
+  e.g. first chain (1, 0) {0: (1, 3), 1: ()} DEMAND [] ; second (from an agent of F - D) chain (3, 1, 2) {0: (4, 6), 1: (), 2: ()} canonical
+  e.g. first chain (1, 2) {0: (1, 3), 1: ()} DEMAND [2] ; second (from an agent unfrozen at the picks) chain (0, 3, 1, 2) {0: (5,), 1: (6,), 2: (), 3: ()} 
+  e.g. first chain (1, 2) {0: (1, 3), 1: ()} DEMAND [2] ; second chain (2, 0, 3, 1) {0: (1, 3), 1: (), 2: (6,), 3: ()}
+  e.g. first chain (1, 2) {0: (1, 3), 1: ()} DEMAND [2] ; second ring (2, 0, 3, 1) {1: (), 2: (6,), 3: (), 0: ()}
+  repairing pairs: ('LIFT', 'no DEMAND after the first chain') 1
+  repairing pairs: ('LIFT', 'second move removes every DEMAND (starts at it or unfreezes it)') 6
+  repairing pairs: ('first: canonical chain from D', 'second from a DEMAND agent', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from an agent of F - D', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: canonical chain from D', 'second from an agent of F - D', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 1') 8
+  repairing pairs: ('first: other move', 'second from a DEMAND agent', 'DEMAND after first: 1') 4
+  repairing pairs: ('first: other move', 'second from an agent of F - D', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: other move', 'second from an agent of F - D', 'DEMAND after first: 1') 4
+  repairing pairs: ('first: other move', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 4
+  repairing pairs: ('first: other move', 'second from another agent of D', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: other move', 'second from the same first agent', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: other move', 'second from the same first agent', 'DEMAND after first: 1') 2
+===== 4_pure#20 n 4 m 7 picks [6, 5, 3, 4] J [0, 1, 2] F [0, 1, 2] D [0, 1] J alone threatens [0, 1]
+  SHARED pool danger sets (k, k', T, z): [(0, 1, (1, 2), 3)]
+  e.g. first chain (0, 1) {0: (1, 2), 1: ()} DEMAND [1] ; second (from an agent of F - D) chain (2, 3) {0: (5, 4), 1: ()} canonical
+  e.g. first chain (0, 1) {0: (1, 2), 1: ()} DEMAND [1] ; second (from an agent unfrozen at the picks) chain (3, 2) {0: (3,), 1: (5,)} 
+  e.g. first chain (0, 3) {0: (1, 2), 1: ()} DEMAND [] ; second (from the same first agent) chain (0, 1, 2, 3) {0: (0, 6), 1: (), 2: (4,), 3: ()} 
+  e.g. first chain (0, 3) {0: (1, 2), 1: ()} DEMAND [] ; second (from another agent of D) chain (1, 2, 3, 0) {0: (1, 2), 1: (4,), 2: (), 3: (0,)} 
+  repairing pairs: ('LIFT', 'no DEMAND after the first chain') 2
+  repairing pairs: ('LIFT', 'second move removes every DEMAND (starts at it or unfreezes it)') 3
+  repairing pairs: ('first: canonical chain from D', 'second from an agent of F - D', 'DEMAND after first: 0') 4
+  repairing pairs: ('first: canonical chain from D', 'second from an agent of F - D', 'DEMAND after first: 1') 6
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 0') 4
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 6
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 0') 4
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 0') 2
+===== 4_pure#21 n 4 m 7 picks [6, 4, 5, 3] J [0, 1, 2] F [0, 1, 2] D [0, 1] J alone threatens [0, 1]
+  SHARED pool danger sets (k, k', T, z): [(0, 1, (1, 2), 3)]
+  e.g. first chain (0, 2, 1) {0: (1, 2), 1: (), 2: ()} DEMAND [1] ; second (from an agent of F - D) chain (2, 3) {0: (4, 3), 1: ()} canonical
+  e.g. first chain (0, 2, 1) {0: (1, 2), 1: (), 2: ()} DEMAND [1] ; second (from an agent unfrozen at the picks) chain (3, 2) {0: (6,), 1: (4,)} 
+  e.g. first chain (0, 2, 3) {0: (1, 2), 1: (), 2: ()} DEMAND [] ; second (from another agent of D) chain (1, 2, 3) {0: (5,), 1: (3,), 2: ()} 
+  repairing pairs: ('LIFT', 'no DEMAND after the first chain') 2
+  repairing pairs: ('LIFT', 'second move leaves a DEMAND agent frozen: other') 1
+  repairing pairs: ('LIFT', 'second move removes every DEMAND (starts at it or unfreezes it)') 2
+  repairing pairs: ('first: canonical chain from D', 'second from an agent of F - D', 'DEMAND after first: 0') 4
+  repairing pairs: ('first: canonical chain from D', 'second from an agent of F - D', 'DEMAND after first: 1') 6
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 6
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 0') 4
+===== 4_pure#23 n 4 m 7 picks [1, 3, 4, 5] J [0, 2, 6] F [1, 2, 3] D [1, 2, 3] J alone threatens [2, 3]
+  SHARED pool danger sets (k, k', T, z): [(2, 3, (2, 6), 0)]
+  e.g. first chain (2, 0) {0: (2, 6), 1: ()} DEMAND [] ; second (from another agent of D) chain (1, 2, 3) {0: (1, 5), 1: (), 2: ()} canonical
+  e.g. first chain (2, 0) {0: (2, 6), 1: ()} DEMAND [] ; second (from the same first agent) chain (2, 3, 1) {0: (3,), 1: (), 2: (1,)} 
+  e.g. first chain (2, 3) {0: (2, 6), 1: ()} DEMAND [3] ; second (from an agent unfrozen at the picks) chain (0, 1, 2, 3) {0: (4,), 1: (5,), 2: (), 3: ()} 
+  e.g. first chain (2, 3) {0: (2, 6), 1: ()} DEMAND [3] ; second chain (3, 0, 1, 2) {0: (2, 6), 1: (), 2: (5,), 3: ()}
+  e.g. first chain (2, 3) {0: (2, 6), 1: ()} DEMAND [3] ; second ring (3, 0, 1, 2) {1: (), 2: (5,), 3: (), 0: ()}
+  repairing pairs: ('LIFT', 'no DEMAND after the first chain') 1
+  repairing pairs: ('LIFT', 'second move removes every DEMAND (starts at it or unfreezes it)') 6
+  repairing pairs: ('first: canonical chain from D', 'second from a DEMAND agent', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 0') 4
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 1') 8
+  repairing pairs: ('first: other move', 'second from a DEMAND agent', 'DEMAND after first: 1') 4
+  repairing pairs: ('first: other move', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 4
+  repairing pairs: ('first: other move', 'second from another agent of D', 'DEMAND after first: 0') 4
+  repairing pairs: ('first: other move', 'second from another agent of D', 'DEMAND after first: 1') 4
+  repairing pairs: ('first: other move', 'second from the same first agent', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: other move', 'second from the same first agent', 'DEMAND after first: 1') 2
+===== 4_pure#24 n 4 m 7 picks [1, 5, 4, 6] J [0, 2, 3] F [0, 2, 3] D [0, 2, 3] J alone threatens [2, 3]
+  SHARED pool danger sets (k, k', T, z): [(2, 3, (2, 3), 1)]
+  e.g. first chain (2, 1) {0: (2, 3), 1: ()} DEMAND [3] ; second (from another agent of D) chain (0, 1) {0: (5, 4), 1: ()} canonical
+  e.g. first chain (2, 1) {0: (2, 3), 1: ()} DEMAND [3] ; second (from an agent unfrozen at the picks) chain (1, 0) {0: (1,), 1: (5,)} 
+  repairing pairs: ('LIFT', 'no DEMAND after the first chain') 2
+  repairing pairs: ('LIFT', 'second move removes every DEMAND (starts at it or unfreezes it)') 6
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 0') 4
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 0') 8
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 1') 12
+===== 4_pure#26 n 4 m 7 picks [2, 4, 6, 3] J [0, 1, 5] F [0, 1, 2] D [0, 1, 2] J alone threatens [1, 2]
+  SHARED pool danger sets (k, k', T, z): [(1, 2, (1, 5), 3)]
+  e.g. first chain (1, 2) {0: (1, 5), 1: ()} DEMAND [2] ; second (from another agent of D) chain (0, 1, 2, 3) {0: (6, 3), 1: (), 2: (), 3: ()} canonical
+  e.g. first chain (1, 2) {0: (1, 5), 1: ()} DEMAND [2] ; second (from the same first agent) chain (1, 2, 3, 0) {0: (2,), 1: (), 2: (), 3: (6,)} 
+  e.g. first chain (1, 2) {0: (1, 5), 1: ()} DEMAND [2] ; second chain (2, 3, 0, 1) {0: (1, 5), 1: (), 2: (6,), 3: ()}
+  e.g. first chain (1, 2) {0: (1, 5), 1: ()} DEMAND [2] ; second (from an agent unfrozen at the picks) chain (3, 0, 1, 2) {0: (4,), 1: (6,), 2: (), 3: ()} 
+  e.g. first chain (1, 2) {0: (1, 5), 1: ()} DEMAND [2] ; second ring (2, 3, 0, 1) {1: (), 2: (6,), 3: (), 0: ()}
+  repairing pairs: ('LIFT', 'no DEMAND after the first chain') 2
+  repairing pairs: ('LIFT', 'second move removes every DEMAND (starts at it or unfreezes it)') 6
+  repairing pairs: ('first: canonical chain from D', 'second from a DEMAND agent', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 0') 8
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 0') 4
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 1') 8
+===== 4_pure#29 n 4 m 7 picks [4, 6, 5, 2] J [0, 1, 3] F [1, 2, 3] D [1, 2] J alone threatens [1, 2]
+  SHARED pool danger sets (k, k', T, z): [(1, 2, (1, 3), 0)]
+  e.g. first chain (1, 0) {0: (1, 3), 1: ()} DEMAND [] ; second (from the same first agent) chain (1, 2, 3) {0: (2,), 1: (), 2: (4,)} 
+  e.g. first chain (1, 0) {0: (1, 3), 1: ()} DEMAND [] ; second (from another agent of D) chain (2, 3, 1) {0: (1, 3), 1: (4,), 2: ()} 
+  e.g. first chain (1, 0) {0: (1, 3), 1: ()} DEMAND [] ; second (from an agent of F - D) chain (3, 1, 2) {0: (4, 5), 1: (), 2: ()} canonical
+  e.g. first chain (1, 2) {0: (1, 3), 1: ()} DEMAND [2] ; second (from an agent unfrozen at the picks) chain (0, 3, 1, 2) {0: (6,), 1: (5,), 2: (), 3: ()} 
+  e.g. first chain (1, 2) {0: (1, 3), 1: ()} DEMAND [2] ; second chain (2, 0, 3, 1) {0: (1, 3), 1: (), 2: (5,), 3: ()}
+  e.g. first chain (1, 2) {0: (1, 3), 1: ()} DEMAND [2] ; second ring (2, 0, 3, 1) {1: (), 2: (5,), 3: (), 0: ()}
+  repairing pairs: ('LIFT', 'no DEMAND after the first chain') 1
+  repairing pairs: ('LIFT', 'second move removes every DEMAND (starts at it or unfreezes it)') 6
+  repairing pairs: ('first: canonical chain from D', 'second from a DEMAND agent', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from an agent of F - D', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: canonical chain from D', 'second from an agent of F - D', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 1') 8
+  repairing pairs: ('first: other move', 'second from a DEMAND agent', 'DEMAND after first: 1') 4
+  repairing pairs: ('first: other move', 'second from an agent of F - D', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: other move', 'second from an agent of F - D', 'DEMAND after first: 1') 4
+  repairing pairs: ('first: other move', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 4
+  repairing pairs: ('first: other move', 'second from another agent of D', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: other move', 'second from the same first agent', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: other move', 'second from the same first agent', 'DEMAND after first: 1') 2
+===== 4_pure#36 n 4 m 7 picks [0, 2, 6, 5] J [1, 3, 4] F [0, 2, 3] D [0, 2, 3] J alone threatens [2, 3]
+  SHARED pool danger sets (k, k', T, z): [(2, 3, (1, 3), 1)]
+  e.g. first chain (2, 1) {0: (1, 3), 1: ()} DEMAND [] ; second (from another agent of D) chain (0, 1, 2, 3) {0: (2, 5), 1: (), 2: (4,), 3: ()} 
+  e.g. first chain (2, 1) {0: (1, 3), 1: ()} DEMAND [] ; second (from an agent unfrozen at the picks) chain (1, 2, 3, 0) {0: (0,), 1: (4,), 2: (), 3: (2,)} 
+  e.g. first chain (2, 1) {0: (1, 3), 1: ()} DEMAND [] ; second (from the same first agent) chain (2, 3, 0, 1) {0: (4, 6), 1: (), 2: (2,), 3: ()} 
+  repairing pairs: ('LIFT', 'no DEMAND after the first chain') 3
+  repairing pairs: ('LIFT', 'second move removes every DEMAND (starts at it or unfreezes it)') 6
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 0') 6
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 0') 12
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 0') 2
+===== 4_pure#38 n 4 m 8 picks [2, 7, 3, 6] J [0, 1, 4, 5] F [0, 1, 3] D [0, 1, 3] J alone threatens [1, 3]
+  SHARED pool danger sets (k, k', T, z): [(1, 3, (4, 5), 2)]
+  e.g. first chain (1, 2) {0: (4, 5), 1: ()} DEMAND [] ; second (from another agent of D) chain (0, 2, 1, 3) {0: (3, 6), 1: (), 2: (1,), 3: ()} 
+  e.g. first chain (1, 2) {0: (4, 5), 1: ()} DEMAND [] ; second (from the same first agent) chain (1, 3, 0, 2) {0: (1, 7), 1: (), 2: (3,), 3: ()} 
+  e.g. first chain (1, 2) {0: (4, 5), 1: ()} DEMAND [] ; second (from an agent unfrozen at the picks) chain (2, 1, 3, 0) {0: (2,), 1: (1,), 2: (), 3: (3,)} 
+  repairing pairs: ('LIFT', 'no DEMAND after the first chain') 4
+  repairing pairs: ('LIFT', 'second move removes every DEMAND (starts at it or unfreezes it)') 6
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 0') 8
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 0') 16
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 0') 4
+===== 4_pure#45 n 4 m 8 picks [2, 5, 6, 7] J [0, 1, 3, 4] F [0, 2, 3] D [0, 2, 3] J alone threatens [2, 3]
+  SHARED pool danger sets (k, k', T, z): [(2, 3, (3, 4), 1)]
+  e.g. first chain (2, 1) {0: (3, 4), 1: ()} DEMAND [] ; second (from another agent of D) chain (0, 2, 3) {0: (5, 7), 1: (), 2: ()} canonical
+  e.g. first chain (2, 1) {0: (3, 4), 1: ()} DEMAND [] ; second (from the same first agent) chain (2, 3, 0) {0: (2,), 1: (), 2: (5,)} 
+  e.g. first chain (2, 3) {0: (3, 4), 1: ()} DEMAND [3] ; second (from an agent unfrozen at the picks) chain (1, 0, 2, 3) {0: (6,), 1: (7,), 2: (), 3: ()} 
+  e.g. first chain (2, 3) {0: (3, 4), 1: ()} DEMAND [3] ; second chain (3, 1, 0, 2) {0: (3, 4), 1: (), 2: (7,), 3: ()}
+  e.g. first chain (2, 3) {0: (3, 4), 1: ()} DEMAND [3] ; second ring (3, 1, 0, 2) {1: (), 2: (7,), 3: (), 0: ()}
+  repairing pairs: ('LIFT', 'no DEMAND after the first chain') 2
+  repairing pairs: ('LIFT', 'second move removes every DEMAND (starts at it or unfreezes it)') 12
+  repairing pairs: ('first: canonical chain from D', 'second from a DEMAND agent', 'DEMAND after first: 1') 24
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 24
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 0') 8
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 1') 24
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 0') 4
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 1') 16
+  repairing pairs: ('first: other move', 'second from a DEMAND agent', 'DEMAND after first: 1') 4
+  repairing pairs: ('first: other move', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 4
+  repairing pairs: ('first: other move', 'second from another agent of D', 'DEMAND after first: 0') 8
+  repairing pairs: ('first: other move', 'second from another agent of D', 'DEMAND after first: 1') 6
+  repairing pairs: ('first: other move', 'second from the same first agent', 'DEMAND after first: 0') 4
+  repairing pairs: ('first: other move', 'second from the same first agent', 'DEMAND after first: 1') 2
+===== coord-cex2 n 4 m 7 picks [4, 5, 6, 2] J [0, 1, 3] F [1, 2, 3] D [1, 2] J alone threatens [1, 2]
+  SHARED pool danger sets (k, k', T, z): [(1, 2, (1, 3), 0)]
+  e.g. first chain (1, 0) {0: (1, 3), 1: ()} DEMAND [] ; second (from the same first agent) chain (1, 2, 3) {0: (2,), 1: (), 2: (4,)} 
+  e.g. first chain (1, 0) {0: (1, 3), 1: ()} DEMAND [] ; second (from another agent of D) chain (2, 3, 1) {0: (1, 3), 1: (4,), 2: ()} 
+  e.g. first chain (1, 0) {0: (1, 3), 1: ()} DEMAND [] ; second (from an agent of F - D) chain (3, 1, 2) {0: (4, 6), 1: (), 2: ()} canonical
+  e.g. first chain (1, 2) {0: (1, 3), 1: ()} DEMAND [2] ; second (from an agent unfrozen at the picks) chain (0, 3, 1, 2) {0: (5,), 1: (6,), 2: (), 3: ()} 
+  e.g. first chain (1, 2) {0: (1, 3), 1: ()} DEMAND [2] ; second chain (2, 0, 3, 1) {0: (1, 3), 1: (), 2: (6,), 3: ()}
+  e.g. first chain (1, 2) {0: (1, 3), 1: ()} DEMAND [2] ; second ring (2, 0, 3, 1) {1: (), 2: (6,), 3: (), 0: ()}
+  repairing pairs: ('LIFT', 'no DEMAND after the first chain') 1
+  repairing pairs: ('LIFT', 'second move removes every DEMAND (starts at it or unfreezes it)') 6
+  repairing pairs: ('first: canonical chain from D', 'second from a DEMAND agent', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from an agent of F - D', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: canonical chain from D', 'second from an agent of F - D', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: canonical chain from D', 'second from the same first agent', 'DEMAND after first: 1') 8
+  repairing pairs: ('first: other move', 'second from a DEMAND agent', 'DEMAND after first: 1') 4
+  repairing pairs: ('first: other move', 'second from an agent of F - D', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: other move', 'second from an agent of F - D', 'DEMAND after first: 1') 4
+  repairing pairs: ('first: other move', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 4
+  repairing pairs: ('first: other move', 'second from another agent of D', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: other move', 'second from the same first agent', 'DEMAND after first: 0') 2
+  repairing pairs: ('first: other move', 'second from the same first agent', 'DEMAND after first: 1') 2
+===== ttc-n5-core n 5 m 9 picks [4, 6, 0, 5, 1] J [2, 3, 7, 8] F [1, 2, 3, 4] D [1, 3, 4] J alone threatens []
+  SHARED pool danger sets (k, k', T, z): [(1, 3, (2, 4), 0)]
+  e.g. first chain (1, 0) {0: (2, 4), 1: ()} DEMAND [3] ; second (from an agent of F - D) chain (2, 4) {0: (1,), 1: (7,)} 
+  e.g. first chain (1, 0) {0: (2, 4), 1: ()} DEMAND [3] ; second (from another agent of D) chain (4, 2) {0: (7, 0), 1: ()} canonical
+  e.g. first chain (1, 2, 0) {0: (2, 4), 1: (), 2: ()} DEMAND [3] ; second (from an agent unfrozen at the picks) chain (0, 4, 2) {0: (6,), 1: (7,), 2: ()} 
+  repairing pairs: ('LIFT', 'no DEMAND after the first chain') 6
+  repairing pairs: ('LIFT', 'second move leaves a DEMAND agent frozen: other') 6
+  repairing pairs: ('LIFT', 'second move removes every DEMAND (starts at it or unfreezes it)') 6
+  repairing pairs: ('first: canonical chain from D', 'second from an agent of F - D', 'DEMAND after first: 1') 24
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 0') 12
+  repairing pairs: ('first: canonical chain from D', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 0') 12
+  repairing pairs: ('first: canonical chain from D', 'second from another agent of D', 'DEMAND after first: 1') 24
+  repairing pairs: ('first: other move', 'second from a DEMAND agent', 'DEMAND after first: 1') 24
+  repairing pairs: ('first: other move', 'second from an agent of F - D', 'DEMAND after first: 0') 24
+  repairing pairs: ('first: other move', 'second from an agent of F - D', 'DEMAND after first: 1') 48
+  repairing pairs: ('first: other move', 'second from an agent unfrozen at the picks', 'DEMAND after first: 0') 60
+  repairing pairs: ('first: other move', 'second from an agent unfrozen at the picks', 'DEMAND after first: 1') 12
+  repairing pairs: ('first: other move', 'second from another agent of D', 'DEMAND after first: 0') 84
+  repairing pairs: ('first: other move', 'second from another agent of D', 'DEMAND after first: 1') 24
+  repairing pairs: ('first: other move', 'second from the same first agent', 'DEMAND after first: 0') 24
+  repairing pairs: ('first: other move', 'second from the same first agent', 'DEMAND after first: 1') 24
+  instances with a repair (canonical first chain from D): no DEMAND after the first chain 13
+  instances with a repair (canonical first chain from D): second move leaves a DEMAND agent frozen: other 2
+  instances with a repair (canonical first chain from D): second move removes every DEMAND (starts at it or unfreezes it) 13
+  instances with a repair: canonical first chain from D, second from a DEMAND agent 6
+  instances with a repair: canonical first chain from D, second from an agent of F - D 6
+  instances with a repair: canonical first chain from D, second from an agent unfrozen at the picks 13
+  instances with a repair: canonical first chain from D, second from another agent of D 13
+  instances with a repair: canonical first chain from D, second from the same first agent 9
+instances 13
+instances repaired by a canonical first chain from D (any second move) 13
+instances repaired by a canonical first chain from D, then a move from a DEMAND agent 6
+instances with a shared pool danger set 13

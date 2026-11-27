@@ -1,0 +1,45 @@
+$ python3 k4/oc1cert/diag.py
+{"list": "4_n4_3", "idx": 58, "sets": [[0, 1, 2, 5], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 6]], "vals": [[2, 10, 4, 7], [10, 3, 4, 8], [3, 5, 6, 7], [3, 2, 4]], "picks": [1, 2, 5, 6]}
+   (a) one move: 15 states, 0 with a one-absorber completion, 0 with a free one; two moves: 34 states, 4 one-absorber, 4 free
+   (b) orders by outcome (all 24 orders, 7 distinct picks): {'max / OC1 fails': 3, 'max / one move repairs': 5, 'max / picks complete': 16}
+       R1-priority orders: {'picks complete': 20, 'OC1 fails': 2, 'one move repairs': 2}
+{"list": "4_n4_3", "idx": 77, "sets": [[0, 4, 5, 6], [1, 2, 3, 5], [1, 3, 5, 6], [2, 4, 6]], "vals": [[2, 3, 10, 6], [3, 10, 6, 8], [5, 3, 7, 6], [4, 3, 2]], "picks": [4, 5, 6, 2]}
+   (a) one move: 21 states, 0 with a one-absorber completion, 0 with a free one; two moves: 41 states, 3 one-absorber, 3 free
+   (b) orders by outcome (all 24 orders, 6 distinct picks): {'max / OC1 fails': 1, 'max / one move repairs': 1, 'max / picks complete': 22}
+       R1-priority orders: {'picks complete': 18, 'one move repairs': 3, 'OC1 fails': 3}
+{"list": "4_pure", "idx": 20, "sets": [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], "vals": [[2, 5, 4, 8], [5, 3, 6, 7], [10, 3, 8, 6], [10, 2, 3, 6]], "picks": [6, 5, 3, 4]}
+   (a) one move: 24 states, 0 with a one-absorber completion, 0 with a free one; two moves: 39 states, 3 one-absorber, 3 free
+   (b) orders by outcome (all 24 orders, 7 distinct picks): {'max / OC1 fails': 3, 'max / one move repairs': 5, 'max / picks complete': 16}
+       R1-priority orders: {'OC1 fails': 2, 'one move repairs': 3, 'picks complete': 19}
+{"list": "4_pure", "idx": 21, "sets": [[0, 1, 2, 6], [1, 2, 4, 5], [3, 4, 5, 6], [3, 4, 5, 6]], "vals": [[2, 7, 4, 10], [3, 5, 6, 7], [3, 5, 6, 7], [1, 4, 6, 8]], "picks": [6, 4, 5, 3]}
+   (a) one move: 32 states, 0 with a one-absorber completion, 0 with a free one; two moves: 53 states, 2 one-absorber, 2 free
+   (b) orders by outcome (all 24 orders, 10 distinct picks): {'max / OC1 fails': 1, 'max / one move repairs': 6, 'max / picks complete': 17}
+       R1-priority orders: {'OC1 fails': 2, 'one move repairs': 3, 'picks complete': 19}
+{"list": "4_pure", "idx": 23, "sets": [[0, 1, 4, 5], [1, 3, 5, 6], [2, 3, 4, 6], [2, 4, 5, 6]], "vals": [[2, 3, 10, 6], [7, 10, 6, 2], [3, 10, 8, 6], [5, 8, 6, 4]], "picks": [1, 3, 4, 5]}
+   (a) one move: 22 states, 0 with a one-absorber completion, 0 with a free one; two moves: 44 states, 3 one-absorber, 3 free
+   (b) orders by outcome (all 24 orders, 6 distinct picks): {'max / OC1 fails': 1, 'max / one move repairs': 1, 'max / picks complete': 22}
+       R1-priority orders: {'picks complete': 18, 'one move repairs': 3, 'OC1 fails': 3}
+{"list": "4_pure", "idx": 24, "sets": [[0, 1, 4, 5], [1, 4, 5, 6], [2, 3, 4, 6], [2, 3, 5, 6]], "vals": [[1, 8, 6, 4], [8, 4, 2, 7], [3, 5, 6, 7], [4, 5, 2, 8]], "picks": [1, 5, 4, 6]}
+   (a) one move: 15 states, 0 with a one-absorber completion, 0 with a free one; two moves: 37 states, 4 one-absorber, 4 free
+   (b) orders by outcome (all 24 orders, 7 distinct picks): {'max / OC1 fails': 3, 'max / one move repairs': 5, 'max / picks complete': 16}
+       R1-priority orders: {'picks complete': 20, 'OC1 fails': 2, 'one move repairs': 2}
+{"list": "4_pure", "idx": 26, "sets": [[0, 2, 3, 6], [1, 2, 4, 5], [1, 4, 5, 6], [3, 4, 5, 6]], "vals": [[2, 10, 6, 7], [4, 8, 5, 2], [5, 7, 3, 6], [3, 10, 2, 6]], "picks": [2, 4, 6, 3]}
+   (a) one move: 16 states, 0 with a one-absorber completion, 0 with a free one; two moves: 41 states, 2 one-absorber, 2 free
+   (b) orders by outcome (all 24 orders, 8 distinct picks): {'max / OC1 fails': 1, 'max / one move repairs': 4, 'max / picks complete': 19}
+       R1-priority orders: {'OC1 fails': 3, 'one move repairs': 8, 'picks complete': 13}
+{"list": "4_pure", "idx": 29, "sets": [[0, 4, 5, 6], [1, 2, 3, 6], [1, 3, 5, 6], [2, 4, 5, 6]], "vals": [[2, 3, 6, 10], [6, 10, 3, 8], [4, 5, 6, 8], [8, 6, 4, 5]], "picks": [4, 6, 5, 2]}
+   (a) one move: 21 states, 0 with a one-absorber completion, 0 with a free one; two moves: 44 states, 3 one-absorber, 3 free
+   (b) orders by outcome (all 24 orders, 6 distinct picks): {'max / OC1 fails': 1, 'max / one move repairs': 1, 'max / picks complete': 22}
+       R1-priority orders: {'picks complete': 18, 'one move repairs': 3, 'OC1 fails': 3}
+{"list": "4_pure", "idx": 36, "sets": [[0, 2, 4, 5], [0, 2, 5, 6], [1, 3, 4, 6], [1, 3, 5, 6]], "vals": [[8, 4, 1, 6], [8, 2, 4, 7], [5, 4, 2, 8], [5, 3, 6, 7]], "picks": [0, 2, 6, 5]}
+   (a) one move: 25 states, 0 with a one-absorber completion, 0 with a free one; two moves: 59 states, 5 one-absorber, 5 free
+   (b) orders by outcome (all 24 orders, 7 distinct picks): {'max / OC1 fails': 3, 'max / one move repairs': 5, 'max / picks complete': 16}
+       R1-priority orders: {'picks complete': 20, 'OC1 fails': 2, 'one move repairs': 2}
+{"list": "4_pure", "idx": 38, "sets": [[0, 2, 3, 6], [1, 4, 5, 7], [2, 3, 6, 7], [4, 5, 6, 7]], "vals": [[2, 10, 7, 4], [2, 5, 4, 8], [10, 3, 4, 8], [4, 5, 6, 8]], "picks": [2, 7, 3, 6]}
+   (a) one move: 25 states, 0 with a one-absorber completion, 0 with a free one; two moves: 74 states, 6 one-absorber, 6 free
+   (b) orders by outcome (all 24 orders, 6 distinct picks): {'max / OC1 fails': 3, 'max / one move repairs': 2, 'max / picks complete': 19}
+       R1-priority orders: {'picks complete': 22, 'OC1 fails': 2}
+{"list": "4_pure", "idx": 45, "sets": [[0, 2, 5, 7], [1, 5, 6, 7], [2, 3, 4, 6], [3, 4, 6, 7]], "vals": [[2, 10, 7, 6], [2, 3, 10, 6], [10, 6, 3, 8], [5, 3, 7, 6]], "picks": [2, 5, 6, 7]}
+   (a) one move: 22 states, 0 with a one-absorber completion, 0 with a free one; two moves: 72 states, 5 one-absorber, 5 free
+   (b) orders by outcome (all 24 orders, 6 distinct picks): {'max / OC1 fails': 1, 'max / one move repairs': 1, 'max / picks complete': 22}
+       R1-priority orders: {'one move repairs': 3, 'OC1 fails': 3, 'picks complete': 18}

@@ -1,0 +1,47 @@
+$ python3 k4/oc1_hall/deficit_check.py special
+  least unfrozen-owner deficit 1 17
+  least unfrozen-owner deficit 2 1
+owner tests 38
+starts with no unfrozen owner 18
+time 0 s
+$ python3 k4/oc1_hall/deficit_check.py screen
+  least unfrozen-owner deficit 1 235
+  least unfrozen-owner deficit 2 35
+  least unfrozen-owner deficit 3 1
+owner tests 1207
+starts with no unfrozen owner 271
+time 0 s
+$ python3 k4/oc1_hall/deficit_check.py suite
+  least unfrozen-owner deficit 1 227
+  least unfrozen-owner deficit 2 38
+  least unfrozen-owner deficit 3 2
+owner tests 1175
+starts with no unfrozen owner 267
+time 0 s
+$ python3 k4/oc1_hall/deficit_check.py logs
+  least unfrozen-owner deficit 1 1435
+  least unfrozen-owner deficit 2 138
+  least unfrozen-owner deficit 3 12
+owner tests 8716
+starts with no unfrozen owner 1585
+time 1 s
+$ python3 k4/oc1_hall/deficit_check.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+  least unfrozen-owner deficit 1 582
+  least unfrozen-owner deficit 2 130
+  least unfrozen-owner deficit 3 5
+owner tests 9925
+starts with no unfrozen owner 717
+time 0 s
+$ python3 k4/oc1_hall/deficit_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+  least unfrozen-owner deficit 1 271
+  least unfrozen-owner deficit 2 53
+  least unfrozen-owner deficit 3 4
+owner tests 8794
+starts with no unfrozen owner 328
+time 1 s
+$ python3 k4/oc1_hall/deficit_check.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
+  least unfrozen-owner deficit 1 30
+  least unfrozen-owner deficit 2 7
+owner tests 1604
+starts with no unfrozen owner 37
+time 1 s

@@ -1,0 +1,30 @@
+$ python3 k4/oc1_hall/f1w_tau.py cores:k4_certs_6_n4_1.json.gz 3000 31 120
+  min tau 0, picks complete True 264
+  min tau 1, picks complete True 48
+f = 1, several wanters: min tau 0 264
+f = 1, several wanters: min tau 1 48
+time 5 s
+$ python3 k4/oc1_hall/f1w_tau.py cores:k4_certs_5_pure.json.gz 1500 32 120
+  min tau 0, picks complete True 97
+  min tau 1, picks complete True 60
+  min tau 2, picks complete True 5
+f = 1, several wanters: min tau 0 97
+f = 1, several wanters: min tau 1 60
+f = 1, several wanters: min tau 2 5
+time 3 s
+$ python3 k4/oc1_hall/f1w_tau.py big:6 3000 33 100
+  min tau 0, picks complete True 293
+  min tau 1, picks complete True 104
+  min tau 2, picks complete True 2
+f = 1, several wanters: min tau 0 293
+f = 1, several wanters: min tau 1 104
+f = 1, several wanters: min tau 2 2
+time 4 s
+$ python3 k4/oc1_hall/f1w_tau.py big:8 1500 34 100
+  min tau 0, picks complete True 102
+  min tau 1, picks complete True 54
+  min tau 2, picks complete True 2
+f = 1, several wanters: min tau 0 102
+f = 1, several wanters: min tau 1 54
+f = 1, several wanters: min tau 2 2
+time 3 s

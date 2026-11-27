@@ -1,0 +1,49 @@
+$ python3 k4/oc1_hall/frozen_slots.py special
+  frozen-slot-only starts: S* restored by one chain True, by a Finding-B chain True 1
+SAT False, S* (any owner) False 16
+SAT True, S* (any owner) False 1
+SAT True, S* (any owner) True 11
+distinct starts 28
+time 0 s
+$ python3 k4/oc1_hall/frozen_slots.py screen
+  frozen-slot-only starts: S* restored by one chain True, by a Finding-B chain True 40
+SAT False, S* (any owner) False 194
+SAT True, S* (any owner) False 40
+SAT True, S* (any owner) True 541
+distinct starts 775
+time 1 s
+$ python3 k4/oc1_hall/frozen_slots.py suite
+  frozen-slot-only starts: S* restored by one chain True, by a Finding-B chain True 37
+SAT False, S* (any owner) False 196
+SAT True, S* (any owner) False 37
+SAT True, S* (any owner) True 493
+distinct starts 726
+time 1 s
+$ python3 k4/oc1_hall/frozen_slots.py logs
+  frozen-slot-only starts: S* restored by one chain True, by a Finding-B chain True 106
+SAT False, S* (any owner) False 1364
+SAT True, S* (any owner) False 106
+SAT True, S* (any owner) True 2858
+distinct starts 4328
+time 4 s
+$ python3 k4/oc1_hall/frozen_slots.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+  frozen-slot-only starts: S* restored by one chain True, by a Finding-B chain True 143
+SAT False, S* (any owner) False 293
+SAT True, S* (any owner) False 143
+SAT True, S* (any owner) True 4147
+distinct starts 4583
+time 3 s
+$ python3 k4/oc1_hall/frozen_slots.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+  frozen-slot-only starts: S* restored by one chain True, by a Finding-B chain True 40
+SAT False, S* (any owner) False 215
+SAT True, S* (any owner) False 40
+SAT True, S* (any owner) True 3194
+distinct starts 3449
+time 4 s
+$ python3 k4/oc1_hall/frozen_slots.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
+  frozen-slot-only starts: S* restored by one chain True, by a Finding-B chain True 1
+SAT False, S* (any owner) False 30
+SAT True, S* (any owner) False 1
+SAT True, S* (any owner) True 541
+distinct starts 572
+time 1 s

@@ -1,0 +1,14 @@
+$ python3 k4/oc1cert/check.py results/k4_oc1max/cert_23_sstar.json.gz --lists=2,3
+own types: {3: 6, 4: 288}
+... 56 checked, 2 s
+certificate results/k4_oc1max/cert_23_sstar.json.gz hypergraphs 56
+list 2 source hypergraphs 5 missing or different 0
+list 3 source hypergraphs 51 missing or different 0
+covered 56
+excluded pairs 0
+maximum matchings checked 1593
+type classes (sum over matchings and agents) 26058
+witnesses applicable (sum over matchings) 9768
+slowest hypergraph 0.27 s
+time 2 s
+RESULT every certified hypergraph (56) covered for every type profile and every maximum-matching SD order
