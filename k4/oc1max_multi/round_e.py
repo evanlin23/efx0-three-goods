@@ -19,14 +19,11 @@ RMAX = int(os.environ.get('RMAX', '2'))
 P1FREE = os.environ.get('P1FREE') == '1'    # base-phantom's rule: a round with a P1 settlement (some good of R_k - T worth more than tau_k) must be the final round
 
 
-def search(I0, I, b, order, agents, goods, fixed, left, C):
+def admissible_rounds(I0, I, b, order, agents, goods, fixed, C):
+    """every admissible round at state b of the current instance I: E-prefix chains, |K| <= 2, vertex-disjoint, disjoint
+    improving T_k (|T_k| <= 3) inside the junk plus the head's pick, (H), (L*) at the round's end, (P2) toward earlier
+    phantoms, (P3) for released picks, and SD-E(round) (asserted).  Yields (p1, I2, b2, o2, agents2, goods2, fixed2, rnd)."""
     tau = {f: I0.V(f, T) for f, T in fixed.items()}
-    if fixed:
-        for X in all_oa(I, b):
-            A = [list(fixed.get(a, [])) for a in range(I0.n)]
-            for j, a in enumerate(agents): A[a] = [goods[g] for g in X[j]]
-            if I0.efx0(A): return 0, ([], [sorted(x) for x in A])
-    if left == 0: return None
     J = junk(I, b); p = [I.V(i, b[i]) for i in range(I.n)]; D = dangerous(I, b); opts = {}
     for k in D:
         Ek = earliest_chain(I, b, k, order); opts[k] = []
@@ -57,16 +54,32 @@ def search(I0, I, b, order, agents, goods, fixed, left, C):
                 C['rounds tried'] += 1
                 if I2.sd(o2) != tuple(x[0] if x else None for x in b2): C['SD-E(round) VIOLATION'] += 1; continue
                 p1 = any(I.v[k].get(g, 0) > I.V(k, T) for k, T in zip(K, Ts) for g in I.R[k] if g not in T)
-                if P1FREE and p1: C['rounds with a P1 settlement (final only)'] += 1
-                r = search(I0, I2, b2, o2, [agents[a] for a in keep], [goods[g] for g in g2], f2,
-                           0 if (P1FREE and p1) else left - 1, C)
-                if r is not None:
-                    st = [list(f2.get(a, [])) for a in range(I0.n)]
-                    for j, a in enumerate(agents):
-                        if j not in K: st[a] = [goods[g] for g in nb[j]]
-                    rnd = {'settled': [{'k': agents[k], 'T': sorted(goods[g] for g in T), 'P': [agents[a] for a in P]}
-                                       for k, P, T in zip(K, Ps, Ts)], 'state': [sorted(x) for x in st]}
-                    return r[0] + 1, ([rnd] + r[1][0], r[1][1])
+                st = [list(f2.get(a, [])) for a in range(I0.n)]
+                for j, a in enumerate(agents):
+                    if j not in K: st[a] = [goods[g] for g in nb[j]]
+                rnd = {'settled': [{'k': agents[k], 'T': sorted(goods[g] for g in T), 'P': [agents[a] for a in P]}
+                                   for k, P, T in zip(K, Ps, Ts)], 'state': [sorted(x) for x in st]}
+                yield p1, I2, b2, o2, [agents[a] for a in keep], [goods[g] for g in g2], f2, rnd
+
+
+def completes(I0, I, b, agents, goods, fixed):
+    """a one-absorber completion at once, lifted, raw EFX0 in I0 (or None)"""
+    for X in all_oa(I, b):
+        A = [list(fixed.get(a, [])) for a in range(I0.n)]
+        for j, a in enumerate(agents): A[a] = [goods[g] for g in X[j]]
+        if I0.efx0(A): return [sorted(x) for x in A]
+    return None
+
+
+def search(I0, I, b, order, agents, goods, fixed, left, C):
+    if fixed:
+        A = completes(I0, I, b, agents, goods, fixed)
+        if A is not None: return 0, ([], A)
+    if left == 0: return None
+    for p1, I2, b2, o2, ag2, go2, f2, rnd in admissible_rounds(I0, I, b, order, agents, goods, fixed, C):
+        if P1FREE and p1: C['rounds with a P1 settlement (final only)'] += 1
+        r = search(I0, I2, b2, o2, ag2, go2, f2, 0 if (P1FREE and p1) else left - 1, C)
+        if r is not None: return r[0] + 1, ([rnd] + r[1][0], r[1][1])
     return None
 
 
