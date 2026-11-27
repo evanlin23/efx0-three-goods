@@ -806,8 +806,10 @@ failures need n = 4, so n = 2 is still a fair, bounded target.
     confirmed by the independent Python checker of `ht_n2claim.py`. The same checker re-runs all 45,999 classes in
     `n2types_k4_fullcheck.log`.
   - *Not covered.* Ties (the n = 2 value grid with ties has no W^sub or L^sub stuck state, but it is a grid, not every
-    weak type). Goods valued by nobody: there pure augmentation fails even with strict values (m = 7 example in
-    `ht_n2claim.py`'s first log), while W^sub and L^sub still have steps. k ≥ 5.
+    weak type). Goods valued by nobody: there pure augmentation fails even with strict values. Example: m = 7,
+    v_A = (0, 680, 0, 3218, 0, 2915, 400), v_B = (0, 5170, 0, 9035, 147, 3445, 1810), state ({3}, {0, 1, 2, 4, 6})
+    with good 5 pooled; goods 0 and 2 are worthless to both (`wexplain_aug_n2_junk.log`). W^sub and L^sub still
+    have steps there: swap good 5 for one of B's goods through the pool, then trade. k ≥ 5.
 - *So the n = 2 proof splits.*
   - For strict values and k ≤ 4: Theorem N2 (computer-verified). A written proof would exhibit the families "g to one
     agent, then a transfer, a swap or a trade" from the six blocking inequalities (the four obvious completions and
