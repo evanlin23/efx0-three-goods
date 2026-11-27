@@ -6,24 +6,28 @@ matching, *receiver* an agent with a pick that no other agent prefers to its own
 values), *frozen* an agent with a pick that some other agent prefers to its own, *junk* J the goods nobody picked, and
 *OC₁* the conjecture's completion statement (a one-absorber completion of the picks, or one after one improving move).
 
+Refereed (§1–§4, at `d32e566d`): `k4/referee/rfmin.md` on `claude/k4-referee`. The material of §6 from Lemma M^c on
+(ABS′, CH, RF-PRIV′) was added after that review.
+
 **Results.**
 1. *What a minimal RF counterexample can be assumed to satisfy* (§1, Proposition RF-𝒦, proved). For TARGET₄, RF is
    needed only on the class 𝒦 of possible minimal counterexamples to TARGET₄: strict connected k = 4 cores with β ≥ 5,
    6 ≤ n ≤ 3(β − 1), no agent with two private goods, no good of degree 2 shared by two P3 agents, no double edge without
    a Q4 agent, no claw, and profiles inside K4.MC5's and K4.MC8's recorded sets. RF failures outside 𝒦 refute RF as
    stated but not the TARGET₄ route. RF is not closed under the reductions themselves (§1), so they enter this way,
-   not as reductions of RF.
+   not as reductions of RF. Refereed CORRECT WITH FIXES: the proof needs a receiver at the failing start, which the
+   referee's Lemma REC-∃ supplies (§1).
 2. *Lemma RF-TOP and its corollary* (§2, proved). Moving an agent that holds its top good to the front of an order
    changes no pick. Hence RF forbids a receiver holding its top at any start where OC₁ fails. In particular, **RF implies
    OC₁ at every start of every core with an agent whose top good is private.** Every OC₁ failure in such a core is
-   therefore an RF counterexample that needs no reordering to detect: a cheap target for the hunt.
+   therefore an RF counterexample that needs no reordering to detect: a cheap target for the hunt. Refereed CORRECT.
 3. *Lemma ABS* (§3, proved; uses k ≤ 4). At any serial-dictatorship start, if some agent holds a private good and no
    frozen agent values the whole junk set above its pick, then the picks have a one-absorber completion. So every
    OC₁-failing start, hence every RF counterexample, in which some agent holds a private good has a frozen agent that
    values the junk set above its pick. Checked: the construction is EFX₀ on 6,650 random starts where the hypotheses
    hold, and fails at k = 5 exactly where the proof uses k ≤ 4. The hypotheses hold at none of the 1,398,810 stored
-   failing starts, although 138,979 of them have an agent holding a private good.
-4. *Census of the n ≤ 5 failures* (§4, EVIDENCE: n = 4 complete, n = 5 partial).
+   failing starts, although 138,979 of them have an agent holding a private good. Refereed CORRECT.
+4. *Census of the n ≤ 5 failures* (§4, EVIDENCE: n = 4 complete, n = 5 partial; every count confirmed by the referee).
    - Every receiver has four goods (P4 or Q4).
    - No receiver holds its top.
    - No failing start is in a core with a private-top agent.
@@ -68,9 +72,31 @@ If RF holds on 𝒦 (for every start of these cores at these profiles), then TAR
 strict connected k = 4 core, with strict types, and only the types matter. By K4.MC2–K4.MC9 and the β ≤ 4 results it
 lies in 𝒦. By Lemma MAXSD (`k4/sdc.md` §31) some serial-dictatorship order of H has maximum-matching picks Y.
 - If OC₁ holds at Y, H has an EFX₀ allocation: the completion.
-- Otherwise RF gives a receiver-first order with maximum-matching picks at which OC₁ holds, which again gives one.
+- Otherwise Y has a receiver, by the referee's Lemma REC-∃ (below). For that receiver u, RF gives a u-first order
+  with maximum-matching picks at which OC₁ holds, which again gives an EFX₀ allocation.
 
 Either way this contradicts the choice of H. ∎
+
+*The fix (referee, `k4/referee/rfmin.md` §1 on `claude/k4-referee`).* RF as amended (`k4/sdc.md` §31, row K4.SDC.RF)
+quantifies over the receivers of a failing start and does not assert that one exists. The first version of this proof
+took the receiver for granted. The referee's **Lemma REC-∃** supplies it. If a maximum-matching start Y has no
+receiver, then:
+- some agent is pickless;
+- no agent values a junk good;
+- giving all junk to one pickless agent is an EFX₀ one-absorber completion.
+
+So every OC₁-failing maximum-matching start has a receiver. The referee's proof:
+1. If no agent were pickless, the last agent of the order would be a receiver.
+2. Without receivers, every pick has a wanter. Wanting goes forward in the order, so wanter chains end at pickless
+   agents.
+3. The alternating path from such a pickless agent back to any pick holder shows, by maximality, that no pick holder
+   values junk (Lemma MAX).
+4. Pickless agents value no junk (SD2).
+
+I have read this proof and it is correct. Its check (`norecv_ref.py`): 421,258 starts without a receiver among 1,457,079
+maximum-matching starts of random instances, n = 3–6, all with no valued junk, none failing OC₁. The referee also notes
+that the Lean `ConjRFWith` asserts a *unique* receiver, which the n = 5 two-receiver starts of K4.SDC.R2.N5 contradict.
+This proposition uses existence only.
 
 The proposition replaces "RF on every core" by "RF on 𝒦". It is the same implication as `EFX.OC1Max.target4_of_conjRF`
 (row K4.SDC.RF.LEAN), with the class restricted by the certified reductions. A search for RF counterexamples that
