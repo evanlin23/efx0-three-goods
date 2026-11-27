@@ -1896,3 +1896,35 @@ the coordinator's ROUND-P.
   m = 9 idx 38, and OC2-REC and RSD cover it.
 - The census of the chunk (280 sampled two-move starts): 240 are 4a-type, 40 are 4b-type, and all have one holder.
 
+
+### 24.5 The RF route (receiver first): a one-move plan via OC₁^∃max (04:04)
+
+**Conjecture RF** (K4.SDC.RF; `k4/sdc.md` §31; `k4/girth.md` §7 on `claude/k4-girth`).
+- Statement: at every maximum-matching SD order o whose picks fail OC₁, the receiver u is unique. The order
+  (u, o − u) then has maximum-matching picks Y′ that satisfy OC₁.
+- RF ⟹ OC₁^∃max ⟹ TARGET₄. The second implication is in Lean (`EFX.OC1Max.target4_of_conjOC1exmax`).
+- RF is certified at n = 4 (all 292,080 failing orders, given the certifier's export and type reduction). It holds on
+  all 86 stored failing orders at n = 5.
+- So this route needs **one** move, at a different order, instead of two moves at the given order.
+
+**Lemma DEMOTE** (girth's candidate; evidence). The RF start Y′ differs from Y only along one path
+P = (u = x₀, x₁ = w, …, x_ℓ = d), with ℓ ≤ 2:
+- x_i takes Y_{x_{i+1}}, and d takes Y_u or a junk good;
+- every x_i with i ≥ 1 loses value;
+- d is unfrozen at Y′.
+
+**The classes of the RF starts** (n = 4, all 292,080 RF starts; girth's `oc1_demote.log`):
+
+| class at Y′ | starts | status |
+|---|---|---|
+| \|U′\| ≥ 2 (R2's class) | 152,880 | R2: certified at n ≤ 4, open in general (item 3, R2-C) |
+| \|U′\| = 1, \|D_T′\| = 1 | 31,520 | **Corollary U1** (K4.MULTI.U): proved, in Lean |
+| **\|U′\| = 1, \|D_T′\| = 0** | 64,160 | **open residue A** |
+| **\|U′\| = 1, \|D_T′\| = 2** | 43,520 | **open residue B** |
+
+Girth's data on the residue:
+- "w or d owns" a completion at once;
+- otherwise one move repairs: a chain k → d when |D_T′| = 2, or a trade between d and a pick-dangerous agent when
+  |D_T′| = 0.
+
+The two residue lemmas are attacked below with Lemma 2\*, M^c and Theorems U/S (§24.6).
