@@ -30,3 +30,4 @@ core at list position 11 (idx 7, m = 5): OPB3: uncovered profile x order pairs 1
 core at list position 14 (idx 10, m = 5): OPB3: uncovered profile x order pairs 86400, gains only: uncovered profile x order pairs 86400 (538 s)
 core at list position 30 (idx 15, m = 6): OPB3: uncovered profile x order pairs 1504, gains only: uncovered profile x order pairs 1504 (4 s)
 core at list position 31 (idx 16, m = 6): OPB3: uncovered profile x order pairs 960, gains only: uncovered profile x order pairs 960 (16 s)
+core at list position 23 (idx 8, m = 6): all covered (620 s)
