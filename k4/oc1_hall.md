@@ -1613,6 +1613,12 @@ holds a pick.
    - Test instances, all re-verified here (`k4/oc1_hall/d1h2_tests.py`, `d1h2_tests.log`: hard, all-HEAD, D1-H2 holds):
      - **D1H-X** (n = 3, m = 8): the extension is needed. It is *not a core*: `is_core4` says agent 1 has 3 private
        goods of 4.
+     - **D1H-Y** (n = 3, m = 7, *strict core*, outside K4.MC2: agent 1 has two private goods, with p + q = 31 < s + t = 41).
+       Data: sets [[0,4,3,5],[2,6,4,5],[0,1,3,5]], values [[20,13,21,23],[17,14,18,23],[8,11,7,23]], order (0, 1, 2), picks
+       (5, 4, 1). No canonical chain with *any* improving H₀ leaves a completion owned by k or by the head. The extension
+       (0, 2, 1) repairs, with agent 1 taking agent 2's pick together with its two private goods. So canonical D1-LONG
+       fails on strict cores. Inside K4.MC2 no counterexample is known: k4-d1's breaker climb found 97,572 strict-core
+       no-canonical starts, none of them in MC2, and canonical D1-H holds on all MC2 three-agent cores by SMT.
      - **S2-X** (n = 4, m = 9, strict core): an extra active agent. Data: sets [[0,1,5,7],[3,4,6,7],[0,2,5,7],[8,6,7,3]],
        values [[26,3,25,27],[19,17,25,30],[9,14,7,29],[14,11,1,7]], picks (7, 6, 2, 8). A canonical chain repairs.
      - **S1-X** (n = 4, m = 9, strict core): three wanters of Y_k. Data: sets [[0,7,5,6],[0,1,4,8],[0,2,7,5],[0,3,8,4]],
@@ -1623,9 +1629,9 @@ holds a pick.
 2. **D1 for t ≥ 2** (`proof/k4-d1`).
    - Statement: D1-H2 at all-HEAD starts whose longest canonical chain has t ≥ 2.
    - Test set: 456 starts in k4-d1's data; in 449 of them a middle agent is a free slot after the chain.
-   - The four-agent t = 2 core (k → x → {z, w}), exact SMT phase 1 (k4-d1): 756 of 15,284 structures admit hard
-     all-HEAD starts. All 756 models are raw-checked and each is repaired by a canonical chain. Phase 2 (no repair for
-     any values) is running.
+   - **Proposition D1-H4 (CERTIFIED by k4-d1).** D1-H2 holds on every four-agent t = 2 core (k → x → {z, w}).
+     756 of the 15,284 structures admit hard all-HEAD starts. Both z3 encodings give UNSAT for "no repair", ties
+     included. All 756 models are raw-checked and repaired canonically. A strict MC2 t = 2 example is being generated.
    - Smallest test (k4-d1's data): n = 4, m = 7, sets [[1,2,4,5],[2,4],[0,3,4,5],[2,5,6]], values
      [[26,29,24,25],[20,29],[22,17,30,23],[29,21,25]], order (2, 1, 0, 3), picks (1, 2, 4, 6), k = 2, chains (2, 1, 0) and
      (2, 1, 3). It is not a core, since agent 1 values two goods. A strict-core example is expected from the SMT run.
