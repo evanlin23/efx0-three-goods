@@ -129,8 +129,20 @@ def lift_checks(v, Y, c, ex, tag, mut=None):
             (t_,) = B2[z]
             fav = all(v[z][t_] >= v[z][g] for g in rel(v, z))
             L1 = not any(i != z and v[i][t_] > vb[i] for i in range(n))
-            L2 = val(v, z, H02 & rel(v, z)) <= v[z][t_]
+            Gz = J2 & rel(v, z)
+            gbest = max((v[z][x] for x in Gz), default=0)
+            L2 = val(v, z, H02 & rel(v, z)) <= v[z][t_] + (0 if mut == "L2strict" else gbest)   # (L2') (83281b6)
+            Lb = val(v, z, X & rel(v, z)) <= v[z][t_]                                           # case (b) (7e6cd80)
+            if mut == "noL2":
+                L2 = True
             L3 = all(len(X & rel(v, i)) <= 1 for i in range(n) if i not in (h, z))
+            if L3 and Lb:
+                Xb = [set(b) for b in B2]; Xb[h] = set(X)
+                c[tag + "_lift1b_tests"] += 1
+                if not (efx0(v, Xb) and set().union(*Xb) == set(range(m))):
+                    c[tag + "_lift1b_fail"] += 1
+                    if len(ex) < 6:
+                        ex.append(("LIFT-1b", tag, v, Y, seq1, sorted(H01), seq2, sorted(H02)))
             # remarks
             P = set(seq1) | set(seq2)
             for kp in range(n):

@@ -1,0 +1,4 @@
+{"source": "Lemma M^c N=15000 seed=1 mutation=None", "brute_true": 171734, "owner_tests": 195998, "skipped_noG2": 120, "states": 24492, "states_with_frozen_singles": 13530, "states_with_multigood": 9492}
+{"source": "Lemma M^c N=15000 seed=2 mutation=None", "brute_true": 170886, "owner_tests": 195848, "skipped_noG2": 106, "states": 24438, "states_with_frozen_singles": 13422, "states_with_multigood": 9438}
+{"source": "Lemma M^c N=1500 seed=3 mutation=noFs", "MISMATCH": 68, "brute_true": 16700, "owner_tests": 19140, "skipped_noG2": 10, "states": 2414, "states_with_frozen_singles": 1275, "states_with_multigood": 914}
+EXAMPLE ('noFs', [[0, 0, 26, 0, 13, 0, 10, 0, 35], [0, 2, 24, 0, 0, 0, 0, 29, 19], [0, 0, 0, 0, 32, 20, 38, 0, 0], [7, 0, 0, 0, 13, 0, 0, 1, 15], [0, 14, 13, 0, 0, 0, 0, 34, 0]], [[8], [7], [6], [4], [1]], 1, 0, True, False)
