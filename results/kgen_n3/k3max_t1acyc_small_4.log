@@ -1,0 +1,16 @@
+$ python3 kgen/k3max_t1acyc.py small:4 0 1
+144 |J| = 1, |E_t| = 2
+16 |J| = 1, |E_t| = 2: every rotation keeps the want graph acyclic False
+128 |J| = 1, |E_t| = 2: every rotation keeps the want graph acyclic True
+16 |J| = 1, |E_t| = 2: every rotation leaves a terminal (before upgrades) False
+128 |J| = 1, |E_t| = 2: every rotation leaves a terminal (before upgrades) True
+720 |J| = 2, |E_t| = 2
+48 |J| = 2, |E_t| = 2: every rotation keeps the want graph acyclic False
+672 |J| = 2, |E_t| = 2: every rotation keeps the want graph acyclic True
+48 |J| = 2, |E_t| = 2: every rotation leaves a terminal (before upgrades) False
+672 |J| = 2, |E_t| = 2: every rotation leaves a terminal (before upgrades) True
+320 |J| = 3, |E_t| = 2
+8 |J| = 3, |E_t| = 2: every rotation keeps the want graph acyclic False
+312 |J| = 3, |E_t| = 2: every rotation keeps the want graph acyclic True
+8 |J| = 3, |E_t| = 2: every rotation leaves a terminal (before upgrades) False
+312 |J| = 3, |E_t| = 2: every rotation leaves a terminal (before upgrades) True
