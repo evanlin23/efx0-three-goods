@@ -2198,6 +2198,53 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
       FAIL-STRUCT₀ alone would prove OC₁ at Z. That is only 16,105 of 49,001 pairs (33%), because the shape is necessary
       and far from sufficient.
     - So a proof of RF-canon needs a sufficient condition at Z, not just FAIL-STRUCT₀.
+  - **By receiver rank** (burst 17, `k4/sdc/rf_canon_recrank.py`, `results/k4_sdc/rf_canon_recrank_s5.log`; same
+    49,001 pairs). Uses Conjecture REC-LOW below.
+    - YRMH-F always gives u its top good: u holds rank 1 at Z in all 49,001 pairs. But u stays a receiver at Z in only
+      5,798, because someone else usually values u's top good above their own pick.
+    - Z escapes REC-LOW's failure shape (Z has no receiver, or a receiver at rank ≤ 2) at 45,092 pairs (92%). The
+      smallest receiver rank at Z is 1 at 13,043 pairs and 2 at 32,049.
+    - Of the 3,909 Z in REC-LOW's shape, 2,358 lack FAIL-STRUCT₀'s shape. So the two necessary shapes together leave
+      1,551 of 49,001 outcomes (3.2%), and REC-LOW ∧ FAIL-STRUCT₀ would prove RF-canon at the other 96.8%. All 1,551
+      satisfy OC₁ (976 at the picks, 575 after one move).
+  - **Who absorbs, and which move repairs** (burst 17, `k4/sdc/rf_canon_absorber.py`, `k4/sdc/rf_canon_movetype.py`,
+    `results/k4_sdc/rf_canon_absorber_s50.log`, `results/k4_sdc/rf_canon_movetype_s50.log`; every fiftieth start, 4,898
+    pairs).
+    - Where Z completes at the picks (4,497 pairs), some receiver at Z is an absorber every time. No single canonical
+      receiver works: u absorbs at 1,142, the last pick holder of YRMH-F's realized order at 3,099, every receiver at
+      2,885.
+    - Where Z needs a move (401 pairs), a grab (one agent taking junk) never repairs. Every repairing move is a chain or
+      ring through two to five agents, usually a receiver and a dangerous or truly dangerous agent. t(Z) = 1 at 255 of
+      these, which is consistent with FAIL-STRUCT₀ (t = 1 ⟹ OC₁).
+
+**Conjecture REC-LOW (receivers of failing starts hold low ranks)** (2026-11-27 14:46 UTC, coordinator, burst 17;
+ledger K4.SDC.RECLOW).
+- **Statement.** In every strict connected k = 4 core, at every OC₁-failing maximum-matching SD start Y, every receiver
+  holds its rank-3 or rank-4 good. Here rank_u(Y) = 1 + #{g ∈ R_u : v_u(g) > v_u(Y_u)}, and a receiver is a pick holder
+  whose pick no other agent values above its own pick.
+- **Equivalently:** if some receiver holds one of its top two goods, OC₁ holds. With Lemma REC-∃ (no pick-holding
+  receiver ⟹ a pickless agent absorbs all junk), this gives a sufficient condition for OC₁ at a maximum-matching start:
+  **no receiver, or a receiver at rank ≤ 2.**
+- **What the rank means.** This fact is elementary and proved. In an SD outcome, a junk good was available at every
+  turn, so each pick holder values each junk good below its own pick, and a pickless agent values no junk. So the
+  goods a receiver prefers to its pick are other agents' picks. REC-LOW says that at a failing start, every receiver
+  prefers at least two other agents' picks to its own. At rank 4 it also values no junk.
+- **Evidence** (`k4/sdc/rec_rank_check.py`, one implementation).
+  - It holds at all 112,880 failing starts of the complete n = 4 export (rank 4: 106,880; rank 3: 6,000).
+  - It holds at all 583,680 starts of the complete n = 5 lists of 5_pure #419, #447 and #38 (all rank 4), and at all
+    702,250 partial6 starts.
+  - It holds at all 241,728 starts of d1's off-export walk, including the 3,267 two-receiver starts.
+  - It holds at the named failures N3K5, n3_m6_93 and RF5 (k = 5) and #440 (k = 4).
+  - On the exports that are complete, a profile outside the export has no failing maximum-matching start, so there the
+    check is exhaustive. Promotion to CERTIFIED at n = 4 and on the three cores needs a second, independent
+    implementation.
+- **Use.** At YRMH-F's outcome Z, the receiver u holds its top good. So RF-canon follows from REC-LOW wherever u is still
+  a receiver at Z, and more generally wherever some receiver at Z holds rank ≤ 2. That covers 92% of the tested pairs
+  (above).
+- **Open.** A proof of REC-LOW, even of the rank-1 case. Useful fact for one: removing a rank-1 receiver u and its pick
+  t leaves Y − u as a maximum-matching SD outcome of the smaller market. Each agent before u in the order preferred its
+  own pick to t, each agent after u found t taken, and a matching of size ν without u and t would extend by (u, t).
+  But OC₁ fails at some maximum-matching starts, so this does not set up an induction by itself.
 
 **Conjecture FAIL-STRUCT₀ (structure of failing starts)** (2026-11-27 09:40 UTC, coordinator; ledger K4.SDC.FAILSTRUCT0).
 This is a precise, data-checked form of k3-oc1's draft Theorem FAIL-STRUCT (`k4/k3_oc1.md` §13.7). It is a

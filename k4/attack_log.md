@@ -1241,3 +1241,15 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   - YRMH-F's outcome mostly completes at the picks (87–100% by case) and mostly has no truly dangerous agent (77%).
   - FAIL-STRUCT₀'s necessary shape is absent at only 33% of the outcomes. So FAIL-STRUCT₀ alone would settle
     RF-canon only there, and a proof needs a sufficient completion condition at Z.
+
+### 2026-11-27 14:34 UTC: burst 17 (single-session mode)
+- Merged #186.
+- **Own angle: a sufficient condition at YRMH-F's outcome.** New Conjecture REC-LOW (`k4/sdc.md` §31, ledger
+  K4.SDC.RECLOW): at every OC₁-failing maximum-matching start, every receiver holds its rank-3 or rank-4 good.
+  - It holds on all data: the complete n = 4 export, the complete n = 5 lists, partial6, d1's off-export walk, and the
+    named k = 4 and k = 5 failures (1.64 M failing starts in all). One implementation so far.
+  - With REC-∃, OC₁ holds at any maximum-matching start with no receiver or a receiver at rank ≤ 2.
+  - YRMH-F gives the receiver its top good, and 92% of YRMH-F outcomes escape REC-LOW's shape, against 33% for
+    FAIL-STRUCT₀. The two shapes together leave 3.2%.
+  - Side facts: at a completing Z some receiver absorbs, and a grab never repairs at Z.
+- Next: prove REC-LOW at rank 1, or find its counterexample with random strict cores at n = 5, 6.

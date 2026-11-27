@@ -1,0 +1,27 @@
+$ python3 k4/sdc/rf_canon_movetype.py 50
+  repairing move: chain/ring of 2 (D_T,D_T) 9
+  repairing move: chain/ring of 2 (D_T,dangerous) 54
+  repairing move: chain/ring of 2 (D_T,frozen-safe) 42
+  repairing move: chain/ring of 2 (D_T,receiver) 236
+  repairing move: chain/ring of 2 (dangerous,receiver) 255
+  repairing move: chain/ring of 3 (D_T,D_T,dangerous) 4
+  repairing move: chain/ring of 3 (D_T,D_T,frozen-safe) 2
+  repairing move: chain/ring of 3 (D_T,D_T,receiver) 20
+  repairing move: chain/ring of 3 (D_T,dangerous,dangerous) 2
+  repairing move: chain/ring of 3 (D_T,dangerous,receiver) 141
+  repairing move: chain/ring of 3 (D_T,frozen-safe,receiver) 42
+  repairing move: chain/ring of 3 (D_T,receiver,receiver) 10
+  repairing move: chain/ring of 3 (dangerous,receiver,receiver) 54
+  repairing move: chain/ring of 4 (D_T,D_T,dangerous,receiver) 4
+  repairing move: chain/ring of 4 (D_T,D_T,frozen-safe,receiver) 2
+  repairing move: chain/ring of 4 (D_T,D_T,receiver,receiver) 7
+  repairing move: chain/ring of 4 (D_T,dangerous,dangerous,receiver) 10
+  repairing move: chain/ring of 4 (D_T,dangerous,receiver,receiver) 14
+  repairing move: chain/ring of 4 (dangerous,dangerous,receiver,receiver) 34
+  repairing move: chain/ring of 5 (D_T,dangerous,dangerous,receiver,receiver) 1
+  some grab by D_T repairs: False 401
+  some grab repairs: False 401
+  t(Z)=0 111
+  t(Z)=1 255
+  t(Z)=2 35
+needs move 401
