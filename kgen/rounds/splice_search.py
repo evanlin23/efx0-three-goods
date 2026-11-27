@@ -6,7 +6,8 @@ theorem_s, reduce_s) for the repairs and recs_vs_rndp.structures (written here) 
 RNDOZ (own chain), RNDPZ (pooled), WIDE (ends may take released picks too).
 Data: the certifier's n = 5 OC1^max failures (field oc1_fails of results/k4_oc1max/n5/5_pure_s5o0_summary.jsonl.gz on
 compute/k4-oc1max-cert), the matching session's n = 5 walk starts, and multi's n = 4 REC-S export rows.
-    python3 kgen/rounds/splice_search.py KIND FILE [STRIDE] [CAP] [JOBS]     KIND: summary | walk | recs4"""
+    python3 kgen/rounds/splice_search.py KIND FILE [STRIDE] [CAP] [JOBS]     KIND: summary | walk | recs4 | random
+    (random: FILE = 'n,m,count,seed', every perfect start of random strict connected k = 4 cores)"""
 import sys, os, gzip, json, itertools, collections, time, multiprocessing as mp
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(ROOT, 'k4', 'oc1max_multi'))
@@ -28,6 +29,15 @@ def rows_of(kind, fn, stride):
             for f in x.get('oc1_fails') or []: out.append({'list': x['list'], 'idx': x['idx'], 'sets': x['sets'], 'vals': f['vals'], 'picks': f['picks']})
     elif kind == 'walk':
         out = [dict(json.loads(l), list='walk164', idx=t) for t, l in enumerate(op(fn, 'rt')) if l.strip()]
+    elif kind == 'random':   # fn = 'n,m,count,seed': every perfect start of random strict connected k = 4 cores
+        import random, zclimb, rndlib
+        n, m, cnt, seed = map(int, fn.split(',')); rng = random.Random(seed); out = []
+        for t in range(cnt):
+            Z = zclimb.rand_core(n, m, rng)
+            sets = [[g for g in range(m) if Z[i][g] > 0] for i in range(n)]; vals = [[Z[i][g] for g in sets[i]] for i in range(n)]
+            res, _ = rndlib.oc1z(Z)
+            for r in res:
+                if r['perfect']: out.append({'list': 'random%d_%d' % (n, m), 'idx': t, 'sets': sets, 'vals': vals, 'picks': list(r['picks'])})
     else:
         out = [{k: s[k] for k in ('list', 'idx', 'sets', 'vals', 'picks', 'orders')} for s in json.load(op(fn, 'rt'))['starts']]
     return out[::stride]
@@ -97,7 +107,13 @@ def splice_case(V, y, r):
     # h is a pick iff some agent other than u0 and k holds two picks
     twop = [i for i in range(n) if i not in (u0,) and sum(1 for g in X[i] if g in picks) >= 2 and i != P1[0]]
     if twop: hp = 'h a pick'
-    return (yz, hp, keep)
+    # (EX) of Lemma SPLICE: the pickless agent q's pick lies with an agent v that keeps its own pick
+    q = [i for i in range(n) if not any(g in picks for g in X[i])]
+    ex = 'no EX configuration'
+    if q:
+        v = hold[y[q[0]]]
+        if hold[y[v]] == v: ex = 'EX configuration (q=%s, v=%s)' % ('k' if q[0] == P1[0] else 'u0' if q[0] == u0 else 'other', 'u0' if v == u0 else 'w')
+    return (yz, hp, keep, ex)
 
 
 if __name__ == '__main__':
@@ -116,6 +132,10 @@ if __name__ == '__main__':
                 C[('case',) + res['case'] + ('RNDOZ holds' if res['RNDOZ'] else 'RNDOZ FAILS',)] += 1
                 if not res['RNDPZ']:
                     C['SPLICE EXCEPTIONS (X not a ROUND-P witness)'] += 1
+                    import rndlib
+                    rr = next(q for q in rndlib.oc1z(dense(row['sets'], row['vals']))[0] if list(q['picks']) == list(row['picks']))
+                    res['start'] = {k: rr[k] for k in ('EXT1', 'OC1', 'OC1P', 'RND1Z', 'RNDOZ', 'RNDPZ', 'MD')}
+                    C[('exception at a start where', 'OC1 holds' if rr['OC1'] else 'OC1 FAILS', 'RNDOZ holds' if rr['RNDOZ'] else 'RNDOZ FAILS')] += 1
                     if shown < 20:
                         shown += 1
                         print('EXCEPTION', json.dumps({'list': row['list'], 'idx': row['idx'], 'sets': row['sets'], 'vals': row['vals'],

@@ -842,7 +842,22 @@ Consequences:
   hence ROUND-P) holds.
 - **The repair's structure.** It is a single chain when the components merge, which happens when P₂ meets E(k).
   Otherwise it is that chain plus rings.
-- **(EX) never occurs in the data.** P₂'s start never keeps its own pick, and every REC-S repair is a witness.
+- **(EX) never occurs at the hard starts.** In the data above, P₂'s start never keeps its own pick, and every
+  REC-S repair is a witness.
+- **(EX) does occur at easy starts, so the exception is real** (`splice_ex.py`, `splice_ex.log`,
+  `attempts/kgen-rounds-splice-ex.md`).
+  - On random strict connected n = 4, 5 cores, REC-S was applied at every perfect start
+    (`splice_search.py random`, `splice_search_random_*.log`).
+  - 49 of 4,616 REC-S repairs are not one-round witnesses. All 49 are in (EX): 48 of form EX-b and 1 of form EX-c.
+    No failure lies outside (EX), which checks the proof's case analysis.
+  - Every exception is at a start where OC₁ holds, and ROUND-P holds there through other allocations.
+  - Smallest: n = 4, m = 7, rows [[0,2289,1831,2530,0,1934,0], [0,836,0,2963,0,2033,642], [0,1387,1223,2254,0,0,1149],
+    [1362,0,271,0,72,1386,0]], order (2, 0, 3, 1), picks (1, 6, 3, 5).
+    - E(3) = (3, 1) with T = {0, 4}; then P₂ = (2, 1), and h = Y₃ goes to agent 0, which keeps its pick 1 and has
+      v₀(5) = 1934 < v₀(1) = 2289.
+    - `check_recs.py` accepts the witness.
+  - Open: is (EX) impossible at a start with no one-move repair? That is what REC-S ⇒ ROUND-P needs, and the
+    265,549 hard-start repairs say yes.
 - So a proof of REC-S's open existence part (`k4/oc1_hall.md` §23.4 item 4) outside (EX) would prove ROUND-P^max on
   those starts.
 
