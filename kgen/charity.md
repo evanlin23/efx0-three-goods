@@ -776,6 +776,31 @@ So PH⁺ deletes the settled agent for free at a minority of starts, and at most
 starts, every best-pair settlement is active of the freezing kind. An RSD argument needs the active case: either a
 bound on active phantoms, or handling ℓ's frozen singleton directly.
 
+**Proposition PH-L (locking the wanted good; written proof).** Let φ be a phantom with τ_φ = v_φ(F_φ) and outside
+goods O_φ = R_φ ∩ M′, and let ℓ ∈ O_φ satisfy v_φ(O_φ ∖ {ℓ}) ≤ τ_φ (φ's demand hinges on one good).
+(a) In any allocation of M′ in which ℓ's bundle is exactly {ℓ}, φ strongly envies no bundle.
+(b) Suppose an agent q ∈ N is *content with ℓ alone*:
+   - v_q(R_q ∩ M′ ∖ {ℓ}) ≤ v_q(ℓ), and
+   - v_q(F_ψ ∖ {h}) ≤ v_q(ℓ) for every phantom ψ and every h ∈ F_ψ.
+   Settle q with {ℓ} as a new phantom, and let M″ = M′ ∖ {ℓ}. Then φ and q satisfy (H1) on M″, every other phantom
+   that satisfied (H1) still does, (iv) holds, and PH⁺ applies to N ∖ {q} on M″ from any EFX₀ start that satisfies
+   (iii).
+*Proof.* (a) A bundle B ∌ ℓ has v_φ(B) ≤ v_φ(O_φ ∖ {ℓ}) ≤ τ_φ, so φ does not even envy it, and {ℓ} ∖ {ℓ} = ∅.
+(b) On M″, v_φ(R_φ ∩ M″) = v_φ(O_φ ∖ {ℓ}) ≤ τ_φ and v_q(R_q ∩ M″) ≤ v_q(ℓ), which is (H1) for both. Deleting ℓ only
+lowers every other phantom's v_ψ(R_ψ ∩ ·). For (iv): nobody strongly envies the single good {ℓ}, and q does not
+strongly envy any F_ψ, by the second condition. Every agent of N strongly envies {ℓ} at no state, so (iii) for the new
+phantom is free. ∎
+
+For the multi session's phantoms (k = 4, F = T\*, O = {Y_k, ℓ}, p_k = v_k(Y_k) < τ_k), **every active phantom has a
+lockable good**:
+- ℓ always qualifies, since v_k(O ∖ {ℓ}) = p_k < τ_k.
+- Y_k also qualifies when v_k(ℓ) ≤ τ_k.
+So in their (K-b) case (ℓ a pick, held by q), k is neutralised as soon as q is content with ℓ alone, and q then
+leaves with {ℓ} as a second satisfied phantom. In (K-a), the same holds with either ℓ or Y_k and its holder. At their
+SD start q's bundle is {ℓ}, so the second condition of (b) for ψ = k is their (L). The question for an RSD argument
+becomes whether the holder of the locked good is content with it alone, which is again a local condition on at most
+three other goods q values.
+
 **Without (H1)** (a settled sharer that still values remaining goods above its bundle), the phantom is active. What
 survives, by the same locality as Lemma CH1:
 - a phantom φ strongly envies X_s ∪ {g} only if it values g and a good of X_s, or it already envies X_s. In the
