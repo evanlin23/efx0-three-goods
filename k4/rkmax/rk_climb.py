@@ -10,11 +10,13 @@ a counterexample to HS-MAX; it is then checked for OC1 (a failure there refutes 
     RAND=5 python3 rk_climb.py SEEDS STEPS SEED   # seeds from random n = 5 cores
     MECH=sink1 ...                                # residue = hard and no Lemma SINK1 case (default: no S', no RF-B)
     SEEDFILE=EXPORT ...                           # seeds from the profiles of another failure export (e.g. n = 5)
-    SEEDOK=1 ...                                  # only seeds at which OC1 holds (a failing seed cannot reach 0 at n = 4)"""
+    SEEDOK=1 ...                                  # only seeds at which OC1 holds (a failing seed cannot reach 0 at n = 4)
+    POT=rs ...                                    # climb towards rank-sum optimality instead of sigma-maximality"""
 import sys, os, gzip, json, random, itertools, collections, time, multiprocessing as mp
 from rklib import Prof
 from rk_classes import theta, sprime_cases, rfb_cases, sink1_cases
 MECH = os.environ.get('MECH', 'sprime')
+POT = os.environ.get('POT', 'sigma')
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..')
 
@@ -36,6 +38,9 @@ def residue(sets, vals, Y):
     if MECH == 'sink1':
         if sink1_cases(P, Y, ro): return None
     elif sprime_cases(P, Y, ro) or rfb_cases(P, Y, ro): return None
+    if POT == 'rs':                                   # rank-sum form: matchings with a smaller rank sum
+        rs = sum(P.ranks(Y)); better = [rs - sum(P.ranks(M)) for M in mm if sum(P.ranks(M)) < rs]
+        return (len(better), (max(better) if better else 0,)), P
     sY = P.sigma(Y); better = [P.sigma(M) for M in mm if P.sigma(M) > sY]
     gap = tuple(a - b for a, b in zip(max(better), sY)) if better else (0, 0, 0, 0)
     return (len(better), gap), P
@@ -91,7 +96,7 @@ def seeds_rand(N, n, rng):
 if __name__ == '__main__':
     N, STEPS, SEED = map(int, sys.argv[1:4]); rng = random.Random(SEED)
     RAND = int(os.environ.get('RAND', '0'))
-    print('$ MECH=%s RAND=%d SEEDFILE=%s python3 k4/rkmax/rk_climb.py' % (MECH, RAND, os.path.basename(os.environ.get('SEEDFILE', '-'))), *sys.argv[1:], flush=True)
+    print('$ POT=%s MECH=%s RAND=%d SEEDFILE=%s python3 k4/rkmax/rk_climb.py' % (POT, MECH, RAND, os.path.basename(os.environ.get('SEEDFILE', '-'))), *sys.argv[1:], flush=True)
     t0 = time.time()
     SEEDFILE = os.environ.get('SEEDFILE')
     S = seeds_rand(N, RAND, rng) if RAND else seeds_n4(N, rng, SEEDFILE)

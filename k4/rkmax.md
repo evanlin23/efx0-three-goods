@@ -389,3 +389,36 @@ censuses (0 gaps, §5) remain valid for it, since SINK₁ contains S′ and RF-B
     (K4.RKMAX.N5).
 
   Failing starts stay far from σ-maximality, which is the margin a proof of RKMAX through domination would exploit.
+- *The rank-sum framing* (`POT=rs` in `rk_climb.py`; `rk_climb_rs_hsmax_n4.log`, `rk_climb_rs_sink1_n4_u0.log`). This
+  is attack 4, the min-cost view; the climb objective is the number of maximum matchings with a smaller rank sum.
+  - Against HS-MAX: 54 counterexamples in 200 climbs. All 54 are also σ-maximal, all are the same RF-B″ family (53 in
+    (1, 3, 2), 1 in (1, 2, 2)), and SINK₁ covers all 54.
+  - Against HS-MAX′ with U0 seeds: no counterexample, but the closest climbs stop **one** rank-sum-better matching
+    short, against three for σ.
+
+  So the σ form of RKMAX keeps a larger margin on U0 than the RS form. The LP view adds Corollary SHORT (chains of
+  length ≤ 3) but no new repair.
+
+## 8. Summary: what is proved, certified, conjectured and refuted
+
+- **Proved** (written, not refereed):
+  - the rank lemmas W, TC, COMP, PO, GAIN, GAIN-RS, SHORT and 2AG (§1);
+  - Lemma S′ (§5);
+  - Lemma SINK₁ (§7);
+  - the reductions RKMAX ⟸ HS-MAX′ at perfect starts, RKMAX ⟹ OC₁^∃max ⟹ TARGET₄.
+- **Certified:** RKDOM, hence RKMAX and its RS and leximin forms, at n ≤ 4. Every failing start has a stored dominating
+  witness accepted by a minimal checker, and a second implementation confirms OC₁ at every σ-optimal vector.
+- **Evidence:**
+  - RKDOM and RKMAX on the complete n = 5 lists (certificate-grade, pending those lists on main) and on the partial ones;
+  - HS-MAX′ with 0 gaps on 2.5 million σ-optimal vectors, and no counterexample in climbs at n = 4, 5;
+  - climbs against RKMAX at n = 5: every failing start keeps ≥ 16 σ-better maximum matchings.
+- **Refuted:**
+  - the zero-move form (n = 2);
+  - HS-MAX with T0 / S′ / RF-B only (n = 4, by climbs; OC₁ and RKMAX hold at every counterexample).
+- **Open:**
+  - HS-MAX′, a static statement about the picks;
+  - non-perfect σ-maximal starts (Lemma RED does not carry σ-maximality);
+  - the Lean frame RKMAX ⟹ OC₁^∃max.
+
+  The obstruction to a proof is class U0 (§6): the one place where the residue does not fail OC₁, repaired there by
+  rings. Its σ-raising changes can lie entirely outside the conflict, so the argument has to be global.
