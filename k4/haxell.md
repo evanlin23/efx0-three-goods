@@ -655,6 +655,7 @@ nonempty pool of every instance):**
 | n = 2, every relevant-set pair with k ≤ 4, values {1, 2, 4, 7} (ties included) | 1,540,944 | 470,500,040 | **0** (leximin 0) | `n2w_grid_k4_sub.log` |
 | n = 3, every shape with k ≤ 3, values {1, 2, 4, 7, 12}, m ≤ 5 (up to isomorphism; m = 6–9 running) | 5,324,815 | 742,367,662 | **0** | `n3grid_k3_v12.log` |
 | n = 4, k = 4 cores with one 4-good agent, m ≤ 5 (20 cores): **every** strict balanced type profile of the certificate domain, up to automorphism | 451,824 | 223,522,208 | **0** | `n4core_all_m5.log` |
+| n = 4, k = 4 cores with m = 4 and at most two 4-good agents (5 cores, the two n4_2 cores included): every profile, up to automorphism | 552,048 | 115,378,032 | **0** | `n4core_all_m4.log` |
 
 The n = 3 instances are counted after the symmetry reduction: goods of one pattern are interchangeable, and agent
 permutations that fix the shape are factored out. `ht_n3grid_check.py` checks the reduction against the full product
@@ -665,7 +666,7 @@ core instances: on cores the welfare steps do most of the work.
 
 **Why every profile cannot be covered.** A core with a agents of four goods and b of three has up to 288ᵃ · 6ᵇ
 profiles: 2.2·10⁴ to 7·10⁹ per core before symmetry, and 0.5 ms (m = 4) to 0.5 s (m = 9) per instance. Only the
-cores with one 4-good agent and m ≤ 5, plus the two n4_2 cores with m = 4, fit (`n4core_all_m4.log`). Every other
+cores with one 4-good agent and m ≤ 5, plus the two n4_2 cores with m = 4, fit (both done, table above). Every other
 core is sampled: 200 random certificate-domain profiles per core with m ≤ 8; 100 random profiles per core with every
 strict type allowed and random per-agent scaling 1–4 of the representatives (so cross-agent welfare comparisons
 vary); and 20 per core with m = 9.
