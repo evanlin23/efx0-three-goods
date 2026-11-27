@@ -1,0 +1,8 @@
+  completion EFX0                                            3860
+  hypotheses hold                                            3860
+  maximum-matching starts                                    7886
+RESULT: OK
+  completion EFX0                                            2790
+  hypotheses hold                                            2790
+  maximum-matching starts                                    16190
+RESULT: OK
