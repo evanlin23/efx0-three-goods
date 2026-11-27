@@ -1,0 +1,8 @@
+$ python3 k4/referee/rsd_dead_ref.py two_move_starts_n4.json.gz 112880 1 4
+{"source": "RSD-IND dead ends after one step, n = 4 export sample N=112880 seed=1", "DEAD_END_after_one_step": 25760, "first_steps": 341200, "starts": 112880, "starts_with_a_dead_end": 16240}
+EXAMPLE {"sets": [[0, 4, 5, 6], [1, 2, 3, 5], [1, 3, 5, 6], [2, 4, 6]], "vals": [[2, 3, 10, 6], [6, 10, 2, 7], [3, 5, 7, 6], [4, 2, 3]], "picks": [4, 5, 6, 2], "k": 1, "P": [1, 0], "T": [1, 3], "state": [[5], [1, 3], [6], [2]]}
+EXAMPLE {"sets": [[0, 4, 5, 6], [1, 2, 3, 5], [1, 3, 5, 6], [2, 4, 6]], "vals": [[2, 3, 10, 6], [6, 10, 2, 7], [3, 5, 7, 6], [4, 3, 2]], "picks": [4, 5, 6, 2], "k": 1, "P": [1, 0], "T": [1, 3], "state": [[5], [1, 3], [6], [2]]}
+
+real	0m26.099s
+user	1m38.034s
+sys	0m1.275s
