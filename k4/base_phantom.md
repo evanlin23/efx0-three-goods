@@ -343,6 +343,22 @@ session's independent `k4/matching/gr.py` (row K4.MATCH.GRX on `proof/k4-matchin
 re-check here (`check_rules.py`, ten chunks, `check_rules_GR_n5sel2_part*.log`) is in progress.
 
 Further facts:
+- *GR is a rule, and its stops matter.* The multi session's census (`k4/oc1max_multi.md` §18 on `proof/k4-oc1max-multi-2`)
+  checks a stronger rule: every admissible P1-free round is safe, with completions and further rounds as the only
+  stops. That rule fails at one 5_pure start, #963:
+  - v₀ = {0:3, 1:6, 5:10, 7:8}, v₁ = {1:2, 6:3, 7:4, 8:8}, v₂ = {2:4, 3:6, 4:5, 6:8}, v₃ = {2:5, 3:4, 4:6, 8:8},
+    v₄ = {5:7, 6:6, 7:3, 8:5};
+  - picks (5, 1, 6, 8, 7);
+  - settling 2 by (2, 4, 1) is a dead end for that rule.
+
+  GR is safe there twice over.
+  - GR stops at the start, by the final round (0, (0, 4), {0, 7}) + (3, (3, 1), {2, 3}).
+  - Even after settling 2, the state has no admissible round but an ED repair: the ring (0, 4, 1).
+    - 0 takes {0, 7}.
+    - 4 takes 0's pick 5, which it wants.
+    - 1 takes 4's good 6 plus junk 1. This is a weak last link: 3 + 2 > 4, although 1 does not want 6 alone.
+    - Then 0 owns the rest, e.g. [[0, 4, 7], [1, 6], [2, 3], [8], [5]], raw EFX₀ (`gr.py`).
+  - So the two rules nest, and #963 separates them by a B1-type ED ring at a state with a phantom.
 - Without step 2, GR with an ED or even a C3 base gets stuck at the 12 starts of §4.4.
 - Without step 3, it gets stuck at 47 one-move starts.
 
