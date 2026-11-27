@@ -1650,8 +1650,16 @@ holds a pick.
        exchange.
      - n = 5: holds at 5_pure#164, where P₁ = (2, 3) with T = {5, 6}, shared with agent 4, and the reduced move (1, 0) is
        disjoint from P₁ (both sessions). The general case is **open**.
-   - Residual case: a two-move start where no first chain takes a pool pair (for instance a ROUND repair whose first
-     chain is of another kind). None is known.
+   - **Proved parts** (k4-oc1max-multi, `k4/oc1max_multi.md` §12 at 10d3bdf8; written, not refereed):
+     - **Lemma SD-E** proves the reduced-start part in general. For the earliest-wanter chain E(k) and any pool pair
+       T, the reduced state is the SD outcome of σ with k removed (strict values).
+     - **Theorem REC-S** proves the second-move part on a class that can be checked at the start. The conditions are
+       LIFT's hypothesis, a relaxed Theorem S (containing U) applicable in I⁻, and k unthreatened.
+     - REC-S covers every known failing start, with 0 violations: the 12 known failures, multi's 4,955 walk failures,
+       and matching's 23,943 n = 5 walk rows near 5_pure#164.
+   - **Open part: existence.** At every two-move start, REC-S's hypotheses hold for some k and T.
+   - Residual case: a two-move start where no first chain takes a pool pair, so that REC-S's (L) is vacuous. None is
+     known.
    - Smallest tests:
      - 4_n4_3#58 (n = 4; it has a vertex-disjoint repair (3, 2) then (0, 1));
      - 5_pure#164 (n = 5), where LIFT-SHAPE⁺ and the wider single move OC₁′ both fail.
