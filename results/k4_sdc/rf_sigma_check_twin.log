@@ -1,0 +1,6 @@
+$ python3 k4/sdc/rf_sigma_check.py twin
+starts 1
+RFsigma-every FAILS [[[0, 1, 2, 5, 6], [1, 2, 4, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], [[3, 35, 33, 43, 39], [20, 26, 16, 43, 32], [8, 2, 7, 4], [8, 2, 7, 4]], [6, 5, 4, 3], 2, [[[6, 5, 3, 4], [2, 1, 0, 1, 0], "OC1 fails"], [[5, 6, 3, 4], [2, 1, 0, 1, 0], "one move repairs"]]]
+(Y,u) pairs 1
+RFsigma every: False 1
+RFsigma some: True 1

@@ -1,0 +1,17 @@
+$ python3 k4/oc1cert/check.py /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_4_r2e.json.gz --lists=4_n4_1,4_n4_2,4_n4_3,4_pure
+own types: {3: 6, 4: 288}
+... 729 checked, 89 s
+certificate /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_4_r2e.json.gz hypergraphs 1002
+list 4_n4_1 source hypergraphs 135 missing or different 0
+list 4_n4_2 source hypergraphs 309 missing or different 0
+list 4_n4_3 source hypergraphs 339 missing or different 0
+list 4_pure source hypergraphs 219 missing or different 0
+covered 729
+excluded pairs 0
+maximum matchings checked 49770
+not certified (failures found by the CEGAR, not checked here) 273
+type classes (sum over matchings and agents) 958429
+witnesses applicable (sum over matchings) 430637
+slowest hypergraph 1.70 s
+time 89 s
+RESULT every certified hypergraph (729) covered for every type profile and every perfect SD start with at least two receivers (R2-e)

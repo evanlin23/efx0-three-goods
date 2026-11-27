@@ -1,0 +1,76 @@
+$ python3 k4/sdc/extremal_rank_n5.py /tmp/claude-0/-home-user/a0d763ef-30c3-5e18-a14c-97622129678b/scratchpad/n5/two_move_starts_n5_partial6.json.gz
+profiles 700500
+.. 20000 8 s
+.. 40000 16 s
+.. 60000 23 s
+.. 80000 28 s
+.. 100000 39 s
+.. 120000 46 s
+.. 140000 51 s
+.. 160000 57 s
+.. 180000 61 s
+.. 200000 66 s
+.. 220000 70 s
+.. 240000 76 s
+.. 260000 85 s
+.. 280000 93 s
+.. 300000 98 s
+.. 320000 102 s
+.. 340000 106 s
+.. 360000 111 s
+.. 380000 118 s
+.. 400000 124 s
+.. 420000 128 s
+.. 440000 132 s
+.. 460000 139 s
+.. 480000 149 s
+.. 500000 173 s
+.. 520000 184 s
+.. 540000 196 s
+.. 560000 205 s
+.. 580000 215 s
+.. 600000 220 s
+.. 620000 225 s
+.. 640000 230 s
+.. 660000 235 s
+.. 680000 240 s
+.. 700000 244 s
+LMR all optimal OK 700500
+LMR exported failing vector is optimal 0
+LMR optimal set size 1 274762
+LMR optimal set size 2 376928
+LMR optimal set size 3 11969
+LMR optimal set size 4 12841
+LMR optimal set size 5 1130
+LMR optimal set size 6 22870
+LMR optimal vectors: one move repairs 2254
+LMR optimal vectors: picks complete 1256505
+LMR some optimal OK 700500
+RM all optimal OK 700500
+RM exported failing vector is optimal 0
+RM optimal set size 1 277027
+RM optimal set size 2 339726
+RM optimal set size 3 32815
+RM optimal set size 4 27422
+RM optimal set size 5 640
+RM optimal set size 6 22870
+RM optimal vectors: one move repairs 5086
+RM optimal vectors: picks complete 1299946
+RM some optimal OK 700500
+RS all optimal OK 700500
+RS exported failing vector is optimal 0
+RS optimal set size 1 252981
+RS optimal set size 10 2782
+RS optimal set size 2 297742
+RS optimal set size 3 46158
+RS optimal set size 4 56149
+RS optimal set size 5 9349
+RS optimal set size 6 29063
+RS optimal set size 7 48
+RS optimal set size 8 6002
+RS optimal set size 9 226
+RS optimal vectors: one move repairs 7866
+RS optimal vectors: picks complete 1502998
+RS some optimal OK 700500
+profiles 700500
+time 244 s

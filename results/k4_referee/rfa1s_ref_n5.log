@@ -1,0 +1,21 @@
+$ python3 k4/referee/rfa1s_ref.py n5 two_move_starts_n5_partial6.json.gz two_move_starts_n5_sel2.json.gz
+    ... (A1-iv) fails on 5_pure#464: q holds its top True, values Y_u True, junk of Y valued 1 39075
+    ... d truly dangerous at Y: True                                                         71443
+    ... only with (A1-iv*)                                                                   39075
+    ... with Hall's (A1-iv)                                                                  32368
+    ... |D_T(Y)| = 2                                                                         71443
+    X EFX0                                                                                   71443
+    X not EFX0                                                                               38976
+    X not EFX0, failing: ['A1-iv*']                                                          38976
+    d values no good of J'                                                                   242
+    hypotheses (A1-i)-(A1-iv*) hold                                                          71443
+    hypotheses fail                                                                          38976
+  DEMOTE-0 starts                                                                            113484
+  NA: assignments                                                                            6809040
+  NA: no-absorber completion exists, at once                                                 113210
+  NA: no-absorber completion exists, need-a-move                                             0
+  complete at the picks (one absorber)                                                       113210
+  need a move                                                                                274
+  other path shape                                                                           2823
+  path u -> w -> d, d takes junk of Y                                                        110661
+  |J'| = 3                                                                                   113484

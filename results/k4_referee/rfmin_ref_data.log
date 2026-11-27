@@ -1,0 +1,31 @@
+$ python3 k4/referee/rfmin_ref.py data two_move_starts_n4.json.gz two_move_starts_n5_partial6.json.gz two_move_starts_n5_sel2.json.gz
+  two_move_n4.json.gz            ABS hypotheses both hold                      0
+  two_move_n4.json.gz            receiver holds its top                        0
+  two_move_n4.json.gz            receiver is the only private-good holder      0
+  two_move_n4.json.gz            receiver kind: 4 goods, 0 private             110080
+  two_move_n4.json.gz            receiver kind: 4 goods, 1 private             2800
+  two_move_n4.json.gz            receiver's pick private                       0
+  two_move_n4.json.gz            receivers 1                                   112880
+  two_move_n4.json.gz            some agent holds a private good               0
+  two_move_n4.json.gz            some agent's top good private                 0
+  two_move_n4.json.gz            starts                                        112880
+  two_move_starts_n5_partial6.json.gz ABS hypotheses both hold                      0
+  two_move_starts_n5_partial6.json.gz receiver holds its top                        0
+  two_move_starts_n5_partial6.json.gz receiver is the only private-good holder      23779
+  two_move_starts_n5_partial6.json.gz receiver kind: 4 goods, 0 private             611070
+  two_move_starts_n5_partial6.json.gz receiver kind: 4 goods, 1 private             91180
+  two_move_starts_n5_partial6.json.gz receiver's pick private                       23779
+  two_move_starts_n5_partial6.json.gz receivers 1                                   702250
+  two_move_starts_n5_partial6.json.gz some agent holds a private good               23779
+  two_move_starts_n5_partial6.json.gz some agent's top good private                 0
+  two_move_starts_n5_partial6.json.gz starts                                        702250
+  two_move_starts_n5_sel2.json.gz ABS hypotheses both hold                      0
+  two_move_starts_n5_sel2.json.gz receiver holds its top                        0
+  two_move_starts_n5_sel2.json.gz receiver is the only private-good holder      115200
+  two_move_starts_n5_sel2.json.gz receiver kind: 4 goods, 0 private             468480
+  two_move_starts_n5_sel2.json.gz receiver kind: 4 goods, 1 private             115200
+  two_move_starts_n5_sel2.json.gz receiver's pick private                       115200
+  two_move_starts_n5_sel2.json.gz receivers 1                                   583680
+  two_move_starts_n5_sel2.json.gz some agent holds a private good               115200
+  two_move_starts_n5_sel2.json.gz some agent's top good private                 0
+  two_move_starts_n5_sel2.json.gz starts                                        583680

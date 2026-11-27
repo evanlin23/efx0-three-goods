@@ -5,7 +5,7 @@ written by k4/search4.py), by the ordinal CEGAR of k4/oc1cert/cegar.py.
            [--limit=SEC] [--no-compact] [--depth=D] [--idx=I,J,...] [--summary=S.jsonl.gz]
 An --out ending in .jsonl.gz is written as one JSON record per line (header line first) while the run goes.
 --depth=D: up to D moves in sequence (OC_D form; default 1 = OC1^max).  --prime: OC1' moves (kgen/rounds.md §4.6).  --sstar: S*-shaped completions (k4/oc1_hall.md §2).
---r2=m|star|o|og|op|c: TTC's R2-M / R2* / R2-O (strict, generous, R2-O') / R2-C (k4/ttc.md §14.6): at every perfect start with >= 2 receivers, a one-absorber completion
+--r2=m|star|o|og|op|c|e|e2|eo|s|l|sl: TTC's R2-M / R2* / R2-O (strict, generous, R2-O') / R2-C / R2-E (k4/ttc.md §14.6): at every perfect start with >= 2 receivers, a one-absorber completion
 of the picks, or a canonical chain to a receiver with the R2-M (owner x0, every agent <= 1 junk, multi-good holders
 other than x0 none) or R2* (every agent <= 1 junk) completion.  --idx: only these core indices (within m).
 
@@ -55,6 +55,18 @@ def job(task):
             vals = [list(C.dom[i][t]) for i, t in enumerate(prof)]
             rec['oc1_fails'].append({'vals': vals, 'picks': list(Y), 'raw_check': raw_check(sets, vals, Y)})
         rec['n_oc1_fail_pairs_met'] = len(C.oc1_fails)
+        # Conjecture RF (K4.SDC.RF) at every failing pair met, not only the stored ones: every maximum-matching order
+        # whose first agent is a receiver of the failing start satisfies OC1 (raw Inst code, good_orders.rf)
+        import good_orders as G
+        rf = {'pairs checked': 0, 'violations': [], 'receiver-first maximum pick vectors checked': 0}
+        for prof, Y in C.oc1_fails:
+            vals = [list(C.dom[i][t]) for i, t in enumerate(prof)]
+            ok, d = G.rf(sets, vals, Y)
+            rf['pairs checked'] += 1; rf['receiver-first maximum pick vectors checked'] += d['maximum ones']
+            nr = str(len(d['receivers'])); rf.setdefault('receivers at the failing start', {})
+            rf['receivers at the failing start'][nr] = rf['receivers at the failing start'].get(nr, 0) + 1
+            if not ok: rf['violations'].append({'vals': vals, 'picks': list(Y), **d})
+        rec['rf'] = rf
     if r == 'certified':
         W = C.compact() if compact else C.witnesses
         rec['witnesses'] = [w.to_json() for w in W]
@@ -121,6 +133,15 @@ def main():
                 T['hypergraphs where OC1^max fails (one move not enough for some profile)'] += 1
                 for f in rec['oc1_fails']:
                     T['OC1^max failures raw-checked: %s' % f['raw_check']['raw']] += 1
+                rf = rec.get('rf')
+                if rf:
+                    T['RF: failing pairs checked (every pair met)'] += rf['pairs checked']
+                    T['RF: receiver-first maximum pick vectors checked'] += rf['receiver-first maximum pick vectors checked']
+                    T['RF: VIOLATIONS'] += len(rf['violations'])
+                    for nr, c in rf.get('receivers at the failing start', {}).items():
+                        T['failing pairs met with %s receivers' % nr] += c
+                    for v in rf['violations']:
+                        print('RF VIOLATION', json.dumps({'list': rec['list'], 'idx': rec['idx'], 'sets': rec['sets'], **v}), flush=True)
                 print('OC1MAX FAILS (raw: %s)' % rec['oc1_fails'][0]['raw_check']['raw'],
                       json.dumps({'list': rec['list'], 'idx': rec['idx'], 'sets': rec['sets'], **rec['oc1_fails'][0]}), flush=True)
             if (k + 1) % 500 == 0:

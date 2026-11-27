@@ -1,0 +1,14 @@
+$ python3 k4/referee/tstar_ref.py two_move_starts_n5_partial6.json.gz two_move_starts_n5_sel2.json.gz
+  example {"h": "5_pure#374", "sets": [[0, 1, 5, 7], [1, 4, 5, 7], [2, 3, 4, 6], [2, 3, 6, 7], [4, 5, 6, 7]], "vals": [[1, 4, 8, 6], [5, 6, 7, 3], [2, 8, 7, 4], [2, 8, 7, 4], [6, 7, 5, 3]], "Y": [5, 4, 2, 3, 6], "Y2": [5, 4, 3, 7, 6], "u": 2, "d": 3, "c1": 0, "c2": 4, "j": 1, "X": [[7, 1], [4], [3], [6, 0, 2], [5]]}
+      ... some trade completes with every remaining junk good to a different agent                     242
+      RF path length 1                                                                                 32
+      certificate OK                                                                                   32
+      improving 3-rings found: 2, official and EFX0 after d absorbs: 2                                 32
+      on 5_pure#374                                                                                    32
+      roles at Y': c1 Dp, c2 F                                                                         32
+      roles at Y: u U, d Dp, c1 DT, c2 Dp; c2 keeps its pick True                                      32
+    (T) improving trade exists                                                                         242
+    OC1 after one move (mine)                                                                          274
+    no improving trade: the (T*) starts                                                                32
+  DEMOTE-0 starts                                                                                      113484
+  need a move                                                                                          274

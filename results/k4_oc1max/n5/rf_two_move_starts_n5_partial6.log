@@ -1,0 +1,8 @@
+$ python3 k4/oc1cert/good_orders.py results/k4_oc1max/n5/two_move_starts_n5_partial6.json.gz results/k4_oc1max/n5/rf_two_move_starts_n5_partial6.json.gz --rf --jobs=2
+RF holds 702250
+receiver-first maximum pick vectors checked 3473619
+receiver-first non-maximum pick vectors (excluded) 62604
+receivers at the failing start: 1 702250
+starts 702250
+starts with no receiver-first maximum order 0
+wrote results/k4_oc1max/n5/rf_two_move_starts_n5_partial6.json.gz 2832 s

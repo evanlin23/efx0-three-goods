@@ -46,6 +46,8 @@ angles in flight, and what each established. Ledger rows change only with artifa
 | New certified minimal-counterexample reductions: twins, near-twins, dense configurations (toward β = 5) (from 22:58) | session_01BYMGeaE5MHuxY3t8Ktrwqw | its own branch (proof/k4-twins) | draft PR |
 | Paper draft of the refereed results (paper/campaign/draft.md) (from 22:58) | session_01BYMGeYMBvUvhfc3gCD1iif | its own branch (paper/campaign) | draft PR |
 | Referee: independent, adversarial review of every written proof the angles produce (Theorem VM first) | session_01BYMGeYHb8rxaaJ1BScSCZY | `claude/k4-referee` | `k4/referee/` |
+| Base case of ROUND-RSD: OC₁ with phantom constraints; BASE-R, B1–B3, the greedy P1-free round process GR (from 03:29) | session_01BYMGebS9uNs3yyqMaMxxm7 | `proof/k4-base-phantom` | `k4/base_phantom.md` |
+| Conjecture RKMAX: OC₁ at rank-maximal maximum-matching starts; prove "failing start ⟹ a σ-raising SD vector" (from 05:35) | session_01BYMGeaZVABiazckLK4GK8q | `proof/k4-rkmax` (or its claude/… branch) | draft PR |
 
 The coordinator (this branch, `claude/kind-lamport-y8fdme`) runs an hourly burst: it checks each angle, verifies any
 claimed proof or counterexample independently, integrates verified results here, and works one angle of its own.
@@ -1066,3 +1068,99 @@ PHANTOM, S^φ(round). In Lean so far: PHANTOM, LIFT* and SD-E(round) (#136), and
 - Hall and girth: the RF completion half.
 - Lean: Theorem S^φ.
 - certifier: RF at every pair met in chunk 3.
+
+### 2026-11-27 05:34 UTC: hourly burst 9
+**Headline: Conjecture RKMAX (coordinator; ledger K4.SDC.RKMAX; `k4/sdc.md` §31 end).** OC₁ holds at every
+maximum-matching SD vector whose rank signature σ = (#rank 1, …, #rank 4) is lexicographically maximal.
+- n = 4: 111,600 of 111,600 profiles of the complete failure export. With the certifier's certificate, this is a
+  certificate at n = 4 once a second implementation agrees (d1 asked).
+- n = 5: 583,680 of 583,680 profiles of the complete lists of 5_pure #419, #447, #38, the hardest cores (RSD-IND and REC-S
+  counterexamples). Leximin and minimum rank sum hold too. On the six partial lists it holds at all 700,500
+  profiles; the σ-optimal picks complete outright at 99.6% of vectors.
+- Why it matters: RKMAX ⟺ "every failing start has a σ-larger maximum-matching SD vector". The witness need not satisfy
+  OC₁, so a proof needs a structural signature-raising step at a failing start, not RF's completion half.
+- At every failing pair some receiver-first vector raises σ (112,880 of 112,880), so RKMAX is RF's potential form.
+- New session **rkmax** (session_01BYMGeaZVABiazckLK4GK8q) owns the proof. Lean frame `target4_of_conjRKMAX` requested.
+
+**RF route.**
+- Certifier: RF holds EXHAUSTIVELY at all 583,680 failing pairs of the complete lists #419, #447, #38 (1,676,160
+  receiver-first vectors). Chunk 2: OC₁^∃max on all 935 cores, and RF at all 484 failing pairs met.
+- Girth: the SINK form of DEMOTE (one absorber a ∈ {w, d}, plus at most one other junk good). It holds with 0
+  exceptions at all 161,520 n = 4 RF starts and on the full n = 5 classes DEMOTE-0, (1, 3) and DEMOTE-2. The referee
+  classes it as a CONJECTURE whose proved instances are RF-A1, RF-B and RF-T.
+- TTC (with girth): class (1, 3) by Lemma C13, a two-bin trade w ↔ d. Proved for every n given hypotheses (2)–(4),
+  which hold at all 7,733 starts. Peer-checked by girth; sent to the referee. Open: deriving (2)–(4) from the class.
+- k3-oc1 locates where the k = 3 template breaks, (DE-a): a b-holder threatened by junk {c, d}. It takes (1, 3) and
+  DEMOTE-0's non-trade part together with TTC and girth.
+
+**ROUND-RSD route.**
+- GR (settle only P1-free agents until a final round or an ED repair) is never stuck on the complete n = 5 lists:
+  K4.BASE.GR.SEL2 CERTIFIED with two implementations (base-phantom's and matching's K4.MATCH.GRX). It is also never
+  stuck on all 1,285,930 export starts.
+- So ROUND-IND becomes GR-IND, owned by base-phantom.
+- PR #152: the BASE-R correction, K4.BASE.GRR REFUTED, K4.BASE.B3 PROVED (refereed, item 58).
+
+**Referee.** Items 58–62:
+- B3/B3′, RF-T/RF-T′, RF-B′ and kgen-n3's remaining lemmas (R, P, S, Corollary 3, G1–G7, Proposition A): all CORRECT.
+- SINK: a conjecture.
+
+**Correction (kgen-n3).** n = 3 at arbitrary k is NOT proved; the proved arbitrary-k base is n = 2 (Theorem 2). By
+Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-hard.
+
+**Merged this hour:** #148, #149. Pending green CI: #102, #129, #150, #152; #147 waits on a merge conflict.
+
+**Dispatch.**
+- Idle sessions given new tasks:
+  - k3-oc1: the RF completion half on the k = 3 template;
+  - multi: ROUND-IND, now GR-IND jointly with base-phantom;
+  - TTC: the (1, 3) and DEMOTE-0 rules;
+  - write-up: refresh the paper draft;
+  - twins: reductions for a minimal RF counterexample, for the hunt;
+  - d1: independent RF and RKMAX checkers at n = 4 and 5;
+  - kgen-n3: RF and RKMAX at k = 5, 6.
+- Hall and girth: their class tables at σ-maximal starts.
+
+### 2026-11-27 06:34 UTC: hourly burst 10
+**TARGET₄: still open.** The statements are sharper this hour, and three verified refutations bound the conjectures.
+
+**RKMAX (K4.SDC.RKMAX).**
+- CERTIFIED at n = 4 (K4.SDC.RKMAX.N4) and on 5_pure #419, #447, #38 (K4.SDC.RKMAX.SEL2). Two independent
+  implementations (coordinator, referee) agree, and d1 and rkmax have third ones.
+- No counterexample in 5.6M random strict n = 5 profiles (d1).
+- REFUTED at k = 5 (K4.SDC.RKMAX.K5; ksens and kgen-n3, replayed). At n = 3 with a shared top pair, every SD vector has
+  the same σ, so RKMAX becomes OC₁^max, which fails at k = 5. RKMAX is a k = 4 statement.
+- Hall's plan (a), "σ-max ⟹ hard classes vanish", is refuted by 5_pure #358 (replayed). One-receiver σ-maximal starts
+  exist but are rare: 1,822 in 5.6M profiles.
+- rkmax session: Observation W (σ is the out-degree profile of the wants digraph); RKDOM (rank dominance); HS-MAX (at
+  n = 4, every hard σ-optimum satisfies Theorem S/U's or RF-B's static hypotheses).
+
+**RF.**
+- The referee's Lemma REC-∃ (proved): with no receiver holding a pick, a pickless agent absorbs all junk. So every
+  failing start has a receiver, and the data form of RF implies RF∃.
+- The every-order form is REFUTED at k = 5, n = 4, through twins (K4.SDC.RF.K5EVERY; ksens, replayed): the
+  receiver-first order swaps two identical agents. RF∃ survives and is the target.
+- Rank rules cannot break the twin tie (RFσ, coordinator).
+- RF CERTIFIED at n = 3, k = 5 (K4.KSENS.RF5). The certifier finds RF at all ~1.29M n = 5 export starts. d1 replicated
+  it independently (1,285,930 starts).
+- n = 5 DEMOTE-0 is fully covered by refereed pieces: RF-A1* (71,443), RF-T/T′ (242 trades), T* (32 rings), plus
+  NA's at-once starts. Class (1, 3) is covered by C13, with fix (0).
+
+**ROUND-RSD.**
+- multi: every P1-free round is safe on 29.5M rounds, with one exception at 5_pure #963 (which sharer to settle).
+- Lean (#151, merged): SEP, LIFT-SEP and the corrected BASE-R frame are machine-checked.
+
+**General k.**
+- Theorem 2, two agents at every k (#97, merged, all refereed).
+- Sequential chains grow with k (K4.KSENS.CHAINS); rounds do not (RD², CONJECTURE). kgen-rounds now has RD² at n = 3,
+  every k.
+
+**Merged this hour:** #102, #129, #135, #151, #154, #157, #159, #160, #97.
+
+**Dispatch.**
+- TTC: a canonical RF∃ rule.
+- matching: a hunt for k = 4 twin failures.
+- k3-oc1: derive RF-A1*'s hypotheses from Y's failure.
+- VM: the LP/duality view of RS.
+- write-up: revision 8.
+- kgen-rounds: RD².
+- d1: climb on the one-receiver σ-optima, then n = 6.
