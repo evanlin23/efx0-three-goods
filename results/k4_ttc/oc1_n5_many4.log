@@ -1,0 +1,21 @@
+$ python3 k4/sdc/oc_absorb.py cores:k4_certs_5_n4_3.json.gz 200 94 (OC_A2=1)
+instances 200
+instances with a start not repaired 0
+start: chains needed 0 23449
+start: chains needed 1 551
+starts 24000
+time 2 s
+$ python3 k4/sdc/oc_absorb.py cores:k4_certs_5_n4_4.json.gz 200 95 (OC_A2=1)
+instances 200
+instances with a start not repaired 0
+start: chains needed 0 23392
+start: chains needed 1 608
+starts 24000
+time 3 s
+$ python3 k4/sdc/oc_absorb.py cores:k4_certs_5_pure.json.gz 200 96 (OC_A2=1)
+instances 200
+instances with a start not repaired 0
+start: chains needed 0 23534
+start: chains needed 1 466
+starts 24000
+time 3 s

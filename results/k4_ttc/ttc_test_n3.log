@@ -1,0 +1,59 @@
+$ python3 k4/ttc/ttc_test.py core:n3 3000 91 prefs=minval,minval/small,minval/val,minimal,lean,val prios=rev,revdanger,pi modes=one,rep,rephead baseline=0
+instances 3000 starts 16972 hard starts 480 distinct hard starts 0
+pref       prio       mode  repaired / hard starts
+minval     revdanger  rep   393 / 480
+minval     revdanger  rephead 393 / 480
+minval     rev        rep   392 / 480
+minval     rev        rephead 392 / 480
+minval/small revdanger  rep   387 / 480
+minval/small revdanger  rephead 387 / 480
+minval/small rev        rep   386 / 480
+minval/small rev        rephead 386 / 480
+minimal    rev        one   379 / 480
+minimal    rev        rep   379 / 480
+minimal    rev        rephead 379 / 480
+minimal    revdanger  one   379 / 480
+minimal    revdanger  rep   379 / 480
+minimal    revdanger  rephead 379 / 480
+minval     rev        one   368 / 480
+minval     revdanger  one   368 / 480
+lean       rev        rep   362 / 480
+lean       rev        rephead 362 / 480
+lean       revdanger  rep   362 / 480
+lean       revdanger  rephead 362 / 480
+lean       rev        one   361 / 480
+lean       revdanger  one   361 / 480
+minval/small rev        one   360 / 480
+minval/small revdanger  one   360 / 480
+minval/val rev        rep   325 / 480
+minval/val rev        rephead 325 / 480
+minval/val revdanger  rep   325 / 480
+minval/val revdanger  rephead 325 / 480
+minval/val rev        one   304 / 480
+minval/val revdanger  one   304 / 480
+minval/small pi         one   277 / 480
+minval/small pi         rep   277 / 480
+minval/small pi         rephead 277 / 480
+minimal    pi         rep   275 / 480
+minimal    pi         rephead 275 / 480
+minimal    pi         one   274 / 480
+val        rev        one   272 / 480
+val        rev        rep   272 / 480
+val        rev        rephead 272 / 480
+val        revdanger  one   272 / 480
+val        revdanger  rep   272 / 480
+val        revdanger  rephead 272 / 480
+lean       pi         one   269 / 480
+lean       pi         rep   269 / 480
+lean       pi         rephead 269 / 480
+minval/val pi         one   260 / 480
+minval/val pi         rep   260 / 480
+minval/val pi         rephead 260 / 480
+minval     pi         rep   257 / 480
+minval     pi         rephead 257 / 480
+minval     pi         one   241 / 480
+val        pi         one   233 / 480
+val        pi         rep   233 / 480
+val        pi         rephead 233 / 480
+first failures of the best configuration ('minval', 'revdanger', 'rep') [('r428', [0, 1, 2]), ('r428', [1, 0, 2]), ('r429', [2, 1, 0])]
+time 20 s
