@@ -1817,3 +1817,21 @@ Two reasons to expect exceptions:
 
 The census will show whether these are real.
 
+**Census result (k4-oc1max-multi, `rsd.py`; logs `rsd.log`, `rsd_recs.log`, `rsd_d2.log` at c336946e and later, on
+`proof/k4-oc1max-multi`; their implementation, not re-run here):** Part 1 **cannot be dropped** this way. The data are
+the 8,383 hard |D| ≥ 2 perfect starts. The 197 starts with |D| = 1 were not run.
+- (a) REC-S (one settlement by E(k) with a pool pair, then Theorem S in I⁻, (K) checked raw in I) holds at **3,278**.
+- (b) RSD with Theorem S as the last step:
+  - with one or two settlements: 3,301, and 5,082 fail;
+  - allowing zero settlements: 7,441 (Theorem S at the picks) + 515 (one settlement) + 17 (two) = 7,973, and **410
+    fail**.
+- Most failures of (a) are starts that Theorem S repairs at the picks through KEEP (2,522), CLEAN (1,729) or OWN (599).
+  Settling first breaks them.
+- Smallest failures of (a):
+  - a RING start: T3, order (0, 2, 1), picks (0, 1, 4). 44 RING starts fail.
+  - another kind: c4x-n3m5-big-bases (n = 3, m = 5), order (0, 2, 1), picks (1, 4, 3), D = {0, 2}. k = 0 has no
+    improving pool pair. With k = 2, the pair {2, 4} via E(2) = (2, 1) leaves a reduced start that completes with no
+    move at all (agent 1 takes junk 0), and Theorem S does not produce that.
+- Pending: the run with *any* official move (or none) as the last step, after at least one settlement (`rsd_any.log`).
+  If it covers everything, Part 1 does not disappear but moves into I⁻ ("settle first, then OC₁ in I⁻").
+
