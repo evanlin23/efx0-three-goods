@@ -1262,6 +1262,34 @@ n = 4 (`r2_slots_walk_n4.log`) and 466/466 at n = 6 (`r2_slots_n6_sample.log`).
 - The new junk can outnumber the unwanted holders plus x₀, by up to 2. The path's multi-good agents then take the
   excess, so the count in step 4 has to include them.
 
+### 14.7 OC₁^∃max from R2: statement (ii) fails, (ii′) holds at n = 4
+
+**The route** (coordinator, 03:33). OC₁^∃max (some maximum-matching order's start satisfies OC₁) would follow from:
+- (i) R2;
+- (ii) "if some maximum-matching start of a profile fails OC₁, some maximum-matching SD outcome of that profile has
+  ≥ 2 receivers".
+
+The certifier's n = 5 good-order export supports (ii) at its 280 failing starts.
+
+**Two facts about receivers** (both proved, from the SD order alone):
+- A wanter of y_j picks after j, so the *last picker is always a receiver*.
+- The second-to-last picker is a receiver unless the last picker wants its pick.
+
+**(ii) is FALSE at n = 4** (`ii_check.py`, `ii_check_n4.log`, on the certifier's complete export of failing pairs).
+- Of the 111,600 distinct profiles with an OC₁^max failure, 110,960 have a perfect outcome with ≥ 2 receivers. Every
+  such outcome satisfies OC₁, as R2 says.
+- At the other **640 profiles every perfect SD outcome has exactly one receiver**.
+
+**(ii′) holds at all 640:** some perfect outcome still satisfies OC₁, with its single receiver (8 of 10 outcomes in the
+printed cases). So the route needs:
+- **(ii′)** if every maximum-matching SD outcome has exactly one receiver, some of them satisfies OC₁.
+
+**The structure of the 640:** in every one, *every agent's top good is also the top good of another agent*. The tops
+come in pairs, as in sets [[0,1,2,6],[1,2,5,6],[3,4,5,6],[3,4,5,6]] with tops (g2, g2, g5, g5). Two agents with a
+common top good make every order's earlier one wanted by the later one.
+- *Conjecture (evidence only):* "every perfect SD outcome has one receiver" forces every top good to be shared.
+- (ii′) then asks that OC₁ hold at some outcome of such a paired-top profile.
+
 ## 12. Next steps
 
 1. *OC₁-E / OC₁-ED at larger n.* Adversarial climbs at n = 6–8 with the endpoint objective:
