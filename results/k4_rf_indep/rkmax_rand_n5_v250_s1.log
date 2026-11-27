@@ -1,0 +1,27 @@
+$ python3 k4/rf_indep/rkmax_rand.py --per-core 600 --vmax 250 --seed 1 --procs 4
+cores 4674 from results/k4_certs_5_pure.json.gz (sha256 9dfa2258fdb87e74); nu distribution {4: 1, 5: 4673}
+agents per core {5: 4674}, goods per core {4: 1, 5: 6, 6: 45, 7: 219, 8: 656, 9: 1119, 10: 1237, 11: 862, 12: 401, 13: 110, 14: 17, 15: 1}
+orders and signatures done 119 s
+OC1 search on 4225553 sigma-maximal vectors done 162 s
+witnesses verified 197 s
+dumped 1764 one-receiver sigma-maximal vectors to results/k4_rf_indep/rkmax_rand_n5_v250_s1_one_receiver.jsonl.gz
+
+   profiles                                                               2804400
+   sigma-maximal vectors                                                  4225553
+   sigma-maximal vectors with 0 receiver(s)                               2172
+   sigma-maximal vectors with 1 receiver(s)                               1764
+   sigma-maximal vectors with 2 receiver(s)                               101297
+   sigma-maximal vectors with 3 receiver(s)                               993329
+   sigma-maximal vectors with 4 receiver(s)                               2184999
+   sigma-maximal vectors with 5 receiver(s)                               941992
+OC1 at the sigma-maximal vectors, by number of receivers:
+   r0     {'P verified': 2172}
+   r1     {'C verified, t = 1': 455, 'C verified, t = 2': 31, 'P verified': 1278}
+   r2     {'C verified, t = 1': 4541, 'C verified, t = 2': 6, 'C verified, t = 3': 2, 'P verified': 96748}
+   r3     {'C verified, t = 1': 1523, 'P verified': 991806}
+   r4     {'C verified, t = 1': 7, 'P verified': 2184992}
+   r5     {'P verified': 941992}
+   all    {'C verified, t = 1': 6526, 'C verified, t = 2': 37, 'C verified, t = 3': 2, 'P verified': 4218988}
+cores with a sigma-maximal vector that needs a move: 3008
+RESULT RKMAX random: 4674 cores x 600 profiles (V = 250, seed 1): 4225553 sigma-maximal vectors, OC1 F answers 0 (confirmed by the second implementation: 0), invalid witnesses 0
+time 200 s

@@ -1,0 +1,22 @@
+$ python3 k4/rf_indep/rkmax_climb.py --steps 5000 --procs 4
+seeds: 1011 one-receiver sigma-maximal vectors that need a move
+climb done 375 s
+seeds 1011 accepted moves 3036309
+start score (repairing post-chain states, capped at 20): {1: 175, 2: 383, 3: 111, 4: 96, 5: 64, 6: 54, 7: 20, 8: 43, 9: 6, 10: 5, 11: 5, 12: 3, 13: 3, 14: 1, 15: 9, 16: 1, 17: 2, 18: 2, 19: 1, 20: 27}
+best score  (repairing post-chain states, capped at 20): {1: 566, 2: 401, 3: 21, 4: 2, 5: 17, 6: 3, 9: 1}
+hardest profiles found:
+  core (m 9, idx 388) V 20: score (1, 4) (repairing states, completions; of 9 post-chain states), sigma (2, 2, 0, 1), picks [5, 6, 8, 7, 4], receiver 4, sets [[0, 2, 5, 8], [1, 6, 7, 8], [3, 4, 5, 8], [3, 5, 6, 7], [4, 6, 7, 8]], vals [[4, 5, 10, 8], [4, 20, 18, 12], [5, 2, 16, 6], [7, 11, 20, 15], [12, 26, 22, 19]]
+  core (m 9, idx 221) V 20: score (1, 4) (repairing states, completions; of 10 post-chain states), sigma (3, 1, 0, 1), picks [8, 4, 5, 7, 6], receiver 3, sets [[0, 2, 4, 8], [1, 4, 7, 8], [3, 5, 6, 8], [4, 5, 6, 7], [5, 6, 7, 8]], vals [[4, 3, 13, 15], [6, 15, 11, 18], [10, 18, 16, 11], [16, 22, 18, 3], [5, 17, 16, 14]]
+  core (m 9, idx 221) V 20: score (1, 4) (repairing states, completions; of 7 post-chain states), sigma (3, 1, 0, 1), picks [8, 4, 5, 7, 6], receiver 3, sets [[0, 2, 4, 8], [1, 4, 7, 8], [3, 5, 6, 8], [4, 5, 6, 7], [5, 6, 7, 8]], vals [[2, 7, 10, 11], [11, 12, 6, 24], [5, 17, 14, 6], [6, 12, 9, 5], [15, 31, 4, 3]]
+  core (m 9, idx 388) V 20: score (1, 4) (repairing states, completions; of 7 post-chain states), sigma (3, 1, 0, 1), picks [5, 7, 8, 6, 4], receiver 4, sets [[0, 2, 5, 8], [1, 6, 7, 8], [3, 4, 5, 8], [3, 5, 6, 7], [4, 6, 7, 8]], vals [[4, 5, 10, 8], [11, 15, 17, 1], [7, 6, 19, 11], [4, 10, 16, 11], [5, 19, 17, 16]]
+  core (m 9, idx 299) V 250: score (1, 4) (repairing states, completions; of 10 post-chain states), sigma (3, 1, 0, 1), picks [8, 6, 7, 5, 4], receiver 3, sets [[0, 2, 7, 8], [1, 3, 6, 8], [3, 5, 7, 8], [4, 5, 6, 7], [4, 6, 7, 8]], vals [[35, 183, 208, 239], [175, 8, 213, 135], [66, 122, 149, 209], [71, 36, 59, 39], [240, 105, 115, 155]]
+  core (m 9, idx 881) V 250: score (1, 4) (repairing states, completions; of 7 post-chain states), sigma (3, 1, 0, 1), picks [6, 7, 5, 2, 8], receiver 3, sets [[0, 4, 5, 6], [1, 4, 7, 8], [2, 3, 5, 6], [2, 5, 7, 8], [3, 6, 7, 8]], vals [[107, 30, 138, 150], [18, 197, 220, 147], [131, 44, 168, 203], [33, 146, 156, 200], [20, 153, 128, 216]]
+  core (m 9, idx 299) V 250: score (1, 4) (repairing states, completions; of 10 post-chain states), sigma (3, 1, 0, 1), picks [8, 6, 7, 5, 4], receiver 3, sets [[0, 2, 7, 8], [1, 3, 6, 8], [3, 5, 7, 8], [4, 5, 6, 7], [4, 6, 7, 8]], vals [[28, 148, 216, 242], [168, 2, 203, 90], [93, 126, 129, 241], [160, 27, 63, 39], [110, 39, 36, 43]]
+  core (m 9, idx 881) V 250: score (1, 4) (repairing states, completions; of 9 post-chain states), sigma (3, 1, 0, 1), picks [6, 7, 5, 2, 8], receiver 3, sets [[0, 4, 5, 6], [1, 4, 7, 8], [2, 3, 5, 6], [2, 5, 7, 8], [3, 6, 7, 8]], vals [[172, 66, 193, 246], [58, 21, 106, 72], [49, 107, 155, 196], [55, 76, 154, 163], [86, 179, 196, 219]]
+  core (m 9, idx 11) V 20: score (1, 5) (repairing states, completions; of 3 post-chain states), sigma (3, 1, 0, 1), picks [7, 8, 4, 6, 5], receiver 4, sets [[0, 1, 2, 7], [2, 4, 5, 8], [3, 4, 6, 8], [3, 6, 7, 8], [5, 6, 7, 8]], vals [[17, 1, 3, 22], [3, 18, 4, 5], [4, 9, 6, 8], [1, 10, 5, 3], [2, 16, 11, 10]]
+  core (m 9, idx 429) V 20: score (1, 5) (repairing states, completions; of 7 post-chain states), sigma (3, 1, 0, 1), picks [7, 6, 5, 8, 4], receiver 4, sets [[0, 4, 5, 7], [1, 5, 6, 8], [2, 5, 7, 8], [3, 6, 7, 8], [4, 6, 7, 8]], vals [[11, 8, 20, 16], [13, 8, 19, 17], [10, 17, 12, 13], [8, 14, 10, 20], [9, 15, 14, 18]]
+  core (m 9, idx 503) V 20: score (1, 5) (repairing states, completions; of 3 post-chain states), sigma (3, 1, 0, 1), picks [3, 8, 6, 5, 7], receiver 3, sets [[0, 3, 4, 5], [1, 5, 7, 8], [2, 6, 7, 8], [3, 5, 6, 8], [4, 6, 7, 8]], vals [[6, 33, 19, 4], [9, 2, 16, 10], [1, 22, 20, 12], [16, 9, 18, 12], [7, 5, 16, 10]]
+  core (m 9, idx 11) V 20: score (1, 5) (repairing states, completions; of 3 post-chain states), sigma (3, 1, 0, 1), picks [7, 8, 4, 6, 5], receiver 4, sets [[0, 1, 2, 7], [2, 4, 5, 8], [3, 4, 6, 8], [3, 6, 7, 8], [5, 6, 7, 8]], vals [[6, 4, 1, 13], [5, 16, 7, 10], [7, 12, 4, 10], [5, 13, 9, 6], [5, 13, 10, 9]]
+OC1 failures at sigma-maximal vectors met during the climb: 0
+RESULT climb: 1011 seeds x 5000 steps, OC1 failures 0, smallest score (1, 4)
+time 375 s
