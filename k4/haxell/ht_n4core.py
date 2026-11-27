@@ -26,6 +26,7 @@ PMAX = int(args.get('PMAX', '100000')); N = int(args.get('N', '100')); SEED = in
 SCALE = int(args.get('SCALE', '0')); DOMAIN = args.get('DOMAIN', 'cert')
 MARGS = args.get('MARGS', '2,1,1,1').split(','); P = int(args.get('PROCS', '4'))
 ONLY = int(MARGS[2]) if len(MARGS) > 2 else -1
+ONLY2 = int(MARGS[7]) if len(MARGS) > 7 else -1
 OT = json.load(open(os.path.join(ROOT, 'k4', 'order_types.json')))
 STRICT = {k: [tuple(t['rep']) for t in OT[str(k)]['types'] if t['strict']] for k in (3, 4)}
 STRICT_BAL = {k: [tuple(t['rep']) for t in OT[str(k)]['types'] if t['strict'] and t['balanced']] for k in (3, 4)}
@@ -94,7 +95,7 @@ if __name__ == '__main__':
     print('$ python3 k4/haxell/ht_n4core.py', *sys.argv[1:], flush=True)
     t0 = time.time(); rng = random.Random(SEED)
     C = collections.Counter(); percore = collections.Counter()
-    phis = ['phi0'] + (['phi%d' % ONLY] if ONLY > 0 else ['phi1', 'phi2'])
+    phis = ['phi0'] + (['phi%d' % ONLY] if ONLY > 0 else ['phi1', 'phi2']) + (['phi%d' % ONLY2] if ONLY2 > 0 else [])
     procs = [subprocess.Popen([os.path.join(HERE, 'gstar_measure')] + MARGS, stdin=subprocess.PIPE,
                               stdout=subprocess.PIPE, text=True, bufsize=1 << 16) for _ in range(P)]
     sent = [collections.deque() for _ in range(P)]; lock = threading.Lock(); shown = [0]
@@ -144,6 +145,7 @@ if __name__ == '__main__':
     print('cores', ncores, 'instances sent', t, 'skipped (more than PMAX profiles)', dict(skipped), 'return codes', rc)
     for key in sorted(C):
         print(key, C[key])
-    bad = sorted({tag for (tag, key), v in percore.items() if v and key != 'phi0'})
-    print('cores with a stuck instance (W^sub measure):', len(bad), bad[:20])
+    for key in phis[1:]:
+        bad = sorted({tag for (tag, k2), v in percore.items() if v and k2 == key})
+        print('cores with a stuck instance for %s:' % key, len(bad), bad[:20])
     print('time %.0f s' % (time.time() - t0))

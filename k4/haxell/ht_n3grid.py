@@ -9,8 +9,9 @@ image is kept.  Every instance is then sent to gstar_measure, which checks every
 nonempty pool.
 
     python3 k4/haxell/ht_n3grid.py [K=3] [MMIN=2] [MMAX=6] [VALS=1,2,4,7] [MARGS=2,1,1,1] [PROCS=4]
-MARGS are gstar_measure's arguments RADIUS, ROT, ONLY, SUB: 2,1,1,1 is W^sub (welfare, phi1); 2,1,2,1 is W^sub with
-leximin (phi2); 2,1,1,0 is W; 3,1,1,0 is W_3.  phi0 counts the states with no augmenting step at all."""
+MARGS are gstar_measure's arguments RADIUS, ROT, ONLY, SUB[, NOAUG, SLACK, OFF, ONLY2]: 2,1,1,1 is W^sub (welfare,
+phi1); 2,1,2,1 is W^sub with leximin (phi2); 2,1,1,1,0,0,0,2 is both; 2,1,1,0 is W; 3,1,1,0 is W_3.  phi0 counts the
+states with no augmenting step at all."""
 import sys, os, itertools, subprocess, collections, time, threading
 HERE = os.path.dirname(os.path.abspath(__file__))
 args = dict(a.split('=') for a in sys.argv[1:] if '=' in a)
@@ -18,6 +19,7 @@ K = int(args.get('K', '3')); MMIN = int(args.get('MMIN', '2')); MMAX = int(args.
 VALS = [int(x) for x in args.get('VALS', '1,2,4,7').split(',')]
 MARGS = args.get('MARGS', '2,1,1,1').split(','); P = int(args.get('PROCS', '4'))
 ONLY = int(MARGS[2]) if len(MARGS) > 2 else -1
+ONLY2 = int(MARGS[7]) if len(MARGS) > 7 else -1
 PATS = [p for r in (1, 2, 3) for p in itertools.combinations(range(3), r)]
 PERMS = list(itertools.permutations(range(3)))
 
@@ -71,7 +73,7 @@ def instances(key):
 if __name__ == '__main__':
     print('$ python3 k4/haxell/ht_n3grid.py', *sys.argv[1:], flush=True)
     t0 = time.time(); C = collections.Counter(); examples = []
-    phis = ['phi0'] + (['phi%d' % ONLY] if ONLY > 0 else ['phi1', 'phi2'])
+    phis = ['phi0'] + (['phi%d' % ONLY] if ONLY > 0 else ['phi1', 'phi2']) + (['phi%d' % ONLY2] if ONLY2 > 0 else [])
     procs = [subprocess.Popen([os.path.join(HERE, 'gstar_measure')] + MARGS, stdin=subprocess.PIPE,
                               stdout=subprocess.PIPE, text=True, bufsize=1 << 16) for _ in range(P)]
     sent = [collections.deque() for _ in range(P)]

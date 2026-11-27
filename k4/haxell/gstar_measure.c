@@ -23,7 +23,7 @@
    first phi with one.  With argument 3, a step may be a composite of three moves (the third pass runs only on states
    still stuck after two).  With ROT = 1 a rotation of the bundles along any cycle of agents also counts as one local
    move.  With SUB = 1, giving a set of goods of one holder (an agent or the pool) to one agent is also one move.
-   cc -O2 -o gstar_measure gstar_measure.c;  ./gstar_measure [RADIUS=2] [ROT=0] [ONLY=-1] [SUB=0] [NOAUG=0] [SLACK=0] [OFF=0] < input */
+   cc -O2 -o gstar_measure gstar_measure.c;  ./gstar_measure [RADIUS=2] [ROT=0] [ONLY=-1] [SUB=0] [NOAUG=0] [SLACK=0] [OFF=0] [ONLY2=-1] < input */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,7 +34,7 @@ static int n, m;
 static long val[MAXN][MAXM];
 static long NS;
 static unsigned char *ok;
-static int RADIUS = 2, ROT = 0, ONLY = -1, SUB = 0, NOAUG = 0, SLACK = 0, OFF = 0;
+static int RADIUS = 2, ROT = 0, ONLY = -1, SUB = 0, NOAUG = 0, SLACK = 0, OFF = 0, ONLY2 = -1;
 static int ncyc, cyclen[512], cyc[512][MAXN];
 static long stuck3fixed[NPHI];
 
@@ -155,6 +155,7 @@ int main(int argc, char **argv) {
                                              the pool, 4 trades, 8 set transfers from the pool, 16 set transfers between
                                              agents, 32 single-good moves between agents (placements stay), 64 rotations of
                                              three or more agents */
+    if (argc > 8) ONLY2 = atoi(argv[8]);  /* with ONLY: a second measure also evaluated (e.g. ONLY 1, ONLY2 2: welfare and leximin) */
     while (scanf("%d %d", &n, &m) == 2) {
         if (n > MAXN || m > MAXM) { fprintf(stderr, "instance too large: n %d m %d (MAXN %d MAXM %d)\n", n, m, MAXN, MAXM); return 2; }
         memset(val, 0, sizeof val);
@@ -170,7 +171,7 @@ int main(int argc, char **argv) {
             if (!ok[s]) continue; decode(s, own); int p = poolsz(own); if (p == 0) continue;
             Phi ps[NPHI]; for (int K = 0; K < NPHI; K++) phi(K, own, &ps[K]);
             int done[NPHI]; memset(done, 0, sizeof done); int left = NPHI;
-            if (ONLY >= 0) { for (int K = 0; K < NPHI; K++) if (K != ONLY && K != 0) { done[K] = 1; left--; } }
+            if (ONLY >= 0) { for (int K = 0; K < NPHI; K++) if (K != ONLY && K != 0 && K != ONLY2) { done[K] = 1; left--; } }
             if (NOAUG && ONLY != 0) { done[0] = 1; left--; }
             neighbours(own); int c1 = nb_count; long first[4096]; memcpy(first, nb_buf, sizeof(long) * c1);
             if (SLACK && ONLY >= 0) {

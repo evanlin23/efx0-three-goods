@@ -1,0 +1,25 @@
+$ python3 k4/haxell/ht_n3grid.py K=3 MMIN=2 MMAX=2 VALS=1,2,4,7,12 MARGS=2,1,1,1,0,0,0,2
+shapes 5 instances sent 3905 return codes [0, 0, 0, 0]
+instances 3905
+instances m=2 3905
+instances with a stuck state phi0 0
+instances with a stuck state phi1 0
+instances with a stuck state phi2 0
+partial EFX0 states 50765
+stuck states phi0 0
+stuck states phi1 0
+stuck states phi2 0
+time 0 s
+$ python3 k4/haxell/ht_n3grid.py K=3 MMIN=3 MMAX=3 VALS=1,2,4,7,12 MARGS=2,1,1,1,0,0,0,2
+shapes 17 instances sent 281485 return codes [0, 0, 0, 0]
+instances 281485
+instances m=3 281485
+instances with a stuck state phi0 0
+instances with a stuck state phi1 0
+instances with a stuck state phi2 0
+partial EFX0 states 9619515
+stuck states phi0 0
+stuck states phi1 0
+stuck states phi2 0
+time 13 s
+$ python3 k4/haxell/ht_n3grid.py K=3 MMIN=4 MMAX=4 VALS=1,2,4,7,12 MARGS=2,1,1,1,0,0,0,2

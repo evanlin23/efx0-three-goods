@@ -14,20 +14,25 @@ evidence only (PROMPT.md §5 rule 3).
 **Burst 3 (2026-11-27, coordinator's message 3).** Evidence only; W^sub stated precisely (§6). Some runs are still
 going; their logs are named in §6.
 - **W^sub, the one-step lemma with set moves**: from a partial EFX₀ allocation with a nonempty pool, at most two moves
-  give one with a smaller pool, or the same pool and larger welfare. A move is a set transfer, a swap or a rotation;
+  give one with a smaller pool, or the same pool and a larger measure. A move is a set transfer, a swap or a rotation;
   "W^sub stated precisely" in §6 defines them on `EFX.Inst`, with a Lean sketch. It implies TARGET₄.
-- **No stuck state** on any of the following:
+- **With welfare as the measure, W^sub is REFUTED at n = 4, m = 7, k = 4**, on a k = 4 core with strict, balanced
+  values (`attempts/k4-haxell-wsub-welfare.md`; three implementations agree). The adversarial climb found it from
+  the tightest state of the ablation: 36 failing instances, one stuck state each.
+  - **With leximin (L^sub) it has a step at all 36**, and so does W₃. L^sub is now the k-independent candidate; the
+    n = 3 grids and the cores are being re-run with both measures (`*_wl_*.log`).
+- **W^sub with welfare had no stuck state** on any of the following, which remain evidence for n ≤ 3 and small cores:
   - the whole n = 2 grid with k ≤ 4 (470.5 million states; leximin too);
   - the n = 3 grid with k ≤ 3, values {1, 2, 4, 7, 12} and m ≤ 5 (742 million states, reduced by symmetry; m ≥ 6 running);
   - every type profile, up to automorphism, of the 20 n = 4 cores with one 4-good agent and m ≤ 5 (223.5 million states).
   Every type profile of every core is out of reach: up to 7·10⁹ profiles per core. The other cores are sampled.
-- **W₃** (three single moves) also has no stuck state on the n = 2 grid, but it fails at k = 5. So W^sub is the
+- **W₃** (three single moves) also has no stuck state on the n = 2 grid, but it fails at k = 5. So L^sub is the
   k-independent candidate.
 - **The move class is nearly minimal**: six of its seven kinds are each necessary, with witnesses at n = 2, 3, 4 found by
   an adversarial climb and re-checked in Python (§6 table). The tightest state found (n = 4) has exactly one step.
 - **Welfare is needed**: pool-shrinking alone fails, even with set moves, at n = 3 with strict values, and in 93% of
   the small-core instances.
-- *Proof*: still open. W^sub for every k would imply EFX₀ in general, so its general form is at least as hard as the
+- *Proof*: still open. L^sub for every k would imply EFX₀ in general, so its general form is at least as hard as the
   EFX conjecture; only the k ≤ 4 form is the target.
 
 **Burst 2 (2026-11-26, coordinator's requests).** Evidence only; one new conjecture (W), stated precisely in §6.
@@ -569,7 +574,8 @@ k − 1. That is a place where k really enters. Two repaired forms:
   (470,500,040 states) it has no stuck state, for welfare or leximin** (`n2w_grid_k4_r3.log`). Pool-shrinking within
   three single moves fails at 5,076 states of 576 instances, exactly the instances where W fails. It fails at k = 5
   (W5).
-- **W^sub (two moves, giving a set of goods to one agent counting as one move; candidate for every k).** It contains
+- **W^sub (two moves, giving a set of goods to one agent counting as one move).** With welfare it is **REFUTED at
+  n = 4, k = 4** (burst 3, `attempts/k4-haxell-wsub-welfare.md`). With leximin (L^sub, below) it survives. It contains
   W's moves, so it holds wherever W held. It repairs W4 and W5. **On the whole n = 2 grid with k ≤ 4 and values
   {1, 2, 4, 7} (1,540,944 instances, 470,500,040 partial EFX₀ states) it has no stuck state, for welfare or for
   leximin** (`n2w_grid_k4_sub.log`). Pool-shrinking alone (φ0) fails at 48 states of 36 instances: the welfare
@@ -607,13 +613,19 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
     X′ g = X g otherwise (the pool is untouched). L = 2 is the trade of two bundles.
   
   No move enlarges the pool: (T) from the pool shrinks it by |S|, and every other move keeps its size.
-- *Lemma W^sub (CONJECTURE for instances with every |Rᵢ| ≤ 4; the general form is stated for every k).* Let X be
-  partial EFX₀ with P(X) ≠ ∅. Then there are X₁ and X₂ such that X₁ is X or a move of X, X₂ is X₁ or a move of X₁,
-  X₂ is partial EFX₀, and either |P(X₂)| < |P(X)|, or |P(X₂)| = |P(X)| and W(X₂) > W(X). X₁ need not be EFX₀.
-- *Consequence (elementary).* The all-pool allocation is partial EFX₀. Each step decreases (|P|, −W)
-  lexicographically, W is bounded by Σᵢ vᵢ(all goods), and the states are finite. So W^sub for an instance gives a
-  complete EFX₀ allocation of it, and W^sub for all k = 4 instances gives TARGET₄. Formally this is well-founded
-  induction on the pair (|P|, Σᵢ vᵢ(M) − W).
+- *Lemma W^sub (REFUTED at n = 4, k = 4 with welfare: `attempts/k4-haxell-wsub-welfare.md`).* Let X be partial
+  EFX₀ with P(X) ≠ ∅. Then there are X₁ and X₂ such that X₁ is X or a move of X, X₂ is X₁ or a move of X₁, X₂ is
+  partial EFX₀, and either |P(X₂)| < |P(X)|, or |P(X₂)| = |P(X)| and W(X₂) > W(X). X₁ need not be EFX₀.
+- *Lemma L^sub (CONJECTURE for every |Rᵢ| ≤ 4; the general form is stated for every k).* The same, with the
+  **leximin** order in place of welfare. Let λ(X) be the vector of the values vᵢ(Xᵢ) sorted increasingly. The
+  last condition becomes |P(X₂)| = |P(X)| and λ(X₂) > λ(X) lexicographically. This is φ2 of `gstar_measure`. It has
+  a step at all 36 states where W^sub fails, and had no stuck state wherever it was run before (the n = 2 grid, the
+  skewed sets).
+- *W₃* (welfare, three single-good moves, no set transfers) also has a step at all 36. It fails at k = 5 (W5).
+- *Consequence (elementary).* The all-pool allocation is partial EFX₀. Each step decreases (|P|, −W), or
+  (|P|, λ) for L^sub, lexicographically, and the states are finite. So the lemma for an instance gives a complete
+  EFX₀ allocation of it, and the lemma for all k = 4 instances gives TARGET₄. Formally this is well-founded induction
+  on |P| and then on W, or on λ among the finitely many value vectors.
 - *What the checker runs.* `gstar_measure 2 1 1 1` (RADIUS 2, ROT 1, ONLY 1 = welfare, SUB 1) implements exactly
   these moves: single moves to an agent, swaps, trades, rotations of length ≥ 3, and transfers of ≥ 2 goods from one
   holder to one agent. Its stuck count for φ1 counts the states violating the lemma. φ0 counts the states with no
@@ -648,7 +660,7 @@ In the sketch, `rotate` takes any permutation σ of the agents, given with its i
 More moves make the lemma weaker, so the checked form (single cycles) implies the sketch's form. The sketch's form
 is the convenient one for a proof.
 
-**W^sub on the coordinator's test sets (burst 3; welfare; `gstar_measure 2 1 1 1`, every partial EFX₀ state with a
+**W^sub on the coordinator's test sets (burst 3; welfare, the form later refuted at n = 4; `gstar_measure 2 1 1 1`, every partial EFX₀ state with a
 nonempty pool of every instance):**
 | test set | instances | partial EFX₀ states | W^sub stuck | log |
 |---|---|---|---|---|

@@ -1,0 +1,39 @@
+$ python3 k4/haxell/gstar_run.py gen:2000:65:3:8:5 NMAX=3 MMAX=10 SHOW=6
+TRAPS g2 [[[0, 1, 2, 4, 7], [0, 2, 4, 5, 6], [0, 2, 3, 4, 6]], [[3, 11, 32, 28, 31], [24, 34, 32, 17, 37], [14, 9, 8, 10, 32]]] {'states': 2115, 'complete': 126, 'traps': 1, 'radius2traps': 0, 'minpool': 1} e.g. [[2, 4], [6], [0, 1, 3, 7]] pool [5]
+TRAPS g264 [[[0, 1, 3, 5, 6], [1, 2, 4, 5, 6], [0, 1, 5, 6, 7]], [[38, 33, 29, 30, 23], [15, 16, 12, 22, 14], [31, 1, 39, 13, 26]]] {'states': 2146, 'complete': 118, 'traps': 1, 'radius2traps': 0, 'minpool': 1} e.g. [[0], [1, 6], [2, 3, 4, 7]] pool [5]
+TRAPS g379 [[[1, 3, 4, 6, 7], [0, 1, 4, 5, 6], [0, 2, 3, 4, 7]], [[17, 8, 5, 3, 32], [23, 24, 11, 4, 10], [29, 26, 28, 27, 39]]] {'states': 1997, 'complete': 124, 'traps': 1, 'radius2traps': 0, 'minpool': 1} e.g. [[2, 3, 5, 6], [1], [0, 4]] pool [7]
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ~~~~^^^^^^^^^^^^^^^
+  File "/home/user/efx0-three-goods/k4/haxell/gstar_run.py", line 23, in run_c
+    r = subprocess.run([os.path.join(HERE, 'gstar')], input=line(sets, vals, m) + '\n', capture_output=True, text=True)
+  File "/usr/local/lib/python3.13/subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/subprocess.py", line 1040, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/subprocess.py", line 1992, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: '/home/user/efx0-three-goods/k4/haxell/gstar'
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/user/efx0-three-goods/k4/haxell/gstar_run.py", line 42, in <module>
+    for name, sets, vals, m, d, ex in pool.imap_unordered(run_c, items):
+                                      ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/multiprocessing/pool.py", line 873, in next
+    raise value
+PermissionError: [Errno 13] Permission denied: '/home/user/efx0-three-goods/k4/haxell/gstar'
