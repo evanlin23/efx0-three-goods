@@ -768,3 +768,48 @@ Correct with (S-φ3).
 
 **Wording.** "OC₂ holds via the settlements, then P" is OC_{|Φ|+1}. It is OC₂ exactly when there is one settlement, which
 is the case at every failing start found.
+
+## 15. Addendum: Lemma SD-E(round), and (L\*) at the end of a round (§17 on `proof/k4-oc1max-multi-2` at `85981d13`; 2026-11-27)
+
+**Read.** §17 in full.
+
+**Check.** `k4/referee/sder_ref.py`, run by `sder_ref_runs.sh`, log `results/k4_referee/sder_ref.log`. It is my own code.
+- *Starts:* random strict perfect SD starts with n = 4–6.
+- *Rounds:* K is one or two frozen agents with vertex-disjoint prefixes of E(k), every prefix of length ≥ 2, and
+  pairwise disjoint improving T_k ⊆ (J ∪ {Y_{z_k}}) ∩ R_k with |T_k| ≤ 3.
+- *Tested:* (H), and the conclusion SD(σ ∖ K) on the goods outside ∪T_k.
+
+**Verdict.**
+- Lemma SD-E(round): **CORRECT**.
+- (L\*) at the end of a round: correct as a hypothesis. One completeness remark below.
+
+**The proof, re-derived.** Induction over σ ∖ K. An agent a's round good b_a is a pick other than a released head pick,
+held only by a, so it is still available at a's turn. Suppose some available g has v_a(g) > v_a(b_a) ≥ p_a.
+- If g is junk of I: it was available at a's turn, so v_a(g) < p_a.
+- If g is a non-released pick Y_j: its round holder comes after a, so j = x_l on some chain, and
+  σ(x_l) < σ(a) < σ(x_{l+1}). That contradicts the earliest-wanter choice. Disjointness gives each good one holder.
+- If g is a released head pick: if a wanted it, (H) applies. If not, v_a(g) < p_a by strictness. The head itself values
+  its own released pick below its new good.
+
+Distinct values make b_a the unique favourite. The proof never uses |T_k|. ∎
+
+**Computation (evidence).**
+
+| run | rounds (\|K\| = 1 / 2) | (H) | conclusion | (H) without conclusion | conclusion without (H) | rounds with a chain stopped early |
+|---|---|---|---|---|---|---|
+| two seeds × 300,000 instances | 307,201 / 5,531 | 287,687 / 5,165 | 287,687 / 5,165 | **0 / 0** | **0 / 0** | 43,716 / 1,826 |
+| mutation: any want-chain prefix instead of E(k) prefixes | 59,216 / 1,400 | 55,657 / 1,304 | 47,454 / 1,050 | **8,203 / 254** | 0 / 0 | – |
+
+- On these data (H) is also necessary, as the note found on its 411 rounds.
+- The earliest-wanter prefixes are needed (mutation).
+
+**(L\*) at the end of a round: a completeness remark.**
+- With (L\*) checked at the end of the round, triples need no (P1) argument: real agents' values only rise afterwards.
+  So S^φ's real-vs-T case goes through for |T_k| ≤ 3.
+- When a round follows earlier settlements, two conditions must also be stated, alongside the round's own phantoms:
+  - each new T_k must not threaten the **earlier phantoms** at their thresholds, which is (P2) for the newest pairs;
+  - the released head picks must be worth at most τ_φ to the **earlier phantoms** too, which is (P3), the §14 fix.
+
+  The earlier phantoms' pairs never threaten the round's new phantoms, since they were real agents then.
+
+The text names only "the other members of K". The census (single-round, no earlier phantoms) is unaffected.
