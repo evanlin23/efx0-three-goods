@@ -1515,7 +1515,9 @@ Full chains E(k) never form disjoint rounds in these data. When u = 1 they share
 stop a chain early, at a head whose wanters the round serves. At 5_pure (10, 419) this is (0, 4) with {0, 7}, where
 7 = Y_4 is the head's pick, together with (1, 3) with {1, 8, 9}.
 
-**Lemma SD-E(round) (K4.MULTI.SDER).** Values are strict. Suppose:
+**Lemma SD-E(round) (K4.MULTI.SDER).** *Refereed CORRECT (`k4/referee/oc1max_multi.md` §15, commit 135c4ef0: 312,732
+random rounds, 45,542 of them with a chain stopped early; (H) ⇔ conclusion; arbitrary want-chain prefixes instead of
+E(k) prefixes give 8,457 violations, so earliest-wanter prefixes are needed).* Values are strict. Suppose:
 - **(H)** every agent outside K that wants a *released* head pick Y_{z_k} at the picks (a pick not taken into any
   T_k′) values its good after the round above that pick.
 
@@ -1542,6 +1544,13 @@ For a single full-E(k) pair settlement this is automatic (§12). In a round it i
 taken head pick may be wanted by someone. And the agents a triple threatens at their pick values may be lifted by the
 round's other chains. That second effect is exactly what makes (10, 419) work: {1, 8, 9} threatens agent 4 at its pick
 value, but not after 4 takes 0's pick in the chain (0, 4).
+
+*When a round follows earlier settlements* (referee's remark), it must also satisfy two conditions toward the earlier
+phantoms φ:
+- the new T_k threaten no earlier phantom at τ_φ ((P2) for the newest pairs);
+- every released head pick is worth at most τ_φ to the earlier phantoms ((P3), the §14 fix).
+
+Earlier pairs never threaten the new phantoms, because those were real agents then.
 
 With (L\*) at the end of the round as invariant (P1\*)–(P2) for the round's phantoms, Theorem S^φ's proof (§16) goes
 through unchanged. Its (P3) base case additionally needs every released head pick to be worth at most τ_k to each
