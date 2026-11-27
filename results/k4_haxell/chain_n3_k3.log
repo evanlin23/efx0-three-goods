@@ -3,3 +3,11 @@ longest so far: 1 at state (0, -1) (P>A) | 3 2 1 0 1 1 1 1 1 1 1
 longest so far: 2 at state (-1, 2, 0, 1) (P>A ; A<>B) | 3 4 3 0 1 1 4 2 2 1 2 1 1 3 1
 longest so far: 3 at state (-1, 1, 0, 2) (P>A ; A<>B ; B<>C) | 3 4 3 0 1 1 4 2 2 2 1 1 3 2 2 2 2 3 1
 ... 5000 instances, 16 s
+... 10000 instances, 77 s
+longest so far: 4 at state (0, 1, 0, 0, 2, -1) (P>A ; A>B ; A<>B ; A<>C) | 3 6 3 0 2 1 4 2 1 3 1 3 3 2 4 4 3 2 3 4 4 5 2
+instances 14100 partial EFX0 states with a nonempty pool 3547640
+shortest improving chain length: states {1: 3539432, 2: 7354, 3: 842, 4: 12}
+instances with a state that has no chain within 6: 0
+shortest augmenting chain length: states {1: 2796617, 2: 638660, 3: 112261, 4: 102}
+instances with a state that has no augmenting chain within 6: 0
+time 275 s

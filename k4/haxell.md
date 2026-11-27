@@ -11,6 +11,41 @@ evidence only (PROMPT.md §5 rule 3).
 
 (Updated at the end of each burst.)
 
+**Burst 4 (2026-11-27, after #144; stopped at the coordinator's wind-down).** Two short proofs, one new conjecture,
+and evidence. Details in §6; logs that were cut off at the wind-down are marked PARTIAL in their last line.
+- **Lemma R (PROVED).** At most 2n − 1 set transfers, along the cycle 1 → 2 → ⋯ → n → 1, reach every complete
+  allocation from any state. So a set-move lemma with radius ≥ 2n − 1 just restates the existence of a complete
+  EFX₀ allocation. Its content is a radius that does not grow with n.
+- **Corollary N2₃ (PROVED).** At n = 2, for every k and any valuations (ties and zeros included), three set moves
+  reach a complete EFX₀ allocation. The proof is cut-and-choose plus Lemma R. So at n = 2 the result with content is
+  the two-move Theorem N2. At n = 3 five moves suffice, given EFX₀ for three agents (as recorded in
+  `proofs/citations.md`).
+- **P^sub₃ on the cores.** 200 random strict balanced type profiles of each of the 780 cores with m ≤ 8 (156,000
+  profiles, 499.5M states):
+  - two moves: 3 Pareto-only failures, where welfare and leximin still have two-move steps;
+  - **three moves: no stuck state**.
+  
+  With unbalanced types too (PARTIAL), 2 more two-move failures turned up, one on a core with a single four-good
+  agent.
+- **Anatomy of the rescues** (all 44 known two-move failures):
+  - every one has a three-move rescue that *shrinks the pool*;
+  - every one has a rescue through partial EFX₀ states;
+  - every one has an augmenting alternating chain (pool → A → B → C) of length ≤ 4.
+- **Measure Q (CONJECTURE).** Either two moves give a Pareto improvement, or three moves shrink the pool. It
+  implies P^sub₃. It holds on all of the data: the 44 failures, the core sample, n = 2 (Corollary N2₃), and n = 3 with k ≤ 3
+  (K4.HX.PN3).
+  Q climbs from the four n = 4 seeds found no counterexample.
+- **n = 6 test** (seeded from n = 4 failures): the climbs found no failure at two or three moves, for seed 1 (Pareto and
+  welfare) and for seed 2 (Pareto, two moves). As at n = 5, the extra agents dissolve the n = 4 failures. This is weak
+  evidence for a radius independent of n.
+- **Chains** at n = 3, k ≤ 3, over every strict type profile: an augmenting chain of length ≤ 4 at every state,
+  one below Lemma R's bound.
+- *Open*: a proof of P^sub₃ or Q for n ≥ 4 (nothing beyond n ≤ 3); whether the radius stays 3 for n ≥ 7; the runs
+  stopped at the wind-down: n = 6 seed 2 (three moves, and welfare), Q climbs at n = 5, the strict-type
+  three-move pass, n = 3 with k = 4 over types, and chains on the core samples.
+- New ledger rows are staged in `k4/haxell/ledger_rows.md` (K4.HX.R, K4.HX.N2R3, K4.HX.Q), with a notes update for
+  K4.HX.PSUB3.
+
 **Burst 3 (2026-11-27, coordinator's messages 3 and 4).** Evidence, two refutations, and one computer-verified
 theorem; §6 states everything precisely. Some runs are still going; their logs are named in §6.
 - **The set-move lemma** (§6, "W^sub stated precisely", defined on `EFX.Inst` with a Lean sketch). From a partial EFX₀
@@ -671,6 +706,16 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
         escapes.
       - So at n = 5 the radius did not grow past three, and the two-move failures of n = 4 do not survive a fifth
       agent without help from the climber. This is evidence (climbs), not exhaustion.
+  - **The n = 6 test** (`run_n6climb.sh`, `n6climb_*.log`; m = 8, k ≤ 4). Each seed is an n = 4 two-move failure plus
+    two agents sharing one new good (`n6_seeds.txt`); 250 steps × 2 climbers per run.
+    - *Seed 1* (a welfare failure from `wclimb_tight_n4m7k4.log`): no failure at two or three moves, for Pareto and for welfare. The hardest states had an
+      improving *single* move (two-move scores (1, 1); three-move scores (2, 1): no state even needed two moves).
+    - *Seed 2* (LS4), Pareto: no two-move failure. The hardest state without a single-move step had 32 two-move
+      escapes. The three-move Pareto run (`n6climb_r3_s2_m19.log`, PARTIAL) and both welfare runs were stopped at
+      the wind-down.
+    - So at n = 6, as at n = 5, the extra agents give the goods an outlet: the climbs did not even get back to a
+      two-move failure, let alone a three-move one. This is weak evidence. A stronger test would start climbs at
+      n = 6 from instances unrelated to the n = 4 failures.
   - **Sampled core profiles** (`run_p3cores.sh`; `n4core_p2_sample_cert.log`, `n4core_p3_sample_cert.log`). The
     sample takes 200 random certificate-domain type profiles of each of the 780 n = 4, k = 4 cores with 4 ≤ m ≤ 8:
     156,000 instances and 499,517,909 partial EFX₀ states. P^sub is ordinal, so each sampled profile is checked
@@ -684,8 +729,13 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
     - So two-move Pareto failures are rare on cores (3 in 156,000 profiles), and three moves covered every sampled
       profile. Exhausting every profile is out of reach (up to 288³ · 6 per core, before symmetry; see "Why every
       profile cannot be covered" below).
-    - The same with every strict type allowed (unbalanced ones too, `DOMAIN=strict`; 100 profiles per core):
-      `run_p3cores_strict.sh`, `n4core_p{2,3}_sample_strict.log`.
+    - *Every strict type allowed* (unbalanced ones too, `DOMAIN=strict`; 100 profiles per core;
+      `run_p3cores_strict.sh`). The two-move pass was stopped at the wind-down (`n4core_p2_sample_strict.log`,
+      PARTIAL; the three-move pass did not start). Before it stopped it found 2 more two-move Pareto failures, both
+      with m = 7: on a core with **one** four-good agent (`k4_certs_4_n4_1`, idx 35) and on one with two (`n4_2`,
+      idx 54). At both, welfare and leximin have two-move steps, three moves give a Pareto step, Q holds
+      (`gstar_measure 3 1 20 1`), and a chain of length 3 rescues them (`ht_rescue.py ... CHAIN=6`). So a failure does
+      not need three four-good agents, only one.
   - **Anatomy of the three-move steps** (`ht_rescue.py`, pure Python from the raw definition, no code shared with the
     C checker; `rescue_anatomy.log`). The input is all 44 known two-move failures:
     - the 36 welfare states and the 4 leximin states at n = 4;
@@ -715,10 +765,36 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
       - the 44 failures (`gstar_measure 3 1 20 1`, and also with single-good moves only, `3 1 20 0`);
       - the 156,000 sampled core profiles. This follows from the two logs: the sample's 3 P^sub stuck states each have
         a pool-shrinking three-move composite.
-      - At n ≤ 3 it follows from Theorem N2 and K4.HX.PN3.
+      - At n = 2 it follows from Corollary N2₃ (any valuations), and at n = 3 with k ≤ 3 from K4.HX.PN3.
     - Q splits the work: Pareto steps stay local (two moves), and only augmentations get a longer reach, as in an
       augmenting-path argument.
-    - Climbs that try to break Q: `run_qclimb.sh`, `qclimb_*.log`.
+    - Climbs that try to break Q (`run_qclimb.sh`): from the four n = 4 seeds of the Pareto climbs, 3,000 steps × 2
+      climbers each, **no counterexample** (`qclimb_seed{1..4}_n4m7k4.log`). The n = 5 and random climbs were stopped
+      at the wind-down (`qclimb_n5seed_n5m8k4.log`, PARTIAL, no result).
+  - **Alternating chains** (`ht_chain.py`, `ht_rescue.py CHAIN=L`; pure Python). A *chain* is a sequence of moves
+    with agents a₁, …, a_L, each a_t ≠ a_{t−1}:
+    - move 1 gives a nonempty set of pooled goods to a₁ (an *augmenting* chain), or swaps a pooled good with one of
+      a₁'s goods;
+    - move t ≥ 2 gives a nonempty set of a_{t−1}'s goods to a_t, or swaps one of a_{t−1}'s goods with one of a_t's.
+    
+    Intermediate states are arbitrary, and agents may recur. Only move 1 touches the pool, so an augmenting chain
+    ends with a smaller pool, and any other chain keeps the pool size. This is Haxell's alternating path read in
+    EFX₀ states. By Lemma R, chains of length 2n − 1 reach every allocation, so again **only a length independent
+    of n says anything**. Shortest improving chains (to a smaller pool, or the same pool and a Pareto improvement)
+    and shortest augmenting chains:
+    | data | partial EFX₀ states with a pool | longest shortest chain | longest shortest augmenting chain | 2n − 1 | log |
+    |---|---|---|---|---|---|
+    | n = 2, every strict type profile, k ≤ 4 (45,999 classes) | 6,208,383 | 3 | 3 | 3 | `chain_n2_k4.log` |
+    | n = 3, every strict type profile, k ≤ 3 (14,100 classes) | 3,547,640 | 4 (12 states) | 4 (102 states) | 5 | `chain_n3_k3.log` |
+    | the 44 two-move failures (n = 4, 5) | 44 | 4 (one state, core idx 4; 3 at the other 43) | | 7, 9 | `chain_failures.log` |
+    
+    - At n = 2 the table only re-checks Corollary N2₃. At n = 3, k ≤ 3, an augmenting chain of length ≤ 4 exists at
+      every state: one below the trivial bound 5.
+    - At every known failure an **augmenting** chain of length ≤ 4 rescues the state. The shortest ones found:
+      `P>A ; A<>B ; B>C` (21 failures), `P>A ; A<>B ; B<>C` (14), `P>A ; A>B ; B<>C` (5), two with a pair passed on,
+      and one of length 4 (`P>A ; A>B ; B>C[2] ; A<>C`, core idx 4). Each places pooled goods at A and passes
+      displaced goods on to B and then C. The run on every state of the 44 failure instances, and the core samples,
+      were stopped at the wind-down (`chain_failures_allstates.log`, PARTIAL).
 - *Lemma P^sub₃ (CONJECTURE for every |Rᵢ| ≤ 4).* P^sub with **three** moves. It has a step at all 40 known two-move
   failures: the 36 for welfare and the 4 found by the leximin climbs (`gstar_measure 3 1 19 1`; with single-good moves
   only, `3 1 19 0`, also none stuck). It implies W^sub₃ and L^sub₃ and TARGET₄, and it is the cleanest candidate for
