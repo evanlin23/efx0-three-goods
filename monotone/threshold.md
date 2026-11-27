@@ -99,7 +99,14 @@ hypergraph of §2 for that m.
 | 3 | 6 | 8–15 (complete) | 604 | no counterexample | `n3_m{8..15}_k6.jsonl` |
 | 5 | 4 | 9–15 (complete) | 18,829 | no counterexample | `n5_m{9..15}_k4.jsonl.gz` |
 | 4 | 5 | 8–16 (complete) | 9,373 (8,870 with a 5-good agent) | no counterexample | `n4_m{8..16}_k5_only.jsonl(.gz)` |
-| 3 | 7 | 8–18 | RUNNING | | `n3_m*_k7_only.jsonl` |
+| 3 | 7 | 8–18 (all but 6) | 1,313 with a 7-good agent (the rest are in the k = 6 rows) | 1,307 UNSAT; **6 open** (below) | `n3_m{10..18}_k7_only.jsonl` complete; m = 8, 9 in `partial/n3_m{8,9}_k7_only.partial.jsonl` |
+
+**Open at n = 3, k = 7** (dense shapes close to the paper's instance; types are the agent sets of the goods as
+bitmasks, so 7 = all three agents). (1,6,7,7,7,7,7,7) and (1,2,5,6,7,7,7,7,7) hit the 40-minute CEGAR limit
+(TIMEOUT recorded). (3,3,5,6,7,7,7,7), (3,5,6,7,7,7,7,7), (1,3,5,6,6,7,7,7,7) and (3,3,5,5,6,6,7,7,7) were not
+finished: they were stopped by 2-hour background limits and then by the end of the session. Neither outcome is
+evidence either way. Rerun: `python3 monotone/run_search.py 3 8 7 out.jsonl --hg list.json --jobs 3
+--time-limit 20000 --no-rank-check`, on a machine without the 2-hour limit.
 
 The modification experiments on the paper's instance (`attempts/monotone-lower-relevance-of-amm.md`) say the
 following, for the restricted family with some agents fixed to the paper's valuations only. With two agents
@@ -108,8 +115,9 @@ fixed, the third cannot drop any good. With one agent fixed, the other two canno
 ## 5. What this says about the threshold
 
 - Proved: 4 ≤ k* ≤ 8 (Theorem M3; the paper's instance).
-- Certified: a monotone counterexample at k = 4 needs ≥ 6 agents, at k = 5 ≥ 5 agents, and at k = 6 ≥ 4 agents. So with three agents,
-  the threshold is 7 or 8; it is 8 if no 3-agent counterexample has k = 7.
+- Certified: a monotone counterexample at k = 4 needs ≥ 6 agents, at k = 5 ≥ 5 agents, and at k = 6 ≥ 4 agents.
+  With 3 agents and k = 7, all but 6 hypergraphs are certified (MONO.N3K7). So the 3-agent threshold is 8 unless
+  one of those 6 dense shapes carries a counterexample. With three agents the threshold is 7 or 8.
 - Since monotone EFX₀ at k = 4 would imply TARGET₄ (Theorem M3, Remark 3), the k = 4 rows are also
   small-n evidence for TARGET₄. They are no stronger than the campaign's additive certificates there (rows K4.*),
   but they cover the strictly larger monotone class: 912 disjoint-comparison types per 4-good agent against
