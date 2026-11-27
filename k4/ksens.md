@@ -794,7 +794,7 @@ starts; n is the number of agents.
 | one chain from R1-priority starts | | | fails [R] (the 11) | fails | fails [R] (PWR1-6) | k = 4 |
 | one chain from the need2 neediest-first start | | | holds [E] (the 11 included) | | fails [R] (NF2-6, n = 6) | k = 6 |
 | one chain from the need2 R1 neediest-first start (LB₄ʳ's Phase 1) | | | holds [E] | | | none found |
-| least number of chains that always suffices, max (Conjecture L′: ⌊k/2⌋) | 0 [P] | **1** [Cert], n ≤ 5 | **2**: 2 [Cert] on all cores with n ≤ 4 (certifier) and on the 11 (kcegar); 1 fails | **2**: 2 [Cert] on all 617 connected n = 3 hypergraphs, 25 named ones and the n = 4 core-like class with m ≤ 7 (running); 1 fails | ≥ 2; is 3 needed? kcegar running (designed list, n = 3) | c = 1 at k = 4; c = 2 at k = 7 within PW (PW(4, 3, 6)) |
+| least number of chains that always suffices, max (Conjecture L′: ⌊k/2⌋) | 0 [P] | **1** [Cert], n ≤ 5 | **2**: 2 [Cert] on all cores with n ≤ 4 (certifier) and on the 11 (kcegar); 1 fails | **2**: 2 [Cert] on all 617 connected n = 3 hypergraphs, 25 named ones and the n = 4 core-like class with m ≤ 7 (running); 1 fails | ≥ 2; is 3 needed? kcegar running on a grid subset of the types (below) | c = 1 at k = 4; c = 2 at k = 7 within PW (PW(4, 3, 6)) |
 | one round of disjoint chains (RD, RD₁), max | | holds [Cert] (one chain suffices) | **fails [R]** (the 11) | fails [R]: N3K5 (n = 3), RD5 | fails | k = 4 |
 | one round with every good valued (unrestricted k, values > 0) | | | | | | fails [R]: N3K5⁺ (n = 3, m = 6), RD5⁺ (n = 4) |
 | two rounds (RD²), max | | holds [Cert] | holds [Cert] where two chains are certified (n ≤ 4 cores) | holds [Cert] on the classes of the row above; [E] elsewhere | running | none found |
@@ -923,6 +923,31 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
     chains repair it. MD and SD-C hold.
   - So one chain first fails at k = 5 already for three agents, and at k = 4 for four (§5). At k = 3 it never fails
     from a maximum-matching start for n ≤ 5.
+
+**k = 6: is a third chain ever needed?** (`ratlp.py`, `typesk.py`, kcegar's LP route and grid mode; running)
+- *Why the exact search stalls at six goods.*
+  - Six goods have far more strict types: 124,187 per ranking, 89 million in all, as I recall the count
+    [unverified].
+  - The grid bound of the completeness argument is 6 × 48 = 288, so a complete scan is out of reach.
+  - kcegar's exact route instead checks realizability with a rational LP: `ratlp.py`, Phase-I simplex with Farkas
+    cores, behind a float simplex whose answers are confirmed exactly. It agrees with the type lists at four and five
+    goods (`kcegar_lp_check.log`, 8 of 8).
+  - It is too slow at six goods. On RD5 with agent 0 extended to six goods it timed out after 3,000 s: 306
+    iterations, 282,989 LP calls (`kcegar_k6_named_D2_exactLP.log`). 13 n = 3 hypergraphs were certified exactly
+    (`kcegar_k6_n3_D2_exactLP.ckpt.jsonl`).
+- *Grid mode, a subset of the types.* `typesk.py` collects the strict types with a decreasing integer representative
+  in [1, B]⁶:
+  - 1 at B = 24, 2,129 at B = 32, 16,666 at B = 40, 46,314 at B = 48 (`types6.log`), out of 124,187;
+  - kcegar takes the agent's ranking from its singleton bits and checks the other bits against this list;
+  - validated against the complete lists at four and five goods (`kcegar_grid_check.log`, 8 of 8 agree).
+- *What a grid run means.*
+  - A FAIL is a genuine counterexample: every grid type is a real strict profile.
+  - "Certified" covers only the profiles whose six-good agents have a grid type, so it is labelled [E], not [Cert].
+- *Running at D = 2, B = 48:* CGM's Table 3 hypergraph (`kcegar_cgm_grid48.log`), the 18 designed hypergraphs
+  (`kcegar_k6_named_D2_grid48.*`), and all 950 connected n = 3 hypergraphs with a six-good agent
+  (`kcegar_k6_n3_D2_grid48.*`).
+- *CGM's own values* (`kcegar_cgm.py`, values from `kgen/charity/cgm_check.py` on `claude/kgen-charity`, read there):
+  one chain suffices from every maximum-matching start (ocsat and brute force).
 
 **Unrestricted k: every agent values every good** (`general_rounds.py`, `general_rounds_*.log`, `rd5_full.log`,
 `kgen_n3_rounds.log`).
