@@ -1,0 +1,11 @@
+$ python3 kgen/k3max_t1.py small:3
+72   every rotation from E_t into t repairs
+72   every rotation giving t its best reachable good repairs
+72   first repairing rotation: no owner needed (|J'| <= |T'|) True
+72   rotations from E_t into t exist
+72   some rotation from E_t into t repairs
+72   t gets its top in some repairing rotation
+72   t gets its top in some rotation
+72   |E_t| = 2
+72 gap drafts (|T| = 1)
+time 0 s
