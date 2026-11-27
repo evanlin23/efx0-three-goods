@@ -828,6 +828,9 @@ point, and f has a cycle with q ≥ 2. Rule E is deterministic (s(x) depends onl
 share an agent end at the same terminal. On a cycle of f the images f(t_i) = t_{i+1} are distinct, so the segments
 from k_{t_i} are pairwise disjoint and contain no t_j (their interior agents are frozen). ∎
 
-In the crossed configuration this walk produces exactly the repairing rings. What remains of T-E is the count after
+In the crossed configuration this walk produces exactly the repairing rings. `pointer_walk.py` (`pointer_walk.log`)
+builds the ring with the σ-first frozen exposed agent of each terminal on every draft of the logs with no valid
+Rule E rotation: the 64 of n = 6 and 1 of n = 7. Every time the cycle has length 2, the junk partners are distinct,
+and the ring completes. What remains of T-E is the count after
 the rotation, Lemma 5's r against ω for (N), and B\*'s hitting count with |T′| for (E) and (K). That is the release
 lemma shared with kgen-n3's T1.
