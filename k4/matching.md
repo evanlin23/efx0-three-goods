@@ -748,6 +748,15 @@ collected, and the walk climbs towards OC2-REC failures.
   `check_rec_multiwalk.log`): OC2-REC, its EX\* form, CM₂ and LIFT-SHAPE⁺ hold at every start.
   - 1,951 are type 4a, with a vertex-disjoint repairing pair. This includes all 577 at n = 5 near the TTC core.
   - 3,004 are type 4b, with no such pair, all at n = 4.
+- *Cross-check with the multi session's own code.* `k4/oc1max_multi/reduce_s.py` (proof/k4-oc1max-multi at 4179bcc,
+  Theorem REC-S, which gives (b) by its Theorems U and S in I⁻) was run unmodified on the n = 4 export and on both n = 5
+  walk dumps (`reduce_s_n4export.log`, `reduce_s_n5walks.log`). It covers all 112,880 and all 1,498 + 22,445 starts,
+  in its general form and in its start-checkable earliest-wanter form E(k). There are 0 violations of Theorems U/S,
+  Lemma LIFT or Lemma SD-E.
+- The smallest 4b-type start at n = 4 has (n, m, Σ|R_i|) = (4, 7, 15) and was sent to the integrator:
+  - sets [[0,4,5,6],[1,2,3,5],[1,3,5,6],[2,4,6]], values [[2,3,10,6],[2,8,3,4],[3,5,7,6],[4,2,3]];
+  - picks (4,5,6,2), order (3,1,2,0);
+  - the head of every second move, agent 3, becomes dangerous only after the first move.
 
 ## 7. Climbs and reproduction
 
