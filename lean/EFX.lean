@@ -108,5 +108,6 @@ import EFX.SDERound
 import EFX.ThmS
 import EFX.RoundRSD
 import EFX.RF
+import EFX.SPhi
 import EFX.Sep
 import EFX.BaseR

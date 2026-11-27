@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 1379 audited statements, 2652 theorems, standard axioms only
+    CHECK PASSED: 1387 audited statements, 2664 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -301,6 +301,12 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   out; with W = (J ∖ {h}) ∪ {Y_z} (`wSet`), **`EFX.OC1Max.thmS`** (relaxed form (S-d′)), `thmS_oc1` (one move repairs),
   `thmS_of_Sd` (the original (S-d)), `thmS_of_DT` (the note's (S-b), (S-c)), and a start where it applies, by `decide`
   (`EFX.OC1Max.ExS.repair`).
+- `EFX/SPhi.lean`: **Theorem S^φ** (`k4/oc1max_multi.md` §16, ledger K4.MULTI.SPHI.LEAN), Theorem S with phantoms in the
+  states of the ROUND-RSD frame: **`EFX.Round.oc1PhiAt_of_sPhi`** (Theorem S's hypotheses, (S-φ1), (S-φ2) and (P3) give
+  OC₁ with phantom constraints), `exists_efx0_of_sPhi` (lifted to the whole instance), `conjBasePhi_of_sPhi` (it proves
+  ConjBasePhi wherever its cases exist), and a case at a start state, by `decide` (`EFX.Round.ExPhi.case_start`). It
+  uses `EFX.OC1Max.thmS_core` (Theorem S's completion with an explicit receiver) and
+  `EFX.OC1Max.sStar_of_slotMatching_spec` (Lemma M (⇐) with the allocation).
 - `EFX/Phantom.lean`: **Lemmas PHANTOM and LIFT\*** (`k4/matching.md` §6, ledger K4.MATCH.LIFTSTAR.LEAN): the exact
   phantom constraints of a settled agent with #R_k ≤ 4 (`EFX.Round.phantom_three`: none for a triple;
   `EFX.Round.phantom_two`: (P1) or (P2) for a pair), and **`EFX.Round.liftStar`**: settled agents (in rounds) with
