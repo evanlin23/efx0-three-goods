@@ -1554,7 +1554,7 @@ Each leaf is a named statement with its status and the session that owns it.
 | 3 | \|D\| = 1: **one move** (an ED chain, the head possibly taking one junk good) | Lemma D1-chain, Prop. 3′, Lemma D1-red, Remark 2 (a longest chain avoids H-i), Lemma D1-C₀ and Prop. D1-C′ (§21) | proved | this note |
 | 3a | \|D\| = 1, CROWD residuals C-a to C-c | D1-C via Lemmas C3 and HC (needs every good relevant) | written proof, not refereed | k4-d1 (PR #113) |
 | 3a′ | \|D\| = 1, CROWD in general | Theorem D1-C: every canonical chain without HEAD has a minimal H₀ that repairs | written proof, not refereed (`k4/d1.md` §3) | k4-d1 |
-| 3b | \|D\| = 1, every canonical chain has HEAD | **D1-H2** (refines D1-HJ): some canonical chain (prefix, u), or its extension (prefix, u, u′) in which the other wanter u′ of a takes y_u plus junk, repairs with owner k and a minimal H₀; no head junk on a single chain. **Proposition D1-H₃′**: D1-H2 holds on all 763 three-agent core structures (SMT, two encodings, ties included, no MC2). **Lemma CONTRACT** (t = 1): given S1 (a has exactly two wanters) and S2 (they are the only agents unfrozen at the picks), deleting the other agents leaves a three-agent core whose repairs lift | D1-H₃′ and CONTRACT: written, computer-verified, not refereed. **Open:** S1, S2 (true on all 3,633 data starts) and t ≥ 2 | k4-d1 (`k4/d1.md` §7, 8a3bc43) |
+| 3b | \|D\| = 1, every canonical chain has HEAD | **D1-H2** (refines D1-HJ): some canonical chain (prefix, u), or its extension (prefix, u, u′) in which the other wanter u′ of a takes y_u plus junk, repairs with owner k and a minimal H₀; no head junk on a single chain. **Proposition D1-H₃′**: D1-H2 holds on all 763 three-agent core structures (SMT, two encodings, ties included, no MC2). **Lemma CONTRACT** (t = 1): given S1 (a has exactly two wanters) and S2 (they are the only agents unfrozen at the picks), deleting the other agents leaves a three-agent core whose repairs lift | D1-H₃′ and CONTRACT: written, computer-verified, not refereed. **S2 is false** (S2-X, n = 4, a strict core), so CONTRACT covers only starts without extra active agents or a third wanter. **Open:** D1-H2 at all-HEAD starts with extra active agents or a third wanter, and t ≥ 2 | k4-d1 (`k4/d1.md` §7, 8a3bc43) |
 | 4 | \|D\| ≥ 2 after a canonical chain | Lemma D-red: the obstacles are HEAD, CROWD and DEMAND | written proof | k4-oc1max-multi |
 | 4a | the head's Θ(z) ⊆ {k} | Corollary TR: no DEMAND, so case 3 applies | written proof | k4-oc1max-multi |
 | 4b | one truly dangerous agent | **Theorem U** (refereed) proves OC₁ outright at 2,880 starts; Lemma KEEP (refereed) and Corollary KEEP-1; KEEP-C (8 starts) open | proved plus open residue | k4-oc1max-multi |
@@ -1585,8 +1585,9 @@ Each leaf is a named statement with its status and the session that owns it.
 
 **The open core at k = 4** (coordinator's summary, 00:00). OC₂^max follows from the proved and written leaves and
 three precise lemmas:
-1. **D1-H2** (leaf 3b; `proof/k4-d1`). It is reduced to S1 and S2 ("no third wanter, no third unfrozen agent" at an
-   all-HEAD start) for t = 1, and to the case t ≥ 2. The three-agent core is verified.
+1. **D1-H2** (leaf 3b; `proof/k4-d1`). The three-agent core is verified, and CONTRACT reduces t = 1 to it when there are
+   no extra active agents. Open: all-HEAD starts with extra active agents or a third wanter (S2 is false, by S2-X),
+   and t ≥ 2.
 2. **R2** (leaf 5a; TTC session). Two or more receivers ⟹ one move.
 3. **SHARE₂** (leaf 5). By route M, what remains is only the shape statement LIFT-SHAPE⁺ (leaf 5a): LIFT-red and
    LIFT-1 are written. Route R (OC2-REC, leaf 5c) is an alternative. This item is not needed if **OC₁′** (leaf 5d) holds, since then one wider move suffices.
@@ -1600,17 +1601,28 @@ Everything else in the tree is proved, refereed or certified. A start is *hard* 
 at the picks. Every statement is for k ≤ 4 and strict values. A *receiver* is an agent unfrozen at the picks that
 holds a pick.
 
-1. **S1 ∧ S2** (`proof/k4-d1`).
-   - Statement: at a hard perfect start with D = {k} where every canonical chain from k has HEAD, let P be a longest
-     canonical chain and a = Y_{x_{t−1}}. Then (S1) a has exactly two wanters, and (S2) they are the only agents
-     unfrozen at the picks.
-   - With Lemma CONTRACT and Proposition D1-H₃′, this gives Finding D1 when t = 1.
-   - Test set: k4-d1's 3,633 all-HEAD starts. At n = 3, S2 holds trivially. The smallest all-HEAD start is r461 (n = 3,
-     m = 7). The smallest instance where S2 is non-trivial (n ≥ 4) is k4-d1's to name.
+1. **D1-H2 with extra active agents** (`proof/k4-d1`). The route through S1 ∧ S2 is closed, because S2 is false.
+   - Statement: D1-H2 at all-HEAD hard perfect starts with D = {k} and t = 1 that have extra *active* agents (unfrozen,
+     outside W(a), valuing junk) or a third wanter of a.
+   - Without either, Lemma CONTRACT reduces to the verified three-agent core. CONTRACT also deletes unfrozen agents that
+     value no junk.
+   - **S2 and its weakest needed form S2′ are false**, even in the K4.MC2 class. Smallest counterexample S2-X (k4-d1,
+     `k4/d1/s2_probe.py`; re-verified here by `k4/oc1_hall/s2x_check.py`, `s2x_check.log`: `is_core4` = [], hard,
+     all-HEAD):
+     - n = 4, m = 9, sets [[0,1,5,7],[3,4,6,7],[0,2,5,7],[8,6,7,3]], values [[26,3,25,27],[19,17,25,30],[9,14,7,29],[14,11,1,7]],
+       order (0, 1, 2, 3), picks (7, 6, 2, 8);
+     - D = {0}; agents 1 and 2 want 7; agent 3 is unfrozen and values junk 3.
+   - D1-H2 still holds at S2-X: the canonical chain (0, 2) repairs, because the extra agent supplies a slot. It also
+     holds at all 76 such starts of k4-d1's probe.
+   - S1 (exactly two wanters) has no counterexample in 4,159 climbed starts.
+   - Smallest test: S2-X.
 2. **D1 for t ≥ 2** (`proof/k4-d1`).
    - Statement: D1-H2 at all-HEAD starts whose longest canonical chain has t ≥ 2.
    - Test set: 456 starts in k4-d1's data; in 449 of them a middle agent is a free slot after the chain.
-   - Next: an SMT check of the four-agent core (k, x, z, w). The smallest instance is k4-d1's to name.
+   - Next: an SMT check of the four-agent core (k, x, z, w).
+   - Smallest test (k4-d1's data): n = 4, m = 7, sets [[1,2,4,5],[2,4],[0,3,4,5],[2,5,6]], values
+     [[26,29,24,25],[20,29],[22,17,30,23],[29,21,25]], order (2, 1, 0, 3), picks (1, 2, 4, 6), k = 2, chains (2, 1, 0) and
+     (2, 1, 3). It is not a core, since agent 1 values two goods. A strict-core example is expected from the SMT run.
 3. **R2-M** (TTC session).
    - Statement: at a hard perfect start with at least two receivers, some canonical chain from a dangerous agent to a
      receiver meets Lemma M^c's (C1)–(C3), with owner x₀ and |J′ ∖ H| ≤ 1.
