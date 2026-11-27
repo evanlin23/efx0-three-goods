@@ -1,0 +1,7 @@
+$ python3 k4/p3/fc2_moves.py results/k4_p3x/can2/can2_4_mg.json.gz results/k4_p3x/can2/can2_5_mg.json.gz
+hard starts: 214
+repaired by: addition of 1: 174
+repaired by: forest chain of 2: 27
+repaired by: forest chain of 3: 1
+repaired by: forest chain of 4: 2
+repaired by: forest chain of 5: 10

@@ -1,0 +1,6 @@
+$ python3 k4/p3/fk2.py results/k4_p3x/can2/can2_4_mg.json.gz
+FK2 A cases (k = 2): 183
+FK2 B cases (k = 2): 47
+FK2 applies, least k = 2: 29
+hard starts: 29
+jump chains with k = 2: 234

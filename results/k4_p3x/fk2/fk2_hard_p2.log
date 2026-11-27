@@ -1,0 +1,16 @@
+$ python3 k4/p3/fk2.py k4/p3/hard2_p2.jsonl results/k4_p3x/hard_p2_n34.jsonl.gz results/k4_p3x/hard_p2_n5b.jsonl.gz results/k4_p3x/hard_p2_n6.jsonl.gz results/k4_p3x/hard_p2_n6b.jsonl.gz
+FK2 A cases (k = 1): 28262
+FK2 A cases (k = 2): 8624
+FK2 A cases (k = 3): 595
+FK2 B cases (k = 1): 29292
+FK2 B cases (k = 2): 5009
+FK2 B cases (k = 3): 177
+FK2 applies, least k = 1: 15181
+FK2 applies, least k = 2: 691
+FK2 applies, least k = 3: 20
+FK2 does not apply: some jump chain repairs (least k = 1): 6785
+hard starts: 22677
+jump chains with k = 1: 104055
+jump chains with k = 2: 33187
+jump chains with k = 3: 2248
+jump chains with k = 4: 16
