@@ -100,7 +100,7 @@ profile (1.07·10⁸ profiles per core without two-private agents), 0 counterexa
 [[0,3,5,8],[1,4,7,9],[2,7,8],[3,6,7],[4,8,9],[5,6,9]]: every agent has one private good, three goods of degree 3).
 Certificate `results/k4_hunt/cert_n6_m10_n42.json.gz` (3.8 MB: one allocation per orbit of the core's automorphism
 group, `orbits.py`; the checkers expand the orbits with their own automorphism computation); independent check
-`results/k4_hunt/check_n6_m10_n42.log` [PENDING] (`check.py`: completeness of the class by orbit counting and pairwise
+`results/k4_hunt/check_n6_m10_n42.log`: **RESULT OK** (`check.py`: completeness of the class by orbit counting and pairwise
 non-isomorphism, coverage by check4_fast's C loop on this file's raw-definition rows, the one-hot SAT engine on a
 sample of 100).
 

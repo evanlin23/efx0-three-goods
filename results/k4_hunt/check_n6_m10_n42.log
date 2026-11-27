@@ -1,0 +1,8 @@
+command: python3 k4/hunt/check.py results/k4_hunt/cert_n6_m10_n42.json.gz --jobs=2 --sat-sample=100 --expect=28502
+types: d=3: 6, d=4: 288
+n=6 m=10 n4=2: 28502 cores in 1 file(s); status {'certified': 28502}
+orbit sum 36435313404000, labeled count 36435313404000: OK
+isomorphic pairs: 0
+coverage (dfs): 28502/28502 certified cores covered (raw EFX₀, every strict profile)
+coverage (sat, one-hot, Glucose 4) on a sample of 100: 100 covered
+RESULT: OK
