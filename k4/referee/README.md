@@ -49,6 +49,7 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 36 | k3-oc1 Lemmas 4–7 (`k4/k3_oc1.md` §12, `9719be2`); kgen-n3 Lemma G5, Corollary G5′ (`kgen/n3.md` §15.6, `a319483`) | `claude/k4-k3-oc1`, `claude/kgen-n3` | `k3_release.md` | **CORRECT** (all six). 360,518 rotations, 0 failures; Rule E is needed for G5 (2,678 cycles with arbitrary need chains); Lemma 7 checked on both crossed configurations |
 | 37 | The certifier's refutation of TTC's R2-M and R2★ at n = 4 (`results/k4_oc1max/r2m_fails_n4.jsonl`, `c0de02c`) | `compute/k4-oc1max-cert` | `r2m.md` | **CONFIRMED** on all 306 starts (asked: 5): strict cores, perfect, ≥ 2 receivers, hard; R2-M fails at all, R2★ at 74; R2 holds at all |
 | 38 | ksens N3K5, N3K5⁺: k = 5, one chain and one round fail at n = 3 (`k4/ksens.md` §8, `1ac11ad`) | `claude/k4-ksens` | `ksens.md` §7 | **CONFIRMED**. Remark: OC₁′ (middle agents may take the end's released pick) repairs both |
+| 39 | VM's P34: VM1 fails on a connected k = 4 core (`attempts/k4-vm-vm1-core.md`, `b5a2d6a`) | `claude/k4-vm` | `vm.md` §7 | **CONFIRMED**: strict connected core; V-M matchings exactly the two stated; no completion with ≤ 1 move under a search wider than VM1's; the two-move (one DE chain) completion is EFX₀ |
 | – | Literature: EFX₀ for n = 2 | – | `lit_n2.md` | Plaut–Roughgarden Thm 4.3 (EFX₀, monotone) covers existence; not `kgen/n3.md` Theorem 2 (picks kept / one chain) |
 
 **Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the
