@@ -1130,7 +1130,11 @@ R2-C ("some canonical chain to a receiver repairs, any owner") on all 1,002 n = 
   empty.
 - The exhaustive n = 4 check of R2-E was requested. Sampled data misled once already (R2-M).
 
-**R2-E fails at n = 4** (certifier, 02:00, CEGAR `--r2=e` and its raw `verify_r2.py`; replayed here with `r2_ek.py`).
+**R2-E fails at n = 4** (certifier, 02:00 and 02:24, CEGAR `--r2=e` and its raw `verify_r2.py`; replayed here with
+`r2_ek.py`). It fails on 273 of the 1,002 cores; the other 729 are certified (`cert_4_r2e.json.gz`,
+`check_4_r2e.log`, PR #120, cd476cf7).
+- *At n = 5,* the certifier reports that all 702,250 two-move starts on six 5_pure cores have exactly one receiver,
+  consistent with R2.
 - *The instance,* 4_n4_3 #77: sets [[0,4,5,6],[1,2,3,5],[1,3,5,6],[2,4,6]], vals
   [[4,8,2,7],[3,8,10,6],[3,8,2,4],[3,4,2]], picks (g4, g3, g6, g2); U = {2, 3}, D = {0, 1}, junk {g0, g1, g5}.
 - *Why R2-E fails:* six orders give the start. For each, E(0) = (0, 3) and E(1) = (1, 2), and no improving T after
@@ -1155,6 +1159,7 @@ R2-C ("some canonical chain to a receiver repairs, any owner") on all 1,002 n = 
 | R2-O′ | a receiver other than the end z, on or off the chain, or none | 9 |
 | R2-O generous | a receiver off the chain, or none | 9 (the same) |
 | R2★ | none (owner-free) | 230 |
+| R2-E | REC-S's earliest-wanter chain E(k), any improving T, any owner | 273 |
 | R2-M | x₀, S^c with at most one junk good | 306 |
 | R2-O strict | a receiver off the chain | 308 |
 
