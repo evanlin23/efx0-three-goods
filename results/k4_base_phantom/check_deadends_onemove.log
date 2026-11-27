@@ -1,0 +1,13 @@
+$ python3 k4/base_phantom/check_deadends.py results/k4_base_phantom/deadends_onemove.jsonl.gz 1
+        6  verified: 0 rounds, feasible True, one-move repair True
+      206  verified: 1 rounds, feasible False, one-move repair False
+       72  verified: 1 rounds, feasible True, one-move repair False
+        3  verified: 1 rounds, feasible True, one-move repair True
+      223  verified: 2 rounds, feasible False, one-move repair False
+       13  verified: 2 rounds, feasible True, one-move repair False
+        2  verified: 2 rounds, feasible True, one-move repair True
+       82  verified: 3 rounds, feasible False, one-move repair False
+        1  verified: 3 rounds, feasible True, one-move repair False
+        1  verified: 3 rounds, feasible True, one-move repair True
+       20  verified: 4 rounds, feasible False, one-move repair False
+all records verified: 629

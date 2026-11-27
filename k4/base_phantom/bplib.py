@@ -311,6 +311,46 @@ def lifted_completion(I, S, deadrecv=False, want_all=False):
     return one_absorber(I, list(S.B), recv, S.junk(), want_all=want_all)
 
 
+def extensions(I, S, want_all=False, limit=None):
+    """Every EFX0 allocation of I in which each phantom keeps its T and the present goods go to present agents in any
+    way (no base kept).  Backtracking over goods; a threat to a phantom is permanent, a threat to a present agent is
+    pruned when even all unassigned goods could not lift it."""
+    gl = bits(S.goods)
+    al = list(S.alive)
+    X = list(S.B)
+    for a in al:
+        X[a] = 0
+    rem = [0] * (len(gl) + 1)
+    for t in range(len(gl) - 1, -1, -1):
+        rem[t] = rem[t + 1] | (1 << gl[t])
+    out = []
+
+    def ok(t):
+        R = rem[t]
+        for i in range(I.n):
+            vi = I.V(i, X[i]) + (I.V(i, R) if i in al else 0)
+            for j in range(I.n):
+                if j != i and X[j] & I.R[i] and I.th(i, X[j]) > vi:
+                    return False
+        return True
+
+    def rec(t):
+        if t == len(gl):
+            if I.efx0(X):
+                out.append(list(X))
+                return not want_all or (limit is not None and len(out) >= limit)
+            return False
+        g = 1 << gl[t]
+        for a in al:
+            X[a] |= g
+            if ok(t + 1) and rec(t + 1):
+                return True
+            X[a] &= ~g
+        return False
+    rec(0)
+    return out if want_all else (out[0] if out else None)
+
+
 # official moves -----------------------------------------------------------------------------------------------------
 def official_moves(I, S, maxlen=None, mid_junk=True):
     """Every official move of the present instance at S (k4/sdc.md section 29, chains of length >= 2): yields

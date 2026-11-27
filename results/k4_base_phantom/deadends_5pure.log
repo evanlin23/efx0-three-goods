@@ -1,0 +1,22 @@
+$ python3 k4/base_phantom/deadends.py 5pure results/k4_base_phantom/data/n5_5pure_s5o0_two_move_starts.jsonl.gz 
+distinct starts: 280
+      157  a dead end is reachable: False
+      123  a dead end is reachable: True
+      174  an infeasible state is reachable: False
+      106  an infeasible state is reachable: True
+        2  dead end with phantoms: constraint kinds ('l-alone on a base', 'none'), feasible False
+       18  dead end with phantoms: constraint kinds ('l-alone on a base', 'pair'), feasible False
+      180  dead end with phantoms: constraint kinds ('l-alone on a base',), feasible False
+       25  dead end with phantoms: constraint kinds ('l-alone on a base',), feasible True
+        4  dead end with phantoms: constraint kinds ('none', 'pair'), feasible False
+        1  dead end with phantoms: constraint kinds ('none', 'pair'), feasible True
+       17  dead end with phantoms: constraint kinds ('pair',), feasible False
+        4  dead end with phantoms: constraint kinds ('pair',), feasible True
+      179  dead end: 1 phantoms, 1 rounds, feasible False, base class None
+        6  dead end: 1 phantoms, 1 rounds, feasible True, base class C0
+        3  dead end: 1 phantoms, 1 rounds, feasible True, base class ED
+       19  dead end: 1 phantoms, 1 rounds, feasible True, base class None
+        1  dead end: 2 phantoms, 1 rounds, feasible False, base class None
+       41  dead end: 2 phantoms, 2 rounds, feasible False, base class None
+        2  dead end: 2 phantoms, 2 rounds, feasible True, base class None
+      280  start repaired by rounds and a completion: True

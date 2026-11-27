@@ -1,0 +1,11 @@
+$ python3 k4/base_phantom/deadends.py walk results/k4_base_phantom/data/multi_oc1_fail_walk.jsonl.gz 
+distinct starts: 4955
+     1951  a dead end is reachable: False
+     3004  a dead end is reachable: True
+     1951  an infeasible state is reachable: False
+     3004  an infeasible state is reachable: True
+       32  dead end with phantoms: constraint kinds ('l-alone on a base', 'pair'), feasible False
+     5976  dead end with phantoms: constraint kinds ('l-alone on a base',), feasible False
+     5976  dead end: 1 phantoms, 1 rounds, feasible False, base class None
+       32  dead end: 2 phantoms, 2 rounds, feasible False, base class None
+     4955  start repaired by rounds and a completion: True

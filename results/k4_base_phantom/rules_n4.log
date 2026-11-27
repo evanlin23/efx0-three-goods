@@ -1,0 +1,55 @@
+$ RULES=any,noP1,P1ok,E+noP1,E python3 k4/base_phantom/rules.py n4 results/k4_base_phantom/data/two_move_starts_n4.json.gz - 1
+distinct starts: 112880
+  rule          terminal states                       safe  unsafe |   good  not good
+  any            completion                            96640   16240 | 112880       0
+  any            completion or a base repair <= C0     96640   16240 | 112880       0
+  any            completion or a base repair <= ED     96640   16240 | 112880       0
+  any            completion or a base repair <= C1     96640   16240 | 112880       0
+  any            completion or a base repair <= C3     96640   16240 | 112880       0
+  any>           completion                            96640   16240 | 112880       0
+  any>           completion or a base repair <= C0     96640   16240 | 112880       0
+  any>           completion or a base repair <= ED     96640   16240 | 112880       0
+  any>           completion or a base repair <= C1     96640   16240 | 112880       0
+  any>           completion or a base repair <= C3     96640   16240 | 112880       0
+  noP1           completion                           112880       0 | 112880       0
+  noP1           completion or a base repair <= C0    112880       0 | 112880       0
+  noP1           completion or a base repair <= ED    112880       0 | 112880       0
+  noP1           completion or a base repair <= C1    112880       0 | 112880       0
+  noP1           completion or a base repair <= C3    112880       0 | 112880       0
+  noP1>          completion                           112880       0 | 112880       0
+  noP1>          completion or a base repair <= C0    112880       0 | 112880       0
+  noP1>          completion or a base repair <= ED    112880       0 | 112880       0
+  noP1>          completion or a base repair <= C1    112880       0 | 112880       0
+  noP1>          completion or a base repair <= C3    112880       0 | 112880       0
+  P1ok           completion                           112880       0 | 112880       0
+  P1ok           completion or a base repair <= C0    112880       0 | 112880       0
+  P1ok           completion or a base repair <= ED    112880       0 | 112880       0
+  P1ok           completion or a base repair <= C1    112880       0 | 112880       0
+  P1ok           completion or a base repair <= C3    112880       0 | 112880       0
+  P1ok>          completion                           112880       0 | 112880       0
+  P1ok>          completion or a base repair <= C0    112880       0 | 112880       0
+  P1ok>          completion or a base repair <= ED    112880       0 | 112880       0
+  P1ok>          completion or a base repair <= C1    112880       0 | 112880       0
+  P1ok>          completion or a base repair <= C3    112880       0 | 112880       0
+  E+noP1         completion                           112880       0 | 112880       0
+  E+noP1         completion or a base repair <= C0    112880       0 | 112880       0
+  E+noP1         completion or a base repair <= ED    112880       0 | 112880       0
+  E+noP1         completion or a base repair <= C1    112880       0 | 112880       0
+  E+noP1         completion or a base repair <= C3    112880       0 | 112880       0
+  E+noP1>        completion                           112880       0 | 112880       0
+  E+noP1>        completion or a base repair <= C0    112880       0 | 112880       0
+  E+noP1>        completion or a base repair <= ED    112880       0 | 112880       0
+  E+noP1>        completion or a base repair <= C1    112880       0 | 112880       0
+  E+noP1>        completion or a base repair <= C3    112880       0 | 112880       0
+  E              completion                            96640   16240 | 112880       0
+  E              completion or a base repair <= C0     99840   13040 | 112880       0
+  E              completion or a base repair <= ED     99840   13040 | 112880       0
+  E              completion or a base repair <= C1     99840   13040 | 112880       0
+  E              completion or a base repair <= C3     99840   13040 | 112880       0
+  E>             completion                            96640   16240 | 112880       0
+  E>             completion or a base repair <= C0     99840   13040 | 112880       0
+  E>             completion or a base repair <= ED     99840   13040 | 112880       0
+  E>             completion or a base repair <= C1     99840   13040 | 112880       0
+  E>             completion or a base repair <= C3     99840   13040 | 112880       0
+  unsafe under noP1 or noP1> with base ED, 0 cases; smallest:
+  unsafe under P1ok or P1ok> with base ED, 0 cases; smallest:
