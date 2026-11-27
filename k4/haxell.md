@@ -647,6 +647,14 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
     **P^sub may hold for k ≤ 3 at every n, while k = 4 needs a third move.** That is a CONJECTURE (P^sub for k ≤ 3).
   - *Three-move Pareto climbs (evidence).* No P^sub₃ failure: seeded from 4 of the n = 4 failures, and random at
     n = 4, m = 8 and n = 5, m = 7, 8 (`p3climb_*.log`).
+  - **The n = 5 test** (`run_n5climb.sh`, `n5climb_*.log`; m = 8, k ≤ 4). Each seed is an n = 4 two-move failure
+    plus a fifth agent holding a private good, and the climber mutates the fifth agent too.
+    - Adding the fifth agent removes every seed's two-move failure: it gives the goods an outlet.
+    - *Two moves* (4 seeds × welfare, leximin, Pareto; 500 steps × 2 climbers each): one failure, Pareto from seed 4.
+      At that instance welfare and leximin still have two-move steps, and **three moves give a step for every
+      measure**, single-good moves included. There were no welfare or leximin failures. The hardest states kept
+      2–4 (Pareto), 14–16 (welfare) and 8–10 (leximin) escapes.
+    - *Three moves*: running (`n5climb_r3_*.log`).
 - *Lemma P^sub₃ (CONJECTURE for every |Rᵢ| ≤ 4).* P^sub with **three** moves. It has a step at all 40 known two-move
   failures: the 36 for welfare and the 4 found by the leximin climbs (`gstar_measure 3 1 19 1`; with single-good moves
   only, `3 1 19 0`, also none stuck). It implies W^sub₃ and L^sub₃ and TARGET₄, and it is the cleanest candidate for
