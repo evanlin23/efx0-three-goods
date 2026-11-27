@@ -741,3 +741,37 @@ before any proof effort: DYN, W₃/W^sub, VM1, RD², OL and OC₂^max.
   - R2: TTC;
   - LIFT-1 + LIFT-EX(2), or equivalently OC2-REC: matching and multi;
   - SLOT and RING: multi.
+
+### 2026-11-27 00:19 UTC: the second move's tools are refereed; what is left is existence of shapes
+- **Referee**:
+  - **CORRECT** (`k4/referee/lift.md`, `k4/referee/oc1max_multi.md` §8):
+    - Lemma EX\* (= Lemma M at the post-move state);
+    - Lemma LIFT-red (its junk-free P₁ condition is necessary: 14 pairs fail without it);
+    - Lemma LIFT-1 (slightly stronger than stated: "t is z's favourite" is unnecessary);
+    - multi's Lemma LIFT;
+    - **Theorem U / Corollary U1**. The hypothesis the Hall session worried about is implied by D_T = {k}.
+  - Tested on 98,086 random perfect starts plus 1,388 one-move-failing starts, 0 failures. Every mutation produces
+    failures.
+- **So the k = 4 second move is now:**
+  - refereed lemmas: EX\*, LIFT-red, LIFT-1, LIFT;
+  - plus an existence statement: LIFT-SHAPE⁺ (matching) or OC2-REC (multi). It holds on all 8,073 distinct failing
+    starts (n = 4 and 5).
+  - **Count correction** (matching session): the n = 4 walk count is 3,179, not 3,190 or 3,308, because the 11 stored
+    instances had been counted twice. No "holds on all" claim changes.
+- **Open core at k = 4** (each with an owner):
+  - D1-HJ, now D1-H in the MC2 class: the three-agent core is computer-verified (Prop. D1-H₃); the reduction to the
+    core is open (proof/k4-d1);
+  - R2 (TTC): Lemma R2-0 is proved; R2★ is the strong form, at 79/79 + 466/466 + 4,027 starts;
+  - LIFT-SHAPE⁺ (matching);
+  - SLOT and RING (multi), which need the new compensated Lemma M^c, now being built.
+  - Plus the one-move alternative OC₁′ (kgen-rounds; it holds on the 11), under the certifier's test.
+- **Certifier**: the referee independently re-checked the 11 n = 4 counterexamples and a sample of 35,858 OC₂^max
+  witnesses, 0 disagreements. n = 5 is running.
+- **VM**:
+  - VM1 holds on all 11 OC₁^max cores with zero moves (V-M starts avoid the obstruction).
+  - VM1-chain holds on 3,485 VM1-failing cores from targeted walks.
+  - Exhaustive VM1-chain certification: n = 2 done, n = 3 and 4 running.
+- **DYN** (girth): ∃-labeling certified exhaustively at n = 2, 3 and for n = 4 with ≤ 2 four-good agents (≈ 10⁹
+  profiles); larger cases running. "One labeling per hypergraph" is refuted.
+- **Monotone** (PR #112): MONO.N3K6 CERTIFIED: three agents with ≤ 6 relevant goods always have monotone EFX₀, so
+  the n = 3 monotone threshold is 7 or 8.
