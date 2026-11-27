@@ -740,17 +740,43 @@ completely: so **L2 extends from complete allocations to charity** — peeling a
 costs charity. A recursion that settles only such agents keeps the hypotheses of CH-KD at every level, and the bound
 holds for the final pool, independently of n and of the number of phantoms.
 
+**Proposition PH⁺ (any start).** PH holds with the rules started from any state X⁰ of N on M′ such that X⁰ together
+with the phantoms is EFX₀; (H3) is then not needed, only (iii) at X⁰ (no agent of N strongly envies a phantom's
+bundle at the start). For a phantom holding a pair F_φ = {x, y}, (iii) says v_j(x), v_j(y) ≤ v_j(X⁰_j) for every
+j ∈ N. *Proof.* Every rule changes values of agents of N only upwards: on a rotation, a path of U2, or as the
+receiver of a minimal envied set (U1, U2), an agent takes a bundle it envied, and all other values are unchanged; so
+(iii) persists, and (ii), (iv) hold as in PH. The rules terminate from any state, since (R), (U1), (U2) raise
+Σ_{i∈N} v_i(X_i) and (U0) keeps it and shrinks the pool. Steps 3–5 of §8 use only that no rule applies at the final
+state, not how it was reached, and by (H1) every agent blocking U0 there is in N. ∎
+
+**Comparison with the phantom class of `k4/oc1max_multi.md` §14** (branch `proof/k4-oc1max-multi`, read at 8924c6b).
+There a settled sharer k keeps a pool pair T_k with threshold τ_k = v_k(T_k) and values at most two remaining goods:
+Y_k, with v_k(Y_k) = p_k < τ_k, and possibly one more good ℓ.
+- Their (L), real agents valuing each good of T_k below their holding, is condition (iii) for a pair. PH⁺ is the
+  version needed from their SD start, which is not empty.
+- k is satisfied in the sense of (H1) iff p_k + v_k(ℓ) ≤ τ_k. Then neither of their failure modes (K-a) and (K-b) can
+  occur, and PH⁺ gives CH-KD's charity bound for the rest with k deleted.
+- k is active iff p_k + v_k(ℓ) > τ_k. Their (K-a) is the case where k strongly envies a bundle holding both Y_k and ℓ
+  and a third good, so the active phantom imposes "keep Y_k and ℓ apart, unless they form a whole bundle".
+- (K-b), v_k(ℓ) > τ_k, is a phantom that envies a single good. Its holder's bundle must then stay exactly {ℓ}: it is
+  *frozen* (their phantom-frozen holder). This case escapes the locality bullet below as first written, which said
+  that φ blocks only pool goods it values. The correct statement is the corrected first bullet.
+
 **Without (H1)** (a settled sharer that still values remaining goods above its bundle), the phantom is active. What
 survives, by the same locality as Lemma CH1:
-- a phantom φ can strongly envy X_s ∪ {g} only if it values g (and a good of X_s); so it can block, i.e. champion,
-  only pool goods in R_φ ∖ F_φ, at most k − 1 per phantom (k − |R_φ ∩ F_φ|);
+- a phantom φ strongly envies X_s ∪ {g} only if it values g and a good of X_s, or it already envies X_s. In the
+  second case φ blocks U0 at s for every pool good: X_s is *frozen* (taking h = g shows v_φ(X_s) > v_φ(F_φ)), and
+  the champion option may then avoid g. Each bundle φ envies holds one of the ≤ k − |R_φ ∩ F_φ| goods it values
+  outside F_φ, so φ freezes at most that many bundles. Apart from frozen bundles, φ can block, i.e. champion, only
+  the pool goods in R_φ ∖ F_φ, at most k − 1 per phantom (k − |R_φ ∩ F_φ|);
 - condition (iii) is still free under value-monotone rules once it holds at the start (thresholds t_j = the largest
   v_j(F_φ ∖ h) are lower bounds that never break);
 - but U1 and U2 must now also keep φ from strongly envying the new bundles, and a minimal envied subset of the pool
   may be envied only by φ, which cannot receive it; so the rule system itself needs a change (a phantom-aware U1).
-  With that change, CH-KD's Steps 3–5 apply to the pool goods valued by no active phantom, so the open part of the
-  pool is P ∩ ∪_{φ active} R_φ, at most (k − 1) times the number of active phantoms that value pool goods. That is
-  n-independent only if the recursion keeps the number of active phantoms bounded.
+  With that change, CH-KD's Steps 3–5 apply to the pool goods valued by no active phantom, at sources no phantom
+  envies, so the open part is the pool goods in ∪_{φ active} R_φ together with the frozen sources. Both are at most
+  (k − 1) times the number of active phantoms. That is n-independent only if the recursion keeps the number of
+  active phantoms bounded.
 
 So the clean inductive hypothesis is "every phantom is satisfied (H1) and unthreatened by construction (H3)", and it
 yields CH-KD's n-independent charity; any recursion that settles sharers which still want remaining goods (REC-S
