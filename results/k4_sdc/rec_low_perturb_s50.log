@@ -1,0 +1,13 @@
+$ python3 k4/sdc/rec_low_rand.py perturb 50 10 7
+base starts 4835
+failing max vectors: receiver ranks [3, 4] 1
+failing max vectors: receiver ranks [3] 195
+failing max vectors: receiver ranks [4, 4] 3
+failing max vectors: receiver ranks [4] 701
+max vectors: escape=False -> OC1 fails 900
+max vectors: escape=False -> one move repairs 74313
+max vectors: escape=False -> picks complete 50373
+max vectors: escape=True -> one move repairs 9477
+max vectors: escape=True -> picks complete 249218
+perturbed profiles 48350
+time 319 s

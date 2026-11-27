@@ -1,0 +1,8 @@
+$ python3 k4/sdc/rec_low_rand.py 20000 2 5 6
+instances n=5 10000
+instances n=6 10000
+max vectors: escape=False -> one move repairs 1021
+max vectors: escape=False -> picks complete 14452
+max vectors: escape=True -> one move repairs 275
+max vectors: escape=True -> picks complete 96758
+time 27 s
