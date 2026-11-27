@@ -3514,7 +3514,17 @@ declarations cited in §11.10 are in `paper/campaign/lean_check_main.log`:
 - `EFX.OC1Max.thmS` and `thmS_oc1`;
 - `EFX.Round.oc1PhiAt_of_sPhi` and `conjBasePhi_of_sPhi`.
 
-These are implications. As §11.10 explains, their hypotheses `ConjRF` and `ConjBasePhi`, as stated in Lean, are false.
+A fourth run, on main at `15dbe933`, which adds `lean/EFX/BaseR.lean` and `lean/EFX/Sep.lean` (PR #151), gave
+**CHECK PASSED**: 1,389 audited statements and 2,666 theorems, with a warning-free build and no `sorry`. All 10,049
+declarations of the library use only `propext`, `Classical.choice` and `Quot.sound`. The certificates are in
+`paper/campaign/lean_check_main_15dbe93.log`: those of the third run, and
+- `EFX.Round.target4_of_conjBaseR`, `target4_of_conjGR`, `conjGR_iff_conjBaseR` and `liftedAt_iff`;
+- `EFX.Round.sep_small`, `sep_one`, `sep_two`, `sep_three` and `liftSep`.
+
+These are implications, and none of their hypotheses is proved. As §11.10 explains:
+- `ConjRF`, as stated on main, is false: it requires a unique receiver;
+- `ConjBasePhi` is false at T3;
+- `ConjBaseRWith` is the corrected Conjecture BASE-R, which is open.
 
 ## Appendix B. Other refereed results
 
