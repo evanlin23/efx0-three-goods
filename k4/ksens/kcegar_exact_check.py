@@ -6,6 +6,8 @@ get the LP's point.  So the verdict must not depend on the grid, and must equal 
    type lists (every strict type), on instances where one chain fails and where it holds.  Plain grid mode on the same
    incomplete grid is shown too: it may certify where the type lists fail (it sees only a subset).
 2. Six goods: exact mode on two different grids (B = 32 and B = 48) and the LP route (lp_min = 6, no grid) must agree.
+Exact mode is the second version (grid_exact=True: points found by the LP join the grid, core verdicts are cached);
+the first (grid_exact='v1') gave the same verdicts on these cases (results/k4_ksens/kcegar_exact_check_v1.log).
 
     python3 k4/ksens/kcegar_exact_check.py"""
 import time

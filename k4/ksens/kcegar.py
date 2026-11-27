@@ -59,6 +59,11 @@ from pysat.formula import IDPool
 HERE = os.path.dirname(os.path.abspath(__file__))
 TYPES5 = os.path.join(HERE, '..', '..', 'results', 'k4_ksens', 'types5.json.gz')
 _REPS = {}
+# exact grid mode (k4/ksens.md §8): real points found by the LP, in ranking coordinates (decreasing), with their signs on
+# every comparison; and the exact verdict on each set of comparisons tested (ranking coordinates, ranking included).
+# Both are facts about R^d, independent of the instance and of the grid, so they are shared by every Cegar in a process.
+_GX = {}
+_CORE_LP = {}
 
 
 def reps(d):
@@ -358,6 +363,7 @@ class Cegar:
             if okp.any():
                 vec_ = pool[int(np.argmax(okp))]; return self._grid_found(i, vec_)
         pool = self.gpool[i]
+        if self.gexact is True: return self._grid_exact(i, lits, sing, other, pos)
         # each non-singleton bit is a comparison v(S) > v(T) in ranking coordinates: a packed bitset over the grid
         keys = []
         for l in other:
@@ -383,8 +389,8 @@ class Cegar:
             cur = np.bitwise_and.accumulate(Mk[rest], axis=0) & base
             k = int(np.argmin(cur.any(1))); core.append(rest[k]); rest = rest[:k]
         cut = [other[k] for k in core] + list(sing.values())
-        if self.gexact:
-            # exact mode: the grid core is a cut only if no positive real point satisfies it (rational LP); otherwise
+        if self.gexact == 'v1':
+            # exact mode, first version: the grid core is a cut only if no positive real point satisfies it (rational LP); otherwise
             # the whole bit set goes to the LP, which gives a point outside the grid or an exact core
             import ratlp
             sg = lambda l: self.rowv[l] if l > 0 else [-x for x in self.rowv[-l]]
@@ -397,6 +403,77 @@ class Cegar:
                 cut = [lits[k] for k in w]; self.gstats['LP cores'] += 1
         self.S.add_clause([-l for l in cut]); self.cuts += 1
         return None
+
+    def _gx(self):
+        d = self.gridd
+        if d not in _GX:
+            prs = sorted(self.gidx, key=self.gidx.get)
+            _GX[d] = {'pts': [], 'seen': set(), 'bits': self.np.zeros((len(prs), 0), dtype=bool), 'prs': prs}
+        return _GX[d]
+
+    def _gx_add(self, u):
+        X = self._gx(); t = tuple(u)
+        if t in X['seen']: return
+        sub = lambda S: sum(u[g] for g in range(len(u)) if S >> g & 1)
+        col = self.np.array([[sub(S) > sub(T)] for S, T in X['prs']], dtype=bool)
+        X['bits'] = self.np.hstack([X['bits'], col]); X['pts'].append(list(t)); X['seen'].add(t)
+
+    def _grid_exact(self, i, lits, sing, other, pos):
+        """exact grid mode: the points are the grid plus every real point found so far (_GX); a core of the bits over
+        these points becomes a cut only after the exact LP (ratlp.realize) proves it unrealizable over the reals (its
+        sub-core is the cut); if the LP realizes it, its point joins _GX and the core is recomputed.  So a cut is always
+        valid for every strict profile, and a returned point always satisfies every bit."""
+        import ratlp
+        np = self.np; R = self.R[i]; d = len(R)
+        keys = []
+        for l in other:
+            row = self.rowv[abs(l)]; s = 1 if l > 0 else -1; Sm = Tm = 0
+            for c, x in enumerate(row):
+                if s * x > 0: Sm |= 1 << pos[R[c]]
+                elif s * x < 0: Tm |= 1 << pos[R[c]]
+            keys.append(self.gidx[(Sm, Tm)])
+        X = self._gx(); prs = X['prs']; rank_rows = [[1 if g == a else -1 if g == a + 1 else 0 for g in range(d)] for a in range(d - 1)]
+        def vec_of(u): return [int(u[pos[g]]) for g in R]
+        for attempt in range(50):
+            Mk = self.GP[keys]; Xk = X['bits'][keys]           # grid bitsets; extra points as booleans
+            if not keys:
+                return self._grid_found(i, vec_of(self.R6[0]))
+            cum = np.bitwise_and.accumulate(Mk, axis=0); alive = cum.any(1)
+            cx = np.logical_and.accumulate(Xk, axis=0) if Xk.shape[1] else None
+            if cx is not None: alive = alive | cx.any(1)
+            if alive[-1]:
+                if cum[-1].any(): u = self.R6[int(np.argmax(np.unpackbits(cum[-1].view(np.uint8))))]
+                else: u = X['pts'][int(np.argmax(cx[-1]))]; self.gstats['extra point used'] += 1
+                vec_ = vec_of(u); self.gpool[i].insert(0, vec_); del self.gpool[i][64:]
+                return self._grid_found(i, vec_)
+            crit = int(np.argmin(alive)); core = [crit]; rest = list(range(crit))
+            while True:
+                base = np.bitwise_and.reduce(Mk[core], axis=0).any()
+                bx = Xk[core].all(0) if cx is not None else None
+                if not base and not (bx is not None and bx.any()): break
+                b0 = np.bitwise_and.reduce(Mk[core], axis=0)
+                a = (np.bitwise_and.accumulate(Mk[rest], axis=0) & b0).any(1)
+                if bx is not None: a = a | (np.logical_and.accumulate(Xk[rest], axis=0) & bx).any(1)
+                k = int(np.argmin(a)); core.append(rest[k]); rest = rest[:k]
+            ck = frozenset(keys[k] for k in core)
+            res = _CORE_LP.get(ck)
+            if res is None:
+                ckl = sorted(ck); rows = [[(1 if prs[j][0] >> g & 1 else 0) - (1 if prs[j][1] >> g & 1 else 0) for g in range(d)]
+                                          for j in ckl] + rank_rows
+                st, w = ratlp.realize(rows, d); self.gstats['core LP'] += 1
+                res = ('ok', list(w)) if st == 'ok' else ('conflict', frozenset(ckl[t] for t in w if t < len(ckl)))
+                _CORE_LP[ck] = res
+            else: self.gstats['core LP cached'] += 1
+            if res[0] == 'conflict':
+                cut = [other[k] for k in core if keys[k] in res[1]] + list(sing.values())
+                self.S.add_clause([-l for l in cut]); self.cuts += 1; return None
+            self._gx_add(res[1]); self.gstats['points added'] += 1
+        # fallback (not expected): the full LP decides
+        sg = lambda l: self.rowv[l] if l > 0 else [-x for x in self.rowv[-l]]
+        self.gstats['full LP'] += 1; st, w = ratlp.realize_fast([sg(l) for l in lits], d)
+        if st == 'ok':
+            vec_ = [int(x) for x in w]; self.gextra[i].append(vec_); return self._grid_found(i, vec_)
+        self.S.add_clause([-lits[k] for k in w]); self.cuts += 1; return None
 
     def _grid_found(self, i, vec_):
         if vec_ != self.rep_of[i]:
