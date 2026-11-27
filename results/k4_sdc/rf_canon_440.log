@@ -1,0 +1,6 @@
+$ python3 k4/sdc/rf_canon_440.py
+Y (3, 6, 7, 4, 5) OC1 fails receiver 4 orders giving Y [(0, 1, 2, 3, 4), (0, 1, 3, 2, 4), (0, 3, 1, 2, 4), (3, 0, 1, 2, 4)]
+o (0, 1, 2, 3, 4) | ROT (3, 6, 7, 5, 4) OC1 fails | YRMH (5, 3, 7, 6, 4) picks complete | YRMH-F (5, 3, 7, 6, 4) order (4, 3, 1, 0, 2) picks complete | maximum True
+o (0, 1, 3, 2, 4) | ROT (3, 6, 2, 7, 4) one move repairs | YRMH (5, 3, 7, 6, 4) picks complete | YRMH-F (5, 3, 7, 6, 4) order (4, 3, 1, 0, 2) picks complete | maximum True
+o (0, 3, 1, 2, 4) | ROT (3, 1, 7, 6, 4) picks complete | YRMH (5, 3, 7, 6, 4) picks complete | YRMH-F (5, 3, 7, 6, 4) order (4, 3, 1, 0, 2) picks complete | maximum True
+o (3, 0, 1, 2, 4) | ROT (3, 1, 7, 6, 4) picks complete | YRMH (5, 3, 7, 6, 4) picks complete | YRMH-F (5, 3, 7, 6, 4) order (4, 3, 1, 0, 2) picks complete | maximum True
