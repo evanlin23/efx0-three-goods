@@ -1,0 +1,15 @@
+$ python3 k4/oc1max_multi/reduce_s.py results/k4_oc1max_multi/oc1_fail_walk.jsonl.gz
+4955 failing starts
+4955 OC2 by REC-S
+4955 P1 with LIFT hypothesis
+4955 (a) SD
+4955 (a) and a Theorem U/S case in I-
+4955 lifted, k unthreatened
+4955 E(k) only: OC2 by REC-S
+4955 E(k) only: SD-E tests
+4955 E(k) only: P1 with LIFT hypothesis
+4955 E(k) only: (a) SD
+4955 E(k) only: (a) and a Theorem U/S case in I-
+4955 E(k) only: lifted, k unthreatened
+violations (Theorem U/S in I-, LIFT, or SD-E): 0 []
+a smallest start not covered: null
