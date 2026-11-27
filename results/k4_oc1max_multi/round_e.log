@@ -1,0 +1,16 @@
+$ RMAX=2 python3 k4/oc1max_multi/round_e.py results/k4_matching/data/n5_5pure_s5o0_two_move_starts.jsonl.gz (proof/k4-matching)
+rounds needed: 1 2
+rounds needed: 2 278
+rounds tried 2090
+starts 280
+not repaired: 0 []
+$ RMAX=2 python3 k4/oc1max_multi/round_e.py results/k4_matching/n5_walk164_long.jsonl.gz (proof/k4-matching, 60d4ab1)
+rounds needed: 2 22445
+rounds tried 134670
+starts 22445
+not repaired: 0 []
+$ RMAX=2 python3 k4/oc1max_multi/round_e.py n4rows (the n = 4 export two_move_starts_n4.json.gz, 4551d91a, flattened)
+rounds needed: 2 112880
+rounds tried 596240
+starts 112880
+not repaired: 0 []

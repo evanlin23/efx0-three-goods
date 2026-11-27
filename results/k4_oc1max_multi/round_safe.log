@@ -1,0 +1,20 @@
+$ RMAX=2 python3 k4/oc1max_multi/round_safe.py results/k4_oc1max_multi/recs_gaps7_kgen.jsonl results/k4_oc1max_multi/oc1_fail_walk.jsonl.gz results/k4_matching/data/n5_5pure_s5o0_two_move_starts.jsonl.gz n4rows (n = 4 export two_move_starts_n4.json.gz, flattened) results/k4_matching/data/two_move_starts_n5_sel2.json.gz
+== results/k4_oc1max_multi/recs_gaps7_kgen.jsonl
+  rounds: {'rounds tried': 249, 'P1 rounds': 47, 'P1 rounds completing at once': 6, 'P1-free rounds': 173, 'P1-free rounds safe': 173}
+  rules (starts satisfying): {'starts': 7, 'G0 some round safe': 7, 'G1 every P1-free round safe': 7, "G1' every single P1-free round safe": 7, 'G2 (if no P1-free round) some P1 round completes': 7, 'has a P1-free round': 6}
+  first violation of [has a P1-free round]: ('5_pure', None, 1073, [3, 1, 6, 7, 8])
+== results/k4_oc1max_multi/oc1_fail_walk.jsonl.gz
+  rounds: {'rounds tried': 16816, 'P1-free rounds': 6906, 'P1-free rounds safe': 6906, 'P1 rounds': 3004, 'P1 rounds completing at once': 0}
+  rules (starts satisfying): {'starts': 4955, 'G0 some round safe': 4955, 'G1 every P1-free round safe': 4955, "G1' every single P1-free round safe": 4955, 'G2 (if no P1-free round) some P1 round completes': 4955, 'has a P1-free round': 4955}
+== results/k4_matching/data/n5_5pure_s5o0_two_move_starts.jsonl.gz
+  rounds: {'rounds tried': 4370, 'P1 rounds': 608, 'P1 rounds completing at once': 176, 'P1-free rounds': 2142, 'P1-free rounds safe': 2124, 'rounds with a P1 settlement (final only)': 50}
+  rules (starts satisfying): {'starts': 280, 'G0 some round safe': 280, 'G1 every P1-free round safe': 279, "G1' every single P1-free round safe": 279, 'G2 (if no P1-free round) some P1 round completes': 280, 'has a P1-free round': 268}
+  first violation of [has a P1-free round]: ('5_pure', None, 738, [2, 5, 7, 8, 3])
+  first violation of [G1 every P1-free round safe]: ('5_pure', None, 963, [5, 1, 6, 8, 7])
+  first violation of [G1' every single P1-free round safe]: ('5_pure', None, 963, [5, 1, 6, 8, 7])
+== n4rows (n = 4 export two_move_starts_n4.json.gz, flattened)
+  rounds: {'rounds tried': 1148880, 'P1-free rounds': 564720, 'P1-free rounds safe': 564720, 'P1 rounds': 19440, 'P1 rounds completing at once': 0}
+  rules (starts satisfying): {'starts': 112880, 'G0 some round safe': 112880, 'G1 every P1-free round safe': 112880, "G1' every single P1-free round safe": 112880, 'G2 (if no P1-free round) some P1 round completes': 112880, 'has a P1-free round': 112880}
+== results/k4_matching/data/two_move_starts_n5_sel2.json.gz
+  rounds: {'rounds tried': 35205120, 'P1 rounds': 5468160, 'P1 rounds completing at once': 0, 'P1-free rounds': 28968960, 'P1-free rounds safe': 28968960}
+  rules (starts satisfying): {'starts': 583680, 'G0 some round safe': 583680, 'G1 every P1-free round safe': 583680, "G1' every single P1-free round safe": 583680, 'G2 (if no P1-free round) some P1 round completes': 583680, 'has a P1-free round': 583680}

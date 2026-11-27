@@ -1,0 +1,12 @@
+$ python3 k4/oc1cert/check.py two_move_starts_n5_sel2_cert.json.gz
+own types: {3: 6, 4: 288}
+... 3 checked, 134 s
+certificate two_move_starts_n5_sel2_cert.json.gz hypergraphs 3
+covered 3
+excluded pairs 583680
+maximum matchings checked 1062
+type classes (sum over matchings and agents) 85373
+witnesses applicable (sum over matchings) 59694
+slowest hypergraph 59.19 s
+time 134 s
+RESULT every certified hypergraph (3) covered for every type profile and every maximum-matching SD order

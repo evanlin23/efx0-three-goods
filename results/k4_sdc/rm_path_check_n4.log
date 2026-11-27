@@ -1,0 +1,11 @@
+$ python3 k4/sdc/rm_path_check.py ../../results/k4_oc1max/two_move_starts_n4.json.gz 1
+starts 112880
+(Y,u): some listed order RM-better: False 1280
+(Y,u): some listed order RM-better: True 111600
+(Y,u): some listed order max with no ejected top-holder: False 96640
+(Y,u): some listed order max with no ejected top-holder: True 16240
+(Y,u,o): max=True ejected-top-holder=False RM-better=True 16240
+(Y,u,o): max=True ejected-top-holder=True RM-better=False 8960
+(Y,u,o): max=True ejected-top-holder=True RM-better=True 266880
+starts 112880
+time 4 s

@@ -1,0 +1,22 @@
+$ python3 k4/oc1cert/good_orders.py results/k4_oc1max/n5/two_move_starts_n5_sel2.json.gz good_orders_sel2_s20.json.gz --stride=20 --jobs=2
+failing starts 29184 hypergraphs 3
+(good, bad) pick vectors 10, 1 4319
+(good, bad) pick vectors 13, 1 4297
+(good, bad) pick vectors 7, 1 19584
+(good, bad) pick vectors 8, 1 984
+bad pick vectors with 1 receivers 29184
+good pick vectors with 1 receivers 105562
+good pick vectors with 2 receivers 95440
+good pick vectors with 3 receivers 43009
+good pick vectors: OC1 fails 0
+good pick vectors: one move repairs 77853
+good pick vectors: picks complete 166158
+starts 29184
+candidate rules (True: the rule picks a good order; False: a bad one; None: it picks nothing):
+   every pick vector with the most receivers is good {True: 29184}
+   some pick vector with the most receivers is good {True: 29184}
+   every pick vector with >= 2 receivers is good {True: 29184}
+   the most frequent pick vector is good {True: 29184}
+   every order starting with a receiver of the failing start is good {True: 29184}
+   Hamming distance from the failing picks to the nearest good picks {2: 29184}
+wrote good_orders_sel2_s20.json.gz 6877 s

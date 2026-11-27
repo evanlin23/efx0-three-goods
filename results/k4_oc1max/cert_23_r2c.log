@@ -1,0 +1,12 @@
+$ python3 k4/oc1cert/run.py 2,3 --r2=c --jobs=2 --out=results/k4_oc1max/cert_23_r2c.json.gz
+hypergraphs 56 jobs 2
+2 nu=2 n=2 5
+3 nu=3 n=3 51
+iterations 827
+result certified 56
+witness kind chain (found by the inner) 532
+witness kind picks (found by the inner) 561
+witnesses kept 3200
+slowest hypergraph 0.77 s ('3', 10)
+time 5 s
+wrote results/k4_oc1max/cert_23_r2c.json.gz

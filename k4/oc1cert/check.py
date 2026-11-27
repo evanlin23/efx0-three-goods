@@ -32,6 +32,12 @@ Written separately from cegar.py; it shares no code with it or with the reposito
   - R2-O (o): the one-absorber owner is a receiver off the chain.  og: or no owner at all (nobody takes two junk
     goods).  op (R2-O'): the owner, if any, is a receiver other than the chain's end, on or off the chain.
   - R2-C: any one-absorber completion.
+  - (S) / (L) / either (s, l, sl): (S) is a canonical chain without junk for x_1..x_t.  (L) is one in which a middle
+    agent that was dangerous at the start takes junk and another middle agent is a receiver; the witness names those
+    agents.  The completion has one absorber.
+  - R2-E (e, e2, eo): the chain is the earliest-wanter chain E(x0) of the witness's recorded SD order (whose SD
+    region is checked).  x0 takes an improving T and nobody else takes junk.  Variants: e2, |T| = 2; eo, the owner
+    is a receiver.
   - Only profiles with at least two receivers count (a receiver is an agent whose pick no other agent prefers to its
     own).
   - Witnesses are completions of the picks (one absorber) or single canonical chains: x0 values a junk good, x1
@@ -223,6 +229,18 @@ def check_core(rec):
             excl[tuple(e['picks'])].append(tuple(tix[i][H.sig(i, dict(zip(H.sets[i], e['vals'][i])))] for i in range(n)))
     efx = {}
     stats = collections.Counter()
+    # Prefilter (exact for validity): a witness can apply at Y only if every agent outside its recorded picks keeps
+    # its pick inside its X bundle (H.shape_ok needs X to contain the bases), and every recorded pick matches Y.
+    # allow[i][g]: bitset of the witnesses that allow Y_i = g (g = None: no pick).
+    allow = [collections.defaultdict(int) for _ in range(n)]
+    for k, w in enumerate(Ws):
+        bit = 1 << k; fixed = {int(a): y for a, y in w['picks'].items()}; X = w['_X']
+        for i in range(n):
+            if i in fixed: allow[i][fixed[i]] |= bit
+            else:
+                allow[i][None] |= bit
+                for g in H.sets[i]:
+                    if X[g] == i: allow[i][g] |= bit
     for Y in Ys:
         holder = {y: i for i, y in enumerate(Y) if y is not None}
         # per agent and type: excluded (a preferred good is unpicked), or the agents that must come before it
@@ -234,7 +252,11 @@ def check_core(rec):
                 row.append(None if any(g not in holder for g in better) else frozenset(holder[g] for g in better))
             sdreq.append(row)
         boxes = []
-        for w in Ws:
+        cand = -1
+        for i in range(n): cand &= allow[i].get(Y[i], 0)
+        for k in range(len(Ws)) if cand else ():
+            if not cand >> k & 1: continue
+            w = Ws[k]
             pk = w['picks']
             if any(Y[int(a)] != y for a, y in pk.items()): continue
             if R2 and w['kind'] not in ('picks', 'chain'): continue
@@ -258,7 +280,46 @@ def check_core(rec):
                     if i != zz: masks[i] &= H.V[i][:, Y[zz]] <= H.V[i][:, Y[i]]
                 X = w['_X']; inb = {g for b in nb for g in b}
                 cnt = collections.Counter(X[g] for g in range(H.m) if g not in inb)
-                if R2 in ('m', 'star'):
+                if R2 in ('s', 'l', 'sl'):
+                    # (S): no junk for x_1..x_t.  (L): the witness's tags (a, wn, rj): a a middle agent taking junk,
+                    # wn preferring a's pick to its own (so a is frozen; it values junk since it takes some), rj a
+                    # middle receiver.  The completion: one absorber (shape_ok).
+                    is_s = all(not w['H'][l] for l in range(1, len(path)))
+                    tg = w.get('tags')
+                    if R2 == 's' and not is_s: continue
+                    if not is_s:
+                        if R2 == 's' or tg is None: continue
+                        a, wn, rj = tg
+                        mid = path[1:-1]
+                        if a not in mid or rj not in mid or wn == a or not w['H'][path.index(a)]: continue
+                        masks[wn] &= H.V[wn][:, Y[a]] > H.V[wn][:, Y[wn]]
+                        for i in range(n):
+                            if i != rj: masks[i] &= H.V[i][:, Y[rj]] <= H.V[i][:, Y[i]]
+                elif R2 in ('e', 'e2', 'eo'):
+                    # R2-E: the chain is E(x0) for the recorded SD order sigma (which must give Y), with no junk for
+                    # x_1..x_t, x0 taking an improving T (apply's comparison) within (J + {Y_z})
+                    sigma = w.get('order')
+                    if sigma is None or sorted(sigma) != list(range(n)) or any(w['H'][l] for l in range(1, len(path))): continue
+                    if R2 == 'e2' and len(w['H'][0]) != 2: continue
+                    taken = set()
+                    for a in sigma:
+                        rest = [g for g in H.sets[a] if g not in taken]
+                        masks[a] &= np.array([(max(rest, key=lambda g: v[g]) if rest else None) == Y[a] for v in H.types[a]])
+                        if Y[a] is not None: taken.add(Y[a])
+                    pos = {a: q for q, a in enumerate(sigma)}
+                    for l in range(1, len(path)):
+                        prev = path[l - 1]
+                        for i in sigma[:pos[path[l]]]:
+                            if i != prev: masks[i] &= H.V[i][:, Y[prev]] <= H.V[i][:, Y[i]]
+                    if R2 == 'eo':
+                        u = w.get('owner')
+                        if u is None:
+                            if any(c >= 2 for c in cnt.values()): continue
+                        else:
+                            if any(c >= 2 for a, c in cnt.items() if a != u): continue
+                            for i in range(n):
+                                if i != u: masks[i] &= H.V[i][:, Y[u]] <= H.V[i][:, Y[i]]
+                elif R2 in ('m', 'star'):
                     if any(c >= 2 for c in cnt.values()): continue
                     if R2 == 'm' and any(a != x0 and len(nb[a]) >= 2 for a in cnt): continue
                 elif R2 in ('o', 'og', 'op'):     # the declared owner: a receiver at the picks, off the chain
@@ -317,8 +378,18 @@ def check_core(rec):
         for i in range(n):
             for k, ((req, *_), ts) in enumerate(cls[i]):
                 for j in req: solver.add_clause([-z[i][k], bef[(j, i)]])
+        # one literal per distinct agent mask (yl <-> the agent's class lies in the mask): each box is the clause
+        # "some agent's yl is false", and learned clauses speak about masks
+        ylit = {}
+        def yl(i, bi):
+            key = (i, tuple(k for k, (sg, ts) in enumerate(cls[i]) if sg[1][bi]))
+            if key not in ylit:
+                v = ylit[key] = new()
+                solver.add_clause([-v] + [z[i][k] for k in key[1]])
+                for k in key[1]: solver.add_clause([-z[i][k], v])
+            return ylit[key]
         for bi, b in enumerate(boxes):
-            solver.add_clause([z[i][k] for i in range(n) for k, (sg, ts) in enumerate(cls[i]) if not sg[1][bi]])
+            solver.add_clause([-yl(i, bi) for i in range(n)])
         if R2:      # at least two receivers: rec_j -> every other agent's class lies in nw[j]
             rcv = [new() for _ in range(n)]
             for j in range(n):
