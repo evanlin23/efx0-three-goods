@@ -1,0 +1,17 @@
+$ python3 k4/k3oc1/lift4.py suite 5 detype comp
+NO CHAIN WITH DE-SHAPE COMPLETION c4-lbplus-rotation-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]]] order (1, 0, 2) picks (5, 2, 4) exact after one chain False
+NO CHAIN WITH DE-SHAPE COMPLETION c4-owner-last-n3m8 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[6, 3, 5, 7], [5, 3, 6, 7], [3, 8, 4, 10]]] order (2, 0, 1) picks (0, 6, 7) exact after one chain True
+NO CHAIN WITH DE-SHAPE COMPLETION c4x-n3m6-ef-bases [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[3, 5, 6, 7], [4, 6, 5, 8], [5, 4, 6, 8]]] order (0, 1, 2) picks (5, 3, 4) exact after one chain True
+exact-hard: every least-omega chain repairs (exact) False 27
+exact-hard: every least-omega chain repairs (exact) True 153
+exact-hard: every max rank-score chain repairs (exact) False 15
+exact-hard: every max rank-score chain repairs (exact) True 165
+hard (DE-shape); picks exact False; one chain DE-shape False; one chain exact False 36
+hard (DE-shape); picks exact False; one chain DE-shape True; one chain exact True 761
+hard (DE-shape); picks exact True; one chain DE-shape False; one chain exact False 18
+hard (DE-shape); picks exact True; one chain DE-shape False; one chain exact True 8
+hard (DE-shape); picks exact True; one chain DE-shape True; one chain exact True 162
+instances 158
+picks pass DE-shape 3342
+starts 4327
+time 3 s

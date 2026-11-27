@@ -1,0 +1,95 @@
+$ python3 k4/k3oc1/te_sample.py certs8:14 100 8
+# progress 20 hypergraphs 2 s
+# progress 40 hypergraphs 5 s
+# progress 60 hypergraphs 7 s
+# progress 80 hypergraphs 9 s
+# progress 100 hypergraphs 11 s
+# progress 120 hypergraphs 13 s
+# progress 140 hypergraphs 16 s
+# progress 160 hypergraphs 18 s
+# progress 180 hypergraphs 20 s
+# progress 200 hypergraphs 22 s
+# progress 220 hypergraphs 24 s
+# progress 240 hypergraphs 26 s
+# progress 260 hypergraphs 29 s
+# progress 280 hypergraphs 31 s
+# progress 300 hypergraphs 33 s
+# progress 320 hypergraphs 35 s
+# progress 340 hypergraphs 37 s
+# progress 360 hypergraphs 39 s
+# progress 380 hypergraphs 41 s
+# progress 400 hypergraphs 43 s
+# progress 420 hypergraphs 45 s
+# progress 440 hypergraphs 47 s
+# progress 460 hypergraphs 49 s
+# progress 480 hypergraphs 50 s
+# progress 500 hypergraphs 52 s
+# progress 520 hypergraphs 55 s
+# progress 540 hypergraphs 57 s
+# progress 560 hypergraphs 59 s
+# progress 580 hypergraphs 61 s
+# progress 600 hypergraphs 63 s
+# progress 620 hypergraphs 65 s
+# progress 640 hypergraphs 67 s
+# progress 660 hypergraphs 69 s
+# progress 680 hypergraphs 71 s
+# progress 700 hypergraphs 74 s
+# progress 720 hypergraphs 76 s
+# progress 740 hypergraphs 78 s
+# progress 760 hypergraphs 80 s
+# progress 780 hypergraphs 82 s
+# progress 800 hypergraphs 84 s
+# progress 820 hypergraphs 86 s
+# progress 840 hypergraphs 88 s
+# progress 860 hypergraphs 90 s
+# progress 880 hypergraphs 92 s
+# progress 900 hypergraphs 94 s
+TE-any [[2, 0, 9], [6, 1, 10], [8, 11, 3], [5, 6, 12], [7, 8, 13], [2, 4, 0], [7, 1, 3], [8, 4, 5]] 14 picks (2, 6, 8, 12, 13, 4, 7, 5)
+# progress 920 hypergraphs 96 s
+# progress 940 hypergraphs 97 s
+# progress 960 hypergraphs 99 s
+# progress 980 hypergraphs 101 s
+TE-any [[4, 9, 0], [2, 1, 10], [3, 11, 6], [8, 5, 12], [8, 13, 6], [2, 8, 0], [7, 5, 1], [4, 3, 7]] 14 picks (4, 2, 3, 12, 8, 0, 5, 7)
+# progress 1000 hypergraphs 103 s
+# progress 1020 hypergraphs 105 s
+# progress 1040 hypergraphs 107 s
+# progress 1060 hypergraphs 109 s
+# progress 1080 hypergraphs 111 s
+# progress 1100 hypergraphs 113 s
+# progress 1120 hypergraphs 115 s
+# progress 1140 hypergraphs 117 s
+# progress 1160 hypergraphs 119 s
+# progress 1180 hypergraphs 121 s
+# progress 1200 hypergraphs 123 s
+# progress 1220 hypergraphs 125 s
+hypergraphs 1232
+perfect drafts 525629
+profiles 123200
+|T| 1: T'_k k 23
+|T| 1: T'_k none 217
+|T| 1: T-E (N/E/K) every True 240
+|T| 1: T-E (N/E/K) every least-omega True 240
+|T| 1: T-E (N/E/K) every most-T True 240
+|T| 1: T-E (N/E/K) some True 240
+|T| 1: T-E any owner, every rotation True 240
+|T| 1: hard perfect 240
+|T| 2: T'_k k 184
+|T| 2: T'_k none 603
+|T| 2: T-E (N/E/K) every False 15
+|T| 2: T-E (N/E/K) every True 772
+|T| 2: T-E (N/E/K) every least-omega True 787
+|T| 2: T-E (N/E/K) every most-T True 787
+|T| 2: T-E (N/E/K) some True 787
+|T| 2: T-E any owner, every rotation False 2
+|T| 2: T-E any owner, every rotation True 785
+|T| 2: hard perfect 787
+|T| 3: T'_k k 21
+|T| 3: T'_k none 133
+|T| 3: T-E (N/E/K) every False 1
+|T| 3: T-E (N/E/K) every True 153
+|T| 3: T-E (N/E/K) every least-omega True 154
+|T| 3: T-E (N/E/K) every most-T True 154
+|T| 3: T-E (N/E/K) some True 154
+|T| 3: T-E any owner, every rotation True 154
+|T| 3: hard perfect 154
+time 126 s

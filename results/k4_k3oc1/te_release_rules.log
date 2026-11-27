@@ -1,0 +1,36 @@
+$ python3 k4/k3oc1/te_release_rules.py gapfile:results/k4_k3oc1/gap_certs_6_0.gap.gz gapfile:results/k4_k3oc1/gap_certs_6_1.gap.gz
+16 |T| 1: junk-pair least omega        omega' <= 1 False; completes True
+93616 |T| 1: junk-pair least omega        omega' <= 1 True; completes True
+48 |T| 1: junk-pair longest            omega' <= 1 False; completes True
+93584 |T| 1: junk-pair longest            omega' <= 1 True; completes True
+1076 |T| 1: junk-pair sigma-first        omega' <= 1 False; completes True
+92556 |T| 1: junk-pair sigma-first        omega' <= 1 True; completes True
+724 |T| 1: junk-pair sigma-last         omega' <= 1 False; completes True
+92908 |T| 1: junk-pair sigma-last         omega' <= 1 True; completes True
+96128 |T| 1: least omega                  omega' <= 1 True; completes True
+104 |T| 1: longest (sigma-first tie)    omega' <= 1 False; completes True
+96024 |T| 1: longest (sigma-first tie)    omega' <= 1 True; completes True
+2608 |T| 1: sigma-first                  omega' <= 1 False; completes True
+93520 |T| 1: sigma-first                  omega' <= 1 True; completes True
+3892 |T| 1: sigma-last                   omega' <= 1 False; completes True
+92236 |T| 1: sigma-last                   omega' <= 1 True; completes True
+10240 |T| 2: junk-pair least omega        omega' <= 1 True; completes True
+10240 |T| 2: junk-pair longest            omega' <= 1 True; completes True
+10240 |T| 2: junk-pair sigma-first        omega' <= 1 True; completes True
+10240 |T| 2: junk-pair sigma-last         omega' <= 1 True; completes True
+10240 |T| 2: least omega                  omega' <= 1 True; completes True
+10240 |T| 2: longest (sigma-first tie)    omega' <= 1 True; completes True
+10240 |T| 2: sigma-first                  omega' <= 1 True; completes True
+64 |T| 2: sigma-last                   omega' <= 1 False; completes True
+10176 |T| 2: sigma-last                   omega' <= 1 True; completes True
+$ python3 k4/k3oc1/te_release_rules.py gapfile:results/k4_k3oc1/gap_certs_5.gap.gz gapfile:results/k4_k3oc1/gap_small_5.gap.gz
+21080 |T| 1: junk-pair least omega        omega' <= 1 True; completes True
+21080 |T| 1: junk-pair longest            omega' <= 1 True; completes True
+21080 |T| 1: junk-pair sigma-first        omega' <= 1 True; completes True
+21080 |T| 1: junk-pair sigma-last         omega' <= 1 True; completes True
+25512 |T| 1: least omega                  omega' <= 1 True; completes True
+25512 |T| 1: longest (sigma-first tie)    omega' <= 1 True; completes True
+16 |T| 1: sigma-first                  omega' <= 1 False; completes True
+25496 |T| 1: sigma-first                  omega' <= 1 True; completes True
+84 |T| 1: sigma-last                   omega' <= 1 False; completes True
+25428 |T| 1: sigma-last                   omega' <= 1 True; completes True

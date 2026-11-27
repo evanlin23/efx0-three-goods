@@ -1,0 +1,6 @@
+$ python3 k4/k3oc1/rf/rf_dea_moves.py RESIDUE
+71443 A1 completes at the picks
+242 A1 form fails (the picks may still complete with another owner); ranks of p over trades after which every junk good goes to a different agent: [0, 1]
+17856 A1 form fails (the picks may still complete with another owner); ranks of p over trades after which every junk good goes to a different agent: [0]
+23911 A1 form fails (the picks may still complete with another owner); ranks of p over trades after which every junk good goes to a different agent: [1]
+32 A1 form fails (the picks may still complete with another owner); ranks of p over trades after which every junk good goes to a different agent: []

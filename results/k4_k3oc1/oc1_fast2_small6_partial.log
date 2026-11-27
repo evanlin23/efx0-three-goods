@@ -1,0 +1,4 @@
+core 356 {'hypergraphs': 90, 'profiles': 4199040, 'distinct drafts': 21331492, 'hard': 318248, 'max score: fails the simple test': 232} 1607 s
+core 357 {'hypergraphs': 90, 'profiles': 4199040, 'distinct drafts': 21399022, 'hard': 321932, 'max score: fails the simple test': 352} 1608 s
+core 358 {'hypergraphs': 90, 'profiles': 4199040, 'distinct drafts': 21206340, 'hard': 308080, 'max score: fails the simple test': 352} 1610 s
+core 355 {'hypergraphs': 89, 'profiles': 4152384, 'distinct drafts': 21058084, 'hard': 308728, 'max score: fails the simple test': 244} 1604 s

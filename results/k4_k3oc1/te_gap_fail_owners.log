@@ -1,0 +1,5 @@
+$ python3 k4/k3oc1/te_fail_owners.py results/k4_k3oc1/te_gap_certs_6_0.log results/k4_k3oc1/te_gap_certs_6_1.log   (which owners complete the FAIL rotations; exact test, owner restricted)
+128 |T| 1: owners that work: k; e terminal after True
+$ python3 k4/k3oc1/te_fail_k.py (same files)   (simple Lemma 1 with owner k, and LE with owner none/k/e)
+96 simple Lemma 1 owner k: k; LE with owner in none/k/e: ('owner', 0); |J'| 3 |T'| 1
+32 simple Lemma 1 owner k: k; LE with owner in none/k/e: ('owner', 1); |J'| 3 |T'| 1

@@ -1,0 +1,140 @@
+$ python3 k4/k3oc1/te_sample.py certs7:11 100 11 0 2
+# progress 20 hypergraphs 2 s
+# progress 40 hypergraphs 3 s
+# progress 60 hypergraphs 4 s
+# progress 80 hypergraphs 5 s
+# progress 100 hypergraphs 6 s
+# progress 120 hypergraphs 7 s
+# progress 140 hypergraphs 8 s
+# progress 160 hypergraphs 9 s
+# progress 180 hypergraphs 10 s
+# progress 200 hypergraphs 11 s
+# progress 220 hypergraphs 12 s
+# progress 240 hypergraphs 13 s
+# progress 260 hypergraphs 14 s
+# progress 280 hypergraphs 15 s
+# progress 300 hypergraphs 16 s
+# progress 320 hypergraphs 17 s
+# progress 340 hypergraphs 18 s
+# progress 360 hypergraphs 20 s
+# progress 380 hypergraphs 21 s
+# progress 400 hypergraphs 22 s
+# progress 420 hypergraphs 23 s
+# progress 440 hypergraphs 24 s
+# progress 460 hypergraphs 25 s
+# progress 480 hypergraphs 26 s
+TE-ruleP-NEK [[1, 7, 0], [1, 6, 8], [3, 4, 9], [3, 10, 5], [4, 5, 0], [2, 4, 6], [2, 5, 6]] 11 picks (1, 8, 9, 3, 4, 6, 2)
+# progress 500 hypergraphs 27 s
+# progress 520 hypergraphs 28 s
+# progress 540 hypergraphs 29 s
+TE-ruleP-NEK [[3, 0, 7], [4, 1, 8], [5, 3, 9], [4, 6, 10], [6, 1, 0], [2, 6, 5], [2, 5, 6]] 11 picks (3, 4, 9, 10, 6, 5, 2)
+# progress 560 hypergraphs 30 s
+# progress 580 hypergraphs 31 s
+TE-ruleP-NEK [[5, 0, 7], [6, 1, 8], [3, 5, 9], [5, 4, 10], [4, 1, 0], [2, 6, 3], [6, 4, 2]] 11 picks (5, 6, 9, 10, 4, 3, 2)
+# progress 600 hypergraphs 32 s
+# progress 620 hypergraphs 33 s
+# progress 640 hypergraphs 34 s
+# progress 660 hypergraphs 35 s
+# progress 680 hypergraphs 36 s
+# progress 700 hypergraphs 37 s
+TE-ruleP-NEK [[0, 7, 5], [4, 1, 8], [2, 6, 9], [4, 10, 3], [4, 0, 2], [6, 1, 5], [6, 5, 3]] 11 picks (0, 8, 9, 4, 2, 1, 6)
+# progress 720 hypergraphs 38 s
+# progress 740 hypergraphs 39 s
+# progress 760 hypergraphs 40 s
+# progress 780 hypergraphs 41 s
+# progress 800 hypergraphs 42 s
+# progress 820 hypergraphs 43 s
+# progress 840 hypergraphs 44 s
+# progress 860 hypergraphs 45 s
+# progress 880 hypergraphs 46 s
+# progress 900 hypergraphs 47 s
+# progress 920 hypergraphs 48 s
+# progress 940 hypergraphs 50 s
+# progress 960 hypergraphs 51 s
+# progress 980 hypergraphs 52 s
+# progress 1000 hypergraphs 52 s
+# progress 1020 hypergraphs 53 s
+# progress 1040 hypergraphs 54 s
+TE-ruleP-NEK [[2, 0, 8], [4, 1, 9], [6, 2, 10], [1, 0, 7], [5, 7, 3], [6, 3, 7], [5, 6, 4]] 11 picks (2, 9, 10, 1, 5, 6, 4)
+# progress 1060 hypergraphs 55 s
+# progress 1080 hypergraphs 56 s
+# progress 1100 hypergraphs 57 s
+TE-ruleP-NEK [[0, 6, 8], [2, 9, 1], [3, 7, 10], [2, 0, 3], [7, 6, 1], [4, 7, 5], [4, 5, 7]] 11 picks (0, 2, 10, 3, 7, 5, 4)
+# progress 1120 hypergraphs 58 s
+# progress 1140 hypergraphs 59 s
+TE-ruleP-NEK [[3, 0, 8], [6, 4, 9], [6, 7, 10], [2, 7, 0], [3, 2, 1], [1, 6, 5], [4, 5, 7]] 11 picks (3, 9, 6, 2, 1, 5, 4)
+# progress 1160 hypergraphs 60 s
+# progress 1180 hypergraphs 61 s
+# progress 1200 hypergraphs 62 s
+TE-any [[2, 1, 8], [2, 7, 9], [5, 6, 10], [6, 0, 1], [0, 7, 5], [6, 4, 3], [7, 3, 4]] 11 picks (2, 9, 10, 0, 5, 6, 7)
+TE-ruleP-NEK [[2, 1, 8], [2, 7, 9], [5, 6, 10], [6, 0, 1], [0, 7, 5], [6, 4, 3], [7, 3, 4]] 11 picks (2, 9, 10, 0, 5, 6, 7)
+TE-ruleP-any_owner [[2, 1, 8], [2, 7, 9], [5, 6, 10], [6, 0, 1], [0, 7, 5], [6, 4, 3], [7, 3, 4]] 11 picks (2, 9, 10, 0, 5, 6, 7)
+# progress 1220 hypergraphs 63 s
+# progress 1240 hypergraphs 64 s
+TE-ruleP-NEK [[1, 8, 6], [2, 7, 9], [3, 10, 4], [0, 1, 2], [0, 7, 5], [7, 3, 5], [7, 6, 4]] 11 picks (1, 9, 3, 2, 0, 5, 7)
+# progress 1260 hypergraphs 65 s
+# progress 1280 hypergraphs 66 s
+TE-ruleP-NEK [[3, 8, 1], [2, 7, 9], [6, 10, 7], [0, 6, 1], [0, 4, 5], [2, 5, 4], [3, 6, 7]] 11 picks (3, 9, 10, 6, 0, 2, 7)
+# progress 1300 hypergraphs 67 s
+# progress 1320 hypergraphs 68 s
+# progress 1340 hypergraphs 69 s
+# progress 1360 hypergraphs 70 s
+# progress 1380 hypergraphs 71 s
+TE-any [[4, 3, 8], [3, 5, 9], [6, 7, 10], [1, 0, 2], [6, 2, 0], [1, 7, 5], [7, 6, 4]] 11 picks (8, 3, 10, 1, 6, 7, 4)
+TE-ruleP-NEK [[4, 3, 8], [3, 5, 9], [6, 7, 10], [1, 0, 2], [6, 2, 0], [1, 7, 5], [7, 6, 4]] 11 picks (8, 3, 10, 1, 6, 7, 4)
+TE-ruleP-any_owner [[4, 3, 8], [3, 5, 9], [6, 7, 10], [1, 0, 2], [6, 2, 0], [1, 7, 5], [7, 6, 4]] 11 picks (8, 3, 10, 1, 6, 7, 4)
+# progress 1400 hypergraphs 72 s
+TE-any [[4, 3, 8], [7, 6, 9], [6, 7, 10], [1, 2, 0], [6, 0, 2], [5, 1, 7], [4, 5, 3]] 11 picks (4, 9, 10, 1, 6, 7, 5)
+TE-ruleP-NEK [[4, 3, 8], [7, 6, 9], [6, 7, 10], [1, 2, 0], [6, 0, 2], [5, 1, 7], [4, 5, 3]] 11 picks (4, 9, 10, 1, 6, 7, 5)
+TE-ruleP-any_owner [[4, 3, 8], [7, 6, 9], [6, 7, 10], [1, 2, 0], [6, 0, 2], [5, 1, 7], [4, 5, 3]] 11 picks (4, 9, 10, 1, 6, 7, 5)
+# progress 1420 hypergraphs 73 s
+TE-ruleP-NEK [[7, 8, 2], [4, 7, 9], [6, 7, 10], [1, 0, 5], [3, 5, 0], [1, 3, 6], [6, 4, 2]] 11 picks (7, 9, 10, 1, 3, 6, 4)
+# progress 1440 hypergraphs 74 s
+TE-ruleP-NEK [[6, 9, 0], [2, 10, 1], [2, 8, 0], [8, 6, 1], [4, 7, 3], [5, 7, 3], [5, 4, 8]] 11 picks (6, 2, 0, 1, 4, 5, 8)
+# progress 1460 hypergraphs 75 s
+# progress 1480 hypergraphs 76 s
+# progress 1500 hypergraphs 77 s
+TE-ruleP-NEK [[3, 4, 9], [8, 3, 10], [1, 0, 2], [8, 0, 2], [7, 1, 5], [6, 7, 4], [8, 6, 5]] 11 picks (3, 10, 1, 8, 5, 7, 6)
+# progress 1520 hypergraphs 77 s
+TE-ruleP-NEK [[3, 5, 9], [8, 10, 4], [2, 1, 0], [2, 7, 0], [8, 1, 5], [3, 7, 6], [6, 8, 4]] 11 picks (3, 10, 2, 7, 8, 6, 4)
+TE-ruleP-NEK [[2, 8, 9], [5, 8, 10], [0, 1, 6], [0, 4, 8], [5, 1, 6], [2, 7, 3], [4, 3, 7]] 11 picks (9, 10, 0, 8, 5, 2, 4)
+# progress 1540 hypergraphs 78 s
+hypergraphs 1552
+perfect drafts 738047
+profiles 155200
+|T| 1: T'_k k 168
+|T| 1: T'_k none 2022
+|T| 1: T-E (N/E/K) every True 2190
+|T| 1: T-E (N/E/K) every least-omega True 2190
+|T| 1: T-E (N/E/K) every most-T True 2190
+|T| 1: T-E (N/E/K) some True 2190
+|T| 1: T-E any owner, every least-omega rotation True 2190
+|T| 1: T-E any owner, every rotation True 2190
+|T| 1: hard perfect 2190
+|T| 1: least omega' <= 0 False 187
+|T| 1: least omega' <= 0 True 2003
+|T| 1: rule P (N/E/K; junk-pair k exist) True 1868
+|T| 1: rule P (N/E/K; no junk-pair k) True 322
+|T| 1: rule P (any owner; junk-pair k exist) True 1868
+|T| 1: rule P (any owner; no junk-pair k) True 322
+|T| 2: T'_k k 1
+|T| 2: T'_k none 1379
+|T| 2: T-E (N/E/K) every False 17
+|T| 2: T-E (N/E/K) every True 1363
+|T| 2: T-E (N/E/K) every least-omega True 1380
+|T| 2: T-E (N/E/K) every most-T False 2
+|T| 2: T-E (N/E/K) every most-T True 1378
+|T| 2: T-E (N/E/K) some True 1380
+|T| 2: T-E any owner, every least-omega rotation True 1380
+|T| 2: T-E any owner, every rotation False 3
+|T| 2: T-E any owner, every rotation True 1377
+|T| 2: hard perfect 1380
+|T| 2: least omega' <= 0 False 18
+|T| 2: least omega' <= 0 True 1362
+|T| 2: rule P (N/E/K; junk-pair k exist) False 17
+|T| 2: rule P (N/E/K; junk-pair k exist) True 1356
+|T| 2: rule P (N/E/K; no junk-pair k) True 7
+|T| 2: rule P (any owner; junk-pair k exist) False 3
+|T| 2: rule P (any owner; junk-pair k exist) True 1370
+|T| 2: rule P (any owner; no junk-pair k) True 7
+time 79 s

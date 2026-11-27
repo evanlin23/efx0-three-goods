@@ -1,0 +1,7 @@
+$ python3 k4/k3oc1/oc1_general.py 5 0 2 4 (652 classes)
+OT1 FAILS; OC1 by a general chain False 288
+distinct drafts 5115852
+hard 133148
+hypergraphs 163
+profiles 1267488
+time 183 s

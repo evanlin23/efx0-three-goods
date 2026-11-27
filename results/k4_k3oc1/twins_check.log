@@ -1,0 +1,4 @@
+$ python3 k4/k3oc1/twins_check.py results/k4_k3oc1/gap_{small_4,certs_5,small_5,certs_6_0,certs_6_1}.gap.gz
+6736 twins: some rotation completes with owner none or t True; every True
+$ python3 k4/k3oc1/twins_check.py results/k4_k3oc1/te_sample7_11e_0.log   (the T-prime-k counterexample)
+1 twins: some rotation completes with owner none or t True; every True

@@ -1,0 +1,2 @@
+$ python3 k4/k3oc1/pointer_walk.py t2k_gap6_T2.log te_sample*.log  (every draft with no valid Rule E rotation in these logs)
+65 ring completes True; cycle length 2

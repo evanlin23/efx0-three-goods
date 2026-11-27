@@ -1,0 +1,28 @@
+B* fails: t0: (iv) | k terminal ; t1: no chain to t | no chain to t+(iv) 896
+B* fails: t0: (iv) | k terminal+(iv) ; t1: no chain to t | no chain to t+(iv) 384
+B* fails: t0: (iv) | k terminal+shared pair+(iv) | shared pair+(iv) ; t1: no chain to t | no chain to t+(iv) 192
+B* fails: t0: (iv) | no chain to t ; t1: (iv) | no chain to t+(iv) 128
+B* fails: t0: (iv) | no chain to t ; t1: deficit 2 128
+B* fails: t0: (iv) | no chain to t | no chain to t+(iv) ; t1: (iv) | no chain to t 128
+B* fails: t0: (iv) | no chain to t | no chain to t+(iv) ; t1: (iv) | no chain to t | no chain to t+(iv) 384
+B* fails: t0: (iv) | no chain to t | no chain to t+(iv) ; t1: (iv) | no chain to t+(iv) 128
+B* fails: t0: (iv) | no chain to t+(iv) ; t1: (iv) | no chain to t+(iv) 576
+B* fails: t0: (iv) | no chain to t+(iv) | no chain to t+shared pair+(iv) | shared pair+(iv) ; t1: (iv) | no chain to t+(iv) | no chain to t+shared pair+(iv) | shared pair+(iv) 64
+B* fails: t0: no chain to t ; t1: (iv) | k terminal 768
+B* fails: t0: no chain to t ; t1: (iv) | k terminal+(iv) 1024
+B* fails: t0: no chain to t ; t1: (iv) | k terminal+shared pair+(iv) | shared pair+(iv) 384
+B* fails: t0: no chain to t ; t1: (iv) | no chain to t+(iv) 192
+B* fails: t0: no chain to t ; t1: deficit 2 256
+B* fails: t0: no chain to t ; t1: no chain to t 64
+B* fails: t0: no chain to t | no chain to t+(iv) ; t1: (iv) | k terminal 1408
+B* fails: t0: no chain to t | no chain to t+(iv) ; t1: (iv) | k terminal+(iv) 2048
+B* fails: t0: no chain to t | no chain to t+shared pair+(iv) ; t1: (iv) | k terminal+(iv) | shared pair+(iv) 256
+B* fails: t0: no chain to t | no chain to t+shared pair+(iv) ; t1: k terminal | shared pair+(iv) 512
+B* fails: t0: no chain to t | no chain to t+shared pair+(iv) ; t1: k terminal+shared pair+(iv) | shared pair+(iv) 128
+B* fails: t0: no chain to t | no chain to t+shared pair+(iv) | shared pair+(iv) ; t1: (iv) | no chain to t+(iv) | no chain to t+shared pair+(iv) | shared pair+(iv) 64
+B* fails: t0: no chain to t | no chain to t+shared pair+(iv) | shared pair+(iv) ; t1: no chain to t | no chain to t+shared pair+(iv) | shared pair+(iv) 128
+B* fails: t0: no chain to t+shared pair+(iv) | shared pair+(iv) ; t1: no chain to t+shared pair+(iv) | shared pair+(iv) 64
+repairing rotations: witness kinds ['no owner', 'owner'] 192
+repairing rotations: witness kinds ['no owner'] 10112
+some DE trade repairs True 10304
+some rotation into a terminal repairs True 10304

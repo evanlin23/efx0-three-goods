@@ -1,0 +1,7 @@
+$ python3 k4/k3oc1/te_release_mech.py gapfile:results/k4_k3oc1/gap_certs_5.gap.gz gapfile:results/k4_k3oc1/gap_small_5.gap.gz gapfile:results/k4_k3oc1/gap_small_4.gap.gz
+120 draft: max r >= omega - 1 True; max r achieved by a chain of length >= omega - 1 False
+26432 draft: max r >= omega - 1 True; max r achieved by a chain of length >= omega - 1 True
+8 r >= s - 1: False
+55016 r >= s - 1: True
+1132 r >= s: False
+53892 r >= s: True

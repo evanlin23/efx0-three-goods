@@ -1,0 +1,15 @@
+$ python3 k4/k3oc1/rf/a1_perturb.py RESIDUE 25 40 SEED, SEED = 1..4 (summed; HARD lines in a1_perturb_hard_n5.gz)
+492  perturb d: shape kept, facts (False, False, False), Y hard False
+67  perturb d: shape kept, facts (False, False, False), Y hard True
+77579  perturb d: shape kept, facts (False, True, True), Y hard False
+39953  perturb d: shape kept, facts hold
+590549  perturb d: shape lost
+96564  perturb k2: shape kept, facts (True, True, False), Y hard False
+84896  perturb k2: shape kept, facts hold
+525580  perturb k2: shape lost
+178  perturb u: shape kept, facts (False, False, False), Y hard False
+26  perturb u: shape kept, facts (False, False, False), Y hard True
+46161  perturb u: shape kept, facts (True, False, True), Y hard False
+42038  perturb u: shape kept, facts hold
+620237  perturb u: shape lost
+HARD-WITHOUT-FACTS lines: 93; all 93 have d valuing no good of J' (girth's trade shape, RF-A1*'s form undefined), and at all 93 the RF start Y' is repaired by one move (rf_dea_full.analyse)

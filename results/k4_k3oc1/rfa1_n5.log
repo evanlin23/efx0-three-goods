@@ -1,0 +1,14 @@
+$ python3 k4/k3oc1/rf/rfa1_n5.py RESIDUE
+39075 A1 at-once, path length 2: Hall facts (A1-i) True (A1-ii) True (A1-iii) True (A1-iv) False
+32368 A1 at-once, path length 2: Hall facts (A1-i) True (A1-ii) True (A1-iii) True (A1-iv) True
+71443 A1 at-once, path length 2: J' n R_d = {h} True
+39075 A1 at-once, path length 2: agents outside w, d valuing Y'_w = Y_d: ['frozen', 'u']
+32368 A1 at-once, path length 2: agents outside w, d valuing Y'_w = Y_d: ['u']
+71443 A1 at-once, path length 2: d threatened at Y by {g, h}: True
+71443 A1 at-once, path length 2: g is junk of Y True
+71443 A1 at-once, path length 2: h = Y_u False
+71443 A1 at-once, path length 2: reduction (A) True (B) True
+71443 A1 at-once, path length 2: starts
+71443 A1 at-once, path length 2: |D_T(Y)| = 2
+242 d values no good of J'
+32 path length 1 (w = d): A1 form undefined
