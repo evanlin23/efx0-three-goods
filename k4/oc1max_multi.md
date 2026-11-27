@@ -1495,3 +1495,60 @@ completions of the reduced instance after at most one move were counted, and how
 - The repair of these two is kgen-rounds' ROUND-P: one OC₁′ move or two disjoint moves. RSD-IND therefore needs a
   first step that is not a settlement. The natural candidate is an OC₁′-style move that gives agent 4 its pair *and*
   moves the others at once.
+
+## 17. Rounds: Lemma SD-E for a round, and (L\*) at the end of a round (ROUND-RSD's proof tools)
+
+A *round* settles a set K of dangerous agents at once. Each k ∈ K gets a chain P_k, and the chains are vertex-disjoint.
+P_k is a **prefix** of the earliest-wanter chain E(k): x_l is the σ-earliest wanter of Y_{x_{l−1}}, and P_k stops at
+some head z_k, which may be frozen at the picks. k takes an improving T_k ⊆ (J ∪ {Y_{z_k}}) ∩ R_k, with |T_k| ≤ 3, and
+the T_k are pairwise disjoint.
+
+Full chains E(k) never form disjoint rounds in these data. When u = 1 they share their head. The repairs of ROUND-P
+stop a chain early, at a head whose wanters the round serves. At 5_pure (10, 419) this is (0, 4) with {0, 7}, where
+7 = Y_4 is the head's pick, together with (1, 3) with {1, 8, 9}.
+
+**Lemma SD-E(round) (K4.MULTI.SDER).** Values are strict. Suppose:
+- **(H)** every agent outside K that wants a *released* head pick Y_{z_k} at the picks (a pick not taken into any
+  T_k′) values its good after the round above that pick.
+
+Then the state after the round, without K and ∪T_k, is the SD outcome of σ with K deleted.
+
+*Proof.* This is the proof of SD-E (§12) with one new case. Let a be an agent outside K, b_a its good after the round,
+and g an available good with v_a(g) > v_a(b_a) ≥ p_a.
+- If g is junk of I, then v_a(g) < p_a. Contradiction.
+- If g is a pick Y_j, then a wanted it, so σ(j) < σ(a). g's holder after the round comes after a, so j lies on some
+  P_k and σ(x_l) < σ(a) < σ(x_{l+1}). This contradicts x_{l+1} being the earliest wanter. The chains are disjoint, so
+  each good has one holder, and the argument runs inside the chain that moved g.
+- *New case:* g is a released head pick Y_{z_k}. Then a wanted it at the picks, and (H) excludes that.
+(H) is vacuous when every chain is a full E(k), because the head is unwanted, or when every frozen head's pick goes into
+the T of its chain, as at (10, 419). ∎
+
+Without (H) the lemma fails. Single chains stopped early fail it 29 times on the seven gaps, every time with a frozen
+head's pick released.
+
+**(L\*) at the end of a round.** No T_k may threaten any other agent at its value *after* the round:
+- real agents at their new values;
+- the other members of K at their thresholds τ_k′.
+
+For a single full-E(k) pair settlement this is automatic (§12). In a round it is not, for two reasons. A released or
+taken head pick may be wanted by someone. And the agents a triple threatens at their pick values may be lifted by the
+round's other chains. That second effect is exactly what makes (10, 419) work: {1, 8, 9} threatens agent 4 at its pick
+value, but not after 4 takes 0's pick in the chain (0, 4).
+
+With (L\*) at the end of the round as invariant (P1\*)–(P2) for the round's phantoms, Theorem S^φ's proof (§16) goes
+through unchanged. Its (P3) base case additionally needs every released head pick to be worth at most τ_k to each
+k ∈ K. In the census below this is checked raw, as part of the lifted EFX₀ test.
+
+**Census** (`round_sde.py`, PREFIX=1; `round_sde_gaps7.log`):
+
+| at the seven gaps | rounds | SD-E(round) | (L\*)-round | repaired (raw EFX₀, every completion lifted) |
+|---|---|---|---|---|
+| \|K\| = 1 (prefix chains) | 248 | 219, and 29 failures, exactly the 29 rounds where (H) fails | 70 | #773, #963 (by a Theorem S move) |
+| \|K\| = 2 (disjoint prefix chains) | 163 | **163** | 150 | **#419, #447, #1073**, all 150 by a completion at once |
+
+**Every one of the seven gaps is repaired:**
+- #419, #447 and #1073 by one round of two simultaneous settlements and a completion;
+- #38, #773, #813 and #963 by sequential settlements (§16).
+
+So ROUND-RSD's proof tools are SD-E(round) under (H) and (L\*) at the end of the round, with Theorem S^φ and the
+completion at once as the last step.
