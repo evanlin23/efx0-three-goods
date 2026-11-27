@@ -70,19 +70,24 @@ def main():
     ap.add_argument('--bin', default=None); ap.add_argument('--limit', type=int, default=0)
     ap.add_argument('--dump', default=None, help='write the one-receiver sigma-maximal vectors (JSONL, gzip) here')
     ap.add_argument('--any-n', action='store_true', help='allow a core list that is not pure n = 5')
+    ap.add_argument('--min4', type=int, default=0, help='keep only cores with at least this many 4-good agents')
     args = ap.parse_args(); t0 = time.time()
-    print('$ python3 k4/rf_indep/rkmax_rand.py --per-core %d --vmax %d --seed %d --procs %d'
-          % (args.per_core, args.vmax, args.seed, args.procs))
+    print('$ python3 k4/rf_indep/rkmax_rand.py --per-core %d --vmax %d --seed %d --procs %d%s%s%s'
+          % (args.per_core, args.vmax, args.seed, args.procs, ' --cores ' + os.path.basename(args.cores),
+             ' --min4 %d' % args.min4 if args.min4 else '', ' --any-n' if args.any_n else ''))
     binpath = args.bin or os.path.join(tempfile.gettempdir(), 'rf_oc1_bin')
     subprocess.check_call(['gcc', '-O2', '-o', binpath, os.path.join(HERE, 'rf_oc1.c')])
-    raw = json.load(gzip.open(args.cores))['cores']
+    raw = json.load(gzip.open(args.cores))
+    if isinstance(raw, dict): raw = raw['cores']
+    else: raw = [dict(c, idx=i) for i, c in enumerate(raw)]       # a plain list (k4/twins_count.py --mc9): idx = position
+    if args.min4: raw = [c for c in raw if sum(1 for s in c['sets'] if len(s) == 4) >= args.min4]
     if args.limit: raw = raw[:args.limit]
     cores = []
     for c in raw:
         nu = R.nu_kuhn(c['sets'])
         if nu != R.nu_brute(c['sets']): raise SystemExit('nu mismatch')
         cores.append(dict(sets=c['sets'], m=c['m'], idx=c['idx'], nu=nu))
-    print('cores %d from %s (sha256 %s); nu distribution %s' % (len(cores), os.path.relpath(args.cores, ROOT),
+    print('cores %d from %s (sha256 %s); nu distribution %s' % (len(cores), os.path.basename(args.cores),
           R.sha(args.cores), dict(collections.Counter(c['nu'] for c in cores))))
     if not args.any_n and (any(len(s) != 4 for c in cores for s in c['sets']) or any(len(c['sets']) != 5 for c in cores)):
         raise SystemExit('not a pure n = 5 list')

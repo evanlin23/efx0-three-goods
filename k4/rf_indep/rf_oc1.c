@@ -19,8 +19,9 @@
  *   id C t x_0 .. x_t H_0 .. H_t o X_0 .. X_{n-1}
  *   id F <number of distinct post-chain states tried>
  * P and C are returned at the first success (shorter chains first); F only after the exhaustive search.
- * With argument "count": P as above, else "id N <repairing post-chain states> <post-chain states>" (exhaustive;
- * N 0 ... means F), one line per task, flushed (for use as a coprocess).
+ * With argument "count": P as above, else "id N <repairing post-chain states> <post-chain states> <completions>"
+ * (exhaustive; completions = (absorber, placement) pairs over all repairing states; N 0 ... means F), one line per
+ * task, flushed (for use as a coprocess).
  *
  *     gcc -O2 -o rf_oc1 rf_oc1.c && ./rf_oc1 < tasks > answers
  */
@@ -64,11 +65,16 @@ static int efx0(const uint32_t *X) {
 /* ---- one-absorber completion ---- */
 static uint32_t CB[MAXN], CX[MAXN], WX[MAXN];
 static int oth[MAXN], noth, absorber, Wo;
+static int count_comp = 0;           /* count every (absorber, placement) completion instead of stopping */
+static long ncomp;
 
 static int arec(int k, uint32_t rem) {
     if (k == noth) {
         CX[absorber] = CB[absorber] | rem;
-        if (efx0(CX)) { memcpy(WX, CX, sizeof(CX)); Wo = absorber; return 1; }
+        if (efx0(CX)) {
+            if (count_comp) { ncomp++; return 0; }
+            memcpy(WX, CX, sizeof(CX)); Wo = absorber; return 1;
+        }
         return 0;
     }
     int i = oth[k];
@@ -137,7 +143,9 @@ static int try_state(void) {
     if (seen(NB)) return 0;
     nstates++;
     if (!count_mode) return one_absorber(NB);
-    if (one_absorber(NB)) nrepair++;
+    long before = ncomp;
+    count_comp = 1; one_absorber(NB); count_comp = 0;
+    if (ncomp > before) nrepair++;
     return 0;
 }
 
@@ -203,9 +211,9 @@ int main(int argc, char **argv) {
         gen++; if (gen == 0) { memset(hgen, 0, sizeof(hgen)); gen = 1; }
         nstates = 0; ninserted = 0; found = 0;
         if (count_mode) {
-            nrepair = 0;
+            nrepair = 0; ncomp = 0;
             for (tlen = 1; tlen < n; tlen++) srec(0, 0);
-            printf("%s N %ld %ld\n", id, nrepair, nstates); fflush(stdout);
+            printf("%s N %ld %ld %ld\n", id, nrepair, nstates, ncomp); fflush(stdout);
             continue;
         }
         for (tlen = 1; tlen < n && !found; tlen++) found = srec(0, 0);
