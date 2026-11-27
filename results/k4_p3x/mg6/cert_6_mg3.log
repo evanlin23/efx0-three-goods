@@ -1,3 +1,4 @@
 $ python3 k4/oc1cert/run.py 6_mg3 --jobs=4 --limit=1800 --out=/home/user/efx0-three-goods/results/k4_p3x/mg6/cert_6_mg3.json.gz
 hypergraphs 1228 jobs 4
 ... 500 hypergraphs, 2029 s
+... 1000 hypergraphs, 4675 s
