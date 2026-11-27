@@ -27,9 +27,13 @@ run is a counterexample candidate: it is blocked singly, re-checked for VM1-chai
 reported.  EVIDENCE only (single implementation; with --verify every box is re-checked on 20 random profiles of it by
 replaying the run from the raw definitions).
 --level=none|move|chain: the trades allowed (default chain); 'none' and 'move' certify the stronger VM1-plain forms.
-    python3 k4/vm/vm1chain_cert.py N [FILE_KEY] [--limit=K] [--verify] [--idx=I,J] [--level=L]
+Profile spaces up to 1.5e8 use a numpy bitmap (certify_dense); larger ones (pure n = 4) are sliced by agent 0's type,
+one slice per symmetry orbit (certify_sliced).  Both add every box with all its hypergraph-automorphism images.  The
+SAT outer loop (certify) is kept for cross-checks.  Hypergraphs run in parallel.
+    python3 k4/vm/vm1chain_cert.py N [FILE_KEY] [--limit=K] [--verify] [--idx=I,J] [--level=L] [--procs=P]
     (N = 2, 3 or 4; FILE_KEY e.g. 4_n4_3)"""
-import sys, os, json, gzip, time, itertools, collections
+import sys, os, json, gzip, time, itertools, collections, math
+import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vmlib as V
 from pysat.solvers import Solver
@@ -291,33 +295,191 @@ def replay(I, how):
     return V.is_efx0(I, X) and sorted(g for b in X for g in b) == list(range(I.m))
 
 
+# ---------------------------------------------------------------- symmetry and the dense (bitmap) mode
+def signature(w):
+    """the order type of a strict valuation w (a vector): the order of all subset sums (all distinct for strict w)"""
+    k = len(w)
+    return tuple(sorted(range(1 << k), key=lambda mask: sum(w[t] for t in range(k) if mask >> t & 1)))
+
+
+def automorphisms(sets, D, cap=5000):
+    """hypergraph automorphisms (sigma on agents, pi on goods, pi(S_a) = S_sigma(a)) as type maps: for each automorphism
+    a list tmap with tmap[a][t] = the index in D[sigma(a)] of the image of type t of agent a, and sigma"""
+    n = len(sets); m = 1 + max(max(S) for S in sets)
+    ags = [frozenset(a for a in range(n) if g in sets[a]) for g in range(m)]
+    classes = collections.defaultdict(list)
+    for g in range(m): classes[ags[g]].append(g)
+    sig = [{signature(rep): t for t, rep in enumerate(D[a])} for a in range(n)]
+    out = []
+    for sigma in itertools.permutations(range(n)):
+        if any(len(sets[sigma[a]]) != len(sets[a]) for a in range(n)): continue
+        tgt = {}; ok = True
+        for C, gs in classes.items():
+            C2 = frozenset(sigma[a] for a in C)
+            if len(classes.get(C2, [])) != len(gs): ok = False; break
+            tgt[C] = classes[C2]
+        if not ok: continue
+        keys = list(classes)
+        for perms in itertools.product(*[itertools.permutations(tgt[C]) for C in keys]):
+            pi = {}
+            for C, perm in zip(keys, perms):
+                for g, h in zip(classes[C], perm): pi[g] = h
+            inv = {h: g for g, h in pi.items()}
+            tmap = []
+            for a in range(n):
+                b = sigma[a]; pos = {g: k for k, g in enumerate(sets[a])}
+                row = []
+                for rep in D[a]:
+                    w = [rep[pos[inv[h]]] for h in sets[b]]
+                    row.append(sig[b][signature(w)])
+                tmap.append(np.array(row))
+            out.append((sigma, tmap))
+            if len(out) >= cap: return out
+    return out
+
+
+def box_of(sets, D, conds):
+    n = len(sets); T = []
+    for a in range(n):
+        ok = []
+        for t, rep in enumerate(D[a]):
+            vd = dict(zip(sets[a], rep))
+            if all(f(vd) for f in conds[a]): ok.append(t)
+        T.append(ok)
+    return T
+
+
+def certify_dense(sets, limit=None, verify=False):
+    """the same loop as certify(), with the covered profiles in a numpy bitmap and every box added with all its
+    automorphism images"""
+    n = len(sets); m = 1 + max(max(S) for S in sets)
+    deg = collections.Counter(g for S in sets for g in S)
+    D = [domain(S, deg) for S in sets]
+    shape = tuple(len(Da) for Da in D); N = math.prod(shape)
+    cov = np.zeros(shape, dtype=bool); flat = cov.reshape(-1)
+    auts = automorphisms(sets, D)
+    boxes = 0; fails = []; kinds = collections.Counter(); t0 = time.time(); pos = 0; CH = 1 << 20
+    while True:
+        while pos < N:
+            chunk = flat[pos:pos + CH]; k = int(np.argmin(chunk))
+            if not chunk[k]: pos += k; break
+            pos += len(chunk)
+        if pos >= N: break
+        if limit and boxes + len(fails) >= limit: return 'LIMIT', boxes, fails, kinds, time.time() - t0
+        prof = np.unravel_index(pos, shape)
+        vals = [list(D[a][prof[a]]) for a in range(n)]
+        res = inner(V.Inst(sets, vals, m))
+        if res is None:
+            fails.append(vals); flat[pos] = True; continue
+        conds, how = res; kinds[how[0]] += 1
+        T = box_of(sets, D, conds)
+        for a in range(n): assert prof[a] in T[a], (sets, vals, a)
+        if verify:
+            import random
+            rng = random.Random(boxes)
+            for _ in range(20):
+                combo = [rng.choice(Ta) for Ta in T]
+                assert replay(V.Inst(sets, [list(D[a][combo[a]]) for a in range(n)], m), how), (sets, combo, how)
+        for sigma, tmap in auts:
+            T2 = [None] * n
+            for a in range(n): T2[sigma[a]] = np.sort(tmap[a][T[a]])
+            cov[np.ix_(*T2)] = True
+        boxes += 1
+    return 'DONE', boxes, fails, kinds, time.time() - t0
+
+
+def certify_sliced(sets, limit=None, verify=False):
+    """for profile spaces too large for one bitmap (pure n = 4): slice by agent 0's type, one slice per orbit of agent 0's
+    types under the automorphisms that fix agent 0 (sound: the statement is invariant), a dense loop inside each slice;
+    every box and its automorphism images are kept and projected into later slices"""
+    n = len(sets); m = 1 + max(max(S) for S in sets)
+    deg = collections.Counter(g for S in sets for g in S)
+    D = [domain(S, deg) for S in sets]
+    shape = tuple(len(Da) for Da in D); sub = shape[1:]; N = math.prod(sub)
+    auts = automorphisms(sets, D, cap=2000)
+    stab = [tmap[0] for sigma, tmap in auts if sigma[0] == 0]
+    seen0 = set(); reps = []
+    for t in range(shape[0]):
+        if t in seen0: continue
+        reps.append(t); seen0.update(int(tm[t]) for tm in stab); seen0.add(t)
+    stored = []                                            # (mask over agent 0's types, [index arrays of agents 1..])
+    boxes = 0; fails = []; kinds = collections.Counter(); t0 = time.time(); CH = 1 << 20
+    for t_0 in reps:
+        cov = np.zeros(sub, dtype=bool); flat = cov.reshape(-1)
+        for mask, Ts in stored:
+            if mask[t_0]: cov[np.ix_(*Ts)] = True
+        pos = 0
+        while True:
+            while pos < N:
+                chunk = flat[pos:pos + CH]; k = int(np.argmin(chunk))
+                if not chunk[k]: pos += k; break
+                pos += len(chunk)
+            if pos >= N: break
+            if limit and boxes + len(fails) >= limit: return 'LIMIT', boxes, fails, kinds, time.time() - t0
+            prof = (t_0,) + tuple(int(u) for u in np.unravel_index(pos, sub))
+            vals = [list(D[a][prof[a]]) for a in range(n)]
+            res = inner(V.Inst(sets, vals, m))
+            if res is None:
+                fails.append(vals); flat[pos] = True; continue
+            conds, how = res; kinds[how[0]] += 1
+            T = box_of(sets, D, conds)
+            for a in range(n): assert prof[a] in T[a], (sets, vals, a)
+            if verify:
+                import random
+                rng = random.Random(boxes)
+                for _ in range(20):
+                    combo = [rng.choice(Ta) for Ta in T]
+                    assert replay(V.Inst(sets, [list(D[a][combo[a]]) for a in range(n)], m), how), (sets, combo, how)
+            for sigma, tmap in auts:
+                T2 = [None] * n
+                for a in range(n): T2[sigma[a]] = np.sort(tmap[a][T[a]])
+                mask = np.zeros(shape[0], dtype=bool); mask[T2[0]] = True
+                stored.append((mask, T2[1:]))
+                if mask[t_0]: cov[np.ix_(*T2[1:])] = True
+            boxes += 1
+    return 'DONE', boxes, fails, kinds, time.time() - t0
+
+
+def job(args):
+    fn, c, limit, verify, level = args
+    LEVEL[0] = level; V.FREE_Z[0] = True
+    sets = c['sets']; n = len(sets); m = 1 + max(max(S) for S in sets)
+    size = math.prod(288 if len(S) == 4 else 6 for S in sets)
+    f = certify_dense if size <= 1.5e8 else certify_sliced
+    status, boxes, fails, kinds, dt = f(sets, limit, verify)
+    import vm1_chain as Ch
+    fk = collections.Counter(); bad = []
+    for vals in fails:
+        r = Ch.one(('f', sets, vals, m)); V.FREE_Z[0] = True
+        fk[r[3]] += 1
+        if r[3] != 'VM1': bad.append((r[3], vals))
+    return fn, c['idx'], n, m, status, boxes, dict(kinds), len(fails), dict(fk), bad[:3], dt, f.__name__
+
+
 FILES = {2: ['k4_certs_2.json.gz'], 3: ['k4_certs_3.json.gz'],
          4: ['k4_certs_4_n4_1.json.gz', 'k4_certs_4_n4_2.json.gz', 'k4_certs_4_n4_3.json.gz', 'k4_certs_4_pure.json.gz']}
 
 if __name__ == '__main__':
+    import multiprocessing as mp
     N = int(sys.argv[1]); key = sys.argv[2] if len(sys.argv) > 2 and not sys.argv[2].startswith('--') else None
     opt = dict((a[2:].split('=') + ['1'])[:2] for a in sys.argv[2:] if a.startswith('--'))
     limit = int(opt['limit']) if 'limit' in opt else None; verify = 'verify' in opt
     only = [int(s) for s in opt['idx'].split(',')] if 'idx' in opt else None
-    LEVEL[0] = opt.get('level', 'chain')
+    level = opt.get('level', 'chain'); procs = int(opt.get('procs', os.cpu_count()))
     print('$ python3 k4/vm/vm1chain_cert.py', ' '.join(sys.argv[1:]), flush=True)
-    tot = collections.Counter(); T0 = time.time()
+    jobs = []
     for fn in FILES[N]:
         if key and key not in fn: continue
         for c in json.load(gzip.open(os.path.join(ROOT, 'results', fn)))['cores']:
             if only is not None and c['idx'] not in only: continue
-            status, boxes, fails, kinds, dt = certify(c['sets'], limit, verify)
-            tot[status] += 1; tot['boxes'] += boxes; tot['fail profiles'] += len(fails)
-            # every failing profile of the certified form, re-checked with rotation: VM1 (<= 1 move) / VM1-chain / none
-            import vm1_chain as Ch
-            fk = collections.Counter(); bad = []
-            for vals in fails:
-                r = Ch.one(('f', c['sets'], vals, 1 + max(max(S) for S in c['sets']))); V.FREE_Z[0] = True
-                fk[r[3]] += 1; tot['fail ' + r[3]] += 1
-                if r[3] != 'VM1': bad.append((r[3], vals))
-            print('  %s idx %d n=%d m=%d: %s, %d boxes %s, %d failing profiles %s, %.1f s' % (
-                fn, c['idx'], len(c['sets']), 1 + max(max(S) for S in c['sets']), status, boxes, dict(kinds),
-                len(fails), dict(fk), dt), flush=True)
-            for lev, vals in bad[:3]:
-                print('    VM1 with rotation fails (%s): %s' % (lev, json.dumps({'sets': c['sets'], 'vals': vals})), flush=True)
+            jobs.append((fn, c, limit, verify, level))
+    tot = collections.Counter(); T0 = time.time()
+    with mp.Pool(procs) as pool:
+        for fn, idx, n, m, status, boxes, kinds, nf, fk, bad, dt, mode in pool.imap_unordered(job, jobs):
+            tot[status] += 1; tot['boxes'] += boxes; tot['fail profiles'] += nf
+            for k2, v2 in fk.items(): tot['fail ' + k2] += v2
+            print('  %s idx %d n=%d m=%d: %s, %d boxes %s, %d failing profiles %s, %.1f s (%s)' % (
+                fn, idx, n, m, status, boxes, kinds, nf, fk, dt, mode), flush=True)
+            for lev, vals in bad:
+                print('    VM1 with rotation fails (%s): %s' % (lev, json.dumps({'vals': vals})), flush=True)
     print('total', dict(tot), '; time %.0f s' % (time.time() - T0))
