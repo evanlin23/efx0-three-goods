@@ -3,7 +3,10 @@ chain (sigma = the order) ending at a terminal e with {b_k, c_k} inside J + {Y_e
 has a one-absorber completion with owner e (LB+'s owner r), or with no owner.  Tests: the simple Lemma 1 (no owner:
 |J'| <= |T'|; owner e: a terminal with h(E'_e) <= |T'| - 1, or a pair holder after upgrading with h(E'_e) <= |T'|);
 LE: Lemma 1 plus one slot for k (le_test); the exact test with owner none or e (lb2_owners).
-    python3 k4/k3oc1/t2k_e.py gapfile:FILE... [T=1|2]"""
+    python3 k4/k3oc1/t2k_e.py gapfile:FILE... [T=1|2]
+    python3 k4/k3oc1/t2k_e.py source:SOURCE [PROFILES SEED] [SHARD NSHARDS]   every hard perfect draft (exact lb2), not
+        only the gap; sigma = the least-index topological order of the draft's need DAG.  PROFILES = 0: every profile.
+        SOURCE as in oc1_k3.py (small:N, certs:N, rand:N:M:COUNT)."""
 import sys, os, json, re, ast, collections
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 from k3lib import base_of, read_lines
@@ -42,6 +45,55 @@ def valid_rotations(rk, m, order, Y):
         out.append((k, p, rotate(rk, bu, B, p)))
     return out
 
+
+def topo(rk, Y):
+    """least-index topological order of the need DAG (y before x if x ranks Y_y above Y_x)"""
+    n = len(rk); rank = [{g: i for i, g in enumerate(r)} for r in rk]
+    pred = [set(y for y in range(n) if y != x and Y[y] is not None and Y[y] in rank[x]
+                and (Y[x] is None or rank[x][Y[y]] < rank[x][Y[x]])) for x in range(n)]
+    order = []
+    while len(order) < n:
+        x = min(v for v in range(n) if v not in order and pred[v] <= set(order)); order.append(x)
+    return tuple(order)
+
+
+def run_source(argv):
+    import random
+    from oc1_fast import drafts
+    from oc1_k3 import hypergraphs, profiles
+    from lbtest import lb2
+    src = argv[0]; P, seed = (int(argv[1]), int(argv[2])) if len(argv) > 2 else (0, 0)
+    shard, nsh = (int(argv[3]), int(argv[4])) if len(argv) > 4 else (0, 1)
+    rng = random.Random(seed); C = collections.Counter()
+    print('$ python3 k4/k3oc1/t2k_e.py source:' + ' '.join(argv), flush=True)
+    for ci, (sets, m) in enumerate(hypergraphs(src, rng)):
+        if ci % nsh != shard: continue
+        for rk in profiles(sets, P, rng):
+            for Y in drafts(rk, len(sets)):
+                if any(g is None for g in Y): continue
+                b = base_of(Y, m)
+                if lb2(rk, m, b): continue
+                T = parts(rk, m, upgrade(rk, m, b))[5]; tag = '|T| %d: ' % len(T)
+                C[tag + 'hard perfect drafts'] += 1
+                R = valid_rotations(rk, m, topo(rk, Y), Y)
+                if not R:
+                    C[tag + 'no valid Rule E rotation'] += 1
+                    print('NOROT', json.dumps([list(r) for r in rk]), m, 'picks', Y, flush=True); continue
+                oks = []
+                for k, p, nb in R:
+                    le = le_test(rk, m, nb, k, p[-1])
+                    if le: C[tag + 'rotations LE owner none-or-e'] += 1; oks.append(True); continue
+                    lek = _owner_test(rk, m, *(lambda bu: (bu,) + parts(rk, m, bu)[:3] + (parts(rk, m, bu)[5],))(upgrade(rk, m, nb)), [i == k for i in range(len(rk))], {k})
+                    C[tag + 'rotations needing owner k: LE owner k %s' % bool(lek)] += 1; oks.append(bool(lek))
+                    if not lek: print('FAIL', json.dumps([list(r) for r in rk]), m, 'picks', Y, 'k', k, 'chain', p, flush=True)
+                C[tag + 'drafts: every rotation completes %s' % all(oks)] += 1
+                C[tag + 'drafts: some rotation completes %s' % any(oks)] += 1
+                if not any(oks): print('NOSOME', json.dumps([list(r) for r in rk]), m, 'picks', Y, flush=True)
+    for k_ in sorted(C): print(k_, C[k_])
+
+
+if __name__ == '__main__' and sys.argv[1].startswith('source:'):
+    run_source([sys.argv[1][7:]] + sys.argv[2:]); sys.exit()
 
 if __name__ == '__main__':
     C = collections.Counter(); want_T = None

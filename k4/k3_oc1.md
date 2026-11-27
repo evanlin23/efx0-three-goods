@@ -627,7 +627,15 @@ that is false, see below.)
     agent 1 the owner; after the ring, ({1}, {0}, {3}, {5,7}, {2,4,9}, {6,8}), with agent 4 the owner.
 - **T′_k on the no-owner failures of the gap** (`owner_k.py`, `owner_k.log`): on all 1,160 of them (360 with
   |T| = 1, 800 with |T| = 2), some rotation completes with owner nobody or k, under the exact test with the owner
-  restricted (`lbtest.lb2_owners`). The run of T′_k on every hard perfect draft (`tprime_k.py`) is in progress.
+  restricted (`lbtest.lb2_owners`).
+- **T′_k on every hard perfect draft** (`tprime_k.py`, `tprime_k_*.log`; the drafts needing owner k are in
+  `tprime_k_needk.gz`). No failure on any of the following:
+  - n = 4: 3,196 drafts, 20 of which need owner k;
+  - n = 5: 105,652 drafts, 932 of which need owner k;
+  - n = 6, m ∈ {10, 11}: all 338,916 drafts. With |T| = 1, 184,356 need no owner and 14,484 need owner k; with
+    |T| = 2, 133,144 need no owner and 6,932 need owner k.
+
+  Rotations here include rings with two pair arrows, and k is the agent that follows t on the ring.
 
 ### 12.1 Every earliest-wanter rotation completes (Conjecture T-E)
 
@@ -643,9 +651,10 @@ top-holder. The owner takes the rest. LE is Lemma 1 plus k's slot. It is sound b
 valid state, a bundle of three goods threatens only a top-holder whose pair lies inside it, and k's bundle contains
 no such pair.
 
-**Conjecture T-E.** At every hard perfect draft of a ledger core, every valid Rule E rotation has a completion LE
-with owner (N) nobody, (E) e, or (K) k. If there is no valid Rule E rotation, some DE ring with several pair arrows
-completes.
+**Conjecture T-E.** At every hard perfect draft in the gap of R1C ∪ B\*, every valid Rule E rotation has a
+completion LE with owner (N) nobody, (E) e, or (K) k. If there is no valid Rule E rotation, some DE ring with several
+pair arrows completes. Outside the gap the owner set {N, E, K} is too small (below); with any owner, every rotation
+completes on the data so far.
 
 Data (`t2k_e.py`; `te_gap_*.log`, `te_gap_fail_owners.log`): every gap draft with n ≤ 6, all rotations.
 
@@ -671,6 +680,17 @@ Data (`t2k_e.py`; `te_gap_*.log`, `te_gap_fail_owners.log`): every gap draft wit
   every k works.
 - **For every k, any owner** (`t2k_every.py`): all 27,008 two-terminal rotations complete. Length-zero rotations, an
   exposed terminal dropping its top, are not improving chains and do fail (1,856 of 4,160).
+
+**Outside the gap, owners N, E and K do not suffice** (`te_rules.py source:certs:5`). On 16 two-terminal drafts
+at n = 5, m = 9, all covered by R1C or B\*, some rotation completes only with the *other* terminal as owner.
+- **The instance.** Agents 0: 1>0>5, 1: 0>2>6, 2: 1>3>7, 3: 2>4>8, 4: 0>3>4; m = 9. Order (2,3,4,0,1) gives the picks
+  (5,6,1,2,0); T = {0, 1}, and k = 4 has its pair {3, 4} in J.
+- **The failing rotation.** The Rule E chain (4, 0) gives agent 0 its b, which agent 1 wants, so e = 0 is frozen.
+  Owner k fails: agents 2 and 3 are exposed with π′ = {7} and {8}, but T′ = {1}.
+- **The completion.** Owner 1, the other terminal, takes all the junk: ({0}, {5,6,7,8}, {1}, {2}, {3,4}), verified
+  by exhaustive search.
+- **Any owner** (`te_any.py`): every valid Rule E rotation completes on every hard perfect draft with n = 4 (3,196)
+  and n = 5, m = 9 (4,272).
 
 **The crossed configuration** (64 two-terminal gap drafts at n = 6, one hypergraph; `t2k_gap6_T2.log`,
 `t2k_crossed64.log`).
