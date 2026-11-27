@@ -13,7 +13,8 @@ smallest k at which EFX₀ can fail? Start with `threshold.md`, the results and 
 | `amm_modify.py` | can that instance be thinned (agents ignoring goods) with some agents fixed? (`attempts/monotone-lower-relevance-of-amm.md`) |
 | `mono_lib.py` | raw definitions: monotonicity, relevance, EFX₀ by brute force |
 | `hypergraphs.py` | relevance hypergraphs up to isomorphism, with the pruning of `threshold.md` §2 |
-| `check_enum.py` | independent re-enumeration (different method, no shared code) |
+| `check_enum.py` | independent re-enumeration (different method, no shared code), n ≤ 4 |
+| `check_enum5.py` | second independent re-enumeration (labeled count vectors, numpy canonical forms), fast enough for n = 5 |
 | `synth.py` | SAT encodings (`order`, `rank`), allocation clauses, inner EFX₀ searches (Python; C in `efx0search.c`) |
 | `run_search.py` | CEGAR driver per family (n, m, k); writes `results/monotone/n{n}_m{m}_k{k}.jsonl` |
 | `check_cert.py` | independent certificate checker (own clause generation, own symmetry breaking, Glucose) |

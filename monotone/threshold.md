@@ -52,7 +52,8 @@ search was also run for k ≤ 6, as a check of the tooling: every hypergraph is 
 ## 3. Search method
 
 For each hypergraph (up to isomorphism, `monotone/hypergraphs.py`; re-enumerated independently by
-`monotone/check_enum.py`), the question "is there a monotone profile with no EFX₀ allocation?" is a SAT problem.
+`monotone/check_enum.py` for n ≤ 4 and by `monotone/check_enum5.py` for every certified family, log
+`results/monotone/check_enum5.log`), the question "is there a monotone profile with no EFX₀ allocation?" is a SAT problem.
 Every allocation must contain a strict violation v_i(X_j ∖ {g}) > v_i(X_i), and both sides are disjoint subsets
 of R_i (`monotone/synth.py`). We solve it by CEGAR over allocations. A solver proposes a profile, a backtracking
 search finds an EFX₀ allocation for it, and that allocation's clause is added, until UNSAT or until a profile
@@ -94,7 +95,7 @@ hypergraph of §2 for that m.
 | 4 | 4 | 8–12 (complete) | 503 | no counterexample | `n4_m{8..12}_k4.jsonl` |
 | 3 | 5 | 8–12 (complete) | 113 | no counterexample | `n3_m{8..12}_k5.jsonl` |
 | 3 | 6 | 8–15 (complete) | 604 | no counterexample | `n3_m{8..15}_k6.jsonl` |
-| 5 | 4 | 9–15 (complete) | 18,829 | no counterexample (hypergraph lists from `hypergraphs.py` alone; the independent re-enumeration is too slow at n = 5) | `n5_m{9..15}_k4.jsonl.gz` |
+| 5 | 4 | 9–15 (complete) | 18,829 | no counterexample | `n5_m{9..15}_k4.jsonl.gz` |
 | 3 | 7 | 8 | PENDING | | |
 
 The modification experiments on the paper's instance (`attempts/monotone-lower-relevance-of-amm.md`) say the
