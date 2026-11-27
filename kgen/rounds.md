@@ -1298,6 +1298,45 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
   found at which every MD allocation is starved.
 - A proof would have to construct that allocation, which is the three-agent existence problem again. Not proved.
 
+## 5.4 RD² at n = 3, every k (PARTIAL: stopped by the campaign's wind-down)
+*Task (coordinator).* Two rounds of vertex-disjoint chains (RD²) at n = 3 for every k: a proof or a counterexample.
+- RD² at n = 3 for every k implies three-agent EFX₀ existence (Proposition H of `kgen/n3.md`), so a full proof is at
+  least as hard as the known three-agent EFX theorem.
+
+**A REC-S-type route** (`rd2_n3_recs.py`). The repair:
+- *Move 1:* settle a dangerous agent k by its earliest-wanter chain E(k), with k taking an improving set T ⊆ J ∪ {Y_z}.
+- *Move 2:* one chain or addition among the other two agents only.
+- *Completion:* a one-absorber EFX₀ completion in the full instance.
+
+The reduced start is then an SD outcome (Lemma SD-E, checked: 0 violations). kgen-n3's Theorem 2 gives a
+two-agent completion of OC₁(t ≥ 0) form there.
+
+**Data** (all evidence; raw definitions from `verify_k4zero`):
+- *Hard starts* (no one-round completion): ksens's 13 one-chain failures at k = 5 (`kcegar_k5_n3_D1.log`), and 67 from
+  a climb on instances with zeros at k = 5–9 (`n3_hunt.py`, `n3_hard_starts.jsonl`, `n3_hunt_*.log`; the long hunts
+  were stopped early, so these logs are partial).
+- **All 80 are repaired by the route** (`rd2_n3_recs_ksens13.log`, `rd2_n3_recs_hunt.log`). The shape is uniform:
+  - k is always the **second picker**;
+  - E(k) is (second picker, third picker);
+  - |T| = 2 (77 starts) or 3 (3 starts);
+  - move 2 changes both other agents;
+  - k absorbs extra junk in the completion at 29 of the 80.
+- *Theorem 2's explicit construction* as move 2, with X_k = T exactly, works at 70 of 80.
+  - Failures: 7 by (K) (k envies a bundle of the two-agent completion) and 3 where no improving pool *pair* exists.
+  - The general route fixes these by letting k absorb junk, or by |T| = 3.
+
+**What a proof needs** (open):
+- (i) At a hard start, the second picker is dangerous and has an improving T. This is a residual-case exclusion,
+  as for REC-S.
+- (ii) An *observer* form of Theorem 2: a two-agent EFX₀ completion from the reduced start that the settled agent k
+  does not envy, possibly with k absorbing junk.
+- Step (ii) is where the three-agent difficulty sits.
+- No counterexample to RD² at n = 3 was found.
+
+**n = 4, k = 5 (not started).** ksens's two-chain sweep of the k = 5 core-like n = 4 class with m ≥ 8 is paused at 875
+of 8,870 hypergraphs, all certified (`results/k4_ksens/kcegar_k5_core5_n4_D2_m8plus.*`). It can be resumed with
+`k4/ksens/kcegar_batch.py core5 4 2 8 ... --ckpt=...` (about 9 CPU-hours left). Two certified chains imply two rounds.
+
 ## 6. Proposed ledger rows (for the coordinator; LEDGER.md is not edited on this branch)
 
 | ID | Claim | Status | Artifact |
