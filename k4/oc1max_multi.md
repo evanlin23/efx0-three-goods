@@ -1712,8 +1712,15 @@ Agents 2 and 3 share the junk set {2, 3, 4}.
   - no completion at once exists.
 
 The other two profiles of #963 in the sample are safe either way. So (G1) is false in general, and the right rule must
-choose *which* sharer to settle. In this example it is the sharer whose departure leaves the other's chain a valued
-released pick.
+choose *which* sharer to settle. The obvious candidate, "the sharer whose chain releases a good the other sharer values",
+does **not** separate the two: both chains end at agent 1 and release good 1, which neither sharer values. The
+separating fact is the third dangerous agent 0.
+- After 3 settles, E(0) = (0, 4, 1) reaches good 7, worth 8 to 0, so 0 has the improving set {0, 7}.
+- After 2 settles, agent 4 holds 6 and nobody wants it, so E(0) = (0, 4) releases 6, which 0 does not value. Agent 0
+  is stranded.
+
+A correct rule must therefore keep every remaining dangerous agent's improving set reachable. That is a one-step
+look-ahead, as in the base-phantom session's GR.
 
 What is open is **ROUND-IND(G0)**, existence. On all data it holds as: every two-move start has a safe round, and in all
 but one start every P1-free round is safe. The refinement of (G1) that excludes #963 is the next target.
