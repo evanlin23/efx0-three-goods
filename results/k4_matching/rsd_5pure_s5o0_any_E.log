@@ -1,0 +1,19 @@
+$ MODE=E TSIZE=any DMAX=4 python3 k4/matching/rsd.py ../../results/k4_matching/data/n5_5pure_s5o0_two_move_starts.jsonl.gz | 280 distinct starts
+RSD FAILS {"sets": [[0, 2, 6, 7], [1, 4, 8, 9], [3, 5, 8, 9], [4, 5, 7, 9], [6, 7, 8, 9]], "vals": [[6, 3, 10, 8], [4, 8, 2, 3], [2, 8, 4, 3], [6, 7, 5, 3], [10, 7, 2, 6]], "picks": [6, 4, 5, 9, 7]}
+RSD+ FAILS {"sets": [[0, 2, 6, 7], [1, 4, 8, 9], [3, 5, 8, 9], [4, 5, 7, 9], [6, 7, 8, 9]], "vals": [[6, 3, 10, 8], [4, 8, 2, 3], [2, 8, 4, 3], [6, 7, 5, 3], [10, 7, 2, 6]], "picks": [6, 4, 5, 9, 7]}
+RSD FAILS {"sets": [[0, 2, 5, 8], [1, 6, 7, 8], [3, 6, 9, 10], [4, 7, 9, 10], [5, 8, 9, 10]], "vals": [[3, 4, 8, 6], [1, 6, 8, 4], [2, 10, 6, 3], [2, 8, 3, 4], [10, 8, 3, 6]], "picks": [5, 1, 6, 7, 8]}
+RSD+ FAILS {"sets": [[0, 2, 5, 8], [1, 6, 7, 8], [3, 6, 9, 10], [4, 7, 9, 10], [5, 8, 9, 10]], "vals": [[3, 4, 8, 6], [1, 6, 8, 4], [2, 10, 6, 3], [2, 8, 3, 4], [10, 8, 3, 6]], "picks": [5, 1, 6, 7, 8]}
+RSD+: every step shared False 5
+RSD+: every step shared True 273
+RSD+: least d = 1 278
+RSD+: none with d <= 4 2
+RSD+: sizes of T along the sequence [2] 276
+RSD+: sizes of T along the sequence [3] 2
+RSD: every step shared False 275
+RSD: every step shared True 3
+RSD: least d = 2 278
+RSD: none with d <= 4 2
+RSD: sizes of T along the sequence [2, 2] 262
+RSD: sizes of T along the sequence [2, 3] 14
+RSD: sizes of T along the sequence [3, 2] 2
+time 10 s

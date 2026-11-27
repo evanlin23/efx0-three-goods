@@ -1,0 +1,13 @@
+$ RMAX=2 DMAX=4 LSTAR=now ROUNDS=all EXPLORE=1 python3 k4/matching/round_rsd.py ../../results/k4_matching/data/n5_5pure_s5o0_two_move_starts.jsonl.gz | 280 distinct starts
+EXPLORE: no dead end reachable False 123
+EXPLORE: no dead end reachable True 157
+ROUND-RSD: T sizes [[2, 2]] 138
+ROUND-RSD: T sizes [[2, 3]] 5
+ROUND-RSD: T sizes [[2], [2]] 124
+ROUND-RSD: T sizes [[2], [3]] 6
+ROUND-RSD: T sizes [[3, 2]] 7
+ROUND-RSD: least number of rounds = 1 150
+ROUND-RSD: least number of rounds = 2 130
+ROUND-RSD: round sizes [1, 1] 130
+ROUND-RSD: round sizes [2] 150
+time 2 s

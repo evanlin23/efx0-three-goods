@@ -1,0 +1,11 @@
+$ python3 attempts/k4_matching_lift_n5.py
+1. SD picks [7, 2, 3, 5, 4] from 3 orders, e.g. (1, 4, 2, 0, 3) ; junk [0, 1, 6]
+   holders [3] ; dangerous [0, 1, 2, 4]
+2. some completion at the picks: False
+3. chains from dangerous agents 235 ; chains from any agent 310 ; rings 106 ; of all these, moves after which some completion exists 0
+4. first chains with the LIFT shape 2 ; LIFT-shaped pairs (P1, P2) 0 => LIFT-SHAPE+ fails: True
+4b. first chains with LIFT-EX (2) 75 ; of those, second chains with LIFT-EX (3) 0 => LIFT-EX fails: True
+5. disjoint chains (2, 3) then (1, 0), both official; final allocation [[2], [1, 7, 0], [5, 6], [3], [4]] EFX0: True
+   repairing pairs of chains from dangerous agents (any completion): {'disjoint': 45, 'overlapping': 75}
+6. reduced instance (agents [0, 1, 3, 4] , goods without [5, 6] ): state [[7], [2], [3], [4]] is the SD outcome of 3 orders, e.g. (1, 4, 3, 0) ; the lifted allocation is A above
+LIFT-SHAPE+ and LIFT-EX refuted at n = 5, k = 4

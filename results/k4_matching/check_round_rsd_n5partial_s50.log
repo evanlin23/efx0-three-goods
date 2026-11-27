@@ -1,0 +1,7 @@
+$ python3 k4/matching/check_rsd.py ../../results/k4_matching/data/two_move_starts_n5_partial6_s50.jsonl.gz ../../results/k4_matching/round_rsd_n5partial_witnesses.json.gz | 14047 distinct starts, 14047 witnesses
+verified, rounds 1, sizes [[2, 2]] 6867
+verified, rounds 1, sizes [[3, 2]] 491
+verified, rounds 2, sizes [[2], [2]] 5193
+verified, rounds 2, sizes [[2], [3]] 1496
+all starts certified: True
+time 2 s

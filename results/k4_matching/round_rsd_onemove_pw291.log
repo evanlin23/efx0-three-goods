@@ -1,0 +1,8 @@
+$ RMAX=2 DMAX=4 LSTAR=now python3 k4/matching/round_rsd.py ../../results/k4_matching/data/onemove_hard_pw291.jsonl.gz | 291 distinct starts
+ROUND-RSD: T sizes [[2, 2]] 6
+ROUND-RSD: T sizes [[2]] 285
+ROUND-RSD: least number of rounds = 1 291
+ROUND-RSD: round sizes [1] 285
+ROUND-RSD: round sizes [2] 6
+wrote ../../results/k4_matching/round_rsd_onemove_pw291_witnesses.json.gz 291 witnesses
+time 1 s

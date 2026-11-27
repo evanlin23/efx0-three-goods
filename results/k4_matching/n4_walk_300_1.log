@@ -1,0 +1,21 @@
+$ python3 k4/matching/n4_walk.py 300 1
+hypergraph 0: distinct failing (profile, start) pairs visited 13
+hypergraph 1: distinct failing (profile, start) pairs visited 7
+hypergraph 2: distinct failing (profile, start) pairs visited 10
+hypergraph 5: distinct failing (profile, start) pairs visited 4
+hypergraph 6: distinct failing (profile, start) pairs visited 7
+hypergraph 3: distinct failing (profile, start) pairs visited 4
+hypergraph 7: distinct failing (profile, start) pairs visited 10
+hypergraph 4: distinct failing (profile, start) pairs visited 24
+hypergraph 8: distinct failing (profile, start) pairs visited 7
+hypergraph 10: distinct failing (profile, start) pairs visited 19
+hypergraph 9: distinct failing (profile, start) pairs visited 24
+CM False, OC1 False 214
+CM False, OC1 True 14
+CM False, OC1 True: CM2 True 14
+CM False, OC1 True: some move has an S* completion False 14
+CM True, OC1 True 1022
+OC1 fails: CM2 True, OC2 True, EX* exact on the second move True 214
+distinct failing (profile, start) 129
+hard perfect starts 1250
+time 3 s

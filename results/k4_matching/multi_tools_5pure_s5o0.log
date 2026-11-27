@@ -1,0 +1,31 @@
+# proof/k4-oc1max-multi code at 8924c6b3 (not this workstream's), run unmodified on results/k4_matching/data/n5_5pure_s5o0_two_move_starts.*
+$ python3 k4/oc1max_multi/reduce_s.py results/k4_matching/data/n5_5pure_s5o0_two_move_starts.jsonl.gz
+280 failing starts
+278 (a) SD
+278 P1 with LIFT hypothesis
+278 E(k) only: (a) SD
+278 E(k) only: P1 with LIFT hypothesis
+278 E(k) only: SD-E tests
+273 (a) and a Theorem U/S case in I-
+273 OC2 by REC-S
+273 lifted, k unthreatened
+273 E(k) only: (a) and a Theorem U/S case in I-
+273 E(k) only: OC2 by REC-S
+273 E(k) only: lifted, k unthreatened
+violations (Theorem U/S in I-, LIFT, or SD-E): 0 []
+a smallest start not covered: {"list": "5_pure", "idx": 38, "sets": [[0, 1, 3, 8], [2, 3, 7, 8], [2, 5, 6, 7], [4, 5, 6, 8], [4, 6, 7, 8]], "vals": [[2, 4, 8, 7], [2, 8, 3, 4], [3, 10, 4, 8], [6, 10, 3, 8], [5, 3, 6, 7]], "picks": [3, 2, 5, 8, 7], "orders": [[0, 2, 3, 4, 1], [2, 0, 3, 4, 1], [2, 3, 0, 4, 1], [2, 3, 4, 0, 1]]}
+$ python3 k4/oc1max_multi/reduce_check.py results/k4_matching/data/n5_5pure_s5o0_two_move_starts.jsonl.gz
+280 failing starts
+278 SD
+278 P1 with a pool pair
+276 lifts with k keeping T
+276 SD and lifts with k keeping T
+242 SD, hard, one move repairs in I-
+242 SD, hard: |D_T(I-)| = 0
+125 SD, B1- completes at once in I-
+$ python3 k4/oc1max_multi/recs_witness.py results/k4_matching/data/n5_5pure_s5o0_two_move_starts.json.gz recs_5pure.json.gz
+starts 280 with a witness 273 without 7
+$ python3 k4/oc1max_multi/check_recs.py recs_5pure.json.gz
+starts 280 results {'ok': 273, 'no witness': 7}
+starts with strict values (distinct per agent): 280
+negative tests 19 accepted (must be 0): 0 {}

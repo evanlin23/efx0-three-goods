@@ -1,0 +1,15 @@
+$ python3 k4/matching/mc_check.py | 5610 starts
+(a) M^c formula == raw S^c deficiency True 65201
+(b) pruned S^c search == brute force True 33200
+hard_cex: OC1 True, some move gives S^c True, some move gives S* True 9
+hard_cores_1500_92: OC1 True, some move gives S^c True, some move gives S* True 182
+hard_cores_150_93: OC1 True, some move gives S^c True, some move gives S* True 16
+hard_cores_3000_91: OC1 True, some move gives S^c True, some move gives S* True 293
+hard_logs: OC1 True, some move gives S^c True, some move gives S* True 1200
+hard_pw_7_300: OC1 True, some move gives S^c True, some move gives S* True 291
+hard_screen: OC1 True, some move gives S^c True, some move gives S* True 182
+hard_special: OC1 True, some move gives S^c True, some move gives S* True 15
+hard_suite: OC1 True, some move gives S^c True, some move gives S* True 183
+nonS*: OC1 True, some move gives S^c True, some move gives S* False 60
+picks: S^c == one-absorber per owner True 21880
+time 13 s

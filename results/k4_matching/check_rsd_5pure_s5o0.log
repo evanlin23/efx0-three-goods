@@ -1,0 +1,7 @@
+$ python3 k4/matching/check_rsd.py ../../results/k4_matching/data/n5_5pure_s5o0_two_move_starts.jsonl.gz ../../results/k4_matching/rsd_5pure_witnesses.json.gz | 280 distinct starts, 278 witnesses
+no witness 2
+verified, steps 2, sizes of T [2, 2] 262
+verified, steps 2, sizes of T [2, 3] 14
+verified, steps 2, sizes of T [3, 2] 2
+all starts certified: False
+time 0 s

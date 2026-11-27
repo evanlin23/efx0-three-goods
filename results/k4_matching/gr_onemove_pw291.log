@@ -1,0 +1,5 @@
+$ KNOWN_HARD= python3 k4/matching/gr.py ../../results/k4_matching/data/onemove_hard_pw291.jsonl.gz | 291 distinct starts
+GR safe True 291
+GR safe True | all 291
+states, stop: final round 291
+time 1 s

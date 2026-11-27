@@ -1,0 +1,25 @@
+$ python3 k4/matching/n5_census.py ../../results/k4_matching/data/n5_5pure_s5o0_two_move_starts.jsonl.gz | 280 distinct starts (EXACT_STRIDE=1)
+OC2-REC FAILS {"sets": [[0, 2, 7, 8], [1, 6, 7, 8], [2, 6, 7, 8], [3, 4, 5, 6], [3, 4, 5, 8]], "vals": [[3, 10, 8, 6], [2, 7, 4, 8], [8, 4, 2, 5], [3, 2, 4, 8], [4, 3, 2, 8]], "picks": [2, 1, 7, 6, 8]}
+OC2-REC FAILS {"sets": [[0, 1, 5, 7], [1, 6, 7, 8], [2, 3, 4, 6], [2, 3, 4, 8], [5, 6, 7, 8]], "vals": [[3, 6, 10, 8], [2, 8, 4, 7], [2, 3, 4, 8], [2, 4, 3, 8], [7, 6, 3, 5]], "picks": [5, 1, 6, 8, 7]}
+OC2-REC FAILS {"sets": [[0, 2, 6, 7], [1, 4, 8, 9], [3, 5, 8, 9], [4, 5, 7, 9], [6, 7, 8, 9]], "vals": [[6, 3, 10, 8], [4, 8, 2, 3], [2, 8, 4, 3], [6, 7, 5, 3], [10, 7, 2, 6]], "picks": [6, 4, 5, 9, 7]}
+OC2-REC FAILS {"sets": [[0, 3, 6, 8], [1, 5, 6, 9], [2, 7, 8, 9], [3, 4, 5, 7], [4, 7, 8, 9]], "vals": [[2, 4, 7, 8], [2, 4, 7, 8], [3, 4, 10, 8], [3, 10, 6, 8], [8, 2, 4, 7]], "picks": [8, 9, 2, 4, 7]}
+OC2-REC FAILS {"sets": [[0, 2, 6, 7], [1, 4, 8, 10], [3, 5, 9, 10], [6, 7, 8, 9], [7, 8, 9, 10]], "vals": [[4, 3, 8, 6], [3, 4, 10, 8], [4, 3, 8, 6], [10, 2, 3, 6], [4, 8, 7, 2]], "picks": [6, 8, 9, 7, 10]}
+OC2-REC FAILS {"sets": [[0, 2, 5, 8], [1, 6, 7, 8], [3, 6, 9, 10], [4, 7, 9, 10], [5, 8, 9, 10]], "vals": [[3, 4, 8, 6], [1, 6, 8, 4], [2, 10, 6, 3], [2, 8, 3, 4], [10, 8, 3, 6]], "picks": [5, 1, 6, 7, 8]}
+  OC2-REC with (b) by a Lemma EX* exchange in I- True 274
+  OC2-REC: B1- completes at once False 274
+  OC2-REC: P1 ends at the holder True 274
+  a repairing pair has P2 ending at the holder True 280
+  a repairing pair is vertex-disjoint False 40
+  a repairing pair is vertex-disjoint True 240
+(EX* sample) exact on the second move False 60
+(EX* sample) exact on the second move True 220
+CM2 True 280
+LIFT-SHAPE+ False 148
+LIFT-SHAPE+ True 132
+OC2 (chains from dangerous agents) True 280
+OC2-REC False 6
+OC2-REC True 274
+hard, OC1 fails (raw) True 280
+holders = 1 280
+wrote ../../results/k4_matching/rec_5pure_witnesses.json.gz 274 witnesses
+time 11 s

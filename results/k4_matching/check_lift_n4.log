@@ -1,0 +1,5 @@
+$ python3 k4/matching/check_lift_n4.py | 112880 starts, 112880 witnesses
+verified, case a 109680
+verified, case b 3200
+all starts certified: True
+time 9 s

@@ -1,0 +1,5 @@
+$ python3 k4/matching/check_rec.py ../../results/k4_matching/data/n5_5pure_s5o0_two_move_starts.jsonl.gz ../../results/k4_matching/rec_5pure_witnesses.json.gz | 280 distinct starts, 274 witnesses
+no witness 6
+verified, after one move of I- 274
+all starts certified: False
+time 0 s

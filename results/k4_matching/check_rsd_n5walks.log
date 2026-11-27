@@ -1,0 +1,4 @@
+$ python3 k4/matching/check_rsd.py ../../results/k4_matching/n5_walk164.jsonl ../../results/k4_matching/n5_walk164_long.jsonl.gz ../../results/k4_matching/rsd_n5walk_witnesses.json.gz | 23924 distinct starts, 23924 witnesses
+verified, steps 2, sizes of T [2, 2] 23924
+all starts certified: True
+time 3 s

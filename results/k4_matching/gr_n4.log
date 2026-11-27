@@ -1,0 +1,10 @@
+$ KNOWN_HARD=1 python3 k4/matching/gr.py n4export | 112880 distinct starts
+... 20000 15 s
+... 40000 30 s
+... 60000 43 s
+... 80000 56 s
+... 100000 69 s
+GR safe True 112880
+GR safe True | all 112880
+states, stop: final round 302320
+time 91 s

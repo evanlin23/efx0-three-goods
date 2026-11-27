@@ -1,0 +1,16 @@
+$ python3 k4/matching/exact_check.py screen (NMAX=4 STRIDE=7)
+(a) tests 43662
+(b) agree, deficiency 0 1875
+(b) agree, deficiency 1 1143
+(b) agree, deficiency 2 697
+(b) agree, deficiency 3 272
+(b) agree, deficiency 4 121
+(b) agree, deficiency 5 11
+(b) owner tests 4119
+(b) states with (G1), (G2): move 547
+(b) states with (G1), (G2): pick 608
+instances 152
+skipped (|J| > 6) 8
+states move 1403
+states pick 608
+time 16 s

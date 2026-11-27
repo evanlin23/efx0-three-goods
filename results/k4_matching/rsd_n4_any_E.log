@@ -1,0 +1,20 @@
+$ MODE=E TSIZE=any DMAX=4 python3 k4/matching/rsd.py n4export | 112880 distinct starts
+... 10000 32 s
+... 20000 58 s
+... 30000 86 s
+... 40000 117 s
+... 50000 150 s
+... 60000 175 s
+... 70000 204 s
+... 80000 235 s
+... 90000 262 s
+... 100000 296 s
+... 110000 383 s
+RSD+: every step shared True 112880
+RSD+: least d = 1 112880
+RSD+: sizes of T along the sequence [2] 112880
+RSD: every step shared False 112880
+RSD: least d = 2 112880
+RSD: sizes of T along the sequence [2, 2] 103600
+RSD: sizes of T along the sequence [2, 3] 9280
+time 408 s
