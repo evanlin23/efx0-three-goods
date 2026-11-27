@@ -18,7 +18,10 @@ Input: an n = 5 chunk summary (results/k4_oc1max/n5/*_summary.jsonl.gz: the stor
 or an export of failing starts (export_fails.py's format: {"hypergraphs": [{"sets", "starts": [{"vals",
 "picks"}]}]}).
 
-    python3 k4/oc1cert/good_orders.py IN OUT.json.gz [--stride=K] [--jobs=4]"""
+With --rf, only Conjecture RF (K4.SDC.RF: every maximum-matching order whose first agent is a receiver of the failing
+start satisfies OC1) is checked, at every start, and OUT holds the totals and any violation.
+
+    python3 k4/oc1cert/good_orders.py IN OUT.json.gz [--stride=K] [--jobs=4] [--rf]"""
 import sys, os, gzip, json, itertools, collections, time, multiprocessing as mp
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, os.path.join(ROOT, 'k4', 'sdc'))
@@ -63,6 +66,26 @@ def analyse(a):
             'pick vectors': outs}
 
 
+def rf(sets, vals, bad, I=None, k=None):
+    """Conjecture RF (receiver first, the coordinator's ledger row K4.SDC.RF): at a start where OC1 fails, every
+    maximum-matching SD order whose first agent is a receiver of that start gives picks satisfying OC1.
+    Returns (ok, record); the record lists each receiver-first pick vector with its maximality and raw OC1 result."""
+    I = I or Inst(sets, vals); bad = tuple(bad); k = nu(I) if k is None else k
+    rec_bad = roles(I, bad)[0]
+    seen = {}
+    for r in rec_bad:
+        for rest in itertools.permutations([i for i in range(I.n) if i != r]):
+            P = I.sd((r,) + rest)
+            if P not in seen: seen[P] = [r, sum(p is not None for p in P) == k]
+    vecs = []; ok = True
+    for P, (r, mx) in seen.items():
+        res = I.check(P) if mx else None
+        if mx and res == 'OC1 fails': ok = False
+        vecs.append({'picks': list(P), 'first': r, 'maximum': mx, 'OC1': res})
+    return ok, {'receivers': rec_bad, 'receiver-first pick vectors': vecs,
+                'maximum ones': sum(v['maximum'] for v in vecs)}
+
+
 def rules(r):
     """candidate rules for a good order: True if the rule's choice is good, False if bad, None if it chooses nothing"""
     outs = r['pick vectors']; good = lambda o: o['OC1'] != 'OC1 fails'
@@ -86,6 +109,32 @@ def rules(r):
     return res
 
 
+def rf_job(a):
+    lst, idx, sets, vals, bad = a
+    ok, d = rf(sets, vals, bad)
+    return a, ok, d
+
+
+def rf_main(tasks, out, opt, src):
+    T = collections.Counter(); bad = []; t0 = time.time()
+    with mp.Pool(int(opt.get('jobs', 4))) as pool:
+        for k, (a, ok, d) in enumerate(pool.imap_unordered(rf_job, tasks, chunksize=64)):
+            T['starts'] += 1; T['RF holds' if ok else 'RF VIOLATIONS'] += 1
+            T['receivers at the failing start: %d' % len(d['receivers'])] += 1
+            T['receiver-first maximum pick vectors checked'] += d['maximum ones']
+            T['receiver-first non-maximum pick vectors (excluded)'] += sum(not v['maximum'] for v in d['receiver-first pick vectors'])
+            T['starts with no receiver-first maximum order'] += d['maximum ones'] == 0
+            if not ok:
+                bad.append({'list': a[0], 'idx': a[1], 'sets': a[2], 'vals': a[3], 'picks': a[4], **d})
+                print('RF VIOLATION', json.dumps(bad[-1]), flush=True)
+            if (k + 1) % 20000 == 0: print('... %d, %.0f s' % (k + 1, time.time() - t0), flush=True)
+    for k in sorted(T): print(k, T[k])
+    with gzip.open(out, 'wt') as f:
+        json.dump({'what': 'Conjecture RF at every start of %s' % os.path.basename(src), 'totals': dict(T),
+                   'violations': bad}, f)
+    print('wrote', out, '%.0f s' % (time.time() - t0))
+
+
 def main():
     src, out = sys.argv[1], sys.argv[2]
     opt = dict(a[2:].split('=', 1) for a in sys.argv[3:] if a.startswith('--') and '=' in a)
@@ -104,6 +153,8 @@ def main():
             for s in h['starts']:
                 tasks.append((h.get('list'), h.get('idx'), h['sets'], s['vals'], s['picks']))
     tasks = tasks[::stride]
+    if 'rf' in opt or '--rf' in sys.argv:      # only Conjecture RF, at every start (cheap: receiver-first orders only)
+        return rf_main(tasks, out, opt, src)
     print('failing starts', len(tasks), 'hypergraphs', len({(t[0], t[1], len(t[2]), str(t[2])) for t in tasks}),
           flush=True)
     T = collections.Counter(); R = collections.defaultdict(collections.Counter); res = []; t0 = time.time()

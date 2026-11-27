@@ -55,6 +55,16 @@ def job(task):
             vals = [list(C.dom[i][t]) for i, t in enumerate(prof)]
             rec['oc1_fails'].append({'vals': vals, 'picks': list(Y), 'raw_check': raw_check(sets, vals, Y)})
         rec['n_oc1_fail_pairs_met'] = len(C.oc1_fails)
+        # Conjecture RF (K4.SDC.RF) at every failing pair met, not only the stored ones: every maximum-matching order
+        # whose first agent is a receiver of the failing start satisfies OC1 (raw Inst code, good_orders.rf)
+        import good_orders as G
+        rf = {'pairs checked': 0, 'violations': [], 'receiver-first maximum pick vectors checked': 0}
+        for prof, Y in C.oc1_fails:
+            vals = [list(C.dom[i][t]) for i, t in enumerate(prof)]
+            ok, d = G.rf(sets, vals, Y)
+            rf['pairs checked'] += 1; rf['receiver-first maximum pick vectors checked'] += d['maximum ones']
+            if not ok: rf['violations'].append({'vals': vals, 'picks': list(Y), **d})
+        rec['rf'] = rf
     if r == 'certified':
         W = C.compact() if compact else C.witnesses
         rec['witnesses'] = [w.to_json() for w in W]
@@ -121,6 +131,13 @@ def main():
                 T['hypergraphs where OC1^max fails (one move not enough for some profile)'] += 1
                 for f in rec['oc1_fails']:
                     T['OC1^max failures raw-checked: %s' % f['raw_check']['raw']] += 1
+                rf = rec.get('rf')
+                if rf:
+                    T['RF: failing pairs checked (every pair met)'] += rf['pairs checked']
+                    T['RF: receiver-first maximum pick vectors checked'] += rf['receiver-first maximum pick vectors checked']
+                    T['RF: VIOLATIONS'] += len(rf['violations'])
+                    for v in rf['violations']:
+                        print('RF VIOLATION', json.dumps({'list': rec['list'], 'idx': rec['idx'], 'sets': rec['sets'], **v}), flush=True)
                 print('OC1MAX FAILS (raw: %s)' % rec['oc1_fails'][0]['raw_check']['raw'],
                       json.dumps({'list': rec['list'], 'idx': rec['idx'], 'sets': rec['sets'], **rec['oc1_fails'][0]}), flush=True)
             if (k + 1) % 500 == 0:
