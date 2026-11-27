@@ -945,6 +945,26 @@ Logs: `round_rsd_n5partial_s50.log`, `check_round_rsd_n5partial_s50.log`, `rsd_n
     starts are exactly the export's (`check_rsd_multi_round_e_sel2.log`).
   - So the round repair on these cores is checked by two independent searches and two independent checkers.
 
+**GR, a greedy round process** (proof/k4-base-phantom, PR #139, `k4/base_phantom.md`; independent implementation here,
+`k4/matching/gr.py`, logs `results/k4_matching/gr_*.log`).
+- Rule: at each state, stop at the first of
+  - a lifted completion;
+  - a *final round* (any admissible round, P1 settlements allowed, then a completion at once);
+  - an *ED repair* (one restricted official move, then a completion).
+  Otherwise expand **every** admissible P1-free round. A round is P1-free when no settled agent carries Lemma
+  PHANTOM's "ℓ alone" constraint.
+- GR is *stuck* at a start if some visited state has none of these.
+- With this implementation GR is never stuck:
+  - n = 4: all 112,880 two-move starts;
+  - the three complete n = 5 lists: all 583,680 (per core: 276,480 / 115,200 / 192,000);
+  - the 280 5_pure starts;
+  - the one-move hard starts: 8,081 + 1,737 + 291. ED repairs end 85 + 54 of them.
+- The other session reports the same with two implementations of its own (n = 4 certified; sel2 running).
+- So the existential choice of ROUND-IND can be replaced by GR's rule on all data. The rule: take a final round or
+  an ED repair when one exists; otherwise any P1-free round. Dead ends come only from P1 settlements taken too early.
+- The base-phantom session also reports that order matters. Expanding P1-free rounds before checking for a final
+  round gets stuck at 8 of the 280.
+
 **The base case** (the coordinator's question; `attempts/k4-matching-rsd-base.md`; ledger K4.MATCH.RSD.BASE). The
 data are all 10,109 distinct one-absorber-hard starts with a one-move repair: multi's 8,081, Hall's 1,737, and 291
 PW starts. On them, pure reduction with a completion at once gives:
