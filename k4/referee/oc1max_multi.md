@@ -870,3 +870,60 @@ in I₀.
 - (H) holds in all 410.
 - So matching's witnesses as found are not all covered by SD-E(round). That is why multi's E-prefix search
   (`round_e.py`, not re-run here) matters.
+
+## 17. Addendum: K4.MULTI.ROUNDE.SEL2, an audit of `check_rounds.py` and an independent re-validation (`proof/k4-oc1max-multi-2` at `4f8a9922`; 2026-11-27)
+
+**Read.**
+- `k4/oc1max_multi/check_rounds.py` (139 lines) line by line, against §17's definitions.
+- The ledger row K4.MULTI.ROUNDE.SEL2, and the logs `check_rounds_sel2.log` and `round_e_sel2.log`.
+
+**Data.**
+- The witness file `round_e_sel2_witnesses.json.gz` (sha256 `01ec8fb5…`).
+- The certifier's export `results/k4_oc1max/n5/two_move_starts_n5_sel2.json.gz` on `compute/k4-oc1max-cert` (sha256
+  `d1f6f082…`). The copy on `proof/k4-matching` that the checker used is byte-identical.
+
+**Check.** `k4/referee/roundse_ref.py` (own code: SD, the E-prefix test, the threat test and raw EFX₀ from my
+`cert_ref` / `oc1hall_ref` / `rsd_ref`), runs `roundse_ref_runs.sh`, log `results/k4_referee/roundse_ref.log`.
+`check_rounds.py` was read, not run.
+
+**Verdict: CONFIRMED** (CERTIFIED stands for the 583,680 exported starts). One robustness remark on the checker, which
+does not affect the result.
+
+**Audit of `check_rounds.py`.** Its checks match §17:
+1. the picks are SD of the witness order, with ties broken by good index;
+2. per round:
+   - (a) every k is frozen and dangerous;
+   - (b) P is a prefix (length ≥ 2) of k's earliest-wanter chain under the order restricted to the present agents,
+     chains are disjoint, and chain agents strictly gain;
+   - (c) T ⊆ (J ∪ head's good) ∩ R_k is improving, and the T's are disjoint;
+   - (d) the stored state matches;
+   - (e) (H);
+   - (f) SD-E(round)'s conclusion, checked directly by SD of the order restricted to A − K;
+   - (g) (L\*) at the round's end, with round-mates at v(T);
+   - (h) (P2) and (P3);
+3. the final allocation is a partition that extends the last state by junk only, settled agents receive nothing,
+   there is at most one absorber, and it is raw EFX₀ over every removed good.
+
+The export comparison (a multiset of (sets, values, picks), plus the sha256) is built in. That closes remark (a) of
+my RECS.N4 audit (§12).
+
+*Remark.* The E(k) loop excludes only the chain's last agent. If the earliest wanter were already on the chain, the
+loop would never end.
+- This cannot happen on the checked inputs. Every round starts at an SD state (check 1, then check 2f), and at an SD
+  state wants run only from later to earlier pickers, so the want graph is acyclic.
+- It could not cause a wrong acceptance in any case.
+- Stopping at a repeat would make the checker robust to malformed files.
+
+**Re-validation** (my code, single process; log `roundse_ref.log`):
+
+| check | result |
+|---|---|
+| witness starts vs the export's starts (multiset of sets, values, picks) | 583,680 = 583,680; 0 export starts without a witness; 0 witness starts outside the export |
+| witnesses valid (every condition above, raw EFX₀) | **583,680 of 583,680** |
+| round shapes | one round of two: 391,680 (= #419's 276,480 + #447's 115,200); two rounds of one: 192,000 (= #38's) |
+| earliest-wanter chains meeting a want-cycle | 0 |
+| my own mutants, every 50th witness: order reversed, T cut to one good, a settled agent given a good, two bundles swapped, the chain's head replaced | 5 × 11,674 = **58,370 tests, 0 accepted** |
+
+*Not checked here:* the completeness of the export. It is certified by the certifier at `14904a87`
+(`check_two_move_starts_n5_sel2.log`: 3 hypergraphs, every type profile and every maximum-matching SD order
+covered). The ledger row says so.
