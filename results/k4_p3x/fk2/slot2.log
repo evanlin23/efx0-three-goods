@@ -17,6 +17,9 @@ $ python3 k4/p3/slot2.py k4/p3/hard2_p2.jsonl results/k4_p3x/hard_p2_n34.jsonl.g
    slot good: other -> unexposed off-chain, frozen at the picks valuing it: 2
 SLOT start: no repairing jump chain satisfies Lemma 2* with owner d_1: 12
 SLOT starts: 6130
+chain agents alone suffice as slot holders: no: 182
+chain agents alone suffice as slot holders: yes, least k = 1: 5872
+chain agents alone suffice as slot holders: yes, least k = 2: 64
 least |H| = 1: 5602
 least |H| = 2: 507
 least |H| = 3: 7
