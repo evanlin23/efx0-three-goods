@@ -9,7 +9,8 @@ recomputed from the definitions (ties broken by good index, as in k4/sdc).  Per 
   5. (L): every other agent with a relevant good values each good of T strictly below its value after move 1;
   6. Lemma SD-E: after move 1, without k and T, the state is the SD outcome of the order minus k;
   7. move 2 = P2 from the state after move 1, not touching k: x_i takes its predecessor's single good and strictly
-     gains, its first agent k' is dangerous there (without k and T), takes H0_2 inside junk + the head's good, gains;
+     gains, its first agent k' is dangerous there (without k and T), takes H0_2 inside junk + the head's good, all
+     valued by k', and gains;
      the head of P2 holds a good nobody wants;
   8. Theorem S's shape: k' ends with exactly (junk after move 1 + the head's old good) minus h, and h goes to one
      other agent;
@@ -18,7 +19,7 @@ recomputed from the definitions (ties broken by good index, as in k4/sdc).  Per 
      i != j and every g in X_j (zero-valued goods included).
 Negative tests (mutated witnesses) must all be rejected.
 
-    python3 k4/oc1max_multi/check_recs.py WITNESSES.json.gz
+    python3 k4/oc1max_multi/check_recs.py WITNESSES.json.gz [EXPORT.json.gz]   (with the export: the starts must match it)
 """
 import sys, json, gzip, copy
 
@@ -76,7 +77,8 @@ def check(st):
     if len(B1[k2]) != 1 or not any(wants(i, B1[k2][0], b1[i]) for i in rest if i != k2): return '7 k2 frozen'
     if not any(g in v[k2] for g in J1): return '7 k2 dangerous'
     if any(wants(i, B1[z2][0], b1[i]) for i in rest if i != z2): return '7 head unwanted'
-    if not set(H0) <= set(J1) | set(B1[z2]) or V(k2, H0) <= b1[k2]: return '7 k2 takes H0'
+    if not set(H0) <= set(J1) | set(B1[z2]) or not all(g in v[k2] for g in H0) or V(k2, H0) <= b1[k2]:
+        return '7 k2 takes H0 (inside the pool, valued by k2, improving)'
     B2 = copy.deepcopy(B1); B2[k2] = sorted(H0)
     for t in range(1, len(P2)):
         if len(B1[P2[t - 1]]) != 1: return '7 single goods'
@@ -123,3 +125,12 @@ if __name__ == '__main__':
     print('starts', len(d['starts']), 'results', C)
     print('starts with strict values (distinct per agent):', strict)
     print('negative tests', nneg, 'accepted (must be 0):', sum(neg.values()), neg)
+    if len(sys.argv) > 2:      # the witness file must cover exactly the export's starts (as a multiset)
+        import hashlib, collections
+        ex = sys.argv[2]; sha = hashlib.sha256(open(ex, 'rb').read()).hexdigest()
+        e = json.load(gzip.open(ex))
+        key = lambda sets, vals, picks: json.dumps([sets, vals, list(picks)])
+        A = collections.Counter(key(hg['sets'], s0['vals'], s0['picks']) for hg in e['hypergraphs'] for s0 in hg['starts'])
+        B = collections.Counter(key(st['sets'], st['vals'], st['picks']) for st in d['starts'])
+        print('export sha256', sha, 'starts', sum(A.values()), '| export starts without a witness entry:',
+              sum((A - B).values()), '| witness starts outside the export:', sum((B - A).values()))

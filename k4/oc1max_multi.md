@@ -1165,7 +1165,12 @@ data is the certifier's export: all 112,880 (type profile, picks) pairs over the
   - move 2 is an official canonical chain from a dangerous agent of the reduced state, and does not touch k;
   - Theorem S's owner bundle W, with h going to one other agent;
   - the final allocation is complete, extends move 2 by junk only, has one absorber, and is raw EFX₀.
-- Result: **112,880 ok**. All 8,241 negative tests (mutated witnesses) are rejected.
+- Result: **112,880 ok**. All 8,241 negative tests (mutated witnesses) are rejected. The checker also matches the witness file to the export as a multiset
+  of (sets, vals, picks), with sha256: 0 missing and 0 extra.
+- *Audit:* the referee read the checker against the definitions and re-validated every witness with its own code
+  (`k4/referee/oc1max_multi.md` §12, commit 3db66cb7): **CONFIRMED**. Every witness is Theorem S's allocation for a
+  longest chain of I⁻, and (K) holds. As for OC₁′^max, "every n = 4 start" inherits the completeness of the
+  certifier's export.
 - The matching session also ran `reduce_s.py` unmodified on the same export, with the same result
   (`results/k4_matching/reduce_s_n4export.log` on `proof/k4-matching`, commit 4551d91).
 
