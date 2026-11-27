@@ -1184,3 +1184,41 @@ chain in the reduced instance. No 4b sub-lemma needs naming at n = 4.
 2. in I⁻, the chain (0, 1) of Theorem S with h = 0 kept out for agent 1.
 
 The final allocation is 0: {2, 5}, 1: {1, 0}, 2: {3, 4}, 3: {6}. An independent raw check confirms it is EFX₀.
+
+## 13. Lemma WG: worthless goods (standalone statement, for the referee)
+
+EFX₀ removes a good of value 0 at no cost to the remover. So a bundle S with |S| ≥ 2 threatens i at t iff
+v_i(S) − μ_i(S) > t, where μ_i(S) = min_{g∈S} v_i(g). Here μ_i(S) = 0 exactly when S contains a good that i does not
+value. Keeping such goods out of the owner's bundle lowers the threat to i by i's cheapest good in it, but each kept-out
+good needs a holder. This is the obstruction at the smallest residues of both SLOT (log613) and RING (T3), §10–§11.
+
+**Lemma WG (K4.MULTI.WG).** Let B be a state satisfying (G1) and (G2) (for instance the state after a canonical chain,
+by D-red 1). Let o be the owner, J the junk, and i ≠ o an agent. Put H = J ∖ R_i (the junk goods worth 0 to i) and
+X = B_o ∪ (J ∩ R_i). Suppose:
+- **(W1)** B_o ⊆ R_i, so that X ⊆ R_i;
+- **(W2)** X threatens no agent other than o at its value at B. For i this reads v_i(X) − min_{g∈X} v_i(g) ≤ v_i(B_i);
+- **(W3)** there are at least |H| holders: agents other than o with at most one base good, which nobody wants.
+
+Then B has an S\* completion with owner o and kept-out set H: o takes X, and |H| distinct holders take one good of H
+each.
+
+*Proof.* Lemma M (refereed) applies at B with owner o and kept-out set H. By (W2) the owner's bundle X threatens nobody
+at its base value, so no agent is needy, and (C1) holds. A non-needy holder accepts every good. So by (W3) any |H|
+distinct holders give a matching saturating H, which is (C3). ∎
+
+*Why it is worth stating.* Without (W1), the kept-out goods change nothing for i: i's threat value stays v_i(X),
+because a good worth 0 to i remains in X. With (W1), the threat value drops by i's cheapest good in X. The lemma
+isolates the count that matters: one holder per worthless junk good.
+
+**Checks** (`wg.py`, `wg.log`; canonical chains from D, minimal H₀, owner k, every i; raw EFX₀):
+
+| residue | starts | covered by Lemma WG | WG cases | violations | smallest not covered |
+|---|---|---|---|---|---|
+| SLOT2 (§10) | 161 | **41**, including log613 | 75 | 0 | lb4-last-block-leader-index-n4m8 (n = 4, m = 8) |
+| RING2 (§11) | 45 | 0 | 0 | 0 | T3, picks (0, 1, 4) |
+
+At T3 (W1) and (W2) hold after the chain (2, 1): B₂ = {1, 3} ⊆ R₁, and X = {1, 3} leaves 22 ≤ 30. But |H| = |{2, 5}| = 2
+and there is one holder, so (W3) fails. The swap repair of §11 avoids the count altogether.
+
+So 120 SLOT2 starts remain. They need a slot that cuts a danger set and a worthless-good cure at the same time; Lemma M
+decides each such combination exactly. RING2 needs the swap lemma.
