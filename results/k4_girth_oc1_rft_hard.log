@@ -1,0 +1,181 @@
+$ python3 k4/girth/oc1_rft_hard.py 300 3 3
+cores (pure, n = 5, m = 8): 656
+   RF-T settings (Y, Y')                                                                                                        454
+   X fails at every trade; Y repaired by: a chain with tail p                                                                   185
+   X fails at every trade; Y repaired by: picks complete                                                                         25
+   X fails, by trade: (W-d) fails at d                                                                                          114
+   X fails, by trade: (W-p) fails at off-path q                                                                                  62
+   X fails, by trade: (W-p) fails at x1                                                                                          20
+   X fails, by trade: (W-p) fails at x1=x_(l-1)                                                                                 119
+   X fails, by trade: (W-p) fails at x2=x_(l-1)                                                                                  25
+   X fails: the chain "p takes {g, j}, q takes Y_p", q a (W-p) violator, then completion: fails                                  36
+   X fails: the chain "p takes {g, j}, q takes Y_p", q a (W-p) violator, then completion: no (W-p) violator                      31
+   X fails: the chain "p takes {g, j}, q takes Y_p", q a (W-p) violator, then completion: works                                 165
+   Y an OC1 failure: False; F1 at some trade: False                                                                             103
+   Y an OC1 failure: False; F1 at some trade: True                                                                              351
+   Y an OC1 failure: False; F1-F3 at some trade: False                                                                          354
+   Y an OC1 failure: False; F1-F3 at some trade: True                                                                           100
+   Y an OC1 failure: False; F2 at some trade: True                                                                              454
+   Y an OC1 failure: False; F3 at some trade: False                                                                             347
+   Y an OC1 failure: False; F3 at some trade: True                                                                              107
+   canonical X EFX0 at some trade: False                                                                                        210
+   canonical X EFX0 at some trade: True                                                                                         244
+   every trade: d values j: False                                                                                               467
+   every trade: d values j: True                                                                                                 33
+   every trade: u values a junk good of Y: False                                                                                352
+   every trade: u values a junk good of Y: True                                                                                 148
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk, junk, pick of U(u)}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk, junk}; DT takes {pick of DT}; F takes {pick of DT}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk, junk}; Dp takes {pick of DT}                           1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk, junk}; Dp takes {pick of DT}; Dp takes {pick of Dp}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk, junk}; Dp takes {pick of DT}; F takes {pick of Dp}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk, junk}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       2
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk, junk}; F takes {pick of DT}                            1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk, junk}; F takes {pick of DT}; F takes {pick of F}; U(u) takes {pick of F}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk, junk}; F takes {pick of DT}; U(u) takes {pick of F}       5
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk, junk}; U(u) takes {pick of DT}                         3
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk, pick of U(u)}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       3
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk, pick of U(u)}; U(u) takes {pick of DT}                 2
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk}; DT takes {junk, pick of DT}                           1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk}; DT takes {junk, pick of DT}; U(u) takes {pick of DT}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk}; DT takes {pick of DT}; U(u) takes {pick of DT}        1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {junk, pick of DT}                           1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {junk, pick of DT}; Dp takes {pick of Dp}; U(u) takes {pick of Dp}       2
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {junk, pick of DT}; F takes {pick of Dp}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {junk, pick of DT}; F takes {pick of Dp}; U(u) takes {pick of F}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {junk, pick of Dp}; Dp takes {pick of DT}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {pick of DT}                                 3
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {pick of DT}; F takes {pick of Dp}; U(u) takes {pick of F, junk}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {pick of DT}; U(u) takes {pick of Dp}        5
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk}; F takes {pick of DT}                                  8
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk}; F takes {pick of DT}; U(u) takes {pick of F}          3
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, junk}; U(u) takes {pick of DT}                               7
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, pick of DT}; DT takes {junk, pick of U(u), junk}; F takes {pick of DT}; U(u) takes {pick of F}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, pick of DT}; DT takes {junk, pick of U(u), junk}; U(u) takes {pick of DT}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, pick of DT}; DT takes {pick of U(u), junk, junk}; U(u) takes {pick of DT}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, pick of Dp}; Dp takes {pick of U(u), junk}; U(u) takes {pick of DT}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk, junk}; U(u) takes {pick of DT}           1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk}; Dp takes {junk, pick of DT}; U(u) takes {pick of Dp}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk}; Dp takes {pick of DT}; Dp takes {pick of Dp}; U(u) takes {pick of Dp}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk}; Dp takes {pick of DT}; U(u) takes {junk, pick of Dp}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk}; F takes {pick of DT}; F takes {pick of F}; U(u) takes {pick of F}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk}; F takes {pick of DT}; U(u) takes {pick of F}       4
+   not a failure, F1 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk}; U(u) takes {pick of DT}                 9
+   not a failure, F1 at no trade; repaired by: move: DT takes {pick of U(u), junk, junk}; Dp takes {junk, pick of Dp}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {pick of U(u), junk, junk}; Dp takes {pick of DT}; Dp takes {pick of Dp}; U(u) takes {junk, pick of Dp}       1
+   not a failure, F1 at no trade; repaired by: move: DT takes {pick of U(u), junk, junk}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       2
+   not a failure, F1 at no trade; repaired by: move: DT takes {pick of U(u), junk, junk}; U(u) takes {pick of DT}                 6
+   not a failure, F1 at no trade; repaired by: move: Dp takes {junk, pick of U(u), junk}; Dp takes {pick of Dp, junk}; U(u) takes {pick of Dp}       1
+   not a failure, F1 at no trade; repaired by: picks complete, owner U                                                           12
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, junk, pick of U(u)}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       2
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, junk, pick of U(u)}; U(u) takes {pick of DT}           1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, junk}; DT takes {pick of DT}; Dp takes {pick of DT}       3
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, junk}; DT takes {pick of DT}; F takes {pick of DT}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, junk}; Dp takes {pick of DT}                           6
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, junk}; Dp takes {pick of DT}; Dp takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, junk}; Dp takes {pick of DT}; F takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, junk}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       3
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, junk}; F takes {pick of DT}                            1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, junk}; F takes {pick of DT}; F takes {pick of F}; U(u) takes {pick of F}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, junk}; F takes {pick of DT}; U(u) takes {pick of F}       5
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, junk}; U(u) takes {pick of DT}                         4
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, pick of U(u), junk}; DT takes {pick of DT}; U(u) takes {pick of DT}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, pick of U(u), junk}; Dp takes {pick of DT}; Dp takes {pick of Dp}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, pick of U(u), junk}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, pick of U(u), junk}; F takes {pick of DT}; U(u) takes {pick of F}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, pick of U(u)}; DT takes {pick of DT}; U(u) takes {pick of DT}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, pick of U(u)}; Dp takes {pick of DT}; F takes {pick of Dp}; U(u) takes {pick of F}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, pick of U(u)}; Dp takes {pick of DT}; U(u) takes {junk, pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, pick of U(u)}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       7
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk, pick of U(u)}; U(u) takes {pick of DT}                 4
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; DT takes {junk, pick of DT}                           1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; DT takes {junk, pick of DT}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; DT takes {junk, pick of DT}; Dp takes {pick of F}; F takes {pick of DT}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; DT takes {junk, pick of DT}; U(u) takes {pick of DT}       2
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; DT takes {pick of DT, junk}                           1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; DT takes {pick of DT}                                10
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; DT takes {pick of DT}; Dp takes {junk, pick of Dp}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; DT takes {pick of DT}; Dp takes {pick of DT}; U(u) takes {junk, pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; DT takes {pick of DT}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       3
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; DT takes {pick of DT}; U(u) takes {pick of DT}        2
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {junk, pick of DT}; Dp takes {pick of Dp}       2
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {junk, pick of DT}; Dp takes {pick of Dp}; U(u) takes {pick of Dp}       2
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {junk, pick of DT}; F takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {junk, pick of DT}; F takes {pick of Dp}; U(u) takes {pick of F}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {junk, pick of Dp}; Dp takes {pick of DT}       4
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {junk, pick of Dp}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {pick of DT}                                38
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {pick of DT}; Dp takes {pick of Dp}          1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {pick of DT}; Dp takes {pick of Dp}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {pick of DT}; F takes {pick of Dp}; U(u) takes {pick of F, junk}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {pick of DT}; F takes {pick of Dp}; U(u) takes {pick of F}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {pick of DT}; U(u) takes {junk, pick of Dp}       2
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       40
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; F takes {pick of DT}                                 12
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; F takes {pick of DT}; F takes {pick of F}             3
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; F takes {pick of DT}; U(u) takes {pick of F}          8
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, junk}; U(u) takes {pick of DT}                              13
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of DT}; DT takes {junk, pick of U(u), junk}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of DT}; DT takes {junk, pick of U(u), junk}; F takes {pick of DT}; U(u) takes {pick of F}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of DT}; DT takes {junk, pick of U(u), junk}; U(u) takes {pick of DT}       2
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of DT}; DT takes {pick of U(u), junk, junk}; U(u) takes {pick of DT}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of Dp}; Dp takes {junk, junk, pick of U(u)}; U(u) takes {pick of DT}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of Dp}; Dp takes {junk, pick of Dp}; Dp takes {pick of DT}; Dp takes {pick of U(u), junk}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of Dp}; Dp takes {pick of U(u), junk}; U(u) takes {pick of DT}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk, junk}; U(u) takes {pick of DT}           2
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk}; Dp takes {junk, pick of DT}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk}; Dp takes {junk, pick of Dp}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk}; Dp takes {pick of DT}; Dp takes {pick of Dp}; U(u) takes {pick of Dp}       2
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk}; Dp takes {pick of DT}; U(u) takes {junk, pick of Dp}       3
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk}; Dp takes {pick of DT}; U(u) takes {pick of Dp}      17
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk}; F takes {pick of DT}; F takes {pick of F}; U(u) takes {pick of F}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk}; F takes {pick of DT}; U(u) takes {pick of F}       4
+   not a failure, F3 at no trade; repaired by: move: DT takes {junk, pick of U(u), junk}; U(u) takes {pick of DT}                10
+   not a failure, F3 at no trade; repaired by: move: DT takes {pick of DT}; DT takes {pick of U(u), junk, junk}; Dp takes {junk, pick of DT}; Dp takes {pick of Dp}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {pick of DT}; DT takes {pick of U(u), junk, junk}; Dp takes {junk, pick of DT}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {pick of DT}; DT takes {pick of U(u), junk, junk}; Dp takes {pick of DT}; U(u) takes {junk, pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {pick of DT}; DT takes {pick of U(u), junk, junk}; U(u) takes {pick of DT}       3
+   not a failure, F3 at no trade; repaired by: move: DT takes {pick of U(u), junk, junk}; Dp takes {junk, pick of Dp}; Dp takes {pick of DT}; Dp takes {pick of Dp}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {pick of U(u), junk, junk}; Dp takes {junk, pick of Dp}; Dp takes {pick of DT}; U(u) takes {pick of Dp}       4
+   not a failure, F3 at no trade; repaired by: move: DT takes {pick of U(u), junk, junk}; Dp takes {pick of DT}; Dp takes {pick of Dp}; U(u) takes {junk, pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {pick of U(u), junk, junk}; Dp takes {pick of DT}; Dp takes {pick of Dp}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {pick of U(u), junk, junk}; Dp takes {pick of DT}; U(u) takes {junk, pick of Dp}       3
+   not a failure, F3 at no trade; repaired by: move: DT takes {pick of U(u), junk, junk}; Dp takes {pick of DT}; U(u) takes {pick of Dp}      15
+   not a failure, F3 at no trade; repaired by: move: DT takes {pick of U(u), junk, junk}; U(u) takes {pick of DT}                 9
+   not a failure, F3 at no trade; repaired by: move: DT takes {pick of U(u), junk}; Dp takes {pick of DT}; Dp takes {pick of Dp}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: DT takes {pick of U(u), junk}; F takes {pick of DT}; U(u) takes {pick of F}       1
+   not a failure, F3 at no trade; repaired by: move: Dp takes {junk, junk, pick of Dp}; Dp takes {pick of Dp}; Dp takes {pick of U(u), junk}; U(u) takes {pick of Dp}       1
+   not a failure, F3 at no trade; repaired by: move: Dp takes {junk, pick of U(u)}; U(u) takes {pick of Dp}                       1
+   not a failure, F3 at no trade; repaired by: picks complete, owner Dp                                                           1
+   not a failure, F3 at no trade; repaired by: picks complete, owner U                                                           35
+   not a failure, F3 at no trade; repaired by: picks complete, owner none                                                        17
+   only (F1') fails; X_A = (p: {g, j, Y_u}, u: {Y_p, z}) EFX0: False                                                              1
+   only (F1') fails; X_A = (p: {g, j, Y_u}, u: {Y_p, z}) EFX0: True                                                              24
+   only (F1') fails; X_A fails: q envies the bundle of p                                                                          1
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to d, z to d                                                        2
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to d, z to p                                                        8
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to d, z to q                                                        1
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to d, z to u                                                        9
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to p, z to d                                                        9
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to p, z to p                                                       21
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to p, z to q                                                        1
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to p, z to u                                                       24
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to q, z to d                                                        1
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to q, z to p                                                        1
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to q, z to q                                                        1
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to q, z to u                                                        1
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to u, z to d                                                       19
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to u, z to p                                                       23
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to u, z to q                                                        1
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to u, z to u                                                       14
+   only (F1') fails; after "p takes {g, j}, u takes Y_p": Y_u to u, z to x1                                                       6
+   only (F1') fails; d values: g,Y_p                                                                                             20
+   only (F1') fails; d values: g,z,Y_p                                                                                            5
+   only (F1') fails; shortest repairing move: DT takes {junk, junk}; U(u) takes {pick of DT}                                     24
+   only (F1') fails; some repairing move has p taking {g, j} and u taking Y_p: True                                              24
+   only (F1') fails; u values: Y_u,Y_p                                                                                           25
+   only (F1') fails; u wants Y_p at Y: True                                                                                      25
+   stage 1: one receiver at Y, Y' perfect                                                                                     87675
+   stage 2: path length >= 2, d takes junk                                                                                    16732
+   stage 3: DEMOTE-0 at Y'                                                                                                     4179
+   structure: u is last in sigma, d is last in sigma' (must be all)                                                             454
