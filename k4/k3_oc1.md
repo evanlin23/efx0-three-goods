@@ -602,9 +602,13 @@ does not see releases; that is where a proof must go.
 **Conjecture T′ (one move into a terminal).** At every hard perfect draft of a ledger core, some rotation from an
 exposed agent of a terminal t into t has a one-absorber completion. For |T| = 1 and |E_t| ≥ 2 it holds with no owner
 (kgen-n3's T1′), and so does every least-ω′ rotation.
-- T′ holds on all data: every hard perfect draft at n ≤ 5, and the whole n = 6 gap. B\* is its deficit-one case
-  with owner k.
-- Its no-owner form fails, but only where the exact completion is needed:
+- T′ holds on all data, with no failure (`tprime_*.log`):
+  - every hard perfect draft of every core with n ≤ 5;
+  - all 338,916 hard perfect drafts of the n = 6, m ∈ {10, 11} cores, every profile and order: 198,840 with
+    |T| = 1 and 140,076 with |T| = 2.
+
+  B\* is its deficit-one case with owner k.
+- The no-owner form fails on 13,412 n = 6 drafts with |T| ≤ 2, and also on these:
   - n = 4: 20 drafts, all with |T| = 1 and covered by B\*;
   - n = 5, m = 9: 132 with |T| = 1 and 96 with |T| = 2, covered by B\*;
   - the 800 two-terminal gap drafts above.
