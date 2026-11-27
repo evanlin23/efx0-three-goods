@@ -1,0 +1,40 @@
+$ python3 k4/ttc/head_owner.py suite
+distinct hard starts 196
+some repairing chain with absorber head 196
+some repairing chain with absorber head, t >= 1 196
+some repairing chain with absorber none 196
+some repairing chain with absorber off 183
+some repairing chain with absorber x0 196
+time 66 s
+$ python3 k4/ttc/head_owner.py logs nmax=5
+distinct hard starts 1364
+some repairing chain with absorber head 1364
+some repairing chain with absorber head, t >= 1 1364
+some repairing chain with absorber none 1362
+some repairing chain with absorber off 1300
+some repairing chain with absorber x0 1363
+time 69 s
+$ python3 k4/ttc/head_owner.py core:n3 3000 91
+distinct hard starts 293
+some repairing chain with absorber head 293
+some repairing chain with absorber head, t >= 1 293
+some repairing chain with absorber none 293
+some repairing chain with absorber off 279
+some repairing chain with absorber x0 293
+time 9 s
+$ python3 k4/ttc/head_owner.py core:n4 1500 92
+distinct hard starts 215
+some repairing chain with absorber head 215
+some repairing chain with absorber head, t >= 1 215
+some repairing chain with absorber none 215
+some repairing chain with absorber off 214
+some repairing chain with absorber x0 215
+time 21 s
+$ python3 k4/ttc/head_owner.py core:n5 150 93
+distinct hard starts 30
+some repairing chain with absorber head 30
+some repairing chain with absorber head, t >= 1 30
+some repairing chain with absorber none 29
+some repairing chain with absorber off 29
+some repairing chain with absorber x0 30
+time 5 s

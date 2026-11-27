@@ -1,0 +1,120 @@
+== jr K=5
+instances with a start needing a chain (OC) 155
+instances with a start needing a chain (OC1) 178
+starts 2187
+starts ext 1906
+starts ext1 1850
+starts md 2187
+starts oc 2187
+starts oc1 2187
+time 2 s
+== jr K=6
+instances with a start needing a chain (OC) 131
+instances with a start needing a chain (OC1) 153
+starts 2190
+starts ext 1950
+starts ext1 1896
+starts md 2190
+starts oc 2190
+starts oc1 2190
+time 4 s
+== jr K=8
+instances with a start needing a chain (OC) 35
+instances with a start needing a chain (OC1) 78
+starts 2182
+starts ext 2117
+starts ext1 2033
+starts md 2182
+starts oc 2182
+starts oc1 2182
+time 18 s
+== hot1 K=5
+instances with a start needing a chain (OC) 140
+instances with a start needing a chain (OC1) 157
+starts 2276
+starts ext 2014
+starts ext1 1977
+starts md 2276
+starts oc 2276
+starts oc1 2276
+time 2 s
+== hot1 K=6
+instances with a start needing a chain (OC) 117
+instances with a start needing a chain (OC1) 148
+starts 2250
+starts ext 2017
+starts ext1 1959
+starts md 2250
+starts oc 2250
+starts oc1 2250
+time 3 s
+== hot1 K=8
+instances with a start needing a chain (OC) 55
+instances with a start needing a chain (OC1) 77
+starts 2256
+starts ext 2166
+starts ext1 2127
+starts md 2256
+starts oc 2256
+starts oc1 2256
+time 16 s
+== pairs K=5
+instances with a start needing a chain (OC) 246
+instances with a start needing a chain (OC1) 285
+starts 3593
+starts ext 2943
+starts ext1 2851
+starts md 3593
+starts oc 3593
+starts oc1 3593
+time 3 s
+== pairs K=6
+instances with a start needing a chain (OC) 301
+instances with a start needing a chain (OC1) 323
+starts 3621
+starts ext 2765
+starts ext1 2622
+starts md 3621
+starts oc 3621
+starts oc1 3621
+time 6 s
+== pairs K=8
+instances with a start needing a chain (OC) 106
+instances with a start needing a chain (OC1) 133
+starts 3642
+starts ext 3371
+starts ext1 3293
+starts md 3642
+starts oc 3642
+starts oc1 3642
+time 24 s
+== unif K=5
+instances with a start needing a chain (OC) 23
+instances with a start needing a chain (OC1) 29
+starts 665
+starts ext 630
+starts ext1 621
+starts md 665
+starts oc 665
+starts oc1 665
+time 1 s
+== unif K=6
+instances with a start needing a chain (OC) 31
+instances with a start needing a chain (OC1) 41
+starts 690
+starts ext 644
+starts ext1 632
+starts md 690
+starts oc 690
+starts oc1 690
+time 1 s
+== unif K=8
+instances with a start needing a chain (OC) 48
+instances with a start needing a chain (OC1) 56
+starts 732
+starts ext 668
+starts ext1 659
+starts md 732
+starts oc 732
+starts oc1 732
+time 5 s

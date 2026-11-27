@@ -1,0 +1,27 @@
+$ python3 k4/haxell/ht_tree.py screen NMAX=3 MODEL=G MOVES=1
+STUCK D3 [[[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]]] order [0, 1, 2] picks [1, 2, 3]
+STUCK adaptive-cover-multi4 [[[0, 1, 2, 3], [0, 1, 2, 3]], [[2, 4, 5, 8], [2, 4, 5, 8]]] order [0, 1] picks [3, 2]
+STUCK adaptive-cover-multi4 [[[0, 1, 2, 3], [0, 1, 2, 3]], [[2, 4, 5, 8], [2, 4, 5, 8]]] order [1, 0] picks [2, 3]
+STUCK adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] order [0, 1, 2] picks [5, 4, 3]
+STUCK adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] order [0, 2, 1] picks [5, 3, 4]
+STUCK adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] order [1, 2, 0] picks [1, 5, 4]
+build needed an older player 3
+collapse created new victims for a lower edge 11553
+collapses 12258
+instances 79
+iterations 1460
+itmax hit 29
+layers max 3
+signature checks 12379
+signature did not decrease 11553
+start: STUCK 76
+start: augmentations 1 12
+start: augmentations 2 79
+start: augmentations 3 102
+start: augmentations 4 54
+start: augmentations 5 62
+start: augmentations 6 12
+starts 397
+stuck tree: layers 2 27
+stuck tree: layers 3 3
+time 3 s

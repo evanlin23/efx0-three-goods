@@ -1,0 +1,12 @@
+$ python3 k4/ksens/xcheck_brute.py 1 30 4 1 9 5 seeds:../../results/k4_ksens/climb_oc1_n4k5_pairs.log
+ext False 96
+ext True 92
+ext1 False 96
+ext1 True 92
+instances 29
+md True 188
+oc True 188
+oc1 True 188
+skipped 1
+starts 188
+time 5 s

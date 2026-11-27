@@ -96,3 +96,7 @@ import EFX.OC1MaxExamples
 import EFX.OC1Perf
 import EFX.OCVariants
 import EFX.OC1MaxCex
+import EFX.OC1MaxMoves
+import EFX.LemmaM
+import EFX.Lift1
+import EFX.T6

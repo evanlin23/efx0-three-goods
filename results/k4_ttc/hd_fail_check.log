@@ -1,0 +1,22 @@
+case 0 picks (3, 9, 1, 6, None, None) junk [0, 2, 4, 5, 7, 8] frozen [0, 1, 2, 3] dangerous [0, 1, 2, 3]
+  one-absorber completion of the picks: False
+  repairing chain (0, 4) bases [[0, 2], [9], [1], [6], [3], []] possible absorbers [0, 5] middle junk False
+  repairing chain (0, 5) bases [[0, 2], [9], [1], [6], [], [3]] possible absorbers [0, 4] middle junk False
+  repairing chain (1, 4) bases [[3], [4, 5], [1], [6], [9], []] possible absorbers [1, 5] middle junk False
+  repairing chain (1, 5) bases [[3], [4, 5], [1], [6], [], [9]] possible absorbers [1, 4] middle junk False
+    head can own 0
+    head can own, no middle junk 0
+    head can own, x0 dangerous 0
+    x0 dangerous 4
+  repairing chains 4
+case 1 picks (3, 9, 1, 6, None, None) junk [0, 2, 4, 5, 7, 8] frozen [0, 1, 2, 3] dangerous [0, 1, 2, 3]
+  one-absorber completion of the picks: False
+  repairing chain (0, 4) bases [[0, 2], [9], [1], [6], [3], []] possible absorbers [5] middle junk False
+  repairing chain (0, 5) bases [[0, 2], [9], [1], [6], [], [3]] possible absorbers [4] middle junk False
+  repairing chain (1, 4) bases [[3], [4, 5], [1], [6], [9], []] possible absorbers [1, 5] middle junk False
+  repairing chain (1, 5) bases [[3], [4, 5], [1], [6], [], [9]] possible absorbers [1, 4] middle junk False
+    head can own 0
+    head can own, no middle junk 0
+    head can own, x0 dangerous 0
+    x0 dangerous 4
+  repairing chains 4

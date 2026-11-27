@@ -1,0 +1,49 @@
+$ python3 k4/haxell/gstar_measure_run.py ext NMAX=5 MMAX=9 MAXSTATES=11000000 RADIUS=2 ROT=1
+instances 6
+partial EFX0 states 81635
+stuck states, phi0 1034
+stuck states, phi1 0
+stuck states, phi10 0
+stuck states, phi11 0
+stuck states, phi12 0
+stuck states, phi13 0
+stuck states, phi14 0
+stuck states, phi15 0
+stuck states, phi16 0
+stuck states, phi17 0
+stuck states, phi18 0
+stuck states, phi2 0
+stuck states, phi3 904
+stuck states, phi4 305
+stuck states, phi5 27
+stuck states, phi6 11
+stuck states, phi7 15
+stuck states, phi8 0
+stuck states, phi9 11
+instances with a stuck state, phi0 6
+instances with a stuck state, phi1 0
+instances with a stuck state, phi10 0
+instances with a stuck state, phi11 0
+instances with a stuck state, phi12 0
+instances with a stuck state, phi13 0
+instances with a stuck state, phi14 0
+instances with a stuck state, phi15 0
+instances with a stuck state, phi16 0
+instances with a stuck state, phi17 0
+instances with a stuck state, phi18 0
+instances with a stuck state, phi2 0
+instances with a stuck state, phi3 6
+instances with a stuck state, phi4 5
+instances with a stuck state, phi5 4
+instances with a stuck state, phi6 4
+instances with a stuck state, phi7 3
+instances with a stuck state, phi8 0
+instances with a stuck state, phi9 4
+first instance with a stuck state for phi0 : RD5 [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]]
+first instance with a stuck state for phi3 : RD5 [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]]
+first instance with a stuck state for phi4 : RD5 [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]]
+first instance with a stuck state for phi5 : RD5 [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]]
+first instance with a stuck state for phi6 : RD5 [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]]
+first instance with a stuck state for phi7 : RD5 [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]]
+first instance with a stuck state for phi9 : RD5 [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]]
+time 4 s

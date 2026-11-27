@@ -1,0 +1,6 @@
+$ python3 kgen/charity/w_counterexample.py k3
+instance k3: n 12, m 17, every agent values at most 3 goods
+stranded state: EFX0 True, strong charity True, welfare 484, unallocated [6, 7]
+SAT (chlib.welfare_max): largest welfare 484 with 2 unallocated; <= 1 unallocated: 483; complete: 483
+MILP (HiGHS): largest welfare 484; <= 1 unallocated: 483; complete: 483
+verified: every welfare maximum leaves at least two goods unallocated (W(3, 1) is false)

@@ -1,0 +1,29 @@
+$ python3 k4/ttc/ttc_test.py core:n4 1500 92 prefs=minval,minval/small,minval/val,minimal,lean,val prios=rev,pi modes=one,rep baseline=0
+instances 1500 starts 36000 hard starts 872 distinct hard starts 0
+pref       prio       mode  repaired / hard starts
+minimal    rev        rep   726 / 872
+minimal    rev        one   704 / 872
+lean       rev        rep   696 / 872
+lean       rev        one   676 / 872
+minval     rev        rep   643 / 872
+minval/small rev        rep   611 / 872
+minval     rev        one   598 / 872
+val        rev        rep   583 / 872
+val        rev        one   581 / 872
+minval/small rev        one   561 / 872
+minval/val rev        rep   521 / 872
+minval/val rev        one   503 / 872
+minval/small pi         rep   406 / 872
+minval/val pi         rep   393 / 872
+minimal    pi         rep   393 / 872
+minval/small pi         one   390 / 872
+lean       pi         rep   387 / 872
+minval/val pi         one   379 / 872
+minimal    pi         one   374 / 872
+lean       pi         one   370 / 872
+val        pi         rep   346 / 872
+val        pi         one   340 / 872
+minval     pi         rep   335 / 872
+minval     pi         one   304 / 872
+first failures of the best configuration ('minimal', 'rev', 'rep') [('r35', [0, 1, 2, 3]), ('r35', [0, 2, 1, 3]), ('r35', [1, 0, 2, 3])]
+time 26 s

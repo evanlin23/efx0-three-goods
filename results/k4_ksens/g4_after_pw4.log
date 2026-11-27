@@ -1,0 +1,14 @@
+$ python3 k4/ksens/g4_after.py ../../results/k4_ksens/seeds_pw4.txt 5
+progress 0 {} 0 s
+progress 200 {'instances': 143, 'hard starts': 116, '... with a repairing state leaving no dangerous frozen agent': 116} 3 s
+progress 400 {'instances': 269, 'hard starts': 217, '... with a repairing state leaving no dangerous frozen agent': 217} 5 s
+progress 600 {'instances': 410, 'hard starts': 332, '... with a repairing state leaving no dangerous frozen agent': 332} 8 s
+progress 800 {'instances': 550, 'hard starts': 451, '... with a repairing state leaving no dangerous frozen agent': 451} 11 s
+progress 1000 {'instances': 684, 'hard starts': 579, '... with a repairing state leaving no dangerous frozen agent': 579} 17 s
+progress 1200 {'instances': 819, 'hard starts': 720, '... with a repairing state leaving no dangerous frozen agent': 720} 21 s
+progress 1400 {'instances': 1007, 'hard starts': 874, '... with a repairing state leaving no dangerous frozen agent': 874} 30 s
+progress 1600 {'instances': 1207, 'hard starts': 1043, '... with a repairing state leaving no dangerous frozen agent': 1043} 36 s
+... with a repairing state leaving no dangerous frozen agent 1175
+hard starts 1175
+instances 1337
+time 49 s

@@ -1,0 +1,4 @@
+$ python3 kgen/charity/w_gm4g3.py 1 6000
+gm4g-3 with GM4-G values: welfare max 32, fewest unallocated 1
+S'(2,3): welfare maximum leaves 0 out 2968
+gm4g-3: welfare maximum leaves 0 out 3032

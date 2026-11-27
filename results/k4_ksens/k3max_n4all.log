@@ -1,0 +1,18 @@
+$ python3 k4/ksens/k3max.py 4 --all --jobs=2
+starts: every start ; move rule: official (no empty pass)
+hypergraphs 396 for m in [4, 5, 6, 7, 8, 9, 10, 11, 12]
+... 50 hypergraphs, 0 s
+... 100 hypergraphs, 3 s
+... 150 hypergraphs, 3 s
+... 200 hypergraphs, 6 s
+... 250 hypergraphs, 9 s
+... 300 hypergraphs, 12 s
+... 350 hypergraphs, 18 s
+n 4 m 4: hypergraphs 85, profiles 129112, starts 669859, complete at the picks 669859, one chain 0, FAIL 0
+n 4 m 5: hypergraphs 127, profiles 375360, starts 1299297, complete at the picks 1299297, one chain 0, FAIL 0
+n 4 m 6: hypergraphs 107, profiles 582432, starts 1502796, complete at the picks 1419654, one chain 83142, FAIL 0
+n 4 m 7: hypergraphs 56, profiles 484416, starts 993764, complete at the picks 960072, one chain 33692, FAIL 0
+n 4 m 8: hypergraphs 17, profiles 231552, starts 394288, complete at the picks 386564, one chain 7724, FAIL 0
+n 4 m 9: hypergraphs 4, profiles 82944, starts 122944, complete at the picks 120508, one chain 2436, FAIL 0
+total: hypergraphs 396, profiles 1885816, starts 4982948, complete at the picks 4855954, one chain 126994, FAIL 0, witnesses 17839, hit 4965109
+time 26 s

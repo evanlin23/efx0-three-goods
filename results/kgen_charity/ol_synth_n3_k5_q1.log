@@ -1,0 +1,4 @@
+$ ol_synth.run(3, 5, sizes, 1, L=2) over all sizes (OL at n = 3, k = 5, pool size 1)
+q 1 sizes (2, 2, 1) m 6 UNSAT 87 cuts 2.0 s
+q 1 sizes (2, 2, 2) m 7 UNSAT 268 cuts 83.7 s
+q 1 sizes (3, 2, 1) m 7 UNSAT 246 cuts 93.3 s

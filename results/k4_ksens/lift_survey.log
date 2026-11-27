@@ -1,0 +1,18 @@
+$ python3 k4/ksens/lift_survey.py 1 3 1 4
+instances 1092
+starts 3840
+starts ext 3074
+starts ext1 2953
+starts md 3840
+starts oc 3840
+starts oc1 3840
+time 10 s
+$ python3 k4/ksens/lift_survey.py 2 3 2 4
+instances 1092
+starts 3840
+starts ext 3197
+starts ext1 2943
+starts md 3840
+starts oc 3840
+starts oc1 3840
+time 20 s

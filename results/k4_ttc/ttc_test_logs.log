@@ -1,0 +1,29 @@
+$ python3 k4/ttc/ttc_test.py logs prefs=minval,minval/small,minval/val,minimal,lean,val prios=rev,pi modes=one,rep baseline=0
+instances 1637 starts 42014 hard starts 4574 distinct hard starts 0
+pref       prio       mode  repaired / hard starts
+minimal    rev        rep   3622 / 4574
+lean       rev        rep   3590 / 4574
+minimal    rev        one   3580 / 4574
+lean       rev        one   3547 / 4574
+minval     rev        rep   3288 / 4574
+minval/small rev        rep   3269 / 4574
+val        rev        rep   3018 / 4574
+val        rev        one   3008 / 4574
+minval/small rev        one   2992 / 4574
+minval     rev        one   2956 / 4574
+minval/val rev        rep   2709 / 4574
+minval/val rev        one   2523 / 4574
+minval/small pi         rep   1631 / 4574
+minimal    pi         rep   1600 / 4574
+minval/small pi         one   1593 / 4574
+lean       pi         rep   1592 / 4574
+minimal    pi         one   1562 / 4574
+lean       pi         one   1550 / 4574
+minval/val pi         rep   1535 / 4574
+minval/val pi         one   1512 / 4574
+val        pi         rep   1474 / 4574
+val        pi         one   1450 / 4574
+minval     pi         rep   1446 / 4574
+minval     pi         one   1321 / 4574
+first failures of the best configuration ('minimal', 'rev', 'rep') [('log59', [0, 2, 1]), ('log59', [2, 0, 1]), ('log59', [2, 1, 0])]
+time 120 s

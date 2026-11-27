@@ -1,0 +1,63 @@
+$ python3 k4/ttc/oc1max_n6.py 3,4,5,6 10 3 62
+n4 = 3: 308675 hypergraphs enumerated, 30856 sampled so far (stride 10, nu = 6), 26 s
+n4 = 4: 488663 hypergraphs enumerated, 79716 sampled so far (stride 10, nu = 6), 69 s
+n4 = 5: 439191 hypergraphs enumerated, 123633 sampled so far (stride 10, nu = 6), 113 s
+n4 = 6: 179273 hypergraphs enumerated, 141559 sampled so far (stride 10, nu = 6), 132 s
+... 500 of 141559 hypergraphs, 139 s
+... 1000 of 141559 hypergraphs, 145 s
+... 1500 of 141559 hypergraphs, 151 s
+... 2000 of 141559 hypergraphs, 158 s
+... 2500 of 141559 hypergraphs, 165 s
+... 3000 of 141559 hypergraphs, 172 s
+... 3500 of 141559 hypergraphs, 179 s
+... 4000 of 141559 hypergraphs, 187 s
+... 4500 of 141559 hypergraphs, 194 s
+... 5000 of 141559 hypergraphs, 202 s
+... 5500 of 141559 hypergraphs, 208 s
+... 6000 of 141559 hypergraphs, 216 s
+... 6500 of 141559 hypergraphs, 226 s
+... 7000 of 141559 hypergraphs, 235 s
+... 7500 of 141559 hypergraphs, 247 s
+... 8000 of 141559 hypergraphs, 259 s
+... 8500 of 141559 hypergraphs, 266 s
+... 9000 of 141559 hypergraphs, 273 s
+... 9500 of 141559 hypergraphs, 281 s
+... 10000 of 141559 hypergraphs, 293 s
+... 10500 of 141559 hypergraphs, 302 s
+... 11000 of 141559 hypergraphs, 312 s
+... 11500 of 141559 hypergraphs, 323 s
+... 12000 of 141559 hypergraphs, 330 s
+... 12500 of 141559 hypergraphs, 337 s
+... 13000 of 141559 hypergraphs, 345 s
+... 13500 of 141559 hypergraphs, 353 s
+... 14000 of 141559 hypergraphs, 361 s
+... 14500 of 141559 hypergraphs, 371 s
+... 15000 of 141559 hypergraphs, 389 s
+... 15500 of 141559 hypergraphs, 402 s
+... 16000 of 141559 hypergraphs, 412 s
+... 16500 of 141559 hypergraphs, 423 s
+... 17000 of 141559 hypergraphs, 433 s
+... 17500 of 141559 hypergraphs, 445 s
+... 18000 of 141559 hypergraphs, 456 s
+... 18500 of 141559 hypergraphs, 465 s
+... 19000 of 141559 hypergraphs, 473 s
+... 19500 of 141559 hypergraphs, 479 s
+... 20000 of 141559 hypergraphs, 487 s
+... 20500 of 141559 hypergraphs, 495 s
+... 21000 of 141559 hypergraphs, 503 s
+... 21500 of 141559 hypergraphs, 511 s
+... 22000 of 141559 hypergraphs, 520 s
+... 22500 of 141559 hypergraphs, 528 s
+... 23000 of 141559 hypergraphs, 536 s
+... 23500 of 141559 hypergraphs, 550 s
+... 24000 of 141559 hypergraphs, 566 s
+... 24500 of 141559 hypergraphs, 576 s
+... 25000 of 141559 hypergraphs, 588 s
+... 25500 of 141559 hypergraphs, 599 s
+... 26000 of 141559 hypergraphs, 611 s
+... 26500 of 141559 hypergraphs, 622 s
+... 27000 of 141559 hypergraphs, 631 s
+... 27500 of 141559 hypergraphs, 640 s
+... 28000 of 141559 hypergraphs, 648 s
+... 28500 of 141559 hypergraphs, 656 s
+(stopped by hand at 28,500 of 141,559 hypergraphs, about 660 s, after OC1^max was refuted at n = 4 (compute/k4-oc1max-cert); no 'OC1max FAILS' line was printed up to here; the counters are printed only at the end, so none are available)

@@ -1,0 +1,61 @@
+$ python3 k4/haxell/gstar_measure_run.py genskew:3000:211:2:9:5 NMAX=2 MMAX=9 RADIUS=2 ROT=1
+instances 3000
+partial EFX0 states 11497172
+stuck states, phi0 68273
+stuck states, phi1 933
+stuck states, phi10 933
+stuck states, phi11 933
+stuck states, phi12 933
+stuck states, phi13 933
+stuck states, phi14 933
+stuck states, phi15 933
+stuck states, phi16 933
+stuck states, phi17 933
+stuck states, phi18 933
+stuck states, phi2 933
+stuck states, phi3 25907
+stuck states, phi4 157
+stuck states, phi5 68273
+stuck states, phi6 933
+stuck states, phi7 54696
+stuck states, phi8 933
+stuck states, phi9 933
+instances with a stuck state, phi0 1238
+instances with a stuck state, phi1 933
+instances with a stuck state, phi10 933
+instances with a stuck state, phi11 933
+instances with a stuck state, phi12 933
+instances with a stuck state, phi13 933
+instances with a stuck state, phi14 933
+instances with a stuck state, phi15 933
+instances with a stuck state, phi16 933
+instances with a stuck state, phi17 933
+instances with a stuck state, phi18 933
+instances with a stuck state, phi2 933
+instances with a stuck state, phi3 1180
+instances with a stuck state, phi4 147
+instances with a stuck state, phi5 1238
+instances with a stuck state, phi6 933
+instances with a stuck state, phi7 953
+instances with a stuck state, phi8 933
+instances with a stuck state, phi9 933
+first instance with a stuck state for phi0 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi1 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi10 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi11 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi12 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi13 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi14 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi15 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi16 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi17 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi18 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi2 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi3 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi4 : s33 [[[1, 2, 4, 5, 8], [0, 3, 6, 7, 8]], [[2, 3, 13, 7, 41], [7, 13, 6, 39, 59]]]
+first instance with a stuck state for phi5 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi6 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi7 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi8 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+first instance with a stuck state for phi9 : s4 [[[0, 1, 2, 4, 6], [3, 4, 5, 7, 8]], [[13, 5, 2, 56, 5], [14, 71, 1, 5, 5]]]
+time 39 s

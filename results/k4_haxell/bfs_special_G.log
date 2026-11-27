@@ -1,0 +1,7 @@
+$ python3 k4/haxell/ht_bfs.py special NMAX=5 MODEL=G CAP=200000
+instances 4
+instances with a stuck start 0
+start: depth 1 80
+start: depth 2 94
+starts 174
+time 0 s

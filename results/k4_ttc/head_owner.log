@@ -1,0 +1,24 @@
+$ python3 k4/ttc/head_owner.py special
+distinct hard starts 16
+some repairing chain with absorber head 16
+some repairing chain with absorber head, t >= 1 16
+some repairing chain with absorber none 16
+some repairing chain with absorber off 15
+some repairing chain with absorber x0 16
+time 1 s
+$ python3 k4/ttc/head_owner.py dich
+distinct hard starts 2
+some repairing chain with absorber head 2
+some repairing chain with absorber head, t >= 1 2
+some repairing chain with absorber none 0
+some repairing chain with absorber off 1
+some repairing chain with absorber x0 1
+time 0 s
+$ python3 k4/ttc/head_owner.py screen
+distinct hard starts 194
+some repairing chain with absorber head 194
+some repairing chain with absorber head, t >= 1 194
+some repairing chain with absorber none 194
+some repairing chain with absorber off 181
+some repairing chain with absorber x0 194
+time 19 s

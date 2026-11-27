@@ -1,0 +1,11 @@
+$ python3 k4/ksens/survey.py pw 5 4 600 21 1
+instances 600
+instances with a start needing a chain (OC) 229
+instances with a start needing a chain (OC1) 296
+starts 4004
+starts ext 3484
+starts ext1 3353
+starts md 4004
+starts oc 4004
+starts oc1 4004
+time 11 s

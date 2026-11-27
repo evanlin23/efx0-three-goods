@@ -1,0 +1,19 @@
+$ python3 k4/haxell/ht_aug.py screen NMAX=4 MMAX=7 DMAX=4 SHOW=6
+WORST radius > 4 C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] state [[3, 5], [4], [0, 2], [6]] pool [1] augmented to None
+WORST radius > 4 adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] state [[5], [2, 3], [1, 4]] pool [0] augmented to None
+WORST radius > 4 adaptive-p3 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]]] state [[2], [1, 5], [3, 4]] pool [0] augmented to None
+WORST radius > 4 c4-gadget-stacking-1copy-n3m6 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [3, 5, 7, 6], [2, 3, 4, 8]]] state [[5], [1, 4], [2, 3]] pool [0] augmented to None
+WORST radius > 4 c4-lbplus-rotation-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]]] state [[2], [3, 4], [1, 5]] pool [0] augmented to None
+WORST radius > 4 c4-one-rotation-two4-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[1, 4, 8, 6], [8, 2, 3, 4], [2, 3, 4]]] state [[2], [3, 4], [1, 5]] pool [0] augmented to None
+instances 109
+states with radius 1 80997
+states with radius 2 12744
+states with radius 3 15221
+states with radius 4 1326
+states with radius more than 4 131
+instances whose worst radius is 1 1
+instances whose worst radius is 2 4
+instances whose worst radius is 3 18
+instances whose worst radius is 4 63
+instances whose worst radius is more than 4 23
+time 13 s

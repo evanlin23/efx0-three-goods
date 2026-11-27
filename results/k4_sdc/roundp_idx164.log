@@ -1,0 +1,2 @@
+$ python3 k4/sdc/roundp_check.py idx164
+5_pure idx 164, picks (7,2,3,5,4): moves in the smallest repairing round: 2 | state [[2], [7, 1], [6, 5], [3], [4]]

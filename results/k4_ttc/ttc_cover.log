@@ -1,0 +1,28 @@
+$ python3 k4/ttc/ttc_cover.py special rules=val,minval,minimal,lean,small
+distinct hard starts 16
+A (any absorber): some TTC run repairs 16 of 16
+   greedy cover: [(('lean/lean', 'head'), 15), (('minval/lean', 'head'), 1)]
+   best single (pref, mode): [(('lean/lean', 'head'), 15), (('lean/lean', 'one'), 15), (('lean/minimal', 'head'), 15)]
+H (the head absorbs): some TTC run repairs 16 of 16
+   greedy cover: [(('lean/lean', 'head'), 15), (('minval/lean', 'head'), 1)]
+   best single (pref, mode): [(('lean/lean', 'head'), 15), (('lean/lean', 'one'), 15), (('lean/minimal', 'head'), 15)]
+time 2 s
+$ python3 k4/ttc/ttc_cover.py dich rules=val,minval,minimal,lean,small
+distinct hard starts 2
+A (any absorber): some TTC run repairs 2 of 2
+   greedy cover: [(('minval/lean', 'head'), 2)]
+   best single (pref, mode): [(('minval/lean', 'head'), 2), (('minval/lean', 'one'), 2), (('minval/minimal', 'head'), 2)]
+H (the head absorbs): some TTC run repairs 2 of 2
+   greedy cover: [(('minval/lean', 'head'), 2)]
+   best single (pref, mode): [(('minval/lean', 'head'), 2), (('minval/lean', 'one'), 2), (('minval/minimal', 'head'), 2)]
+time 0 s
+$ python3 k4/ttc/ttc_cover.py screen rules=val,minval,minimal,lean,small
+distinct hard starts 194
+A (any absorber): some TTC run repairs 194 of 194
+   greedy cover: [(('minimal/minval', 'head'), 178), (('minval/minval', 'head'), 16)]
+   best single (pref, mode): [(('minimal/minval', 'head'), 178), (('lean/minval', 'head'), 177), (('minimal/minval', 'one'), 177)]
+H (the head absorbs): some TTC run repairs 193 of 194
+   greedy cover: [(('minimal/minval', 'head'), 162), (('minval/val', 'head'), 22), (('lean/val', 'head'), 6), (('minval/minval', 'head'), 3)]
+   best single (pref, mode): [(('minimal/minval', 'head'), 162), (('lean/minval', 'head'), 161), (('minimal/minval', 'one'), 161)]
+   no TTC run: lil-noncore-n3 (0, 4, 7)
+time 21 s

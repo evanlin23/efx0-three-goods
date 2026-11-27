@@ -1,0 +1,10 @@
+$ python3 k4/haxell/ht_mrad.py gen:3000:15:2:5:5 NMAX=2 MMAX=6 HMIN=2 DMAX=4
+WORST move radius 3 Hamming 3 g456 [[[0, 1, 2, 3, 4], [0, 1, 2, 3, 4]], [[7, 36, 12, 15, 1], [7, 26, 8, 18, 10]]] [[0, 2, 4], [3]] pool [1]
+WORST move radius 3 Hamming 3 g503 [[[0, 1, 2, 3, 4], [0, 1, 2, 3, 4]], [[7, 33, 26, 11, 2], [5, 35, 7, 8, 10]]] [[2], [0, 3, 4]] pool [1]
+WORST move radius 3 Hamming 3 g1100 [[[0, 1, 2, 3, 4], [0, 1, 2, 3, 4]], [[39, 12, 4, 27, 2], [40, 20, 10, 5, 4]]] [[3], [1, 2, 4]] pool [0]
+states with Hamming radius 3 and move radius 2 4015
+states with Hamming radius 3 and move radius 3 9
+states with Hamming radius 4 and move radius 2 38
+states with Hamming radius 4 and move radius 3 2
+states with Hamming radius 5 and move radius 2 2
+time 4 s

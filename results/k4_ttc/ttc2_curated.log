@@ -1,0 +1,30 @@
+$ python3 k4/ttc/ttc2.py special
+TTC2 repairs 69
+TTC2-H repairs (head absorbs) 69
+first repairing head is the last agent of pi 47
+first repairing rule minimal/minval 67
+first repairing rule minval/minval 2
+hard starts 69
+instances 4
+starts 174
+time 0 s
+$ python3 k4/ttc/ttc2.py dich
+TTC2 repairs 6
+TTC2-H repairs (head absorbs) 6
+first repairing head is the last agent of pi 6
+first repairing rule minimal/minval 2
+first repairing rule minval/minval 4
+hard starts 6
+instances 2
+starts 126
+time 0 s
+$ python3 k4/ttc/ttc2.py screen
+TTC2 repairs 662
+TTC2-H repairs (head absorbs) 622
+first repairing head is the last agent of pi 526
+first repairing rule minimal/minval 626
+first repairing rule minval/minval 36
+hard starts 662
+instances 168
+starts 4069
+time 3 s
