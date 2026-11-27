@@ -1,0 +1,19 @@
+$ python3 k4/girth/oc1_rf_a2.py
+  after the trade: owner D0 takes 2 junk; singles to -                                        768
+  after the trade: owner d takes 2 junk; singles to -                                        1280
+  after the trade: owner none takes 0 junk; singles to D0,D1                                  640
+  after the trade: owner none takes 0 junk; singles to D0,d                                  1280
+  after the trade: owner none takes 0 junk; singles to d,u                                   1280
+  completion shape: owner D1 takes 2 junk; singles to d                                      1280
+  completion shape: owner d takes 2 junk; singles to D1                                      1280
+  completion shape: owner none takes 0 junk; singles to D0,D1,d                              1280
+  trade partner p = D1 (holds the pick of D1 at Y)                                           1280
+  trade partner p is the agent whose pick u takes? False                                     1280
+  trade repairs                                                                              1280
+A2 starts                                                                                    2560
+completes at Y'                                                                              1280
+core 4_pure#24                                                                               2560
+d is Dp at Y; d ends with junk                                                               2560
+needs a move                                                                                 1280
+roles at Y TTDU, at Y' DDUD                                                                  1280
+roles at Y TTUD, at Y' DDDU                                                                  1280

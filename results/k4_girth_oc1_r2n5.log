@@ -1,0 +1,54 @@
+$ python3 k4/girth/oc1_r2n5.py
+5_pure#650: receivers [1, 2], 12 failing orders, roles ['F', 'U', 'U', 'DT', 'DT']
+   receiver 1 first: RF picks NOT a maximum matching                               12
+   receiver 1 first: orders                                                        12
+   receiver 1 first: u is the last picker of o                                      6
+   receiver 2 first: DEMOTE: R2 / (C') the chain k -> h, h a U other than d        12
+   receiver 2 first: change is one path from u                                     12
+   receiver 2 first: orders                                                        12
+   receiver 2 first: raw OC1 at Y': one move repairs                               12
+   receiver 2 first: u is the last picker of o                                      6
+5_pure#655: receivers [1, 2], 6 failing orders, roles ['F', 'U', 'U', 'DT', 'DT']
+   receiver 1 first: DEMOTE: R2 / (T) another receiver trades with a pick-dangerous agent   6
+   receiver 1 first: change is one path from u                                      6
+   receiver 1 first: orders                                                         6
+   receiver 1 first: raw OC1 at Y': one move repairs                                6
+   receiver 1 first: u is the last picker of o                                      3
+   receiver 2 first: DEMOTE: R2 / (T) another receiver trades with a pick-dangerous agent   6
+   receiver 2 first: change is one path from u                                      6
+   receiver 2 first: orders                                                         6
+   receiver 2 first: raw OC1 at Y': one move repairs                                6
+   receiver 2 first: u is the last picker of o                                      3
+5_pure#1014: receivers [0, 4], 6 failing orders, roles ['U', 'DT', 'DT', 'Dp', 'U']
+   receiver 0 first: DEMOTE: R2 / (T) another receiver trades with a pick-dangerous agent   6
+   receiver 0 first: change is one path from u                                      6
+   receiver 0 first: orders                                                         6
+   receiver 0 first: raw OC1 at Y': one move repairs                                6
+   receiver 0 first: u is the last picker of o                                      3
+   receiver 4 first: DEMOTE: R2 / (C') the chain k -> h, h a U other than d         6
+   receiver 4 first: change is one path from u                                      6
+   receiver 4 first: orders                                                         6
+   receiver 4 first: raw OC1 at Y': one move repairs                                6
+   receiver 4 first: u is the last picker of o                                      3
+5_pure#1050: receivers [1, 2], 14 failing orders, roles ['Dp', 'U', 'U', 'DT', 'DT']
+   receiver 1 first: DEMOTE: R2 / (T) another receiver trades with a pick-dangerous agent  14
+   receiver 1 first: change is one path from u                                     14
+   receiver 1 first: orders                                                        14
+   receiver 1 first: raw OC1 at Y': one move repairs                               14
+   receiver 1 first: u is the last picker of o                                      6
+   receiver 2 first: DEMOTE: residue D_T'=2 / (C') the chain k -> h, h a Dp other than d   2
+   receiver 2 first: DEMOTE: residue D_T'=3 / (C) the chain k -> d                 12
+   receiver 2 first: change is one path from u                                     14
+   receiver 2 first: orders                                                        14
+   receiver 2 first: raw OC1 at Y': one move repairs                               14
+   receiver 2 first: u is the last picker of o                                      8
+TOTAL over the 4 starts and both receivers:
+   DEMOTE: R2 / (C') the chain k -> h, h a U other than d                   18
+   DEMOTE: R2 / (T) another receiver trades with a pick-dangerous agent     32
+   DEMOTE: residue D_T'=2 / (C') the chain k -> h, h a Dp other than d       2
+   DEMOTE: residue D_T'=3 / (C) the chain k -> d                            12
+   RF picks NOT a maximum matching                                          12
+   change is one path from u                                                64
+   orders                                                                   76
+   raw OC1 at Y': one move repairs                                          64
+   u is the last picker of o                                                38

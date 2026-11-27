@@ -1,0 +1,7 @@
+$ python3 k4/girth/lsflex_linear.py 22 1300 4
+{'instances': 2000, 'runs': 20875}
+{'instances': 4000, 'runs': 41592, 'runs failing (default labels)': 2, '  ... repaired by relabeling, same vertex 0': 2}
+{'instances': 6000, 'runs': 62526, 'runs failing (default labels)': 2, '  ... repaired by relabeling, same vertex 0': 2}
+{'instances': 8000, 'runs': 83315, 'runs failing (default labels)': 4, '  ... repaired by relabeling, same vertex 0': 4}
+{'instances': 10000, 'runs': 104199, 'runs failing (default labels)': 4, '  ... repaired by relabeling, same vertex 0': 4}
+[stopped by hand at this point to free CPU; the last line above is the final count]

@@ -1,0 +1,5 @@
+$ python3 k4/girth/oc1_tstar.py residue_n5.jsonl.gz
+   DEMOTE-0 starts with no w/d owner and no trade (the 3-ring starts)                  32
+   a 3-ring, then d absorbs all remaining junk: EFX0                                   32
+   hypergraph 5_pure#374                                                               32
+   roles at Y: u U, d Dp, c1 DT, c2 Dp; c2 keeps its pick True                         32
