@@ -1,0 +1,1 @@
+$ python3 k4/haxell/ht_n4core.py MODE=all MMAX=5 PMAX=62208 PROCS=2
