@@ -699,7 +699,7 @@ nonempty pool of every instance):**
 | test set | instances | partial EFX₀ states | W^sub stuck | log |
 |---|---|---|---|---|
 | n = 2, every relevant-set pair with k ≤ 4, values {1, 2, 4, 7} (ties included) | 1,540,944 | 470,500,040 | **0** (leximin 0) | `n2w_grid_k4_sub.log` |
-| n = 3, every shape with k ≤ 3, values {1, 2, 4, 7, 12}, m ≤ 5 (up to isomorphism; m = 6–9 running) | 5,324,815 | 742,367,662 | **0** | `n3grid_k3_v12.log` |
+| n = 3, every shape with k ≤ 3, values {1, 2, 4, 7, 12}, m ≤ 6 (up to isomorphism; welfare and leximin; m = 7–9 running) | 7,469,670 | 1,702,198,501 | **0** (leximin 0) | `n3grid_k3_v12.log` (welfare, m ≤ 5), `n3grid_wl_k3_v12.log` (both, m ≤ 6) |
 | n = 4, k = 4 cores with one 4-good agent, m ≤ 5 (20 cores): **every** strict balanced type profile of the certificate domain, up to automorphism | 451,824 | 223,522,208 | **0** (leximin 0 too: `n4core_wl_all_m5.log`) | `n4core_all_m5.log` |
 | n = 4, k = 4 cores with m = 4 and at most two 4-good agents (5 cores, the two n4_2 cores included): every profile, up to automorphism | 552,048 | 115,378,032 | **0** (leximin 0 too: `n4core_wl_all_m4.log`) | `n4core_all_m4.log` |
 
