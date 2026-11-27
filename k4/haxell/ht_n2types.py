@@ -14,11 +14,13 @@ and whose B-values increase on B-only goods; only those profiles are run.  Each 
 swap of two agents' goods that keeps EFX0 and raises both agents is searched (Theorem N2 of k4/haxell.md §6).  CHECK=N
 re-runs N random instances (CHECK=-1: all) through the independent Python checker of ht_n2claim.py.
 
-    python3 k4/haxell/ht_n2types.py [K=4] [PROCS=2] [CHECK=0]     (CHECK=-1: re-check every instance in Python)"""
+    python3 k4/haxell/ht_n2types.py [K=4] [PROCS=2] [CHECK=0] [JUNK=0]   (CHECK=-1: re-check every instance in Python;
+                                                                       JUNK=j: add j goods valued by nobody)"""
 import sys, os, json, itertools, subprocess, collections, threading, time, random
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(HERE, '..', '..')
 args = dict(a.split('=') for a in sys.argv[1:] if '=' in a)
 K = int(args.get('K', '4')); P = int(args.get('PROCS', '2')); CHECK = int(args.get('CHECK', '0'))
+JUNK = int(args.get('JUNK', '0'))      # goods valued by nobody, added to every class (all interchangeable)
 OT = json.load(open(os.path.join(ROOT, 'k4', 'order_types.json')))
 TYPES = {1: [(1,)], 2: [(1, 2), (2, 1)]}
 for k in (3, 4):
@@ -49,7 +51,7 @@ def instances():
                             vB = dict(zip(RB, tB))
                             if not increasing([vB[g] for g in bonly]):
                                 continue
-                            yield m, vA, vB
+                            yield m + JUNK, vA, vB
 
 
 def line(m, vA, vB):
