@@ -1387,13 +1387,16 @@ roles):
    - X_w = H ∪ {x};
    - X_d = {Y′_w, Y′_d, y};
    - every other agent keeps its pick.
-- At 7,248 of the starts, {x, y} is valued exactly by the other two truly dangerous agents, the twins, and is their
-  danger pair. The trade splits the twins' pool pair across the two new bins, so neither twin sees both of its goods in
+- At all 7,733 starts, {x, y} is valued exactly by the other two truly dangerous agents, the twins, and is their
+  danger pair. (An earlier version said 7,248: `c13.py` counted this only under the simple form of (3). The referee
+  found it at all 7,733, and `c13_lemma_n5_fix0.log` confirms it.) The trade splits the twins' pool pair across the two new bins, so neither twin sees both of its goods in
   one bundle.
 - This matches girth's SINK form: absorber d, sink w.
 
-**Lemma C13 (PROVED, any n; refereed by girth).**
+**Lemma C13 (PROVED, any n; refereed by girth, and by `proof/k4-referee` in `k4/referee/ttc_c13.md`, whose fix (0)
+is applied here).**
 - *Setting:* Y′ is a perfect serial-dictatorship start with junk J′, and w ≠ d are agents with:
+  - (0) no agent other than d wants Y′_d, i.e. d is a receiver at Y′;
   - (1) an improving pair H ⊆ J′ ∩ R_w with J′ ∖ H = {x, y}, and v_d(Y′_w) > p_d, so the chain w → d is official;
   - (2) d is the only agent that wants Y′_w;
   - (3) every i ≠ w has v_i(X_w ∖ g) ≤ p_i for every g ∈ X_w. This holds automatically if i values at most one good
@@ -1406,7 +1409,7 @@ roles):
 - For X_d and an agent i ≠ d: by (4), i values at most one good of X_d, so every X_d ∖ g is worth at most that one good
   to i. Each good of X_d is unwanted by i:
   - Y′_w, by (2);
-  - Y′_d, because d is a receiver;
+  - Y′_d, by (0);
   - y, by (I2).
 - For X_w: this is (3).
 - w and d both gain (v_w(H) > p_w, and v_d(Y′_w) > p_d), so their own envy only falls. ∎
@@ -1419,14 +1422,23 @@ roles):
   rotated agent.
 - B = ∅ never works.
 
+*Why (0) is needed* (the referee's counterexample, `k4/referee/ttc_c13.md` §2, replayed by `c13.py cex`,
+`c13_cex_fix0.log`):
+- Take three agents w, d, i and goods a, b, c, h₁, h₂, x, y with values
+  w: a 10, h₁ 6, h₂ 5; d: a 10, b 5, y 1; i: b 10, c 5, x 1.
+- SD(w, d, i) = (a, b, c), with J′ = {h₁, h₂, x, y}.
+- (1)–(4) hold with H = {h₁, h₂}, but i wants b = Y′_d, so (0) fails.
+- The allocation ({h₁, h₂, x}, {a, b, y}, {c}) is not EFX₀: v_i(X_d ∖ a) = 10 > 5 = v_i(X_i).
+
 **Coverage:**
-- (1), (2) and (4) hold at all 7,733.
+- (0), (1), (2) and (4) hold at all 7,733 (`c13_lemma_n5_fix0.log`, with (0) checked); at n = 5, U′ = {d}.
 - (3) holds in its simple form (at most one good of X_w) at 7,248, and in its value form at the other 485. There one
   twin also values a good of H, but its two goods of X_w sum to less than its pick, e.g. 2 + 6 < 10.
 - The allocation is EFX₀ at all 7,733 (raw check).
 
 **Open:**
-- Deriving (2)–(4) from the class definition and k ≤ 4. A likely tool is Lemma PL(c): the twins share their pool pair,
+- Deriving (2)–(4) from the class definition and k ≤ 4. (0) comes with the class at n = 5, where U′ = {d}; any
+  other use of C13 has to check (0) too. A likely tool is Lemma PL(c): the twins share their pool pair,
   so each values at most one more junk good, worth less than its pick. The value condition at the 485 is where the
   argument has to use values, not counts.
 - DEMOTE-0 stays with girth.

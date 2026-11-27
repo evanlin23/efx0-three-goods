@@ -11,7 +11,10 @@ w and d.  For every start this script records:
   - for the split that works: who values each good of R, and which agent each excluded split fails against.
 
     python3 k4/ttc/c13.py FILE.jsonl.gz          (structure)
-    python3 k4/ttc/c13.py FILE.jsonl.gz lemma    (Lemma C13's hypotheses and allocation at every start)"""
+    python3 k4/ttc/c13.py FILE.jsonl.gz lemma    (Lemma C13's hypotheses and allocation at every start)
+
+Hypothesis (0), "nobody but d wants Y'_d" (the referee's fix, k4/referee/ttc_c13.md), is checked in both forms of the
+lemma, and the {x, y} fact is counted under the value form too."""
 import sys, os, gzip, json, itertools, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import ttclib as T
@@ -29,7 +32,7 @@ def roles(E, b):
     return F, D, DT, U, J
 
 
-if __name__ == '__main__' and not (len(sys.argv) > 2 and sys.argv[2] == 'lemma'):
+if __name__ == '__main__' and sys.argv[1] != 'cex' and not (len(sys.argv) > 2 and sys.argv[2] == 'lemma'):
     print('$ python3 k4/ttc/c13.py', *sys.argv[1:], flush=True)
     rows = [json.loads(l) for l in gzip.open(sys.argv[1])]
     C = collections.Counter(); ex = []
@@ -82,6 +85,8 @@ def lemma_c13(E, Y2, w, d, J):
         return out
     if any(i not in (w, d) and E.v[i].get(Y2[w], 0) > E.v[i][Y2[i]] for i in range(n)):
         return out
+    if any(i != d and E.v[i].get(Y2[d], 0) > E.v[i][Y2[i]] for i in range(n)):     # (0): d is a receiver at Y'
+        return out
     for Hp in itertools.combinations([g for g in J if E.v[w].get(g, 0) > 0], 2):
         if T.val(E, w, Hp) <= pw:
             continue
@@ -102,6 +107,8 @@ def lemma_c13_value(E, Y2, w, d, J):
     if not E.v[d].get(Y2[w], 0) > E.v[d][Y2[d]]:
         return out
     if any(i not in (w, d) and E.v[i].get(Y2[w], 0) > E.v[i][Y2[i]] for i in range(n)):
+        return out
+    if any(i != d and E.v[i].get(Y2[d], 0) > E.v[i][Y2[i]] for i in range(n)):     # (0): d is a receiver at Y'
         return out
     for Hp in itertools.combinations([g for g in J if E.v[w].get(g, 0) > 0], 2):
         if T.val(E, w, Hp) <= pw:
@@ -133,6 +140,10 @@ def run_c13(rows):
             Hp, x, y = wv[0]
             X = [[Y2[i]] for i in range(E.n)]; X[w] = list(Hp) + [x]; X[d] = [Y2[w], Y2[d], y]
             C['  value form: allocation EFX0 (raw)' if H.efx0(E.v, X) else '  value form: ALLOCATION NOT EFX0'] += 1
+            vx = sorted(i for i in range(E.n) if E.v[i].get(x, 0) > 0 or E.v[i].get(y, 0) > 0)
+            DT = roles(E, b)[2]
+            C['  value form: {x, y} valued exactly by the other two truly dangerous agents' if vx == sorted(set(DT) - {w})
+              else '  value form: {x, y} valued by %s' % ('a superset' if set(DT) - {w} <= set(vx) else 'others')] += 1
         wit = lemma_c13(E, Y2, w, d, J)
         C['Lemma C13 hypotheses hold' if wit else 'Lemma C13 hypotheses FAIL'] += 1
         if wit:
@@ -150,3 +161,22 @@ if __name__ == '__main__' and len(sys.argv) > 2 and sys.argv[2] == 'lemma':
     rows = [json.loads(l) for l in gzip.open(sys.argv[1])]
     for k, v in sorted(run_c13(rows).items()):
         print(k, v)
+
+
+if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'cex':
+    # the referee's counterexample to Lemma C13 without (0) (k4/referee/ttc_c13.md §2): w = 0, d = 1, i = 2;
+    # goods a, b, c, h1, h2, x, y = 0..6
+    print('$ python3 k4/ttc/c13.py cex')
+    V = [{0: 10, 3: 6, 4: 5}, {0: 10, 1: 5, 6: 1}, {1: 10, 2: 5, 5: 1}]
+    E = T.Enc([sorted(v) for v in V], [[v[g] for g in sorted(v)] for v in V], 7)
+    Y2 = tuple(T.sd(E, [0, 1, 2])[0]); b = T.base_of(E, Y2); J = [g for g in range(7) if b[g] < 0]
+    print('SD(w, d, i) =', Y2, ' J\' =', J)
+    print('(0) nobody but d wants Y\'_d:', not any(i != 1 and E.v[i].get(Y2[1], 0) > E.v[i][Y2[i]] for i in range(3)))
+    X = [[3, 4, 5], [0, 1, 6], [2]]
+    print('allocation', X, 'EFX0 (raw):', H.efx0(E.v, X))
+    p = [E.v[i][Y2[i]] for i in range(3)]; Bw, Bd = X[0], X[1]
+    print('(1) H = {3, 4} improving for w:', T.val(E, 0, (3, 4)) > p[0], ' d wants Y\'_w:', E.v[1].get(Y2[0], 0) > p[1])
+    print('(2) only d wants Y\'_w:', not any(i not in (0, 1) and E.v[i].get(Y2[0], 0) > p[i] for i in range(3)))
+    print('(3) value form:', all(max(sum(E.v[i].get(h, 0) for h in Bw if h != g) for g in Bw) <= p[i] for i in (1, 2)))
+    print('(4) at most one valued good of X_d for i != d:', all(sum(1 for g in Bd if E.v[i].get(g, 0) > 0) <= 1 for i in (0, 2)))
+    print('with (0) the lemma finds no witness: lemma_c13_value ->', lemma_c13_value(E, Y2, 0, 1, J))
