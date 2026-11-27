@@ -1077,4 +1077,34 @@ So the answer to question 2 is no.
   At some of these starts it follows from D_T′ = ∅ alone (q's two best goods of W are junk); at others Y_d is among
   them, and it does not.
 
-**13.6 Next.** The facts (A1-i)–(A1-iii) and (A1-iv\*) from hardness, with Hall and girth.
+**The rest of DEMOTE-0's at-once part: no absorber at all (Lemma NA).** 113,210 of the 113,484 n = 5 DEMOTE-0
+starts complete at the picks with some owner (Hall's P count). RF-A1\* (owner w) covers 71,443 of them. The other
+41,767, all on 5_pure#464, complete with **no absorber**: each of the three junk goods goes to a different agent
+(`rf/demote0_rest.py`, `rf/demote0_na.py`, `demote0_na_n5.log`).
+
+*Lemma NA (PROVED; any n).* Let Y′ be perfect SD picks, and f an injection from J′ to the agents. Let X give each
+agent a its pick together with f⁻¹(a). Then X is EFX₀ iff every agent i that wants the pick of a receiving agent a ≠ i
+has v_i(X_i) ≥ v_i(Y′_a).
+
+*Proof.* Every bundle has at most two goods. Against {Y′_a, j}, removing j leaves Y′_a and removing Y′_a leaves j.
+The junk good j was free at i's turn, so v_i(j) < p′_i ≤ v_i(X_i). So the only condition is v_i(Y′_a) ≤ v_i(X_i),
+which holds automatically when i does not want Y′_a. ∎
+
+The equivalence agrees with raw EFX₀ on all 2,522,460 assignments tested. This is Hall's compensated frozen slot
+(Lemma M^c, `k4/oc1max_multi.md` §9) with no owner.
+
+*Facts at n = 5* (every one of the 41,767): d takes its favourite junk good h.
+- Path length 2 (38,976): the receivers are d, w and one off-path agent. The wanters needing compensation are d,
+  for w's pick (its old pick Y_d) and the off-path pick (36,000); or d for w's pick and w for the off-path pick
+  (2,976).
+- Path length 3 (2,791): the receivers are d and two off-path agents, both of whose picks d wants.
+
+**DEMOTE-0 at n = 5, assembled:**
+- 71,443 by RF-A1\* (owner w);
+- 41,767 by Lemma NA (no owner);
+- 242 by girth's trade and 32 by its 3-ring.
+
+Girth's Lemma RF-T′ is a uniform alternative covering 42,009 of these starts with one trade. The facts of RF-A1\*
+and NA from Y's hardness are open.
+
+**13.6 Next.** The facts (A1-i)–(A1-iii), (A1-iv\*) and NA's compensations from hardness, with Hall and girth.
