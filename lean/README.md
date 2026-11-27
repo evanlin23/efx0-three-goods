@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 1342 audited statements, 2603 theorems, standard axioms only
+    CHECK PASSED: 1350 audited statements, 2615 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -297,6 +297,10 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   completion; `thmU_oc1` (one move repairs), `thmU_of_DT` (the note's D_T, E_J form), Corollary U1 (`thmU1`,
   `thmU1_oc1`: OC₁ at perfect starts with one truly dangerous agent and at most one unfrozen pick holder), and a
   two-agent start where U1 applies, by `decide` (`EFX.OC1Max.ExU.repair`).
+- `EFX/ThmS.lean`: **Theorem S** (`k4/oc1max_multi.md` §10, ledger K4.MULTI.S.LEAN): Theorem U with a junk good h kept
+  out; with W = (J ∖ {h}) ∪ {Y_z} (`wSet`), **`EFX.OC1Max.thmS`** (relaxed form (S-d′)), `thmS_oc1` (one move repairs),
+  `thmS_of_Sd` (the original (S-d)), `thmS_of_DT` (the note's (S-b), (S-c)), and a start where it applies, by `decide`
+  (`EFX.OC1Max.ExS.repair`).
 - `EFX/Phantom.lean`: **Lemmas PHANTOM and LIFT\*** (`k4/matching.md` §6, ledger K4.MATCH.LIFTSTAR.LEAN): the exact
   phantom constraints of a settled agent with #R_k ≤ 4 (`EFX.Round.phantom_three`: none for a triple;
   `EFX.Round.phantom_two`: (P1) or (P2) for a pair), and **`EFX.Round.liftStar`**: settled agents (in rounds) with
