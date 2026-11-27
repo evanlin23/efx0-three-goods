@@ -1,0 +1,7 @@
+$ python3 kgen/rounds/untangle_u3.py 5,8,150,32
+U0 996
+U1 1229
+U1' 37
+U13 (two junk moves) 39
+U3r (rule: v's favourite junk of an envied bundle) 14
+non-witnesses 2315

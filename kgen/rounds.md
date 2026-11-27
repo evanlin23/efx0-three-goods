@@ -1113,8 +1113,9 @@ non-witness at a Φ-maximizer in the data.
 - (O1) Another agent, or v, envies q's enlarged bundle X_q + Y_q (or X_q − h + Y_q) after removing one good.
 - (O2) v envies another bundle after losing Y_q.
   - Neediness bounds what v loses: v_v(Y_q) + v_v(X_v ∩ J) ≤ p_v.
-  - The SD order bounds what v can value in others' bundles: a good available at v's turn is worth less than p_v
-    to v.
+  - The SD order bounds v's value only for goods available at v's turn, which are worth less than p_v to v.
+  - *Correction (referee, Addendum 4):* it does not bound the picks of agents that picked before v. Such a pick can be
+    worth more than p_v to v, and it is exactly the (O2) obstruction below.
 - (O3) Under U1, a third agent envies v's new bundle X_v − Y_q + h.
 
 The swap's choice of h is what (O1) needs: taking a junk good out of q's bundle undoes the envy that the return
@@ -1166,6 +1167,52 @@ rule's h. Failures over all non-witnesses (5,452 at n = 4, 2,315 at n = 5):
   other agents, or a three-to-five-good exchange (§4.12).
 - A proof along these lines would be a local-search argument with a potential, in the style of the EFX existence
   proofs for few agents, rather than one exchange.
+
+**Referee verdicts** (`k4/referee/rounds_r1.md` on `claude/k4-referee`, read here).
+- *Addendum 3 (§4.11): CORRECT.* That covers Lemmas PG, GAIN, RING, RHO and FIX and Theorem ROUND-SIMPLE, checked
+  with the referee's own code on 36,745 simple one-absorber MD allocations, with 0 non-witnesses and 0 GAIN failures.
+  - GAIN needs the distinct subset sums the setting states. With strict good values alone it fails: v = (a 3, b 1,
+    c 2), Y = a, X = {b, c}.
+  - The referee suggests widening "simple" to admit keep-and-add whose keeper is not needy
+    (v_v(X_v ∖ {Y_v}) > p_v, with Y_v counted among v's outside goods). Such an X is a witness by the same
+    construction. Adopted: call these allocations *simple⁺*. Theorem ROUND-SIMPLE holds for them with the same proof
+    (Lemma FIX).
+  - The converse direction (a witness implies a simple⁺ allocation at the same start) still needs complex
+    components ruled out. None is a witness in the referee's data.
+- *Addendum 4 (§4.13):* parts (1)–(5) are CORRECT. The open parts cannot be closed by any rule for h: each of (O1),
+  (O2) and (O3) alone can block U0 and every U1(h).
+
+*The smallest (O2) block* (the referee's, re-checked here):
+- values v₀ = (0: 38, 3: 45, 4: 23, 5: 9), v₁ = (1: 26, 2: 12, 4: 40, 6: 37), v₂ = (0: 21, 1: 12, 3: 34),
+  v₃ = (1: 44, 3: 32, 4: 31, 5: 21); picks (0, 4, 3, 1), from order (2, 0, 3, 1);
+- X = ({0, 4}, {2, 6}, {3, 5}, {1}) is MD and EFX₀, with q = 1 and v = 0;
+- after the return, agent 0 holds 38 and envies {3} = 45 inside {3, 5};
+- q's junk is worthless to agent 0, so every U1 and U1′ fails.
+
+**A second kind of move, U3: junk into the keeper** (`untangle_u3.py`, `untangle_u3_4_7.log`, `untangle_u3_5_8.log`).
+- After the return, move into v's bundle the junk good, of a bundle v envies, that v values most.
+- In the referee's block, 5 moves from agent 2 to agent 0, giving ({0, 5}, {2, 4, 6}, {3}, {1}). That is EFX₀, MD and
+  a witness.
+
+The full move set and what each repairs:
+
+| moves, applied in this order | n = 4 (5,452 non-witnesses) | n = 5 (2,315) |
+|---|---|---|
+| U0 return | 1,916 | 996 |
+| U1 swap h ∈ X_q to v | 3,139 | 1,229 |
+| U1′ h to another agent | 89 | 37 |
+| U3 the rule above (junk into v from an envied bundle) | 66 | 14 |
+| U13 one junk good out of q *and* one junk good into v | 232 | 39 |
+| **none of these: a third kind of move** | **10** | **0** |
+
+- A single junk move into v, other than the rule's, never repairs a case the rule misses.
+- In the 10 remaining cases, the nearest allocation with larger Φ *re-routes picks*: three picks rotate among three
+  agents (distance 3–4). That turns the keep-and-add into a rho or a ring, and it is itself a witness.
+- So UNTANGLE, as a local search, needs three kinds of moves:
+  - returning the pick;
+  - moving one or two junk goods (out of q's bundle, or into v's bundle from an envied one);
+  - rarely, a pick rotation.
+- The (O2) obstruction, an earlier agent's pick inside an envied bundle, is what the junk-into-v move answers.
 
 ## 5. n = 3
 
@@ -1258,7 +1305,7 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 | K4.SDC.ROUNDP | Conjecture ROUND-P^max at k = 4: one round of vertex-disjoint chains in which every non-end agent x_i (i < t) of a chain with t ≥ 1 may also take goods of its chain end's base (a round of disjoint OC₁′ moves; letting them take any chain end's goods never adds a witness on the data), one-absorber completion | CONJECTURE (at n ≤ 4 it follows from the CERTIFIED OC₁′^max) | EVIDENCE only: holds at all 112,880 OC₁^max-failing n = 4 starts and at the certifier's 24 n = 5 failures, two implementations (`rndp_known.log`, `xcheck_roundz.log`); strict-core climbs at n = 5, 6 (`zclimb_rndpz_*.log`); `kgen/rounds.md` §4.8, §4.9 |
 | K4.SPLICE | Lemma SPLICE: the final allocation of a REC-S repair (E(k) with T, then a Theorem S chain, the Theorem S completion) is a witness of one round of OC₁′ moves from the picks, except in configuration (EX) (the pickless agent's pick lies with an agent that keeps its own pick and needs it) | PROVED (written proof, `kgen/rounds.md` §4.10; not refereed) | `kgen/rounds/splice_search.py`, `results/kgen_rounds/splice_search_*.log` (265,549 REC-S repairs at hard n = 4, 5 starts, all witnesses; on random cores every failure is in (EX)); (EX) occurs: `kgen/rounds/splice_ex.py`, `results/kgen_rounds/splice_ex.log`, `attempts/kgen-rounds-splice-ex.md` |
 | K4.MULTI.RECS.EXIST.N5 | REC-S's existence part (some dangerous k, pool pair T of E(k) and Theorem S case at every two-move start) at n = 5 | REFUTED (7 of the certifier's 280 stored 5_pure OC₁^max-failing starts, two of them the residual case; multi's own code finds no REC-S repair; ROUND-P holds at all 7) | `kgen/rounds/recs_gaps.py`, `results/kgen_rounds/recs_gaps_5pure.log`, `results/kgen_rounds/splice_search_5pure.log` |
-| K4.ROUNDSIMPLE | Theorem ROUND-SIMPLE: at a perfect start of a strict core, an MD EFX₀ allocation with a simple pick graph and one absorber witnesses one round of OC₁′ moves (with Lemmas PG, GAIN, RING, RHO, FIX) | PROVED (written proof, `kgen/rounds.md` §4.11; not refereed) | `kgen/rounds/rndp_structure.py`, `results/kgen_rounds/rndp_structure_*.log` (no counterexample: every simple one-absorber MD allocation in the data is a witness) |
+| K4.ROUNDSIMPLE | Theorem ROUND-SIMPLE: at a perfect start of a strict core, an MD EFX₀ allocation with a simple (or simple⁺) pick graph and one absorber witnesses one round of OC₁′ moves (with Lemmas PG, GAIN, RING, RHO, FIX) | PROVED (written proof, `kgen/rounds.md` §4.11; refereed CORRECT, `k4/referee/rounds_r1.md` Addendum 3 on `claude/k4-referee`) | `kgen/rounds/rndp_structure.py`, `results/kgen_rounds/rndp_structure_*.log` (no counterexample: every simple one-absorber MD allocation in the data is a witness) |
 | K4.SIMPLEMD | Conjecture SIMPLE-MD: at every perfect maximum-matching start of a strict connected k = 4 core, some MD EFX₀ allocation has a simple pick graph and one absorber (implies ROUND-P^max in the RNDOZ form) | CONJECTURE | EVIDENCE only: all 112,880 n = 4 two-move starts (every MD allocation is a simple witness), the certifier's 280 n = 5 failures, 23,943 walk starts, 5,556 random starts (`rndp_structure_*.log`) |
 | K4.PHIMAX | Conjecture Φ-MAX: at every perfect start of a strict connected k = 4 core with an MD EFX₀ allocation, every maximizer of Φ = (#agents holding exactly one pick, −#absorbers) among the MD EFX₀ allocations witnesses one round of OC₁′ moves (with MD this gives ROUND-P^max) | CONJECTURE | EVIDENCE only: 3,032 informative starts (the certifier's n = 5 failures, random n = 4–6 cores), `results/kgen_rounds/witness_potential_*.log` |
 | K4.SDC.OC1PERF | OC₁ (and one round) at perfect starts for every instance with ≤ 4 relevant goods per agent (the target of Lemma RED's route; the LOOSE form of OC₁^max) | REFUTED | `kgen/rounds/k4w_check.py`, `results/kgen_rounds/k4w_check.log` (K4W, no worthless good), `results/kgen_rounds/verify_k4zero_W4.log` (W4) |
