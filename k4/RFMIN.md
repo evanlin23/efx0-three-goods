@@ -31,6 +31,13 @@ values), *frozen* an agent with a pick that some other agent prefers to its own,
      n = 5. So the data give no constant bound.
 5. *The list for the hunt* (§5).
 6. *RF-PRIV* (§6): proved when no frozen agent values the junk above its pick (Lemma ABS). The general case is open.
+   - *Lemma ABS′* (proved): Lemma ABS at any state satisfying (G1) and (G2), with "frozen" read as "not a receiver".
+     *Lemma CH* (proved): after a canonical chain from a dangerous agent with a junk pair and an unfrozen head, ABS′ holds
+     unless one of two explicit conditions, (V1) and (V2), fails.
+   - *Conjecture RF-PRIV′* (EVIDENCE: all 1,824 gap starts in 440,000 random private-top cores, n = 4–7): the picks
+     complete, or after some official move ABS′ holds for the private-top agent. This is a covering statement with no
+     matching. A canonical chain is enough at 1,609 of the 1,759 gap starts at n = 4–6. The other 150 need a move in which an
+     agent takes a pick together with junk.
    - In every stored n = 5 failure whose receiver picked a private good, lifting that good to the receiver's top makes
      the picks complete (35,299 of 35,299).
    - At n = 4 the conclusion holds outright.
@@ -238,7 +245,8 @@ released, after which f absorbs. It runs into two gaps:
 - the released pick Y_w can threaten agents that wanted it, unless w is unfrozen;
 - a three-good H₀ can threaten other agents.
 
-Closing it needs the exact one-absorber completability count (the Hall session's Lemma 2*) at the post-move state.
+The exact count at the post-move state exists (Lemma M^c, below). The open part is existence: a move after which the
+count is met. The data say a matching-free special case of the count, Lemma ABS′, already suffices (below).
 
 **Evidence.**
 - At n = 4 the conclusion holds outright: no OC₁^max failure at a private-top profile in the complete export (§2).
@@ -297,7 +305,110 @@ private-top agent, n = 4–6, 20,000 instances: 62,531 maximum-matching starts, 
 
 So a uniform proof by Lemma 2 at the post-move state needs its hypotheses (G1) and (G2) relaxed, or a second case.
 
-**Conjecture RF-PRIV⁺** (EVIDENCE: the 103 starts above, and the 35,299 lifted n = 5 starts). In a core where some agent f's
+**The exact count after the move: Lemma M^c.** (G1) is already relaxed elsewhere, and (G2) holds after the right chains.
+- Lemma M^c (`k4/oc1max_multi.md` §9 on `proof/k4-oc1max-multi-2`; the matching session re-implemented it
+  independently) is Lemma 2\* with (G1) dropped and frozen slots added. It assumes only (G2), and is the exact test for
+  S^c completions with a given owner.
+- Lemma RF-B′'s proof of (G2) (`k4/oc1_hall.md` §24.10 on `claude/k4-oc1-hall`) carries over verbatim to a chain "d takes
+  H₀ ⊆ J, x₁ takes Y_d, …, x_t takes Y_{x_{t−1}}" whose head's pick Y_{x_t} nobody wants. The free goods are then junk,
+  below every pick, and Y_{x_t}, which nobody wants.
+
+So after such a chain, M^c's (C1)–(C3) with owner f is the exact test. With owner f, (C2) is automatic when |H₀| = 2: f
+wants nothing, and a two-good bundle minus a good is a single junk good, below p. "X threatens i" becomes "i values the
+junk f keeps above its own bundle", because no other agent values p. On the data the matching in (C3) is never needed:
+its greedy special case, Lemma ABS′, suffices after some move at every gap start.
+
+**Lemma ABS′ (proved; Lemma ABS at any state).** Let B be a state with free goods J, write b_i = v_i(B_i), and fix an
+agent f. Call r ≠ f a *receiver* at B if |B_r| ≤ 1 and no other agent wants the good of B_r (an empty bundle counts).
+Suppose:
+- (A0) B_f = {p}, and no other agent values p;
+- (A1) = (G2): v_i(g) ≤ b_i for every free good g and every agent i;
+- (A2) = (G1): no bundle B_q of two or more goods (q ≠ f) threatens anybody: v_i(B_q ∖ h) ≤ b_i for all i ≠ q, h ∈ B_q;
+- (A3) every agent i ≠ f that is not a receiver has v_i(J) ≤ b_i.
+
+Then the following allocation is EFX₀. The receivers in turn take their most valuable free good if they value the free
+goods above b_r; f takes the rest; nobody else changes.
+
+*Proof.* Values only rise. The bundles of two or more goods are three kinds.
+- *X_f = {p} ∪ F.* For i ≠ f, v_i(p) = 0, so the threat is v_i(F).
+  - A non-receiver: v_i(F) ≤ v_i(J) ≤ b_i, by (A3).
+  - A receiver that took nothing: F lies inside the goods free at its turn, which it values at most b_r.
+  - A receiver with B_r = ∅ values no free good, by (A1).
+  - A receiver with B_r = {y_r} that took g_r: it values at most three free goods at its turn (k ≤ 4). At most two of
+    them, h and h′, can end in F, with v_r(h) ≤ b_r by (A1) and v_r(h′) ≤ v_r(g_r). So v_r(F) ≤ b_r + v_r(g_r).
+- *{y_r, g_r}* for a receiver that took g_r: for i ≠ r the threat is at most max(v_i(y_r), v_i(g_r)) ≤ b_i. y_r is
+  unwanted, and g_r was free, so (A1) applies. If B_r = ∅, the bundle {g_r} is a singleton.
+- *An unchanged B_q*, by (A2).
+
+These cases include threats to f. Singletons never threaten. ∎ Lemma ABS is the case B = Y. There SD1 and SD2 give (A1),
+(A2) is empty, and the non-receivers are the frozen agents.
+
+**Lemma CH (canonical chains; proved).** Let Y be a start (a maximum matching), p_i = v_i(Y_i), d a frozen agent that
+values some junk good, and H₀ ⊆ J ∩ R_d with v_d(H₀) > p_d.
+1. There is a chain d = x₀ ← x₁ ← ⋯ ← x_t (t ≥ 1) in which:
+   - each x_i (i ≥ 1) holds a pick and wants Y_{x_{i−1}};
+   - nobody wants Y_{x_t}.
+2. Let B′ be the state after the official move "d takes H₀, each x_i takes Y_{x_{i−1}}", and J′ = (J ∖ H₀) ∪ {Y_{x_t}}.
+   If f's top good is private, then:
+   - (A0) and (A1) hold at B′ for f;
+   - (A2) holds if |H₀| = 2;
+   - d meets (A3).
+3. So with |H₀| = 2, ABS′ gives a one-absorber completion of B′ with absorber f, unless one of the following holds:
+   - **(V1)** an agent q outside the chain, whose pick is wanted at B′, has v_q(J′) > p_q. If q ∉ D^full, this needs
+     q to value Y_{x_t};
+   - **(V2)** a chain member x_i, whose new good Y_{x_{i−1}} another agent wants at B′, has
+     v_{x_i}(J′) > v_{x_i}(Y_{x_{i−1}}).
+
+*Proof.*
+1. If i wants Y_j, then Y_j was gone at i's turn, so j precedes i in the order. Wanting is therefore acyclic, and
+   following wanters from d ends at an agent whose pick nobody wants. If some x_i were pickless, the edges d–h
+   (h ∈ J ∩ R_d), x₁–Y_d, …, x_i–Y_{x_{i−1}}, with those of every other pick, would form a larger matching.
+2. f is not in the chain: it wants nothing, since its pick is its top, and it is not frozen.
+   - (A0) follows.
+   - (A1) is RF-B′'s argument. Every value at B′ is at least the pick value. Junk was free at every turn (SD1, SD2).
+     Nobody wants Y_{x_t} at Y, and x_t's own value rose.
+   - (A2): each H₀ ∖ h is a single junk good, below every pick.
+   - d values Y_d, the goods of H₀ and at most 4 − 1 − |H₀| ≤ 1 other good c. Such a c is junk, below p_d, or it is
+     Y_{x_t}, which d does not want. So v_d(J′) ≤ p_d < v_d(H₀). Note |H₀| ≥ 2 always, since a single junk good is
+     below p_d.
+3. An agent q outside the chain keeps Y_q. A wanter at B′ is a wanter at Y, because values only rose, so q is frozen at
+   Y. If q ∉ D^full, then v_q(J) ≤ p_q, and only Y_{x_t} can push v_q(J′) above p_q. ∎
+
+**Data** (`k4/rfmin/privtop_absp.py`). At every gap start, every one-move state is tested for ABS′ with the same f.
+Every ABS′ construction is checked by the raw EFX₀ definition, at the picks and after the moves.
+
+| sample (random private-top cores) | max starts | ABS′ at the picks | gap starts | ABS′ after some move | constructions checked |
+|---|---|---|---|---|---|
+| 20,000, n = 4–6, seed 13 | 62,531 | 48,144 | 103 | **103** | 49,548 |
+| 400,000, n = 4–6, seed 14 | 1,243,213 | 958,791 | 1,656 | **1,656** | 978,186 |
+| 20,000, n = 7, seed 15 | 127,815 | 92,174 | 65 | **65** | 93,371 |
+
+**Canonical chains** (`k4/rfmin/privtop_chains.py`; `results/k4_rfmin/privtop_chains_s13.log`, `privtop_chains_s14.log`).
+Lemma CH's claims are asserted on every chain tried: (A0)–(A2), d's (A3), a chain with an unfrozen head, and the
+released pick in every (V1) with q ∉ D^full. Gap starts, by |D^full|, both samples together (n = 4–6):
+
+| gap starts | \|D^full\| = 1 | 2 | 3 | 4 | all |
+|---|---|---|---|---|---|
+| starts | 404 | 1,131 | 218 | 6 | 1,759 |
+| some canonical chain leaves ABS′ | 397 | 1,012 | 195 | 5 | 1,609 |
+| every pair chain with an unfrozen head leaves ABS′ | 353 | 277 | 17 | 0 | 647 |
+| no canonical chain works, but a move in which an agent takes a pick together with junk does | 7 | 119 | 23 | 1 | 150 |
+
+- Canonical chains suffice at 91% of the gap starts, and at 98% of those with one dangerous agent. Every other gap
+  start is repaired by a move in which some agent takes a pick together with junk, so that one chain reduces several
+  agents' junk at once.
+- No "every chain works" statement holds, even with one dangerous agent. At seed 13 all 24 such gap starts have it.
+  At seed 14, 51 of 380 have a failing pair chain, through (V1) (69 violations, the released pick) or (V2) (5).
+- With two or more dangerous agents, the violations after pair chains are mostly another dangerous agent: 1,972 of
+  2,109 at both samples' gap starts.
+
+**Conjecture RF-PRIV′** (EVIDENCE: the 1,824 gap starts above, n = 4–7). Let f's top good be private. At every start,
+either the picks have a one-absorber completion, or some official move leads to a state where ABS′ holds for f.
+
+It implies RF-PRIV⁺, hence RF-PRIV's conclusion. Unlike RF-PRIV⁺, it is a covering statement with no matching: after
+the move, every non-receiver values the free goods at most its bundle.
+
+**Conjecture RF-PRIV⁺** (EVIDENCE: the 1,824 gap starts above, through RF-PRIV′, and the 35,299 lifted n = 5 starts). In a core where some agent f's
 top good is private, at every maximum-matching start the picks, or the bases after one move, have a one-absorber
 completion with owner f.
 
@@ -341,5 +452,8 @@ python3 privtop_random.py 400 7 4 6                                             
 python3 privtop_mech.py N5P6 20 x1; python3 privtop_mech.py N5P6 100 threats; python3 privtop_mech.py N5P6 50 owner
                                                                                     # §6 lift mechanism, ~15 min
 python3 privtop_gap.py 20000 13 4 6                                                 # §6 the starts needing a move, ~20 min
+python3 privtop_absp.py 20000 13 4 6; python3 privtop_absp.py 400000 14 4 6         # §6 Lemma ABS′ after one move, ~5 min
+python3 privtop_absp.py 20000 15 7 7                                                # §6 the same at n = 7, ~3 min
+python3 privtop_chains.py 20000 13 4 6; python3 privtop_chains.py 400000 14 4 6     # §6 Lemma CH, canonical chains, ~5 min
 cd ..; for b in 5 6 7 8 9; do python3 twins_count.py 6 $b --mc9 --write=../results/k4_rfmin/mc_n6_b${b}_mc9.json.gz; done
 ```
