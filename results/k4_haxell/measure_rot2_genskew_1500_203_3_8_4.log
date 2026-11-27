@@ -1,0 +1,61 @@
+$ python3 k4/haxell/gstar_measure_run.py genskew:1500:203:3:8:4 NMAX=3 MMAX=8 RADIUS=2 ROT=1
+instances 1500
+partial EFX0 states 3853984
+stuck states, phi0 53430
+stuck states, phi1 188
+stuck states, phi10 184
+stuck states, phi11 4
+stuck states, phi12 188
+stuck states, phi13 178
+stuck states, phi14 188
+stuck states, phi15 188
+stuck states, phi16 186
+stuck states, phi17 186
+stuck states, phi18 168
+stuck states, phi2 168
+stuck states, phi3 45717
+stuck states, phi4 351
+stuck states, phi5 46312
+stuck states, phi6 3641
+stuck states, phi7 2828
+stuck states, phi8 144
+stuck states, phi9 3641
+instances with a stuck state, phi0 1339
+instances with a stuck state, phi1 119
+instances with a stuck state, phi10 118
+instances with a stuck state, phi11 4
+instances with a stuck state, phi12 119
+instances with a stuck state, phi13 112
+instances with a stuck state, phi14 119
+instances with a stuck state, phi15 119
+instances with a stuck state, phi16 118
+instances with a stuck state, phi17 118
+instances with a stuck state, phi18 121
+instances with a stuck state, phi2 121
+instances with a stuck state, phi3 1338
+instances with a stuck state, phi4 177
+instances with a stuck state, phi5 1335
+instances with a stuck state, phi6 1271
+instances with a stuck state, phi7 340
+instances with a stuck state, phi8 91
+instances with a stuck state, phi9 1271
+first instance with a stuck state for phi0 : s0 [[[0, 1, 5, 7], [1, 2, 3, 4], [0, 1, 2, 6]], [[15, 13, 8, 2], [3, 34, 4, 4], [9, 2, 72, 1]]]
+first instance with a stuck state for phi1 : s19 [[[2, 4, 5, 7], [1, 4, 5, 7], [0, 3, 4, 6]], [[2, 38, 84, 2], [3, 37, 47, 7], [14, 7, 82, 6]]]
+first instance with a stuck state for phi10 : s19 [[[2, 4, 5, 7], [1, 4, 5, 7], [0, 3, 4, 6]], [[2, 38, 84, 2], [3, 37, 47, 7], [14, 7, 82, 6]]]
+first instance with a stuck state for phi11 : s386 [[[1, 2, 5, 6], [0, 1, 3, 7], [0, 1, 4, 5]], [[35, 1, 13, 8], [13, 77, 1, 13], [11, 45, 90, 4]]]
+first instance with a stuck state for phi12 : s19 [[[2, 4, 5, 7], [1, 4, 5, 7], [0, 3, 4, 6]], [[2, 38, 84, 2], [3, 37, 47, 7], [14, 7, 82, 6]]]
+first instance with a stuck state for phi13 : s19 [[[2, 4, 5, 7], [1, 4, 5, 7], [0, 3, 4, 6]], [[2, 38, 84, 2], [3, 37, 47, 7], [14, 7, 82, 6]]]
+first instance with a stuck state for phi14 : s19 [[[2, 4, 5, 7], [1, 4, 5, 7], [0, 3, 4, 6]], [[2, 38, 84, 2], [3, 37, 47, 7], [14, 7, 82, 6]]]
+first instance with a stuck state for phi15 : s19 [[[2, 4, 5, 7], [1, 4, 5, 7], [0, 3, 4, 6]], [[2, 38, 84, 2], [3, 37, 47, 7], [14, 7, 82, 6]]]
+first instance with a stuck state for phi16 : s19 [[[2, 4, 5, 7], [1, 4, 5, 7], [0, 3, 4, 6]], [[2, 38, 84, 2], [3, 37, 47, 7], [14, 7, 82, 6]]]
+first instance with a stuck state for phi17 : s19 [[[2, 4, 5, 7], [1, 4, 5, 7], [0, 3, 4, 6]], [[2, 38, 84, 2], [3, 37, 47, 7], [14, 7, 82, 6]]]
+first instance with a stuck state for phi18 : s8 [[[2, 5, 6, 7], [0, 5, 6, 7], [1, 3, 4, 6]], [[7, 70, 48, 9], [12, 37, 83, 5], [1, 7, 6, 44]]]
+first instance with a stuck state for phi2 : s8 [[[2, 5, 6, 7], [0, 5, 6, 7], [1, 3, 4, 6]], [[7, 70, 48, 9], [12, 37, 83, 5], [1, 7, 6, 44]]]
+first instance with a stuck state for phi3 : s0 [[[0, 1, 5, 7], [1, 2, 3, 4], [0, 1, 2, 6]], [[15, 13, 8, 2], [3, 34, 4, 4], [9, 2, 72, 1]]]
+first instance with a stuck state for phi4 : s2 [[[1, 5, 6, 7], [0, 2, 3, 5], [0, 2, 4, 7]], [[14, 6, 5, 6], [63, 9, 4, 6], [71, 15, 59, 15]]]
+first instance with a stuck state for phi5 : s0 [[[0, 1, 5, 7], [1, 2, 3, 4], [0, 1, 2, 6]], [[15, 13, 8, 2], [3, 34, 4, 4], [9, 2, 72, 1]]]
+first instance with a stuck state for phi6 : s0 [[[0, 1, 5, 7], [1, 2, 3, 4], [0, 1, 2, 6]], [[15, 13, 8, 2], [3, 34, 4, 4], [9, 2, 72, 1]]]
+first instance with a stuck state for phi7 : s8 [[[2, 5, 6, 7], [0, 5, 6, 7], [1, 3, 4, 6]], [[7, 70, 48, 9], [12, 37, 83, 5], [1, 7, 6, 44]]]
+first instance with a stuck state for phi8 : s19 [[[2, 4, 5, 7], [1, 4, 5, 7], [0, 3, 4, 6]], [[2, 38, 84, 2], [3, 37, 47, 7], [14, 7, 82, 6]]]
+first instance with a stuck state for phi9 : s0 [[[0, 1, 5, 7], [1, 2, 3, 4], [0, 1, 2, 6]], [[15, 13, 8, 2], [3, 34, 4, 4], [9, 2, 72, 1]]]
+time 23 s

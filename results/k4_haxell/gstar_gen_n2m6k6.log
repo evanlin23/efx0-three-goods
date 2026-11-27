@@ -1,0 +1,16 @@
+$ GSTAR_PAR=1 python3 k4/haxell/ht_gstar.py gen:2000:26:2:6:6 NMAX=2 MMAX=8 SHOW=6
+TRAPS g197 [[[0, 1, 2, 3, 4, 5], [0, 1, 2, 3, 4, 5]], [[30, 25, 7, 10, 13, 8], [38, 31, 12, 7, 10, 15]]] states 174 complete 12 traps 6 fewest pooled 2 e.g. [[[3, 4], [2, 5]], [[3, 5], [2, 4]]] pool [[0, 1], [0, 1]]
+TRAPS g843 [[[0, 1, 2, 3, 4, 5], [0, 1, 2, 3, 4, 5]], [[26, 10, 6, 20, 3, 5], [36, 6, 1, 23, 5, 19]]] states 149 complete 8 traps 4 fewest pooled 1 e.g. [[[1, 3], [2, 4, 5]], [[1, 2, 5], [3, 4]]] pool [[0], [0]]
+TRAPS g1505 [[[0, 1, 2, 3, 4, 5], [0, 1, 2, 3, 4, 5]], [[18, 39, 3, 7, 1, 5], [36, 26, 11, 9, 3, 13]]] states 167 complete 13 traps 3 fewest pooled 2 e.g. [[[3, 4], [2, 5]], [[3, 5], [2, 4]]] pool [[0, 1], [0, 1]]
+TRAPS g1944 [[[0, 1, 2, 3, 4, 5], [0, 1, 2, 3, 4, 5]], [[11, 14, 10, 30, 35, 12], [17, 14, 18, 39, 38, 6]]] states 182 complete 14 traps 6 fewest pooled 2 e.g. [[[0, 1], [2, 5]], [[0, 5], [1, 2]]] pool [[3, 4], [3, 4]]
+instances 2000
+instances with a radius-2 trap 0
+instances with a trap 4
+instances with a trap with 1 pooled good(s) 1
+instances with a trap with 2 pooled good(s) 3
+instances without a complete EFX0 allocation 0
+partial EFX0 states 383495
+radius-2 traps 0
+serial-dictatorship starts that are traps 0
+traps 19
+time 2 s

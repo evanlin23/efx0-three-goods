@@ -1,0 +1,56 @@
+$ python3 k4/haxell/ht_n2types.py K=4 PROCS=2 JUNK=0
+FAIL 2 5 4 0 3 1 2 2 4 3 8 4 1 4 2 3 3 8 4 2 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 3 1 2 2 4 3 8 4 1 6 2 3 3 10 4 2 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 3 1 2 2 4 3 8 4 1 6 2 2 3 10 4 3 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 3 1 2 2 4 3 8 4 1 4 2 2 3 8 4 3 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 2 1 3 2 4 3 8 4 1 4 2 2 3 8 4 3 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 2 1 4 2 5 3 8 4 1 5 2 4 3 8 4 2 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 2 1 3 2 4 3 8 4 1 4 2 3 3 8 4 2 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 2 1 3 2 4 3 8 4 1 6 2 3 3 10 4 2 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 2 1 3 2 4 3 8 4 1 6 2 2 3 10 4 3 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 2 1 4 2 5 3 8 4 1 7 2 4 3 10 4 2 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 3 1 2 2 6 3 10 4 1 4 2 3 3 8 4 2 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 3 1 2 2 6 3 10 4 1 6 2 3 3 10 4 2 | 2 5 states 65 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 3 1 2 2 6 3 10 4 1 6 2 2 3 10 4 3 | 2 5 states 65 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 3 1 2 2 6 3 10 4 1 4 2 2 3 8 4 3 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 2 1 3 2 6 3 10 4 1 4 2 3 3 8 4 2 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 2 1 3 2 6 3 10 4 1 6 2 3 3 10 4 2 | 2 5 states 65 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 2 1 3 2 6 3 10 4 1 6 2 2 3 10 4 3 | 2 5 states 65 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 2 1 3 2 6 3 10 4 1 4 2 2 3 8 4 3 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 2 1 4 2 7 3 10 4 1 7 2 4 3 10 4 2 | 2 5 states 65 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+FAIL 2 5 4 0 2 1 4 2 7 3 10 4 1 5 2 4 3 8 4 2 | 2 5 states 64 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+instances sent 45999 return codes [0, 0]
+instances 45999
+instances m=1 1
+instances m=2 7
+instances m=3 66
+instances m=4 6597
+instances m=5 21124
+instances m=6 14816
+instances m=7 3192
+instances m=8 196
+partial EFX0 states 6639927
+phi0 stuck states 20
+instances with a failure: 20
+  no pool-shrinking composite: 2 5 4 0 3 1 2 2 4 3 8 4 1 4 2 3 3 8 4 2 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+swapP
+  no pool-shrinking composite: 2 5 4 0 3 1 2 2 4 3 8 4 1 6 2 3 3 10 4 2 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+giveS
+  no pool-shrinking composite: 2 5 4 0 3 1 2 2 4 3 8 4 1 6 2 2 3 10 4 3 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+giveS
+  no pool-shrinking composite: 2 5 4 0 3 1 2 2 4 3 8 4 1 4 2 2 3 8 4 3 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+swapP
+  no pool-shrinking composite: 2 5 4 0 2 1 3 2 4 3 8 4 1 4 2 2 3 8 4 3 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+swapP
+  no pool-shrinking composite: 2 5 4 0 2 1 4 2 5 3 8 4 1 5 2 4 3 8 4 2 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+give1
+  no pool-shrinking composite: 2 5 4 0 2 1 3 2 4 3 8 4 1 4 2 3 3 8 4 2 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+swapP
+  no pool-shrinking composite: 2 5 4 0 2 1 3 2 4 3 8 4 1 6 2 3 3 10 4 2 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+giveS
+  no pool-shrinking composite: 2 5 4 0 2 1 3 2 4 3 8 4 1 6 2 2 3 10 4 3 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+giveS
+  no pool-shrinking composite: 2 5 4 0 2 1 4 2 5 3 8 4 1 7 2 4 3 10 4 2 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+giveS
+  no pool-shrinking composite: 2 5 4 0 3 1 2 2 6 3 10 4 1 4 2 3 3 8 4 2 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+swapAB
+  no pool-shrinking composite: 2 5 4 0 3 1 2 2 6 3 10 4 1 6 2 3 3 10 4 2 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+giveS
+  no pool-shrinking composite: 2 5 4 0 3 1 2 2 6 3 10 4 1 6 2 2 3 10 4 3 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+giveS
+  no pool-shrinking composite: 2 5 4 0 3 1 2 2 6 3 10 4 1 4 2 2 3 8 4 3 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+swapAB
+  no pool-shrinking composite: 2 5 4 0 2 1 3 2 6 3 10 4 1 4 2 3 3 8 4 2 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+swapAB
+  no pool-shrinking composite: 2 5 4 0 2 1 3 2 6 3 10 4 1 6 2 3 3 10 4 2 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+giveS
+  no pool-shrinking composite: 2 5 4 0 2 1 3 2 6 3 10 4 1 6 2 2 3 10 4 3 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+giveS
+  no pool-shrinking composite: 2 5 4 0 2 1 3 2 6 3 10 4 1 4 2 2 3 8 4 3 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+swapAB
+  no pool-shrinking composite: 2 5 4 0 2 1 4 2 7 3 10 4 1 7 2 4 3 10 4 2 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+giveS
+  no pool-shrinking composite: 2 5 4 0 2 1 4 2 7 3 10 4 1 5 2 4 3 8 4 2 state A [2, 4] B [0, 1] | Pareto swap (4, 0) | Pareto composite give1+swapAB
+states without a pool-shrinking composite: 20; with a swap that keeps EFX0 and raises both agents: 20; with a Pareto composite of at most two moves: 20
+time 13 s

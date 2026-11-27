@@ -1,0 +1,48 @@
+$ python3 k4/haxell/gstar_measure_run.py gent:800:103:3:7:4:4 NMAX=4 MMAX=7 RADIUS=2 ROT=1
+instances 800
+partial EFX0 states 948893
+stuck states, phi0 219
+stuck states, phi1 0
+stuck states, phi10 0
+stuck states, phi11 0
+stuck states, phi12 0
+stuck states, phi13 0
+stuck states, phi14 0
+stuck states, phi15 0
+stuck states, phi16 0
+stuck states, phi17 0
+stuck states, phi18 0
+stuck states, phi2 0
+stuck states, phi3 92
+stuck states, phi4 45
+stuck states, phi5 56
+stuck states, phi6 2
+stuck states, phi7 0
+stuck states, phi8 0
+stuck states, phi9 2
+instances with a stuck state, phi0 74
+instances with a stuck state, phi1 0
+instances with a stuck state, phi10 0
+instances with a stuck state, phi11 0
+instances with a stuck state, phi12 0
+instances with a stuck state, phi13 0
+instances with a stuck state, phi14 0
+instances with a stuck state, phi15 0
+instances with a stuck state, phi16 0
+instances with a stuck state, phi17 0
+instances with a stuck state, phi18 0
+instances with a stuck state, phi2 0
+instances with a stuck state, phi3 36
+instances with a stuck state, phi4 26
+instances with a stuck state, phi5 23
+instances with a stuck state, phi6 2
+instances with a stuck state, phi7 0
+instances with a stuck state, phi8 0
+instances with a stuck state, phi9 2
+first instance with a stuck state for phi0 : t12 [[[3, 4, 5, 6], [1, 3, 5, 6], [0, 2, 3, 4]], [[1, 4, 2, 3], [1, 4, 4, 2], [1, 1, 4, 3]]]
+first instance with a stuck state for phi3 : t99 [[[0, 1, 2, 5], [0, 1, 3, 6], [0, 1, 4, 6]], [[2, 2, 2, 1], [4, 1, 2, 4], [4, 3, 1, 4]]]
+first instance with a stuck state for phi4 : t12 [[[3, 4, 5, 6], [1, 3, 5, 6], [0, 2, 3, 4]], [[1, 4, 2, 3], [1, 4, 4, 2], [1, 1, 4, 3]]]
+first instance with a stuck state for phi5 : t119 [[[0, 1, 2, 3], [1, 3, 4, 5], [0, 1, 4, 6]], [[1, 1, 1, 1], [3, 1, 2, 2], [1, 4, 1, 2]]]
+first instance with a stuck state for phi6 : t377 [[[0, 1, 4, 6], [2, 3, 4, 5], [0, 2, 3, 6]], [[4, 1, 3, 3], [1, 4, 2, 1], [1, 2, 3, 1]]]
+first instance with a stuck state for phi9 : t377 [[[0, 1, 4, 6], [2, 3, 4, 5], [0, 2, 3, 6]], [[4, 1, 3, 3], [1, 4, 2, 1], [1, 2, 3, 1]]]
+time 4 s
