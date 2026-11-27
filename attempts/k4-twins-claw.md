@@ -1,6 +1,8 @@
 # Attempt: reduce a claw (three P3 agents on one good of degree 3) in a minimal counterexample to TARGET₄
 
-Workstream `proof/k4-twins` (`k4/TWINS.md`). Partly failed. Generator only (`k4/twins4.py`).
+Workstream `proof/k4-twins` (`k4/TWINS.md`). **Superseded: the claw is reduced by two-agent gadgets with gadget goods
+(K4.MC9, `k4/TWINS.md` §4).** What failed, kept for the record: one-agent gadgets (177 of 216), and the two-agent copy
+gadget below. Generator only for these (`k4/twins4.py`).
 
 **Why try it.** K4.MC4's bound n ≤ 3(β − 1) is tight only if every good of degree ≥ 3 is a degree-3 good valued by
 three P3 agents (A = 3t in its proof). Excluding claws gives A ≤ 2t and n ≤ 3(β − 1) − t/2.
@@ -25,8 +27,9 @@ admissible states):
 - reduce4's full extension search did not finish in 30 minutes on 3 CPUs (stopped).
 The full search over all 216 profiles would take about 6 CPU-hours in reduce4's Python (~0.4 s per admissible state).
 
-**What would be needed.** A faster reducer (C, or a search that builds extensions agent by agent with pruning) for
-two-agent gadgets, then other two-agent gadgets (e.g. f1 replaced by a fixed agent on y1).
+With the C extension search (`k4/reduce4c.c`), the full search of DEL-f1 over all 216 profiles takes 4 minutes: it
+reduces 105, all of them already reduced by one-agent gadgets (`results/k4_twins/claw2c.log`). What works instead are
+two *fixed* gadget agents with a gadget good each (K4.MC9).
 
 **Smallest failing configuration.** All three agents of type (G: 4, y: 3, p: 2), i.e. G > y > p.
 - DEL fails at the state where y1, y2, y3 lie together in one outside bundle without outside goods, unenvied.

@@ -9,7 +9,7 @@ written here independently of twins4.py's builders: a record whose declared conf
 order, I, D) differs from the entry of the same name is rejected before its coverage is counted.
 
 Configurations (k4/TWINS.md §2): dbl-K1-K2[-cC] (two agents of kinds K1, K2 sharing two goods g0, g1 that no other agent
-values; C further shared goods, boundary).
+values; C further shared goods, boundary); claw (three P3 agents sharing a good of degree 3; §4).
 
 Usage: check_twins4.py certs.json.gz [--jobs=J] [--expect=CONFIG:COUNT ...] [--uncovered-out=file.json]
        check_twins4.py certs.json.gz --selftest     (corrupted copies must be rejected)"""
@@ -34,6 +34,14 @@ NEW = {
     'dbl-Q4-Q4':    ({'e': ['g0', 'g1', 'a', 'b'], 'f': ['g0', 'g1', 'x', 'y']}, ['g0', 'g1'], ['a', 'b', 'x', 'y']),
     'dbl-Q4-Q4-c1': ({'e': ['g0', 'g1', 'a', 'b'], 'f': ['g0', 'g1', 'a', 'y']}, ['g0', 'g1'], ['a', 'b', 'y']),
     'dbl-Q4-Q4-c2': ({'e': ['g0', 'g1', 'a', 'b'], 'f': ['g0', 'g1', 'a', 'b']}, ['g0', 'g1'], ['a', 'b']),
+    # claw: three P3 agents f1, f2, f3 on (G, y_i, p_i); G of degree 3, valued by them only
+    'claw': ({'f1': ['G', 'y1', 'p1'], 'f2': ['G', 'y2', 'p2'], 'f3': ['G', 'y3', 'p3']}, ['G', 'p1', 'p2', 'p3'],
+             ['y1', 'y2', 'y3']),
+    # the same with f1 and f2 also sharing their other good (y1), and with all three sharing it
+    'claw-y12': ({'f1': ['G', 'y1', 'p1'], 'f2': ['G', 'y1', 'p2'], 'f3': ['G', 'y3', 'p3']}, ['G', 'p1', 'p2', 'p3'],
+                 ['y1', 'y3']),
+    'claw-y123': ({'f1': ['G', 'y1', 'p1'], 'f2': ['G', 'y1', 'p2'], 'f3': ['G', 'y1', 'p3']}, ['G', 'p1', 'p2', 'p3'],
+                  ['y1']),
 }
 for _k in NEW: assert _k not in CR.CONFIGS, _k
 CR.CONFIGS.update(NEW)
@@ -68,10 +76,12 @@ def selftest(recs, jobs):
     r = copy.deepcopy(pick); r['source'] = False; tests.append(('unenvied bundle dropped', r))
     gad = max((r for r in recs if r['Ip']), key=lambda r: r['reduced'])          # a gadget record with gadget goods
     r = copy.deepcopy(gad); r['Ip'] = []; tests.append(("gadget goods not declared in I' (%s)" % gad['name'], r))
-    r = copy.deepcopy(gad); r['Sp'] = {'h': {'fix': dict(gad['Sp']['h']['fix'], u1=1, u2=1, u3=1)}}
+    h0 = sorted(gad['Sp'])[0]
+    r = copy.deepcopy(gad); r['Sp'] = dict(r['Sp']); r['Sp'][h0] = {'fix': dict(gad['Sp'][h0]['fix'], u1=1, u2=1, u3=1)}
     r['Ip'] = sorted(set(gad['Ip']) | {'u1', 'u2', 'u3'})
     tests.append(('a gadget agent valuing 5 goods', r))
-    r = copy.deepcopy(pick); r['S'] = dict(r['S']); r['S']['e'] = list(reversed(r['S']['e']))
+    a0 = sorted(pick['S'])[0]
+    r = copy.deepcopy(pick); r['S'] = dict(r['S']); r['S'][a0] = list(reversed(r['S'][a0]))
     tests.append(('a record whose agents differ from its configuration', r))
     r = copy.deepcopy(pick); r['I'] = r['I'][1:]; tests.append(('a record whose I differs from its configuration', r))
     r = copy.deepcopy(pick); r['config'] = 'dbl-Q4-Q4-c2' if pick['config'] != 'dbl-Q4-Q4-c2' else 'dbl-Q3-Q3'
@@ -91,6 +101,14 @@ def selftest(recs, jobs):
             if hit: break
         if hit: break
     if hit: tests.append(('interior good into a W bundle (domination)', r))
+    two = [r for r in recs if len(r['Sp']) == 2 and
+           sum(1 for g, v in r['Sp']['h1']['fix'].items() if g in r['D'] and v > 0) >= 2]
+    if two:
+        g2 = two[0]
+        r = copy.deepcopy(g2)
+        b1 = [g for g in r['Sp']['h1']['fix'] if g in r['D'] and r['Sp']['h1']['fix'][g] > 0]
+        r['Sp']['h2'] = {'fix': dict({g: 1 for g in b1}, **{"z2'": 1})}
+        tests.append(('two gadget agents closing a cycle (%s)' % g2['name'][:30], r))
     good = True
     print('  selftest base record %s/%s: covered %d' % (key[0], key[1], cov0[key]))
     res = run([t[1] for t in tests], jobs)

@@ -1,0 +1,6 @@
+DEL-f1 reduces 105 of 216 ; admissible states 56128 246 s
+configuration claw: agents {'f1': ('G', 'y1', 'p1'), 'f2': ('G', 'y2', 'p2'), 'f3': ('G', 'y3', 'p3')}, I = ['G', 'p1', 'p2', 'p3'], D = ['y1', 'y2', 'y3'], 216 profiles
+  DEL      reduces      78 of 216 (0.2 s)
+  gadget h on ['y1', 'y2', 'y3', "z0'"] (1665 menu valuations): 177 of 216 reduced, new 99
+  together: 177 of 216 profiles
+union with DEL and the one-agent gadgets: 177 of 216
