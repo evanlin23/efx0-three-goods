@@ -1549,7 +1549,7 @@ Each leaf is a named statement with its status and the session that owns it.
 | # | case | statement | status | owner |
 |---|---|---|---|---|
 | 0 | maximum-matching start ⟶ perfect start | Lemma RED (k4/sdc.md §31) with Lemma MAX (§19) | RED: written proof, read here (§22 message, no hole; caveat: null agents count as ordinary agents for the one-absorber shape). MAX: proved | coordinator; this note |
-| 1 | the picks complete, or a state completes | Lemma 1 (slots), Lemma 2\* / Lemma M (exact S\* count). **Lemma M^c** (k4-oc1max-multi, `k4/oc1max_multi.md` §9 at 3b69d07) is the exact matching condition for the S^c shape: the owner takes the rest, holders and frozen single-good agents take at most one junk good, and multi-good agents take nothing. At perfect starts this is exactly the one-absorber shape, frozen slots included. M^c assumes only (G2) | Lemma 1 and Lemma 2\*: proved, 2\* refereed. M: written. M^c: written, not refereed (2,226,322 owner tests against brute force, 0 mismatches) | this note; matching; k4-oc1max-multi |
+| 1 | the picks complete, or a state completes | Lemma 1 (slots), Lemma 2\* / Lemma M (exact S\* count), **Lemma M^c** (exact one-absorber count at perfect starts, frozen slots included; assumes only (G2)) | Lemma 1, 2\*: proved, 2\* refereed. M, EX\*: refereed. M^c: written; exact on all data (2,226,322 owner tests) | this note; matching; k4-oc1max-multi |
 | 2 | hard ⟹ D ≠ ∅ | Proposition T0: every unfrozen z has a dangerous agent threatened by J ∪ B_z (cf. Prop. 3′ here) | written proof | k4-oc1max-multi |
 | 3 | \|D\| = 1: **one move** (an ED chain, the head possibly taking one junk good) | Lemma D1-chain, Prop. 3′, Lemma D1-red, Remark 2 (a longest chain avoids H-i), Lemma D1-C₀ and Prop. D1-C′ (§21) | proved | this note |
 | 3a | \|D\| = 1, CROWD residuals C-a to C-c | D1-C via Lemmas C3 and HC (needs every good relevant) | written proof, not refereed | k4-d1 (PR #113) |
@@ -1557,17 +1557,17 @@ Each leaf is a named statement with its status and the session that owns it.
 | 3b | \|D\| = 1, every canonical chain has HEAD | **D1-H2** (refines D1-HJ): some canonical chain (prefix, u), or its extension (prefix, u, u′) in which the other wanter u′ of a takes y_u plus junk, repairs with owner k and a minimal H₀; no head junk on a single chain. **Proposition D1-H₃′**: D1-H2 holds on all 763 three-agent core structures (SMT, two encodings, ties included, no MC2). **Lemma CONTRACT** (t = 1): given S1 (a has exactly two wanters) and S2 (they are the only agents unfrozen at the picks), deleting the other agents leaves a three-agent core whose repairs lift | D1-H₃′ and CONTRACT: written, computer-verified, not refereed. **Open:** S1, S2 (true on all 3,633 data starts) and t ≥ 2 | k4-d1 (`k4/d1.md` §7, 8a3bc43) |
 | 4 | \|D\| ≥ 2 after a canonical chain | Lemma D-red: the obstacles are HEAD, CROWD and DEMAND | written proof | k4-oc1max-multi |
 | 4a | the head's Θ(z) ⊆ {k} | Corollary TR: no DEMAND, so case 3 applies | written proof | k4-oc1max-multi |
-| 4b | one truly dangerous agent | Theorem U (2,880 starts outright), Lemma KEEP, Corollary KEEP-1; KEEP-C (8 starts) open | proof plus open residue | k4-oc1max-multi |
+| 4b | one truly dangerous agent | **Theorem U** (refereed) proves OC₁ outright at 2,880 starts; Lemma KEEP (refereed) and Corollary KEEP-1; KEEP-C (8 starts) open | proved plus open residue | k4-oc1max-multi |
 | 4c | k takes a shared junk pair | Lemmas SET and OWN (the PWk(a) overlap step and its owner) | written proofs | k4-oc1max-multi |
-| 4d | several truly dangerous agents, or DEMAND with none | SLOT (581 starts) | **open** | k4-oc1max-multi |
-| 4e | the head is a second dangerous agent | Lemma RING-red (rings with owner k) proves 151 starts, T3 with order (0, 1, 2) among them. Of the 45 RING starts, 27 are repairs that Lemma M^c certifies and Lemma 2\* cannot (a compensated wanter of x₀'s bundle) | proof plus open residue | k4-oc1max-multi |
+| 4d | several truly dangerous agents, or DEMAND with none | **SLOT** (581 starts): one or two slots, the head's among them, cover what the chain leaves. Plain Lemma M suffices: counting existence is enough | **open** | k4-oc1max-multi |
+| 4e | the head is a second dangerous agent | Lemma RING-red proves 151 starts. **RING** (45 starts left) is open. 27 of them have an M^c-certified repair with a compensated wanter, but every RING start also has a repair certified by plain Lemma M | proved plus open residue | k4-oc1max-multi |
 | 4f | disjoint danger sets: one move | "one chain repairs" when no two dangerous agents share a pool danger set | **evidence** (k4-oc1max-multi, `k4/oc1max_multi/sharing.py`). Without sharing: 7,755 starts, all repaired by one move. 7,681 have a canonical chain from D owned by k, and 7,237 are covered by written lemmas (KEEP 4,657, OWN 632, D-red 1,835, RING-red 113). The 74 others fail only by CROWD (58) or the T3 ring shape (16), never by DEMAND. With sharing: 628 starts, all one move, 623 canonical. So sharing is necessary for every known two-move start, but not sufficient | k4-oc1max-multi |
 | 5 | **no one-move repair: the second move.** One statement, **Sub-lemma SHARE₂** (K4.OCH.SHARE2), stated below the table | (i) and (ii) below | **open** | see 5a–5c |
-| 5a | SHARE₂'s shape: **LIFT-SHAPE⁺** | the start has one receiver z (the contrapositive of R2); some canonical P₁ from a dangerous k to z has a shared pool pair and leaves z unfrozen; some canonical P₂ at B₁ ends at z and gives z its favourite good; and (L1)–(L3) of leaf 5b hold | **open** (a shape statement). Evidence: all 3,190 n = 4 failing pairs. R2 is the TTC session's | TTC session (R2); matching and k4-oc1max-multi (the rest) |
-| 5b | SHARE₂ (ii), route M (matching) | **Lemma LIFT-red** reduces (ii) to an S\* condition at B₂ for owner h, the first agent of P₂. It assumes P₁'s agents after its head take no junk, which holds for canonical P₁. **Lemma LIFT-1** (k ≤ 4) then gives the completion under three conditions: (L1) nobody wants z's favourite good t at B₂; (L2) v_z(H₀² ∩ R_z) ≤ v_z(t); (L3) every agent other than h and z values at most one good of X = H₀² ∪ J₂. Then h takes X minus z's best junk good g, and z takes {t, g}. For the second sharer, (L3) is Lemma PL(c) | LIFT-red and LIFT-1: **written, not refereed** (K4.MATCH.LIFT1; `k4/matching.md` §6 at 0ee5969). The construction is raw EFX₀ on all 8,949 pairs that meet (L1)–(L3) | matching |
-| 5c | SHARE₂ (ii), route R (multi) | **Lemma LIFT** (written) deletes k and T. Then (ii) becomes **OC2-REC**: B₁ minus k and T is a perfect SD start of I⁻ = I − k − T, and has a one-move repair in I⁻ whose completion does not threaten k. This is the one-move theory again (D-red, KEEP, OWN, Theorem U in I⁻), and it extends to s sharers | LIFT: written, not refereed. OC2-REC: **open**. Evidence: the 12, plus 4,356 n = 4 walk failures | k4-oc1max-multi |
+| 5a | the shape of a two-move start: **R2**, then **LIFT-SHAPE⁺** | **R2** (TTC session): two or more receivers ⟹ one move. *Certified at n = 4* (compute/k4-oc1max-cert, PR #114: every failing start has exactly one receiver). At n = 5 the first ~700 pure cores agree. **Lemma R2-G2** (proved): after any chain to a receiver, no junk good is wanted. So R2 reduces to **R2-M**: Lemma M^c's condition with owner x₀. **LIFT-SHAPE⁺:** one receiver z; a canonical P₁ to z with a shared pool pair that leaves z unfrozen; a canonical P₂ to z giving z its favourite good; (L1)–(L3) | R2: certified at n ≤ 4, open in general (R2-M open). LIFT-SHAPE⁺: **open**; evidence: 3,190 n = 4 pairs | TTC session (R2); matching and k4-oc1max-multi (LIFT-SHAPE⁺) |
+| 5b | SHARE₂ (ii), route M (matching) | Lemmas LIFT-red and LIFT-1 (k ≤ 4): under (L1)–(L3), h takes X minus z's best junk good g, and z takes {t, g} | **refereed** (with EX\*) | matching |
+| 5c | SHARE₂ (ii), route R (multi) | Lemma LIFT deletes k and its pair T; then OC2-REC, the one-move theory in I⁻ | LIFT: **refereed**. OC2-REC: open | k4-oc1max-multi |
 | 5d | a wider single move instead: **OC₁′** (kgen-rounds) | non-end chain agents may also take goods of the end's released base. It repairs every known OC₁ failure in one move. If it holds, leaf 5 merges into leaves 3 and 4 with the wider move | **under test** (certifier, exhaustive at n = 4) | proof/kgen-rounds; compute/k4-oc1max-cert |
-| 6 | three moves needed? | three sharers of one pool pair with no slots | being searched (n = 5–7) | compute/k4-oc1max-cert |
+| 6 | three moves needed? | three sharers of one pool pair with no slots | none found. OC₂^max is certified at n ≤ 4, and holds on the first ~700 pure n = 5 cores. A targeted search is running at n = 5–7. OC₁^∃max (some maximum-matching order satisfies OC₁) is certified at n = 4 | compute/k4-oc1max-cert |
 
 > **Sub-lemma SHARE₂ (K4.OCH.SHARE2; leaf 5, one statement; names reconciled 00:04).** Let Y be a one-absorber-hard
 > perfect start (k ≤ 4, strict) with no one-move repair.
@@ -1593,6 +1593,55 @@ three precise lemmas:
 
 Leaves 4d (SLOT) and 4e (RING) of the one-move side are still open as well. They cover starts with one move, which R2
 and LIFT do not touch.
+
+### 23.4 The open core (00:36): exact statements, owners, smallest test instances
+
+Everything else in the tree is proved, refereed or certified. A start is *hard* when it has no one-absorber completion
+at the picks. Every statement is for k ≤ 4 and strict values. A *receiver* is an agent unfrozen at the picks that
+holds a pick.
+
+1. **S1 ∧ S2** (`proof/k4-d1`).
+   - Statement: at a hard perfect start with D = {k} where every canonical chain from k has HEAD, let P be a longest
+     canonical chain and a = Y_{x_{t−1}}. Then (S1) a has exactly two wanters, and (S2) they are the only agents
+     unfrozen at the picks.
+   - With Lemma CONTRACT and Proposition D1-H₃′, this gives Finding D1 when t = 1.
+   - Test set: k4-d1's 3,633 all-HEAD starts. At n = 3, S2 holds trivially. The smallest all-HEAD start is r461 (n = 3,
+     m = 7). The smallest instance where S2 is non-trivial (n ≥ 4) is k4-d1's to name.
+2. **D1 for t ≥ 2** (`proof/k4-d1`).
+   - Statement: D1-H2 at all-HEAD starts whose longest canonical chain has t ≥ 2.
+   - Test set: 456 starts in k4-d1's data; in 449 of them a middle agent is a free slot after the chain.
+   - Next: an SMT check of the four-agent core (k, x, z, w). The smallest instance is k4-d1's to name.
+3. **R2-M** (TTC session).
+   - Statement: at a hard perfect start with at least two receivers, some canonical chain from a dangerous agent to a
+     receiver meets Lemma M^c's (C1)–(C3), with owner x₀ and |J′ ∖ H| ≤ 1.
+   - Smallest test (this note's data, `k4/oc1_hall/r2_smallest.py`, `r2_smallest.log`): c4-pareto-moves-n3m6.
+     Sets [[0,1,2,3],[0,1,4,5],[2,3,4,5]], values [[8,6,4,1],[4,2,8,5],[4,6,8,3]], order (0, 2, 1), picks (0, 5, 4),
+     D = {2}, receivers {0, 1}, |J| = 3, which matches Lemma R2-0's bound.
+   - At n = 4 the smallest is Q2, picks (3, 7, 5, 4).
+4. **LIFT-SHAPE⁺** (matching; alternatively OC2-REC, `proof/k4-oc1max-multi`).
+   - Statement: at a hard perfect start with no one-move repair, leaf 5a's shape holds, including (L1)–(L3).
+   - Smallest test: 4_n4_3#58 (n = 4, m = 7; §22, cex1).
+5. **SLOT** (`proof/k4-oc1max-multi`).
+   - Statement: either |D_T| ≥ 2, or D_T = ∅ with DEMAND from a second dangerous agent that values Y_z. Then some
+     canonical chain from some k ∈ D leaves demands that fit Lemma M's count at B′, with owner k.
+   - Smallest tests: induct-q4-rules (n = 3, m = 5) and hall-local3 (n = 3, m = 7).
+6. **RING** (`proof/k4-oc1max-multi`).
+   - Statement: if no canonical chain repairs, some ED chain repairs with owner k. In it, either the head is a dangerous
+     agent d with Y_d ∈ H₀, or an unfrozen head takes junk.
+   - Smallest test: T3 with order (0, 2, 1). Among the 18 starts without a compensated wanter, the smallest is Q2 with
+     picks (3, 7, 5, 4).
+7. **KEEP-C** (`proof/k4-oc1max-multi`).
+   - Statement: if D_T = {k} and no KEEP or OWN chain exists, some canonical chain from k repairs with owner k.
+   - Smallest test: n4_4#1715.0 (n = 5, m = 8).
+8. **Existence** (`proof/k4-oc1max-multi`).
+   - Statement: a hard start has a KEEP, OWN or clean chain, or else is in the SLOT or RING configuration.
+   - The data show this in every start: the lemmas of 4a–4e assume a chain with the named property, and one is found
+     each time.
+9. **No third move** (compute/k4-oc1max-cert).
+   - Statement: OC₂^max beyond n = 5.
+   - No instance needing three moves is known. The search for three sharers of one pool pair is running.
+
+For TARGET₄ only n ≥ 6 cores matter (scope remark at the top). Every item is stated for all n.
 
 ### 23.3 The single sub-lemma the second move needs
 
