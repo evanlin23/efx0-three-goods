@@ -1,0 +1,81 @@
+$ python3 k4/referee/rft_ref.py 300 2 4
+pure n = 5 cores with m = 8: 656
+  (377 COUNTEREXAMPLE lines, one per core where one occurs; the first 3 are kept below)
+  COUNTEREXAMPLE (Y has 4 receivers [0, 1, 3, 4]): {"sets": [[0, 1, 2, 4], [2, 4, 6, 7], [3, 5, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], "v": [[7, 11, 23, 0, 24, 0, 0, 0], [0, 0, 2, 0, 24, 0, 23, 33], [0, 0, 0, 31, 0, 38, 36, 16], [0, 0, 0, 28, 0, 29, 19, 7], [0, 0, 0, 0, 11, 9, 37, 36]], "sigma": [0, 2, 3, 4, 1], "Y": [4, 7, 5, 3, 6], "u": 3, "Y2": [4, 2, 6, 5, 7], "path": [3, 2, 4, 1], "d": 1, "p": 0, "g": 2, "j": 0, "z": 1, "XA": [[2, 0, 3], [7], [5], [4, 1], [6]], "violations": [[3, 0]], "u_wants_Yp": false, "wanters_of_Yp": []}
+  COUNTEREXAMPLE (Y has 4 receivers [0, 1, 3, 4]): {"sets": [[0, 1, 2, 7], [2, 5, 6, 7], [3, 4, 5, 6], [3, 4, 6, 7], [4, 5, 6, 7]], "v": [[1, 16, 25, 0, 0, 0, 0, 37], [0, 0, 3, 0, 0, 15, 28, 14], [0, 0, 0, 33, 16, 8, 30, 0], [0, 0, 0, 31, 25, 0, 13, 20], [0, 0, 0, 0, 20, 38, 6, 27]], "sigma": [0, 2, 3, 4, 1], "Y": [7, 6, 3, 4, 5], "u": 3, "Y2": [7, 2, 6, 3, 5], "path": [3, 2, 1], "d": 1, "p": 0, "g": 2, "j": 1, "z": 0, "XA": [[2, 1, 4], [6], [3], [7, 0], [5]], "violations": [[3, 0]], "u_wants_Yp": false, "wanters_of_Yp": []}
+  COUNTEREXAMPLE (Y has 4 receivers [0, 2, 3, 4]): {"sets": [[0, 1, 2, 7], [2, 4, 5, 6], [3, 4, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], "v": [[28, 4, 34, 0, 0, 0, 0, 15], [0, 0, 40, 0, 39, 18, 23, 0], [0, 0, 0, 12, 33, 0, 7, 25], [0, 0, 0, 36, 0, 37, 23, 8], [0, 0, 0, 0, 22, 24, 4, 36]], "sigma": [1, 0, 2, 3, 4], "Y": [0, 2, 4, 5, 7], "u": 0, "Y2": [2, 4, 7, 5, 6], "path": [0, 1, 2, 4], "d": 4, "p": 3, "g": 6, "j": 3, "z": 1, "XA": [[5, 1], [2], [4], [6, 3, 0], [7]], "violations": [[0, 3]], "u_wants_Yp": false, "wanters_of_Yp": []}
+      [Y recv 1] (A0) False (A1) True (A2) True                1
+      [Y recv 1] (A0) True (A1) False (A2) True                3
+      [Y recv 1] (A0) True (A1) True (A2) False                18
+      [Y recv 1] (A0) True (A1) True (A2) True                 78
+      [Y recv 1] R_u = {t, Y_u, Y_d, Y_p} True                 100
+      [Y recv 1] X_A EFX0 under (A0)-(A2) True                 78
+      [Y recv 1] chain official True                           100
+      [Y recv 1] hypotheses fail; X_A EFX0 False               22
+      [Y recv 1] u wants Y_p True                              100
+      [Y recv 2] (A0) False (A1) True (A2) True                46
+      [Y recv 2] (A0) True (A1) False (A2) False               3
+      [Y recv 2] (A0) True (A1) False (A2) True                77
+      [Y recv 2] (A0) True (A1) True (A2) False                234
+      [Y recv 2] (A0) True (A1) True (A2) True                 1570
+      [Y recv 2] R_u = {t, Y_u, Y_d, Y_p} False                1563
+      [Y recv 2] R_u = {t, Y_u, Y_d, Y_p} True                 367
+      [Y recv 2] X_A EFX0 under (A0)-(A2) False                545
+      [Y recv 2] X_A EFX0 under (A0)-(A2) True                 1025
+      [Y recv 2] chain official False                          636
+      [Y recv 2] chain official True                           1294
+      [Y recv 2] hypotheses fail; X_A EFX0 False               360
+      [Y recv 2] u wants Y_p False                             636
+      [Y recv 2] u wants Y_p True                              1294
+      [Y recv 3] (A0) False (A1) True (A2) True                17
+      [Y recv 3] (A0) True (A1) False (A2) True                136
+      [Y recv 3] (A0) True (A1) True (A2) False                706
+      [Y recv 3] (A0) True (A1) True (A2) True                 4259
+      [Y recv 3] R_u = {t, Y_u, Y_d, Y_p} False                4680
+      [Y recv 3] R_u = {t, Y_u, Y_d, Y_p} True                 438
+      [Y recv 3] X_A EFX0 under (A0)-(A2) False                3783
+      [Y recv 3] X_A EFX0 under (A0)-(A2) True                 476
+      [Y recv 3] chain official False                          4566
+      [Y recv 3] chain official True                           552
+      [Y recv 3] hypotheses fail; X_A EFX0 False               859
+      [Y recv 3] u wants Y_p False                             4566
+      [Y recv 3] u wants Y_p True                              552
+      [Y recv 4] (A0) True (A1) False (A2) False               8
+      [Y recv 4] (A0) True (A1) False (A2) True                102
+      [Y recv 4] (A0) True (A1) True (A2) False                317
+      [Y recv 4] (A0) True (A1) True (A2) True                 3541
+      [Y recv 4] R_u = {t, Y_u, Y_d, Y_p} False                3656
+      [Y recv 4] R_u = {t, Y_u, Y_d, Y_p} True                 312
+      [Y recv 4] X_A EFX0 under (A0)-(A2) False                3509
+      [Y recv 4] X_A EFX0 under (A0)-(A2) True                 32
+      [Y recv 4] chain official False                          3968
+      [Y recv 4] hypotheses fail; X_A EFX0 False               427
+      [Y recv 4] u wants Y_p False                             3968
+    (F2) holds (Y receivers: 1)                                1123
+    (F2) holds (Y receivers: 2)                                10557
+    (F2) holds (Y receivers: 3)                                10191
+    (F2) holds (Y receivers: 4)                                4011
+    ORD: (W-d) == (F1')                                        28405
+    ORD: u = sigma_n and d = sigma'_n                          1123
+    RF-T: EFX0 == (W-d and W-p)                                28405
+    [Y recv 1] RF-T-A sub-case settings                        97
+    [Y recv 1] RF-T-A sub-case trades                          100
+    [Y recv 1] X EFX0 at some trade False                      393
+    [Y recv 1] X EFX0 at some trade True                       730
+    [Y recv 2] RF-T-A sub-case settings                        1811
+    [Y recv 2] RF-T-A sub-case trades                          1930
+    [Y recv 2] X EFX0 at some trade False                      4049
+    [Y recv 2] X EFX0 at some trade True                       6508
+    [Y recv 3] RF-T-A sub-case settings                        4866
+    [Y recv 3] RF-T-A sub-case trades                          5118
+    [Y recv 3] X EFX0 at some trade False                      6778
+    [Y recv 3] X EFX0 at some trade True                       3413
+    [Y recv 4] RF-T-A sub-case settings                        3543
+    [Y recv 4] RF-T-A sub-case trades                          3968
+    [Y recv 4] X EFX0 at some trade False                      3916
+    [Y recv 4] X EFX0 at some trade True                       95
+    trades                                                     28405
+  RF-T settings (Y receivers: 1)                               1123
+  RF-T settings (Y receivers: 2)                               10557
+  RF-T settings (Y receivers: 3)                               10191
+  RF-T settings (Y receivers: 4)                               4011

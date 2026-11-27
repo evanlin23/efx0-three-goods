@@ -350,3 +350,94 @@ So DEMOTE-0 at n = 5 is covered:
 - 113,210 at once (NA, or RF-A1\* on 71,443);
 - 242 by (T);
 - 32 by (T\*).
+
+## Addendum: Lemma ORD and Lemma RF-T-A (`k4/girth.md` §7 at `56941dc6`, draft PR #161)
+
+**Read:** RF-T, RF-T′, "Lemma ORD and (F2)", "Consequences for RF-T", "The right target" and Lemma RF-T-A, line by
+line.
+**Check:** `k4/referee/rft_ref.py` (`girth_ref_runs.sh`), log `results/k4_referee/rft_ref_300.log`. The code is my
+own, with raw EFX₀ and my own official moves. Nothing from `k4/girth/` is run. The sample is girth's counterfactual
+sample, rebuilt independently: 300 random strict balanced profiles on each of the 656 pure n = 5 cores with m = 8, every
+order, every receiver u of Y, and RF-T's setting at Y′. Y is not required to fail OC₁. I keep starts with any number of
+receivers at Y and split the counts.
+
+### Lemma ORD: CORRECT WITH FIXES (a hypothesis to state)
+
+- The argument "a can want b's pick only if b picks before a, so the last picker is a receiver" is correct at perfect
+  starts.
+- "Y has the one receiver u, so u = σ_n" uses **Y has exactly one receiver**. RF-T's setting does not state this: it
+  speaks of Y′ only.
+  - At n = 5 every exported failing start has one receiver.
+  - But K4.SDC.R2.N5 has two-receiver failing starts, and RF starts from those are in scope.
+  - So the statement should add "Y has exactly one receiver u".
+- **(F2) needs no such hypothesis.** Y′ has the single receiver d, so d is the last picker of σ′ = (u, σ − u):
+  - if u = σ_n, then d = σ_{n−1}, and only u picks after d in σ;
+  - otherwise d = σ_n, and nobody picks after d.
+  - Either way, no agent other than u wants Y_d at Y.
+- With (F2), the reduction "(W-d) ⟺ (F1′)" is correct:
+  - u holds its top;
+  - x_s for s ≤ ℓ − 2 picked before x_{ℓ−1} in σ′ with Y_d free (path order is σ′ order);
+  - off-path agents are covered by (F2), and p's value rose;
+  - only d remains.
+- The (W-p) remark is also correct. It reads "before p" in σ′ for path agents, which is the same relative order as σ.
+
+| check (all settings of the sample) | count |
+|---|---|
+| RF-T settings, by the number of receivers of Y (1 / 2 / 3 / 4) | 1,123 / 10,557 / 10,191 / 4,011 |
+| one receiver: u = σ_n and d = σ′_n | 1,123 of 1,123 |
+| (F2) | at all 25,882 settings, any number of receivers |
+| RF-T's reduction: X EFX₀ ⟺ (W-d) ∧ (W-p) | 28,405 of 28,405 trades |
+| (W-d) ⟺ (F1′) | 28,405 of 28,405 trades |
+
+### Lemma RF-T-A: CORRECT WITH FIXES (Y must have one receiver); false without it
+
+**With Y having exactly one receiver u, the proof is correct:**
+- *u wants Y_p:*
+  - p is frozen at Y, since every agent but u is;
+  - its wanter picks after p;
+  - by (W-p), neither an off-path agent nor x_s (s ≤ ℓ − 2) wants Y_p, since v(Y_p) ≤ v(Y_{x_{s+1}}) < v(Y_{x_s});
+  - x_{ℓ−1} doesn't, by (A0); d doesn't, by ¬(F1′).
+- *u values exactly {t, Y_u, Y_d, Y_p}:*
+  - u values Y_d because d is frozen and, by ORD, only u can want Y_d. The text leaves this step implicit.
+  - The four goods are distinct: x₁ ≠ d since ℓ ≥ 2, and p is off the path. With k = 4, u values no junk.
+- *The move is official:*
+  - p values g, since otherwise v_p(j) > v_p(Y_p) contradicts j being junk;
+  - H₀ = {g, j} (+ Y_u) ⊆ J ∪ B_u;
+  - u's step improves.
+- *X_A is EFX₀:*
+  - u's bundle {Y_p, z}: z is junk, below every pick. Y_p is covered for p (trade), d (¬F1′), the others (as above)
+    and x_{ℓ−1} (A0).
+  - p's bundle {g, j, Y_u}: u values only Y_u, worth less than Y_p.
+  - For d, k = 4 leaves at most one good besides g, Y_p and Y_d:
+    - if it is Y_u: v_d(g) + v_d(Y_u) < v_d(Y_p) + v_d(Y_u) < v_d(Y_d);
+    - if it is j: (A1);
+    - otherwise: v_d(g) < v_d(Y_d).
+  - Everyone else: (A2).
+
+| one-receiver Y, sub-case "(W-p) holds, (F1′) fails" | count |
+|---|---|
+| settings / trades | 97 / 100 |
+| u wants Y_p; R_u = {t, Y_u, Y_d, Y_p}; chain official | 100 / 100 / 100 |
+| (A0)–(A2) hold | 78: **X_A raw EFX₀ at all 78** |
+| a hypothesis fails ((A0) 1, (A1) 3, (A2) 18) | 22: X_A not EFX₀ at all 22, so the hypotheses are exact here |
+
+**Without "Y has one receiver" the lemma is false.** In the same sample, with two to four receivers at Y, (W-p) holds,
+(F1′) fails, and (A0)–(A2) hold, yet X_A is not EFX₀ at:
+- 545 trades (two receivers);
+- 3,783 (three);
+- 3,509 (four).
+
+The proof breaks at "some agent wants Y_p, and it is u": p can be a receiver at Y.
+
+The smallest kind, from `rft_ref_example.log` (`rft_ref.py 2 7 1`, its first counterexample):
+- the core `[[0,2,4,7],[1,3,5,7],[2,4,6,7],[3,5,6,7],[4,5,6,7]]`, σ = (0, 3, 1, 4, 2), with u = 1, d = 2, p = 0, g = 4,
+  j = 0, z = 5;
+- Y has receivers {0, 1, 2, 4}; nobody wants Y_p, and u values Y_p at 0;
+- X_A gives u {Y_p, z}, worth 4 to it, while p's bundle holds Y_u, worth 23 to u.
+
+**Fix:** state "Y has exactly one receiver u" in RF-T's setting, or in ORD and RF-T-A. It holds at every exported
+n = 5 failing start, so the n = 5 uses stand.
+
+*Not checked:*
+- girth's own counts (454 settings, 24/25 sub-case trades);
+- Conjecture RF-T-HARD (evidence; my sample is counterfactual too).
