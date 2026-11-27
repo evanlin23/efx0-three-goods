@@ -1,0 +1,27 @@
+$ python3 k4/matching/n5_census.py n4export | 112880 distinct starts (EXACT_STRIDE=20)
+... 10000 20 s
+... 20000 39 s
+... 30000 60 s
+... 40000 80 s
+... 50000 105 s
+... 60000 126 s
+... 70000 146 s
+... 80000 169 s
+... 90000 190 s
+... 100000 218 s
+... 110000 260 s
+  OC2-REC with (b) by a Lemma EX* exchange in I- True 112880
+  OC2-REC: B1- completes at once False 112880
+  OC2-REC: P1 ends at the holder True 112880
+  a repairing pair has P2 ending at the holder True 112880
+  a repairing pair is vertex-disjoint False 13040
+  a repairing pair is vertex-disjoint True 99840
+(EX* sample) exact on the second move True 5644
+CM2 True 112880
+LIFT-SHAPE+ True 112880
+OC2 (chains from dangerous agents) True 112880
+OC2-REC True 112880
+hard, OC1 fails (raw) True 112880
+holders = 1 112880
+wrote ../../results/k4_matching/rec_n4_witnesses.json.gz 112880 witnesses
+time 276 s

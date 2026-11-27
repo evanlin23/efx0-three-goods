@@ -20,6 +20,7 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
 | Lemma EX\* (§5) | the exchange at any state: Lemma M applied after a move, read in the slot graph before it (ownership moved, chain agents' demands re-evaluated, the chain's new slots added) | written proof (§5), a corollary of Lemma M; 0 violations |
 | **Conjecture CM₂** (§5) | from every perfect start, some first move leads to a state where a Lemma EX\* exchange repairs. CM₂ ⟹ OC₂ at perfect starts ⟹ OC₂^max ⟹ TARGET₄ | evidence: all 30 hard maximum-matching starts of the 11 n = 4 failure instances, every start visited by the walks near them (OC₁ failing: 3,179 distinct in this note's long walk; OC₁ only non-S\*: 88 visits), the multi session's 4,955 failing pairs (n = 4, 5; 8,073 distinct failing starts in all), PW5, RD5. Where OC₁ fails, the first moves after which an EX\* exchange repairs are exactly those after which any second move repairs |
 | Lemma LIFT-1 (§6) | under LIFT-red's hypotheses and (L3) every other agent values at most one good of h's bundle plus the junk: case (a), if (L1) z is unfrozen after P₂ and (L2′) z values h's new bundle at most its favourite good plus its best junk good, h takes that bundle minus z's best junk good and z takes its favourite good plus that junk good; case (b), if (Lb) z values h's bundle plus all the junk at most its favourite good, h takes everything. Either allocation is EFX₀ | written proof (§6; uses \|R_z\| ≤ 4, and Lemma PL(c) for the second sharer); construction EFX₀ (raw) on all 22,240 pairs meeting (L1), (L2′), (L3) over the two walk datasets (8,073 distinct failing starts, n = 4, 5) |
+| **OC2-REC at n = 4** (§6) | the multi session's recursion (settle one sharer by a canonical chain with a shared pool pair T, delete it and T, then one move of the reduced instance repairs and lifts) holds at every n = 4 start with no one-move repair, and the reduced repair is a Lemma EX\* exchange | **CERTIFIED** (K4.MATCH.REC.N4): 112,880 witnesses re-verified by a self-contained raw checker; holds at the n = 5 counterexample to LIFT-SHAPE⁺ too |
 | **LIFT-SHAPE⁺ at n = 4** (§6) | every n = 4 start with no one-move repair (all 112,880, every strict profile) has the LIFT shape with case (a) or (b) | **CERTIFIED** (K4.MATCH.LIFT.N4): witnesses re-verified by a self-contained raw checker; the set is compute/k4-oc1max-cert's export |
 | Conjecture LIFT-EX (§6) | the second move, in exchange form (OC2-LIFT). At a perfect start with no one-move repair there is exactly one holder z; a chain from a dangerous agent to z absorbs a danger set shared with a second dangerous agent; a second chain ending at z gives z its favourite good, and its head owns (Lemma EX\* holds) | **refuted at n = 5, k = 4** (with LIFT-SHAPE⁺), by compute/k4-oc1max-cert's first n = 5 two-move start: the second chain is disjoint from the first and settles a second danger set (`attempts/k4-matching-lift-shape.md`). It holds at n = 4 (certified, above) and on the 8,073 walk starts. It is false at PW5 (k = 5, two holders). The multi session's recursion (Lemma LIFT, OC2-REC) covers the n = 5 start |
 | exchange accounting (§3) | what a repairing chain pays for: in 910 of the 2,071 hard starts, deleting the chain agents' demands alone (s = 0) clears an end-owned deficiency of up to 6 | computed |
@@ -700,6 +701,33 @@ What survives:
 
 At n = 5 the reduced instance has four agents, and its one-move repair need not touch z.
 
+**The recursion at every n = 4 failure** (`k4/matching/n5_census.py`, `results/k4_matching/n5_census_n4export.log`;
+ledger K4.MATCH.REC.N4). This is an independent implementation of the multi session's Sub-lemma OC2-REC with Lemma
+LIFT's hypothesis:
+- P₁ is a canonical chain from a dangerous agent k;
+- T = H₀¹, with |T| = 2 and T ⊆ J ∪ {y_end}, is improving for a second dangerous agent;
+- after P₁, every agent other than k values each good of T below its holding;
+- deleting k and T leaves a perfect SD outcome of the reduced instance I⁻;
+- that state, at once or after one official move of I⁻, has a one-absorber completion that lifts: k keeps T and
+  receives nothing, the owner is not k, and the allocation is raw EFX₀ in I. The search is a brute force over every
+  owner and every one-absorber assignment.
+
+On all 112,880 n = 4 starts with no one-move repair:
+- **OC2-REC holds at every start.** The reduced start never completes without a move. In the witness found, P₁ ends
+  at the holder z.
+- **The reduced repair is a Lemma EX\* exchange of I⁻ at every start.** So at n = 4 the second move is a Hall
+  condition (Lemma M) in the reduced instance after one sharer is settled.
+- 99,840 starts also have a vertex-disjoint repairing pair of chains. The other 13,040 have none. Every start has a
+  repairing pair whose second chain ends at z, as LIFT-SHAPE⁺ requires.
+- CM₂ and LIFT-SHAPE⁺ hold at every start, and EX\* is exact on the second move at every 20th start (5,644).
+- The witnesses (`results/k4_matching/rec_n4_witnesses.json.gz`) are re-checked by `k4/matching/check_rec.py`
+  (`results/k4_matching/check_rec_n4.log`). It is self-contained and imports nothing from this workstream or from
+  k4/sdc. It checks each condition from the raw definitions and enumerates the official moves of I⁻ itself (junk
+  grabs, chains, rings): **112,880 / 112,880 verified.**
+
+So at n = 4 both forms of the second move are certified: the explicit LIFT shape, and the recursion. Only the
+recursion survives at n = 5.
+
 ## 7. Climbs and reproduction
 
 **Climbs against CM** (`k4/matching/cm_climb.py`; `results/k4_matching/cm_climb_*.log`). The climbs maximize hard
@@ -741,6 +769,9 @@ python3 k4/matching/lift1_threats.py; python3 k4/matching/lift1_check.py        
 python3 k4/matching/multi_check.py                            # the multi session's 4,955 failing pairs (§6)
 python3 k4/matching/n4_exhaustive.py; python3 k4/matching/check_lift_n4.py   # LIFT-SHAPE+ on all 112,880 n = 4 failures (§6)
 python3 attempts/k4_matching_lift_n5.py                       # LIFT-SHAPE+ and LIFT-EX fail at n = 5 (§6)
+cd k4/matching; EXACT_STRIDE=20 REC_WIT=../../results/k4_matching/rec_n4_witnesses.json.gz python3 n5_census.py n4export
+python3 check_rec.py ../../results/k4_matching/data/two_move_starts_n4.json.gz ../../results/k4_matching/rec_n4_witnesses.json.gz
+                                                              # OC2-REC on all n = 4 failures, and its checker (§6)
 DUMP2=results/k4_matching/n4_nonsstar_walk.jsonl python3 k4/matching/n4_walk.py 3000 2; python3 k4/matching/mc_check.py   # Lemma M^c (§5)
 python3 k4/matching/cm_big.py cores6 2000 40 31               # CM at n = 6 (sampled orders)
 CAP=10 SEEDFILES=... python3 k4/matching/cm_climb.py 32 2000 22 3 6 [MC2]    # climbs (LOOSE=1 for any instance)

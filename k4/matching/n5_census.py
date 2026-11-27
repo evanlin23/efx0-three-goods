@@ -70,7 +70,8 @@ def oc2_rec(I, base):
         Bm = [[g2[g] for g in B1[i]] for i in keep]
         if any(len(b) != 1 for b in Bm): continue
         Ym = tuple(b[0] for b in Bm)
-        if not any(Im.sd(o) == Ym for o in itertools.permutations(range(Im.n))): continue
+        orders = [o for o in itertools.permutations(range(Im.n)) if Im.sd(o) == Ym]
+        if not orders: continue
         cands = [Bm] + Im.moves(Bm)
         for t, C in enumerate(cands):
             Cb = [None] * I.n; Cb[k] = sorted(T)
@@ -78,7 +79,8 @@ def oc2_rec(I, base):
             r = lift_complete(I, Cb, k)
             if r is not None:
                 return {'P1': P1, 'T': sorted(T), 'moves in I-': t > 0, 'owner': r[0], 'alloc': r[1],
-                        'P1 ends at the holder': P1[-1] in I.holders(base)}
+                        'P1 ends at the holder': P1[-1] in I.holders(base), 'B1': B1, 'B2': Cb,
+                        'reduced order': [keep[a] for a in orders[0]]}
     return None
 
 
@@ -138,6 +140,8 @@ def job(row):
         C['  OC2-REC: P1 ends at the holder %s' % rec['P1 ends at the holder']] += 1
         C['  OC2-REC with (b) by a Lemma EX* exchange in I- %s' % rec_ex(I, base)] += 1
         assert I.efx0(rec['alloc'])
+        rec = {'k': row.get('_k'), 'P1': rec['P1'], 'T': rec['T'], 'B1': rec['B1'], 'reduced order': rec['reduced order'],
+               'B2': rec['B2'], 'owner': rec['owner'], 'alloc': rec['alloc']}
     else:
         print('OC2-REC FAILS', json.dumps({'sets': sets, 'vals': vals, 'picks': list(picks)}), flush=True)
     if not cm2: print('CM2 FAILS', json.dumps({'sets': sets, 'vals': vals, 'picks': list(picks)}), flush=True)
@@ -166,10 +170,20 @@ if __name__ == '__main__':
         if key not in seen: seen.add(key); R.append(dict(sets=r['sets'], vals=r['vals'], picks=list(r['picks'])))
     for t, r in enumerate(R): r['_k'] = t
     print('$ python3 k4/matching/n5_census.py', *sys.argv[1:], '|', len(R), 'distinct starts (EXACT_STRIDE=%d)' % EXACT_STRIDE, flush=True)
-    T = collections.Counter(); t0 = time.time()
+    T = collections.Counter(); t0 = time.time(); WIT = []
     with mp.Pool(int(os.environ.get('PROCS', mp.cpu_count()))) as pool:
         for t, (C, rec) in enumerate(pool.imap_unordered(job, R, chunksize=4 if len(R) > 1000 else 1)):
             T.update(C)
+            if rec is not None: WIT.append(rec)
             if (t + 1) % 10000 == 0: print('...', t + 1, '%.0f s' % (time.time() - t0), flush=True)
     for k in sorted(T): print(k, T[k])
+    if os.environ.get('REC_WIT'):   # OC2-REC witnesses, indexed by k = position in the distinct input rows
+        WIT.sort(key=lambda w: w['k'])
+        with gzip.open(os.environ['REC_WIT'], 'wt') as f:
+            json.dump({'what': 'OC2-REC witnesses (k4/matching/n5_census.py): per start k (index into the distinct input rows, '
+                               'in input order), the first chain P1 from k = P1[0] with T, the state B1 after it, an SD order '
+                               'of the reduced instance giving B1 minus k and T, the state B2 (= B1, or after one official '
+                               'move of the reduced instance; k keeps T), the owner and the final allocation',
+                       'inputs': sys.argv[1:], 'witnesses': WIT}, f)
+        print('wrote', os.environ['REC_WIT'], len(WIT), 'witnesses')
     print('time %.0f s' % (time.time() - t0))

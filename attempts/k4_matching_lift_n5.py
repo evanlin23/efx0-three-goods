@@ -6,8 +6,9 @@ strict profile.  The script checks, by brute force:
   1. the picks are serial-dictatorship picks, every agent picks, and there is exactly one holder z;
   2. there is no completion at the picks: no assignment of the junk to agents is EFX0, which is stronger than "no
      one-absorber completion";
-  3. no official first move completes: no chain from a dangerous agent, with any junk given to its agents, followed by
-     any assignment of the remaining junk;
+  3. no first move completes: no chain (from any agent, any junk given to its agents) and no ring, followed by any
+     assignment of the remaining junk.  This covers every official move of k4/sdc/oc1_mc2_rand.Inst.moves: a junk
+     grab followed by a completion is an assignment at the picks, which is step 2;
   4. LIFT-SHAPE+ fails, because no pair (P1, P2) has the shape at all, before (L1), (L2'), (L3), (Lb) are even
      tested.  The shape is: P1 starts at a dangerous agent and ends at z; |H0 of P1| = 2, inside J + B_z; only the head
      of P1 takes junk; H0 of P1 is improving for a second dangerous agent; z is a holder after P1.  P2 ends at z; only
@@ -62,6 +63,19 @@ def completes(B):
     return None
 
 
+def rings(B):
+    """Every ring (x_0, ..., x_{r-1}), r >= 2: each x_i takes B_{x_{i-1}} (indices mod r) plus a set of the junk, and
+    gains.  Yields new states."""
+    J = junk(B)
+    for r in range(2, N + 1):
+        for cyc in itertools.permutations(range(N), r):
+            if cyc[0] != min(cyc) or not all(B[x] for x in cyc): continue
+            for lab in itertools.product(range(r + 1), repeat=len(J)):       # r: stays junk; i: goes to cyc[i]
+                nb = [list(b) for b in B]
+                for i in range(r): nb[cyc[i]] = list(B[cyc[i - 1]]) + [g for g, l in zip(J, lab) if l == i]
+                if all(V(cyc[i], nb[cyc[i]]) > V(cyc[i], B[cyc[i]]) for i in range(r)): yield nb
+
+
 def chains(B, heads):
     """Every official chain P = (x0, ..., xt): x0 in heads takes H0 (nonempty, inside J + B_xt) and gains; x_i (i >= 1)
     takes B_{x_{i-1}} plus a set S_i of the remaining junk and gains.  Yields (P, H0, S, new state)."""
@@ -94,7 +108,11 @@ if __name__ == '__main__':
     print('2. some completion at the picks:', completes(base) is not None)
     first = list(chains(base, D))
     rep1 = [c for c in first if completes(c[3]) is not None]
-    print('3. official first moves', len(first), '; first moves after which some completion exists', len(rep1))
+    allc = list(chains(base, range(N)))                 # chains from any agent, as in k4/sdc/oc1_mc2_rand.Inst.moves
+    rep1 += [c for c in allc if completes(c[3]) is not None]
+    rg = list(rings(base)); rep1 += [B for B in rg if completes(B) is not None]
+    print('3. chains from dangerous agents', len(first), '; chains from any agent', len(allc), '; rings', len(rg),
+          '; of all these, moves after which some completion exists', len(rep1))
     zfav = max(v[z].values())
     n1 = n2 = 0
     for P1, H01, S1, B1 in first:
