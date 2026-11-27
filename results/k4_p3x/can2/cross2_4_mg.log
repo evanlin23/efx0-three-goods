@@ -1,0 +1,5 @@
+$ python3 k4/p3/cross2.py results/k4_p3x/can2/can2_4_mg.json.gz
+cross rings tried: 268
+crossed starts: 29
+no cross ring exists: 1
+some cross ring repairs: 28
