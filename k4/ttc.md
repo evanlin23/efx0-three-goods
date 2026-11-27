@@ -1103,6 +1103,15 @@ good is wanted. So Lemma M^c applies at the new state.
 receiver z is followed by a one-absorber completion owned by another receiver u ∉ the chain. The text below records
 the refuted targets as they were stated.
 
+*Which reading of R2-O.* At 4_n4_3 #77 (sets [[0,4,5,6],[1,2,3,5],[1,3,5,6],[2,4,6]], vals
+[[2,8,4,7],[10,8,4,3],[8,2,3,4],[3,4,2]], picks (4,1,6,2), receivers {2, 3}), every repairing canonical chain,
+(0,3,1,2) or (1,2,0,3), passes through both receivers, and the completions that work are owner-free. So strict R2-O
+(the owner is off the chain) fails there, as the certifier's brute force reports.
+
+The form to state as the lemma, **R2-O′**: the absorber, if there is one, is a receiver of Y other than the chain's end
+z, on or off the chain. The certifier is running the strict form, the generous form (owner-free also counts), and
+R2-C ("some canonical chain to a receiver repairs, any owner") on all 1,002 n = 4 cores.
+
 **The sharpened target (R2-M; refuted, see above).** At a hard perfect start with |U| ≥ 2, some canonical chain from x₀ ∈ D to a
 receiver z satisfies Lemma M^c's (C1)–(C3) at the new state, with **owner x₀** and |J′ ∖ H| ≤ 1.
 - `r2_mc.py` uses the M^c model of `proof/k4-oc1max-multi` (`k4/oc1max_multi/mc.py`, 3d157f3, `max_rest = 1`).
