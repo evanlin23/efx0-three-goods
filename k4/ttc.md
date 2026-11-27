@@ -4,34 +4,32 @@ Workstream `proof/k4-ttc` (branch `claude/k4-ttc`, draft PR #101). Code: `k4/ttc
 log); logs: `results/k4_ttc/`. Notation as in `k4/sdc.md` (§2, §28–§30). Everything called evidence below is evidence
 only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator integrates.
 
-## Status (burst 7): R2 is owned here; stated, evidenced, a first step proved, the plan written (§14.6)
+## Status (burst 7): R2 is owned here, CERTIFIED at n ≤ 4; the owner-free proof targets fail, R2-O is the target (§14.6)
 
 - **R2** (leaf 5a of the case tree, `k4/oc1_hall.md` §23.2): at a perfect serial-dictatorship start with at least two
   receivers (pick holders nobody values above their own pick), one move gives a one-absorber completion.
   - At the picks there are no multi-good holders, so blocked holders cannot arise. R2⁺, at post-move states, is false
     (§14.5).
-- **Evidence:** R2 holds at every hard start with two or more receivers tested. That is 79 in an n = 4 walk, 466 in
-  an n = 6 sweep sample, and 9,211 in grown n = 5 and n = 6 walks, where OC₁^max held everywhere (§14.4). Every
-  known OC₁^max failure has exactly one receiver.
-- **No frozen slot is needed:** in every case, some R2★ chain completes with junk only on non-frozen agents (§14.6).
-  That is the plain matching case of Lemma M^c (`proof/k4-oc1max-multi` §9).
-- **Strong form R2★, which the data suggest is the proof target:** some canonical chain from a dangerous agent to a
-  receiver leaves junk that can be spread one good per agent, so no owner is needed (79/79, 466/466).
+- **CERTIFIED at n ≤ 4** by the certifier (K4.SDC.R2.N4): all 112,880 failing pairs at n = 4 have one receiver. The
+  receiver counts are replayed here with independent code (`r2_replay_n4.log`).
+- **Evidence beyond n = 4:** R2 holds at every hard start with two or more receivers tested: 466 in an n = 6 sweep
+  sample, and 9,211 in grown n = 5 and n = 6 walks, where OC₁^max held everywhere (§14.4).
 - **Proved:**
-  - Lemma R2-0: if |J| ≤ |U|, the picks complete with one junk good per receiver, so a hard start with two receivers
-    has at least three junk goods;
+  - Lemma R2-0: if |J| ≤ |U|, the picks complete with one junk good per receiver.
   - Lemma R2-G2: after any chain ending at a receiver, no junk good is wanted, so Lemma M^c applies there.
-- **R2 reduced to one matching statement, R2-M:** some canonical chain to a receiver meets Lemma M^c's (C1)–(C3), with
-  the chain's head x₀ as owner and |J′ ∖ H| ≤ 1. Measured with the M^c code of `proof/k4-oc1max-multi`: 79/79 at
-  n = 4 and 466/466 at n = 6.
+- **Refuted proof targets** (`attempts/k4-ttc-r2-owner-free.md`):
+  - R2★ (an owner-free completion after a canonical chain to a receiver);
+  - R2-M (Lemma M^c with the chain's head as owner and at most one junk good for it).
+
+  Both held on all sampled data (79/79, 466/466), but the certifier's exhaustive n = 4 run refutes them: R2-M on 306
+  of 1,002 cores, R2★ on 5 of 20 re-verified starts. In the smallest failure, the dangerous agent's pair can take
+  nothing more and the chain's end z becomes frozen, so the *other* receiver must own.
+- **The target now: R2-O.** Some canonical chain to a receiver z is followed by a one-absorber completion owned by
+  *another* receiver u off the chain (the coordinator's original shape). It holds on both counterexamples and on all
+  sampled data. An exhaustive n = 4 check is requested.
 - **k ≤ 4 is necessary:** PW5 (k = 5) has two receivers and fails. Lemma PL (`claude/k4-ksens`) is the k = 4 count a
   proof must use.
-- **Open:** the Hall-type count that proves R2-M. Its inputs are Lemma PL (the head, and every agent sharing two goods
-  of H₀, keep no junk danger) and the second receiver as an unconditional slot; it also needs a fixed point of the
-  pointer map (step 1).
-- **R2 is CERTIFIED at n ≤ 4** (certifier, K4.SDC.R2.N4: all 112,880 failing pairs have one receiver), and the
-  receiver counts are replayed here (`r2_replay_n4.log`). R2★ and R2-M at n = 4, on the hard starts with |U| ≥ 2, are
-  requested.
+- **Open:** the count that proves R2-O, presumably Lemma M^c with owner u, any rest, frozen slots allowed.
 
 ## Status (burst 6): OC₁^max falls at n = 4; two moves always suffice so far, by a pointer rule in the MC2 class
 
@@ -1010,7 +1008,7 @@ false, §14.5).
 **Conjecture R2.** If |U| ≥ 2, then Y has a one-absorber completion, or after one official move (an addition, chain
 or ring of `de_free`) the bases have one.
 
-**Strong form R2★ (what the data show).** If |U| ≥ 2 and Y has no one-absorber completion, then there is a canonical
+**Strong form R2★ (what the sampled data showed; REFUTED at n = 4, `attempts/k4-ttc-r2-owner-free.md`).** If |U| ≥ 2 and Y has no one-absorber completion, then there is a canonical
 chain (x₀, …, x_t) with:
 - x₀ ∈ D;
 - x₁ valuing y_{x₀} above y_{x₁};
@@ -1100,7 +1098,12 @@ good is wanted. So Lemma M^c applies at the new state.
 - For y_z and i ≠ z: z was a receiver, so v_i(y_z) ≤ v_i(y_i) ≤ v_i(B′_i).
 - For i = z: z's step was improving, so v_z(B′_z) > v_z(y_z). ∎
 
-**The sharpened target (R2-M).** At a hard perfect start with |U| ≥ 2, some canonical chain from x₀ ∈ D to a
+**R2-M and R2★ are REFUTED at n = 4** (certifier, exhaustive; `attempts/k4-ttc-r2-owner-free.md`,
+`r2_owner_check.log`): sampled data are not enough here. The surviving target is **R2-O**: some canonical chain to a
+receiver z is followed by a one-absorber completion owned by another receiver u ∉ the chain. The text below records
+the refuted targets as they were stated.
+
+**The sharpened target (R2-M; refuted, see above).** At a hard perfect start with |U| ≥ 2, some canonical chain from x₀ ∈ D to a
 receiver z satisfies Lemma M^c's (C1)–(C3) at the new state, with **owner x₀** and |J′ ∖ H| ≤ 1.
 - `r2_mc.py` uses the M^c model of `proof/k4-oc1max-multi` (`k4/oc1max_multi/mc.py`, 3d157f3, `max_rest = 1`).
 - Owner x₀ works at 79/79 (n = 4, `r2_mc_walk_n4.log`) and 466/466 (n = 6, `r2_mc_n6_sample.log`).
