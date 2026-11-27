@@ -8,7 +8,8 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import rndlib
 from stress import is_core
 VMAX = 3000
-ZCLASS = os.environ.get('ZCLASS', 'OC1')   # OC1 (k4/sdc's official move) or OC1P (OC1', kgen/rounds.md §4.6)
+ZCLASS = os.environ.get('ZCLASS', 'OC1')   # OC1 (k4/sdc's official move), OC1P (OC1', kgen/rounds.md §4.6),
+                                           # RND1Z (one plain round) or RNDPZ (ROUND-P), §4.9
 
 
 def connected(Z):
@@ -42,8 +43,8 @@ def objective(Z):
     per = [r for r in res if r['perfect']]
     if not per: return (1, 0, 0.0), res
     fails = sum(1 for r in per if r[ZCLASS] == 0)
-    h = min(per, key=lambda r: (r[ZCLASS], r['OC1'], r['msum']))
-    return (-fails, h[ZCLASS], h['OC1'], round(h['msum'], 9)), res
+    key = lambda r: (r[ZCLASS], round(r['ms_' + ZCLASS], 9), r['RND1Z'], r['OC1P'], r['OC1'])
+    return (-fails,) + key(min(per, key=key)), res
 
 
 def mutate(Z, rng):

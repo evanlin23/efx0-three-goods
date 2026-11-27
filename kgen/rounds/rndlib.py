@@ -120,17 +120,20 @@ def two_rounds_margin(vals, picks, cap=0):
 def oc1z(vals):
     """zero values allowed: per distinct start (zero-aware SD), perfect flag and, for perfect starts, counts of EFX0
     allocations witnessing EXT1 (picks extend, one absorber), OC1 (k4/sdc.md §29/§31 official move: addition, chain or
-    ring, one absorber) and MD, plus the OC1 margin sum"""
+    ring, one absorber), MD, OC1P (OC1', §4.6), RND1Z (one plain round) and RNDPZ (ROUND-P, §4.9), plus margin sums
+    (msum = ms_OC1: OC1 witnesses; ms_RND1Z, ms_RNDPZ: round witnesses)"""
     n, m, A = _arr(vals)
     NS = 5040
     picks = (ctypes.c_int * (NS * n))(); order = (ctypes.c_int * (NS * n))(); perf = (ctypes.c_int * NS)()
-    cnt = (LL * (NS * 4))(); ms = (ctypes.c_double * NS)(); nefx = LL()
+    cnt = (LL * (NS * 6))(); ms = (ctypes.c_double * NS)(); nefx = LL()
     ns = _L.rnd_oc1z(n, m, A, picks, order, perf, cnt, ms, ctypes.byref(nefx))
+    rm = (ctypes.c_double * (2 * NS))(); _L.rnd_oc1z_rmargins(rm)
     out = []
     for s in range(ns):
         out.append({'picks': tuple(picks[s * n + a] for a in range(n)), 'order': tuple(order[s * n + a] for a in range(n)),
-                    'perfect': bool(perf[s]), 'EXT1': cnt[s * 4], 'OC1': cnt[s * 4 + 1], 'MD': cnt[s * 4 + 2],
-                    'OC1P': cnt[s * 4 + 3], 'msum': ms[s]})
+                    'perfect': bool(perf[s]), 'EXT1': cnt[s * 6], 'OC1': cnt[s * 6 + 1], 'MD': cnt[s * 6 + 2],
+                    'OC1P': cnt[s * 6 + 3], 'RND1Z': cnt[s * 6 + 4], 'RNDPZ': cnt[s * 6 + 5], 'msum': ms[s],
+                    'ms_OC1': ms[s], 'ms_OC1P': ms[s], 'ms_RND1Z': rm[2 * s], 'ms_RNDPZ': rm[2 * s + 1]})
     return out, nefx.value
 
 
