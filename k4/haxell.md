@@ -639,12 +639,21 @@ checker `ht_wexplain.py`, which reports no step with the kind off and 6–16 ste
 | rotations of ≥ 3 agents | yes, n = 3 | v₀ = {0: 47, 2: 45, 4: 19, 6: 2}, v₁ = {0: 46, 1: 32, 5: 12, 6: 8}, v₂ = {2: 60, 3: 38, 6: 6}; ({2}, {0}, {3, 4, 5, 6}); {1} |
 | transfers of ≥ 2 goods between agents | yes, n = 2 | v₀ = {2: 59, 3: 15, 4: 8, 5: 31}, v₁ = {0: 14, 1: 27, 2: 51, 6: 4}; ({3, 4, 5}, {0, 1, 6}); {2} (W4's mechanism) |
 | single-good transfers between agents | yes, n = 3 | v₀ = {0: 35, 1: 54, 4: 17, 6: 8}, v₁ = {1: 47, 2: 11, 3: 35, 5: 5}, v₂ = {0: 41, 3: 30, 5: 14, 6: 38}; ({0, 4}, {2, 3}, {5, 6}); {1} |
-| swaps of two agents' goods | none (hardest state: 2 steps) | |
-| transfers of ≥ 2 pooled goods | none (hardest state: 2 steps) | |
+| swaps of two agents' goods | yes, **n = 4** (none at n = 2, 3) | v₀ = {4: 17, 5: 56, 6: 42}, v₁ = {1: 19, 2: 6, 4: 12, 5: 29}, v₂ = {0: 37, 1: 36, 3: 18}, v₃ = {0: 58, 4: 38, 6: 40}; ({5}, {2, 3, 4}, {1}, {0}); {6} |
+| transfers of ≥ 2 pooled goods | none (hardest state: 2 steps; also none with agent swaps off at n ≤ 3) | |
 
-So the move class of W^sub is close to minimal: of its seven kinds, five are each needed. Whether the other two can
-be dropped together (OFF = 9) is being run (`wablate_off9_*.log`). If so, the lemma would need only: transfers
-between agents of any nonempty set, placements of one pooled good, swaps with the pool, and rotations.
+So the move class of W^sub is close to minimal: of its seven kinds, six are each needed. The n = 4 witness for agent
+swaps was found by the climb with both unneeded-looking kinds off (OFF = 9, `wablate_off9_n4m7k4.log`). The Python
+re-check (`wablate_off9_recheck.log`) shows that switching off the agent swaps alone already leaves no step. With all
+moves the state has **exactly one W^sub step**: place good 6 with agent 0 and swap agent 0's good 5 for agent 1's
+good 4. That gives the complete EFX₀ allocation ({4, 6}, {2, 3, 5}, {1}, {0}), welfare 188 > 168. This is the
+tightest state found for W^sub: one escape.
+- Why it is tight. Agent 0 must not keep good 5 next to good 6: agent 3 values {5, 6} at 40 after dropping good 5,
+  less than its 58, but agent 1 values good 5 at 29 > 18.
+- Good 4 has to move the other way. Good 6 cannot go to agent 3, since agent 0 would strongly envy {0, 6}.
+
+Only transfers of two or more pooled goods remain without a witness. With up to four relevant goods per agent and
+one good pooled at every hard state found, that kind may simply never be used at these sizes.
 
 **Pool-shrinking alone is not enough, even with set moves.** At n = 3, m = 5 with strict values (v₀ = {0: 945},
 v₁ = {2: 897, 3: 696, 4: 83}, v₂ = {0: 679, 1: 534, 3: 556}) the state ({2}, {3}, {1, 4}) with good 0 pooled has
