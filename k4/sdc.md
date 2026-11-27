@@ -2042,7 +2042,7 @@ profiles had missed them. The coordinator replayed both independently.
   - The Lean frames (K4.SDC.OC1MAX.LEAN, OC1PERF.LEAN) are implications and stay valid. They are parametrized by
     the move relation (ConjOC1maxWith), so a two-move relation fits them directly.
 
-**OC₁′^max holds at n = 4 and fails at n = 5** (2026-11-27 01:00 UTC). OC₁′ is from kgen/rounds.md §4.6: a single move
+**OC₁′^max holds at n = 4 and fails at n = 5** (2026-11-27 00:55 UTC). OC₁′ is from kgen/rounds.md §4.6: a single move
 (addition, chain or ring), where every non-end agent of a chain may also take goods of the end's released base.
 - **n = 4.** OC₁′ holds at all 112,880 (type profile, picks) pairs where OC₁^max fails at n = 4, the certifier's complete
   export (`results/k4_oc1max/two_move_starts_n4.json.gz` on compute/k4-oc1max-cert, sha256 6159e38d…).
@@ -2079,3 +2079,50 @@ profiles had missed them. The coordinator replayed both independently.
   - Result: the picks already have a one-absorber completion. One agent absorbs junk of both copies. The other copy's
     junk is worth 0 to everyone in a copy, so in EFX₀ it acts as a sink.
   - So the copies do not separate. OC₂^max holds at that start.
+
+**What (K) of Theorem REC-S asks, locally** (coordinator, 2026-11-27 01:50 UTC; multi §12 has the theorem).
+- Setting: in REC-S, agent k ends with T (two of its at most four relevant goods), and the other bundles come from a
+  completion in I⁻ = I − k − T. Write k's remaining relevant goods as p (its SD pick, now held by its earliest wanter)
+  and g (if k values a fourth good). T is improving, so v_k(T) > v_k(p).
+- A bundle B threatens k exactly when v_k(B) − min_{h∈B} v_k(h) > v_k(T). Only B ∩ {p, g} counts, and by bundle:
+  - B ∩ R_k = {p}: never, since v_k(p) < v_k(T).
+  - B ∩ R_k = {g}: exactly when |B| ≥ 2 and v_k(g) > v_k(T).
+  - B ⊇ {p, g}: exactly when max(v_k(p), v_k(g)) > v_k(T) for |B| = 2, and when v_k(p) + v_k(g) > v_k(T) for |B| ≥ 3.
+- So (K) is a constraint on I⁻'s completion only:
+  - **if v_k(g) > v_k(T), g must end in a singleton bundle**, i.e. its holder takes no junk;
+  - p and g must not share a bundle in the cases above.
+- The other half of the lift is automatic. Nobody EFX₀-envies T: for |T| = 2 the test is max_{h∈T} v_i(h) ≤ v_i(B_i).
+  That holds because junk is never envied as a singleton at an SD start and moves only raise values (Y_z ∈ T is LIFT's
+  case).
+- Hence the inductive hypothesis that a recursion (RSD: settle, delete, recurse) needs is: **OC₂^max on instances with
+  a set of goods that must end in singleton bundles, and some forbidden pairs.** When k's best improving pool pair
+  beats every other good of k, the constraint is empty, and (K) holds for every completion of I⁻.
+- Three-move hunt, negative (`k4/sdc/three_move_hunt.py`, `three_move_climb.py`; logs `results/k4_sdc/three_move_*`).
+  - Random extensions of the 12 two-move seeds by one agent leave almost every start at 0 or 1 moves: 1 two-move start
+    among about 250 cores.
+  - Climbs bottom out at one-move starts.
+  - A new agent with its own pick is a sink for the seed's junk: core agents value its pick at 0, and SD junk is never
+    envied as a singleton.
+  - So multi-move starts need every pick to be wanted. Random extension is the wrong tool, and exhaustive ordinal
+    certification (the certifier's n = 5 lists) is the right one.
+
+**Conjecture RF (receiver first)** (2026-11-27 03:37 UTC). The rule is from the certifier's good-order export (rule (b)).
+The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py` and `k4/sdc/receiver_first_n5.py`.
+- **Statement.** In every strict connected k = 4 core, consider a maximum-matching SD start Y where OC₁ fails. Then:
+  - Y has exactly one receiver u, an agent whose pick no other agent prefers to its own (TTC's R2);
+  - some order with u first gives a maximum matching;
+  - every order with u first that gives a maximum matching satisfies OC₁.
+- **RF implies OC₁^∃max, hence TARGET₄.** From any maximum-matching order, either OC₁ holds, or the receiver-first reorder
+  gives one where it does. The Lean frame `EFX.OC1Max.target4_of_conjOC1exmax` then applies.
+- **Evidence.**
+  - n = 4: all 112,880 OC₁^max-failing starts (the certifier's complete export) have exactly one receiver. Every
+    receiver-first order gives a maximum matching, and all of them satisfy OC₁: 250,960 distinct pick vectors complete
+    at the picks and 35,240 need one move (`results/k4_sdc/receiver_first_check_n4.log`). Together with the certifier's
+    OC₁^max certificate this is a certificate of RF at n = 4. It relies on the type reduction: RF compares only subset
+    sums of single agents.
+  - n = 5: all 280 stored failing starts of chunk 5_pure_s5o0 (`results/k4_sdc/receiver_first_check_n5_s5o0.log`). Each
+    has exactly one receiver and at least one receiver-first maximum-matching vector. 1,057 vectors complete at the
+    picks, 297 need one move, and 24 receiver-first vectors are not maximum matchings, which RF excludes. 0 violations.
+- **Why it might hold.** u goes first and takes its favourite good. The failing start's difficulty is that u, the agent
+  nobody envies, sits on a pick that frees nothing. With u first, the picks change in exactly two agents (rule (c) of
+  the export). That is the pick swap of the two-cycle mechanism, or the starved agent's upgrade.

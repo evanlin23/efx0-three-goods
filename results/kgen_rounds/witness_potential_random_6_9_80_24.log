@@ -1,0 +1,30 @@
+$ python3 kgen/rounds/simple_potential.py random 6,9,80,24 1 3
+('junk', 'maximisers simple: all') 127
+('junk', 'maximisers simple: some') 3
+('junk,picks', 'maximisers simple: all') 130
+('keepers', 'maximisers simple: all') 130
+('minrat', 'maximisers simple: all') 122
+('minrat', 'maximisers simple: none') 8
+('nash', 'maximisers simple: all') 125
+('nash', 'maximisers simple: none') 5
+('picks', 'maximisers simple: all') 130
+('picks,-keepers', 'maximisers simple: all') 130
+('picks,junk', 'maximisers simple: all') 130
+('picks,junk,-keepers', 'maximisers simple: all') 130
+('picks,junk,minrat', 'maximisers simple: all') 130
+('picks,junk,util', 'maximisers simple: all') 130
+('picks,minrat', 'maximisers simple: all') 130
+('util', 'maximisers simple: all') 127
+('util', 'maximisers simple: none') 3
+starts 445
+starts where every MD allocation is good (witness) 315
+starts with an MD allocation that is not good (witness) 130
+A MAXIMISER IS NOT GOOD util {"list": "random6_9", "idx": 0, "sets": [[3, 5, 6, 7], [0, 1, 4, 7], [3, 5, 8], [1, 2, 3, 4], [1, 2, 7, 8], [0, 1, 3, 7]], "vals": [[1464, 1838, 1931, 2312], [126, 1238, 2596, 2217], [2812, 2485, 876], [2503, 2581, 2898, 1518], [1167, 2373, 583, 1561], [1013, 2086, 1990, 1992]], "picks": [7, 4, 3, 2, 8, 1]}
+A MAXIMISER IS NOT GOOD util {"list": "random6_9", "idx": 3, "sets": [[1, 3, 4, 8], [5, 6, 7], [0, 2, 6, 7], [2, 6, 7, 8], [0, 4, 6, 8], [3, 5, 6, 8]], "vals": [[1902, 648, 2003, 75], [2101, 667, 2692], [1906, 1091, 2330, 1413], [1332, 1860, 2340, 224], [2061, 2328, 2139, 1078], [323, 467, 1089, 1188]], "picks": [1, 5, 6, 7, 4, 8]}
+A MAXIMISER IS NOT GOOD nash {"list": "random6_9", "idx": 1, "sets": [[3, 4, 6, 8], [2, 4, 5, 8], [2, 3, 6, 8], [1, 3, 4, 5], [0, 1, 4, 5], [3, 5, 6, 7]], "vals": [[1435, 393, 2480, 2612], [936, 2369, 825, 1406], [1947, 1562, 2291, 254], [2734, 1003, 2653, 674], [2284, 298, 2066, 2163], [1290, 2358, 786, 703]], "picks": [8, 4, 6, 1, 0, 5]}
+A MAXIMISER IS NOT GOOD nash {"list": "random6_9", "idx": 42, "sets": [[0, 1, 7, 8], [0, 3, 5, 6], [1, 3, 4, 6], [1, 2, 4, 6], [0, 3, 5, 7], [0, 1, 6, 8]], "vals": [[1032, 663, 2092, 818], [1231, 1905, 1290, 1554], [2877, 2515, 2664, 527], [2772, 1080, 1630, 2024], [1438, 874, 483, 2747], [675, 1151, 1006, 2671]], "picks": [7, 3, 4, 1, 0, 8]}
+A MAXIMISER IS NOT GOOD minrat {"list": "random6_9", "idx": 7, "sets": [[0, 4, 5, 8], [1, 2, 6, 7], [0, 2, 3], [1, 3, 4, 6], [2, 6, 7, 8], [2, 3, 5, 7]], "vals": [[14, 1322, 1152, 1595], [2682, 886, 1807, 1776], [1550, 1931, 2580], [553, 2933, 2095, 2415], [2521, 2978, 1367, 2215], [2479, 2225, 1516, 1703]], "picks": [8, 1, 0, 3, 6, 2]}
+A MAXIMISER IS NOT GOOD minrat {"list": "random6_9", "idx": 14, "sets": [[2, 4, 5, 6], [0, 1, 4, 5], [0, 2, 4, 6], [2, 3, 6], [3, 4, 7, 8], [2, 3, 5]], "vals": [[1702, 500, 2725, 1279], [1635, 336, 916, 1985], [462, 1434, 501, 1895], [2770, 2115, 2505], [2739, 2190, 1860, 1951], [1001, 691, 631]], "picks": [5, 0, 6, 2, 4, 3]}
+A MAXIMISER IS NOT GOOD junk {"list": "random6_9", "idx": 14, "sets": [[2, 4, 5, 6], [0, 1, 4, 5], [0, 2, 4, 6], [2, 3, 6], [3, 4, 7, 8], [2, 3, 5]], "vals": [[1702, 500, 2725, 1279], [1635, 336, 916, 1985], [462, 1434, 501, 1895], [2770, 2115, 2505], [2739, 2190, 1860, 1951], [1001, 691, 631]], "picks": [4, 5, 0, 6, 3, 2]}
+A MAXIMISER IS NOT GOOD junk {"list": "random6_9", "idx": 49, "sets": [[2, 3, 4, 8], [1, 3, 4, 6], [0, 4, 6, 7], [0, 1, 3, 7], [1, 2, 3, 5], [0, 1, 2, 8]], "vals": [[36, 2602, 2766, 2317], [1054, 2588, 1458, 1691], [825, 2119, 2334, 1973], [726, 2422, 2251, 2127], [2503, 1607, 575, 984], [2386, 2317, 1748, 2122]], "picks": [4, 6, 7, 3, 1, 0]}
+time 6 s

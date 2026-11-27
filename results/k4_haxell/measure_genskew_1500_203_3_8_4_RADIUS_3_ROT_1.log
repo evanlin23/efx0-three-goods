@@ -1,0 +1,47 @@
+$ python3 k4/haxell/gstar_measure_run.py genskew:1500:203:3:8:4 NMAX=3 MMAX=8 RADIUS=3 ROT=1
+instances 1500
+partial EFX0 states 3853984
+stuck states, phi0 2415
+stuck states, phi1 0
+stuck states, phi10 0
+stuck states, phi11 0
+stuck states, phi12 0
+stuck states, phi13 0
+stuck states, phi14 0
+stuck states, phi15 0
+stuck states, phi16 0
+stuck states, phi17 0
+stuck states, phi18 0
+stuck states, phi2 0
+stuck states, phi3 2189
+stuck states, phi4 0
+stuck states, phi5 1541
+stuck states, phi6 333
+stuck states, phi7 0
+stuck states, phi8 0
+stuck states, phi9 333
+instances with a stuck state, phi0 213
+instances with a stuck state, phi1 0
+instances with a stuck state, phi10 0
+instances with a stuck state, phi11 0
+instances with a stuck state, phi12 0
+instances with a stuck state, phi13 0
+instances with a stuck state, phi14 0
+instances with a stuck state, phi15 0
+instances with a stuck state, phi16 0
+instances with a stuck state, phi17 0
+instances with a stuck state, phi18 0
+instances with a stuck state, phi2 0
+instances with a stuck state, phi3 207
+instances with a stuck state, phi4 0
+instances with a stuck state, phi5 177
+instances with a stuck state, phi6 74
+instances with a stuck state, phi7 0
+instances with a stuck state, phi8 0
+instances with a stuck state, phi9 74
+first instance with a stuck state for phi0 : s26 [[[0, 2, 4, 7], [1, 2, 5, 6], [0, 3, 4, 5]], [[5, 2, 64, 8], [2, 11, 41, 8], [14, 5, 79, 85]]]
+first instance with a stuck state for phi3 : s26 [[[0, 2, 4, 7], [1, 2, 5, 6], [0, 3, 4, 5]], [[5, 2, 64, 8], [2, 11, 41, 8], [14, 5, 79, 85]]]
+first instance with a stuck state for phi5 : s26 [[[0, 2, 4, 7], [1, 2, 5, 6], [0, 3, 4, 5]], [[5, 2, 64, 8], [2, 11, 41, 8], [14, 5, 79, 85]]]
+first instance with a stuck state for phi6 : s26 [[[0, 2, 4, 7], [1, 2, 5, 6], [0, 3, 4, 5]], [[5, 2, 64, 8], [2, 11, 41, 8], [14, 5, 79, 85]]]
+first instance with a stuck state for phi9 : s26 [[[0, 2, 4, 7], [1, 2, 5, 6], [0, 3, 4, 5]], [[5, 2, 64, 8], [2, 11, 41, 8], [14, 5, 79, 85]]]
+time 31 s

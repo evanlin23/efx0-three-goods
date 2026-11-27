@@ -1,0 +1,6 @@
+$ python3 kgen/charity/refute_pm.py 4 4
+S'(2, 4): n 4, m 7, max |R_i| 3, unallocated 1 | EFX0 with strong charity True | value-feasible families 3, placements tried 5 | dominated: False
+  brute force over all 5^7 partial allocations: no dominating EFX0 state; 58 complete EFX0 allocations, each leaves some agent worse off than the state
+S'(3, 4): n 9, m 14, max |R_i| 4, unallocated 2 | EFX0 with strong charity True | value-feasible families 16, placements tried 100 | dominated: False
+S'(4, 4): n 20, m 27, max |R_i| 4, unallocated 3 | EFX0 with strong charity True | value-feasible families 125, placements tried 9261 | dominated: False
+all checks passed

@@ -1,0 +1,6 @@
+single (K4.SDC.DICH): [[[0, 2, 4, 3], [6, 3, 1], [1, 2, 0, 5]], [[5, 10, 1, 12], [10, 12, 11], [11, 8, 6, 1]]] order (0, 2, 1) picks [3, 6, 1]
+   one-absorber completion False ; none without absorber False ; one chain then one absorber True ; one chain then no absorber False
+union (n = 6, m = 14): order (0, 2, 1, 3, 5, 4) picks [3, 6, 1, 10, 13, 8]
+   one-absorber completion of the picks False
+   one chain then one absorber: True; bundles [[0, 2], [3, 6], [1, 4, 5, 7, 11, 12], [10], [9, 13], [8]] new bases [[0, 2], [3], [1], [10], [13], [8]]
+   order (0, 2, 1, 3, 5, 4) {'order': (0, 2, 1, 3, 5, 4), 'md': True, 'ext': True, 'oc': True, 'ext1': False, 'oc1': True}

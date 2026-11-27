@@ -1,0 +1,22 @@
+$ python3 k4/haxell/gstar_run.py pwgrid NMAX=6 MMAX=13 MAXSTATES=300000000 SHOW=40
+TRAPS PW(2,1,4) [[[0, 3, 4, 5, 6], [1, 3, 4, 5, 6], [0, 1, 2]], [[20, 19, 18, 17, 16], [20, 19, 18, 17, 16], [4, 2, 1]]] {'states': 879, 'complete': 59, 'traps': 3, 'radius2traps': 0, 'minpool': 1} e.g. [[0], [3, 5], [1, 2, 6]] pool [4]
+TRAPS PW(3,1,4) [[[0, 4, 5, 6, 7], [1, 4, 5, 6, 7], [2, 4, 5, 6, 7], [0, 1, 2, 3]], [[20, 19, 18, 17, 16], [20, 19, 18, 17, 16], [20, 19, 18, 17, 16], [6, 4, 2, 1]]] {'states': 5118, 'complete': 181, 'traps': 3, 'radius2traps': 0, 'minpool': 1} e.g. [[0], [1], [4, 6], [2, 3, 7]] pool [5]
+TRAPS PW(4,1,4) [[[0, 5, 6, 7, 8], [1, 5, 6, 7, 8], [2, 5, 6, 7, 8], [3, 5, 6, 7, 8], [0, 1, 2, 3, 4]], [[20, 19, 18, 17, 16], [20, 19, 18, 17, 16], [20, 19, 18, 17, 16], [20, 19, 18, 17, 16], [8, 6, 4, 2, 1]]] {'states': 42296, 'complete': 702, 'traps': 3, 'radius2traps': 0, 'minpool': 1} e.g. [[0], [1], [2], [5, 7], [3, 4, 8]] pool [6]
+TRAPS PW(5,1,4) [[[0, 6, 7, 8, 9], [1, 6, 7, 8, 9], [2, 6, 7, 8, 9], [3, 6, 7, 8, 9], [4, 6, 7, 8, 9], [0, 1, 2, 3, 4, 5]], [[20, 19, 18, 17, 16], [20, 19, 18, 17, 16], [20, 19, 18, 17, 16], [20, 19, 18, 17, 16], [20, 19, 18, 17, 16], [10, 8, 6, 4, 2, 1]]] {'states': 456180, 'complete': 2142, 'traps': 3, 'radius2traps': 0, 'minpool': 1} e.g. [[0], [1], [2], [3], [6, 8], [4, 5, 9]] pool [7]
+instances 45
+instances n=3 7
+instances n=4 14
+instances n=5 12
+instances n=6 12
+instances skipped (size) 67
+instances with a radius-2 trap 0
+instances with a trap 4
+instances with a trap, n=3 1
+instances with a trap, n=4 1
+instances with a trap, n=5 1
+instances with a trap, n=6 1
+instances without a complete EFX0 allocation 0
+partial EFX0 states 6347959
+radius-2 traps 0
+traps 12
+time 613 s

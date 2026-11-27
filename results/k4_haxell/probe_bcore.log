@@ -1,0 +1,10 @@
+$ python3 k4/haxell/gstar_probe_run.py bcore CAP=5000 WALK=6 LEN=8
+B<             n 6 m 10 k 4 starts  35 probes 1714 reached 1714 traps 0 cap 0 max_expanded 32
+B>             n 6 m 10 k 4 starts  35 probes 1715 reached 1715 traps 0 cap 0 max_expanded 28
+instances 2
+probes 3429
+probes cap 0
+probes reached 3429
+probes traps 0
+starts 70
+time 36 s

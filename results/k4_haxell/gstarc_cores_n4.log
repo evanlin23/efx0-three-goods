@@ -1,0 +1,11 @@
+$ python3 k4/haxell/gstar_run.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz:300:9 NMAX=4 MMAX=9 SHOW=8
+instances 279
+instances n=4 279
+instances skipped (size) 21
+instances with a radius-2 trap 0
+instances with a trap 0
+instances without a complete EFX0 allocation 0
+partial EFX0 states 1385536
+radius-2 traps 0
+traps 0
+time 15 s

@@ -140,3 +140,36 @@ default. Hypergraphs with fewer goods than agents are not in its counts. I check
 - none needs a chain.
 
 So the claim also holds with m < n. The n = 5 maximum-matching claim was not re-run.
+
+## 7. Addendum: N3K5 and N3K5⁺, k = 5 and one move fails at n = 3 (`k4/ksens.md` §8 on `claude/k4-ksens` at `1ac11ad`; coordinator's queue, 2026-11-27)
+
+**Check.** `k4/referee/n3k5_ref.py`, log `results/k4_referee/n3k5_ref.log`.
+- It is my own code: a round enumerator written from `kgen/rounds.md` §1. SD, the §29 moves, the certifier's rings,
+  the one-absorber and free completions, and raw EFX₀ come from `cert_ref.py`; the OC₁′ generator from `oc1p_ref.py`.
+- The instance data are copied from the note.
+
+**Verdict: CONFIRMED.**
+
+| | N3K5 | N3K5⁺ (values ×100, zeros → 1, 2, … in reading order) |
+|---|---|---|
+| order (1, 0, 2) gives the picks (4, 5, 1); orders giving them; ν | yes; 1; 3 | yes; 1; 3 |
+| completion at the picks (one-absorber / free) | none / none | none / none |
+| §29 chains and additions: states; completions (one-absorber, free) | 32; 0, 0 | 59; 0, 0 |
+| the certifier's extra rings | none extra | none extra |
+| one round (vertex-disjoint chains, each start taking its own end's goods): states; completions | 41; 0, 0 (62 with worthless goods allowed in H sets; 0, 0) | 119; 0, 0 |
+| two chains (§29 depth) / two rounds repair | yes (depth 2) / yes (6 first rounds) | yes / yes (14 first rounds) |
+
+My 119 round states for N3K5⁺ against the note's 120 is presumably the empty round, which my enumerator does not
+count. That does not affect the claim.
+
+**A remark for the campaign: OC₁′ repairs N3K5 and N3K5⁺.** OC₁′ is the widened one-move rule of `kgen/rounds.md`
+§4.6, in which non-end chain agents may also take goods of the end's released base.
+- At N3K5 the chain 0 → 1 → 2 has agent 0 take {2, 3} ⊆ J and agent 1 take y₀ = 4 *plus* y₂ = 1, agent 2's released
+  pick. Agent 2 takes y₁ = 5. Every agent gains: 45 > 38, 55 > 43, 4 > 1.
+- The resulting state ({2, 3}, {1, 4}, {5}) completes with agent 0 taking junk good 0, and ({0, 2, 3}, {1, 4}, {5})
+  is raw EFX₀.
+- 2 of the 2 extra OC₁′ states complete at N3K5, and 4 of 8 at N3K5⁺.
+
+This is not a defect in the note, whose claims are about §29 chains and rounds. But OC₁′ at k = 5 is refuted only by
+PW5 (n = 5), not at n = 3. Anyone citing N3K5 as "one move fails at n = 3, k = 5" should say "one §29 chain or one
+round".

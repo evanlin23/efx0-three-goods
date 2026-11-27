@@ -1,0 +1,1 @@
+$ python3 kgen/charity/w_synth_family.py 4 5 - - /home/user/efx0-three-goods/results/kgen_charity/w_cuts_s4k5.json

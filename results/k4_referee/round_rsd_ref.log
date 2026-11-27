@@ -1,0 +1,23 @@
+{"source": "ROUND-RSD witnesses re-validated: round_rsd_n4_witnesses.json.gz", "distinct_rows_covered": 112880, "round_size_1": 225760, "rounds_2": 112880, "rows": 112880, "valid": 112880, "witnesses": 112880}
+{"source": "ROUND-RSD witnesses re-validated: round_rsd_5pure_witnesses.json.gz", "distinct_rows_covered": 280, "round_size_1": 260, "round_size_2": 150, "rounds_1": 150, "rounds_2": 130, "rows": 280, "valid": 280, "witnesses": 280}
+{"source": "ROUND-RSD witnesses re-validated: round_rsd_n5walk_witnesses.json.gz", "distinct_rows_covered": 23924, "round_size_2": 23924, "rounds_1": 23924, "rows": 23924, "valid": 23924, "witnesses": 23924}
+{"source": "LIFT* (rounds) lemma test, N=280 seed=1 mutation=None, inputs ['n5_5pure_s5o0_two_move_starts.jsonl.gz']", "starts": 280, "tests_plain": 7175, "two_settlement_round_present_plain": 3054}
+{"source": "LIFT* (rounds) lemma test, N=3000 seed=1 mutation=None, inputs ['n5_walk164.jsonl', 'n5_walk164_long.jsonl.gz']", "starts": 3000, "tests_plain": 36000, "two_settlement_round_present_plain": 18000}
+{"source": "LIFT* (rounds) lemma test, N=5000 seed=1 mutation=None, inputs ['n4.json.gz']", "starts": 5000, "tests_plain": 24872, "two_settlement_round_present_plain": 0}
+{"source": "LIFT* (rounds) lemma test, N=280 seed=1 mutation=skip, inputs ['n5_5pure_s5o0_two_move_starts.jsonl.gz']", "LIFT_VIOLATION_skip": 21, "starts": 280, "tests_skip": 7196, "two_settlement_round_present_skip": 3075}
+{"source": "LIFT* (rounds) lemma test, N=3000 seed=1 mutation=skip, inputs ['n5_walk164.jsonl', 'n5_walk164_long.jsonl.gz']", "starts": 3000, "tests_skip": 36000, "two_settlement_round_present_skip": 18000}
+{"source": "LIFT* (rounds) lemma test, N=5000 seed=1 mutation=skip, inputs ['n4.json.gz']", "starts": 5000, "tests_skip": 24872, "two_settlement_round_present_skip": 0}
+{"source": "pure reduction at the one-move hard starts (the three files; the union is counted as distinct)", "FAIL_R": 35, "FAIL_i": 35, "FAIL_ii": 23, "FAIL_iii": 6, "FAIL_irecv": 18, "R_fails_equal_i_fails": true, "distinct": 8539, "hall2071_distinct": 1737, "hall2071_fail_R": 32, "hall2071_fail_i": 32, "hall2071_fail_ii": 21, "hall2071_fail_iii": 6, "hall2071_fail_irecv": 17, "hard": 8539, "iii_fail_and_one_official_move_repairs": 6, "iii_fails_subset_of_i_fails": true, "multi_distinct": 8081, "multi_fail_R": 35, "multi_fail_i": 35, "multi_fail_ii": 23, "multi_fail_iii": 6, "multi_fail_irecv": 18, "picks_SD": 8539, "pw291_distinct": 291}
+FAILS_iii ls-alt-rule-n4m7 {"sets": [[0, 1, 2, 3], [0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]], "vals": [[3, 6, 10, 8], [2, 8, 4, 3], [4, 2, 5, 8], [4, 3, 2, 8]], "picks": [2, 5, 6, 3]}
+FAILS_iii Q2 {"sets": [[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], "vals": [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]], "picks": [3, 7, 5, 4]}
+FAILS_iii nsw-strict-n4m8 {"sets": [[0, 3, 5, 7], [1, 4, 5, 6], [2, 4, 6, 7], [3, 6, 7]], "vals": [[2, 8, 4, 7], [2, 8, 3, 4], [2, 10, 6, 7], [4, 3, 2]], "picks": [3, 4, 7, 6]}
+FAILS_iii nsw-strict-n4m9 {"sets": [[0, 4, 5, 6], [1, 4, 6, 8], [2, 5, 7, 8], [3, 7, 8]], "vals": [[3, 4, 10, 8], [3, 2, 4, 8], [1, 8, 6, 4], [2, 3, 4]], "picks": [5, 6, 7, 8]}
+FAILS_iii c4one-one-rotation-m8 {"sets": [[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]], "vals": [[2, 8, 3, 4], [3, 4, 2], [2, 4, 3], [2, 4, 3], [2, 4, 3]], "picks": [7, 2, 1, 5, 6]}
+FAILS_iii c4one-one-rotation-m9 {"sets": [[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]], "vals": [[2, 3, 4], [2, 4, 3], [2, 3, 8, 4], [2, 3, 4], [4, 2, 3]], "picks": [7, 5, 8, 3, 4]}
+FAILS_i (smallest) adaptive-p3 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]], [2, 4, 5]]
+FAILS_i (smallest) c4-one-rotation-two4-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[1, 4, 8, 6], [8, 2, 3, 4], [2, 3, 4]], [2, 5, 4]]
+FAILS_i (smallest) c4-lbplus-rotation-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]], [2, 5, 4]]
+
+real	2m20.393s
+user	8m37.015s
+sys	0m4.131s

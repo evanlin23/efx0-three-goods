@@ -1,0 +1,48 @@
+$ python3 kgen/rounds/simple_potential.py summary /tmp/claude-0/-home-user-efx0-three-goods/1bef8951-d60e-5a6c-a841-d862b0933832/scratchpad/multi/5_pure_s5o0_summary.jsonl.gz 1 3
+('junk', 'maximisers simple: all') 8
+('junk', 'maximisers simple: some') 105
+('junk,picks', 'maximisers simple: all') 54
+('junk,picks', 'maximisers simple: some') 59
+('keepers', 'maximisers simple: none') 107
+('keepers', 'maximisers simple: some') 6
+('minrat', 'maximisers simple: all') 77
+('minrat', 'maximisers simple: none') 36
+('nash', 'maximisers simple: all') 48
+('nash', 'maximisers simple: none') 51
+('nash', 'maximisers simple: some') 14
+('picks', 'maximisers simple: all') 49
+('picks', 'maximisers simple: some') 64
+('picks,-keepers', 'maximisers simple: all') 110
+('picks,-keepers', 'maximisers simple: some') 3
+('picks,junk', 'maximisers simple: all') 54
+('picks,junk', 'maximisers simple: some') 59
+('picks,junk,-keepers', 'maximisers simple: all') 111
+('picks,junk,-keepers', 'maximisers simple: some') 2
+('picks,junk,minrat', 'maximisers simple: all') 98
+('picks,junk,minrat', 'maximisers simple: none') 15
+('picks,junk,util', 'maximisers simple: all') 85
+('picks,junk,util', 'maximisers simple: none') 20
+('picks,junk,util', 'maximisers simple: some') 8
+('picks,minrat', 'maximisers simple: all') 98
+('picks,minrat', 'maximisers simple: none') 15
+('util', 'maximisers simple: all') 56
+('util', 'maximisers simple: none') 46
+('util', 'maximisers simple: some') 11
+starts 280
+starts where every MD allocation is simple 167
+starts with a non-simple MD allocation 113
+MAXIMISER NOT SIMPLE keepers {"list": "5_pure", "idx": 229, "sets": [[0, 2, 6, 7], [1, 4, 6, 7], [2, 5, 6, 7], [3, 4, 5, 6], [3, 4, 5, 7]], "vals": [[3, 7, 5, 6], [3, 2, 6, 10], [8, 6, 3, 4], [3, 5, 7, 6], [4, 5, 8, 6]], "picks": [2, 1, 6, 5, 7]}
+MAXIMISER NOT SIMPLE keepers {"list": "5_pure", "idx": 234, "sets": [[0, 2, 3, 4], [1, 3, 5, 7], [2, 4, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], "vals": [[4, 8, 6, 3], [3, 6, 10, 2], [8, 3, 6, 4], [3, 4, 8, 2], [3, 6, 7, 5]], "picks": [2, 1, 6, 3, 5]}
+MAXIMISER NOT SIMPLE util {"list": "5_pure", "idx": 234, "sets": [[0, 2, 3, 4], [1, 3, 5, 7], [2, 4, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], "vals": [[4, 8, 6, 3], [3, 6, 10, 2], [8, 3, 6, 4], [3, 4, 8, 2], [3, 6, 7, 5]], "picks": [2, 1, 6, 3, 5]}
+MAXIMISER NOT SIMPLE util {"list": "5_pure", "idx": 234, "sets": [[0, 2, 3, 4], [1, 3, 5, 7], [2, 4, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], "vals": [[4, 8, 6, 1], [3, 4, 8, 2], [8, 2, 3, 4], [4, 7, 2, 8], [5, 6, 4, 8]], "picks": [2, 1, 7, 3, 5]}
+MAXIMISER NOT SIMPLE nash {"list": "5_pure", "idx": 234, "sets": [[0, 2, 3, 4], [1, 3, 5, 7], [2, 4, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], "vals": [[4, 8, 6, 3], [3, 6, 10, 2], [8, 3, 6, 4], [3, 4, 8, 2], [3, 6, 7, 5]], "picks": [2, 1, 6, 3, 5]}
+MAXIMISER NOT SIMPLE nash {"list": "5_pure", "idx": 234, "sets": [[0, 2, 3, 4], [1, 3, 5, 7], [2, 4, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], "vals": [[4, 8, 6, 1], [3, 4, 8, 2], [8, 2, 3, 4], [4, 7, 2, 8], [5, 6, 4, 8]], "picks": [2, 1, 7, 3, 5]}
+MAXIMISER NOT SIMPLE minrat {"list": "5_pure", "idx": 234, "sets": [[0, 2, 3, 4], [1, 3, 5, 7], [2, 4, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], "vals": [[4, 8, 6, 3], [3, 6, 10, 2], [8, 3, 6, 4], [3, 4, 8, 2], [3, 6, 7, 5]], "picks": [2, 1, 6, 3, 5]}
+MAXIMISER NOT SIMPLE minrat {"list": "5_pure", "idx": 234, "sets": [[0, 2, 3, 4], [1, 3, 5, 7], [2, 4, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], "vals": [[4, 8, 6, 1], [3, 4, 8, 2], [8, 2, 3, 4], [4, 7, 2, 8], [5, 6, 4, 8]], "picks": [2, 1, 7, 3, 5]}
+MAXIMISER NOT SIMPLE picks,junk,util {"list": "5_pure", "idx": 224, "sets": [[0, 2, 5, 7], [1, 4, 6, 7], [2, 4, 6, 7], [3, 4, 5, 6], [3, 5, 6, 7]], "vals": [[7, 10, 2, 6], [3, 8, 2, 4], [7, 5, 6, 3], [3, 6, 5, 7], [5, 4, 8, 6]], "picks": [2, 1, 7, 4, 6]}
+MAXIMISER NOT SIMPLE picks,junk,util {"list": "5_pure", "idx": 484, "sets": [[0, 5, 6, 7], [1, 2, 3, 7], [1, 3, 4, 6], [2, 4, 5, 7], [4, 5, 6, 7]], "vals": [[2, 4, 10, 7], [4, 2, 5, 8], [3, 5, 6, 7], [3, 10, 8, 6], [10, 3, 4, 8]], "picks": [0, 7, 6, 4, 5]}
+MAXIMISER NOT SIMPLE picks,minrat {"list": "5_pure", "idx": 484, "sets": [[0, 5, 6, 7], [1, 2, 3, 7], [1, 3, 4, 6], [2, 4, 5, 7], [4, 5, 6, 7]], "vals": [[2, 4, 10, 7], [4, 2, 5, 8], [3, 5, 6, 7], [3, 10, 8, 6], [10, 3, 4, 8]], "picks": [0, 7, 6, 4, 5]}
+MAXIMISER NOT SIMPLE picks,minrat {"list": "5_pure", "idx": 478, "sets": [[0, 3, 4, 8], [1, 5, 7, 8], [2, 6, 7, 8], [3, 4, 5, 6], [5, 6, 7, 8]], "vals": [[2, 4, 7, 10], [2, 6, 3, 10], [4, 6, 5, 8], [4, 5, 6, 8], [6, 7, 5, 3]], "picks": [8, 1, 6, 5, 7]}
+MAXIMISER NOT SIMPLE picks,junk,minrat {"list": "5_pure", "idx": 484, "sets": [[0, 5, 6, 7], [1, 2, 3, 7], [1, 3, 4, 6], [2, 4, 5, 7], [4, 5, 6, 7]], "vals": [[2, 4, 10, 7], [4, 2, 5, 8], [3, 5, 6, 7], [3, 10, 8, 6], [10, 3, 4, 8]], "picks": [0, 7, 6, 4, 5]}
+MAXIMISER NOT SIMPLE picks,junk,minrat {"list": "5_pure", "idx": 478, "sets": [[0, 3, 4, 8], [1, 5, 7, 8], [2, 6, 7, 8], [3, 4, 5, 6], [5, 6, 7, 8]], "vals": [[2, 4, 7, 10], [2, 6, 3, 10], [4, 6, 5, 8], [4, 5, 6, 8], [6, 7, 5, 3]], "picks": [8, 1, 6, 5, 7]}
+time 3 s

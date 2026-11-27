@@ -1,0 +1,31 @@
+$ python3 k4/haxell/gstar_measure_run.py ext NMAX=5 MMAX=9 MAXSTATES=11000000
+instances 6
+partial EFX0 states 81635
+stuck states, phi0 4123
+stuck states, phi1 0
+stuck states, phi2 0
+stuck states, phi3 3998
+stuck states, phi4 1893
+stuck states, phi5 48
+stuck states, phi6 34
+stuck states, phi7 67
+stuck states, phi8 0
+stuck states, phi9 34
+instances with a stuck state, phi0 6
+instances with a stuck state, phi1 0
+instances with a stuck state, phi2 0
+instances with a stuck state, phi3 6
+instances with a stuck state, phi4 6
+instances with a stuck state, phi5 4
+instances with a stuck state, phi6 6
+instances with a stuck state, phi7 6
+instances with a stuck state, phi8 0
+instances with a stuck state, phi9 6
+first instance with a stuck state for phi0 : RD5 [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]]
+first instance with a stuck state for phi3 : RD5 [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]]
+first instance with a stuck state for phi4 : RD5 [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]]
+first instance with a stuck state for phi5 : RD5 [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]]
+first instance with a stuck state for phi6 : RD5 [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]]
+first instance with a stuck state for phi7 : RD5 [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]]
+first instance with a stuck state for phi9 : RD5 [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]]
+time 3 s

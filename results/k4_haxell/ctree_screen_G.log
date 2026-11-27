@@ -1,0 +1,24 @@
+$ python3 k4/haxell/ht_ctree.py screen NMAX=5 MODEL=G
+STUCK C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] order [0, 1, 3, 2] picks [2, 4, 5, 6]
+STUCK D3 [[[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]]] order [0, 2, 1] picks [1, 3, 2]
+STUCK adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] order [0, 1, 2] picks [5, 4, 3]
+STUCK adaptive-p3 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]]] order [0, 2, 1] picks [2, 4, 5]
+STUCK c4-g2-other-runs-n4m7 [[[0, 2, 5], [1, 5, 6], [2, 3, 4, 6], [3, 4, 6]], [[2, 3, 4], [2, 4, 3], [8, 4, 3, 6], [2, 3, 4]]] order [1, 0, 2, 3] picks [2, 5, 6, 4]
+STUCK c4-lbplus-rotation-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]]] order [0, 1, 2] picks [2, 5, 4]
+instances 168
+instances with a stuck start 10
+layers at collapse 1 2688
+layers at collapse 2 8
+layers max 2
+start: STUCK 30
+start: augmentations 1 196
+start: augmentations 2 265
+start: augmentations 3 1427
+start: augmentations 4 1184
+start: augmentations 5 631
+start: augmentations 6 291
+start: augmentations 7 45
+starts 4069
+stuck tree: layers 1 7
+stuck tree: layers 2 5
+time 0 s

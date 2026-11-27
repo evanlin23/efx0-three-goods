@@ -1,0 +1,8 @@
+$ python3 k4/haxell/ht_climb.py sample 20000 244 2 4 4 VMAX=40
+BEST score (radius-2 traps, traps, -complete) = (0, 0, -2) [[[0, 1, 2, 3], [0, 1, 2, 3]], [[23, 6, 2, 31], [1, 27, 29, 33]]]
+BEST score (radius-2 traps, traps, -complete) = (0, 0, -2) [[[0, 1, 2, 3], [0, 1, 2, 3]], [[31, 7, 3, 9], [19, 1, 5, 6]]]
+BEST score (radius-2 traps, traps, -complete) = (0, 0, -2) [[[0, 1, 2, 3], [0, 1, 2, 3]], [[11, 40, 13, 12], [20, 38, 4, 7]]]
+runs 20000
+with a radius-2 trap 0
+with a trap 0
+time 2 s

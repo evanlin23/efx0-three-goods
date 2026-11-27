@@ -1,0 +1,9 @@
+{"constructed_instance_picks": [1, 6, 3, 5], "configs": [{"k": 2, "E": [2, 0, 1], "T": [2, 6], "P2": [3, 1], "X": [[3], [1, 5], [2, 6], [0, 4]], "RNDOZ": true, "RNDPZ": true, "EX": false, "form": null}, {"k": 3, "E": [3, 1], "T": [0, 2], "P2": [2, 0], "X": [[3], [4, 5], [1, 6], [0, 2]], "RNDOZ": true, "RNDPZ": true, "EX": false, "form": null}, {"k": 3, "E": [3, 1], "T": [0, 4], "P2": [2, 0], "X": [[3], [2, 5], [1, 6], [0, 4]], "RNDOZ": true, "RNDPZ": true, "EX": false, "form": null}, {"k": 3, "E": [3, 1], "T": [0, 4], "P2": [2, 0], "X": [[3], [5, 6], [1, 2], [0, 4]], "RNDOZ": true, "RNDPZ": true, "EX": false, "form": null}, {"k": 3, "E": [3, 1], "T": [0, 4], "P2": [2, 0], "X": [[3], [1, 5], [2, 6], [0, 4]], "RNDOZ": true, "RNDPZ": true, "EX": false, "form": null}, {"k": 3, "E": [3, 1], "T": [0, 4], "P2": [2, 1], "X": [[1, 5], [3], [2, 6], [0, 4]], "RNDOZ": false, "RNDPZ": false, "EX": true, "form": "EX-b"}]}
+{"source": "Lemma SPLICE (EX) check on export two_move_n4.json.gz 0", "EX": 0, "EX_and_witness_MISMATCH": 0, "configs": 627120, "notwitness_and_not_EX_MISMATCH": 0, "starts": 112880, "witness": 627120}
+{"source": "Lemma SPLICE (EX) check on rand 100000 1", "EX": 26, "EX_and_witness_MISMATCH": 0, "EX_form_EX-b": 26, "configs": 3477, "notwitness_and_not_EX_MISMATCH": 0, "starts": 98202, "witness": 3451}
+{"source": "Lemma SPLICE (EX) check on rand 300000 2", "EX": 45, "EX_and_witness_MISMATCH": 0, "EX_form_EX-b": 45, "configs": 10131, "notwitness_and_not_EX_MISMATCH": 0, "starts": 294548, "witness": 10086}
+{"source": "Lemma SPLICE (EX) check on rand 300000 3", "EX": 51, "EX_and_witness_MISMATCH": 0, "EX_form_EX-b": 51, "configs": 10074, "notwitness_and_not_EX_MISMATCH": 0, "starts": 294581, "witness": 10023}
+
+real	0m38.417s
+user	1m56.656s
+sys	0m2.093s

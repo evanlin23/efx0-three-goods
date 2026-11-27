@@ -1,0 +1,14 @@
+$ python3 kgen/charity/ol_synth.py 3 3 8 9
+q 1 sizes (2, 2, 1) m 6: UNSAT after 6 cuts, 0.1 s
+q 1 sizes (2, 2, 2) m 7: UNSAT after 36 cuts, 0.5 s
+q 1 sizes (3, 2, 1) m 7: UNSAT after 11 cuts, 0.1 s
+q 1 sizes (3, 2, 2) m 8: UNSAT after 0 cuts, 0.0 s
+q 1 sizes (3, 3, 1) m 8: UNSAT after 0 cuts, 0.0 s
+q 1 sizes (3, 3, 2) m 9: UNSAT after 0 cuts, 0.0 s
+q 1 sizes (4, 2, 1) m 8: UNSAT after 0 cuts, 0.0 s
+q 1 sizes (4, 2, 2) m 9: UNSAT after 0 cuts, 0.0 s
+q 1 sizes (4, 3, 1) m 9: UNSAT after 0 cuts, 0.0 s
+q 1 sizes (5, 2, 1) m 9: UNSAT after 0 cuts, 0.0 s
+q 2 sizes (2, 2, 2) m 8: UNSAT after 0 cuts, 0.0 s
+q 2 sizes (3, 2, 2) m 9: UNSAT after 0 cuts, 0.0 s
+summary {'pruned': 15, 'UNSAT': 12}

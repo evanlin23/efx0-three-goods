@@ -1,0 +1,12 @@
+$ python3 k4/d1/d1_census.py suite
+  ... that fail (would refute Lemma D1-red) 0
+  chains with CROWD that repair 1
+  chains with HEAD that repair 5
+chains 22
+chains free of HEAD and CROWD 16
+chains repairing 22
+chains with CROWD 1
+chains with HEAD 5
+starts 14
+starts with a repairing chain 14
+time 0 s

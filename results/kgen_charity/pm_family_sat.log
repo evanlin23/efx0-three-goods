@@ -1,0 +1,14 @@
+$ S'(sigma, k) by SAT (chlib.improve); kgen/charity/stuck_family.py build(own=True)
+k 3 sigma 2: n 4 m 7 max|R_i| 3 unallocated 1 | robust CKMS stop True (ckms moves: none) | Pareto maximum (SAT) True | 0.0 s
+k 3 sigma 3: n 12 m 17 max|R_i| 3 unallocated 2 | robust CKMS stop True (ckms moves: none) | Pareto maximum (SAT) True | 0.0 s
+k 3 sigma 4: n 28 m 35 max|R_i| 3 unallocated 3 | robust CKMS stop True (ckms moves: none) | Pareto maximum (SAT) True | 0.1 s
+k 3 sigma 5: n 40 m 49 max|R_i| 3 unallocated 4 | robust CKMS stop True (ckms moves: none) | Pareto maximum (SAT) True | 0.4 s
+k 3 sigma 6: n 72 m 83 max|R_i| 3 unallocated 5 | robust CKMS stop True (ckms moves: none) | Pareto maximum (SAT) True | 3.5 s
+k 3 sigma 7: n 91 m 104 max|R_i| 3 unallocated 6 | robust CKMS stop True (ckms moves: none) | Pareto maximum (SAT) True | 7.9 s
+k 4 sigma 2: n 4 m 7 max|R_i| 3 unallocated 1 | robust CKMS stop True (ckms moves: none) | Pareto maximum (SAT) True | 0.0 s
+k 4 sigma 3: n 9 m 14 max|R_i| 4 unallocated 2 | robust CKMS stop True (ckms moves: none) | Pareto maximum (SAT) True | 0.0 s
+k 4 sigma 4: n 20 m 27 max|R_i| 4 unallocated 3 | robust CKMS stop True (ckms moves: none) | Pareto maximum (SAT) True | 0.1 s
+k 4 sigma 5: n 35 m 44 max|R_i| 4 unallocated 4 | robust CKMS stop True (ckms moves: none) | Pareto maximum (SAT) True | 0.3 s
+k 4 sigma 6: n 48 m 59 max|R_i| 4 unallocated 5 | robust CKMS stop True (ckms moves: none) | Pareto maximum (SAT) True | 1.1 s
+k 4 sigma 7: n 63 m 76 max|R_i| 4 unallocated 6 | robust CKMS stop True (ckms moves: none) | Pareto maximum (SAT) True | 3.8 s
+all checks passed

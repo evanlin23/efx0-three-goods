@@ -1,0 +1,48 @@
+$ python3 k4/haxell/gstar_measure_run.py gent:1500:102:3:6:4:3 NMAX=4 MMAX=7 RADIUS=2 ROT=1
+instances 1500
+partial EFX0 states 719389
+stuck states, phi0 323
+stuck states, phi1 0
+stuck states, phi10 0
+stuck states, phi11 0
+stuck states, phi12 0
+stuck states, phi13 0
+stuck states, phi14 0
+stuck states, phi15 0
+stuck states, phi16 0
+stuck states, phi17 0
+stuck states, phi18 0
+stuck states, phi2 0
+stuck states, phi3 289
+stuck states, phi4 46
+stuck states, phi5 14
+stuck states, phi6 8
+stuck states, phi7 0
+stuck states, phi8 0
+stuck states, phi9 8
+instances with a stuck state, phi0 151
+instances with a stuck state, phi1 0
+instances with a stuck state, phi10 0
+instances with a stuck state, phi11 0
+instances with a stuck state, phi12 0
+instances with a stuck state, phi13 0
+instances with a stuck state, phi14 0
+instances with a stuck state, phi15 0
+instances with a stuck state, phi16 0
+instances with a stuck state, phi17 0
+instances with a stuck state, phi18 0
+instances with a stuck state, phi2 0
+instances with a stuck state, phi3 142
+instances with a stuck state, phi4 31
+instances with a stuck state, phi5 12
+instances with a stuck state, phi6 7
+instances with a stuck state, phi7 0
+instances with a stuck state, phi8 0
+instances with a stuck state, phi9 7
+first instance with a stuck state for phi0 : t16 [[[0, 1, 3, 4], [1, 2, 4, 5], [0, 2, 3, 5]], [[3, 1, 1, 3], [1, 2, 3, 1], [3, 1, 3, 3]]]
+first instance with a stuck state for phi3 : t16 [[[0, 1, 3, 4], [1, 2, 4, 5], [0, 2, 3, 5]], [[3, 1, 1, 3], [1, 2, 3, 1], [3, 1, 3, 3]]]
+first instance with a stuck state for phi4 : t29 [[[0, 1, 2, 5], [0, 1, 2, 3], [0, 3, 4, 5]], [[2, 1, 3, 1], [2, 1, 2, 2], [3, 3, 1, 1]]]
+first instance with a stuck state for phi5 : t184 [[[1, 2, 4, 5], [1, 3, 4, 5], [0, 1, 2, 3]], [[3, 3, 1, 2], [2, 3, 1, 1], [1, 1, 1, 3]]]
+first instance with a stuck state for phi6 : t184 [[[1, 2, 4, 5], [1, 3, 4, 5], [0, 1, 2, 3]], [[3, 3, 1, 2], [2, 3, 1, 1], [1, 1, 1, 3]]]
+first instance with a stuck state for phi9 : t184 [[[1, 2, 4, 5], [1, 3, 4, 5], [0, 1, 2, 3]], [[3, 3, 1, 2], [2, 3, 1, 1], [1, 1, 1, 3]]]
+time 3 s

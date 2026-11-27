@@ -1,0 +1,12 @@
+$ python3 k4/vm/vm_hall.py screen
+V-M matchings                                                449
+V-M matchings with a wanted pool good (must be 0)            0
+instances                                                    168
+instances: some V-M matching completes without moves         157
+instances: some V-M matching is HDT                          115
+matchings: HDT                                               263
+matchings: HDT and no-move completes                         263
+matchings: HDT but no-move fails (must be 0 up to caps)      0
+matchings: no-move completes                                 403
+matchings: no-move completes but not HDT                     140
+time 8 s

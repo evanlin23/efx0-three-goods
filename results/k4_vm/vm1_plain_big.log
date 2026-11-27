@@ -1,0 +1,14 @@
+$ python3 k4/vm/vm1_plain.py cores:3:1500:91
+levels: {'move': 14, 'plain': 1486} ; time 0 s
+$ python3 k4/vm/vm1_plain.py cores:4:800:92
+levels: {'plain': 797, 'move': 3} ; time 0 s
+$ python3 k4/vm/vm1_plain.py cores:5:400:93
+levels: {'plain': 400} ; time 3 s
+$ python3 k4/vm/vm1_plain.py gen:3000:94:6:10:20
+levels: {'plain': 2985, 'move': 15} ; time 0 s
+$ python3 k4/vm/vm1_plain.py gen:2000:101:5:10:20:noties:5
+levels: {'plain': 1991, 'move': 9} ; time 0 s
+$ python3 k4/vm/vm1_plain.py pwgrid:6:3:1
+  FAIL PW(4,3,5)#1 n=7 m=12 [[[0], [1], [2], [3], [4], [5], [6]], [[0], [1], [10], [3], [2], [5], [6]], [[0], [1], [10], [3], [4], [2], [6]], [[0], [1], [10], [3], [4], [5], [2]]]
+levels: {'plain': 103, 'move': 4, 'FAIL': 1} ; time 0 s
+PLAIN DONE

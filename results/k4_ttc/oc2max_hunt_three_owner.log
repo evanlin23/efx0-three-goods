@@ -1,0 +1,15 @@
+$ python3 k4/ttc/oc2max_fp.py grow results/k4_ttc/three_owner_seeds.json 300 21 0 1 hunt keep
+grown walks 16 steps each 300 extra agents 0  hunt keep
+FP+1 every fails 1314
+FP+1 every holds 2097
+FP+1 some FAILS 1284
+FP+1 some holds 2127
+NO MINIMAL FIXED POINT 1284
+OC1^max holds 3411
+distinct instances visited 4109
+maximum starts without a completion 3411
+minimal fixed point exists 2127
+receivers 1: OC1^max holds 3006
+receivers 2: OC1^max holds 405
+visited instances with an OC1^max failure 0
+time 91 s

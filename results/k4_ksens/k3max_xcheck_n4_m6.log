@@ -1,0 +1,2 @@
+$ python3 k4/ksens/k3max_xcheck.py 4 3000 3 6
+{'starts': 5770, 'picks': 5687, 'chain': 83}

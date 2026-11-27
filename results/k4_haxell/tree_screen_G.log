@@ -1,0 +1,25 @@
+$ python3 k4/haxell/ht_tree.py screen NMAX=5 MODEL=G
+STUCK C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] order [0, 1, 3, 2] picks [2, 4, 5, 6]
+STUCK C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] order [0, 3, 1, 2] picks [2, 6, 5, 4]
+STUCK C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] order [1, 0, 3, 2] picks [2, 4, 5, 6]
+STUCK C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] order [1, 3, 0, 2] picks [2, 4, 5, 6]
+STUCK C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] order [3, 0, 1, 2] picks [2, 6, 5, 4]
+STUCK C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] order [3, 1, 0, 2] picks [2, 6, 5, 4]
+collapse created new victims for a lower edge 1
+collapses 2697
+instances 168
+iterations 5429
+layers max 2
+signature checks 2721
+start: STUCK 38
+start: augmentations 1 196
+start: augmentations 2 265
+start: augmentations 3 1419
+start: augmentations 4 1184
+start: augmentations 5 631
+start: augmentations 6 291
+start: augmentations 7 45
+starts 4069
+stuck tree: layers 1 8
+stuck tree: layers 2 8
+time 1 s

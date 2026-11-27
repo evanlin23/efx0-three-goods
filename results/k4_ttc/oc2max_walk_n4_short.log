@@ -1,0 +1,25 @@
+$ git show origin/compute/k4-oc1max-cert:results/k4_oc1max/oc1max_cex_n4.json > cex.json   (commit dbc2631)
+$ python3 k4/ttc/oc2max_fp.py walk cex.json 300 1
+walks 11 steps each 300
+  among OC1^max failures: FP+1 every holds 97
+  among OC1^max failures: FP+1 some holds 97
+  among OC1^max failures: OC2^max holds 97
+  among OC1^max failures: every good first move absorbs danger 97
+  among OC1^max failures: minimal fixed point exists 97
+  among OC1^max failures: some danger-absorbing first move is bad 97
+  among OC1^max failures: some good first move absorbs danger 97
+FP+1 every fails 729
+FP+1 every holds 2042
+FP+1 some FAILS 579
+FP+1 some holds 2192
+NO MINIMAL FIXED POINT 579
+OC1^max fails 97
+OC1^max holds 2674
+distinct profiles visited 3064
+maximum starts without a completion 2771
+minimal fixed point exists 2192
+receivers 1: OC1^max FAILS 97
+receivers 1: OC1^max holds 2523
+receivers 2: OC1^max holds 151
+visited profiles with an OC1^max failure 97
+time 40 s

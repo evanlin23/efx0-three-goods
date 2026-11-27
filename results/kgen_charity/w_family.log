@@ -1,0 +1,4 @@
+$ python3 kgen/charity/w_search.py family 0 0
+instances 8
+welfare maximum leaves 0 out 8
+slowest 203.4 s; time 204 s

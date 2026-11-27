@@ -1,0 +1,13 @@
+$ python3 k4/ksens/xcheck_rounds.py 1 40 4 5
+compared 468
+round repairs True 468
+starts 234
+with brute force 468
+time 8 s
+$ python3 k4/ksens/xcheck_rounds.py 2 80 4 5 /home/user/efx0-three-goods/results/k4_ksens/seeds_rd_hard.txt
+compared 896
+round repairs False 48
+round repairs True 848
+starts 448
+with brute force 866
+time 22 s

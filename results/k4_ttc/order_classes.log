@@ -1,0 +1,43 @@
+$ python3 k4/ttc/order_classes.py
+n5 two-private core    n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 11, max 4; max ⊂ R1; failing R1 outcomes 1, failing max outcomes 0
+MC2 counterexample     n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 6, max 4; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+Hall B<                n=6 nu=6  failing orders by pick count {4: 24}  | distinct outcomes: R1 29, max 16; neither (R1 outcomes all maximum: False); failing R1 outcomes 1, failing max outcomes 0
+Hall B>                n=6 nu=6  failing orders by pick count {4: 24}  | distinct outcomes: R1 29, max 16; neither (R1 outcomes all maximum: False); failing R1 outcomes 1, failing max outcomes 0
+MC2 climb 1            n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 6, max 5; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 2            n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 8, max 6; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 3            n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 5, max 3; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 4            n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 7, max 4; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 5            n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 6, max 5; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 6            n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 7, max 5; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 7            n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 6, max 4; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 8            n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 5, max 3; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 9            n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 6, max 4; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 10           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 6, max 5; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 11           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 4, max 4; equal; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 12           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 4, max 3; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 13           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 5, max 4; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 14           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 4, max 3; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 15           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 6, max 4; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 16           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 8, max 6; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 17           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 5, max 5; equal; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 18           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 5, max 4; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 19           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 7, max 5; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 20           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 6, max 5; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 21           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 4, max 3; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 22           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 7, max 5; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 23           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 4, max 4; equal; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 24           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 6, max 6; equal; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 25           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 5, max 4; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 26           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 8, max 6; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 27           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 5, max 5; equal; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 28           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 6, max 4; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 29           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 5, max 4; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 30           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 5, max 5; equal; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 31           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 4, max 4; equal; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 32           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 3, max 3; equal; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 33           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 6, max 5; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 34           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 4, max 3; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 35           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 4, max 3; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 36           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 5, max 4; max ⊂ R1; failing R1 outcomes 0, failing max outcomes 0
+MC2 climb 37           n=5 nu=5  failing orders by pick count {3: 12}  | distinct outcomes: R1 4, max 4; equal; failing R1 outcomes 0, failing max outcomes 0
+{'instances': 41, 'R1 outcomes all maximum': 9, 'max ⊂ R1': 30, 'failing R1 outcomes': 3, 'failing max outcomes': 0, 'neither': 2, 'equal': 9}

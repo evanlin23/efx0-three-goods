@@ -1,0 +1,6 @@
+$ python3 kgen/charity/enc_check.py 1 300 60
+strong raw=False sat=False 17464
+strong raw=True sat=True 536
+weak raw=False sat=False 17465
+weak raw=True sat=True 535
+mismatches 0

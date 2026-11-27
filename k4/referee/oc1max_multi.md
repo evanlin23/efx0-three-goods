@@ -409,3 +409,464 @@ second number counts wanters that are not holders.
   - log720: chain (0, 2, 3), H₀ = {0, 2}, agent 2 takes 8;
   - log613: chain (1, 0), H₀ = {4, 5, 6}, agents 0 and 2 take 0 and 1;
   - n4_3#947.0: chain (4, 2, 3), H₀ = {5, 8}, three holders take one good each.
+
+## 11. Addendum: Lemma SD-E and Theorem REC-S, with Lemma LIFT (`k4/oc1max_multi.md` §12 and §8; 2026-11-27)
+
+**Read.** §12 in full at `6c3fd95`, and again at `10d3bdf8`, where the proofs are unchanged and only a data row was
+added. Also §8 (Lemma LIFT, unchanged; refereed CORRECT as item 22) and the ledger rows K4.MULTI.SDE and
+K4.MULTI.RECS.
+
+**Checks.** All my own code, raw EFX₀; nothing from `k4/oc1max_multi/` was run or imported.
+- `k4/referee/rec_s_ref.py`, run by `rec_s_ref_runs.sh`, log `results/k4_referee/rec_s_ref.log`.
+- Data, read as data only:
+  - the 12 known failures (`oc1max_cex12.jsonl`);
+  - the 4,955 walk failures (`oc1_fail_walk.jsonl.gz`).
+
+**Verdict.**
+- Lemma SD-E: **CORRECT**. Strict values are needed (mutation). So is the earliest-wanter choice: an arbitrary
+  canonical chain fails.
+- Theorem REC-S: **CORRECT**. Remarks:
+  1. Hypothesis **(L) is redundant.** It always holds under the theorem's other assumptions (strict values, perfect
+     start, T ⊆ J ∪ {Y_z}):
+     - an agent i with a pick values a junk good g at most p_i, since g was available at its turn, and strictly less
+       by strictness;
+     - it values Y_z below p_i if i ≠ z, since Y_z is unwanted at the picks (strict);
+     - for z, v_z(Y_z) = p_z < v_z(a);
+     - and i's value after E(k) is at least p_i.
+
+     (L) never failed in my runs (128,679 improving pairs). It can be dropped, or kept as a remark.
+  2. SD-E's "in particular it is a perfect start of I⁻" needs Y perfect, as everywhere in the note. If Y is not
+     perfect, B₁⁻ is still the SD outcome of σ ∖ k, but a pickless non-null agent of Y can stay pickless and still
+     value a good of I⁻.
+     - Example: agents 0, 1, 2 with v₀ = {0: 9}, v₁ = {0: 5, 1: 4}, v₂ = {0: 1}, σ = (0, 1, 2), so Y = (0, 1, –).
+     - E(0) = (0, 1), and T = ∅.
+     - In I⁻, agent 2 values good 0, which agent 1 holds, and agent 2 gets nothing.
+
+     REC-S assumes a perfect start, so nothing downstream is affected.
+  3. (K) is a genuine hypothesis. It fails at 188 of 6,065 Theorem S cases in my random runs, and every allocation
+     where it fails is not EFX₀ (81 of 81 under the mutation).
+
+**Lemma SD-E, re-derived.**
+- σ increases along E(k): a wanter of Y_j picked after j, so the agents are distinct and the walk ends.
+- Run σ ∖ k in I⁻. By induction, every agent before a has taken its B₁ good, so b_a is still available.
+- Suppose some available g had v_a(g) > v_a(b_a) ≥ p_a. Then:
+  - g is not junk: junk was available at a's turn in I;
+  - g is not Y_z:
+    - for a ≠ z, nobody wants Y_z. **This is the coordinator's first point:** Y_z may be available in I⁻ to agents
+      that picked before z in I, and strictness plus "unwanted" settle it;
+    - for a = z, z's new good beats p_z;
+  - so g = Y_j is a pick that a wants, and σ(j) < σ(a);
+  - g's B₁-holder comes after a, so it is not j. So j = x_l and the holder is x_{l+1}, with
+    σ(x_l) < σ(a) < σ(x_{l+1}). Then a is an earlier wanter of Y_{x_l}, a contradiction.
+- Distinct values make b_a a's unique favourite.
+- With ties the argument gives only v_a(g) ≤ v_a(b_a), and tie-breaking can then hand a the other good. The mutation
+  finds such cases.
+
+**Theorem REC-S, re-derived.**
+- E(k) with T is an official move (§29): T ⊆ (J ∪ {Y_z}) ∩ R_k is improving, and each x_l gains.
+- B₁⁻ = SD(σ ∖ k) is a perfect start of I⁻.
+- Theorem S needs no hardness. Its (G2) and the SD-order facts it uses hold at an SD outcome. So it gives P′ and an
+  EFX₀ S\* completion X⁻ of I⁻. S\* is a one-absorber form, with the owner as absorber.
+- LIFT 1: the conditions of an official move compare one agent's values on the current bundles, together with the pool
+  J ∪ B_{x_t}. No condition mentions frozenness, picks or other agents.
+  - Since k holds T, J(I, B₁) = J(I⁻, B₁⁻), and every other bundle is the same in I and I⁻.
+  - So the move transfers verbatim, also when P′'s owner or head is an agent of E(k), which simply holds its B₁ good.
+    **This is the coordinator's second point.**
+  - In the data, P′'s head is an agent of E(k) in all 9,943 cases, and its owner is one in 57.
+- LIFT 2: pairs inside I⁻ are as in I⁻. T threatens i ≠ k only if a single good of T beats v_i(X_i) ≥ v_i(B₁_i),
+  which (L) excludes. k's view is (K). k receives no junk, so the absorber count is unchanged. Correct.
+
+**Computation (evidence).** Two kinds of test:
+- *SD-E:* every frozen k, the chain E(k), and every T ⊆ J ∪ {Y_z}, including non-improving T.
+- *REC-S:* every k ∈ D, every improving pair T, and every Theorem S case in I⁻:
+  - every longest chain, h ∈ J⁻ ∪ {Y_{z′}}, every improving H₀′ ⊆ W′ ∩ R_{k′}, and every receiver;
+  - each repair is validated in I by simulating both moves as §29 official moves with my certifier-referee code
+    (`cert_ref.apply_move`), then checking that the completion has one absorber, is a partition, and is raw EFX₀.
+
+| run | starts | SD-E tests / failures | REC-S: repairs validated / failures | starts repaired |
+|---|---|---|---|---|
+| 12 known failures | 12 | 752 / **0** | 33 / **0** | **12 of 12** |
+| 4,955 walk failures | 4,955 | 324,224 / **0** | 9,910 / **0** | **4,955 of 4,955** |
+| random strict perfect starts (n = 3–5) | 50,631 (SD-E), 504,183 (REC-S) | 882,284 / **0** | 5,877 / **0** | 2,744 |
+
+| mutation | tests / failures |
+|---|---|
+| SD-E with any canonical chain from k instead of E(k) | 343,136 / **43,272** |
+| SD-E with tied values (tie-break by lowest good index) | 230,612 / **12,894** |
+| REC-S without (K) | 81 / **81** (random); (K) never fails on the 4,967 data starts |
+| REC-S with any canonical P₁, B₁⁻ not required to be SD | 912 non-SD cases / **7** (random) |
+
+The coverage claim of §12 (REC-S repairs all 12 and all 4,955, in the E(k)-only form) is reproduced. I did not re-run
+the matching session's 23,943 n = 5 walk rows.
+
+## 12. Addendum: K4.MULTI.RECS.N4, an audit of `check_recs.py` and an independent re-validation (`b8bdc69`; 2026-11-27)
+
+**Read.**
+- `k4/oc1max_multi/check_recs.py` (125 lines) line by line, against the definitions.
+- §12's paragraph "Certified at n = 4", and the ledger row K4.MULTI.RECS.N4.
+
+**Check.** `k4/referee/recs_n4_ref.py`, log `results/k4_referee/recs_n4_ref.log`.
+- It is my own validator: the earliest-wanter chain, reduction and Theorem S enumeration come from my `rec_s_ref.py`;
+  the §29 move simulation, SD and raw EFX₀ from my `cert_ref.py`.
+- `check_recs.py` was read, not run.
+- Data:
+  - the witness file `recs_witnesses_n4.json.gz`;
+  - the certifier's export `two_move_starts_n4.json.gz` (sha256 `6159e38d…`).
+
+**Verdict: CONFIRMED** (CERTIFIED stands). Two remarks on the checker, neither affecting the result.
+
+**Audit of `check_recs.py`.** Its nine checks match the definitions:
+1. SD picks, with ties broken by good index;
+2. k frozen and valuing junk;
+3. E(k) by σ-earliest wanters, up to an unwanted head;
+4. T is two goods of (J ∪ {Y_z}) ∩ R_k with v_k(T) > p_k, and move 1's chain agents strictly gain;
+5. (L), strictly;
+6. SD-E, by SD of σ ∖ k with T banned;
+7. move 2:
+   - its agents are distinct and avoid k;
+   - k′ is frozen and dangerous in the reduced state;
+   - the head is unwanted;
+   - H₀′ ⊆ J₁ ∪ B₁(z′) is improving;
+   - the receivers take single goods and gain;
+8. the owner's bundle is W = (J₁ ∪ B₁(z′)) ∖ {h}, and h goes to one other agent;
+9. the final allocation is a partition (sorted goods = range(m)) that extends move 2 by junk only, with at most one
+   absorber and X_k = T, and is raw EFX₀ over every removed good, zero-valued ones included.
+
+Remarks:
+- **(a) Coverage is not checked by the checker.** It reads each start's sets, values and picks *from the witness file*,
+  so it cannot see a witness file that misses a start of the export or alters one. My validator closes this:
+  - the witness starts equal the export's starts *as a multiset*: 112,880 each, 0 export starts without a witness, 0
+    witness starts outside the export.
+  - It would be worth adding this comparison (and the export's hash) to `check_recs.py`.
+- **(b)** Check 7 does not require H₀′ ⊆ R_{k′}, which §29 requires of H sets. No witness has a good worthless to k′ in
+  H₀′ (0 of 112,880), so this does not matter.
+- Check 8 tests the *shape* of Theorem S, not its hypotheses. That is enough for the OC₂ certificate, since the
+  allocation is checked raw. My validator also shows that **every witness is a genuine Theorem S case**:
+  - in the reduced instance at B₁⁻, (k′, P′, h) meets the relaxed hypotheses with P′ a *longest* canonical chain;
+  - the witness allocation is the one Theorem S builds;
+  - (K) holds.
+
+  So REC-S *as stated* applies at every n = 4 start, not only its shape.
+
+**Re-validation (own code, all 112,880 witnesses).** For each witness, independently of `check_recs.py`:
+- the picks are the SD outcome of the witness order, and k ∈ D;
+- P₁ = E(k), and T is improving inside (J ∪ {Y_z}) ∩ R_k;
+- both moves are replayed as §29 official moves by my simulator (H sets inside the relevant goods and the current junk,
+  strict gains);
+- (L) and SD-E hold, and k′ ∈ D in I⁻;
+- the completion is a partition extending move 2 by junk, with at most one absorber and X_k = T, and is raw EFX₀.
+
+| | count |
+|---|---|
+| export starts / witness starts / matched as multisets | 112,880 / 112,880 / **112,880** (0 missing, 0 extra) |
+| witnesses valid | **112,880** |
+| witness is a Theorem S case of I⁻ (relaxed, longest chain) with (K) | **112,880** |
+| H₀′ with a good worthless to k′ | 0 |
+
+**Standing.** At n = 4, OC₂^max holds by REC-S's mechanism at every start of the export. Like item 34, the claim "at
+every n = 4 start with no one-move repair" inherits the completeness of the certifier's export, which I checked by
+sampling only (item 21).
+
+*Follow-up (`3143a331`).* Both remarks are applied, and I checked the diff:
+- `check_recs.py` takes the export as an optional second argument. It prints its sha256 and compares the starts as a
+  multiset (112,880; 0 missing, 0 extra).
+- Check 7 now requires H₀′ ⊆ R_{k′}. The result is still 112,880 ok, with 8,241 negative tests rejected.
+- One small point: the coverage comparison prints its counts but does not change the exit status, so a reader must
+  read the log line.
+
+## 13. Addendum: Lemma WG, Proposition K-loc and the phantom class (`k4/oc1max_multi.md` §13–§14 at `6b6cf7b`; 2026-11-27)
+
+**Read.** §13 and §14 in full.
+
+**Check.** `k4/referee/kloc_ref.py`, `phantom_ref.py` and `phantom_cex.py`, run by `kloc_ref_runs.sh`, log
+`results/k4_referee/kloc_ref.log`.
+- It is my own code (the `rec_s_ref`, `theorem_s_ref` and `cert_ref` helpers), raw EFX₀.
+- Data, read as data: the n = 4 export (112,880 starts) and the 4,955 walk failures.
+
+| item | verdict |
+|---|---|
+| Lemma WG | **CORRECT**. (W1) is never used in the proof and can be dropped |
+| Proposition K-loc | **WRONG as stated**. The localization misses the case where P′ moves ℓ to the receiver. Counterexample below; all 9,600 (K) failures at n = 4 are of this kind. The corrected statement is exact on all data |
+| The phantom class (question 3) | **GAP**. Its stated invariants are preserved under settle-delete-recurse, but it lacks (G2) for phantoms, which Theorem S and Lemma M^c use. An explicit instance violates it after two settlements. A local fix is given |
+
+### Lemma WG
+
+Allocation: o takes X = B_o ∪ (J ∩ R_i), and |H| distinct holders take one good of H each. Its bundles:
+- X threatens nobody, by (W2); values only rise.
+- {B_u, g} with u a holder threatens nobody: B_u is unwanted (u is a holder), and g is unwanted by (G2). For o,
+  v_o(B_u) ≤ v_o(B_o) ≤ v_o(X).
+- The other multi-good bases threaten nobody, by (G1).
+
+(W1) appears nowhere in this argument. So the lemma holds for any kept-out set H ⊆ J with X = B_o ∪ (J ∖ H): "X
+threatens nobody and there are |H| holders". It is plain Lemma M with no needy agent. (W1) only explains why
+H = J ∖ R_i is the natural choice.
+
+*Evidence.* At random states after canonical chains with (G1) and (G2), every owner o and every agent i, the
+allocation was built and tested with raw EFX₀ whenever (W2) and (W3) held: **79,459 cases, 0 failures**, 49,466 of
+them without (W1).
+
+### Proposition K-loc is false as stated
+
+K-loc says that (K) holds for every Theorem S case of I⁻ whose receiver r and head z′ avoid q, where q is the
+holder at B₁ of a pick ℓ with v_k(ℓ) > v_k(T), and whose head is not x₁ when k values a third pool good.
+
+**The gap.** The proof says "q still holds ℓ at B₁. In X⁻, ℓ is in a multi-good bundle only if q is the receiver r of h,
+or q is P′'s head". But P′ moves picks. If q lies on P′ before the head, ℓ passes to q's successor. If that successor
+is the receiver (the head z′, unfrozen after P′), then {ℓ, h} threatens k although r ≠ q and z′ ≠ q.
+
+**Counterexample** (the first one the n = 4 export gives; re-derived by hand).
+- *Instance.* n = 4, m = 7, with values
+  - v₀ = {0: 1, 1: 6, 4: 4, 5: 8};
+  - v₁ = {1: 3, 4: 4, 5: 10, 6: 8};
+  - v₂ = {2: 5, 3: 4, 4: 6, 6: 8};
+  - v₃ = {2: 3, 3: 6, 5: 10, 6: 8}.
+
+  The order (0, 3, 2, 1) gives the picks (5, 1, 4, 6). J = {0, 2, 3}.
+- *First move.* k = 3, E(3) = (3, 2, 1), and T = {2, 3}, with v₃(T) = 9 > 8.
+- *The pick.* ℓ = 5, worth 10 > 9 to k. It is agent 0's pick, so q = 0.
+- *Theorem S in I⁻.* At B₁ = (5, 4, 6) for agents 0, 1, 2, with J⁻ = {0, 1}, the relaxed form applies to k′ = 0 with
+  the longest chain P′ = (0, 1) and h = 0:
+  - (S-a): W⁻ = {1, 4} is worth 10 > 8;
+  - (S-b) and (S-c) are vacuous;
+  - (S-d′): agent 1 is unfrozen after P′ with value 10, and W⁻ leaves at most 4.
+- *The allocation.* X⁻ = ({1, 4}, {0, 5}, {6}), and k keeps {2, 3}.
+- *The failure.* The receiver is the head z′ = 1 ≠ q, and z′ ≠ x₁ = 2, so K-loc predicts that (K) holds. But
+  v₃({0, 5} ∖ {0}) = 10 > 9: agent 1's bundle threatens k.
+
+ℓ went from q = k′ along P′ to the head, which then received h.
+
+**On all data** (every order giving the picks, every k ∈ D, every improving pool pair of E(k), every Theorem S case):
+
+| data | cases | (K) fails | K-loc predicts (K) holds, but it fails | corrected form: counterexamples / false alarms |
+|---|---|---|---|---|
+| n = 4 export | 636,720 | 9,600 | **9,600** (in every one, ℓ travels along P′ to the receiver) | **0 / 0** |
+| walk failures | 32,164 | 0 | 0 | 0 / 0 |
+
+So every one of the 9,600 (K-b) failures at n = 4 already "avoids q" in K-loc's sense. The census sentence "always
+have a sibling case that avoids q" has to be re-read accordingly.
+
+**Correction (exact on all data).** Let ℓ⁺ be the agent that holds ℓ after P′: q itself if q ∉ P′, and q's successor
+on P′ if q ∈ P′ ∖ {z′}. Then (K) holds for every Theorem S case with q ≠ z′ and ℓ⁺ ≠ r, and z′ ≠ x₁ when k values a
+third pool good. Conversely, on the data, (K) fails exactly when one of these conditions fails.
+
+The proof is K-loc's, with "q" replaced by "ℓ⁺" in the receiver condition. RSD-EX must then choose a Theorem S case
+in which ℓ does not end at the receiver, not merely one whose receiver is not q.
+
+### The phantom class: closed, but missing (G2) for phantoms
+
+**What is preserved** (re-derived).
+- *Real agents' (L) is automatic.* At settle time, each good of T_p is worth less than p_i to a real agent i, and real
+  agents' values only rise in later steps.
+- *Earlier phantoms never threaten later ones.* A later phantom q was real when p was settled, so
+  v_q(g) < v_q(B₁(p)_q) ≤ τ_q for g ∈ T_p. This half of "unthreatened by every other phantom's pair" is automatic.
+- *The new pair against earlier phantoms* must be checked, as the note says.
+- *SD-E recurses,* since the starts stay strict and perfect.
+
+**What is missing.** (G2) for phantoms: no junk good of the current instance is worth more than τ_p to a phantom p.
+- Theorem S's step 3 uses v_i(h) ≤ (i's value) for every agent, phantoms included.
+- Lemma M^c's Claim uses (G2): a slot bundle {y_j, z_j} threatens only through y_j.
+
+A phantom can have a wanted pick ℓ outside its pair (the (K-b) situation). If a later settlement chain *ends* at ℓ's
+holder q, then ℓ is released. Either it goes into T′, which threatens p and is forbidden, or it becomes junk wanted by
+p. After the first settlement this cannot happen: the junk is J ∖ T and Y_z, all worth at most p_k < τ_k. It can happen
+from the second settlement on.
+
+**Instance** (`phantom_cex.py`, hand-built).
+- *Instance.* n = 4, m = 8, with values
+  - v₀ = {0: 10, 6: 6, 7: 5};
+  - v₁ = {0: 9, 1: 5};
+  - v₂ = {1: 10, 2: 6, 4: 4, 5: 3};
+  - v₃ = {2: 8, 3: 4}.
+
+  The order is (0, 1, 2, 3), the picks are (0, 1, 2, 3), J = {4, 5, 6, 7} and D = {0, 2}.
+- *First settlement.* k = 2 with E(2) = (2, 3) and T = {4, 5} (τ₂ = 7). Agent 2 values agent 1's pick 1 at 10 > 7.
+  SD-E holds in I⁻.
+- *Second settlement* in I⁻, with D⁻ = {0}: E(0) = (0, 1) and T′ = {6, 7}, which is improving (11 > 10). T′ does not
+  threaten the phantom, since agent 2 values both goods at 0.
+- *The violation.* The head of E(0) is agent 1, so good 1 is released into the junk {1, 3}. The phantom values good 1
+  at 10 > 7.
+- *No completion remains.* Placing goods 1 and 3 on the two real agents in any way threatens the phantom: by brute
+  force, no EFX₀ completion keeps both phantoms' pairs.
+
+Every condition of the class as stated holds along this path.
+
+**Fix.** Add the invariant: *no settlement chain E(k′), and no final chain P′, ends at a phantom-frozen agent*, i.e.
+an agent holding a good some phantom values above its threshold.
+- Equivalently, count phantoms as wanters when choosing a head. Such a chain then simply does not exist.
+- With this, the next instance's junk (J ∖ T′) ∪ {Y_{z′}} is unwanted by phantoms, by induction. (G2) then holds for
+  real agents and phantoms alike, and Theorem S, SD-E and M^c apply as the note says.
+- The final-step part of this condition is K-loc's head case.
+
+On the data the situation never arose. A second settlement whose head holds a phantom-wanted pick occurs in 0 of the
+9,600 second settlements at n = 4, and never in the walk failures. So the gap is in the statement, not in any reported
+count.
+
+## 14. Addendum: Theorem S^φ, Theorem S with phantoms (`k4/oc1max_multi.md` §16 on `proof/k4-oc1max-multi-2` at `52f5b0b6`; 2026-11-27)
+
+**Read.** §16 in full, and §14's phantom class with the fix.
+
+**Check.** `k4/referee/sphi_ref.py`, run by `sphi_ref_runs.sh`, log `results/k4_referee/sphi_ref.log`. It is my own
+code (the `rec_s_ref` and `cert_ref` helpers).
+- It runs settle-delete-recurse with at most two settlements, over every order giving the picks.
+- Each settlement uses an earliest-wanter chain whose head is not phantom-frozen, with every improving pool pair that
+  threatens no existing phantom. SD-E is checked, and (P1) and (P3) are asserted at every level.
+- At the last level, every Theorem S case is tested against the hypotheses and against raw EFX₀ of the full allocation
+  in I₀.
+
+**Verdict: CORRECT WITH ONE FIX.** The proof uses the head condition, "if h = Y_z, then no phantom values Y_z above its
+threshold" (z not phantom-frozen), which the statement does not list.
+- With only (S-φ1) and (S-φ2) the statement is false. On random data, 44 cases meet both, fail the head condition, and
+  are not EFX₀.
+- The setting's "fix of §14" can be read as covering the final chain P too, but the displayed hypotheses do not say so.
+- Add it as **(S-φ3)**: if h = Y_z, then v_φ(Y_z) ≤ τ_φ for every φ. When h is junk, a phantom-wanted Y_z lies in W and
+  (S-φ1) already catches it.
+
+**The proof, re-derived.**
+- *Real vs real:* Theorem S in I. The bundles hold only goods of I.
+- *Real vs T_φ:* a pair minus one good is one good, worth less than p_i ≤ v_i(X_i), by (P1). This needs |T_φ| = 2,
+  which holds in this note's settlements. With triples, as in the matching session's RSD, (P1) alone would not do.
+- *Phantom vs the real bundles:*
+  - singletons are harmless;
+  - W is (S-φ1);
+  - {B′_r, h} needs v_φ(B′_r) ≤ τ_φ, which is (S-φ2), and v_φ(h) ≤ τ_φ, which is (P3) for junk h and (S-φ3) for
+    h = Y_z.
+- *Phantom vs phantom:* (P2), with earlier pairs harmless to later phantoms, as shown in §13 above.
+- Officialness follows from LIFT 1, once per phantom.
+
+Correct with (S-φ3).
+
+**Instance for the fix** (re-derived by hand).
+- *Instance.* n = 5, m = 8, with values
+  - v₀ = {1: 29, 3: 37, 6: 1};
+  - v₁ = {1: 23, 2: 13, 4: 16, 6: 6};
+  - v₂ = {0: 36, 4: 30, 6: 8, 7: 4};
+  - v₃ = {3: 31, 4: 15, 5: 30, 7: 12};
+  - v₄ = {0: 10, 2: 3, 4: 9}.
+
+  The order (3, 2, 0, 1, 4) gives the picks (1, 4, 0, 3, 2).
+- *The settlement.* Settle agent 1 by E(1) = (1, 4) with T = {2, 6} (τ = 19).
+- *The final chain.* In the reduced instance, Theorem S with P = (3, 0) and h = Y₀ = 1 holds:
+  - W = {5, 7} is worth 42 > 31 to agent 3;
+  - agent 0 is unfrozen after P and takes h.
+- *The allocation.* X = ({1, 3}, {2, 6}, {0}, {5, 7}, {4}).
+- *The failure.* (S-φ1) holds, since the phantom values W at 0, and so does (S-φ2), since it values B′₀ = {3} at 0. But
+  the phantom values h = 1 at 23 > 19, and {1, 3} minus 3 leaves 23. Agent 0 is phantom-frozen: it holds good 1, which
+  the phantom wants.
+
+**Computation (evidence).**
+
+| data | level (phantoms) | Theorem S cases | hypotheses (with (S-φ3)) | raw EFX₀ | hypotheses without EFX₀ | EFX₀ without hypotheses | (S-φ1), (S-φ2) but not (S-φ3) |
+|---|---|---|---|---|---|---|---|
+| n = 4 export (112,880) | 1 | 636,720 | 627,120 | 627,120 | **0** | **0** | 0 |
+| walk failures (4,955) | 1 | 32,164 | 32,164 | 32,164 | **0** | **0** | 0 |
+| random strict perfect starts, n = 5–6 (1,394,699) | 1 | 80,486 | 78,233 | 78,233 | **0** | **0** | **44** (all not EFX₀) |
+| same | 2 | 1,632 | 1,619 | 1,619 | **0** | **0** | 0 |
+
+- With (S-φ3), the three hypotheses are exactly EFX₀ on all data.
+- At n = 4, no state with two phantoms has a Theorem S case, so the two-phantom level is tested on random data only.
+- (P1) and (P3) never failed.
+
+**Wording.** "OC₂ holds via the settlements, then P" is OC_{|Φ|+1}. It is OC₂ exactly when there is one settlement, which
+is the case at every failing start found.
+
+## 15. Addendum: Lemma SD-E(round), and (L\*) at the end of a round (§17 on `proof/k4-oc1max-multi-2` at `85981d13`; 2026-11-27)
+
+**Read.** §17 in full.
+
+**Check.** `k4/referee/sder_ref.py`, run by `sder_ref_runs.sh`, log `results/k4_referee/sder_ref.log`. It is my own code.
+- *Starts:* random strict perfect SD starts with n = 4–6.
+- *Rounds:* K is one or two frozen agents with vertex-disjoint prefixes of E(k), every prefix of length ≥ 2, and
+  pairwise disjoint improving T_k ⊆ (J ∪ {Y_{z_k}}) ∩ R_k with |T_k| ≤ 3.
+- *Tested:* (H), and the conclusion SD(σ ∖ K) on the goods outside ∪T_k.
+
+**Verdict.**
+- Lemma SD-E(round): **CORRECT**.
+- (L\*) at the end of a round: correct as a hypothesis. One completeness remark below.
+
+**The proof, re-derived.** Induction over σ ∖ K. An agent a's round good b_a is a pick other than a released head pick,
+held only by a, so it is still available at a's turn. Suppose some available g has v_a(g) > v_a(b_a) ≥ p_a.
+- If g is junk of I: it was available at a's turn, so v_a(g) < p_a.
+- If g is a non-released pick Y_j: its round holder comes after a, so j = x_l on some chain, and
+  σ(x_l) < σ(a) < σ(x_{l+1}). That contradicts the earliest-wanter choice. Disjointness gives each good one holder.
+- If g is a released head pick: if a wanted it, (H) applies. If not, v_a(g) < p_a by strictness. The head itself values
+  its own released pick below its new good.
+
+Distinct values make b_a the unique favourite. The proof never uses |T_k|. ∎
+
+**Computation (evidence).**
+
+| run | rounds (\|K\| = 1 / 2) | (H) | conclusion | (H) without conclusion | conclusion without (H) | rounds with a chain stopped early |
+|---|---|---|---|---|---|---|
+| two seeds × 300,000 instances | 307,201 / 5,531 | 287,687 / 5,165 | 287,687 / 5,165 | **0 / 0** | **0 / 0** | 43,716 / 1,826 |
+| mutation: any want-chain prefix instead of E(k) prefixes | 59,216 / 1,400 | 55,657 / 1,304 | 47,454 / 1,050 | **8,203 / 254** | 0 / 0 | – |
+
+- On these data (H) is also necessary, as the note found on its 411 rounds.
+- The earliest-wanter prefixes are needed (mutation).
+
+**(L\*) at the end of a round: a completeness remark.**
+- With (L\*) checked at the end of the round, triples need no (P1) argument: real agents' values only rise afterwards.
+  So S^φ's real-vs-T case goes through for |T_k| ≤ 3.
+- When a round follows earlier settlements, two conditions must also be stated, alongside the round's own phantoms:
+  - each new T_k must not threaten the **earlier phantoms** at their thresholds, which is (P2) for the newest pairs;
+  - the released head picks must be worth at most τ_φ to the **earlier phantoms** too, which is (P3), the §14 fix.
+
+  The earlier phantoms' pairs never threaten the round's new phantoms, since they were real agents then.
+
+The text names only "the other members of K". The census (single-round, no earlier phantoms) is unaffected.
+
+## 16. Addendum: Corollary S^φ(round) (K4.MULTI.SPHIR; §17 on `proof/k4-oc1max-multi-2` at `d10b8f20`; 2026-11-27)
+
+**Verdict: CORRECT.** Theorem S^φ holds verbatim when the phantoms were settled in rounds, under the invariants as the
+corollary states them. Scripts `sphir_ref.py` and `sphir_prefix_ref.py` (own code), runs `sphir_ref_runs.sh`, log
+`results/k4_referee/sphir_ref.log`.
+
+**Re-derivation.** S^φ's proof (§14 above) splits the pairs of the final allocation into four kinds and uses the
+invariants only at the final state.
+- *Real vs real.* Theorem S in the current instance I. Its start is a perfect SD start by SD-E(round).
+- *Real agent i vs T_φ* (any |T_φ|). By (P1\*), T_φ does not threaten i at i's value after φ's round.
+  - That value is at most p_i at every later start, because chain agents gain and SD-E(round) gives the next start.
+  - And p_i ≤ v_i(X_i) in Theorem S's allocation.
+  - Threats only weaken as values rise.
+- *Phantom φ vs a real bundle.*
+  - Singletons never threaten.
+  - W is covered by (S-φ1).
+  - {B′_r, h} is covered by (S-φ2), and by (S-φ3) when h = Y_z.
+  - When h is junk, (P3) covers it. Junk of I is of three kinds:
+    - junk at φ's round's start, worth < p_φ < τ_φ to φ by SD with strict values;
+    - picks released by φ's own round or by a later round, covered by the stated (P3) hypothesis;
+    - for earlier phantoms, junk covered by induction.
+- *Phantom vs phantom.*
+  - Round-mates: (L\*) at the round's end, at their τ.
+  - A new set vs an earlier phantom: the stated (P2).
+  - An earlier set T_φ vs a later phantom ψ: ψ was real at φ's round, so (P1\*) and monotonicity up to τ_ψ cover it.
+- *Remark.* The move count OC_{|Φ|+1} stands. The settlements of one round, applied one after another in I₀, are
+  each an official move: the chains are disjoint, the T's disjoint, and each T lies in junk plus its own head's pick.
+
+**Census** (own code). Up to two rounds of ≤ 2 settlements, with:
+- E-prefix chains (x_l the σ-earliest wanter, any stopping head);
+- T_k of size 1–3, improving, disjoint;
+- the SD property of σ − K checked directly;
+- (L\*) at the round's end, (P2) toward earlier phantoms, (P3) for released picks.
+
+At every reached state I evaluate every Theorem S case (relaxed, longest chain) against (S-φ1)–(S-φ3) and raw EFX₀
+in I₀.
+
+| data | Theorem S cases after one round of one / two rounds of one / one round of two | hypotheses without EFX₀ | EFX₀ without hypotheses |
+|---|---|---|---|
+| 280 5_pure starts (all orders) | 4,342 / 134 / 48 | **0** | 0 |
+| n = 4 export, 112,880 starts | 636,720 / 0 / 0 | **0** | 0 |
+| random strict perfect starts, n = 4–6 (322,948 starts) | 16,986 / 299 / 55 | **0** | 0 |
+
+- (P1\*) and (P3) re-checked raw at every final state: 0 failures.
+- Dropping the (P3) round check (mutation) admits 6 states that violate (P3).
+  - None of them reaches a failing Theorem S case in this data. So the data do not show that the hypothesis is
+    necessary.
+  - The proof does use it: phantom vs {B′_r, h} with h a released pick.
+- Only 103 cases follow a round of two. Rounds of two are rarely followed by a Theorem S case at these sizes.
+
+**Multi's E-prefix claim**, on matching's 280 5_pure ROUND-RSD witnesses: reproduced exactly.
+- 146 of the 410 rounds contain a chain that is no E-prefix under any SD order of the round's start.
+- In the other 264, one common order makes every chain an E-prefix.
+- (H) holds in all 410.
+- So matching's witnesses as found are not all covered by SD-E(round). That is why multi's E-prefix search
+  (`round_e.py`, not re-run here) matters.

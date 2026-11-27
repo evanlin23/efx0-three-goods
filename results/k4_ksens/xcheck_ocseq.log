@@ -1,0 +1,15 @@
+$ python3 k4/ksens/xcheck_ocseq.py 1 60 4 5 10 pairs
+instances 60
+starts 524
+time 5 s
+$ python3 k4/ksens/xcheck_ocseq.py 2 40 5 5 10 pwfam
+c=2 compared 30
+instances 40
+starts 408
+starts needing 2+ chains (A=1) 15
+starts needing 2+ chains (A=None) 15
+time 16 s
+$ python3 k4/ksens/xcheck_ocseq.py 3 30 5 4 9 pw
+instances 30
+starts 201
+time 2 s

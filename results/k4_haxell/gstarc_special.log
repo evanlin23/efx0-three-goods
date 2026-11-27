@@ -1,0 +1,13 @@
+$ python3 k4/haxell/gstar_run.py special NMAX=5 MMAX=9 SHOW=8
+instances 4
+instances n=3 1
+instances n=4 2
+instances n=5 1
+instances skipped (size) 0
+instances with a radius-2 trap 0
+instances with a trap 0
+instances without a complete EFX0 allocation 0
+partial EFX0 states 18298
+radius-2 traps 0
+traps 0
+time 0 s

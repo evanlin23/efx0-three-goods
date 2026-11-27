@@ -1,0 +1,51 @@
+$ python3 k4/ttc/displace.py suite
+distinct hard starts 196
+every minimal one-path 196
+k* = 0 25
+k* = 1 85
+k* = 2 64
+k* = 3 20
+k* = 4 2
+some minimal one-path 196
+time 1 s
+$ python3 k4/ttc/displace.py logs
+distinct hard starts 1364
+every minimal one-path 1364
+k* = 0 39
+k* = 1 546
+k* = 2 584
+k* = 3 174
+k* = 4 20
+k* = 5 1
+some minimal one-path 1364
+time 7 s
+$ python3 k4/ttc/displace.py core:n3 3000 91
+distinct hard starts 293
+every minimal one-path 293
+k* = 0 2
+k* = 1 186
+k* = 2 96
+k* = 3 9
+some minimal one-path 293
+time 4 s
+$ python3 k4/ttc/displace.py core:n4 1500 92
+distinct hard starts 215
+every minimal one-path 214
+k* = 0 14
+k* = 1 119
+k* = 2 71
+k* = 3 10
+k* = 4 1
+some minimal one-path 215
+  non-path minimal: r617 [[[0, 2, 6, 7], [1, 3, 6, 7], [3, 4, 5, 7], [4, 5, 7]], [[5, 3, 6, 7], [6, 7, 3, 5], [5, 3, 6, 7], [2, 4, 3]]] picks (7, 3, 5, 4) k* 2 non-path placement (pick owner -> holder) {0: 3, 1: 2, 2: 2, 3: 3}
+time 4 s
+$ python3 k4/ttc/displace.py core:n5 150 93
+distinct hard starts 30
+every minimal one-path 29
+k* = 0 9
+k* = 1 11
+k* = 2 8
+k* = 3 2
+some minimal one-path 30
+  non-path minimal: r13 [[[0, 4, 6], [1, 5, 6, 7], [2, 5, 9], [3, 8, 9], [4, 7, 8, 9]], [[3, 4, 2], [2, 4, 7, 8], [3, 2, 4], [2, 4, 3], [7, 10, 2, 6]]] picks (4, 7, 9, 3, 8) k* 2 non-path placement (pick owner -> holder) {0: 4, 1: 1, 2: 3, 3: 3, 4: 4}
+time 2 s
