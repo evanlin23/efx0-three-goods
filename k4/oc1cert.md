@@ -322,10 +322,13 @@ The run is in progress: `k4/oc1cert/n5_driver.sh`, at depth 2 (OC₂^max), in ch
   `three_move_hunt.depth` (least moves, up to 3) and `roundp_check.round_p` (ROUND-P, R = 2), unmodified, from main
   at 3425b19b. Results in `results/k4_oc1max/n5/census_n5_<chunk>.json.gz` and `.log`:
 
-| chunk | stored starts | least moves | ROUND-P one move | ROUND-P round of two | receivers |
-|---|---|---|---|---|---|
-| 5_pure_s5o0 | 280 | 2 at all | 234 | 46 | 1 at all |
-| 5_pure_s5o1 | 288 | 2 at all | 246 | 42 | 1 at 283, 2 at 5 (the R2 counterexamples, all ROUND-P one move) |
+| chunk | failing cores (all ν = n) | stored starts | least moves | ROUND-P one move | ROUND-P round of two | receivers |
+|---|---|---|---|---|---|---|
+| 5_pure_s5o0 | 137 | 280 | 2 at all | 234 | 46 | 1 at all |
+| 5_pure_s5o1 | 140 | 288 | 2 at all | 246 | 42 | 1 at 283, 2 at 5 (the R2 counterexamples, all ROUND-P one move) |
+
+  Every core with an OC₁^max failure so far has ν = n. Cores with ν < n are rare: 1 of 935 in chunk 1, none in chunk 2,
+  and 6 of 1,735 in 5_n4_1. None of them fails.
 
   Chunk 1's ROUND-P counts agree with matching's run of the same 280 starts.
 - **Good orders at the complete lists** (1 in 20 of the 583,680 starts of 419, 447 and 38:

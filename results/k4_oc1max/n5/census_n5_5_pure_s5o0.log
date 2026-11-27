@@ -4,6 +4,9 @@ stored failing starts 280
 (least moves, ROUND-P, receivers) = (2, 2, 1) 46
 ROUND-P 1 234
 ROUND-P 2 46
+cores with OC1^max failures: nu = n 137
+cores: nu < n 1
+cores: nu = n 934
 least moves 2 280
 receivers 1 280
-wrote census_n5_5_pure_s5o0.json.gz 23 s
+wrote census_n5_5_pure_s5o0.json.gz 17 s
