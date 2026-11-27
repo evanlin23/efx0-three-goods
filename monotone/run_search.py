@@ -11,7 +11,7 @@ Per hypergraph:
      L independently.
 Writes one JSON line per hypergraph to the output file.
 
-Usage: python3 monotone/run_search.py n m k out.jsonl [--jobs J] [--time-limit S] [--np] [--no-rank-check] [--hg cached.json] [--warm V] [--only-k]
+Usage: python3 monotone/run_search.py n m k out.jsonl [--jobs J] [--time-limit S] [--np] [--no-rank-check] [--hg cached.json] [--warm V] [--only-k] [--resume]
 """
 import sys
 import os
@@ -200,10 +200,16 @@ def main():
     if "--only-k" in sys.argv:
         # only hypergraphs whose largest |R_i| is exactly k (the others are in the k - 1 files)
         hs = [h for h in hs if max(len(r) for r in to_R(h, n)) == k]
+    mode = "w"
+    if "--resume" in sys.argv and os.path.exists(out):
+        done = set(tuple(json.loads(l)["types"]) for l in open(out) if l.strip())
+        hs = [h for h in hs if tuple(h) not in done]
+        mode = "a"
+        print(f"resume: {len(done)} already in {out}", flush=True)
     print(f"n={n} m={m} k<={k}: {len(hs)} hypergraphs", flush=True)
     t0 = time.time()
     counts = {}
-    with open(out, "w") as f, Pool(jobs) as pool:
+    with open(out, mode) as f, Pool(jobs) as pool:
         for rec in pool.imap_unordered(job, [(n, m, h, time_limit, npl, rankcheck, warm) for h in hs]):
             counts[rec["status"]] = counts.get(rec["status"], 0) + 1
             f.write(json.dumps(rec) + "\n")
