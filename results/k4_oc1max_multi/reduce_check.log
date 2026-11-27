@@ -1,0 +1,9 @@
+$ python3 k4/oc1max_multi/reduce_check.py results/k4_oc1max_multi/oc1_fail_walk.jsonl.gz
+4955 failing starts
+4955 SD, hard: |D_T(I-)| = 0
+4955 P1 with a pool pair
+4955 SD
+4955 SD, hard, one move repairs in I-
+4955 SD and lifts with k keeping T
+4955 lifts with k keeping T
+3004 SD, B1- completes at once in I-

@@ -1,5 +1,11 @@
 # OC₁ at perfect starts with two or more dangerous agents (workstream `proof/k4-oc1max-multi`)
 
+**Update (2026-11-27): OC₁^max is refuted at n = 4** (`compute/k4-oc1max-cert`; coordinator's `k4/sdc.md` §31; Hall
+§22). The 11 n = 4 failures and the TTC session's n = 5 core are perfect starts with |D| ≥ 2 and a *shared pool danger
+set*. The corrected target is **OC₂^max**: at most two sequential moves. Everything in §1–§7 is about given states or
+about the 8,383 starts of §1, which are all repaired by one move, so all of it stands. §8 checks the failures against
+these lemmas and treats the second move.
+
 Target: Conjecture OC₁^max (K4.SDC.OC1MAX, `k4/sdc.md` §31). By Lemma RED (§31, end) it reduces to *perfect starts*:
 - every agent with a relevant good holds a pick;
 - null agents are allowed, and they count as ordinary agents for absorbers;
@@ -47,6 +53,9 @@ rule 3).
 | Census (§5) | **7,753 of 8,383 starts (92.5%) are repaired by a chain to which KEEP, OWN, D-red or RING-red applies** (proof modulo the chain's existence, except under Theorem U). 585 more are repaired by an obstructed canonical chain with owner k (SLOT), and 45 by other ED chains | evidence |
 | Finding NC (§6) | D1-C (Hall §21) does not extend to \|D\| ≥ 2. In T3 (n = 3, m = 6) the only canonical chain with an improving set has CROWD, there is no other minimal H₀, and no canonical chain repairs. The repair is a ring through both dangerous agents | checked by enumeration (`attempts/k4-oc1max-multi-canonical.md`) |
 | Step 2 of the plan (§4) | "after a chain from one dangerous agent, the others have at most one pool good left" (Lemma PL) holds only for agents that share two goods with H₀. For disjoint junk sets the other demands are untouched: they are removed by unfreezing, by raising values on the chain, or by slots (the head's slot first). In 95 starts with pairwise disjoint truly dangerous junk sets, every canonical chain leaves a demand, and only slots repair | `attempts/k4-oc1max-multi-pl-disjoint.md` |
+| Known OC₁^max failures (§8) | all 12 (the certifier's 11 n = 4 cores, the TTC n = 5 core) re-verified with this note's code. None meets the hypotheses of any lemma here (consistency). All have one unfrozen pick holder and a shared pool danger set, with DEMAND or CROWD only | checked (`cex_check.log`) |
+| **Lemma LIFT** (§8) | the second move as a move of a smaller instance: after k takes a pair everyone else values below their holding, deleting k and the pair turns moves and completions of the reduced instance into moves and completions of the original, provided nothing threatens k | written proof |
+| Sub-lemma OC2-REC (§8) | some sharer's first chain leaves a perfect SD start of the reduced instance where one move repairs: OC₂ = settle one sharer, then OC₁ one size down. It holds on all 12 known failures and on all 4,955 walk failures near them (D-red proves the reduced repair at 4,923) | open; evidence |
 | Open sub-lemmas (§7) | KEEP-C (\|D_T\| = 1, 4 starts), SLOT (\|D_T\| ≥ 2, and DEMAND when D_T = ∅; 581 starts), RING (45 starts not covered by RING-red), and the existence of the chains outside Theorem U | open; each stated with its smallest instance |
 
 ## 1. The data
@@ -286,6 +295,11 @@ any improving set. Suppose:
 
 Then B′ has an S\* completion owned by k. Its owner's bundle is a subset of J, and the released pick Y_z goes to the
 head z, or to an unfrozen second wanter of the head's new good.
+
+The hypothesis D_T = {k} says that J threatens no dangerous agent other than k at its pick value. Values only rise
+along the chain, so J also threatens none of them at its value after the chain. This covers every frozen dangerous
+agent after P, including a dangerous middle agent of P. That is what (H1) of Lemma 2\* needs, since the owner's
+bundle is a subset of J. (The Hall session asked; the condition is part of D_T = {k}.)
 
 **Corollary U1 (K4.MULTI.U1).** *OC₁ holds at every perfect start that has exactly one unfrozen pick holder and exactly
 one truly dangerous agent*, whatever |D| is, null agents allowed. Every longest canonical chain from k, with every
@@ -612,3 +626,101 @@ For D_T = ∅, Proposition T0 says every unfrozen z has some d ∈ Θ(z). Such a
 d values every junk good: then J ∪ {Y_z} can threaten d through the worthless good Y_z, while J alone cannot. Outside
 that exception, each dangerous agent values at most two picks besides its own (|R_d| ≤ 4, with at least one junk
 good). So there are at most 2|D| unfrozen pick holders. That is the start of a count.
+
+## 8. The OC₁^max failures and the second move (OC₂)
+
+**The known failures against this note's lemmas** (`cex_check.py`, `cex_check.log`). The instances are the
+certifier's 11 n = 4 cores (`results/k4_oc1max_multi/oc1max_cex_n4_from_cert.json`, copied from
+`compute/k4-oc1max-cert`) and the TTC session's n = 5 core.
+- *Independent re-verification.* With this note's code (raw EFX₀, enumeration), all 12 are perfect starts with no
+  one-absorber completion at the picks or after any official move.
+- *Consistency.* At none of them do the hypotheses of KEEP, OWN, D-red (a clean chain), RING-red or Theorem U hold. A
+  lemma whose hypotheses held there would be refuted. None is.
+- *Structure.* All 12 have exactly one unfrozen pick holder z and E_J = ∅. The 11 n = 4 cores have |D_T| = 2: the two
+  agents sharing the pair are both truly dangerous, so Theorem U does not apply. The TTC core has D_T = ∅: its shared
+  set {2, 4} contains the released pick 4. The obstacles of the canonical chains are DEMAND and CROWD only, never HEAD.
+
+**Leaf 4f: does sharing explain the failures?** (`sharing.py`). The 8,383 starts of §1, split by the integrator's
+definition of a shared pool danger set (k ≠ k′ ∈ D, an unfrozen pick holder z, a minimal improving set T of k inside
+(J ∪ B_z) ∩ R_k with v_{k′}(T) > p_{k′}):
+
+| class | starts | one move repairs | canonical chain, owner k | a written lemma applies | obstacles where owner k fails |
+|---|---|---|---|---|---|
+| no sharing | 7,755 | 7,755 | 7,681 | 7,237 | CROWD only (58); no canonical chain with an improving set (16, T3-type rings) |
+| shared | 628 | 628 | 623 | 516 | DEMAND, with CROWD or HEAD (5) |
+
+So DEMAND never blocks a no-sharing start, and every known two-move start is in the shared class. Sharing is not
+sufficient, though: the 628 shared starts of §1 need one move.
+
+**More failures** (`walk_fail.py`, `walk_fail.log`, starts in `oc1_fail_walk.jsonl.gz`). Walks in the value
+neighbourhood of the 12 (±1..3 per step, strictness kept, 2,000 steps each, seed 7) give 4,955 distinct failing
+(profile, start) pairs: 4,378 at n = 4 and 577 at n = 5 from the TTC core. All are hard perfect starts with no
+one-move repair, by raw enumeration.
+
+**The shape of the second move** (`lift.py`, `lift.log`; `lift_shape.py`, `lift_shape.log`; all 4,955 walk
+failures, which include the 12).
+- At every one, some repairing pair (P₁, P₂) has:
+  - P₁ a canonical chain from a dangerous agent k;
+  - P₂ a canonical chain *at the intermediate state* B₁, ending at the same head z;
+  - every DEMAND agent of P₁ unfrozen after P₂ (the integrator's OC2-LIFT condition 1);
+  - P₂'s first agent q absorbing a₁, z's good after P₁;
+  - P₁'s improving set a shared pair, or containing z's pick Y_z.
+- At all 4,378 n = 4 failures, more is true:
+  - P₁'s improving set is a junk pair T shared with another dangerous agent;
+  - z ends at its top good;
+  - q takes both goods z vacated, Y_z and a₁;
+  - each of k, z and q owns an S\* completion afterwards.
+- At the 577 failures near the TTC core, P₁ takes the pool pair {junk, Y_z}, z ends at its top, and k, z and q own.
+
+**Lemma LIFT (K4.MULTI.LIFT; the second move as a move of a smaller instance).** Let B be a state, and k an agent
+holding a pair T such that every other agent with a relevant good values each good of T below its value at B. This
+holds after a canonical chain whose improving set is a junk pair, by (I2). Let I⁻ be the instance without agent k
+and the goods T, and B⁻ the restriction of B.
+1. Every official move of I⁻ from B⁻ is an official move of I from B that leaves k's bundle unchanged.
+2. Let C⁻ be reached from B⁻ in I⁻ by official moves, and X⁻ a one-absorber completion of C⁻ in I⁻ in which no
+   bundle threatens k at v_k(T). Then X⁻ with X_k = T is a one-absorber completion of C⁻ ∪ {k: T} in I.
+
+*Proof.*
+1. The junk of B⁻ in I⁻ is the junk of B in I, since k holds T. Agents other than k keep their values. The conditions
+   of an official move compare values agent by agent.
+2. Pairs of agents other than k behave as in I⁻. For an agent i ≠ k with a relevant good: removing a good of T leaves
+   one good of T, worth less than v_i(B_i) ≤ v_i(X_i), because moves and completions only raise values. Agents
+   without relevant goods value nothing. The pairs (k, j) are the hypothesis. k receives no junk, so the absorber
+   count is that of X⁻. ∎
+
+By |R_k| ≤ 4, k's goods outside T are Y_k and at most one more good ℓ. So "no bundle threatens k" fails only if:
+- some bundle holds both Y_k and ℓ, worth more than T together; or
+- k wants ℓ, and ℓ sits in a bundle of two or more goods.
+
+This generalizes Lemma SET to any later state.
+
+**The recursion on the data** (`reduce_check.py`, `reduce_check.log`; `reduce_mech.py`, `reduce_mech.log`; all 4,955
+failures). At every one, some canonical first chain from k takes a shared improving *pool* pair T (two junk goods, or
+junk plus Y_z), and then:
+- the reduced state B₁⁻ is the serial-dictatorship outcome of an order of I⁻, i.e. a perfect start of the smaller
+  instance;
+- I⁻ has no truly dangerous agent at B₁⁻ (D_T(I⁻) = ∅);
+- one move of I⁻ repairs B₁⁻, and the repair lifts by Lemma LIFT (some S\* completion with an owner other than k).
+
+At 4,923 of the 4,955, including all 12 known failures, that move in I⁻ is a clean canonical chain, so Lemma D-red
+proves the repair in I⁻. The other 32 need an obstructed canonical chain with owner k in I⁻.
+
+So at the known failures, **OC₂ = one chain that settles a sharer (Lemma SET/LIFT), then OC₁ in the smaller
+instance**. In the smaller instance, the remaining sharer has at most one junk good left (Lemma PL(c)) and is no longer
+truly dangerous. This is the coordinator's "one chain per independent danger set", made precise.
+
+**Sub-lemma OC2-REC (K4.MULTI.REC, open).** At a hard perfect start with no one-move repair, some canonical chain P₁
+from a dangerous agent k with a shared improving junk pair T has these properties:
+- (a) its reduced state B₁⁻ is a perfect serial-dictatorship start of I⁻;
+- (b) B₁⁻ completes in I⁻ after at most one official move, with a completion that does not threaten k.
+
+By Lemma LIFT, OC2-REC implies OC₂ at such starts. (b) is OC₁ for I⁻, for which §1–§7 apply verbatim: D-red, KEEP,
+OWN, RING-red and Theorem U.
+
+At the TTC core and its 577 neighbours the pair is the pool pair {junk, Y_z}. Lemma LIFT's hypothesis still holds
+there, since Y_z is unwanted by (U).
+
+*Evidence for (a), (b):* all 4,955 failures, with (b) given by Lemma D-red in I⁻ at 4,923 of them. Evidence only: the
+walks stay near the 12 known instances, all with one unfrozen pick holder and two sharers. Three sharers, the case
+where two moves may not be enough (Hall §22), are being searched for by `compute/k4-oc1max-cert`.
+
