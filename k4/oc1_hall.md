@@ -2536,3 +2536,22 @@ own EFX₀ test and the raw checker's). n = 5 exports, DEMOTE-0 starts whose pat
 - 0 violations. The counts agree with k3-oc1's and girth's.
 
 So at n = 5 the at-once part of DEMOTE-0 is Lemma RF-A1\* plus its four facts. Open: those facts from Y's hardness.
+
+**Lemma NA (k3-oc1, `k4/k3_oc1.md` §13.5): second reading, CORRECT.**
+
+*Statement.* Let Y′ be perfect SD picks and f an injection J′ → agents. Let X give each agent its pick together with
+f⁻¹(a). Then X is EFX₀ iff every agent i that wants the pick of a receiving agent a ≠ i has v_i(X_i) ≥ v_i(Y′_a).
+
+*Proof, read.* Every bundle has at most two goods. Against {Y′_a, j}, EFX₀ for i asks for v_i(X_i) ≥ v_i(Y′_a) and
+v_i(X_i) ≥ v_i(j). The second always holds, since j was free at i's turn in σ′ and so v_i(j) < p′_i ≤ v_i(X_i). The
+first holds automatically when i does not want Y′_a. This is Lemma M^c's claim with no owner (H = J′).
+
+*Independent check* (`k4/oc1_hall/rf_na_check.py`, `rf_na_check.log`; all 113,484 n = 5 DEMOTE-0 starts, every
+injection J′ → agents):
+- the criterion agrees with both raw EFX₀ checkers on **all 6,809,040 assignments**, with 0 disagreements;
+- **a no-owner completion exists at all 113,210 DEMOTE-0 starts that complete at the picks**, the 71,443 of
+  RF-A1\*'s shape included. It exists at none of the 274 that need a move (girth's 242 trades and 32 3-rings).
+
+So at n = 5 Lemma NA alone covers DEMOTE-0's whole at-once part. What it needs is a compensation fact: the junk can be
+placed one good per agent so that every wanter of a receiving agent's pick is compensated. RF-A1\* is an alternative
+with owner w on 71,443 of these starts.
