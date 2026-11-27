@@ -135,3 +135,10 @@ Results:
 
 Girth's `k4/girth.md` §7 cites C13 for the (1, 3) form at n = 5. That use is covered: (0) holds there. Any later use
 of C13 beyond the n = 5 data has to check (0), or derive it, along with (2)–(4).
+
+## Follow-up (06:40): has the fix landed?
+
+**Not yet**, at `aa25b5b1` on `claude/k4-ttc`. Lemma C13's setting still lists (1)–(4) only, and the proof still says
+"Y′_d, because d is a receiver". The fix is hypothesis (0), "no agent other than d wants Y′_d", or "d is a receiver at
+Y′". The counterexample of §2 applies to the statement as it stands. Later commits on the branch add credits and the
+independent regeneration of the classes; those do not touch the statement.
