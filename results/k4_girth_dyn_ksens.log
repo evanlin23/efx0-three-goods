@@ -1,0 +1,46 @@
+$ python3 k4/girth/dyn_ksens.py
+PW5 (k=5)          n=5 m= 9 k=5  labelings  120: DYN (G1 repair) completes  120, unrepaired   50
+RD5 (k=5)          n=4 m= 7 k=5  labelings   24: DYN (G1 repair) completes   18, unrepaired   18
+KG48 (k=5)         n=4 m= 8 k=5  labelings   24: DYN (G1 repair) completes   22, unrepaired   14
+B< (k=4 core)      n=6 m=10 k=4  labelings  528: DYN (G1 repair) completes  528, unrepaired  528
+B> (k=4 core)      n=6 m=10 k=4  labelings  528: DYN (G1 repair) completes  528, unrepaired  528
+TTC1 (k=4 core)    n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC2 (k=4 core)    n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC3 (k=4 core)    n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC4 (k=4 core)    n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC5 (k=4 core)    n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC6 (k=4 core)    n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC7 (k=4 core)    n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC8 (k=4 core)    n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC9 (k=4 core)    n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC10 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC11 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC12 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC13 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC14 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC15 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC16 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC17 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC18 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC19 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC20 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC21 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC22 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC23 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC24 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC25 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC26 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC27 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC28 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC29 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC30 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC31 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC32 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC33 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC34 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC35 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC36 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC37 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC38 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+TTC39 (k=4 core)   n=5 m= 9 k=4  labelings  120: DYN (G1 repair) completes  120, unrepaired  120
+instances completed by DYN for some labeling: 44 of 44

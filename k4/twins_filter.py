@@ -69,6 +69,30 @@ def gamma_prune(nb):
     return False
 
 
+def has_claw(sets, variants=('distinct', 'two equal', 'all equal')):
+    """K4.MC9 (k4/TWINS.md §4): a good G of degree 3 valued by three P3 agents (a claw). `variants` lists the
+    certified cases by the other shared goods y1, y2, y3 of the three agents: 'distinct', 'two equal', 'all equal'."""
+    kd, deg = kinds(sets)
+    for g, d in deg.items():
+        val = [i for i, S in enumerate(sets) if g in S]
+        if d == 3 and all(kd[i] == 'P3' for i in val):
+            ys = [next(x for x in sets[i] if x != g and deg[x] > 1) for i in val]
+            k = {3: 'distinct', 2: 'two equal', 1: 'all equal'}[len(set(ys))]
+            if k in variants: return True
+    return False
+
+
+def gamma_claw(nb, variants=('distinct', 'two equal', 'all equal')):
+    """The claw at the level of G': a good of degree 3 whose three agents have G'-degree 2 (P3 agents)."""
+    deg = collections.Counter(g for N in nb for g in N)
+    for g, d in deg.items():
+        val = [N for N in nb if g in N]
+        if d == 3 and all(len(N) == 2 for N in val):
+            ys = [next(x for x in N if x != g) for N in val]
+            if {3: 'distinct', 2: 'two equal', 1: 'all equal'}[len(set(ys))] in variants: return True
+    return False
+
+
 # configuration labels, in the order of k4/check_twins4.py's hard-coded configurations
 LABELS = {
     ('Q3', 'Q3', 0): (['g0', 'g1', 'a'], ['g0', 'g1', 'x']), ('Q3', 'Q3', 1): (['g0', 'g1', 'a'], ['g0', 'g1', 'a']),

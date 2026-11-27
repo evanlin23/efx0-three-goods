@@ -1,0 +1,12 @@
+configuration claw-y12: agents {'f1': ('G', 'y1', 'p1'), 'f2': ('G', 'y1', 'p2'), 'f3': ('G', 'y3', 'p3')}, I = ['G', 'p1', 'p2', 'p3'], D = ['y1', 'y3'], 216 profiles
+  two-agent search h1 on ['y1', "z1'"], h2 on ['y1', "z2'"]: 11784 states, 158 profiles reduced (12 s)
+  two-agent search h1 on ['y1', "z1'"], h2 on ['y3', "z2'"]: 11784 states, 204 profiles reduced (11 s)
+  two-agent search h1 on ['y1', "z1'"], h2 on ['y1', 'y3', "z2'"]: 11784 states, 216 profiles reduced (12 s)
+  two-agent search h1 on ['y3', "z1'"], h2 on ['y3', "z2'"]: 11784 states, 108 profiles reduced (12 s)
+  two-agent search h1 on ['y3', "z1'"], h2 on ['y1', 'y3', "z2'"]: 11784 states, 208 profiles reduced (12 s)
+    GAD-h(y1=2,y3=0,z0'=1)                                     reduces    110, new    110
+    DEL                                                        reduces     78, new     52
+    GAD2-h1(y1=2,z1'=1)-h2(y1=2,y3=3,z2'=1)                    reduces     46, new     36
+    GAD-h(y1=0,y3=2,z0'=1)                                     reduces     49, new     18
+  reduced: 216 of 216 profiles (4 records)
+wrote ../results/k4_twins/claw_y12.json.gz: 4 records, 988 states

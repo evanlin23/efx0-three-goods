@@ -43,11 +43,14 @@ counterexamples, each printed in full:
 - value-monotone methods can get stuck already at $k = 3$;
 - the two-move welfare and leximin lemmas fail at $n = 4$, $k = 4$, even with set moves.
 
-We end with the case tree of the $k = 4$ programme, its nine open statements, and the conjectures that survive, with
-the evidence for each. Among them are two sequential moves from every maximum-matching order (OC₂^max) and its
-some-order form, both certified for every strict core profile with at most four agents, and OC₂^max also on 2,670
-five-agent cores. At four agents every two-move start has a refereed explicit repair. At five agents, two starts defeat
-every sequential settle-and-lift induction but are repaired by one round of two disjoint moves.
+We end with the case tree of the $k = 4$ programme, its open statements, and the conjectures that survive, with the
+evidence for each. OC₂^max, two sequential moves from every maximum-matching order, is certified for every strict
+core profile with at most four agents and on 3,605 five-agent cores. At four agents every two-move start has a
+refereed explicit repair. TARGET₄ stays open along two fully specified routes, each ending in a Lean-checked
+implication. The first is receiver-first orders, which needs the completion half of Conjecture RF. The second is
+rounds of settlements, which needs a corrected base case, Conjecture BASE-R. We note that each Lean hypothesis, as
+currently stated, is false: RF's requires a unique receiver, and two receivers occur at five agents, and the rounds
+frame's base case fails at three agents.
 
 ## Contents
 
@@ -169,8 +172,8 @@ The results below are of four kinds.
 
    They are arranged in a case tree whose remaining gaps are nine named open statements, in two parts (§11.9).
    Several shapes that held at $n = 4$ fail at $n = 5$, and several owner rules fail already at $n = 4$. At $n \le 5$
-   OC₂^max has no counterexample. The uniform one-step candidate is a round of disjoint moves (ROUND-P), and the
-   inductive candidates are RSD-D and ROUND-RSD.
+   OC₂^max has no counterexample. §11.10 sets out the two routes that remain to TARGET₄, receiver first (RF) and
+   rounds (ROUND-RSD with the base case BASE-R), and exactly which statement each still needs.
 
 ### 1.3 Related work, and what was already in the repository
 
@@ -1871,9 +1874,19 @@ This section records where a proof of OC₂^max stands. It follows the Hall sess
 updated with the referee's verdicts up to item 44 (`k4/referee/README.md` at `70f6e5c`), and with the sessions'
 newer refutations, each re-checked here where an instance is printed.
 
+> **TARGET₄ is open.** Two routes are fully specified, and each ends in an implication checked in Lean. Neither
+> route's remaining hypothesis is proved, and each Lean hypothesis, as currently stated, is false. §11.10 gives the
+> exact statements.
+> - *Route 1, receiver first:* Conjecture RF ⟹ OC₁^∃max ⟹ TARGET₄. It needs RF for every $n$, that is, the
+>   completion half after Lemma RF-PATH. The Lean frame's RF still requires a unique receiver, which fails at
+>   $n = 5$, so it needs a one-clause restatement.
+> - *Route 2, rounds:* ROUND-RSD's induction with a base case ⟹ TARGET₄. The Lean frame's base case `ConjBasePhi`
+>   is false as posed, at $n = 3$. The corrected base is Conjecture BASE-R, which is not yet in Lean.
+
 **Where things stand.**
 - **OC₂^max has no known counterexample at $n \le 5$.** It is certified for every strict profile of every core with
-  $n \le 4$, and of 2,670 of the 31,584 cores with $n = 5$ (Proposition 11.26 item 2).
+  $n \le 4$, and of 3,605 of the 31,584 cores with $n = 5$ (Proposition 11.26 item 2), with no start needing three
+  moves.
 - **One move is not enough, and a round may be.** OC₁^max fails at $n = 4$ and $n = 5$, and so do OC₁′, the wider
   single move, and one plain round. The uniform one-step candidate is **ROUND-P**: one round of vertex-disjoint
   chains whose non-end agents may also take an end's goods. It holds at every $n = 4$ two-move start and at every
@@ -2446,10 +2459,10 @@ junk good can be wanted after the first move.
 `compute/k4-oc1max-cert` at `dcd2098`; `k4/matching.md` §6; `k4/oc1max_multi.md` §12) [Cert].** For every strict profile of every core hypergraph:
 1. **OC₁^max** holds for all $n \le 3$ (56 hypergraphs) and for 991 of the 1,002 with $n = 4$. It fails on 11
    (§7.3).
-2. **OC₂^max** holds for all $n \le 4$ (1,058 hypergraphs; §7.3). At $n = 5$ it is certified so far on 2,670 of the
-   31,584 cores: list 5_n4_1 (1,735 cores) and chunk 5_pure_s5o0 (935), each with an independent check
-   (`k4/oc1cert.md` §4 at `352db21`). On 137 of those 935, OC₁^max fails somewhere, and every recorded failing start
-   is perfect with exactly one receiver.
+2. **OC₂^max** holds for all $n \le 4$ (1,058 hypergraphs; §7.3). At $n = 5$ it is certified so far on 3,605 of the
+   31,584 cores: list 5_n4_1 (1,735 cores) and chunks 5_pure_s5o0 and 5_pure_s5o1 (935 each). Each chunk has an
+   independent check (`results/k4_oc1max/n5/*_check.log`, branch `compute/k4-oc1max-cert` at `7516064`; the coordinator's
+   count in `k4/attack_log.md` on main). No start needing three moves has been found.
 3. **The some-order form OC₁^∃max** holds for all $n \le 4$: some SD order whose picks form a maximum matching
    satisfies OC₁. On the 991 cores it follows from item 1 and Lemma 6.2. On the 11 failing cores an ∃-CEGAR over
    types (`k4/oc1cert/exists.py`) certifies it (`results/k4_oc1max/exists_4_fail11.json.gz`). An independent checker
@@ -2458,7 +2471,7 @@ junk good can be wanted after the first move.
    one-move repair, on the 11 hypergraphs. They are exported in `results/k4_oc1max/two_move_starts_n4.json.gz`, and
    `check.py` with these pairs excluded confirms that every other pair is covered.
 5. **R2 at $n = 4$**: each of the 112,880 has exactly one receiver. So "two or more receivers imply one move" holds
-   at $n = 4$. More precisely, **R2-C** holds: at every hard perfect start with at least two receivers, some canonical
+   at $n = 4$. It fails at $n = 5$ (ledger K4.SDC.R2.N5; §11.10). More precisely, **R2-C** holds: at every hard perfect start with at least two receivers, some canonical
    chain (from a dangerous $x_0$, with $x_1$ wanting $y_{x_0}$) ending at a receiver is followed by a one-absorber
    completion (`results/k4_oc1max/cert_4_r2c.json.gz`, checked by `check.py` with `OC1_R2=c`). The stronger forms
    with a prescribed owner fail at $n = 4$ [V]:
@@ -2506,7 +2519,9 @@ junk good can be wanted after the first move.
      sketch of why the two moves always splice has a **gap**, found by the referee (`k4/referee/rounds_r1.md`,
      addendum; row 43). Step 2 fails when the second chain's head releases $y_k$ and the completion puts it on an
      agent that keeps its own pick. Then $X$ is no round witness, even in the wide form. There is an $n = 4$, $m = 8$
-     instance, and 71 of 13,608 random configurations fail this way. ROUND-P still holds at all 71.
+     instance, and 71 of 13,608 random configurations fail this way. ROUND-P still holds at all 71. The repaired
+     statement, Lemma SPLICE, is refereed CORRECT WITH TWO SMALL FIXES. A REC-S repair is one round of OC₁′ moves
+     exactly when an explicit configuration (EX) does not occur (§11.10).
 9. **RSD at $n = 4$** (ledger row K4.MATCH.RSD.N4, branch `proof/k4-matching`). Two reduction steps and a lifted
    one-absorber completion repair every one of the 112,880 starts. The sets $T$ have sizes (2, 2) at 103,600 starts
    and (2, 3) at 9,280. The session's `check_rsd.py` verifies the witnesses. The referee re-validated all 112,880 with
@@ -2553,7 +2568,7 @@ holds it. Leaves 1–4 are the one-move side, and leaf 5 is the second move.
 | 5a | the shape of a two-move start | R2: two or more receivers imply one move; R2-C: by a canonical chain to a receiver. Lemmas R2-0, R2-G2. LIFT-SHAPE⁺ | R2, R2-C: [Cert] at $n \le 4$ (Proposition 11.26 item 5). R2-M, R2★, R2-O: **refuted at $n = 4$** [V]. R2-0, R2-G2: [W]. **OPEN: R2-C in general.** LIFT-SHAPE⁺: [Cert] at $n = 4$, **refuted at $n = 5$** | TTC (R2); matching, multi |
 | 5b | SHARE₂ (ii), route M | Lemmas 11.19 (LIFT-red), 11.20 (LIFT-1) | [R]; they settle every $n = 4$ start, but at $n = 5$ their shape can be absent | matching |
 | 5c | SHARE₂ (ii), route R | Lemma 11.21 (LIFT) with Lemma 11.22 (SD-E); Lemma 11.24 (LIFT\*) for several steps | [R] | multi; matching |
-| 5d | a wider single move, or one round, instead | OC₁′; ROUND-P: one round of disjoint chains whose non-end agents may take an end's goods | OC₁′: [Cert] at $n \le 4$, **refuted at $n = 5$** [R]. ROUND-P^max: [E], holds at all $n = 4$ two-move starts and all 280 sampled $n = 5$ ones. The sketch that REC-S's two moves splice into one round has a **gap** (referee) | kgen-rounds; certifier |
+| 5d | a wider single move, or one round, instead | OC₁′; ROUND-P: one round of disjoint chains whose non-end agents may take an end's goods | OC₁′: [Cert] at $n \le 4$, **refuted at $n = 5$** [R]. ROUND-P^max: [E], holds at all $n = 4$ two-move starts and all 280 sampled $n = 5$ ones. The sketch that REC-S's two moves splice into one round had a gap. Lemma SPLICE, refereed, is exact up to a configuration (EX) | kgen-rounds; certifier |
 | 6 | three moves needed? | three sharers of one pool pair with no slots | none found. OC₂^max: [Cert] at $n \le 4$, [E] on the first ~700 pure $n = 5$ cores; a targeted search runs at $n = 5$–7 | certifier |
 
 > **Sub-lemma SHARE₂ (`k4/oc1_hall.md` §23.2) — (ii) false as stated at $n = 5$; the route-R form is OPEN.** Let $Y$ be a hard perfect start ($k \le 4$, strict) with no
@@ -2701,6 +2716,155 @@ $n = 3$, $m = 6$ start. So Part 1 is needed in $I$ itself.
 OC₂^max follows at perfect starts, Lemma 12.3 transfers it to maximum-matching starts, and Corollary 6.4 gives
 TARGET₄. Each step is open or unrefereed, and none is claimed here.
 
+### 11.10 TARGET₄: the two routes and what each still needs
+
+Statuses here are those of LEDGER.md on main at `898d80b0`, with the referee's verdicts up to item 57. **TARGET₄
+is open.** OC₂^max (Conjecture 12.1) is the campaign's main surviving conjecture, and it implies TARGET₄ in Lean
+(`EFX.OC1Max.target4_of_conjOC2max`). Two routes toward a proof of TARGET₄ are fully specified. Each ends in an
+implication checked in Lean, and each Lean hypothesis, as currently stated, is false. The corrected hypotheses are
+open.
+
+**Route 1: receiver first (RF).** A *receiver* of a start is an agent whose pick no other agent prefers to its own.
+The last picker of any order is a receiver.
+
+> **Conjecture RF (ledger K4.SDC.RF, amended 04:22 UTC) [C].** In every strict connected $k = 4$ core, at every
+> maximum-matching SD start where OC₁ fails, for every receiver $u$ of the start: some order with $u$ first gives a
+> maximum matching, and every such order satisfies OC₁.
+
+- *RF ⟹ OC₁^∃max ⟹ TARGET₄* [L] (`EFX.OC1Max.conjOC1exmax_of_conjRF`, `EFX.OC1Max.target4_of_conjRF`; ledger
+  K4.SDC.RF.LEAN). The proof takes a maximum-matching order (Lemma 6.2). Either OC₁ holds there, or RF's
+  receiver-first order is a maximum-matching order where it does.
+- **Caveat on the Lean statement.** The formalized hypothesis `ConjRF` (`lean/EFX/RF.lean`) still says that the
+  start has *exactly one* receiver. That is false at $n = 5$: 5_pure #650 is an OC₁-failing perfect start of a strict
+  connected core with two receivers (below). The proof uses only some receiver with RF's two properties, not
+  uniqueness. So the amended RF, together with the existence of a receiver at such starts, implies TARGET₄ by the
+  same argument. But that statement is not the one checked in Lean. Dropping the uniqueness conjunct from
+  `ConjRFWith` would close the gap.
+- **The structural half is proved, for every $n$.**
+  - *Lemma RF-PATH (`k4/girth.md` §7, branch `claude/k4-girth`, generalized form at `712a568`) [R].* Let $Y$ be the SD
+    picks of $\sigma$, with every agent holding a good, let $u$ be a receiver of $Y$ with top good $t$, and let
+    $Y' = \mathrm{SD}(u, \sigma - u)$. If $t = y_u$ then $Y' = Y$. Otherwise:
+    - (a) $t = y_{x_1}$ for another agent, and there are agents $x_1, \dots, x_\ell$, in increasing $\sigma$-order, with
+      $Y'_u = t$, $Y'_{x_i} = y_{x_{i+1}}$, and $Y'_{x_\ell}$ a junk good of $Y$, or $y_u$, or nothing; every other
+      agent keeps its pick;
+    - (b) every $x_i$ strictly loses value, and $u$ strictly gains;
+    - (c) if $x_\ell$ receives a good, nobody wants it at $Y'$.
+
+    *Proof* (the source's). Only later pickers can want a pick. By induction, the goods still free just before each
+    agent's turn differ between the two runs by one *missing* good, plus $y_u$ after $u$'s old turn. An agent whose
+    pick is the missing good is ejected to its best remaining good, which it values less, by strictness. ∎
+  - *Lemma RF-ROT (`k4/ttc.md` §14.7, branch `claude/k4-ttc`) [R].* At a start with exactly one receiver, the receiver
+    is the last picker, so RF's order is the rotation $\sigma \mapsto (\sigma_n, \sigma_1, \dots, \sigma_{n-1})$.
+  - The referee re-derived both, with 800,000 random orders, 378,973 path cases, and 156,628 cases with $u$ not the
+    last picker, with 0 failures (`k4/referee/girth.md` §7).
+- **The completion half is OPEN.** It is the girth session's uniform statement (`k4/girth.md` §7). At the RF start,
+  one of the following holds:
+  - (i) the agent after $u$ on the path, or its end, owns a one-absorber completion;
+  - (T) a receiver and a pick-dangerous agent trade, the latter adding one junk good;
+  - (C/C′) a two-agent chain from a truly dangerous agent repairs.
+
+  It holds at all 292,080 $n = 4$ failing orders and all stored $n = 5$ ones [E]. The Hall session proved its
+  sub-case A1 (32,000 $n = 4$ starts), conditional on four facts that hold at all of them. Its Lemmas RF-A1, RF-B,
+  REPAIR-Y and Proposition RF-B4 are refereed CORRECT (`k4/referee/oc1_hall.md`, RF residue addendum). Sub-cases A2
+  and B are open.
+- *Evidence for RF.* At $n = 4$ it holds at all 112,880 OC₁^max-failing starts, two independent implementations agree,
+  and with the certifier's certificate this covers every strict profile [Cert]. At $n = 5$ it holds at every failing
+  pair the certifier's CEGAR met in its first two 5_pure chunks, 550 in the first alone (`k4/attack_log.md`, 04:37
+  UTC; certifier commit `d830b54`) [E].
+- **R2 is false at $n = 5$** (ledger K4.SDC.R2.N5) [V] †. R2 said that two or more receivers give OC₁. The
+  counterexample is 5_pure #650.
+  - Relevant sets $[\{0,1,5,7\},\{0,5,6,7\},\{1,5,6,7\},\{2,3,4,6\},\{2,3,4,7\}]$, values
+    $[(3,6,7,5),(2,10,7,6),(2,8,4,3),(4,5,6,8),(5,4,6,8)]$, picks $(5,0,1,6,7)$: a strict connected MC2 core at a
+    perfect start with receivers $\{1, 2\}$, where OC₁ fails.
+  - Two frozen twins share three junk goods, and neither receiver values junk.
+  - The certifier found four such cores, and three independent replays confirm them. This write-up's checker confirms
+    the core, the receivers, the failure of OC₁, and RF for both receivers (Appendix C).
+  - R2 stays certified at $n \le 4$. RF and OC₂^max hold at all four cores.
+- *What route 1 still needs:* the completion half of RF for every $n$, and the Lean restatement without uniqueness.
+
+**Route 2: rounds (ROUND-RSD).** Settle a round of dangerous agents along vertex-disjoint earliest-wanter prefixes,
+delete them with their sets as *phantoms*, and recurse in the smaller instance.
+- *The frame* [L] (ledger K4.MATCH.ROUNDRSD.LEAN, `lean/EFX/RoundRSD.lean`, PR #141): ConjRoundInd ∧ ConjBasePhi ⟹
+  TARGET₄ (`EFX.Round.target4_of_roundRSD`).
+  - **ConjRoundInd:** at every state reachable by admissible rounds that has no one-move repair, an admissible round
+    exists.
+  - **ConjBasePhi:** at every reachable state that has a one-move repair, there is one whose one-absorber completion
+    threatens no phantom at its threshold.
+- *Its tools, all refereed and in Lean* (ledger K4.MATCH.LIFTSTAR.LEAN, K4.MULTI.S.LEAN, K4.MULTI.SPHI.LEAN, PR #149):
+  - Lemmas 11.24 (LIFT\*, also for rounds) and 11.25 (PHANTOM);
+  - Lemma SD-E(round) (`k4/referee/oc1max_multi.md` §15: CORRECT; earliest-wanter prefixes are needed);
+  - Theorem 11.18 (S);
+  - **Theorem S^φ**, Theorem S with phantom constraints (`k4/oc1max_multi.md` §16, branch `proof/k4-oc1max-multi-2`)
+    [R′; L]. Let $(k, P, h, H_0)$ meet Theorem 11.18's hypotheses in the present instance, and suppose:
+    - (S-φ1) $W$ threatens no phantom at its threshold;
+    - (S-φ2) the receiver's good is not wanted by a phantom;
+    - (S-φ3) if $h = y_z$, no phantom values $y_z$ above its threshold;
+    - (P3) $v_\varphi(h) \le \tau_\varphi$ for every phantom.
+
+    Then OC₁ holds with the phantom constraints. The fix is (S-φ3), which the proof uses; without it, 44 random cases
+    fail (`k4/referee/oc1max_multi.md` §14). The Lean form needs no (S-φ3) because it takes $h$ junk. Corollary
+    S^φ(round), with phantoms settled in rounds, is refereed CORRECT (§16 there).
+- *The witnesses* [Cert]. ROUND-RSD repairs every $n = 4$ two-move start, all 280 sampled $n = 5$ starts and 23,924
+  walk starts. The referee validated all of them (`k4/referee/lift.md` §9). Earliest-wanter-prefix rounds repair all
+  583,680 two-move starts of the three adversarial $n = 5$ cores #419, #447 and #38 (ledger K4.MULTI.ROUNDE.SEL2,
+  CONFIRMED by the referee).
+- **The base case as posed is false** (ledger K4.BASE.PHI, REFUTED; `k4/base_phantom.md` §2). The smallest instance is
+  T3 ($n = 3$, $m = 6$; §11.9 item 4).
+  - Its only admissible round settles agent 2 along $E(2) = (2, 1)$ with $T = \{1, 3\}$. That round is improving,
+    satisfies (L\*), and leaves agents 0 and 1, whose picks complete with no phantom constraint.
+  - But no allocation of the present goods is EFX₀ among agents 0 and 1 without threatening agent 2 at
+    $v_2(T) = 32$: good 0 is worth 38 to agent 2, and it cannot be alone.
+  - So that state has a one-move repair but none that respects the phantom.
+  - This write-up's checker confirms each step (Appendix C). By this write-up's reading of the Lean definitions (the
+    round is an earliest-wanter prefix, and (H), (P2), (P3) are vacuous there), T3 falsifies `ConjBasePhi` as
+    formalized. That reading is not machine-checked.
+  - At $n = 4$, the dead ends (reachable states with no lifted completion and no admissible round) are 32,480 states
+    from 16,240 starts. 29,280 of them admit no EFX₀ allocation keeping the phantoms' sets, and every one carries an
+    "ℓ alone" phantom (ledger K4.BASE.DEAD.N4 [Cert], CONFIRMED by the referee).
+- **The correction: P1-free rounds** (`k4/base_phantom.md` §4–§5, branch `proof/k4-base-phantom`, PR #139). A
+  settlement is *P1-free* if every good of $R_k \setminus T$ is worth at most $\tau_k = v_k(T)$ to $k$.
+  - *Proposition SEP* [R] (`k4/referee/basephantom.md`: CORRECT; 1,156,525 raw-threat tests, 0 violations). A P1-free
+    phantom is threatened only by a bundle of three or more goods containing two goods of $R_k \setminus T$. For a pair
+    $T$, that means exactly a bundle $X \supseteq \{y_k, \ell_k\}$ with $|X| \ge 3$ and
+    $v_k(y_k) + v_k(\ell_k) > \tau_k$. So P1-free phantoms only separate pairs. *Proof:* Lemma 11.25 with
+    $v_k(\ell) \le \tau_k$ rules out (P1). ∎
+  - *At $n = 4$, P1-free rounds never dead-end* (ledger K4.BASE.P1FREE.N4) [Cert]. From each of the 112,880 two-move
+    starts, every sequence of admissible P1-free rounds ends in a lifted completion. Two implementations agree, and the
+    referee confirmed it exhaustively.
+  - *A P1-free round need not exist at $n = 5$* (ledger K4.BASE.P1FREE, REFUTED) [V]. At 12 of the 280 sampled
+    two-move starts, every admissible round settles an agent with an "ℓ alone" constraint. At all 12, a round of one
+    P1-free and one P1 settlement is followed by a completion at once.
+
+> **Conjecture BASE-R (ledger K4.BASE.GR) [C].** Let $S$ be reached from a hard perfect start (strict values, at most
+> four relevant goods per agent) by admissible rounds whose settlements are P1-free. If $S$ has no lifted completion
+> and no admissible P1-free round, then $S$ has a *final round* (an admissible round of any kind followed at once by a
+> lifted completion) or an *ED repair* (an ED move followed by a lifted one-absorber completion).
+
+  BASE-R says that the greedy process GR never gets stuck. GR stops at a completion, a final round or an ED repair,
+  and otherwise takes any P1-free round. With Lemmas 6.2 and 12.3 it would imply TARGET₄, with no existential choice
+  of rounds (ledger K4.BASE.GR; written argument, not in Lean).
+  - *Evidence* [E]: GR never gets stuck on 112,880 ($n = 4$, all), 14,047 ($n = 5$ partial export), 4,955 (walks),
+    280 (5_pure) and 8,539 one-move starts. An independent re-check agrees.
+  - Each part is needed. Without the final round, 12 5_pure starts get stuck; without the ED repair, 47 one-move
+    starts do.
+- *What route 2 still needs:* Conjecture BASE-R, which has three parts:
+  - OC₁ by an ED move where no admissible round exists (6 known starts);
+  - a final round where every admissible round creates an "ℓ alone" phantom (the 12);
+  - OC₁ with separation constraints elsewhere.
+
+  It also needs a Lean frame for GR in place of `ConjRoundInd ∧ ConjBasePhi`.
+
+**Also refereed this period** (not needed above):
+- *Lemma SPLICE* (`kgen/rounds.md` §4.10, `k4/referee/rounds_r1.md` addendum 2: CORRECT WITH TWO SMALL FIXES). A
+  REC-S repair is one round of OC₁′ moves, except in an explicit configuration (EX), and the converse holds too.
+  This replaces the sketch whose gap is recorded in Proposition 11.26 item 7. The same report confirms that REC-S
+  existence fails at exactly the 7 named $n = 5$ starts (ledger K4.MULTI.RECS.EXIST.N5).
+- *The pick graph* (`kgen/rounds.md` §4.11): Lemmas PG, GAIN, RING, RHO, FIX and Theorem ROUND-SIMPLE CORRECT. As
+  proved, "ROUND-P^max ⟺ SIMPLE-MD" holds only in the direction ⟸.
+- *Lemma UNTANGLE* (§4.13 there): proved parts (1)–(5) CORRECT. The open parts cannot be closed by any rule for $h$.
+- *K4.MC9* (`k4/TWINS.md` §4): a minimal counterexample has no claw, three P3 agents on a good of degree 3 (certified
+  reduction, SOUND).
+
 ## 12. Open problems and conjectures
 
 Everything in this section is open. Evidence is finite data, and random data can miss rare structures. Several
@@ -2715,6 +2879,11 @@ reductions of §2.2. A minimal counterexample is a strict connected $k = 4$ core
 - cyclomatic number at least 5.
 
 By L1 (PROMPT.md), a counterexample would also refute EFX existence for strictly positive additive valuations.
+Monotone EFX₀ at $k = 4$ is also certified for $n \le 5$ (Proposition 9.9), by a method independent of those rows.
+
+The two routes toward a proof, and exactly what each still needs, are in §11.10:
+- Route 1 needs the completion half of Conjecture RF;
+- Route 2 needs Conjecture BASE-R.
 
 ### 12.1 After OC₁^max: two moves, and some-order forms
 
@@ -2745,7 +2914,7 @@ In addition:
 - *OC₂^max is certified for $n \le 4$* [Cert]. It holds for every strict profile of every core hypergraph with
   $n \le 4$ (1,058 hypergraphs; §7.3), the 11 failing ones included. The coordinator's independent check of those 11
   agrees, and two sequential moves repair both printed instances (Appendix C). At $n = 5$ it is certified so far on
-  2,670 of the 31,584 cores (Proposition 11.26 item 2), with no failure. The $n = 4$ two-move starts all have
+  3,605 of the 31,584 cores (Proposition 11.26 item 2), with no failure. The $n = 4$ two-move starts all have
   explicit refereed repairs (REC-S and RSD; Proposition 11.26 items 8–9).
 - *The some-order form on the counterexamples.* On both instances of Proposition 7.4, other maximum-matching orders
   complete at the picks.
@@ -3072,7 +3241,7 @@ Repository-internal sources cited above: `proofs/lb_last_step.md` (construction 
 
 ## Appendix A. Verification record
 
-**Referee.** Branch `claude/k4-referee`, head `70f6e5c`, `k4/referee/README.md`, items 1–44. The checks are under
+**Referee.** `k4/referee/README.md` on main at `898d80b`, items 1–57. Statuses are from LEDGER.md on main at `898d80b`. The checks are under
 `k4/referee/*.py`, with logs under `results/k4_referee/`.
 
 **Sources.** The "head" column is the branch head when this draft was written. "Unchanged" means the cited sections
@@ -3126,6 +3295,16 @@ or citations added.
 | Appendix B: release lemmas ($k = 3$) | `k4/k3_oc1.md` §12; `kgen/n3.md` §15.6 | `9719be2`; `a319483` | `9719be2`; not re-compared | — | `k3_release.md` | CORRECT |
 | Appendix B: Lemma WG | `k4/oc1max_multi.md` §13 | `6b6cf7b` | `8924c6b` | unchanged | `oc1max_multi.md` §13 | CORRECT (K-loc WRONG as stated; phantom class GAP) |
 | Appendix B: K4.MC8 filter | `k4/TWINS.md` §1 (`proof/k4-twins`) | `450a58f` | not re-compared | — | `twins.md` addendum | SOUND |
+| §11.10, Lemma RF-PATH (both forms) | `k4/girth.md` §7 (`claude/k4-girth`) | `8f7ba8a`, `712a568` | `db48160` | not re-compared | `girth.md` §7 | CORRECT |
+| §11.10, Lemma RF-ROT | `k4/ttc.md` §14.7 (`claude/k4-ttc`) | `d451ea0` | `0247c41` | not re-compared | `girth.md` §7 | CORRECT |
+| §11.10, RF residue lemmas (RF-A1, RF-B, REPAIR-Y, RF-B4) | `k4/oc1_hall.md` §24.6, §24.8 | `01f986d` | main `898d80b` | not re-compared | `oc1_hall.md` addendum | CORRECT |
+| §11.10, Theorem S^φ; SD-E(round); S^φ(round) | `k4/oc1max_multi.md` §16–§17 (`proof/k4-oc1max-multi-2`) | `52f5b0b`; `85981d1`; `d10b8f2` | not re-compared | — | `oc1max_multi.md` §14–§16 | CORRECT WITH ONE FIX (S-φ3); CORRECT; CORRECT |
+| §11.10, ROUND-RSD witnesses; LIFT\* for rounds | `k4/matching.md` §6 | `56e64a9` | not re-compared | — | `lift.md` §9 | all valid; CORRECT |
+| §11.10, K4.MULTI.ROUNDE.SEL2 | `proof/k4-oc1max-multi-2` | `4f8a992` | — | — | `oc1max_multi.md` §17 | CONFIRMED |
+| §11.10, Proposition SEP; K4.BASE.DEAD.N4; K4.BASE.P1FREE.N4 | `k4/base_phantom.md` (main) | `0e6d9ab` | main `898d80b` | not re-compared | `basephantom.md` | CORRECT; CONFIRMED; CONFIRMED |
+| §11.10, Lemma SPLICE; RECS.EXIST.N5 | `kgen/rounds.md` §4.10 | `7ffbfd2` | not re-compared | — | `rounds_r1.md` addendum 2 | CORRECT WITH TWO SMALL FIXES; CONFIRMED |
+| §11.10, pick-graph lemmas, ROUND-SIMPLE; UNTANGLE (1)–(5) | `kgen/rounds.md` §4.11, §4.13 | `d79599e`; `50c1fc4` | not re-compared | — | `rounds_r1.md` addenda 3–4 | CORRECT |
+| §11.10, K4.MC9 | `k4/TWINS.md` §4 (`proof/k4-twins-2`) | `ea71fb5` | not re-compared | — | `twins.md` addendum 2 | SOUND |
 
 **Not refereed, included with their verification status.** These are:
 - Propositions 7.1–7.3 and 7.8; the Remark in §7.2; the one-round failure at $k = 4$ and the R1-priority remark in
@@ -3136,9 +3315,11 @@ or citations added.
   R2-E, the $n = 5$ counterexamples to RSD-IND's existential form (5_pure #419, #447), the $n = 5$ census (§11.6),
   and the ROUND-P counts;
 - the refutation of T′_k (§9), and the refutations of W^sub and L^sub (§12.5);
+- in §11.10: R2 at $n = 5$, K4.BASE.P1FREE at $n = 5$, Conjecture RF's evidence, Conjecture BASE-R's evidence, and
+  this write-up's reading that `ConjBasePhi` fails at T3;
 - every conjecture of §12.
 
-Heads were re-checked at about 02:40 UTC on 2026-11-27.
+Heads were re-checked at about 05:30 UTC on 2026-11-27.
 
 **Lean.** This write-up's session ran `lean/check.sh` on branch `formal/k4-oc1max` twice.
 - At `838fb0e`: CHECK PASSED, with 1,246 audited statements and 2,350 theorems.
@@ -3149,7 +3330,19 @@ Both runs have every declaration on `propext`, `Classical.choice` and `Quot.soun
 passing. The certificates for `EFX.OC1Max.sdpo`, `EFX.OC1Max.exists_order_maximum`, `EFX.OC1Max.max_no_augment`,
 `EFX.OC1Max.picks_no_junk`, `EFX.OC1Max.target4_of_conjOC1maxWith`, `EFX.OC1Max.red` and
 `EFX.OC1Max.target4_of_conjOC1perfWith` are in `paper/campaign/lean_check_oc1max.log`. The frames are implications;
-their one-move hypotheses are false (Proposition 7.4). The branch is not yet merged into `main`.
+their one-move hypotheses are false (Proposition 7.4). That branch has since been merged.
+
+A third run, on main at `898d80b0`, which includes the frames and tools of §11.10 (PRs #141, #143, #149), gave
+**CHECK PASSED**: 1,371 audited statements and 2,644 theorems, with a warning-free build and no `sorry`. All 10,002
+declarations of the library use only `propext`, `Classical.choice` and `Quot.sound`. The certificates of the
+declarations cited in §11.10 are in `paper/campaign/lean_check_main.log`:
+- `EFX.OC1Max.target4_of_conjRF` and `conjOC1exmax_of_conjRF`;
+- `EFX.Round.target4_of_roundRSD`, `exists_efx0_of_rounds`, `inv_of_reach` and `lift_base`;
+- `EFX.Round.liftStar`;
+- `EFX.OC1Max.thmS` and `thmS_oc1`;
+- `EFX.Round.oc1PhiAt_of_sPhi` and `conjBasePhi_of_sPhi`.
+
+These are implications. As §11.10 explains, their hypotheses `ConjRF` and `ConjBasePhi`, as stated in Lean, are false.
 
 ## Appendix B. Other refereed results
 
@@ -3230,7 +3423,7 @@ outside the bases, so this is exact for the free and for the one-absorber comple
 reaches" claim is therefore a check over that list of allocations, with moves as in §2.4: additions, chains whose
 passed bases are nonempty, and rings. Rounds and two sequential chains (RD5 only) are enumerated directly.
 
-*What it checks* (72 checks; all pass, `paper/campaign/check_instances.log`):
+*What it checks* (74 checks; all pass, `paper/campaign/check_instances.log`):
 - **Theorem 3.4**: the construction exactly as transcribed in §3.2, on 40,000 random two-agent starts. These come
   from 20,000 instances with ties, zeros and sparse values, $m \le 12$, in both orders. Every output is a complete
   EFX₀ allocation of shape (A1), (B) or (D).
@@ -3300,6 +3493,12 @@ passed bases are nonempty, and rings. Rounds and two sequential chains (RD5 only
   each. At #419 the two printed chains repair together, and each one's set threatens the agent that only the other
   chain lifts.
 - **P34** (§12.3): a strict connected core, and the printed two-move completion is EFX₀.
+- **5_pure #650** (§11.10): a strict connected core whose printed picks are an SD outcome. The start is perfect with
+  receivers $\{1, 2\}$, and OC₁ fails. For each receiver $u$, some $u$-first order is maximum, and every maximum
+  $u$-first order satisfies OC₁.
+- **T3's base case** (§11.10): the picks, $D$ and the receiver; the round settling agent 2 with $\{1, 3\}$ is
+  improving and satisfies (L\*). Afterwards the picks of agents 0 and 1 complete. No allocation of the present goods
+  is EFX₀ between them while also not threatening agent 2 at $v_2(\{1, 3\})$.
 - **Conjecture W (§12.5)**: the printed state is partial EFX₀. No composite of at most two moves (the move class of
   §12.5) reaches a better partial EFX₀ allocation, and three moves do.
 - **Proposition 7.5**: 186 complete EFX₀ allocations, as the referee found. No free completion at the picks or after

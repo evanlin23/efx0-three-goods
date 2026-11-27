@@ -1,0 +1,12 @@
+$ python3 k4/girth/lrdyn_linear.py random 51 900
+{'instances': 2000, 'runs': 47304}
+{'instances': 4000, 'runs': 94749}
+{'instances': 6000, 'runs': 142167}
+{'instances': 8000, 'runs': 190110}
+{'instances': 10000, 'runs': 237852}
+{'instances': 12000, 'runs': 285165}
+{'instances': 14000, 'runs': 332781}
+{'instances': 16000, 'runs': 380295}
+{'instances': 18000, 'runs': 427896}
+{'instances': 20000, 'runs': 475557}
+random {'instances': 21188, 'runs': 503403}

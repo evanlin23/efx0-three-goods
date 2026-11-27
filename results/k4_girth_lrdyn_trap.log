@@ -1,0 +1,29 @@
+$ python3 k4/girth/lrdyn_linear.py trap 41 900
+{'instances': 2000, 'runs': 34413}
+{'instances': 4000, 'runs': 68691}
+{'instances': 6000, 'runs': 102966}
+{'instances': 8000, 'runs': 137238}
+{'instances': 10000, 'runs': 171576}
+{'instances': 12000, 'runs': 205719}
+{'instances': 14000, 'runs': 239823}
+{'instances': 16000, 'runs': 274203}
+{'instances': 18000, 'runs': 308283}
+{'instances': 20000, 'runs': 342657}
+{'instances': 22000, 'runs': 376878}
+{'instances': 24000, 'runs': 411228}
+{'instances': 26000, 'runs': 445800}
+{'instances': 28000, 'runs': 479850}
+{'instances': 30000, 'runs': 514197}
+{'instances': 32000, 'runs': 548160}
+{'instances': 34000, 'runs': 582465}
+{'instances': 36000, 'runs': 616995}
+{'instances': 38000, 'runs': 651141, 'static parking fails': 2}
+{'instances': 40000, 'runs': 685704, 'static parking fails': 2}
+{'instances': 42000, 'runs': 720135, 'static parking fails': 2}
+{'instances': 44000, 'runs': 754668, 'static parking fails': 2}
+{'instances': 46000, 'runs': 789003, 'static parking fails': 4}
+{'instances': 48000, 'runs': 823545, 'static parking fails': 4}
+{'instances': 50000, 'runs': 857790, 'static parking fails': 4}
+{'instances': 52000, 'runs': 891930, 'static parking fails': 4}
+{'instances': 54000, 'runs': 926292, 'static parking fails': 4}
+trap {'instances': 55638, 'runs': 954435, 'static parking fails': 4}
