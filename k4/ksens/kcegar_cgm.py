@@ -3,8 +3,8 @@ kgen/charity/cgm_check.py on branch claude/kgen-charity, read there): relevant s
 {4,5,6} (k = 6, n = 3, m = 7).  kcegar at D = 1 and D = 2 over every strict profile (the six-good agent by the LP
 route), and the CGM values themselves (one chain from each maximum-matching start; ocsat and brute force).
 
-    python3 k4/ksens/kcegar_cgm.py"""
-import json, time
+    python3 k4/ksens/kcegar_cgm.py [--grid6=FILE]      grid mode for the six-good agent (a subset of its types)"""
+import json, time, sys
 import _paths
 import kcegar, ocsat, brute
 from maxmatch import nu
@@ -23,7 +23,8 @@ if __name__ == '__main__':
             Y, O.holds(b, chain='none', A=1), O.holds(b, chain='any', A=1),
             I.completes(base, 1) or any(I.completes(s, 1) for s in I.chains(base))), flush=True)
     for D in (1, 2):
-        t = time.time(); C = kcegar.Cegar(SETS, D=D); r, w = C.run(time_limit=7200)
+        g6 = next((a[8:] for a in sys.argv if a.startswith('--grid6=')), None)
+        t = time.time(); C = kcegar.Cegar(SETS, D=D, grid6=g6); r, w = C.run(time_limit=7200)
         print('every strict profile, D = %d: %s (%d iterations, %d LP calls, %.0f s)%s' % (
             D, r, C.iters, C.lpcalls, time.time() - t, (' ' + json.dumps(w)) if w else ''), flush=True)
         C.close()

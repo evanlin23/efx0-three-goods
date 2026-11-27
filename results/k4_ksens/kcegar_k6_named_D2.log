@@ -1,2 +1,0 @@
-$ python3 k4/ksens/kcegar_batch.py named6 2 --jobs=1 --limit=3000
-hypergraphs 18

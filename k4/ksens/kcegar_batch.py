@@ -10,6 +10,8 @@
     python3 k4/ksens/kcegar_batch.py named6 D [--jobs=4] [--limit=SEC]                designed k = 6 hypergraphs (NAMED6 below)
 --any-start: every SD start, not only the maximum-matching ones (the official move rule either way).
 --kmin=K: (genbg) only hypergraphs in which some agent values at least K goods.
+--grid6=FILE: six-good agents take the grid types of FILE (typesk.py; a subset of all strict types, so 'certified'
+             then covers that subset only; a FAIL is a genuine counterexample).
 --ckpt=FILE: append every finished hypergraph's record to FILE (JSON lines) and skip the ones already there, so a run
              can be resumed after the container is reclaimed.
 A FAIL is re-checked on its integer representative by ocsat (SAT; empty passes allowed) for D <= 1, by ocseq (SAT, D
@@ -80,8 +82,10 @@ def recheck(R, vals, Y, D, A=1):
 
 def job(task):
     name, sets, D, limit = task; t0 = time.time()
-    C = kcegar.Cegar(sets, D=D, require_max='--any-start' not in sys.argv); r, w = C.run(time_limit=limit); rec = {'name': name, 'sets': sets, 'D': D, 'result': r,
-        'iterations': C.iters, 'kinds': dict(C.kinds), 'types': [len(t) if t is not None else 'LP' for t in C.T],
+    g6 = next((a[8:] for a in sys.argv if a.startswith('--grid6=')), None)
+    C = kcegar.Cegar(sets, D=D, require_max='--any-start' not in sys.argv, grid6=g6); r, w = C.run(time_limit=limit); rec = {'name': name, 'sets': sets, 'D': D, 'result': r,
+        'iterations': C.iters, 'kinds': dict(C.kinds), 'types': [len(t) if t is not None else ('grid' if C.G[i] else 'LP') for i, t in enumerate(C.T)],
+        'grid6': g6,
         'lp_calls': C.lpcalls}
     if r == 'FAIL': rec['recheck'] = recheck(C.R, w[0], w[1], D)
     C.close(); rec['time'] = round(time.time() - t0, 1); return rec
