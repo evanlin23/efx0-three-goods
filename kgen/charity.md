@@ -21,6 +21,7 @@ changed here; the coordinator integrates.
 | W small n | no welfare maximum strands a good for n = 3, k = 3; none strands two for n = 3, k = 3, 4 and n = 4, k = 3 | exhaustive by one implementation (z3 CEGAR over real values, all m ≤ nk + n by Lemma W0) | §6, `w_synth_n*.log` |
 | DU | an instance whose incidence graph has ≥ 2 components with agents has a complete EFX₀ allocation | PROVED (written proof; recipe checked on 2,000 random unions and on copies of the stranded instances) | §3, Prop. DU, `union_dump.log` |
 | CH-KD | every agent values ≤ k goods, every good has ≤ d valuers: some EFX₀ state with strong charity leaves ≤ min{(k − 2)d − 1, R(d)} goods out (|P|! ≤ d^{|P|−1}); at k = 4: ≤ 2, 4, 6, 9 for d = 2, 3, 4, 5 | PROVED (self-contained proof, §8; CH-A, CH-B marked correct by the referee, k4/referee/charity.md) | §8 |
+| PH | CKMS's rules with fixed phantom bundles satisfying L2's conditions (each phantom weakly prefers its bundle to all remaining goods it values; its bundle is a single good or worthless to the others): EFX₀ for all, nobody envies the pool, Theorem CH-KD's bound | PROVED (written proof) | §10 |
 | OL | from any EFX₀ state with strong charity, some complete EFX₀ allocation leaves at most one agent worse off | CONJECTURE: PROVED at n = 2 (P1₂, no loser); exhaustive (z3, one implementation) at n = 3, k ≤ 4 and n = 4, k = 3; holds on every stranded state found (S′, CH-F, 20 curated Pareto maxima, CGM's three-agent example, CKMS stops, 1,458 random charity states) | §9, `ol_synth_*.log`, `losers.log`, `ol_check*.log`, `cgm_check.log` |
 | least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
 
@@ -690,7 +691,52 @@ maxima or the 14 CKMS stops; the one-loser completions there move goods off the 
 charity form of it (one loser per round that strictly shrinks the pool, keeping strong charity), needs the general
 one-loser repair, which is the open step.
 
-## 10. Open
+## 10. Fixed phantom bundles: an inductive hypothesis for recursions that settle agents one at a time
+
+A recursion that settles an agent with a bundle, deletes both and recurses (the two-move programme's REC-S; L2's
+peeling is the classical case) leaves each deleted agent φ as a *phantom*: a fixed bundle F_φ that must stay
+unthreatened while the rest is allocated. With phantoms Φ, remaining agents N and remaining goods M′ = M ∖ ∪F_φ, the
+whole allocation is EFX₀ iff (i) it is EFX₀ among N, (ii) no phantom strongly envies a bundle of an agent of N,
+(iii) no agent of N strongly envies a phantom's bundle, and (iv) the phantoms are mutually EFX₀.
+
+**Proposition PH (charity with satisfied phantoms; written proof).** Assume
+- (H1) every phantom weakly prefers its bundle to all remaining goods it values: v_φ(F_φ) ≥ v_φ(R_φ ∩ M′);
+- (H2) the phantoms' bundles are mutually EFX₀;
+- (H3) every F_φ is a single good or is worth 0 to every agent of N.
+Run CKMS's rules (§8: R, U0, U1, U2 along shortest rainbow cycles) on N and M′ from the empty allocation, with EFX₀
+checked against all of N ∪ Φ. The stopping state, together with the phantoms, is EFX₀ for every agent, nobody —
+phantoms included — envies the pool, and the pool obeys Theorem CH-KD (k and d measured on N and M′: every agent of N
+values ≤ k goods of M′, every good of M′ has ≤ d valuers in N). In particular it is empty for k ≤ 2.
+*Proof.* By (H1) a phantom values every subset B ⊆ M′ at v_φ(B) ≤ v_φ(R_φ ∩ M′) ≤ v_φ(F_φ), so it envies no subset
+of M′: it never strongly envies a bundle formed from M′ (condition (ii)), never envies the pool, and is never the
+envier of a champion option. So phantoms play no role in U0, U1, U2 or the source digraph, and Steps 1–5 of §8 run
+unchanged on N. Condition (iii) holds at the empty start by (H3) (nobody strongly envies a single good, and a bundle
+worth 0 to j cannot be strongly envied by j), and it is preserved because every rule weakly raises every value of an
+agent of N while the phantoms' bundles do not change. (iv) is (H2). ∎
+
+(H1) and (H3) are exactly L2's peeling conditions R1/R2 without the requirement that the residual be solved
+completely: so **L2 extends from complete allocations to charity** — peeling an agent that satisfies R1 or R2 never
+costs charity. A recursion that settles only such agents keeps the hypotheses of CH-KD at every level, and the bound
+holds for the final pool, independently of n and of the number of phantoms.
+
+**Without (H1)** (a settled sharer that still values remaining goods above its bundle), the phantom is active. What
+survives, by the same locality as Lemma CH1:
+- a phantom φ can strongly envy X_s ∪ {g} only if it values g (and a good of X_s); so it can block, i.e. champion,
+  only pool goods in R_φ ∖ F_φ, at most k − 1 per phantom (k − |R_φ ∩ F_φ|);
+- condition (iii) is still free under value-monotone rules once it holds at the start (thresholds t_j = the largest
+  v_j(F_φ ∖ h) are lower bounds that never break);
+- but U1 and U2 must now also keep φ from strongly envying the new bundles, and a minimal envied subset of the pool
+  may be envied only by φ, which cannot receive it; so the rule system itself needs a change (a phantom-aware U1).
+  With that change, CH-KD's Steps 3–5 apply to the pool goods valued by no active phantom, so the open part of the
+  pool is P ∩ ∪_{φ active} R_φ, at most (k − 1) times the number of active phantoms that value pool goods. That is
+  n-independent only if the recursion keeps the number of active phantoms bounded.
+
+So the clean inductive hypothesis is "every phantom is satisfied (H1) and unthreatened by construction (H3)", and it
+yields CH-KD's n-independent charity; any recursion that settles sharers which still want remaining goods (REC-S
+proper) must pay for each such sharer, at most k − 1 goods each in the charity accounting, unless the sharer's demand
+is discharged before it is deleted.
+
+## 11. Open
 
 1. **Non-monotone moves.** CH-D and CH-E show that a proof of CH(k), k ≥ 3, must sometimes lower an agent's value.
    The two known mechanisms are LB⁺'s rotation (k = 3) and Kaviani–Seddighin–Shahrezaei's virtual values
