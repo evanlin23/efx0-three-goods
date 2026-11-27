@@ -852,6 +852,30 @@ In (P)'s class (§11) they fail already at n = 5, while T-ω still holds.
 
 So for DE's general core case a proof must combine Lemma 5 with an owner count, or peel first.
 
+**kgen-n3's Proposition A, refereed here** (`kgen/n3.md` §15.17 on `claude/kgen-n3` @ 9923da4).
+- **Statement.** At a hard perfect draft after LB's maximal upgrades, with T = {t}, let k ∈ E_t satisfy two
+  conditions:
+  - (α) no other x ∈ E_t has the pair of k;
+  - (β) the sets pair_x ∖ pair_k, for x ∈ E_t ∖ {k}, share a good g.
+
+  Then k's Rule E rotation into t completes with owner k: give g to a terminal of the result, and the rest of the
+  junk to k.
+- **The proof is correct.**
+  - k is frozen, since t is the only terminal, so its Rule E chain ends at t. The result is valid (B\* (a)–(c)).
+  - E′_k = E_t ∖ {k} and π′_x = pair_x ∖ pair_k. This is B\* (e): t is not newly exposed, by (I1) or (UT). (UT) is
+    where "after LB's maximal upgrades" is needed.
+  - G5 makes the want graph acyclic, so T′ ≠ ∅.
+  - Lemma 1 (b) applies with owner k: (α) is its base condition, and h ≤ 1 ≤ |T′|. A three-good-or-larger bundle of
+    k's threatens only a top-holder whose pair lies inside it, and g blocks each of them.
+  - The proof is class-free: small agents are never exposed.
+- **Independent check** (`propA_check.py`, `propA_check.log`; explicit completion tested with `k3lib.efx0`). All
+  218,224 (draft, k) pairs on the 113,736 one-terminal gap drafts with n ≤ 6 where such a k exists complete, matching
+  kgen-n3's counts.
+- **Its residual conjecture R-ω is false.** R-ω says that where no k satisfies (α) and (β), some Rule E rotation
+  needs no owner. The T′_k counterexample at n = 7 (`attempts/k4-k3oc1-tprime-k.md`) is exactly kgen-n3's twin
+  class R1: E_t = {5, 6} with the same pair. Both rotations leave ω′ = 1 and complete only with an absorbing owner
+  (the terminal, or agent 3). So the twin case needs owner t's count, not releases alone.
+
 **Statement (P)'s class** (§11: agents valuing one, two or three goods; the class the reduction RED₃ produces).
 - **The exact test extends.** `lbtest` and `de_moves` now accept agents with one or two goods: they are never
   exposed, never threatened and never upgraded (§11). `mixed_check.py` compares `lb2` with the exhaustive
