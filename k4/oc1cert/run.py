@@ -4,7 +4,10 @@ written by k4/search4.py), by the ordinal CEGAR of k4/oc1cert/cegar.py.
     python3 k4/oc1cert/run.py LIST[,LIST...] --out=results/k4_oc1max/cert_<tag>.json.gz [--jobs=4] [--stride=S --offset=O]
            [--limit=SEC] [--no-compact] [--depth=D] [--idx=I,J,...] [--summary=S.jsonl.gz]
 An --out ending in .jsonl.gz is written as one JSON record per line (header line first) while the run goes.
---depth=D: up to D moves in sequence (OC_D form; default 1 = OC1^max).  --prime: OC1' moves (kgen/rounds.md §4.6).  --sstar: S*-shaped completions (k4/oc1_hall.md §2).  --idx: only these core indices (within m).
+--depth=D: up to D moves in sequence (OC_D form; default 1 = OC1^max).  --prime: OC1' moves (kgen/rounds.md §4.6).  --sstar: S*-shaped completions (k4/oc1_hall.md §2).
+--r2=m|star: TTC's R2-M / R2* (k4/ttc.md §14.6): at every perfect start with >= 2 receivers, a one-absorber completion
+of the picks, or a canonical chain to a receiver with the R2-M (owner x0, every agent <= 1 junk, multi-good holders
+other than x0 none) or R2* (every agent <= 1 junk) completion.  --idx: only these core indices (within m).
 
 LIST is a name like 2, 3, 4_n4_1, 5_pure (results/k4_certs_<LIST>.json.gz).  A hypergraph whose outer loop finds a
 (profile, picks) pair with no witness is re-checked at once with the raw checker k4/sdc/oc1_mc2_rand.Inst (its SD picks
@@ -36,8 +39,13 @@ def job(task):
     lst, idx, sets, limit, compact, depth = task[:6]
     prime = len(task) > 6 and task[6]
     sstar = len(task) > 7 and task[7]
+    r2 = task[8] if len(task) > 8 else None
     t0 = time.time()
-    C = Cert(sets, depth=depth, prime=prime, sstar=sstar)
+    C = Cert(sets, depth=depth, prime=prime, sstar=sstar, r2=r2)
+    if r2 and C.nu < C.n:     # R2 is about perfect starts
+        return {'list': lst, 'idx': idx, 'sets': sets, 'm': C.m, 'nu': C.nu, 'domains': [len(D) for D in C.dom],
+                'result': 'certified', 'note': 'no perfect start (nu < n): vacuous', 'stats': {'iters': 0, 'kinds': {}},
+                'witnesses': [], 'time': 0}
     r = C.run(time_limit=limit)
     rec = {'list': lst, 'idx': idx, 'sets': sets, 'm': C.m, 'nu': C.nu, 'domains': [len(D) for D in C.dom],
            'result': r, 'stats': C.stats(), 'time': round(time.time() - t0, 3)}
@@ -76,7 +84,7 @@ def main():
         d = json.load(gzip.open(os.path.join(ROOT, 'results', 'k4_certs_%s.json.gz' % lst)))
         for c in d['cores'][offset::stride]:
             if idxs is not None and (lst, c['idx']) not in idxs and c['idx'] not in idxs: continue
-            tasks.append((lst, c['idx'], c['sets'], limit, compact, depth, 'prime' in opt, 'sstar' in opt))
+            tasks.append((lst, c['idx'], c['sets'], limit, compact, depth, 'prime' in opt, 'sstar' in opt, opt.get('r2')))
     print('hypergraphs', len(tasks), 'jobs', jobs, flush=True)
     t0 = time.time(); T = collections.Counter(); recs = []; tmax = (0, None)
     header = {'statement': 'OC1^max (K4.SDC.OC1MAX) for every strict profile: for every type profile and every '
@@ -85,7 +93,8 @@ def main():
                            'have one (DEPTH = 1 is OC1^max)', 'depth': depth,
               'generator': 'k4/oc1cert/cegar.py', 'lists': lists, 'stride': stride, 'offset': offset,
               'moves': "OC1' (kgen/rounds.md §4.6: non-end chain agents may take goods of the end's base)" if 'prime' in opt else 'official',
-              'completion': 'S* (k4/oc1_hall.md §2)' if 'sstar' in opt else 'one absorber'}
+              'completion': 'S* (k4/oc1_hall.md §2)' if 'sstar' in opt else 'one absorber',
+              'r2': opt.get('r2')}
     stream = out and out.endswith('.jsonl.gz')     # one JSON record per line (header first), not kept in memory
     summary = opt.get('summary')                   # optional: the records without witnesses, as JSON lines
     if stream:

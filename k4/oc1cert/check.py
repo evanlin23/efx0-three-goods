@@ -28,6 +28,13 @@ Written separately from cegar.py; it shares no code with it or with the reposito
 - With OC1_SSTAR=1 every completion must have the S* shape of k4/oc1_hall.md §2 (claude/k4-oc1-hall), with the
   witness's declared owner.  Every other junk receiver must hold at most one base good and one junk good, and
   no other agent may prefer that base good to its own base (a type mask).
+- With OC1_R2=m (or star) it checks TTC's R2-M (or R2*) (k4/ttc.md §14.6), at perfect starts only.
+  - Only profiles with at least two receivers count (a receiver is an agent whose pick no other agent prefers to its
+    own).
+  - Witnesses are completions of the picks (one absorber) or single canonical chains: x0 values a junk good, x1
+    prefers x0's pick to its own, and the end is a receiver.  Their completion gives nobody two junk goods; for R2-M,
+    holders of two or more base goods other than x0 get none.
+  - The canonical and receiver conditions are type masks.
 - With OC1_PRIME=1 it also accepts OC1' chains (kind 'chainp', kgen/rounds.md §4.6 on proof/kgen-rounds).  A non-end
   agent may then also take goods of the end's base; the end takes junk only.  Without the flag such witnesses are
   invalid.
@@ -43,6 +50,7 @@ from pysat.solvers import Glucose4
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PRIME = os.environ.get('OC1_PRIME') == '1'      # accept OC1' chains (kgen/rounds.md §4.6) only when asked
 SSTAR = os.environ.get('OC1_SSTAR') == '1'      # require S*-shaped completions (k4/oc1_hall.md §2)
+R2 = os.environ.get('OC1_R2')                   # 'm' or 'star': TTC's R2-M / R2* (k4/ttc.md §14.6)
 
 
 def own_types(d):
@@ -201,6 +209,7 @@ def check_core(rec):
     H = Hyper(rec['sets']); n = H.n
     nu, Ys = H.picks_all()
     if nu != rec['nu']: return rec['list'], rec['idx'], False, 'nu mismatch %d %d' % (nu, rec['nu']), 0, 0
+    if R2 and nu < n: return rec['list'], rec['idx'], True, {'R2: no perfect start (vacuous)': 1}, 0, time.time() - t0
     Ws = rec['witnesses']
     for w in Ws: w['_X'] = [int(c) for c in w['X']]
     # optional excluded (type profile, picks) pairs (known failures, e.g. export_fails.py): they may stay uncovered
@@ -225,6 +234,7 @@ def check_core(rec):
         for w in Ws:
             pk = w['picks']
             if any(Y[int(a)] != y for a, y in pk.items()): continue
+            if R2 and w['kind'] not in ('picks', 'chain'): continue
             r = H.apply(Y, w)
             if r is None: continue
             nb, imp = r
@@ -234,6 +244,19 @@ def check_core(rec):
             masks = [mk.copy() for mk in efx[key]]
             for x, new_, old in imp:
                 masks[x] &= H.val(x, new_) > H.val(x, old)
+            if R2 and w['kind'] == 'chain':
+                # a canonical chain: x0 frozen and valuing a junk good, x1 preferring x0's pick to its own (so x0 is
+                # frozen), the end a receiver (nobody prefers its pick); then the R2 completion shape
+                path = w['path']; x0, x1, zz = path[0], path[1], path[-1]
+                held = {y for y in Y if y is not None}
+                if not any(g not in held for g in H.R[x0]): continue
+                masks[x1] &= H.V[x1][:, Y[x0]] > H.V[x1][:, Y[x1]]
+                for i in range(n):
+                    if i != zz: masks[i] &= H.V[i][:, Y[zz]] <= H.V[i][:, Y[i]]
+                X = w['_X']; inb = {g for b in nb for g in b}
+                cnt = collections.Counter(X[g] for g in range(H.m) if g not in inb)
+                if any(c >= 2 for c in cnt.values()): continue
+                if R2 == 'm' and any(a != x0 and len(nb[a]) >= 2 for a in cnt): continue
             if SSTAR:
                 # S*: every junk receiver other than the declared owner holds at most one base good and one junk
                 # good, and no other agent prefers its base good to its own base
@@ -251,12 +274,16 @@ def check_core(rec):
         stats['witnesses applicable (sum over matchings)'] += len(boxes)
         # Types of agent i that the SD constraints and every box treat alike are interchangeable: one variable per
         # class (exact; a class's representative is its first type).
+        if R2:      # nw[j][i]: the types of agent i under which it does not prefer Y_j to its own pick
+            nw = [[(H.V[i][:, Y[j]] <= H.V[i][:, Y[i]]) if i != j else np.ones(len(H.types[i]), dtype=bool)
+                   for i in range(n)] for j in range(n)]
         cls = []
         for i in range(n):
             sig = {}
             for t in range(len(H.types[i])):
                 if sdreq[i][t] is None: continue
-                k = (sdreq[i][t], tuple(bool(b[i][t]) for b in boxes), tuple(e[i] == t for e in excl[Y]))
+                k = (sdreq[i][t], tuple(bool(b[i][t]) for b in boxes), tuple(e[i] == t for e in excl[Y]),
+                     tuple(bool(nw[j][i][t]) for j in range(n)) if R2 else ())
                 sig.setdefault(k, []).append(t)
             cls.append(list(sig.items()))
         stats['type classes (sum over matchings and agents)'] += sum(len(c) for c in cls)
@@ -279,6 +306,15 @@ def check_core(rec):
                 for j in req: solver.add_clause([-z[i][k], bef[(j, i)]])
         for bi, b in enumerate(boxes):
             solver.add_clause([z[i][k] for i in range(n) for k, (sg, ts) in enumerate(cls[i]) if not sg[1][bi]])
+        if R2:      # at least two receivers: rec_j -> every other agent's class lies in nw[j]
+            rcv = [new() for _ in range(n)]
+            for j in range(n):
+                for i in range(n):
+                    if i == j: continue
+                    for k, (sg, ts) in enumerate(cls[i]):
+                        if not sg[3][j]: solver.add_clause([-rcv[j], -z[i][k]])
+            for a in range(n):    # at least two receivers: for every agent a, some receiver other than a
+                solver.add_clause([r_ for b, r_ in enumerate(rcv) if b != a])
         cidx = [{t: k for k, (sg, ts) in enumerate(cls[i]) for t in ts} for i in range(n)]
         for e in excl[Y]:        # the excluded profile's types are singleton classes (their signature bit)
             if all(e[i] in cidx[i] for i in range(n)):
@@ -343,8 +379,9 @@ def main():
     for a in sorted(T): print(a, T[a])
     print('slowest hypergraph %.2f s' % tmax)
     print('time %.0f s' % (time.time() - t0))
-    print('RESULT', ('every certified hypergraph (%d) covered for every type profile and every maximum-matching SD order'
-                     % T['covered']) if ok_all else 'FAILED')
+    what = ('every perfect SD start with at least two receivers (R2-%s)' % R2) if R2 else 'every maximum-matching SD order'
+    print('RESULT', ('every certified hypergraph (%d) covered for every type profile and %s' % (T['covered'], what))
+          if ok_all else 'FAILED')
     sys.exit(0 if ok_all else 1)
 
 

@@ -144,7 +144,7 @@ def _perm_owner(X, ma, mg):
 
 
 class Cert:
-    def __init__(self, sets, m=None, cap_aut=256, solver='cd15', tries=3, seed=1, keep=2, require_max=True, depth=1, kcand=6, prime=False, sstar=False):
+    def __init__(self, sets, m=None, cap_aut=256, solver='cd15', tries=3, seed=1, keep=2, require_max=True, depth=1, kcand=6, prime=False, sstar=False, r2=None):
         self.sets = [list(S) for S in sets]; self.n = n = len(sets)
         self.m = m = m if m is not None else 1 + max(g for S in sets for g in S)
         self.R = [set(S) for S in self.sets]
@@ -160,6 +160,7 @@ class Cert:
         self.auts = automorphisms(self.sets, m, cap_aut) if cap_aut else [(list(range(n)), list(range(m)))]
         self.tries, self.keep, self.depth, self.kcand, self.prime = tries, keep, depth, kcand, prime
         self.sstar = sstar        # S*-shaped completions (k4/oc1_hall.md §2 on claude/k4-oc1-hall)
+        self.r2 = r2              # 'm' (R2-M) or 'star' (R2*): TTC's forms at perfect starts with >= 2 receivers
         self.rng = np.random.default_rng(seed)
         self._build_outer(solver)
         self._build_inner()
@@ -247,6 +248,15 @@ class Cert:
                 if cyc[0] != min(cyc): continue
                 edges = [(cyc[t], cyc[(t + 1) % k]) for t in range(k)]
                 if all(e in self.w for e in edges): out.add_clause([-self.w[e] for e in edges])
+        if self.r2:
+            # perfect starts only, with at least two receivers (pick holders whose pick no other agent prefers)
+            for i in range(n): out.add_clause([-self.pn[i]])
+            self.rec = [vp.id(('rec', j)) for j in range(n)]
+            for j in range(n):
+                for i in range(n):
+                    if (i, j) in self.w: out.add_clause([-self.rec[j], -self.w[(i, j)]])
+            minrec = int(os.environ.get('R2_MINREC', '2'))     # 2 is R2's hypothesis; 1 is a sanity test (must fail)
+            for c in CardEnc.atleast(self.rec, minrec, vpool=vp, encoding=EncType.seqcounter).clauses: out.add_clause(c)
         # pairs of pickless agents (for the absorber count)
         self.dpair = {}
         if n - (self.nu if self.require_max else 0) >= 2:
@@ -328,7 +338,7 @@ class Cert:
                 cl.append([-x[g][j], -x[h][j], -u[g], -u[h], big[j]])
         cl += CardEnc.atmost(big, 1, vpool=vp, encoding=EncType.pairwise).clauses
         self.iown = self.inh = None
-        if self.sstar:
+        if self.sstar or self.r2:
             # S*: one owner (any agent) takes any number of junk goods; a non-holder (assumption nh) other than the
             # owner takes none; a holder other than the owner takes at most one (big -> owner)
             own = [vp.id(('own', j)) for j in range(n)]; nh = [vp.id(('nh', j)) for j in range(n)]
@@ -373,7 +383,7 @@ class Cert:
                 out.append(j)
         return out
 
-    def complete(self, prof, base, tries=1):
+    def complete(self, prof, base, tries=1, shape=None):
         """One-absorber EFX0 completions of the bases (list of goods per agent) under the profile (type indices);
         returns up to `tries` allocations (owner lists), or [].  With sstar: S*-shaped, and self.last_owner is set."""
         holder = {g: a for a, B in enumerate(base) for g in B}
@@ -384,6 +394,14 @@ class Cert:
             NH = set(self.nonholders(prof, [list(b) for b in base]))
             ass += [(self.inh[j] if j in NH else -self.inh[j]) for j in range(self.n)]
             self.last_owners = []
+        elif self.r2 and shape is not None:
+            # R2 shapes: nobody takes two junk goods; with 'm' (owner x0) the holders of two or more base goods
+            # other than x0 take none
+            kind, x0 = shape
+            ass += [-self.iown[j] for j in range(self.n)]
+            ass += [(self.inh[j] if (kind == 'm' and j != x0 and len(base[j]) >= 2) else -self.inh[j]) for j in range(self.n)]
+        elif self.r2:
+            ass += [-self.inh[j] for j in range(self.n)]       # the plain one-absorber completion
         res = []
         xs = [self.ix[g][j] for g in range(self.m) for j in range(self.n)]
         for k in range(tries):
@@ -514,7 +532,39 @@ class Cert:
             tot += math.log(max(1, ok.sum()))
         return tot
 
+    def inner_r2(self, prof, Y):
+        """R2-M / R2*: a one-absorber completion of the picks, else a canonical chain (x0 frozen and valuing junk, x1
+        preferring x0's pick to its own, ending at a receiver) whose bases have the R2 shape's completion."""
+        base = [(y,) if y is not None else () for y in Y]
+        # the one-absorber completion of the picks: the same constraints as without r2, since nobody owns
+        # (assumptions: no nh), and own[] free (big -> own; at most one own)
+        Xs = self.complete(prof, base, self.tries)
+        if Xs:
+            return sorted([Witness({}, {}, [], X, ()) for X in Xs], key=self.volume, reverse=True)[:1]
+        vals = self.vals_of(prof)
+        wants = lambda i, j: Y[j] in vals[i] and vals[i][Y[j]] > vals[i].get(Y[i], 0)
+        held = set(Y)
+        frozen = [any(wants(i, j) for i in range(self.n) if i != j) for j in range(self.n)]
+        recv = [not frozen[j] for j in range(self.n)]
+        cands = []
+        for kind, path, Hs, nb, imp in self.moves(list(base), vals):
+            if kind != 'chain' or len(path) < 2: continue
+            x0, x1, z = path[0], path[1], path[-1]
+            if not (frozen[x0] and any(g in self.R[x0] and g not in held for g in range(self.m)) and wants(x1, x0) and recv[z]):
+                continue
+            st = [list(nb.get(a, base[a])) for a in range(self.n)]
+            Xs = self.complete(prof, st, 1, shape=(self.r2, x0))
+            if not Xs: continue
+            req = list(imp) + [(x1, (Y[x0],), (Y[x1],))]
+            req += [(i, (Y[i],), (Y[z],)) for i in range(self.n) if i != z and Y[z] in self.R[i]]
+            W = Witness({a: Y[a] for a in range(self.n)}, {a: tuple(st[a]) for a in range(self.n)}, req, Xs[0],
+                        ((kind, path, Hs),), None)
+            cands.append(W)
+            if len(cands) >= self.kcand: break
+        return sorted(cands, key=self.volume, reverse=True)[:self.keep]
+
     def inner(self, prof, Y):
+        if self.r2: return self.inner_r2(prof, Y)
         """Witnesses at (prof, Y): the best completions of the picks, else the best (move sequence, completion) pairs
         with the fewest moves (at most self.depth)."""
         base = [(y,) if y is not None else () for y in Y]
@@ -582,7 +632,7 @@ class Cert:
         n_w = len(self.wclauses)
         # the outer constraints, rebuilt on a fresh solver, with a selector per witness clause
         base = Cert.__new__(Cert)
-        base.__dict__.update({k: v for k, v in self.__dict__.items() if k in ('sets', 'n', 'm', 'R', 'pos', 'dom', 'ss', 'nu', 'require_max')})
+        base.__dict__.update({k: v for k, v in self.__dict__.items() if k in ('sets', 'n', 'm', 'R', 'pos', 'dom', 'ss', 'nu', 'require_max', 'r2')})
         base._build_outer('cd15')
         cls = [base.witness_clause(W) for W in self.witnesses]
         s2 = [base.vp.id(('sel', k)) for k in range(n_w)]
