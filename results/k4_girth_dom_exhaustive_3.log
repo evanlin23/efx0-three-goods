@@ -45,3 +45,9 @@ k4_certs_3.json.gz#m7#9      labelings   6, DOM fails for 0, runs   133624 49.5s
 k4_certs_3.json.gz#m7#10     labelings   6, DOM fails for 0, runs  1091070 469.8s
 k4_certs_3.json.gz#m7#11     labelings   6, DOM fails for 0, runs  1146207 398.5s
 k4_certs_3.json.gz#m8#0      labelings   4, DOM fails for 0, runs   116399 58.6s
+k4_certs_3.json.gz#m8#1      labelings   6, DOM fails for 0, runs   597234 796.9s
+k4_certs_3.json.gz#m8#2      labelings   6, DOM fails for 0, runs    24713 9.6s
+k4_certs_3.json.gz#m8#3      labelings   6, DOM fails for 0, runs   304222 165.7s
+k4_certs_3.json.gz#m8#4      labelings   6, DOM fails for 0, runs   421588 195.2s
+k4_certs_3.json.gz#m9#0      labelings   6, DOM fails for 0, runs   209778 181.9s
+TOTAL {'cores': 51, 'labelings': 300, 'labelings failing somewhere': 0, 'runs': 9986740} 3936s

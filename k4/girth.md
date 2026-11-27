@@ -538,7 +538,10 @@ which is no envy-cycle rotation (agent 1 does not envy {3}). Evidence: random st
 force over all allocations: n = 3, 766,395 profiles (4,508,174 runs); n = 4 with m ≤ 10, 101,316 profiles
 (2,054,352 runs); no state without a dominating completion (`results/k4_girth_dom_{3,4}.log`; for comparison, parking with
 envy-cycle rotation fails on about 3·10⁻⁵ of all runs, §5, which would be about 200 of these). Exhaustive
-at n = 3 (covering, every labeling): running (`results/k4_girth_dom_exhaustive_3.log`). DOM does not follow from
+at n = 3 (`python3 k4/girth/dom_test.py exhaustive 3`, the covering of `dyncert.py` with each labeling alone and the
+brute force run through recorded comparisons): **DOM holds for all 300 labelings on every strict profile of all 51
+n = 3 cores** (9,986,740 runs, `results/k4_girth_dom_exhaustive_3.log`; one implementation, built on the self-tested
+`dyncert.FastRun`; the random runs above use `lss.py` with numbers; a second exhaustive encoding is still open). DOM does not follow from
 LSS's Properties (3) and (4) alone: the PL state of `attempts/k4-girth-linear-pl.md` satisfies both and has no
 completion. If DOM holds, TARGET₄ reduces to a completion lemma for the states of Algorithm 2, with no labeling search.
 
