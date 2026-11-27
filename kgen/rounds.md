@@ -6,7 +6,7 @@ there at 63089336), `k4/sdc.md` §29–§31, `kgen/n3.md` (branch `claude/kgen-n
 `reports/EFX literature from the agent side.md`. Random and climbed instances are evidence only (PROMPT.md §5 rule 3);
 every refutation below is confirmed by three independent programs.
 
-## Status (2026-11-26)
+## Status (2026-11-27)
 
 **Bottom line.**
 - **ROUND⁺ is false.** In the conjecture's own setting (strictly positive additive values, every agent values every
@@ -72,6 +72,13 @@ every refutation below is confirmed by three independent programs.
       one round of chains repairs.
     - So the one-step form that survives every k = 4 failure is **ROUND-P** (a pooled round, §4.8). OC₂^max and two
       rounds survive as well.
+    - **§4.9 checks it directly**, with zeros, in the narrow form of the ledger row. Two implementations agree.
+      - At all 112,880 of the certifier's OC₁^max-failing n = 4 starts, ROUND-P holds and one plain round fails.
+      - At the certifier's n = 5 failures the plain round already holds.
+      - It holds at every positive-value failure too.
+      - Climbs on strict cores at n = 5, 6 have found no failure.
+      - The only MD allocations it misses have an agent that keeps its own pick and also holds a pickless agent's
+        pick.
     - It is a one-move alternative to the campaign's current target OC₂^max (two sequential moves).
     - On all 11 of the certifier's instances, every MD allocation has a starved agent, so the obstruction is the same
       k-independent one.
@@ -91,7 +98,9 @@ every refutation below is confirmed by three independent programs.
 | *k = 4 with zeros, perfect starts:* OC₁ and one round, non-core instances | | **FAIL** (W4: a worthless good; K4W: none, a top-heavy agent) | | §4.3 | k4/sdc pipeline, ocsat, brute force |
 | *k = 4 with zeros:* **OC₁^max on strict connected cores (K4.SDC.OC1MAX)** | | **FAILS** (certifier: 11 hypergraphs; here C4K and 25 more, m = 7) | | §4.4 | `k4/sdc/oc1_max_orders.py`, k4/sdc pipeline, ocsat, brute force |
 | *k = 4 with zeros:* two rounds on C4K, W4, K4W | | holds | | §4.3, §4.4 | brute force |
-| *k = 4 with zeros:* **OC₁′^max** (middle chain agents may take the end's released goods) | | holds (data: every OC₁ failure, climbs) | holds (data) | §4.6 | rnd.c, forward brute force |
+| *k = 4 with zeros:* **OC₁′^max** (middle chain agents may take the end's released goods) | | holds (certified by the certifier) | **fails** (the certifier's 24: two cycles) | §4.6, §4.8 | rnd.c, forward brute force |
+| *k = 4 with zeros:* one plain round | | **fails** at all 112,880 OC₁^max-failing starts | holds at the certifier's 24 | §4.9 | rnd.c, forward `round_pool` |
+| *k = 4 with zeros:* **ROUND-P^max** (narrow: non-end agents of chains with t ≥ 1 take any end's goods) | | holds (at all 112,880; follows from OC₁′^max) | holds (data: the 24, climbs) | §4.9 | rnd.c, forward `round_pool` |
 | OC₁′ at k = 5 / at positive values | | **fails at positive values** (two disjoint swaps, m = 7, 8) | **fails** (PW5, zeros and lifted; m = 9 positive) | §4.6 | rnd.c, forward brute force |
 
 ## 1. Definitions and the round characterization
@@ -748,10 +757,13 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 | KGEN.ID | Identical valuations: the picks of every order extend (any n, zeros allowed) | PROVED | `kgen/rounds.md` §5.2 (written proof; checked on 15,684 starts) |
 | K4.SDC.OC1MAX | (existing row, REFUTED by the certifier) OC₁^max on strict connected k = 4 cores | REFUTED | additional artifacts: `attempts/kgen-rounds-oc1max-c4k.md`, `results/kgen_rounds/c4k_oc1_max_orders.log`, `results/kgen_rounds/zcore_fails.json`, `results/kgen_rounds/verify_zfails.log`, `results/kgen_rounds/vs_certifier.log` |
 | K4.SDC.OC1PRIME | OC₁′^max: as K4.SDC.OC1MAX, with non-end chain agents allowed to take goods of the end's base (one move; implies MD) | CERTIFIED at n ≤ 4 (the certifier, `cert_4_prime.json.gz` on `compute/k4-oc1max-cert`; agrees with the 112,880-start check here); REFUTED at n = 5 (the certifier's 24, two disjoint cycles; checked here) | `oc1p_vs_oc2.log`, `oc1p_vs_oc2_forward_0.log`, `oc1p_vs_oc2_forward_1.log` (n = 4, with the certifier's export), `vs_certifier.log`, `xcheck_oc1p_150_6.log`, `verify_zfails.log`, `oc1p*_*.log`. False at k = 5 (PW5) and at positive values (two disjoint swaps) |
-| K4.SDC.ROUNDP | Conjecture ROUND-P^max at k = 4: one round of vertex-disjoint chains in which every non-end chain agent may also take goods of any chain end's base, one-absorber completion | CONJECTURE | EVIDENCE only: contains OC₁′ (certified at n ≤ 4) and one round (repairs the certifier's 24 n = 5 failures); `kgen/rounds.md` §4.8 |
+| K4.SDC.ROUNDP | Conjecture ROUND-P^max at k = 4: one round of vertex-disjoint chains in which every non-end agent x_i (i < t) of a chain with t ≥ 1 may also take goods of any chain end's base, one-absorber completion | CONJECTURE (at n ≤ 4 it follows from the CERTIFIED OC₁′^max) | EVIDENCE only: holds at all 112,880 OC₁^max-failing n = 4 starts and at the certifier's 24 n = 5 failures, two implementations (`rndp_known.log`, `xcheck_roundz.log`); strict-core climbs at n = 5, 6 (`zclimb_rndpz_*.log`); `kgen/rounds.md` §4.8, §4.9 |
 | K4.SDC.OC1PERF | OC₁ (and one round) at perfect starts for every instance with ≤ 4 relevant goods per agent (the target of Lemma RED's route; the LOOSE form of OC₁^max) | REFUTED | `kgen/rounds/k4w_check.py`, `results/kgen_rounds/k4w_check.log` (K4W, no worthless good), `results/kgen_rounds/verify_k4zero_W4.log` (W4) |
 
 ## 7. Next
+- **ROUND-P^max at n = 5, exhaustively.** The certifier's ordinal CEGAR with the narrow ROUND-P move (§4.9) on the
+  n = 5 core hypergraphs. `rnd.c`'s `oc1z_start` (bit 32) and `verify_k4zero.round_pool` are two reference
+  implementations. The only MD shape it misses (keep-and-add, §4.9) says where a counterexample would have to live.
 - **OC₁′^max at k = 4, exhaustively.** The certifier's ordinal CEGAR (`compute/k4-oc1max-cert`), run with OC₁′'s
   move, would certify it or refute it on all 1,002 n = 4 core hypergraphs. The move change is local: a non-end chain
   agent may also take goods of the end's base. `rnd.c`'s `oc1z_start` and `verify_k4zero.one_chain_prime` are two
