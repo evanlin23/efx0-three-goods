@@ -1,0 +1,1 @@
+command: python3 k4/hunt/named.py results/k4_hunt/glue_hard4_cores.json --limit=7200
