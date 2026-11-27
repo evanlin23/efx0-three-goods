@@ -246,8 +246,8 @@ Closing it needs the exact one-absorber completability count (the Hall session's
   non-top good. Raise that good above u's other goods, keeping the type strict and balanced; the picks are unchanged.
   Then OC₁ holds, and always already **at the picks**: 23,779 of 23,779 (partial6, `results/k4_rfmin/privtop_lift_n5p6.log`)
   and 11,520 of 11,520 (sel2, every 10th, `privtop_lift_n5s2.log`).
-  - Probable mechanism (an inference, not checked on the completions): before the lift, u wants its top t, so t's holder
-    x₁ is frozen and cannot take junk. After the lift u wants nothing, and the completion uses the room this frees.
+  - The mechanism first guessed (u's wish freezes the holder x₁ of u's top t, and the lift frees x₁) is wrong; the
+    completions are read below.
 - *Random private-top cores*, n = 4–6, 400 instances (`k4/rfmin/privtop_random.py`, `results/k4_rfmin/privtop_random.log`):
   1,297 maximum-matching pick vectors; 1,294 complete at the picks, 3 after one move, none fail. Random cores rarely fail
   OC₁ at all, so this is weak.
