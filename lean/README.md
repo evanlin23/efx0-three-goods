@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 1332 audited statements, 2579 theorems, standard axioms only
+    CHECK PASSED: 1342 audited statements, 2603 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -297,6 +297,15 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   completion; `thmU_oc1` (one move repairs), `thmU_of_DT` (the note's D_T, E_J form), Corollary U1 (`thmU1`,
   `thmU1_oc1`: OC₁ at perfect starts with one truly dangerous agent and at most one unfrozen pick holder), and a
   two-agent start where U1 applies, by `decide` (`EFX.OC1Max.ExU.repair`).
+- `EFX/Phantom.lean`: **Lemmas PHANTOM and LIFT\*** (`k4/matching.md` §6, ledger K4.MATCH.LIFTSTAR.LEAN): the exact
+  phantom constraints of a settled agent with #R_k ≤ 4 (`EFX.Round.phantom_three`: none for a triple;
+  `EFX.Round.phantom_two`: (P1) or (P2) for a pair), and **`EFX.Round.liftStar`**: settled agents (in rounds) with
+  disjoint sets, an EFX₀ allocation of the rest, (Φ), (L\*) at each settlement and values that never fall give an EFX₀
+  allocation of the whole instance; `phi_three` (PHANTOM case 1 gives (Φ) for triples).
+- `EFX/SDERound.lean`: **Lemma SD-E(round)** (`k4/oc1max_multi.md` §17, ledger K4.MULTI.SDER.LEAN): **`EFX.Round.sdE_round`**,
+  a round of vertex-disjoint earliest-wanter prefixes (`EPrefix`) under (H) leaves the serial-dictatorship outcome of σ
+  without the settled agents; the abstract form `sdE_round_abs` (the round as a source map), perfect starts
+  (`sdE_round_abs_perfect`), and SD-E as the one-chain round (`sdE_round_single`).
 - `EFX/OC1MaxExamples.lean`: non-vacuity of `EFX/OC1Max.lean` by `decide`, on the MC2 core of `k4/sdc.md` §31 where OC
   fails: the failing start (index order) is not a maximum-matching start (`EFX.OC1Max.Ex.not_maximum_MC2`); the order
   3, 4, 0, 1, 2 picks a maximum matching with a one-absorber completion (`EFX.OC1Max.Ex.maximum_ordM`,
