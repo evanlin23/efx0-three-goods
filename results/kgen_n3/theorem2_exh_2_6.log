@@ -1,0 +1,23 @@
+$ python3 kgen/theorem2.py exh 2 6
+18 m=1: EFX0
+18 m=1: OC1 shape
+18 m=1: starts
+162 m=2: EFX0
+162 m=2: OC1 shape
+162 m=2: starts
+1458 m=3: EFX0
+1458 m=3: OC1 shape
+1458 m=3: starts
+13122 m=4: EFX0
+13122 m=4: OC1 shape
+13122 m=4: starts
+118098 m=5: EFX0
+118098 m=5: OC1 shape
+118098 m=5: starts
+1062882 m=6: EFX0
+1062882 m=6: OC1 shape
+1062882 m=6: starts
+
+real	0m25.561s
+user	0m25.381s
+sys	0m0.005s

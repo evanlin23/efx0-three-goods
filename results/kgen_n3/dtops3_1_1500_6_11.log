@@ -1,0 +1,41 @@
+$ python3 kgen/dtops3.py 1 1500 6 11
+250 general: instances
+244 general: keep
+6 general: keep fails, needs a chain
+250 general: keep or t1/z
+234 general: pivot P1 works
+250 general: some OC1 shape
+250 ident: instances
+208 ident: keep
+42 ident: keep fails, needs a chain
+250 ident: keep or t1/z
+200 ident: pivot P1 works
+250 ident: some OC1 shape
+250 junk: instances
+250 junk: keep
+0 junk: keep fails, needs a chain
+250 junk: keep or t1/z
+250 junk: pivot P1 works
+250 junk: some OC1 shape
+250 klim:4: instances
+250 klim:4: keep
+0 klim:4: keep fails, needs a chain
+250 klim:4: keep or t1/z
+250 klim:4: pivot P1 works
+250 klim:4: some OC1 shape
+250 ties: instances
+250 ties: keep
+0 ties: keep fails, needs a chain
+250 ties: keep or t1/z
+250 ties: pivot P1 works
+250 ties: some OC1 shape
+250 zeros: instances
+250 zeros: keep
+0 zeros: keep fails, needs a chain
+250 zeros: keep or t1/z
+249 zeros: pivot P1 works
+250 zeros: some OC1 shape
+
+real	0m1.084s
+user	0m1.048s
+sys	0m0.010s

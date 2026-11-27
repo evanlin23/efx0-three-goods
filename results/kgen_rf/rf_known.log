@@ -1,0 +1,36 @@
+$ MAINWT=<main> python3 kgen/rf/rf_known.py
+kcegar_k5_n3_D1.log:n3_m6_92: k = 5, n = 3, nu = 3, 6 max-matching pick vectors, 1 fail OC1
+   failing start (4, 5, 1): receivers [2]; 2 receiver-first max orders (0 non-max): {'picks complete': 2}; RF holds / second checker holds
+kcegar_k5_n3_D1.log:n3_m6_93: k = 5, n = 3, nu = 3, 6 max-matching pick vectors, 1 fail OC1
+   failing start (3, 5, 1): receivers [2]; 2 receiver-first max orders (0 non-max): {'picks complete': 2}; RF holds / second checker holds
+kcegar_k5_n3_D1.log:n3_m6_96: k = 5, n = 3, nu = 3, 6 max-matching pick vectors, 1 fail OC1
+   failing start (3, 4, 5): receivers [0]; 2 receiver-first max orders (0 non-max): {'picks complete': 2}; RF holds / second checker holds
+kcegar_k5_n3_D1.log:n3_m6_103: k = 5, n = 3, nu = 3, 6 max-matching pick vectors, 1 fail OC1
+   failing start (5, 3, 4): receivers [0]; 2 receiver-first max orders (0 non-max): {'picks complete': 2}; RF holds / second checker holds
+kcegar_k5_n3_D1.log:n3_m6_104: k = 5, n = 3, nu = 3, 6 max-matching pick vectors, 1 fail OC1
+   failing start (2, 4, 1): receivers [2]; 2 receiver-first max orders (0 non-max): {'picks complete': 2}; RF holds / second checker holds
+kcegar_k5_n3_D1.log:n3_m6_110: k = 5, n = 3, nu = 3, 6 max-matching pick vectors, 1 fail OC1
+   failing start (4, 5, 2): receivers [2]; 2 receiver-first max orders (0 non-max): {'picks complete': 2}; RF holds / second checker holds
+kcegar_k5_n3_D1.log:n3_m6_111: k = 5, n = 3, nu = 3, 6 max-matching pick vectors, 1 fail OC1
+   failing start (4, 0, 5): receivers [1]; 2 receiver-first max orders (0 non-max): {'picks complete': 1, 'one move repairs': 1}; RF holds / second checker holds
+kcegar_k5_n3_D1.log:n3_m7_15: k = 5, n = 3, nu = 3, 6 max-matching pick vectors, 1 fail OC1
+   failing start (2, 5, 6): receivers [0]; 2 receiver-first max orders (0 non-max): {'picks complete': 2}; RF holds / second checker holds
+kcegar_k5_n3_D1.log:n3_m7_19: k = 5, n = 3, nu = 3, 6 max-matching pick vectors, 1 fail OC1
+   failing start (5, 4, 6): receivers [0]; 2 receiver-first max orders (0 non-max): {'picks complete': 2}; RF holds / second checker holds
+kcegar_k5_n3_D1.log:n3_m7_116: k = 5, n = 3, nu = 3, 6 max-matching pick vectors, 1 fail OC1
+   failing start (5, 3, 6): receivers [1]; 2 receiver-first max orders (0 non-max): {'picks complete': 2}; RF holds / second checker holds
+kcegar_k5_n3_D1.log:n3_m7_117: k = 5, n = 3, nu = 3, 6 max-matching pick vectors, 1 fail OC1
+   failing start (4, 3, 6): receivers [1]; 2 receiver-first max orders (0 non-max): {'picks complete': 2}; RF holds / second checker holds
+kcegar_k5_n3_D1.log:n3_m7_121: k = 5, n = 3, nu = 3, 6 max-matching pick vectors, 1 fail OC1
+   failing start (1, 5, 6): receivers [0]; 2 receiver-first max orders (0 non-max): {'picks complete': 2}; RF holds / second checker holds
+kcegar_k5_n3_D1.log:n3_m8_98: k = 5, n = 3, nu = 3, 6 max-matching pick vectors, 1 fail OC1
+   failing start (5, 6, 7): receivers [0]; 2 receiver-first max orders (0 non-max): {'picks complete': 2}; RF holds / second checker holds
+RD5: k = 5, n = 4, nu = 4, 8 max-matching pick vectors, 1 fail OC1
+   failing start (1, 3, 4, 2): receivers [2]; 4 receiver-first max orders (2 non-max): {'picks complete': 4}; RF holds / second checker holds
+kgen-n4-k5 (not balanced): k = 5, n = 4, nu = 4, 6 max-matching pick vectors, 1 fail OC1
+   failing start (4, 2, 6, 1): receivers [1, 2]; 12 receiver-first max orders (0 non-max): {'one move repairs': 6, 'picks complete': 6}; RF holds / second checker holds
+15 RF holds (own)
+15 RF holds (second checker)
+92 checkers agree on OC1
+15 failing starts
+92 max starts

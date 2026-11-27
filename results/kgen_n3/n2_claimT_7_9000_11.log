@@ -1,0 +1,13 @@
+$ python3 kgen/n2_claimT.py 7 9000 11
+2368 Claim T (generic)
+2397 Claim T (small)
+1329 Claim T (zeros)
+2368 Lemma T: a maximizer with no a-worthless good in X_a (generic)
+2397 Lemma T: a maximizer with no a-worthless good in X_a (small)
+1329 Lemma T: a maximizer with no a-worthless good in X_a (zeros)
+2368 Lemma T: every maximizer EFX0 (generic)
+2397 Lemma T: every maximizer EFX0 (small)
+1329 Lemma T: every maximizer EFX0 (zeros)
+2368 instances (generic)
+2397 instances (small)
+1329 instances (zeros)

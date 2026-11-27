@@ -1,0 +1,15 @@
+$ python3 kgen/k3max_twins_t.py gap_small_4.gap.gz
+136   then every such twin passes: True
+144 drafts
+144 rule longer chain passes
+144 rule shorter chain passes
+144 rule sigma-first passes
+144 rule sigma-last passes
+8 some twin gives t its top: False
+136 some twin gives t its top: True
+144 some twin leaves N empty: True
+144 some twin passes
+64 twin rotation: |N| = 0 (), |T'| = 1, t gets top False, Lemma 3 for t True
+72 twin rotation: |N| = 0 (), |T'| = 2, t gets top False, Lemma 3 for t True
+76 twin rotation: |N| = 0 (), |T'| = 2, t gets top True, Lemma 3 for t True
+76 twin rotation: |N| = 0 (), |T'| = 3, t gets top True, Lemma 3 for t True

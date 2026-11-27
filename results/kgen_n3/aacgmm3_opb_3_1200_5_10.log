@@ -1,0 +1,44 @@
+$ python3 kgen/aacgmm3_opb.py 3 1200 5 10
+FAIL PR stuck: init general [[76, 70, 17, 48, 78, 61], [81, 75, 9, 78, 2, 61], [34, 71, 30, 25, 92, 61]] order (0, 1, 2) roles (1, 0, 2) picks [4, 0, 1]
+FAIL PR stuck: init general [[76, 70, 17, 48, 78, 61], [81, 75, 9, 78, 2, 61], [34, 71, 30, 25, 92, 61]] order (0, 1, 2) roles (1, 2, 0) picks [4, 0, 1]
+FAIL potential does not rise after: case 1 + PR general [[96, 16, 22, 65, 39, 31, 85, 3], [68, 69, 53, 7, 79, 15, 44, 17], [33, 70, 62, 8, 46, 29, 26, 16]] order (0, 1, 2) roles (0, 1, 2) picks [0, 4, 1]
+FAIL potential does not rise after: case 1 + PR general [[96, 16, 22, 65, 39, 31, 85, 3], [68, 69, 53, 7, 79, 15, 44, 17], [33, 70, 62, 8, 46, 29, 26, 16]] order (0, 1, 2) roles (0, 2, 1) picks [0, 4, 1]
+FAIL PR stuck: case 2 (agent 2 cuts) general [[49, 38, 26, 80, 70, 78, 61, 2], [42, 2, 90, 78, 2, 81, 55, 45], [65, 96, 98, 69, 92, 7, 94, 13]] order (0, 2, 1) roles (1, 2, 0) picks [3, 5, 2]
+FAIL PR stuck: case 2 (agent 2 cuts) general [[49, 38, 26, 80, 70, 78, 61, 2], [42, 2, 90, 78, 2, 81, 55, 45], [65, 96, 98, 69, 92, 7, 94, 13]] order (2, 0, 1) roles (1, 2, 0) picks [3, 5, 2]
+FAIL PR stuck: case 1 repair zeros [[0, 59, 34, 43, 36, 76, 0, 0, 0], [0, 0, 0, 38, 0, 0, 0, 0, 0], [0, 0, 0, 60, 0, 0, 0, 0, 11]] order (0, 1, 2) roles (0, 1, 2) picks [5, 3, 8]
+FAIL PR stuck: case 1 repair zeros [[0, 59, 34, 43, 36, 76, 0, 0, 0], [0, 0, 0, 38, 0, 0, 0, 0, 0], [0, 0, 0, 60, 0, 0, 0, 0, 11]] order (0, 1, 2) roles (0, 2, 1) picks [5, 3, 8]
+FAIL PR stuck: case 2 repair (one envied) general [[44, 86, 6, 81, 6, 9, 47, 63, 10, 44], [34, 83, 37, 72, 14, 7, 61, 77, 2, 38], [91, 2, 6, 34, 13, 68, 71, 42, 32, 77]] order (0, 1, 2) roles (2, 0, 1) picks [1, 7, 0]
+FAIL PR stuck: case 2 repair (one envied) general [[44, 86, 6, 81, 6, 9, 47, 63, 10, 44], [34, 83, 37, 72, 14, 7, 61, 77, 2, 38], [91, 2, 6, 34, 13, 68, 71, 42, 32, 77]] order (0, 2, 1) roles (2, 0, 1) picks [1, 7, 0]
+14400 general: runs
+11649 general: runs ending EFX0
+10640 general: runs ending EFX0 and OC1-reachable
+944 general: runs ending EFX0, not OC1: identity placement
+3 general: runs failing: PR stuck: case 1 repair
+3 general: runs failing: PR stuck: case 2 (agent 2 cuts)
+6 general: runs failing: PR stuck: case 2 repair (one envied)
+2669 general: runs failing: PR stuck: init
+70 general: runs failing: potential does not rise after: case 1 + PR
+2400 general: starts
+1735 general: starts where roles = order ends OC1-reachable
+2388 general: starts where some role assignment ends OC1-reachable
+14400 ident: runs
+14400 ident: runs ending EFX0
+13105 ident: runs ending EFX0 and OC1-reachable
+732 ident: runs ending EFX0, not OC1: identity placement
+2400 ident: starts
+2208 ident: starts where roles = order ends OC1-reachable
+2399 ident: starts where some role assignment ends OC1-reachable
+14400 zeros: runs
+6364 zeros: runs ending EFX0
+5590 zeros: runs ending EFX0 and OC1-reachable
+0 zeros: runs ending EFX0, not OC1: identity placement
+18 zeros: runs failing: PR stuck: case 1 repair
+4 zeros: runs failing: PR stuck: case 2 (agent 2 cuts)
+8014 zeros: runs failing: PR stuck: init
+2400 zeros: starts
+677 zeros: starts where roles = order ends OC1-reachable
+1977 zeros: starts where some role assignment ends OC1-reachable
+
+real	0m3.687s
+user	0m3.627s
+sys	0m0.008s

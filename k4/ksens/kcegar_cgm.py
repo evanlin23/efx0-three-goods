@@ -3,8 +3,11 @@ kgen/charity/cgm_check.py on branch claude/kgen-charity, read there): relevant s
 {4,5,6} (k = 6, n = 3, m = 7).  kcegar at D = 1 and D = 2 over every strict profile (the six-good agent by the LP
 route), and the CGM values themselves (one chain from each maximum-matching start; ocsat and brute force).
 
-    python3 k4/ksens/kcegar_cgm.py"""
-import json, time
+    python3 k4/ksens/kcegar_cgm.py [--grid6=FILE [--exact6]] [--D=D] [--limit=SEC]
+--grid6: grid mode for the six-good agent (a subset of its types; with --exact6 cuts are confirmed by the exact LP, so
+every strict profile is covered); --D: only that D (default 1 then 2); --limit: per D
+(default 7200 s)."""
+import json, time, sys
 import _paths
 import kcegar, ocsat, brute
 from maxmatch import nu
@@ -13,7 +16,7 @@ SETS = [[0, 1, 2, 3, 5, 6], [0, 2, 3, 4, 6], [4, 5, 6]]
 CGM = [{0: 8, 1: 2, 2: 12, 3: 2, 5: 17, 6: 1}, {0: 5, 2: 9, 3: 4, 4: 10, 6: 3}, {4: 9, 5: 10, 6: 2}]
 
 if __name__ == '__main__':
-    print('$ python3 k4/ksens/kcegar_cgm.py', flush=True); m, n = 7, 3
+    print('$ python3 k4/ksens/kcegar_cgm.py', *sys.argv[1:], flush=True); m, n = 7, 3
     vals = [[CGM[i][g] for g in SETS[i]] for i in range(n)]
     O = ocsat.OC(SETS, vals, m); I = brute.Inst(SETS, vals, m); v_ = nu(SETS, vals)
     for Y in ocsat.starts(SETS, vals, m):
@@ -22,8 +25,11 @@ if __name__ == '__main__':
         print('CGM values, start %s: picks complete (A=1) %s; one chain (A=1): ocsat %s, brute %s' % (
             Y, O.holds(b, chain='none', A=1), O.holds(b, chain='any', A=1),
             I.completes(base, 1) or any(I.completes(s, 1) for s in I.chains(base))), flush=True)
-    for D in (1, 2):
-        t = time.time(); C = kcegar.Cegar(SETS, D=D); r, w = C.run(time_limit=7200)
+    Ds = [int(a[4:]) for a in sys.argv if a.startswith('--D=')] or [1, 2]
+    lim = float(next((a[8:] for a in sys.argv if a.startswith('--limit=')), 7200))
+    for D in Ds:
+        g6 = next((a[8:] for a in sys.argv if a.startswith('--grid6=')), None)
+        t = time.time(); C = kcegar.Cegar(SETS, D=D, grid6=g6, grid_exact='--exact6' in sys.argv); r, w = C.run(time_limit=lim)
         print('every strict profile, D = %d: %s (%d iterations, %d LP calls, %.0f s)%s' % (
-            D, r, C.iters, C.lpcalls, time.time() - t, (' ' + json.dumps(w)) if w else ''), flush=True)
+            D, r, C.iters, C.lpcalls, time.time() - t, (' ' + json.dumps(w)) if w else ''), dict(C.gstats), flush=True)
         C.close()

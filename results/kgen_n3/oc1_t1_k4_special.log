@@ -1,0 +1,5 @@
+$ python3 kgen/oc1_t1_k4.py special
+instances 4
+starts: picks 105
+starts: t>=1 69
+time 0 s

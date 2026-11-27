@@ -1,0 +1,16 @@
+$ python3 kgen/k3max_t1.py small:5 0 4
+6744   every least-omega rotation into t (omega after upgrades) repairs
+6744   every least-omega rotation into t (omega before upgrades) repairs
+6264   every rotation from E_t into t repairs
+6744   every rotation giving t its best reachable good repairs
+80   first repairing rotation: no owner needed (|J'| <= |T'|) False
+6664   first repairing rotation: no owner needed (|J'| <= |T'|) True
+6744   least omega after a repairing rotation <= 0 True
+6744   rotations from E_t into t exist
+6744   some rotation from E_t into t repairs
+6232   t gets its top in some repairing rotation
+6232   t gets its top in some rotation
+6072   |E_t| = 2
+672   |E_t| = 3
+6744 gap drafts (|T| = 1)
+time 161 s

@@ -1,0 +1,21 @@
+$ python3 kgen/aacgmm3.py 2 1200 5 10
+NO ROLE ASSIGNMENT GIVES OC1 [[188, 217, 209, 196, 166, 138, 171, 216, 121], [193, 209, 208, 197, 155, 130, 162, 220, 119], [188, 214, 205, 196, 159, 136, 164, 226, 118]] order (0, 1, 2) picks [1, 7, 2] outputs {'012': [[0, 4, 8], [3, 5, 6], [1, 2, 7]], '021': [[0, 4, 8], [1, 2, 7], [3, 5, 6]], '102': [[3, 5, 6], [0, 4, 8], [1, 2, 7]], '120': [[1, 2, 7], [0, 4, 8], [3, 5, 6]], '201': [[3, 5, 6], [1, 2, 7], [0, 4, 8]], '210': [[1, 2, 7], [3, 5, 6], [0, 4, 8]]}
+NO ROLE ASSIGNMENT GIVES OC1 [[188, 217, 209, 196, 166, 138, 171, 216, 121], [193, 209, 208, 197, 155, 130, 162, 220, 119], [188, 214, 205, 196, 159, 136, 164, 226, 118]] order (0, 2, 1) picks [1, 2, 7] outputs {'012': [[0, 4, 8], [3, 5, 6], [1, 2, 7]], '021': [[0, 4, 8], [1, 2, 7], [3, 5, 6]], '102': [[3, 5, 6], [0, 4, 8], [1, 2, 7]], '120': [[1, 2, 7], [0, 4, 8], [3, 5, 6]], '201': [[3, 5, 6], [1, 2, 7], [0, 4, 8]], '210': [[1, 2, 7], [3, 5, 6], [0, 4, 8]]}
+NO ROLE ASSIGNMENT GIVES OC1 [[188, 217, 209, 196, 166, 138, 171, 216, 121], [193, 209, 208, 197, 155, 130, 162, 220, 119], [188, 214, 205, 196, 159, 136, 164, 226, 118]] order (1, 0, 2) picks [1, 7, 2] outputs {'012': [[0, 4, 8], [3, 5, 6], [1, 2, 7]], '021': [[0, 4, 8], [1, 2, 7], [3, 5, 6]], '102': [[3, 5, 6], [0, 4, 8], [1, 2, 7]], '120': [[1, 2, 7], [0, 4, 8], [3, 5, 6]], '201': [[3, 5, 6], [1, 2, 7], [0, 4, 8]], '210': [[1, 2, 7], [3, 5, 6], [0, 4, 8]]}
+2370 general: output for some role assignment is OC1-reachable
+1715 general: output with roles = order is OC1-reachable
+869 general: picks all kept by the output (roles = order)
+2400 general: starts
+2387 ident: output for some role assignment is OC1-reachable
+2042 ident: output with roles = order is OC1-reachable
+158 ident: picks all kept by the output (roles = order)
+2400 ident: starts
+128 iterations max
+2366 zeros: output for some role assignment is OC1-reachable
+1522 zeros: output with roles = order is OC1-reachable
+1377 zeros: picks all kept by the output (roles = order)
+2400 zeros: starts
+
+real	0m1.728s
+user	0m1.629s
+sys	0m0.016s

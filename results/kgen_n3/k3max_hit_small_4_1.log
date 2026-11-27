@@ -1,0 +1,5 @@
+$ python3 kgen/k3max_hit.py gap_small_4.gap.gz 1 2
+82 |E_t| = 2, omega = 1, least omega' = -1
+278 |E_t| = 2, omega = 1, least omega' = -2
+152 |E_t| = 2, omega = 2, least omega' = -1
+8 |E_t| = 2, omega = 2, least omega' = 0

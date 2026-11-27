@@ -1,0 +1,5 @@
+$ python3 kgen/oc1_t1_k4.py screen
+instances 168
+starts: picks 3407
+starts: t>=1 662
+time 2 s
