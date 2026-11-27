@@ -103,10 +103,11 @@ class Witness:
     """See the module docstring.  fix: {agent: pick or None}; newb: {agent: tuple of goods}; imp: [(agent, new, old)];
     X: owner of every good; moves: the moves as found, applied in turn from the picks (for the certificate and the
     checker), each (kind, path, H)."""
-    __slots__ = ('fix', 'newb', 'imp', 'X', 'moves')
+    __slots__ = ('fix', 'newb', 'imp', 'X', 'moves', 'owner')
 
-    def __init__(self, fix, newb, imp, X, moves):
+    def __init__(self, fix, newb, imp, X, moves, owner=None):
         self.fix, self.newb, self.imp, self.X, self.moves = fix, newb, imp, tuple(X), tuple(moves)
+        self.owner = owner        # S* runs only: the completion's owner
 
     @property
     def kind(self):
@@ -118,13 +119,15 @@ class Witness:
                        {ma[x]: f(B) for x, B in self.newb.items()},
                        [(ma[x], f(a), f(b)) for x, a, b in self.imp],
                        _perm_owner(self.X, ma, mg),
-                       [(k, tuple(ma[x] for x in path), tuple(f(h) for h in H)) for k, path, H in self.moves])
+                       [(k, tuple(ma[x] for x in path), tuple(f(h) for h in H)) for k, path, H in self.moves],
+                       None if self.owner is None else ma[self.owner])
 
     def key(self):
-        return (tuple(sorted(self.fix.items(), key=lambda t: t[0])), self.X, self.moves)
+        return (tuple(sorted(self.fix.items(), key=lambda t: t[0])), self.X, self.moves, self.owner)
 
     def to_json(self):
         d = {'picks': {str(x): y for x, y in sorted(self.fix.items())}, 'X': ''.join(map(str, self.X))}
+        if self.owner is not None: d['owner'] = self.owner
         if len(self.moves) <= 1:
             k, path, H = self.moves[0] if self.moves else ('picks', (), ())
             d.update({'kind': k, 'path': list(path), 'H': [list(h) for h in H]})
@@ -141,7 +144,7 @@ def _perm_owner(X, ma, mg):
 
 
 class Cert:
-    def __init__(self, sets, m=None, cap_aut=256, solver='cd15', tries=3, seed=1, keep=2, require_max=True, depth=1, kcand=6, prime=False):
+    def __init__(self, sets, m=None, cap_aut=256, solver='cd15', tries=3, seed=1, keep=2, require_max=True, depth=1, kcand=6, prime=False, sstar=False):
         self.sets = [list(S) for S in sets]; self.n = n = len(sets)
         self.m = m = m if m is not None else 1 + max(g for S in sets for g in S)
         self.R = [set(S) for S in self.sets]
@@ -156,6 +159,7 @@ class Cert:
         self.require_max = require_max
         self.auts = automorphisms(self.sets, m, cap_aut) if cap_aut else [(list(range(n)), list(range(m)))]
         self.tries, self.keep, self.depth, self.kcand, self.prime = tries, keep, depth, kcand, prime
+        self.sstar = sstar        # S*-shaped completions (k4/oc1_hall.md §2 on claude/k4-oc1-hall)
         self.rng = np.random.default_rng(seed)
         self._build_outer(solver)
         self._build_inner()
@@ -323,6 +327,16 @@ class Cert:
             for g, h in itertools.combinations(range(m), 2):
                 cl.append([-x[g][j], -x[h][j], -u[g], -u[h], big[j]])
         cl += CardEnc.atmost(big, 1, vpool=vp, encoding=EncType.pairwise).clauses
+        self.iown = self.inh = None
+        if self.sstar:
+            # S*: one owner (any agent) takes any number of junk goods; a non-holder (assumption nh) other than the
+            # owner takes none; a holder other than the owner takes at most one (big -> owner)
+            own = [vp.id(('own', j)) for j in range(n)]; nh = [vp.id(('nh', j)) for j in range(n)]
+            cl += CardEnc.atmost(own, 1, vpool=vp, encoding=EncType.pairwise).clauses
+            for j in range(n):
+                cl.append([-big[j], own[j]])
+                for g in range(m): cl.append([-nh[j], -x[g][j], -u[g], own[j]])
+            self.iown, self.inh = own, nh
         z = []
         for i, S in enumerate(self.sets):
             k = len(S); ss = self.ss[i]
@@ -348,13 +362,28 @@ class Cert:
         self.inn = Solver(name='cd15', bootstrap_with=cl)
         self.ix, self.iz, self.iu = x, z, u
 
+    def nonholders(self, prof, base):
+        """S*: the agents that are not holders at these bases under the profile (two or more base goods, or one base
+        good that some other agent prefers to its own base)"""
+        vals = self.vals_of(prof)
+        V = lambda i, S: sum(vals[i].get(g, 0) for g in S)
+        out = []
+        for j, B in enumerate(base):
+            if len(B) >= 2 or (len(B) == 1 and any(i != j and vals[i].get(B[0], 0) > V(i, base[i]) for i in range(self.n))):
+                out.append(j)
+        return out
+
     def complete(self, prof, base, tries=1):
         """One-absorber EFX0 completions of the bases (list of goods per agent) under the profile (type indices);
-        returns up to `tries` allocations (owner lists), or []."""
+        returns up to `tries` allocations (owner lists), or [].  With sstar: S*-shaped, and self.last_owner is set."""
         holder = {g: a for a, B in enumerate(base) for g in B}
         ass = [gd for i, t in enumerate(prof) for gd in self.iz[i][t]]     # the type's guards (others stay free)
         ass += [self.ix[g][a] for g, a in holder.items()]
         ass += [(-self.iu[g] if g in holder else self.iu[g]) for g in range(self.m)]
+        if self.sstar:
+            NH = set(self.nonholders(prof, [list(b) for b in base]))
+            ass += [(self.inh[j] if j in NH else -self.inh[j]) for j in range(self.n)]
+            self.last_owners = []
         res = []
         xs = [self.ix[g][j] for g in range(self.m) for j in range(self.n)]
         for k in range(tries):
@@ -362,7 +391,25 @@ class Cert:
             if not self.inn.solve(assumptions=ass): return res
             mod = self.inn.get_model()
             res.append(tuple(next(j for j in range(self.n) if mod[self.ix[g][j] - 1] > 0) for g in range(self.m)))
+            if self.sstar:
+                self.last_owners.append(next((j for j in range(self.n) if mod[self.iown[j] - 1] > 0), None))
         return res
+
+    def sstar_witness(self, prof, Y, st, X, owner, moves, imps):
+        """An S* witness: every pick fixed; besides the moves' comparisons, every junk receiver other than the owner
+        must stay unwanted: v_i(B'_i) > v_i(g) for each other agent i valuing its single base good g."""
+        held = {g for b in st for g in b}
+        recv = {X[g] for g in range(self.m) if g not in held}
+        req = list(imps)
+        for j in recv:
+            if j == owner or not st[j]: continue
+            g = st[j][0]
+            for i in range(self.n):
+                if i != j and g in self.R[i]: req.append((i, tuple(st[i]), (g,)))
+        fix = {a: Y[a] for a in range(self.n)}
+        newb = {a: tuple(st[a]) for a in range(self.n)}
+        if owner is None: owner = 0                  # no junk receiver needs to own: any agent will do
+        return Witness(fix, newb, req, X, moves, owner)
 
     def vals_of(self, prof):
         return [dict(zip(S, self.dom[i][t])) for i, (S, t) in enumerate(zip(self.sets, prof))]
@@ -473,7 +520,10 @@ class Cert:
         base = [(y,) if y is not None else () for y in Y]
         Xs = self.complete(prof, base, self.tries)
         if Xs:
-            Ws = [Witness({}, {}, [], X, ()) for X in Xs]
+            if self.sstar:
+                Ws = [self.sstar_witness(prof, Y, base, X, o, (), []) for X, o in zip(Xs, self.last_owners)]
+            else:
+                Ws = [Witness({}, {}, [], X, ()) for X in Xs]
             return sorted(Ws, key=self.volume, reverse=True)[:1]
         vals = self.vals_of(prof)
         start = tuple(base)
@@ -490,8 +540,11 @@ class Cert:
                     nxt.append((st2, mv2, nbs2, imps2))
                     Xs = self.complete(prof, [list(b) for b in st2], 1)
                     if Xs:
-                        fix = {x: (base[x][0] if base[x] else None) for x in nbs2}
-                        cands.append(Witness(fix, nbs2, imps2, Xs[0], mv2))
+                        if self.sstar:
+                            cands.append(self.sstar_witness(prof, Y, st2, Xs[0], self.last_owners[0], mv2, imps2))
+                        else:
+                            fix = {x: (base[x][0] if base[x] else None) for x in nbs2}
+                            cands.append(Witness(fix, nbs2, imps2, Xs[0], mv2))
                         if len(cands) >= self.kcand: break
                 if len(cands) >= self.kcand: break
             if cands:

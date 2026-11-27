@@ -25,6 +25,9 @@ Written separately from cegar.py; it shares no code with it or with the reposito
   the formula depends on a type only through these memberships).
 - The witnesses' recorded picks are used only to skip witnesses that do not match Y (skipping only weakens
   coverage, so this is sound).
+- With OC1_SSTAR=1 every completion must have the S* shape of k4/oc1_hall.md §2 (claude/k4-oc1-hall), with the
+  witness's declared owner.  Every other junk receiver must hold at most one base good and one junk good, and
+  no other agent may prefer that base good to its own base (a type mask).
 - With OC1_PRIME=1 it also accepts OC1' chains (kind 'chainp', kgen/rounds.md §4.6 on proof/kgen-rounds).  A non-end
   agent may then also take goods of the end's base; the end takes junk only.  Without the flag such witnesses are
   invalid.
@@ -39,6 +42,7 @@ from pysat.solvers import Glucose4
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PRIME = os.environ.get('OC1_PRIME') == '1'      # accept OC1' chains (kgen/rounds.md §4.6) only when asked
+SSTAR = os.environ.get('OC1_SSTAR') == '1'      # require S*-shaped completions (k4/oc1_hall.md §2)
 
 
 def own_types(d):
@@ -230,6 +234,19 @@ def check_core(rec):
             masks = [mk.copy() for mk in efx[key]]
             for x, new_, old in imp:
                 masks[x] &= H.val(x, new_) > H.val(x, old)
+            if SSTAR:
+                # S*: every junk receiver other than the declared owner holds at most one base good and one junk
+                # good, and no other agent prefers its base good to its own base
+                o = w.get('owner'); X = w['_X']
+                inb = {g for b in nb for g in b}
+                cnt = collections.Counter(X[g] for g in range(H.m) if g not in inb)
+                if o is None or any(c >= 2 for a, c in cnt.items() if a != o) or any(len(nb[a]) >= 2 for a in cnt if a != o):
+                    continue
+                for j in cnt:
+                    if j == o or not nb[j]: continue
+                    g = nb[j][0]
+                    for i in range(n):
+                        if i != j: masks[i] &= H.val(i, nb[i]) >= H.V[i][:, g]
             boxes.append(masks)
         stats['witnesses applicable (sum over matchings)'] += len(boxes)
         # Types of agent i that the SD constraints and every box treat alike are interchangeable: one variable per
