@@ -1,0 +1,20 @@
+$ python3 k4/sdind/e7_absorber.py logs 4
+(last o) can: every order <= 1 5463
+(last o) can: every order <= 2 5487
+(last o) cases 5752
+(last o) o absorbs some completion (or none needed): False; some order <= 1: False 47
+(last o) o absorbs some completion (or none needed): False; some order <= 1: True 47
+(last o) o absorbs some completion (or none needed): True; some order <= 1: True 5658
+instances 1465
+starts 2393
+time 4 s
+$ python3 k4/sdind/e7_absorber.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz:150:11
+(last o) can: every order <= 1 1502
+(last o) can: every order <= 2 1508
+(last o) cases 1648
+(last o) o absorbs some completion (or none needed): False; some order <= 1: False 2
+(last o) o absorbs some completion (or none needed): False; some order <= 1: True 7
+(last o) o absorbs some completion (or none needed): True; some order <= 1: True 1639
+instances 150
+starts 604
+time 13 s

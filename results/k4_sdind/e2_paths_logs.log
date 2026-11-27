@@ -1,0 +1,33 @@
+$ python3 k4/sdind/e2_paths.py logs 4
+any insertion sequence: least d 0 1276
+any insertion sequence: least d 1 1117
+every sub-instance I_U has a one-absorber completion 2023
+instances 1465
+prefix, best order of Y: least d 0 600
+prefix, best order of Y: least d 1 1388
+prefix, best order of Y: least d 2 238
+prefix, best order of Y: least d 3 71
+prefix, best order of Y: least d 4 24
+prefix, best order of Y: least d 5 7
+prefix, best order of Y: least d None 65
+prefix, first order: least d 0 320
+prefix, first order: least d 1 1464
+prefix, first order: least d 2 307
+prefix, first order: least d 3 114
+prefix, first order: least d 4 35
+prefix, first order: least d 5 14
+prefix, first order: least d None 139
+starts (one-absorber completion exists) 2393
+suffix, best order of Y: least d 0 1276
+suffix, best order of Y: least d 1 1115
+suffix, best order of Y: least d 2 2
+suffix, first order: least d 0 826
+suffix, first order: least d 1 1474
+suffix, first order: least d 2 24
+suffix, first order: least d 3 6
+suffix, first order: least d 4 4
+suffix, first order: least d 5 1
+suffix, first order: least d None 58
+time 8 s
+log1325 [[[2, 3, 4, 0], [3, 1, 2, 6], [0, 3, 4, 5]], [[15, 1, 11, 8], [15, 6, 13, 8], [12, 16, 14, 5]]] picks [4, 2, 3] wanters [[], [0], [1]] suffix best 2 absorbers ['1', '2'] good seqs [(1, 0, 2), (1, 2, 0), (2, 0, 1), (2, 1, 0)]
+log1462 [[[0, 2, 4, 3], [6, 3, 1], [1, 2, 0, 5]], [[5, 10, 1, 12], [10, 12, 11], [11, 8, 6, 1]]] picks [3, 1, 2] wanters [[1], [2], []] suffix best 2 absorbers ['0', '1'] good seqs [(0, 1, 2), (0, 2, 1), (1, 0, 2), (1, 2, 0)]

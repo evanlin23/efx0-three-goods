@@ -1,0 +1,11 @@
+G sets [[0, 2, 3, 7], [1, 2, 6, 7], [3, 4, 5, 6], [3, 4, 5, 7], [4, 5, 6, 7], [0, 9, 10, 14], [8, 9, 13, 14], [10, 11, 12, 13], [10, 11, 12, 14], [11, 12, 13, 14]]
+G vals [[1, 8, 6, 4], [4, 8, 2, 7], [6, 7, 3, 5], [7, 10, 2, 6], [7, 5, 3, 6], [1, 8, 6, 4], [4, 8, 2, 7], [6, 7, 3, 5], [7, 10, 2, 6], [7, 5, 3, 6]]
+strict connected core: True | MC2: True | n, m = 10 15
+order (1, 4, 2, 0, 3, 6, 9, 7, 5, 8) picks (7, 2, 3, 5, 4, 14, 9, 10, 12, 11) | perfect: True | nu = 10
+DFS move generator equals Inst.moves on the n = 5 instance (picks and 10 one-move states): True
+states: picks 1, after one move 42 , new after two moves 470 0 s
+depth 0 : states with a one-absorber completion: 1 of 1 1 s
+depth 1 : states with a one-absorber completion: 10 of 42 1 s
+depth 2 : states with a one-absorber completion: 51 of 470 2 s
+OC2^max at this start: HOLDS
+three moves suffice: True [[[3], [2], [5, 6], [7], [4], [0, 14], [9], [10], [12], [11]], [[3], [2], [5, 6], [7], [4], [10], [9], [12, 13], [0, 14], [11]]] 2 s

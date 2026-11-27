@@ -1,0 +1,5 @@
+$ python3 k4/sdc/oc2max_lists.py 5 n4_3,n4_4,pure,n4_1,n4_2 3 13
+hypergraphs 31584
+max orders needing 0 moves 10830177
+max orders needing 1 moves 174856
+time 180 s

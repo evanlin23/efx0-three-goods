@@ -1,0 +1,9 @@
+$ python3 k4/sdc/oc1_max_orders.py core
+instance 0 nu 6 [(('max', 'one move repairs'), 50), (('max', 'picks complete'), 290), (('non-max', 'OC1 fails'), 24), (('non-max', 'one move repairs'), 333), (('non-max', 'picks complete'), 23)]
+instance 1 nu 6 [(('max', 'one move repairs'), 50), (('max', 'picks complete'), 290), (('non-max', 'OC1 fails'), 24), (('non-max', 'one move repairs'), 333), (('non-max', 'picks complete'), 23)]
+('max', 'one move repairs') 100
+('max', 'picks complete') 580
+('non-max', 'OC1 fails') 48
+('non-max', 'one move repairs') 666
+('non-max', 'picks complete') 46
+instances where some maximum-matching order fails OC1: []

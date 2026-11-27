@@ -1,0 +1,26 @@
+$ python3 k4/oc1max_multi/lemma_b.py results/k4_oc1max_multi/hard2_starts.jsonl.gz results/k4_oc1max_multi/hard2_starts_n5.jsonl.gz
+('|D_T| = 0', 'no KEEP chain') 2512
+('|D_T| = 0', 'no KEEP* chain') 2512
+('|D_T| = 1', 'KEEP chain') 3125
+('|D_T| = 1', 'KEEP* chain') 3244
+('|D_T| = 1', 'no KEEP chain') 134
+('|D_T| = 1', 'no KEEP* chain') 15
+('|D_T| = 2', 'KEEP chain') 1282
+('|D_T| = 2', 'KEEP* chain') 1443
+('|D_T| = 2', 'no KEEP chain') 923
+('|D_T| = 2', 'no KEEP* chain') 762
+('|D_T| = 3', 'KEEP chain') 141
+('|D_T| = 3', 'KEEP* chain') 152
+('|D_T| = 3', 'no KEEP chain') 262
+('|D_T| = 3', 'no KEEP* chain') 251
+('|D_T| = 4', 'no KEEP chain') 4
+('|D_T| = 4', 'no KEEP* chain') 4
+KEEP chains 6751
+KEEP* chains 18916
+starts 8383
+|D_T| = 0 2512
+|D_T| = 1 3259
+|D_T| = 2 2205
+|D_T| = 3 403
+|D_T| = 4 4
+Lemma KEEP / KEEP* violations (chains without the completion): 0 []

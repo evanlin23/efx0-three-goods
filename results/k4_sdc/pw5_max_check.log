@@ -1,0 +1,6 @@
+$ python3 k4/sdc/pw5_max_check.py
+PW5: n = 5, m = 9, nu = 5
+failing start: picks (0, 1, 2, 3, 4) (max, 12 orders) | free completion at the picks: False | states after one move: 555 | with a free completion: 0
+('max', 'OC1 fails') 12
+('max', 'one move repairs') 58
+('max', 'picks complete') 50
