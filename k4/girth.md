@@ -50,6 +50,7 @@ SINK, PARK, SLACK (general). Everything else below is as marked.
 | K4.GIRTH.DYNX | With exchange moves in the parking, every labeling completes | REFUTED (n = 3: 253 of 300 labelings) | `k4/girth/dynx.py`, `results/k4_girth_dynx_3.log` |
 | K4.GIRTH.DOM | For every labeling, Algorithm 2 (G1 repair) leaves a state with a dominating complete EFX₀ allocation (⟹ TARGET₄) | CONJECTURE (exhaustive at n = 3 by one implementation) | §6, `k4/girth/dom_test.py`, `results/k4_girth_dom_*.log` |
 | K4.GIRTH.OCCYC | Every known OC₁^max failure has pattern P\* (one receiver; a D_T pair sharing two junk goods, or a dangerous–receiver pick swap); "a 2-cycle through two dangerous agents" fails at n = 5 | EVIDENCE | §7, `k4/girth/oc1_cycles.py`, `results/k4_girth_oc1_cycles.log` |
+| K4.GIRTH.RF | Rule RF: at every OC₁-failing maximum-matching SD order, the receiver is unique and moving it to the front gives maximum-matching picks that satisfy OC₁ (with MAXSD ⟹ OC₁^∃max ⟹ TARGET₄) | CONJECTURE (exhaustive at n = 4 via the certified failure list; 86 of 86 orders at n = 5) | §7, `k4/girth/oc1_recvfirst.py`, `results/k4_girth_oc1_recvfirst.log`, `results/k4_girth_oc1_orders.log` |
 
 ---
 
@@ -594,6 +595,35 @@ Findings:
   those with a junk 2-cycle of two truly dangerous agents or a dangerous–receiver pick swap. The n = 5 part rests on
   24 stored failures; the other OC₁^max failures at n = 5 are not on `main` and were not checked.
 
+**Which order works: Rule RF (receiver first).** (Coordinator's follow-up; `k4/girth/oc1_recvfirst.py`,
+`results/k4_girth_oc1_recvfirst.log`; `k4/girth/oc1_orders.py`, `results/k4_girth_oc1_orders.log`.) At an OC₁^max
+failure the receiver u is unique. Let o be any order whose serial dictatorship gives the failing picks; RF moves u
+to the front of o.
+- **n = 4, exhaustive:** on all 292,080 failing orders of all 112,880 failing starts, the RF order's picks form a
+  maximum matching and satisfy OC₁. Method: the orders are recomputed by serial dictatorship over all 24 orders, and the
+  new picks are looked up in the complete list of failing (type profile, picks) pairs (K4.SDC.OC1MAX.N3, certified;
+  the list is closed under the hypergraphs' automorphisms on 14,260 images checked). Raw cross-check with
+  `k4/sdc/oc1_mc2_rand.Inst` on 2,868 sampled failing orders (1,580 starts): RF works on all of them, and in 93% of a
+  further 796 the RF picks complete with no move at all. Only 64% of RF outcomes have two receivers, so TTC's R2 does
+  not explain all of them.
+- **n = 5:** on all 86 failing orders of the 24 stored failures, the RF picks satisfy OC₁ (raw checker).
+- Structure: in every failing order the receiver picks after its pick-swap partner (0 exceptions in 1,540 + 86 sampled
+  orders where it has one), and its top good is always another agent's pick (never junk; at n = 5 always its
+  pick-swap partner's pick). After RF the receiver holds a good someone wants, so it is no longer a receiver.
+- The coordinator's other candidates (exhaustive at n = 4 / raw at n = 5): "the receiver just before its pick-swap
+  partner" works on every order where it applies (213,760 of 213,760; 86 of 86); "swap the two agents of some Berge
+  2-cycle" and "some adjacent transposition" work everywhere; **"swap the two truly dangerous agents" fails on 7,680 of
+  292,080**. Smallest kind: 4_pure#20, sets [[0,1,2,6],[1,2,5,6],[3,4,5,6],[3,4,5,6]], values
+  [[1,4,8,6],[2,8,7,4],[3,5,7,6],[4,5,8,6]], order (0, 2, 3, 1) with picks (2, 1, 5, 6) (roles D, U, D_T, D_T);
+  swapping agents 2 and 3 gives picks (2, 1, 6, 5), where OC₁ fails again; RF gives (1, 0, 2, 3) with picks
+  (6, 2, 5, 4), which complete at once.
+
+**Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every
+strict connected k = 4 core, at every serial-dictatorship order o whose picks form a maximum matching and fail OC₁,
+the receiver u is unique, and the order (u, o − u) has maximum-matching picks that satisfy OC₁. With K4.SDC.MAXSD this
+gives OC₁^∃max, hence TARGET₄ through the Lean frame (`EFX.OC1Max.target4_of_conjOC1exmax`). A proof would have to
+explain why u's first pick (another agent's pick) leaves picks that complete; not attempted yet.
+
 ## Reproduce
 
 All plain Python (python-sat not needed); run from the repository root. Times on 4 CPUs.
@@ -629,6 +659,8 @@ python3 k4/girth/dynx.py 3 [--base]                             # §6 exchange m
 python3 k4/girth/dom_test.py N SEED SECS [MAXM] | exhaustive N  # §6 Conjecture DOM -> results/k4_girth_dom_*.log
 python3 attempts/k4_girth_uniform.py                            # §6 no labeling per hypergraph (replay with lss.py)
 python3 k4/girth/oc1_cycles.py 300 1                            # §7 cycle patterns at OC1^max failures -> results/k4_girth_oc1_cycles.log
+python3 k4/girth/oc1_recvfirst.py                               # §7 Rule RF, exhaustive at n = 4 -> results/k4_girth_oc1_recvfirst.log
+python3 k4/girth/oc1_orders.py 150 2                            # §7 reorders, raw checker on a sample -> results/k4_girth_oc1_orders.log
 ```
 Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
 partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).
