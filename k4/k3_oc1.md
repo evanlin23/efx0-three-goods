@@ -754,6 +754,29 @@ profiles, 541 m = 12 cores × 200), every order.
   - on two terminals it fails on 82 drafts with owners N/E/K and on 12 with any owner, all covered by B\* (none in
     the gap).
 
+**A canonical choice: most releases (Conjecture T-ω).** At every hard perfect draft with a valid Rule E rotation,
+every valid Rule E rotation of least ω′ completes (any owner). By Lemma 5 these are the rotations releasing the most
+goods. No failure is known:
+- every gap draft with n ≤ 6 (there every rotation completes);
+- the 8,141-draft n = 7 batch, gap or not (`te_sample7_*c*.log`);
+- the 3,354-draft sample of (P)'s class at n = 5 (`te_sample_mixed5_*.log`).
+
+With owners N/E/K only, it fails once at n = 7, on a two-terminal draft covered by B\*: there the other terminal
+must own.
+
+**The release bound (R), conjectured.** The least ω′ over the valid Rule E rotations is at most 1. It holds on every
+gap draft with n ≤ 6, 106,368 drafts (`te_release_rules.log`, `te_omega.log`), and the least ω′ is ≤ 0 on most of
+them. (R) reduces T-ω to a small case:
+- ω′ ≤ 0: Lemma 1 (a), no owner.
+- ω′ = 1: |J′| = |T′| + 1. Every terminal takes one junk good and k takes the last one, so k's slot and owner k are
+  the same thing here. k's slot is blocked only if pair_k is shared, or every junk good g completes some
+  top-holder's pair {p, g} with p ∈ pair_k. Otherwise a terminal must own.
+
+Simple rules do not give (R) (`te_release_rules.log`; n = 6 gap, one terminal). The σ-first k leaves ω′ ≥ 2 on
+2,608 drafts, the longest chain on 104, and the least-ω′ junk-pair k (kgen-n3's rule P) on 16. These rotations still
+complete, with an owner. So (R) is a statement about maximizing releases, and its proof is the missing release
+lemma.
+
 **Statement (P)'s class** (§11: agents valuing one, two or three goods; the class the reduction RED₃ produces).
 - **The exact test extends.** `lbtest` and `de_moves` now accept agents with one or two goods: they are never
   exposed, never threatened and never upgraded (§11). `mixed_check.py` compares `lb2` with the exhaustive

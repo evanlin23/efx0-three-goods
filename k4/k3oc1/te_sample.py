@@ -50,6 +50,8 @@ for ci, (sets, m) in enumerate(hypergraphs(src, rng)):
             lw = all(e_ for x, e_ in zip(R, ex) if x['om'] == mo)
             C[tag + 'T-E any owner, every least-omega rotation %s' % lw] += 1
             C[tag + 'least omega\' <= 0 %s' % (mo <= 0)] += 1
+            C[tag + 'least omega\' <= 1 %s' % (mo <= 1)] += 1
+            if mo > 1: print('OMEGA2', line, 'least omega\'', mo, flush=True)
             if not lw: print('TE-anyleastomega', line, flush=True)
             # kgen-n3's rule T1-P: if some k has its pair inside J (a plain DE chain), every such k; else every k
             jp = [i for i, x in enumerate(R) if not x['arrow']]; sel = jp if jp else list(range(len(R)))
