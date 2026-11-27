@@ -359,3 +359,8 @@ allocation, every needy keep-and-add pair):
   above its own and loses its cushion Y_q.
   - The fallback in the data moves a pick between other agents.
   - A candidate rule: when (O2) holds toward X_j, try handing X_j's offending pick to v's chain. I have not tested it.
+- *Follow-up (kgen-rounds, PR #137 head 51cf833d).* kgen-rounds proposes U3: after the return, v takes its favourite
+  junk good from a bundle it envies.
+  - On my (O2) example this gives ({0, 5}, {2, 4, 6}, {3}, {1}). My code confirms it is raw EFX₀, MD and a RNDOZ
+    witness.
+  - Their counts with U3 and U13 leave 10 of 5,452 (n = 4) to a three-pick rotation. I have not re-run these counts.
