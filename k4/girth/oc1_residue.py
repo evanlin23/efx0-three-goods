@@ -7,7 +7,8 @@ k4/girth/oc1_cycles.py: U' receivers, D' dangerous, D_T' truly dangerous, J' jun
 
 Unified statement (as run; check_one): (i) w or d owns a one-absorber completion at Y'; else (T) a receiver r of Y'
 (d first) and a pick-dangerous agent p trade, p adding one junk good: "p takes {Y'_r, j}, r takes {Y'_p}"; else (C) the
-chain below.  The residue lemmas are its restrictions:
+chain below (C: head d; C': any other head h, needed at the n = 5 starts with two receivers, k4/girth/oc1_r2n5.py).
+The residue lemmas are its restrictions:
 
 Lemma DEMOTE-0 (|U'| = 1, D_T' empty).  (i) Y' has a one-absorber completion whose owner is w or d, or (ii) for some
 pick-dangerous agent p and junk good j of J' valued by p, the 2-ring "p takes {Y'_d, j}, d takes {Y'_p}" (both
@@ -95,24 +96,30 @@ def check_one(sets, vals, Y2, w, d):
                 assert is_official(st), 'the trade is not an official move'
                 if I.one_absorber(st):
                     return cls, '(T) %s trades with a pick-dangerous agent' % ('d' if r == d else 'another receiver')
-    # (C) a truly dangerous agent k takes an improving junk set, d takes Y'_k (plus junk)
-    for k in range(n):
-        if rl2[k] != 'DT' or k == d:
-            continue
-        for H in subsets([g for g in J2 if g in v[k]], 1):
-            if not I.V(k, H) > I.V(k, [Y2[k]]):
+    # (C) a truly dangerous agent k takes an improving junk set H, a head h takes Y'_k plus junk (h improves): first
+    # with h = d (the form found at n = 4), then any other head (needed at the n = 5 starts with two receivers)
+    for head_is_d in (True, False):
+        for k in range(n):
+            if rl2[k] != 'DT':
                 continue
-            rest = [g for g in J2 if g not in H and g in v[d]]
-            for Hd in subsets(rest):
-                if not I.V(d, [Y2[k]] + list(Hd)) > I.V(d, [Y2[d]]):
+            for H in subsets([g for g in J2 if g in v[k]], 1):
+                if not I.V(k, H) > I.V(k, [Y2[k]]):
                     continue
-                st = [list(b) for b in base]
-                st[k] = list(H)
-                st[d] = [Y2[k]] + list(Hd)
-                tried += 1
-                assert is_official(st), 'the chain is not an official move'
-                if I.one_absorber(st):
-                    return cls, '(C) the chain k -> d'
+                for h in ([d] if head_is_d else [x for x in range(n) if x not in (k, d)]):
+                    if h == k:
+                        continue
+                    rest = [g for g in J2 if g not in H and g in v[h]]
+                    for Hd in subsets(rest):
+                        if not I.V(h, [Y2[k]] + list(Hd)) > I.V(h, [Y2[h]]):
+                            continue
+                        st = [list(b) for b in base]
+                        st[k] = list(H)
+                        st[h] = [Y2[k]] + list(Hd)
+                        tried += 1
+                        assert is_official(st), 'the chain is not an official move'
+                        if I.one_absorber(st):
+                            return cls, ('(C) the chain k -> d' if head_is_d else
+                                         "(C') the chain k -> h, h a %s other than d" % rl2[h])
     return cls, 'FAILS (%d moves of the statement tried)' % tried
 
 

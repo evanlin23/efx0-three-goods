@@ -1,9 +1,9 @@
 $ python3 k4/girth/oc1_residue.py 2
-  ... 50 of 287 chunks, 7 s
-  ... 100 of 287 chunks, 13 s
-  ... 150 of 287 chunks, 17 s
-  ... 200 of 287 chunks, 22 s
-  ... 250 of 287 chunks, 25 s
+  ... 50 of 287 chunks, 6 s
+  ... 100 of 287 chunks, 12 s
+  ... 150 of 287 chunks, 16 s
+  ... 200 of 287 chunks, 21 s
+  ... 250 of 287 chunks, 24 s
 n = 4 (all failing orders):
    residue D_T'=0 / (T) d trades with a pick-dangerous agent                  1280
    residue D_T'=0 / (i) w or d owns                                          62880
@@ -19,4 +19,4 @@ n = 5 (the 24 stored failures):
    R2 / (i) w or d owns                                                         76
    distinct (profile, RF picks, w, d)                                           24
    orders                                                                       86
-time 29 s
+time 27 s
