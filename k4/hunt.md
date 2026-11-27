@@ -189,8 +189,8 @@ if the certificate (base allocations, images not counted) does not shrink by mor
 (`results/k4_hunt/climb_b5.jsonl`): all certified, none timed out. The climbs all drift to dense cores of Q4 agents with
 few goods: from scores 50–131 to 1,878–2,160 base allocations at n = 6, m = 10–11, β = 8–9, e.g.
 [[0,7,8,9],[3,5,6,8],[0,1,3,5],[2,3,7,8],[2,4,6,9],[1,2,4,5]] (every agent Q4, every good of degree 2 or 3; 2,160).
-Certificate size grows with the number of 4-good agents and β, not toward a failure: no evaluated core came close to
-an uncovered profile without allocation.
+Certificate size grows with the number of 4-good agents and β; no evaluated core has a profile without an EFX₀
+allocation (certificate size measures how varied the allocations must be, not closeness to a failure).
 
 ## 4. Patterns
 
