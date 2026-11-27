@@ -1119,3 +1119,48 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   - d1: independent RF and RKMAX checkers at n = 4 and 5;
   - kgen-n3: RF and RKMAX at k = 5, 6.
 - Hall and girth: their class tables at σ-maximal starts.
+
+### 2026-11-27 06:34 UTC: hourly burst 10
+**TARGET₄: still open.** The statements are sharper this hour, and three verified refutations bound the conjectures.
+
+**RKMAX (K4.SDC.RKMAX).**
+- CERTIFIED at n = 4 (K4.SDC.RKMAX.N4) and on 5_pure #419, #447, #38 (K4.SDC.RKMAX.SEL2). Two independent
+  implementations (coordinator, referee) agree, and d1 and rkmax have third ones.
+- No counterexample in 5.6M random strict n = 5 profiles (d1).
+- REFUTED at k = 5 (K4.SDC.RKMAX.K5; ksens and kgen-n3, replayed). At n = 3 with a shared top pair, every SD vector has
+  the same σ, so RKMAX becomes OC₁^max, which fails at k = 5. RKMAX is a k = 4 statement.
+- Hall's plan (a), "σ-max ⟹ hard classes vanish", is refuted by 5_pure #358 (replayed). One-receiver σ-maximal starts
+  exist but are rare: 1,822 in 5.6M profiles.
+- rkmax session: Observation W (σ is the out-degree profile of the wants digraph); RKDOM (rank dominance); HS-MAX (at
+  n = 4, every hard σ-optimum satisfies Theorem S/U's or RF-B's static hypotheses).
+
+**RF.**
+- The referee's Lemma REC-∃ (proved): with no receiver holding a pick, a pickless agent absorbs all junk. So every
+  failing start has a receiver, and the data form of RF implies RF∃.
+- The every-order form is REFUTED at k = 5, n = 4, through twins (K4.SDC.RF.K5EVERY; ksens, replayed): the
+  receiver-first order swaps two identical agents. RF∃ survives and is the target.
+- Rank rules cannot break the twin tie (RFσ, coordinator).
+- RF CERTIFIED at n = 3, k = 5 (K4.KSENS.RF5). The certifier finds RF at all ~1.29M n = 5 export starts. d1 replicated
+  it independently (1,285,930 starts).
+- n = 5 DEMOTE-0 is fully covered by refereed pieces: RF-A1* (71,443), RF-T/T′ (242 trades), T* (32 rings), plus
+  NA's at-once starts. Class (1, 3) is covered by C13, with fix (0).
+
+**ROUND-RSD.**
+- multi: every P1-free round is safe on 29.5M rounds, with one exception at 5_pure #963 (which sharer to settle).
+- Lean (#151, merged): SEP, LIFT-SEP and the corrected BASE-R frame are machine-checked.
+
+**General k.**
+- Theorem 2, two agents at every k (#97, merged, all refereed).
+- Sequential chains grow with k (K4.KSENS.CHAINS); rounds do not (RD², CONJECTURE). kgen-rounds now has RD² at n = 3,
+  every k.
+
+**Merged this hour:** #102, #129, #135, #151, #154, #157, #159, #160, #97.
+
+**Dispatch.**
+- TTC: a canonical RF∃ rule.
+- matching: a hunt for k = 4 twin failures.
+- k3-oc1: derive RF-A1*'s hypotheses from Y's failure.
+- VM: the LP/duality view of RS.
+- write-up: revision 8.
+- kgen-rounds: RD².
+- d1: climb on the one-receiver σ-optima, then n = 6.
