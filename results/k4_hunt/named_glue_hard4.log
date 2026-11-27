@@ -1,1 +1,3 @@
 command: python3 k4/hunt/named.py results/k4_hunt/glue_hard4_cores.json --limit=7200
+GM4-B+GM4-D s=1 [4]~[5]: n=8 m=13 certified in 972.5s, {'allocs': 5904, 'clauses': 10643, 'bits': 354, 'auts': 2}
+wrote /home/user/efx0-three-goods/results/k4_hunt/named_glue_hard4_cores.json.gz
