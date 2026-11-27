@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 1355 audited statements, 2620 theorems, standard axioms only
+    CHECK PASSED: 1360 audited statements, 2626 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -312,10 +312,10 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   **`EFX.Round.target4_of_roundRSD`**: ROUND-IND (`ConjRoundInd`) and OC₁ with phantom constraints (`ConjBasePhi`),
   both hypotheses, imply TARGET₄; the invariant along reachable states (`inv_of_reach`, `inv_round`) and the final
   lift (`lift_base`).
-- `EFX/RF.lean`: **the receiver-first frame** (`k4/sdc.md` §31 end, ledger K4.SDC.RF.LEAN): Conjecture RF (`ConjRF`:
-  at a maximum-matching start where OC₁ fails, a unique receiver u, and OC₁ at every maximum-matching order with u
-  first, one of which exists) implies OC₁^∃max (`conjOC1exmax_of_conjRF`), hence TARGET₄
-  (**`EFX.OC1Max.target4_of_conjRF`**).
+- `EFX/RF.lean`: **the receiver-first frame** (`k4/sdc.md` §31 end, ledger K4.SDC.RF.LEAN): Conjecture RF (`ConjRF`,
+  amended: at a maximum-matching start where OC₁ fails, for every receiver u, OC₁ at every maximum-matching order with
+  u first, one of which exists) and its weakest form RF∃ (`ConjRFsome`, some receiver) imply OC₁^∃max, hence TARGET₄
+  (**`EFX.OC1Max.target4_of_conjRF`**, `target4_of_conjRFsome`); every start has a receiver (`exists_receiver`).
 - `EFX/OC1MaxExamples.lean`: non-vacuity of `EFX/OC1Max.lean` by `decide`, on the MC2 core of `k4/sdc.md` §31 where OC
   fails: the failing start (index order) is not a maximum-matching start (`EFX.OC1Max.Ex.not_maximum_MC2`); the order
   3, 4, 0, 1, 2 picks a maximum matching with a one-absorber completion (`EFX.OC1Max.Ex.maximum_ordM`,
