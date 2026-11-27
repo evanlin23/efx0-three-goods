@@ -890,6 +890,19 @@ The failing start Y is never σ-maximal (0 in every class). So at n = 5 the resi
 arise at a rank-maximal start: a proof of RKMAX would not meet them there. At n = 4 they arise rarely. RF raises σ at
 most but not all RF starts (n = 5 DEMOTE-0: 104,429 of 113,484; (1, 3): all 7,733).
 
+**DEMOTE-0 at n = 5, the whole class** (113,484 starts of the full exports), split three ways:
+- *at once* (71,443): the k3-oc1 session's Lemma RF-A1\* (Hall's RF-A1 with (A1-iv) weakened), proved, with its
+  hypotheses checked at all 71,443 (`k4/k3_oc1.md` §13.5 on `claude/k4-k3-oc1`; [unverified]: relayed, not read here).
+  There d is truly dangerous at Y and |D_T(Y)| = 2 at all 71,443;
+- *trade* (42,009): Lemma RF-T and Corollary RF-T′ above (refereed CORRECT), with (F1)–(F3) checked at all;
+- *3-ring* (32, all on 5_pure#374; `k4/girth/oc1_tstar.py`, `results/k4_girth_oc1_tstar.log`): an explicit certificate
+  at all 32. Some official 3-ring "c1 takes {Y′_d, j}, c2 takes Y′_{c1}, d takes Y′_{c2}" is followed by d absorbing all
+  the remaining junk, and the result is EFX₀. Roles at Y: u receiver, d pick-dangerous, c1 truly dangerous, c2
+  pick-dangerous and keeping its pick.
+
+71,443 + 42,009 + 32 = 113,484. So DEMOTE-0 is covered at n = 5 by two proved lemmas plus checked facts, and an
+explicit certificate for 32 sporadic starts. What remains is the derivation of the facts from the hardness of Y.
+
 **Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every
 strict connected k = 4 core, at every serial-dictatorship order o whose picks form a maximum matching and fail OC₁,
 the receiver u is unique, and the order (u, o − u) has maximum-matching picks that satisfy OC₁. With K4.SDC.MAXSD this
@@ -945,6 +958,7 @@ python3 k4/girth/oc1_residue_n5.py build PARTIAL6 SEL2 OUT.jsonl.gz 3; python3 k
 python3 k4/girth/oc1_trade.py OUT.jsonl.gz 1                    # §7 Lemma RF-T checks -> results/k4_girth_oc1_trade.log
 python3 k4/girth/oc1_sink.py OUT.jsonl.gz 3                     # §7 the SINK form, n = 4 and n = 5 -> results/k4_girth_oc1_sink.log
 python3 k4/girth/oc1_rkmax.py OUT.jsonl.gz 3                    # §7 residue classes at rank-maximal starts -> results/k4_girth_oc1_rkmax.log
+python3 k4/girth/oc1_tstar.py OUT.jsonl.gz                      # §7 the 32 3-ring starts, explicit certificate -> results/k4_girth_oc1_tstar.log
 ```
 Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
 partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).
