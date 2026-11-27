@@ -6,6 +6,13 @@ coordinator integrates.
 
 ## Status (burst 5: VM1 refuted at k = 4 on cores; one DE chain repairs it; the ring is one move)
 
+- **CERTIFIED: VM1-chain holds for every strict profile of every k = 4 core with n ≤ 4** (§7.9).
+  - That is all 1,058 hypergraphs, by an ordinal CEGAR over order types, with two implementations that share no code
+    and both find no gap.
+  - VM1 itself fails on exactly 3 of the 1,058, all n = 4. The smallest is P34 (n = 4, m = 7,
+    `attempts/k4-vm-vm1-core.md`).
+  - Rotation is needed on a few profiles, so VM1-chain-plain is false.
+- The 11 n = 4 and 24 n = 5 OC₁^max counterexample cores satisfy VM1, with no move.
 - **Conjecture VM1 is REFUTED at k = 4, on connected k = 4 cores** (`attempts/k4-vm-vm1-core.md`).
   - Five failing cores were found, each verified by `is_core4`, by uncapped `vm1_verify.py`, and by an independent
     replay with its own core check.
@@ -27,8 +34,9 @@ coordinator integrates.
     good, j₂ takes j₁'s), which is not one VM1 move.
   - **Conjecture VM1-chain** is one VM1 move *or one DE chain*, then placement. It completes all 25 VM1 failures except
     PW(3, 3, 8) at k = 9, and 315 of 315 instances of a fresh PW grid up to k = 9.
-  - It still holds with placement *without rotation* (VM1-chain-plain).
-  - **The proof target at k = 4 is now VM1-chain on cores** (§7.7, §7.8).
+  - Placement *without rotation* (VM1-chain-plain) is not enough. It fails on 384 n = 3 profiles, which need rotation
+    (§7.9).
+  - **The proof target at k = 4 is now VM1-chain on cores** (§7.7, §7.8), certified for n ≤ 4 (§7.9).
 - **VMX₂** (any number of moves) completes every failure found.
 - **Request 3, the ring** (§7.8):
   - The rotation class collapses into the one-move class.
@@ -1209,14 +1217,15 @@ precedence digraph.
 | finishing test: o can finish iff \|H_o\| ≤ \|F\| − 1 (Lemma test) | **missing**; P1′ and HDT give one direction |
 | Improvement Lemma plus a potential: up to 4n trades | VM1-chain(-plain): one trade (evidence only) |
 
-**VM1-plain is refuted** with VM1, on cores too (C0, `attempts/k4-vm-vm1-core.md`): it implies VM1. The surviving
-form is **VM1-chain-plain**, and it is evidence only:
+**VM1-plain is refuted** with VM1, on cores too (C0 and P34, `attempts/k4-vm-vm1-core.md`): it implies VM1. The form
+without rotation, **VM1-chain-plain**, was defined as:
 - from some V-M matching, one VM1 move or one DE chain applied to the matching itself;
 - then F1 placements *without rotation*.
 
 It completes every VM1 failure found except PW(3, 3, 8) at k = 9, and every screen, named and k5 instance
-(`vm1_chain_plain.log`). On connected k = 4 cores it would give TARGET₄. Rotation and rings are not part of the
-statement.
+(`vm1_chain_plain.log`). **But it is false.** The exhaustive check (§7.9) finds 384 profiles of one n = 3 core where
+no run without rotation exists, and VM1 with rotation (no move) completes them. So rotation stays in the statement,
+and the certified form is **VM1-chain** with rotation (§7.9).
 
 **What a proof needs beyond DE.**
 1. *A finishing test at k = 4*: an exact condition for a V-M matching, or a state one move from it, to extend. DE's
@@ -1230,6 +1239,94 @@ statement.
 3. *k must be used.* VM1 fails at k = 6 on PW, and VM1-chain at k = 9 (PW(3, 3, 8)). The bounds of RS(b) and MS grow with k (up to
    k − 2 and k − 1 pool goods per arrow and move), and in PW the D-goods outnumber what one freed agent can absorb.
    That is the likely place where k enters (a guess).
+
+### 7.9 Exhaustive check at n ≤ 4: every strict profile of every core (coordinator's request)
+
+`k4/vm/vm1chain_cert.py` is an ordinal CEGAR in the style of `k4/oc1cert/cegar.py` (on `compute/k4-oc1max-cert`). It is
+re-implemented for V-M and shares only `k4/order_types.json` with it.
+
+**What it certifies.** Every comparison V-M and the repairs make is between disjoint sets of one agent's goods:
+- ranks compare single goods;
+- Phase I compares a with b + c;
+- moves compare a new set with the old good, or y with z;
+- safety and EFX₀ compare X_b − h with X_a.
+
+So the statement depends on a profile only through the agents' strict balanced order types: 288 for 4 goods, 6 for 3,
+and (C4) for agents with two private goods.
+
+**Witness of a successful run.** A successful run gives, for each agent a, a list of conditions on a's own valuation:
+- **The V-M derivation of Y**, certified per agent by Lemma S:
+  - a's Phase-I strong bit is the same;
+  - a Phase-I winner's top is Y_a, and a strong loser's top is a winner's pick;
+  - otherwise Y_a has rank st(a), and the j-th good a ranks above Y_a is held by an agent with st ≤ j.
+
+  These are exactly the conditions under which the same tie resolution of Phases I–II produces Y.
+- the trade's improving comparisons;
+- EFX₀ after the trade;
+- every placement's safety comparisons.
+
+Under every profile whose types satisfy all of these, the same run is legal and ends in the same complete EFX₀
+allocation. So the witness covers a **box**: the product over agents of the types satisfying each agent's conditions.
+
+**The search loop.**
+- A profile outside all boxes is found by a numpy bitmap when the profile space is at most 1.5·10⁸. Otherwise it is
+  sliced by agent 0's type, one slice per symmetry orbit.
+- Every box is added together with all its hypergraph-automorphism images. The statement is invariant under them,
+  because V-M is run with every tie resolution.
+- A profile with no run is recorded as failing, then re-checked from the raw definitions: VM1 with rotation, then
+  VM1-chain (`vm1_chain.one`).
+
+**Checks of the checker.**
+1. A SAT outer loop (one-hot types, an independent implementation of the search) agrees with the bitmap. Both find
+   the same 152 failing profiles of the no-trade form on two n = 3 cores.
+2. With `--verify` (used for n ≤ 3), every box is replayed on 20 random profiles inside it, from the raw definitions:
+   - Y is a V-M matching;
+   - the trade is legal;
+   - every placement is safe;
+   - the final allocation is complete and EFX₀.
+
+   Every replay passed.
+3. Run at the no-trade level, the certifier does find failures.
+
+**Implementation 1** (`vm1chain_cert.py`, `--level=move`) certifies the strongest form, **VM1-plain**: at most one VM1
+move, then placement *without rotation*. Each profile where VM1-plain fails is enumerated and re-checked from the raw
+definitions, first for VM1 with rotation and then for VM1-chain. In sliced mode only the orbit-representative slices
+are searched; the other profiles follow by symmetry.
+
+**Implementation 2** (`vm1chain_cert2.py`) shares no code with the first, nor with `vmlib.py` or any other module.
+- V-M is certified by direct simulation: each agent is run alone against the fixed environment "good g is taken at
+  step s(g)". Lemma S is not used.
+- The moves and chains are its own; upgrades need not be minimal.
+- Rotation steps are part of the runs, and each contributes the strict envy comparisons of its cycle. A rotation keeps
+  EFX₀ under every profile satisfying them.
+- Automorphisms are graph automorphisms of the incidence graph (networkx), and types are mapped by their
+  disjoint-pair comparison vectors.
+- It certifies **VM1-chain** (with rotation) directly. Runs without rotation are tried first.
+
+| cores | hypergraphs | impl. 1: boxes | impl. 1: profiles where VM1-plain fails | of those: VM1 holds / only VM1-chain holds / neither | impl. 2: boxes | impl. 2: profiles with no VM1-chain run |
+|---|---|---|---|---|---|---|
+| n = 2 | 5 | 67 | 0 | – | 62 | **0** |
+| n = 3 | 51 | 9,595 | 384 (one hypergraph) | 384 / 0 / 0 | 8,282 | **0** |
+| n = 4, `4_n4_1` | 135 | 25,992 | 0 | – | 25,992 | **0** |
+| n = 4, `4_n4_2` | 309 | 200,971 | 0 | – | 186,248 | **0** |
+| n = 4, `4_n4_3` | 339 | 771,073 | 384 (one hypergraph) | 384 / 0 / 0 | 643,133 | **0** |
+| n = 4, `4_pure` | 219 | 1,232,104 | 111,072 (orbit-representative slices) | 62,688 / **48,384** / **0** | 902,926 | **0** |
+
+Logs: `vm1_cert_{n2,n3,n4_n4_1,n4_n4_2,n4_n4_3,n4_pure}.log` and `vm1_cert2_{...}.log`. The per-hypergraph times that
+implementation 2 printed in sliced mode (`vm1_cert2_n4_pure.log`) are wrong: a loop variable shadowed the start time.
+That was fixed after the run, and the totals are unaffected.
+
+**Results.**
+- **VM1-chain holds for every strict profile of every k = 4 core with n ≤ 4** (1,058 hypergraphs). Both implementations
+  agree.
+- **VM1 does not.** It fails on exactly three hypergraphs, all pure: `4_pure` idx 34 (m = 7), idx 15 (m = 8) and idx 51
+  (m = 8). Every failing profile there completes with one DE chain.
+  - Implementation 2 needs a chain on the same three, plus once on idx 37 (m = 9). That is only because it tries chains
+    without rotation before rotations, while implementation 1 found VM1 with rotation there.
+  - The smallest failure is P34 (`attempts/k4-vm-vm1-core.md`, uncapped and replayed with an independent core check).
+- **Rotation is needed** for VM1-chain on a few profiles. Implementation 2 used 22 rotation runs (one at n = 3, one in
+  `4_n4_3`, 21 in `4_pure`). So VM1-chain-plain (no rotation) is false, already at n = 3. The n = 3 failures are the 384
+  profiles above, all completed with rotation and no move.
 
 ## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading
 

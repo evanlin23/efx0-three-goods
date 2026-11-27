@@ -396,13 +396,13 @@ def run_hg(sets):
         sweep(np.zeros(shape, dtype=bool), (), None); mode = 'bitmap'
     else:
         stab = [maps[0] for sigma, maps in auts if sigma[0] == 0]; done0 = set(); stored = []; mode = 'slices'
-        for t0 in range(shape[0]):
-            if t0 in done0: continue
-            done0.update(int(mp_[t0]) for mp_ in stab); done0.add(t0)
+        for ty0 in range(shape[0]):                      # (named ty0: the logs of the first run printed wrong times
+            if ty0 in done0: continue                    #  in this mode because this loop reused the name t0)
+            done0.update(int(mp_[ty0]) for mp_ in stab); done0.add(ty0)
             cov = np.zeros(shape[1:], dtype=bool)
             for T0, Ts in stored:
-                if t0 in T0: cov[np.ix_(*Ts)] = True
-            sweep(cov, (t0,), stored)
+                if ty0 in T0: cov[np.ix_(*Ts)] = True
+            sweep(cov, (ty0,), stored)
     return boxes, fails, dict(kinds), len(auts), mode, time.time() - t0
 
 
