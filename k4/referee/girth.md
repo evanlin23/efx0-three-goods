@@ -311,3 +311,14 @@ The PR edits no ledger row.
 - 144 meet (F1)–(F3), and all 144 are EFX₀.
 
 Log `results/k4_referee/rfbp_rft_ref.log`.
+
+**The SINK form of DEMOTE** (`k4/girth.md` §7 at `ea279bb9`; coordinator's queue). It is stated as a **CONJECTURE**, and
+nothing new in it is written as a proof. Its proved parts are the lemmas it cites. Each of their allocations has the
+SINK shape, which I checked against the statements:
+- RF-A1: w absorbs, and d receives one junk good h. CORRECT, `oc1_hall.md` addendum.
+- RF-B: d absorbs everything left, Y′_d and J′ ∖ S. CORRECT, same addendum.
+- RF-T: d receives the one good Y_u, and x_{ℓ−1} the one good z. CORRECT, above.
+- The (1, 3) form is TTC's Lemma C13, which I have not refereed.
+
+The conjecture's data claims (161,520 n = 4 RF starts; the n = 5 classes) were not re-run here. My n = 4 recomputation
+of the A1 and B classes (`rfres_ref.py`) shows the SINK shape at all 32,000 and 43,520 starts.

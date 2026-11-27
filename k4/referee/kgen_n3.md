@@ -85,3 +85,95 @@ witnesses in that sense; Lemma R's reduction to "largest H" was re-derived and i
 - Theorem 2, Fact L, Lemma M and the Tops Lemma: CORRECT. They can be recorded as PROVED.
 - Cite Plaut–Roughgarden Theorem 4.3 for bare two-agent EFX₀ existence; the OC₁ shape and Claim T are the new part.
 - Not refereed here: Lemma T (open, and no longer used), §8, and §10 (the n = 3 lift).
+
+## Addendum: the remaining written items of `kgen/n3.md` (`claude/kgen-n3` at `0bfe9933`, PR #97; coordinator's queue, 2026-11-27)
+
+**Verdict: all CORRECT.** Covered: Lemmas R, P, S (§2), Corollary 3 (§11), Lemmas G1–G4 (§15.2, §15.5),
+Proposition A and Corollary A1 (§15.17), Lemmas G6, G7 (§15.18). One wording remark, on G3.
+- Scripts: `propA_ref.py` and `lemP_ref.py` (own code), log `results/k4_referee/propA_ref.log`.
+- Definitions: DE states, terminals, exposed sets, need chains, Lemma 1, Theorem B\* and (UT), as in `k4/k3_oc1.md`
+  §2–§3 (branch `claude/k4-k3-oc1`, refereed).
+
+**§2.**
+- *Lemma R (reachability)* is a normalization: replace every H_i by everything its receiver values in its final
+  bundle.
+  - (⇐) The H\* are disjoint, inside J (or J ∪ B_{x_t}) and the receivers' R, and condition 2 gives the gains. The
+    goods outside B\* are free after the chain: the only displaced pick, y_{x_t}, is released. Condition 3 is the
+    absorber count.
+  - (⇒) H_i ⊆ H\*_i. Adding positively valued goods keeps the gains, and X_a ∖ B\*_a ⊆ X_a ∖ B_a.
+  - Correct.
+- *Lemma P (peeling).*
+  - Agents before z did not take y_z, and agents after z never saw it, so the picks and the junk are unchanged.
+  - z's envy is bounded by v_z(M ∖ y_z) ≤ v_z(y_z), and singletons threaten nobody.
+  - A chain of I − z − y_z is a chain of I.
+  - Correct.
+- *Lemma S.* v_i(X_i) ≥ v_i(X_j ∖ h) ≥ v_i(g) for h ∈ X_j ∖ {g}. Correct.
+
+**§11, Corollary 3.**
+- Induction with Lemma P, applied to I minus the earlier peeled agents and their picks. There the hypothesis reads as
+  stated, and the picks are unchanged.
+- When z_r is lifted, the witness bundles lie in M_r ∖ {y_{z_r}}. Singletons added later cause no envy.
+- The base case is Theorem 2 (§9; not part of this item).
+- Correct.
+
+**§15.2 and §15.5, G1–G4.**
+- *G1.*
+  - With T = {t}, every k ∈ E_t is frozen (k ∉ U, k ≠ t), and its need chain ends at t, the only terminal. So B\*'s (i)
+    and (ii) hold.
+  - (iv) with |T| − 1 = 0 forces π_x ⊆ {b_k, c_k} for every other x, hence equality, against (iii), unless
+    E_t = {k}.
+  - Conversely, π_k ≠ ∅ (base(t) is one good), so h(E_t) = 1 = |T|.
+  - Correct.
+- *G2.* A t holding a_t wants nothing, so no need chain ends at t. Then there are no frozen agents, and E_t = ∅.
+  Correct.
+- *G3.*
+  - "⊆" is B\* (e). t is excluded by (I1) or (UT).
+  - "⊇": an exposed x ≠ k holds its top, so it is off the chain's interior, and its pair lies in W = J′ ∪ π_k.
+  - π′_x = π_x ∩ J′ = π_x ∖ π_k.
+  - Correct.
+  - *Wording remark:* "owner k works after the rotation iff …" is an iff for **Lemma 1 (b)'s condition** at owner k,
+    which is a sufficient test for a completion. It is not an iff for "P′ has a completion with owner k".
+- *G4.*
+  - The receivers hold their tops and want nothing, and k is isolated.
+  - A cycle would therefore use only agents whose holdings and wants are unchanged, so it existed in the draft's
+    acyclic need DAG.
+  - Correct.
+
+**§15.17, Proposition A and Corollary A1.**
+- Re-derived from G3, G5 (refereed) and Lemma 1 (b).
+- The Rule E chain from the frozen k ends at t.
+- g ∈ J′, since g ∈ π_x ⊆ W and g ∉ π_k.
+- |T′| ≥ 1: the want graph of P′ is acyclic (G5), and t is not a pair holder.
+- By (α) no exposed pair lies inside π_k, and {g} hits every π_x ∖ π_k. So h(k) ≤ 1 ≤ |T′|.
+- Corollary A1: with |E_t| = 2 and distinct pairs, π_x ∖ π_k ≠ ∅.
+- Correct.
+
+**§15.18, G6 and G7.**
+- *G6.*
+  - With t σ-last, Rule E chooses t only if no off-chain wanter of g exists.
+  - A chain wanter x_j would close a cycle (j ≥ 1), or is k, which holds its top.
+  - Wants only shrink, so t is a terminal of P′.
+  - Correct.
+- *G7.* π_y ⊆ J′ ∪ {g} with g ∉ W. This gives:
+  - (a) for y ∈ E_t;
+  - (b) for unchanged agents, where π_y ⊄ W forces g ∈ π_y;
+  - (c) for a receiver x_i, whose old pick is now held by x_{i+1} unless it is g, which forces i = s − 1.
+  - Correct.
+
+**Checks** (evidence; my own k = 3 code, DE's core case). Random strictly balanced 3-good agents, n = 3–7, cores. Only
+perfect SD drafts where no LB upgrade applies are used, so P is the draft and (UT) holds trivially. There are 719
+drafts with T = {t} and |E_t| ≥ 2, giving 1,307 pairs (draft, k) with (α) and (β):
+- the Rule E chain ends at t at all 1,307, and P′ is valid at all, with T′ ≠ ∅;
+- Proposition A's completion (g to a terminal of P′, J′ ∖ g to k) is raw EFX₀ for **every** terminal at all 1,307;
+- G6 (t σ-last): t is the only wanter of g and a terminal of P′ at all 1,307;
+- G7: 247 exposed agents of t in P′, all of kind (a), (b) or (c).
+
+Lemma P and Corollary 3 were checked against my OC₁ test (`cert_ref.oc_depth`, official moves, t ≥ 0 included). On
+20,000 random instances (n = 3–4, ties allowed) there are 17,221 top-heavy cases:
+- the picks are unchanged by the peeling at all;
+- Lemma P has 0 violations;
+- Corollary 3 has 0 violations at the 8,353 cases with n = 3.
+
+*Limits.*
+- Drafts that need LB upgrades are not exercised by my check.
+- Theorem 2 (§9) is used but was not part of this item.
