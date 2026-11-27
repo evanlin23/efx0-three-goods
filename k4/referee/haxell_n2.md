@@ -34,7 +34,7 @@ Theorem N2 is a computer-verified statement. Its completeness rests on two writt
 | **Class count.** Shapes (a, s, b) with 1 ≤ a + s, s + b ≤ 4. Canonical profiles: t(a+s)/(a! s!) · t(s+b)/b!, with t(d) = 1, 1, 2, 12, 336 strict labeled types (K4.OT) | **46 shapes, 45,999 classes**, exactly the note's count. So the enumeration is complete under Lemma OR |
 | Strict types realized by random values on d = 1–4 goods | 1, 2, 12, 336, as K4.OT says |
 | **Lemma TD** on 1,500 random instances (n = 2, m ≤ 6, k ≤ 4), each realized twice with the same strict types: partial EFX₀ status of every partial allocation, and the improvement relation | 332,442 allocations and 600,000 pairs, **0 mismatches**. Control (one agent's type changed): mismatches in 1,081 of 1,082 instances |
-| **Theorem N2 itself** on 4,300 random strict instances (n = 2, every good valued, 1 ≤ \|R_i\| ≤ 4, m ≤ 8), at every partial EFX₀ state with a nonempty pool. My own generator of the T/S/R moves: some composite of ≤ 2 moves shrinks the pool, or one A–B swap makes both gain | 687,499 states, **0 failures** (657,716 by one move, 31,783 needing two). No state needed the swap alternative. The note finds 20 such states in 6.6 million, so random sampling is not expected to hit one |
+| **Theorem N2 itself** on 4,300 random strict instances (n = 2, every good valued, 1 ≤ \|R_i\| ≤ 4, m ≤ 8), at every partial EFX₀ state with a nonempty pool. My own generator of the T/S/R moves: some composite of ≤ 2 moves shrinks the pool, or one A–B swap makes both gain | 687,499 states, **0 failures** (655,716 by one move, 31,783 needing two). No state needed the swap alternative. The note finds 20 such states in 6.6 million, so random sampling is not expected to hit one |
 
 ## For the coordinator
 
