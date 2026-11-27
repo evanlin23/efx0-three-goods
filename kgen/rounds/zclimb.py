@@ -26,6 +26,7 @@ def connected(Z):
 ZFREE = os.environ.get('ZFREE', '0') == '1'   # no core constraint; random instances all-positive (every start perfect)
 
 
+ZOBJ = os.environ.get('ZOBJ', 'count')   # count (witness count, margin) or ratio (witnesses / MD allocations)
 ZSTRICT = os.environ.get('ZSTRICT', '1') == '1'   # strict cores: every agent's subset sums of relevant goods distinct
 
 
@@ -57,7 +58,10 @@ def objective(Z):
     per = [r for r in res if r['perfect']]
     if not per: return (1, 0, 0.0), res
     fails = sum(1 for r in per if r[ZCLASS] == 0)
-    key = lambda r: (r[ZCLASS], round(r['ms_' + ZCLASS], 9), r['RND1Z'], r['OC1P'], r['OC1'])
+    if ZOBJ == 'ratio':   # aim at starts where most MD allocations are not ZCLASS witnesses
+        key = lambda r: (round(r[ZCLASS] / max(1, r['MD']), 9), r[ZCLASS], round(r['ms_' + ZCLASS], 9))
+    else:
+        key = lambda r: (r[ZCLASS], round(r['ms_' + ZCLASS], 9), r['RND1Z'], r['OC1P'], r['OC1'])
     return (-fails,) + key(min(per, key=key)), res
 
 

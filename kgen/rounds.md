@@ -631,6 +631,23 @@ included, 0 mismatches):
 - *Two disjoint swaps.* At the 10 positive-value OC₁′ failures (`fails_oc1p_pos.jsonl`) the plain round already
   holds.
 
+**Which MD allocations ROUND-P misses** (`rndp_gap.py`, written from Lemma RC's structure independently of rnd.c;
+its witness counts equal rnd.c's at every start):
+
+| data | perfect starts | MD allocations | ROUND-P witnesses | gaps: no path structure / no gain / absorber |
+|---|---|---|---|---|
+| 60 random strict cores, n = 5, m = 8 (`rndp_gap_n5m8.log`) | 232 | 8,462 | 7,489 | 0 / 973 / 0 |
+| 25 random strict cores, n = 6, m = 9 (`rndp_gap_n6m9.log`) | 190 | 7,901 | 7,397 | 0 / 504 / 0 |
+
+- Every gap has one shape.
+  - Some agent b keeps its own pick y_b and also holds the pick of an agent c that holds no pick.
+  - c must hand its base to b, and then b's own base is released. b needs y_b back, so the allocation is two rounds
+    away: a hand-off, then re-adding the released pick.
+- The wide positive-value ROUND-P of §4.2 lets an end take back its own base, so it covers this shape. The narrow form
+  does not.
+- So a narrow ROUND-P failure needs a start at which *every* MD allocation has such a keep-and-add agent (or one of
+  the two shapes never seen: no path structure, or two absorbers).
+
 **Climbs toward a ROUND-P failure** (`zclimb.py`, ZCLASS = RNDPZ; strict connected cores with distinct subset sums;
 the objective is failing starts, then the witness count and margin at the hardest perfect start):
 - Seeds:
