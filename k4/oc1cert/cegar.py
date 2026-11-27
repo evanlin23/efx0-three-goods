@@ -141,7 +141,7 @@ def _perm_owner(X, ma, mg):
 
 
 class Cert:
-    def __init__(self, sets, m=None, cap_aut=256, solver='cd15', tries=3, seed=1, keep=2, require_max=True, depth=1, kcand=6):
+    def __init__(self, sets, m=None, cap_aut=256, solver='cd15', tries=3, seed=1, keep=2, require_max=True, depth=1, kcand=6, prime=False):
         self.sets = [list(S) for S in sets]; self.n = n = len(sets)
         self.m = m = m if m is not None else 1 + max(g for S in sets for g in S)
         self.R = [set(S) for S in self.sets]
@@ -155,7 +155,7 @@ class Cert:
         self.nu = max_matching_size(self.sets, m)
         self.require_max = require_max
         self.auts = automorphisms(self.sets, m, cap_aut) if cap_aut else [(list(range(n)), list(range(m)))]
-        self.tries, self.keep, self.depth, self.kcand = tries, keep, depth, kcand
+        self.tries, self.keep, self.depth, self.kcand, self.prime = tries, keep, depth, kcand, prime
         self.rng = np.random.default_rng(seed)
         self._build_outer(solver)
         self._build_inner()
@@ -402,7 +402,40 @@ class Cert:
                 for H in subsets([g for g in J if g not in used and g in R[y]]):
                     if vt + V(y, H) > vy:
                         yield from ext(path + [y], used | set(H), Hs + [H])
-        for x in range(n): yield from ext([x], frozenset(), [()])
+        if not self.prime:
+            for x in range(n): yield from ext([x], frozenset(), [()])
+        else:
+            # OC1' (kgen/rounds.md §4.6 on proof/kgen-rounds): every non-end chain agent may also take goods of the
+            # end's base B_e that it values; the end takes junk only.  The end e is fixed first, so every pool is
+            # known and each improving condition is exact when the agent joins.
+            def extp(e, path, used, Hs):
+                xt = path[-1]
+                if xt == e:
+                    x0 = path[0]
+                    pool = [g for g in J if g not in used and g in R[x0]] + [g for g in base[e] if g not in used and g in R[x0]]
+                    v0 = V(x0, base[x0])
+                    for H0 in nonempty_subsets(pool):
+                        if V(x0, H0) > v0:
+                            nb = {x0: tuple(sorted(H0))}
+                            imp = [(x0, nb[x0], tuple(base[x0]))]
+                            for t in range(1, len(path)):
+                                nb[path[t]] = tuple(sorted(base[path[t - 1]] + Hs[t]))
+                                imp.append((path[t], nb[path[t]], tuple(base[path[t]])))
+                            mid = any(g in base[e] for t in range(1, len(path) - 1) for g in Hs[t])
+                            yield ('chainp' if mid else 'chain'), tuple(path), (tuple(H0),) + tuple(Hs[1:]), nb, imp
+                    return
+                if len(path) >= n or not base[xt]: return
+                for y in range(n):
+                    if y in path: continue
+                    if y == e: pool = [g for g in J if g not in used and g in R[y]]
+                    else: pool = [g for g in J if g not in used and g in R[y]] + [g for g in base[e] if g not in used and g in R[y]]
+                    vy = V(y, base[y]); vt = V(y, base[xt])
+                    for H in subsets(pool):
+                        if vt + V(y, H) > vy:
+                            yield from extp(e, path + [y], used | set(H), Hs + [H])
+            for e in range(n):
+                for x in range(n):
+                    if x != e: yield from extp(e, [x], frozenset(), [()])
         for r in range(2, n + 1):
             for cyc in itertools.permutations(range(n), r):
                 if cyc[0] != min(cyc): continue

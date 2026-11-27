@@ -25,6 +25,9 @@ Written separately from cegar.py; it shares no code with it or with the reposito
   the formula depends on a type only through these memberships).
 - The witnesses' recorded picks are used only to skip witnesses that do not match Y (skipping only weakens
   coverage, so this is sound).
+- With OC1_PRIME=1 it also accepts OC1' chains (kind 'chainp', kgen/rounds.md §4.6 on proof/kgen-rounds).  A non-end
+  agent may then also take goods of the end's base; the end takes junk only.  Without the flag such witnesses are
+  invalid.
 - A record may list 'excluded' (type profile, picks) pairs, the known failures of export_fails.py.  These may stay
   uncovered, and every other pair must be covered; so the list of failures is complete.
 
@@ -35,6 +38,7 @@ import numpy as np
 from pysat.solvers import Glucose4
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PRIME = os.environ.get('OC1_PRIME') == '1'      # accept OC1' chains (kgen/rounds.md §4.6) only when asked
 
 
 def own_types(d):
@@ -140,12 +144,14 @@ class Hyper:
             if not H[0] or not set(H[0]) <= (J & R[x]): return None
             nb[x] = base[x] + H[0]; imp.append((x, nb[x], base[x]))
             return nb, imp
-        if kind == 'chain':
+        if kind == 'chain' or (kind == 'chainp' and PRIME):
+            # chainp (OC1', only with --prime): non-end agents may also take goods of the end's base
             t = len(path) - 1
             if t < 1: return None
             if any(not base[path[i]] for i in range(t)): return None
+            endb = set(base[path[t]]) if kind == 'chainp' else set()
             for i in range(1, t + 1):
-                if not set(H[i]) <= (J & R[path[i]]): return None
+                if not set(H[i]) <= ((J | (endb if i < t else set())) & R[path[i]]): return None
             x0 = path[0]
             if not H[0] or not set(H[0]) <= ((J | set(base[path[t]])) & R[x0]): return None
             if set(H[0]) & set(g for i in range(1, t + 1) for g in H[i]): return None
