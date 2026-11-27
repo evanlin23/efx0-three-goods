@@ -1062,14 +1062,19 @@ So the answer to question 2 is no.
     - *X_w = W* against each i ≠ w:
       - *d.* W ∩ R_d = {Y_d} by (A1-i), so v_d(W) − min_W v_d ≤ v_d(Y_d) < v_d(g) + v_d(h) = v_d(X_d).
       - *u.* By (A1-ii), v_u(W) − min ≤ v_u(Y_d) + v_u(Y_u) < v_u(Y_w) = v_u(X_u).
-      - *k2.* k2's at most four goods include g and h, which are not in W, and its pick, which is not in W. So
+      - *k2* (if k2 = w the case is vacuous, and if k2 = u it is u's case). k2's at most four goods include g and h,
+        which are not in W, and its pick, which is not in W. So
         W ∩ R_{k2} has at most one good x, and v_{k2}(W) − min ≤ v_{k2}(x). Either x is junk of Y′, so
         v_{k2}(x) < p′_{k2}; or x = Y_d, and v_{k2}(x) ≤ p′_{k2} by (A1-iii).
       - *A frozen q ∉ {w, u, k2, d} that values Y_d.* This is (A1-iv\*).
       - *A frozen q ∉ {w, u, k2, d} that does not value Y_d.* W contains a good worth 0 to q, so
-        v_q(W) − min_W v_q = v_q(J′ ∖ {h}). Since q is not truly dangerous, J′ does not threaten it at p′_q, and
-        v_q(J′ ∖ {h}) is at most that threat value.
+        v_q(W) − min_W v_q = v_q(J′ ∖ {h}). If q values no junk good, this is 0. Otherwise q is dangerous, and since
+        D_T′ = ∅ it is not truly dangerous: J′ does not threaten it at p′_q, and v_q(J′ ∖ {h}) is at most that
+        threat value.
       - *There is no other unfrozen agent*, since U′ = {d}. ∎
+- **Refereed: CORRECT** (oc1-hall's second reading, `k4/oc1_hall.md` §24.13 on `claude/k4-oc1-hall`, which also
+  notes that RF-A1\* implies RF-A1). An independent data check (`k4/oc1_hall/rf_a1star_check.py`,
+  `results/k4_oc1_hall/rf_a1star_check.log` there; [unverified] here) matches every count below.
 - **Data.** The hypotheses hold at all 71,443 at-once starts: 32,368 with Hall's (A1-iv), 39,075 only with
   (A1-iv\*). X is EFX₀ wherever they hold, and at no other DEMOTE-0 start with this path shape. So at n = 5 the
   at-once part of DEMOTE-0 is Lemma RF-A1\* plus its four facts.
