@@ -91,6 +91,9 @@ every refutation below is confirmed by three independent programs.
           the rho's merge point and takes the end's pick.
         - What remains is Conjecture SIMPLE-MD, the existence of such an allocation. It holds at every start of the
           data: all 714,560 MD allocations at the 112,880 n = 4 starts are simple witnesses.
+      - **What forces simplicity (§4.12): Conjecture Φ-MAX.** Every maximizer of Φ = (#agents holding exactly one
+        pick, −#absorbers) among the MD EFX₀ allocations is a witness. That reduces ROUND-P^max to MD existence alone.
+        No counterexample at 3,032 informative starts.
     - It is a one-move alternative to the campaign's current target OC₂^max (two sequential moves).
     - On all 11 of the certifier's instances, every MD allocation has a starved agent, so the obstruction is the same
       k-independent one.
@@ -1000,6 +1003,51 @@ in general. Its shape is concrete, though. At n = 4 the simplest simple witness 
 chain. At the n = 5 walk starts it is two rings. The keep-and-add shape is the only MD shape SIMPLE-MD rules out that
 ever blocks a witness on the data.
 
+### 4.12 What forces simplicity: an extremal choice (Conjecture Φ-MAX)
+*Question (coordinator).* Can an MD EFX₀ allocation with a keep-and-add or complex component always be converted into
+a simple one? If so, SIMPLE-MD reduces to MD.
+
+**Framing.**
+- SIMPLE-MD is an existence statement for EFX₀ allocations, so it is at least as strong as MD existence.
+- The route of §4.11 gives one direction, SIMPLE-MD ⇒ ROUND-P^max, and the shape of the allocation.
+- It is not an equivalence. A witness need not be simple: an end's released pick may land with an agent of another
+  chain, giving a component with two in-trees. The certifier's n = 5 starts have 951 such witnesses.
+
+**The extremal choice.** Define, for an MD EFX₀ allocation X with pick graph f:
+- Φ(X) = ( #{agents holding exactly one pick}, −#{absorbers} ), compared lexicographically;
+- an *absorber* is an agent holding two or more goods that are not picks.
+
+By Lemma PG, the first coordinate is n − #(pickless agents) − #(agents holding two or more picks).
+- It equals n exactly when f is a permutation: every component is fixed or a ring, which is a plain round of rings.
+- A rho, a rho-fix and a keep-and-add each cost 2. A complex component costs more.
+
+**Conjecture Φ-MAX.** At every perfect start of a strict connected k = 4 core that has an MD EFX₀ allocation, every
+maximizer of Φ among the MD EFX₀ allocations is a witness of one round of OC₁′ moves.
+
+Φ-MAX ∧ MD ⇒ ROUND-P^max (RNDOZ). The one-absorber condition comes out of Φ itself. So Φ-MAX reduces ROUND-P^max to
+MD existence with no further existence statement. A minimal-counterexample proof of it would have to show that a
+non-witness MD allocation can be changed into one with larger Φ, or with equal Φ and the witness property.
+
+*Evidence* (`simple_potential.py`, TARGET=witness; `witness_potential_*.log`). Only starts with at least one non-witness
+MD allocation are informative. At the n = 4 two-move starts and the walk starts, every MD allocation is a witness
+(§4.11).
+
+| data | informative starts | every Φ-maximizer a witness | (picks) alone | (absorbers) alone | other potentials |
+|---|---|---|---|---|---|
+| the certifier's 280 n = 5 OC₁^max failures | 8 | **8** | 3 (5 only some) | 8 | keepers: 0 of 8 |
+| random strict cores, n = 4, m = 7 (every perfect start) | 1,869 | **1,869** | 1,869 | 1,773 (96 only some) | util 1,735, nash 1,704, leximin 1,646 |
+| n = 5, m = 8 | 487 | **487** | 487 | 466 | |
+| n = 5, m = 9 | 538 | **538** | 325 (213 only some) | 492 | |
+| n = 6, m = 9 | 130 | **130** | 130 | 127 | |
+
+- Both coordinates are needed.
+  - "picks" alone ties a needy keep-and-add with a rho.
+  - "absorbers" alone prefers keepers.
+  - Maximizing the number of keepers is the worst choice: it selects the keep-and-add allocations.
+- With the target "simple and one absorber" instead of "witness", the triple (picks, −absorbers, −keepers) comes
+  closest (`simple_potential_*.log`). At 2 of the certifier's starts it has a maximizer that is a keep-and-add whose
+  keeper still gains without its pick. Lemma FIX allows that case, and it is a witness.
+
 ## 5. n = 3
 
 ### 5.1 One round survives
@@ -1093,6 +1141,7 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 | K4.MULTI.RECS.EXIST.N5 | REC-S's existence part (some dangerous k, pool pair T of E(k) and Theorem S case at every two-move start) at n = 5 | REFUTED (7 of the certifier's 280 stored 5_pure OC₁^max-failing starts, two of them the residual case; multi's own code finds no REC-S repair; ROUND-P holds at all 7) | `kgen/rounds/recs_gaps.py`, `results/kgen_rounds/recs_gaps_5pure.log`, `results/kgen_rounds/splice_search_5pure.log` |
 | K4.ROUNDSIMPLE | Theorem ROUND-SIMPLE: at a perfect start of a strict core, an MD EFX₀ allocation with a simple pick graph and one absorber witnesses one round of OC₁′ moves (with Lemmas PG, GAIN, RING, RHO, FIX) | PROVED (written proof, `kgen/rounds.md` §4.11; not refereed) | `kgen/rounds/rndp_structure.py`, `results/kgen_rounds/rndp_structure_*.log` (no counterexample: every simple one-absorber MD allocation in the data is a witness) |
 | K4.SIMPLEMD | Conjecture SIMPLE-MD: at every perfect maximum-matching start of a strict connected k = 4 core, some MD EFX₀ allocation has a simple pick graph and one absorber (implies ROUND-P^max in the RNDOZ form) | CONJECTURE | EVIDENCE only: all 112,880 n = 4 two-move starts (every MD allocation is a simple witness), the certifier's 280 n = 5 failures, 23,943 walk starts, 5,556 random starts (`rndp_structure_*.log`) |
+| K4.PHIMAX | Conjecture Φ-MAX: at every perfect start of a strict connected k = 4 core with an MD EFX₀ allocation, every maximizer of Φ = (#agents holding exactly one pick, −#absorbers) among the MD EFX₀ allocations witnesses one round of OC₁′ moves (with MD this gives ROUND-P^max) | CONJECTURE | EVIDENCE only: 3,032 informative starts (the certifier's n = 5 failures, random n = 4–6 cores), `results/kgen_rounds/witness_potential_*.log` |
 | K4.SDC.OC1PERF | OC₁ (and one round) at perfect starts for every instance with ≤ 4 relevant goods per agent (the target of Lemma RED's route; the LOOSE form of OC₁^max) | REFUTED | `kgen/rounds/k4w_check.py`, `results/kgen_rounds/k4w_check.log` (K4W, no worthless good), `results/kgen_rounds/verify_k4zero_W4.log` (W4) |
 
 ## 7. Next
