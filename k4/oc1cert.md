@@ -323,8 +323,7 @@ skips chunks whose check log has a RESULT line.
 - **Partial, unchecked: 5_pure_s5o3** (`5_pure_s5o3_PARTIAL_run.log`). It was stopped before 500 of its 935 cores and
   before any check. It recorded 73 cores with OC₁^max failures, all raw 'OC1 fails', and no CEGAR failure. Its summary
   was not flushed, so nothing is certified from it.
-- **Not run:** 5_pure s5o4, and 5_n4_4, 5_n4_3, 5_n4_2. The census and good-order analysis of 5_pure_s5o2 were not run
-  either.
+- **Not run:** 5_pure s5o4, and 5_n4_4, 5_n4_3, 5_n4_2.
 - The checker was made about 10× faster at n = 5 (an exact bitset prefilter of witnesses by picks, and mask literals)
   and regression-checked on every n ≤ 4 certificate.
 - Two-move starts of six chosen 5_pure cores (`results/k4_oc1max/n5/two_move_starts_n5_partial6.json.gz`):
@@ -339,9 +338,12 @@ skips chunks whose check log has a RESULT line.
 |---|---|---|---|---|---|---|
 | 5_pure_s5o0 | 137 | 280 | 2 at all | 234 | 46 | 1 at all |
 | 5_pure_s5o1 | 140 | 288 | 2 at all | 246 | 42 | 1 at 283, 2 at 5 (the R2 counterexamples, all ROUND-P one move) |
+| 5_pure_s5o2 | 139 | 295 | 2 at all | 250 | 45 | 1 at 291, 2 at 4 (more R2 counterexamples; `Inst`-checked only) |
 
-  Every core with an OC₁^max failure so far has ν = n. Cores with ν < n are rare: 1 of 935 in chunk 1, none in chunk 2,
-  and 6 of 1,735 in 5_n4_1. None of them fails.
+  Every core with an OC₁^max failure so far has ν = n. Cores with ν < n are rare: 1 of 935 in chunk 1, none in chunks
+  2 and 3, and 6 of 1,735 in 5_n4_1. None of them fails.
+  RF and the rule "a pick vector with the most receivers is good" hold at all 295 of chunk 3's stored starts
+  (`good_orders_5_pure_s5o2.*`).
 
   Chunk 1's ROUND-P counts agree with matching's run of the same 280 starts.
 - **Good orders at the complete lists** (1 in 20 of the 583,680 starts of 419, 447 and 38:
