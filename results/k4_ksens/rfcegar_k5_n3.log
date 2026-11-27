@@ -1,3 +1,4 @@
 $ python3 k4/ksens/kcegar_batch.py genbg 3 5 1 --kmin=5 --rf --jobs=1 --limit=3600 --ckpt=/home/user/efx0-three-goods/results/k4_ksens/rfcegar_k5_n3.ckpt.jsonl
 checkpoint /home/user/efx0-three-goods/results/k4_ksens/rfcegar_k5_n3.ckpt.jsonl: 0 done ({}), 411 to go
 hypergraphs 411
+... 100 {'certified': 100} 108 s
