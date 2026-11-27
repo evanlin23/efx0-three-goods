@@ -267,3 +267,13 @@ failures are 22 profiles of one core, with two failing starts each.
 - The same script checks the core list, strictness, SD orders, maximality and receivers.
 - At these starts (b) and (c) hold: 5 of the 6 distinct 4-first maximum-matching vectors satisfy OC₁. So the
   some-order forms survive, and the every-order form needs the twin case excluded.
+
+**n = 6** (the 18,044 𝒦 cores of K4.SDC.RKMAX.RAND6X, all 720 orders):
+- Uniform: 100 strict profiles per core at V = 20, 1,804,400 profiles (`rf_rand_n6_b5_v20_s1.log`). There is no
+  OC₁^max-failing start: all 5,940,266 maximum-matching SD vectors satisfy OC₁ (P 5,799,607, one chain 140,659).
+- Climb toward a failing start (`rf_climb.py`, `rf_climb_n6_b5.log`): 400 random seeds × 1,000 steps, about 400,000
+  profiles evaluated. It reached no failing start. 143 seeds end with a single repairing post-chain state at their
+  closest vector, and 211 with two.
+- So (a)–(c) are never exercised at n = 6 here. What this does show is EVIDENCE for OC₁^max on these cores. Testing
+  RF there needs known n = 6 failing starts to walk from; at n = 5 the walk worked only from the certifier's stored
+  failures.
