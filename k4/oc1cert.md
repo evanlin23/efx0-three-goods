@@ -60,6 +60,26 @@ set has at most three junk goods, and one chain leaves at most one") does not by
   satisfies OC₁. All 24 orders give maximum matchings there.
 - *The R1-priority order class fails too:* 2–3 of the 24 R1-priority orders fail on each of the 11.
 
+**Every n = 4 failing start, exported** (`results/k4_oc1max/two_move_starts_n4.json.gz`, `k4/oc1cert/export_fails.py`):
+- 112,880 (type profile, picks) pairs on the 11 hypergraphs, each with integer values, every order giving it, and its
+  receivers;
+- `Inst.check` gives 'OC1 fails' on all 112,880, and a raw two-move check on 2,261 sampled pairs repairs every one;
+- the list is exactly complete: `check.py` with the pairs excluded confirms that every other pair is covered
+  (`results/k4_oc1max/two_move_starts_n4_cert.json.gz`, `check_two_move_starts_n4.log`).
+- **R2 at n = 4:** every one of the 112,880 has exactly one receiver (a pick holder whose pick nobody else prefers).
+  So TTC's Conjecture R2 (`k4/ttc.md` §14.3: with at least two receivers, OC₁^max holds) is true at n = 4,
+  exhaustively.
+
+**The ∃-order form OC₁^∃max (K4.SDC.OC1EXMAX) holds for every strict profile on all 1,002 n = 4 cores.**
+OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
+- On the 991 OC₁^max-certified cores it follows from that certificate and K4.SDC.MAXSD.
+- On the 11 failing cores it is certified by `k4/oc1cert/exists.py`, an ∃-CEGAR over types only. Its entries
+  (order, picks, repair) block the box of profiles under which that order gives those picks and that repair works.
+  - Certificate: `results/k4_oc1max/exists_4_fail11.json.gz` (log `exists_4_fail11.log`).
+  - Independent check: `k4/oc1cert/check_exists.py`, which uses check.py's own types, raw SD per order, raw move rules
+    and raw EFX₀, and runs Glucose with one literal per agent mask (`check_exists_4_fail11.log`).
+  - A dense engine with no SAT agrees with it on a sensitivity sample.
+
 **OC₁^max holds for every strict profile on**:
 - every core with n = 2 (5) and n = 3 (51);
 - 991 of the 1,002 n = 4 cores.
@@ -161,6 +181,10 @@ The run is in progress: `k4/oc1cert/n5_driver.sh`, at depth 2 (OC₂^max), in ch
   `n5_driver.sh` regenerates them, about 7 h on 4 CPUs.
 - Measured on a 161-hypergraph sample (stride 200): every one is OC₂^max-certified, 3.3 CPU-s per hypergraph, and 5
   of the 161 need a second move somewhere.
+- The pure 4-good list is much slower: about 35 min per 500 hypergraphs on 4 CPUs. The run order is therefore
+  5_n4_1 (done), 5_pure, 5_n4_4, 5_n4_3, 5_n4_2.
+- Positive control: the TTC session's n = 5 OC₁^max counterexample (outside MC2) is 5_pure idx 280 (m = 9), in
+  chunk 5_pure_s5o2.
 
 ## Reproduce
 
