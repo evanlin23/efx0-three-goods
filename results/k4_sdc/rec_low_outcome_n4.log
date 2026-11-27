@@ -1,0 +1,8 @@
+$ python3 k4/sdc/rec_low_outcome.py
+profiles 111600
+min receiver rank 2 -> one move repairs 800
+min receiver rank 2 -> picks complete 381360
+
+real	0m48.012s
+user	2m57.461s
+sys	0m1.521s

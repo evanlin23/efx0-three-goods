@@ -1253,3 +1253,16 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
     FAIL-STRUCT₀. The two shapes together leave 3.2%.
   - Side facts: at a completing Z some receiver absorbs, and a grab never repairs at Z.
 - Next: prove REC-LOW at rank 1, or find its counterexample with random strict cores at n = 5, 6.
+
+### 2026-11-27 15:34 UTC: burst 18 (single-session mode)
+- Merged #187.
+- **Own angle: try to break REC-LOW** (`k4/sdc/rec_low_rand.py`, `k4/sdc/rec_low_outcome.py`; ledger K4.SDC.RECLOW
+  updated). No counterexample found.
+  - 48,350 strict perturbations of known failing profiles give 900 failing maximum vectors. All have receivers at
+    ranks 3 and 4 only, and all 258,695 escaping vectors satisfy OC₁.
+  - Also tested: 20,000 random n = 5, 6 cores (no failures at all there) and B< and B>.
+- On the complete n = 4 export no maximum vector has a rank-1 receiver. The escape side there is all rank 2: 800 of
+  382,160 vectors need one move.
+- The rank-1 case is not a static lemma, because a frozen threat can force a move. One shortcut I tried ("frozen agents
+  never receive junk") is false, and I recorded why in `k4/sdc.md`.
+- Next: the rank-2 one-move starts (800 at n = 4), to see which move REC-LOW's proof must supply.

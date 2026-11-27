@@ -2238,6 +2238,27 @@ ledger K4.SDC.RECLOW).
   - On the exports that are complete, a profile outside the export has no failing maximum-matching start, so there the
     check is exhaustive. Promotion to CERTIFIED at n = 4 and on the three cores needs a second, independent
     implementation.
+- **Falsification search** (burst 18, `k4/sdc/rec_low_rand.py`; EVIDENCE). It looks for an escaping maximum-matching
+  vector (no receiver, or a receiver at rank ≤ 2) where OC₁ fails. None found:
+  - **Near known failures** (`results/k4_sdc/rec_low_perturb_s50.log`): every fiftieth start of d1's walk, values
+    scaled by 10 and each multiplied by a random factor in [0.6, 1.4], kept if strict. That gave 48,350 profiles.
+    Among them, 900 maximum-matching vectors fail OC₁, all with receivers at ranks 3 and 4 only ([4] 701, [3] 195,
+    [4, 4] 3, [3, 4] 1). All 258,695 escaping vectors satisfy OC₁.
+  - **Random cores** (`results/k4_sdc/rec_low_rand_n56.log`): 20,000 random MC2-class cores at n = 5, 6. No
+    maximum-matching vector fails there at all, so this run is weak evidence.
+  - **B< and B>** (`results/k4_sdc/rec_low_named.log`): every maximum-matching vector satisfies OC₁; their failing
+    orders are not maximum.
+- **The escape side at n = 4** (`k4/sdc/rec_low_outcome.py`, `results/k4_sdc/rec_low_outcome_n4.log`). Over all
+  111,600 profiles of the complete n = 4 export, all 24 orders:
+  - No maximum-matching vector has a receiver at rank 1, and every one has a receiver.
+  - The 382,160 vectors whose best receiver is at rank 2 complete at the picks (381,360) or after one move (800).
+  - So on these hard profiles REC-LOW's escape side is purely a rank-2 phenomenon, and the rank-2 case needs moves.
+- **Why the rank-1 case is not a static lemma.** Let u hold its top good t as a receiver. Then u absorbing all of J
+  fails only if some pick holder i values ({t} ∪ J) minus its least-valued good above its own pick. If such an i is a
+  receiver, it can take a junk good itself. But a frozen threat can force a move. The tempting shortcut "frozen agents
+  never receive junk in a completion at the picks" is FALSE: an agent who wants a frozen agent's pick can be
+  compensated by a junk good of its own. The data agree, since a frozen agent is an absorber at 1,229 of the 4,497
+  completing outcomes in `rf_canon_absorber_s50.log`.
 - **Use.** At YRMH-F's outcome Z, the receiver u holds its top good. So RF-canon follows from REC-LOW wherever u is still
   a receiver at Z, and more generally wherever some receiver at Z holds rank ≤ 2. That covers 92% of the tested pairs
   (above).
