@@ -2195,9 +2195,8 @@ This is a precise, data-checked form of k3-oc1's draft Theorem FAIL-STRUCT (`k4/
   - *Dangerous* (D): frozen and values some junk good.
   - *Truly dangerous* (D_T): frozen and v(J) > its pick value.
   - *Receiver*: a pick holder that is not frozen.
-- **Statement.** In every strict connected k = 4 core, every OC₁-failing maximum-matching SD start has exactly one
-  receiver u, |D_T| ≠ 1, and:
-  - (S2) if |D_T| = 0: some dangerous x and u value each other's picks (v_x(Y_u) > 0 and v_u(Y_x) > 0);
+- **Statement.** In every strict connected k = 4 core, every OC₁-failing maximum-matching SD start has |D_T| ≠ 1, and:
+  - (S2) if |D_T| = 0: some dangerous x and some receiver u value each other's picks (v_x(Y_u) > 0 and v_u(Y_x) > 0);
   - (S1′) if |D_T| ≥ 2: two truly dangerous agents x ≠ y have minimal junk sets H_x, H_y with v_x(H_x) > p_x,
     v_y(H_y) > p_y and H_x ∩ H_y ≠ ∅. That is, they compete for junk.
 - **Evidence** (`k4/sdc/failstruct_check.py`; logs `results/k4_sdc/failstruct_check_{n4,n5_sel2,n5_partial6}.log`; one
@@ -2211,6 +2210,12 @@ This is a precise, data-checked form of k3-oc1's draft Theorem FAIL-STRUCT (`k4/
       (S1) fails there; three agents share junk {9, 10} and each needs a third, private, good.
   - All 702,250 partial-list starts: |D_T| = 0 ⟹ (S2) at 287,501, and |D_T| = 2 ⟹ (S1′) at 414,749.
   - The draft's (S3) is never needed.
+  - **Off the exports** (burst 13; d1's walk dump `results/k4_rf_offexport/rf_walk_n5_stored_fails.jsonl.gz`;
+    `results/k4_sdc/failstruct_check_n5_offexport.log`): all 241,728 failing starts on 277 cores satisfy the dichotomy.
+    - |D_T| = 0 ⟹ (S2) at 40,994;
+    - |D_T| ∈ {2, 3} ⟹ (S1′) at 200,734.
+    - 3,267 of them have two receivers, all with |D_T| = 2, consistent with K4.SDC.R2.N5. So the draft's clause
+      "exactly one receiver", which this statement first copied, is dropped. It holds at n ≤ 4 and on the exports.
 - **Use.** A proof of RF∃ / RF-canon can split on |D_T|: the (S2) case is the pick-swap mechanism, and the (S1′) case
   is the shared-junk mechanism of RF-A1*, RF-B′ and C13. Proving FAIL-STRUCT₀ itself, i.e. "a failing start has
   this shape", is the structural half that k3-oc1, girth and Hall reduced the remaining facts to.

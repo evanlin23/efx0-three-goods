@@ -1212,3 +1212,11 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   - Coverage: n = 4 complete (112,880), n = 5 complete lists (583,680), partial lists (702,250).
   - The draft's pair form fails at #447, where |D_T| = 3; the generalization S1′ is needed. The draft's S3 is never
     needed.
+
+### 2026-11-27 10:34 UTC: burst 13 (single-session mode)
+- Merged #182 (FAIL-STRUCT₀).
+- **Own angle: FAIL-STRUCT₀ off the exports.** Run on d1's walk dump, 241,728 failing n = 5 starts on 277 cores.
+  - The dichotomy holds at every one: |D_T| = 0 ⟹ pick swap (S2), 40,994 starts; |D_T| ∈ {2, 3} ⟹ competing junk
+    (S1′), 200,734 starts.
+  - 3,267 starts have two receivers, so the statement's copied clause "exactly one receiver" is dropped. It
+    contradicted K4.SDC.R2.N5 and was my error in burst 12.

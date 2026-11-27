@@ -9,7 +9,7 @@ Shapes:
   S3  two dangerous x != y, a junk good j and a third agent z with v(j) + v(Y_z) > p for both x and y.
   S1' (generalized S1) two agents x != y in D_T with intersecting minimal junk sets H_x, H_y (v_x(H_x) > p_x, etc.).
 Reports the coverage by S1 / S2 / S3 and the starts covered by none, plus |D|, |D_T| and the receiver counts.
-    python3 k4/sdc/failstruct_check.py FILE [STRIDE]"""
+    python3 k4/sdc/failstruct_check.py FILE [STRIDE]      (FILE: an export .json.gz, or a .jsonl.gz of starts)"""
 import sys, gzip, json, itertools, collections, multiprocessing as mp
 import _paths  # noqa: F401
 from oc1_mc2_rand import Inst
@@ -50,8 +50,12 @@ def job(a):
 
 if __name__ == '__main__':
     print('$ python3 k4/sdc/failstruct_check.py', *sys.argv[1:], flush=True)
-    d = json.load(gzip.open(sys.argv[1])); S = int(sys.argv[2]) if len(sys.argv) > 2 else 1
-    tasks = [(h['sets'], st['vals'], st['picks']) for h in d['hypergraphs'] for st in h['starts']][::S]
+    S = int(sys.argv[2]) if len(sys.argv) > 2 else 1
+    if sys.argv[1].endswith('.jsonl.gz'):  # one start per line with sets, vals, picks (e.g. d1's off-export walk dump)
+        tasks = [(r['sets'], r['vals'], r['picks']) for r in map(json.loads, gzip.open(sys.argv[1], 'rt'))][::S]
+    else:
+        d = json.load(gzip.open(sys.argv[1]))
+        tasks = [(h['sets'], st['vals'], st['picks']) for h in d['hypergraphs'] for st in h['starts']][::S]
     T = collections.Counter(); shown = 0
     with mp.Pool() as pool:
         for C, ex in pool.imap_unordered(job, tasks, chunksize=64):
