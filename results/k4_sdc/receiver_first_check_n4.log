@@ -1,0 +1,6 @@
+$ python3 k4/sdc/receiver_first_check.py 1
+starts 112880
+receiver-first max pick vectors: one move repairs 35240
+receiver-first max pick vectors: picks complete 250960
+receivers=1 112880
+time 23 s
