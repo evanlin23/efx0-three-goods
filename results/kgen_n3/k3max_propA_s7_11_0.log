@@ -1,0 +1,4 @@
+$ python3 kgen/k3max_propA.py sample certs7:11 60 101 0 2
+1063 (alpha), (beta) hold for k
+41 drafts: some k with (alpha), (beta): False
+559 drafts: some k with (alpha), (beta): True

@@ -1,0 +1,8 @@
+$ python3 kgen/n2_open.py 11 40000 3 12
+9545 F5
+9545 F6
+10494 any of the four
+10492 knife a
+10492 knife b
+10494 knife b or F5 or F6
+10494 open-case starts

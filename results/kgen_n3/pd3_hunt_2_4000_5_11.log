@@ -1,0 +1,10 @@
+$ python3 kgen/pd3_hunt.py 2 4000 5 11
+instances general 500
+instances ident 500
+instances junk 500
+instances klim:3 500
+instances klim:4 500
+instances klim:6 500
+instances ties 500
+instances zeros 500
+time 12 s

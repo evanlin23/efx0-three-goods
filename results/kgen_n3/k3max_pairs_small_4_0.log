@@ -1,0 +1,8 @@
+$ python3 kgen/k3max_pairs.py gap_small_4.gap.gz 0 2
+8    no such k: least omega' = -1; a least-omega' rotation passes owner none/k: True
+65    no such k: least omega' = -2; a least-omega' rotation passes owner none/k: True
+65 |E_t| = 2, 0 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+65 |E_t| = 2, 0 pairs contain Y_t, 1 repeated; some k with h_k <= 1, no equal pair: False
+340 |E_t| = 2, 1 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+42 |E_t| = 2, 2 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+8 |E_t| = 2, 2 pairs contain Y_t, 1 repeated; some k with h_k <= 1, no equal pair: False

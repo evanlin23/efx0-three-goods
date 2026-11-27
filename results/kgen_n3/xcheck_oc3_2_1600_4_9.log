@@ -1,0 +1,6 @@
+$ python3 kgen/xcheck_oc3.py 2 1600 4 9
+brute status 0 8920
+brute status 1 680
+instances 1600
+orders 9600
+time 132 s

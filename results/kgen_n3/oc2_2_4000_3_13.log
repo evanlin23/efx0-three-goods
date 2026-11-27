@@ -1,0 +1,9 @@
+$ python3 kgen/oc2.py 2 4000 3 13
+FAIL t>=1 [[0, 35, 48, 28, 86, 26, 49], [26, 95, 69, 72, 9, 63, 84]] order (0, 1) picks [4, 1] t0 repairs True
+FAIL t>=1 [[0, 35, 48, 28, 86, 26, 49], [26, 95, 69, 72, 9, 63, 84]] order (1, 0) picks [4, 1] t0 repairs True
+FAIL t>=1 form 2
+picks extend (one absorber) 5243
+repaired by t=0 2641
+repaired by t=1 2755
+starts 8000
+time 337 s

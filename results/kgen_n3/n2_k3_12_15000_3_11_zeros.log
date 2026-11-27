@@ -1,0 +1,7 @@
+$ python3 kgen/n2_k3.py 12 15000 3 11 zeros
+(Ma) fails 11457
+(Ma) fails => LPT_a separates 11457
+(Mb) fails 11457
+(Mb) fails => LPT_b separates 11457
+K''' hypothesis 9644
+K''' knife gives an OC1 shape 9644

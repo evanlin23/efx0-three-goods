@@ -1,0 +1,13 @@
+$ python3 kgen/k3max_propB.py gap_small_4.gap.gz
+592 A  drafts, |J| < 3
+304 A  drafts, |J| >= 3
+896 A  drafts: some rotation passes Lemma 3 for owner t: True
+96 A  drafts: some rotation with (a) empty leaves t no frozen exposed agent: False
+800 A  drafts: some rotation with (a) empty leaves t no frozen exposed agent: True
+96 A  drafts: some rotation with (a) empty passes Lemma 3 for t: False
+800 A  drafts: some rotation with (a) empty passes Lemma 3 for t: True
+128 R1 drafts, |J| < 3
+16 R1 drafts, |J| >= 3
+144 R1 drafts: some rotation passes Lemma 3 for owner t: True
+144 R1 drafts: some rotation with (a) empty leaves t no frozen exposed agent: True
+144 R1 drafts: some rotation with (a) empty passes Lemma 3 for t: True

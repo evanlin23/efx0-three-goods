@@ -1,0 +1,17 @@
+$ python3 kgen/opb_exist.py 3 120 5 8
+240 general: OC1 completion exists
+240 general: OC1 completion with one pick per bundle exists
+240 general: some role assignment has an OPB partition meeting the invariants
+240 general: starts
+240 ident: OC1 completion exists
+240 ident: OC1 completion with one pick per bundle exists
+240 ident: some role assignment has an OPB partition meeting the invariants
+240 ident: starts
+240 zeros: OC1 completion exists
+240 zeros: OC1 completion with one pick per bundle exists
+240 zeros: some role assignment has an OPB partition meeting the invariants
+240 zeros: starts
+
+real	0m2.697s
+user	0m2.643s
+sys	0m0.028s
