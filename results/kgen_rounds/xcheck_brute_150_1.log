@@ -1,0 +1,11 @@
+$ python3 kgen/rounds/xcheck.py brute 150 1
+('EXT1', False) 1
+('EXT1', True) 1047
+('EXTF', False) 1
+('EXTF', True) 1047
+('OC1', True) 1048
+('RND1', True) 1048
+('RNDF', True) 1048
+starts 1048
+mismatches 0
+time 9 s

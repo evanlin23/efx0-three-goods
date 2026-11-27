@@ -1,0 +1,279 @@
+$ python3 k4/oc1_hall/matroid_check.py special
+  RADO != EXACT, overlapping D_i 2
+  RADO != MODEL, overlapping D_i 2
+owner tests 38
+owner tests: disjoint, all matroids 16
+owner tests: overlapping D_i 22
+starts 28
+starts: SAT False, EXACT(S*, unfrozen owner) False, RADO False 16
+starts: SAT True, EXACT(S*, unfrozen owner) False, RADO False 2
+starts: SAT True, EXACT(S*, unfrozen owner) True, RADO True 10
+time 0 s
+$ python3 k4/oc1_hall/matroid_check.py screen
+    non-matroid danger family (ranks of goods) (((2, -3), (7, -2)), ((4, 0), (7, -2))) 2
+    non-matroid danger family (ranks of goods) (((2, 0), (7, -3)), ((4, -2), (7, -3))) 2
+    non-matroid danger family (ranks of goods) (((2, 0), (7, -6)), ((4, -2), (7, -6))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (6, -5)), ((4, -2), (6, -5))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (8, -3)), ((4, -2), (8, -3))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (8, -4)), ((4, -2), (8, -4))) 6
+    non-matroid danger family (ranks of goods) (((3, 0), (8, -6)), ((4, -4), (8, -6))) 2
+  MODEL != EXACT (model too conservative), disjoint, all matroids 12
+  MODEL != EXACT (model too conservative), overlapping D_i 5
+  MODEL_H (admissibility per H) != EXACT, disjoint, all matroids 11
+  MODEL_H (admissibility per H) != EXACT, overlapping D_i 5
+  RADO != EXACT, disjoint, all matroids 12
+  RADO != EXACT, overlapping D_i 60
+  RADO != MODEL, overlapping D_i 55
+  owner tests with a non-matroid frozen agent 18
+owner tests 1207
+owner tests: disjoint, all matroids 680
+owner tests: overlapping D_i 527
+starts 775
+starts: SAT False, EXACT(S*, unfrozen owner) False, RADO False 194
+starts: SAT True, EXACT(S*, unfrozen owner) False, RADO False 77
+starts: SAT True, EXACT(S*, unfrozen owner) True, RADO False 26
+starts: SAT True, EXACT(S*, unfrozen owner) True, RADO True 478
+time 1 s
+$ python3 k4/oc1_hall/matroid_check.py suite
+    non-matroid danger family (ranks of goods) (((2, -3), (7, -2)), ((4, 0), (7, -2))) 2
+    non-matroid danger family (ranks of goods) (((2, 0), (7, -3)), ((4, -2), (7, -3))) 2
+    non-matroid danger family (ranks of goods) (((2, 0), (7, -6)), ((4, -2), (7, -6))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (6, -5)), ((4, -2), (6, -5))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (8, -3)), ((4, -2), (8, -3))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (8, -4)), ((4, -2), (8, -4))) 6
+    non-matroid danger family (ranks of goods) (((3, 0), (8, -6)), ((4, -4), (8, -6))) 2
+  MODEL != EXACT (model too conservative), disjoint, all matroids 9
+  MODEL != EXACT (model too conservative), overlapping D_i 5
+  MODEL_H (admissibility per H) != EXACT, disjoint, all matroids 8
+  MODEL_H (admissibility per H) != EXACT, overlapping D_i 5
+  RADO != EXACT, disjoint, all matroids 9
+  RADO != EXACT, overlapping D_i 57
+  RADO != MODEL, overlapping D_i 52
+  owner tests with a non-matroid frozen agent 18
+owner tests 1175
+owner tests: disjoint, all matroids 734
+owner tests: overlapping D_i 441
+starts 726
+starts: SAT False, EXACT(S*, unfrozen owner) False, RADO False 196
+starts: SAT True, EXACT(S*, unfrozen owner) False, RADO False 71
+starts: SAT True, EXACT(S*, unfrozen owner) True, RADO False 28
+starts: SAT True, EXACT(S*, unfrozen owner) True, RADO True 431
+time 1 s
+$ python3 k4/oc1_hall/matroid_check.py logs
+    non-matroid danger family (ranks of goods) (((2, -3), (7, -2)), ((4, 0), (7, -2))) 2
+    non-matroid danger family (ranks of goods) (((2, -4), (7, -2)), ((4, -3), (7, -2))) 2
+    non-matroid danger family (ranks of goods) (((2, -5), (13, -2)), ((4, -3), (13, -2))) 1
+    non-matroid danger family (ranks of goods) (((2, -5), (4, -1)), ((3, -4), (4, -1))) 1
+    non-matroid danger family (ranks of goods) (((2, -6), (11, -3)), ((6, -4), (11, -3))) 2
+    non-matroid danger family (ranks of goods) (((2, -6), (7, -3)), ((4, -4), (7, -3))) 2
+    non-matroid danger family (ranks of goods) (((2, -6), (7, -3)), ((4, -9), (7, -3))) 2
+    non-matroid danger family (ranks of goods) (((2, -7), (7, -2)), ((4, 0), (7, -2))) 3
+    non-matroid danger family (ranks of goods) (((2, 0), (7, -2)), ((4, -5), (7, -2))) 2
+    non-matroid danger family (ranks of goods) (((2, 0), (7, -6)), ((4, -2), (7, -6))) 2
+    non-matroid danger family (ranks of goods) (((3, -1), (16, 0)), ((7, -5), (16, 0))) 2
+    non-matroid danger family (ranks of goods) (((3, -1), (5, -5)), ((4, 0), (5, -5))) 1
+    non-matroid danger family (ranks of goods) (((3, -1), (6, -7)), ((4, -3), (6, -7))) 2
+    non-matroid danger family (ranks of goods) (((3, -1), (8, -3)), ((6, -7), (8, -3))) 2
+    non-matroid danger family (ranks of goods) (((3, -2), (6, 0)), ((4, -4), (6, 0))) 2
+    non-matroid danger family (ranks of goods) (((3, -2), (8, 0)), ((4, -1), (8, 0))) 2
+    non-matroid danger family (ranks of goods) (((3, -2), (8, 0)), ((4, -4), (8, 0))) 2
+    non-matroid danger family (ranks of goods) (((3, -4), (8, -1)), ((4, -5), (8, -1))) 1
+    non-matroid danger family (ranks of goods) (((3, -4), (8, -5)), ((4, -2), (8, -5))) 1
+    non-matroid danger family (ranks of goods) (((3, -4), (8, -6)), ((6, -5), (8, -6))) 2
+    non-matroid danger family (ranks of goods) (((3, -5), (6, -3)), ((4, -2), (6, -3))) 2
+    non-matroid danger family (ranks of goods) (((3, -5), (6, -6)), ((4, -4), (6, -6))) 2
+    non-matroid danger family (ranks of goods) (((3, -5), (8, -2)), ((4, 0), (8, -2))) 2
+    non-matroid danger family (ranks of goods) (((3, -6), (14, -3)), ((10, -4), (14, -3))) 2
+    non-matroid danger family (ranks of goods) (((3, -6), (6, -7)), ((4, -1), (6, -7))) 1
+    non-matroid danger family (ranks of goods) (((3, -7), (8, -4)), ((4, -1), (8, -4))) 1
+    non-matroid danger family (ranks of goods) (((3, -7), (8, 0)), ((4, -2), (8, 0))) 4
+    non-matroid danger family (ranks of goods) (((3, -9), (6, -8)), ((4, -6), (6, -8))) 2
+    non-matroid danger family (ranks of goods) (((3, -9), (8, -2)), ((6, 0), (8, -2))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (6, -2)), ((4, -4), (6, -2))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (6, -2)), ((4, -5), (6, -2))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (8, -2)), ((4, -5), (8, -2))) 3
+    non-matroid danger family (ranks of goods) (((3, 0), (8, -4)), ((6, -3), (8, -4))) 6
+    non-matroid danger family (ranks of goods) (((4, -7), (7, -1)), ((5, -4), (7, -1))) 2
+    non-matroid danger family (ranks of goods) (((4, 0), (11, -7)), ((5, -3), (11, -7))) 3
+    non-matroid danger family (ranks of goods) (((5, -1), (15, -5)), ((6, -6), (15, -5))) 1
+    non-matroid danger family (ranks of goods) (((5, -7), (10, -4)), ((6, -3), (10, -4))) 6
+    non-matroid danger family (ranks of goods) (((6, -1), (28, -4)), ((22, -2), (28, -4))) 2
+    non-matroid danger family (ranks of goods) (((8, -6), (21, -1)), ((11, -7), (21, -1))) 3
+  MODEL != EXACT (model too conservative), disjoint, all matroids 44
+  MODEL != EXACT (model too conservative), overlapping D_i 24
+  MODEL_H (admissibility per H) != EXACT, disjoint, all matroids 26
+  MODEL_H (admissibility per H) != EXACT, overlapping D_i 22
+  MODEL_S (fixed graph, exact frozen threat) != EXACT, disjoint, all matroids 6
+  RADO != EXACT, disjoint, all matroids 44
+  RADO != EXACT, overlapping D_i 176
+  RADO != MODEL, overlapping D_i 152
+  owner tests with a non-matroid frozen agent 84
+owner tests 8716
+owner tests: disjoint, all matroids 6705
+owner tests: non-matroid agent 21
+owner tests: overlapping D_i 1990
+starts 4328
+starts: SAT False, EXACT(S*, unfrozen owner) False, RADO False 1364
+starts: SAT True, EXACT(S*, unfrozen owner) False, RADO False 221
+starts: SAT True, EXACT(S*, unfrozen owner) True, RADO False 65
+starts: SAT True, EXACT(S*, unfrozen owner) True, RADO True 2678
+time 5 s
+$ python3 k4/oc1_hall/matroid_check.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 1500 91
+    non-matroid danger family (ranks of goods) (((2, -2), (7, -1)), ((4, -3), (7, -1))) 1
+    non-matroid danger family (ranks of goods) (((2, -2), (7, 0)), ((4, -1), (7, 0))) 2
+    non-matroid danger family (ranks of goods) (((2, -2), (7, 0)), ((4, -5), (7, 0))) 2
+    non-matroid danger family (ranks of goods) (((2, -3), (7, -6)), ((4, -7), (7, -6))) 2
+    non-matroid danger family (ranks of goods) (((2, -3), (7, 0)), ((4, -1), (7, 0))) 2
+    non-matroid danger family (ranks of goods) (((2, -3), (7, 0)), ((4, -4), (7, 0))) 2
+    non-matroid danger family (ranks of goods) (((2, -4), (7, -1)), ((4, -6), (7, -1))) 2
+    non-matroid danger family (ranks of goods) (((2, -4), (7, -2)), ((4, -3), (7, -2))) 2
+    non-matroid danger family (ranks of goods) (((2, -4), (7, -2)), ((4, 0), (7, -2))) 2
+    non-matroid danger family (ranks of goods) (((2, -4), (7, -3)), ((4, -1), (7, -3))) 2
+    non-matroid danger family (ranks of goods) (((2, -4), (7, -6)), ((4, -7), (7, -6))) 2
+    non-matroid danger family (ranks of goods) (((2, -5), (7, -3)), ((4, -1), (7, -3))) 2
+    non-matroid danger family (ranks of goods) (((2, -5), (7, 0)), ((4, -2), (7, 0))) 4
+    non-matroid danger family (ranks of goods) (((2, -5), (7, 0)), ((4, -4), (7, 0))) 2
+    non-matroid danger family (ranks of goods) (((2, -6), (7, -1)), ((4, -4), (7, -1))) 2
+    non-matroid danger family (ranks of goods) (((2, -6), (7, 0)), ((4, -2), (7, 0))) 2
+    non-matroid danger family (ranks of goods) (((2, -7), (7, -1)), ((4, -3), (7, -1))) 2
+    non-matroid danger family (ranks of goods) (((2, -7), (7, -1)), ((4, -4), (7, -1))) 2
+    non-matroid danger family (ranks of goods) (((2, -7), (7, -4)), ((4, -1), (7, -4))) 2
+    non-matroid danger family (ranks of goods) (((2, 0), (7, -3)), ((4, -2), (7, -3))) 2
+    non-matroid danger family (ranks of goods) (((2, 0), (7, -4)), ((4, -2), (7, -4))) 1
+    non-matroid danger family (ranks of goods) (((3, -1), (6, -5)), ((4, -4), (6, -5))) 2
+    non-matroid danger family (ranks of goods) (((3, -1), (8, -2)), ((4, 0), (8, -2))) 1
+    non-matroid danger family (ranks of goods) (((3, -1), (8, -3)), ((4, 0), (8, -3))) 1
+    non-matroid danger family (ranks of goods) (((3, -1), (8, -4)), ((4, -3), (8, -4))) 1
+    non-matroid danger family (ranks of goods) (((3, -1), (8, -5)), ((4, 0), (8, -5))) 1
+    non-matroid danger family (ranks of goods) (((3, -1), (8, -5)), ((6, -3), (8, -5))) 2
+    non-matroid danger family (ranks of goods) (((3, -1), (8, -5)), ((6, 0), (8, -5))) 2
+    non-matroid danger family (ranks of goods) (((3, -1), (8, -6)), ((6, -5), (8, -6))) 2
+    non-matroid danger family (ranks of goods) (((3, -1), (8, 0)), ((4, -3), (8, 0))) 2
+    non-matroid danger family (ranks of goods) (((3, -1), (8, 0)), ((6, -3), (8, 0))) 1
+    non-matroid danger family (ranks of goods) (((3, -2), (6, -4)), ((4, -1), (6, -4))) 1
+    non-matroid danger family (ranks of goods) (((3, -2), (6, -5)), ((4, 0), (6, -5))) 2
+    non-matroid danger family (ranks of goods) (((3, -2), (6, 0)), ((4, -5), (6, 0))) 1
+    non-matroid danger family (ranks of goods) (((3, -2), (8, -6)), ((4, 0), (8, -6))) 2
+    non-matroid danger family (ranks of goods) (((3, -2), (8, -7)), ((6, 0), (8, -7))) 2
+    non-matroid danger family (ranks of goods) (((3, -2), (8, 0)), ((4, -5), (8, 0))) 2
+    non-matroid danger family (ranks of goods) (((3, -3), (6, -1)), ((4, -6), (6, -1))) 2
+    non-matroid danger family (ranks of goods) (((3, -3), (6, -4)), ((4, 0), (6, -4))) 2
+    non-matroid danger family (ranks of goods) (((3, -3), (8, -2)), ((6, -1), (8, -2))) 1
+    non-matroid danger family (ranks of goods) (((3, -3), (8, -2)), ((6, -4), (8, -2))) 1
+    non-matroid danger family (ranks of goods) (((3, -3), (8, -5)), ((6, 0), (8, -5))) 2
+    non-matroid danger family (ranks of goods) (((3, -4), (6, -3)), ((4, -1), (6, -3))) 1
+    non-matroid danger family (ranks of goods) (((3, -4), (6, -3)), ((4, 0), (6, -3))) 2
+    non-matroid danger family (ranks of goods) (((3, -4), (8, -1)), ((4, -2), (8, -1))) 1
+    non-matroid danger family (ranks of goods) (((3, -4), (8, -7)), ((4, -1), (8, -7))) 1
+    non-matroid danger family (ranks of goods) (((3, -4), (8, 0)), ((6, -2), (8, 0))) 3
+    non-matroid danger family (ranks of goods) (((3, -5), (6, -2)), ((4, -4), (6, -2))) 2
+    non-matroid danger family (ranks of goods) (((3, -5), (6, -4)), ((4, -3), (6, -4))) 2
+    non-matroid danger family (ranks of goods) (((3, -5), (6, -6)), ((4, -3), (6, -6))) 2
+    non-matroid danger family (ranks of goods) (((3, -5), (6, -7)), ((4, -3), (6, -7))) 2
+    non-matroid danger family (ranks of goods) (((3, -5), (8, -2)), ((4, -3), (8, -2))) 2
+    non-matroid danger family (ranks of goods) (((3, -5), (8, -3)), ((4, -4), (8, -3))) 1
+    non-matroid danger family (ranks of goods) (((3, -6), (8, -2)), ((4, 0), (8, -2))) 2
+    non-matroid danger family (ranks of goods) (((3, -6), (8, -7)), ((6, -1), (8, -7))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (6, -3)), ((4, -2), (6, -3))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (6, -3)), ((4, -4), (6, -3))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (6, -5)), ((4, -2), (6, -5))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (6, -6)), ((4, -4), (6, -6))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (8, -2)), ((6, -4), (8, -2))) 8
+    non-matroid danger family (ranks of goods) (((3, 0), (8, -3)), ((4, -5), (8, -3))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (8, -4)), ((4, -2), (8, -4))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (8, -5)), ((6, -2), (8, -5))) 1
+  MODEL != EXACT (model too conservative), disjoint, all matroids 68
+  MODEL != EXACT (model too conservative), overlapping D_i 34
+  MODEL_H (admissibility per H) != EXACT, disjoint, all matroids 45
+  MODEL_H (admissibility per H) != EXACT, overlapping D_i 34
+  MODEL_S (fixed graph, exact frozen threat) != EXACT, disjoint, all matroids 2
+  RADO != EXACT, disjoint, all matroids 68
+  RADO != EXACT, non-matroid agent 4
+  RADO != EXACT, overlapping D_i 34
+  RADO != MODEL, non-matroid agent 4
+  owner tests with a non-matroid frozen agent 119
+owner tests 4957
+owner tests: disjoint, all matroids 4638
+owner tests: non-matroid agent 106
+owner tests: overlapping D_i 213
+starts 2286
+starts: SAT False, EXACT(S*, unfrozen owner) False, RADO False 133
+starts: SAT True, EXACT(S*, unfrozen owner) False, RADO False 215
+starts: SAT True, EXACT(S*, unfrozen owner) False, RADO True 1
+starts: SAT True, EXACT(S*, unfrozen owner) True, RADO False 52
+starts: SAT True, EXACT(S*, unfrozen owner) True, RADO True 1885
+time 2 s
+$ python3 k4/oc1_hall/matroid_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 600 92
+    non-matroid danger family (ranks of goods) (((2, -1), (7, -5)), ((4, -6), (7, -5))) 3
+    non-matroid danger family (ranks of goods) (((2, -2), (7, 0)), ((4, -1), (7, 0))) 2
+    non-matroid danger family (ranks of goods) (((2, -4), (7, -2)), ((4, 0), (7, -2))) 2
+    non-matroid danger family (ranks of goods) (((2, -4), (7, -5)), ((4, -1), (7, -5))) 2
+    non-matroid danger family (ranks of goods) (((2, -8), (7, -1)), ((4, -5), (7, -1))) 3
+    non-matroid danger family (ranks of goods) (((3, -1), (6, -10)), ((4, -4), (6, -10))) 3
+    non-matroid danger family (ranks of goods) (((3, -1), (8, -4)), ((4, -7), (8, -4))) 3
+    non-matroid danger family (ranks of goods) (((3, -1), (8, -6)), ((4, -4), (8, -6))) 2
+    non-matroid danger family (ranks of goods) (((3, -1), (8, -6)), ((6, -7), (8, -6))) 3
+    non-matroid danger family (ranks of goods) (((3, -1), (8, -8)), ((4, -6), (8, -8))) 3
+    non-matroid danger family (ranks of goods) (((3, -2), (8, -6)), ((6, 0), (8, -6))) 3
+    non-matroid danger family (ranks of goods) (((3, -3), (6, 0)), ((4, -2), (6, 0))) 2
+    non-matroid danger family (ranks of goods) (((3, -3), (8, -5)), ((4, -8), (8, -5))) 3
+    non-matroid danger family (ranks of goods) (((3, -4), (8, -6)), ((4, 0), (8, -6))) 1
+    non-matroid danger family (ranks of goods) (((3, -5), (6, -6)), ((4, -1), (6, -6))) 2
+    non-matroid danger family (ranks of goods) (((3, -5), (8, -2)), ((4, -6), (8, -2))) 3
+    non-matroid danger family (ranks of goods) (((3, -6), (8, -5)), ((4, -4), (8, -5))) 2
+    non-matroid danger family (ranks of goods) (((3, -7), (6, -2)), ((4, 0), (6, -2))) 3
+    non-matroid danger family (ranks of goods) (((3, -7), (6, 0)), ((4, -2), (6, 0))) 4
+    non-matroid danger family (ranks of goods) (((3, -7), (8, -1)), ((4, -5), (8, -1))) 3
+    non-matroid danger family (ranks of goods) (((3, -7), (8, -8)), ((6, -3), (8, -8))) 4
+    non-matroid danger family (ranks of goods) (((3, -8), (8, -2)), ((6, 0), (8, -2))) 3
+    non-matroid danger family (ranks of goods) (((3, -8), (8, -9)), ((4, -6), (8, -9))) 3
+    non-matroid danger family (ranks of goods) (((3, 0), (6, -2)), ((4, -6), (6, -2))) 2
+    non-matroid danger family (ranks of goods) (((3, 0), (8, -4)), ((6, -2), (8, -4))) 4
+    non-matroid danger family (ranks of goods) (((3, 0), (8, -5)), ((6, -7), (8, -5))) 3
+  MODEL != EXACT (model too conservative), disjoint, all matroids 39
+  MODEL != EXACT (model too conservative), non-matroid agent 3
+  MODEL != EXACT (model too conservative), overlapping D_i 28
+  MODEL_H (admissibility per H) != EXACT, disjoint, all matroids 16
+  MODEL_H (admissibility per H) != EXACT, overlapping D_i 26
+  MODEL_S (fixed graph, exact frozen threat) != EXACT, disjoint, all matroids 17
+  MODEL_S (fixed graph, exact frozen threat) != EXACT, non-matroid agent 3
+  RADO != EXACT, disjoint, all matroids 39
+  RADO != EXACT, non-matroid agent 5
+  RADO != EXACT, overlapping D_i 89
+  RADO != MODEL, non-matroid agent 2
+  RADO != MODEL, overlapping D_i 61
+  owner tests with a non-matroid frozen agent 71
+owner tests 3535
+owner tests: disjoint, all matroids 2970
+owner tests: non-matroid agent 47
+owner tests: overlapping D_i 518
+starts 1391
+starts: SAT False, EXACT(S*, unfrozen owner) False, RADO False 90
+starts: SAT True, EXACT(S*, unfrozen owner) False, RADO False 37
+starts: SAT True, EXACT(S*, unfrozen owner) True, RADO False 50
+starts: SAT True, EXACT(S*, unfrozen owner) True, RADO True 1214
+time 2 s
+$ python3 k4/oc1_hall/matroid_check.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 100 93
+    non-matroid danger family (ranks of goods) (((2, -1), (7, -6)), ((4, -5), (7, -6))) 7
+    non-matroid danger family (ranks of goods) (((3, -1), (8, -6)), ((4, -5), (8, -6))) 6
+    non-matroid danger family (ranks of goods) (((3, -3), (8, -1)), ((6, -6), (8, -1))) 8
+  MODEL != EXACT (model too conservative), disjoint, all matroids 3
+  MODEL != EXACT (model too conservative), overlapping D_i 4
+  MODEL_H (admissibility per H) != EXACT, disjoint, all matroids 3
+  MODEL_H (admissibility per H) != EXACT, overlapping D_i 4
+  RADO != EXACT, disjoint, all matroids 3
+  RADO != EXACT, non-matroid agent 2
+  RADO != EXACT, overlapping D_i 29
+  RADO != MODEL, non-matroid agent 2
+  RADO != MODEL, overlapping D_i 25
+  owner tests with a non-matroid frozen agent 21
+owner tests 1020
+owner tests: disjoint, all matroids 789
+owner tests: non-matroid agent 13
+owner tests: overlapping D_i 218
+starts 358
+starts: SAT False, EXACT(S*, unfrozen owner) False, RADO False 22
+starts: SAT True, EXACT(S*, unfrozen owner) False, RADO False 4
+starts: SAT True, EXACT(S*, unfrozen owner) True, RADO False 9
+starts: SAT True, EXACT(S*, unfrozen owner) True, RADO True 323
+time 1 s

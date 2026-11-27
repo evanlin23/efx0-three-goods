@@ -1,0 +1,64 @@
+$ python3 k4/sdind/e4_rule.py special (E4_DMAX=1)
+f-first: every order 7
+f-first: first order 11
+f-first: some order 12
+f-low: every order 7
+f-low: first order 11
+f-low: some order 12
+helper: every order 7
+helper: first order 11
+helper: some order 12
+instances 4
+keepo: every order 7
+keepo: first order 11
+keepo: some order 12
+starts 12
+time 0 s
+$ python3 k4/sdind/e4_rule.py screen 5 (E4_DMAX=1)
+RULE FAILS f-first c4min-moves-neither-n3-m9-n3c50 [[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]], [[4, 7, 10, 2], [4, 2, 3, 8], [2, 4, 3, 8]]] picks [6, 1, 8]
+RULE FAILS helper c4min-moves-neither-n3-m9-n3c50 [[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]], [[4, 7, 10, 2], [4, 2, 3, 8], [2, 4, 3, 8]]] picks [6, 1, 8]
+RULE FAILS keepo c4min-moves-neither-n3-m9-n3c50 [[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]], [[4, 7, 10, 2], [4, 2, 3, 8], [2, 4, 3, 8]]] picks [6, 1, 8]
+RULE FAILS f-first c4min-pareto-n3-m7 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[3, 2, 10, 6], [8, 4, 2, 3], [3, 2, 6, 10]]] picks [2, 4, 6]
+RULE FAILS helper c4min-pareto-n3-m7 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[3, 2, 10, 6], [8, 4, 2, 3], [3, 2, 6, 10]]] picks [2, 4, 6]
+RULE FAILS keepo c4min-pareto-n3-m7 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[3, 2, 10, 6], [8, 4, 2, 3], [3, 2, 6, 10]]] picks [2, 4, 6]
+RULE FAILS f-low c4min-w0-n4-m11-n4pc217 [[[3, 6, 7, 8], [0, 2, 6, 10], [1, 5, 9, 10], [4, 7, 8, 9]], [[2, 8, 3, 4], [2, 3, 8, 4], [3, 4, 8, 2], [2, 3, 4, 8]]] picks [6, 10, 5, 9]
+RULE FAILS f-low gap-ivmax-n4-m8-n42c203 [[[0, 2, 6, 7], [1, 5, 6, 7], [3, 5, 7], [4, 6, 7]], [[2, 3, 8, 4], [3, 5, 7, 6], [2, 3, 4], [2, 3, 4]]] picks [2, 6, 7, 4]
+f-first: every order 421
+f-first: first order 508
+f-first: some order 566
+f-low: every order 428
+f-low: first order 512
+f-low: some order 576
+helper: every order 415
+helper: first order 508
+helper: some order 566
+instances 167
+keepo: every order 421
+keepo: first order 508
+keepo: some order 566
+starts 580
+time 2 s
+$ python3 k4/sdind/e4_rule.py suite 5 (E4_DMAX=1)
+RULE FAILS f-first c4min-moves-neither-n3-m9-n3c50 [[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]], [[4, 7, 10, 2], [4, 2, 3, 8], [2, 4, 3, 8]]] picks [6, 1, 8]
+RULE FAILS helper c4min-moves-neither-n3-m9-n3c50 [[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]], [[4, 7, 10, 2], [4, 2, 3, 8], [2, 4, 3, 8]]] picks [6, 1, 8]
+RULE FAILS keepo c4min-moves-neither-n3-m9-n3c50 [[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]], [[4, 7, 10, 2], [4, 2, 3, 8], [2, 4, 3, 8]]] picks [6, 1, 8]
+RULE FAILS f-first c4min-pareto-n3-m7 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[3, 2, 10, 6], [8, 4, 2, 3], [3, 2, 6, 10]]] picks [2, 4, 6]
+RULE FAILS helper c4min-pareto-n3-m7 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[3, 2, 10, 6], [8, 4, 2, 3], [3, 2, 6, 10]]] picks [2, 4, 6]
+RULE FAILS keepo c4min-pareto-n3-m7 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[3, 2, 10, 6], [8, 4, 2, 3], [3, 2, 6, 10]]] picks [2, 4, 6]
+RULE FAILS f-low c4min-w0-n4-m11-n4pc217 [[[3, 6, 7, 8], [0, 2, 6, 10], [1, 5, 9, 10], [4, 7, 8, 9]], [[2, 8, 3, 4], [2, 3, 8, 4], [3, 4, 8, 2], [2, 3, 4, 8]]] picks [6, 10, 5, 9]
+RULE FAILS f-low gap-ivmax-n4-m8-n42c203 [[[0, 2, 6, 7], [1, 5, 6, 7], [3, 5, 7], [4, 6, 7]], [[2, 3, 8, 4], [3, 5, 7, 6], [2, 3, 4], [2, 3, 4]]] picks [2, 6, 7, 4]
+f-first: every order 360
+f-first: first order 451
+f-first: some order 512
+f-low: every order 367
+f-low: first order 455
+f-low: some order 523
+helper: every order 356
+helper: first order 451
+helper: some order 512
+instances 157
+keepo: every order 360
+keepo: first order 451
+keepo: some order 512
+starts 529
+time 18 s

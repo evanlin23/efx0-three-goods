@@ -1,0 +1,10 @@
+$ python3 k4/oc1max_multi/ring_comp.py results/k4_oc1max_multi/hard2_starts.jsonl.gz results/k4_oc1max_multi/hard2_starts_n5.jsonl.gz
+  off-chain wanter of x0 bundle: False; compensated: False; owner head 41
+  off-chain wanter of x0 bundle: False; compensated: False; owner other 41
+  off-chain wanter of x0 bundle: False; compensated: False; owner x0 40
+  off-chain wanter of x0 bundle: True; compensated: True; owner head 27
+  off-chain wanter of x0 bundle: True; compensated: True; owner other 27
+  off-chain wanter of x0 bundle: True; compensated: True; owner x0 27
+ED starts 45
+starts without a compensated-wanter repair 18
+smallest without: Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks [3, 7, 5, 4]

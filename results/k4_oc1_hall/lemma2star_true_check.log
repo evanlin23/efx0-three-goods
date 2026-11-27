@@ -1,0 +1,48 @@
+$ python3 k4/oc1_hall/lemma2_true_check.py special (STAR=1)
+after a chain: count holds 206
+after a chain: count holds, DT moves needed (unmatched exposed holders) 7
+after a chain: owner tests 382
+picks: count holds 12
+picks: count holds, DT moves needed (unmatched exposed holders) 0
+picks: owner tests 60
+time 0 s
+$ python3 k4/oc1_hall/lemma2_true_check.py screen (STAR=1)
+after a chain: count holds 7225
+after a chain: count holds, DT moves needed (unmatched exposed holders) 989
+after a chain: owner tests 15638
+picks: count holds 739
+picks: count holds, DT moves needed (unmatched exposed holders) 94
+picks: owner tests 2208
+time 2 s
+$ python3 k4/oc1_hall/lemma2_true_check.py suite (STAR=1)
+after a chain: count holds 7006
+after a chain: count holds, DT moves needed (unmatched exposed holders) 973
+after a chain: owner tests 14628
+picks: count holds 621
+picks: count holds, DT moves needed (unmatched exposed holders) 89
+picks: owner tests 1875
+time 2 s
+$ python3 k4/oc1_hall/lemma2_true_check.py logs (STAR=1)
+after a chain: count holds 65757
+after a chain: count holds, DT moves needed (unmatched exposed holders) 16891
+after a chain: owner tests 91619
+picks: count holds 6847
+picks: count holds, DT moves needed (unmatched exposed holders) 2662
+picks: owner tests 12549
+time 8 s
+$ python3 k4/oc1_hall/lemma2_true_check.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91 (STAR=1)
+after a chain: count holds 97204
+after a chain: count holds, DT moves needed (unmatched exposed holders) 32932
+after a chain: owner tests 121905
+picks: count holds 10737
+picks: count holds, DT moves needed (unmatched exposed holders) 5610
+picks: owner tests 13442
+time 10 s
+$ python3 k4/oc1_hall/lemma2_true_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 600 92 (STAR=1)
+after a chain: count holds 41166
+after a chain: count holds, DT moves needed (unmatched exposed holders) 14276
+after a chain: owner tests 51122
+picks: count holds 4432
+picks: count holds, DT moves needed (unmatched exposed holders) 1872
+picks: owner tests 5564
+time 6 s

@@ -1,0 +1,84 @@
+$ python3 k4/oc1_hall/which_k.py screen
+every k in D has a chain, owner k 123
+every k in D has a chain, owner k or end 125
+first agent of D in the order, owner k 553
+first agent of D in the order, owner k or end 555
+hard (start, order) pairs 773
+hard starts 234
+last agent of D in the order, owner k 578
+last agent of D in the order, owner k or end 587
+some k in D has a chain, owner k 234
+some k in D has a chain, owner k or end 234
+the k in D with most wanters (first such), owner k 195
+the k in D with most wanters (first such), owner k or end 196
+time 1 s
+$ python3 k4/oc1_hall/which_k.py suite
+every k in D has a chain, owner k 129
+every k in D has a chain, owner k or end 131
+first agent of D in the order, owner k 677
+first agent of D in the order, owner k or end 679
+hard (start, order) pairs 899
+hard starts 233
+last agent of D in the order, owner k 705
+last agent of D in the order, owner k or end 714
+some k in D has a chain, owner k 233
+some k in D has a chain, owner k or end 233
+the k in D with most wanters (first such), owner k 200
+the k in D with most wanters (first such), owner k or end 201
+time 2 s
+$ python3 k4/oc1_hall/which_k.py logs
+every k in D has a chain, owner k 694
+every k in D has a chain, owner k or end 701
+first agent of D in the order, owner k 3232
+first agent of D in the order, owner k or end 3239
+hard (start, order) pairs 4849
+hard starts 1470
+last agent of D in the order, owner k 3162
+last agent of D in the order, owner k or end 3182
+some k in D has a chain, owner k 1469
+some k in D has a chain, owner k or end 1470
+the k in D with most wanters (first such), owner k 1142
+the k in D with most wanters (first such), owner k or end 1144
+time 3 s
+$ python3 k4/oc1_hall/which_k.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+every k in D has a chain, owner k 352
+every k in D has a chain, owner k or end 363
+first agent of D in the order, owner k 596
+first agent of D in the order, owner k or end 607
+hard (start, order) pairs 680
+hard starts 436
+last agent of D in the order, owner k 611
+last agent of D in the order, owner k or end 622
+some k in D has a chain, owner k 436
+some k in D has a chain, owner k or end 436
+the k in D with most wanters (first such), owner k 404
+the k in D with most wanters (first such), owner k or end 407
+time 2 s
+$ python3 k4/oc1_hall/which_k.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+every k in D has a chain, owner k 143
+every k in D has a chain, owner k or end 146
+first agent of D in the order, owner k 750
+first agent of D in the order, owner k or end 756
+hard (start, order) pairs 981
+hard starts 255
+last agent of D in the order, owner k 763
+last agent of D in the order, owner k or end 769
+some k in D has a chain, owner k 255
+some k in D has a chain, owner k or end 255
+the k in D with most wanters (first such), owner k 222
+the k in D with most wanters (first such), owner k or end 222
+time 3 s
+$ python3 k4/oc1_hall/which_k.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
+every k in D has a chain, owner k 12
+every k in D has a chain, owner k or end 12
+first agent of D in the order, owner k 322
+first agent of D in the order, owner k or end 322
+hard (start, order) pairs 393
+hard starts 31
+last agent of D in the order, owner k 278
+last agent of D in the order, owner k or end 278
+some k in D has a chain, owner k 31
+some k in D has a chain, owner k or end 31
+the k in D with most wanters (first such), owner k 26
+the k in D with most wanters (first such), owner k or end 26
+time 1 s

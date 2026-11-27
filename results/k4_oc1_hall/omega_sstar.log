@@ -1,0 +1,161 @@
+$ python3 k4/oc1_hall/omega_sstar.py special
+  hard: least omega over unfrozen owners 2 5
+  hard: least omega over unfrozen owners 3 9
+  hard: least omega over unfrozen owners 4 3
+  hard: |F| = 2, least omega 3 4
+  hard: |F| = 3, least omega 3 4
+  hard: |F| = 3, least omega 4 3
+  hard: |F| = 4, least omega 2 5
+  hard: |F| = 4, least omega 3 1
+distinct starts 28
+hard starts 17
+owner tests with omega <= 1 12
+time 0 s
+$ python3 k4/oc1_hall/omega_sstar.py screen
+  hard: least omega over unfrozen owners 2 30
+  hard: least omega over unfrozen owners 3 112
+  hard: least omega over unfrozen owners 4 57
+  hard: least omega over unfrozen owners 5 27
+  hard: least omega over unfrozen owners 6 6
+  hard: least omega over unfrozen owners 7 2
+  hard: |F| = 1, least omega 2 3
+  hard: |F| = 1, least omega 3 6
+  hard: |F| = 1, least omega 4 4
+  hard: |F| = 1, least omega 5 2
+  hard: |F| = 2, least omega 2 22
+  hard: |F| = 2, least omega 3 52
+  hard: |F| = 2, least omega 4 12
+  hard: |F| = 2, least omega 5 4
+  hard: |F| = 2, least omega 6 3
+  hard: |F| = 3, least omega 2 5
+  hard: |F| = 3, least omega 3 48
+  hard: |F| = 3, least omega 4 32
+  hard: |F| = 3, least omega 5 12
+  hard: |F| = 3, least omega 6 3
+  hard: |F| = 3, least omega 7 2
+  hard: |F| = 4, least omega 3 6
+  hard: |F| = 4, least omega 4 9
+  hard: |F| = 4, least omega 5 9
+distinct starts 775
+hard starts 234
+owner tests with omega <= 1 93
+time 0 s
+$ python3 k4/oc1_hall/omega_sstar.py suite
+  hard: least omega over unfrozen owners 2 30
+  hard: least omega over unfrozen owners 3 99
+  hard: least omega over unfrozen owners 4 57
+  hard: least omega over unfrozen owners 5 28
+  hard: least omega over unfrozen owners 6 13
+  hard: least omega over unfrozen owners 7 5
+  hard: least omega over unfrozen owners 8 1
+  hard: |F| = 1, least omega 2 3
+  hard: |F| = 1, least omega 3 6
+  hard: |F| = 1, least omega 4 4
+  hard: |F| = 1, least omega 5 2
+  hard: |F| = 2, least omega 2 22
+  hard: |F| = 2, least omega 3 51
+  hard: |F| = 2, least omega 4 12
+  hard: |F| = 2, least omega 5 5
+  hard: |F| = 2, least omega 6 6
+  hard: |F| = 3, least omega 2 5
+  hard: |F| = 3, least omega 3 36
+  hard: |F| = 3, least omega 4 32
+  hard: |F| = 3, least omega 5 12
+  hard: |F| = 3, least omega 6 7
+  hard: |F| = 3, least omega 7 4
+  hard: |F| = 4, least omega 3 6
+  hard: |F| = 4, least omega 4 9
+  hard: |F| = 4, least omega 5 9
+  hard: |F| = 4, least omega 7 1
+  hard: |F| = 4, least omega 8 1
+distinct starts 726
+hard starts 233
+owner tests with omega <= 1 83
+time 0 s
+$ python3 k4/oc1_hall/omega_sstar.py logs
+  hard: least omega over unfrozen owners 2 545
+  hard: least omega over unfrozen owners 3 604
+  hard: least omega over unfrozen owners 4 241
+  hard: least omega over unfrozen owners 5 59
+  hard: least omega over unfrozen owners 6 21
+  hard: |F| = 1, least omega 2 7
+  hard: |F| = 1, least omega 3 8
+  hard: |F| = 1, least omega 4 3
+  hard: |F| = 1, least omega 5 2
+  hard: |F| = 2, least omega 2 243
+  hard: |F| = 2, least omega 3 202
+  hard: |F| = 2, least omega 4 51
+  hard: |F| = 2, least omega 5 23
+  hard: |F| = 2, least omega 6 5
+  hard: |F| = 3, least omega 2 230
+  hard: |F| = 3, least omega 3 283
+  hard: |F| = 3, least omega 4 136
+  hard: |F| = 3, least omega 5 23
+  hard: |F| = 3, least omega 6 10
+  hard: |F| = 4, least omega 2 65
+  hard: |F| = 4, least omega 3 111
+  hard: |F| = 4, least omega 4 51
+  hard: |F| = 4, least omega 5 11
+  hard: |F| = 4, least omega 6 6
+distinct starts 4328
+hard starts 1470
+owner tests with omega <= 1 4356
+time 1 s
+$ python3 k4/oc1_hall/omega_sstar.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+  hard: least omega over unfrozen owners 2 125
+  hard: least omega over unfrozen owners 3 205
+  hard: least omega over unfrozen owners 4 94
+  hard: least omega over unfrozen owners 5 10
+  hard: least omega over unfrozen owners 6 2
+  hard: |F| = 1, least omega 2 9
+  hard: |F| = 1, least omega 3 27
+  hard: |F| = 1, least omega 4 12
+  hard: |F| = 2, least omega 2 116
+  hard: |F| = 2, least omega 3 178
+  hard: |F| = 2, least omega 4 82
+  hard: |F| = 2, least omega 5 10
+  hard: |F| = 2, least omega 6 2
+distinct starts 4583
+hard starts 436
+owner tests with omega <= 1 4491
+time 0 s
+$ python3 k4/oc1_hall/omega_sstar.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+  hard: least omega over unfrozen owners 2 62
+  hard: least omega over unfrozen owners 3 85
+  hard: least omega over unfrozen owners 4 74
+  hard: least omega over unfrozen owners 5 29
+  hard: least omega over unfrozen owners 6 5
+  hard: |F| = 1, least omega 3 1
+  hard: |F| = 1, least omega 4 1
+  hard: |F| = 2, least omega 2 8
+  hard: |F| = 2, least omega 3 20
+  hard: |F| = 2, least omega 4 15
+  hard: |F| = 2, least omega 5 6
+  hard: |F| = 3, least omega 2 54
+  hard: |F| = 3, least omega 3 64
+  hard: |F| = 3, least omega 4 58
+  hard: |F| = 3, least omega 5 23
+  hard: |F| = 3, least omega 6 5
+distinct starts 3449
+hard starts 255
+owner tests with omega <= 1 4546
+time 1 s
+$ python3 k4/oc1_hall/omega_sstar.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
+  hard: least omega over unfrozen owners 2 7
+  hard: least omega over unfrozen owners 3 13
+  hard: least omega over unfrozen owners 4 8
+  hard: least omega over unfrozen owners 5 2
+  hard: least omega over unfrozen owners 6 1
+  hard: |F| = 3, least omega 2 1
+  hard: |F| = 3, least omega 3 5
+  hard: |F| = 3, least omega 4 3
+  hard: |F| = 3, least omega 5 1
+  hard: |F| = 4, least omega 2 6
+  hard: |F| = 4, least omega 3 8
+  hard: |F| = 4, least omega 4 5
+  hard: |F| = 4, least omega 5 1
+  hard: |F| = 4, least omega 6 1
+distinct starts 572
+hard starts 31
+owner tests with omega <= 1 1175
+time 1 s

@@ -1,0 +1,46 @@
+$ python3 k4/oc1_hall/d1_crowd.py special
+  PROP: completion found as proved 5
+chains without HEAD 5
+chains: PROP applies 5
+chains: PROP applies, repaired by some minimal H0 5
+starts 5
+$ python3 k4/oc1_hall/d1_crowd.py screen
+RESIDUAL C-b (every H0 avoiding B(U') crowds the head and contains Y_{x_t}) lb4-n2m5-upgrade [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] order (0, 1) picks (4, 3) k 0 chain (0, 1) U' [] favourites [] repaired True
+  PROP: completion found as proved 16
+chains without HEAD 13
+chains: C-b (every H0 avoiding B(U') crowds the head and contains Y_{x_t}) 1
+chains: C-b (every H0 avoiding B(U') crowds the head and contains Y_{x_t}), repaired by some minimal H0 1
+chains: PROP applies 12
+chains: PROP applies, repaired by some minimal H0 12
+starts 14
+$ python3 k4/oc1_hall/d1_crowd.py suite
+RESIDUAL C-b (every H0 avoiding B(U') crowds the head and contains Y_{x_t}) lb4-n2m5-upgrade [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] order (0, 1) picks (4, 3) k 0 chain (0, 1) U' [] favourites [] repaired True
+  PROP: completion found as proved 16
+chains without HEAD 13
+chains: C-b (every H0 avoiding B(U') crowds the head and contains Y_{x_t}) 1
+chains: C-b (every H0 avoiding B(U') crowds the head and contains Y_{x_t}), repaired by some minimal H0 1
+chains: PROP applies 12
+chains: PROP applies, repaired by some minimal H0 12
+starts 14
+$ python3 k4/oc1_hall/d1_crowd.py logs
+RESIDUAL C-b (every H0 avoiding B(U') crowds the head and contains Y_{x_t}) log1525 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] order (0, 1) picks (4, 3) k 0 chain (0, 1) U' [] favourites [] repaired True
+  PROP: completion found as proved 152
+chains without HEAD 136
+chains: C-b (every H0 avoiding B(U') crowds the head and contains Y_{x_t}) 1
+chains: C-b (every H0 avoiding B(U') crowds the head and contains Y_{x_t}), repaired by some minimal H0 1
+chains: PROP applies 135
+chains: PROP applies, repaired by some minimal H0 135
+starts 112
+$ python3 k4/oc1_hall/d1_crowd.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+  PROP: completion found as proved 68
+chains without HEAD 46
+chains: PROP applies 46
+chains: PROP applies, repaired by some minimal H0 46
+starts 41
+$ python3 k4/oc1_hall/d1_crowd.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+  PROP: completion found as proved 19
+chains without HEAD 14
+chains: PROP applies 14
+chains: PROP applies, repaired by some minimal H0 14
+starts 11
+$ python3 k4/oc1_hall/d1_crowd.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
