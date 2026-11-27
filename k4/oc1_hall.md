@@ -2061,8 +2061,10 @@ Notation: B start = an RF start Y′ with one receiver d and D_T′ = {k, k′};
 **Census.**
 - **The choice of k.** k is the truly dangerous agent whose pick is wanted by d and by nobody else.
   - n = 4: at all 43,520 B starts exactly one truly dangerous agent has its pick wanted by d and not by the other one.
-  - n = 5: at both B starts both truly dangerous agents are; for one of them a third agent also wants its pick, and
-    (B2) and FULL then fail.
+  - n = 5: at both B starts both truly dangerous agents have a pick that only d wants. For one of them (B5) fails, and
+    so does FULL (a third agent values two goods of Z and is threatened). The working one is the agent off the RF
+    path, and also the one whose pick d values more (girth, third check with `lss.is_efx0`, `k4/girth/oc1_rf_b_check.py`
+    on `claude/k4-girth`).
 - **FULL(k, S) is EFX₀ at every B start**: 43,520 of 43,520 at n = 4, 2 of 2 at n = 5.
   - In FULL(k, S), k takes S and d takes Z = {Y′_k, Y′_d} ∪ (J′ ∖ S). Every other agent keeps its pick.
   - This includes the 15,840 starts that already complete at Y′.
