@@ -10,12 +10,15 @@ adapted from attempts/k4_vm_vm1_noncore.py).  For each instance below:
      (exhaustive memoized search);
   3. with two moves some state is, or else with three (the completion found is printed and re-checked).
 A failed placement search proves every state it reached unplaceable, so failures are memoized across searches.
-Instances: C0..C4, the five cores found by k4/vm/vm1_core_repair.py (results/k4_vm/vm1_core_repair.log), walking
-from the near-core failure K4-cut of attempts/k4-vm-vm1-noncore.md.  C0 (n = 5, m = 8) is the smallest.
+Instances: P34 (n = 4, m = 7, the smallest), a failing profile of the core 4_pure idx 34 found by the exhaustive
+certifier k4/vm/vm1chain_cert.py; C0..C4, the five n = 5 cores found by k4/vm/vm1_core_repair.py
+(results/k4_vm/vm1_core_repair.log), walking from the near-core failure K4-cut of attempts/k4-vm-vm1-noncore.md.
     python3 attempts/k4_vm_vm1_core.py [NAME ...]"""
 import itertools, sys
 
 INST = {
+    'P34': ([[0, 2, 4, 5], [0, 2, 4, 6], [1, 3, 5, 6], [1, 3, 5, 6]],
+            [[4, 3, 2, 8], [4, 3, 2, 8], [4, 2, 8, 5], [4, 2, 8, 5]], 7),
     'C0': ([[3, 6, 2, 4], [7, 0, 4], [1, 3, 2, 0], [7, 4, 2, 3], [7, 6, 5, 4]],
            [[25, 5, 15, 26], [17, 30, 23], [6, 15, 30, 25], [14, 9, 24, 3], [11, 15, 8, 30]], 8),
     'C1': ([[4, 1, 0, 5], [2, 0, 3, 6], [8, 4, 2, 0], [0, 4, 2, 5], [3, 7, 6, 5]],

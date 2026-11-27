@@ -1202,7 +1202,7 @@ precedence digraph.
 | DE (k = 3, `paper/k3-simple`) | here (k = 4, from a V-M matching) |
 |---|---|
 | chain of length 0: x takes its pair {b_x, c_x} from the leftovers, a_x is left over | upgrade, \|S\| = 2 or 3 |
-| chain of length 1: x takes its pair, j₁ takes a_x, j₁'s good is left over | exchange with z worthless to i: i takes S and parks z, j takes y_i |
+| chain of length 1: x takes its pair, j₁ takes a_x, j₁'s good is left over | approximately the exchange with z worthless to i (i takes S and *parks* z, j takes y_i); the chain proper returns z to the pool, and that difference is needed on the core P34 (`attempts/k4-vm-vm1-core.md`) |
 | ring with one want and one pair arrow, pair {y, h} | exchange with z valued: i takes z + S (\|S\| = 1 or 2), j takes y_i (Lemma RX) |
 | chain of length ≥ 2 (j₂ takes j₁'s good, …) | **not one VM1 move**; needed, on cores too (C0, `attempts/k4-vm-vm1-core.md`); VM1-chain allows it |
 | no ring of want arrows from a chain: Lemma chain finds one if it exists | none can exist at a placement state: RS(c) |
