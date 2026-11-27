@@ -102,3 +102,4 @@ python3 r2c_shape.py sweep 2,3,4 100 1 71 > $L/r2c_shape_n6_sample.log
 python3 ii_check.py /tmp/two_move_starts_n4.json.gz > $L/ii_check_n4.log   # from compute/k4-oc1max-cert a96c877
 python3 tops_check.py 4 1 20 > $L/tops_check.log; python3 tops_check.py 5 20 3 >> $L/tops_check.log
 python3 rf_check.py /tmp/two_move_starts_n4.json.gz 50 > $L/rf_check_n4.log   # from compute/k4-oc1max-cert a96c877
+# python3 rf_classes_n5.py /tmp/rf_dump.jsonl /tmp/two_move_starts_n5_partial6.json.gz /tmp/two_move_starts_n5_sel2.json.gz > $L/rf_classes_n5.log

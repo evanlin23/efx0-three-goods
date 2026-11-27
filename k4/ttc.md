@@ -1366,6 +1366,13 @@ confirmed here on girth's file):
 
 So the facts below come from a single hypergraph, and their generality is not tested by this class.
 
+*Independent regeneration* (`rf_classes_n5.py`, `rf_classes_n5.log`; this workstream's own serial dictatorship and
+roles):
+- Every class count of Hall's §24.10 table is reproduced exactly: (2, 0) 480,959; (3, 0) 391,680; (2, 1) 363,402;
+  (1, 2) 140,111; (1, 0) 113,484, of which 274 do not complete at the picks; (2, 2) 26,472; (1, 3) 7,733;
+  (1, 1) 2,782; and 3,460 pickless rotations.
+- The 7,733 (1, 3) starts are exactly the (profile, Y′) set of girth's file.
+
 **Data facts at n = 5** (all 7,733; they are not hypotheses of the lemma below):
 - the RF path is u → w → d, of length 2;
 - d is the unique receiver at Y′, values no junk, and wants Y′_w, its old pick;
