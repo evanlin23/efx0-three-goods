@@ -100,6 +100,24 @@ def main():
                 u = rl.index('U')
                 Yrf = sd(R, v, [u] + [a for a in o if a != u])
                 if None not in Yrf:
+                    # how the picks change: a path from u (u takes Y_h1, h1 takes Y_h2 or junk, ...)
+                    cur, desc, seen = u, [], {u}
+                    while True:
+                        g = Yrf[cur]
+                        if g in J:
+                            desc.append('%s takes junk' % rl[cur])
+                            lost = v[cur][g] < v[cur][Y[cur]]
+                            break
+                        nxt = Y.index(g)
+                        if nxt in seen:
+                            desc.append('%s takes the pick of %s (closes)' % (rl[cur], rl[nxt]))
+                            lost = v[cur][g] < v[cur][Y[cur]]
+                            break
+                        desc.append('%s takes the pick of %s' % (rl[cur], rl[nxt]))
+                        seen.add(nxt)
+                        cur = nxt
+                    Hc['RF change: ' + '; '.join(desc) + ' | %d picks change' % sum(Yrf[i] != Y[i] for i in range(n))] += 1
+                    Hc['RF change: the last agent of the path loses value'] += lost
                     rlrf, _ = roles(sets, st['vals'], list(Yrf))
                     Hc['RF picks with %d receivers' % rlrf.count('U')] += 1
                     Hc['RF: receiver gets a good that someone wants'] += rlrf[u] != 'U'

@@ -612,6 +612,12 @@ to the front of o.
   dangerous agent in 18,800 starts, of a pick-dangerous one in 70,400, of a frozen non-dangerous one in 23,680; at
   n = 5 always a pick-dangerous agent's pick. After RF the receiver holds a good someone wants
   (all 292,080), so it is no longer a receiver.
+- How RF changes the picks (n = 4, all 292,080 orders, logged): only along one path from the receiver, every other
+  agent keeps its pick. Either the receiver swaps picks with one agent, a pick-dangerous one (120,000) or a frozen one
+  (46,080); or it takes an agent's pick and the path ends at a dangerous agent that takes a junk good: U → D_T
+  (18,800), U → D (11,520), U → D → D_T (70,720), U → F → D_T (24,960). The last agent of the path always loses value
+  (it picked before the receiver in o, when its new good was still available), so RF is not value-monotone, unlike
+  OC₁'s moves. The truly dangerous agent that drops to a junk good is exactly the n = 4 mechanism of P\*.
 - The coordinator's other candidates (exhaustive at n = 4 / raw at n = 5): "the receiver just before its pick-swap
   partner" works on every order where it applies (213,760 of 213,760; 86 of 86); "swap the two agents of some Berge
   2-cycle" and "some adjacent transposition" work everywhere; **"swap the two truly dangerous agents" fails on 7,680 of
