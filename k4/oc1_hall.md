@@ -694,7 +694,8 @@ Uses of the matroid form:
 **Refuted** (`attempts/k4-oc1-hall-frozen-slots.md`, `k4/oc1_hall/frozen_slot_cex.py`). At an n = 4 start found by
 `proof/k4-matching`, five one-move states have a one-absorber completion and none has an S\* completion: the
 completing allocations give a frozen agent a compensated junk good, as in Lemma 1's (S1). The evidence below covers
-only this note's n ≤ 5 data. Two S\*-shaped moves still repair (matching session).
+only this note's n ≤ 5 data. Two S\*-shaped moves still repair (matching session). The exact count that includes
+compensated frozen slots is Lemma M^c (`proof/k4-oc1max-multi`, §23.2 leaf 1).
 
 These are the coordinator's steps 1 and 3 (`k4/oc1_hall/frozen_slots.py`, `frozen_slots.log`;
 `k4/oc1_hall/no_canonical_list.py`, `no_canonical_list.log`, `no_canonical.json`).
@@ -1548,7 +1549,7 @@ Each leaf is a named statement with its status and the session that owns it.
 | # | case | statement | status | owner |
 |---|---|---|---|---|
 | 0 | maximum-matching start ⟶ perfect start | Lemma RED (k4/sdc.md §31) with Lemma MAX (§19) | RED: written proof, read here (§22 message, no hole; caveat: null agents count as ordinary agents for the one-absorber shape). MAX: proved | coordinator; this note |
-| 1 | the picks complete | Lemma 1 (slots), Lemma 2\* / Lemma M (exact S\* count) | proved (2\* refereed) | this note; matching |
+| 1 | the picks complete, or a state completes | Lemma 1 (slots), Lemma 2\* / Lemma M (exact S\* count). **Lemma M^c** (k4-oc1max-multi, `k4/oc1max_multi.md` §9 at 3b69d07) is the exact matching condition for the S^c shape: the owner takes the rest, holders and frozen single-good agents take at most one junk good, and multi-good agents take nothing. At perfect starts this is exactly the one-absorber shape, frozen slots included. M^c assumes only (G2) | Lemma 1 and Lemma 2\*: proved, 2\* refereed. M: written. M^c: written, not refereed (2,226,322 owner tests against brute force, 0 mismatches) | this note; matching; k4-oc1max-multi |
 | 2 | hard ⟹ D ≠ ∅ | Proposition T0: every unfrozen z has a dangerous agent threatened by J ∪ B_z (cf. Prop. 3′ here) | written proof | k4-oc1max-multi |
 | 3 | \|D\| = 1: **one move** (an ED chain, the head possibly taking one junk good) | Lemma D1-chain, Prop. 3′, Lemma D1-red, Remark 2 (a longest chain avoids H-i), Lemma D1-C₀ and Prop. D1-C′ (§21) | proved | this note |
 | 3a | \|D\| = 1, CROWD residuals C-a to C-c | D1-C via Lemmas C3 and HC (needs every good relevant) | written proof, not refereed | k4-d1 (PR #113) |
@@ -1559,7 +1560,7 @@ Each leaf is a named statement with its status and the session that owns it.
 | 4b | one truly dangerous agent | Theorem U (2,880 starts outright), Lemma KEEP, Corollary KEEP-1; KEEP-C (8 starts) open | proof plus open residue | k4-oc1max-multi |
 | 4c | k takes a shared junk pair | Lemmas SET and OWN (the PWk(a) overlap step and its owner) | written proofs | k4-oc1max-multi |
 | 4d | several truly dangerous agents, or DEMAND with none | SLOT (581 starts) | **open** | k4-oc1max-multi |
-| 4e | the head is a second dangerous agent | Lemma RING-red (rings with owner k) proves 151 starts, T3 with order (0, 1, 2) among them; RING (45 starts) is open | proof plus open residue | k4-oc1max-multi |
+| 4e | the head is a second dangerous agent | Lemma RING-red (rings with owner k) proves 151 starts, T3 with order (0, 1, 2) among them. Of the 45 RING starts, 27 are repairs that Lemma M^c certifies and Lemma 2\* cannot (a compensated wanter of x₀'s bundle) | proof plus open residue | k4-oc1max-multi |
 | 4f | disjoint danger sets: one move | "one chain repairs" when no two dangerous agents share a pool danger set | **evidence** (k4-oc1max-multi, `k4/oc1max_multi/sharing.py`). Without sharing: 7,755 starts, all repaired by one move. 7,681 have a canonical chain from D owned by k, and 7,237 are covered by written lemmas (KEEP 4,657, OWN 632, D-red 1,835, RING-red 113). The 74 others fail only by CROWD (58) or the T3 ring shape (16), never by DEMAND. With sharing: 628 starts, all one move, 623 canonical. So sharing is necessary for every known two-move start, but not sufficient | k4-oc1max-multi |
 | 5 | **no one-move repair: the second move.** One statement, **Sub-lemma SHARE₂** (K4.OCH.SHARE2), stated below the table | (i) and (ii) below | **open** | see 5a–5c |
 | 5a | SHARE₂'s shape: **LIFT-SHAPE⁺** | the start has one receiver z (the contrapositive of R2); some canonical P₁ from a dangerous k to z has a shared pool pair and leaves z unfrozen; some canonical P₂ at B₁ ends at z and gives z its favourite good; and (L1)–(L3) of leaf 5b hold | **open** (a shape statement). Evidence: all 3,190 n = 4 failing pairs. R2 is the TTC session's | TTC session (R2); matching and k4-oc1max-multi (the rest) |
