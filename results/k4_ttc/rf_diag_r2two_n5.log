@@ -1,0 +1,46 @@
+$ python3 k4/ttc/rf_diag.py jsonl r2two.jsonl
+# r2two.jsonl: results/k4_oc1max/n5/r2_two_receiver_fails_n5.jsonl on compute/k4-oc1max-cert
+5_pure 650 receivers [1, 2] {1: {'ROT': 'pickless', 'YRMH': 'ok', 'YRMH-L': 'ok', 'ROT-L': 'ok', 'YRMH-F': 'ok', 'ROT-F': 'ok'}, 2: {'ROT': 'ok', 'YRMH': 'ok', 'YRMH-L': 'ok', 'ROT-L': 'ok', 'YRMH-F': 'ok', 'ROT-F': 'ok'}}
+5_pure 655 receivers [1, 2] all ok
+5_pure 655 receivers [1, 2] all ok
+5_pure 1014 receivers [0, 4] all ok
+5_pure 1050 receivers [1, 2] all ok
+  u-first outcomes classified ok (total) 41
+  u-first outcomes classified pickless (total) 1
+  u-first outcomes per receiver: 3 distinct 3
+  u-first outcomes per receiver: 4 distinct 4
+  u-first outcomes per receiver: 5 distinct 1
+  u-first outcomes per receiver: 6 distinct 2
+AUT-every: every receiver 5
+AUT-every: some receiver 5
+RF-exists: every receiver 5
+RF-exists: some receiver 5
+ROT or YRMH ok, every receiver 5
+ROT outcome: ok 9
+ROT outcome: pickless 1
+ROT, else YRMH when ROT is pickless: ok, every receiver 5
+ROT-F outcome: ok 10
+ROT-F: ok for every receiver 5
+ROT-F: ok for some receiver 5
+ROT-L every listed o outcome: ok 88
+ROT-L every listed o: ok for every receiver 5
+ROT-L every listed o: ok for some receiver 5
+ROT-L outcome: ok 10
+ROT-L: ok for every receiver 5
+ROT-L: ok for some receiver 5
+ROT: ok for every receiver 4
+ROT: ok for some receiver 5
+YRMH outcome: ok 10
+YRMH-F outcome: ok 10
+YRMH-F: ok for every receiver 5
+YRMH-F: ok for some receiver 5
+YRMH-L every listed o outcome: ok 88
+YRMH-L every listed o: ok for every receiver 5
+YRMH-L every listed o: ok for some receiver 5
+YRMH-L outcome: ok 10
+YRMH-L: ok for every receiver 5
+YRMH-L: ok for some receiver 5
+YRMH: ok for every receiver 5
+YRMH: ok for some receiver 5
+starts 5
+starts with 2 receivers 5
