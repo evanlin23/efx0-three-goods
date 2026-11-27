@@ -2133,9 +2133,16 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
   - RF now reads: for every receiver u of a failing start, every u-first maximum-matching order satisfies OC₁. It holds at
     all 4, for either receiver.
   - The Lean frame `target4_of_conjRF` does not use uniqueness.
-  - **A receiver always exists.** In any order, the last picker is a receiver, because a wanter of a pick picks after
-    its holder (TTC, `k4/ttc.md` §14.7, refereed item 53; Lean `exists_receiver` in #147). So "for every receiver u" is
-    never vacuous, and the amended RF still implies OC₁^∃max. The referee raised this point (item 65 note).
+  - **Receiver existence (the referee's item-65 note).** In any order the last agent is a receiver in Lean's sense
+    (`exists_receiver`, #147): Lean's `Receiver` does not require a pick, and nobody wants a pickless agent's pick. The
+    reason is that a wanter of a pick comes after its holder (TTC, `k4/ttc.md` §14.7, refereed item 53).
+    - At a perfect start (every agent picks), the last agent is therefore a receiver holding a pick, as in the data's
+      definition. "For every receiver u" is then never vacuous, and RF ⟹ OC₁^∃max holds.
+    - **OPEN, a definitional gap at non-perfect starts (ν < n).** The data checks count only receivers that hold a pick.
+      d1 found σ-maximal vectors with no such receiver on a ν = 4, n = 5 core. Lean's RF there also quantifies over
+      pickless receivers, which no check has tested.
+    - So either the failing maximum-matching starts are all perfect, or RF must be tested at pickless receivers. Both
+      the referee and the coordinator are checking.
   - Consequence for the RF proof plan: at n ≥ 5 the R2 class is no longer covered by R2. A uniform proof of girth's "(i)
     owner w or d, or (T), or (C)" is the route, and it never used R2 on the data.
 
