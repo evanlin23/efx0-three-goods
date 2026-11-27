@@ -564,8 +564,10 @@ receivers). A *pick swap* is a Berge 2-cycle whose two agents both value both of
 |---|---|---|---|---|---|
 | \|U\| = 1 | 100% | 100% | 9.7% | 13.6% | 10.4% |
 | 2-cycle between two dangerous agents | 100% | 23 of 24 | 26.2% | 21.9% | 53.8% |
-| \|D_T\| = 2, and the two share two junk goods | 100% | 0 of 24 | 4.4% | 1.9% | 6.9% |
-| \|D_T\| = 0 | 0% | 24 of 24 | 53.6% | 68.4% | |
+| two dangerous agents sharing two junk goods | 100% | 0 of 24 | 4.4% | 1.9% | 6.9% |
+| \|D_T\| = 2 | 100% | 0 of 24 | 8.1% | 4.7% | 11.7% |
+| \|D_T\| = 0 | 0% | 24 of 24 | 53.6% | 68.4% | 57.6% |
+| \|U\| = 1 and a D_T pair sharing two junk goods | 100% | 0 of 24 | 0.9% | 0.3% | 1.0% |
 | pick swap between a dangerous agent and the receiver | 72.6% | 24 of 24 | 42.8% | 39.1% | 49.0% |
 | **P\*:** \|U\| = 1 and (a D_T pair sharing two junk goods, or a dangerous–receiver pick swap) | **100%** | **24 of 24** | **5.2%** | **4.8%** | **5.3%** |
 
