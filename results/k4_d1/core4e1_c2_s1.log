@@ -1,0 +1,4 @@
+$ MODE=C2 SHARD=1/4 python3 k4/d1/core4_smt_e1.py 6
+structures 189
+unsat 189
+time 2443 s

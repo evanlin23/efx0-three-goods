@@ -1,0 +1,4 @@
+$ MODE=C2 MC2=0 STRICT=0 python3 k4/d1/core3_smt2.py 7
+structures 763
+unsat 763
+time 599 s

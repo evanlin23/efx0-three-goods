@@ -1,0 +1,14 @@
+$ python3 k4/d1/d1c_check.py logs
+  hard 111
+easy   (A) 2
+easy   (R) crowded 6
+easy   (R) no crowding 240
+easy   (T) 24
+easy chains with no improving set (Prop. 3') 791
+easy no-HEAD chains 272
+hard   (R) crowded 1
+hard   (R) no crowding 133
+hard no-HEAD chains 134
+instances 1637
+starts with D = {k} 1020
+time 1 s
