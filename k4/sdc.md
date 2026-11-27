@@ -2167,6 +2167,13 @@ OC₁ is checked with the raw checker `oc1_mc2_rand.Inst.check`.
   - A profile outside the export has no failing maximum-matching start. With the certifier's OC₁^max certificate this
     is a certificate of RKMAX at n = 4, from one implementation; a second is requested.
   - The optimum is not OC₀: at 127 of 1,982 σ-optimal vectors in a 1-in-100 sample, the picks need one move.
+- **n = 5, the complete lists of 5_pure #419, #447, #38** (`two_move_starts_n5_sel2.json.gz` of compute/k4-oc1max-cert,
+  `results/k4_oc1max/n5/`; `results/k4_sdc/extremal_rank_n5_sel2.log`). These are the cores of the RSD-IND and REC-S
+  counterexamples. All 120 orders were run at each of the 583,680 exported profiles.
+  - The σ-maximal vectors satisfy OC₁ at all 583,680; so do the LMR- and RS-optimal ones.
+  - No exported failing vector is σ-optimal.
+  - The lists are complete, so this certifies RKMAX on these three cores, from one implementation.
+  - The six partial lists are running (`extremal_rank_n5_partial6.log`).
 - **RF and σ** (`rm_path_check_n4.log`). At every failing pair (Y, u), some u-first maximum-matching order raises σ:
   112,880 of 112,880. The rotation (u, o − u) of a listed order o raises σ at 111,600 pairs.
   - If no ejected agent of RF-PATH holds its top good, σ rises at level 1, because u moves to rank 1. That happens at
