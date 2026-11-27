@@ -1,0 +1,9 @@
+$ python3 kgen/k3max_owner.py gap_small_4.gap.gz
+976 |J| = 2: lb2: no owner, 0 upgrade(s)
+444 |J| = 2: lb2: no owner, 1 upgrade(s)
+20 |J| = 2: lb2: no owner, 2 upgrade(s)
+1440 |J| = 2: simple test (LB upgrades, then Lemma 1) passes: True
+308 |J| = 3: lb2: no owner, 0 upgrade(s)
+284 |J| = 3: lb2: no owner, 1 upgrade(s)
+48 |J| = 3: lb2: no owner, 2 upgrade(s)
+640 |J| = 3: simple test (LB upgrades, then Lemma 1) passes: True
