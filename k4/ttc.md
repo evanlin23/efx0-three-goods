@@ -939,8 +939,11 @@ starts are the same. At every start with two receivers, one move gave a completi
 - `oc2max_grow_n5.log` (44 grown walks × 1,000 steps, no `mc2`): 36,615 distinct n = 5 instances and 116,196 hard
   maximum starts, with no OC₁^max failure. 4,027 of those starts have two receivers. The 17 failures of the short run
   came from one lineage: failures cluster.
-- Still running at the end of burst 6: `oc2max_grow_n5_mc2.log`, `oc2max_grow_n6.log` (two agents added) and
-  `oc2max_hunt_n5.log` (`hunt keep`, scored by the fewest good first moves).
+- `oc2max_grow_n5_mc2.log` (the same walk restricted to the K4.MC2 class): 36,100 instances and 104,453 hard starts
+  (1,251 with two receivers), with no OC₁^max failure.
+- `oc2max_grow_n6.log` (two agents added, 22 walks × 500 steps): 9,368 n = 6 instances and 33,493 hard starts
+  (3,840 with two receivers, 93 with three), with no OC₁^max failure.
+- Running at the end of burst 7: `oc2max_hunt_n5.log` (`hunt keep`, scored by the fewest good first moves).
 
 *A failed design:* seeds in which the agent holding the receiver's top good needs the picks of three other owners
 (values 20; 8, 7, 6), meant to force three moves (`three_owner_seeds.json`; `grow … 300 21 0 1 hunt keep`,

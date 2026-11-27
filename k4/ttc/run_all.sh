@@ -87,3 +87,5 @@ python3 r2_shape.py sweep 2,3,4 100 1 71 > $L/r2_shape_n6_sample.log
 python3 oc2max_fp.py grow /tmp/cex.json 1000 5 1 4 > $L/oc2max_grow_n5.log
 python3 r2_slots.py walk /tmp/cex.json 300 1 > $L/r2_slots_walk_n4.log
 python3 r2_slots.py sweep 2,3,4 100 1 71 > $L/r2_slots_n6_sample.log
+python3 oc2max_fp.py grow /tmp/cex.json 1000 6 1 4 mc2 > $L/oc2max_grow_n5_mc2.log
+python3 oc2max_fp.py grow /tmp/cex.json 500 7 2 2 > $L/oc2max_grow_n6.log
