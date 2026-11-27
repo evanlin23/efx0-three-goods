@@ -509,7 +509,7 @@ hardest case.
 | 4 | 738 | 0 | 434,113 | 8,064 | 0 |
 | 4 | 738 | 1 | 434,113 | 11,840 | 0 |
 
-(n = 5, 6,911 classes, is running.)
+(The n = 5 run, 6,911 classes, was stopped unfinished to free CPU for the gap scan of §12.)
 
 **Toward (b): how the least-ω trade repairs one-terminal perfect drafts** (`mechanism.py`). Take the 2,847 hard
 perfect drafts with T = {ℓ} after LB's upgrades and |E_ℓ| ≥ 2 (n ≤ 6 logs). After the least-ω trade, Lemma 1's
@@ -536,3 +536,54 @@ So the release count must be run over all rotations, as ω does, not through a f
 - (P) holds on its whole class for n ≤ 4, and on DE's core case wherever §10 tested it.
 - (P) itself, OC₁ at perfect starts for every n, is open. It is the content of the case analysis (kgen-n3) and of the
   release count (b).
+
+## 12. The gap of R1C ∪ B\* at perfect starts (joint with kgen-n3)
+
+The split with kgen-n3 (`claude/kgen-n3`, PR #97) gives kgen-n3 the one-terminal gap (its Theorem T1); this session
+was to show that two or more terminals never land in the gap. **That claim is false at n = 6.**
+`gap_scan.py` lists every hard perfect draft (exact test) that neither Theorem R1C (R1-compatible) nor Theorem B\*
+covers. Lists: `results/k4_k3oc1/gap_*.gap.gz`, one GAP line per draft, giving the instance, an order, the picks,
+|T| after LB's upgrades, and |E_t| per terminal.
+
+| cores, every profile and order | hard perfect | covered by R1C | by B\* (not R1C) | gap, \|T\| = 1 | gap, \|T\| = 2 |
+|---|---|---|---|---|---|
+| n = 4 | 3,196 | 1,612 | 544 | 1,040 | 0 |
+| n = 5, m = 9 | 4,272 | 584 | 1,944 | 1,744 | 0 |
+| n = 5, m ≤ 8 | 101,380 | 45,740 | 31,872 | 23,768 | 0 |
+| n = 6, m ∈ {10, 11} | 338,916 | 44,820 | 187,664 | 96,128 | **10,304** |
+
+**One-terminal gap (kgen-n3's part).** With T = {t}, B\* applies iff |E_t| = 1. This is kgen-n3's observation: (iv)
+asks for a hitting set of size 0. At n = 6, |E_t| is 2 (77,568) or 3 (18,560). kgen-n3's first candidate rule, the
+rotation into t that gives t its best reachable good, fails in its every-form on an n = 6, m = 10 core:
+- **The instance.** Agents 0: 0>1>7, 1: 0>2>8, 2: 4>3>9, 3: 0>6>5, 4: 2>3>1, 5: 4>5>6. Order (3,1,5,2,4,0), T = {0},
+  and E_0 = {3, 5} with the same junk pair {5, 6}.
+- **The failing chain.** (3, 0) gives agent 0 its top, but no one-absorber completion exists (exhaustive search).
+- **The repairing chains.** (3,1,4,0) and (5,2,4,0) give agent 0 its b, and they pass through agent 4, which then
+  releases agents 1 and 2.
+
+**Two-terminal gap.** |E_t| per terminal: (3,3) 3,456; (3,4) 2,880; (2,4) 1,856; (2,3) 768; (4,4) 704; (4,3) 576;
+(2,2) 64. An example:
+- **The instance.** Agents 0: 0>1>8, 1: 2>0>9, 2: 2>3>1, 3: 4>5>3, 4: 4>6>7, 5: 5>6>7. Order (0,1,4,5,3,2) gives the
+  picks (0,2,1,3,4,5) and junk {6,7,8,9}. The terminals are 0, holding its top, and 2, holding its c.
+- **The exposures.**
+  - E_0 = {1, 4, 5}, with π = {9}, {6,7}, {6,7}; h = 2 = |T|.
+  - E_2 = {0, 4, 5}, with π = {8}, {6,7}, {6,7}; h = 2.
+- **Why B\* fails.**
+  - For t = 0: agent 1's only need chain ends at the other terminal 2, and agents 4 and 5 share their pair, against
+    (iii).
+  - For t = 2: agents 4 and 5 share their pair again, and agent 0 is a terminal.
+- **The repairs.**
+  - The DE chain (4, 3, 2) has ω′ = −1 and needs no owner. Agent 4 takes {6, 7}, which kills agent 5 too, since the
+    pair is now in agent 4's bundle. Agent 3 receives its top and is released, and agent 2 rises to its b.
+  - The chain (5, 3, 2) and the ring (0, 1, 2), which has two pair arrows, also repair.
+
+**Lemma 4 (shared pairs die together; proved).** If a DE trade gives k its pair {b_k, c_k}, then afterwards no agent
+x with {b_x, c_x} ∩ {b_k, c_k} ≠ ∅ is exposed for any owner o ≠ k.
+
+*Proof.* Exposure needs {b_x, c_x} ⊆ J′ ∪ base(o). But a good of {b_x, c_x} lies in k's bundle, which is neither junk
+nor o's base. ∎
+
+So B\*'s condition (iii) is needed only because B\* uses owner k. Both gaps need the same extension of B\*. Use an
+owner other than k, or none, so that agents sharing k's pair die by Lemma 4. Then credit the agents the chain
+releases: chain agents that receive their top, and t lifted above the goods it froze. The draft-level counting of B\*
+does not see releases; that is where a proof must go.
