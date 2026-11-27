@@ -1,0 +1,4 @@
+$ python3 k4/vm/vm1chain_cert.py 3 --level=move --verify
+  k4_certs_3.json.gz idx 0 n=3 m=4: DONE, 108 boxes {'none': 108}, 0 failing profiles {}, 0.4 s
+  k4_certs_3.json.gz idx 1 n=3 m=4: DONE, 108 boxes {'none': 108}, 0 failing profiles {}, 0.4 s
+  k4_certs_3.json.gz idx 2 n=3 m=4: DONE, 384 boxes {'none': 384}, 0 failing profiles {}, 5.3 s
