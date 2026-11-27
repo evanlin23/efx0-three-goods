@@ -1,3 +1,4 @@
 $ python3 k4/oc1cert/run.py 6_mg4 --jobs=4 --limit=1800 --out=/home/user/efx0-three-goods/results/k4_p3x/mg6/cert_6_mg4.json.gz
 hypergraphs 1658 jobs 4
 ... 500 hypergraphs, 6140 s
+PARTIAL: run stopped at 2026-11-27 06:53 UTC (wind-down requested by the coordinator) after at least 500 of 1,658 hypergraphs, with no NOT CERTIFIED line; no certificate was written and nothing was independently checked, so this is evidence only. Classes 5 and 6 were not started
