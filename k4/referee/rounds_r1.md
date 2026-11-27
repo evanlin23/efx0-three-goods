@@ -76,3 +76,75 @@ The argument covers free and one-absorber completions alike. Correct.
   are not refereed here.
 - The ROUND⁺ refutations (RD5⁺, C4G, two types) are confirmed by an independent brute force.
 - §3.1's printed two-round repair needs the one-line fix above: no t = 0 addition of 6 in round 1.
+
+## Addendum: the splice sketch, REC-S's two moves as one round (`kgen/rounds.md` §4.10 at `f91c6bc8`; coordinator's queue, 2026-11-27)
+
+**Read.**
+- §4.10 in full;
+- §4.9 (RND1Z, RNDPZ, RNDOZ) and §1 (Lemma RC) for the definitions.
+
+**Check.** `k4/referee/splice_ref.py`, run by `splice_ref_runs.sh`, log `results/k4_referee/splice_ref.log`.
+- It is my own round-witness test, written from Lemma RC and §4.9: choose the passers among the movers, give every
+  non-passing mover a predecessor, compute bases and strict gains, and count absorbers.
+- It is applied to every REC-S configuration whose final allocation X is EFX₀, with the configurations from my
+  `rec_s_ref.py`. Nothing from `kgen/` was run.
+
+**Verdict: GAP.** The sketch's step 2 is false in one case, and its exception list misses that case. In that case the
+final allocation X is not a one-round witness under any of the forms, the wide one included.
+
+**Where step 2 fails.** Step 2 says "a path end whose pick was released is an end with a predecessor, because it holds
+a received pick". That fails for k when three things happen together:
+- P₂'s head is x₁, so B₁[x₁] = Y_k is released by P₂;
+- P₂'s start does not take Y_k back (Y_k ∉ H₀′);
+- k holds no pick, i.e. Y_z ∉ T.
+
+Then k is a mover with no predecessor, so in any round k must pass Y_k to its final holder. In REC-S, Y_k reaches that
+holder in the completion. With Theorem S's h = Y_{z′} it goes to the unfrozen wanter of z′'s good. That agent keeps its
+own pick and need not gain from Y_k. If it does not gain, no round has X as a witness.
+
+**Instance** (the first found; re-derived by hand).
+- *Instance.* n = 4, m = 8, with values
+  - v₀ = {0: 15, 4: 33, 7: 39};
+  - v₁ = {0: 28, 1: 37, 3: 19, 6: 39};
+  - v₂ = {2: 33, 3: 12, 4: 23, 7: 37};
+  - v₃ = {4: 20, 5: 21, 6: 27, 7: 35}.
+
+  The order (1, 2, 0, 3) gives the picks (4, 6, 7, 5). Strict values, a perfect start.
+- *The two moves.*
+  - E(1) = (1, 3) with T = {0, 1}.
+  - In I⁻, Theorem S (relaxed, h = Y_{z′} = 6) uses P₂ = (2, 3) with H₀′ = {2, 3}. The head 3 is frozen after P₂
+    (agent 0 wants 7), so h = 6 goes to agent 0.
+- *The allocation.* X = ({4, 6}, {0, 1}, {2, 3, 5}, {7}). It is EFX₀ and satisfies (K).
+- *Why no round has X as a witness.* Agent 1 holds only junk, so it has no predecessor, and its pick 6 is at agent 0. So
+  agent 1 must pass to agent 0. Then agent 0's base is {6} plus its relevant junk in X₀, which is none, and
+  v₀(6) = 0 < 33.
+- Even the wide form, where an end may retake its own pick 4, gives v₀({4, 6}) = 33, not > 33. So no form of the round
+  covers X.
+
+**On the data.**
+
+| data | REC-S configurations | X a witness: RND1Z / RNDOZ / RNDPZ | not a RNDPZ witness | of these, the mechanism above | the start still has some RNDPZ witness |
+|---|---|---|---|---|---|
+| n = 4 export (112,880 starts) | 627,120 | 0 / 627,120 / 627,120 | **0** | – | – |
+| random strict perfect starts (n = 3–5), seeds 1 and 2 | 13,608 | 12,505 / 13,537 / 13,537 | **71** | **71 of 71** | **71 of 71** |
+
+**The sketch's named exception is not the real one.**
+- *Its "typical case" (P₂'s head taking Y_{x_t} as junk) cannot happen with REC-S's moves.* Theorem S's P′ is
+  canonical, and receivers take no junk.
+- *What REC-S's moves can produce instead is the keep-and-add shape:* P₂'s start keeps its own pick and also holds a
+  foreign pick. That happens when P₂ starts at z (case A), or when P₂'s head is the start's successor on E(k) (case B).
+- *That shape is harmless.* It occurs in 1,579 random configurations (A: 1,437; B: 142), and every one of them is still
+  a RNDPZ witness. P₂'s start is then read as untouched, or as an adder, and the foreign pick goes into the completion.
+- *The real exception is the mechanism above.* k's own pick is released and lands, in the completion, at an agent
+  that keeps its pick.
+
+**Consequences.**
+- *The claim on the data stands.* At all 112,880 n = 4 starts the exception never occurs, so the n = 4 statement
+  "REC-S's final allocation is a one-round witness" stands.
+- *"When P₂ meets E(k), a single OC₁′ chain" is false in general.* All 71 failures have P₂'s head = x₁, an agent of
+  E(k).
+- *"REC-S existence implies ROUND-P" is not refuted.* At all 71 starts ROUND-P holds through another allocation.
+- *What a proof needs.* It must also close this case. Two ways:
+  - choose a Theorem S case in which Y_k does not leave the bundles of B₂ (P₂'s start takes Y_k, or P₂'s head is
+    not x₁);
+  - or show that its final holder gains from it.
