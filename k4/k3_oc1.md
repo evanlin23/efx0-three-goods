@@ -17,7 +17,9 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
 - **Proved:**
   - Lemma RF-13, a reduction for the (1, 3) form, which belongs to TTC and was sent there;
   - **Lemma RF-A1\***, oc1-hall's RF-A1 with (A1-iv) weakened. Its hypotheses hold at all 71,443 n = 5 DEMOTE-0
-    starts that complete at once; (A1-iv) itself fails at 39,075.
+    starts that complete by its form; (A1-iv) itself fails at 39,075. Refereed CORRECT by oc1-hall.
+  - **Lemma NA** (no-absorber completions by compensated singles). By oc1-hall's count, confirmed here, it
+    covers all 113,210 at-once DEMOTE-0 starts at n = 5. Refereed CORRECT by oc1-hall.
 - **Open:** RF-A1\*'s facts from Y's hardness.
 
 ## Status of burst 5
@@ -1104,9 +1106,15 @@ The equivalence agrees with raw EFX₀ on all 2,522,460 assignments tested. This
   (2,976).
 - Path length 3 (2,791): the receivers are d and two off-path agents, both of whose picks d wants.
 
+*Refereed and strengthened by oc1-hall* (second reading CORRECT, `k4/oc1_hall.md` §24.13 on `claude/k4-oc1-hall`;
+independent check `k4/oc1_hall/rf_na_check.py` there). **A no-absorber completion exists at all 113,210 at-once
+DEMOTE-0 starts**, including the 71,443 of RF-A1\*'s shape, and at none of the 274 that need a move. Rechecked here
+(`rf/demote0_na_all.py`, `demote0_na_all_n5.log`): 32,368 + 39,075 RF-A1\* starts and the 41,767 others all have
+one, and none of the 274 does.
+
 **DEMOTE-0 at n = 5, assembled:**
-- 71,443 by RF-A1\* (owner w);
-- 41,767 by Lemma NA (no owner);
+- 113,210 by Lemma NA (no owner);
+- RF-A1\* (owner w) is an alternative on 71,443 of them;
 - 242 by girth's trade and 32 by its 3-ring.
 
 Girth's Lemma RF-T′ is a uniform alternative covering 42,009 of these starts with one trade. The facts of RF-A1\*
