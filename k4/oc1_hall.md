@@ -1928,3 +1928,46 @@ Girth's data on the residue:
   |D_T′| = 0.
 
 The two residue lemmas are attacked below with Lemma 2\*, M^c and Theorems U/S (§24.6).
+
+### 24.6 The RF residue at n = 4, exactly (`k4/oc1_hall/rf_residue.py`, `rf_residue.log`; `rf_a1.py`, `rf_a1.log`)
+
+Data: the certifier's complete n = 4 export (`results/k4_oc1max/two_move_starts_n4.json.gz`), all 292,080 failing
+orders. That gives 161,520 distinct RF starts (profile, Y′):
+
+| class | distinct RF starts |
+|---|---|
+| R2 class (\|U′\| ≥ 2) | 67,120 |
+| U1 class | 16,320 |
+| residue A (\|D_T′\| = 0) | 34,560 |
+| residue B (\|D_T′\| = 2) | 43,520 |
+
+d is the unique receiver of Y′, and w is the agent whose pick u takes. Completions are tested at Y′ by raw enumeration,
+and OC₁ at Y′ by SAT and `de_free.moves`. **OC₁ holds at Y′ in every residue start** (78,080 of 78,080). By type:
+
+| type | shape | starts | at the picks Y′ | after one move |
+|---|---|---|---|---|
+| **A1** (\|D_T′\| = 0, ℓ = 2) | u → w → d, d takes a junk good g | 32,000 | **an S\* completion owned by w, at all 32,000** | — |
+| A2 (\|D_T′\| = 0, ℓ = 1) | w = d, which takes junk | 2,560 | 1,280: a one-absorber completion owned by d, with a frozen slot (never S\*) | 1,280 |
+| B (\|D_T′\| = 2) | always w = d (ℓ = 1) | 43,520 | 15,840: a one-absorber completion owned by d (never S\*) | 27,680 |
+
+**Lemma RF-A1 (candidate; exhaustive at n = 4).** In residue A1, with owner w, the only holder is d, so Lemma 2\* asks
+for a single good h ∈ J′ = (J ∖ {g}) ∪ {Y_u}. The good that works is **d's favourite good of J′**, and it is the only
+one, at all 32,000 starts. The completion is: w takes {Y_d} ∪ (J′ ∖ {h}), d takes {g, h}, and everyone else keeps
+their pick.
+
+Observations a proof can use (all at all 32,000):
+- d is frozen at Y;
+- d never values Y_u;
+- w is never truly dangerous at Y (it is dangerous at Y in 20,160);
+- a wrong h fails either by not compensating d (66,560 rejections) or by leaving a dangerous agent threatened by
+  {Y_d} ∪ J′ ∖ {h} (6,400).
+
+The proof obligation splits in two:
+- (a) d with {g, h} is safe against w's bundle. The danger is Y_d together with d's fourth good. SD at Y′ gives
+  v_d(g) ≥ v_d(h) ≥ v_d(r) for d's other junk goods, and SD at Y gives v_d(Y_d) ≥ v_d(g).
+- (b) No frozen agent is threatened by {Y_d} ∪ J′ ∖ {h}. This should come from D_T′ = ∅ together with the hardness
+  of Y.
+
+**A2 and B** (w = d, ℓ = 1) need either a frozen slot at Y′ (Lemma M^c, not Lemma 2\*) or one move: a chain k → d in
+B, or a d–Dp trade in A2 (girth's DEMOTE (c)). These are the harder residue. They are also where the two truly
+dangerous agents of the n = 4 mechanism (§22) sit.
