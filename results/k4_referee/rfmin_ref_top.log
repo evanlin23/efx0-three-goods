@@ -1,0 +1,5 @@
+$ python3 k4/referee/rfmin_ref.py top 100000 2
+  u holds a non-top good (mutant): PICKS CHANGE           69334
+  u holds a non-top good (mutant): cases                  69334
+  u holds its top: cases                                  301271
+  u holds its top: picks unchanged                        301271

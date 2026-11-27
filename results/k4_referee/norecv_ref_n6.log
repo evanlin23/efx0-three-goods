@@ -1,0 +1,7 @@
+$ python3 k4/referee/norecv_ref.py 20000 3 6 6
+    ... OC1 at picks                       68780
+    ... a pickless agent exists            68780
+    ... no agent values a junk good        68780
+  MM starts                                239397
+  MM starts with no receiver               68780
+  instances                                16890

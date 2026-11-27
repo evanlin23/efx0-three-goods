@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Do OC1-failing maximum-matching SD starts without any receiver exist? (Conjecture RF's amended statement, "for every
+"""Lemma REC-EXISTS (referee): at a maximum-matching SD start with no receiver, a pickless agent exists and no agent values
+a junk good, so the picks complete (junk to a pickless agent) and OC1 holds. Hence every OC1-failing MM start has a
+receiver. Checked here: do OC1-failing maximum-matching SD starts without any receiver exist? (Conjecture RF's amended statement, "for every
 receiver u of a failing start ...", is vacuous at such a start, while RF => OC1^{exists max} and Proposition RF-K need
 a receiver.) Random strict connected instances, every agent valuing 3 or 4 goods, all orders; receivers in the
 RF sense (a pick holder whose pick no other agent prefers to its own; a pickless agent prefers any good it values).
@@ -39,6 +41,10 @@ def main(N, seed, nmin, nmax):
             if recv_gen(v, list(Y)):
                 continue
             c['MM starts with no receiver'] += 1
+            J = set(range(m)) - set(y for y in Y if y is not None)
+            c['  ... some agent values a junk good' if any(v[i][g] > 0 for i in range(n) for g in J) else
+              '  ... no agent values a junk good'] += 1
+            c['  ... a pickless agent exists' if None in Y else '  ... NO PICKLESS AGENT'] += 1
             r = oc1(v, list(Y))
             c['  ... OC1 at picks' if r == 0 else ('  ... OC1 after one move' if r == 1 else '  ... OC1 FAILS')] += 1
             if r is None and ex is None:
