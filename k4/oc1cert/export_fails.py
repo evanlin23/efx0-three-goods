@@ -13,7 +13,8 @@ It also writes OUT_cert.json.gz: per hypergraph every witness the run added and 
 check.py can confirm independently that every other pair is repaired (the enumeration is complete).
 
     python3 k4/oc1cert/export_fails.py CERT_DEPTH1.json.gz|HYPERGRAPHS.jsonl OUT.json.gz [SAMPLE]
-RAW_EVERY=K: Inst.check only on every K-th pair (n = 5 is slower)."""
+RAW_EVERY=K: Inst.check only on every K-th pair (n = 5 is slower).  EXPORT_LIMIT=S: at most S seconds per hypergraph;
+a hypergraph cut off there gets 'complete': false and no certificate record."""
 import sys, os, gzip, json, itertools, collections, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -39,8 +40,10 @@ def main():
     res = []; cert = []; T = collections.Counter(); t0 = time.time()
     for r in recs:
         if r['result'] == 'certified': continue
-        C = Cert(r['sets'], depth=1); st = C.run(max_fail=10 ** 9)
-        assert st == 'FAIL'
+        LIMIT = float(os.environ.get('EXPORT_LIMIT', '0')) or None     # seconds per hypergraph (n = 5: partial lists)
+        C = Cert(r['sets'], depth=1); st = C.run(max_fail=10 ** 9, time_limit=LIMIT)
+        assert st in ('FAIL', 'timeout')
+        complete = st == 'FAIL'
         starts = []
         for k, (prof, Y) in enumerate(C.fails):
             vals = [list(C.dom[i][t]) for i, t in enumerate(prof)]
@@ -61,7 +64,10 @@ def main():
         T['hypergraphs'] += 1; T['starts'] += len(starts)
         print(r['list'], r['idx'], 'failing starts', len(starts), 'distinct profiles', len(set(map(lambda s: json.dumps(s['vals']), starts))),
               'receivers', dict(collections.Counter(len(s['receivers']) for s in starts)), '%.0f s' % (time.time() - t0), flush=True)
-        res.append({'list': r['list'], 'idx': r['idx'], 'sets': r['sets'], 'nu': C.nu, 'starts': starts})
+        res.append({'list': r['list'], 'idx': r['idx'], 'sets': r['sets'], 'nu': C.nu, 'complete': complete, 'starts': starts})
+        if not complete:
+            print('  (time limit: partial list, %d starts)' % len(starts), flush=True)
+            continue
         # certificate modulo the failing pairs: every witness the run added, and the pairs it blocked one by one
         cert.append({'list': r['list'], 'idx': r['idx'], 'sets': r['sets'], 'nu': C.nu, 'result': 'certified',
                      'witnesses': [w.to_json() for w in C.witnesses],
