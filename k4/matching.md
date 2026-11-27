@@ -862,6 +862,49 @@ Lemma LIFT\* holds for RSD-D with (L\*) read at the final values. Its proof only
 that agent's final value. Evidence: all n = 4 starts, the 23,924 n = 5 walk starts, and all 280 sampled 5_pure starts
 (below).
 
+**ROUND-RSD** (`k4/matching/round_rsd.py`; the coordinator's proposal). A step is a *round*: up to RMAX = 2
+settlements at once, with vertex-disjoint canonical chains and disjoint T's. (L\*) is read at the round's end, so the
+other settled agents of the round count at v(T_b). All of them are deleted, the reduced start must be a perfect SD
+outcome, and the search recurses. RMAX = 1 is RSD.
+
+Lemma LIFT\* holds for rounds with the same proof:
+- within a round, (L\*) at the round's end covers every pair of agents present at its start, including two
+  settled agents;
+- monotonicity covers later rounds;
+- (Φ) covers earlier deleted agents.
+
+The witnesses are re-checked by `check_rsd.py`, which now also verifies rounds.
+- **n = 4, all 112,880:** repaired at every start, always as two rounds of one settlement each. At n = 4 a single round
+  of two never works. `round_rsd_n4.log`, `check_round_rsd_n4.log`: 112,880 / 112,880.
+- **n = 5, the 280 sampled 5_pure starts:** repaired at every start. 150 take one round of two settlements and 130
+  take two rounds of one. **5_pure m = 10 #419 and m = 11 #447 are repaired by one round of two**, where RSD fails.
+  `round_rsd_5pure_s5o0.log`, `check_round_rsd_5pure_s5o0.log`: 280 / 280.
+- **n = 5 walks, 23,924:** one round of two at every start, 23,924 / 23,924.
+
+> **Conjecture ROUND-IND (K4.MATCH.ROUNDRSD).** At a perfect SD start (≤ 4 relevant goods per agent) carrying
+> phantom constraints from earlier rounds, either a completion respecting them exists, or some round of simultaneous
+> settlements, with (L\*) at its end, respects them and leads to a reduced instance that satisfies the hypothesis
+> again. With Lemma LIFT\* (rounds) it gives EFX₀ existence by induction on n. Its base case is not pure (below).
+
+**The base case** (the coordinator's question; `attempts/k4-matching-rsd-base.md`; ledger K4.MATCH.RSD.BASE). The
+data are all 10,109 distinct one-absorber-hard starts with a one-move repair: multi's 8,081, Hall's 1,737, and 291
+PW starts. On them, pure reduction with a completion at once gives:
+
+| form | multi (8,081) | Hall (1,737) | PW (291) |
+|---|---|---|---|
+| RSD, (L\*) at the step | 8,046 | 1,705 | 291 |
+| ROUND-RSD (rounds of ≤ 2) | 8,046 | 1,705 | 291 |
+| RSD, (L\*) deferred, deleted agents may receive junk | 8,075 | 1,731 | 291 |
+
+- 35 distinct starts fail the first form, all with #D ≥ 2; the smallest is T3 (n = 3, m = 6).
+- The T3-type failures need the settled head to absorb a junk good it does not value at the end.
+- 6 starts fail every form; the smallest is ls-alt-rule-n4m7 (n = 4, m = 7). Their one-move repair has a chain agent
+  after the head that also takes junk, which a reduction step cannot express. This is confirmed by the independent
+  brute force `attempts/k4_matching_rsd_base.py`.
+
+So the answer is (b): an induction through reductions keeps OC₁ in its base case (Part 1 of the Hall session's plan),
+under phantom constraints.
+
 **The certifier's first n = 5 chunk** (5_pure_s5o0, commit 259289f9 of compute/k4-oc1max-cert; OC₂^max certified
 there on all 935 hypergraphs).
 - Data: its summary samples up to 3 two-move starts on each of the 137 hypergraphs with one, 280 starts in all. The

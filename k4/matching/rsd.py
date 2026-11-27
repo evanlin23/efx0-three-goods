@@ -45,11 +45,15 @@ def sub_instance(I, alive, goods):
     return M(sets, vals, m=len(goods)), g2
 
 
+DEADRECV = os.environ.get('DEADRECV') == '1'   # the final completion may also hand junk to deleted agents
+
+
 def lifted_completion(I, B, dead):
     """B: full state of I (dead agents hold their T); a one-absorber completion with a present owner, dead agents
-    receiving nothing, raw EFX0 in I.  Brute force."""
+    receiving nothing, raw EFX0 in I.  Brute force.  With DEADRECV=1 deleted agents are ordinary agents of the
+    completion (any of them may own, or receive one good)."""
     used = set(g for b in B for g in b); J = [g for g in range(I.m) if g not in used]
-    alive = [i for i in range(I.n) if i not in dead]
+    alive = [i for i in range(I.n) if i not in dead] if not DEADRECV else list(range(I.n))
     for o in alive:
         recv = [u for u in alive if u != o]
         for lab in itertools.product([o] + recv, repeat=len(J)):
@@ -193,7 +197,7 @@ if __name__ == '__main__':
     for r in rows:
         key = json.dumps([r['sets'], r['vals'], list(r['picks'])])
         if key not in seen: seen.add(key); R.append(r)
-    print('$ MODE=%s TSIZE=%s LSTAR=%s DMAX=%d python3 k4/matching/rsd.py' % (MODE, TSIZE, LSTAR, DMAX), *sys.argv[1:], '|', len(R), 'distinct starts', flush=True)
+    print('$ MODE=%s TSIZE=%s LSTAR=%s DMAX=%d DEADRECV=%d python3 k4/matching/rsd.py' % (MODE, TSIZE, LSTAR, DMAX, DEADRECV), *sys.argv[1:], '|', len(R), 'distinct starts', flush=True)
     for t, r in enumerate(R): r['_k'] = t
     T = collections.Counter(); t0 = time.time(); WIT = []
     with mp.Pool(int(os.environ.get('PROCS', mp.cpu_count()))) as pool:
