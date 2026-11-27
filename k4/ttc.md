@@ -10,9 +10,11 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
   receivers (pick holders nobody values above their own pick), one move gives a one-absorber completion.
   - At the picks there are no multi-good holders, so blocked holders cannot arise. R2⁺, at post-move states, is false
     (§14.5).
-- **Evidence:** R2 holds at every hard start with two or more receivers tested. That is 79 in an n = 4 walk and 466
-  in an n = 6 sweep sample, plus 4,027 in grown n = 5 walks (there OC₁^max held everywhere). Every known OC₁^max
-  failure has exactly one receiver.
+- **Evidence:** R2 holds at every hard start with two or more receivers tested. That is 79 in an n = 4 walk, 466 in
+  an n = 6 sweep sample, and 9,211 in grown n = 5 and n = 6 walks, where OC₁^max held everywhere (§14.4). Every
+  known OC₁^max failure has exactly one receiver.
+- **No frozen slot is needed:** in every case, some R2★ chain completes with junk only on non-frozen agents (§14.6).
+  That is the plain matching case of Lemma M^c (`proof/k4-oc1max-multi` §9).
 - **Strong form R2★, which the data suggest is the proof target:** some canonical chain from a dangerous agent to a
   receiver leaves junk that can be spread one good per agent, so no owner is needed (79/79, 466/466).
 - **Proved:** Lemma R2-0. If |J| ≤ |U|, the picks complete with one junk good per receiver. So a hard start with two
