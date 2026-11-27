@@ -768,8 +768,16 @@ REC-S; that is not used below.
 
 The one exception is the configuration (EX) below.
 
-(EX): u₀ = z, Y_z ∉ T, u_s = x₁, and v_z(X_z ∖ {Y_z}) ≤ v_z(Y_z). In words: the second move starts at E(k)'s head,
-which keeps its own released pick, and ends at x₁, so Y_k lands with z.
+(EX): let q be the agent that holds no pick in X:
+- k when Y_z ∉ T;
+- u₀ when W contains no pick;
+- otherwise there is none.
+
+The exception is that Y_q lies in the bundle of an agent v that also keeps its own pick, and
+v_v(X_v ∖ {Y_v}) ≤ v_v(Y_v). It has three concrete forms:
+- **EX-a:** u₀ = z, Y_z ∉ T, and u_s = x₁, so Y_k lands with z, which keeps Y_z.
+- **EX-b:** Y_z ∉ T, u_s = x₁, and h = Y_k goes to an agent w that keeps its own pick.
+- **EX-c:** Y_z ∈ T, u₀ = x_l, u_s = x_{l+1}, and h = Y_{x_l} goes to an agent w that keeps its own pick.
 
 *Proof.* Let f(a) be the holder of Y_a in X; f is defined on every agent, since X is complete.
 - An agent outside E(k) and P₂ keeps Y_a, and so does every other agent.
@@ -778,42 +786,41 @@ which keeps its own released pick, and ends at x₁, so Y_k lands with z.
 
 *Count of picks per bundle.*
 - k holds no pick, or Y_z if Y_z ∈ T.
-- u₀ holds the picks of W: at most two, namely B₁[u_s]'s pick and Y_z if Y_z ∈ J₁.
+- u₀ holds the picks of W, which are B₁[u_s]'s pick (a single pick, since u_s ≠ k) and Y_z if Y_z ∈ J₁, minus h.
 - w holds its bundle's pick plus h, if h is a pick.
 - Every other agent holds exactly one pick.
 
-The goods of W ∖ (picks) and of h are junk of Y. So f is a functional graph on the agents in which:
-- k has in-degree 0, or 1 when Y_z ∈ T;
+The other goods of W and h are junk of Y. Going through the cases (Y_z ∈ T or not; h junk, Y_z, or B₁[u_s]'s pick),
+f is a functional graph on the agents in which:
+- at most one agent q ∈ {k, u₀} has in-degree 0 (the q of (EX));
 - at most one agent v ∈ {u₀, w} has in-degree 2;
 - every other agent has in-degree 1.
 
-There are n edges and in-degrees sum to n. So:
-- (a) either f is a permutation (k holds Y_z, no agent holds two picks);
-- (b) or k has in-degree 0 and exactly one agent v has in-degree 2. Then the component of k is a "rho": a tail
-  k → … → a → v joining a cycle v → c₁ → … → c_r → v. Every other component is a cycle.
+There are n edges and in-degrees sum to n, so q exists exactly when v does. So:
+- (a) either f is a permutation;
+- (b) or the component of q is a "rho": a tail q → … → a → v joining the cycle through v, v → c₁ → … → c_r → v (a
+  fixed point if f(v) = v). Every other component is a cycle.
 
 *Round structure.* Turn each component into chains:
 - *A cycle a₁ → a₂ → … → a_r → a₁ (r ≥ 2)* becomes the chain a₁ → … → a_r, whose end's pick Y_{a_r} is held and taken
   by the start a₁. This is a ring, an OC₁′ take of its own chain's end.
-  - Choose a₁ to be an agent that values its received pick. Any x_l (l ≥ 1) or u_i (i ≥ 1) on the cycle does,
-    because it wants that good.
-  - A cycle of length ≥ 2 contains such an agent: its agents are all in E(k) ∪ P₂ ∪ {k}, and a cycle through k
-    contains z.
+  - Choose a₁ to be an agent that values its received pick.
+    - Any u_i (i ≥ 1), and any x_l (l ≥ 1) other than u₀, does, because it wants that good.
+    - So does k, whose received pick is Y_z ∈ T ⊆ R_k.
+  - Every cycle of length ≥ 2 contains such an agent: its agents lie in E(k) ∪ P₂ ∪ {k}, and it is not the single
+    agent u₀.
 - *A fixed point* (f(a) = a) is off every chain. It keeps its pick and adds any relevant junk of X_a.
-- *The rho of case (b)* becomes the single chain k → … → a → v → c₁ → … → c_r. Its end c_r has a predecessor, and
-  c_r's pick lies at v, a non-end agent of the same chain.
+- *The rho of case (b), with f(v) ≠ v,* becomes the single chain q → … → a → v → c₁ → … → c_r. Its end c_r has a
+  predecessor, and c_r's pick lies at v, a non-end agent of the same chain.
   - v takes it if v values it. Otherwise it is an outside good of v.
-  - The start k takes T, which is non-empty and relevant to k.
-
-This is valid when f(v) ≠ v. If f(v) = v (v keeps its own pick), v is a fixed point holding a second pick Y_a.
-- Then the tail k → … → a ends at a, with a's pick outside at v. This is valid when a has a predecessor, i.e. a ≠ k:
-  v is off the chains and simply absorbs Y_a.
-- If a = k, then k → v is forced, and v is an end that holds its own pick. Its gain then needs
-  v_v(X_v ∖ {Y_v}) > p_v.
-  - Since only u₀ can keep its own pick while holding a second one, v = u₀.
-  - a = k means B₁[u_s] = Y_k, so u_s = x₁.
-  - v = u₀ keeps Y_{u₀} ∈ W only if u₀ = z with Y_z ∈ J₁. The case u₀ = x_l with u_s = x_{l+1} has a ≠ k.
-  - This is exactly (EX).
+  - The start q takes its bundle: T for k, or W's relevant junk for u₀. Either is non-empty and relevant:
+    v_{u₀}(H₀′) > 0 and H₀′ ⊆ W.
+- *If f(v) = v,* v keeps its own pick and holds a second pick Y_a.
+  - The tail q → … → a ends at a, with a's pick outside at v. This is valid when a has a predecessor, i.e. a ≠ q:
+    v is off the chains and absorbs Y_a. When v = w that is a single outside good; when v = u₀ it is the absorber.
+  - If a = q, then q → v is forced, and v is an end holding its own pick. Its gain needs
+    v_v(X_v ∖ {Y_v}) > p_v. This is (EX). Unwinding which agents can be q and which v can keep its pick gives the
+    three forms EX-a, EX-b and EX-c.
 
 *Gains.* Every chain agent b has f(b) ≠ b, so b ∈ E(k) ∪ P₂ ∪ {k}. Its round value counts its predecessor's pick,
 its relevant junk and the end pick it takes, which is v_b(X_b) minus worthless goods, i.e. v_b(X_b). Values never
@@ -835,7 +842,7 @@ Consequences:
   hence ROUND-P) holds.
 - **The repair's structure.** It is a single chain when the components merge, which happens when P₂ meets E(k).
   Otherwise it is that chain plus rings.
-- **(EX) never occurs in the data,** because P₂'s start never keeps its own pick there.
+- **(EX) never occurs in the data.** P₂'s start never keeps its own pick, and every REC-S repair is a witness.
 - So a proof of REC-S's open existence part (`k4/oc1_hall.md` §23.4 item 4) outside (EX) would prove ROUND-P^max on
   those starts.
 
