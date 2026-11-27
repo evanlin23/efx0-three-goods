@@ -213,3 +213,57 @@ All 720 orders, and OC₁ at every σ-maximal maximum-matching vector.
 - One-receiver σ-maximal vectors almost vanish at n = 6: 1 at V = 20 (it needs a chain; it is in
   `rkmax_rand_n6_b5_v20_s1_one_receiver.jsonl.gz`) and 0 at V = 250. At n = 5 they were 1,822 and 1,764.
 - The vectors needing a move have 2–4 receivers: 99 of the 100 at V = 20 and all 92 at V = 250.
+
+## RF off the exports (workstream compute/k4-rf-offexport; `rf_rand.py`, `rf_climb.py`)
+
+**What is tested.** At every OC₁-failing maximum-matching SD start Y found, the script lists Y's receivers u. It then
+tests three statements:
+- (a) the every-order form of RF (K4.SDC.RF as amended): every u-first maximum-matching order satisfies OC₁;
+- (b) Hall's RF-rot∃ (`k4/oc1_hall.md` §24.15 on claude/k4-oc1-hall): some order o giving Y has the rotation
+  (u, o − u) whose picks are a maximum matching satisfying OC₁. If the rotation leaves an agent pickless, the
+  variant (u, d, o − u − d) is used, with d the RF path's end;
+- (c) RF∃: some u-first maximum-matching order satisfies OC₁.
+
+Every u-first or rotation vector is an SD vector of the profile, and OC₁ is computed at all of them. Witnesses are
+re-checked.
+
+**Data** (`results/k4_rf_offexport/`):
+- Uniform random strict profiles of all 4,674 pure n = 5 cores, 600 per core at V = 20 and at V = 250, 5.6M profiles in
+  all (`rf_rand_n5_v*_s1.log`). They gave 0 and 1 failing starts: OC₁^max failures are rare, about 10⁻⁷ of the type
+  profiles of #419.
+- Uniform random profiles of the 277 failure-capable cores, 10,000 per core at V = 10 and V = 20, 5.54M profiles
+  (`rf_rand_n5cap_v*_s1.log`). 12 failing starts, 3 with two receivers.
+  - A core is failure-capable when the certifier's chunk summaries s5o0/s5o1 (1,870 of the 4,674 cores) show
+    OC₁^max-failing pairs: `capable_cores.py`, `n5_failure_capable_cores.json.gz`. 9 of these cores are the export
+    hypergraphs.
+- A walk inside the failing region (`rf_climb.py --seeds-file`, `rf_walk_n5_stored.log`, dump
+  `rf_walk_n5_stored_fails.jsonl.gz`).
+  - It starts from each of the certifier's 568 stored failing starts and makes 3,000 value mutations.
+  - A move is accepted only if the profile keeps an OC₁-failing maximum-matching start.
+  - Failing starts are deduplicated by core, ordinal type of every agent, and picks.
+  - It reached **241,728 distinct failing starts on all 277 cores**: 232,325 on the 268 non-export cores, 3,267 of
+    them with two receivers, giving 244,995 (start, receiver) pairs.
+
+| data | failing starts | (start, receiver) pairs | (a) | (b) | (c) |
+|---|---|---|---|---|---|
+| uniform, all pure cores | 1 | 1 | 1 | 1 | 1 |
+| uniform, failure-capable cores | 12 | 15 | 15 | 15 | 15 |
+| walk from the stored failures | 241,728 | 244,995 | **244,951** | 244,995 | 244,995 |
+
+**The every-order form of RF is false at k = 4** (`verify_rf_every_cex.py`, `verify_rf_every_cex.log`). The 44 (a)
+failures are 22 profiles of one core, with two failing starts each.
+
+- Core (8, 440): sets [[0,3,5,7],[1,2,3,6],[1,2,6,7],[4,5,6,7],[4,5,6,7]]. Agents 3 and 4 are set-twins.
+- For example, vals [[5,19,13,10],[9,6,17,12],[3,5,7,6],[14,1,7,4],[18,4,11,5]], which are strict.
+  - Y = (3, 6, 7, 4, 5), the SD picks of (0, 1, 2, 3, 4), is a maximum matching and OC₁ fails there. Its only receiver
+    is 4.
+  - The 4-first order (4, 0, 1, 2, 3) gives the maximum matching Y′ = (3, 6, 7, 5, 4). That is the twins' pick swap,
+    and OC₁ fails there too.
+  - Symmetrically, Y′ is a failing start with receiver 3, and (3, 0, 1, 2, 4) leads back to Y.
+- Three implementations agree on every failure at all 44:
+  - `rf_oc1.c`;
+  - `rf_check.py_oc1` (d1lib's raw EFX₀ and one-absorber enumeration);
+  - `brute()`, written inline from §29.
+- The same script checks the core list, strictness, SD orders, maximality and receivers.
+- At these starts (b) and (c) hold: 5 of the 6 distinct 4-first maximum-matching vectors satisfy OC₁. So the
+  some-order forms survive, and the every-order form needs the twin case excluded.
