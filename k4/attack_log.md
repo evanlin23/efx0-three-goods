@@ -988,3 +988,43 @@ mechanisms, only **ROUND-P** (one round of vertex-disjoint OC₁′ moves) survi
   chain improves".
 
 - 03:29 UTC: spawned **base-phantom** (session_01BYMGebS9uNs3yyqMaMxxm7, branch proof/k4-base-phantom). Its task is the base case of ROUND-RSD: OC₁ with phantom constraints at the 6 + 35 + T3 + RING2 starts where reduction fails. The d1 session, whose work is complete (PR #113), handed over its tools.
+
+### 2026-11-27 03:47 UTC: hourly burst 7
+**Headline: Conjecture RF (receiver first)** (ledger K4.SDC.RF, `k4/sdc.md` §31 end).
+- At a maximum-matching start where OC₁ fails, put the start's unique receiver first. Every resulting maximum-matching
+  order satisfies OC₁.
+- The coordinator checked it independently:
+  - all 112,880 n = 4 OC₁^max-failing starts, which with the certifier's certificate certifies it at n = 4;
+  - all 280 stored n = 5 starts.
+- RF ⟹ OC₁^∃max ⟹ TARGET₄, and the second implication is already in Lean.
+- So the one-move, order-choosing route now has a concrete rule. Its source is the certifier's good-order export: rule
+  (b), plus (a) "≥ 2 receivers ⟹ good" and (c) "the nearest good vector differs in two agents".
+- OC₁^∃max itself is certified on all 935 cores of the first n = 5 chunk (certifier, with an independent check).
+
+**Main route ROUND-RSD.** All of its tools are now refereed: SD-E(round), (L*) at the round's end, LIFT* for rounds,
+PHANTOM, S^φ(round). In Lean so far: PHANTOM, LIFT* and SD-E(round) (#136), and Theorem U (#133).
+- Open: ROUND-IND, which is existential because greedy rounds hit dead ends from 16,240 n = 4 starts.
+- Open: the base case, OC₁ with phantoms. It is needed at 35 of 8,539 hard one-move starts, and at 6 even with
+  relaxations. A new session, base-phantom, owns it.
+
+**ROUND-P side (kgen-rounds).**
+- Lemmas PG, GAIN, RING, RHO and FIX and Theorem ROUND-SIMPLE are refereed CORRECT. This gives SIMPLE-MD ⟹ ROUND-P; the
+  converse is still open.
+- Lemma SPLICE: CORRECT with fixes.
+- Φ-MAX would give ROUND-P^max ⟺ MD, a characterization. UNTANGLE is in progress: no single swap rule is complete, so
+  it needs a local search with potential Φ.
+
+**Others.**
+- VM: VM1-chain is CERTIFIED for n ≤ 4 (two implementations). VM1 holds on all 304 n = 5 OC₁^max-failure profiles, so
+  the SD and V-M starts are complementary.
+- twins: K4.MC9 cuts the β = 5 candidates to 320,348.
+- d1: done (PR #113); D1-H2 is certified on the 3-agent and t = 2 4-agent cores.
+- monotone: k = 5 needs ≥ 5 agents. The n = 6, k = 4 run needs a larger machine (250–480 CPU-h) and is on hold.
+
+**Merged this hour:** #99, #106, #123, #127, #128, #130, #131, #132, #133 and #136.
+
+**Dispatch.**
+- girth: prove RF, or rules (b)/(c), from the export.
+- TTC: (ii), "a failing maximum-matching start forces a ≥ 2-receiver maximum-matching outcome".
+- certifier: check RF on every failing pair met in the n = 5 runs.
+- Lean: the ROUND-RSD frame.

@@ -2105,3 +2105,24 @@ profiles had missed them. The coordinator replayed both independently.
     envied as a singleton.
   - So multi-move starts need every pick to be wanted. Random extension is the wrong tool, and exhaustive ordinal
     certification (the certifier's n = 5 lists) is the right one.
+
+**Conjecture RF (receiver first)** (2026-11-27 03:45 UTC). The rule is from the certifier's good-order export (rule (b)).
+The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py` and `k4/sdc/receiver_first_n5.py`.
+- **Statement.** In every strict connected k = 4 core, consider a maximum-matching SD start Y where OC₁ fails. Then:
+  - Y has exactly one receiver u, an agent whose pick no other agent prefers to its own (TTC's R2);
+  - some order with u first gives a maximum matching;
+  - every order with u first that gives a maximum matching satisfies OC₁.
+- **RF implies OC₁^∃max, hence TARGET₄.** From any maximum-matching order, either OC₁ holds, or the receiver-first reorder
+  gives one where it does. The Lean frame `EFX.OC1Max.target4_of_conjOC1exmax` then applies.
+- **Evidence.**
+  - n = 4: all 112,880 OC₁^max-failing starts (the certifier's complete export) have exactly one receiver. Every
+    receiver-first order gives a maximum matching, and all of them satisfy OC₁: 250,960 distinct pick vectors complete
+    at the picks and 35,240 need one move (`results/k4_sdc/receiver_first_check_n4.log`). Together with the certifier's
+    OC₁^max certificate this is a certificate of RF at n = 4. It relies on the type reduction: RF compares only subset
+    sums of single agents.
+  - n = 5: all 280 stored failing starts of chunk 5_pure_s5o0 (`results/k4_sdc/receiver_first_check_n5_s5o0.log`). Each
+    has exactly one receiver and at least one receiver-first maximum-matching vector. 1,057 vectors complete at the
+    picks, 297 need one move, and 24 receiver-first vectors are not maximum matchings, which RF excludes. 0 violations.
+- **Why it might hold.** u goes first and takes its favourite good. The failing start's difficulty is that u, the agent
+  nobody envies, sits on a pick that frees nothing. With u first, the picks change in exactly two agents (rule (c) of
+  the export). That is the pick swap of the two-cycle mechanism, or the starved agent's upgrade.
