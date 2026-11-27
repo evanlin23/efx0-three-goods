@@ -55,15 +55,23 @@ if __name__ == '__main__':
                 t = T[0]; E = exposed(rk, ub, t, B, J, U)
                 if len(E) < 2: continue
                 pos = topo(rk, B, U); C['drafts'] += 1
-                allac, best = True, None
+                allac, best = True, None; omk = {}
                 for k in E:
                     P = rule_e_chain(rk, B, U, k, t, pos)
                     if P is None: C['Rule E chain does not reach t (impossible with one terminal)'] += 1; continue
                     nb = rotate(rk, ub, B, k, P); B2, J2, U2 = parts(rk, m, nb)[:3]
                     ac = acyclic(rk, B2, U2); allac &= ac
                     P3 = parts(rk, m, upgrade(rk, m, nb)); om = len(P3[1]) - len(P3[5])
-                    best = om if best is None else min(best, om)
+                    best = om if best is None else min(best, om); omk[k] = om
                 C['Rule E rotation keeps the want graph acyclic for every k: %s' % allac] += 1
+                if omk:
+                    jk = '|J| = %d' % len(J)
+                    first = min(omk, key=lambda x: pos[x]); last = max(omk, key=lambda x: pos[x])
+                    tbest = min(omk, key=lambda x: (rk[t].index(B[x][0]) if B[x][0] in rk[t] else 9, pos[x]))
+                    C[jk + ': k = sigma-first exposed agent works: %s' % (omk[first] <= 0)] += 1
+                    C[jk + ': k = sigma-last exposed agent works: %s' % (omk[last] <= 0)] += 1
+                    C[jk + ': k = exposed agent whose top t ranks highest works: %s' % (omk[tbest] <= 0)] += 1
+                    C[jk + ': every k works: %s' % all(o <= 0 for o in omk.values())] += 1
                 C['Rule E: some k reaches |J\'| <= |T\'| (T1\' with Rule E): %s' % (best is not None and best <= 0)] += 1
                 if not allac and shown < 3:
                     shown += 1; print('RULE E CYCLE', json.dumps([list(x) for x in rk]), m, 'picks', Y, 'E_t', E, flush=True)

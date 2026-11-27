@@ -2,3 +2,19 @@ $ python3 kgen/k3max_ruleE.py small:4
 1184 Rule E rotation keeps the want graph acyclic for every k: True
 1184 Rule E: some k reaches |J'| <= |T'| (T1' with Rule E): True
 1184 drafts
+144 |J| = 1: every k works: True
+144 |J| = 1: k = exposed agent whose top t ranks highest works: True
+144 |J| = 1: k = sigma-first exposed agent works: True
+144 |J| = 1: k = sigma-last exposed agent works: True
+720 |J| = 2: every k works: True
+720 |J| = 2: k = exposed agent whose top t ranks highest works: True
+720 |J| = 2: k = sigma-first exposed agent works: True
+720 |J| = 2: k = sigma-last exposed agent works: True
+52 |J| = 3: every k works: False
+268 |J| = 3: every k works: True
+52 |J| = 3: k = exposed agent whose top t ranks highest works: False
+268 |J| = 3: k = exposed agent whose top t ranks highest works: True
+16 |J| = 3: k = sigma-first exposed agent works: False
+304 |J| = 3: k = sigma-first exposed agent works: True
+36 |J| = 3: k = sigma-last exposed agent works: False
+284 |J| = 3: k = sigma-last exposed agent works: True
