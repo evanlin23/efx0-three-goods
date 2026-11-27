@@ -130,3 +130,29 @@ B\* applies to 7,260, and all 9,986 rotations (every need chain) give an EFX₀ 
   downstream is affected.
 - R1C covers 4,608 of the 18,569 hard starts in the session's logs, so the open part of OC₁ at k = 3 is the non-R1-
   compatible drafts (§6 of the session's file). OT remains a conjecture.
+
+## Addendum: Lemmas MAX₃ and RED₃ (`k4/k3_oc1.md` §11 at `974853c`; coordinator's queue, 2026-11-27)
+
+Check: `k4/referee/red3_ref.py`, log `results/k4_referee/red3_ref.log`. Own code, raw EFX₀.
+
+**Verdict: CORRECT** (both).
+
+- **MAX₃** is Lemma MAX at k = 3, refereed CORRECT in `maxsd.md`.
+  - A pickless agent found every junk good free at its turn and took nothing, so it values none.
+  - An agent of S valuing a junk good would close an augmenting path.
+  - (i): a valued good is a pick, and its holder is reachable. (ii) and (iii) follow.
+- **RED₃.**
+  1. At t's turn, the free goods of I′ are exactly the free goods of I that lie in I′, since S's picks are not goods
+     of I′. So Y_t is still t's favourite, and U are null in I′ by (i).
+  2. Values and junk agree on I′'s goods, so I′'s official moves are moves of I.
+  3. Give S their picks as singletons. Singletons are never strongly envied. U ∪ S value nothing in T ∪ U bundles,
+     by (i). T agents see T ∪ U bundles with the same values. The absorber count is unchanged.
+  - Y′ is a perfect start of I′, so OC₁ at Y follows from OC₁ at Y′.
+  - The argument never uses |R_i| ≤ 3; it is Lemma RED of `k4/sdc.md` §31 in DE's notation.
+
+**Computation (evidence).** Non-perfect maximum-matching SD starts (some agent pickless) of random instances.
+
+| class | starts | MAX₃ (no junk for U ∪ S; S closed) | RED₃ 1 (restricted SD) | RED₃ 2 (moves of I′ ⊆ moves of I) | RED₃ 3 (completions lift) | failures |
+|---|---|---|---|---|---|---|
+| ≤ 3 goods per agent | 38,678 | 38,678 | 38,678 | 16,794 moves | 1,746,427 | 0 |
+| ≤ 4 goods per agent | 10,768 | 10,768 | 10,768 | 4,748 moves | 127,354 | 0 |
