@@ -180,3 +180,56 @@ def one_chain_prime(V, bases):
 def oc1_prime(V, order):
     y = sd(V, order); b0 = [frozenset([g]) if g is not None else frozenset() for g in y]
     return any(completion(V, list(s), 1) is not None for s in one_chain_prime(V, b0))
+
+
+def round_pool(V, bases, pooled=True, adders=False, own_chain=False):
+    """One round of vertex-disjoint chains with zeros (kgen/rounds.md §4.9), written from the definition.  Sets H
+    inside the taker's relevant goods.  pooled=False: a chain's start may take goods of its own end's base only (the
+    plain round); pooled=True (ROUND-P): every non-end agent x_i (i < t) of any chain with t >= 1 may take goods of any
+    chain end's base that it values; adders=True (wider variant) lets t = 0 agents take them too; own_chain=True
+    (narrower: a round of OC1' moves) lets them take only goods of their own chain's end.  t = 0 chains add
+    relevant junk.  Every chain agent strictly gains; untaken end goods are released."""
+    n, m = len(V), len(V[0]); used = set(g for b in bases for g in b)
+    J = sorted(g for g in range(m) if g not in used); out = set()
+
+    def chain_sets(free, last):
+        yield []
+        for L in range(1, len(free) + 1):
+            for seq in itertools.permutations(sorted(free), L):
+                if seq[0] <= last: continue
+                for rest in chain_sets(free - set(seq), seq[0]): yield [seq] + rest
+    for cs in chain_sets(set(range(n)), -1):
+        if any(not bases[seq[i]] for seq in cs for i in range(len(seq) - 1)): continue
+        agents = [a for seq in cs for a in seq]
+        nonend = [a for seq in cs for a in seq[:-1]] + ([seq[0] for seq in cs if len(seq) == 1] if adders else [])
+        endgoods = [(g, seq) for seq in cs if len(seq) >= 2 for g in sorted(bases[seq[-1]])]
+        optsJ = [[None] + [a for a in agents if V[a][g] > 0] for g in J]
+        optsE = []
+        for g, seq in endgoods:
+            takers = [a for a in nonend if V[a][g] > 0 and (pooled or a == seq[0]) and (not own_chain or a in seq)]
+            if not pooled: takers = [a for a in takers if a == seq[0] and len(seq) >= 2]
+            optsE.append([None] + takers)
+        for aJ in itertools.product(*optsJ):
+            for aE in itertools.product(*optsE):
+                H = {a: set() for a in agents}
+                for g, a in zip(J, aJ):
+                    if a is not None: H[a].add(g)
+                for (g, seq), a in zip(endgoods, aE):
+                    if a is not None: H[a].add(g)
+                new = [set(b) for b in bases]; ok = True
+                for seq in cs:
+                    if len(seq) == 1:
+                        a = seq[0]
+                        if not H[a]: ok = False; break
+                        new[a] = set(bases[a]) | H[a]
+                    else:
+                        new[seq[0]] = set(H[seq[0]])
+                        for i in range(1, len(seq)): new[seq[i]] = set(bases[seq[i - 1]]) | H[seq[i]]
+                if ok and all(val(V, a, new[a]) > val(V, a, bases[a]) for a in agents):
+                    out.add(tuple(frozenset(b) for b in new))
+    return out
+
+
+def round_pool_ok(V, order, pooled=True, A=1, adders=False, own_chain=False):
+    y = sd(V, order); b0 = [frozenset([g]) if g is not None else frozenset() for g in y]
+    return any(completion(V, list(s), A) is not None for s in round_pool(V, b0, pooled, adders, own_chain))
