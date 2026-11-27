@@ -566,3 +566,10 @@ Remarks:
 **Standing.** At n = 4, OC₂^max holds by REC-S's mechanism at every start of the export. Like item 34, the claim "at
 every n = 4 start with no one-move repair" inherits the completeness of the certifier's export, which I checked by
 sampling only (item 21).
+
+*Follow-up (`3143a331`).* Both remarks are applied, and I checked the diff:
+- `check_recs.py` takes the export as an optional second argument. It prints its sha256 and compares the starts as a
+  multiset (112,880; 0 missing, 0 extra).
+- Check 7 now requires H₀′ ⊆ R_{k′}. The result is still 112,880 ok, with 8,241 negative tests rejected.
+- One small point: the coverage comparison prints its counts but does not change the exit status, so a reader must
+  read the log line.
