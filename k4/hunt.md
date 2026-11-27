@@ -146,6 +146,13 @@ cannot be completed) glued by identifying s goods, every strict profile searched
 
 The last core has goods of degree 7 and 6 (every agent values one of the two glued goods).
 
+**Result of the β = 5 candidate run** (`results/k4_hunt/mc_n6_b5.log`): all 30,337 candidates certified (every
+profile of the cut domains), 0 counterexamples; 27,585 CPU-s; per m: 9: max 1.8 s; 10: 2.2 s; 11: 3.5 s; 12: 6.4 s;
+13: 8.4 s; 14: 13.2 s (the m = 14 cores are all-P4/Q4, no cuts, 288⁶ profiles); largest certificate 4,792 allocations
+(images included). Independent check `results/k4_hunt/check_mc_n6_b5.log` (`check_mc_n.py`): the regeneration with
+`k4/check_mincex_cores4.py`'s code gives the same 30,337 candidates, orbit counting OK for every G′ class
+[coverage PENDING]. With K4.MC7: **a minimal counterexample to TARGET₄ with n = 6 has β ≥ 6** (for the coordinator).
+
 ## 4. Patterns
 
 Certificate size (allocations the CEGAR needs to cover every profile of a core) as a hardness measure; random or

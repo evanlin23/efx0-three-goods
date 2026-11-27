@@ -75,7 +75,7 @@ def main():
         print(f"  slowest: {r['time']}s n={r['n']} m={r['m']} {''.join(r['kinds'] or [])} profiles={r['profiles']} {r['sets']}", flush=True)
     print(f"  total core time {sum(r['time'] for r in recs):.0f}s, wall {time.time() - t0:.0f}s", flush=True)
     if len(recs) == len(cand):
-        path = os.path.join(ROOT, 'results', 'k4_hunt', f'{tag}.json.gz')
+        path = os.path.join(ROOT, 'results', 'k4_hunt', f'cert_{tag}.json.gz')
         with gzip.open(path, 'wt') as f:
             json.dump([{'n': r['n'], 'm': r['m'], 'beta': r['beta'], 'sets': r['sets'], 'status': r['status'],
                         'allocs': r['allocs']} for r in recs], f, separators=(',', ':'))

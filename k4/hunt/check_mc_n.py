@@ -91,6 +91,8 @@ def main():
     print(f'uncovered-profile file: sha256 {got}, {"matches the reductions log" if sha_ok else "DOES NOT MATCH"}', flush=True)
     PX = {k: v for k, v in json.loads(raw).items() if k.startswith('px-')}
     cert = [r for f in args[1:] for r in json.load(gzip.open(f, 'rt'))]
+    for r in cert:                                # compact allocations: base36 strings, one character per good
+        r['allocs'] = [[int(ch, 36) for ch in A] if isinstance(A, str) else A for A in r.get('allocs', [])]
     cb = collections.defaultdict(list)
     for r in cert:
         cb[(r['n'], r['m'], nx.weisfeiler_lehman_graph_hash(CM.graph(r['sets'], r['m']), node_attr='c'))].append(r)
