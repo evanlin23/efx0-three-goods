@@ -1,0 +1,4 @@
+$ MODE=CANON MC2=1 STRICT=2 python3 k4/d1/core3_smt2.py 7
+structures 277
+unsat 277
+time 30 s

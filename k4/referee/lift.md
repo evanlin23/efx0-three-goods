@@ -282,3 +282,77 @@ My search reproduces exactly that count: one-step dead ends are reachable from *
   the bad step settled agent 3 with a pair below its value for agent 0's good 5. That created a (P1) constraint that
   the rest could not satisfy.
 - The ledger row K4.MATCH.RSDIND should be restated before it is cited.
+
+## 9. Addendum 2: ROUND-RSD, Lemma LIFT\* for rounds, Conjecture ROUND-IND, K4.MATCH.RSD.BASE (`k4/matching.md` §6 at `56e64a9f`; coordinator's queue, 2026-11-27)
+
+Scripts: `round_rsd_ref.py` (witnesses and the lemma test) and `base_ref.py` (the base case), run by
+`round_rsd_ref_runs.sh`; log `results/k4_referee/round_rsd_ref.log`. My own code throughout: `round_rsd.py`,
+`check_rsd.py`, `rsd.py` and `attempts/k4_matching_rsd_base.py` were read, not run or imported.
+
+Input checks:
+- matching's n = 4 input `data/two_move_starts_n4.json.gz` is byte-identical to the certifier's export
+  (sha256 6159e38d…);
+- its 280 n = 5 rows are exactly the `oc1_fails` of the certifier's `5_pure_s5o0_summary.jsonl.gz`.
+
+**Lemma LIFT\* for rounds: CORRECT.**
+- *Re-derivation.* Every agent's value is non-decreasing. In a round the chains are vertex-disjoint, so each agent
+  changes at most once, and only by a strict gain. Threats only weaken as values rise. Take a ≠ b.
+  - Both present at the end: X is EFX₀ in I_r.
+  - a settled in round i:
+    - b present, or b settled in a later round: this is (Φ);
+    - b settled in the same round: (L\*) at the round's end, with a counted at v_a(T_a);
+    - b settled in an earlier round j: a was present at round j's start, and its final value is at least its value
+      at round j's end.
+  - a present, b settled in round j: (L\*) at round j's end, then monotonicity.
+- *(Φ) is needed only against X and later rounds' T's.* The same-round clause is what (L\*) at the round's end
+  supplies.
+- *The same-round clause is necessary.* With (L\*) not checked against the round's other settled agent (my
+  mutation), raw EFX₀ fails in 21 cases at the 280 5_pure starts.
+- *Lemma test.* From each start I take every sequence of admissible rounds (≤ 2 settlements, (L\*) at the round's
+  end), and at every reached state every extension X of the state to the junk. Whenever X is EFX₀ among the present
+  agents and (Φ) holds, the whole allocation must be raw EFX₀.
+
+  | data | cases meeting the hypotheses | with a two-settlement round | violations |
+  |---|---|---|---|
+  | 280 5_pure starts | 7,175 | 3,054 | **0** |
+  | 3,000 n = 5 walk starts | 36,000 | 18,000 | **0** |
+  | 5,000 n = 4 export starts | 24,872 | 0 (no admissible pair round reaches such a state) | **0** |
+
+**ROUND-RSD witnesses: all valid** (my re-validation from the definitions).
+- Each settlement is a reduction step at the round's start: k present, frozen and dangerous; P a canonical chain;
+  T ⊆ (J ∪ B_end) ∩ R_k and improving.
+- Chains vertex-disjoint and T's disjoint; the stored state is all settlements applied at once.
+- (L\*) holds at the round's end, and the reduced state is SD of some order.
+- Final: a partition, deleted agents hold exactly T, at most one present absorber, raw EFX₀.
+
+| witnesses | valid | rounds |
+|---|---|---|
+| n = 4, 112,880 | **112,880** | two rounds of one at all |
+| 5_pure, 280 | **280** | 150 one round of two, 130 two rounds of one |
+| n = 5 walks, 23,924 | **23,924** | one round of two at all |
+
+**Conjecture ROUND-IND.**
+- Its statement matches what the lemma and the data support.
+- It must be existential: matching reports dead ends reachable under every round rule. I did not re-run the
+  exploration.
+- Its base case cannot be pure (next item).
+
+**K4.MATCH.RSD.BASE (REFUTED): CONFIRMED, with one count to correct.**
+- On the three data files, my brute force over every reduction sequence finds failure sets equal to the ones in
+  matching's logs:
+  - (i) (L\*) at the step: **35**;
+  - ROUND-RSD: the **same 35**;
+  - (ii) (L\*) deferred: 23;
+  - (i) with deleted agents receiving junk: 18;
+  - (iii) deferred and receiving: **6**, a subset of the 35.
+- Per file: multi 35 / 35 / 23 / 18 / 6, Hall 32 / 32 / 21 / 17 / 6, PW 0.
+- All 35 have #D ≥ 2 (23 with 2, 11 with 3, 1 with 4). 15 have n = 3, m = 6, among them T3 (picks (0, 1, 4)).
+- The 6 are ls-alt-rule-n4m7 (the smallest, n = 4, m = 7), Q2, nsw-strict-n4m8, nsw-strict-n4m9,
+  c4one-one-rotation-m8 and c4one-one-rotation-m9.
+  - At each, my code confirms the picks are SD and the start is one-absorber-hard.
+  - At each, one official §29 move followed by a one-absorber completion repairs it.
+  - So OC₁ stays in the base case, as matching says (answer (b)).
+- **Fix:** the starts are 8,539 distinct, not 10,109.
+  - 1,570 starts lie in both the multi and the Hall files, and the PW file is disjoint from both.
+  - 10,109 = 8,081 + 1,737 + 291 is the sum of the per-file distinct counts.
+  - The per-file columns of the table, and the 35 and 6, are right.

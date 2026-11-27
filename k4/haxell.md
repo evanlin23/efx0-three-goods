@@ -33,8 +33,11 @@ theorem; §6 states everything precisely. Some runs are still going; their logs 
 - **Three moves rescue all 40 known two-move failures**, for welfare, leximin and Pareto, with set moves or
   single-good moves. The candidate is **P^sub₃** (three moves, Pareto). It is ordinal, so checks over types are
   complete for it. With single-good moves only, three moves fail at k = 5 (W5).
-- **The radius grew from two to three at n = 4.** If it keeps growing with n, no fixed-radius form gives TARGET₄,
-  which is over all n. Radius-3 climbs at n = 4, 5 found no failure so far; that is the decisive open test.
+- **The radius grew from two to three at n = 4, and did not grow again at n = 5** (the decisive test, §6, n = 5).
+  Seeded from the n = 4 failures, two moves failed once at n = 5 (Pareto only); three moves never failed under any
+  measure. This is evidence from climbs. If the radius grows at larger n, no fixed-radius form gives TARGET₄.
+- **Where k enters**: with k ≤ 3, two-move Pareto climbs found no failure at n = 4, 5, and P^sub holds exhaustively at
+  n ≤ 3. So the conjecture is two moves for k ≤ 3 and three moves for k = 4.
 - **The move class is nearly minimal**: six of its seven kinds are each necessary (§6 ablation).
 - The ledger rows are staged in `k4/haxell/ledger_rows.md`; the assignment says the coordinator edits LEDGER.md.
 - *Proof*: open beyond Theorem N2 (computer-verified, n = 2).
@@ -647,6 +650,19 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
     **P^sub may hold for k ≤ 3 at every n, while k = 4 needs a third move.** That is a CONJECTURE (P^sub for k ≤ 3).
   - *Three-move Pareto climbs (evidence).* No P^sub₃ failure: seeded from 4 of the n = 4 failures, and random at
     n = 4, m = 8 and n = 5, m = 7, 8 (`p3climb_*.log`).
+  - **The n = 5 test** (`run_n5climb.sh`, `n5climb_*.log`; m = 8, k ≤ 4). Each seed is an n = 4 two-move failure
+    plus a fifth agent holding a private good, and the climber mutates the fifth agent too.
+    - Adding the fifth agent removes every seed's two-move failure: it gives the goods an outlet.
+    - *Two moves* (4 seeds × welfare, leximin, Pareto; 500 steps × 2 climbers each): one failure, Pareto from seed 4.
+      At that instance welfare and leximin still have two-move steps, and **three moves give a step for every
+      measure**, single-good moves included. There were no welfare or leximin failures. In the other runs the hardest
+      states kept 2–4 (Pareto), 4–16 (welfare) and 2–10 (leximin) escapes.
+    - *Three moves* (the same 4 seeds × 3 measures; 400 steps × 2 climbers each; 3,357 s): **no failure**.
+      - The climbs rarely even reached a state that needs three moves. That happened once, under Pareto, and that state
+        had a three-move step. In the other runs every state without a single-move step still had 2–14 two-move
+        escapes.
+      - So at n = 5 the radius did not grow past three, and the two-move failures of n = 4 do not survive a fifth
+      agent without help from the climber. This is evidence (climbs), not exhaustion.
 - *Lemma P^sub₃ (CONJECTURE for every |Rᵢ| ≤ 4).* P^sub with **three** moves. It has a step at all 40 known two-move
   failures: the 36 for welfare and the 4 found by the leximin climbs (`gstar_measure 3 1 19 1`; with single-good moves
   only, `3 1 19 0`, also none stuck). It implies W^sub₃ and L^sub₃ and TARGET₄, and it is the cleanest candidate for
@@ -699,9 +715,9 @@ nonempty pool of every instance):**
 | test set | instances | partial EFX₀ states | W^sub stuck | log |
 |---|---|---|---|---|
 | n = 2, every relevant-set pair with k ≤ 4, values {1, 2, 4, 7} (ties included) | 1,540,944 | 470,500,040 | **0** (leximin 0) | `n2w_grid_k4_sub.log` |
-| n = 3, every shape with k ≤ 3, values {1, 2, 4, 7, 12}, m ≤ 5 (up to isomorphism; m = 6–9 running) | 5,324,815 | 742,367,662 | **0** | `n3grid_k3_v12.log` |
+| n = 3, every shape with k ≤ 3, values {1, 2, 4, 7, 12}, m ≤ 7 (up to isomorphism; welfare and leximin; m = 8, 9 queued) | 8,155,420 | 2,571,087,783 | **0** (leximin 0) | `n3grid_k3_v12.log` (welfare, m ≤ 5), `n3grid_wl_k3_v12.log` (both, m ≤ 6) |
 | n = 4, k = 4 cores with one 4-good agent, m ≤ 5 (20 cores): **every** strict balanced type profile of the certificate domain, up to automorphism | 451,824 | 223,522,208 | **0** (leximin 0 too: `n4core_wl_all_m5.log`) | `n4core_all_m5.log` |
-| n = 4, k = 4 cores with m = 4 and at most two 4-good agents (5 cores, the two n4_2 cores included): every profile, up to automorphism | 552,048 | 115,378,032 | **0** | `n4core_all_m4.log` |
+| n = 4, k = 4 cores with m = 4 and at most two 4-good agents (5 cores, the two n4_2 cores included): every profile, up to automorphism | 552,048 | 115,378,032 | **0** (leximin 0 too: `n4core_wl_all_m4.log`) | `n4core_all_m4.log` |
 
 The n = 3 instances are counted after the symmetry reduction: goods of one pattern are interchangeable, and agent
 permutations that fix the shape are factored out. `ht_n3grid_check.py` checks the reduction against the full product
