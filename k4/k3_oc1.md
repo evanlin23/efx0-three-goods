@@ -496,3 +496,29 @@ maximum-matching draft was perfect, but that is a small-n effect. Take any hard 
 The picks remain a maximum matching, and S = {s₁, s₂, s₃} values no junk. Of 3,000 hard perfect n = 5 drafts, 384
 stay hard with the gadget (n = 9), and the null agent u's extra slot does not suffice there. One DE trade repairs
 every one of the 384.
+
+**(P) tested on its whole class** (`perfect_small.py`; agents valuing one, two or three goods, all hypergraph classes,
+every ranking, every order's draft, brute-force one-absorber completion, every improving move under the official
+rule). Null agents are left out, since a null agent can always receive nothing, so instances without them are the
+hardest case.
+
+| n | classes | dead goods | perfect drafts | hard | one move fails |
+|---|---|---|---|---|---|
+| 3 | 97 | 0 | 8,732 | 294 | 0 |
+| 3 | 97 | 1 | 8,732 | 510 | 0 |
+| 4 | 738 | 0 | 434,113 | 8,064 | 0 |
+
+(Runs with n = 4 and one dead good, and with n = 5, are in progress.)
+
+**Toward (b): how the least-ω trade repairs one-terminal perfect drafts** (`mechanism.py`). Take the 2,847 hard
+perfect drafts with T = {ℓ} after LB's upgrades and |E_ℓ| ≥ 2 (n ≤ 6 logs). After the least-ω trade, Lemma 1's
+no-owner case always holds after upgrades: the junk fits the terminals' slots.
+
+Since e = 0 at a perfect start, ω = m − 2n + ν, and ν = n − 1 with one terminal. So the trade must make |J| − 1 wanted
+goods unwanted. The other exposed agents end up as follows:
+- *killed:* a good of their pair now sits in the new pair holder's bundle;
+- *released:* all their wanters were lifted above their top;
+- *left exposed:* 374 of the drafts, where the released agents supply the slots.
+
+A proof of (b) for one terminal is therefore a counting statement: some single trade releases at least |J| − 1
+wanted goods, counting the releases from LB's upgrades of the chain's end.
