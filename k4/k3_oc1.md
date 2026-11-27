@@ -27,10 +27,11 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
     n = 7), Lemma 7's ring with two pair arrows completes.
   - **T-ω**: every least-ω′ Rule E rotation completes (it releases the most goods, by Lemma 5). It holds on every gap
     draft with n ≤ 6 and on all samples.
-  - **(P) is exhaustive at n = 5 on its whole class** (agents with 1–3 goods, no dead good): 265,254 hard perfect
-    drafts, every one repaired by its least-ω′ rotation (§11).
-  - **The release bound (R)**: the least ω′ is ≤ 1, on every gap draft with n ≤ 6. With Lemma 5 it reduces T-ω to
-    a small ω′ = 1 case.
+  - **(P) is exhaustive at n = 5 on its whole class** (agents with 1–3 goods, 0 or 1 dead good): 265,254 + 362,346
+    hard perfect drafts, every one repaired by its least-ω′ rotation (§11).
+  - **The release bound (R)**: the least ω′ is ≤ 1 on every gap draft of a core with n ≤ 6, even in the want-count
+    form (R′) (some rotation leaves total rank deficit ≤ 2n − m + 1). With Lemma 5 it reduces T-ω to a small
+    ω′ = 1 case. It is a core statement: in (P)'s class owners must absorb.
 - **Refuted.**
   - kgen-n3's T1′ (one terminal, no owner): fails on 360 one-terminal gap drafts at n = 6.
   - "Two terminals never land in the gap": 10,304 drafts at n = 6.
@@ -40,7 +41,7 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
 - **Next.**
   - Prove (R), and the ω′ = 1 case, for the least-ω′ rotation. This is the release lemma, shared with kgen-n3's
     T1-k. Simple rules do not achieve (R), so the proof must maximize releases.
-  - (P) at n = 5 with one dead good: run in progress.
+  - Prove (R′) on cores: the deficit of a hard draft lies on one earliest-wanter chain.
 
 **Bursts 1–4:**
 
@@ -559,6 +560,19 @@ summed in `te_exhaustive_mixed5_0.summary.log`).
   type (`mixed_check_*.log`).
 - **What fails here.** "Every rotation completes" fails on 144 drafts, and rule P fails on 64 two-terminal drafts.
 
+**(P) at n = 5, exhaustive, one dead good** (`te_exhaustive_mixed5_1_*.log`, summary
+`te_exhaustive_mixed5_1.summary.log`).
+- **The run.** 362,346 hard perfect drafts: 334,410 with |T| = 1, 27,232 with |T| = 2, 704 with |T| = 3.
+- **T-ω, T′_k and T-E∃ hold on all of them**, so (P) holds at n = 5 with 0 or 1 dead good.
+- **kgen-n3's rule P fails on 16 one-terminal drafts**, in its every-k branch.
+  - Agents 0: 1>0>2, 1: 3>1>0, 2: 4>0>2, 3: 5>1>6, 4: 4>5>3; m = 8 with good 7 dead. Order (0,2,3,4,1) gives the
+    picks (1,0,4,5,3); T = {1}.
+  - E_1 = {0, 2}, and both agents have the pair {0, 2}.
+  - The rotation (0, 1) has ω′ = 1 and no completion. The rotation (2, 4, 1) has ω′ = −2 and completes; it is the
+    least-ω′ one.
+- **(R) fails here:** least ω′ ≥ 2 on 2,392 one-terminal and 6,916 two-terminal drafts (lines in
+  `te_exhaustive_mixed5_1.omega2.gz`). Owners absorb instead.
+
 **Toward (b): how the least-ω trade repairs one-terminal perfect drafts** (`mechanism.py`). Take the 2,847 hard
 perfect drafts with T = {ℓ} after LB's upgrades and |E_ℓ| ≥ 2 (n ≤ 6 logs). After the least-ω trade, Lemma 1's
 no-owner case always holds after upgrades: the junk fits the terminals' slots.
@@ -830,8 +844,8 @@ So for DE's general core case a proof must combine Lemma 5 with an owner count, 
   and 11,840 with one, no failure. Owner k is needed on 512 and 1,762 of them.
 - **Sample at n = 5** (6,911 classes; 30 profiles each with no dead good, 15 with one; `te_sample_mixed5_*.log`):
   3,354 hard drafts. T′_k and T-E∃ have no failure; rule P fails on 2 two-terminal drafts.
-- **Exhaustive at n = 5 with no dead good** (§11): 265,254 hard drafts. T′_k, T-E∃ and T-ω hold on all of them,
-  so (P) holds there. The run with one dead good is in progress.
+- **Exhaustive at n = 5** (§11): 265,254 hard drafts with no dead good, 362,346 with one. T′_k, T-E∃ and T-ω hold
+  on all of them, so (P) holds there.
 
 **The crossed configuration** (64 two-terminal gap drafts at n = 6, one hypergraph; `t2k_gap6_T2.log`,
 `t2k_crossed64.log`).
