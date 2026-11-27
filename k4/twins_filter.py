@@ -150,6 +150,28 @@ def cut_domains(sets, dom, uncovered):
     return dom, rules
 
 
+def load_uncovered(results=None):
+    """The checker's uncovered-profile files of K4.MC8 (results/k4_twins/dbl_*_uncovered.json), merged."""
+    import os
+    results = results or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'results', 'k4_twins')
+    out = {}
+    for name in ('dbl_q3_uncovered.json', 'dbl_p4q4_uncovered.json'):
+        out.update(json.load(open(os.path.join(results, name))))
+    return out
+
+
+def restricted_domains(sets, m, fail, unc):
+    """Drop-in for mincex_shapes.restricted_domains (K4.MC5's px cuts) that also applies K4.MC8's domain cuts:
+    returns (domains, kinds, rules). `unc` from load_uncovered(). A certified double edge empties the domains."""
+    import mincex_shapes as MS
+    if excluded(sets): return [[] for _ in sets], kinds(sets)[0], [('K4.MC8', excluded(sets))]
+    dom, kd, rules = MS.restricted_domains(sets, m, fail)
+    if all(dom):
+        dom, r2 = cut_domains(sets, dom, unc)
+        rules = list(rules) + r2
+    return dom, kd, rules
+
+
 def main():
     recs = json.load(gzip.open(sys.argv[1], 'rt'))
     uncovered = {}

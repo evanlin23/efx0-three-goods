@@ -79,9 +79,11 @@ ranks a first, and f (Q4) ranks first the double-edge good that e ranks last, an
   β = 4) would have to cover.
 
 *Domain cuts.* Applying K4.MC5's px cuts and then K4.MC8's partial double-edge cuts (`twins_filter.cut_domains`, the
-uncovered files above) empties the domains of only a few more candidates: 217 of the 20,882 at β = 5, n = 6; 6 of the
-359 in the n = 7 sample; 8 of the 3,166 at β = 4. The profile totals drop by up to about 40% (single implementation;
-scratch script, not committed: the cut function is `twins_filter.cut_domains`).
+uncovered files above) empties the domains of only a few more candidates: 217 of the 20,882 at β = 5, n = 6 (20,665
+left; profile total 4.3·10¹⁶ → 2.4·10¹⁶); 6 of the 359 in the n = 7 sample; 8 of the 3,166 at β = 4. Single
+implementation. `twins_filter.restricted_domains(sets, m, fail, load_uncovered())` is a drop-in for
+`mincex_shapes.restricted_domains` that applies both; `twins_count.py N 5 --cuts` writes the cut lists
+(`results/k4_twins/mc_n6_b5_mc8cut.json.gz`, log `count_n6_b5_cuts.log`; n = 7 likewise).
 
 The counting bound n ≤ 3(β − 1) of K4.MC4 counts P3 incidences, so K4.MC8 does not change it. (In its extremal case
 every E3 agent has one P3 neighbour through a degree-2 good and its two other incidences are degree-2 goods shared with
