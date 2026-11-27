@@ -57,7 +57,7 @@ every refutation below is confirmed by three independent programs.
     - Four programs agree, among them the campaign's own `k4/sdc/oc1_max_orders.py`.
     - The mechanism is a starved agent with exactly four goods.
     - Two rounds repair both starts, and MD holds.
-    - Direct climbs on cores with zeros found 16 more instances (§4.5), 14 of them strict cores on three
+    - Direct climbs on cores with zeros found 30 failing instances (§4.5), 26 of them strict cores on three
       non-isomorphic n = 4, m = 7 hypergraphs.
   - **OC₁′** survives everything (§4.6): middle agents of the chain may also take the end's released goods. It repairs
     every OC₁ failure found and implies MD. It is the proposed replacement.
@@ -171,6 +171,21 @@ Cross-checks, 0 mismatches:
   where one chain fails (`xcheck_known.log`);
 - ROUND-X and ROUND-P against bruter's pooled forward simulation (`xcheck_x_60_3.log`, `xcheck_xp_40_4.log`);
 - n3shapes against rnd.c on every n = 3 start classified.
+
+**Evidence volume** (`summary.py`, `summary.log`; climb rounds of 1,500–5,000 steps each; all of it is evidence
+only):
+
+| climb family | climb rounds | distinct failing starts |
+|---|---|---|
+| ROUND⁺ at positive values (campaigns 1–3), n = 4, m = 7–12; n = 5, m = 8–10 | 880 | 59 |
+| ROUND⁺ with one or two identical pairs | 296 | 22 |
+| ROUND⁺ at n = 4, m = 5, 6 | 150 | 0 |
+| ROUND-X | 203 | 2 |
+| ε-lifts with KEPS = 4, 5 / every good covered / cores / I′ shape | 220 / 272 / 1,696 / 348 | 71 / 2 / 16 / 3 (ε) |
+| k = 4 cores with zeros, OC₁ (zclimb) | 444 | 46 |
+| k = 4 cores with zeros, OC₁′ (zclimb) | 286 | **0** |
+| positive values, OC₁′ | 85 | 10 (two disjoint swaps) |
+| three rounds (climb3, two variants) | 54 | **0** |
 
 ## 3. ROUND⁺ is false
 
@@ -412,13 +427,15 @@ their four ε-failures, two zero versions satisfy OC₁. The other two are the t
   - *Cross-check* against k4/sdc's pipeline: 0 mismatches on 1,553 perfect starts, 102 of them failing OC₁
     (`xcheck_z.py`, `xcheck_z_300_5.log`).
 - *Climbs.* `zclimb.py` climbs directly on strict connected k = 4 cores (K4.CORE plus connectivity), minimizing at the
-  perfect starts the OC₁ witness count and margin (`zcore_*.log`). It found **16 further instances**
+  perfect starts the OC₁ witness count and margin (`zcore_*.log`). They found **30 distinct failing instances**
   (`fails_zcore.jsonl`, `zcore_fails.json`).
-  - k4/sdc's own `oc1_max_orders.py` confirms a failing maximum-matching order on every one of them
-    (`verify_zfails.log`).
-  - **14 are strict connected cores with n = 4, m = 7, on three non-isomorphic hypergraphs**: C4K's, and the two with
-    relevant sets {0,2,3,5}, {0,2,4,5}, {1,3,4,6}, {0,1,3,4} and {0,3,5,6}, {0,1,3,4}, {1,2,5,6}, {0,1,3,4}.
-  - The other two are not strict (ties); one has n = 5, m = 10.
+  - k4/sdc's own `oc1_max_orders.py` confirms a failing maximum-matching order on every one: 121 failing
+    maximum-matching orders in all (`verify_zfails.log`).
+  - **26 are strict connected cores with n = 4, m = 7, on three non-isomorphic hypergraphs** (`zcore_classes.log`):
+    - C4K's, with 16 instances;
+    - relevant sets {0,3,5,6}, {0,1,3,4}, {1,2,5,6}, {0,1,3,4}, with 9 instances;
+    - relevant sets {0,2,3,5}, {0,2,4,5}, {1,3,4,6}, {0,1,3,4}, with 1 instance.
+  - The other 4 are not strict (ties); two of them have n = 5, m = 9, 10.
 - So C4K is not an isolated accident. OC₁^max fails on a positive fraction of the ε-climbable n = 4, m = 7 core space.
   Random sampling of profiles missed it because the failing profiles are rare.
 
@@ -433,8 +450,8 @@ their four ε-failures, two zero versions satisfy OC₁. The other two are the t
 - *In C4K:* the chain 1 → 2 → 3. Agent 1 takes the junk {4, 5}; agent 2 receives agent 1's pick g6 and takes the
   released g3 plus the junk g2, 1787 > 1025; agent 3 receives g0.
 - *Evidence.*
-  - OC₁′ holds at every perfect start where OC₁ fails: 77 zero-version starts from the ε-lifts, and the 16 instances
-    of §4.5, so C4K, K4W and W4 included.
+  - OC₁′ holds at every perfect start where OC₁ fails: 77 zero-version starts from the ε-lifts, and the 30 instances
+    of §4.5, so C4K, K4W and W4 included (rnd.c and the forward brute force, `verify_zfails.log`).
   - Two implementations agree with 0 mismatches: rnd.c (`OC1P`) and a forward brute force written from the
     definition (`verify_k4zero.one_chain_prime`). They were compared on 984 perfect starts, 79 of them OC₁-false
     (`xcheck_oc1p.py`, `xcheck_oc1p_150_6.log`).

@@ -16,6 +16,10 @@ fam = collections.OrderedDict([
     ("eps-lift KEPS = 4, Lemma RED's I' shape", 'iprime_*.log'),
     ('three rounds, exact two-round count (climb3)', 'c4_3r_*.log'),
     ('three rounds, phased with margins (climb3)', 'c5_3r_*.log'),
+    ('eps-lift KEPS = 4, cores, round 2', 'kcoreB_*.log'),
+    ('k = 4 cores with zeros, OC1 (zclimb)', 'zcore_*.log'),
+    ("k = 4 cores with zeros, OC1' (zclimb ZCLASS=OC1P)", 'oc1p_n*.log'),
+    ("positive values, OC1' (zclimb ZFREE=1)", 'oc1p_pos_n*.log'),
 ])
 for name, pat in fam.items():
     files = sorted(glob.glob(os.path.join(R, pat)))
@@ -23,7 +27,7 @@ for name, pat in fam.items():
     for f in files:
         for line in open(f):
             if line.startswith('round'): rounds += 1
-            if line.startswith('FAIL'):
+            if line.startswith('FAIL') or line.startswith('ZFAIL'):
                 mm = re.search(r'vals (\[\[.*?\]\]) picks (\[[^\]]*\])', line)
                 if mm:
                     V = json.loads(mm.group(1)); key = mm.group(1) + mm.group(2)
