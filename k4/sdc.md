@@ -2162,6 +2162,12 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
   - Five of the six 2-first vectors work, so **RF∃** ("some receiver-first maximum-matching order satisfies OC₁") holds.
   - RF∃ is what the Lean frame uses, and it is the robust target. At k = 4 the every-form still stands on all data, but a
     proof should aim at RF∃, or at "every u-first order up to relabelling twins".
+  - No rank rule breaks the tie (coordinator, `k4/sdc/rf_sigma_check.py`, `results/k4_sdc/rf_sigma_check_twin.log`,
+    `rf_sigma_check_n4.log`). Take the σ-maximal u-first vectors, as in RFσ. At the twin instance the failing swap Z and
+    the good vector (5,6,3,4) tie at σ = (2,1,0,1,0); any rule that depends only on valuations and ranks sees Z and Y as
+    the same start. RFσ "every" holds at all 112,880 n = 4 pairs, as it must, since the every-form of RF does.
+  - So the natural amended every-form: every u-first maximum-matching vector that is not the image of Y under an
+    automorphism of the instance (e.g. a twin relabelling) satisfies OC₁.
 
 **Conjecture RKMAX (rank-maximal start)** (2026-11-27 05:40 UTC, coordinator; ledger K4.SDC.RKMAX). An extremal form
 of OC₁^∃max that needs no rule from the failing start.
