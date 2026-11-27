@@ -1,0 +1,7 @@
+$ python3 k4/sdc/rf_canon_offexport.py 1
+starts 241728
+(start, receiver) pairs 244995
+YRMH-F works, first listed order: True 244995
+YRMH-F works, some listed order: True 244995
+some receiver and listed order works: True 241728
+starts 241728
