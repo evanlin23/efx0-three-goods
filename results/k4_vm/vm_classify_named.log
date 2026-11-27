@@ -1,0 +1,8 @@
+$ python3 k4/vm/vm_classify.py named:/tmp/claude-0/-home-user-efx0-three-goods/454962d1-b841-5e80-a394-b61ed54ba228/scratchpad/ext
+HDT          23   r4253(n=4,m=7), Q2(n=4,m=8), vmx-cex-n4(n=4,m=8), r3943(n=5,m=7), oc1_counterexample_n5(n=5,m=9), ttc84:0(n=6,m=10)
+absorbers    70   lb4-owner-needs-from-base-n4m8(n=4,m=8), oc1_core_candidate(n=5,m=9), B<(n=6,m=10), B>(n=6,m=10), ttc84:10(n=6,m=10), ttc84:12(n=6,m=10)
+unfreezing   0   
+rotation     2   T3(n=3,m=6), vmx-cex-n3(n=3,m=6)
+one move     0   
+NONE         0   
+time 0 s

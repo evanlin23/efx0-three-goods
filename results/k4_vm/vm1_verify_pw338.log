@@ -1,0 +1,6 @@
+EFX0 allocation exists: True
+V-M matchings: [[[0], [1], [2], [3], [4], [5]], [[0], [1], [13], [2], [4], [5]], [[0], [1], [13], [3], [2], [5]], [[0], [1], [13], [3], [4], [2]]]
+depth 0: 4 states, none placeable (placement states searched 3922, 2s)
+depth 1: 273 states, none placeable (placement states searched 86599, 42s)
+depth 2: 3319 states, none placeable (placement states searched 412067, 178s)
+completion with 3 move(s): [[6, 7], [8, 9, 10], [13, 11, 4, 3], [2], [0], [5, 12, 1]]  (placement states searched 723891, 303s)

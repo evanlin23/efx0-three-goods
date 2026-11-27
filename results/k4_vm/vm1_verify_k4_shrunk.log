@@ -1,0 +1,6 @@
+$ python3 k4/vm/vm1_verify.py '{"sets": [[4, 0, 5], [0], [1, 4, 2, 0], [2], [3, 7, 6, 5]], "vals": [[25, 15, 26], [27], [20, 25, 30, 29], [17], [11, 15, 8, 30]], "m": 8}' --maxd=3
+EFX0 allocation exists: True
+V-M matchings: [[[4], [0], [1], [2], [5]]]
+depth 0: 1 states, none placeable (placement states searched 7, 0s)
+depth 1: 1 states, none placeable (placement states searched 8, 0s)
+completion with 2 move(s): [[5], [0], [1, 4], [2], [3, 6, 7]]  (placement states searched 10, 0s)

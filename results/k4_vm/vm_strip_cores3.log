@@ -1,0 +1,18 @@
+$ python3 k4/vm/vm_strip_test.py cores:3:1500:33
+instances                                1500
+strip-rot-first: every run EFX0          1282
+strip-rot-first: some run EFX0           1490
+strip-rot: every run EFX0                1281
+strip-rot: some run EFX0                 1490
+strip: every run EFX0                    1248
+strip: some run EFX0                     1483
+  stuck kind ('strip', 'no_safe') 42598
+  stuck kind ('strip', 'positive_violation') 24
+  stuck kind ('strip-rot', 'no_safe') 38435
+  stuck kind ('strip-rot', 'positive_violation') 24
+  stuck kind ('strip-rot-first', 'no_safe') 13779
+  stuck kind ('strip-rot-first', 'positive_violation') 24
+  strip-rot: no EFX0 run (10): core3:553(n=3,m=5), core3:821(n=3,m=5), core3:123(n=3,m=6), core3:1341(n=3,m=6), core3:305(n=3,m=6), core3:44(n=3,m=6), core3:737(n=3,m=6), core3:806(n=3,m=6)
+  strip: no EFX0 run (17): core3:1018(n=3,m=5), core3:1349(n=3,m=5), core3:553(n=3,m=5), core3:821(n=3,m=5), core3:1126(n=3,m=6), core3:1208(n=3,m=6), core3:123(n=3,m=6), core3:1341(n=3,m=6)
+  strip-rot-first: no EFX0 run (10): core3:553(n=3,m=5), core3:821(n=3,m=5), core3:123(n=3,m=6), core3:1341(n=3,m=6), core3:305(n=3,m=6), core3:44(n=3,m=6), core3:737(n=3,m=6), core3:806(n=3,m=6)
+time 15 s

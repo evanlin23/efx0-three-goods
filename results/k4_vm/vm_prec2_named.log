@@ -1,0 +1,5 @@
+$ python3 k4/vm/vm_prec2.py named:/tmp/claude-0/-home-user-efx0-three-goods/454962d1-b841-5e80-a394-b61ed54ba228/scratchpad/ext
+every extension acyclic                  93
+instances with an extension              93
+no V-M matching extends                  2
+time 13 s

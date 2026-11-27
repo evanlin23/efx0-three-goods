@@ -172,3 +172,113 @@ the 11:
   - The case split differs from the note's 109,680 / 3,200 only because my search returns the first witness found,
     trying case (a) first.
   - The claim is existence, and it is confirmed.
+
+## 8. Addendum: Lemma LIFT\*, Lemma PHANTOM, K4.MATCH.RSD.N4, and RSD-IND as written (`k4/matching.md` §6 "Iterated reduction" at `8498cde0`; coordinator's priority item, 2026-11-27)
+
+**Read.**
+- §6 from "Iterated reduction (RSD)" to the end of the section;
+- the ledger rows K4.MATCH.RSD.N4 and K4.MATCH.RSDIND;
+- the docstring of `k4/matching/check_rsd.py`, read but not run.
+
+**Checks.**
+- `k4/referee/rsd_ref.py`, an independent validator of every witness plus a random test of PHANTOM, log
+  `results/k4_referee/rsd_ref.log`.
+- `k4/referee/rsd_dead_ref.py`, which searches for dead ends after one step, log `results/k4_referee/rsd_dead_ref.log`.
+- Data, read as data: `results/k4_matching/rsd_n4_witnesses.json.gz` and the n = 4 export.
+
+| item | verdict |
+|---|---|
+| Lemma LIFT\* | **CORRECT** |
+| Lemma PHANTOM | **CORRECT**. Both the exact conditions and case 1 hold |
+| K4.MATCH.RSD.N4 | **CONFIRMED**. All 112,880 witnesses are valid under my own code (asked: a sample) |
+| Conjecture RSD-IND, as written | **FALSE**, at the note's own dead ends. The intended existential form must be stated with an invariant that excludes them |
+
+### Lemma LIFT\*
+
+Values never fall along the process:
+- a step changes only its chain agents, which gain, and k_j, which gains;
+- the completion only adds goods.
+
+EFX₀ for an agent is antitone in the threshold, so it is enough to check each pair (a, b) at a's value at the time the
+relevant bundle appeared:
+- *a and b both present at the end:* X is EFX₀ in I_r, and its bundles hold only goods of I_r.
+- *a = k_i:*
+  - a bundle of X, or a pair T_j with j > i: this is (Φ);
+  - T_j with j < i: k_i was present at step j, so (L\*) at its value after P_j applies, and v_{k_i}(T_i) is at least
+    that value.
+- *b = k_j:* any a present at step j is unthreatened by T_j at its value after P_j, by (L\*), and its final value is at
+  least that.
+
+The four cases are exhaustive. The proof needs nothing about k ≤ 4 or |T|. Correct.
+
+LIFT\* does not say the moves are official in I. That matters only for counting moves (LIFT 1), not for EFX₀
+existence.
+
+### Lemma PHANTOM
+
+The proof uses three facts: y ∈ R_k ∖ T; |R_k| ≤ 4; and X is disjoint from T.
+- *Case 1.* |T| = 3 forces R_k = T ∪ {y}, so a threat is at most v_k(y) < v_k(T).
+- *Case 2.* |T| = 2. The note's case list is exhaustive. (P1) implies (P2) once |X| ≥ 3.
+
+So the two conditions are exact.
+
+*Evidence.*
+- On every deleted agent of every RSD witness, PHANTOM's prediction equals the raw threat test: **677,280 tests, 0
+  mismatches**.
+- On random strict agents (|R_k| = 3, 4) and random bundles: **258,691 tests, 0 mismatches**.
+
+### K4.MATCH.RSD.N4
+
+For each of the 112,880 witnesses, matched to the export's distinct rows, all 112,880 covered, my own code checks:
+- the picks are an SD outcome;
+- every step:
+  - k is present, frozen and dangerous;
+  - the chain is a want chain of present agents;
+  - T ⊆ (J ∪ B_end) ∩ R_k is improving;
+  - the stored state is the result;
+  - (L\*) holds;
+  - after the deletion, the state is single goods and an SD outcome of some order of the smaller instance;
+- in addition, every step is a **§29 official move of the full instance**, replayed by my simulator;
+- the final allocation keeps the last state's bundles, the deleted agents hold exactly their T, there is at most one
+  absorber, it is a partition, and it is raw EFX₀ in I.
+
+**112,880 valid.** T sizes (2, 2): 103,600 and (2, 3): 9,280, as stated.
+
+### RSD-IND as written is false
+
+RSD-IND's hypothesis is "a perfect SD start of I′ with Φ from earlier reduction steps with (L\*)". Its conclusion is
+"a completion respecting Φ, or a reduction step respecting Φ". A *dead end*, i.e. a state reached by steps with (L\*)
+that has neither, satisfies the hypothesis and violates the conclusion. The note reports that dead ends are reachable
+from 16,240 n = 4 starts.
+
+My search reproduces exactly that count: one-step dead ends are reachable from **16,240 of the 112,880 starts**
+(25,760 dead-end states).
+
+**Instance** (re-derived by hand).
+- *Instance.* Values
+  - v₀ = {0: 1, 1: 4, 4: 6, 5: 8};
+  - v₁ = {1: 3, 4: 4, 5: 2, 6: 8};
+  - v₂ = {2: 3, 3: 5, 4: 6, 6: 7};
+  - v₃ = {2: 4, 3: 2, 5: 8, 6: 5}.
+
+  The picks are (5, 1, 4, 6), and J = {0, 2, 3}.
+- *The step.* The chain (3, 1) settles agent 3 with T = {2, 3}, worth 6 > 5.
+  - (L\*) holds: agent 2 sees at most 5 ≤ 6.
+  - The reduced state ({5}, {6}, {4}) of agents 0, 1, 2 is the SD outcome of (0, 1, 2), with junk {0, 1}.
+- *No completion respecting Φ.* Agent 3 values agent 0's good 5 at 8 > 6, so 5 must stay alone (PHANTOM (P1)). That
+  leaves goods 0 and 1 for agents 1 and 2:
+  - with one good each, agent 2 strongly envies agent 1's bundle (7 > 6) whichever way they are split;
+  - with both on agent 1, agent 2 envies again;
+  - with both on agent 2, agent 0 sees 10 > 8.
+- *No reduction step.* The only dangerous agent is 1, frozen because agent 2 wants 6, and it has no improving set:
+  v₁({1, 4}) = 7 < 8.
+
+**What this means.**
+- LIFT\* and PHANTOM are correct. With the existential reading ("some sequence of steps from Φ = ∅ ends in a
+  completion respecting Φ") they give EFX₀ directly, and no induction is needed.
+- But an induction on n needs an **invariant Inv(I′, Φ) that excludes dead ends** and that some step preserves.
+  "Φ comes from earlier steps with (L\*)" is not such an invariant.
+- The statement to prove must say which states the recursion may visit, i.e. what the choice of step must keep. Here
+  the bad step settled agent 3 with a pair below its value for agent 0's good 5. That created a (P1) constraint that
+  the rest could not satisfy.
+- The ledger row K4.MATCH.RSDIND should be restated before it is cited.

@@ -1,0 +1,5 @@
+$ python3 k4/vm/vm_prec.py screen
+  HDT / acyclic extension                            115
+  absorbers / acyclic extension                      20
+  unfreezing / acyclic extension                     12
+time 1 s

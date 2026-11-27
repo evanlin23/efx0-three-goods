@@ -1,0 +1,37 @@
+$ python3 attempts/k4_vm_vm1_core.py
+== P34
+connected k = 4 core: yes
+V-M matchings: [[[5], [6], [1], [3]], [[5], [6], [3], [1]]]
+states with no move: 2 ; within one move: 4
+OK: no state within one move completes (superset of VM1)
+two moves suffice, e.g. [[0, 2, 4], [6], [5], [3, 1]]
+== C0
+connected k = 4 core: yes
+V-M matchings: [[[3], [0], [1], [2], [4]]]
+states with no move: 1 ; within one move: 1
+OK: no state within one move completes (superset of VM1)
+two moves suffice, e.g. [[4], [0], [1, 3], [2], [5, 6, 7]]
+== C1
+connected k = 4 core: yes
+V-M matchings: [[[4], [0], [8], [2], [5]]]
+states with no move: 1 ; within one move: 1
+OK: no state within one move completes (superset of VM1)
+two moves suffice, e.g. [[5], [0], [8, 4], [2], [3, 6, 7, 1]]
+== C2
+connected k = 4 core: yes
+V-M matchings: [[[4], [1], [7], [3], [5]]]
+states with no move: 1 ; within one move: 1
+OK: no state within one move completes (superset of VM1)
+two moves suffice, e.g. [[5], [1], [7, 4], [3], [6, 8, 9, 2, 0]]
+== C3
+connected k = 4 core: yes
+V-M matchings: [[[5], [1], [2], [3], [6]]]
+states with no move: 1 ; within one move: 1
+OK: no state within one move completes (superset of VM1)
+two moves suffice, e.g. [[6], [1], [2, 5], [3], [4, 7, 8, 0]]
+== C4
+connected k = 4 core: yes
+V-M matchings: [[[5], [1], [2], [3], [6]]]
+states with no move: 1 ; within one move: 1
+OK: no state within one move completes (superset of VM1)
+two moves suffice, e.g. [[6], [1], [2, 5], [3], [4, 7, 8, 0]]
