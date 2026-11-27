@@ -1,0 +1,22 @@
+$ python3 k4/p3/slot_rules.py k4/p3/hard2_p2.jsonl results/k4_p3x/hard_p2_n34.jsonl.gz results/k4_p3x/hard_p2_n5b.jsonl.gz results/k4_p3x/hard_p2_n6.jsonl.gz results/k4_p3x/hard_p2_n6b.jsonl.gz
+SLOT starts with an order: 6130
+agents of D_T whose jump chains repair: all: 5824
+agents of D_T whose jump chains repair: some: 306
+rule deepest: fails: 83
+rule deepest: repairs: 6047
+rule fewest-left: fails: 92
+rule fewest-left: repairs: 6038
+rule first: fails: 96
+rule first: repairs: 6034
+rule last: fails: 109
+rule last: repairs: 6021
+rule shallowest: fails: 101
+rule shallowest: repairs: 6029
+rule wanter-best: fails: 96
+rule wanter-best: repairs: 6034
+rule wanter-worst: fails: 112
+rule wanter-worst: repairs: 6018
+|D_T| = 2: 2658
+|D_T| = 3: 2943
+|D_T| = 4: 521
+|D_T| = 5: 8

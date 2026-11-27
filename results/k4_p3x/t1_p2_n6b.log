@@ -1,0 +1,77 @@
+$ python3 k4/p3/t1_p2.py /tmp/claude-0/-home-user-efx0-three-goods/30bb0add-b7b6-52a9-aad1-ef4a237f8fd4/scratchpad/cert/results/k4_certs_6_mg.json.gz --per=20 --seed=7 --procs=2 --out=results/k4_p3x/hard_p2_n6b.jsonl.gz
+... 100 / 5276 cores, 6 s
+... 200 / 5276 cores, 11 s
+... 300 / 5276 cores, 17 s
+... 400 / 5276 cores, 22 s
+... 500 / 5276 cores, 28 s
+... 600 / 5276 cores, 34 s
+... 700 / 5276 cores, 41 s
+... 800 / 5276 cores, 48 s
+... 900 / 5276 cores, 54 s
+... 1000 / 5276 cores, 63 s
+... 1100 / 5276 cores, 71 s
+... 1200 / 5276 cores, 79 s
+... 1300 / 5276 cores, 85 s
+... 1400 / 5276 cores, 91 s
+... 1500 / 5276 cores, 97 s
+... 1600 / 5276 cores, 104 s
+... 1700 / 5276 cores, 110 s
+... 1800 / 5276 cores, 117 s
+... 1900 / 5276 cores, 124 s
+... 2000 / 5276 cores, 130 s
+... 2100 / 5276 cores, 138 s
+... 2200 / 5276 cores, 144 s
+... 2300 / 5276 cores, 151 s
+... 2400 / 5276 cores, 158 s
+... 2500 / 5276 cores, 164 s
+... 2600 / 5276 cores, 171 s
+... 2700 / 5276 cores, 178 s
+... 2800 / 5276 cores, 185 s
+... 2900 / 5276 cores, 192 s
+... 3000 / 5276 cores, 199 s
+... 3100 / 5276 cores, 206 s
+... 3200 / 5276 cores, 213 s
+... 3300 / 5276 cores, 220 s
+... 3400 / 5276 cores, 227 s
+... 3500 / 5276 cores, 234 s
+... 3600 / 5276 cores, 241 s
+... 3700 / 5276 cores, 248 s
+... 3800 / 5276 cores, 255 s
+... 3900 / 5276 cores, 262 s
+... 4000 / 5276 cores, 269 s
+... 4100 / 5276 cores, 276 s
+... 4200 / 5276 cores, 284 s
+... 4300 / 5276 cores, 291 s
+... 4400 / 5276 cores, 299 s
+... 4500 / 5276 cores, 306 s
+... 4600 / 5276 cores, 314 s
+... 4700 / 5276 cores, 321 s
+... 4800 / 5276 cores, 329 s
+... 4900 / 5276 cores, 336 s
+... 5000 / 5276 cores, 344 s
+... 5100 / 5276 cores, 352 s
+... 5200 / 5276 cores, 360 s
+  ... of which one move repairs: 15
+D_T = {k}: U2 applies: 623
+D_T = {k}: no H0 avoids crowding: 15
+U2 (chain, H0) cases: 1397
+hard perfect starts: 7208
+hard, |D| = 2, |D_T| = 1: 20
+hard, |D| = 2, |D_T| = 2: 175
+hard, |D| = 3, |D_T| = 0: 3
+hard, |D| = 3, |D_T| = 1: 202
+hard, |D| = 3, |D_T| = 2: 1372
+hard, |D| = 3, |D_T| = 3: 1040
+hard, |D| = 4, |D_T| = 0: 7
+hard, |D| = 4, |D_T| = 1: 370
+hard, |D| = 4, |D_T| = 2: 1443
+hard, |D| = 4, |D_T| = 3: 1524
+hard, |D| = 4, |D_T| = 4: 397
+hard, |D| = 5, |D_T| = 1: 46
+hard, |D| = 5, |D_T| = 2: 207
+hard, |D| = 5, |D_T| = 3: 267
+hard, |D| = 5, |D_T| = 4: 127
+hard, |D| = 5, |D_T| = 5: 8
+maximum pick vectors: 255483
+first NO-U2 ["NO-U2", "k4_certs_6_mg.json.gz#51", 3, [[0, 4, 6], [1, 2, 3, 5], [1, 3, 6], [2, 5, 7], [4, 8, 9], [7, 8, 9]], [[2, 4, 3], [8, 4, 6, 5], [4, 2, 3], [2, 3, 4], [3, 2, 4], [2, 3, 4]], [6, 1, 3, 7, 4, 9]]
+time 366 s

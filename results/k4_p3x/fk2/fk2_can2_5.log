@@ -1,0 +1,14 @@
+$ python3 k4/p3/fk2.py results/k4_p3x/can2/can2_5_mg.json.gz
+   ... repaired by: chain of 2, chain of 3, chain of 4, chain of 5: 1
+FK2 A cases (k = 2): 1200
+FK2 A cases (k = 3): 4
+FK2 B cases (k = 2): 402
+FK2 B cases (k = 3): 4
+FK2 applies, least k = 2: 183
+FK2 does not apply: no jump chain repairs: 1
+FK2 does not apply: some jump chain repairs (least k = 2): 1
+hard starts: 185
+jump chains with k = 1: 79
+jump chains with k = 2: 1652
+jump chains with k = 3: 4
+nojump [[5, 12], [[0, 2, 5, 6], [1, 3, 7, 11], [4, 5, 6, 10], [4, 8, 9, 11], [7, 8, 9, 10]], [[4, 5, 8, 6], [4, 5, 8, 6], [8, 7, 2, 4], [10, 6, 7, 2], [8, 2, 3, 4]], [5, 7, 6, 4, 10], [0, 1, 3, 4], [0, 1, 3, 4], {"chain of 5": 131, "chain of 4": 128, "chain of 3": 47, "chain of 2": 8}]

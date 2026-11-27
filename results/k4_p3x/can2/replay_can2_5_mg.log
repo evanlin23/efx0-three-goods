@@ -1,0 +1,39 @@
+$ python3 k4/p3/can2_replay.py results/k4_p3x/can2/can2_5_mg.json.gz
+ED chains repairing: none: 12
+ED chains repairing: some: 173
+canonical (chain, H0) tested: 79
+failures replayed: 185
+repaired by: addition, chain of 2, chain of 3, chain of 4: 2
+repaired by: addition, chain of 2, chain of 3, chain of 4, chain of 5: 70
+repaired by: addition, chain of 2, chain of 3, chain of 4, chain of 5, ring of 2: 29
+repaired by: addition, chain of 2, chain of 3, chain of 5: 14
+repaired by: addition, chain of 2, chain of 3, chain of 5, ring of 2: 10
+repaired by: addition, chain of 2, chain of 5, ring of 2: 14
+repaired by: addition, chain of 3, chain of 4, chain of 5: 12
+repaired by: addition, chain of 5: 1
+repaired by: chain of 2, chain of 3, chain of 4: 1
+repaired by: chain of 2, chain of 3, chain of 4, chain of 5: 14
+repaired by: chain of 2, chain of 3, chain of 4, chain of 5, ring of 2: 2
+repaired by: chain of 2, chain of 3, chain of 5: 3
+repaired by: chain of 2, chain of 3, chain of 5, ring of 2: 1
+repaired by: chain of 2, chain of 5, ring of 2: 2
+repaired by: chain of 5: 10
+|D| = 2, |D_T| = 0: 2
+|D| = 3, |D_T| = 0: 157
+|D| = 3, |D_T| = 1: 17
+|D| = 3, |D_T| = 2: 7
+|D| = 3, |D_T| = 3: 1
+|D| = 4, |D_T| = 4: 1
+smallest {"sets": [[0, 1, 5], [1, 3, 4, 6], [2, 3, 4, 5], [2, 7, 8], [6, 7, 8]], "vals": [[2, 3, 4], [4, 2, 3, 8], [4, 3, 2, 8], [3, 2, 4], [3, 2, 4]], "picks": [5, 1, 2, 8, 6], "orders": [[0, 2, 3, 4, 1], [0, 3, 2, 4, 1], [0, 3, 4, 1, 2]], "J": [0, 3, 4, 7], "D": [0, 3, 4], "D_T": [], "E_J": [1, 2], "wanter": {"0": 2, "1": null, "2": null, "3": 4, "4": 1}, "repairs": {"addition": 4, "chain of 3": 3, "chain of 5": 11, "chain of 2": 1, "chain of 4": 2}, "repairing bases": [[[5], [1, 3], [2], [8], [6]], [[5], [1, 4], [2], [8], [6]], [[5], [1], [2, 3], [8], [6]], [[5], [1], [2, 4], [8], [6]], [[0, 1], [2, 3, 4], [5], [8], [6]], [[0, 1], [6], [5], [2, 7], [8]], [[0, 1], [3, 6], [5], [2, 7], [8]], [[0, 1], [4, 6], [5], [2, 7], [8]], [[0, 1], [3, 4, 6], [5], [2, 7], [8]], [[0, 1], [6], [3, 5], [2, 7], [8]], [[0, 1], [4, 6], [3, 5], [2, 7], [8]], [[0, 1], [6], [4, 5], [2, 7], [8]], [[0, 1], [3, 6], [4, 5], [2, 7], [8]], [[0, 1], [6], [3, 4, 5], [2, 7], [8]], [[0, 1], [3, 4], [2], [8], [6]], [[0, 1], [3, 4], [5], [8], [6]], [[0, 1], [3, 4], [5], [2, 7], [8]], [[5], [6], [1, 3, 4], [2, 7], [8]], [[5], [1], [3, 4], [2, 7], [8]], [[5], [6], [3, 4], [2, 7], [8]], [[0, 1], [6], [3, 4], [2, 7], [8]]]}
+no repairing ED chain {"sets": [[0, 4, 8], [1, 2, 3, 7], [1, 3, 8], [2, 5, 6], [4, 5, 6, 7]], "vals": [[2, 3, 4], [3, 8, 4, 2], [2, 3, 4], [4, 3, 2], [8, 3, 4, 2]], "picks": [4, 3, 8, 2, 6], "repairs": {"chain of 5": 6}}
+no repairing ED chain {"sets": [[0, 1, 2, 4], [0, 2, 6, 8], [1, 4, 7], [3, 5, 6, 7], [3, 5, 8]], "vals": [[7, 2, 4, 10], [4, 2, 3, 8], [2, 4, 3], [2, 4, 3, 8], [2, 3, 4]], "picks": [4, 0, 7, 5, 8], "repairs": {"chain of 5": 9}}
+no repairing ED chain {"sets": [[0, 1, 5, 9], [2, 3, 4, 8], [2, 4, 9], [3, 6, 7], [5, 6, 7, 8]], "vals": [[4, 1, 6, 8], [2, 8, 4, 3], [2, 3, 4], [4, 2, 3], [8, 2, 4, 3]], "picks": [5, 4, 9, 3, 7], "repairs": {"chain of 5": 12}}
+no repairing ED chain {"sets": [[0, 5, 7], [1, 6, 7, 8], [2, 3, 4, 5], [2, 3, 4, 9], [6, 8, 9]], "vals": [[2, 4, 3], [3, 2, 10, 6], [4, 7, 2, 8], [2, 4, 3, 8], [2, 3, 4]], "picks": [7, 8, 5, 3, 9], "repairs": {"chain of 5": 20}}
+no repairing ED chain {"sets": [[0, 3, 4, 8], [1, 2, 3, 4], [1, 2, 7, 9], [5, 6, 7, 8], [5, 6, 9]], "vals": [[4, 2, 8, 7], [4, 5, 2, 8], [3, 4, 2, 8], [4, 3, 2, 8], [2, 3, 4]], "picks": [8, 4, 2, 5, 9], "repairs": {"chain of 5": 15}}
+no repairing ED chain {"sets": [[0, 4, 7, 8], [1, 2, 3, 4], [1, 2, 3, 9], [5, 6, 7, 8], [5, 6, 9]], "vals": [[2, 10, 3, 6], [3, 4, 8, 10], [2, 3, 4, 8], [8, 2, 5, 4], [4, 2, 3]], "picks": [8, 4, 3, 5, 9], "repairs": {"chain of 5": 30}}
+no repairing ED chain {"sets": [[0, 4, 5, 9], [1, 2, 3, 4], [1, 3, 9], [2, 6, 7, 8], [5, 6, 7, 8]], "vals": [[2, 4, 7, 8], [3, 10, 6, 2], [2, 3, 4], [10, 3, 8, 6], [8, 2, 4, 3]], "picks": [5, 3, 9, 2, 7], "repairs": {"chain of 5": 30}}
+no repairing ED chain {"sets": [[0, 6, 9], [1, 2, 3, 5], [1, 4, 5, 9], [2, 4, 7, 8], [3, 6, 7, 8]], "vals": [[2, 3, 4], [2, 8, 3, 4], [5, 2, 4, 8], [8, 1, 4, 6], [2, 8, 4, 3]], "picks": [6, 5, 9, 2, 7], "repairs": {"chain of 5": 18}}
+no repairing ED chain {"sets": [[0, 3, 8, 9], [1, 7, 8, 9], [2, 7, 10], [3, 4, 5, 6], [4, 5, 6, 10]], "vals": [[2, 10, 3, 6], [4, 8, 3, 6], [2, 4, 3], [8, 2, 4, 7], [3, 2, 6, 10]], "picks": [9, 7, 10, 3, 6], "repairs": {"chain of 5": 80}}
+no repairing ED chain {"sets": [[0, 3, 4, 10], [1, 5, 9, 10], [2, 3, 4, 8], [2, 6, 7, 8], [5, 6, 7, 9]], "vals": [[1, 8, 4, 6], [2, 3, 6, 10], [6, 10, 3, 8], [2, 3, 8, 4], [3, 6, 10, 8]], "picks": [10, 9, 3, 8, 7], "repairs": {"addition": 1, "chain of 5": 96, "chain of 3": 2, "chain of 4": 8}}
+no repairing ED chain {"sets": [[0, 3, 9, 10], [1, 8, 9, 10], [2, 3, 4, 7], [2, 5, 6, 7], [4, 5, 6, 8]], "vals": [[2, 10, 6, 3], [4, 8, 6, 3], [8, 10, 3, 6], [6, 3, 10, 2], [2, 3, 6, 10]], "picks": [9, 8, 3, 2, 6], "repairs": {"chain of 5": 120}}
+no repairing ED chain {"sets": [[0, 2, 5, 10], [1, 4, 9, 10], [3, 9, 11], [5, 6, 7, 8], [6, 7, 8, 11]], "vals": [[2, 4, 8, 7], [2, 3, 10, 6], [2, 3, 4], [8, 3, 4, 2], [4, 7, 2, 8]], "picks": [5, 10, 9, 7, 11], "repairs": {"addition": 6, "chain of 5": 120}}

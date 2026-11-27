@@ -1,0 +1,27 @@
+$ python3 k4/p3/claim_x.py suite
+  no uncoupled pair: 98
+  uncoupled pairs exist: all work: 28
+$ python3 k4/p3/claim_x.py screen
+  no uncoupled pair: 102
+  uncoupled pairs exist: all work: 26
+$ python3 k4/p3/claim_x.py cores --count=60
+  no uncoupled pair: 83
+  uncoupled pairs exist: all work: 217
+$ python3 k4/p3/claim_x.py random --n=6 --count=150
+  no uncoupled pair: 14
+  uncoupled pairs exist: all work: 136
+$ python3 k4/p3/claim_x.py suite4 --maxn=10
+  no uncoupled pair: 31
+  uncoupled pairs exist: all work: 4
+$ python3 k4/p3/claim_x.py cores --count=400 --seed=7
+  no uncoupled pair: 293
+  uncoupled pairs exist: NONE WORKS: 1
+  uncoupled pairs exist: all work: 1060
+  failing uncoupled pairs in k4_certs_4_n4_3_p3.json.gz (n=4, m=8): [(2, 3)]; bases [[1], [5], [3], [4]]
+      {"name": "k4_certs_4_n4_3_p3.json.gz", "m": 8, "sets": [[0, 1, 2, 6], [1, 2, 5, 7], [3, 4, 5, 6], [3, 4, 7]], "vals": [[3, 10, 6, 8], [8, 4, 6, 3], [7, 6, 10, 2], [2, 4, 3]]}
+$ python3 k4/p3/claim_x.py random --n=7 --count=150 --seed=9
+  no uncoupled pair: 6
+  uncoupled pairs exist: all work: 144
+$ python3 k4/p3/claim_x.py random --n=8 --count=100 --seed=9
+  no uncoupled pair: 1
+  uncoupled pairs exist: all work: 99

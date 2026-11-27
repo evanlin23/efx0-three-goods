@@ -1,0 +1,19 @@
+A t=1: n = 4, m = 10, p = 3
+  lb4 -i0 -u3 -r0 -w1 -c1: fails 1 rawfails 0 nobig 0 owner_r 0 owner_other 0 rot 0  largest bundle big
+  lb4 -i0 -u3 -r1 -w1 -c1: fails 0 rawfails 0 nobig 0 owner_r 0 owner_other 0 rot 1  largest bundle 5:1
+  lb4 -i0 -u3 -r2 -w1 -c1: fails 0 rawfails 0 nobig 0 owner_r 0 owner_other 0 rot 1  largest bundle 5:1
+A t=2: n = 7, m = 17, p = 3
+  lb4 -i0 -u3 -r0 -w1 -c1: fails 1 rawfails 0 nobig 0 owner_r 0 owner_other 0 rot 0  largest bundle big
+  lb4 -i0 -u3 -r1 -w1 -c1: fails 0 rawfails 0 nobig 0 owner_r 0 owner_other 0 rot 1  largest bundle 7:1
+  lb4 -i0 -u3 -r2 -w1 -c1: fails 0 rawfails 0 nobig 0 owner_r 0 owner_other 0 rot 1  largest bundle 7:1
+A t=3: n = 10, m = 24, p = 3
+  lb4 -i0 -u3 -r0 -w1 -c1: fails 1 rawfails 0 nobig 0 owner_r 0 owner_other 0 rot 0  largest bundle big
+  lb4 -i0 -u3 -r1 -w1 -c1: fails 1 rawfails 0 nobig 0 owner_r 0 owner_other 0 rot 0  largest bundle big
+  lb4 -i0 -u3 -r2 -w1 -c1: fails 0 rawfails 0 nobig 0 owner_r 0 owner_other 0 rot 1  largest bundle 9:1
+A t=4: n = 13, m = 31, p = 3
+  lb4 -i0 -u3 -r0 -w1 -c1: fails 1 rawfails 0 nobig 0 owner_r 0 owner_other 0 rot 0  largest bundle big
+  lb4 -i0 -u3 -r1 -w1 -c1: fails 1 rawfails 0 nobig 0 owner_r 0 owner_other 0 rot 0  largest bundle big
+  lb4 -i0 -u3 -r2 -w1 -c1: fails 0 rawfails 0 nobig 0 owner_r 0 owner_other 0 rot 1  largest bundle 11:1
+A t=5: n = 16, m = 38, p = 3
+  lb4 -i0 -u3 -r0 -w1 -c1: fails 1 rawfails 0 nobig 0 owner_r 0 owner_other 0 rot 0  largest bundle big
+  lb4 -i0 -u3 -r1 -w1 -c1: fails 1 rawfails 0 nobig 0 owner_r 0 owner_other 0 rot 0  largest bundle big

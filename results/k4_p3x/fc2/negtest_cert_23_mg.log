@@ -1,0 +1,31 @@
+$ python3 k4/p3/fc2cert.py check results/k4_p3x/cert_23_mg.json.gz --lists=2_mg,3_mg   # negative test: the OC1max certificate
+[k4/p3/fc2cert.py check: k4/oc1cert/check.py with moves restricted to additions and forest chains]
+$ python3 k4/oc1cert/check.py results/k4_p3x/cert_23_mg.json.gz --lists=2_mg,3_mg
+own types: {3: 6, 4: 288}
+certificate results/k4_p3x/cert_23_mg.json.gz hypergraphs 26 not certified (failures found, not checked here) 0
+list 2_mg source hypergraphs 7 missing or different 0
+list 3_mg source hypergraphs 19 missing or different 0
+NOT COVERED 3_mg 9 {"uncovered": true, "picks": [0, 2, 3], "vals": [[4, 2, 8, 3], [7, 5, 6, 3], [8, 2, 3, 4]], "order": [1, 0, 2]}
+NOT COVERED 3_mg 11 {"uncovered": true, "picks": [0, 3, 6], "vals": [[6, 1, 8, 4], [3, 7, 5, 6], [2, 3, 4]], "order": [1, 0, 2]}
+NOT COVERED 3_mg 12 {"uncovered": true, "picks": [4, 1, 3], "vals": [[1, 4, 8, 6], [4, 2, 3], [4, 8, 2, 3]], "order": [0, 1, 2]}
+NOT COVERED 3_mg 1 {"uncovered": true, "picks": [1, 4, 2], "vals": [[1, 6, 8, 4], [2, 3, 4], [3, 2, 4]], "order": [1, 2, 0]}
+NOT COVERED 3_mg 2 {"uncovered": true, "picks": [1, 2, 3], "vals": [[1, 4, 6, 8], [4, 2, 3], [4, 2, 3]], "order": [1, 2, 0]}
+NOT COVERED 3_mg 4 {"uncovered": true, "picks": [0, 2, 5], "vals": [[4, 8, 2, 3], [2, 3, 4], [2, 3, 4]], "order": [2, 1, 0]}
+NOT COVERED 3_mg 13 {"uncovered": true, "picks": [0, 1, 5], "vals": [[4, 2, 3, 8], [7, 5, 6, 3], [2, 4, 3]], "order": [2, 0, 1]}
+NOT COVERED 3_mg 14 {"uncovered": true, "picks": [0, 3, 2], "vals": [[7, 3, 5, 6], [2, 8, 4, 7], [4, 8, 2, 3]], "order": [0, 1, 2]}
+NOT COVERED 3_mg 15 {"uncovered": true, "picks": [0, 5, 4], "vals": [[7, 3, 5, 6], [2, 7, 8, 4], [4, 8, 2, 3]], "order": [0, 1, 2]}
+NOT COVERED 3_mg 16 {"uncovered": true, "picks": [0, 5, 6], "vals": [[3, 2, 6, 10], [1, 4, 8, 6], [2, 4, 3]], "order": [1, 2, 0]}
+NOT COVERED 3_mg 5 {"uncovered": true, "picks": [2, 5, 3], "vals": [[2, 4, 3], [2, 3, 4], [6, 3, 2, 10]], "order": [0, 1, 2]}
+NOT COVERED 3_mg 6 {"uncovered": true, "picks": [0, 1, 5], "vals": [[4, 2, 3, 8], [7, 3, 5, 6], [4, 2, 3]], "order": [1, 2, 0]}
+NOT COVERED 3_mg 7 {"uncovered": true, "picks": [0, 1, 5], "vals": [[4, 2, 3], [7, 3, 5, 6], [8, 2, 3, 4]], "order": [0, 1, 2]}
+NOT COVERED 3_mg 8 {"uncovered": true, "picks": [0, 1, 2], "vals": [[6, 2, 10, 3], [8, 4, 2, 3], [7, 3, 5, 6]], "order": [2, 0, 1]}
+NOT COVERED 3_mg 17 {"uncovered": true, "picks": [0, 4, 5], "vals": [[4, 2, 8, 3], [3, 7, 5, 6], [1, 8, 4, 6]], "order": [1, 0, 2]}
+NOT COVERED 3_mg 18 {"uncovered": true, "picks": [0, 6, 8], "vals": [[4, 2, 8, 3], [2, 4, 5, 8], [4, 1, 6, 8]], "order": [2, 1, 0]}
+NOT COVERED 16
+covered 10
+maximum matchings checked 694
+type classes (sum over matchings and agents) 932
+witnesses applicable (sum over matchings) 418
+slowest hypergraph 0.06 s
+time 0 s
+RESULT FAILED

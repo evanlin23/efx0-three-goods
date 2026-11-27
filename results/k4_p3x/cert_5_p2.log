@@ -1,0 +1,18 @@
+$ python3 k4/oc1cert/run.py 5_n4_1_p2,5_n4_2_p2,5_n4_3_p2,5_n4_4_p2,5_pure_p2 --out=/home/user/efx0-three-goods/results/k4_p3x/cert_5_p2.json.gz --jobs=4
+hypergraphs 676 jobs 4
+... 500 hypergraphs, 415 s
+5_n4_1_p2 nu=5 n=5 49
+5_n4_2_p2 nu=5 n=5 136
+5_n4_3_p2 nu=5 n=5 221
+5_n4_4_p2 nu=5 n=5 181
+5_pure_p2 nu=5 n=5 89
+iterations 239538
+result certified 676
+witness kind add (found by the inner) 3287
+witness kind chain (found by the inner) 223541
+witness kind picks (found by the inner) 126102
+witness kind ring (found by the inner) 7
+witnesses kept 812887
+slowest hypergraph 125.16 s ('5_pure_p2', 382)
+time 1320 s
+wrote /home/user/efx0-three-goods/results/k4_p3x/cert_5_p2.json.gz

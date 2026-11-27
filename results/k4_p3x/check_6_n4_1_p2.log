@@ -1,0 +1,4 @@
+$ python3 k4/oc1cert/check.py results/k4_p3x/cert_6_n4_1_p2.json.gz --lists=6_n4_1_p2   (from compute/k4-oc1max-cert at cfb3c18d)
+slowest hypergraph 2.70 s
+time 62 s
+RESULT every certified hypergraph (152) covered for every type profile and every maximum-matching SD order

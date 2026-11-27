@@ -1,0 +1,5 @@
+$ python3 k4/p3/fc2cert.py run 5_mg --jobs=1 --limit=1800 --out=results/k4_p3x/fc2/fc2_5_mg.json.gz
+$ python3 k4/oc1cert/run.py 5_mg --jobs=1 --limit=1800 --out=results/k4_p3x/fc2/fc2_5_mg.json.gz
+hypergraphs 686 jobs 1
+... 500 hypergraphs, 1836 s
+PARTIAL: run stopped at 2026-11-27 06:53 UTC (wind-down requested by the coordinator) after at least 500 of 686 hypergraphs, with no NOT CERTIFIED line; no certificate was written and nothing was independently checked, so this is evidence only

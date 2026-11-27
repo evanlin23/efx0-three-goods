@@ -1,0 +1,30 @@
+$ python3 k4/oc1max_multi/analyze.py k4/p3/hard2_p2.jsonl   (run from proof/k4-oc1max-multi at 3d157f37)
+ANY 210
+CAN-OA 210
+CAN-any 210
+CAN-end 209
+CAN-k 209
+CAN-k-min 209
+CAN-min-other 207
+ED-S*-end 210
+starts 210
+
+(|D|, overlap, needs-pick) | starts | ANY | ED-S*-end | CAN-OA | CAN-any | CAN-k | CAN-k-min | CAN-end | CAN-min-other
+(2, 'overlap=0', False) | 21 | 21 | 21 | 21 | 21 | 21 | 21 | 21 | 21
+(2, 'overlap=0', True) | 28 | 28 | 28 | 28 | 28 | 28 | 28 | 28 | 28
+(2, 'overlap=1', False) | 22 | 22 | 22 | 22 | 22 | 22 | 22 | 22 | 22
+(2, 'overlap=1', True) | 13 | 13 | 13 | 13 | 13 | 13 | 13 | 13 | 13
+(2, 'overlap=2', False) | 9 | 9 | 9 | 9 | 9 | 8 | 8 | 9 | 9
+(2, 'overlap=2', True) | 8 | 8 | 8 | 8 | 8 | 8 | 8 | 8 | 8
+(2, 'overlap=3', False) | 6 | 6 | 6 | 6 | 6 | 6 | 6 | 6 | 3
+(3, 'overlap=0', True) | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10
+(3, 'overlap=1', False) | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14
+(3, 'overlap=1', True) | 34 | 34 | 34 | 34 | 34 | 34 | 34 | 33 | 34
+(3, 'overlap=2', False) | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1
+(3, 'overlap=2', True) | 12 | 12 | 12 | 12 | 12 | 12 | 12 | 12 | 12
+(3, 'overlap=3', True) | 21 | 21 | 21 | 21 | 21 | 21 | 21 | 21 | 21
+(4, 'overlap=1', True) | 7 | 7 | 7 | 7 | 7 | 7 | 7 | 7 | 7
+(4, 'overlap=2', True) | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4
+
+smallest without CAN-k in class (2, 'overlap=2', False) : log1480 n 3 m 7 [[[0, 2, 4, 3], [6, 3, 1], [1, 2, 0, 5]], [[5, 10, 1, 12], [10, 12, 11], [11, 8, 6, 1]]] picks [3, 6, 1]
+smallest without CAN-k-min in class (2, 'overlap=2', False) : log1480 n 3 m 7 [[[0, 2, 4, 3], [6, 3, 1], [1, 2, 0, 5]], [[5, 10, 1, 12], [10, 12, 11], [11, 8, 6, 1]]] picks [3, 6, 1]

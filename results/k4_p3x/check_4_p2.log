@@ -1,0 +1,7 @@
+$ python3 k4/oc1cert/check.py results/k4_p3x/cert_4_p2.json.gz   (run from compute/k4-oc1max-cert at cfb3c18d; cert_4_p2.json.gz = the 106 hypergraphs with every good of at most two valuers, extracted from results/k4_oc1max/cert_4.json.gz there, all 'certified')
+maximum matchings checked 11181
+type classes (sum over matchings and agents) 332494
+witnesses applicable (sum over matchings) 154261
+slowest hypergraph 2.89 s
+time 10 s
+RESULT every certified hypergraph (106) covered for every type profile and every maximum-matching SD order

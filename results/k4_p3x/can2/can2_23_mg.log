@@ -1,0 +1,13 @@
+$ python3 k4/oc1cert/run.py 2_mg,3_mg --jobs=2 --limit=1800 --out=results/k4_p3x/can2/can2_23_mg.json.gz
+hypergraphs 26 jobs 2
+2_mg nu=2 n=2 7
+3_mg nu=3 n=3 19
+iterations 360
+result certified 26
+witness kind chain (found by the inner) 345
+witness kind picks (found by the inner) 173
+witnesses kept 2081
+slowest hypergraph 0.75 s ('3_mg', 14)
+time 2 s
+wrote results/k4_p3x/can2/can2_23_mg.json.gz
+statement rewritten: CAN2 at maximum-matching starts (k4/p3.md section 6, proof/k4-p3): for every type profile and every SD order whose picks form a maximum matching, the picks have a one-absorber EFX0 completion or one canonical chain (every receiver takes exactly its predecessor's base and wants it, x_0 takes H_0 inside (J + B_{x_t}) & R_{x_0}, the head is unfrozen at the picks) gives bases that have one

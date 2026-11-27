@@ -1,0 +1,25 @@
+$ python3 k4/p3/keep2.py k4/p3/hard2_p2.jsonl
+CR2 crowded holder: case (iii): H0 = J, three junk goods inside R_u: 1
+CR2 crowded holder: in D_T (frozen at the picks): 17
+CR2 crowded holder: in E_J (unfrozen at the picks): 10
+KEEP2 (chain, H0) cases: 224
+P(k) does not cover D_T (k in D_T, H0 in J): 333
+UNF2 tests: 956
+no KEEP2: only P(k) with k pick-dangerous repairs: 12
+no KEEP2: some P(k), k in D_T, repairs: 61
+starts: 210
+starts with a KEEP2 chain: 137
+starts without a KEEP2 chain, |D_T| = 0: 12
+starts without a KEEP2 chain, |D_T| = 2: 52
+starts without a KEEP2 chain, |D_T| = 3: 9
+|D_T| = 0: 12
+|D_T| = 1: 60
+|D_T| = 2+: 138
+example CR2 case (iii): H0 = J, three junk goods inside R_u ('r2734', [0, 4, 5], [2, 0], (1, 2, 3), 1)
+example CR2 in D_T (frozen at the picks) ('hall-local3', [0, 2, 3], [1, 0], (4, 5, 6), 2)
+example CR2 in E_J (unfrozen at the picks) ('lb4-last-block-leader-index-n4m8', [2, 6, 4, 7], [2, 0], (1, 3), 3)
+example no KEEP2, |D_T| = 0 ('lb4-last-block-leader-index-n4m8', 4, 8, [4, 6, 7, 3])
+example no KEEP2, |D_T| = 2 ('gap-btcyc-n4-m8-pure122', 4, 8, [0, 6, 2, 3])
+example no KEEP2, |D_T| = 3 ('gap-ipoolopt-n4-m10-n4pc205', 4, 10, [7, 9, 3, 6])
+example no KEEP2: only P(k) with k pick-dangerous repairs ('log1504', 3, 5, [2, 3, 4], '{"sets": [[4, 2, 3], [3, 0, 1], [4, 1, 0]], "vals": [[8, 6, 7], [20, 5, 17], [14, 9, 8]]}')
+example no KEEP2: some P(k), k in D_T, repairs ('r510', 3, 6, [0, 5, 4], '{"sets": [[0, 1, 2, 3], [0, 1, 4, 5], [2, 3, 4, 5]], "vals": [[10, 6, 8, 3], [7, 2, 10, 6], [4, 7, 8, 2]]}')

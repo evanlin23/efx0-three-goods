@@ -1,0 +1,15 @@
+$ python3 k4/oc1cert/run.py 6_mg3 --jobs=4 --limit=1800 --out=/home/user/efx0-three-goods/results/k4_p3x/mg6/cert_6_mg3.json.gz
+hypergraphs 1228 jobs 4
+... 500 hypergraphs, 2029 s
+... 1000 hypergraphs, 4675 s
+6_mg3 nu=6 n=6 1228
+iterations 1018430
+result certified 1228
+witness kind add (found by the inner) 5928
+witness kind chain (found by the inner) 810393
+witness kind picks (found by the inner) 610236
+witness kind ring (found by the inner) 9
+witnesses kept 2241021
+slowest hypergraph 99.50 s ('6_mg3', 1099)
+time 5792 s
+wrote /home/user/efx0-three-goods/results/k4_p3x/mg6/cert_6_mg3.json.gz

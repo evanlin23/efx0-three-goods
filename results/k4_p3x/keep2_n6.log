@@ -1,0 +1,29 @@
+$ python3 k4/p3/keep2.py results/k4_p3x/hard_p2_n6.jsonl.gz
+CR2 crowded holder: in D_T (frozen at the picks): 45
+CR2 crowded holder: in E_J (unfrozen at the picks): 99
+KEEP2 (chain, H0) cases: 847
+P(k) does not cover D_T (k in D_T, H0 in J): 3027
+UNF2 tests: 7137
+no KEEP2: only P(k) with k pick-dangerous repairs: 2
+no KEEP2: some P(k), k in D_T, repairs: 426
+starts: 853
+starts with a KEEP2 chain: 425
+starts without a KEEP2 chain, |D_T| = 0: 2
+starts without a KEEP2 chain, |D_T| = 1: 1
+starts without a KEEP2 chain, |D_T| = 2: 126
+starts without a KEEP2 chain, |D_T| = 3: 233
+starts without a KEEP2 chain, |D_T| = 4: 65
+starts without a KEEP2 chain, |D_T| = 5: 1
+|D_T| = 0: 2
+|D_T| = 1: 64
+|D_T| = 2+: 787
+example CR2 in D_T (frozen at the picks) ('k4_certs_6_mg.json.gz#63.1', [5, 1, 9, 6, 4, 7], [3, 5, 4], (3, 8), 2)
+example CR2 in E_J (unfrozen at the picks) ('k4_certs_6_mg.json.gz#46.0', [0, 2, 1, 5, 8, 9], [5, 4, 2], (6, 7), 0)
+example no KEEP2, |D_T| = 0 ('k4_certs_6_mg.json.gz#277.1', 6, 11, [8, 7, 2, 5, 9, 10])
+example no KEEP2, |D_T| = 1 ('k4_certs_6_mg.json.gz#2757.1', 6, 13, [9, 4, 5, 8, 7, 12])
+example no KEEP2, |D_T| = 2 ('k4_certs_6_mg.json.gz#19.0', 6, 10, [0, 8, 2, 4, 3, 7])
+example no KEEP2, |D_T| = 3 ('k4_certs_6_mg.json.gz#51.0', 6, 10, [0, 1, 6, 2, 4, 8])
+example no KEEP2, |D_T| = 4 ('k4_certs_6_mg.json.gz#519.1', 6, 11, [3, 4, 7, 6, 5, 8])
+example no KEEP2, |D_T| = 5 ('k4_certs_6_mg.json.gz#3922.1', 6, 14, [11, 9, 3, 12, 6, 10])
+example no KEEP2: only P(k) with k pick-dangerous repairs ('k4_certs_6_mg.json.gz#277.1', 6, 11, [8, 7, 2, 5, 9, 10], '{"sets": [[0, 2, 4, 8], [1, 3, 7], [2, 5, 6], [3, 5, 6, 7], [4, 9, 10], [8, 9, 10]], "vals": [[2, 10, 4, 7], [3, 2, 4], [3, 4, 2], [3, 10, 6, 8], [2, 4, 3], [3, 4, 2]]}')
+example no KEEP2: some P(k), k in D_T, repairs ('k4_certs_6_mg.json.gz#19.0', 6, 10, [0, 8, 2, 4, 3, 7], '{"sets": [[0, 5, 9], [1, 8, 9], [2, 3, 4], [2, 4, 8], [3, 6, 7], [5, 6, 7]], "vals": [[4, 2, 3], [2, 4, 3], [2, 4, 3], [2, 3, 4], [3, 2, 4], [2, 3, 4]]}')

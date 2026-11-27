@@ -1,0 +1,22 @@
+$ python3 k4/p3/exp2.py k4/p3/hard2_p2.jsonl results/k4_p3x/hard_p2_n34.jsonl.gz results/k4_p3x/hard_p2_n5b.jsonl.gz results/k4_p3x/hard_p2_n6.jsonl.gz results/k4_p3x/hard_p2_n6b.jsonl.gz results/k4_p3x/can2/can2_4_mg.json.gz results/k4_p3x/can2/can2_5_mg.json.gz
+(chain, H0) tests: 104134
+EXP2 cases: 36147
+hard starts: 22891
+middle chain agents outside EXP2: exposed: 3503
+middle chain agents outside EXP2: unexposed: 12731
+unexposed agents of P(k) after k (H = empty): 0 of 1: 4116
+unexposed agents of P(k) after k (H = empty): 0 of 2: 45
+unexposed agents of P(k) after k (H = empty): 0 of 3: 2
+unexposed agents of P(k) after k (H = empty): 1 of 1: 57949
+unexposed agents of P(k) after k (H = empty): 1 of 2: 9227
+unexposed agents of P(k) after k (H = empty): 1 of 3: 418
+unexposed agents of P(k) after k (H = empty): 1 of 4: 16
+unexposed agents of P(k) after k (H = empty): 2 of 2: 23430
+unexposed agents of P(k) after k (H = empty): 2 of 3: 4088
+unexposed agents of P(k) after k (H = empty): 2 of 4: 134
+unexposed agents of P(k) after k (H = empty): 2 of 5: 2
+unexposed agents of P(k) after k (H = empty): 3 of 3: 3943
+unexposed agents of P(k) after k (H = empty): 3 of 4: 511
+unexposed agents of P(k) after k (H = empty): 3 of 5: 4
+unexposed agents of P(k) after k (H = empty): 4 of 4: 226
+unexposed agents of P(k) after k (H = empty): 4 of 5: 23

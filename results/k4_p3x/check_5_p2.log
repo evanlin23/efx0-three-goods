@@ -1,0 +1,9 @@
+$ python3 k4/oc1cert/check.py results/k4_p3x/cert_5_p2.json.gz --lists=5_n4_1_p2,5_n4_2_p2,5_n4_3_p2,5_n4_4_p2,5_pure_p2   (run from compute/k4-oc1max-cert at cfb3c18d; the lists are the five n = 5 core lists filtered to every good of at most two valuers)
+list 5_pure_p2 source hypergraphs 89 missing or different 0
+covered 676
+maximum matchings checked 219327
+type classes (sum over matchings and agents) 8411554
+witnesses applicable (sum over matchings) 4472548
+slowest hypergraph 25.41 s
+time 351 s
+RESULT every certified hypergraph (676) covered for every type profile and every maximum-matching SD order

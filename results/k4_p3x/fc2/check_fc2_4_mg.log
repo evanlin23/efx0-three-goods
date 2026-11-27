@@ -1,0 +1,13 @@
+$ python3 k4/p3/fc2cert.py check results/k4_p3x/fc2/fc2_4_mg.json.gz --lists=4_mg
+[k4/p3/fc2cert.py check: k4/oc1cert/check.py with moves restricted to additions and forest chains]
+$ python3 k4/oc1cert/check.py results/k4_p3x/fc2/fc2_4_mg.json.gz --lists=4_mg
+own types: {3: 6, 4: 288}
+certificate results/k4_p3x/fc2/fc2_4_mg.json.gz hypergraphs 112 not certified (failures found, not checked here) 0
+list 4_mg source hypergraphs 112 missing or different 0
+covered 112
+maximum matchings checked 11407
+type classes (sum over matchings and agents) 327019
+witnesses applicable (sum over matchings) 165129
+slowest hypergraph 8.58 s
+time 19 s
+RESULT every certified hypergraph (112) covered for every type profile and every maximum-matching SD order

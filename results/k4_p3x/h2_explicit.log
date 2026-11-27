@@ -1,0 +1,25 @@
+H_1: n = 5, m = 13, p = 4; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H3A_1: n = 4, m = 10, p = 3; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H_2: n = 9, m = 23, p = 4; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H3A_2: n = 7, m = 17, p = 3; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H_3: n = 13, m = 33, p = 4; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H3A_3: n = 10, m = 24, p = 3; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H_4: n = 17, m = 43, p = 4; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H3A_4: n = 13, m = 31, p = 3; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H_5: n = 21, m = 53, p = 4; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H3A_5: n = 16, m = 38, p = 3; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H_6: n = 25, m = 63, p = 4; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H3A_6: n = 19, m = 45, p = 3; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H_7: n = 29, m = 73, p = 4; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H3A_7: n = 22, m = 52, p = 3; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H_8: n = 33, m = 83, p = 4; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H3A_8: n = 25, m = 59, p = 3; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H_9: n = 37, m = 93, p = 4; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H3A_9: n = 28, m = 66, p = 3; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H_10: n = 41, m = 103, p = 4; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H3A_10: n = 31, m = 73, p = 3; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H_11: n = 45, m = 113, p = 4; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H3A_11: n = 34, m = 80, p = 3; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H_12: n = 49, m = 123, p = 4; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+H3A_12: n = 37, m = 87, p = 3; picks as described: True; allocation keeps the picks: True; EFX0 (two checkers): True, True; bundles > 2 goods: 2
+all checks pass

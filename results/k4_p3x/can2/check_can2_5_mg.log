@@ -1,0 +1,12 @@
+[k4/p3/can2cert.py check: k4/oc1cert/check.py with moves restricted to canonical chains]
+$ python3 k4/oc1cert/check.py results/k4_p3x/can2/can2_5_mg.json.gz --lists=5_mg
+own types: {3: 6, 4: 288}
+certificate results/k4_p3x/can2/can2_5_mg.json.gz hypergraphs 686 not certified (failures found, not checked here) 185
+list 5_mg source hypergraphs 686 missing or different 0
+covered 501
+maximum matchings checked 145773
+type classes (sum over matchings and agents) 4419475
+witnesses applicable (sum over matchings) 3163671
+slowest hypergraph 15.33 s
+time 883 s
+RESULT every certified hypergraph (501) covered for every type profile and every maximum-matching SD order

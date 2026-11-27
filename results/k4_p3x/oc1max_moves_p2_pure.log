@@ -1,0 +1,12 @@
+$ python3 k4/p3/oc1max_moves.py 10 3 --p=2 --pure=1
+676 hypergraphs, 10 profiles each, 28s
+  addition (length 1): 297
+  chain (length 2): 307
+  chain (length 3): 3
+  picks complete: 13494
+  pure moves: addition (length 1): 297
+  pure moves: chain (length 2): 306
+  pure moves: chain (length 3): 4
+  example, chain (length 2): {"sets": [[0, 1, 2, 3], [0, 2, 6], [1, 4, 7], [3, 5, 7], [4, 5, 6]], "vals": [[7, 10, 4, 2], [4, 2, 3], [2, 4, 3], [3, 2, 4], [4, 3, 2]], "picks": [2, 0, 1, 7, 4]}
+  example, addition (length 1): {"sets": [[0, 2, 3], [1, 7, 8], [2, 4, 5, 6], [3, 4, 5], [6, 7, 8]], "vals": [[3, 4, 2], [2, 4, 3], [8, 2, 4, 5], [4, 3, 2], [3, 4, 2]], "picks": [2, 7, 6, 3, 8]}
+  example, chain (length 3): {"sets": [[0, 2, 7, 8], [1, 4, 9, 10], [3, 6, 7, 8], [5, 6, 11], [9, 10, 11]], "vals": [[7, 2, 4, 10], [6, 4, 5, 8], [2, 10, 7, 6], [2, 3, 4], [2, 4, 3]], "picks": [8, 10, 7, 6, 11]}
