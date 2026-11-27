@@ -1287,8 +1287,14 @@ printed cases). So the route needs:
 **The structure of the 640:** in every one, *every agent's top good is also the top good of another agent*. The tops
 come in pairs, as in sets [[0,1,2,6],[1,2,5,6],[3,4,5,6],[3,4,5,6]] with tops (g2, g2, g5, g5). Two agents with a
 common top good make every order's earlier one wanted by the later one.
-- *Conjecture (evidence only):* "every perfect SD outcome has one receiver" forces every top good to be shared.
-- (ii′) then asks that OC₁ hold at some outcome of such a paired-top profile.
+- *Not forced in general* (`tops_check.py`, `tops_check.log`):
+  - Among random n = 4 profiles, 40 have one receiver in every perfect outcome, and 17 of those have an unshared top,
+    e.g. on [[0,1,2,3],[1,2,3],[1,2,3],[1,2,3]]: three agents on three goods.
+  - Among 4,779 random n = 5 profiles, none has one receiver everywhere.
+
+  So paired tops are a feature of the OC₁^max-failing profiles, not of the one-receiver condition.
+- (ii′) is the statement to prove. At n = 4 it holds, since OC₁^∃max is certified there. The structure to use is
+  that all 640 have paired tops.
 
 ## 12. Next steps
 
