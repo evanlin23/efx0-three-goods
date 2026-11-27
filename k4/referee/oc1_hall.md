@@ -205,3 +205,24 @@ completion X = (w: W = {Y_d} ∪ (J′ ∖ {h}), d: {g, h}, others their Y′-pi
   implementation before; now two). A2 is closed by enumeration.
 - At general n, the open part is why the hypotheses hold: (A1-i)–(A1-iv), and (a) plus (U-b). At n = 5, RF-B covers
   only 61 % of DEMOTE-2 (Hall §24.9, not re-run here).
+
+## Addendum: Lemma RF-B′ (`k4/oc1_hall.md` §24.10 at `7336e31c`; coordinator's queue, 2026-11-27)
+
+**Verdict: CORRECT.** Its new content is (G2) at B′. The exactness is Lemma M^c, refereed CORRECT in
+`oc1max_multi.md` §9, whose characterization needs only (G2) and allows multi-good bundles such as B′_k = S.
+
+*(G2), re-derived.*
+- The free goods at B′ are J′ ∖ S and Y′_d.
+- Junk is below every pick value, and every value at B′ is at least the pick value.
+- Y′_d is unwanted by every i ≠ d (the hypothesis), and v_d(Y′_d) = p_d < v_d(Y′_k).
+
+*RF-B as the case o = d, H = F_s = ∅.* B′_k = S raises no τ_i, since each single junk good is below b_i. So "no needy
+agent" means "Z threatens nobody", which is (B2), (B4) and (B5). Correct.
+
+*Check* (`rfbp_rft_ref.py rfbp`; 40,000 random SD starts, n = 3–5; every unwanted d, every k whose pick d wants, every
+improving S ⊆ J′ of size 1–3):
+- 4,369 states, (G2) at all 4,369;
+- 17,344 owner tests of my M^c formula (`mc_ref.py`) against the brute-force S^c test: 0 mismatches;
+- 16,732 of the tests have an S^c completion.
+
+Log `results/k4_referee/rfbp_rft_ref.log`.
