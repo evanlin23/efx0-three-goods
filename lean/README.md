@@ -235,6 +235,42 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   state is valid and its robust level sum rises by at least 2, so no top state admits it
   (`EFX.DE4.not_top_of_cross_swap`).
 - `EFX/NOF.lean`: **Conjecture NOF certified by LB₄ʳ** (`k4/sdc.md` §11–§13). Serial dictatorship in any order (`EFX.NOF.sdList`) or driven by a selection rule (`EFX.NOF.runWith`) satisfies Phase 1's run specification (`EFX.NOF.sdList_spec`), and the state of every such run satisfies LB₄ʳ's invariant (`EFX.NOF.runState_inv`, as `EFX.LB4R.phase1State_inv`). The neediest-first order (`EFX.NOF.nofOrder`, with or without R1 priority) and NOF's candidates (`EFX.NOF.nofCandidates`: that order, or it with one agent moved last) are permutations (`EFX.NOF.nofCandidates_perm`). **`EFX.NOF.target4_of_conjNOFK`: if for every strict k = 4 core some candidate, after a run of upgrades, has an LB₄ʳ output (`EFX.NOF.ConjNOFK`), then TARGET₄**; likewise for any order (`EFX.NOF.ConjSDCK`, `EFX.NOF.target4_of_conjSDCK`). The conjectures are `Prop`s, not axioms. Also LB₄ʳ with the neediest-first Phase 1 (`k4/sdc.md` §16): `EFX.NOF.ConjNFR r1 d` (the neediest-first run, with R1 priority if `r1`, then upgrades, at most `d` rotations, an output) and `EFX.NOF.target4_of_conjNFR` (ConjNFR ⟹ C₄∃ ⟹ TARGET₄, by `runState_inv`, `upRun_inv`, `rotReach_inv`, `Inv.sound`). ConjNOFK is false for both values of `r1` (ledger K4.SDC.NOF.K); the implication stands. And rotation completeness: `EFX.NOF.ConjRC` (every order's serial-dictatorship state, upgrades, some number of rotations, an output) ⟹ TARGET₄ (`EFX.NOF.target4_of_conjRC`).
+- `EFX/OC1Max.lean`: **Conjecture OC₁^max and maximum-matching orders** (`k4/sdc.md` §28, §29, §31; ledger
+  K4.SDC.OC1MAX.LEAN). Serial dictatorship as a matching (`EFX.OC1Max.sdPick`, equal to the picks of
+  `EFX.NOF.sdList`'s run: `EFX.OC1Max.sdPick_eq_runState`); matchings, maximum matchings and Pareto optimality
+  (`EFX.OC1Max.IsMatching`, `IsMaximum`, `ParetoOpt`). **Lemma SDPO** (`EFX.OC1Max.sdpo`): with strict values the
+  serial-dictatorship outcomes over all orders are exactly the Pareto-optimal matchings (⊆: `paretoOpt_sdPick`;
+  ⊇: `exists_order_of_paretoOpt`, from `exists_holds_fav`, whose pointer map has a cycle by `exists_cycle`).
+  **Lemma MAXSD** (`EFX.OC1Max.exists_order_maximum`): some order's picks form a maximum matching (a maximum matching
+  of largest total value is Pareto optimal, `exists_maximum_paretoOpt`). **Lemma MAX** (`EFX.OC1Max.max_no_augment`,
+  `picks_no_augment`, `picks_no_junk`): at a maximum matching no agent reachable from an unmatched agent by an
+  alternating path (`AltReach`) values an unmatched good (`augment`: the augmenting path). The moves of §29
+  (`IsAddition`, `IsChain`, `IsRing`, `OneMove`), the one-absorber completion (`OneAbsorber`) and
+  `EFX.OC1Max.ConjOC1max` (a `Prop`); **`EFX.OC1Max.target4_of_conjOC1max`: OC₁^max ⟹ TARGET₄**, through MAXSD,
+  K4.CORE and K4.TIE; the same for any move relation (`ConjOC1maxWith`, `target4_of_conjOC1maxWith`).
+- `EFX/OC1Perf.lean`: **perfect starts and Lemma RED** (`k4/sdc.md` §31; ledger K4.SDC.OC1PERF.LEAN). `EFX.OC1Max.red`:
+  at maximum-matching picks, removing the matched agents reachable from pickless agents, with their picks, leaves an
+  instance with an order whose picks form a perfect start (`PerfectStart`: every agent valuing a good is matched),
+  and every EFX₀ allocation of it extends by their singletons (`red_values` is RED (ii), from Lemma MAX).
+  **`EFX.OC1Max.target4_of_conjOC1perf`: Conjecture OC₁ᵖᵉʳᶠ (`ConjOC1perf`, a `Prop`, over all strict instances with
+  at most four relevant goods per agent) ⟹ TARGET₄**, without the core reduction (K4.TIE's perturbation, MAXSD, RED);
+  also for any move relation (`ConjOC1perfWith`, `target4_of_conjOC1perfWith`).
+- `EFX/OCVariants.lean`: the variants of OC₁^max after its refutation (ledger K4.SDC.OCVAR.LEAN): at most `k` sequential
+  moves (`EFX.OC1Max.movesUpTo`), OC_k^max and OC₂^max (`ConjOCkmax`, `ConjOC2max`) and their perfect-start forms
+  (`ConjOCkperf`, `ConjOC2perf`), the ∃-order form (`ConjOC1exmax`, `ConjOC1exmaxWith`); **each implies TARGET₄**
+  (`EFX.OC1Max.target4_of_conjOC2max`, `target4_of_conjOCkmax`, `target4_of_conjOC2perf`, `target4_of_conjOCkperf`,
+  `target4_of_conjOC1exmax`); monotonicity (`conjOCkmax_of_conjOC1max`, `conjOC1exmaxWith_of_conjOC1maxWith`).
+- `EFX/OC1MaxCex.lean`: **OC₁^max is false** (`EFX.OC1Max.not_conjOC1max`, ledger K4.SDC.OC1MAX), and so is OC₁ at
+  perfect starts (`EFX.OC1Max.not_conjOC1perf`): instance 1 of `k4/sdc.md` §31 (n = 4, m = 7, order 0, 3, 2, 1), a
+  strict connected k = 4 core whose picks match every agent, and neither the picks nor any one-move state has an EFX₀
+  completion. `EFX.OC1Max.move_local` (any instance): after one move every agent keeps its base or strictly gains with
+  a base inside its old base, one other base and the junk; a kernel computation over all 4⁷ allocations, in 16 chunks
+  (`decide +kernel`, about two and a half minutes), shows that no allocation meeting that test is EFX₀.
+- `EFX/OC1MaxExamples.lean`: non-vacuity of `EFX/OC1Max.lean` by `decide`, on the MC2 core of `k4/sdc.md` §31 where OC
+  fails: the failing start (index order) is not a maximum-matching start (`EFX.OC1Max.Ex.not_maximum_MC2`); the order
+  3, 4, 0, 1, 2 picks a maximum matching with a one-absorber completion (`EFX.OC1Max.Ex.maximum_ordM`,
+  `EFX.OC1Max.Ex.oneAbsorber_ordM`); an addition, a chain and a ring (`EFX.OC1Max.Ex.addition_ex`, `chain_ex`,
+  `ring_ex`).
 - `EFX/DE4Shed.lean`: **the robust frame with shed-completability** (after every tie-break failed, `k4/de4.md` §10.5).
   `EFX.DE4.ShedCompletable`: some agents keep one good of their holding alone and the result has an EFX₀ completion
   (`EFX.DE4.exists_efx0_of_shed`). `EFX.DE4.target4_of_conjShed`: Conjecture K4.DE4V3R.SHED2 (every
