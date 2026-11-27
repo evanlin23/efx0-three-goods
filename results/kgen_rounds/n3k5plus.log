@@ -1,0 +1,9 @@
+N3K5+ = [[300, 1, 2200, 2300, 3800, 4300], [2, 1500, 1700, 2700, 4000, 4300], [3, 100, 4, 5, 200, 400]] | complete EFX allocations: 5
+  start (5, 4, 1) order (0, 1, 2) {'EXT1': 0, 'OC1': 5, 'RND1': 5, 'RNDP1': 5, 'MD': 5}
+  start (5, 3, 4) order (0, 2, 1) {'EXT1': 1, 'OC1': 5, 'RND1': 5, 'RNDP1': 5, 'MD': 5}
+  start (4, 5, 1) order (1, 0, 2) {'EXT1': 0, 'OC1': 0, 'RND1': 0, 'RNDP1': 3, 'MD': 3}
+  start (3, 5, 4) order (1, 2, 0) {'EXT1': 0, 'OC1': 3, 'RND1': 3, 'RNDP1': 3, 'MD': 3}
+  start (4, 3, 5) order (2, 0, 1) {'EXT1': 1, 'OC1': 4, 'RND1': 4, 'RNDP1': 4, 'MD': 4}
+  start (3, 4, 5) order (2, 1, 0) {'EXT1': 3, 'OC1': 4, 'RND1': 4, 'RNDP1': 4, 'MD': 4}
+start (4, 5, 1): rnd.c one round 0 | two rounds (Lemma RC2) reachable EFX allocations 3 | bruter.py {'ext_1': False, 'oc1': False, 'rnd_free': False, 'rnd_1': False, 'rnd2_1': True, 'n_round_states': 120}
+OK: one round fails at n = 3 with every good valued; two rounds repair

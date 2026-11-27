@@ -44,7 +44,9 @@ m = 8, 9 (61 distinct failing starts, `results/kgen_rounds/fails*.jsonl`).
 - *No smaller failure found.*
   - Deleting goods from any of the 61 failures never gives m < 7 at n = 4 (`results/kgen_rounds/shrink_fails.log`).
   - Climbs at n = 4, m = 5, 6 found none (`results/kgen_rounds/small_n4m*.log`).
-  - At n = 3 there is no failure on any data (`kgen/rounds.md` §5).
+  - At n = 3 there was no failure on this workstream's data, but ksens's **N3K5⁺** (n = 3, m = 6, every good valued;
+    `k4/ksens/refute_oc1_k5_n3.py`) refutes ROUND⁺₃. It is re-checked here in `kgen/rounds/n3k5plus.py`
+    (`kgen/rounds.md` §5.1).
 
 **The same for the pooled variant ROUND-X** (chain starts may also take any chain end's released pick).
 - *Smallest failure X4* (n = 4, m = 7): values [[1,642,31,987,363,2866,764], [136,705,266,1148,475,2515,985],
@@ -59,4 +61,4 @@ python3 kgen/rounds/verify_fail.py '[[2600,5700,1,4400,2300,3300,1],[1,1200,1100
 python3 kgen/rounds/mechanism.py results/kgen_rounds/fails.jsonl results/kgen_rounds/fails_twins.jsonl
 ```
 
-**What survives:** two rounds (RD²⁺) on every failure, and one round at n = 3 (`kgen/rounds.md` §4, §5).
+**What survives:** two rounds (RD²⁺) on every failure, N3K5⁺ included (`kgen/rounds.md` §4, §5).

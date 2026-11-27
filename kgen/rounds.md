@@ -33,16 +33,12 @@ every refutation below is confirmed by three independent programs.
     at n = 4, m = 7 (§4.2): the starved agent is then a middle agent.
   - *ROUND-P* (every chain agent may take released end picks) survives everything. On the data it is nearly
     indistinguishable from MD (§4.2).
-- **n = 3: one round survives everything** (§5). The data: random profiles, 170 climbs with m = 6–10, and kgen-n3's
-  OC₁(t ≥ 0) evidence, which implies one round at n = 3.
-  - Classification of what a start needs:
-    - most starts keep their picks;
-    - every other start but one is repaired by some two-agent move (a hand-off or a swap). The repairing pair varies:
-      some starts need only a hand-off, some only a swap;
-    - one random start (ROT3) needs the three-agent rotation (§5.2, verified by forward simulation).
-  - The last picker almost never starts the repairing chain.
-  - At n = 3, starvation never blocks every MD allocation on the data (§5.3). The only possible round structure
-    around a starved agent is forced, but no proof.
+- **n = 3: one round FAILS** (corrected; §5.1). ksens's **N3K5⁺** (`k4/ksens/refute_oc1_k5_n3.py`, n = 3, m = 6,
+  every good valued) has a start with no one-round completion; two rounds repair it.
+  - Re-checked here by `rnd.c` and `bruter.py` (`n3k5plus.py`, `n3k5plus.log`).
+  - So ROUND⁺ fails at n = 3 as well. The earlier "one round survives everything" rested on random profiles and climbs,
+    which missed it, and on kgen-n3's OC₁ data at k ≤ 4. N3K5 is a k = 5 instance.
+  - The classification below (§5.2) describes the data, not a theorem.
   - **Lemma ID** (proved, any n): with identical valuations, the picks of every order extend.
 - **k = 4 with zeros (for the campaign; §4.3).**
   - ε-lift climbs (at most four values per agent above ε) also break one round. Their zero versions are genuine k = 4
@@ -109,7 +105,7 @@ every refutation below is confirmed by three independent programs.
 |---|---|---|---|---|---|
 | picks extend (free) | fails | fails | fails | | |
 | one chain (OC₁, t ≥ 0) then one absorber | holds (data; kgen-n3) | **fails** (kgen n = 4 lifted, m = 8) | **fails** (PW5 lifted) | `named.log` | rnd.c, ocsat |
-| **ROUND⁺: one round of disjoint chains** (free = one absorber at n ≤ 5, Lemma RC (c)) | holds (data) | **FAILS** (RD5⁺, m = 7; two types, m = 7) | **FAILS** (m = 8, 9) | §3 | rnd.c, bruter.py, ocsat/ocseq; certificate script |
+| **ROUND⁺: one round of disjoint chains** (free = one absorber at n ≤ 5, Lemma RC (c)) | **FAILS** (N3K5⁺, m = 6; ksens, re-checked here) | **FAILS** (RD5⁺, m = 7; two types, m = 7) | **FAILS** (m = 8, 9) | §3 | rnd.c, bruter.py, ocsat/ocseq; certificate script |
 | ROUND-X: one round, starts draw from a common pool of released picks | holds | **FAILS** (X4, m = 7) | holds (data) | §4.2 | rnd.c, bruter.py (pooled) |
 | ROUND-P: one round, every chain agent draws from the pool | holds | holds (data) | holds (data) | §4.2 | rnd.c, bruter.py (pooled) |
 | **RD²⁺: two rounds** | holds | holds (data, every failure; climbs bottom out at one two-round witness) | holds (data) | §4.1 | ocseq, bruter.py two rounds, rnd.c Lemma RC2 |
@@ -1218,7 +1214,18 @@ The full move set and what each repairs:
 
 ## 5. n = 3
 
-### 5.1 One round survives
+### 5.1 One round fails at n = 3 (correction)
+- **N3K5⁺** (ksens, `k4/ksens.md` §8) is N3K5 ×100 with its zeros replaced by 1, 2, 3, … (k = m = 6, all values
+  positive):
+  - values [[300, 1, 2200, 2300, 3800, 4300], [2, 1500, 1700, 2700, 4000, 4300], [3, 100, 4, 5, 200, 400]];
+  - start (4, 5, 1), from order (1, 0, 2).
+- No round has a completion, free or one-absorber. Two rounds repair it.
+  - Here: `rnd.c` reports one round with 0 witnesses; Lemma RC2 finds 3 two-round EFX allocations.
+  - `bruter.py`: 120 round states, none completable, and a two-round completion exists (`n3k5plus.py`,
+    `n3k5plus.log`).
+- So ROUND⁺₃ is **false**, and the earlier data below missed it. The wide ROUND-P of §4.2 (RNDP1) holds there, with 3
+  witnesses.
+- The text kept below is the earlier evidence. It is correct as data, not as a conclusion:
 - At n = 3 a round has at most one chain with t ≥ 1 (Lemma RC), and the free and one-absorber forms coincide.
 - OC₁(t ≥ 0) implies one round. So every n = 3 datum of `kgen/n3.md` §3 supports ROUND⁺₃. That includes the
   exhaustive grids with values in {0, …, 3}, m = 5, which contain all positive profiles with values in {1, 2, 3}.
@@ -1291,6 +1298,45 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
   found at which every MD allocation is starved.
 - A proof would have to construct that allocation, which is the three-agent existence problem again. Not proved.
 
+## 5.4 RD² at n = 3, every k (PARTIAL: stopped by the campaign's wind-down)
+*Task (coordinator).* Two rounds of vertex-disjoint chains (RD²) at n = 3 for every k: a proof or a counterexample.
+- RD² at n = 3 for every k implies three-agent EFX₀ existence (Proposition H of `kgen/n3.md`), so a full proof is at
+  least as hard as the known three-agent EFX theorem.
+
+**A REC-S-type route** (`rd2_n3_recs.py`). The repair:
+- *Move 1:* settle a dangerous agent k by its earliest-wanter chain E(k), with k taking an improving set T ⊆ J ∪ {Y_z}.
+- *Move 2:* one chain or addition among the other two agents only.
+- *Completion:* a one-absorber EFX₀ completion in the full instance.
+
+The reduced start is then an SD outcome (Lemma SD-E, checked: 0 violations). kgen-n3's Theorem 2 gives a
+two-agent completion of OC₁(t ≥ 0) form there.
+
+**Data** (all evidence; raw definitions from `verify_k4zero`):
+- *Hard starts* (no one-round completion): ksens's 13 one-chain failures at k = 5 (`kcegar_k5_n3_D1.log`), and 67 from
+  a climb on instances with zeros at k = 5–9 (`n3_hunt.py`, `n3_hard_starts.jsonl`, `n3_hunt_*.log`; the long hunts
+  were stopped early, so these logs are partial).
+- **All 80 are repaired by the route** (`rd2_n3_recs_ksens13.log`, `rd2_n3_recs_hunt.log`). The shape is uniform:
+  - k is always the **second picker**;
+  - E(k) is (second picker, third picker);
+  - |T| = 2 (77 starts) or 3 (3 starts);
+  - move 2 changes both other agents;
+  - k absorbs extra junk in the completion at 29 of the 80.
+- *Theorem 2's explicit construction* as move 2, with X_k = T exactly, works at 70 of 80.
+  - Failures: 7 by (K) (k envies a bundle of the two-agent completion) and 3 where no improving pool *pair* exists.
+  - The general route fixes these by letting k absorb junk, or by |T| = 3.
+
+**What a proof needs** (open):
+- (i) At a hard start, the second picker is dangerous and has an improving T. This is a residual-case exclusion,
+  as for REC-S.
+- (ii) An *observer* form of Theorem 2: a two-agent EFX₀ completion from the reduced start that the settled agent k
+  does not envy, possibly with k absorbing junk.
+- Step (ii) is where the three-agent difficulty sits.
+- No counterexample to RD² at n = 3 was found.
+
+**n = 4, k = 5 (not started).** ksens's two-chain sweep of the k = 5 core-like n = 4 class with m ≥ 8 is paused at 875
+of 8,870 hypergraphs, all certified (`results/k4_ksens/kcegar_k5_core5_n4_D2_m8plus.*`). It can be resumed with
+`k4/ksens/kcegar_batch.py core5 4 2 8 ... --ckpt=...` (about 9 CPU-hours left). Two certified chains imply two rounds.
+
 ## 6. Proposed ledger rows (for the coordinator; LEDGER.md is not edited on this branch)
 
 | ID | Claim | Status | Artifact |
@@ -1300,7 +1346,7 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 | KGEN.R1 | Lemma R1 and the starved-agent certificate (§1): after one round each base holds at most one foreign pick, and a start whose every MD EFX allocation has a starved agent needs more than one round (any values) | PROVED | `kgen/rounds.md` §1; refereed CORRECT (`k4/referee/rounds_r1.md` on `claude/k4-referee`, 4c53b1f) |
 | KGEN.RC | Lemmas RC and RC2 (exact one- and two-round characterizations at positive values) | PROVED | `kgen/rounds.md` §1, §4.1 (written proofs, not refereed; cross-checked against forward simulations, `xcheck_*.log`) |
 | KGEN.RD2+ | RD²⁺: two rounds suffice at positive values | CONJECTURE | EVIDENCE only: every one-round failure (138 starts found), climbs (`c4_3r_*.log`, `c5_3r_*.log`) |
-| KGEN.ROUND3 | ROUND⁺ at n = 3 | CONJECTURE | EVIDENCE only (§5.1); a proof would reprove CGM |
+| KGEN.ROUND3 | ROUND⁺ at n = 3 | REFUTED (ksens's N3K5⁺, n = 3, m = 6, every good valued; two rounds repair) | `k4/ksens/refute_oc1_k5_n3.py`, `results/k4_ksens/refute_oc1_k5_n3.log`; re-checked: `kgen/rounds/n3k5plus.py`, `results/kgen_rounds/n3k5plus.log` |
 | KGEN.ID | Identical valuations: the picks of every order extend (any n, zeros allowed) | PROVED | `kgen/rounds.md` §5.2 (written proof; checked on 15,684 starts) |
 | K4.SDC.OC1MAX | (existing row, REFUTED by the certifier) OC₁^max on strict connected k = 4 cores | REFUTED | additional artifacts: `attempts/kgen-rounds-oc1max-c4k.md`, `results/kgen_rounds/c4k_oc1_max_orders.log`, `results/kgen_rounds/zcore_fails.json`, `results/kgen_rounds/verify_zfails.log`, `results/kgen_rounds/vs_certifier.log` |
 | K4.SDC.OC1PRIME | OC₁′^max: as K4.SDC.OC1MAX, with non-end chain agents allowed to take goods of the end's base (one move; implies MD) | CERTIFIED at n ≤ 4 (the certifier, `cert_4_prime.json.gz` on `compute/k4-oc1max-cert`; agrees with the 112,880-start check here); REFUTED at n = 5 (the certifier's 24, two disjoint cycles; checked here) | `oc1p_vs_oc2.log`, `oc1p_vs_oc2_forward_0.log`, `oc1p_vs_oc2_forward_1.log` (n = 4, with the certifier's export), `vs_certifier.log`, `xcheck_oc1p_150_6.log`, `verify_zfails.log`, `oc1p*_*.log`. False at k = 5 (PW5) and at positive values (two disjoint swaps) |
