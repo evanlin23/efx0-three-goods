@@ -358,6 +358,17 @@ theorem liftStar (hgd : goods.Nodup) {ks : List A} (hks : ∀ k ∈ ks, k ∈ ag
       rw [hval_a i i hik, hthr_a i _ j hjk]
       exact hefx' i (mem_remAgents.mpr ⟨hi, hik⟩) j (mem_remAgents.mpr ⟨hj, hjk⟩) hij
 
+
+/-- **(Φ) is automatic for a triple** (PHANTOM case 1 in LIFT\*): an agent settled with three of its at most four
+relevant goods, worth more than another relevant good `y` outside them, is threatened by no bundle of `X`. -/
+theorem phi_three (hgd : goods.Nodup) {ks : List A} {T : A → List G} {X : G → A} {k : A} (hk : k ∈ ks)
+    (hrel : (relevant v k goods).length ≤ 4) (hT : (T k).Nodup) (hTR : ∀ g ∈ T k, g ∈ goods ∧ 0 < v k g)
+    (hT3 : (T k).length = 3) {y : G} (hy : y ∈ goods ∧ 0 < v k y) (hyT : y ∉ T k) (himp : v k y < value v k (T k))
+    (j : A) : ¬ Threat v k (bundle (remGoods goods ks T) X j) (value v k (T k)) :=
+  phantom_three hrel hT hTR hT3 hy hyT himp (nodup_bundle (hgd.sublist List.filter_sublist) X j)
+    (fun _ hg => (mem_remGoods.mp (mem_bundle.mp hg).1).1)
+    (fun _ hg => (mem_remGoods.mp (mem_bundle.mp hg).1).2 k hk)
+
 end liftStar
 
 end Round
@@ -369,3 +380,4 @@ end EFX
 #print axioms EFX.Round.phantom_three
 #print axioms EFX.Round.phantom_two
 #print axioms EFX.Round.liftStar
+#print axioms EFX.Round.phi_three
