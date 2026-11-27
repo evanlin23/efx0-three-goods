@@ -620,10 +620,14 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 | K4.SDC.OC1PERF | OC₁ (and one round) at perfect starts for every instance with ≤ 4 relevant goods per agent (the target of Lemma RED's route; the LOOSE form of OC₁^max) | REFUTED | `kgen/rounds/k4w_check.py`, `results/kgen_rounds/k4w_check.log` (K4W, no worthless good), `results/kgen_rounds/verify_k4zero_W4.log` (W4) |
 
 ## 7. Next
-- RD²⁺:
-  - at n = 6 the two-round checker needs a larger round-1 structure table (MAXS1);
-  - the depth-two design of §4.1 at n = 6.
-- Whether K4W's configuration can appear in Lemma RED's I′ of a core. Climbs on the I′ shape: agents with three goods
-  may be top-heavy, four-good agents are balanced (`iprime_*.log`).
-- Turn the starved-agent certificate into the obstruction statement it suggests: "some MD allocation has no starved
-  agent" is ROUND-P-like and contains EFX existence; what does k ≤ 4 add?
+- **OC₁′^max at k = 4, exhaustively.** The certifier's ordinal CEGAR (`compute/k4-oc1max-cert`), run with OC₁′'s
+  move, would certify it or refute it on all 1,002 n = 4 core hypergraphs. The move change is local: a non-end chain
+  agent may also take goods of the end's base. `rnd.c`'s `oc1z_start` and `verify_k4zero.one_chain_prime` are two
+  reference implementations.
+- **A designed OC₁′ breaker.** An agent whose pick is wanted and which needs *three* foreign picks fits in four goods.
+  OC₁′ gives a base at most two foreign picks, while two rounds could still give three. Not yet constructed: a wanted
+  agent can always keep its pick as a singleton, so the frozen configuration has to be forced elsewhere.
+- **RD²⁺** at positive values. Ordinal enumeration is infeasible at unbounded k. Bigger climbs with the two-round
+  margin at n = 5, 6 (the two-round checker needs a larger MAXS1 at n = 6).
+- **n = 3.** Any proof of ROUND⁺₃ reproves three-agent EFX (Proposition H of `kgen/n3.md`). The classification of
+  §5.2 (keep / two-agent move / rare rotation) is the structure such a proof would have to produce.
