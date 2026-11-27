@@ -4,7 +4,7 @@ Workstream `proof/k4-ttc` (branch `claude/k4-ttc`, draft PR #101). Code: `k4/ttc
 log); logs: `results/k4_ttc/`. Notation as in `k4/sdc.md` (§2, §28–§30). Everything called evidence below is evidence
 only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator integrates.
 
-## Status (burst 7): R2 is owned here, CERTIFIED at n ≤ 4; of its proof targets only R2-C (canonical chain to a receiver, any owner) survives, CERTIFIED at n = 4 (§14.6)
+## Status (burst 7): R2 is owned here: CERTIFIED at n ≤ 4, REFUTED at n = 5 (§14.6, `attempts/k4-ttc-r2-n5.md`); at n = 4 its repairs are (S), (L) or (E)
 
 - **R2** (leaf 5a of the case tree, `k4/oc1_hall.md` §23.2): at a perfect serial-dictatorship start with at least two
   receivers (pick holders nobody values above their own pick), one move gives a one-absorber completion.
@@ -31,11 +31,11 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
   proof target. In all three replayed examples the owner lies in {x₀, z} ∪ U.
 - **k ≤ 4 is necessary:** PW5 (k = 5) has two receivers and fails. Lemma PL (`claude/k4-ksens`) is the k = 4 count a
   proof must use.
-- **R2 looks like REC-S with an empty second move** (evidence, `r2_ek_*.log`). At every sampled hard start with
-  |U| ≥ 2, the earliest-wanter chain E(k) of REC-S, with a pool pair, repairs in one move, and a receiver can own:
-  79/79 and 466/466.
-- **Open:** a proof of R2-C, or of R2-E (Lemma SD-E reduces the state after E(k) to a perfect start of I⁻), by
-  Lemma M^c with an owner chosen per case, any rest, frozen slots allowed.
+- **R2 is not REC-S with an empty second move:** R2-E (REC-S's earliest-wanter chain E(k) repairs) held on all
+  sampled data (79/79, 466/466), but the certifier refutes it at n = 4 (4_n4_3 #77). There one canonical cycle serves
+  both dangerous agents, the second as a middle member taking its predecessor's pick plus its junk.
+- **Open:** a proof of R2-C, by Lemma M^c with an owner chosen per case, any rest, frozen slots allowed. The chain
+  must be allowed to pass a receiver and to give junk to a middle dangerous agent.
 
 ## Status (burst 6): OC₁^max falls at n = 4; two moves always suffice so far, by a pointer rule in the MC2 class
 
@@ -998,6 +998,17 @@ for example a holder of another agent's exact danger set. So R2 is stated only a
 
 ### 14.6 Conjecture R2 (owned here; leaf 5a of `k4/oc1_hall.md` §23.2)
 
+**R2 is REFUTED at n = 5** (certifier, b70dd88c; `attempts/k4-ttc-r2-n5.md`, replayed here by the brute force,
+`refute_r2_cex_n5.log`).
+- *The instance,* 5_pure idx 650: a strict connected MC2-class core with ν = 5, picks (g5, g0, g1, g6, g7), receivers
+  {1, 2}, frozen twins 3 and 4 sharing the junk triple {g2, g3, g4}.
+- *What fails:* no completion, free or one-absorber, after any of the 62 moves.
+- *What still holds:*
+  - R2 and R2-C are CERTIFIED at n ≤ 4, so the statement is a small-n phenomenon;
+  - RF and OC₂^max hold at all five n = 5 failures.
+- What follows below records R2 as it was stated and tested.
+
+
 **Setting.**
 - A strict connected k = 4 core.
 - Y is a *perfect* serial-dictatorship start: every agent holds exactly one pick y_i. Maximum-matching starts reduce
@@ -1128,7 +1139,93 @@ R2-C ("some canonical chain to a receiver repairs, any owner") on all 1,002 n = 
   and all three of the certifier's R2-M / R2-O counterexamples.
 - So, on this evidence, with two receivers REC-S's first step alone repairs, and R2 is REC-S with the second move P′
   empty.
-- The exhaustive n = 4 check of R2-E has been requested. Sampled data misled once already (R2-M).
+- The exhaustive n = 4 check of R2-E was requested. Sampled data misled once already (R2-M).
+
+**R2-E fails at n = 4** (certifier, 02:00 and 02:24, CEGAR `--r2=e` and its raw `verify_r2.py`; replayed here with
+`r2_ek.py`). It fails on 273 of the 1,002 cores; the other 729 are certified (`cert_4_r2e.json.gz`,
+`check_4_r2e.log`, PR #120, cd476cf7).
+- *At n = 5,* the certifier reports that all 702,250 two-move starts on six 5_pure cores have exactly one receiver,
+  consistent with R2.
+- *The instance,* 4_n4_3 #77: sets [[0,4,5,6],[1,2,3,5],[1,3,5,6],[2,4,6]], vals
+  [[4,8,2,7],[3,8,10,6],[3,8,2,4],[3,4,2]], picks (g4, g3, g6, g2); U = {2, 3}, D = {0, 1}, junk {g0, g1, g5}.
+- *Why R2-E fails:* six orders give the start. For each, E(0) = (0, 3) and E(1) = (1, 2), and no improving T after
+  either gives a one-absorber completion.
+- *What repairs it: one cycle serving both dangerous agents.* Every repairing canonical chain is (0, 3, 1, 2) or
+  (1, 2, 0, 3). The chain passes the first unwanted agent and goes on, so it is not an E(k). In (0, 3, 1, 2):
+  - agent 3 takes g4;
+  - agent 1 takes agent 3's pick g2 plus its own junk g1, a danger absorbed by a middle agent;
+  - agent 2 takes g3;
+  - the head 0 takes g0 plus g6, the end's pick.
+- This is double absorption, as in the n = 5 two-private core (`attempts/k4-ttc-fp-plus-one.md`).
+- So R2's chain sometimes needs a wanter that is not σ-earliest, and junk for a middle agent. R2 is not REC-S with an
+  empty second move in general. R2-C, certified at n = 4, remains the target.
+
+**R2-C and the ROUND-P programme** (`kgen/rounds.md` §4.2, §4.6; `k4/sdc/roundp_check.py`).
+- Every R2-C repair is a single OC₁′ move: an official chain is an OC₁′ move in which no middle agent takes the end's
+  released goods. So it is a one-move ROUND-P witness.
+- Checked on the four certifier examples with the coordinator's generator (`oc1prime_verify.prime_states`): every
+  R2-C repairing state is an OC₁′ move state, and `Inst.one_absorber` confirms its completion.
+- So at starts with |U| ≥ 2, R2-C is a sharper statement than OC₁′ and ROUND-P: one *official canonical* chain to a
+  receiver suffices.
+
+**The shape of the R2-C repairs: a dichotomy (lemma candidate for the ROUND-P proof, REFUTED below;** `r2c_shape.py`**).** At a hard
+perfect start with |U| ≥ 2, one of the following holds:
+- **(S) a pure want path to the first receiver.** Some canonical chain from x₀ ∈ D repairs, with every x_i
+  (1 ≤ i ≤ t) taking exactly x_{i−1}'s pick, x_t the first receiver on the path, and x₀ taking an improving set inside
+  J ∪ {y_{x_t}}. This is §11's pointer fixed point, with any wanter rather than the earliest.
+- **(L) double absorption.** Some canonical chain repairs that passes a receiver before its end, and in which a
+  dangerous middle agent takes its predecessor's pick together with junk it values. That is the "a middle agent
+  absorbs danger" shape of OC₁′ / ROUND-P, realized inside an official chain.
+
+**The dichotomy is FALSE at n = 4** (certifier, 02:43, CEGAR `--r2=sl` and raw `verify_r2.py`; replayed here).
+- *The instance,* 4_n4_3 #77 at another profile: vals [[2,10,7,6],[1,4,8,6],[3,8,2,4],[3,4,2]], picks
+  (g5, g3, g6, g4); U = {0, 2}, D = {1, 3}, J = {g0, g1, g2}.
+- *Neither (S) nor (L) repairs.* The R2-C repairs are (1, 2, 0) and (3, 0, 2). They pass a middle receiver, and the
+  end needs junk to improve: in (1, 2, 0), agent 0 takes g6 + g0 = 8 > 7, and the head 1 takes {g2, g5}.
+- *A third shape,* then: through a middle receiver to a receiver, with junk at the end or at the middle receiver.
+- So the shapes of R2-C repairs do not reduce to a two-case lemma.
+
+**The census at n = 4** (certifier, commit 6b8c1e0b; `census_r2_n4.json.gz` and `.log` there). It covers 273 cores
+and 1,550,356 (S)-failing starts; 121 cores were cut at 20 s, and every second start was analysed (775,199).
+- Every repairing chain at every analysed start passes a middle receiver.
+- No shape uses junk at a middle agent that is neither dangerous nor a receiver.
+- The smallest cover, exact and equal to the greedy one, is **{end only, mid-dangerous only}**, both passing a
+  receiver:
+  - junk only at the end: the (E) shape;
+  - junk only at a dangerous middle agent: the (L) shape.
+
+  Both are needed: 25,507 starts have only the second, and 3,643 only the first.
+- So at n = 4 the R2-C repairs are **(S), (L) or (E)**: a pure want path to the first receiver, or a chain past a
+  receiver with junk at a dangerous middle agent or at the end.
+
+**The counts at n = 4** (certifier, 03:11, commit bb9f102d on `compute/k4-oc1max-cert`, PR #120; `check_4_r2sl.log`,
+`r2sl_fails_n4.jsonl`, `verify_r2sl_fails_n4.log`):
+
+| form | cores failing (of 1,002) |
+|---|---|
+| (S) | 273 |
+| (S) or (L) | 48 (954 certified) |
+
+- *At the 48 recorded failures* (one start per core):
+  - every one has an **(E)** repair: the end x_t takes junk, no middle agent takes junk, and the chain passes a middle
+    receiver;
+  - 35 also have a repair in which the end and a middle receiver both take junk;
+  - none has an (S) or (L) repair.
+- *The candidate case list is therefore (S), (L), (E).* It covers the recorded starts, but that is one start per core,
+  not every start. The full census over every (S)-failing start is running at the certifier.
+
+*Evidence for (S) alone (sampled):*
+- (S) holds at 79/79 hard |U| ≥ 2 starts in the n = 4 walk (`r2c_shape_walk_n4.log`), at 466/466 in the n = 6
+  sample (`r2c_shape_n6_sample.log`), and at the R2-O′ counterexample.
+- At 4_n4_3 #77, (S) fails and every repairing chain has shape (L).
+- The exhaustive n = 4 count (how many starts need (L), and whether (L) always holds when (S) fails) is requested
+  from the certifier.
+
+*For a proof:*
+- (S) is exactly the TTC pointer argument of §11: a dangerous agent points at a pool set, and want arrows lead to a
+  receiver.
+- (L) is a second pointer from a middle agent to its own junk.
+- A ROUND-P proof covering "middle agents take junk" would contain R2 as the case of one chain.
 
 **Result** (certifier, final n = 4 counts; every strict profile of all 1,002 cores, perfect hard starts with
 |U| ≥ 2; certified parts independently checked, failures raw-verified; files `cert_4_r2{c,op,og,o,star}.json.gz` on
@@ -1140,6 +1237,7 @@ R2-C ("some canonical chain to a receiver repairs, any owner") on all 1,002 n = 
 | R2-O′ | a receiver other than the end z, on or off the chain, or none | 9 |
 | R2-O generous | a receiver off the chain, or none | 9 (the same) |
 | R2★ | none (owner-free) | 230 |
+| R2-E | REC-S's earliest-wanter chain E(k), any improving T, any owner | 273 |
 | R2-M | x₀, S^c with at most one junk good | 306 |
 | R2-O strict | a receiver off the chain | 308 |
 
@@ -1187,6 +1285,163 @@ n = 4 (`r2_slots_walk_n4.log`) and 466/466 at n = 6 (`r2_slots_n6_sample.log`).
   without them.
 - The new junk can outnumber the unwanted holders plus x₀, by up to 2. The path's multi-good agents then take the
   excess, so the count in step 4 has to include them.
+
+### 14.7 OC₁^∃max from R2: statement (ii) fails, (ii′) holds at n = 4
+
+**The route** (coordinator, 03:33). OC₁^∃max (some maximum-matching order's start satisfies OC₁) would follow from:
+- (i) R2;
+- (ii) "if some maximum-matching start of a profile fails OC₁, some maximum-matching SD outcome of that profile has
+  ≥ 2 receivers".
+
+The certifier's n = 5 good-order export supports (ii) at its 280 failing starts.
+
+**Two facts about receivers** (both proved, from the SD order alone):
+- A wanter of y_j picks after j, so the *last picker is always a receiver*.
+- The second-to-last picker is a receiver unless the last picker wants its pick.
+
+**(ii) is FALSE at n = 4** (`ii_check.py`, `ii_check_n4.log`, on the certifier's complete export of failing pairs).
+- Of the 111,600 distinct profiles with an OC₁^max failure, 110,960 have a perfect outcome with ≥ 2 receivers. Every
+  such outcome satisfies OC₁, as R2 says.
+- At the other **640 profiles every perfect SD outcome has exactly one receiver**.
+
+**(ii′) holds at all 640:** some perfect outcome still satisfies OC₁, with its single receiver (8 of 10 outcomes in the
+printed cases). So the route needs:
+- **(ii′)** if every maximum-matching SD outcome has exactly one receiver, some of them satisfies OC₁.
+
+**The structure of the 640:** in every one, *every agent's top good is also the top good of another agent*. The tops
+come in pairs, as in sets [[0,1,2,6],[1,2,5,6],[3,4,5,6],[3,4,5,6]] with tops (g2, g2, g5, g5). Two agents with a
+common top good make every order's earlier one wanted by the later one.
+- *Not forced in general* (`tops_check.py`, `tops_check.log`):
+  - Among random n = 4 profiles, 40 have one receiver in every perfect outcome, and 17 of those have an unshared top,
+    e.g. on [[0,1,2,3],[1,2,3],[1,2,3],[1,2,3]]: three agents on three goods.
+  - Among 4,779 random n = 5 profiles, none has one receiver everywhere.
+
+  So paired tops are a feature of the OC₁^max-failing profiles, not of the one-receiver condition.
+- (ii′) is the statement to prove. At n = 4 it holds, since OC₁^∃max is certified there. The structure to use is
+  that all 640 have paired tops.
+
+**(ii′) is a special case of RF at n = 4** (`rf_check.py`, `rf_check_n4.log`).
+- RF (girth session): for a failing order, move the start's receiver to the front; it works at all n = 4 failing
+  orders.
+- At the 640 one-receiver-everywhere profiles, RF's order gives a perfect start satisfying OC₁ at all 3,840 failing
+  orders. At every 50th of the other failing profiles (2,219 profiles), it does so at all 5,730 failing orders.
+- So the good one-receiver outcome of (ii′) is RF's.
+
+**Lemma RF-ROT (proved).** At a start with exactly one receiver, the receiver is the last picker of the order, so RF is
+the rotation σ ↦ (σ_n, σ_1, …, σ_{n−1}).
+- *Proof:* the last picker is always a receiver, since a wanter of y_j picks after j.
+- *In the rotated order,* σ_n picks first and takes its top good, and σ_{n−1} becomes the last picker, hence a
+  receiver of the new start.
+- *What a proof of RF must show:* this rotation never leaves a pickless agent, and gives OC₁. At the 640 the rotated
+  start is always perfect.
+
+*RF does not reduce to R2.* Outside the 640, RF's start has two receivers at 3,002 of the 5,730 sampled failing
+orders, and exactly one at the other 2,728, where it still satisfies OC₁ (`rf_check_n4.log`). So RF's good starts are
+often one-receiver starts. RF needs its own argument for those, and R2 covers only part of it.
+
+*The shape of the good outcomes at the 640:* each profile has 2 bad perfect outcomes, each with 2 agents at their top
+good, and its good outcomes have 1 or 2 agents at their top. The number of agents at their top does not separate good
+from bad.
+
+### 14.8 The RF class (|U′|, |D_T′|) = (1, 3) at n = 5: a two-bin trade (with the girth session)
+
+**The task** (coordinator, 05:25). Hall's §24.10 table splits the n = 5 RF starts by class. In two classes neither
+"the picks complete" nor a canonical K chain is the first repair found:
+- (1, 3): 7,733 starts, every one repaired by some single official move;
+- DEMOTE-0: girth keeps that class.
+
+The class (1, 3) is taken here, by agreement with girth.
+
+**Data and the repair form.**
+- *Data:* all 7,733 distinct (1, 3) RF starts, built by girth from the certifier's exports
+  (`results/k4_girth_rf_n5_class13.jsonl.gz` on `claude/k4-girth`, commit 7e4633de; its class counts equal Hall's).
+- *The form, girth's:* its check is `k4/girth/oc1_residue_n5.py`, `w_chain_shape`, in
+  `results/k4_girth_oc1_residue_n5.log`, row "(C) cases: w-chain shape … 7733". Re-checked here by
+  `c13.py` (`c13_structure_n5.log`, `c13_lemma_n5.log`) with this workstream's own EFX₀ check.
+
+**All 7,733 lie on one hypergraph, 5_pure#778, in two shapes** (found by the k3-oc1 session, rebuilt independently;
+confirmed here on girth's file):
+- the common shape (7,248 starts): Y = (7,6,2,5,8), Y′ = (6,1,7,5,8), path 2 → 0 → 1;
+- the other (485): Y = (2,6,7,5,8), Y′ = (6,1,2,5,8), the same path.
+
+So the facts below come from a single hypergraph, and their generality is not tested by this class.
+
+*Independent regeneration* (`rf_classes_n5.py`, `rf_classes_n5.log`; this workstream's own serial dictatorship and
+roles):
+- Every class count of Hall's §24.10 table is reproduced exactly: (2, 0) 480,959; (3, 0) 391,680; (2, 1) 363,402;
+  (1, 2) 140,111; (1, 0) 113,484, of which 274 do not complete at the picks; (2, 2) 26,472; (1, 3) 7,733;
+  (1, 1) 2,782; and 3,460 pickless rotations.
+- The 7,733 (1, 3) starts are exactly the (profile, Y′) set of girth's file.
+
+**Data facts at n = 5** (all 7,733; they are not hypotheses of the lemma below):
+- the RF path is u → w → d, of length 2;
+- d is the unique receiver at Y′, values no junk, and wants Y′_w, its old pick;
+- w is truly dangerous and u is not;
+- |J′| = 4, and w has exactly one improving junk pair H;
+- every working split of the remaining junk gives w exactly one good of J′ ∖ H.
+
+**The repair, in TTC terms: a two-bin trade.**
+1. *The 2-cycle w ↔ d.* w's demand is its own junk pair H, and d's demand is its old house Y′_w. This is the official
+   chain "w takes H, d takes Y′_w", and Y′_d is released.
+2. *The two bins.* With J′ ∖ H = {x, y}:
+   - X_w = H ∪ {x};
+   - X_d = {Y′_w, Y′_d, y};
+   - every other agent keeps its pick.
+- At all 7,733 starts, {x, y} is valued exactly by the other two truly dangerous agents, the twins, and is their
+  danger pair. (An earlier version said 7,248: `c13.py` counted this only under the simple form of (3). The referee
+  found it at all 7,733, and `c13_lemma_n5_fix0.log` confirms it.) The trade splits the twins' pool pair across the two new bins, so neither twin sees both of its goods in
+  one bundle.
+- This matches girth's SINK form: absorber d, sink w.
+
+**Lemma C13 (PROVED, any n; refereed by girth, and by `proof/k4-referee` in `k4/referee/ttc_c13.md`, whose fix (0)
+is applied here).**
+- *Setting:* Y′ is a perfect serial-dictatorship start with junk J′, and w ≠ d are agents with:
+  - (0) no agent other than d wants Y′_d, i.e. d is a receiver at Y′;
+  - (1) an improving pair H ⊆ J′ ∩ R_w with J′ ∖ H = {x, y}, and v_d(Y′_w) > p_d, so the chain w → d is official;
+  - (2) d is the only agent that wants Y′_w;
+  - (3) every i ≠ w has v_i(X_w ∖ g) ≤ p_i for every g ∈ X_w. This holds automatically if i values at most one good
+    of X_w, by (I2);
+  - (4) every i ≠ d values at most one good of X_d.
+- *Conclusion:* X is EFX₀, so OC₁ holds at Y′.
+
+*Proof.*
+- Singletons are never strongly envied.
+- For X_d and an agent i ≠ d: by (4), i values at most one good of X_d, so every X_d ∖ g is worth at most that one good
+  to i. Each good of X_d is unwanted by i:
+  - Y′_w, by (2);
+  - Y′_d, by (0);
+  - y, by (I2).
+- For X_w: this is (3).
+- w and d both gain (v_w(H) > p_w, and v_d(Y′_w) > p_d), so their own envy only falls. ∎
+
+*The same reduction, independently* (k3-oc1 session, `claude/k4-k3-oc1`, its §13 and `k4/k3oc1/rf/rf13_lemma.py`):
+- It states the split J′ ∖ H = A ⊔ B with |B| ≤ 1, X_w = H ∪ B, X_d = {Y_d, g} ∪ A, and EFX₀ iff (W) and (Z).
+- It notes that d is never threatened by X_w: every good of J′ was free at d's turn in σ′, so each is worth less to d
+  than g, and g less than Y_d.
+- In its k = 3 language this is the completion LE: the owner is the receiver at the chain's end, plus one slot for the
+  rotated agent.
+- B = ∅ never works.
+
+*Why (0) is needed* (the referee's counterexample, `k4/referee/ttc_c13.md` §2, replayed by `c13.py cex`,
+`c13_cex_fix0.log`):
+- Take three agents w, d, i and goods a, b, c, h₁, h₂, x, y with values
+  w: a 10, h₁ 6, h₂ 5; d: a 10, b 5, y 1; i: b 10, c 5, x 1.
+- SD(w, d, i) = (a, b, c), with J′ = {h₁, h₂, x, y}.
+- (1)–(4) hold with H = {h₁, h₂}, but i wants b = Y′_d, so (0) fails.
+- The allocation ({h₁, h₂, x}, {a, b, y}, {c}) is not EFX₀: v_i(X_d ∖ a) = 10 > 5 = v_i(X_i).
+
+**Coverage:**
+- (0), (1), (2) and (4) hold at all 7,733 (`c13_lemma_n5_fix0.log`, with (0) checked); at n = 5, U′ = {d}.
+- (3) holds in its simple form (at most one good of X_w) at 7,248, and in its value form at the other 485. There one
+  twin also values a good of H, but its two goods of X_w sum to less than its pick, e.g. 2 + 6 < 10.
+- The allocation is EFX₀ at all 7,733 (raw check).
+
+**Open:**
+- Deriving (2)–(4) from the class definition and k ≤ 4. (0) comes with the class at n = 5, where U′ = {d}; any
+  other use of C13 has to check (0) too. A likely tool is Lemma PL(c): the twins share their pool pair,
+  so each values at most one more junk good, worth less than its pick. The value condition at the 485 is where the
+  argument has to use values, not counts.
+- DEMOTE-0 stays with girth.
 
 ## 12. Next steps
 

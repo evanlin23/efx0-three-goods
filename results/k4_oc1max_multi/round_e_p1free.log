@@ -1,0 +1,25 @@
+$ RMAX=2 P1FREE=1 python3 k4/oc1max_multi/round_e.py results/k4_oc1max_multi/oc1_fail_walk.jsonl.gz
+rounds needed: 2 4955
+rounds tried 12914
+rounds with a P1 settlement (final only) 3004
+starts 4955
+not repaired: 0 []
+$ RMAX=2 P1FREE=1 python3 k4/oc1max_multi/round_e.py results/k4_matching/data/n5_5pure_s5o0_two_move_starts.jsonl.gz
+rounds needed: 1 14
+rounds needed: 2 266
+rounds tried 1984
+rounds with a P1 settlement (final only) 212
+starts 280
+not repaired: 0 []
+$ RMAX=2 P1FREE=1 python3 k4/oc1max_multi/round_e.py results/k4_matching/data/two_move_starts_n5_partial6_s50.jsonl.gz
+rounds needed: 2 14047
+rounds tried 92308
+rounds with a P1 settlement (final only) 11708
+starts 14047
+not repaired: 0 []
+$ RMAX=2 P1FREE=1 python3 k4/oc1max_multi/round_e.py n4rows (n = 4 export, flattened)
+rounds needed: 2 112880
+rounds tried 596240
+rounds with a P1 settlement (final only) 12080
+starts 112880
+not repaired: 0 []

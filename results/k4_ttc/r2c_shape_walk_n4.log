@@ -1,0 +1,6 @@
+$ git show origin/compute/k4-oc1max-cert:results/k4_oc1max/oc1max_cex_n4.json > cex.json   (commit dbc2631)
+$ python3 k4/ttc/r2c_shape.py walk cex.json 300 1
+  a short chain without middle junk repairs 79
+distinct profiles 3264
+hard starts with >= 2 receivers 79
+time 4 s

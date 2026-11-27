@@ -1,0 +1,4 @@
+$ python3 k4/ttc/r2c_shape.py sweep 2,3,4 100 1 71
+  a short chain without middle junk repairs 466
+hard starts with >= 2 receivers 466
+time 112 s
