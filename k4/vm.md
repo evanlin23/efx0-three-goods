@@ -1030,6 +1030,17 @@ caps. A grid pass of VM1-chain up to k = 9 is in `vm1_chain_pwgrid9.log`.
   except PW(3, 3, 8), and every screen, named and k5 instance (`vm1_chain_plain.log`).
 - **VMX₂** (any number of moves) completes every failure found, at every k.
 
+**Targeted tests of VM1-chain on cores.**
+- *Walks inside the failing region* (`vm1_core_repair.py --chain`, `vm1_chain_corewalk_C{0,...,4}.log`). They start
+  at C0–C4 and accept only mutations under which the instance stays a core and VM1 keeps failing.
+  - They visited **3,485 distinct cores on which VM1 fails** (within its caps).
+  - **VM1-chain held on every one.**
+- *The 11 OC₁^max counterexample cores at n = 4* (from `results/k4_oc1max/oc1max_cex_n4.json` on
+  `compute/k4-oc1max-cert`, one profile per hypergraph; `vm1_on_oc1max_cex.log`).
+  - **VM1 holds on all 11 with zero moves and no rotation.** Some V-M matching completes by plain placement.
+  - The contrast with C0 runs both ways. On the OC₁^max cores the SD start fails and the V-M start works. On C0 it is
+    the reverse: OC₁ holds from every maximum-matching SD order (the coordinator's check), but VM1 fails.
+
 **Conjecture VM1-chain (connected k = 4 cores, evidence only).** In every connected k = 4 core, the following give a
 complete EFX₀ allocation:
 - some V-M matching;
