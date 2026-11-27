@@ -1417,10 +1417,10 @@ evaluated against S^φ's hypotheses and the raw EFX₀ definition in I₀.
 
 | data | starts | last-step cases | S^φ hypotheses hold | raw EFX₀ | hypotheses without EFX₀ | EFX₀ without hypotheses |
 |---|---|---|---|---|---|---|
-| walk failures, the 12, n = 5 walks, n = 4 export | 140,292 | 385,925 | 381,125 | 381,125 | **0** | **0** |
+| walk failures, the 12, n = 5 walks, n = 4 export | 140,292 | 748,744 | 739,144 | 739,144 | **0** | **0** |
 
 So the hypotheses are sufficient (the theorem) and, on this data, also necessary. Every one of the 140,292 failing
-starts reaches an S^φ case after exactly one settlement.
+starts reaches an S^φ case after exactly one settlement (two moves in all).
 
 *What RSD-IND (K4.MATCH.RSDIND) now needs is existence alone:* at every stage, some settlement or some Theorem S case
 meets (S-φ1), (S-φ2) and the head condition. Everything else is a written proof:
