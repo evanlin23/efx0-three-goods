@@ -95,6 +95,17 @@ OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
   - Example: 5_pure idx 164, sets [[0,2,3,7],[1,2,6,7],[3,4,5,6],[3,4,5,7],[4,5,6,7]], values
     [[1,8,6,4],[4,8,2,7],[6,7,3,5],[7,10,2,6],[7,5,3,6]], picks (7,2,3,5,4).
 
+**OC₂^max with S*-shaped completions holds for every strict profile on every core with n ≤ 4**
+(`k4/oc1_hall.md` §2 on claude/k4-oc1-hall).
+- The S* shape: one owner (any agent) takes any number of junk goods; an unfrozen holder of at most one base good takes
+  at most one; every other agent takes none.
+- Files: `results/k4_oc1max/cert_4_sstar.json.gz` and `cert_23_sstar.json.gz`, checked by `check.py` with OC1_SSTAR=1
+  (`check_4_sstar.log`, `check_23_sstar.log`).
+- One S* move suffices everywhere except at the starts of the 11 OC₁^max-failing cores, so the proof plan can stay
+  inside S*.
+- In the CEGAR, an S* witness fixes every pick and the owner, and carries each junk-receiving holder's "nobody wants my
+  base" comparisons, which depend on the types.
+
 **OC₁^max holds for every strict profile on**:
 - every core with n = 2 (5) and n = 3 (51);
 - 991 of the 1,002 n = 4 cores.
