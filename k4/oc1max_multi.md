@@ -692,7 +692,7 @@ failures, which include the 12).
   - each of k, z and q owns an S\* completion afterwards.
 - At the 577 failures near the TTC core, P₁ takes the pool pair {junk, Y_z}, z ends at its top, and k, z and q own.
 
-**Lemma LIFT (K4.MULTI.LIFT; the second move as a move of a smaller instance).** Let B be a state, and k an agent
+**Lemma LIFT (K4.MULTI.LIFT; the second move as a move of a smaller instance).** *Refereed CORRECT (with SD-E and REC-S, §12).* Let B be a state, and k an agent
 holding a pair T such that every other agent with a relevant good values each good of T below its value at B. This
 holds after a canonical chain whose improving set is a junk pair, by (I2). Let I⁻ be the instance without agent k
 and the goods T, and B⁻ the restriction of B.
@@ -1076,9 +1076,12 @@ E(k) = (k = x₀, x₁, …, x_t = z) is defined by:
 A wanter of Y_j picks after j: Y_j was gone at its turn. So σ increases along E(k), its agents are distinct, it is a
 canonical chain, and it exists for every frozen k.
 
-**Lemma SD-E (K4.MULTI.SDE).** Let T ⊆ J ∪ {Y_z}. Let B₁ be the state after E(k) in which k takes T: x_l holds
+**Lemma SD-E (K4.MULTI.SDE).** *Refereed CORRECT, together with Theorem REC-S and Lemma LIFT
+(`k4/referee/oc1max_multi.md` §11, commit e746fc2c on `claude/k4-referee`).* Let T ⊆ J ∪ {Y_z}. Let B₁ be the state after E(k) in which k takes T: x_l holds
 Y_{x_{l−1}}, and every other agent keeps its pick. Let I⁻ be the instance without k and T. Then B₁ restricted to I⁻ is
-the SD outcome of σ with k deleted. In particular it is a perfect start of I⁻.
+the SD outcome of σ with k deleted. If Y is a perfect start, so is this state, in I⁻. (Without that hypothesis it
+need not be: v₀ = {0: 9}, v₁ = {0: 5, 1: 4}, v₂ = {0: 1}, σ = (0, 1, 2), E(0) = (0, 1) leaves agent 2 pickless
+while it values good 0. This is the referee's example.)
 
 *Proof.* Write b_a for a's good at B₁. We run σ ∖ k in I⁻ and show by induction that every agent a takes b_a.
 - *b_a is available at a's turn.* Only a holds b_a. b_a ∉ T, since b_a is a pick other than Y_z.
@@ -1117,6 +1120,19 @@ Then OC₂ holds at Y. The repair is:
 - LIFT 2 with (L) and (K) makes X⁻ ∪ {k: T} a one-absorber completion in I. ∎
 
 Every hypothesis is checked at the start; the existence of the moves is part of the proof.
+
+*Remarks (referee).*
+- **(L) is automatic.** Values are strict, Y is perfect and T ⊆ J ∪ {Y_z}, so every i ≠ k with a pick values each good
+  of T below p_i:
+  - a junk good was available at i's turn;
+  - for i ≠ z, Y_z is unwanted;
+  - for i = z, v_z(Y_z) = p_z < v_z(a).
+
+  Values only rise along E(k), and pickless agents at a perfect start are null. (L) never failed in 128,679 pairs.
+- **(K) is genuine.** It fails at 188 of 6,065 random Theorem S cases, and every allocation where it fails is not EFX₀.
+- **LIFT 1 when P′ uses agents of E(k).** An official move depends only on the agents' values on the current bundles
+  and the pool. J(I, B₁) = J(I⁻, B₁⁻), because k holds T. In the data, P′'s head is an agent of E(k) in all 9,943
+  repairs, and its owner is one in 57.
 
 *Checks* (`reduce_s.py`, `reduce_s.log`, `reduce_s_cex12.log`; raw EFX₀ in I for every lifted allocation). Both the
 general form (any canonical P₁ with B₁⁻ an SD start) and the E(k)-only form were run:
