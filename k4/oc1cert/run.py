@@ -63,6 +63,8 @@ def job(task):
             vals = [list(C.dom[i][t]) for i, t in enumerate(prof)]
             ok, d = G.rf(sets, vals, Y)
             rf['pairs checked'] += 1; rf['receiver-first maximum pick vectors checked'] += d['maximum ones']
+            nr = str(len(d['receivers'])); rf.setdefault('receivers at the failing start', {})
+            rf['receivers at the failing start'][nr] = rf['receivers at the failing start'].get(nr, 0) + 1
             if not ok: rf['violations'].append({'vals': vals, 'picks': list(Y), **d})
         rec['rf'] = rf
     if r == 'certified':
@@ -136,6 +138,8 @@ def main():
                     T['RF: failing pairs checked (every pair met)'] += rf['pairs checked']
                     T['RF: receiver-first maximum pick vectors checked'] += rf['receiver-first maximum pick vectors checked']
                     T['RF: VIOLATIONS'] += len(rf['violations'])
+                    for nr, c in rf.get('receivers at the failing start', {}).items():
+                        T['failing pairs met with %s receivers' % nr] += c
                     for v in rf['violations']:
                         print('RF VIOLATION', json.dumps({'list': rec['list'], 'idx': rec['idx'], 'sets': rec['sets'], **v}), flush=True)
                 print('OC1MAX FAILS (raw: %s)' % rec['oc1_fails'][0]['raw_check']['raw'],

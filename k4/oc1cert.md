@@ -115,6 +115,9 @@ OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
     - From now on `run.py --depth=2` checks it at every OC₁^max-failing pair the CEGAR meets (summary field `rf`).
     - `rf_chunk.py` reruns the failing cores of chunks run before that.
     - `good_orders.py --rf` checks it at every start of an export.
+  - RF at every failing pair met on chunk 1 (`rf_5_pure_s5o0.jsonl.gz`, `rf_5_pure_s5o0.log`): 550 pairs on the 137
+    cores, 2,769 receiver-first maximum pick vectors, no violation. The rerun met exactly the chunk run's pairs on all
+    137 cores.
 
 **OC₁′^max (kgen-rounds' move, `kgen/rounds.md` §4.6 on proof/kgen-rounds) holds at n ≤ 4 and fails at n = 5.**
 - The move: as OC₁'s, except that every non-end chain agent may also take goods of the end's base that it values.

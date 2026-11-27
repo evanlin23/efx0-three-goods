@@ -32,6 +32,7 @@ if __name__ == '__main__':
             T['RF: failing pairs checked (every pair met)'] += rf['pairs checked']
             T['RF: receiver-first maximum pick vectors checked'] += rf['receiver-first maximum pick vectors checked']
             T['RF: VIOLATIONS'] += len(rf['violations'])
+            for nr, c in rf.get('receivers at the failing start', {}).items(): T['failing pairs met with %s receivers' % nr] += c
             same = o.get('n_oc1_fail_pairs_met', 0) == r['n_oc1_fail_pairs_met']
             T['pairs met equal to the chunk run' if same else 'PAIRS MET DIFFER FROM THE CHUNK RUN'] += 1
             for v in rf['violations']:
