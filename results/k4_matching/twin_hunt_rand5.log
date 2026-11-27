@@ -1,0 +1,19 @@
+$ python3 k4/matching/twin_hunt.py rand5 3000 1
+instances 3000
+... 200 0 s
+... 400 0 s
+... 600 0 s
+... 800 0 s
+... 1000 0 s
+... 1200 0 s
+... 1400 0 s
+... 1600 1 s
+... 1800 1 s
+... 2000 1 s
+... 2200 1 s
+... 2400 1 s
+... 2600 1 s
+... 2800 1 s
+... 3000 1 s
+failures: (a) 0, (b) 0, (b) for every receiver 0
+time 1 s

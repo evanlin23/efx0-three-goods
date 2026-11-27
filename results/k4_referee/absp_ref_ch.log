@@ -1,0 +1,13 @@
+$ python3 k4/referee/absp_ref.py ch 30000 2
+    (A0) True, (A1) True                                  27413
+    (V1) q not in D^full: values Y_xt True                623
+    ABS' construction EFX0                                21569
+    ABS' fails, (V1) or (V2) present                      2263
+    ABS' holds at B'                                      21569
+    d meets (A3): True                                    27413
+    official                                              27413
+    |H0| = 2: (A2) True                                   23832
+  MM starts                                               74549
+  chains tried (|H0| = 2)                                 23832
+  chains tried (|H0| = 3)                                 3581
+  f holds its private top                                 74549

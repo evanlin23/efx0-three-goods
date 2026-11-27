@@ -1,0 +1,16 @@
+$ python3 k4/matching/n5_census.py ../../results/k4_matching/data/multi_oc1_fail_walk.jsonl.gz | 4955 distinct starts (EXACT_STRIDE=1)
+  OC2-REC with (b) by a Lemma EX* exchange in I- True 4955
+  OC2-REC: B1- completes at once False 4955
+  OC2-REC: P1 ends at the holder True 4955
+  a repairing pair has P2 ending at the holder True 4955
+  a repairing pair is vertex-disjoint False 3004
+  a repairing pair is vertex-disjoint True 1951
+(EX* sample) exact on the second move True 4955
+CM2 True 4955
+LIFT-SHAPE+ True 4955
+OC2 (chains from dangerous agents) True 4955
+OC2-REC True 4955
+hard, OC1 fails (raw) True 4955
+holders = 1 4955
+wrote ../../results/k4_matching/rec_multiwalk_witnesses.json.gz 4955 witnesses
+time 36 s

@@ -1,0 +1,6 @@
+$ python3 k4/matching/twin_hunt.py twin6 400 1
+instances 400
+... 200 2 s
+... 400 4 s
+failures: (a) 0, (b) 0, (b) for every receiver 0
+time 4 s

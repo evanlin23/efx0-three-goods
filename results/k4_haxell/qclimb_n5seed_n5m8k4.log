@@ -1,0 +1,2 @@
+$ python3 k4/haxell/ht_wclimb.py 5 8 4 STEPS=800 CLIMBERS=2 RESTART=300 RADIUS=3 MEASURE=20 SEED=205 START=5 8 4 3 28 4 44 5 50 6 56 3 1 2 3 1 5 25 3 0 28 3 8 7 20 4 0 57 1 49 2 54 7 25 4 4 25 5 35 6 46 7 36
+PARTIAL: stopped at the session wind-down (2026-11-27) before finishing; no summary. Only the lines above are results.

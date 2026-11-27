@@ -1,0 +1,12 @@
+$ MODE=canon TSIZE=any LSTAR=now DMAX=4 python3 k4/matching/rsd.py ../../results/k4_matching/data/onemove_hard_pw291.jsonl.gz | 291 distinct starts
+RSD+: every step shared True 291
+RSD+: least d = 0 291
+RSD+: sizes of T along the sequence [] 291
+RSD: every step shared False 160
+RSD: every step shared True 131
+RSD: least d = 1 285
+RSD: least d = 2 6
+RSD: sizes of T along the sequence [2, 2] 6
+RSD: sizes of T along the sequence [2] 285
+wrote ../../results/k4_matching/rsd_onemove_pw291_witnesses.json.gz 291 witnesses
+time 2 s

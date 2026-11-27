@@ -1,0 +1,11 @@
+$ MODE=canon TSIZE=any DMAX=4 python3 k4/matching/rsd.py ../../results/k4_matching/n5_walk164.jsonl ../../results/k4_matching/n5_walk164_long.jsonl.gz | 23924 distinct starts
+... 10000 67 s
+... 20000 131 s
+RSD+: every step shared True 23924
+RSD+: least d = 1 23924
+RSD+: sizes of T along the sequence [2] 23924
+RSD: every step shared False 23924
+RSD: least d = 2 23924
+RSD: sizes of T along the sequence [2, 2] 23924
+wrote ../../results/k4_matching/rsd_n5walk_witnesses.json.gz 23924 witnesses
+time 157 s

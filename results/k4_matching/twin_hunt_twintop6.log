@@ -1,0 +1,8 @@
+$ python3 k4/matching/twin_hunt.py twintop6 400 1
+instances 400
+... 200 0 s
+... 400 1 s
+twin-top configuration: one move repairs 32
+twin-top configuration: picks complete 3280
+failures: (a) 0, (b) 0, (b) for every receiver 0
+time 1 s

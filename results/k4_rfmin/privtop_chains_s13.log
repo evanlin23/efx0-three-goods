@@ -1,0 +1,59 @@
+canonical chains at RF-PRIV starts where ABS' fails at the picks: 20000 cores, n = 4..6, seed 13
+    ABS' states after canonical chains, construction EFX0 (raw)                21449
+  gap |D_full|=1: every pair chain, unfrozen head, gives ABS': True            24
+  gap |D_full|=1: some canonical chain gives ABS': True                        24
+  gap |D_full|=1: some pair chain, unfrozen head, gives ABS': True             24
+  gap |D_full|=1: starts                                                       24
+  gap |D_full|=2, no canonical chain: some move with an agent taking a pick plus junk leaves ABS': True 7
+  gap |D_full|=2: every pair chain, unfrozen head, gives ABS': False           47
+  gap |D_full|=2: every pair chain, unfrozen head, gives ABS': True            18
+  gap |D_full|=2: pair chains (unfrozen head) violating via V1                 3
+  gap |D_full|=2: pair chains (unfrozen head) violating via V1*                78
+  gap |D_full|=2: some canonical chain gives ABS': False                       7
+  gap |D_full|=2: some canonical chain gives ABS': True                        58
+  gap |D_full|=2: some pair chain, unfrozen head, gives ABS': False            7
+  gap |D_full|=2: some pair chain, unfrozen head, gives ABS': True             58
+  gap |D_full|=2: starts                                                       65
+  gap |D_full|=3, no canonical chain: some move with an agent taking a pick plus junk leaves ABS': True 3
+  gap |D_full|=3: every pair chain, unfrozen head, gives ABS': False           13
+  gap |D_full|=3: every pair chain, unfrozen head, gives ABS': True            1
+  gap |D_full|=3: pair chains (unfrozen head) violating via V1*                48
+  gap |D_full|=3: pair chains (unfrozen head) violating via V2                 8
+  gap |D_full|=3: some canonical chain gives ABS': False                       3
+  gap |D_full|=3: some canonical chain gives ABS': True                        11
+  gap |D_full|=3: some pair chain, unfrozen head, gives ABS': False            3
+  gap |D_full|=3: some pair chain, unfrozen head, gives ABS': True             11
+  gap |D_full|=3: starts                                                       14
+  non-gap |D_full|=1: every pair chain, unfrozen head, gives ABS': False       1289
+  non-gap |D_full|=1: every pair chain, unfrozen head, gives ABS': True        11183
+  non-gap |D_full|=1: no pair chain with an unfrozen head                      89
+  non-gap |D_full|=1: pair chains (unfrozen head) violating via V1             583
+  non-gap |D_full|=1: pair chains (unfrozen head) violating via V2             1009
+  non-gap |D_full|=1: some canonical chain gives ABS': False                   444
+  non-gap |D_full|=1: some canonical chain gives ABS': True                    12117
+  non-gap |D_full|=1: some pair chain, unfrozen head, gives ABS': False        512
+  non-gap |D_full|=1: some pair chain, unfrozen head, gives ABS': True         12049
+  non-gap |D_full|=1: starts                                                   12561
+  non-gap |D_full|=2: every pair chain, unfrozen head, gives ABS': False       460
+  non-gap |D_full|=2: every pair chain, unfrozen head, gives ABS': True        1209
+  non-gap |D_full|=2: pair chains (unfrozen head) violating via V1             31
+  non-gap |D_full|=2: pair chains (unfrozen head) violating via V1*            603
+  non-gap |D_full|=2: pair chains (unfrozen head) violating via V2             218
+  non-gap |D_full|=2: some canonical chain gives ABS': False                   89
+  non-gap |D_full|=2: some canonical chain gives ABS': True                    1580
+  non-gap |D_full|=2: some pair chain, unfrozen head, gives ABS': False        95
+  non-gap |D_full|=2: some pair chain, unfrozen head, gives ABS': True         1574
+  non-gap |D_full|=2: starts                                                   1669
+  non-gap |D_full|=3: every pair chain, unfrozen head, gives ABS': False       30
+  non-gap |D_full|=3: every pair chain, unfrozen head, gives ABS': True        24
+  non-gap |D_full|=3: pair chains (unfrozen head) violating via V1*            74
+  non-gap |D_full|=3: pair chains (unfrozen head) violating via V2             5
+  non-gap |D_full|=3: some canonical chain gives ABS': False                   4
+  non-gap |D_full|=3: some canonical chain gives ABS': True                    50
+  non-gap |D_full|=3: some pair chain, unfrozen head, gives ABS': False        4
+  non-gap |D_full|=3: some pair chain, unfrozen head, gives ABS': True         50
+  non-gap |D_full|=3: starts                                                   54
+
+real	0m11.389s
+user	0m41.803s
+sys	0m2.187s

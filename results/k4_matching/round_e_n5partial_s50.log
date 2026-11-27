@@ -1,0 +1,6 @@
+# proof/k4-oc1max-multi-2 code at 2773d865 (not this workstream's), run unmodified
+$ RMAX=2 python3 k4/oc1max_multi/round_e.py results/k4_matching/data/two_move_starts_n5_partial6_s50.jsonl.gz
+rounds needed: 2 14047
+rounds tried 87878
+starts 14047
+not repaired: 0 []

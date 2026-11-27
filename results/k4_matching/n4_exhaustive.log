@@ -1,0 +1,23 @@
+$ python3 k4/matching/n4_exhaustive.py | 112880 starts (EXACT_STRIDE=20)
+... 10000 7 s
+... 20000 14 s
+... 30000 21 s
+... 40000 28 s
+... 50000 38 s
+... 60000 44 s
+... 70000 51 s
+... 80000 58 s
+... 90000 64 s
+... 100000 73 s
+... 110000 84 s
+(sample) EX* exact on the second move True 5644
+CM2 holds True 112880
+CM2 witness has a raw S* completion True 112880
+LIFT-1 allocation raw EFX0 True 112880
+LIFT-SHAPE+ holds True 112880
+LIFT-SHAPE+ via case a 109680
+LIFT-SHAPE+ via case b 3200
+hard perfect start (raw) True 112880
+holders = 1 112880
+wrote results/k4_matching/lift_n4_witnesses.json.gz 112880 witnesses
+time 90 s

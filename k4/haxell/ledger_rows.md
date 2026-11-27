@@ -28,3 +28,16 @@ Rows added after #106 (for the follow-up PR):
 | ID | Claim | Status | Artifact | Lean | Notes |
 |---|---|---|---|---|---|
 | K4.HX.PSUBK3 | P^sub for k ≤ 3: in every instance with every agent valuing at most three goods, every partial EFX₀ allocation with a nonempty pool has a P^sub step (at most two set moves reach a smaller pool, or the same pool and a Pareto improvement) | CONJECTURE | | | exhaustive at n ≤ 3 (K4.HX.N2's enumeration with k ≤ 3; K4.HX.PN3); two-move Pareto climbs at n = 4 (m = 7, 8) and n = 5 (m = 7) found no failure (`results/k4_haxell/p2climb_*.log`). Every known two-move failure has an agent with four goods |
+
+Rows added in burst 4 (for the follow-up PR after #144):
+
+| ID | Claim | Status | Artifact | Lean | Notes |
+|---|---|---|---|---|---|
+| K4.HX.R | Lemma R: from any partial allocation, at most 2n − 1 set transfers (along the cycle 1 → 2 → ⋯ → n → 1) reach any given complete allocation. Hence the set-move lemma with radius ≥ 2n − 1 is equivalent to the existence of a complete EFX₀ allocation; only a radius independent of n has content | PROVED | `k4/haxell.md` | | written proof in §6 ("Lemma R") |
+| K4.HX.N2R3 | Corollary N2₃: n = 2, additive valuations of any kind (ties and zero values included), any number of relevant goods. From every partial EFX₀ allocation with a nonempty pool, at most three set moves reach a complete EFX₀ allocation; so AUG^sub₃, P^sub₃, W^sub₃, L^sub₃ and K4.HX.Q hold at n = 2 | PROVED | `k4/haxell.md` | | cut-and-choose (written proof in §6) plus K4.HX.R. Re-checked on every strict type profile with k ≤ 4: no state needs a chain longer than three (`results/k4_haxell/chain_n2_k4.log`; `k4/haxell/ht_chain.py`, pure Python) |
+| K4.HX.Q | Measure Q: in every instance with ≤ 4 relevant goods per agent, from every partial EFX₀ allocation with a nonempty pool, either at most two set moves reach a partial EFX₀ allocation with the same pool and a Pareto improvement, or at most three set moves reach one with a smaller pool. Implies K4.HX.PSUB3 and TARGET₄ | CONJECTURE | | | holds at all 44 known two-move failures (`gstar_measure 3 1 20 1`, also with single-good moves; `results/k4_haxell/rescue_anatomy.log`: each has a pool-shrinking three-move composite), on the 156,000 sampled core profiles (`n4core_p2_sample_cert.log` with the anatomy of its 3 failures), at n = 2 (K4.HX.N2R3) and at n = 3 with k ≤ 3 (K4.HX.PN3). Q climbs from four n = 4 seeds: no counterexample (`qclimb_seed*_n4m7k4.log`). Evidence only |
+
+Notes update for K4.HX.PSUB3 (append): 156,000 random strict balanced type profiles of the 780 n = 4, k = 4 cores
+with m ≤ 8 (200 per core; 499,517,909 states): no three-move stuck state (`results/k4_haxell/n4core_p3_sample_cert.log`);
+two moves fail at 3 of them (`n4core_p2_sample_cert.log`), plus 2 found with unbalanced types (`n4core_p2_sample_strict.log`,
+partial run). n = 6 climbs seeded from n = 4 failures: no failure (`n6climb_*.log`, one run partial).

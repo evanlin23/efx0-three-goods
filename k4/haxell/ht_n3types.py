@@ -10,12 +10,16 @@ interchangeable; the first agent of the pattern values them distinctly, so every
 that agent's values increase along the pattern's goods, and only those are run (agent permutations fixing the shape are
 not factored out: extra work, not missing work).  Each instance goes to gstar_measure RADIUS 1 19 1 (Pareto, set moves).
 
-    python3 k4/haxell/ht_n3types.py [K=3] [MMIN=2] [MMAX=9] [RADIUS=2] [PROCS=2]"""
-import sys, os, json, itertools, subprocess, collections, threading, time
+    python3 k4/haxell/ht_n3types.py [K=3] [MMIN=2] [MMAX=9] [RADIUS=2] [PROCS=2] [MEASURE=19] [SAMPLE=0] [SEED=1] [NEED4=0]
+SAMPLE=N runs N uniformly random profiles per shape instead of every orbit (each one an exact test of its profile; the
+sample is what makes it evidence).  NEED4=1 skips the shapes in which no agent values four goods.  MEASURE=20 is
+measure Q of gstar_measure (a Pareto step within two moves, or a smaller pool within RADIUS)."""
+import sys, os, json, itertools, subprocess, collections, threading, time, random
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(HERE, '..', '..')
 ARGV = sys.argv[1:]; args = dict(a.split('=') for a in ARGV if '=' in a)
 K = int(args.get('K', '3')); MMIN = int(args.get('MMIN', '2')); MMAX = int(args.get('MMAX', '9'))
-RADIUS = args.get('RADIUS', '2'); P = int(args.get('PROCS', '2'))
+RADIUS = args.get('RADIUS', '2'); P = int(args.get('PROCS', '2')); MEAS = args.get('MEASURE', '19')
+SAMPLE = int(args.get('SAMPLE', '0')); SEED = int(args.get('SEED', '1')); NEED4 = int(args.get('NEED4', '0'))
 OT = json.load(open(os.path.join(ROOT, 'k4', 'order_types.json')))
 TYPES = {1: [(1,)], 2: [(1, 2), (2, 1)]}
 for k in (3, 4):
@@ -25,14 +29,21 @@ sys.path.insert(0, HERE)
 import ht_n3grid as G          # shapes() (reads K, MMIN, MMAX from the argv set above)
 
 
+RNG = random.Random(SEED)
+
+
 def instances(m, key):
     R = [[g for g, p in enumerate(key) if a in p] for a in range(3)]
     firsts = collections.defaultdict(list)          # pattern -> its goods; the first agent of the pattern orders them
     for g, p in enumerate(key):
         firsts[p].append(g)
-    for prof in itertools.product(*[TYPES[len(Ri)] for Ri in R]):
+    if SAMPLE:
+        profs = ([RNG.choice(TYPES[len(Ri)]) for Ri in R] for _ in range(SAMPLE))
+    else:
+        profs = itertools.product(*[TYPES[len(Ri)] for Ri in R])
+    for prof in profs:
         val = [dict(zip(Ri, t)) for Ri, t in zip(R, prof)]
-        if all(all(val[p[0]][x] < val[p[0]][y] for x, y in zip(gs, gs[1:])) for p, gs in firsts.items()):
+        if SAMPLE or all(all(val[p[0]][x] < val[p[0]][y] for x, y in zip(gs, gs[1:])) for p, gs in firsts.items()):
             parts = ['3', str(m)]
             for a in range(3):
                 parts.append(str(len(R[a])))
@@ -44,7 +55,7 @@ def instances(m, key):
 if __name__ == '__main__':
     print('$ python3 k4/haxell/ht_n3types.py', *ARGV, flush=True)
     t0 = time.time(); C = collections.Counter(); lock = threading.Lock()
-    procs = [subprocess.Popen([os.path.join(HERE, 'gstar_measure'), RADIUS, '1', '19', '1'], stdin=subprocess.PIPE,
+    procs = [subprocess.Popen([os.path.join(HERE, 'gstar_measure'), RADIUS, '1', MEAS, '1'], stdin=subprocess.PIPE,
                               stdout=subprocess.PIPE, text=True, bufsize=1 << 16) for _ in range(P)]
     sent = [collections.deque() for _ in range(P)]
 
@@ -55,15 +66,17 @@ if __name__ == '__main__':
                 src = sent[k].popleft(); C['instances'] += 1; C['instances m=%s' % w[1]] += 1
                 C['partial EFX0 states'] += int(w[3])
                 d = {w[i]: int(w[i + 1]) for i in range(4, len(w) - 1, 2) if w[i].startswith('phi')}
-                C['phi0 stuck states'] += d['phi0']; C['phi19 (Pareto) stuck states'] += d['phi19']
-                C['instances with a Pareto-stuck state'] += d['phi19'] > 0
-                if d['phi19'] and C['shown'] < 20:
+                C['phi0 stuck states'] += d['phi0']; C['phi%s stuck states' % MEAS] += d['phi' + MEAS]
+                C['instances with a phi%s-stuck state' % MEAS] += d['phi' + MEAS] > 0
+                if d['phi' + MEAS] and C['shown'] < 20:
                     C['shown'] += 1; print('STUCK', src, '|', ln.strip(), flush=True)
     ths = [threading.Thread(target=reader, args=(k,)) for k in range(P)]
     for th in ths:
         th.start()
     t = 0; ns = 0
     for m, key in G.shapes():
+        if NEED4 and max(sum(a in p for p in key) for a in range(3)) < 4:
+            continue
         ns += 1
         for ln in instances(m, key):
             k = t % P

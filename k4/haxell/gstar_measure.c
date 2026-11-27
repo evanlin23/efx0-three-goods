@@ -19,6 +19,9 @@
             max(0, v_i(X_j + g) - min_{X_j + g} v_i - v_i(X_i)) over pool goods g, minimized
          9  -sum_i |X_i cap R_i| (relevant goods held by a valuer), maximized
         10-18  welfare (phi 1) first, ties broken by phi 2, 4, 3, 8, 7, 5, 6, 9; and 18: leximin (phi 2), then welfare
+        19  Pareto: a step to the same pool must leave no agent worse and some agent strictly better
+        20  Q: Pareto (as 19) within two moves, or a smaller pool within RADIUS moves (with RADIUS 3, the third pass
+            accepts only pool-shrinking composites)
    Input as gstar.c.  Output per instance: n m states, then "phiK stuck N" for each K, and one stuck state for the
    first phi with one.  With argument 3, a step may be a composite of three moves (the third pass runs only on states
    still stuck after two).  With ROT = 1 a rotation of the bundles along any cycle of agents also counts as one local
@@ -29,7 +32,7 @@
 #include <string.h>
 #define MAXN 6
 #define MAXM 11
-#define NPHI 20
+#define NPHI 21
 static int n, m;
 static long val[MAXN][MAXM];
 static long NS;
@@ -55,7 +58,7 @@ typedef struct { long x[MAXN + 1]; } Phi;
 static int cmpphi(const Phi *a, const Phi *b) { for (int t = 0; t <= MAXN; t++) { if (a->x[t] < b->x[t]) return -1; if (a->x[t] > b->x[t]) return 1; } return 0; }
 /* q improves on p: lexicographically smaller, except phi19 (Pareto): no agent worse and some agent strictly better */
 static int better_phi(int K, const Phi *q, const Phi *p) {
-    if (K != 19) return cmpphi(q, p) < 0;
+    if (K != 19 && K != 20) return cmpphi(q, p) < 0;
     int strict = 0; for (int t = 0; t <= MAXN; t++) { if (q->x[t] > p->x[t]) return 0; if (q->x[t] < p->x[t]) strict = 1; }
     return strict;
 }
@@ -99,7 +102,7 @@ static void phi1(int K, const int *own, Phi *out) {
             if (any && best > 0) tot += best; }
         out->x[0] = tot; return; }
     if (K == 9) { long c = 0; for (int g = 0; g < m; g++) if (own[g] < n && val[own[g]][g] > 0) c++; out->x[0] = -c; return; }
-    if (K == 19) { for (int i = 0; i < n; i++) out->x[i] = -hold[i]; return; }   /* Pareto: compared by dominance, see better() */
+    if (K == 19 || K == 20) { for (int i = 0; i < n; i++) out->x[i] = -hold[i]; return; }   /* Pareto: compared by dominance, see better() */
 }
 static int nb_count; static long nb_buf[4096];
 static void gen_cycles(void);
@@ -212,7 +215,7 @@ int main(int argc, char **argv) {
                         for (int z = 0; z < nb_count && left; z++) { long u = nb_buf[z]; if (!ok[u]) continue;
                             int ou[MAXM]; decode(u, ou); int pu = poolsz(ou); if (pu > p) continue;
                             for (int K = 0; K < NPHI; K++) { if (done[K]) continue; int better = pu < p;
-                                if (!better && K > 0) { Phi q; phi(K, ou, &q); better = better_phi(K, &q, &ps[K]); }
+                                if (!better && K > 0 && K != 20) { Phi q; phi(K, ou, &q); better = better_phi(K, &q, &ps[K]); }
                                 if (better) { done[K] = 1; left--; stuck3fixed[K]++; } } } } } }
             for (int K = 0; K < NPHI; K++) if (!done[K]) { stuck[K]++; if (ex[K] < 0) ex[K] = s; }
         }

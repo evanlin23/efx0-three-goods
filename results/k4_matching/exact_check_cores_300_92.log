@@ -1,0 +1,15 @@
+$ python3 k4/matching/exact_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 300 92 (NMAX=4 STRIDE=7)
+(a) tests 57456
+(b) agree, deficiency 0 5782
+(b) agree, deficiency 1 629
+(b) agree, deficiency 2 192
+(b) agree, deficiency 3 90
+(b) agree, deficiency 4 23
+(b) owner tests 6716
+(b) states with (G1), (G2): move 983
+(b) states with (G1), (G2): pick 696
+instances 300
+skipped (|J| > 6) 7
+states move 1698
+states pick 696
+time 11 s

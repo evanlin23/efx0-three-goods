@@ -1,0 +1,14 @@
+/tmp/claude-0/-home-user-efx0-three-goods/9be92e1e-1be7-5a0d-a3c2-55d27b90d9bf/scratchpad/rf/n5p6.json.gz stride 20 mode x1
+  lifted: completion with x1 taking junk False, without True             949
+  lifted: completion with x1 taking junk True, without True              242
+  t also wanted by another agent                                         1191
+  u wants t before the lift                                              1191
+/tmp/claude-0/-home-user-efx0-three-goods/9be92e1e-1be7-5a0d-a3c2-55d27b90d9bf/scratchpad/rf/n5p6.json.gz stride 100 mode threats
+  starts                                                                 240
+  threat: a single-junk bundle holding above-p                           240
+  threat: a single-junk bundle holding above-p+junk-of-u                 28
+  threat: a single-junk bundle holding top                               45
+  threat: the absorber bundle holding above-p                            45
+  threat: the absorber bundle holding top                                45
+/tmp/claude-0/-home-user-efx0-three-goods/9be92e1e-1be7-5a0d-a3c2-55d27b90d9bf/scratchpad/rf/n5p6.json.gz stride 50 mode owner
+  completion with absorber u (the private-top agent) exists              478
