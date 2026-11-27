@@ -60,11 +60,19 @@ def witness_ok(sets, vals, m, Y, a):
 
 def work(cid):
     c = G['cores'][cid]; a = G['args']
-    sets, m, nu = c['sets'], c['m'], c['nu']; n = len(sets); perms = G['perms'][n]
     rnd = random.Random('rf/%d/%d/%d/%d' % (a['vmax'], a['seed'], c['m'], c['idx']))
     C = collections.Counter(); recs = []
     for _ in range(a['per_core']):
-        vals = [strict_vals(rnd, a['vmax'], len(s)) for s in sets]
+        vals = [strict_vals(rnd, a['vmax'], len(s)) for s in c['sets']]
+        analyze(c, vals, C, recs)
+    return cid, C, recs
+
+
+def analyze(c, vals, C, recs, only=None):
+    """OC1 at every maximum-matching SD vector of the profile; (a)-(c) at each failing start (only those in `only`,
+    if given).  Updates the Counter C and appends one row per failing start to recs."""
+    sets, m, nu = c['sets'], c['m'], c['nu']; n = len(sets); perms = G['perms'][n]
+    if True:
         pref = R.prefs(sets, vals)
         allp = {o: R.sd(pref, o) for o in perms}
         ismm = lambda Y: sum(1 for y in Y if y is not None) == nu
@@ -73,8 +81,8 @@ def work(cid):
         ans = oc1_batch(sets, vals, m, M)
         ok = {Y: ans[Y][0] != 'F' for Y in M}
         for Y in M: C['OC1 at maximum-matching vectors: ' + ('F' if not ok[Y] else ans[Y][0] if ans[Y][0] == 'P' else 'C')] += 1
-        fails = [Y for Y in M if not ok[Y]]
-        if not fails: continue
+        fails = [Y for Y in M if not ok[Y] and (only is None or Y in only)]
+        if not fails: return
         C['profiles with a failing start'] += 1
         checked = set()
         def good(Y):                       # OC1 holds at Y, witness re-checked
@@ -134,7 +142,6 @@ def work(cid):
                                                 for V in sorted(vec, key=str)}
                 row['flag'] = 'b or c fails'
             recs.append(row)
-    return cid, C, recs
 
 
 def main():
