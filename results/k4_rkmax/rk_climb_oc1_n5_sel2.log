@@ -1,0 +1,9 @@
+$ python3 k4/rkmax/rk_climb_oc1.py two_move_starts_n5_sel2.json.gz 200 2000 13
+best (#sigma-better, #dominating) (25, 10); fewest dominating 10 43
+best (#sigma-better, #dominating) (26, 11); fewest dominating 11 10
+best (#sigma-better, #dominating) (27, 16); fewest dominating 16 5
+best (#sigma-better, #dominating) (28, 17); fewest dominating 17 1
+best (#sigma-better, #dominating) (29, 18); fewest dominating 18 1
+best (#sigma-better, #dominating) (5, 5); fewest dominating 5 83
+best (#sigma-better, #dominating) (6, 6); fewest dominating 6 57
+time 861 s

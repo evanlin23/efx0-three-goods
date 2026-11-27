@@ -1,0 +1,39 @@
+$ python3 k4/rkmax/rk_hsmax_n5.py rand 1500 6 12
+profiles 1500
+  P class (|U|,|D_T|)=(2,0) 1
+  P class (|U|,|D_T|)=(4,0) 1
+  P class (|U|,|D_T|)=(4,1) 12
+  P class (|U|,|D_T|)=(4,2) 8
+  P class (|U|,|D_T|)=(5,1) 39
+  RED:P (OC1 in I: P) class (|U|,|D_T|)=(0,0) 1
+  RED:P (OC1 in I: P) class (|U|,|D_T|)=(1,0) 22
+  RED:P (OC1 in I: P) class (|U|,|D_T|)=(2,0) 13
+  RFB class (|U|,|D_T|)=(3,2) 1
+  RFB class (|U|,|D_T|)=(4,1) 4
+  RFB class (|U|,|D_T|)=(4,2) 5
+  RFB class (|U|,|D_T|)=(5,1) 8
+  S' class (|U|,|D_T|)=(2,0) 2
+  S' class (|U|,|D_T|)=(2,1) 3
+  S' class (|U|,|D_T|)=(2,2) 2
+  S' class (|U|,|D_T|)=(2,3) 1
+  S' class (|U|,|D_T|)=(3,0) 7
+  S' class (|U|,|D_T|)=(3,1) 21
+  S' class (|U|,|D_T|)=(3,2) 4
+  S' class (|U|,|D_T|)=(4,0) 24
+  S' class (|U|,|D_T|)=(4,1) 87
+  S' class (|U|,|D_T|)=(4,2) 16
+  S' class (|U|,|D_T|)=(5,0) 14
+  S' class (|U|,|D_T|)=(5,1) 75
+  T0 class (|U|,|D_T|)=(1,0) 13
+  T0 class (|U|,|D_T|)=(2,0) 97
+  T0 class (|U|,|D_T|)=(3,0) 364
+  T0 class (|U|,|D_T|)=(4,0) 749
+  T0 class (|U|,|D_T|)=(5,0) 577
+  T0 class (|U|,|D_T|)=(6,0) 178
+profiles 1500
+sigma-optimal: P 61
+sigma-optimal: RED:P (OC1 in I: P) 36
+sigma-optimal: RFB 18
+sigma-optimal: S' 256
+sigma-optimal: T0 1978
+time 2 s

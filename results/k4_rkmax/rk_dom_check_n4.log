@@ -1,0 +1,2 @@
+$ python3 k4/rkmax/rk_dom_check.py two_move_starts_n4.json.gz dom_witness_n4.json.gz
+ok 112880

@@ -1,0 +1,28 @@
+$ python3 k4/rkmax/rk_witness.py 1
+profiles 111600 starts 112880
+(W1) one-step chain from a dangerous agent dominates: False 81920
+(W1) one-step chain from a dangerous agent dominates: True 30960
+(W2) RF rotation (some listed order) dominates: False 1280
+(W2) RF rotation (some listed order) dominates: True 111600
+minimal dominating change: chain[D:1>2 U:4>1] 2560
+minimal dominating change: chain[D:1>3 U:4>1] 5120
+minimal dominating change: chain[DT:1>2 DT:2>1 U:4>3] 5120
+minimal dominating change: chain[DT:1>2 U:4>1] 2560
+minimal dominating change: chain[DT:1>3 U:4>1] 2560
+minimal dominating change: chain[DT:2>3 F:1>2 U:4>1] 3840
+minimal dominating change: chain[DT:2>3 U:3>1] 6000
+minimal dominating change: chain[DT:2>3 U:4>1] 10240
+minimal dominating change: chain[DT:2>3 U:4>2] 8320
+minimal dominating change: chain[DT:2>4 U:4>1] 10240
+minimal dominating change: swap[D:1>2 U:4>1] 30080
+minimal dominating change: swap[D:1>3 U:4>1] 31360
+minimal dominating change: swap[F:1>2 U:4>1] 5120
+minimal dominating change: swap[F:1>3 U:4>1] 3840
+minimal dominating change: swap[F:2>3 U:4>2] 640
+minimal dominating change: swap[U:4>1 D:1>2] 1280
+minimal dominating change: swap[U:4>1 D:1>3] 2560
+minimal dominating change: swap[U:4>1 F:1>2] 5440
+minimal dominating change: swap[U:4>1 F:1>3] 4160
+minimal dominating change: swap[U:4>2 F:2>3] 640
+starts 112880
+time 18 s

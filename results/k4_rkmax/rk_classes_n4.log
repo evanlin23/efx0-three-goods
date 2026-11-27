@@ -1,0 +1,22 @@
+$ python3 k4/rkmax/rk_classes.py 1
+profiles 111600
+  P1 class (|U|,|D_T|)=(1,0) 80
+  P1 class (|U|,|D_T|)=(1,1) 2240
+  P1 class (|U|,|D_T|)=(1,2) 960
+  RFB class (|U|,|D_T|)=(1,2) 960
+  S* class (|U|,|D_T|)=(1,0) 1160
+  S* class (|U|,|D_T|)=(1,1) 8120
+  S* class (|U|,|D_T|)=(2,0) 58600
+  S* class (|U|,|D_T|)=(2,1) 95000
+  S* class (|U|,|D_T|)=(2,2) 640
+  T0 class (|U|,|D_T|)=(1,0) 4440
+  T0 class (|U|,|D_T|)=(2,0) 16320
+  US class (|U|,|D_T|)=(1,0) 160
+  US class (|U|,|D_T|)=(1,1) 9720
+profiles 111600
+sigma-optimal: P1 3280
+sigma-optimal: RFB 960
+sigma-optimal: S* 163520
+sigma-optimal: T0 20760
+sigma-optimal: US 9880
+time 68 s

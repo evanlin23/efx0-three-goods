@@ -1,0 +1,20 @@
+$ MECH=sink1 RAND=0 SEEDFILE=- python3 k4/rkmax/rk_climb.py 300 10000 21
+seeds 300 14 s
+best (#better, gap) (10, (0, 1, -1, 0)) 42
+best (#better, gap) (10, (0, 2, -2, 0)) 13
+best (#better, gap) (11, (0, 2, -2, 0)) 52
+best (#better, gap) (12, (0, 2, -2, 0)) 6
+best (#better, gap) (19, (1, -1, 0, 0)) 1
+best (#better, gap) (20, (1, -1, 0, 0)) 22
+best (#better, gap) (20, (1, 0, -1, 0)) 2
+best (#better, gap) (22, (2, -3, 1, 0)) 1
+best (#better, gap) (24, (1, -1, 0, 0)) 6
+best (#better, gap) (25, (1, -1, 0, 0)) 1
+best (#better, gap) (26, (1, 0, -1, 0)) 8
+best (#better, gap) (3, (1, -1, 0, 0)) 4
+best (#better, gap) (3, (1, 0, -1, 0)) 1
+best (#better, gap) (5, (1, -1, 0, 0)) 35
+best (#better, gap) (6, (0, 1, -1, 0)) 61
+best (#better, gap) (7, (0, 1, -1, 0)) 36
+best (#better, gap) (7, (0, 2, -2, 0)) 9
+time 535 s

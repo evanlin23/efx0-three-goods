@@ -1,0 +1,57 @@
+$ MECH=sink1 python3 k4/rkmax/rk_residue.py n4 20
+profiles 5580
+  residue class (|U|,|D|,|D_T|)=(1,2,2), receiver ranks [3] 76
+  residue class (|U|,|D|,|D_T|)=(1,2,2), receiver ranks [4] 1312
+  residue class (|U|,|D|,|D_T|)=(1,3,0), receiver ranks [3] 5763
+  residue class (|U|,|D|,|D_T|)=(1,3,2), receiver ranks [3] 223
+  residue class (|U|,|D|,|D_T|)=(1,3,2), receiver ranks [4] 4030
+  residue: a fewest-agent sigma-raising change: chain[D:1>2 D:3>1] 2254
+  residue: a fewest-agent sigma-raising change: chain[D:1>2 U:3>1] 2181
+  residue: a fewest-agent sigma-raising change: chain[D:1>2 U:4>1] 134
+  residue: a fewest-agent sigma-raising change: chain[D:1>3 U:4>1] 258
+  residue: a fewest-agent sigma-raising change: chain[D:2>3 D:2>1] 248
+  residue: a fewest-agent sigma-raising change: chain[D:2>3 D:3>1] 168
+  residue: a fewest-agent sigma-raising change: chain[D:2>3 U:3>1] 585
+  residue: a fewest-agent sigma-raising change: chain[D:2>4 D:2>1] 375
+  residue: a fewest-agent sigma-raising change: chain[D:2>4 D:3>1] 154
+  residue: a fewest-agent sigma-raising change: chain[D:2>4 U:3>1] 706
+  residue: a fewest-agent sigma-raising change: chain[D:3>4 U:3>2] 5140
+  residue: a fewest-agent sigma-raising change: chain[DT:1>2 DT:2>1 U:4>3] 268
+  residue: a fewest-agent sigma-raising change: chain[DT:1>2 U:4>1] 128
+  residue: a fewest-agent sigma-raising change: chain[DT:1>3 U:4>1] 128
+  residue: a fewest-agent sigma-raising change: chain[DT:2>3 DT:2>1] 1041
+  residue: a fewest-agent sigma-raising change: chain[DT:2>3 F:1>2 U:4>1] 186
+  residue: a fewest-agent sigma-raising change: chain[DT:2>3 U:3>1] 299
+  residue: a fewest-agent sigma-raising change: chain[DT:2>3 U:4>1] 524
+  residue: a fewest-agent sigma-raising change: chain[DT:2>3 U:4>2] 420
+  residue: a fewest-agent sigma-raising change: chain[DT:2>4 DT:2>1] 1041
+  residue: a fewest-agent sigma-raising change: chain[DT:2>4 U:3>1] 299
+  residue: a fewest-agent sigma-raising change: chain[DT:2>4 U:4>1] 524
+  residue: a fewest-agent sigma-raising change: swap[D:1>2 D:3>1] 1893
+  residue: a fewest-agent sigma-raising change: swap[D:1>2 U:3>1] 1687
+  residue: a fewest-agent sigma-raising change: swap[D:1>2 U:4>1] 1475
+  residue: a fewest-agent sigma-raising change: swap[D:1>3 U:4>1] 1583
+  residue: a fewest-agent sigma-raising change: swap[D:2>3 D:2>1] 122
+  residue: a fewest-agent sigma-raising change: swap[D:2>3 U:3>1] 314
+  residue: a fewest-agent sigma-raising change: swap[D:2>4 U:3>1] 323
+  residue: a fewest-agent sigma-raising change: swap[D:3>1 D:1>2] 461
+  residue: a fewest-agent sigma-raising change: swap[DT:2>1 F:2>3] 67
+  residue: a fewest-agent sigma-raising change: swap[DT:2>1 F:2>4] 61
+  residue: a fewest-agent sigma-raising change: swap[F:1>2 U:4>1] 252
+  residue: a fewest-agent sigma-raising change: swap[F:1>3 U:4>1] 197
+  residue: a fewest-agent sigma-raising change: swap[F:2>3 U:4>2] 30
+  residue: a fewest-agent sigma-raising change: swap[U:3>1 D:1>2] 418
+  residue: a fewest-agent sigma-raising change: swap[U:3>1 D:2>3] 203
+  residue: a fewest-agent sigma-raising change: swap[U:3>1 D:2>4] 201
+  residue: a fewest-agent sigma-raising change: swap[U:4>1 D:1>2] 62
+  residue: a fewest-agent sigma-raising change: swap[U:4>1 D:1>3] 128
+  residue: a fewest-agent sigma-raising change: swap[U:4>1 F:1>2] 273
+  residue: a fewest-agent sigma-raising change: swap[U:4>1 F:1>3] 194
+  residue: a fewest-agent sigma-raising change: swap[U:4>2 F:2>3] 31
+PO max matchings 38489
+RESIDUE (hard, no T0/S'/RF-B), OC1 F, sigma-max False 5641
+RESIDUE (hard, no T0/S'/RF-B), OC1 M, sigma-max False 5763
+T0 6551
+hard, SINK1 2913
+picks complete (not T0) 17621
+time 71 s
