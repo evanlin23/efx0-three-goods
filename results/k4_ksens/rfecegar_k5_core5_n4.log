@@ -3,3 +3,6 @@ checkpoint /home/user/efx0-three-goods/results/k4_ksens/rfecegar_k5_core5_n4.ckp
 hypergraphs 1138
 ... 100 {'certified': 100} 45 s
 ... 200 {'certified': 200} 236 s
+... 300 {'certified': 300} 609 s
+... 400 {'certified': 400} 777 s
+--- PARTIAL: stopped at 2026-11-27T06:53:34Z (campaign wind-down); RF-exists, k = 5, n = 4 core-like, m <= 7: 471 of 1138 hypergraphs done {'certified': 471} ---

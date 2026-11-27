@@ -8,7 +8,14 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
 
 ## Status (bursts 1–5)
 
-**Burst 5: how the number of moves grows, k = 6 exactly, and Conjecture RF at k = 5** (§4, §8).
+**Burst 5: how the number of moves grows, k = 6 exactly, and Conjecture RF at k = 5** (§4, §8). *Stopped at
+the campaign wind-down, 2026-11-27 06:53 UTC.* Every sweep below marked running is partial; its log ends with a
+PARTIAL line giving the count done:
+- k = 6, two chains, exact mode: n = 3, 19 of 950; n = 4 core-like, 93 of 891; designed instances, 4 of 18. All
+  certified.
+- RF at k = 5, n = 4: 784 of 1,138, with 4 FAIL (§8).
+- RF∃ at k = 5, n = 4: 471 of 1,138, all certified.
+- k = 5, two chains, n = 4 core-like with m ≥ 8: 875 of 8,870, all certified.
 - **Sequential chains: the number needed grows with k, from maximum-matching starts.** [R]
   - PW(4, 3, 6) (k = 7, n = 7, m = 13): no state reachable by two chains has a completion, not even a free one. Three
     chains repair it.
@@ -1109,6 +1116,18 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
   - SD sees only rankings, so permuting ordinal twins maps SD starts to SD starts. That is a natural excuse.
   - The candidate refined statement: every receiver-first maximum-matching vector satisfies OC₁, unless it is the
     start with ordinal twins' picks permuted.
+- **Partial sweep result, stopped at the campaign wind-down (2026-11-27 06:53 UTC)** [E]
+  (`rfcegar_k5_core5_n4.log`, `.ckpt.jsonl`).
+  - The every-form sweep finished 784 of the 1,138 n = 4 hypergraphs: 780 certified, 4 FAIL (core5_n4_m7_688, 807,
+    816, 826).
+  - Each FAIL was re-checked by brute force only: start, receiver and receiver-first vector, OC₁ failing at both.
+    ocsat was not run on 807, 816 or 826.
+  - In all four, the failing receiver-first vector Z is the start Y with two agents' picks swapped.
+  - In 688 and 816 the swapped agents have the same relevant set.
+  - In 807 and 826 they do not: they are agents 0 and 1 with R₁ = {1,4,5,6} ⊂ R₀ = {0,1,4,5,6} in 807, and
+    R₁ = {1,3,4,5,6} in 826.
+  - So the ordinal-twin form, which is certified only on 688's hypergraph, probably needs more than equal sets. It
+    was not run on 807, 816 or 826. Open.
 - **RF∃ ("some receiver-first order works") survives** (`rfcegar.RFE`; `rfecegar_*.log`).
   - *The tool.* One SD pick system per fixed order (24 at n = 4), each with an indicator of being a maximum matching.
     A violation needs every u-first order to give non-maximum picks or picks that fail OC₁. A repair witness of any
@@ -1120,7 +1139,8 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
   - *Certified* [Cert]:
     - the 13 n = 3, k = 5 hypergraphs where OC₁^max fails (elsewhere at n = 3 no start fails, so RF∃ holds);
     - RF5's hypergraph.
-  - *Running:* the 1,138 n = 4, k = 5 core-like hypergraphs (`rfecegar_k5_core5_n4.*`).
+  - *Partial* (stopped at the wind-down): 471 of the 1,138 n = 4, k = 5 core-like hypergraphs certified, no violation
+    (`rfecegar_k5_core5_n4.*`) [E for the class].
   - RF∃ gives OC₁^∃max as RF does, since a receiver-first maximum-matching order where OC₁ holds is all that
     argument uses. So RF5 does not touch the route to TARGET.
 

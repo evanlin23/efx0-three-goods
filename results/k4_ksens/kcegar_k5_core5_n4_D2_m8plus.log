@@ -12,3 +12,4 @@ hypergraphs 8828
 ... 600 {'certified': 600} 4732 s
 ... 700 {'certified': 700} 5791 s
 ... 800 {'certified': 800} 6581 s
+--- PARTIAL: stopped at 2026-11-27T06:53:34Z (campaign wind-down); two chains, k = 5, n = 4 core-like m >= 8: 875 of 8870 hypergraphs done {'certified': 875} ---
