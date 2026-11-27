@@ -193,7 +193,10 @@ is the size of the certificate itself. HH₃ (n = 26) and H₅ (n = 21) were not
 
 The n = 7, β = 5, m = 17 group (75 candidates, every agent P4 or Q4, 1.2·10¹⁹ profiles in all) is thereby
 **complete**: `check_mc_n.py 7 … --m=17` regenerates exactly these 75 and covers every one
-(`results/k4_hunt/check_mc_n7_b5_m17.log`). The independent
+(`results/k4_hunt/check_mc_n7_b5_m17.log`). The **m = 16 group is complete too**: 1,056 candidates (six or seven
+4-good agents), all certified (max 40 s; `mc_n7_b5_m16.log`, certificate `cert_mc_n7_b5_m16_orb.json.gz`), and
+`check_mc_n.py 7 … --m=16` regenerates exactly 1,056 and covers every one (1.5·10¹⁸ profiles;
+`check_mc_n7_b5_m16.log`). The independent
 regeneration of the n = 7, β = 5 list gives the same 122,006 candidates (orbit counting OK).
 
 Cost of finishing (mean time per candidate in the sample × group size, shared CPUs): n = 6, β = 6–9 ≈ 430
