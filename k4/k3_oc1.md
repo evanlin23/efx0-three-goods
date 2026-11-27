@@ -810,6 +810,16 @@ D′ = D − steps − u, and ω′ ≤ D′.
 
 So a hard draft's deficit lies, almost all of it, on one earliest-wanter chain. Proving that is the release lemma.
 
+**(R) and (R′) are statements about the ledger's cores.** In (P)'s class (§11) they fail, while T-ω still holds.
+- *Sample, no dead good* (`te_sample_mixed5_0b.log`): 1,821 hard drafts. (R) fails on 8 of them and (R′) on 9. Their
+  agents value three private goods, e.g. agents 3: 7>9>8 and 4: 12>11>10 beside a three-agent block, which rule R2
+  peels in the ledger's cores.
+- *Exhaustive, one dead good:* the least ω′ is ≥ 2 on thousands of drafts. Even counting only junk that someone
+  values, it is ≥ 2 on 504 of the first quarter's 2,784 (`te_live.py`).
+- *What completes them:* an owner absorbing several goods, i.e. B\*'s hitting count. Releases alone do not suffice.
+
+So for DE's general core case a proof must combine Lemma 5 with an owner count, or peel first.
+
 **Statement (P)'s class** (§11: agents valuing one, two or three goods; the class the reduction RED₃ produces).
 - **The exact test extends.** `lbtest` and `de_moves` now accept agents with one or two goods: they are never
   exposed, never threatened and never upgraded (§11). `mixed_check.py` compares `lb2` with the exhaustive

@@ -12,6 +12,7 @@ from lbtest import upgrade, parts, lb2
 from t2k_e import valid_rotations, topo
 from te_rules import results
 from tprime_k import check
+from te_wbound import D_of
 from oc1_fast import drafts
 from oc1_k3 import profiles
 from oc1_max import sources as hypergraphs
@@ -52,6 +53,9 @@ for ci, (sets, m) in enumerate(hypergraphs(src, rng)):
             C[tag + 'least omega\' <= 0 %s' % (mo <= 0)] += 1
             C[tag + 'least omega\' <= 1 %s' % (mo <= 1)] += 1
             if mo > 1: print('OMEGA2', line, 'least omega\'', mo, flush=True)
+            Dp = min(D_of(rk, m, upgrade(rk, m, nb)) for k, p, nb in VR)
+            C[tag + "(R') some rotation has D' <= 1 %s" % (Dp <= 1)] += 1
+            if Dp > 1: print('RPRIME', line, "least D'", Dp, flush=True)
             if not lw: print('TE-anyleastomega', line, flush=True)
             # kgen-n3's rule T1-P: if some k has its pair inside J (a plain DE chain), every such k; else every k
             jp = [i for i, x in enumerate(R) if not x['arrow']]; sel = jp if jp else list(range(len(R)))
