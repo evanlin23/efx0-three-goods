@@ -165,6 +165,27 @@ All 9 R2-O′ failures, 20 R2-M failures and the first R2-E failure are re-verif
 So are all 48 "(S) or (L)" failures (`results/k4_oc1max/r2sl_fails_n4.jsonl`, `verify_r2sl_fails_n4.log`, one start
 per core): at each of them R2-M, R2★, generous R2-O, R2-O′ and R2-C repair, and strict R2-O and R2-E fail.
 
+**Census of R2-C repair shapes where (S) fails** (`k4/oc1cert/census_r2.py`, `results/k4_oc1max/census_r2_n4.json.gz`,
+log `census_r2_n4.log`).
+- Coverage: the 273 n = 4 cores where (S) fails, with 1,550,356 (S)-failing starts enumerated. 121 cores are partial
+  lists, cut at 20 s each. Every second start was analysed, 775,199 in all.
+- A shape is the set of positions past the head that take junk (end / mid-receiver / mid-dangerous / mid-other), plus
+  whether the chain passes a middle receiver.
+- Every repairing chain at every analysed start passes a middle receiver, and no shape uses 'mid-other'.
+- Starts with each shape (a start counts once for every shape it has):
+
+| shape | starts |
+|---|---|
+| mid-dangerous only | 745,932 |
+| end and mid-dangerous | 719,132 |
+| mid-dangerous and mid-receiver | 719,132 |
+| end only | 580,550 |
+| end and mid-receiver | 392,430 |
+| end, mid-dangerous and mid-receiver | 297,651 |
+
+- Smallest cover, exact: {end only, mid-dangerous only}, each passing a receiver. The data needs both: 25,507 starts
+  have only "mid-dangerous only" and 3,643 have only "end only".
+
 **OC₁^max holds for every strict profile on**:
 - every core with n = 2 (5) and n = 3 (51);
 - 991 of the 1,002 n = 4 cores.
