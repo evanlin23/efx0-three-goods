@@ -762,6 +762,20 @@ Y_k, with v_k(Y_k) = p_k < τ_k, and possibly one more good ℓ.
   *frozen* (their phantom-frozen holder). This case escapes the locality bullet below as first written, which said
   that φ blocks only pool goods it values. The correct statement is the corrected first bullet.
 
+*How often the settled sharer is satisfied* (the multi session's census, reported to this session by message on
+2026-11-27, to go into their §14 on a follow-up branch; [unverified here: script not yet committed]). Settling k by
+E(k) with its best improving pool pair T\*, k is satisfied iff v_k(R_k ∖ T\*) ≤ v_k(T\*):
+
+| data | best-pair settlements | satisfied | active, ℓ a pick (frozen) | active, ℓ a pool good | starts with a satisfied option |
+|---|---|---|---|---|---|
+| their 4,955 walk failures | 9,910 | 1,235 | 7,603 | 1,072 | 879 |
+| n = 4 export (112,880 starts) | 584,160 | 113,600 | 387,680 | 82,880 | 38,720 |
+| n = 5 walks near 5_pure#164 (22,445 starts) | 134,670 | 0 | 134,670 | 0 | 0 |
+
+So PH⁺ deletes the settled agent for free at a minority of starts, and at most starts, and at all of the n = 5 walk
+starts, every best-pair settlement is active of the freezing kind. An RSD argument needs the active case: either a
+bound on active phantoms, or handling ℓ's frozen singleton directly.
+
 **Without (H1)** (a settled sharer that still values remaining goods above its bundle), the phantom is active. What
 survives, by the same locality as Lemma CH1:
 - a phantom φ strongly envies X_s ∪ {g} only if it values g and a good of X_s, or it already envies X_s. In the
