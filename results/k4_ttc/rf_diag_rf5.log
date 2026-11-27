@@ -1,0 +1,40 @@
+$ python3 k4/ttc/rf_diag.py rf5
+automorphisms (agent permutations): [(0, 1, 2, 3), (0, 1, 3, 2)]
+  u-first outcomes classified image (total) 1
+  u-first outcomes classified ok (total) 5
+  u-first outcomes per receiver: 6 distinct 1
+AUT-every: every receiver 1
+AUT-every: some receiver 1
+RF-exists: every receiver 1
+RF-exists: some receiver 1
+ROT or YRMH ok, every receiver 1
+ROT outcome: image 1
+ROT, else YRMH when ROT is pickless: ok, every receiver 0
+ROT-F outcome: image 1
+ROT-F: ok for every receiver 0
+ROT-F: ok for some receiver 0
+ROT-L every listed o outcome: image 1
+ROT-L every listed o outcome: ok 2
+ROT-L every listed o: ok for every receiver 0
+ROT-L every listed o: ok for some receiver 1
+ROT-L outcome: image 1
+ROT-L: ok for every receiver 0
+ROT-L: ok for some receiver 0
+ROT: ok for every receiver 0
+ROT: ok for some receiver 0
+YRMH outcome: ok 1
+YRMH-F outcome: ok 1
+YRMH-F: ok for every receiver 1
+YRMH-F: ok for some receiver 1
+YRMH-L every listed o outcome: ok 3
+YRMH-L every listed o: ok for every receiver 1
+YRMH-L every listed o: ok for some receiver 1
+YRMH-L outcome: ok 1
+YRMH-L: ok for every receiver 1
+YRMH-L: ok for some receiver 1
+YRMH: ok for every receiver 1
+YRMH: ok for some receiver 1
+starts 1
+starts with 1 receivers 1
+starts with a nontrivial automorphism 1
+{"2": {"ROT": [[6, 5, 3, 4], "image"], "YRMH": [[1, 6, 3, 5], "ok", [2, 3, 1, 0]], "YRMH-L": [[1, 6, 3, 5], "ok", [2, 3, 1, 0]], "ROT-L": [[6, 5, 3, 4], "image", [2, 1, 0, 3]], "YRMH-F": [[1, 6, 3, 5], "ok", [2, 3, 1, 0]], "ROT-F": [[6, 5, 3, 4], "image", [2, 1, 0, 3]], "u-first": [[[5, 6, 3, 4], "ok"], [[5, 2, 3, 6], "ok"], [[6, 5, 3, 4], "image"], [[1, 5, 3, 6], "ok"], [[6, 2, 3, 5], "ok"], [[1, 6, 3, 5], "ok"]]}}

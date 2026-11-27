@@ -1,0 +1,48 @@
+$ python3 k4/rf_indep/rf_climb.py --seeds 4000 --steps 3000 --vmax 20 --seed 1 --procs 4 --cores n5_failure_capable_cores.json.gz
+cores 277 from n5_failure_capable_cores.json.gz (sha256 5e586c200a75e86c); m {8: 120, 9: 113, 10: 36, 11: 8}
+seeds from results/k4_rf_offexport/n5_stored_fails_seeds.jsonl.gz: 568
+  500 seeds, 220032 failing starts so far, 491 s
+done 613 s
+
+(per-seed counts; a failing start reached from two seeds is counted twice here)
+   (start, receiver) pairs                                                  246424
+   OC1 at maximum-matching vectors: C                                       668705
+   OC1 at maximum-matching vectors: F                                       243154
+   OC1 at maximum-matching vectors: P                                       1787350
+   distinct maximum-matching SD vectors                                     2699209
+   failing starts                                                           243154
+   failing starts with 1 receiver(s)                                        239884
+   failing starts with 2 receiver(s)                                        3270
+   profiles                                                                 230099
+   profiles with a failing start                                            230099
+   seeds                                                                    568
+   seeds reaching a failing start                                           568
+     (a') some receiver meets (a)                                           243110
+     (a) every u-first maximum-matching order satisfies OC1                 246380
+     (b') some receiver meets (b)                                           243154
+     (b) RF-rot-exists                                                      246424
+     (c') some receiver meets (c)                                           243154
+     (c) RF-exists                                                          246424
+     rotations: d-second OC1                                                19564
+     rotations: d-second maximum                                            19564
+     rotations: rotation OC1                                                929070
+     rotations: rotation maximum                                            929114
+     rotations: rotation pickless (1 candidate d)                           19564
+     some u-first maximum matching (RF existence clause)                    246424
+globally distinct failing starts (core, ordinal types, picks):
+   (start, receiver) pairs                                                  244995
+   failing starts                                                           241728
+     (a') some receiver                                                     241684
+     (a)                                                                    244951
+     (b') some receiver                                                     241728
+     (b)                                                                    244995
+     (c') some receiver                                                     241728
+     (c)                                                                    244995
+     receivers per start 1                                                  238461
+     receivers per start 2                                                  3267
+final score of the seeds (repairing states of the closest vector; capped): {'0': 568}
+distinct failing starts (core, types, picks): 241728 on 277 cores; m of those cores {8: 120, 9: 113, 10: 36, 11: 8}
+  on the 9 export hypergraphs: 9403; on other cores: 232325 (268 cores)
+dumped 241728 failing starts to results/k4_rf_offexport/rf_walk_n5_stored_fails.jsonl.gz
+RESULT RF at climbed failing starts (globally distinct): 241728 failing starts, 244995 (start, receiver) pairs; (a) 244951, (b) 244995, (c) 244995 of 244995; (a') 241684, (b') 241728, (c') 241728 of 241728 starts; starts with a (b) or (c) failure: 0
+time 626 s

@@ -1,0 +1,30 @@
+$ python3 k4/rf_indep/rf_rand.py --per-core 10000 --vmax 20 --seed 1 --procs 4 --cores n5_failure_capable_cores.json.gz
+cores 277 from n5_failure_capable_cores.json.gz (sha256 b34e0517105a5294); agents {5: 277}; nu {5: 277}
+done 200 s
+
+   (start, receiver) pairs                                                  7
+   OC1 at maximum-matching vectors: C                                       665810
+   OC1 at maximum-matching vectors: F                                       6
+   OC1 at maximum-matching vectors: P                                       8163914
+   distinct maximum-matching SD vectors                                     8829730
+   failing starts                                                           6
+   failing starts with 1 receiver(s)                                        5
+   failing starts with 2 receiver(s)                                        1
+   profiles                                                                 2770000
+   profiles with a failing start                                            5
+     (a') some receiver meets (a)                                           6
+     (a) every u-first maximum-matching order satisfies OC1                 7
+     (b') some receiver meets (b)                                           6
+     (b) RF-rot-exists                                                      7
+     (c') some receiver meets (c)                                           6
+     (c) RF-exists                                                          7
+     rotations: d-second OC1                                                12
+     rotations: d-second maximum                                            12
+     rotations: rotation OC1                                                37
+     rotations: rotation maximum                                            37
+     rotations: rotation pickless (1 candidate d)                           12
+     some u-first maximum matching (RF existence clause)                    7
+cores with a failing start: 4
+dumped 6 failing starts to results/k4_rf_offexport/rf_rand_n5cap_v20_s1_fails.jsonl.gz
+RESULT RF off the exports: 2770000 profiles, 6 failing starts, 7 (start, receiver) pairs; (a) 7, (b) 7, (c) 7 of 7; starts with a (b) or (c) failure: 0
+time 200 s

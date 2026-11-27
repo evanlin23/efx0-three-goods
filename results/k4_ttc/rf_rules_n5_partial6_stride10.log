@@ -1,0 +1,16 @@
+$ python3 k4/ttc/rf_rules.py export two_move_starts_n5_partial6.json.gz 10      (compute/k4-oc1max-cert results/k4_oc1max/n5/)
+starts 70225
+ROT every listed o: every receiver 69872
+ROT every listed o: some receiver 69872
+ROT first listed o: every receiver 69872
+ROT first listed o: some receiver 69872
+ROT some listed o: every receiver 69872
+ROT some listed o: some receiver 69872
+SHORT: every receiver 69872
+SHORT: some receiver 69872
+YRMH every listed o: every receiver 64287
+YRMH every listed o: some receiver 64287
+YRMH first listed o: every receiver 64287
+YRMH first listed o: some receiver 64287
+starts 70225
+starts with 1 receivers 70225

@@ -1,0 +1,18 @@
+$ python3 k4/sdc/rf_k4_settwin_cex.py
+agent 0 strict (all 15 nonempty subset sums distinct): True
+agent 1 strict (all 15 nonempty subset sums distinct): True
+agent 2 strict (all 15 nonempty subset sums distinct): True
+agent 3 strict (all 15 nonempty subset sums distinct): True
+agent 4 strict (all 15 nonempty subset sums distinct): True
+sets [[0, 3, 5, 7], [1, 2, 3, 6], [1, 2, 6, 7], [4, 5, 6, 7], [4, 5, 6, 7]] vals [[5, 19, 13, 10], [9, 6, 17, 12], [3, 5, 7, 6], [14, 1, 7, 4], [18, 4, 11, 5]] nu 5
+Y (3, 6, 7, 4, 5) orders giving Y [(0, 1, 2, 3, 4), (0, 1, 3, 2, 4), (0, 3, 1, 2, 4), (3, 0, 1, 2, 4)] -> OC1 fails
+receivers [4]
+  u-first order (4, 0, 1, 2, 3) picks (3, 6, 7, 5, 4) max OC1 fails
+  u-first order (4, 0, 1, 3, 2) picks (3, 6, 2, 7, 4) max one move repairs
+  u-first order (4, 0, 2, 1, 3) picks (3, 1, 6, 7, 4) max picks complete
+  u-first order (4, 0, 3, 1, 2) picks (3, 1, 7, 6, 4) max picks complete
+  u-first order (4, 1, 0, 2, 3) picks (5, 3, 6, 7, 4) max picks complete
+  u-first order (4, 1, 0, 3, 2) picks (5, 3, 7, 6, 4) max picks complete
+  rotations (u, o - u): {(3, 6, 7, 5, 4): 'OC1 fails', (3, 6, 2, 7, 4): 'one move repairs', (3, 1, 7, 6, 4): 'picks complete'}
+  RF-rot-exists: holds
+RF every-form: FAILS | RF-exists: holds

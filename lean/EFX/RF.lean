@@ -22,6 +22,10 @@ dropped. `ConjRF` is a `Prop`, not an axiom (with any move relation: `ConjRFWith
 - `Receiver` counts a pickless agent vacuously, so `ConjRF` also asks RF of pickless receivers. `EFX/RFPick.lean`
   drops them: by Lemma REC-∃ a failing start has a receiver that holds a pick, so RF for pick-holding receivers
   (`ConjRFpick`) already implies RF∃ (`target4_of_conjRFpick`).
+- *Status* (ledger K4.SDC.RF, REFUTED; not replayed in Lean): at 5_pure #440 the unique receiver has a receiver-first
+  maximum-matching order where OC₁ fails, so `ConjRF` and `ConjRFsome`, which ask OC₁ at *every* such order, are false
+  and these frames are implications from false hypotheses. The live form asks for *some* such order: RF∃ of the
+  ledger (K4.SDC.RFEX), `ConjRFex` with frame `target4_of_conjRFex` in `EFX/RFPick.lean`.
 -/
 
 set_option autoImplicit false

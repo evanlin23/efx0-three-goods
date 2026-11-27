@@ -1,0 +1,12 @@
+$ python3 k4/rf_indep/rf_rand.py --per-core 600 --vmax 20 --seed 1 --procs 4 --cores k4_certs_5_pure.json.gz
+cores 4674 from k4_certs_5_pure.json.gz (sha256 9dfa2258fdb87e74); agents {5: 4674}; nu {4: 1, 5: 4673}
+done 202 s
+
+   OC1 at maximum-matching vectors: C                                       519370
+   OC1 at maximum-matching vectors: P                                       7702320
+   distinct maximum-matching SD vectors                                     8221690
+   profiles                                                                 2804400
+cores with a failing start: 0
+dumped 0 failing starts to results/k4_rf_offexport/rf_rand_n5_v20_s1_fails.jsonl.gz
+RESULT RF off the exports: 2804400 profiles, 0 failing starts, 0 (start, receiver) pairs; (a) 0, (b) 0, (c) 0 of 0; starts with a (b) or (c) failure: 0
+time 202 s

@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 1405 audited statements, 2683 theorems, standard axioms only
+    CHECK PASSED: 1409 audited statements, 2687 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -339,7 +339,9 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   K4.SDC.RFPICK.LEAN): at a maximum-matching start where no pick holder is a receiver, the picks complete with one
   absorber (`oneAbsorber_of_noReceiver`, by Lemma MAX and Lemma M), so a failing start has a pick-holding receiver
   (`exists_pick_receiver`); RF for those receivers (`ConjRFpick`) implies RF∃, OC₁^∃max and TARGET₄
-  (**`EFX.OC1Max.target4_of_conjRFpick`**).
+  (`target4_of_conjRFpick`); RF∃ in the ledger's form (`ConjRFex`, K4.SDC.RFEX: some pick-holding receiver, some
+  receiver-first maximum-matching order satisfying OC₁) implies TARGET₄ (**`EFX.OC1Max.target4_of_conjRFex`**). The
+  every-order forms (`ConjRF`, `ConjRFpick`, `ConjRFsome`) are refuted with K4.SDC.RF at 5_pure #440.
 - `EFX/RKMax.lean`: **the rank-maximal frame** (`k4/sdc.md` §31 end, ledger K4.SDC.RKMAX.LEAN): Conjecture RKMAX (`ConjRKMAX`:
   every maximum-matching order with a lexicographically maximal rank signature `rankSig` satisfies OC₁) implies
   OC₁^∃max, hence TARGET₄ (**`EFX.OC1Max.target4_of_conjRKMAX`**); `exists_lexMax`, a lexicographic argmax.

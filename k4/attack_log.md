@@ -1164,3 +1164,24 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
 - write-up: revision 8.
 - kgen-rounds: RD².
 - d1: climb on the one-receiver σ-optima, then n = 6.
+
+### 2026-11-27 07:21 UTC: wind-down, and RF's every-order form refuted at k = 4
+- **Wind-down.** At the user's request (usage), all child sessions were told to stop runs, commit and push, mark
+  complete PRs ready, and stop. The hourly trigger now runs in single-session mode: merges plus one angle of the
+  coordinator's own.
+- **Merged during the wind-down:** #96, #116, #120, #124, #125, #126, #134, #147 (pending), #153, #155, #156, #161, #162,
+  #163, #164, #165, #167, #168, #169, #170, #172, #175.
+- **RF every-order form REFUTED at k = 4, n = 5** (d1's off-export walk, three checkers; coordinator replay
+  `k4/sdc/rf_k4_settwin_cex.py`).
+  - Instance: 5_pure #440. The unique receiver's first order swaps two set-twins (same goods, different values), and
+    the swapped start fails too.
+  - RF∃ (new row K4.SDC.RFEX) and Hall's RF-rot∃ hold there, and at all 244,995 off-export (start, receiver) pairs.
+  - The k = 4 target is now RF∃ / RF-rot∃. That is what the Lean frame `target4_of_conjRFsome` (#147) and Hall's
+    proof plan use.
+- **Late results recorded from the sessions.**
+  - rkmax: HS-MAX REFUTED at n = 4 by an adversarial climb (44 starts; RKMAX holds there); HS-MAX′ (SINK₁ form)
+    survives; RKDOM certified at n ≤ 4.
+  - girth: Lemma XD, the first trade-case fact derived from hardness. Referee: ORD and RF-T-A need "Y has exactly one
+    receiver".
+  - matching: no twin failure of RF∃ at k = 4 in its hunt; Conjecture TWIN-TOP.
+  - k3-oc1: Theorem FAIL-STRUCT drafted (`k4/k3_oc1.md` §13.7, unchecked).

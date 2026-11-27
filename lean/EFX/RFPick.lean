@@ -21,6 +21,16 @@ fails, every receiver that holds a pick satisfies `ReceiverFirst` (some order wi
 and every such order satisfies OC₁). This is the RF of the data, without the untested pickless receivers of
 `ConjRF`. By REC-∃ it implies RF∃ (`conjRFsomeWith_of_conjRFpickWith`), hence OC₁^∃max and TARGET₄
 (`target4_of_conjRFpick`).
+
+**RF∃ in the ledger's form** (`ConjRFex`, K4.SDC.RFEX, a `Prop`): at every maximum-matching start where OC₁ fails,
+*some* receiver that holds a pick has *some* order with it first whose picks are a maximum matching satisfying OC₁. It
+implies OC₁^∃max and TARGET₄ (`target4_of_conjRFex`), and `ConjRFpick` implies it (`conjRFexWith_of_conjRFpickWith`).
+
+*Status of the hypotheses* (ledger K4.SDC.RF, K4.SDC.RF.EVERY.N5; not replayed in Lean): at 5_pure #440 the unique
+receiver of an OC₁-failing maximum-matching start holds a pick and has a receiver-first maximum-matching order where
+OC₁ fails. So `ConjRF`, `ConjRFpick` and `ConjRFsome`, which ask OC₁ at every receiver-first maximum-matching order,
+are refuted there, and their frames are implications from false hypotheses. `ConjRFex` asks for one such order and is
+the live form.
 -/
 
 set_option autoImplicit false
@@ -149,6 +159,50 @@ theorem target4_of_conjRFpick (I : Inst) (hn : 0 < I.n) (h : ConjRFpick (Fin I.n
     (hk : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
   target4_of_conjOC1exmax I hn (conjOC1exmax_of_conjRFpick h) hk
 
+/-- **RF∃ (K4.SDC.RFEX), for a move relation `Move`**: at every maximum-matching start where OC₁ fails, some receiver
+that holds a pick has an order with it first whose picks are a maximum matching satisfying OC₁. -/
+def ConjRFexWith (A G : Type) [DecidableEq A] [DecidableEq G] (Move : MoveRel A G) : Prop :=
+  ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+    Connected v agents goods → Strict v agents goods → ∀ ord : List A, ord.Perm agents →
+      IsMaximum v agents goods (sdPick v ord goods) → ¬ OC1With Move v agents goods ord →
+      ∃ u, Receiver v agents (sdPick v ord goods) u ∧ (sdPick v ord goods u).isSome ∧
+        ∃ ord' : List A, ord'.Perm agents ∧ ord'.head? = some u ∧ IsMaximum v agents goods (sdPick v ord' goods) ∧
+          OC1With Move v agents goods ord'
+
+/-- **RF∃ (K4.SDC.RFEX)** for the moves of `k4/sdc.md` §29. -/
+def ConjRFex (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
+  ConjRFexWith A G (fun v agents goods => OneMove v agents goods)
+
+/-- RF for pick-holding receivers (every receiver-first order) implies RF∃ (some receiver-first order). -/
+theorem conjRFexWith_of_conjRFpickWith {Move : MoveRel A G} (h : ConjRFpickWith A G Move) :
+    ConjRFexWith A G Move := by
+  intro agents goods v hag hgd hc hconn hs ord hperm hmax hoc
+  have hne : agents ≠ [] := by
+    intro he; have := hc.1; rw [he] at this; simp at this
+  obtain ⟨u, hu, hs'⟩ := exists_pick_receiver hperm hag hgd hne hmax fun h1 => hoc (Or.inl h1)
+  obtain ⟨⟨ord', hperm', hhead, hmax'⟩, hall⟩ := h agents goods v hag hgd hc hconn hs ord hperm hmax hoc u hu hs'
+  exact ⟨u, hu, hs', ord', hperm', hhead, hmax', hall ord' hperm' hhead hmax'⟩
+
+/-- **RF∃ ⟹ OC₁^∃max**, for any move relation: MAXSD gives a maximum-matching order; either OC₁ holds there, or RF∃
+gives a maximum-matching order where it does. -/
+theorem conjOC1exmaxWith_of_conjRFexWith {Move : MoveRel A G} (h : ConjRFexWith A G Move) :
+    ConjOC1exmaxWith A G Move := by
+  intro agents goods v hag hgd hc hconn hs
+  obtain ⟨ord, hperm, hmax⟩ := exists_order_maximum hag hgd (strictVals_of_strict hs)
+  by_cases hoc : OC1With Move v agents goods ord
+  · exact ⟨ord, hperm, hmax, hoc⟩
+  · obtain ⟨_, -, -, ord', hperm', -, hmax', hoc'⟩ := h agents goods v hag hgd hc hconn hs ord hperm hmax hoc
+    exact ⟨ord', hperm', hmax', hoc'⟩
+
+/-- **RF∃ ⟹ OC₁^∃max** for the moves of `k4/sdc.md` §29. -/
+theorem conjOC1exmax_of_conjRFex (h : ConjRFex A G) : ConjOC1exmax A G :=
+  conjOC1exmaxWith_of_conjRFexWith h
+
+/-- **RF∃ (K4.SDC.RFEX) ⟹ TARGET₄.** -/
+theorem target4_of_conjRFex (I : Inst) (hn : 0 < I.n) (h : ConjRFex (Fin I.n) (Fin I.m))
+    (hk : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
+  target4_of_conjOC1exmax I hn (conjOC1exmax_of_conjRFex h) hk
+
 end OC1Max
 end EFX
 
@@ -161,3 +215,7 @@ end EFX
 #print axioms EFX.OC1Max.conjRFsomeWith_of_conjRFpickWith
 #print axioms EFX.OC1Max.conjOC1exmax_of_conjRFpick
 #print axioms EFX.OC1Max.target4_of_conjRFpick
+#print axioms EFX.OC1Max.conjRFexWith_of_conjRFpickWith
+#print axioms EFX.OC1Max.conjOC1exmaxWith_of_conjRFexWith
+#print axioms EFX.OC1Max.conjOC1exmax_of_conjRFex
+#print axioms EFX.OC1Max.target4_of_conjRFex

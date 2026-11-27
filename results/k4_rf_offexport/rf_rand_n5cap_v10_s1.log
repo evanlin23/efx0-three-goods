@@ -1,0 +1,27 @@
+$ python3 k4/rf_indep/rf_rand.py --per-core 10000 --vmax 10 --seed 1 --procs 4 --cores n5_failure_capable_cores.json.gz
+cores 277 from n5_failure_capable_cores.json.gz (sha256 b34e0517105a5294); agents {5: 277}; nu {5: 277}
+done 269 s
+
+   (start, receiver) pairs                                                  8
+   OC1 at maximum-matching vectors: C                                       702041
+   OC1 at maximum-matching vectors: F                                       6
+   OC1 at maximum-matching vectors: P                                       8132912
+   distinct maximum-matching SD vectors                                     8834959
+   failing starts                                                           6
+   failing starts with 1 receiver(s)                                        4
+   failing starts with 2 receiver(s)                                        2
+   profiles                                                                 2770000
+   profiles with a failing start                                            6
+     (a') some receiver meets (a)                                           6
+     (a) every u-first maximum-matching order satisfies OC1                 8
+     (b') some receiver meets (b)                                           6
+     (b) RF-rot-exists                                                      8
+     (c') some receiver meets (c)                                           6
+     (c) RF-exists                                                          8
+     rotations: rotation OC1                                                77
+     rotations: rotation maximum                                            77
+     some u-first maximum matching (RF existence clause)                    8
+cores with a failing start: 5
+dumped 6 failing starts to results/k4_rf_offexport/rf_rand_n5cap_v10_s1_fails.jsonl.gz
+RESULT RF off the exports: 2770000 profiles, 6 failing starts, 8 (start, receiver) pairs; (a) 8, (b) 8, (c) 8 of 8; starts with a (b) or (c) failure: 0
+time 269 s

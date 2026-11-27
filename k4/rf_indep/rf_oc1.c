@@ -21,7 +21,8 @@
  * P and C are returned at the first success (shorter chains first); F only after the exhaustive search.
  * With argument "count": P as above, else "id N <repairing post-chain states> <post-chain states> <completions>"
  * (exhaustive; completions = (absorber, placement) pairs over all repairing states; N 0 ... means F), one line per
- * task, flushed (for use as a coprocess).
+ * task, flushed (for use as a coprocess).  With argument "line": the normal answers, flushed after each line.
+ * With argument "countall": as "count", but when the picks complete, "id Q <completions at the picks>".
  *
  *     gcc -O2 -o rf_oc1 rf_oc1.c && ./rf_oc1 < tasks > answers
  */
@@ -187,6 +188,9 @@ static int srec(int k, uint32_t usedag) {  /* build seq of length tlen + 1 */
 int main(int argc, char **argv) {
     char id[256];
     if (argc > 1 && !strcmp(argv[1], "count")) count_mode = 1;
+    int line_mode = argc > 1 && !strcmp(argv[1], "line");     /* normal answers, flushed after each line */
+    int countall = argc > 1 && !strcmp(argv[1], "countall");  /* count mode, and P also counts the picks' completions */
+    if (countall) count_mode = 1;
     while (scanf("%255s %d %d", id, &n, &m) == 3) {
         if (n > MAXN || m > MAXM) { fprintf(stderr, "too large\n"); return 1; }
         ALL = (m == 32) ? 0xffffffffu : ((1u << m) - 1);
@@ -202,10 +206,15 @@ int main(int argc, char **argv) {
         for (int i = 0; i < n; i++) { unsigned b; if (scanf("%u", &b) != 1) return 1; B0[i] = b; }
         uint32_t held = 0; for (int i = 0; i < n; i++) held |= B0[i];
         J0 = ALL & ~held;
+        if (countall && one_absorber(B0)) {
+            ncomp = 0; count_comp = 1; one_absorber(B0); count_comp = 0;
+            printf("%s Q %ld\n", id, ncomp); fflush(stdout);
+            continue;
+        }
         if (one_absorber(B0)) {
             printf("%s P %d", id, Wo);
             for (int i = 0; i < n; i++) printf(" %u", WX[i]);
-            printf("\n"); if (count_mode) fflush(stdout);
+            printf("\n"); if (count_mode || line_mode) fflush(stdout);
             continue;
         }
         gen++; if (gen == 0) { memset(hgen, 0, sizeof(hgen)); gen = 1; }
@@ -226,6 +235,7 @@ int main(int argc, char **argv) {
             for (int i = 0; i < n; i++) printf(" %u", WX[i]);
             printf("\n");
         } else printf("%s F %ld\n", id, nstates);
+        if (line_mode) fflush(stdout);
     }
     (void)argc; (void)argv;   /* count mode is set at the top of main */
     return 0;
