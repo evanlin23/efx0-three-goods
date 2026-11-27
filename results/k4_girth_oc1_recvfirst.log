@@ -16,8 +16,19 @@ n = 4 (exhaustive): 112880 failing starts, 292080 failing orders
    some adjacent transposition                      works on  292080 of  292080 applicable failing orders
    swap the D_T pair sharing two junk goods         works on  284400 of  292080 applicable failing orders
    swap the two agents of some Berge 2-cycle        works on  292080 of  292080 applicable failing orders
+   RF picks with 1 receivers                         139200
+   RF picks with 2 receivers                         152880
+   RF raw sample: one move repairs                      294
+   RF raw sample: picks complete                       2711
+   RF start: receiver top good is the pick of a DT agent   18800
+   RF start: receiver top good is the pick of a Dp agent   70400
+   RF start: receiver top good is the pick of a F agent   23680
+   RF: receiver gets a good that someone wants       292080
 n = 5 (the 24 stored failures, raw checker): 24 failing starts, 86 failing orders
    RF: receiver first                               works on      86 of      86 applicable failing orders
    receiver just before its pick-swap partner       works on      86 of      86 applicable failing orders
    some adjacent transposition                      works on      86 of      86 applicable failing orders
    swap the two agents of some Berge 2-cycle        works on      86 of      86 applicable failing orders
+   RF raw: one move repairs                              10
+   RF raw: picks complete                                76
+   RF start: receiver top good is the pick of a Dp agent      24

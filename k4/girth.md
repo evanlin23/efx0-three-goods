@@ -602,14 +602,16 @@ to the front of o.
 - **n = 4, exhaustive:** on all 292,080 failing orders of all 112,880 failing starts, the RF order's picks form a
   maximum matching and satisfy OC₁. Method: the orders are recomputed by serial dictatorship over all 24 orders, and the
   new picks are looked up in the complete list of failing (type profile, picks) pairs (K4.SDC.OC1MAX.N3, certified;
-  the list is closed under the hypergraphs' automorphisms on 14,260 images checked). Raw cross-check with
-  `k4/sdc/oc1_mc2_rand.Inst` on 2,868 sampled failing orders (1,580 starts): RF works on all of them, and in 93% of a
-  further 796 the RF picks complete with no move at all. Only 64% of RF outcomes have two receivers, so TTC's R2 does
-  not explain all of them.
+  the list is closed under the hypergraphs' automorphisms on 14,260 images checked). Raw cross-checks with
+  `k4/sdc/oc1_mc2_rand.Inst`: RF works on 2,868 sampled failing orders (1,580 starts, `results/k4_girth_oc1_orders.log`)
+  and on every 97th failing order (3,005; 2,711 of them complete at the picks with no move). 152,880 of the 292,080 RF
+  outcomes have two receivers and 139,200 have one, so TTC's R2 explains only about half of them.
 - **n = 5:** on all 86 failing orders of the 24 stored failures, the RF picks satisfy OC₁ (raw checker).
 - Structure: in every failing order the receiver picks after its pick-swap partner (0 exceptions in 1,540 + 86 sampled
-  orders where it has one), and its top good is always another agent's pick (never junk; at n = 5 always its
-  pick-swap partner's pick). After RF the receiver holds a good someone wants, so it is no longer a receiver.
+  orders where it has one). Its top good is always another agent's pick, never junk: at n = 4 the pick of a truly
+  dangerous agent in 18,800 starts, of a pick-dangerous one in 70,400, of a frozen non-dangerous one in 23,680; at
+  n = 5 always a dangerous agent's pick (its pick-swap partner's). After RF the receiver holds a good someone wants
+  (all 292,080), so it is no longer a receiver.
 - The coordinator's other candidates (exhaustive at n = 4 / raw at n = 5): "the receiver just before its pick-swap
   partner" works on every order where it applies (213,760 of 213,760; 86 of 86); "swap the two agents of some Berge
   2-cycle" and "some adjacent transposition" work everywhere; **"swap the two truly dangerous agents" fails on 7,680 of

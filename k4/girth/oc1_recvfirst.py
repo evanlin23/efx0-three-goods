@@ -90,10 +90,22 @@ def main():
             rl, J = roles(sets, st['vals'], st['picks'])
             assert rl.count('U') == 1
             Hc['starts'] += 1
+            uu = rl.index('U')
+            top = max(R[uu], key=lambda g: v[uu][g])
+            Hc['RF start: receiver top good is ' + ('junk' if top in J else 'the pick of a %s agent' % rl[Y.index(top)])] += 1
             for o in orders:
                 if sd(R, v, o) != Y:
                     continue
                 Hc['failing orders'] += 1
+                u = rl.index('U')
+                Yrf = sd(R, v, [u] + [a for a in o if a != u])
+                if None not in Yrf:
+                    rlrf, _ = roles(sets, st['vals'], list(Yrf))
+                    Hc['RF picks with %d receivers' % rlrf.count('U')] += 1
+                    Hc['RF: receiver gets a good that someone wants'] += rlrf[u] != 'U'
+                    if Hc['failing orders'] % 97 == 0:
+                        from oc1_mc2_rand import Inst
+                        Hc['RF raw sample: ' + Inst(sets, st['vals']).check(Yrf)] += 1
                 for name, cands in reorders(list(o), rl, sets, Y, J).items():
                     Hc[(name, 'applicable')] += 1
                     ok = False
@@ -114,6 +126,8 @@ def main():
     for name in sorted({k[0] for k in C if isinstance(k, tuple)}):
         print('   %-48s works on %7d of %7d applicable failing orders' % (name, C[(name, 'works')],
                                                                          C[(name, 'applicable')]))
+    for k in sorted(k for k in C if isinstance(k, str) and k.startswith('RF')):
+        print('   %-48s %7d' % (k, C[k]))
     if example:
         print('RF FAILS, e.g.', example)
     # n = 5: raw checker
@@ -130,10 +144,15 @@ def main():
         nu = max(sum(p is not None for p in sd(R, v, o)) for o in allo)
         assert I.check(Y) == 'OC1 fails'
         C5['starts'] += 1
+        uu = rl.index('U')
+        top = max(R[uu], key=lambda g: v[uu][g])
+        C5['RF start: receiver top good is ' + ('junk' if top in J else 'the pick of a %s agent' % rl[Y.index(top)])] += 1
         for o in allo:
             if sd(R, v, o) != Y:
                 continue
             C5['failing orders'] += 1
+            u = rl.index('U')
+            C5['RF raw: ' + I.check(sd(R, v, [u] + [a for a in o if a != u]))] += 1
             for name, cands in reorders(list(o), rl, r['sets'], Y, J).items():
                 C5[(name, 'applicable')] += 1
                 C5[(name, 'works')] += any(sum(p is not None for p in sd(R, v, o2)) == nu
@@ -143,6 +162,8 @@ def main():
     for name in sorted({k[0] for k in C5 if isinstance(k, tuple)}):
         print('   %-48s works on %7d of %7d applicable failing orders' % (name, C5[(name, 'works')],
                                                                          C5[(name, 'applicable')]))
+    for k in sorted(k for k in C5 if isinstance(k, str) and k.startswith('RF')):
+        print('   %-48s %7d' % (k, C5[k]))
     sys.stdout.flush()
 
 
