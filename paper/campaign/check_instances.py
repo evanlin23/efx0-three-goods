@@ -392,43 +392,43 @@ def main(quick=False):
            cnt.get(('non-max', 'fails'), 0) == 12 and cnt.get(('max', 'picks'), 0) == 50
            and sum(c for (k, _), c in cnt.items() if k == 'max') == 50, str(sorted(cnt.items())))
 
-    # Prop 7.4 (PW5)
+    # Prop 7.5 (PW5)
     I = from_sets([[0, 5, 6, 7, 8], [1, 5, 6, 7, 8], [2, 5, 6, 7, 8], [0, 1, 2, 3], [0, 1, 2, 4]],
                   [[10, 9, 8, 7, 6]] * 3 + [[6, 4, 2, 1], [6, 4, 2, 1]])
     allocs = I.all_efx0()
     picks = I.sd(range(5))
-    report('Prop 7.4 (PW5): 5-limited; order x1,x2,x3,w1,w2 picks every agent',
+    report('Prop 7.5 (PW5): 5-limited; order x1,x2,x3,w1,w2 picks every agent',
            all(len(R) <= 5 for R in I.R) and picks == (0, 1, 2, 3, 4) and I.nu() == 5)
-    report('Prop 7.4 (PW5): 186 complete EFX0 allocations', len(allocs) == 186, '(%d)' % len(allocs))
-    report('Prop 7.4 (PW5): no free completion at the picks or after one move (incl. rings)',
+    report('Prop 7.5 (PW5): 186 complete EFX0 allocations', len(allocs) == 186, '(%d)' % len(allocs))
+    report('Prop 7.5 (PW5): no free completion at the picks or after one move (incl. rings)',
            I.verdict(picks, allocs, one_absorber=False) == 'fails')
     fail_orders = sum(1 for o in itertools.permutations(range(5)) if I.verdict(I.sd(o), allocs, False) == 'fails')
-    report('Prop 7.4 (PW5): the failing start comes from exactly 12 orders', fail_orders == 12, '(%d)' % fail_orders)
+    report('Prop 7.5 (PW5): the failing start comes from exactly 12 orders', fail_orders == 12, '(%d)' % fail_orders)
 
     # Prop 7.7 (RD5): one round fails, two sequential chains repair; free and one-absorber
     I = Inst([{1: 57, 3: 44, 5: 33, 0: 26, 4: 24}, {1: 12, 2: 11, 3: 6}, {1: 9, 2: 8, 3: 6, 4: 1},
               {2: 53, 5: 47, 0: 36, 6: 4}])
     allocs = I.all_efx0()
     picks = I.sd([0, 3, 1, 2])
-    report('Prop 7.7 (RD5): order (0,3,1,2) picks 1,2,3,4 for agents 0,3,1,2; junk {0,5,6}',
+    report('Prop 7.8 (RD5): order (0,3,1,2) picks 1,2,3,4 for agents 0,3,1,2; junk {0,5,6}',
            picks == (1, 3, 4, 2) and I.nu() == 4)
-    report('Prop 7.7 (RD5): no completion (free) at the picks or after one move',
+    report('Prop 7.8 (RD5): no completion (free) at the picks or after one move',
            I.verdict(picks, allocs, one_absorber=False) == 'fails', '(%d EFX0 allocations)' % len(allocs))
-    report('Prop 7.7 (RD5): one round fails (free completion)', not round_fits(I, picks, allocs, False))
-    report('Prop 7.7 (RD5): two sequential chains repair (one absorber)', two_chains_fit(I, picks, allocs))
+    report('Prop 7.8 (RD5): one round fails (free completion)', not round_fits(I, picks, allocs, False))
+    report('Prop 7.8 (RD5): two sequential chains repair (one absorber)', two_chains_fit(I, picks, allocs))
 
     # Remark in 7.2: k = 3 outside cores
     I = Inst([{0: 10, 1: 8, 2: 7}, {0: 10, 1: 8, 2: 7}, {0: 10, 3: 8, 4: 7}, {1: 10, 5: 8, 6: 7}, {2: 10, 7: 8, 8: 7}])
     allocs = I.all_efx0()
     picks = I.sd([2, 3, 4, 0, 1])
     no_empty = I.verdict(picks, allocs, one_absorber=True, kinds=('pick', 'chain')) == 'fails'
-    report('Remark 7.2 (k = 3): picks (-, -, 0, 1, 2); no one-absorber completion at the picks or after a chain',
+    report('Remark §7.2 (k = 3): picks (-, -, 0, 1, 2); no one-absorber completion at the picks or after a chain',
            picks == (None, None, 0, 1, 2) and no_empty)
-    report('Remark 7.2 (k = 3): no one-absorber completion after any addition or ring either',
+    report('Remark §7.2 (k = 3): no one-absorber completion after any addition or ring either',
            I.verdict(picks, allocs, one_absorber=True) == 'fails')
-    report('Remark 7.2 (k = 3): one chain passing an empty base repairs (one absorber)',
+    report('Remark §7.2 (k = 3): one chain passing an empty base repairs (one absorber)',
            I.verdict(picks, allocs, one_absorber=True, kinds=('pick', 'chain'), glued=True) == 'move')
-    report('Remark 7.2 (k = 3): under the free completion the picks already extend',
+    report('Remark §7.2 (k = 3): under the free completion the picks already extend',
            I.verdict(picks, allocs, one_absorber=False, kinds=('pick',)) == 'picks'
            and I.efx0([{3, 5, 7}, {4, 6, 8}, {0}, {1}, {2}]))
 
@@ -479,7 +479,7 @@ def main(quick=False):
                                            [1, 900, 800, 600, 100, 1, 1], [3600, 1, 5300, 1, 1, 4700, 400]]], 7)
     allocs = I.all_efx0()
     picks = I.sd([0, 3, 1, 2])
-    report('Remark 7.5 (RD5+): one round fails (free, two methods); two sequential chains repair',
+    report('Remark §7.5 (RD5+): one round fails (free, two methods); two sequential chains repair',
            not round_fits(I, picks, allocs, False) and not forward_round(I, picks, allocs, False)
            and two_chains_fit(I, picks, allocs), str(picks))
     # §8 / §7.3: the round methods agree on the known cases (PW5 repaired by one round, RD5 not)
@@ -493,10 +493,10 @@ def main(quick=False):
            round_fits(Ipw, ppw, apw, True) and forward_round(Ipw, ppw, apw, True)
            and not round_fits(Ird, prd, ard, False) and not forward_round(Ird, prd, ard, False))
 
-    # §11.5 (a): Conjecture W fails at n = 2
+    # §12.5 (a): Conjecture W fails at n = 2
     I = Inst([{0: 40, 1: 10, 2: 11, 3: 12}, {0: 70, 4: 10, 5: 40, 6: 11}])
     start = (2, 0, 0, 0, 1, 1, 1)       # good 0 pooled (holder 2 = pool), {1, 2, 3} | {4, 5, 6}
-    report('§11.5 (W): the state is partial EFX0; two moves never improve; three moves do',
+    report('§12.5 (W): the state is partial EFX0; two moves never improve; three moves do',
            I.efx0([{1, 2, 3}, {4, 5, 6}]) and welfare_lemma_radius(I, start, 3) == 3)
 
     # Prop 7.3 (a): B<
@@ -522,6 +522,8 @@ def main(quick=False):
             cnt[p] = cnt.get(p, 0) + 1
         fails = sum(c for p, c in cnt.items() if I.verdict(p, allocs, True) == 'fails')
         report('Prop 7.3(a) (B<): OC1 fails for exactly 24 of the 720 orders', fails == 24, '(%d)' % fails)
+    check_programme()
+    check_monotone_s3()
     print('# %d failed; %.0f s' % (report.failed, time.time() - t0))
     return report.failed
 
@@ -585,43 +587,75 @@ def combined_ok(I, picks, X, r, one_absorber):
     return True
 
 
-def two_chains_fit(I, picks, allocs):
-    """Some chain, then some chain from the resulting bases, gives bases with a one-absorber completion.
-    States are enumerated explicitly (bases as sets), small n only."""
-    J0 = set(range(I.m)) - set(p for p in picks if p is not None)
-    start = tuple(frozenset() if p is None else frozenset({p}) for p in picks)
+def chain_states(I, B, prime=False):
+    """Every official improving chain (draft §2.4) from the state B (a tuple of frozensets): yields (path, B').
+    With prime=True, the OC1' move of kgen/rounds.md §4.6: non-end chain agents may also take goods of the end's base."""
+    J = set(range(I.m)) - set().union(*B)
+    n = I.n
 
-    def moves(B):
-        J = set(range(I.m)) - set().union(*B)
-        n = I.n
-        for L in range(2, n + 1):
-            for path in itertools.permutations(range(n), L):
-                if not all(B[a] for a in path[:-1]):
-                    continue
-                x0, xt = path[0], path[-1]
-                cand0 = sorted((J | B[xt]) & I.R[x0])
-                for r0 in range(1, len(cand0) + 1):
-                    for H0 in itertools.combinations(cand0, r0):
-                        H0 = set(H0)
-                        if not I.val(x0, H0) > I.val(x0, B[x0]):
-                            continue
-                        yield from extend(B, J, path, 1, {x0: frozenset(H0)}, set(H0))
-
-    def extend(B, J, path, k, nb, used):
+    def extend(path, k, nb, used):
         if k == len(path):
             NB = list(B)
             for a, S in nb.items():
                 NB[a] = S
-            yield tuple(NB)
+            yield path, tuple(NB)
             return
         a, b = path[k - 1], path[k]
-        cand = sorted((J - used) & I.R[b])
+        extra = set(B[path[-1]]) if (prime and k < len(path) - 1) else set()
+        cand = sorted(((J | extra) - used) & I.R[b])
         for r in range(0, len(cand) + 1):
             for H in itertools.combinations(cand, r):
                 S = set(B[a]) | set(H)
                 if I.val(b, S) > I.val(b, B[b]):
                     nb2 = dict(nb); nb2[b] = frozenset(S)
-                    yield from extend(B, J, path, k + 1, nb2, used | set(H))
+                    yield from extend(path, k + 1, nb2, used | set(H))
+    for L in range(2, n + 1):
+        for path in itertools.permutations(range(n), L):
+            if not all(B[a] for a in path[:-1]):
+                continue
+            x0, xt = path[0], path[-1]
+            cand0 = sorted((J | B[xt]) & I.R[x0])
+            for r0 in range(1, len(cand0) + 1):
+                for H0 in itertools.combinations(cand0, r0):
+                    H0 = set(H0)
+                    if not I.val(x0, H0) > I.val(x0, B[x0]):
+                        continue
+                    yield from extend(path, 1, {x0: frozenset(H0)}, set(H0))
+
+
+def apply_chain(I, B, path, H):
+    """Apply the chain path at state B with junk sets H[0] (for x0, may include B[x_t]) and H[i] (for x_i).
+    Returns the new state, or None if the chain is not an official improving chain."""
+    J = set(range(I.m)) - set().union(*B)
+    x0, xt = path[0], path[-1]
+    if not all(B[a] for a in path[:-1]):
+        return None
+    if not set(H[0]) <= (J | B[xt]) & I.R[x0] or not I.val(x0, H[0]) > I.val(x0, B[x0]):
+        return None
+    used = set(H[0])
+    NB = list(B)
+    NB[x0] = frozenset(H[0])
+    for i in range(1, len(path)):
+        a, b = path[i - 1], path[i]
+        Hi = set(H[i])
+        if not Hi <= (J & I.R[b]) or Hi & used:
+            return None
+        used |= Hi
+        S = set(B[a]) | Hi
+        if not I.val(b, S) > I.val(b, B[b]):
+            return None
+        NB[b] = frozenset(S)
+    return tuple(NB)
+
+
+def two_chains_fit(I, picks, allocs):
+    """Some chain, then some chain from the resulting bases, gives bases with a one-absorber completion.
+    States are enumerated explicitly (bases as sets), small n only."""
+    start = tuple(frozenset() if p is None else frozenset({p}) for p in picks)
+
+    def moves(B):
+        for _, NB in chain_states(I, B):
+            yield NB
 
     Xs = [I.bundles(o) for o in allocs]
 
@@ -746,6 +780,181 @@ def welfare_lemma_radius(I, start, maxd):
             return d
     return None
 
+
+
+
+# ---------------- §11 (the k = 4 programme), §7.5 (RD5+ repair), §9.4 (Lemma 9.6) ----------------
+
+def frozen_sets(I, picks):
+    """(F, D, U): frozen agents, dangerous ones (frozen and valuing junk), receivers (unfrozen pick holders)."""
+    n = I.n
+    J = set(range(I.m)) - set(p for p in picks if p is not None)
+    F = {j for j in range(n) if picks[j] is not None and any(
+        i != j and picks[j] in I.R[i] and I.v[i][picks[j]] > (I.v[i].get(picks[i], 0) if picks[i] is not None else 0)
+        for i in range(n))}
+    D = {j for j in F if J & I.R[j]}
+    U = {j for j in range(n) if picks[j] is not None and j not in F}
+    return F, D, U, J
+
+
+def one_absorber_complete(I, B, Xs):
+    return any(all(B[a] <= X[a] for a in range(I.n)) and
+               sum(1 for a in range(I.n) if len(X[a] - B[a]) >= 2) <= 1 for X in Xs)
+
+
+def check_programme():
+    # Corollary 11.2 (Lemma T6's certificate) on both n = 4 instances of Prop 7.4
+    for name, sets, vals, order, n_dom, agent in [
+            ('instance 1', [[0, 1, 2, 5], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 6]],
+             [[2, 10, 4, 7], [10, 3, 4, 8], [3, 5, 6, 7], [3, 2, 4]], (0, 3, 2, 1), 6, 0),
+            ('instance 2', [[0, 4, 5, 6], [1, 2, 3, 5], [1, 3, 5, 6], [2, 4, 6]],
+             [[2, 3, 10, 6], [3, 10, 6, 8], [5, 3, 7, 6], [4, 3, 2]], (3, 1, 2, 0), None, None)]:
+        I = from_sets(sets, vals)
+        picks = I.sd(order)
+        J = set(range(I.m)) - set(picks)
+        p = [I.v[i][picks[i]] for i in range(I.n)]
+        dom = [X for X in (I.bundles(o) for o in I.all_efx0()) if all(I.val(i, X[i]) >= p[i] for i in range(I.n))]
+
+        def blocked(X, i):
+            fp = [picks[j] for j in range(I.n) if j != i and picks[j] in X[i]]
+            if len(fp) >= 3:
+                return True
+            jr = I.val(i, J & I.R[i])
+            return len(fp) == 2 and all(I.val(i, {f}) + jr <= p[i] for f in fp)
+        ok = all(any(blocked(X, i) for i in range(I.n)) for X in dom)
+        detail = '(%d dominating)' % len(dom)
+        if n_dom is not None:
+            ok = ok and len(dom) == n_dom and all({2, 5} <= X[agent] and blocked(X, agent) for X in dom)
+        report('Cor 11.2 (T6 certificate), Prop 7.4 %s: every value-dominating EFX0 allocation has a blocked agent'
+               % name, ok, detail)
+
+    # §11.9 item 4: LIFT-SHAPE+ / SHARE2 (ii) fail at n = 5 (5_pure idx 164, k4/matching.md §6)
+    I = from_sets([[0, 2, 3, 7], [1, 2, 6, 7], [3, 4, 5, 6], [3, 4, 5, 7], [4, 5, 6, 7]],
+                  [[1, 8, 6, 4], [4, 8, 2, 7], [6, 7, 3, 5], [7, 10, 2, 6], [7, 5, 3, 6]])
+    allocs = I.all_efx0()
+    Xs = [I.bundles(o) for o in allocs]
+    picks = I.sd((1, 4, 2, 0, 3))
+    F, D, U, J = frozen_sets(I, picks)
+    report('§11.9 (n = 5 start): strict connected core; picks (7, 2, 3, 5, 4); one receiver 3; D = {0, 1, 2, 4}',
+           I.core_failures() == [] and picks == (7, 2, 3, 5, 4) and U == {3} and D == {0, 1, 2, 4},
+           str((picks, sorted(U), sorted(D), I.core_failures())))
+    report('§11.9 (n = 5 start): no free completion at the picks or after one move (OC1^max fails at n = 5)',
+           I.verdict(picks, allocs, one_absorber=False) == 'fails', '(%d EFX0 allocations)' % len(allocs))
+    report('§11.9 (n = 5 start): two chains repair; [[2],[1,7,0],[5,6],[3],[4]] is EFX0',
+           two_chains_fit(I, picks, allocs) and I.efx0([{2}, {1, 7, 0}, {5, 6}, {3}, {4}]))
+    start = tuple(frozenset({q}) for q in picks)
+    z, fav = 3, 4
+    bad = 0; firsts = 0
+    for P1, B1 in chain_states(I, start):
+        if P1[-1] != z:
+            continue
+        firsts += 1
+        for P2, B2 in chain_states(I, B1):
+            if P2[-1] == z and fav in B2[z] and one_absorber_complete(I, B2, Xs):
+                bad += 1
+    report('§11.9 (n = 5 start): after no chain ending at z = 3 does a second chain ending at z with good 4 complete',
+           firsts > 0 and bad == 0, '(%d first chains end at z)' % firsts)
+    # leaf 5d: OC1' (non-end chain agents may also take the end's pick) fails at the same start, even with free
+    # completions; additions and rings are covered by verdict() above
+    Xall = Xs
+    free_ok = any(all(B1[a] <= X[a] for a in range(I.n)) for _, B1 in chain_states(I, start, prime=True) for X in Xall)
+    n_prime = sum(1 for _ in chain_states(I, start, prime=True))
+    report("§11.8 leaf 5d (OC1'): no OC1' chain state of the n = 5 start has a free completion",
+           not free_ok, '(%d OC1\' chain states)' % n_prime)
+
+    # §11.9 item 1: S2-X (proof/k4-d1), the facts this checker can test
+    I = from_sets([[0, 1, 5, 7], [3, 4, 6, 7], [0, 2, 5, 7], [8, 6, 7, 3]],
+                  [[26, 3, 25, 27], [19, 17, 25, 30], [9, 14, 7, 29], [14, 11, 1, 7]])
+    allocs = I.all_efx0()
+    Xs = [I.bundles(o) for o in allocs]
+    picks = I.sd((0, 1, 2, 3))
+    F, D, U, J = frozen_sets(I, picks)
+    wanters7 = {i for i in range(I.n) if i != 0 and 7 in I.R[i] and I.v[i][7] > I.v[i][picks[i]]}
+    hard = not any(I.fits(picks, X, ('pick',), True) for X in Xs)
+    chain02 = any(I.fits(picks, X, ('chain', (0, 2)), True) for X in Xs)
+    report('§11.9 (S2-X): core; picks (7, 6, 2, 8); D = {0}; 7 wanted by 1 and 2; 3 unfrozen, values junk 3; hard; '
+           'chain (0, 2) repairs',
+           I.core_failures() == [] and picks == (7, 6, 2, 8) and D == {0} and wanters7 == {1, 2}
+           and 3 in U and 3 in (J & I.R[3]) and hard and chain02)
+
+    # §11.9 item 3: the smallest R2-M test (n = 3)
+    I = from_sets([[0, 1, 2, 3], [0, 1, 4, 5], [2, 3, 4, 5]], [[8, 6, 4, 1], [4, 2, 8, 5], [4, 6, 8, 3]])
+    allocs = I.all_efx0()
+    Xs = [I.bundles(o) for o in allocs]
+    picks = I.sd((0, 2, 1))
+    F, D, U, J = frozen_sets(I, picks)
+    report('§11.9 (R2-M test): picks (0, 5, 4); D = {2}; receivers {0, 1}; |J| = 3; hard; one move repairs',
+           picks == (0, 5, 4) and D == {2} and U == {0, 1} and len(J) == 3
+           and not any(I.fits(picks, X, ('pick',), True) for X in Xs) and I.verdict(picks, allocs, True) == 'move')
+
+    # §11.8: Lemma R2-0 on random perfect starts (junk to distinct receivers)
+    rnd = random.Random(7)
+    tested = bad = 0
+    for _ in range(3000):
+        n = rnd.randint(2, 4); m = rnd.randint(n, n + 4)
+        vals = []
+        for i in range(n):
+            R = rnd.sample(range(m), rnd.randint(1, min(4, m)))
+            vals.append({g: rnd.randint(1, 50) for g in R})
+        I = Inst(vals, m)
+        picks = I.sd(list(rnd.sample(range(n), n)))
+        if None in picks:
+            continue
+        F, D, U, J = frozen_sets(I, picks)
+        if not J or len(J) > len(U):
+            continue
+        tested += 1
+        X = [{q} for q in picks]
+        for g, u in zip(sorted(J), sorted(U)):
+            X[u].add(g)
+        bad += not I.efx0(X)
+    report('Lemma R2-0 (§11.8): junk to distinct receivers is EFX0 on %d random perfect starts' % tested,
+           tested > 100 and bad == 0, '(%d failures)' % bad)
+
+    # Remark §7.5: the corrected two-round repair of RD5+
+    I = Inst([dict(enumerate(r)) for r in [[2600, 5700, 1, 4400, 2300, 3300, 1], [1, 1200, 1100, 600, 1, 1, 1],
+                                           [1, 900, 800, 600, 100, 1, 1], [3600, 1, 5300, 1, 1, 4700, 400]]], 7)
+    picks = I.sd([0, 3, 1, 2])
+    B0 = tuple(frozenset({q}) for q in picks)
+    B1 = apply_chain(I, B0, (3, 1), [{0, 5}, set()])
+    B2 = apply_chain(I, B1, (0, 2), [{3, 4}, set()]) if B1 else None
+    X = [{3, 4, 6}, {2}, {1}, {0, 5}]
+    ok = (picks == (1, 3, 4, 2) and B2 == (frozenset({3, 4}), frozenset({2}), frozenset({1}), frozenset({0, 5}))
+          and I.efx0(X) and all(B2[a] <= X[a] for a in range(4)))
+    # the printed version (with agent 0 adding good 6 in round 1): agent 2 must then take {1, 6}
+    Bp = list(B1); Bp[0] = frozenset({1, 6}); Bp = tuple(Bp)
+    Bq = apply_chain(I, Bp, (0, 2), [{3, 4}, set()])
+    ok = ok and Bq is not None and Bq[2] == frozenset({1, 6}) and not (Bq[2] <= X[2])
+    report('Remark §7.5 (RD5+): the corrected two-round repair is legal and EFX0; the printed one misses agent 2\'s base', ok)
+
+
+def check_monotone_s3():
+    """Lemma 9.6 on every nondegenerate monotone order of a 3-set (the 48 linear extensions of the Boolean lattice)."""
+    subsets = [frozenset(c) for r in range(4) for c in itertools.combinations(range(3), r)]
+    exts = []
+
+    def rec(order, left):
+        if not left:
+            exts.append(order)
+            return
+        for S in left:
+            if all(T in order for T in subsets if T < S):
+                rec(order + [S], [T for T in left if T != S])
+    rec([frozenset()], [S for S in subsets if S])
+    bad = 0
+    for order in exts:
+        v = {S: r for r, S in enumerate(order)}
+        s = sorted(range(3), key=lambda g: -v[frozenset({g})])
+        wts = (4, 3, 2) if v[frozenset({s[0]})] < v[frozenset({s[1], s[2]})] else (6, 3, 2)
+        w = {s[i]: wts[i] for i in range(3)}
+        for A in subsets:
+            for B in subsets:
+                if A & B:
+                    continue
+                if (v[A] < v[B]) != (sum(w[g] for g in A) < sum(w[g] for g in B)):
+                    bad += 1
+    report('Lemma 9.6 (S3): the surrogate matches every disjoint comparison on all %d orders of a 3-set' % len(exts),
+           len(exts) == 48 and bad == 0, '(%d mismatches)' % bad)
 
 if __name__ == '__main__':
     sys.exit(1 if main(quick=len(sys.argv) > 1 and sys.argv[1] == 'quick') else 0)
