@@ -94,7 +94,7 @@ hypergraph of §2 for that m.
 | 4 | 4 | 8–12 (complete) | 503 | no counterexample | `n4_m{8..12}_k4.jsonl` |
 | 3 | 5 | 8–12 (complete) | 113 | no counterexample | `n3_m{8..12}_k5.jsonl` |
 | 3 | 6 | 8–15 (complete) | 604 | no counterexample | `n3_m{8..15}_k6.jsonl` |
-| 5 | 4 | 9–15 | RUNNING | | `n5_m*_k4.jsonl` |
+| 5 | 4 | 9–15 (complete) | 18,829 | no counterexample (hypergraph lists from `hypergraphs.py` alone; the independent re-enumeration is too slow at n = 5) | `n5_m{9..15}_k4.jsonl.gz` |
 | 3 | 7 | 8 | PENDING | | |
 
 The modification experiments on the paper's instance (`attempts/monotone-lower-relevance-of-amm.md`) say the
@@ -104,7 +104,7 @@ fixed, the third cannot drop any good. With one agent fixed, the other two canno
 ## 5. What this says about the threshold
 
 - Proved: 4 ≤ k* ≤ 8 (Theorem M3; the paper's instance).
-- Certified: a monotone counterexample at k = 4 needs ≥ 5 agents; at k ≤ 6 it needs ≥ 4 agents. So with three agents,
+- Certified: a monotone counterexample at k = 4 needs ≥ 6 agents; at k ≤ 6 it needs ≥ 4 agents. So with three agents,
   the threshold is 7 or 8; it is 8 if no 3-agent counterexample has k = 7.
 - Since monotone EFX₀ at k = 4 would imply TARGET₄ (Theorem M3, Remark 3), the k = 4 rows are also
   small-n evidence for TARGET₄. They are no stronger than the campaign's additive certificates there (rows K4.*),
