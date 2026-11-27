@@ -10,9 +10,11 @@ the reduced instance, 'picks' its picks) in which every good has at most two val
     P(k) ("P(k) covers D_T"), and no holder other than the head crowded by H0 (|H0 & R_u| >= 2 and
     v_u(H0 & R_u) > v_u(B'_u)); then B' has a
     one-absorber completion (checked by SAT, k4/p3/oc1max.Checker.complete, models re-checked by the raw definition);
+  - for the starts without a KEEP2 chain: whether some canonical chain P(k), k in D, with some improving H0 has a
+    one-absorber completion (any owner), and whether such k can be truly dangerous;
   - CR2: for k in D_T and H0 inside J, every crowded holder other than the head is in D_T, in E_J, or H0 = J is a junk
     triple inside R_u (case (iii)); anything else is counted as a CR2 VIOLATION.
-    python3 k4/p3/keep2.py FILE.jsonl
+    python3 k4/p3/keep2.py FILE.jsonl[.gz]       (records of collect.py, or of k4/p3/t1_p2.py)
 """
 import sys, os, json, itertools, collections
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -61,8 +63,11 @@ def frozen_at(I, B, i):
 
 if __name__ == '__main__':
     cnt = collections.Counter(); ex = {}
-    for line in open(sys.argv[1]):
-        d = json.loads(line); I = Inst(d['inst']['sets'], d['inst']['vals'], d['inst']['m']); Y = d['picks']
+    import gzip
+    src = gzip.open(sys.argv[1], 'rt') if sys.argv[1].endswith('.gz') else open(sys.argv[1])
+    for line in src:
+        d = json.loads(line); r = d.get('inst', d); I = Inst(r['sets'], r['vals'], r['m']); Y = d['picks']
+        d.setdefault('name', str(cnt['starts']))
         assert I.p() <= 2 and all(y is not None for y in Y)
         J, p, w, F, D, DT, EJ = analyse(I, Y)
         cnt['starts'] += 1; cnt[f'|D_T| = {min(len(DT), 2)}{"+" if len(DT) >= 2 else ""}'] += 1
@@ -96,9 +101,23 @@ if __name__ == '__main__':
                             cnt['KEEP2 VIOLATION'] += 1; print('VIOLATION', d['name'], Y, P, H0); continue
                         keep2 = True
                     elif not covered: cnt['P(k) does not cover D_T (k in D_T, H0 in J)'] += 1
-        K.close()
         if keep2: cnt['starts with a KEEP2 chain'] += 1
-        else: cnt[f'starts without a KEEP2 chain, |D_T| = {len(DT)}'] += 1; ex.setdefault(f'no KEEP2, |D_T| = {len(DT)}', (d['name'], I.n, I.m, Y))
+        else:
+            cnt[f'starts without a KEEP2 chain, |D_T| = {len(DT)}'] += 1; ex.setdefault(f'no KEEP2, |D_T| = {len(DT)}', (d['name'], I.n, I.m, Y))
+            # does some canonical chain P(k), k in D, with some improving H0 in (J + {Y_z}) & R_k, repair (owner anyone)?
+            hit = set()
+            for k in sorted(D):
+                P = chain(w, k); z = P[-1]
+                pool = [g for g in J if g in I.R[k]] + ([Y[z]] if Y[z] in I.R[k] else [])
+                if any(I.val(k, H0) > p[k] and K.complete(tuple(state(I, Y, P, H0))) is not None
+                       for r in range(1, len(pool) + 1) for H0 in itertools.combinations(pool, r)):
+                    hit.add('D_T' if k in DT else 'D-D_T')
+            tag = ('some P(k), k in D_T, repairs' if 'D_T' in hit else 'only P(k) with k pick-dangerous repairs' if hit
+                   else 'no canonical chain repairs')
+            cnt['no KEEP2: ' + tag] += 1
+            key = 'no KEEP2: ' + tag
+            if key not in ex or (I.n, I.m) < ex[key][1:3]: ex[key] = (d['name'], I.n, I.m, Y, json.dumps({'sets': I.sets, 'vals': [[I.v[i][g] for g in I.sets[i]] for i in range(I.n)]}))
+        K.close()
     print('$ python3 k4/p3/keep2.py ' + ' '.join(sys.argv[1:]))
     for k in sorted(cnt): print(f'{k}: {cnt[k]}')
     for k in sorted(ex): print('example', k, ex[k])

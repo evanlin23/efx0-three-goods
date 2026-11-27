@@ -1,0 +1,28 @@
+$ python3 k4/p3/t1_p2.py /tmp/claude-0/-home-user-efx0-three-goods/30bb0add-b7b6-52a9-aad1-ef4a237f8fd4/scratchpad/cert/results/k4_certs_5_mg.json.gz --per=200 --seed=5 --procs=2 --out=results/k4_p3x/hard_p2_n5b.jsonl.gz
+... 100 / 686 cores, 23 s
+... 200 / 686 cores, 46 s
+... 300 / 686 cores, 76 s
+... 400 / 686 cores, 104 s
+... 500 / 686 cores, 136 s
+... 600 / 686 cores, 171 s
+  ... of which one move repairs: 65
+D_T = {k}: U2 applies: 2190
+D_T = {k}: no H0 avoids crowding: 65
+U2 (chain, H0) cases: 4667
+hard perfect starts: 11648
+hard, |D| = 1, |D_T| = 1: 6
+hard, |D| = 2, |D_T| = 0: 2
+hard, |D| = 2, |D_T| = 1: 311
+hard, |D| = 2, |D_T| = 2: 1195
+hard, |D| = 3, |D_T| = 0: 32
+hard, |D| = 3, |D_T| = 1: 1657
+hard, |D| = 3, |D_T| = 2: 4043
+hard, |D| = 3, |D_T| = 3: 1910
+hard, |D| = 4, |D_T| = 0: 2
+hard, |D| = 4, |D_T| = 1: 281
+hard, |D| = 4, |D_T| = 2: 1122
+hard, |D| = 4, |D_T| = 3: 934
+hard, |D| = 4, |D_T| = 4: 153
+maximum pick vectors: 284539
+first NO-U2 ["NO-U2", "k4_certs_5_mg.json.gz#6", 18, [[0, 1, 2, 4], [0, 2, 6], [1, 4, 7], [3, 5, 6], [3, 5, 7]], [[10, 7, 2, 6], [4, 3, 2], [3, 2, 4], [2, 3, 4], [3, 2, 4]], [1, 0, 4, 6, 7]]
+time 204 s
