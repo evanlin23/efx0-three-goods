@@ -1639,7 +1639,9 @@ holds a pick.
    **4a. A disjoint second repair (ROUND form).**
    - Statement: at a hard perfect start with no one-move repair whose conflicts split into independent parts, the
      parts are settled by vertex-disjoint moves, each a one-move repair of its part, in one round or in sequence.
-   - Smallest test: 5_pure#164 (n = 5):
+   - Smallest test: 4_n4_3#58 (n = 4; §22's cex1). It is 4a-type: the chain (3, 2), with agent 3 taking {3, 4},
+     then the vertex-disjoint chain (0, 1) repair it (checked here; 4 of its 20 repairing pairs are vertex-disjoint).
+   - 5_pure#164 (n = 5) is the smallest 4a-type start at which even the wider single move OC₁′ fails:
      - agents 0 and 1 must swap, and separately agent 3, whose pick is worth 2, must be upgraded from agent 4 or 2;
      - the chains (2, 3) and (1, 0) repair it;
      - no single chain or ring can.
@@ -1652,7 +1654,7 @@ holds a pick.
    - Statement: the second move uses the first one's result. Some dangerous k has a canonical chain P₁ to the receiver z
      with a shared pool pair T. The reduced state is a perfect SD start of I − k − T and has a one-move repair whose
      completion does not threaten k. Lemma LIFT (refereed) lifts it back.
-   - Smallest test: 4_n4_3#58 (n = 4).
+   - Smallest test: to be named from the matching session's 13,040 4b-type n = 4 starts. 4_n4_3#58 is 4a-type.
    - At n = 4 this case is closed twice over: by LIFT-SHAPE⁺ (K4.MATCH.LIFT.N4), and by **OC₁′^max**, whose single
      wider move repairs every n = 4 start (two independent checks of all 112,880 exported starts).
    - At n = 5, 5_pure#164 refutes LIFT-SHAPE⁺ (`liftshape_n5_check.py`) and OC₁′^max (K4.SDC.OC1PMAX, `k4/sdc.md` §31).
