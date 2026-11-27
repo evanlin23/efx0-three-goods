@@ -1658,6 +1658,15 @@ holds a pick.
    - At n = 5, 5_pure#164 refutes LIFT-SHAPE⁺ (`liftshape_n5_check.py`) and OC₁′^max (K4.SDC.OC1PMAX, `k4/sdc.md` §31).
      It is a 4a case, though, so it does not refute OC2-REC.
    - Owners: `proof/k4-oc1max-multi` (OC2-REC); the matching session's exhaustive test.
+   - **n = 4 closed for both 4a and 4b** (matching, `k4/matching/n5_census.py`,
+     `results/k4_matching/n5_census_n4export.log` at cafae70; ledger K4.MATCH.REC.N4, CERTIFIED by them). Of the
+     112,880 n = 4 starts with no one-move repair:
+     - 99,840 are 4a-type (some repairing pair of chains from dangerous agents is vertex-disjoint);
+     - 13,040 are 4b-type (none is);
+     - OC2-REC holds on all of them, with witnesses re-verified by a self-contained checker, and every reduced repair
+       is a Lemma EX\* exchange.
+
+     So OC2-REC covers 4a as well at n = 4. The split matters only from n = 5 on.
 5. **SLOT** (`proof/k4-oc1max-multi`).
    - Statement: either |D_T| ≥ 2, or D_T = ∅ with DEMAND from a second dangerous agent that values Y_z. Then some
      canonical chain from some k ∈ D leaves demands that fit Lemma M's count at B′, with owner k.
