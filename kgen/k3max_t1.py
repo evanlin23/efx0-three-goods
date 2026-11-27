@@ -8,7 +8,7 @@ released.  Recorded:
   - does some such rotation give a state that lbtest.lb2 completes?  Does every one?
   - does the rotation that gives t its most preferred good work (ties: any)?
   - after a repairing rotation: does Lemma 1 hold with no owner (|J'| <= |T'|), or does it need an owner?
-  - does every repairing DE trade (de_moves.de_trades) end at t?
+  - does every rotation of least omega' = |J'| - |T'| (after LB's upgrades, or before) repair?
 Needs k4/k3oc1/ from branch claude/k4-k3-oc1 (K3OC1, as in kgen/k3max_cover.py).
 
     K3OC1=... python3 kgen/k3max_t1.py small:4|certs:5 [SHARD NSHARDS]"""
@@ -58,12 +58,26 @@ if __name__ == '__main__':
                         newt = B[P[-2]][0]
                         rots.append((k, tuple(P), rk[t].index(newt), bool(lb2(rk, m, nb)), nb))
                 C['  rotations from E_t into t exist'] += bool(rots)
+                if rots:
+                    om = []
+                    for r in rots:
+                        P2 = parts(rk, m, upgrade(rk, m, r[4])); om.append(len(P2[1]) - len(P2[5]))
+                    lo = min(om)
+                    C['  every least-omega rotation into t (omega after upgrades) repairs'] += all(r[3] for r, o in zip(rots, om) if o == lo)
+                    P2 = [parts(rk, m, r[4]) for r in rots]; om0 = [len(p[1]) - len(p[5]) for p in P2]; lo0 = min(om0)
+                    C['  every least-omega rotation into t (omega before upgrades) repairs'] += all(r[3] for r, o in zip(rots, om0) if o == lo0)
+                    C['  least omega after a repairing rotation <= 0 %s' % (min(o for r, o in zip(rots, om) if r[3]) <= 0 if any(r[3] for r in rots) else 'n/a')] += 1
                 ok = [r for r in rots if r[3]]
                 C['  some rotation from E_t into t repairs'] += bool(ok)
                 C['  every rotation from E_t into t repairs'] += bool(rots) and len(ok) == len(rots)
                 if rots:
                     best = min(r[2] for r in rots)
-                    C['  every rotation giving t its best reachable good repairs'] += all(r[3] for r in rots if r[2] == best)
+                    bestok = all(r[3] for r in rots if r[2] == best)
+                    C['  every rotation giving t its best reachable good repairs'] += bestok
+                    if not bestok and shown['best'] < 3:
+                        shown['best'] += 1
+                        print('BEST-FOR-T ROTATION FAILS', json.dumps([list(x) for x in rk]), m, 'picks', Y, 'J', J, 'T', T, 'E_t', E,
+                              'rotations (k, chain, rank of t\'s new good, repairs):', [(r[0], r[1], r[2], r[3]) for r in rots], flush=True)
                     C['  t gets its top in some repairing rotation'] += any(r[2] == 0 for r in ok)
                     C['  t gets its top in some rotation'] += any(r[2] == 0 for r in rots)
                 for r in ok[:1]:

@@ -1,0 +1,6 @@
+$ python3 kgen/k3max_t1all.py small:5 0 4
+1184   some rotation reaches |J'| <= |T'| (hard: False): True
+6744   some rotation reaches |J'| <= |T'| (hard: True): True
+1184 perfect drafts with T = {t}, |E_t| >= 2 (hard: False)
+6744 perfect drafts with T = {t}, |E_t| >= 2 (hard: True)
+time 130 s

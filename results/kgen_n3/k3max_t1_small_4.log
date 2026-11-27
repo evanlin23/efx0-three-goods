@@ -1,8 +1,11 @@
 $ python3 kgen/k3max_t1.py small:4
+1040   every least-omega rotation into t (omega after upgrades) repairs
+1040   every least-omega rotation into t (omega before upgrades) repairs
 984   every rotation from E_t into t repairs
 1040   every rotation giving t its best reachable good repairs
 16   first repairing rotation: no owner needed (|J'| <= |T'|) False
 1024   first repairing rotation: no owner needed (|J'| <= |T'|) True
+1040   least omega after a repairing rotation <= 0 True
 1040   rotations from E_t into t exist
 1040   some rotation from E_t into t repairs
 1040   t gets its top in some repairing rotation
