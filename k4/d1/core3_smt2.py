@@ -110,7 +110,7 @@ def check(R, junk):
         for u in (1, 2):
             other = 3 - u
             Pi = J + [picks[u]]
-            for g in [None] + (J if MODE == 'HJ' else []):
+            for g in [None] + (J if MODE in ('HJ', 'H2') else []):
                 pool = [h for h in Pi if h != g]
                 kpool = [h for h in pool if h in R[0]]
                 for r in range(1, len(kpool) + 1):
@@ -132,6 +132,30 @@ def check(R, junk):
                             X[0] = X[0] + [h for h in rest if h not in f.values()]
                             comps.append(z3.And(allowed + [ok(X)]))
                         sol.add(z3.Implies(minimal, z3.Not(z3.Or(comps))))
+    if MODE in ('C2', 'H2'):
+        # the double chain (k, u, u2): u takes a; u2 takes u's pick plus junk S (improving for u2); k takes H0
+        for u in (1, 2):
+            u2 = 3 - u
+            for size in (0, 1, 2):
+                for S in itertools.combinations(J, size):
+                    better_u2 = V(u2, [picks[u]] + list(S)) > v(u2, picks[u2])
+                    pool = [h for h in J + [picks[u2]] if h not in S]
+                    kpool = [h for h in pool if h in R[0]]
+                    for r in range(1, len(kpool) + 1):
+                        for H0 in itertools.combinations(kpool, r):
+                            imp = V(0, list(H0)) > v(0, 0)
+                            minimal = z3.And([imp] + [z3.Not(V(0, [h for h in H0 if h != e]) > v(0, 0)) for e in H0])
+                            B = [list(H0), None, None]
+                            B[u] = [0]; B[u2] = [picks[u]] + list(S)
+                            rest = [h for h in pool if h not in H0]
+                            comps = []
+                            for f in partial_maps([1, 2], rest):
+                                allowed = [z3.BoolVal(len(B[i]) <= 1) for i in f] + [z3.Not(frozen_at(B, i)) for i in f]
+                                X = [list(b) for b in B]
+                                for i, h in f.items(): X[i].append(h)
+                                X[0] = X[0] + [h for h in rest if h not in f.values()]
+                                comps.append(z3.And(allowed + [ok(X)]))
+                            sol.add(z3.Implies(z3.And(minimal, better_u2), z3.Not(z3.Or(comps))))
     return sol.check()
 
 

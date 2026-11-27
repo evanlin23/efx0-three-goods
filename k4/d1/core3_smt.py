@@ -61,7 +61,8 @@ def structures(max_junk=7):
             yield [sorted(Rk), sorted(Rz), sorted(Rw)], [g for g, t in junk]
 
 
-MODE = os.environ.get('MODE', 'HJ')   # HJ: D1-HJ fails; CANON: only canonical chains fail; NONE: no repair constraint
+MODE = os.environ.get('MODE', 'HJ')   # HJ: D1-HJ fails; CANON: only canonical chains fail; NONE: no repair constraint;
+# H2: canonical, head + one junk good, and the double chain (k, u, u') all fail; C2: canonical and double chain fail
 
 
 def encode(R, junk):
@@ -132,7 +133,7 @@ def encode(R, junk):
     # D1-HJ fails
     for u, yu, up, yup in (((Z, YZ, W, YW), (W, YW, Z, YZ)) if MODE != 'NONE' else ()):
         Pi = J + [yu]
-        for g in [None] + (J if MODE == 'HJ' else []):
+        for g in [None] + (J if MODE in ('HJ', 'H2') else []):
             Pi2 = [x for x in Pi if x != g]
             Pk = [x for x in Pi2 if x in v[K]]
             for r in range(1, len(Pk) + 1):
@@ -147,6 +148,35 @@ def encode(R, junk):
                         X[K] = list(H0) + [x for x in Jp if x != e]
                         comps.append(efx0(X))
                     s.add(z3.Implies(minimal, z3.Not(z3.Or(comps))))
+    # MODE=H2: also the double chain (k, u, u'): u takes a, u' takes y_u plus junk Hu (|Hu| <= 2, improving for u'),
+    # k takes a minimal improving H0 inside (J + {y_u'} - Hu) & R_k; owner k; S* (holders: unfrozen single-good agents)
+    if MODE in ('H2', 'C2'):
+        for u, yu, up, yup in ((Z, YZ, W, YW), (W, YW, Z, YZ)):
+            for r in range(0, 3):
+                for Hu in itertools.combinations(J, r):
+                    improving_up = val(up, [yu] + list(Hu)) > p[up]
+                    Pi2 = [x for x in J + [yup] if x not in Hu]
+                    Pk = [x for x in Pi2 if x in v[K]]
+                    for q in range(1, len(Pk) + 1):
+                        for H0 in itertools.combinations(Pk, q):
+                            minimal = z3.And([val(K, H0) > p[K]] + [val(K, [x for x in H0 if x != h]) <= p[K] for h in H0])
+                            Jp = [x for x in Pi2 if x not in H0]
+                            X = [[], [], []]
+                            X[u] = [A]; X[up] = [yu] + list(Hu)
+                            # holders: u if unfrozen (nobody wants a: u' now values its bundle at least v_u'(a)), u' never (multi-good unless Hu empty)
+                            up_single = len(X[up]) == 1
+                            comps = []
+                            for e_u in [None] + Jp:
+                                for e_up in ([None] + [x for x in Jp if x != e_u]) if up_single else [None]:
+                                    Y2 = [list(b) for b in X]
+                                    if e_u is not None: Y2[u] = Y2[u] + [e_u]
+                                    if e_up is not None: Y2[up] = Y2[up] + [e_up]
+                                    Y2[K] = list(H0) + [x for x in Jp if x not in (e_u, e_up)]
+                                    cond = [efx0(Y2)]
+                                    if e_u is not None: cond.append(val(up, X[up]) >= v[up][A])   # u unfrozen at the state
+                                    if e_up is not None: cond.append(z3.And(val(u, [A]) >= val(u, [yu]), z3.BoolVal(True)))
+                                    comps.append(z3.And(cond))
+                            s.add(z3.Implies(z3.And(minimal, improving_up), z3.Not(z3.Or(comps))))
     return s, v
 
 
