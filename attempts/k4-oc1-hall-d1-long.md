@@ -17,8 +17,11 @@
 - J = {0, 1, 3, 4, 5}, F = D = {0}, and agents 1 and 2 both want good 7.
 - It is hard: `ohlib.absorb_brute` and the SAT test agree.
 - It is **not a core**: `hcore.is_core4` on the dense value matrix says agent 1 has 3 private goods of 4
-  (`k4/oc1_hall/d1h2_tests.py`). Whether canonical D1-LONG fails on a strict core is therefore not known from this
-  instance.
+  (`k4/oc1_hall/d1h2_tests.py`).
+- **On strict cores it fails too: D1H-Y** (k4-d1; re-verified by `d1h2_tests.py`). Data: n = 3, m = 7, sets
+  [[0,4,3,5],[2,6,4,5],[0,1,3,5]], values [[20,13,21,23],[17,14,18,23],[8,11,7,23]], order (0, 1, 2). It is a strict
+  connected core with no canonical repair, and the extension (0, 2, 1) repairs. Agent 1 has two private goods, so it lies
+  outside K4.MC2. Inside MC2 no counterexample to canonical D1-LONG is known.
 - Both canonical chains, (0, 1) and (0, 2), have HEAD for every improving H₀, and no owner k or head works after
   either. After (0, 2) the off-chain second wanter 1 can own.
 - The ED chain (0, 2), in which the head takes 7 together with junk good 0 (or 5), with H₀ = {1, 5} (or {0, 1}),
