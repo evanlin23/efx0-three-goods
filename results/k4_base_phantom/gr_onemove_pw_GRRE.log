@@ -1,0 +1,12 @@
+$ MODE=GRRE python3 k4/base_phantom/gr.py onemove_pw_GRRE results/k4_base_phantom/data/onemove_hard_pw291.jsonl.gz 1 0
+distinct starts: 291
+       252  SAFE
+        39  STUCK start
+        36  STUCK: B1 (no admissible round), 1 phantoms
+        58  STUCK: B1 (no admissible round), 2 phantoms
+      1500  end: completion, 1 phantoms
+       658  end: completion, 2 phantoms
+         2  end: completion, 3 phantoms
+       291  starts
+      3091  states visited
+time 0 s

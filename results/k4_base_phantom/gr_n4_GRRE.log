@@ -1,0 +1,9 @@
+$ MODE=GRRE python3 k4/base_phantom/gr.py n4_GRRE results/k4_base_phantom/data/two_move_starts_n4.json.gz 1 0
+distinct starts: 112880
+  ... 50000 starts, 0 stuck, 18 s
+  ... 100000 starts, 0 stuck, 34 s
+    112880  SAFE
+    321840  end: completion, 2 phantoms
+    112880  starts
+    641040  states visited
+time 40 s

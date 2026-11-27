@@ -359,6 +359,16 @@ Further facts:
     - 1 takes 4's good 6 plus junk 1. This is a weak last link: 3 + 2 > 4, although 1 does not want 6 alone.
     - Then 0 owns the rest, e.g. [[0, 4, 7], [1, 6], [2, 3], [8], [5]], raw EFX₀ (`gr.py`).
   - So the two rules nest, and #963 separates them by a B1-type ED ring at a state with a phantom.
+- *What saves the round-first form at two-move starts is the E-prefix restriction* (the multi session's question;
+  `gr.py` MODE=GRRE). Here MODE=GRRE is round-first, but every chain of a taken round must be a prefix of an
+  earliest-wanter chain E(k) for some SD order, as in Lemma SD-E(round).
+  - It is safe at all 8 starts where GRR gets stuck.
+  - It is safe at every two-move data set: n = 4 112,880, walks 4,955, n5 s50 14,047, 5_pure 280.
+  - It gets stuck at 154 one-move starts: 87 of the multi file, 28 of the Hall file and 39 of the PW file
+    (`gr_*_GRRE.log`). There a round taken instead of the available one-move repair can be fatal, as at the 35 of §1.
+
+  So on the data: at two-move starts, every E-prefix P1-free round is safe; at one-move starts, the base must come
+  first.
 - Without step 2, GR with an ED or even a C3 base gets stuck at the 12 starts of §4.4.
 - Without step 3, it gets stuck at 47 one-move starts.
 
