@@ -854,6 +854,14 @@ order facts about Y: d wants p's pick; nobody off the path wants d's pick; and Y
 
 *Open:* (F1)–(F3) from the hardness of Y.
 
+**The SINK form of DEMOTE** (CONJECTURE; proposed jointly with oc1-hall; `k4/girth/oc1_sink.py`,
+`results/k4_girth_oc1_sink.log`). At every RF start with maximum-matching picks, Y′ or the state after one DEMOTE move
+((T)/(T\*) or (C)/(C′)) has a complete EFX₀ allocation in which **all remaining junk goes to one agent a ∈ {w, d},
+except at most one junk good, which goes to one other agent**. It holds at all 161,520 distinct n = 4 RF starts and at
+all 121,217 starts of the n = 5 classes DEMOTE-0 and (1, 3), with no exception. oc1-hall finds it on a 6,220-start
+sample of n = 5 DEMOTE-2 with an official chain k → d. It covers RF-A1 (absorber w, sink d), RF-B (absorber d), Lemma
+RF-T (d absorbs the one good Y_u, sink x_{ℓ−1}) and the (1, 3) form (absorber d, sink w, or the reverse).
+
 **Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every
 strict connected k = 4 core, at every serial-dictatorship order o whose picks form a maximum matching and fail OC₁,
 the receiver u is unique, and the order (u, o − u) has maximum-matching picks that satisfy OC₁. With K4.SDC.MAXSD this
@@ -907,6 +915,7 @@ python3 k4/girth/oc1_rf_b_check.py                              # §7 third chec
 python3 k4/girth/oc1_demote_n5.py two_move_starts_n5_partial6.json.gz 150 7   # §7 DEMOTE and RF at n = 5 -> results/k4_girth_oc1_demote_n5.log
 python3 k4/girth/oc1_residue_n5.py build PARTIAL6 SEL2 OUT.jsonl.gz 3; python3 k4/girth/oc1_residue_n5.py check OUT.jsonl.gz 3   # §7 -> results/k4_girth_oc1_residue_n5.log
 python3 k4/girth/oc1_trade.py OUT.jsonl.gz 1                    # §7 Lemma RF-T checks -> results/k4_girth_oc1_trade.log
+python3 k4/girth/oc1_sink.py OUT.jsonl.gz 3                     # §7 the SINK form, n = 4 and n = 5 -> results/k4_girth_oc1_sink.log
 ```
 Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
 partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).
