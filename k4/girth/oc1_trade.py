@@ -110,6 +110,7 @@ def main():
         # everyone else its Y' pick) is EFX0 iff (W-d) nobody but x_{l-1} wants Y_d at X and (W-p) nobody but d
         # wants Y_p at X ("wants" = values that single good above its own bundle)
         xl1 = path[-2]
+        facts_ok = []
         for p, j in trades:
             rest = [g for g in J2 if g != j]
             if len(rest) != 2 or Y[u] not in rest:
@@ -130,6 +131,28 @@ def main():
             C['RF-T: (W-d) holds'] += wd
             C['RF-T: (W-p) holds'] += wp
             C['RF-T: trades tested'] += 1
+            # who could want Y_d / Y_p at X: the agents valuing them, labelled by position, and by SD order of sigma'
+            o2 = [u] + [a for a in r.get('order', [])] if False else None
+            for i in range(n):
+                tag_i = 'u' if i == u else 'd' if i == d else 'p' if i == p else ('path' if i in path else 'off-path')
+                if i != xl1 and Y[d] in v[i]:
+                    C["RF-T: values Y_d: %s; wants it at Y: %s; wants it at X: %s" % (
+                        tag_i, v[i][Y[d]] > v[i].get(Y[i], 0), v[i][Y[d]] > val[i])] += 1
+                if i != d and Y[p] in v[i]:
+                    C["RF-T: values Y_p: %s; wants it at Y: %s; wants it at X: %s" % (
+                        tag_i, v[i][Y[p]] > v[i].get(Y[i], 0), v[i][Y[p]] > val[i])] += 1
+            C['RF-T: d wants Y_p at Y'] += v[d].get(Y[p], 0) > v[d][Y[d]]
+            F1 = v[d].get(Y[p], 0) > v[d][Y[d]]
+            F2 = all(not (v[i].get(Y[d], 0) > v[i].get(Y[i], 0)) for i in range(n) if i not in path and i != u)
+            F3 = all(i in (p, d, u) for i in range(n) if Y[p] in v[i])
+            C['RF-T facts: (F1) d wants Y_p at Y'] += F1
+            C['RF-T facts: (F2) no off-path agent wants Y_d at Y'] += F2
+            C['RF-T facts: (F3) Y_p valued only by p, d, u'] += F3
+            C['RF-T facts: F1 and F2 and F3'] += F1 and F2 and F3
+            if F1 and F2 and F3:
+                C['RF-T facts: F1-F3 hold and X is EFX0 (must be all)'] += ef
+            facts_ok.append(F1 and F2 and F3)
+        C['RF-T facts: some trade of the start has F1-F3'] += any(facts_ok)
         rules = ['singles: any', 'Y_u to d, other junk to w', 'Y_u to w, other junk to d', 'all remaining junk to d',
                  'all remaining junk to w', 'Y_u to d, other junk to x2', 'Y_u to x2, other junk to d']
         for rule in rules:

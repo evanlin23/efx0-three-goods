@@ -53,7 +53,7 @@ SINK, PARK, SLACK (general). Everything else below is as marked.
 | K4.GIRTH.RF | Rule RF, per-order form: at every OC₁-failing maximum-matching SD order o, moving a receiver u to the front gives maximum-matching picks that satisfy OC₁ | REFUTED at n = 5 (5_pure#374: the ejection path ends with an agent getting nothing; another order beginning with u works); holds at all 292,080 n = 4 orders (exhaustive via the certified failure list) and 2,567 of 2,569 sampled n = 5 orders. The existence form (some order beginning with a receiver; K4.SDC.RF) survives | §7, `k4/girth/oc1_recvfirst.py`, `results/k4_girth_oc1_recvfirst.log`, `results/k4_girth_oc1_demote_n5.log` |
 | K4.GIRTH.DEMOTE | Lemma DEMOTE, uniform statement: at every maximum-matching RF start, w or d owns a one-absorber completion, or a ring through a receiver of length 2 or 3 (T/T*), or a 2-agent chain from a truly dangerous agent (C/C′) repairs | CONJECTURE (no exception: all 292,080 n = 4 orders; at n = 5 the full residue classes DEMOTE-0 (113,484) and (1, 3) (7,733) of the certifier's exports, the 86 stored orders, the 64 two-receiver RF starts, 2,567 sampled orders; DEMOTE-2 at n = 5 covered by oc1-hall's census) | §7, `k4/girth/oc1_residue.py`, `k4/girth/oc1_residue_n5.py`, `results/k4_girth_oc1_residue.log`, `results/k4_girth_oc1_residue_n5.log`, `results/k4_girth_oc1_r2n5.log` |
 | K4.GIRTH.RFPATH | Lemma RF-PATH: moving a receiver u of an SD start (e.g. the last picker) to the front of the order changes the picks only along one ejection path x_1, …, x_ℓ (increasing in the order); every x_i loses value, u gains; the path's end is unfrozen at the new picks (any n, strict additive values) | PROVED (written, not refereed) | §7 |
-| K4.GIRTH.RFT | Lemma RF-T: in DEMOTE-0's trade case, the explicit allocation (p: {Y′_d, j}; d: {Y_p, Y_u}; x_{ℓ−1}: {Y_d, z}; the rest along the path) is EFX₀ iff (W-d) and (W-p) | PROVED (the reduction; written, not refereed); facts (W-d), (W-p) hold at every n = 5 trade start (42,009), EVIDENCE | §7, `k4/girth/oc1_trade.py`, `results/k4_girth_oc1_trade.log` |
+| K4.GIRTH.RFT | Lemma RF-T and Corollary RF-T′: in DEMOTE-0's trade case, the explicit allocation (p: {Y′_d, j}; d: {Y_p, Y_u}; x_{ℓ−1}: {Y_d, z}; the rest along the path) is EFX₀ iff (W-d) and (W-p), and in particular whenever (F1) d wants Y_p at Y, (F2) no off-path agent wants Y_d at Y, (F3) Y_p is valued only by p, d, u | PROVED (written, not refereed); (F1)–(F3) hold for some trade at every n = 5 trade start (42,009), EVIDENCE | §7, `k4/girth/oc1_trade.py`, `results/k4_girth_oc1_trade.log` |
 
 ---
 
@@ -830,9 +830,29 @@ So only Y_d (in x_{ℓ−1}'s bundle) and Y_p (in d's) can be wanted, which is (
 - every valid p is truly dangerous at Y and keeps its pick at Y′, and every j is junk at Y (41,803 starts, the
   unique-trade ones and more).
 
-*Open:* derive (W-d) and (W-p) from the hardness of Y. (W-d) needs: d does not want its old pick back, and no
-off-path agent picking after x_{ℓ−1} wants Y_d. (W-p) needs: no wanter of Y_p at Y (p is frozen at Y) still wants it
-at X.
+**Corollary RF-T′ (written proof, not refereed).** In RF-T's setting, suppose
+- **(F1)** d wants Y_p at Y (v_d(Y_p) > v_d(Y_d));
+- **(F2)** no agent off the RF path other than u wants Y_d at Y;
+- **(F3)** Y_p is valued only by p, d and u.
+
+Then X is EFX₀.
+
+*Proof.* We check (W-d) and (W-p).
+- (W-d). Let i ≠ x_{ℓ−1} value Y_d.
+  - If i = u, it holds its top good.
+  - If i = x_s with 1 ≤ s ≤ ℓ − 2, it picked before x_{ℓ−1} in σ′ while Y_d was free, and X_i = {Y′_i}.
+  - If i = d, then v_d(X_d) ≥ v_d(Y_p) > v_d(Y_d) by (F1).
+  - If i is off the path, then v_i(Y_d) < v_i(Y_i) by (F2). Such an i keeps its pick, or it is p, and v_p(X_p) >
+    v_p(Y_p).
+- (W-p). By (F3) the only agents other than d that value Y_p are p, for which v_p({g, j}) > v_p(Y_p), and u, which
+  holds its top good. ∎
+
+*Checks* (`results/k4_girth_oc1_trade.log`): (F1) and (F2) hold at all 42,251 valid trades; (F3) at 42,009. Some valid
+trade with (F1)–(F3) exists at every one of the 42,009 trade starts of DEMOTE-0 at n = 5, and X is EFX₀ at every
+trade with (F1)–(F3). So the trade case at n = 5 is closed up to the facts (F1)–(F3), which are now hypergraph and
+order facts about Y: d wants p's pick; nobody off the path wants d's pick; and Y_p's hyperedge is {p, d, u}.
+
+*Open:* (F1)–(F3) from the hardness of Y.
 
 **Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every
 strict connected k = 4 core, at every serial-dictatorship order o whose picks form a maximum matching and fail OC₁,
