@@ -18,9 +18,9 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
 | Conjecture CM (§3) | at every one-absorber-hard perfect start (k ≤ 4), some chain from a dangerous agent, some H₀ and some owner satisfy Lemma EX's hypothesis. CM ⟹ OC₁ at perfect starts ⟹ (RED, MAXSD) TARGET₄ | **refuted with OC₁^max** by the 11 n = 4 cores of compute/k4-oc1max-cert (§5). Before that: 2,371 of 2,371 hard perfect starts (Hall session's 2,071, the 9 of the core counterexamples, 291 of the PW design space) |
 | CM ⟺ OC₁ on the data (§3, §5) | one exchange (Lemma EX / EX\*) repairs exactly when one move gives an S\* completion, at every hard perfect start tested: the 2,371 starts, the 30 of the 11 n = 4 instances, the walks near the n = 4 failures. Near those failures, 88 starts satisfy OC₁ only through a non-S\* completion (a compensated frozen slot) | computed |
 | Lemma EX\* (§5) | the exchange at any state: Lemma M applied after a move, read in the slot graph before it (ownership moved, chain agents' demands re-evaluated, the chain's new slots added) | written proof (§5), a corollary of Lemma M; 0 violations |
-| **Conjecture CM₂** (§5) | from every perfect start, some first move leads to a state where a Lemma EX\* exchange repairs. CM₂ ⟹ OC₂ at perfect starts ⟹ OC₂^max ⟹ TARGET₄ | evidence: all 30 hard maximum-matching starts of the 11 n = 4 failure instances, every start visited by the walks near them (OC₁ failing: 4,513 visits, 3,308 distinct; OC₁ only non-S\*: 88), PW5, RD5. Where OC₁ fails, the first moves after which an EX\* exchange repairs are exactly those after which any second move repairs |
-| Lemma LIFT-1 (§6) | under LIFT-red's hypotheses and (L1) z unfrozen after P₂, (L2) z values h's new bundle at most as much as its favourite good, (L3) every other agent values at most one good of h's bundle plus the junk: h takes that bundle minus z's best junk good, z takes its favourite good plus that junk good, and the allocation is EFX₀ | written proof (§6; uses \|R_z\| ≤ 4, and Lemma PL(c) for the second sharer); construction EFX₀ (raw) on all 8,949 pairs meeting (L1)–(L3) |
-| **Conjecture LIFT-EX** (§6) | the second move, in exchange form (OC2-LIFT). At a perfect start with no one-move repair there is exactly one holder z; a chain from a dangerous agent to z absorbs a danger set shared with a second dangerous agent; a second chain ending at z gives z its favourite good, and its head owns (Lemma EX\* holds) | evidence: all 3,190 n = 4 failing profile–start pairs, the TTC n = 5 core, RD5; false at PW5 (k = 5, two holders). Lemma LIFT-red (written proof) reduces its last step to one condition, (LIFT-1) |
+| **Conjecture CM₂** (§5) | from every perfect start, some first move leads to a state where a Lemma EX\* exchange repairs. CM₂ ⟹ OC₂ at perfect starts ⟹ OC₂^max ⟹ TARGET₄ | evidence: all 30 hard maximum-matching starts of the 11 n = 4 failure instances, every start visited by the walks near them (OC₁ failing: 3,179 distinct in this note's long walk; OC₁ only non-S\*: 88 visits), the multi session's 4,955 failing pairs (n = 4, 5; 8,073 distinct failing starts in all), PW5, RD5. Where OC₁ fails, the first moves after which an EX\* exchange repairs are exactly those after which any second move repairs |
+| Lemma LIFT-1 (§6) | under LIFT-red's hypotheses and (L1) z unfrozen after P₂, (L2′) z values h's new bundle at most its favourite good plus its best junk good, (L3) every other agent values at most one good of h's bundle plus the junk: h takes that bundle minus z's best junk good, z takes its favourite good plus that junk good, and the allocation is EFX₀ | written proof (§6; uses \|R_z\| ≤ 4, and Lemma PL(c) for the second sharer); construction EFX₀ (raw) on all 22,240 pairs meeting (L1), (L2′), (L3) over the two walk datasets (8,073 distinct failing starts, n = 4, 5) |
+| **Conjecture LIFT-EX** (§6) | the second move, in exchange form (OC2-LIFT). At a perfect start with no one-move repair there is exactly one holder z; a chain from a dangerous agent to z absorbs a danger set shared with a second dangerous agent; a second chain ending at z gives z its favourite good, and its head owns (Lemma EX\* holds) | evidence: all 3,179 n = 4 failing profile–start pairs of this note's walk, the TTC n = 5 core, RD5; its LIFT-SHAPE⁺ form also on the multi session's 4,955 (n = 4, 5); false at PW5 (k = 5, two holders). Lemmas LIFT-red and LIFT-1 (written proofs) reduce its last step to the shape statement LIFT-SHAPE⁺ |
 | exchange accounting (§3) | what a repairing chain pays for: in 910 of the 2,071 hard starts, deleting the chain agents' demands alone (s = 0) clears an end-owned deficiency of up to 6 | computed |
 
 **Bottom line.**
@@ -37,12 +37,12 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
    (compute/k4-oc1max-cert, 11 cores), and so is CM.
 4. At every known failure of one chain, the best exchange leaves exactly one slot missing:
    - the 11 n = 4 cores, and PW5 and RD5 at k = 5: δ = 1 or 2, best exchange excess 1;
-   - in each, a first move followed by a Lemma EX\* exchange repairs (Conjecture CM₂, §5). The same holds at all 3,308
-     distinct failing profile–start pairs that value walks find near the 11.
+   - in each, a first move followed by a Lemma EX\* exchange repairs (Conjecture CM₂, §5). The same holds at all 8,073
+     distinct failing profile–start pairs that value walks find near them (§5, §6, with the multi session's walks).
    CM₂ implies OC₂^max, the campaign's current target.
 5. The second move has one uniform shape on all data, Conjecture LIFT-EX (§6). Lemmas LIFT-red and LIFT-1 (written
    proofs) reduce it to a pure shape statement, LIFT-SHAPE⁺: where the goods sit, plus three value comparisons. That
-   statement holds on all 3,190 n = 4 failing starts.
+   statement holds on all 8,073 distinct failing starts known here (n = 4, 5; with the multi session's walks).
 
 ## 0. Setting
 
@@ -419,10 +419,11 @@ found is confirmed by the raw S\* test: 0 violations.
   value mutations ±1..3 that stay strict connected cores; the walk prefers starts where OC₁ fails or EX\* disagrees):
   - runs of 300 steps (seed 1) and 3,000 steps (seed 2) from each of the 11, together 1,250 + 17,883 hard perfect
     starts visited;
-  - wherever OC₁ fails (214 + 4,299 visits; 129 + **3,179 distinct failing profile–start pairs**, so OC₁^max failures
-    are plentiful near the 11), CM₂ holds and EX\* is exact on the second move;
+  - wherever OC₁ fails (214 + 4,299 visits; 129 and **3,179 distinct failing profile–start pairs** in the two runs,
+    which start from the same 11 and may overlap, so OC₁^max failures are plentiful near the 11), CM₂ holds and EX\* is
+    exact on the second move;
   - wherever some single move gives an S\* completion, an EX\* exchange exists;
-  - but 14 + 74 visited starts satisfy OC₁ only through a *non-S\** one-absorber completion. A frozen agent takes a compensated junk
+  - but in 14 + 74 visits a start satisfies OC₁ only through a *non-S\** one-absorber completion. A frozen agent takes a compensated junk
     good, which Lemma 1's (S1) allows and S\* does not. No single move gives an S\* completion there, so CM fails
     while OC₁ holds. CM₂ holds on all of them.
   - So EX\* is exact relative to the S\* shape on the data. The S\*-shape gap is real near the failures, and CM₂
@@ -471,7 +472,7 @@ one-move repair known here:
 
 | starts | 1–3 hold |
 |---|---|
-| the 3,190 n = 4 failing profile–start pairs: the 11 stored, and the 3,179 found by the walks of §5 | **3,190** |
+| the 3,179 distinct n = 4 failing profile–start pairs of §5's 3,000-step walk (the 11 stored among them) | **3,179** |
 | the TTC session's n = 5 strict-core failure (`k4/oc1_hall.md` §22; shared set {junk 2, released pick 4}) | 1 |
 | RD5 (k = 5) | 1 |
 | PW5 (k = 5) | **0**: it has two holders, so 1 fails |
@@ -479,20 +480,20 @@ one-move repair known here:
 So LIFT-EX is consistent with being a k ≤ 4 statement; PW5 is its k = 5 obstruction.
 
 **The shape on the n = 4 data** (`k4/matching/lift_oblig.py`, `results/k4_matching/lift_oblig.log`). Over the LIFT
-pairs of each of the 3,190 starts:
-- *Jointly on all 3,190*, some LIFT pair satisfies Lemma LIFT-red's hypotheses below:
+pairs of each of the 3,179 starts:
+- *Jointly on all 3,179*, some LIFT pair satisfies Lemma LIFT-red's hypotheses below:
   - z is unfrozen after P₁;
   - P₁'s H₀ is a pair, the shared pair;
   - P₂ is canonical;
   - P₂'s head h is not P₁'s head.
-- *Each of the following holds for some LIFT pair on all 3,190*:
+- *Each of the following holds for some LIFT pair on all 3,179*:
   - h is inert at Y: its junk is worth at most its pick (in cex1, agent 0);
   - P₂'s H₀ is a pair containing z's good after P₁, a = B₁_z;
   - the only other multi-good bundle of B₂ is P₁'s pair.
-- *Together with Lemma LIFT-red's hypotheses*, h can take **all** the junk on 2,997 of the 3,190. Then B₂ with J₂ given
-  to h is EFX₀ (raw), and Lemma M's witness at B₂ has H = ∅. On the other 193 the LIFT pairs need H ≠ ∅: some junk goes
+- *Together with Lemma LIFT-red's hypotheses*, h can take **all** the junk on 2,987 of the 3,179. Then B₂ with J₂ given
+  to h is EFX₀ (raw), and Lemma M's witness at B₂ has H = ∅. On the other 192 the LIFT pairs need H ≠ ∅: some junk goes
   to a holder of B₂.
-- All of the features hold at once for one pair on 2,784 of the starts.
+- All of the features hold at once for one pair on 2,774 of the starts.
 
 **Lemma LIFT-red (K4.MATCH.LIFTRED; written proof).** Assume:
 - Y is a perfect start and z is a holder of Y;
@@ -528,19 +529,21 @@ The one remaining obligation is therefore Lemma M's condition at B₂ for owner 
 > and the exposed holders of B₂ compensated by distinct goods of H, within a matching of all of H into the holders
 > of B₂.
 
-On 2,997 of the 3,190 starts H = ∅ works, and then (LIFT-1) just says that X = H₀² ∪ J₂ threatens nobody.
+On 2,987 of the 3,179 starts H = ∅ works, and then (LIFT-1) just says that X = H₀² ∪ J₂ threatens nobody.
 
 **Who threatens X** (`k4/matching/lift1_threats.py`, `results/k4_matching/lift1_threats.log`; the best LIFT-red pair of
 each start). At n = 4 the agents are h, z, P₁'s head k and the second sharer k′.
-- k values exactly one good of X, on all 3,190.
-- k′ values at most one, on all 3,190.
-- z values two or three goods of X. It is the only agent X ever threatens, on 193 starts, and one junk good given to
+- k values exactly one good of X, on all 3,179.
+- k′ values at most one, on all 3,179.
+- z values two or three goods of X. It is the only agent X ever threatens, on 192 starts, and one junk good given to
   z fixes every one of them.
 
 **Lemma LIFT-1 (K4.MATCH.LIFT1; written proof, k ≤ 4).** Assume Lemma LIFT-red's hypotheses. Let t be z's good at B₂
 (its favourite good of R_z), X = H₀² ∪ J₂, and assume:
 - **(L1)** z is unfrozen at B₂: nobody wants t;
-- **(L2)** v_z(H₀² ∩ R_z) ≤ v_z(t). This is automatic when z values at most one good of H₀²;
+- **(L2′)** v_z(H₀² ∩ R_z) ≤ v_z(t) + v_z(g), where g is z's most valuable good of J₂ (v_z(g) = 0 if z values none).
+  This is automatic when z values at most one good of H₀². The stronger (L2), without the term v_z(g), was the first
+  version; it fails on 32 of the multi session's n = 4 starts, where h takes both of z's released picks;
 - **(L3)** every agent other than h and z values at most one good of X.
 
 Let g be z's most valuable good of J₂, if z values any. Give h the set X ∖ {g}, give z {t, g}, and keep every other
@@ -558,13 +561,14 @@ base. This allocation is EFX₀ and S\*-shaped with owner h.
    (by 1). Removing it leaves nothing i values.
 4. *X ∖ {g} does not threaten z.* A threat needs v_z((X ∖ g) ∩ R_z) > v_z(B_z), where B_z is z's final bundle. Let
    A = H₀² ∩ R_z and G = J₂ ∩ R_z. Since t ∉ X and |R_z| ≤ 4, we have |A| + |G| ≤ 3.
-   - G = ∅: z gets nothing extra, and v_z(A) ≤ v_z(t) by (L2).
+   - G = ∅: z gets nothing extra, and v_z(A) ≤ v_z(t) by (L2′).
    - G ≠ ∅: z holds {t, g}, with g the most valuable good of G. Then v_z(A) + v_z(G ∖ g) ≤ v_z(t) + v_z(g),
      case by case:
      - |A| = 0: G ∖ g has at most two goods. One is worth ≤ v_z(t), since t is z's favourite good, and the other
        ≤ v_z(g).
      - |A| = 1: the good of A is worth ≤ v_z(t), and G ∖ g has at most one good, worth ≤ v_z(g).
-     - |A| = 2: G = {g}, and v_z(A) ≤ v_z(t) by (L2).
+     - |A| = 2: G = {g}, and v_z(A) ≤ v_z(t) + v_z(g) by (L2′).
+   - In the case G = ∅, (L2′) reads v_z(A) ≤ v_z(t).
 5. *h is threatened by nobody,* by 2. Its value only rose.
 6. *Shape.* z is a holder at B₂ (by (L1), it holds one good) and takes one junk good. Nobody else but h takes junk. ∎
 
@@ -574,9 +578,19 @@ base. This allocation is EFX₀ and S\*-shaped with owner h.
   J ∪ {y_z} is worth at most its pick, and H₀¹ is improving for it. So k′ values at most one further good (Lemma
   PL(c), `k4/ksens.md`), and (L3) holds for k′ automatically.
 
-*Check* (`k4/matching/lift1_check.py`, `results/k4_matching/lift1_check.log`).
-- On all 3,190 n = 4 failing starts, some LIFT-red pair meets (L1)–(L3).
-- The lemma's allocation, built for every one of the 8,949 pairs meeting them, is EFX₀ (raw) every time.
+*Check* (`k4/matching/lift1_check.py`, `results/k4_matching/lift1_check.log`; `k4/matching/multi_check.py`,
+`results/k4_matching/multi_check.log`).
+- On all 3,179 n = 4 failing starts of §5's walk, some LIFT-red pair meets (L1), (L2′), (L3). (L2) alone also
+  suffices there: `lift1_check_L2strict.log`.
+- **The multi session's walks** (proof/k4-oc1max-multi; copy at `results/k4_matching/data/multi_oc1_fail_walk.jsonl.gz`):
+  4,955 failing profile–start pairs, 4,378 with n = 4 and **577 with n = 5** near the TTC session's core. Every row is
+  re-verified here with this note's own code: SD picks of the stored order, perfect, no one-absorber completion at
+  the picks or after any move. On all 4,955:
+  - some LIFT-red pair meets (L1), (L2′), (L3);
+  - the construction is raw EFX₀ on all 13,324 such pairs;
+  - CM₂ holds, and EX\* is exact on the second move.
+- Together that is **8,073 distinct failing starts** (7,496 at n = 4, 577 at n = 5), all satisfying LIFT-SHAPE⁺.
+- The lemma's allocation, built for every one of the 8,916 pairs meeting them, is EFX₀ (raw) every time.
 - These counts are with P₁'s junk-free condition. An earlier version of the lemma omitted that condition; the proof
   needs it, because middle agents taking junk would hold multi-good bundles.
 - No sharer violates (L3).
@@ -584,7 +598,7 @@ base. This allocation is EFX₀ and S\*-shaped with owner h.
 **So the second move is a pure shape statement.** By Lemmas LIFT-red and LIFT-1, OC₂ at a start with no one-move
 repair follows from:
 
-> **LIFT-SHAPE⁺.** There is exactly one holder z. Some official chain P₁ from a dangerous agent k ends at z, with no
+> **LIFT-SHAPE⁺** (with (L2′)). There is exactly one holder z. Some official chain P₁ from a dangerous agent k ends at z, with no
 > junk for its agents after the head, |H₀¹| = 2, H₀¹ ⊆ J ∪ {y_z} improving a second dangerous agent, and z unfrozen
 > after P₁. Some canonical chain P₂ at
 > B₁, with a head h ≠ k, ends at z and gives z its favourite good as a single good. (L1)–(L3) hold.
@@ -594,8 +608,12 @@ No completion search is left in it, only which goods sit where, and the value co
 - for P₁'s head k off P₂, (L3) fails only if P₁ = (k, z), so that a = y_k ∈ H₀², and k's fourth good is also in X
   (k values both goods of H₀¹ and its pick, so at most one further good).
 
-It holds on all 3,190 n = 4 starts (it is what `lift1_check.py` finds). The TTC n = 5 core and RD5 satisfy LIFT-EX,
-but (L1)–(L3) were not checked on them. It is open in general, and so is item 1 (one holder), which fails at k = 5
+It holds on all 8,073 distinct failing starts known here, n = 4 and n = 5 (`lift1_check.py`, `multi_check.py`).
+
+*Another route to the same move* (multi session, `k4/oc1max_multi.md` §8 on its branch; not refereed here). Lemma
+LIFT (recursion): delete P₁'s head k and its pair T; the reduced state is a perfect SD start of I − k − T, and its
+one-move repairs lift back. Sub-lemma OC2-REC (evidence on all 4,955) says such a repair exists. Its
+"no truly dangerous agent" observation may give (L1)–(L3) a structural proof. It is open in general, and so is item 1 (one holder), which fails at k = 5
 (PW5).
 
 ## 7. Climbs and reproduction

@@ -1,13 +1,13 @@
-$ python3 k4/matching/lift1_threats.py | 3190 starts
-H = empty works: False 193
-H = empty works: True 2997
-LIFT-red pairs exist 3190
-kept-out good goes to z 193
-least H size 1 193
-role k (P1 head): goods of X it values = 1 3190
-role sharer: goods of X it values = 0 2203
-role sharer: goods of X it values = 1 987
-role z: goods of X it values = 2 1567
-role z: goods of X it values = 3 1623
-threatened by X (H = empty): z 193
+$ python3 k4/matching/lift1_threats.py | 3179 starts
+H = empty works: False 192
+H = empty works: True 2987
+LIFT-red pairs exist 3179
+kept-out good goes to z 192
+least H size 1 192
+role k (P1 head): goods of X it values = 1 3179
+role sharer: goods of X it values = 0 2197
+role sharer: goods of X it values = 1 982
+role z: goods of X it values = 2 1560
+role z: goods of X it values = 3 1619
+threatened by X (H = empty): z 192
 time 1 s

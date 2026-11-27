@@ -70,6 +70,11 @@ if __name__ == '__main__':
     rows = [dict(sets=d['sets'], vals=d['vals'], picks=d['picks'], name='cex%d' % t)
             for t, d in enumerate(json.load(open(os.path.join(R, 'data', 'oc1max_cex_n4.json')))['instances'])]
     rows += [dict(json.loads(l), name='walk%d' % t) for t, l in enumerate(open(os.path.join(R, 'n4_failing_walk.jsonl')))]
+    _seen = set(); _rows = []   # distinct (sets, vals, picks): the 11 stored are also in the walk dump
+    for _r in rows:
+        _k = json.dumps([_r['sets'], _r['vals'], list(_r['picks'])])
+        if _k not in _seen: _seen.add(_k); _rows.append(_r)
+    rows = _rows
     I5 = M([[0,4,5,6],[2,3,4,6],[0,1,5,6],[2,4,5,6],[0,1,7,8]], [[3,2,10,6],[4,1,6,8],[2,8,5,4],[5,4,8,2],[7,8,2,4]])
     rows.append(dict(sets=I5.sets, vals=I5.vals, picks=list(I5.sd((1, 3, 4, 2, 0))), name='TTC-n5'))   # k4/oc1_hall.md §22
     from cex_deficiency import PW5, RD5

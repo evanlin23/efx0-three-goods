@@ -5,7 +5,8 @@ LIFT pairs meeting Lemma LIFT-red's hypotheses (z unfrozen after P1; |H0 of P1| 
 P1's agents after its head; P2 canonical
 ending at z with z's favourite good; h not P1's head):
   (L1) z is unfrozen at B2;
-  (L2) v_z(H0 of P2, restricted to R_z) <= v_z(favourite good);
+  (L2) v_z(H0 of P2, restricted to R_z) <= v_z(favourite good);  with L2WEAK=1 (default) the weaker
+  (L2') v_z(H0 of P2, restricted to R_z) <= v_z(favourite good) + v_z(g), g z's most valuable good of J2 (0 if none);
   (L3) every agent other than h and z values at most one good of X = (H0 of P2) + J2.
 The lemma's allocation (h gets X minus g, z gets its favourite good plus g, its most valuable good of J2 if it values
 any, everybody else keeps B2) is built and checked with raw EFX0 whenever (L1)-(L3) hold.  Also recorded: which of
@@ -16,6 +17,7 @@ import sys, os, json, collections, time, multiprocessing as mp
 import _mpaths  # noqa: F401
 from mlib import M
 from lift_shapes import chain_moves
+WEAK = os.environ.get('L2WEAK', '1') == '1'   # use (L2') (default) instead of (L2)
 
 
 def job(row):
@@ -34,7 +36,11 @@ def job(row):
             if I.v[z][t] < max(I.v[z].values()): continue
             J2 = I.junk(B2); X = list(B2[h]) + J2
             L1 = z not in I.frozen(B2)
+            Gz = [g for g in J2 if g in I.R[z]]; gbest = max([I.v[z][g] for g in Gz] + [0])
             L2 = I.V(z, [g for g in B2[h] if g in I.R[z]]) <= I.v[z][t]
+            L2p = I.V(z, [g for g in B2[h] if g in I.R[z]]) <= I.v[z][t] + gbest   # (L2'): z's best junk good helps
+            if L2p and not L2: C["(L2') holds where (L2) fails"] += 1
+            L2 = L2p if WEAK else L2
             L3 = all(len(set(X) & I.R[i]) <= 1 for i in range(I.n) if i not in (h, z))
             for q in sharers:
                 if q != h and q not in P2 and len(set(X) & I.R[q]) > 1: C['sharer off P2 values >= 2 goods of X (PL(c) violated?!)'] += 1
@@ -62,6 +68,11 @@ if __name__ == '__main__':
     rows = [dict(sets=d['sets'], vals=d['vals'], picks=d['picks'])
             for d in json.load(open(os.path.join(R, 'data', 'oc1max_cex_n4.json')))['instances']]
     rows += [json.loads(l) for l in open(os.path.join(R, 'n4_failing_walk.jsonl'))]
+    _seen = set(); _rows = []   # distinct (sets, vals, picks): the 11 stored are also in the walk dump
+    for _r in rows:
+        _k = json.dumps([_r['sets'], _r['vals'], list(_r['picks'])])
+        if _k not in _seen: _seen.add(_k); _rows.append(_r)
+    rows = _rows
     print('$ python3 k4/matching/lift1_check.py |', len(rows), 'starts', flush=True)
     T = collections.Counter(); t0 = time.time()
     with mp.Pool(int(os.environ.get('PROCS', mp.cpu_count()))) as pool:

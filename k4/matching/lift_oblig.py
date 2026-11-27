@@ -51,6 +51,11 @@ def job(row):
 R=os.path.join(_mpaths.ROOT, 'results', 'k4_matching')
 rows=[dict(sets=d['sets'],vals=d['vals'],picks=d['picks']) for d in json.load(open(R+'/data/oc1max_cex_n4.json'))['instances']]
 rows+=[json.loads(l) for l in open(R+'/n4_failing_walk.jsonl')]
+_seen = set(); _rows = []   # distinct (sets, vals, picks): the 11 stored are also in the walk dump
+for _r in rows:
+    _k = json.dumps([_r['sets'], _r['vals'], list(_r['picks'])])
+    if _k not in _seen: _seen.add(_k); _rows.append(_r)
+rows = _rows
 T=collections.Counter(); S=collections.Counter()
 if __name__ == '__main__':
   with mp.Pool(int(os.environ.get('PROCS', mp.cpu_count()))) as p:

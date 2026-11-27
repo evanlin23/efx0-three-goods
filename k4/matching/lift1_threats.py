@@ -73,6 +73,11 @@ if __name__ == '__main__':
     rows = [dict(sets=d['sets'], vals=d['vals'], picks=d['picks'])
             for d in json.load(open(os.path.join(R, 'data', 'oc1max_cex_n4.json')))['instances']]
     rows += [json.loads(l) for l in open(os.path.join(R, 'n4_failing_walk.jsonl'))]
+    _seen = set(); _rows = []   # distinct (sets, vals, picks): the 11 stored are also in the walk dump
+    for _r in rows:
+        _k = json.dumps([_r['sets'], _r['vals'], list(_r['picks'])])
+        if _k not in _seen: _seen.add(_k); _rows.append(_r)
+    rows = _rows
     print('$ python3 k4/matching/lift1_threats.py |', len(rows), 'starts', flush=True)
     T = collections.Counter(); t0 = time.time()
     with mp.Pool(int(os.environ.get('PROCS', mp.cpu_count()))) as pool:
