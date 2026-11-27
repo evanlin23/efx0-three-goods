@@ -1,0 +1,100 @@
+$ python3 k4/ttc/chain_shape.py k3:5 600 31
+distinct hard starts 35
+  any                35
+  D0                 35
+  F0                 35
+  PJ                 33
+  NJH                35
+  NJ                 35
+  UH                 35
+  M0                 35
+  T1                 27
+  D0+PJ              33
+  D0+PJ+NJH          33
+  D0+PJ+NJ           33
+  D0+PJ+NJ+UH        33
+  D0+PJ+NJH+UH       33
+  F0+PJ+NJ+UH        33
+  D0+PJ+NJ+UH+M0     33
+  D0+PJ+NJH+UH+M0    33
+  D0+NJH             35
+  D0+NJH+M0          35
+  D0+NJ              35
+  D0+NJ+M0           35
+  D0+NJH+UH          35
+  D0+NJH+M0+UH       35
+  D0+NJH+M0+T1       26
+  D0+NJ+M0+UH        35
+  LAST              35
+  no head-absorbed repairing chain of shape D0+NJH+M0+T1 : k3r155 [[[0, 1, 5], [0, 1, 6], [0, 2, 7], [3, 4, 8], [2, 3, 4]], [[21, 26, 17], [13, 12, 11], [11, 15, 9], [15, 18, 13], [28, 19, 29]]] picks (1, 6, 0, 4, 2)
+time 2 s
+$ python3 k4/ttc/head_rule.py k3:5 600 31
+every unwanted 163
+hard starts (orders) 403
+last 355
+some 403
+some unwanted 403
+  the last agent is no head: k3r62 [[[0, 1, 6], [0, 2, 7], [3, 4, 8], [1, 3, 5], [2, 4, 5]], [[5, 25, 24], [21, 26, 7], [25, 28, 15], [12, 24, 27], [17, 14, 25]]] order [1, 2, 3, 4, 0] picks (1, 2, 4, 5, None) working heads [1, 4]
+  the last agent is no head: k3r62 [[[0, 1, 6], [0, 2, 7], [3, 4, 8], [1, 3, 5], [2, 4, 5]], [[5, 25, 24], [21, 26, 7], [25, 28, 15], [12, 24, 27], [17, 14, 25]]] order [1, 3, 2, 4, 0] picks (1, 2, 4, 5, None) working heads [1, 4]
+  the last agent is no head: k3r62 [[[0, 1, 6], [0, 2, 7], [3, 4, 8], [1, 3, 5], [2, 4, 5]], [[5, 25, 24], [21, 26, 7], [25, 28, 15], [12, 24, 27], [17, 14, 25]]] order [2, 1, 3, 4, 0] picks (1, 2, 4, 5, None) working heads [1, 4]
+  the last agent is no head: k3r62 [[[0, 1, 6], [0, 2, 7], [3, 4, 8], [1, 3, 5], [2, 4, 5]], [[5, 25, 24], [21, 26, 7], [25, 28, 15], [12, 24, 27], [17, 14, 25]]] order [2, 3, 1, 4, 0] picks (1, 2, 4, 5, None) working heads [1, 4]
+time 2 s
+$ python3 k4/ttc/chain_shape.py k3:5 3000 32
+distinct hard starts 215
+  any                215
+  D0                 215
+  F0                 215
+  PJ                 212
+  NJH                215
+  NJ                 215
+  UH                 215
+  M0                 215
+  T1                 200
+  D0+PJ              212
+  D0+PJ+NJH          212
+  D0+PJ+NJ           212
+  D0+PJ+NJ+UH        212
+  D0+PJ+NJH+UH       212
+  F0+PJ+NJ+UH        212
+  D0+PJ+NJ+UH+M0     212
+  D0+PJ+NJH+UH+M0    212
+  D0+NJH             215
+  D0+NJH+M0          215
+  D0+NJ              215
+  D0+NJ+M0           215
+  D0+NJH+UH          215
+  D0+NJH+M0+UH       215
+  D0+NJH+M0+T1       200
+  D0+NJ+M0+UH        215
+  LAST              215
+  no head-absorbed repairing chain of shape D0+NJH+M0+T1 : k3r156 [[[0, 1, 5], [0, 1, 6], [2, 3, 7], [2, 4, 8], [0, 3, 4]], [[9, 17, 13], [21, 20, 15], [26, 22, 10], [14, 10, 11], [25, 27, 22]]] picks (1, 6, 3, 2, 0)
+time 13 s
+$ python3 k4/ttc/chain_shape.py k3:6 600 33 nmax=6
+distinct hard starts 14
+  any                14
+  D0                 14
+  F0                 14
+  PJ                 13
+  NJH                14
+  NJ                 14
+  UH                 14
+  M0                 14
+  T1                 14
+  D0+PJ              13
+  D0+PJ+NJH          13
+  D0+PJ+NJ           13
+  D0+PJ+NJ+UH        13
+  D0+PJ+NJH+UH       13
+  F0+PJ+NJ+UH        13
+  D0+PJ+NJ+UH+M0     13
+  D0+PJ+NJH+UH+M0    13
+  D0+NJH             14
+  D0+NJH+M0          14
+  D0+NJ              14
+  D0+NJ+M0           14
+  D0+NJH+UH          14
+  D0+NJH+M0+UH       14
+  D0+NJH+M0+T1       14
+  D0+NJ+M0+UH        14
+  LAST              14
+time 3 s

@@ -1,0 +1,42 @@
+$ python3 k4/ttc/oc1max_paths.py 2 500 3 61
+n4 = 2: 119283 hypergraphs enumerated, 238 sampled so far, 9 s
+NO-FIXED-POINT {"sets": [[0, 3, 4, 8], [1, 4, 8], [2, 5, 7, 8], [3, 5, 6], [5, 6, 7], [6, 7, 8]], "vals": [[4, 6, 8, 1], [2, 4, 3], [2, 8, 3, 4], [4, 2, 3], [2, 3, 4], [4, 3, 2]], "m": 9, "picks": [3, 4, 8, 6, 5, 7]}
+hypergraphs tested 238 profiles each 3
+  length 1: addition by unfrozen 7
+  length 2: x0 dangerous, x1 frozen (freezes x0), x_t frozen 11
+  length 2: x0 dangerous, x1 unfrozen (freezes x0), x_t unfrozen 9
+  length 2: x0 unfrozen, x1 frozen, x_t frozen 4
+  length 3: x0 dangerous, x1 frozen (freezes x0), x_t frozen 6
+  length 3: x0 dangerous, x1 frozen (freezes x0), x_t unfrozen 8
+  length 3: x0 unfrozen, x1 frozen, x_t frozen 1
+  length 4: x0 dangerous, x1 frozen (freezes x0), x_t frozen 2
+  length 4: x0 dangerous, x1 frozen (freezes x0), x_t unfrozen 4
+  length 4: x0 unfrozen, x1 frozen, x_t frozen 1
+  length 5: x0 dangerous, x1 frozen (freezes x0), x_t frozen 2
+NO REPAIRING POINTER FIXED POINT 1
+canonical repair exists 55
+maximum starts needing a move 55
+no fixed point repairs with absorber x_t 1
+pointer fixed point repairs 54
+pointer fixed point repairs, absorber x_t 54
+printed without a repairing fixed point 1
+shortest canonical repair 1 7
+shortest canonical repair 2 24
+shortest canonical repair 3 15
+shortest canonical repair 4 7
+shortest canonical repair 5 2
+shortest repair length 1 7
+shortest repair length 2 24
+shortest repair length 3 15
+shortest repair length 4 7
+shortest repair length 5 2
+longest shortest repairs:
+  length 5 {"sets": [[0, 3, 4, 8], [1, 4, 8], [2, 5, 7, 8], [3, 5, 6], [5, 6, 7], [6, 7, 8]], "vals": [[4, 6, 8, 1], [2, 4, 3], [2, 8, 3, 4], [4, 2, 3], [2, 3, 4], [4, 3, 2]], "m": 9, "picks": [3, 4, 8, 6, 5, 7]} {'frozen': 5, 'dangerous': 2, 'receivers': 1, 'junk': 3, 'danger sets meet': False}
+  length 5 {"sets": [[0, 2, 4, 8], [1, 3, 6, 7], [2, 5, 8], [3, 6, 7], [4, 5, 8], [6, 7, 8]], "vals": [[2, 10, 7, 6], [8, 4, 10, 3], [3, 2, 4], [2, 4, 3], [4, 3, 2], [2, 4, 3]], "m": 9, "picks": [4, 6, 2, 7, 5, 8]} {'frozen': 5, 'dangerous': 3, 'receivers': 1, 'junk': 3, 'danger sets meet': True}
+  length 4 {"sets": [[0, 3, 5, 6], [1, 5, 7], [2, 3, 4], [2, 4, 6, 7], [4, 6, 7], [5, 6, 7]], "vals": [[6, 4, 8, 5], [2, 4, 3], [4, 2, 3], [8, 4, 6, 5], [2, 4, 3], [4, 2, 3]], "m": 8, "picks": [5, 7, 3, 2, 4, 6]} {'frozen': 5, 'dangerous': 2, 'receivers': 1, 'junk': 2, 'danger sets meet': False}
+  length 4 {"sets": [[0, 3, 8], [1, 4, 8], [2, 5, 7], [3, 4, 5, 6], [5, 6, 7, 8], [6, 7, 8]], "vals": [[3, 4, 2], [3, 2, 4], [3, 4, 2], [8, 2, 3, 4], [2, 7, 8, 4], [2, 3, 4]], "m": 9, "picks": [3, 8, 5, 4, 6, 7]} {'frozen': 5, 'dangerous': 3, 'receivers': 1, 'junk': 3, 'danger sets meet': False}
+  length 4 {"sets": [[0, 5, 7], [1, 7, 8], [2, 4, 5, 6], [2, 5, 6, 7], [3, 4, 8], [3, 6, 8]], "vals": [[3, 4, 2], [3, 4, 2], [4, 8, 10, 3], [2, 7, 4, 10], [4, 3, 2], [3, 4, 2]], "m": 9, "picks": [5, 7, 4, 6, 8, 3]} {'frozen': 5, 'dangerous': 4, 'receivers': 1, 'junk': 3, 'danger sets meet': True}
+  length 4 {"sets": [[0, 3, 4], [1, 7, 8], [2, 7, 9], [3, 5, 6, 9], [4, 5, 8, 9], [6, 8, 9]], "vals": [[3, 4, 2], [3, 4, 2], [2, 4, 3], [7, 2, 6, 10], [6, 2, 10, 7], [3, 2, 4]], "m": 10, "picks": [3, 7, 9, 6, 4, 8]} {'frozen': 5, 'dangerous': 4, 'receivers': 1, 'junk': 4, 'danger sets meet': False}
+  length 3 {"sets": [[0, 2, 5, 6], [1, 2, 6, 7], [3, 4, 7], [3, 6, 7], [4, 5, 6], [4, 5, 7]], "vals": [[6, 10, 7, 2], [2, 8, 4, 5], [4, 2, 3], [2, 3, 4], [3, 2, 4], [2, 3, 4]], "m": 8, "picks": [2, 6, 4, 3, 5, 7]} {'frozen': 5, 'dangerous': 2, 'receivers': 1, 'junk': 2, 'danger sets meet': False}
+  length 3 {"sets": [[0, 6, 7], [1, 2, 6], [1, 3, 5, 6], [2, 4, 6, 7], [3, 5, 7], [4, 5, 7]], "vals": [[3, 4, 2], [4, 2, 3], [2, 4, 8, 5], [8, 2, 4, 5], [4, 2, 3], [2, 4, 3]], "m": 8, "picks": [6, 2, 1, 7, 3, 5]} {'frozen': 5, 'dangerous': 2, 'receivers': 1, 'junk': 2, 'danger sets meet': False}
+time 15 s

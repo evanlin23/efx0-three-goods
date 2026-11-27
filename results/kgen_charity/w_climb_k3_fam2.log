@@ -1,0 +1,5 @@
+$ python3 kgen/charity/w_climb.py 11 3000 1 family 3 2
+start score -2 (>= 1 out: 31, < 1 out: 33)
+step 2 score -1 (>= 1 out: 35, < 1 out: 36) 0 s
+step 4 score 0 (>= 1 out: 38, < 1 out: 38) 0 s
+final score 0 time 200 s

@@ -1,0 +1,67 @@
+instance 0: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 1 perfect starts [[1, 2, 3, 0]] | OC1' holds there: rnd.c True, forward True
+instance 1: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[0, 2, 3, 1], [2, 3, 0, 1]] | OC1' holds there: rnd.c True, forward True
+instance 2: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[1, 2, 3, 0], [1, 3, 2, 0]] | OC1' holds there: rnd.c True, forward True
+instance 3: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 1 perfect starts [[2, 3, 0, 1]] | OC1' holds there: rnd.c True, forward True
+instance 4: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[0, 2, 3, 1], [2, 3, 0, 1]] | OC1' holds there: rnd.c True, forward True
+instance 5: n 4 m 7 core False nu 4 | rnd.c: OC1 fails from 1 perfect starts [[1, 3, 0, 2]] | OC1' holds there: rnd.c True, forward True
+instance 6: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[0, 1, 2, 3], [1, 0, 2, 3]] | OC1' holds there: rnd.c True, forward True
+instance 7: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[1, 2, 3, 0], [1, 3, 2, 0]] | OC1' holds there: rnd.c True, forward True
+instance 8: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[1, 2, 3, 0], [1, 3, 2, 0]] | OC1' holds there: rnd.c True, forward True
+instance 9: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[0, 1, 2, 3], [1, 0, 2, 3]] | OC1' holds there: rnd.c True, forward True
+instance 10: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[1, 2, 3, 0], [1, 3, 2, 0]] | OC1' holds there: rnd.c True, forward True
+instance 11: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[0, 2, 3, 1], [2, 3, 0, 1]] | OC1' holds there: rnd.c True, forward True
+instance 12: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[1, 2, 3, 0], [1, 3, 2, 0]] | OC1' holds there: rnd.c True, forward True
+instance 13: n 5 m 10 core False nu 5 | rnd.c: OC1 fails from 1 perfect starts [[0, 2, 4, 3, 1]] | OC1' holds there: rnd.c True, forward True
+instance 14: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 1 perfect starts [[2, 3, 0, 1]] | OC1' holds there: rnd.c True, forward True
+instance 15: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 1 perfect starts [[2, 3, 0, 1]] | OC1' holds there: rnd.c True, forward True
+instance 16: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 1 perfect starts [[0, 1, 3, 2]] | OC1' holds there: rnd.c True, forward True
+instance 17: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[0, 2, 3, 1], [2, 3, 0, 1]] | OC1' holds there: rnd.c True, forward True
+instance 18: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 1 perfect starts [[0, 1, 3, 2]] | OC1' holds there: rnd.c True, forward True
+instance 19: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 1 perfect starts [[2, 3, 0, 1]] | OC1' holds there: rnd.c True, forward True
+instance 20: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 1 perfect starts [[0, 1, 3, 2]] | OC1' holds there: rnd.c True, forward True
+instance 21: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 1 perfect starts [[0, 1, 3, 2]] | OC1' holds there: rnd.c True, forward True
+instance 22: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[1, 2, 3, 0], [1, 3, 2, 0]] | OC1' holds there: rnd.c True, forward True
+instance 23: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[1, 2, 3, 0], [1, 3, 2, 0]] | OC1' holds there: rnd.c True, forward True
+instance 24: n 4 m 7 core False nu 4 | rnd.c: OC1 fails from 1 perfect starts [[1, 3, 0, 2]] | OC1' holds there: rnd.c True, forward True
+instance 25: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[1, 2, 3, 0], [1, 3, 2, 0]] | OC1' holds there: rnd.c True, forward True
+instance 26: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[0, 2, 3, 1], [2, 3, 0, 1]] | OC1' holds there: rnd.c True, forward True
+instance 27: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 2 perfect starts [[1, 2, 3, 0], [1, 3, 2, 0]] | OC1' holds there: rnd.c True, forward True
+instance 28: n 4 m 7 core True nu 4 | rnd.c: OC1 fails from 1 perfect starts [[0, 1, 3, 2]] | OC1' holds there: rnd.c True, forward True
+instance 29: n 5 m 9 core False nu 5 | rnd.c: OC1 fails from 1 perfect starts [[2, 3, 4, 1, 0]] | OC1' holds there: rnd.c True, forward True
+$ python3 k4/sdc/oc1_max_orders.py /home/user/efx0-three-goods/results/kgen_rounds/zcore_fails.json
+instance 0 nu 4 [(('max', 'OC1 fails'), 3), (('max', 'one move repairs'), 2), (('max', 'picks complete'), 19)]
+instance 2 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 12)]
+instance 3 nu 4 [(('max', 'OC1 fails'), 1), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 17)]
+instance 1 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 12), (('max', 'picks complete'), 6)]
+instance 4 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 12), (('max', 'picks complete'), 6)]
+instance 5 nu 4 [(('max', 'OC1 fails'), 3), (('max', 'one move repairs'), 5), (('max', 'picks complete'), 16)]
+instance 8 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 12)]
+instance 7 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 12)]
+instance 10 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 12)]
+instance 6 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 12), (('max', 'picks complete'), 6)]
+instance 9 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 12), (('max', 'picks complete'), 6)]
+instance 11 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 12), (('max', 'picks complete'), 6)]
+instance 12 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 12)]
+instance 15 nu 4 [(('max', 'OC1 fails'), 1), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 17)]
+instance 14 nu 4 [(('max', 'OC1 fails'), 1), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 17)]
+instance 17 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 12), (('max', 'picks complete'), 6)]
+instance 16 nu 4 [(('max', 'OC1 fails'), 1), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 17)]
+instance 18 nu 4 [(('max', 'OC1 fails'), 1), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 17)]
+instance 19 nu 4 [(('max', 'OC1 fails'), 1), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 17)]
+instance 20 nu 4 [(('max', 'OC1 fails'), 1), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 17)]
+instance 22 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 12)]
+instance 21 nu 4 [(('max', 'OC1 fails'), 1), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 17)]
+instance 24 nu 4 [(('max', 'OC1 fails'), 1), (('max', 'one move repairs'), 1), (('max', 'picks complete'), 22)]
+instance 23 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 12)]
+instance 25 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 12)]
+instance 27 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 12)]
+instance 26 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 12), (('max', 'picks complete'), 6)]
+instance 28 nu 4 [(('max', 'OC1 fails'), 1), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 17)]
+instance 29 nu 5 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 10), (('max', 'picks complete'), 96), (('non-max', 'one move repairs'), 8)]
+instance 13 nu 5 [(('max', 'OC1 fails'), 3), (('max', 'one move repairs'), 6), (('max', 'picks complete'), 107), (('non-max', 'one move repairs'), 4)]
+('max', 'OC1 fails') 121
+('max', 'one move repairs') 216
+('max', 'picks complete') 563
+('non-max', 'one move repairs') 12
+instances where some maximum-matching order fails OC1: [0, 2, 3, 1, 4, 5, 8, 7, 10, 6, 9, 11, 12, 15, 14, 17, 16, 18, 19, 20, 22, 21, 24, 23, 25, 27, 26, 28, 29, 13]
+

@@ -1,0 +1,1 @@
+$ python3 kgen/rounds/climb2.py results/kgen_rounds/seeds_n5.jsonl 800 10 c2b | seeds 8 A 1

@@ -1,0 +1,4 @@
+$ python3 k4/vm/vm1_fast.py full:60:4:4:10:10
+fewest moves 0                 60
+instances                      60
+slowest 0.0 s; time 0 s

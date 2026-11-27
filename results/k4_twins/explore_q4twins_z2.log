@@ -1,0 +1,11 @@
+configuration dbl-Q4-Q4-c2: agents {'e': ('g0', 'g1', 'a', 'b'), 'f': ('g0', 'g1', 'a', 'b')}, I = ['g0', 'g1'], D = ['a', 'b'], 82944 profiles
+  DEL      reduces    3832 of 82944 (0.0 s)
+  gadget h on ['a', 'b', "z0'", "z1'"] (1665 menu valuations): 80152 of 82944 reduced, new 76320
+    h = {'a': 2, 'b': 4, "z0'": 0, "z1'": 1} reduces 21854
+    h = {'a': 4, 'b': 2, "z0'": 0, "z1'": 1} reduces 21854
+    h = {'a': 2, 'b': 2, "z0'": 0, "z1'": 3} reduces 16120
+    h = {'a': 0, 'b': 2, "z0'": 0, "z1'": 1} reduces 15042
+    h = {'a': 2, 'b': 0, "z0'": 0, "z1'": 1} reduces 15042
+    h = {'a': 3, 'b': 4, "z0'": 0, "z1'": 2} reduces 12234
+    ... 10 gadgets in a greedy cover
+  together: 80152 of 82944 profiles

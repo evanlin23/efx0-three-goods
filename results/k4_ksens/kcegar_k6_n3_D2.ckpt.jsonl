@@ -1,0 +1,12 @@
+{"name": "n3_m6_0", "sets": [[0, 1, 2, 3, 4, 5], [5], [5]], "D": 2, "result": "certified", "iterations": 10, "kinds": {"picks": 10}, "types": ["LP", 1, 1], "lp_calls": 0, "time": 0.3}
+{"name": "n3_m6_1", "sets": [[0, 1, 2, 3, 4, 5], [4], [5]], "D": 2, "result": "certified", "iterations": 4, "kinds": {"picks": 4}, "types": ["LP", 1, 1], "lp_calls": 0, "time": 0.2}
+{"name": "n3_m6_3", "sets": [[0, 1, 2, 3, 4, 5], [4, 5], [5]], "D": 2, "result": "certified", "iterations": 4, "kinds": {"picks": 4}, "types": ["LP", 2, 1], "lp_calls": 0, "time": 0.2}
+{"name": "n3_m6_5", "sets": [[0, 1, 2, 3, 4, 5], [4, 5], [4, 5]], "D": 2, "result": "certified", "iterations": 8, "kinds": {"picks": 8}, "types": ["LP", 2, 2], "lp_calls": 0, "time": 0.2}
+{"name": "n3_m6_6", "sets": [[0, 1, 2, 3, 4, 5], [3, 4], [5]], "D": 2, "result": "certified", "iterations": 14, "kinds": {"picks": 11, "1 chains": 3}, "types": ["LP", 2, 1], "lp_calls": 25, "time": 0.2}
+{"name": "n3_m6_8", "sets": [[0, 1, 2, 3, 4, 5], [3, 4, 5], [5]], "D": 2, "result": "certified", "iterations": 14, "kinds": {"picks": 11, "1 chains": 3}, "types": ["LP", 12, 1], "lp_calls": 25, "time": 0.2}
+{"name": "n3_m6_10", "sets": [[0, 1, 2, 3, 4, 5], [3, 5], [4, 5]], "D": 2, "result": "certified", "iterations": 33, "kinds": {"picks": 21, "1 chains": 12}, "types": ["LP", 2, 2], "lp_calls": 357, "time": 1.0}
+{"name": "n3_m6_13", "sets": [[0, 1, 2, 3, 4, 5], [3, 4, 5], [4, 5]], "D": 2, "result": "certified", "iterations": 50, "kinds": {"picks": 29, "1 chains": 21}, "types": ["LP", 12, 2], "lp_calls": 1018, "time": 2.7}
+{"name": "n3_m6_16", "sets": [[0, 1, 2, 3, 4, 5], [3, 4, 5], [3, 4, 5]], "D": 2, "result": "certified", "iterations": 91, "kinds": {"picks": 41, "1 chains": 50}, "types": ["LP", 12, 12], "lp_calls": 1117, "time": 3.7}
+{"name": "n3_m6_17", "sets": [[0, 1, 2, 3, 4, 5], [2, 3, 4], [5]], "D": 2, "result": "certified", "iterations": 65, "kinds": {"picks": 37, "1 chains": 28}, "types": ["LP", 12, 1], "lp_calls": 338, "time": 1.2}
+{"name": "n3_m6_19", "sets": [[0, 1, 2, 3, 4, 5], [2, 3, 4, 5], [5]], "D": 2, "result": "certified", "iterations": 67, "kinds": {"picks": 40, "1 chains": 27}, "types": ["LP", 336, 1], "lp_calls": 468, "time": 1.6}
+{"name": "n3_m6_20", "sets": [[0, 1, 2, 3, 4, 5], [2, 3], [4, 5]], "D": 2, "result": "certified", "iterations": 58, "kinds": {"picks": 36, "1 chains": 22}, "types": ["LP", 2, 2], "lp_calls": 1419, "time": 5.3}

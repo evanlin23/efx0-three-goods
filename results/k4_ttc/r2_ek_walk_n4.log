@@ -1,0 +1,8 @@
+$ git show origin/compute/k4-oc1max-cert:results/k4_oc1max/oc1max_cex_n4.json > cex.json   (commit dbc2631)
+$ python3 k4/ttc/r2_ek.py walk cex.json 300 1
+  E(k) ends at a receiver: always 79
+  R2-E: some E(k) with an improving T repairs 79
+  some E(k) with a PAIR T repairs 79
+  some repairing E(k) has a receiver of Y as owner 79
+hard starts with >= 2 receivers 79
+time 3 s

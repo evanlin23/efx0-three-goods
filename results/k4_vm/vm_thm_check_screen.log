@@ -1,0 +1,2 @@
+$ python3 k4/vm/vm_thm_check.py screen
+instances 168 {'lp0': 9082, 'lp1': 1140, 'runs': 10222} time 1 s

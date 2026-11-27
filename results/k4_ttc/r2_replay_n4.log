@@ -1,0 +1,7 @@
+$ git show origin/compute/k4-oc1max-cert:results/k4_oc1max/two_move_starts_n4.json.gz > two_move_starts_n4.json.gz   (commit a96c877)
+$ python3 k4/ttc/r2_replay_n4.py two_move_starts_n4.json.gz
+exported pairs 112880
+receiver sets agree 112880
+receivers recounted: 1 112880
+sample: OC1^max fails (my SAT, chains+additions) 300
+sample: order gives the picks 300

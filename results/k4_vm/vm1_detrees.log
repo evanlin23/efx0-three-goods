@@ -1,0 +1,16 @@
+$ python3 k4/vm/vm1_plain.py detrees:4:2:1:0
+levels: {'plain': 8} ; time 0 s
+$ python3 k4/vm/vm1_fast.py detrees:4:2:1:0
+fewest moves 0                 8
+instances                      8
+slowest 0.4 s; time 0 s
+$ python3 k4/vm/vm1_plain.py detrees:4:2:10:7
+levels: {'plain': 80} ; time 1 s
+$ python3 k4/vm/vm1_fast.py detrees:4:2:10:7
+fewest moves 0                 80
+instances                      80
+slowest 0.8 s; time 4 s
+DETREES DONE
+
+$ python3 k4/vm/vm1_plain.py detrees:4:3:1:0
+(stopped by hand after about 20 min: depth 3, n = 30 to 60, too many V-M matchings to enumerate)

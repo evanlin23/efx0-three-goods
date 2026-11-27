@@ -1,0 +1,7 @@
+$ python3 kgen/charity/w_family_vals.py
+k 3 sigma 2 (relay values 4, 5): n 4, stranded state EFX0 with strong charity True, Pareto maximum True, welfare 34; welfare maximum 34 with 1 unallocated
+k 3 sigma 3 (relay values 4, 5): n 12, stranded state EFX0 with strong charity True, Pareto maximum True, welfare 87; welfare maximum 105 with 0 unallocated
+k 3 sigma 3 (relay values 9, 10): n 12, stranded state EFX0 with strong charity True, Pareto maximum True, welfare 102; welfare maximum 120 with 0 unallocated
+k 3 sigma 4 (relay values 9, 10): n 28, stranded state EFX0 with strong charity True, Pareto maximum True, welfare 240; welfare maximum 277 with 0 unallocated
+k 4 sigma 3 (relay values 4, 5): n 9, stranded state EFX0 with strong charity True, Pareto maximum True, welfare 75; welfare maximum 85 with 0 unallocated
+k 4 sigma 4 (relay values 9, 10): n 20, stranded state EFX0 with strong charity True, Pareto maximum True, welfare 168; welfare maximum 195 with 0 unallocated

@@ -1,0 +1,14 @@
+$ python3 k4/haxell/gstar_run.py ext NMAX=5 MMAX=9 MAXSTATES=11000000 XCHECK=1 SHOW=0
+cross-check DISAGREES 0
+cross-check agrees 6
+instances 6
+instances n=4 4
+instances n=5 2
+instances skipped (size) 0
+instances with a radius-2 trap 0
+instances with a trap 0
+instances without a complete EFX0 allocation 0
+partial EFX0 states 81635
+radius-2 traps 0
+traps 0
+time 60 s

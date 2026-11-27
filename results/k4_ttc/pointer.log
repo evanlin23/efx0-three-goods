@@ -1,0 +1,96 @@
+$ python3 k4/ttc/pointer.py special
+(a) every unwanted o has S_o nonempty 16
+(b) some fixed point 15
+(c) some fixed-point chain repairs (absorber o or x) 13
+(c-head) ... with absorber o 13
+(d) every fixed point repairs 12
+distinct hard starts 16
+fixed points 19
+  fails (c) T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] (0, 4, 1)
+  fails (c) T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] (0, 1, 4)
+  fails (b) Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] (3, 7, 5, 4)
+time 0 s
+$ python3 k4/ttc/pointer.py dich
+(a) every unwanted o has S_o nonempty 2
+(b) some fixed point 2
+(c) some fixed-point chain repairs (absorber o or x) 2
+(c-head) ... with absorber o 2
+(d) every fixed point repairs 2
+distinct hard starts 2
+fixed points 3
+time 0 s
+$ python3 k4/ttc/pointer.py screen
+(a) every unwanted o has S_o nonempty 194
+(b) some fixed point 189
+(c) some fixed-point chain repairs (absorber o or x) 173
+(c-head) ... with absorber o 162
+(d) every fixed point repairs 144
+distinct hard starts 194
+fixed points 327
+  fails (c) adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] (5, 4, 3)
+  fails (c) adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] (5, 3, 4)
+  fails (b) c4one-one-rotation-m8 [[[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]], [[2, 8, 3, 4], [3, 4, 2], [2, 4, 3], [2, 4, 3], [2, 4, 3]]] (7, 2, 1, 5, 6)
+  fails (b) c4one-one-rotation-m9 [[[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]], [[2, 3, 4], [2, 4, 3], [2, 3, 8, 4], [2, 3, 4], [4, 2, 3]]] (7, 5, 8, 3, 4)
+time 1 s
+$ python3 k4/ttc/pointer.py suite
+(a) every unwanted o has S_o nonempty 196
+(b) some fixed point 191
+(c) some fixed-point chain repairs (absorber o or x) 175
+(c-head) ... with absorber o 163
+(d) every fixed point repairs 140
+distinct hard starts 196
+fixed points 355
+  fails (c) adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] (5, 4, 3)
+  fails (c) adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] (5, 3, 4)
+  fails (b) c4one-one-rotation-m8 [[[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]], [[2, 8, 3, 4], [3, 4, 2], [2, 4, 3], [2, 4, 3], [2, 4, 3]]] (7, 2, 1, 5, 6)
+  fails (b) c4one-one-rotation-m9 [[[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]], [[2, 3, 4], [2, 4, 3], [2, 3, 8, 4], [2, 3, 4], [4, 2, 3]]] (7, 5, 8, 3, 4)
+time 1 s
+$ python3 k4/ttc/pointer.py core:n3 3000 91
+(a) every unwanted o has S_o nonempty 293
+(b) some fixed point 293
+(c) some fixed-point chain repairs (absorber o or x) 293
+(c-head) ... with absorber o 293
+(d) every fixed point repairs 272
+distinct hard starts 293
+fixed points 470
+time 4 s
+$ python3 k4/ttc/pointer.py core:n4 1500 92
+(a) every unwanted o has S_o nonempty 215
+(b) some fixed point 215
+(c) some fixed-point chain repairs (absorber o or x) 215
+(c-head) ... with absorber o 215
+(d) every fixed point repairs 196
+distinct hard starts 215
+fixed points 409
+time 4 s
+$ python3 k4/ttc/pointer.py core:n5 150 93
+(a) every unwanted o has S_o nonempty 30
+(b) some fixed point 30
+(c) some fixed-point chain repairs (absorber o or x) 30
+(c-head) ... with absorber o 30
+(d) every fixed point repairs 28
+distinct hard starts 30
+fixed points 69
+time 1 s
+$ python3 k4/ttc/pointer.py logs nmax=5
+(a) every unwanted o has S_o nonempty 1364
+(b) some fixed point 1359
+(c) some fixed-point chain repairs (absorber o or x) 1337
+(c-head) ... with absorber o 1335
+(d) every fixed point repairs 1266
+distinct hard starts 1364
+fixed points 2049
+  fails (c) log554 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] (0, 4, 1)
+  fails (c) log554 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] (0, 1, 4)
+  fails (b) log555 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] (3, 7, 5, 4)
+  fails (b) log576 [[[0, 3, 5, 7], [1, 4, 5, 6], [2, 4, 6, 7], [3, 6, 7]], [[2, 8, 4, 7], [2, 8, 3, 4], [2, 10, 6, 7], [4, 3, 2]]] (3, 4, 7, 6)
+time 5 s
+$ python3 k4/ttc/pointer.py k3:5 3000 32
+(a) every unwanted o has S_o nonempty 215
+(b) some fixed point 215
+(c) some fixed-point chain repairs (absorber o or x) 215
+(c-head) ... with absorber o 215
+(d) every fixed point repairs 210
+distinct hard starts 215
+fixed points 486
+time 10 s

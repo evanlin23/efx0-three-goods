@@ -1,0 +1,4 @@
+{"source": "Fact L, Lemma M, Tops Lemma (n = 2..4)", "factL": 20000, "factL_fail": 0, "lemmaM": 5522, "lemmaM_fail": 0, "tops": 54021, "tops_fail": 0}
+{"source": "Theorem 2 construction (exhaustive grids + 20,000 random) and brute-force OC1 (3,000)", "starts": 496162, "construction_fail": 0, "brute_starts": 6000, "brute_fail": 0}
+{"source": "mutation: construction without Lemma M (a keeps its zero-valued goods)", "starts": 132858, "not_oc1_shape": 0}
+{"source": "mutation without Lemma M, random m = 6..14 with many zeros", "starts": 40000, "mutation_not_oc1_shape": 973, "original_ok": 40000}

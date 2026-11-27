@@ -1,0 +1,30 @@
+$ python3 k4/ttc/ttc_cover.py core:n3 3000 91
+distinct hard starts 293
+A (any absorber): some TTC run repairs 293 of 293
+   greedy cover: [(('minimal/poolmin', 'head'), 279), (('minval/poolmin', 'head'), 14)]
+   best single (pref, mode): [(('minimal/poolmin', 'head'), 279), (('minimal/poolmin', 'one'), 279), (('lean/poolmin', 'one'), 278)]
+H (the head absorbs): some TTC run repairs 293 of 293
+   greedy cover: [(('minimal/poolval', 'head'), 278), (('minval/poolmin', 'head'), 15)]
+   best single (pref, mode): [(('minimal/poolval', 'one'), 278), (('minimal/poolval', 'head'), 278), (('lean/poolval', 'one'), 277)]
+time 35 s
+$ python3 k4/ttc/ttc_cover.py core:n4 1500 92
+distinct hard starts 215
+A (any absorber): some TTC run repairs 214 of 215
+   greedy cover: [(('lean/poolmin', 'head'), 207), (('minval/val', 'head'), 6), (('lean/lean', 'head'), 1)]
+   best single (pref, mode): [(('small/poolmin', 'head'), 207), (('minimal/poolmin', 'head'), 207), (('lean/poolmin', 'head'), 207)]
+   no TTC run: r323 (4, 6, 5, None)
+H (the head absorbs): some TTC run repairs 214 of 215
+   greedy cover: [(('lean/poolmin', 'head'), 207), (('minval/val', 'head'), 6), (('lean/lean', 'head'), 1)]
+   best single (pref, mode): [(('small/poolmin', 'head'), 207), (('minimal/poolmin', 'head'), 207), (('lean/poolmin', 'head'), 207)]
+   no TTC run: r323 (4, 6, 5, None)
+time 67 s
+$ python3 k4/ttc/ttc_cover.py screen
+distinct hard starts 194
+A (any absorber): some TTC run repairs 194 of 194
+   greedy cover: [(('minimal/minval', 'head'), 178), (('minval/minval', 'head'), 16)]
+   best single (pref, mode): [(('minimal/minval', 'head'), 178), (('minimal/poolmin', 'head'), 178), (('minimal/poolval', 'head'), 178)]
+H (the head absorbs): some TTC run repairs 193 of 194
+   greedy cover: [(('minimal/poolval', 'head'), 173), (('minval/minval', 'head'), 19), (('lean/lean', 'head'), 1)]
+   best single (pref, mode): [(('minimal/poolval', 'head'), 173), (('small/poolval', 'head'), 172), (('minimal/poolval', 'one'), 172)]
+   no TTC run: lil-noncore-n3 (0, 4, 7)
+time 38 s

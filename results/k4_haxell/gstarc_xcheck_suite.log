@@ -1,0 +1,18 @@
+$ python3 k4/haxell/gstar_run.py suite NMAX=4 MMAX=7 XCHECK=1 SHOW=0
+cross-check DISAGREES 0
+cross-check agrees 94
+instances 94
+instances n=1 1
+instances n=2 18
+instances n=3 47
+instances n=4 28
+instances skipped (size) 70
+instances with a radius-2 trap 0
+instances with a trap 5
+instances with a trap, n=2 3
+instances with a trap, n=3 2
+instances without a complete EFX0 allocation 0
+partial EFX0 states 78665
+radius-2 traps 0
+traps 15
+time 9 s

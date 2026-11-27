@@ -1,0 +1,61 @@
+$ python3 k4/haxell/gstar_measure_run.py screen NMAX=4 MMAX=7 MAXSTATES=400000
+instances 109
+partial EFX0 states 111591
+stuck states, phi0 3842
+stuck states, phi1 3
+stuck states, phi10 2
+stuck states, phi11 3
+stuck states, phi12 3
+stuck states, phi13 2
+stuck states, phi14 1
+stuck states, phi15 2
+stuck states, phi16 1
+stuck states, phi17 1
+stuck states, phi18 2
+stuck states, phi2 2
+stuck states, phi3 3547
+stuck states, phi4 1634
+stuck states, phi5 257
+stuck states, phi6 148
+stuck states, phi7 85
+stuck states, phi8 4
+stuck states, phi9 148
+instances with a stuck state, phi0 88
+instances with a stuck state, phi1 2
+instances with a stuck state, phi10 2
+instances with a stuck state, phi11 2
+instances with a stuck state, phi12 2
+instances with a stuck state, phi13 2
+instances with a stuck state, phi14 1
+instances with a stuck state, phi15 2
+instances with a stuck state, phi16 1
+instances with a stuck state, phi17 1
+instances with a stuck state, phi18 2
+instances with a stuck state, phi2 2
+instances with a stuck state, phi3 88
+instances with a stuck state, phi4 78
+instances with a stuck state, phi5 60
+instances with a stuck state, phi6 64
+instances with a stuck state, phi7 28
+instances with a stuck state, phi8 3
+instances with a stuck state, phi9 64
+first instance with a stuck state for phi0 : D3 [[[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]]]
+first instance with a stuck state for phi1 : induct-v-r3 [[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [[3, 6, 2, 10], [3, 4, 2], [3, 2, 4]]]
+first instance with a stuck state for phi10 : induct-v-r3 [[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [[3, 6, 2, 10], [3, 4, 2], [3, 2, 4]]]
+first instance with a stuck state for phi11 : induct-v-r3 [[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [[3, 6, 2, 10], [3, 4, 2], [3, 2, 4]]]
+first instance with a stuck state for phi12 : induct-v-r3 [[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [[3, 6, 2, 10], [3, 4, 2], [3, 2, 4]]]
+first instance with a stuck state for phi13 : induct-v-r3 [[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [[3, 6, 2, 10], [3, 4, 2], [3, 2, 4]]]
+first instance with a stuck state for phi14 : induct-v-r3 [[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [[3, 6, 2, 10], [3, 4, 2], [3, 2, 4]]]
+first instance with a stuck state for phi15 : induct-v-r3 [[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [[3, 6, 2, 10], [3, 4, 2], [3, 2, 4]]]
+first instance with a stuck state for phi16 : nsw-local-n3m5 [[[0, 1, 3, 4], [0, 2, 3, 4], [1, 2, 3, 4]], [[8, 4, 5, 6], [10, 3, 4, 8], [2, 3, 4, 8]]]
+first instance with a stuck state for phi17 : nsw-local-n3m5 [[[0, 1, 3, 4], [0, 2, 3, 4], [1, 2, 3, 4]], [[8, 4, 5, 6], [10, 3, 4, 8], [2, 3, 4, 8]]]
+first instance with a stuck state for phi18 : lb4-fixed-insertion-n3m6 [[[0, 2, 4, 5], [1, 3, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 4, 3], [2, 8, 3, 4]]]
+first instance with a stuck state for phi2 : lb4-fixed-insertion-n3m6 [[[0, 2, 4, 5], [1, 3, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 4, 3], [2, 8, 3, 4]]]
+first instance with a stuck state for phi3 : D3 [[[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]]]
+first instance with a stuck state for phi4 : A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]]
+first instance with a stuck state for phi5 : D3 [[[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]]]
+first instance with a stuck state for phi6 : D3 [[[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]]]
+first instance with a stuck state for phi7 : A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]]
+first instance with a stuck state for phi8 : c4-g2-other-runs-n4m7 [[[0, 2, 5], [1, 5, 6], [2, 3, 4, 6], [3, 4, 6]], [[2, 3, 4], [2, 4, 3], [8, 4, 3, 6], [2, 3, 4]]]
+first instance with a stuck state for phi9 : D3 [[[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]]]
+time 1 s

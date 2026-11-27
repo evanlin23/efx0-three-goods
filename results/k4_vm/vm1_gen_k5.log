@@ -1,0 +1,21 @@
+$ python3 k4/vm/vmx2_phases.py gen:2000:101:5:10:20:noties:5 --maxdepth=1 --freez=1
+Phase-A states explored                       6163
+instances                                     2000
+some Z is B-every                             1903
+some Z is B-some (two-phase VMX2)             2000
+fewest moves to a B-some state: {0: 1998, 1: 2}
+fewest moves to a B-every state: {0: 1623, 1: 280}
+B-every states by feature: {'no pool good wanted': 4554, 'pool good wanted by someone': 234}
+  no B-every state: gen:1010 n=2 m=5 (B-some: True)
+  no B-every state: gen:1157 n=2 m=6 (B-some: True)
+  no B-every state: gen:238 n=2 m=6 (B-some: True)
+  no B-every state: gen:1238 n=2 m=7 (B-some: True)
+  no B-every state: gen:1696 n=2 m=7 (B-some: True)
+  no B-every state: gen:1941 n=2 m=7 (B-some: True)
+  no B-every state: gen:994 n=2 m=7 (B-some: True)
+  no B-every state: gen:552 n=2 m=8 (B-some: True)
+  no B-every state: gen:57 n=2 m=8 (B-some: True)
+  no B-every state: gen:1919 n=2 m=9 (B-some: True)
+  no B-every state: gen:273 n=2 m=9 (B-some: True)
+  no B-every state: gen:80 n=2 m=9 (B-some: True)
+time 47 s

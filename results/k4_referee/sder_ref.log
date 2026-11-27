@@ -1,0 +1,7 @@
+{"source": "Lemma SD-E(round) N=100000 seed=3 mutation=anychain", "K1_H": 55657, "K1_H_without_SDE_VIOLATION": 8203, "K1_SDE": 47454, "K1_SDE_without_H": 0, "K1_prefix_proper": 0, "K1_rounds": 59216, "K2_H": 1304, "K2_H_without_SDE_VIOLATION": 254, "K2_SDE": 1050, "K2_SDE_without_H": 0, "K2_prefix_proper": 0, "K2_rounds": 1400}
+{"source": "Lemma SD-E(round) N=300000 seed=2 mutation=None", "K1_H": 143850, "K1_H_without_SDE_VIOLATION": 0, "K1_SDE": 143850, "K1_SDE_without_H": 0, "K1_prefix_proper": 21718, "K1_rounds": 153553, "K2_H": 2517, "K2_H_without_SDE_VIOLATION": 0, "K2_SDE": 2517, "K2_SDE_without_H": 0, "K2_prefix_proper": 848, "K2_rounds": 2663}
+{"source": "Lemma SD-E(round) N=300000 seed=1 mutation=None", "K1_H": 143837, "K1_H_without_SDE_VIOLATION": 0, "K1_SDE": 143837, "K1_SDE_without_H": 0, "K1_prefix_proper": 21998, "K1_rounds": 153648, "K2_H": 2648, "K2_H_without_SDE_VIOLATION": 0, "K2_SDE": 2648, "K2_SDE_without_H": 0, "K2_prefix_proper": 978, "K2_rounds": 2868}
+
+real	0m21.348s
+user	0m48.845s
+sys	0m0.030s

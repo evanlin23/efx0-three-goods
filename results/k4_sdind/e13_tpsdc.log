@@ -1,0 +1,43 @@
+$ python3 k4/sdind/e13_tpsdc.py special
+instances 4
+some outcome has a TP completion 4
+some outcome has a one-absorber completion 4
+time 0 s
+$ python3 k4/sdind/e13_tpsdc.py screen 5
+NO TP OUTCOME adaptive-cover-multi4 [[[0, 1, 2, 3], [0, 1, 2, 3]], [[2, 4, 5, 8], [2, 4, 5, 8]]] one-absorber outcome exists: True
+NO TP OUTCOME c4-exposure-deficit2-n2m5 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 7, 10, 4], [6, 3, 7, 5]]] one-absorber outcome exists: True
+NO TP OUTCOME c4-lbplus-rotation-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]]] one-absorber outcome exists: True
+NO TP OUTCOME c4-owner-last-n3m8 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[6, 3, 5, 7], [5, 3, 6, 7], [3, 8, 4, 10]]] one-absorber outcome exists: True
+NO TP OUTCOME c4min-nounfreeze-n2-m6 [[[0, 1, 4, 5], [2, 3, 4, 5]], [[6, 3, 10, 2], [4, 3, 8, 2]]] one-absorber outcome exists: True
+NO TP OUTCOME c4min-w0-n4-m11-n4pc217 [[[3, 6, 7, 8], [0, 2, 6, 10], [1, 5, 9, 10], [4, 7, 8, 9]], [[2, 8, 3, 4], [2, 3, 8, 4], [3, 4, 8, 2], [2, 3, 4, 8]]] one-absorber outcome exists: True
+NO TP OUTCOME c4x-n2m5-base-needs [[[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 3, 4, 8], [2, 3, 4, 8]]] one-absorber outcome exists: True
+NO TP OUTCOME c4x-n3m6-ef-bases [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[3, 5, 6, 7], [4, 6, 5, 8], [5, 4, 6, 8]]] one-absorber outcome exists: True
+NO TP OUTCOME gap-npo-n2-m6 [[[0, 1, 4, 5], [2, 3, 4, 5]], [[3, 6, 2, 10], [3, 6, 2, 10]]] one-absorber outcome exists: True
+NO TP OUTCOME gap-w-n2-m5 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 3, 6, 10], [2, 3, 6, 10]]] one-absorber outcome exists: True
+NO TP OUTCOME induct-b-r0-pot-minvw [[[0, 1, 2, 3], [1, 2, 3]], [[4, 8, 6, 1], [4, 2, 3]]] one-absorber outcome exists: True
+NO TP OUTCOME lb4-n2m5-upgrade [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] one-absorber outcome exists: True
+NO TP OUTCOME lb4-owner-needs-from-base-n4m8 [[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], [[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]]] one-absorber outcome exists: True
+NO TP OUTCOME mincex-twins [[[0, 1, 2], [0, 1, 3]], [[4, 3, 2], [4, 3, 2]]] one-absorber outcome exists: True
+instances 168
+some outcome has a TP completion 154
+some outcome has a one-absorber completion 168
+time 1 s
+$ python3 k4/sdind/e13_tpsdc.py suite 5
+NO TP OUTCOME adaptive-cover-multi4 [[[0, 1, 2, 3], [0, 1, 2, 3]], [[2, 4, 5, 8], [2, 4, 5, 8]]] one-absorber outcome exists: True
+NO TP OUTCOME c4-exposure-deficit2-n2m5 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 7, 10, 4], [6, 3, 7, 5]]] one-absorber outcome exists: True
+NO TP OUTCOME c4-lbplus-rotation-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]]] one-absorber outcome exists: True
+NO TP OUTCOME c4-owner-last-n3m8 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[6, 3, 5, 7], [5, 3, 6, 7], [3, 8, 4, 10]]] one-absorber outcome exists: True
+NO TP OUTCOME c4min-nounfreeze-n2-m6 [[[0, 1, 4, 5], [2, 3, 4, 5]], [[6, 3, 10, 2], [4, 3, 8, 2]]] one-absorber outcome exists: True
+NO TP OUTCOME c4min-w0-n4-m11-n4pc217 [[[3, 6, 7, 8], [0, 2, 6, 10], [1, 5, 9, 10], [4, 7, 8, 9]], [[2, 8, 3, 4], [2, 3, 8, 4], [3, 4, 8, 2], [2, 3, 4, 8]]] one-absorber outcome exists: True
+NO TP OUTCOME c4x-n2m5-base-needs [[[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 3, 4, 8], [2, 3, 4, 8]]] one-absorber outcome exists: True
+NO TP OUTCOME c4x-n3m6-ef-bases [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[3, 5, 6, 7], [4, 6, 5, 8], [5, 4, 6, 8]]] one-absorber outcome exists: True
+NO TP OUTCOME gap-npo-n2-m6 [[[0, 1, 4, 5], [2, 3, 4, 5]], [[3, 6, 2, 10], [3, 6, 2, 10]]] one-absorber outcome exists: True
+NO TP OUTCOME gap-w-n2-m5 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 3, 6, 10], [2, 3, 6, 10]]] one-absorber outcome exists: True
+NO TP OUTCOME induct-b-r0-pot-minvw [[[0, 1, 2, 3], [1, 2, 3]], [[4, 8, 6, 1], [4, 2, 3]]] one-absorber outcome exists: True
+NO TP OUTCOME lb4-n2m5-upgrade [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] one-absorber outcome exists: True
+NO TP OUTCOME lb4-owner-needs-from-base-n4m8 [[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], [[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]]] one-absorber outcome exists: True
+NO TP OUTCOME mincex-twins [[[0, 1, 2], [0, 1, 3]], [[4, 3, 2], [4, 3, 2]]] one-absorber outcome exists: True
+instances 158
+some outcome has a TP completion 144
+some outcome has a one-absorber completion 158
+time 14 s

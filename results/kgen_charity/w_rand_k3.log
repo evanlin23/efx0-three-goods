@@ -1,0 +1,4 @@
+$ python3 kgen/charity/w_search.py rand 2 2000 3 5 2 3 12
+instances 2000
+welfare maximum leaves 0 out 2000
+slowest 0.1 s; time 7 s

@@ -1,0 +1,18 @@
+$ python3 k4/haxell/ht_n2k3.py K=4 VALS=1,2,4,7
+instances 1540944
+TRAP (5, (0, 1, 2, 3), (0, 1, 2, 4), (1, 1, 4, 1), (1, 1, 4, 1)) 2 5 states 77 complete 2 traps 6 radius2traps 0 minpool 1 example 1 1 -1 0 0
+TRAP (5, (0, 1, 2, 3), (0, 1, 2, 4), (1, 1, 4, 1), (1, 1, 7, 1)) 2 5 states 77 complete 2 traps 6 radius2traps 0 minpool 1 example 1 1 -1 0 0
+TRAP (5, (0, 1, 2, 3), (0, 1, 2, 4), (1, 1, 4, 1), (1, 2, 7, 2)) 2 5 states 73 complete 2 traps 5 radius2traps 0 minpool 1 example 1 1 -1 0 0
+TRAP (5, (0, 1, 2, 3), (0, 1, 2, 4), (1, 1, 4, 1), (2, 1, 7, 2)) 2 5 states 73 complete 2 traps 5 radius2traps 0 minpool 1 example 1 1 -1 0 0
+TRAP (5, (0, 1, 2, 3), (0, 1, 2, 4), (1, 1, 4, 1), (2, 2, 7, 1)) 2 5 states 73 complete 2 traps 5 radius2traps 0 minpool 1 example 1 1 -1 0 0
+TRAP (5, (0, 1, 2, 3), (0, 1, 2, 4), (1, 1, 4, 1), (2, 2, 7, 2)) 2 5 states 77 complete 2 traps 6 radius2traps 0 minpool 1 example 1 1 -1 0 0
+TRAP (5, (0, 1, 2, 3), (0, 1, 2, 4), (1, 1, 7, 1), (1, 1, 4, 1)) 2 5 states 77 complete 2 traps 6 radius2traps 0 minpool 1 example 1 1 -1 0 0
+TRAP (5, (0, 1, 2, 3), (0, 1, 2, 4), (1, 1, 7, 1), (1, 1, 7, 1)) 2 5 states 77 complete 2 traps 6 radius2traps 0 minpool 1 example 1 1 -1 0 0
+TRAP (5, (0, 1, 2, 3), (0, 1, 2, 4), (1, 1, 7, 1), (1, 2, 7, 2)) 2 5 states 73 complete 2 traps 5 radius2traps 0 minpool 1 example 1 1 -1 0 0
+TRAP (5, (0, 1, 2, 3), (0, 1, 2, 4), (1, 1, 7, 1), (2, 1, 7, 2)) 2 5 states 73 complete 2 traps 5 radius2traps 0 minpool 1 example 1 1 -1 0 0
+instances 1540944
+instances with a trap 3366
+no complete EFX0 0
+radius-2 traps 0
+traps 16704
+time 398 s

@@ -1,0 +1,12 @@
+# MC_DIR = proof/k4-oc1max-multi:k4/oc1max_multi at 3d157f3
+$ python3 k4/ttc/r2_mc.py sweep 2,3,4 100 1 71
+  M^c (any owner, any rest) certifies some chain 466
+  M^c (max_rest 1) certifies some chain 466
+  M^c (max_rest 1) certifies some chain with owner another receiver: no 54
+  M^c (max_rest 1) certifies some chain with owner another receiver: yes 412
+  M^c (max_rest 1) certifies some chain with owner x_0: yes 466
+  M^c (max_rest 1) certifies some chain with owner z: no 5
+  M^c (max_rest 1) certifies some chain with owner z: yes 461
+  canonical chains to a receiver: (G2) fails after none of them 466
+hard starts with >= 2 receivers 466
+time 109 s

@@ -1,0 +1,1 @@
+$ python3 kgen/rounds/stress.py climb 4 10 2500 6 210tops tops ties

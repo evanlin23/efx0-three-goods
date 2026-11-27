@@ -1,0 +1,48 @@
+$ python3 k4/haxell/gstar_measure_run.py gen:3000:15:2:5:5 NMAX=2 MMAX=6 RADIUS=2 ROT=1
+instances 3000
+partial EFX0 states 231398
+stuck states, phi0 11
+stuck states, phi1 0
+stuck states, phi10 0
+stuck states, phi11 0
+stuck states, phi12 0
+stuck states, phi13 0
+stuck states, phi14 0
+stuck states, phi15 0
+stuck states, phi16 0
+stuck states, phi17 0
+stuck states, phi18 0
+stuck states, phi2 0
+stuck states, phi3 1
+stuck states, phi4 10
+stuck states, phi5 5
+stuck states, phi6 11
+stuck states, phi7 0
+stuck states, phi8 0
+stuck states, phi9 11
+instances with a stuck state, phi0 8
+instances with a stuck state, phi1 0
+instances with a stuck state, phi10 0
+instances with a stuck state, phi11 0
+instances with a stuck state, phi12 0
+instances with a stuck state, phi13 0
+instances with a stuck state, phi14 0
+instances with a stuck state, phi15 0
+instances with a stuck state, phi16 0
+instances with a stuck state, phi17 0
+instances with a stuck state, phi18 0
+instances with a stuck state, phi2 0
+instances with a stuck state, phi3 1
+instances with a stuck state, phi4 8
+instances with a stuck state, phi5 4
+instances with a stuck state, phi6 8
+instances with a stuck state, phi7 0
+instances with a stuck state, phi8 0
+instances with a stuck state, phi9 8
+first instance with a stuck state for phi0 : g456 [[[0, 1, 2, 3, 4], [0, 1, 2, 3, 4]], [[7, 36, 12, 15, 1], [7, 26, 8, 18, 10]]]
+first instance with a stuck state for phi3 : g1750 [[[0, 1, 2, 3, 4], [0, 1, 2, 3, 4]], [[3, 23, 8, 7, 36], [8, 11, 10, 17, 39]]]
+first instance with a stuck state for phi4 : g456 [[[0, 1, 2, 3, 4], [0, 1, 2, 3, 4]], [[7, 36, 12, 15, 1], [7, 26, 8, 18, 10]]]
+first instance with a stuck state for phi5 : g503 [[[0, 1, 2, 3, 4], [0, 1, 2, 3, 4]], [[7, 33, 26, 11, 2], [5, 35, 7, 8, 10]]]
+first instance with a stuck state for phi6 : g456 [[[0, 1, 2, 3, 4], [0, 1, 2, 3, 4]], [[7, 36, 12, 15, 1], [7, 26, 8, 18, 10]]]
+first instance with a stuck state for phi9 : g456 [[[0, 1, 2, 3, 4], [0, 1, 2, 3, 4]], [[7, 36, 12, 15, 1], [7, 26, 8, 18, 10]]]
+time 2 s

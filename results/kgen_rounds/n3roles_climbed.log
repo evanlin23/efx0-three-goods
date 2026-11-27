@@ -1,0 +1,38 @@
+$ python3 kgen/rounds/n3roles.py file results/kgen_rounds/climb_n3m10_generic.log results/kgen_rounds/climb_n3m10_near.log results/kgen_rounds/climb_n3m10_small.log results/kgen_rounds/climb_n3m10_tops.log results/kgen_rounds/climb_n3m6_generic.log results/kgen_rounds/climb_n3m6_near.log results/kgen_rounds/climb_n3m6_small.log results/kgen_rounds/climb_n3m6_tops.log results/kgen_rounds/climb_n3m7_cgm.log results/kgen_rounds/climb_n3m7_generic.log results/kgen_rounds/climb_n3m7_near.log results/kgen_rounds/climb_n3m7_small.log results/kgen_rounds/climb_n3m7_tops.log results/kgen_rounds/climb_n3m8_generic.log results/kgen_rounds/climb_n3m8_near.log results/kgen_rounds/climb_n3m8_small.log results/kgen_rounds/climb_n3m8_tops.log results/kgen_rounds/climb_n3m9_generic.log results/kgen_rounds/climb_n3m9_near.log results/kgen_rounds/climb_n3m9_small.log results/kgen_rounds/climb_n3m9_tops.log
+hard starts 216
+  pattern H(0>1)       repairs 6 of 216
+  pattern H(0>2)       repairs 9 of 216
+  pattern H(1>2)       repairs 133 of 216
+  pattern H(2>0)       repairs 2 of 216
+  pattern P3(0>1>2)    repairs 6 of 216
+  pattern P3(0>2>1)    repairs 4 of 216
+  pattern P3(1>0>2)    repairs 9 of 216
+  pattern P3(1>2>0)    repairs 3 of 216
+  pattern P3(2>0>1)    repairs 1 of 216
+  pattern R3(0>1>2)    repairs 7 of 216
+  pattern R3(0>2>1)    repairs 70 of 216
+  pattern R3(1>0>2)    repairs 70 of 216
+  pattern R3(1>2>0)    repairs 7 of 216
+  pattern R3(2>0>1)    repairs 7 of 216
+  pattern R3(2>1>0)    repairs 70 of 216
+  pattern S{0,1}       repairs 5 of 216
+  pattern S{0,2}       repairs 12 of 216
+  pattern S{1,2}       repairs 211 of 216
+distinct pattern sets: 17
+   85 ('H(1>2)', 'S{1,2}')
+   50 ('S{1,2}',)
+   34 ('H(1>2)', 'R3(0>2>1)', 'R3(1>0>2)', 'R3(2>1>0)', 'S{1,2}')
+   24 ('R3(0>2>1)', 'R3(1>0>2)', 'R3(2>1>0)', 'S{1,2}')
+   8 ('H(1>2)', 'P3(1>0>2)', 'R3(0>2>1)', 'R3(1>0>2)', 'R3(2>1>0)', 'S{1,2}')
+   2 ('H(0>2)', 'H(1>2)', 'P3(0>2>1)', 'P3(1>2>0)', 'S{0,2}', 'S{1,2}')
+   2 ('R3(0>1>2)', 'R3(1>2>0)', 'R3(2>0>1)', 'S{1,2}')
+   2 ('S{0,2}', 'S{1,2}')
+   1 ('H(0>1)', 'H(0>2)', 'H(1>2)', 'H(2>0)', 'P3(0>1>2)', 'P3(1>2>0)', 'R3(0>1>2)', 'R3(1>2>0)', 'R3(2>0>1)', 'S{0,2}', 'S{1,2}')
+   1 ('H(0>1)', 'H(0>2)', 'P3(0>1>2)', 'P3(0>2>1)', 'P3(1>0>2)', 'R3(0>1>2)', 'R3(0>2>1)', 'R3(1>0>2)', 'R3(1>2>0)', 'R3(2>0>1)', 'R3(2>1>0)', 'S{0,1}', 'S{0,2}')
+   1 ('H(0>1)', 'H(0>2)', 'P3(0>1>2)', 'R3(0>1>2)', 'R3(0>2>1)', 'R3(1>0>2)', 'R3(1>2>0)', 'R3(2>0>1)', 'R3(2>1>0)', 'S{0,1}', 'S{0,2}')
+   1 ('H(1>2)', 'R3(0>1>2)', 'R3(0>2>1)', 'R3(1>0>2)', 'R3(1>2>0)', 'R3(2>0>1)', 'R3(2>1>0)', 'S{0,2}', 'S{1,2}')
+cover "last receives (H(0>2), H(1>2), S{0,2}, S{1,2})": misses 0 starts
+cover "two-agent move with the last picker (incl. H(2>.))": misses 0 starts
+cover "any two-agent move": misses 0 starts
+cover "last receives, or a rotation": misses 0 starts
+only ('S{1,2}',) example [[3, 356, 6, 1, 23, 2663, 39, 24, 199, 59], [2, 334, 57, 40, 22, 2297, 67, 24, 197, 100], [2, 357, 60, 1, 25, 2665, 39, 26, 199, 5]] order (0, 1, 2)

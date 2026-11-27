@@ -1,0 +1,20 @@
+$ python3 k4/vm/vm_rot.py screen
+rotation-class instances by least number of rotations on a successful run: {1: 10}
+  c4x-n3m5-big-bases n=3 m=5 rotated cycle lengths [2]
+  induct-pot-env-tiebreaks n=3 m=5 rotated cycle lengths [2]
+  c4-one-rotation-owner-r-n3m6 n=3 m=6 rotated cycle lengths [2]
+  c4min-tlam-n3-m6 n=3 m=6 rotated cycle lengths [2]
+  c4x-n3m6-onefour-a n=3 m=6 rotated cycle lengths [2]
+  c4x-n3m6-onefour-b n=3 m=6 rotated cycle lengths [2]
+  induct-v-r3 n=3 m=6 rotated cycle lengths [2]
+  lil-text-n3 n=3 m=7 rotated cycle lengths [2]
+  red-lil-nokeep-b n=3 m=7 rotated cycle lengths [2]
+  c4x-n4m7-frozen-slots-some n=4 m=7 rotated cycle lengths [2]
+$ python3 k4/vm/vm_rot.py named:/tmp/claude-0/-home-user-efx0-three-goods/454962d1-b841-5e80-a394-b61ed54ba228/scratchpad/ext
+rotation-class instances by least number of rotations on a successful run: {1: 2}
+  T3 n=3 m=6 rotated cycle lengths [3]
+  vmx-cex-n3 n=3 m=6 rotated cycle lengths [2]
+$ python3 k4/vm/vm_rot.py k5
+rotation-class instances by least number of rotations on a successful run: {1: 2}
+  RD4 n=4 m=7 rotated cycle lengths [2]
+  RD5 n=4 m=7 rotated cycle lengths [2]

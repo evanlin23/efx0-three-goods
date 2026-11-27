@@ -1,0 +1,12 @@
+$ python3 k4/haxell/ht_n2claim.py 40000 5 10 KMAX=4 STATES=40
+give1+place1 31029
+give1+placeS 968
+giveS+place1 1998
+giveS+placeS 1
+place1 505242
+place1+place1 17
+place1+swapAB 7184
+place1+swapP 586
+place1+trade 753
+states 547778
+time 21 s

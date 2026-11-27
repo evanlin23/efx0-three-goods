@@ -1,0 +1,6 @@
+n 6 m 10 k 4
+welfare max 164 fewest unallocated 0 [[0, 2], [4, 5], [1], [6, 7, 8], [9], [3]]
+best welfare leaving >= 1 out: 158
+best welfare leaving >= 2 out: 152
+Pareto maximum leaving >= 1 out: None {'iterations': 6, 'maxima': 6}
+least charity 0

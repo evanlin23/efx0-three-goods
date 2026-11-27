@@ -1,0 +1,4 @@
+PW(4,3,6) clean [[[0, 7, 8, 9, 10, 11, 12], [1, 7, 8, 9, 10, 11, 12], [2, 7, 8, 9, 10, 11, 12], [3, 7, 8, 9, 10, 11, 12], [0, 1, 2, 3, 4], [0, 1, 2, 3, 5], [0, 1, 2, 3, 6]], [[20, 19, 18, 17, 16, 15, 14], [20, 19, 18, 17, 16, 15, 14], [20, 19, 18, 17, 16, 15, 14], [20, 19, 18, 17, 16, 15, 14], [8, 6, 4, 2, 1], [8, 6, 4, 2, 1], [8, 6, 4, 2, 1]]]
+R1 start: service order [0, 4, 1, 2, 3, 5, 6], picks (0, 7, 2, 3, 1, 5, 6)
+ocsat : picks extend free False, one absorber False; one chain then free False, then one absorber False
+ocseq : at most 1 chain then free False, then one absorber False; at most 2 chains then free True

@@ -1,0 +1,17 @@
+{"source": "n=2 m=2 [[13, 8], [7, 2]] aout=all", "instances": 1, "runs": 2, "capped": 0, "not_efx": 2, "incomplete": 0, "stuck": 0, "cyclic": 0, "max_path_edges": 0, "valuer_outside_S": 2, "partial_not_efx": 2}
+EXAMPLE ('partial', [[13, 8], [7, 2]], [[0, 1], []], 1)
+EXAMPLE ('not_efx', [[13, 8], [7, 2]], [[0, 1], []], 'run')
+EXAMPLE ('partial', [[13, 8], [7, 2]], [[], [0, 1]], 1)
+EXAMPLE ('not_efx', [[13, 8], [7, 2]], [[], [0, 1]], 'run')
+{"source": "n=2 m=2 [[13, 8], [7, 2]] aout=matched", "instances": 1, "runs": 2, "capped": 0, "not_efx": 0, "incomplete": 0, "stuck": 0, "cyclic": 0, "max_path_edges": 0, "valuer_outside_S": 0, "partial_not_efx": 0}
+Example 2.1 edges: [(0, 2), (1, 0), (1, 2), (2, 0), (2, 1)]
+{"source": "exhaustive n=2 m=3 vals=[0, 1, 2, 3]", "instances": 4096, "runs": 6938, "capped": 0, "not_efx": 0, "incomplete": 0, "stuck": 0, "cyclic": 0, "max_path_edges": 0, "valuer_outside_S": 0, "partial_not_efx": 0}
+{"source": "exhaustive n=3 m=3 vals=[0, 1, 2]", "instances": 19683, "runs": 41115, "capped": 0, "not_efx": 0, "incomplete": 0, "stuck": 0, "cyclic": 0, "max_path_edges": 0, "valuer_outside_S": 0, "partial_not_efx": 0}
+{"source": "exhaustive n=2 m=4 vals=[0, 1, 2, 3]", "instances": 65536, "runs": 224712, "capped": 0, "not_efx": 0, "incomplete": 0, "stuck": 0, "cyclic": 0, "max_path_edges": 1, "valuer_outside_S": 0, "partial_not_efx": 0}
+{"source": "exhaustive n=2 m=5 vals=[0, 1, 2]", "instances": 44521, "runs": 364442, "capped": 0, "not_efx": 0, "incomplete": 0, "stuck": 0, "cyclic": 0, "max_path_edges": 1, "valuer_outside_S": 0, "partial_not_efx": 0}
+{"source": "exhaustive n=3 m=4 vals=[0, 1, 2]", "instances": 531441, "runs": 1423089, "capped": 0, "not_efx": 0, "incomplete": 0, "stuck": 0, "cyclic": 0, "max_path_edges": 1, "valuer_outside_S": 0, "partial_not_efx": 0}
+{"source": "exhaustive n=2 m=6 vals=[0, 1, 2]", "instances": 223729, "runs": 4817822, "capped": 0, "not_efx": 0, "incomplete": 0, "stuck": 0, "cyclic": 0, "max_path_edges": 1, "valuer_outside_S": 0, "partial_not_efx": 0}
+{"source": "random N=20000 n<=4 m<=7 maxv=6 seed=1 cap=3000", "instances": 20000, "runs": 129238, "capped": 0, "not_efx": 0, "incomplete": 0, "stuck": 0, "cyclic": 0, "max_path_edges": 1, "valuer_outside_S": 0, "partial_not_efx": 0}
+{"source": "random N=20000 n<=6 m<=10 maxv=9 seed=2 cap=500", "instances": 20000, "runs": 479275, "capped": 81, "not_efx": 0, "incomplete": 0, "stuck": 0, "cyclic": 0, "max_path_edges": 2, "valuer_outside_S": 0, "partial_not_efx": 0}
+{"source": "contested N=20000 seed=3 cap=3000", "instances": 20000, "runs": 387251, "capped": 0, "not_efx": 0, "incomplete": 0, "stuck": 0, "cyclic": 0, "max_path_edges": 2, "valuer_outside_S": 0, "partial_not_efx": 0}
+{"source": "contested N=20000 seed=4 cap=3000", "instances": 20000, "runs": 386722, "capped": 0, "not_efx": 0, "incomplete": 0, "stuck": 0, "cyclic": 0, "max_path_edges": 2, "valuer_outside_S": 0, "partial_not_efx": 0}

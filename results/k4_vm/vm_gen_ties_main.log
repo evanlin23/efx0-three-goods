@@ -1,0 +1,31 @@
+$ python3 k4/vm/vm_test.py gen:5000:5:6:10:4:ties --limit=2000 --samples=200
+== rank=G aout=matched n1a=Y
+  instances                    5000
+  exhaustive                   4997
+  runs                         125879
+  runs stuck                   0
+  runs not EFX                 0
+  runs EFX but not EFX0        34601
+  runs claim_outside           0
+  inst: some run stuck         0
+  inst: some run not EFX       0
+  inst: every run EFX          5000
+  inst: some run EFX0          4650
+  inst: every run EFX0         2977
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('Nr', 'N1', 'III.efx')                  23634
+    ('N3', 'N1', 'III.efx')                  11421
+    ('N1', 'N1', 'III.efx')                  6724
+    ('Nr', 'A', 'III.efx')                   5851
+    ('A-unmatched', 'A', 'III.efx')          5014
+    ('N2', 'N1', 'III.efx')                  3740
+    ('N1', 'N1', 'II.1')                     3038
+    ('N4', 'N1', 'III.efx')                  2767
+    ('N3', 'A', 'III.efx')                   2639
+    ('N2', 'A', 'III.efx')                   1775
+    ('A-unmatched', 'N1', 'III.efx')         1651
+    ('N1', 'A', 'III.efx')                   1596
+  example notefx0: gen:1282 (n=2, m=2) [[1], [[], [0, 1]], [[0, 1, 1]], {"0": "A-unmatched", "1": "A"}]
+  example notefx0: gen:1652 (n=2, m=2) [[1], [[], [0, 1]], [[0, 1, 1]], {"0": "A-unmatched", "1": "A"}]
+  example notefx0: gen:1885 (n=2, m=2) [[0], [[1, 0], []], [[1, 0, 0]], {"0": "A", "1": "A-unmatched"}]
+time 3 s

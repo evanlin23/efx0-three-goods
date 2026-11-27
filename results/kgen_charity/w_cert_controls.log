@@ -1,0 +1,6 @@
+$ python3 kgen/charity/w_cert.py results/kgen_charity/w_cert_controls/c_221.json results/kgen_charity/w_cert_controls/c_222.json results/kgen_charity/w_cert_controls/c_321.json results/kgen_charity/w_cert_controls/c_321_drop.json results/kgen_charity/w_cert_controls/f_s3k4.json
+c_221.json: n 3, m 6, k 3, X leaves 1 out, cuts 16 (each leaving <= 0 out), fixed support False: cvc5 says unsat (0.1 s)
+c_222.json: n 3, m 7, k 3, X leaves 1 out, cuts 25 (each leaving <= 0 out), fixed support False: cvc5 says unsat (0.2 s)
+c_321.json: n 3, m 7, k 3, X leaves 1 out, cuts 21 (each leaving <= 0 out), fixed support False: cvc5 says unsat (0.1 s)
+c_321_drop.json: n 3, m 7, k 3, X leaves 1 out, cuts 20 (each leaving <= 0 out), fixed support False: cvc5 says sat (0.1 s)
+f_s3k4.json: n 9, m 14, k 4, X leaves 2 out, cuts 170 (each leaving <= 1 out), fixed support True: cvc5 says sat (0.1 s)

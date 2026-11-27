@@ -1,0 +1,49 @@
+$ python3 k4/haxell/gstar_measure_run.py gen:600:55:3:7:5 NMAX=3 MMAX=7 RADIUS=2 ROT=1
+instances 600
+partial EFX0 states 509542
+stuck states, phi0 556
+stuck states, phi1 0
+stuck states, phi10 0
+stuck states, phi11 0
+stuck states, phi12 0
+stuck states, phi13 0
+stuck states, phi14 0
+stuck states, phi15 0
+stuck states, phi16 0
+stuck states, phi17 0
+stuck states, phi18 0
+stuck states, phi2 0
+stuck states, phi3 345
+stuck states, phi4 162
+stuck states, phi5 66
+stuck states, phi6 54
+stuck states, phi7 12
+stuck states, phi8 0
+stuck states, phi9 54
+instances with a stuck state, phi0 207
+instances with a stuck state, phi1 0
+instances with a stuck state, phi10 0
+instances with a stuck state, phi11 0
+instances with a stuck state, phi12 0
+instances with a stuck state, phi13 0
+instances with a stuck state, phi14 0
+instances with a stuck state, phi15 0
+instances with a stuck state, phi16 0
+instances with a stuck state, phi17 0
+instances with a stuck state, phi18 0
+instances with a stuck state, phi2 0
+instances with a stuck state, phi3 170
+instances with a stuck state, phi4 94
+instances with a stuck state, phi5 33
+instances with a stuck state, phi6 32
+instances with a stuck state, phi7 7
+instances with a stuck state, phi8 0
+instances with a stuck state, phi9 32
+first instance with a stuck state for phi0 : g2 [[[1, 2, 3, 4, 5], [0, 2, 3, 4, 5], [0, 1, 2, 5, 6]], [[21, 18, 9, 6, 39], [27, 29, 32, 5, 31], [17, 36, 23, 8, 18]]]
+first instance with a stuck state for phi3 : g2 [[[1, 2, 3, 4, 5], [0, 2, 3, 4, 5], [0, 1, 2, 5, 6]], [[21, 18, 9, 6, 39], [27, 29, 32, 5, 31], [17, 36, 23, 8, 18]]]
+first instance with a stuck state for phi4 : g9 [[[0, 1, 2, 5, 6], [1, 2, 3, 4, 5], [0, 2, 3, 4, 5]], [[15, 2, 4, 24, 1], [27, 38, 31, 4, 22], [14, 16, 36, 13, 24]]]
+first instance with a stuck state for phi5 : g9 [[[0, 1, 2, 5, 6], [1, 2, 3, 4, 5], [0, 2, 3, 4, 5]], [[15, 2, 4, 24, 1], [27, 38, 31, 4, 22], [14, 16, 36, 13, 24]]]
+first instance with a stuck state for phi6 : g9 [[[0, 1, 2, 5, 6], [1, 2, 3, 4, 5], [0, 2, 3, 4, 5]], [[15, 2, 4, 24, 1], [27, 38, 31, 4, 22], [14, 16, 36, 13, 24]]]
+first instance with a stuck state for phi7 : g61 [[[0, 1, 2, 4, 5], [1, 2, 3, 5, 6], [0, 1, 2, 3, 6]], [[4, 33, 28, 6, 20], [8, 38, 12, 18, 10], [10, 20, 29, 13, 31]]]
+first instance with a stuck state for phi9 : g9 [[[0, 1, 2, 5, 6], [1, 2, 3, 4, 5], [0, 2, 3, 4, 5]], [[15, 2, 4, 24, 1], [27, 38, 31, 4, 22], [14, 16, 36, 13, 24]]]
+time 2 s

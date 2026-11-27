@@ -1,0 +1,1 @@
+$ python3 kgen/rounds/stress.py climb 5 10 1500 4 310generic generic ties

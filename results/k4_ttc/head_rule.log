@@ -1,0 +1,38 @@
+$ python3 k4/ttc/head_rule.py special
+every unwanted 60
+hard starts (orders) 69
+last 63
+some 69
+some unwanted 66
+  the last agent is no head: T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] order [0, 1, 2] picks (0, 4, 1) working heads [1]
+  the last agent is no head: T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] order [0, 2, 1] picks (0, 1, 4) working heads [0, 2]
+  the last agent is no head: T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] order [1, 0, 2] picks (0, 4, 1) working heads [1]
+  the last agent is no head: Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] order [0, 2, 3, 1] picks (3, 7, 5, 4) working heads [3]
+time 0 s
+$ python3 k4/ttc/head_rule.py dich
+every unwanted 6
+hard starts (orders) 6
+last 6
+some 6
+some unwanted 6
+time 0 s
+$ python3 k4/ttc/head_rule.py screen
+every unwanted 493
+hard starts (orders) 662
+last 576
+some 662
+some unwanted 632
+  the last agent is no head: adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] order [0, 1, 2] picks (5, 4, 3) working heads [0, 1]
+  the last agent is no head: adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] order [0, 2, 1] picks (5, 3, 4) working heads [2]
+  the last agent is no head: adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] order [2, 0, 1] picks (5, 3, 4) working heads [2]
+  the last agent is no head: adaptive-p3 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]]] order [0, 1, 2] picks (2, 5, 4) working heads [1]
+time 2 s
+$ python3 k4/ttc/head_rule.py core:n3 3000 91
+every unwanted 475
+hard starts (orders) 480
+last 478
+some 480
+some unwanted 480
+  the last agent is no head: r461 [[[0, 2, 5, 6], [1, 4, 5, 6], [3, 5, 6]], [[2, 4, 3, 8], [3, 6, 5, 7], [3, 2, 4]]] order [1, 0, 2] picks (2, 6, 3) working heads [0]
+  the last agent is no head: r2395 [[[0, 2, 4, 5], [1, 3, 4, 5], [3, 4, 5]], [[5, 4, 6, 8], [6, 2, 3, 10], [4, 2, 3]]] order [0, 1, 2] picks (5, 1, 3) working heads [1]
+time 4 s

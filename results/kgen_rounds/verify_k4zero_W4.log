@@ -1,0 +1,6 @@
+instance [[7114, 0, 7069, 0, 0, 6267, 3000], [9160, 0, 8502, 0, 0, 3000, 2986], [0, 1391, 6792, 0, 5427, 6130, 0], [0, 5425, 6790, 0, 1390, 6129, 0]] order (0, 2, 3, 1) k = 4
+[k4/sdc pipeline] {'picks': [0, 6, 2, 5], 'ext_1': False, 'oc1': False, 'n_states': 18} 0s
+[brute force]     {'picks': [0, 6, 2, 5], 'ext_1': False, 'oc1': False, 'round_1': False, 'round_free': False, 'two_rounds_1': True, 'md': True} 0s
+instance [[7114, 0, 7069, 0, 6267, 3000], [9160, 0, 8502, 0, 3000, 2986], [0, 1391, 6792, 5427, 6130, 0], [0, 5425, 6790, 1390, 6129, 0]] order (0, 2, 3, 1) k = 4
+[k4/sdc pipeline] {'picks': [0, 5, 2, 4], 'ext_1': False, 'oc1': True, 'n_states': 18} 0s
+[brute force]     {'picks': [0, 5, 2, 4], 'ext_1': False, 'oc1': True, 'round_1': True, 'round_free': True, 'md': True} 0s

@@ -1,0 +1,28 @@
+instance n 4 m 7, order (2, 1, 3, 0), picks [4, 3, 5, 6]
+[rnd.c] EFX allocations 18 counts {'EXTF': 0, 'EXT1': 0, 'OC1': 0, 'RNDF': 0, 'RND1': 0, 'MD': 8}
+[bruter]  {'ext_free': False, 'ext_1': False, 'oc1': False, 'n_round_states': 255, 'rnd_free': False, 'rnd_1': False, 'rnd2_1': True, 'n_round2_states': 2} 0s
+[ocsat]   {'ext_free': False, 'ext_1': False, 'oc1': False, 'rnd_free': False, 'rnd_1': False, 'md': True} 0s
+[ocseq]   1 round(s): free False, one absorber False 0s
+[ocseq]   2 round(s): free True, one absorber True 0s
+VERDICT one round fails: True | three implementations agree: True
+instance n 4 m 7, order (0, 3, 1, 2), picks [1, 3, 4, 2]
+[rnd.c] EFX allocations 26 counts {'EXTF': 0, 'EXT1': 0, 'OC1': 0, 'RNDF': 0, 'RND1': 0, 'MD': 6}
+[bruter]  {'ext_free': False, 'ext_1': False, 'oc1': False, 'n_round_states': 225, 'rnd_free': False, 'rnd_1': False, 'rnd2_1': True, 'n_round2_states': 2} 0s
+[ocsat]   {'ext_free': False, 'ext_1': False, 'oc1': False, 'rnd_free': False, 'rnd_1': False, 'md': True} 0s
+[ocseq]   1 round(s): free False, one absorber False 0s
+[ocseq]   2 round(s): free True, one absorber True 0s
+VERDICT one round fails: True | three implementations agree: True
+instance n 5 m 8, order (0, 4, 2, 3, 1), picks [6, 1, 7, 5, 0]
+[rnd.c] EFX allocations 108 counts {'EXTF': 0, 'EXT1': 0, 'OC1': 0, 'RNDF': 0, 'RND1': 0, 'MD': 20}
+[bruter]  {'ext_free': False, 'ext_1': False, 'oc1': False, 'n_round_states': 324, 'rnd_free': False, 'rnd_1': False} 1s
+[ocsat]   {'ext_free': False, 'ext_1': False, 'oc1': False, 'rnd_free': False, 'rnd_1': False, 'md': True} 1s
+[ocseq]   1 round(s): free False, one absorber False 1s
+[ocseq]   2 round(s): free True, one absorber True 2s
+VERDICT one round fails: True | three implementations agree: True
+instance n 5 m 9, order (0, 4, 1, 2, 3), picks [0, 5, 6, 2, 1]
+[rnd.c] EFX allocations 94 counts {'EXTF': 0, 'EXT1': 0, 'OC1': 0, 'RNDF': 0, 'RND1': 0, 'MD': 30}
+[bruter]  {'ext_free': False, 'ext_1': False, 'oc1': False, 'n_round_states': 1944, 'rnd_free': False, 'rnd_1': False} 4s
+[ocsat]   {'ext_free': False, 'ext_1': False, 'oc1': False, 'rnd_free': False, 'rnd_1': False, 'md': True} 4s
+[ocseq]   1 round(s): free False, one absorber False 5s
+[ocseq]   2 round(s): free True, one absorber True 7s
+VERDICT one round fails: True | three implementations agree: True
