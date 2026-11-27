@@ -746,6 +746,14 @@ enumeration; none of the 86 n = 5 RF starts is of type A2.
   in 2). With (C′) added, "(i) or (T) or (C) or (C′)" holds at all 64, and still at all 292,080 n = 4 and 86 stored
   n = 5 failing orders, where (C′) is never needed.
 
+**Residue B closed at n = 4 by the oc1-hall session** (Lemma RF-B, `k4/oc1_hall.md` §24.8 on `claude/k4-oc1-hall`,
+commit e2f61854; [unverified]: relayed by its message, not read here). Its uniform repair: k = the truly dangerous agent
+whose pick only d wants, S = the junk pair the two truly dangerous agents share; k takes S, d takes Y′_k, Y′_d and
+J′ ∖ S. Third, independent check with `lss.is_efx0` (`k4/girth/oc1_rf_b_check.py`, `results/k4_girth_oc1_rf_b_check.log`):
+EFX₀ at all 43,520 distinct n = 4 B starts. At the 2 distinct n = 5 B starts (5_pure #164, #304) *both* truly dangerous
+agents have a pick that only d wants, and the repair is EFX₀ for one choice only: the agent **off the RF path** (its pick
+is unchanged by RF), which is also the one whose pick d values more. So at n ≥ 5, Lemma RF-B needs this tie-break.
+
 **Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every
 strict connected k = 4 core, at every serial-dictatorship order o whose picks form a maximum matching and fail OC₁,
 the receiver u is unique, and the order (u, o − u) has maximum-matching picks that satisfy OC₁. With K4.SDC.MAXSD this
@@ -795,6 +803,7 @@ python3 k4/girth/oc1_residue.py 2                               # §7 Lemma DEMO
 python3 k4/girth/oc1_rfrot.py                                   # §7 consistency with TTC's RF-ROT -> results/k4_girth_oc1_rfrot.log
 python3 k4/girth/oc1_rf_a2.py                                   # §7 residue A2 explicitly -> results/k4_girth_oc1_rf_a2.log
 python3 k4/girth/oc1_r2n5.py                                    # §7 RF and DEMOTE at the two-receiver n = 5 starts -> results/k4_girth_oc1_r2n5.log
+python3 k4/girth/oc1_rf_b_check.py                              # §7 third check of oc1-hall's repair for residue B -> results/k4_girth_oc1_rf_b_check.log
 ```
 Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
 partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).
