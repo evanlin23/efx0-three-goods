@@ -1220,3 +1220,9 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
     (S1′), 200,734 starts.
   - 3,267 starts have two receivers, so the statement's copied clause "exactly one receiver" is dropped. It
     contradicted K4.SDC.R2.N5 and was my error in burst 12.
+
+### 2026-11-27 11:34 UTC: burst 14 (single-session mode)
+- Merged #183.
+- Own angle (light): FAIL-STRUCT₀ at the named starts outside the exports (`k4/sdc/failstruct_extra.py`). The k = 5
+  failing starts N3K5, n3_m6_93 and RF5, and the k = 4 set-twin start #440, all have |D_T| = 2 with competing junk
+  (S1′).
