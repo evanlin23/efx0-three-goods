@@ -587,3 +587,24 @@ So B\*'s condition (iii) is needed only because B\* uses owner k. Both gaps need
 owner other than k, or none, so that agents sharing k's pair die by Lemma 4. Then credit the agents the chain
 releases: chain agents that receive their top, and t lifted above the goods it froze. The draft-level counting of B\*
 does not see releases; that is where a proof must go.
+
+**The two-terminal gap in detail** (`t2gap.py`, `tprime.py`; all 10,304 two-terminal gap drafts at n = 6).
+- *Why B\* fails.* Mostly because an exposed blocker of t has its only need chains ending at the other terminal
+  ("no chain to t"), or because removing one exposed agent leaves the hitting number at |T| (condition (iv)).
+  Shared pairs (condition (iii)) occur in a minority. Exposed agents whose pairs lie in J can be rotated into
+  either terminal, so "no chain to t" hits only blockers.
+- *What repairs.* On every one of them, some rotation into a terminal repairs: a DE trade from an exposed agent of
+  a terminal t into t, as in B\*.
+  - On 9,504 of them some such rotation, followed by LB's upgrades, leaves |J′| ≤ |T′|, so no owner is needed. Every
+    least-ω′ rotation into a terminal does this.
+  - On the other 800 the completion after the rotation needs the exact test: a pair holder's slot, or an owner.
+
+**Conjecture T′ (one move into a terminal).** At every hard perfect draft of a ledger core, some rotation from an
+exposed agent of a terminal t into t has a one-absorber completion. For |T| = 1 and |E_t| ≥ 2 it holds with no owner
+(kgen-n3's T1′), and so does every least-ω′ rotation.
+- T′ holds on all data: every hard perfect draft at n ≤ 5, and the whole n = 6 gap. B\* is its deficit-one case
+  with owner k.
+- Its no-owner form fails, but only where the exact completion is needed:
+  - n = 4: 20 drafts, all with |T| = 1 and covered by B\*;
+  - n = 5, m = 9: 132 with |T| = 1 and 96 with |T| = 2, covered by B\*;
+  - the 800 two-terminal gap drafts above.
