@@ -31,8 +31,11 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
   proof target. In all three replayed examples the owner lies in {x₀, z} ∪ U.
 - **k ≤ 4 is necessary:** PW5 (k = 5) has two receivers and fails. Lemma PL (`claude/k4-ksens`) is the k = 4 count a
   proof must use.
-- **Open:** a proof of R2-C, which is a statement about canonical chains only: Lemma M^c with an owner chosen per
-  case, any rest, frozen slots allowed.
+- **R2 looks like REC-S with an empty second move** (evidence, `r2_ek_*.log`). At every sampled hard start with
+  |U| ≥ 2, the earliest-wanter chain E(k) of REC-S, with a pool pair, repairs in one move, and a receiver can own:
+  79/79 and 466/466.
+- **Open:** a proof of R2-C, or of R2-E (Lemma SD-E reduces the state after E(k) to a perfect start of I⁻), by
+  Lemma M^c with an owner chosen per case, any rest, frozen slots allowed.
 
 ## Status (burst 6): OC₁^max falls at n = 4; two moves always suffice so far, by a pointer rule in the MC2 class
 
@@ -1114,6 +1117,18 @@ the refuted targets as they were stated.
 The form to state as the lemma, **R2-O′**: the absorber, if there is one, is a receiver of Y other than the chain's end
 z, on or off the chain. The certifier is running the strict form, the generous form (owner-free also counts), and
 R2-C ("some canonical chain to a receiver repairs, any owner") on all 1,002 n = 4 cores.
+
+**R2 and REC-S (`proof/k4-oc1max-multi` §12, refereed): the same chain** (`r2_ek.py`).
+- REC-S settles a sharer k by the earliest-wanter chain E(k), with x_l the σ-earliest wanter of Y_{x_{l−1}}, stopping
+  at the first agent whose pick nobody wants. That end is a receiver by definition.
+- **R2-E (evidence):** at every hard perfect start with |U| ≥ 2, for some order σ giving the start, some k ∈ D and some
+  improving pair T ⊆ (J ∪ {Y_z}) ∩ R_k, the state after E(k) (Lemma SD-E's B₁) already has a one-absorber
+  completion, and one with a receiver of Y as owner.
+- It holds at 79/79 hard n = 4 walk starts (`r2_ek_walk_n4.log`), 466/466 n = 6 sample starts (`r2_ek_n6_sample.log`)
+  and all three of the certifier's R2-M / R2-O counterexamples.
+- So, on this evidence, with two receivers REC-S's first step alone repairs, and R2 is REC-S with the second move P′
+  empty.
+- The exhaustive n = 4 check of R2-E has been requested. Sampled data misled once already (R2-M).
 
 **Result:** R2-C is CERTIFIED at n = 4. R2★ fails on 230 cores, and R2-O generous and R2-O′ fail on 9
 (`attempts/k4-ttc-r2-owner-free.md`; the third case of `r2_owner_check.log` replays one of the 9).

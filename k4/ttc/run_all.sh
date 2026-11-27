@@ -95,3 +95,5 @@ MC_DIR=$MC_DIR python3 r2_mc.py walk /tmp/cex.json 300 1 > $L/r2_mc_walk_n4.log
 MC_DIR=$MC_DIR python3 r2_mc.py sweep 2,3,4 100 1 71 > $L/r2_mc_n6_sample.log
 python3 r2_replay_n4.py /tmp/two_move_starts_n4.json.gz > $L/r2_replay_n4.log   # from compute/k4-oc1max-cert a96c877
 MC_DIR=$MC_DIR python3 r2_owner_check.py > $L/r2_owner_check.log
+python3 r2_ek.py walk /tmp/cex.json 300 1 > $L/r2_ek_walk_n4.log
+python3 r2_ek.py sweep 2,3,4 100 1 71 > $L/r2_ek_n6_sample.log
