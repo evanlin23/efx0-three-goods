@@ -1,0 +1,14 @@
+$ python3 k4/p3/fc2cert.py run 4_mg --jobs=1 --limit=1800 --out=results/k4_p3x/fc2/fc2_4_mg.json.gz
+$ python3 k4/oc1cert/run.py 4_mg --jobs=1 --limit=1800 --out=results/k4_p3x/fc2/fc2_4_mg.json.gz
+hypergraphs 112 jobs 1
+4_mg nu=4 n=4 112
+iterations 8111
+result certified 112
+witness kind add (found by the inner) 731
+witness kind chain (found by the inner) 7843
+witness kind picks (found by the inner) 3821
+witnesses kept 41779
+slowest hypergraph 3.70 s ('4_mg', 102)
+time 73 s
+wrote results/k4_p3x/fc2/fc2_4_mg.json.gz
+statement rewritten: FC2 at maximum-matching starts (k4/p3.md section 6, proof/k4-p3): for every type profile and every SD order whose picks form a maximum matching, the picks have a one-absorber EFX0 completion, or an addition or one forest chain (an official chain in which a receiver adds junk only to the base of an agent unfrozen at the picks; no rings) gives bases that have one
