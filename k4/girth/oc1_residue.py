@@ -96,6 +96,32 @@ def check_one(sets, vals, Y2, w, d):
                 assert is_official(st), 'the trade is not an official move'
                 if I.one_absorber(st):
                     return cls, '(T) %s trades with a pick-dangerous agent' % ('d' if r == d else 'another receiver')
+    # (T*) a ring of length 3 through a receiver r: c1 (pick-dangerous) takes {Y'_r, j}, c2 takes Y'_{c1}, r takes
+    # Y'_{c2}; everyone improves (an official ring).  Needed at 32 n = 5 DEMOTE-0 starts on 5_pure#374.
+    for r in sorted(range(n), key=lambda a: a != d):
+        if rl2[r] != 'U':
+            continue
+        for c1 in range(n):
+            if c1 == r or rl2[c1] != 'Dp':
+                continue
+            for c2 in range(n):
+                if c2 in (r, c1):
+                    continue
+                for j in J2:
+                    if j not in v[c1]:
+                        continue
+                    if not (I.V(c1, [Y2[r], j]) > I.V(c1, [Y2[c1]]) and I.V(c2, [Y2[c1]]) > I.V(c2, [Y2[c2]])
+                            and I.V(r, [Y2[c2]]) > I.V(r, [Y2[r]])):
+                        continue
+                    st = [list(b) for b in base]
+                    st[c1] = [Y2[r], j]
+                    st[c2] = [Y2[c1]]
+                    st[r] = [Y2[c2]]
+                    tried += 1
+                    assert is_official(st), 'the 3-ring is not an official move'
+                    if I.one_absorber(st):
+                        return cls, "(T*) a 3-ring through %s, a pick-dangerous agent adding a junk good" % (
+                            'd' if r == d else 'another receiver')
     # (C) a truly dangerous agent k takes an improving junk set H, a head h takes Y'_k plus junk (h improves): first
     # with h = d (the form found at n = 4), then any other head (needed at the n = 5 starts with two receivers)
     for head_is_d in (True, False):

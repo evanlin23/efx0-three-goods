@@ -1,7 +1,7 @@
-$ python3 k4/girth/oc1_residue.py 2
-  ... 50 of 287 chunks, 6 s
-  ... 100 of 287 chunks, 12 s
-  ... 150 of 287 chunks, 16 s
+$ python3 k4/girth/oc1_residue.py 3
+  ... 50 of 287 chunks, 7 s
+  ... 100 of 287 chunks, 13 s
+  ... 150 of 287 chunks, 17 s
   ... 200 of 287 chunks, 21 s
   ... 250 of 287 chunks, 24 s
 n = 4 (all failing orders):

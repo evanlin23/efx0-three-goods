@@ -51,7 +51,7 @@ SINK, PARK, SLACK (general). Everything else below is as marked.
 | K4.GIRTH.DOM | For every labeling, Algorithm 2 (G1 repair) leaves a state with a dominating complete EFX₀ allocation (⟹ TARGET₄) | CONJECTURE (exhaustive at n = 3 by one implementation) | §6, `k4/girth/dom_test.py`, `results/k4_girth_dom_*.log` |
 | K4.GIRTH.OCCYC | Every known OC₁^max failure has pattern P\* (one receiver; a D_T pair sharing two junk goods, or a dangerous–receiver pick swap); "a 2-cycle through two dangerous agents" fails at n = 5 | EVIDENCE | §7, `k4/girth/oc1_cycles.py`, `results/k4_girth_oc1_cycles.log` |
 | K4.GIRTH.RF | Rule RF, per-order form: at every OC₁-failing maximum-matching SD order o, moving a receiver u to the front gives maximum-matching picks that satisfy OC₁ | REFUTED at n = 5 (5_pure#374: the ejection path ends with an agent getting nothing; another order beginning with u works); holds at all 292,080 n = 4 orders (exhaustive via the certified failure list) and 2,567 of 2,569 sampled n = 5 orders. The existence form (some order beginning with a receiver; K4.SDC.RF) survives | §7, `k4/girth/oc1_recvfirst.py`, `results/k4_girth_oc1_recvfirst.log`, `results/k4_girth_oc1_demote_n5.log` |
-| K4.GIRTH.DEMOTE | Lemma DEMOTE: at every RF start, w or d owns a one-absorber completion, or the trade (T) or a 2-agent chain from a truly dangerous agent (C: head d; C′: any head) repairs; residue lemmas DEMOTE-0, DEMOTE-2 | CONJECTURE (holds on all 292,080 n = 4 and 86 n = 5 failing orders, and at the 64 RF starts of the two-receiver n = 5 starts, where (C′) is needed) | §7, `k4/girth/oc1_residue.py`, `results/k4_girth_oc1_residue.log`, `k4/girth/oc1_demote.py`, `results/k4_girth_oc1_demote.log` |
+| K4.GIRTH.DEMOTE | Lemma DEMOTE, uniform statement: at every maximum-matching RF start, w or d owns a one-absorber completion, or a ring through a receiver of length 2 or 3 (T/T*), or a 2-agent chain from a truly dangerous agent (C/C′) repairs | CONJECTURE (no exception: all 292,080 n = 4 orders; at n = 5 the full residue classes DEMOTE-0 (113,484) and (1, 3) (7,733) of the certifier's exports, the 86 stored orders, the 64 two-receiver RF starts, 2,567 sampled orders; DEMOTE-2 at n = 5 covered by oc1-hall's census) | §7, `k4/girth/oc1_residue.py`, `k4/girth/oc1_residue_n5.py`, `results/k4_girth_oc1_residue.log`, `results/k4_girth_oc1_residue_n5.log`, `results/k4_girth_oc1_r2n5.log` |
 | K4.GIRTH.RFPATH | Lemma RF-PATH: moving a receiver u of an SD start (e.g. the last picker) to the front of the order changes the picks only along one ejection path x_1, …, x_ℓ (increasing in the order); every x_i loses value, u gains; the path's end is unfrozen at the new picks (any n, strict additive values) | PROVED (written, not refereed) | §7 |
 
 ---
@@ -768,6 +768,30 @@ is unchanged by RF), which is also the one whose pick d values more. So at n ≥
   (5,7,4,3,6), at once. So RF must be stated as "some order beginning with the receiver" (as the coordinator's
   K4.SDC.RF does by excluding non-maximum vectors), or with a rule for the case where d gets nothing.
 
+**n = 5 residue classes DEMOTE-0 and (1, 3), from the full exports** (split with oc1-hall, which took DEMOTE-2;
+`k4/girth/oc1_residue_n5.py`, `results/k4_girth_oc1_residue_n5.log`). Data: every start of
+`two_move_starts_n5_partial6.json.gz` and `two_move_starts_n5_sel2.json.gz` (`compute/k4-oc1max-cert`; 1,285,930
+starts on 9 hypergraphs, partial lists), every order listed, every receiver. That gives the distinct RF starts
+(1, 0) = DEMOTE-0: 113,484; (1, 2) = DEMOTE-2: 140,111; (1, 3): 7,733; R2's class 1,262,513; U1 2,782; plus 3,460
+where d gets nothing. These are the same numbers as oc1-hall's census.
+- **DEMOTE-0** (113,484):
+  - (i) holds at 71,443. **Every one of them completes by the RF-A1 form** (oc1-hall's Lemma RF-A1): w takes J′
+    except h, and d takes h, its favourite junk good.
+  - The trade (T) with d repairs 42,009.
+  - **32 need a 3-ring (T\*)**: a pick-dangerous agent p takes {Y′_d, j}, a frozen agent f takes Y′_p, and d takes Y′_f,
+    an official ring in which only p adds a junk good. All 32 are on 5_pure#374, with roles (D_T, D_T, U, D, D) at Y and
+    RF path u → d of length 1.
+  - No failure once (T\*) is added.
+- **(1, 3)** (7,733): all are repaired by the chain (C), where a truly dangerous agent takes a junk pair and d takes
+  its pick. All have RF path u → w → d with d taking junk.
+- With (T\*) added (tried after (T), before (C)), the counts on all earlier data are unchanged: 292,080 n = 4 orders,
+  86 stored n = 5 orders, and the 64 two-receiver RF starts.
+
+So the uniform statement at every maximum-matching RF start reads: **(i) w or d owns a one-absorber completion; or
+(T/T\*) a ring through a receiver of length 2 or 3, in which the pick-dangerous agent taking the receiver's pick adds one
+junk good; or (C/C′) a 2-agent chain from a truly dangerous agent taking an improving junk set.** On the complete n = 4
+data and the full n = 5 exports it has no exception.
+
 **Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every
 strict connected k = 4 core, at every serial-dictatorship order o whose picks form a maximum matching and fail OC₁,
 the receiver u is unique, and the order (u, o − u) has maximum-matching picks that satisfy OC₁. With K4.SDC.MAXSD this
@@ -819,6 +843,7 @@ python3 k4/girth/oc1_rf_a2.py                                   # §7 residue A2
 python3 k4/girth/oc1_r2n5.py                                    # §7 RF and DEMOTE at the two-receiver n = 5 starts -> results/k4_girth_oc1_r2n5.log
 python3 k4/girth/oc1_rf_b_check.py                              # §7 third check of oc1-hall's repair for residue B -> results/k4_girth_oc1_rf_b_check.log
 python3 k4/girth/oc1_demote_n5.py two_move_starts_n5_partial6.json.gz 150 7   # §7 DEMOTE and RF at n = 5 -> results/k4_girth_oc1_demote_n5.log
+python3 k4/girth/oc1_residue_n5.py build PARTIAL6 SEL2 OUT.jsonl.gz 3; python3 k4/girth/oc1_residue_n5.py check OUT.jsonl.gz 3   # §7 -> results/k4_girth_oc1_residue_n5.log
 ```
 Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
 partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).
