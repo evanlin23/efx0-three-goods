@@ -47,8 +47,29 @@ ranks a first, and f (Q4) ranks first the double-edge good that e ranks last, an
   9,455 excluded, 20,882 left; by m (candidates → left): 9: 3,488 → 2,590; 10: 8,992 → 6,567; 11: 10,360 → 7,208;
   12: 5,839 → 3,669; 13: 1,490 → 781; 14: 168 → 67.
 - β = 5, n = 7 (its sample of 675): 316 excluded, 359 left.
+- β = 5, every n (`k4/twins_count.py`: `k4/mincex_shapes.py`'s pipeline as the hunt session's `mc_n.py` runs it,
+  genbg's Γ′ list, K4.MC3, K4.MC5's structural prune and px domain cuts, isomorphs merged, with K4.MC8 added at the Γ′
+  level by `twins_filter.gamma_prune`, which agrees with `twins_filter.excluded` on all 36,570 cores tested). Logs
+  `results/k4_twins/count_n<n>_b5.log`, lists `results/k4_twins/mc_n<n>_b5_mc8.json.gz`. Single implementation of the
+  pipeline (it reproduces the 20,882 of n = 6 found by filtering the hunt session's own list):
 
-The counting bound n ≤ 3(β − 1) of K4.MC4 counts P3 incidences, so K4.MC8 does not change it.
+  | n | before K4.MC8 (hunt session's counts) | after |
+  |---|---|---|
+  | 6 | 30,337 | 20,882 |
+  | 7 | 122,006 | 78,118 |
+  | 8 | – | 152,568 |
+  | 9 | – | 156,162 |
+  | 10 | – | 78,616 |
+
+*Domain cuts.* Applying K4.MC5's px cuts and then K4.MC8's partial double-edge cuts (`twins_filter.cut_domains`, the
+uncovered files above) empties the domains of only a few more candidates: 217 of the 20,882 at β = 5, n = 6; 6 of the
+359 in the n = 7 sample; 8 of the 3,166 at β = 4. The profile totals drop by up to about 40% (single implementation;
+scratch script, not committed: the cut function is `twins_filter.cut_domains`).
+
+The counting bound n ≤ 3(β − 1) of K4.MC4 counts P3 incidences, so K4.MC8 does not change it. (In its extremal case
+every E3 agent has one P3 neighbour through a degree-2 good and its two other incidences are degree-2 goods shared with
+E3 agents, so the E3 agents form disjoint cycles through degree-2 goods; K4.MC8 rules out the cycles of length 2, and
+length ≥ 3 remains.)
 
 ## 2. Configurations and why they reduce
 

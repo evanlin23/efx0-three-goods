@@ -148,6 +148,42 @@ def drop_gadget(cfg):
     return [R4.Reduction(cfg, 'DROP-g0', Sp, Ip, source=True)]
 
 
+class BlockReduction(R4.Reduction):
+    """A reduction whose extension search keeps each gadget agent's moved items together (they go, as one block, to one
+    agent of S or to one free outside bundle). A restriction of reduce4's search: every extension it yields is one that
+    reduce4 would also yield (same domination checks), so certificates are checked as usual; it only finds fewer."""
+
+    def extensions(self, Yb, Ob, src):
+        cfg = self.cfg
+        S = cfg.agents
+        Yall = list(Yb.values()) + Ob
+        Ysrc = None if src is None else (Yb[src[1]] if src[0] == 'sp' else Ob[src[1]])
+        blocks_mv = [[x for x in Yb[s] if x not in self.Ip] for s in sorted(Yb)]
+        blocks_mv = [b for b in blocks_mv if b]
+        ipblocks = [k for k, b in enumerate(Ob) if any(x in self.Ip for x in b) or src == ('O', k)]
+        Ibase = [[x for x in b if x not in self.Ip] for b in Ob]
+        free = [k for k in ipblocks if not self.U(Ob[k]) and any(x in self.Ip for x in Ob[k])]
+        dest = S + [('O', k) for k in free]
+        Ig = sorted(cfg.I)
+        choices = [S + [('O', k) for k in ipblocks] for g in Ig]
+        Udom = [self.U(B) for B in Yall] + ([self.U(Ysrc)] if Ysrc is not None else [])
+        for mv in itertools.product(dest, repeat=len(blocks_mv)):
+            Xs0 = {s: [] for s in S}
+            Ib0 = [list(b) for b in Ibase]
+            for blk, d in zip(blocks_mv, mv):
+                (Ib0[d[1]] if isinstance(d, tuple) else Xs0[d]).extend(blk)
+            if any(len(self.U(B)) >= 2 and not any(self.U(B) <= u for u in Udom) for B in list(Xs0.values()) + Ib0):
+                continue
+            for ch in itertools.product(*choices):
+                Xs = {s: list(Xs0[s]) for s in S}
+                Ox = [list(b) for b in Ib0]
+                for g, c in zip(Ig, ch):
+                    (Ox[c[1]] if isinstance(c, tuple) else Xs[c]).append(g)
+                if not all(self.dominated(Xs[s], Yall, Ysrc) for s in S): continue
+                if not all(self.dominated(Ox[k], Yall, Ysrc) for k in ipblocks): continue
+                yield Xs, Ox
+
+
 def gadget_menu(cfg, nz, jobs):
     """One-agent gadgets h on T + nz gadget goods, T = D (or every subset of D of size 4 - nz when |D| + nz > 4), every
     class of the menu: list of (ok array menu x profiles, goods, menu)."""
