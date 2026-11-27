@@ -70,3 +70,21 @@ hypergraphs 3988 for m in [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 ... 3400 hypergraphs, 1424 s
 ... 3450 hypergraphs, 1488 s
 ... 3500 hypergraphs, 1537 s
+... 3550 hypergraphs, 1590 s
+... 3600 hypergraphs, 1660 s
+... 3650 hypergraphs, 1765 s
+... 3700 hypergraphs, 1928 s
+... 3750 hypergraphs, 1991 s
+... 3800 hypergraphs, 2071 s
+... 3850 hypergraphs, 2144 s
+... 3900 hypergraphs, 2295 s
+... 3950 hypergraphs, 2440 s
+n 5 m 5: hypergraphs 830, profiles 12582784, max starts 48579138, complete at the picks 48579138, one chain 0, FAIL 0
+n 5 m 6: hypergraphs 1203, profiles 33940320, max starts 128529231, complete at the picks 128529231, one chain 0, FAIL 0
+n 5 m 7: hypergraphs 1071, profiles 51382080, max starts 171279954, complete at the picks 169000476, one chain 2279478, FAIL 0
+n 5 m 8: hypergraphs 600, profiles 44816256, max starts 125266916, complete at the picks 124050112, one chain 1216804, FAIL 0
+n 5 m 9: hypergraphs 224, profiles 25470720, max starts 59541920, complete at the picks 59105692, one chain 436228, FAIL 0
+n 5 m 10: hypergraphs 52, profiles 8584704, max starts 16941248, complete at the picks 16825132, one chain 116116, FAIL 0
+n 5 m 11: hypergraphs 8, profiles 1990656, max starts 3412992, complete at the picks 3398960, one chain 14032, FAIL 0
+total: hypergraphs 3988, profiles 178767520, max starts 553551399, complete at the picks 549488741, one chain 4062658, FAIL 0, witnesses 245578, hit 553305821
+time 2564 s

@@ -3,6 +3,7 @@
     python3 k4/ksens/kcegar_batch.py genbg n k D [m ...] [--jobs=4] [--limit=SEC]    every connected hypergraph with n
                                                                                       agents, each valuing <= k goods
     python3 k4/ksens/kcegar_batch.py named D [--jobs=4] [--limit=SEC]                 the k = 5 list NAMED below
+--any-start: every SD start, not only the maximum-matching ones (the official move rule either way).
 A FAIL is re-checked on its integer representative by ocsat (SAT; empty passes allowed) for D <= 1, by ocseq (SAT, D
 chains) and by brute force (every state of up to D chains from the definition, raw-EFX0 backtracking completions)."""
 import sys, json, time, collections, multiprocessing as mp
@@ -43,7 +44,7 @@ def recheck(R, vals, Y, D, A=1):
 
 def job(task):
     name, sets, D, limit = task; t0 = time.time()
-    C = kcegar.Cegar(sets, D=D); r, w = C.run(time_limit=limit); rec = {'name': name, 'sets': sets, 'D': D, 'result': r,
+    C = kcegar.Cegar(sets, D=D, require_max='--any-start' not in sys.argv); r, w = C.run(time_limit=limit); rec = {'name': name, 'sets': sets, 'D': D, 'result': r,
         'iterations': C.iters, 'kinds': dict(C.kinds), 'types': [len(t) for t in C.T]}
     if r == 'FAIL': rec['recheck'] = recheck(C.R, w[0], w[1], D)
     C.close(); rec['time'] = round(time.time() - t0, 1); return rec

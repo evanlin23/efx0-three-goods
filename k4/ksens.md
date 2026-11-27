@@ -24,7 +24,8 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
   cases Lemma PL leaves open: the base the chain releases, and a danger set built on another agent's pick (§5).
 - **At k = 3 one chain suffices** (§8), exhaustively over every strict profile of every connected hypergraph:
   - from every start, maximum-matching or not, for n ≤ 4, under both move rules;
-  - from every maximum-matching start for n = 5: running, to be added.
+  - from every maximum-matching start for n = 5: 178,767,520 profiles, 553,551,399 starts, 4,062,658 of them
+    needing a chain, no failure.
 - **The ladder is corrected** (§4, §8).
   - Conjecture L (⌊(k − 1)/2⌋ chains) is false at k = 4.
   - Every rung known fits ⌊k/2⌋ chains, i.e. c chains up to k = 2c + 1 (Conjecture L′, §4).
@@ -820,7 +821,8 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
   - every start, maximum-matching or not, for n ≤ 4, under the official move rule and with empty passes:
     - n = 3: 25,816 profiles, 44,972 starts, 1,538 of them need a chain;
     - n = 4: 1,885,816 profiles, 4,982,948 starts, 126,994 need a chain;
-  - every maximum-matching start for n = 5: running, to be added.
+  - every maximum-matching start for n = 5 (official rule): 178,767,520 profiles, 553,551,399 starts, 4,062,658
+    need a chain (`k3max_n5.log`, 43 min on 4 CPUs).
 - *Checks.*
   - Every repair is a witness, re-checked under its profile from the raw definitions: strict gains, EFX₀, at most
     one absorber.
