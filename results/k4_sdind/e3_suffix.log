@@ -1,0 +1,68 @@
+$ python3 k4/sdind/e3_suffix.py special
+ORDERS DIFFER Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks [3, 6, 7, 5] ok [(0, 3, 2, 1), (3, 0, 2, 1)] not ok [(3, 2, 0, 1)]
+ORDERS DIFFER Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks [4, 3, 5, 7] ok [(1, 2, 0, 3), (2, 1, 0, 3)] not ok [(1, 0, 2, 3)]
+ORDERS DIFFER r4253 [[[0, 2, 5, 6], [1, 4, 6], [2, 3, 4, 5], [3, 4, 5, 6]], [[2, 4, 10, 7], [2, 4, 3], [4, 5, 8, 2], [2, 6, 10, 7]]] picks [5, 4, 3, 6] ok [(0, 1, 2, 3), (0, 1, 3, 2), (0, 3, 1, 2), (1, 0, 2, 3)] not ok [(1, 2, 0, 3)]
+final absorber is pi_n 5
+final: no absorber 2
+instances 4
+orders 105
+orders dead-end free 91
+orders ok 94
+starts 12
+starts: every order dead-end free 6
+starts: every order ok 7
+starts: every possible last agent has an ok order 12
+starts: ok depends only on the last agent 7
+starts: some order dead-end free 11
+starts: some order ok 12
+step kind: f takes (from absorber) 11
+step kind: helper takes from absorber 4
+step kind: other 4
+step kind: stay 22
+time 0 s
+$ python3 k4/sdind/e3_suffix.py screen 5
+ORDERS DIFFER GM4-D [[[0, 2, 4, 5], [0, 3, 4, 6], [1, 2, 5, 6], [1, 3, 5, 6]], [[10, 7, 2, 6], [8, 4, 1, 6], [1, 4, 8, 6], [3, 6, 10, 2]]] picks [2, 0, 6, 5] ok [(1, 3, 0, 2), (1, 3, 2, 0), (3, 1, 0, 2), (3, 1, 2, 0)] not ok [(1, 0, 3, 2)]
+ORDERS DIFFER GM4-E [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 10, 6, 2], [3, 4, 8, 2], [4, 2, 3], [2, 4, 3]]] picks [2, 3, 6, 5] ok [(0, 2, 3, 1), (0, 3, 1, 2), (0, 3, 2, 1), (3, 0, 1, 2)] not ok [(3, 1, 0, 2)]
+ORDERS DIFFER GM4-E [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 10, 6, 2], [3, 4, 8, 2], [4, 2, 3], [2, 4, 3]]] picks [4, 5, 2, 6] ok [(1, 2, 0, 3), (1, 2, 3, 0), (1, 3, 2, 0), (2, 1, 0, 3)] not ok [(2, 0, 1, 3)]
+final absorber is pi_n 414
+final: no absorber 66
+instances 167
+orders 3406
+orders dead-end free 2349
+orders ok 3073
+starts 580
+starts: every order dead-end free 333
+starts: every order ok 451
+starts: every possible last agent has an ok order 518
+starts: ok depends only on the last agent 503
+starts: some order dead-end free 481
+starts: some order ok 580
+step kind: f takes (from absorber) 432
+step kind: f takes (from non-absorber) 30
+step kind: helper takes from absorber 179
+step kind: other 44
+step kind: stay 1000
+time 1 s
+$ python3 k4/sdind/e3_suffix.py suite 5
+ORDERS DIFFER c4-exposure-earlier-block-n3m6 [[[0, 1, 2, 3], [2, 4, 5], [3, 4, 5]], [[3, 4, 2, 8], [2, 4, 3], [4, 2, 3]]] picks [3, 4, 5] ok [(0, 1, 2), (0, 2, 1)] not ok [(1, 0, 2)]
+ORDERS DIFFER c4-g2-other-runs-n4m7 [[[0, 2, 5], [1, 5, 6], [2, 3, 4, 6], [3, 4, 6]], [[2, 3, 4], [2, 4, 3], [8, 4, 3, 6], [2, 3, 4]]] picks [5, 1, 2, 6] ok [(0, 3, 1, 2), (0, 3, 2, 1), (3, 0, 1, 2), (3, 0, 2, 1)] not ok [(0, 2, 3, 1), (2, 0, 3, 1), (2, 3, 0, 1)]
+ORDERS DIFFER c4min-moves-neither-n3-m9-n3c50 [[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]], [[4, 7, 10, 2], [4, 2, 3, 8], [2, 4, 3, 8]]] picks [6, 8, 5] ok [(0, 1, 2), (1, 0, 2)] not ok [(1, 2, 0)]
+final absorber is pi_n 387
+final: no absorber 61
+instances 157
+orders 3529
+orders dead-end free 2193
+orders ok 3107
+starts 529
+starts: every order dead-end free 266
+starts: every order ok 392
+starts: every possible last agent has an ok order 457
+starts: ok depends only on the last agent 452
+starts: some order dead-end free 419
+starts: some order ok 529
+step kind: f takes (from absorber) 425
+step kind: f takes (from non-absorber) 31
+step kind: helper takes from absorber 166
+step kind: other 32
+step kind: stay 904
+time 19 s

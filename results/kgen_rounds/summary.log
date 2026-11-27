@@ -1,0 +1,18 @@
+campaign1 (ROUND+ climbs, counts only first)            logs  27  climb rounds   168  distinct failing starts  17 {(4, 7): 10, (5, 8): 4, (5, 9): 3}
+campaign2 (ROUND+, margin)                              logs  52  climb rounds   372  distinct failing starts  21 {(4, 7): 13, (5, 9): 8}
+campaign3 ROUND+ (n = 4, m = 8-12; n = 5, m = 8-10)     logs  35  climb rounds   340  distinct failing starts  21 {(4, 8): 2, (4, 9): 1, (4, 12): 2, (5, 8): 9, (5, 9): 4, (5, 10): 3}
+campaign3 ROUND-X                                       logs  18  climb rounds   203  distinct failing starts   2 {(4, 7): 1, (5, 9): 1}
+twins (one or two identical pairs)                      logs  34  climb rounds   296  distinct failing starts  22 {(4, 7): 16, (4, 8): 4, (4, 9): 2}
+small m (n = 4, m = 5, 6)                               logs  10  climb rounds   150  distinct failing starts   0 {}
+eps-lift KEPS = 4, 5                                    logs  30  climb rounds   220  distinct failing starts  71 {(4, 7): 19, (4, 8): 17, (4, 9): 17, (5, 8): 13, (5, 9): 5}
+eps-lift KEPS = 4, every good covered                   logs  32  climb rounds   272  distinct failing starts   2 {(4, 7): 2}
+eps-lift KEPS = 4, cores                                logs  64  climb rounds   544  distinct failing starts   5 {(4, 7): 2, (5, 8): 2, (5, 10): 1}
+eps-lift KEPS = 4, Lemma RED's I' shape                 logs  48  climb rounds   348  distinct failing starts   3 {(5, 8): 1, (5, 9): 2}
+three rounds, exact two-round count (climb3)            logs   4  climb rounds    47  distinct failing starts   0 {}  CAND3 0
+three rounds, phased with margins (climb3)              logs   2  climb rounds     7  distinct failing starts   0 {}  CAND3 0
+eps-lift KEPS = 4, cores, round 2                       logs 108  climb rounds  1152  distinct failing starts  11 {(4, 7): 9, (5, 8): 1, (5, 9): 1}
+k = 4 cores with zeros, OC1 (zclimb)                    logs  22  climb rounds   528  distinct failing starts  68 {(4, 7): 65, (5, 9): 2, (5, 10): 1}
+k = 4 cores with zeros, OC1' (zclimb ZCLASS=OC1P)       logs  21  climb rounds   420  distinct failing starts   0 {}
+k = 4 cores with zeros, OC1' rounds 2-3 (n = 4-7)       logs  22  climb rounds   380  distinct failing starts   0 {}
+k = 4 cores with zeros, OC1 at n = 6                    logs   4  climb rounds    32  distinct failing starts   1 {(6, 12): 1}
+positive values, OC1' (zclimb ZFREE=1)                  logs   7  climb rounds    85  distinct failing starts  10 {(4, 7): 3, (4, 8): 4, (5, 9): 3}

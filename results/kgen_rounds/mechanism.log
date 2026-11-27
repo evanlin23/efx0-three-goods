@@ -1,0 +1,8 @@
+('RND1', 4, 7, 'all MD starved') 29
+('RND1', 4, 8, 'all MD starved') 6
+('RND1', 4, 9, 'all MD starved') 3
+('RND1', 5, 8, 'all MD starved') 9
+('RND1', 5, 9, 'all MD starved') 12
+('RNDX1', 4, 7, 'all MD starved') 1
+('RNDX1', 5, 9, 'all MD starved') 1
+distinct failing starts 61

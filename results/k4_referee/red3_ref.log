@@ -1,0 +1,2 @@
+{"source": "MAX3 / RED3 N=400 kmax=3 seed=1", "red1_tests": 38678, "red2_moves": 16794, "red3_completions": 1746427, "starts": 38678}
+{"source": "MAX3 / RED3 N=150 kmax=4 seed=2", "red1_tests": 10768, "red2_moves": 4748, "red3_completions": 127354, "starts": 10768}

@@ -1,0 +1,6 @@
+$ python3 k4/sdc/oc1_max_orders.py ../../results/kgen_rounds/c4k.json
+instance 0 nu 4 [(('max', 'OC1 fails'), 6), (('max', 'one move repairs'), 12), (('max', 'picks complete'), 6)]
+('max', 'OC1 fails') 6
+('max', 'one move repairs') 12
+('max', 'picks complete') 6
+instances where some maximum-matching order fails OC1: [0]

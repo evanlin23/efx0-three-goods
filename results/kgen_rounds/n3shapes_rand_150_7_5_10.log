@@ -1,0 +1,15 @@
+$ python3 kgen/rounds/n3shapes.py rand 150 7 5 10
+generic {'K': 212, 'H/S': 2, 'S only': 1}
+small {'K': 265, 'H/S': 2, 'S only': 2}
+ident {'K': 900}
+near {'K': 742, 'S only': 2}
+twotype {'K': 398, 'H/S': 10}
+threetype {'K': 423, 'H/S': 4}
+tops {'K': 150}
+pw {'H/S': 129, 'K': 300, 'H only': 21}
+bigsmall {'K': 219, 'H/S': 17, 'S only': 2, '3-agent: R3 only': 1, 'H only': 1}
+  example 3-agent: R3 only [[2, 42, 584, 29, 58, 1, 44], [22, 37, 9, 46, 527, 19, 511], [15, 21, 593, 58, 860, 45, 9]] order (1, 2, 0) {'R3': 47}
+lex {'K': 231}
+corr {'K': 431, 'H/S': 11, 'S only': 19}
+pairs {'K': 229, 'H/S': 5}
+TOTAL {'K': 4500, 'H/S': 180, 'S only': 26, 'H only': 22, '3-agent: R3 only': 1}

@@ -1,0 +1,49 @@
+$ python3 k4/sdind/e6_orders.py special
+ORDER RULE FAILS frozen-first Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks [4, 3, 5, 7] pi (1, 0, 2, 3)
+ORDER RULE FAILS dangerous-first Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks [4, 3, 5, 7] pi (1, 0, 2, 3)
+dangerous-first ok 11
+every frozen-block-first order ok 10
+frozen-first ok 11
+frozen-last ok 11
+index ok 11
+instances 4
+most-wanted-first ok 11
+orders with frozen block first exist 12
+some frozen-block-first order ok 12
+some order ok 12
+starts 12
+time 0 s
+$ python3 k4/sdind/e6_orders.py screen 5
+ORDER RULE FAILS frozen-first c4min-pareto-n3-m7 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[3, 2, 10, 6], [8, 4, 2, 3], [3, 2, 6, 10]]] picks [2, 4, 6] pi (0, 1, 2)
+ORDER RULE FAILS dangerous-first c4min-pareto-n3-m7 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[3, 2, 10, 6], [8, 4, 2, 3], [3, 2, 6, 10]]] picks [2, 4, 6] pi (0, 1, 2)
+ORDER RULE FAILS frozen-first c4min-phi-n4-m8-n4pc72 [[[0, 2, 4, 7], [1, 5, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], [[3, 4, 2, 8], [3, 6, 10, 2], [4, 8, 3, 6], [4, 8, 6, 5]]] picks [2, 6, 7, 5] pi (3, 2, 0, 1)
+ORDER RULE FAILS dangerous-first c4min-phi-n4-m8-n4pc72 [[[0, 2, 4, 7], [1, 5, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], [[3, 4, 2, 8], [3, 6, 10, 2], [4, 8, 3, 6], [4, 8, 6, 5]]] picks [2, 6, 7, 5] pi (3, 2, 0, 1)
+dangerous-first ok 533
+every frozen-block-first order ok 492
+frozen-first ok 533
+frozen-last ok 525
+index ok 524
+instances 167
+most-wanted-first ok 533
+orders with frozen block first exist 580
+some frozen-block-first order ok 580
+some order ok 580
+starts 580
+time 2 s
+$ python3 k4/sdind/e6_orders.py suite 5
+ORDER RULE FAILS frozen-first c4min-pareto-n3-m7 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[3, 2, 10, 6], [8, 4, 2, 3], [3, 2, 6, 10]]] picks [2, 4, 6] pi (0, 1, 2)
+ORDER RULE FAILS dangerous-first c4min-pareto-n3-m7 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[3, 2, 10, 6], [8, 4, 2, 3], [3, 2, 6, 10]]] picks [2, 4, 6] pi (0, 1, 2)
+ORDER RULE FAILS frozen-first c4min-phi-n4-m8-n4pc72 [[[0, 2, 4, 7], [1, 5, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], [[3, 4, 2, 8], [3, 6, 10, 2], [4, 8, 3, 6], [4, 8, 6, 5]]] picks [2, 6, 7, 5] pi (3, 2, 0, 1)
+ORDER RULE FAILS dangerous-first c4min-phi-n4-m8-n4pc72 [[[0, 2, 4, 7], [1, 5, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], [[3, 4, 2, 8], [3, 6, 10, 2], [4, 8, 3, 6], [4, 8, 6, 5]]] picks [2, 6, 7, 5] pi (3, 2, 0, 1)
+dangerous-first ok 474
+every frozen-block-first order ok 431
+frozen-first ok 474
+frozen-last ok 467
+index ok 467
+instances 157
+most-wanted-first ok 474
+orders with frozen block first exist 529
+some frozen-block-first order ok 529
+some order ok 529
+starts 529
+time 22 s
