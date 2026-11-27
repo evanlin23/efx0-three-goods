@@ -23,7 +23,7 @@
    first phi with one.  With argument 3, a step may be a composite of three moves (the third pass runs only on states
    still stuck after two).  With ROT = 1 a rotation of the bundles along any cycle of agents also counts as one local
    move.  With SUB = 1, giving a set of goods of one holder (an agent or the pool) to one agent is also one move.
-   cc -O2 -o gstar_measure gstar_measure.c;  ./gstar_measure [RADIUS=2] [ROT=0] [ONLY=-1] [SUB=0] [NOAUG=0] < input */
+   cc -O2 -o gstar_measure gstar_measure.c;  ./gstar_measure [RADIUS=2] [ROT=0] [ONLY=-1] [SUB=0] [NOAUG=0] [SLACK=0] [OFF=0] < input */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,7 +34,7 @@ static int n, m;
 static long val[MAXN][MAXM];
 static long NS;
 static unsigned char *ok;
-static int RADIUS = 2, ROT = 0, ONLY = -1, SUB = 0, NOAUG = 0, SLACK = 0;
+static int RADIUS = 2, ROT = 0, ONLY = -1, SUB = 0, NOAUG = 0, SLACK = 0, OFF = 0;
 static int ncyc, cyclen[512], cyc[512][MAXN];
 static long stuck3fixed[NPHI];
 
@@ -98,13 +98,16 @@ static int nb_count; static long nb_buf[4096];
 static void gen_cycles(void);
 static void neighbours(const int *own) {
     int o[MAXM]; nb_count = 0;
-    for (int g = 0; g < m; g++) for (int b = 0; b < n; b++) if (b != own[g]) { memcpy(o, own, sizeof(int) * m); o[g] = b; nb_buf[nb_count++] = encode(o); }
+    for (int g = 0; g < m; g++) for (int b = 0; b < n; b++) if (b != own[g]) { if ((OFF & 32) && own[g] < n) continue;
+        memcpy(o, own, sizeof(int) * m); o[g] = b; nb_buf[nb_count++] = encode(o); }
     for (int g = 0; g < m; g++) for (int h = g + 1; h < m; h++) if (own[g] != own[h]) {
+        int withpool = own[g] == n || own[h] == n; if ((OFF & 1) && !withpool) continue; if ((OFF & 2) && withpool) continue;
         memcpy(o, own, sizeof(int) * m); o[g] = own[h]; o[h] = own[g]; nb_buf[nb_count++] = encode(o); }
-    for (int a = 0; a < n; a++) for (int b = a + 1; b < n; b++) {
+    if (!(OFF & 4)) for (int a = 0; a < n; a++) for (int b = a + 1; b < n; b++) {
         for (int g = 0; g < m; g++) o[g] = own[g] == a ? b : own[g] == b ? a : own[g]; nb_buf[nb_count++] = encode(o); }
     if (SUB) {   /* subset transfers: a set of two or more goods of one holder (an agent or the pool) to another agent */
         for (int h = 0; h <= n; h++) {
+            if ((OFF & 8) && h == n) continue; if ((OFF & 16) && h < n) continue;
             int gs[MAXM], c = 0; for (int g = 0; g < m; g++) if (own[g] == h) gs[c++] = g;
             if (c < 2) continue;
             for (int mask = 1; mask < (1 << c); mask++) { if (__builtin_popcount(mask) < 2) continue;
@@ -112,7 +115,7 @@ static void neighbours(const int *own) {
                     memcpy(o, own, sizeof(int) * m); for (int t = 0; t < c; t++) if (mask >> t & 1) o[gs[t]] = b;
                     if (nb_count >= 4000) { fprintf(stderr, "neighbour buffer full (n %d m %d)\n", n, m); exit(3); }
                     nb_buf[nb_count++] = encode(o); } } } }
-    if (ROT) {   /* rotations of bundles along every cycle of 3 or more agents (2-cycles are the trades above) */
+    if (ROT && !(OFF & 64)) {   /* rotations of bundles along every cycle of 3 or more agents (2-cycles are the trades above) */
         for (int c = 0; c < ncyc; c++) {
             int to[MAXN]; for (int a = 0; a < n; a++) to[a] = a;
             for (int t = 0; t < cyclen[c]; t++) to[cyc[c][t]] = cyc[c][(t + 1) % cyclen[c]];
@@ -143,11 +146,15 @@ int main(int argc, char **argv) {
     if (argc > 3) ONLY = atoi(argv[3]);   /* evaluate only phi0 and phi ONLY (the others are reported as 0); -1: all */
     if (argc > 4) SUB = atoi(argv[4]);    /* 1: a set of goods given by one holder to one agent is one move */
     if (argc > 5) NOAUG = atoi(argv[5]);  /* 1: skip phi0 (reported as 0); with ONLY, a state is done once phi ONLY is */
-    if (argc > 6) SLACK = atoi(argv[6]);  /* 1 (needs ONLY >= 1): at each state with no improving single move, count the
+    if (argc > 6) SLACK = atoi(argv[6]);  /* 1 (needs ONLY >= 0): at each state with no improving single move, count the
                                              improving composites of two moves.  Reports "slack R1MIN MIN NMIN R1STUCK":
                                              the least number of improving single moves at a state; the least number of
                                              improving two-move composites at a state with none (MIN, -1 if no such
                                              state), how many states attain it, and how many states have none */
+    if (argc > 7) OFF = atoi(argv[7]);    /* move kinds switched off (bitmask): 1 swaps of two agents' goods, 2 swaps with
+                                             the pool, 4 trades, 8 set transfers from the pool, 16 set transfers between
+                                             agents, 32 single-good moves between agents (placements stay), 64 rotations of
+                                             three or more agents */
     while (scanf("%d %d", &n, &m) == 2) {
         if (n > MAXN || m > MAXM) { fprintf(stderr, "instance too large: n %d m %d (MAXN %d MAXM %d)\n", n, m, MAXN, MAXM); return 2; }
         memset(val, 0, sizeof val);
@@ -166,7 +173,7 @@ int main(int argc, char **argv) {
             if (ONLY >= 0) { for (int K = 0; K < NPHI; K++) if (K != ONLY && K != 0) { done[K] = 1; left--; } }
             if (NOAUG && ONLY != 0) { done[0] = 1; left--; }
             neighbours(own); int c1 = nb_count; long first[4096]; memcpy(first, nb_buf, sizeof(long) * c1);
-            if (SLACK && ONLY >= 1) {
+            if (SLACK && ONLY >= 0) {
                 long r1 = 0;
                 for (int t = 0; t < c1; t++) { long u = first[t]; if (!ok[u]) continue; int ou[MAXM]; decode(u, ou);
                     int pu = poolsz(ou); if (pu > p) continue; Phi q; phi(ONLY, ou, &q);

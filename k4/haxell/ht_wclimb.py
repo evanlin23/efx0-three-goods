@@ -11,7 +11,8 @@ Climb: a random instance (n agents, m goods, every agent valuing 1..k goods, eve
 1..VMAX); a step changes one value, or moves one good into or out of an agent's relevant set; a step is kept if the
 score does not get worse; RESTART steps without strict improvement start a new instance.
 
-    python3 k4/haxell/ht_wclimb.py n m k [STEPS=2000] [CLIMBERS=4] [VMAX=60] [RESTART=300] [SEED=1] [SUB=1] [MEASURE=1]"""
+    python3 k4/haxell/ht_wclimb.py n m k [STEPS=2000] [CLIMBERS=4] [VMAX=60] [RESTART=300] [SEED=1] [SUB=1] [MEASURE=1]
+                                     [OFF=0]   (OFF: move kinds switched off, the bitmask of gstar_measure.c)"""
 import sys, os, random, subprocess, time
 import multiprocessing as mpc
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -58,9 +59,9 @@ def mutate(rng, V, n, m, k, vmax):
 
 
 def climber(args):
-    n, m, k, steps, vmax, restart, seed, sub, measure = args
+    n, m, k, steps, vmax, restart, seed, sub, measure, off = args
     rng = random.Random(seed)
-    P = subprocess.Popen([os.path.join(HERE, 'gstar_measure'), '2', '1', str(measure), str(sub), '1', '1'],
+    P = subprocess.Popen([os.path.join(HERE, 'gstar_measure'), '2', '1', str(measure), str(sub), '1', '1', str(off)],
                          stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, bufsize=1)
 
     def score(V):
@@ -93,18 +94,19 @@ if __name__ == '__main__':
     a = dict(x.split('=') for x in sys.argv[4:] if '=' in x)
     steps = int(a.get('STEPS', '2000')); C = int(a.get('CLIMBERS', '4')); vmax = int(a.get('VMAX', '60'))
     restart = int(a.get('RESTART', '300')); seed = int(a.get('SEED', '1')); sub = int(a.get('SUB', '1'))
-    measure = int(a.get('MEASURE', '1'))
+    measure = int(a.get('MEASURE', '1')); off = int(a.get('OFF', '0'))
     print('$ python3 k4/haxell/ht_wclimb.py', *sys.argv[1:], flush=True)
     t0 = time.time(); allfound = []
     with mpc.Pool(min(C, os.cpu_count() or 1)) as pool:
         for s, best, found in pool.imap_unordered(climber, [(n, m, k, steps, vmax, restart, seed * 1000 + c, sub,
-                                                               measure) for c in range(C)]):
+                                                               measure, off) for c in range(C)]):
             print('climber', s, 'hardest score', best[0], 'instance', best[1], flush=True)
             for f in found:
                 print('COUNTEREXAMPLE', f[0], '|', f[1], flush=True)
             allfound += found
     for inst, _ in allfound[:5]:      # re-check without SLACK
-        out = subprocess.run([os.path.join(HERE, 'gstar_measure'), '2', '1', str(measure), str(sub)], input=inst + '\n',
+        out = subprocess.run([os.path.join(HERE, 'gstar_measure'), '2', '1', str(measure), str(sub), '0', '0', str(off)],
+                             input=inst + '\n',
                              capture_output=True, text=True).stdout.split()
         print('recheck', inst, 'phi%d stuck states' % measure, out[out.index('phi%d' % measure) + 1])
     print('counterexamples', len(allfound), 'time %.0f s' % (time.time() - t0))
