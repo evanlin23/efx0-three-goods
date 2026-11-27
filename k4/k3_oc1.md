@@ -20,7 +20,9 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
     starts that complete by its form; (A1-iv) itself fails at 39,075. Refereed CORRECT by oc1-hall.
   - **Lemma NA** (no-absorber completions by compensated singles). By oc1-hall's count, confirmed here, it
     covers all 113,210 at-once DEMOTE-0 starts at n = 5. Refereed CORRECT by oc1-hall.
-- **Open:** RF-A1\*'s facts from Y's hardness.
+- **Open:** RF-A1\*'s facts from Y's hardness. They reduce to a structural theorem, Theorem FAIL-STRUCT (§13.7),
+  which is written down only as a DRAFT statement and has not been checked. Contrapositive evidence for it is in
+  §13.6: 0 of 220,304 fact-breaking perturbations leave Y hard. The session was wound down at this point.
 
 ## Status of burst 5
 
@@ -1165,3 +1167,20 @@ takes RF-T′'s (F1)–(F3)). The census is `rf/a1_hardness_census.py`, `a1_hard
   sense of Lemma D-red (`k4/oc1max_multi.md`; oc1-hall §22). A proof of (A1-i)–(A1-iii) from hardness should run
   through D-red: every chain x → u with x truly dangerous and H₀ the shared pair must fail. These chains have no HEAD
   and no CROWD on this shape, so DEMAND must occur, and DEMAND by the other sharer is (A1-i) + (A1-iii).
+
+**13.7 Theorem FAIL-STRUCT — DRAFT STATEMENT (conjecture; not checked; written at wind-down at the coordinator's
+request).** The single structural theorem to which the RF route's "facts from hardness" items reduce (§13.6).
+*Statement (draft).* Let Y be a maximum-matching SD start in a strict connected k = 4 core at which OC₁ fails. Then
+Y has exactly one receiver u (or, at n ≥ 5, one of the R2-exception shapes, K4.SDC.R2.N5), and Y has one of:
+- **(S1) a shared junk danger pair:** two truly dangerous agents x ≠ y and a pair {g, h} ⊆ J that threatens both
+  (girth's P\*, first branch; oc1-hall §22's n = 4 mechanism; the DEMOTE-0/RF-A1\* shapes of §13.6, with d, k2);
+- **(S2) a dangerous–receiver pick swap:** a dangerous agent x and the receiver u that both value both of
+  Y_x, Y_u (girth's P\*, second branch; the n = 5 "two disjoint conflicts" of `k4/sdc.md` §31);
+- **(S3) a shared pool pair:** two dangerous agents threatened by a pair {j, Y_z} of one junk good and a pick that a
+  chain into the receiver would release (oc1-hall §22, TTC's n = 5 core instance);
+and never the excluded configurations: |D| = 1 (oc1-hall §21's D1 lemmas, proved outside residual cases), and a
+private-top agent with D^full = ∅ (twins' Lemma ABS, refereed; private-top failures conjectured empty, RF-PRIV′).
+*Status.* Not checked here; the intended check is completeness by enumeration on all 112,880 n = 4 failing starts
+and on the n = 5 exports, with (S1)–(S3) as exhaustive cases. The exact forms of (S2) and (S3) need fixing against
+girth's and oc1-hall's definitions before the check. Contributions: girth (P\*), oc1-hall (§21, §22), twins
+(`k4/RFMIN.md` §6 on proof/k4-rf-min: Lemma ABS, ABS′, CH, RF-PRIV′₁), this note (§13.5–§13.6).
