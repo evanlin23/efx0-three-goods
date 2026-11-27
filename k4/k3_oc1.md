@@ -794,6 +794,11 @@ goods. No failure is known:
 With owners N/E/K only, it fails once at n = 7, on a two-terminal draft covered by B\*: there the other terminal
 must own.
 
+*Which owner after the least-ω′ rotation* (`te_sample7_*e*.log`, `te_sample_mixed5_1e.log`): 6,240 hard n = 7 drafts
+and 2,871 sampled (P)-class drafts at n = 5 with a dead good. With the owner restricted to nobody or k, T-ω fails on
+4 of them (1 at n = 7 with |T| = 1, 1 with |T| = 2, 2 in the mixed class). With nobody, k or e it fails once (n = 7,
+|T| = 2). With any owner it never fails. So the owner is almost always k, B\*'s owner, but not always.
+
 **The release bound (R), conjectured.** The least ω′ over the valid Rule E rotations is at most 1. It holds on every
 gap draft with n ≤ 6, 106,368 drafts (`te_release_rules.log`, `te_omega.log`), and the least ω′ is ≤ 0 on most of
 them. (R) reduces T-ω to a small case:

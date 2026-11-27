@@ -8,7 +8,7 @@ cores, certs7:12), every order's draft.  On each hard perfect draft (exact lb2 f
 import sys, os, json, random, collections, time
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 from k3lib import base_of
-from lbtest import upgrade, parts, lb2
+from lbtest import upgrade, parts, lb2, lb2_owners
 from t2k_e import valid_rotations, topo
 from te_rules import results
 from tprime_k import check
@@ -53,6 +53,11 @@ for ci, (sets, m) in enumerate(hypergraphs(src, rng)):
             C[tag + 'least omega\' <= 0 %s' % (mo <= 0)] += 1
             C[tag + 'least omega\' <= 1 %s' % (mo <= 1)] += 1
             if mo > 1: print('OMEGA2', line, 'least omega\'', mo, flush=True)
+            lwk = all(bool(lb2_owners(rk, m, nb, {'none', k})) for (k, p, nb), x in zip(VR, R) if x['om'] == mo)
+            lwke = all(bool(lb2_owners(rk, m, nb, {'none', k, p[-1]})) for (k, p, nb), x in zip(VR, R) if x['om'] == mo)
+            C[tag + 'T-omega with owner none or k %s' % lwk] += 1
+            C[tag + 'T-omega with owner none, k or e %s' % lwke] += 1
+            if not lwk: print('TOMEGA-K', line, flush=True)
             Dp = min(D_of(rk, m, upgrade(rk, m, nb)) for k, p, nb in VR)
             C[tag + "(R') some rotation has D' <= 1 %s" % (Dp <= 1)] += 1
             if Dp > 1: print('RPRIME', line, "least D'", Dp, flush=True)
