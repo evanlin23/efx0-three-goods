@@ -3,12 +3,28 @@
 Workstream `proof/k4-girth` (branch `claude/k4-girth`). Code in `k4/girth/`. Nothing here changes a ledger status;
 the coordinator integrates.
 
-**Status (burst 5, in progress).** Refereed CORRECT by the coordinator's review: Theorem T1, Proposition HT, Lemmas
+**Status (burst 6).** New in this burst (PR #161; #102 merged the earlier bursts):
+- §7 **Lemma ORD (PROVED):** in RF-T's setting σ = (…, d, u), so only u can want Y_d at Y, and RF-T′'s fact (F2)
+  holds with no appeal to hardness. (W-d) reduces to (F1′) v_d(Y_p) + v_d(Y_u) > v_d(Y_d).
+- §7 (F1) and (F3) are *not* consequences of the setting: they fail at 103 and 347 of 454 counterfactual settings.
+  The right target is **Conjecture RF-T-HARD** ("X fails at every trade ⇒ Y is not hard"; 210 of 210). Its sub-case
+  "only (F1′) fails" is **Lemma RF-T-A** (PROVED conditional on (A0)–(A2)). There k = 4 forces u to value no junk,
+  and one official chain gives a complete EFX₀ allocation.
+- §7 **Lemma XD (PROVED):** with (F1), the chain "p takes {g, j}, d takes Y_p" plus "Y_d to u" is EFX₀ with only z
+  left. So hardness blocks every placement of z, which gives valuation facts. At every one of the 113,452 n = 5
+  DEMOTE-0 starts the block at d is u: (U+) v_u(Y_p) > v_u(Y_u) + v_u(Y_d), so R_u = {t, Y_u, Y_d, Y_p} (k = 4).
+- §7 **One-receiver σ-maximal starts** (coordinator's question): no OC₁ failure in 560,880 profiles. NA / owner d /
+  the 3-ring certificate cover 267 of 311 (1, 0) vectors. RF-A1\* is never needed and RF-T′ never applies. The other
+  44 need trades outside RF-T's shape, chains with a pick-dangerous tail (a form outside DEMOTE), or two-junk trades.
+- §6 pure n = 4 DYN∃: **PARTIAL**, 170 of 219 cores certified, no failure. The run was stopped at the session
+  wind-down; resume with `--skip-done` (command at the end of the log).
+
+**Status (burst 5).** Refereed CORRECT by the coordinator's review: Theorem T1, Proposition HT, Lemmas
 SINK, PARK, SLACK (general). Everything else below is as marked.
-- §6 (CERTIFIED, the coordinator's decisive test): **DYN∃ holds on every connected k = 4 core with n ≤ 4 and on every
+- §6 (CERTIFIED, the coordinator's decisive test): **DYN∃ holds on every connected k = 4 core with n ≤ 4 (pure n = 4: 170 of 219 cores, PARTIAL) and on every
   n = 5 core with one 4-good agent**: for every strict profile SOME labeling of LSS's Algorithm 2 (G1 repair) followed
   by dynamic parking with envy-cycle rotation completes. Exhaustive covering of the order types (`k4/girth/dyncert.py`):
-  n = 2, 3 (all), n = 4 with one, two, three 4-good agents (all 783; 3.6·10¹⁰ profiles), pure n = 4 (running), n = 5 with
+  n = 2, 3 (all), n = 4 with one, two, three 4-good agents (all 783; 3.6·10¹⁰ profiles), pure n = 4 (PARTIAL: 170 of 219 cores, run stopped), n = 5 with
   one 4-good agent (all 1,735). No profile where every labeling fails. Independent second covering through `lss.py`
   with symbolic values (`k4/girth/dyncert_sym.py`): n = 2, n = 3 and n = 4 with one 4-good agent agree (all certified).
 - §6 (findings): the n default labelings (choice of vertex 0 only) suffice at n = 3 and on the n = 5 cores with one
@@ -24,7 +40,8 @@ SINK, PARK, SLACK (general). Everything else below is as marked.
 - Earlier bursts: §1 digest (girth ≥ 3 used five times, girth ≥ 4 once, only for 3-cycles through vertex 0); §2
   faithful runs (EVIDENCE); §3 Lemmas SINK, PARK, SLACK, §5 Lemma EC and stuck states (PROVED); §4 Theorem T1,
   Proposition HT (PROVED), PL and LR (REFUTED), LR-dyn (CONJECTURE); §5 DYN evidence and refuted variants.
-- Next: pure n = 4 and the independent covering on samples of the larger classes (running); a second exhaustive
+- Next: the remaining 49 pure n = 4 cores and the independent covering on samples of the larger classes (stopped at
+  the wind-down); a second exhaustive
   encoding of DOM; a proof route for DOM (a completion lemma for Algorithm 2's states).
 
 **Ledger candidates** (for the coordinator; LEDGER.md is not edited here). Proposed IDs:
@@ -45,7 +62,7 @@ SINK, PARK, SLACK (general). Everything else below is as marked.
 | K4.GIRTH.FAITH | Faithful LSS on degree-≤ 4 instances with short cycles: failures by girth use | EVIDENCE | §2, `results/k4_girth_faithful.log`, `attempts/k4-girth-faithful.md` |
 | K4.GIRTH.SINK2 | LSS's orientation + one sink with 2-cycles | REFUTED (n = 2) | `attempts/k4-girth-sink-2cycles.md` |
 | K4.GIRTH.DYNP | DYN without the G1 repair | REFUTED (n = 4 core profile) | `attempts/k4-girth-dyn-plain.md` |
-| K4.GIRTH.DYN4 | DYN∃ (some labeling; Algorithm 2 with the G1 repair, then dynamic parking with envy-cycle rotation) completes on every strict profile of every connected k = 4 core with n ≤ 4, and of every n = 5 core with one 4-good agent | CERTIFIED (pure n = 4 running; independent covering for n ≤ 3 and n = 4 with one 4-good agent) | §6, `k4/girth/dyncert.py`, `k4/girth/dyncert_sym.py`, `results/k4_girth_dyncert_*.log`, `results/k4_girth_dyncert_sym_*.log`, `results/k4_girth_dyncert_selftest.log`, `results/k4_girth_dyncert_xcheck.log` |
+| K4.GIRTH.DYN4 | DYN∃ (some labeling; Algorithm 2 with the G1 repair, then dynamic parking with envy-cycle rotation) completes on every strict profile of every connected k = 4 core with n ≤ 4, and of every n = 5 core with one 4-good agent | CERTIFIED except pure n = 4 (PARTIAL: 170 of 219 cores certified, run stopped); independent covering for n ≤ 3 and n = 4 with one 4-good agent) | §6, `k4/girth/dyncert.py`, `k4/girth/dyncert_sym.py`, `results/k4_girth_dyncert_*.log`, `results/k4_girth_dyncert_sym_*.log`, `results/k4_girth_dyncert_selftest.log`, `results/k4_girth_dyncert_xcheck.log` |
 | K4.GIRTH.UNI | One labeling per core hypergraph works for every profile | REFUTED (n = 3, m = 6) | `attempts/k4-girth-uniform-labeling.md`, `attempts/k4_girth_uniform.py`, `results/k4_girth_dyncert_3_uniform.log` |
 | K4.GIRTH.DYNX | With exchange moves in the parking, every labeling completes | REFUTED (n = 3: 253 of 300 labelings) | `k4/girth/dynx.py`, `results/k4_girth_dynx_3.log` |
 | K4.GIRTH.DOM | For every labeling, Algorithm 2 (G1 repair) leaves a state with a dominating complete EFX₀ allocation (⟹ TARGET₄) | CONJECTURE (exhaustive at n = 3 by one implementation) | §6, `k4/girth/dom_test.py`, `results/k4_girth_dom_*.log` |
@@ -55,6 +72,11 @@ SINK, PARK, SLACK (general). Everything else below is as marked.
 | K4.GIRTH.SINK | SINK form of DEMOTE (joint with oc1-hall): at every maximum-matching RF start, Y′ or the state after one DEMOTE move has an EFX₀ completion with all remaining junk to one a ∈ {w, d}, except at most one junk good to one other agent | CONJECTURE (0 exceptions: all 161,520 n = 4 RF starts; n = 5 DEMOTE-0, (1, 3) and, by oc1-hall, DEMOTE-2 in full; n = 5 R2 and U1 on a 1-in-10 sample) | §7, `k4/girth/oc1_sink.py`, `results/k4_girth_oc1_sink.log`, `results/k4_girth_oc1_sink_n5_r2u1.log` |
 | K4.GIRTH.RFPATH | Lemma RF-PATH: moving a receiver u of an SD start (e.g. the last picker) to the front of the order changes the picks only along one ejection path x_1, …, x_ℓ (increasing in the order); every x_i loses value, u gains; the path's end is unfrozen at the new picks (any n, strict additive values) | PROVED (written, not refereed) | §7 |
 | K4.GIRTH.RFT | Lemma RF-T and Corollary RF-T′: in DEMOTE-0's trade case, the explicit allocation (p: {Y′_d, j}; d: {Y_p, Y_u}; x_{ℓ−1}: {Y_d, z}; the rest along the path) is EFX₀ iff (W-d) and (W-p), and in particular whenever (F1) d wants Y_p at Y, (F2) no off-path agent wants Y_d at Y, (F3) Y_p is valued only by p, d, u | PROVED (refereed CORRECT, per the coordinator: referee item 59); (F1)–(F3) hold for some trade at every n = 5 trade start (42,009), EVIDENCE | §7, `k4/girth/oc1_trade.py`, `results/k4_girth_oc1_trade.log` |
+| K4.GIRTH.ORD | Lemma ORD: in RF-T's setting u = σ_n and d = σ′_n, so only u can want Y_d at Y; hence (F2) holds without hardness | PROVED (written, not refereed); 454 of 454 settings, 306 of 306 one-receiver configurations, EVIDENCE | §7, `k4/girth/oc1_f2_probe.py`, `results/k4_girth_oc1_f2_probe.log` |
+| K4.GIRTH.RFTHARD | Conjecture RF-T-HARD: in RF-T's setting, if the canonical X fails at every valid trade, Y is not an OC₁ failure (it completes at the picks or after a chain with tail p) | CONJECTURE; 210 of 210 counterfactual n = 5 settings; the single rule U-ABSORB at 193 of 210, EVIDENCE | §7, `k4/girth/oc1_rft_hard.py`, `results/k4_girth_oc1_rft_hard.log` |
+| K4.GIRTH.RFTA | Lemma RF-T-A: sub-case "only (F1′) fails": under (A0)–(A2), one official chain (p takes {g, j}, u takes Y_p) and single goods give the EFX₀ allocation X_A; uses k = 4 (u values no junk) | PROVED conditional on (A0)–(A2) (written, not refereed); (A0), (A1) at 25 of 25 trades, (A2) at 24 of 25 | §7 |
+| K4.GIRTH.XD | Lemma XD: in RF-T's setting with (F1), "p takes {g, j}, d takes Y_p" + "Y_d to u" is EFX₀ with only z left; so at a hard Y every placement of z is blocked, giving one valuation inequality each, e.g. (U+) v_u(Y_p) > v_u(Y_u) + v_u(Y_d) or another agent wanting Y_p | PROVED (written, not refereed); (U+) at some trade of all 113,452 n = 5 DEMOTE-0 starts, EVIDENCE | §7, `k4/girth/oc1_xd.py`, `results/k4_girth_oc1_xd.log` |
+| K4.GIRTH.RKMAX1 | One-receiver σ-maximal starts, n = 5: no OC₁ failure; NA / owner d / 3-ring certificate cover 267 of 311 (1, 0) vectors; RF-A1\* never needed, RF-T′ never applies; 44 need trades outside RF-T's shape, chains with a pick-dangerous tail, or two-junk trades | EVIDENCE (560,880 random profiles) | §7, `k4/girth/oc1_rkmax_rand.py`, `results/k4_girth_oc1_rkmax_rand.log`, `results/k4_girth_oc1_rkmax_moves_n5.jsonl.gz` |
 
 ---
 
@@ -517,12 +539,12 @@ increasing agent order, one per vertex 0) first.
 | n = 4, one 4-good agent | 135 | 7,247,232 | 268,107 | all CERTIFIED; independent covering: all CERTIFIED (366,486 runs) | `results/k4_girth_dyncert_4_n4_1.log`, `results/k4_girth_dyncert_sym_4_n4_1.log` |
 | n = 4, two | 309 | 724,847,616 | 5,361,575 | all CERTIFIED | `results/k4_girth_dyncert_4_n4_2.log` |
 | n = 4, three | 339 | 34,971,844,608 | 57,987,455 | all CERTIFIED | `results/k4_girth_dyncert_4_n4_3.log` |
-| n = 4, four (pure) | 219 | (queued) | | | `results/k4_girth_dyncert_4_pure.log` |
+| n = 4, four (pure) | 219 | **PARTIAL: 170 certified, 0 failures** (run stopped; 49 cores not run) | | | `results/k4_girth_dyncert_4_pure.log` |
 | n = 5, one 4-good agent | 1,735 | 574,615,296 | 13,418,885 | all CERTIFIED | `results/k4_girth_dyncert_5_n4_1.log` |
 
 No profile on which every labeling fails was found. The n = 5 row covers every core with one 4-good agent (not a
 sample); the other n = 5 cores (two to four 4-good agents, 29,849 hypergraphs) would need about 10⁷ CPU-seconds in
-Python, so only samples are run (queued).
+Python, so only samples are run (not run: stopped at the wind-down).
 
 **Which labelings are needed.**
 - *Vertex 0 is the only freedom needed so far.* With the n default labelings alone (`--family=default`) every n = 3
@@ -858,7 +880,133 @@ trade with (F1)–(F3) exists at every one of the 42,009 trade starts of DEMOTE-
 trade with (F1)–(F3). So the trade case at n = 5 is closed up to the facts (F1)–(F3), which are now hypergraph and
 order facts about Y: d wants p's pick; nobody off the path wants d's pick; and Y_p's hyperedge is {p, d, u}.
 
-*Open:* (F1)–(F3) from the hardness of Y.
+*Open:* (F1)–(F3) from the hardness of Y. Burst 6 settles (F2) and replaces (F1), (F3) by a weaker target.
+
+**Lemma ORD and (F2) (PROVED, written here, not refereed; any n, strict additive values).** In RF-T's setting,
+σ = (a₁, …, a_{n−2}, d, u): u is the last agent of σ and d the last of σ′. Hence only u can want Y_d at Y, and (F2)
+holds. More generally, every agent other than u is frozen at Y, and every agent other than d is frozen at Y′.
+
+*Proof.* Under serial dictatorship an agent a can want b's pick only if b picks before a: if a picks first, Y_b was
+free at a's turn and a chose Y_a, so v_a(Y_a) > v_a(Y_b). So the last picker of an order is a receiver. Y has the one
+receiver u, so u = σ_n. Y′ has the one receiver d (RF-T's setting; RF-PATH (c) says d is unfrozen), and the last
+picker of σ′ = (u, σ − u) is σ_{n−1}, so d = σ_{n−1}. An agent that wants Y_d at Y picks after d in σ, so it is u.
+u is on the path, so no off-path agent wants Y_d, which is (F2). ∎
+
+*Checks.* In the counterfactual sample below, all 454 RF-T settings have u = σ_n and d = σ′_n. (F2) holds at all of
+them, while Y fails OC₁ at none. A sample of the wider stage "path length ≥ 2, d takes junk" (`k4/girth/oc1_f2_probe.py`,
+`results/k4_girth_oc1_f2_probe.log`; 729 configurations, u = σ_n at all): (F2) holds at all 306 where Y′ has one
+receiver, and fails at 254 of the 423 with |U′| ≥ 2. There the extra receiver is usually the agent that wants Y_d
+(at 231 of 254). So the hypothesis |U′| = 1 is what forces (F2), as the proof says.
+
+*Consequences for RF-T.* With ORD, the proof of Corollary RF-T′ reduces (W-d) to the single inequality
+- **(F1′)** v_d(Y_p) + v_d(Y_u) > v_d(Y_d) (d's X-bundle {Y_p, Y_u} beats Y_d; implied by (F1)).
+
+The off-path agents are handled by (F2), the path agents and u as in that proof. (W-p) can fail only at an agent q ∉
+{p, d, u} that picks after p in σ: either an off-path agent wanting Y_p at Y, or a path agent x_s with v(Y_p) >
+v(X_{x_s}). Agents before p had Y_p free at their turn.
+
+**The right target: "X fails ⇒ Y is not hard"** (counterfactual sample; `k4/girth/oc1_rft_hard.py`,
+`results/k4_girth_oc1_rft_hard.log`; EVIDENCE). (F1) and (F3) are only sufficient for (W-d) and (W-p). The hardness
+of Y should instead give X directly. The sample: 300 random strict balanced profiles per pure n = 5 core with m = 8
+(196,800 profiles), every order σ whose picks Y are perfect with one receiver u, and RF-T's setting at Y′ (path
+length ≥ 2 with d taking a junk good, one receiver d, D_T′ = ∅, a valid trade with J′ ∖ {j} = {Y_u, z}). Y is *not*
+required to fail, and fails at none of the 454 settings found. So this sample shows how Y is repaired whenever X is
+not EFX₀; the claim that hardness forces X rests on the exports, where X works at all 42,009 trade starts.
+- (F1) fails at 103 settings and (F3) at 347; (F2) holds at all 454 (Lemma ORD). So (F1) and (F3) are not
+  consequences of the setting, and their proofs must use hardness.
+- The canonical X is EFX₀ at some trade in 244 settings and fails at every trade in 210. In each of those 210, Y
+  completes at the picks (25) or after an official chain whose tail is p (185: p gives up Y_p for junk). So
+  **Conjecture RF-T-HARD: in RF-T's setting, if X is not EFX₀ at any valid trade, then Y is not an OC₁ failure** holds
+  at 210 of 210. With Lemma RF-T it would close DEMOTE-0's trade case without (F1)–(F3).
+- How X fails, per trade (one trade can fail in several ways): (W-d) at d, i.e. ¬(F1′), 114; (W-p) at x_{ℓ−1} 144, at
+  x₁ ≠ x_{ℓ−1} 20, at an off-path agent 62. Where some agent q wants Y_p at Y, the two-agent chain "p takes {g, j}, q
+  takes Y_p" followed by a one-absorber completion repairs Y at 165 of 201 trades.
+
+**Lemma RF-T-A (sub-case "only (F1′) fails"; PROVED conditional on (A0)–(A2), written here, not refereed; k = 4).**
+RF-T's setting, (W-p) holds and (F1′) fails, i.e. v_d(Y_d) > v_d(Y_p) + v_d(Y_u). Suppose
+- **(A0)** x_{ℓ−1} does not want Y_p at Y;
+- **(A1)** d does not value j, or v_d(g) + v_d(j) < v_d(Y_d);
+- **(A2)** no agent i ∉ {p, u, d} values two of g, j, Y_u together above Y_i.
+
+Then the official chain "p takes {g, j} (and Y_u if p values it), u takes Y_p", followed by the single goods Y_u → p
+and z → u, gives the complete EFX₀ allocation X_A: p {g, j, Y_u}, u {Y_p, z}, every other agent its Y-pick. So Y is
+not an OC₁ failure.
+
+*Proof.* By Lemma ORD every agent but u is frozen at Y, and only u can want Y_d. Some agent wants Y_p (p is frozen),
+and it picks after p in σ. By (W-p), no off-path agent and no x_s with s ≤ ℓ − 2 wants Y_p at Y (for x_s: v(Y_p) ≤
+v(Y_{x_{s+1}}) < v(Y_{x_s})). By (A0) x_{ℓ−1} does not, and d does not, since v_d(Y_d) > v_d(Y_p) + v_d(Y_u). So u
+wants Y_p. Then u values four distinct goods: its top t = Y_{x₁} (x₁ ≠ d, since ℓ ≥ 2), Y_u ≠ t, Y_d and Y_p. With
+k = 4 these are all its goods, so **u values no junk good**.
+
+*The move is official.* p values g: otherwise the trade condition would read v_p(j) > v_p(Y_p), but j is junk, so it
+was free at p's turn in σ and v_p(Y_p) > v_p(j). The tail p takes {g, j} ⊆ J ∩ R_p with v_p({g, j}) > v_p(Y_p), plus
+the freed head pick Y_u if p values it. The head u takes Y_p, which it wants. The free goods are then z, and Y_u if p
+did not take it. They go one each to p and u: a one-absorber completion with no owner.
+
+*X_A is EFX₀.* Singleton bundles threaten nobody. A two-good bundle {a, b} threatens i iff v_i(a) or v_i(b) exceeds
+v_i(X_i). A three-good bundle threatens i iff the two largest of i's values on it sum above v_i(X_i).
+- u's bundle {Y_p, z}. z is junk at Y, so every agent i ≠ u had it free at its turn: v_i(Y_i) > v_i(z), and v_p(X_p)
+  > v_p(Y_p). Y_p threatens nobody: not p (v_p({g, j}) > v_p(Y_p)) and not d (v_d(Y_d) > v_d(Y_p)). Not an off-path
+  agent or x_s with s ≤ ℓ − 2 (shown above), and not x_{ℓ−1} (A0). Each of these holds its Y-pick in X_A.
+- p's bundle {g, j, Y_u}. u values only Y_u of these, and v_u(Y_u) < v_u(Y_p) ≤ v_u(X_u). d values g and Y_p (the
+  trade) and Y_d, and at most one more good. If that good is Y_u: v_d(g) + v_d(Y_u) < v_d(Y_p) + v_d(Y_u) < v_d(Y_d).
+  If it is j: (A1). Otherwise d values only g of the three, and v_d(g) < v_d(Y_d), since g was free at d's turn in σ.
+  Every other agent: (A2). ∎
+
+*Checks* (same sample): the sub-case "only (F1′) fails" occurs at 24 settings (25 trades). u wants Y_p at all 25,
+so (A0) holds, and u values exactly {t, Y_u, Y_d, Y_p}. d never values j, so (A1) holds; d values {g, Y_p} or
+{g, z, Y_p} besides Y_d. X_A is EFX₀ at 24 of the 25 trades, at least one in every setting. The one failure is an
+off-path agent valuing two of {g, j, Y_u} above its pick, i.e. (A2) fails. In all 24 settings the chain "p takes
+{g, j}, u takes Y_p" is a repairing move.
+
+*Remaining for RF-T-HARD:* (A0)–(A2) from hardness, and the cases where (W-p) fails (at x_{ℓ−1}, at x₁, at an
+off-path agent). For the second, the sample suggests one rule, **U-ABSORB**:
+- some agent q wants Y_p at Y, so "p takes {g, j}, q takes Y_p" is an official chain;
+- u absorbs the freed pick Y_q (when q = u, Y_u goes to p instead: the X_A of RF-T-A);
+- z goes to one agent.
+
+It repairs Y at **193 of the 210** settings where X fails at every trade. The first working q is d (76, using (F1)),
+u (40), x_{ℓ−1} (52), x₁ (11) or an off-path agent (14), and z goes to d, p or u. For q = d, u's bundle {Y_u, Y_d}
+is safe exactly because of Lemma ORD (only u wants Y_d) and (F1). Where (W-p) fails at a single agent, the working
+completions of the chain "p takes {g, j}, violator takes Y_p" give the violator's freed pick to u in all but 2 of
+them. The other 17 settings need other chains with tail p.
+
+**Lemma XD (how hardness yields valuation facts; PROVED, written here, not refereed; any n, strict additive values).**
+Assume RF-T's setting and (F1). Then "p takes {g, j}, d takes Y_p" is an official chain at Y. The allocation
+X_D = (p {g, j}, d {Y_p}, u {Y_u, Y_d}, every other agent its Y-pick) is EFX₀ and leaves only z unallocated. Hence,
+**if Y is an OC₁ failure, giving z to any agent b breaks EFX₀.**
+
+*Proof.* Official: the tail p takes {g, j} ⊆ J ∩ R_p (p values g, as in RF-T-A) with v_p({g, j}) > v_p(Y_p). The head
+d takes Y_p with v_d(Y_p) > v_d(Y_d), which is (F1). Only the two-good bundles can threaten anybody.
+- p's bundle {g, j}. g and j are junk at Y, so they were free at every agent's turn in σ: v_i(Y_i) exceeds
+  v_i(g) and v_i(j). Every i ∉ {p, d} has X_D,i ⊇ {Y_i}, and v_d(Y_p) > v_d(Y_d).
+- u's bundle {Y_u, Y_d}. Nobody wants Y_u at Y (u is a receiver). By Lemma ORD only u wants Y_d at Y. Every i ∉
+  {p, d, u} keeps Y_i. p has v_p({g, j}) > v_p(Y_p), which exceeds v_p(Y_u) and v_p(Y_d). d has v_d(Y_p) > v_d(Y_d)
+  > v_d(Y_u).
+
+After the chain, the free goods are Y_d and z. "Y_d to u, z to b" is a one-absorber completion: owner u if b = u,
+else no owner. So at a hard Y every such b fails. ∎
+
+*Consequences at a hard Y.* Adding z never creates a threat by itself: z is junk, so v_i(z) < v_i(Y_i) ≤ v_i(X_D,i),
+and the same bounds hold for p and d. So each placement is blocked by an old good:
+- **(XD-d)** z → d is blocked, so some agent values Y_p above its X_D-bundle. Either u, with v_u(Y_p) > v_u(Y_u) +
+  v_u(Y_d), or an agent outside {p, d, u} that wants Y_p at Y.
+- **(XD-p)** z → p is blocked: some agent values two of g, j, z together above its X_D-bundle.
+- **(XD-u)** z → u is blocked: some agent values two of Y_u, Y_d, z together above its X_D-bundle.
+- **(XD-b)** for every other b, someone values Y_b above its X_D-bundle.
+
+*Checks* (`k4/girth/oc1_xd.py`, `results/k4_girth_oc1_xd.log`; every DEMOTE-0 RF start of the n = 5 exports with
+path length ≥ 2 and d taking junk: 113,452 starts, 113,694 trades in RF-T's shape):
+- (F1) holds at every such trade.
+- The chain is an official move of main's raw checker, and X_D is EFX₀, at all of them. No placement of z completes
+  X_D, as hardness requires.
+- (XD-d) is realized by u, i.e. **(U+) v_u(Y_p) > v_u(Y_u) + v_u(Y_d)**, at 113,452 trades: one at every start.
+  The other 242 trades lie at 242 starts with two trades (p, p′); there the blocker is p′, which wants Y_p.
+- (XD-p) is realized by d (d values two of g, j, z above Y_p) at 113,210 trades and by another agent at 484.
+
+With (U+), k = 4 fixes u's goods: R_u = {t, Y_u, Y_d, Y_p}, and u values no junk. This is the first of RF-T′'s facts
+that is *derived from hardness* rather than observed. The XD placements give one inequality each; the open step is
+to combine them (and the other moves of Y) into (W-p).
 
 **The SINK form of DEMOTE** (CONJECTURE; proposed jointly with oc1-hall; `k4/girth/oc1_sink.py`,
 `results/k4_girth_oc1_sink.log`). At every RF start with maximum-matching picks, Y′ or the state after one DEMOTE move
@@ -889,6 +1037,48 @@ re-coded). Is the RF start Y′ σ-maximal for its profile?
 The failing start Y is never σ-maximal (0 in every class). So at n = 5 the residue classes DEMOTE-0 and (1, 3) never
 arise at a rank-maximal start: a proof of RKMAX would not meet them there. At n = 4 they arise rarely. RF raises σ at
 most but not all RF starts (n = 5 DEMOTE-0: 104,429 of 113,484; (1, 3): all 7,733).
+
+**One-receiver σ-maximal starts at n = 5** (burst 6, coordinator's question after oc1-hall's census, `k4/oc1_hall.md`
+§24.14 on `claude/k4-oc1-hall`, which found σ-maximal vectors with one receiver and |D_T| ∈ {0, 2}, e.g. 5_pure#358).
+Do NA, RF-A1\*, RF-T′ and the 3-ring certificate cover them? `k4/girth/oc1_rkmax_rand.py` regenerates them
+independently: 120 random strict balanced order types per pure n = 5 core (560,880 profiles), all 120 SD orders, the
+maximum-matching vectors, σ as in `k4/girth/oc1_rkmax.py`, and every σ-maximal vector with exactly one receiver d
+(`results/k4_girth_oc1_rkmax_rand.log`; every vector that needs a move, with its repairing moves, in
+`results/k4_girth_oc1_rkmax_moves_n5.jsonl.gz`). The forms are tested intrinsically (at the vector itself) and, for
+RF-A1\*, RF-T′ and the 3-ring, under every *virtual RF* realization: an order τ giving the vector with first picker
+u₀ such that u₀ is a receiver of Y = SD(τ − u₀, u₀), which makes the vector the RF start of (Y, u₀) (the setting of
+RF-PATH and RF-T; Y need not fail). EVIDENCE.
+
+| class (\|U\|, \|D_T\|) | vectors | complete at the picks | one move | OC₁ fails |
+|---|---|---|---|---|
+| (1, 0) | 311 | 250 | 61 | 0 |
+| (1, 1) | 57 | 4 | 53 | 0 |
+| (1, 2) | 7 | 0 | 7 | 0 |
+
+- *(1, 0), at the picks* (250): NA (no owner) at all 136 with |J| ≤ 1; the receiver d owns a one-absorber completion
+  (DEMOTE (i)) at all 114 with |J| ≥ 2. RF-A1\* (owner w ≠ d) is never needed.
+- *(1, 0), one move* (61): the 3-ring certificate (some official 3-ring c₁ → c₂ → d, then d absorbs all remaining
+  junk) covers **17**. RF-T′'s certificate (the canonical X with (F1)–(F3)) applies at **none**, under any virtual RF.
+  The other 44 split as follows:
+  - 23 trades (T) (c₁ pick-dangerous takes {Y_d, j}, d takes Y_{c₁}), not in RF-T's shape;
+  - 1 3-ring (T\*) without the certificate;
+  - **17 chains with a pick-dangerous tail** (|J| = 2: 14; |J| = 3: 3): c ∈ D_p takes all of J, its pick goes to the
+    receiver (11), a frozen agent (5) or another pick-dangerous agent (1). This form is outside DEMOTE's (C), whose
+    tail is truly dangerous: at an RF start of DEMOTE-0, D_T′ = ∅, and the tail is never needed;
+  - **3 two-junk trades**: c takes {Y_d, j, j′}, d takes Y_c (|J| = 3).
+- *(1, 1)* (= U1, Corollary U1): 4 at the picks (owner d); 48 (C), 5 (T). The RF-B form (the head absorbs its old
+  pick and all the junk left) holds at 21.
+- *(1, 2)*: all 7 by (C); the RF-B form holds at 4.
+- *SINK* (absorber w or d of a virtual RF, at the picks or after one DEMOTE move) holds at every vector with |J| ≥ 2
+  except the 20 that need the two new forms. After those, at most one good is left (c takes all of J, or all but one
+  junk good), so the SINK shape holds there trivially.
+- On oc1-hall's 12 logged profiles (`results/k4_girth_oc1_rkmax_hall.log`; their random integer values): (1, 0) 22,
+  all NA (|J| = 1); (1, 2) 5: (C) 4 (RF-B form at 2), and on 5_pure#358 a trade (T) outside the named forms, with SINK
+  holding after it.
+
+So the answer is **no**: on one-receiver σ-maximal starts, NA / owner d / the 3-ring certificate cover 250 + 17 of the
+311 (1, 0) vectors. A proof of RKMAX along these lines also needs (a) the trade (T) outside RF-T's |J| = 3 shape,
+(b) chains with a pick-dangerous tail, (c) two-junk trades; U1 and DEMOTE-2 behave as at RF starts.
 
 **DEMOTE-0 at n = 5, the whole class** (113,484 starts of the full exports). The joint statement with the k3-oc1
 session is **"NA (no owner) at the picks; otherwise RF-T′ or the 3-ring"** (`k4/k3_oc1.md` §13.5 on
@@ -963,6 +1153,11 @@ python3 k4/girth/oc1_trade.py OUT.jsonl.gz 1                    # §7 Lemma RF-T
 python3 k4/girth/oc1_sink.py OUT.jsonl.gz 3                     # §7 the SINK form, n = 4 and n = 5 -> results/k4_girth_oc1_sink.log
 python3 k4/girth/oc1_rkmax.py OUT.jsonl.gz 3                    # §7 residue classes at rank-maximal starts -> results/k4_girth_oc1_rkmax.log
 python3 k4/girth/oc1_tstar.py OUT.jsonl.gz                      # §7 the 32 3-ring starts, explicit certificate -> results/k4_girth_oc1_tstar.log
+RKMAX_OUT=results/k4_girth_oc1_rkmax_moves_n5.jsonl.gz python3 k4/girth/oc1_rkmax_rand.py 120 12 2   # §7 one-receiver sigma-maximal starts -> results/k4_girth_oc1_rkmax_rand.log (~6 min)
+python3 k4/girth/oc1_rkmax_rand.py --from rf_rkmax_rand.log 1   # §7 the same on oc1-hall's logged profiles -> results/k4_girth_oc1_rkmax_hall.log
+python3 k4/girth/oc1_f2_probe.py                                # §7 Lemma ORD / (F2) probe -> results/k4_girth_oc1_f2_probe.log
+python3 k4/girth/oc1_rft_hard.py 300 3 3                        # §7 RF-T-HARD counterfactual sample, Lemma RF-T-A checks -> results/k4_girth_oc1_rft_hard.log (~10 min)
+python3 k4/girth/oc1_xd.py OUT.jsonl.gz                         # §7 Lemma XD on every n = 5 DEMOTE-0 start -> results/k4_girth_oc1_xd.log
 ```
 Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
 partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).

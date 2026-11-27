@@ -1,0 +1,436 @@
+$ python3 k4/haxell/ht_rescue.py results/k4_haxell/wclimb_tight_n4m7k4.log results/k4_haxell/lclimb_seed1_n4m7k4.log results/k4_haxell/lclimb_seed2_n4m7k4.log results/k4_haxell/lclimb_seed4_n4m7k4.log results/k4_haxell/n5climb_r2_s4_m19.log results/k4_haxell/n4core_p2_sample_cert.log SHOW=3
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 132, end states 12, chains 10, sideways 30, through EFX0 4, pool-shrinking 36
+   instance 4 7 3 4 27 5 60 6 46 4 1 23 2 6 4 11 5 28 4 0 41 1 36 3 16 5 32 4 0 58 1 51 4 17 6 44
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 198, end states 20, chains 4, sideways 56, through EFX0 17, pool-shrinking 138
+   instance 4 7 3 4 17 5 56 6 42 4 1 21 2 7 4 12 5 30 4 0 39 1 37 3 19 5 40 3 0 54 4 17 6 40
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, A>P, B>D, D>A, P>B             other  (2 end states)
+   pattern A>B ; P<>A ; R(CA)                       2
+   pattern P<>A ; A>B ; R(CA)                       2
+   pattern A>B ; P<>A ; R(CBA)                      2
+   chain   P>A ; A<>B ; B<>C                        2
+   chain   P>A ; A<>B ; B>C                         1
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 195, end states 16, chains 12, sideways 48, through EFX0 6, pool-shrinking 99
+   instance 4 7 4 1 31 4 17 5 55 6 42 4 1 19 2 6 4 12 5 29 4 0 40 1 37 3 16 5 22 3 0 60 4 30 6 44
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 180, end states 19, chains 3, sideways 54, through EFX0 16, pool-shrinking 120
+   instance 4 7 3 4 20 5 60 6 42 4 1 25 2 7 4 11 5 27 4 0 37 1 36 3 17 5 44 3 0 58 4 37 6 40
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, A>P, B>D, D>A, P>B             other  (2 end states)
+   pattern A>B ; P<>A ; R(CA)                       2
+   pattern P<>A ; A>B ; R(CA)                       2
+   pattern A>B ; P<>A ; R(CBA)                      2
+   chain   P>A ; A<>B ; B<>C                        2
+   chain   P>A ; A<>B ; B>C                         1
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 165, end states 14, chains 11, sideways 42, through EFX0 6, pool-shrinking 69
+   instance 4 7 4 0 29 4 29 5 53 6 30 4 1 22 2 6 4 13 5 27 4 0 38 1 35 3 8 5 32 4 0 48 1 18 4 16 6 42
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 180, end states 19, chains 3, sideways 54, through EFX0 16, pool-shrinking 120
+   instance 4 7 4 0 8 4 17 5 56 6 42 4 1 19 2 5 4 12 5 22 4 0 38 1 36 3 22 5 38 4 0 45 4 23 5 21 6 40
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, A>P, B>D, D>A, P>B             other  (2 end states)
+   pattern A>B ; P<>A ; R(CA)                       2
+   pattern P<>A ; A>B ; R(CA)                       2
+   pattern A>B ; P<>A ; R(CBA)                      2
+   chain   P>A ; A<>B ; B<>C                        2
+   chain   P>A ; A<>B ; B>C                         1
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 183, end states 15, chains 12, sideways 40, through EFX0 9, pool-shrinking 87
+   instance 4 7 4 0 29 4 30 5 55 6 39 4 1 21 2 3 4 12 5 26 4 0 42 1 40 3 10 5 38 3 0 60 4 34 6 45
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 183, end states 21, chains 1, sideways 60, through EFX0 13, pool-shrinking 111
+   instance 4 7 3 4 21 5 60 6 42 3 1 20 2 5 4 9 3 0 38 1 35 3 21 4 0 55 4 33 5 57 6 44
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, C>D, D>B, P>C        other  (2 end states)
+   end state flow A>B, A>C, A>P, B>C, C>D, D>A, P>B        other  (2 end states)
+   pattern A>B ; P<>A ; R(ACD)                      2
+   pattern P<>A ; A>B ; R(ACD)                      2
+   pattern A>B ; P<>A ; R(BCDA)                     2
+   chain   P>A ; A<>B ; B<>C                        1
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 162, end states 14, chains 11, sideways 38, through EFX0 9, pool-shrinking 66
+   instance 4 7 3 4 16 5 56 6 42 4 1 19 2 6 4 12 5 28 4 0 41 1 38 3 13 5 27 4 0 60 1 18 4 38 6 55
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 177, end states 15, chains 11, sideways 44, through EFX0 10, pool-shrinking 81
+   instance 4 7 4 0 52 4 24 5 56 6 40 4 1 27 2 7 4 9 5 29 4 0 36 1 35 3 15 5 22 3 0 60 4 26 6 41
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 183, end states 15, chains 12, sideways 40, through EFX0 9, pool-shrinking 87
+   instance 4 7 3 4 19 5 58 6 48 4 1 21 2 5 4 11 5 26 4 0 31 1 27 3 17 5 12 3 0 58 4 37 6 45
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 330, end states 21, chains 13, sideways 64, through EFX0 17, pool-shrinking 282
+   instance 4 7 3 4 21 5 57 6 46 4 1 21 2 7 4 12 5 28 4 0 40 1 26 4 7 5 33 4 0 60 3 2 4 31 6 40
+   end state flow A>B, B>C, P>A                            path  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   pattern P>A ; A<>B ; A<>C                        8
+   pattern P>A ; A<>B ; B<>C                        8  (chain)
+   pattern P>A ; B<>C ; A<>B                        7
+   chain   P>A ; A>B ; B<>C                         2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 288, end states 24, chains 6, sideways 70, through EFX0 20, pool-shrinking 228
+   instance 4 7 3 4 21 5 60 6 41 4 1 26 2 8 4 16 5 29 4 0 36 1 29 3 4 5 5 4 0 50 4 26 5 53 6 39
+   end state flow A>B, B>C, C>D, P>A                       path
+   end state flow A>B, B>C, P>A                            path
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   pattern P>A ; A<>B ; B<>C                        4  (chain)
+   pattern P>A ; A<>B ; A<>C                        4
+   pattern P>A ; B<>C ; A<>B                        4
+   chain   P>A ; A>B ; B<>C                         1
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 144, end states 13, chains 10, sideways 36, through EFX0 8, pool-shrinking 48
+   instance 4 7 3 4 28 5 60 6 37 4 1 23 2 9 4 10 5 29 4 0 38 1 37 3 21 5 31 4 0 60 1 23 4 29 6 49
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 213, end states 21, chains 4, sideways 60, through EFX0 15, pool-shrinking 153
+   instance 4 7 4 0 33 4 25 5 59 6 41 4 1 22 2 10 4 7 5 33 3 0 37 1 29 3 13 4 0 55 4 26 5 56 6 36
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, C>D, D>B, P>C        other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   pattern A>B[2] ; P>C ; A<>C                      3
+   pattern P>A ; B>C[2] ; A<>B                      3
+   pattern A>B[2] ; P>A ; R(CA)                     3
+   chain   P>A ; A<>B ; B>C[2]                      3
+   chain   P>A ; A<>B ; B<>C                        1
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 198, end states 20, chains 4, sideways 56, through EFX0 17, pool-shrinking 138
+   instance 4 7 3 4 17 5 56 6 43 4 1 19 2 6 4 12 5 28 4 0 37 1 26 3 18 5 37 3 0 58 4 38 6 40
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, A>P, B>D, D>A, P>B             other  (2 end states)
+   pattern A>B ; P<>A ; R(CA)                       2
+   pattern P<>A ; A>B ; R(CA)                       2
+   pattern A>B ; P<>A ; R(CBA)                      2
+   chain   P>A ; A<>B ; B<>C                        2
+   chain   P>A ; A<>B ; B>C                         1
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 165, end states 14, chains 11, sideways 38, through EFX0 8, pool-shrinking 69
+   instance 4 7 4 2 5 4 18 5 55 6 41 4 1 19 2 7 4 11 5 22 3 0 36 1 35 3 9 3 0 58 4 40 6 42
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 294, end states 26, chains 7, sideways 86, through EFX0 17, pool-shrinking 234
+   instance 4 7 4 1 37 4 22 5 60 6 42 4 1 16 2 5 4 6 5 29 4 0 27 1 22 3 2 6 15 4 0 50 4 35 5 53 6 37
+   end state flow A>B, B>C, P>A                            path
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, C>D, D>B, P>C        other  (2 end states)
+   pattern P>A ; A<>B ; B<>C                        4  (chain)
+   pattern P>A ; A<>B ; A<>C                        4
+   pattern P>A ; B<>C ; A<>B                        4
+   chain   P>A ; A>B ; B<>C                         1
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 198, end states 20, chains 4, sideways 60, through EFX0 15, pool-shrinking 138
+   instance 4 7 3 4 18 5 57 6 42 4 1 20 2 6 4 10 5 29 4 0 31 1 30 3 18 5 31 4 0 57 1 33 4 11 6 51
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, A>P, B>D, D>A, P>B             other  (2 end states)
+   pattern A>B ; P<>A ; R(CA)                       2
+   pattern P<>A ; A>B ; R(CA)                       2
+   pattern A>B ; P<>A ; R(CBA)                      2
+   chain   P>A ; A<>B ; B<>C                        2
+   chain   P>A ; A<>B ; B>C                         1
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 162, end states 14, chains 11, sideways 36, through EFX0 5, pool-shrinking 66
+   instance 4 7 4 0 3 4 22 5 45 6 35 4 1 19 2 6 4 12 5 27 4 0 40 1 33 3 11 5 29 4 0 56 1 40 4 19 6 38
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 162, end states 14, chains 11, sideways 38, through EFX0 9, pool-shrinking 66
+   instance 4 7 3 4 27 5 58 6 44 4 1 20 2 5 4 12 5 28 4 0 34 1 22 3 19 5 15 4 0 59 1 16 4 29 6 41
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 144, end states 15, chains 3, sideways 42, through EFX0 12, pool-shrinking 96
+   instance 4 7 3 4 36 5 60 6 44 4 1 27 2 9 4 10 5 30 4 0 43 1 39 3 9 5 42 3 0 59 4 27 6 46
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other
+   pattern A>B ; P<>A ; R(CA)                       2
+   pattern P<>A ; A>B ; R(CA)                       2
+   pattern A>B ; P<>A ; R(CBA)                      2
+   chain   P>A ; A<>B ; B<>C                        2
+   chain   P>A ; A<>B ; B>C                         1
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 198, end states 20, chains 4, sideways 56, through EFX0 17, pool-shrinking 138
+   instance 4 7 3 4 17 5 56 6 42 4 1 19 2 6 4 12 5 29 4 0 39 1 36 3 18 5 39 3 0 60 4 31 6 40
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, A>P, B>D, D>A, P>B             other  (2 end states)
+   pattern A>B ; P<>A ; R(CA)                       2
+   pattern P<>A ; A>B ; R(CA)                       2
+   pattern A>B ; P<>A ; R(CBA)                      2
+   chain   P>A ; A<>B ; B<>C                        2
+   chain   P>A ; A<>B ; B>C                         1
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 180, end states 19, chains 3, sideways 54, through EFX0 16, pool-shrinking 120
+   instance 4 7 3 4 17 5 56 6 42 4 1 23 2 7 4 12 5 29 4 0 37 1 36 3 18 5 45 3 0 58 4 38 6 40
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, A>P, B>D, D>A, P>B             other  (2 end states)
+   pattern A>B ; P<>A ; R(CA)                       2
+   pattern P<>A ; A>B ; R(CA)                       2
+   pattern A>B ; P<>A ; R(CBA)                      2
+   chain   P>A ; A<>B ; B<>C                        2
+   chain   P>A ; A<>B ; B>C                         1
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 183, end states 15, chains 12, sideways 40, through EFX0 9, pool-shrinking 87
+   instance 4 7 3 4 18 5 59 6 44 4 1 18 2 3 4 14 5 21 4 0 47 1 33 3 27 5 20 4 0 55 4 35 5 6 6 40
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 180, end states 16, chains 11, sideways 46, through EFX0 6, pool-shrinking 84
+   instance 4 7 4 1 45 4 26 5 56 6 37 4 1 10 2 3 4 4 5 22 4 0 47 1 34 3 29 5 7 3 0 60 4 31 6 37
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 390, end states 27, chains 12, sideways 90, through EFX0 26, pool-shrinking 330
+   instance 4 7 4 3 1 4 18 5 56 6 42 4 1 26 2 11 4 13 5 29 3 0 37 1 36 5 46 3 0 57 4 17 6 46
+   end state flow A>B, B>C, C>Dx3, P>A                     path
+   end state flow A>B, B>C, P>A                            path  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   pattern P>A ; A<>B ; A<>C                        8
+   pattern P>A ; A<>B ; B<>C                        8  (chain)
+   pattern P>A ; B<>C ; A<>B                        7
+   chain   P>A ; A>B ; B<>C                         2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 144, end states 13, chains 10, sideways 36, through EFX0 6, pool-shrinking 48
+   instance 4 7 3 4 24 5 60 6 39 4 1 18 2 8 4 9 5 24 4 0 44 1 34 3 27 5 19 4 0 60 1 35 4 15 6 49
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 165, end states 14, chains 10, sideways 40, through EFX0 6, pool-shrinking 63
+   instance 4 7 3 4 26 5 49 6 41 4 1 25 2 6 4 13 5 21 4 0 44 1 43 3 4 5 41 4 0 60 4 18 5 48 6 49
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (3 end states)
+   end state flow A>B, A>C, A>P, B>D, D>A, P>B             other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 183, end states 15, chains 12, sideways 42, through EFX0 6, pool-shrinking 87
+   instance 4 7 4 1 27 4 16 5 56 6 44 4 1 19 2 6 4 10 5 27 4 0 37 1 36 3 16 5 27 3 0 59 4 41 6 46
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 180, end states 19, chains 3, sideways 54, through EFX0 16, pool-shrinking 120
+   instance 4 7 3 4 24 5 56 6 44 4 1 26 2 9 4 13 5 30 4 0 45 1 41 3 12 5 45 4 0 57 4 11 5 36 6 47
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, A>P, B>D, D>A, P>B             other  (2 end states)
+   pattern A>B ; P<>A ; R(CA)                       2
+   pattern P<>A ; A>B ; R(CA)                       2
+   pattern A>B ; P<>A ; R(CBA)                      2
+   chain   P>A ; A<>B ; B<>C                        2
+   chain   P>A ; A<>B ; B>C                         1
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 156, end states 14, chains 10, sideways 40, through EFX0 8, pool-shrinking 60
+   instance 4 7 4 1 53 4 23 5 56 6 36 4 1 29 2 16 4 11 5 30 4 0 30 1 24 3 14 5 22 3 0 60 4 26 6 38
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 168, end states 18, chains 3, sideways 48, through EFX0 12, pool-shrinking 108
+   instance 4 7 3 4 30 5 60 6 41 4 1 21 2 7 4 10 5 18 4 0 43 1 42 3 14 5 51 4 0 55 4 22 5 19 6 42
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (4 end states)
+   end state flow A>B, A>C, A>P, B>D, D>A, P>B             other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other
+   pattern A>B ; P<>A ; R(BCA)                      2
+   pattern P<>A ; A>B ; R(BCA)                      2
+   pattern A>B ; R(BCA) ; P<>B                      2
+   chain   P>A ; A<>B ; B<>C                        2
+   chain   P>A ; A<>B ; B>C                         1
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 156, end states 14, chains 10, sideways 36, through EFX0 6, pool-shrinking 60
+   instance 4 7 4 1 33 4 26 5 37 6 15 4 1 26 2 8 4 17 5 28 4 0 39 1 35 3 20 5 19 4 0 60 4 37 5 48 6 51
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 183, end states 15, chains 12, sideways 40, through EFX0 9, pool-shrinking 87
+   instance 4 7 4 2 7 4 24 5 57 6 35 4 1 18 2 1 4 14 5 21 4 0 41 1 33 3 17 5 5 3 0 58 4 25 6 35
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      2
+wclimb_tight_n4m7k4.log n=4 m=7 phi1 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 249, end states 22, chains 21, sideways 46, through EFX0 8, pool-shrinking 57
+   instance 4 7 4 2 9 4 15 5 54 6 47 4 1 24 2 7 4 11 5 28 3 0 43 1 37 3 19 4 0 56 2 9 4 34 6 50
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (4 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (4 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (4 end states)
+   pattern A>B ; A<>B ; P<>B                        8
+   pattern A<>B ; A>B ; P<>B                        8
+   pattern P<>A ; A>B ; A<>B                        8  (chain)
+   chain   P<>A ; A>B[2] ; B>A                      4
+lclimb_seed1_n4m7k4.log n=4 m=7 phi2 state (2, -1, 0, 0, 0, 1, 3) pool 1 | rescuing 3-move composites 270, end states 18, chains 15, sideways 62, through EFX0 16, pool-shrinking 174
+   instance 4 7 4 3 30 4 20 5 55 6 57 4 1 31 3 12 4 5 5 39 3 0 44 1 32 3 29 4 0 60 1 31 2 7 6 43
+   end state flow A>B, B>C, P>A                            path
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>D, D>A, P>B             other  (2 end states)
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   chain   P>A ; A<>B ; B<>C                        4
+lclimb_seed2_n4m7k4.log n=4 m=7 phi2 state (3, 2, 1, 1, 1, 0, -1) pool 1 | rescuing 3-move composites 348, end states 24, chains 12, sideways 72, through EFX0 16, pool-shrinking 288
+   instance 4 7 3 4 16 5 34 6 23 3 1 60 2 19 4 28 4 0 60 1 42 3 10 5 59 3 0 47 4 19 6 29
+   end state flow A>B, B>C, P>A                            path  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (4 end states)
+   end state flow A>B, A>C, A>P, B>D, D>A, P>B             other  (2 end states)
+   pattern P>A ; A<>B ; A<>C                        8
+   pattern P>A ; A<>B ; B<>C                        8  (chain)
+   pattern P>A ; B<>C ; A<>B                        7
+   chain   P>A ; A>B ; B<>C                         2
+lclimb_seed2_n4m7k4.log n=4 m=7 phi2 state (2, -1, 0, 0, 0, 1, 3) pool 1 | rescuing 3-move composites 162, end states 17, chains 2, sideways 48, through EFX0 12, pool-shrinking 102
+   instance 4 7 4 2 15 4 26 5 14 6 56 4 1 22 2 2 4 5 5 26 4 0 48 1 35 3 4 4 21 4 0 48 3 15 5 53 6 45
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (4 end states)
+   end state flow A>B, A>C, A>P, B>D, D>A, P>B             other  (2 end states)
+   end state flow A>B, A>Cx2, B>C, C>A, P>B                other
+   pattern A>B ; P<>A ; R(ABC)                      4
+   pattern P<>A ; A>B ; R(ABC)                      4
+   pattern A>B ; R(ABC) ; P<>B                      4
+   chain   P>A ; A<>B ; B<>C                        2
+lclimb_seed4_n4m7k4.log n=4 m=7 phi2 state (2, -1, 0, 0, 0, 1, 3) pool 1 | rescuing 3-move composites 165, end states 14, chains 11, sideways 38, through EFX0 9, pool-shrinking 69
+   instance 4 7 4 3 18 4 27 5 60 6 49 4 1 22 2 5 4 13 5 32 4 0 46 1 44 4 38 6 28 2 0 60 6 51
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, P>B                  other  (2 end states)
+   end state flow A>B, A>C, B>A, P>B                       other  (2 end states)
+   pattern P<>A ; A>B ; A<>B                        4  (chain)
+   pattern A>B ; A<>B ; P<>B                        4
+   pattern A<>B ; A>B ; P<>B                        4
+   chain   P<>A ; A>B[2] ; B>A                      2
+n5climb_r2_s4_m19.log n=5 m=8 phi19 state (3, 1, 4, 1, 4, -1, 0, 2) pool 1 | rescuing 3-move composites 258, end states 26, chains 3, sideways 46, through EFX0 15, pool-shrinking 114
+   instance 5 8 4 3 28 4 44 5 50 6 56 3 1 2 3 1 5 25 3 0 28 3 8 7 20 4 0 57 1 49 2 54 7 25 4 4 25 5 35 6 46 7 36
+   end state flow A>B, A>C, B>A, C>B, C>P, P>C             other
+   end state flow A>B, A>C, B>A, C>Bx2, P>C                other
+   end state flow A>B, A>C, B>A, C>D, D>E, E>B, E>C, P>E   other
+   pattern A>B ; P>A ; R(BCD)                       2
+   pattern P>A ; A>B ; R(BCD)                       2
+   pattern P>A ; A<>B ; R(ACD)                      2
+   chain   P>A ; A>B ; B<>C                         1
+   chain   P<>A ; A>B ; B<>C                        1
+n4core_p2_sample_cert.log n=4 m=7 phi19 state (1, 1, 0, -1, 2, 3, 1) pool 1 | rescuing 3-move composites 150, end states 19, chains 0, sideways 56, through EFX0 13, pool-shrinking 78
+   instance 4 7 4 0 4 1 3 2 8 4 10 3 2 4 5 3 6 2 4 3 5 4 6 5 7 6 3 4 3 7 4 2 5 10 6 6
+   end state flow A>B, A>C, A>P, B>A, C>B, P>C             other  (2 end states)
+   end state flow A>B, A>C, A>P, B>A, C>D, D>B, P>C        other  (2 end states)
+   end state flow A>B, A>C, A>P, B>C, C>D, D>A, P>B        other  (2 end states)
+   pattern A>B ; P<>A ; R(BAC)                      2
+   pattern P<>A ; A>B ; R(BAC)                      2
+   pattern A>B ; P<>A ; R(BACD)                     2
+n4core_p2_sample_cert.log n=4 m=7 phi19 state (1, 1, 0, 3, 3, -1, 2) pool 1 | rescuing 3-move composites 246, end states 24, chains 7, sideways 34, through EFX0 8, pool-shrinking 120
+   instance 4 7 4 0 5 2 8 3 4 5 6 4 1 2 2 8 5 3 6 4 3 1 3 4 2 6 4 4 3 2 4 5 5 8 6 4
+   end state flow A>B, B>Cx2, P>A                          path
+   end state flow A>B, A>C, B>A, C>B, C>P, P>C             other  (2 end states)
+   end state flow A>B, A>C, B>A, C>Bx2, P>C                other  (2 end states)
+   pattern P>A ; A<>B ; A<>C                        4
+   pattern A>B ; P>A ; B<>C                         2
+   pattern P>A ; A>B ; B<>C                         2  (chain)
+   chain   P<>A ; A>B ; B<>C                        2
+n4core_p2_sample_cert.log n=4 m=7 phi19 state (3, 1, 1, -1, 2, 3, 0) pool 1 | rescuing 3-move composites 270, end states 27, chains 6, sideways 12, through EFX0 2, pool-shrinking 144
+   instance 4 7 3 0 2 2 3 6 4 4 1 3 2 6 3 10 6 2 4 1 8 4 10 5 6 6 3 4 3 5 4 8 5 4 6 6
+   end state flow A>B, A>C, B>A, C>B, C>P, P>C             other  (2 end states)
+   end state flow A>B, A>C, B>A, C>B, P>C                  other
+   end state flow A>B, A>C, B>A, C>Bx2, P>C                other  (2 end states)
+   pattern P>A ; A<>B ; A<>C                        4
+   pattern R(AB) ; A<>C ; P<>C                      4
+   pattern A>B ; P>A ; B<>C                         2
+   chain   P>A ; A>B ; B<>C                         2
+   chain   P<>A ; A>B ; B<>C                        2
+TOTAL {'with a path end state': 7, 'with a path or pool-cycle end state': 7, 'failures': 44, 'with a chain': 43, 'with a sideways start': 44, 'with a composite through EFX0 states': 44, 'with a pool-shrinking composite': 44}
+end-state flows occurring at the most failures:
+   A>B, A>P, B>C, C>A, P>B                  other  at 41 failures
+   A>B, A>C, A>P, B>A, C>B, P>C             other  at 41 failures
+   A>B, A>Cx2, B>C, C>A, P>B                other  at 41 failures
+   A>B, B>C, C>Ax2, P>A                     other  at 38 failures
+   A>B, A>C, A>P, B>A, P>B                  other  at 34 failures
+   A>B, A>C, B>A, P>B                       other  at 32 failures
+   A>B, A>Cx2, C>A, P>C                     other  at 31 failures
+   A>B, B>C, C>A, P>A                       other  at 31 failures
+   A>B, A>P, B>A, P>B                       other  at 22 failures
+   A>B, A>Cx2, B>A, P>B                     other  at 17 failures
+   A>B, A>C, A>P, B>D, D>A, P>B             other  at 16 failures
+   A>B, A>Cx2, C>D, D>A, P>C                other  at 15 failures
+patterns occurring at the most failures:
+   A>B ; P<>A ; R(ABC)                      at 41 failures
+   P<>A ; A>B ; R(ABC)                      at 41 failures
+   A>B ; R(ABC) ; P<>B                      at 41 failures
+   R(ABC) ; B>C ; P<>B                      at 41 failures
+   P<>A ; R(ABC) ; B>C                      at 41 failures
+   R(ABC) ; P<>B ; B>C                      at 41 failures
+   A>B ; P<>A ; R(ACB)                      at 40 failures
+   P<>A ; A>B ; R(ACB)                      at 40 failures
+   A>B ; R(ACB) ; P<>C                      at 40 failures
+   R(ABC) ; B>A ; P<>B                      at 40 failures
+   A>B[2] ; P>A ; R(ABC)                    at 40 failures
+   P>A ; A>B[2] ; R(ABC)                    at 40 failures

@@ -1,0 +1,7 @@
+$ python3 k4/referee/leanrf_ref.py cores5 200
+    ... complete at the picks                        289364
+    MM starts tested                                 289364
+    nu < 5 core with m = 4                           12
+    nu < 5 core with m = 5                           1
+  cores, nu = 4                                      13
+  cores, nu = 5                                      31571

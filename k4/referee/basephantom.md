@@ -125,3 +125,31 @@ This is LIFT\* for rounds (`lift.md` §9) with one more value-increasing step.
   3 (5,082).
 - Stating B3′'s condition as "no bundle of the allocation threatens a phantom (by SEP, only bundles of ≥ 3 goods
   matter)" covers every case.
+
+## Addendum: the Lean statements of PR #151 (`formal/k4-sep` at `73385dc0`) against §5
+
+**Read:** `lean/EFX/BaseR.lean` (definitions `LiftedAt`, `AdmissibleP1`, `FinalRound`, `BaseRepair`, `GRStop`,
+`VisitedGR`, `ConjBaseRWith`, `ConjGRWith`), `P1Free` in `lean/EFX/Sep.lean`, and `Round.Admissible` in
+`lean/EFX/RoundRSD.lean`. These are statements only; the build was not re-run here.
+
+**Verdict: `ConjBaseRWith` / `VisitedGR` is the corrected BASE-R (K4.BASE.GR), not GRR.**
+- `VisitedGR.round` takes a P1-free admissible round only from a visited state with `¬ GRStop`: no lifted completion,
+  no final round, no base repair. That is §5's GR-visited exactly. GRR, which takes rounds wherever one exists, would
+  have no `¬ GRStop` premise.
+- The start is §5's hard perfect start, given as `ConjBaseRWith` hypotheses: `PerfectStart`,
+  `¬ OneAbsorber` at the picks, `Strict`, and at most 4 relevant goods.
+- The three stops match §5's steps 1–3:
+  - `LiftedAt` at the state's picks;
+  - `FinalRound`: an admissible round of any kind, then `LiftedAt` at the new state's picks at once;
+  - `BaseRepair Move`: a move of the remaining instance, then `LiftedAt`.
+- `LiftedAt` is a one-absorber completion of the remaining instance, keeping the bases, that is EFX₀ in the whole
+  instance with the phantoms keeping their sets. This is the note's "lifted completion".
+- `P1Free` (every good outside T is worth at most v_k(T)) is §4.1's P1-freeness. `AdmissibleP1` is an admissible round
+  of the ROUND-RSD frame whose settlements are all P1-free.
+- `ConjBaseRWith`'s conclusion is an admissible P1-free round at every visited non-stop state: §5's statement.
+  `conjGR_iff_conjBaseR` is the "equivalently, GR never gets stuck".
+
+**One reading note.** The move class is a parameter. The note's BASE-R is `ConjBaseRWith` with ED moves, which are not
+formalized. By `visitedGR_mono` / `conjBaseR_mono`, a larger move class gives a weaker conjecture. So an instance with
+a move class smaller than ED, for example OneMove if it is smaller, is a stronger statement than the note's and is not
+covered by its evidence. The PR says this; the ledger's Lean column should name the parameter.

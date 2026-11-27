@@ -1,0 +1,5 @@
+$ python3 k4/referee/leanrf_ref.py 4000000 5 6 2
+  MM starts (distinct vectors)                                                               3598267
+  MM starts failing OC1                                                                      0
+  cores (nu < n forced)                                                                      239698
+  cores with nu < n                                                                          239698
