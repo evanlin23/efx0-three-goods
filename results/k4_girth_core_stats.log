@@ -1,0 +1,6 @@
+$ python3 k4/girth/core_stats.py
+n = 2: {'cores': 5}
+n = 3: {'cores': 51, 'linear': 3}
+n = 4: {'cores': 1002, 'linear': 24, 'linear, an agent on no 3-cycle (T1)': 5, 'linear and triangle-free (LSS itself)': 5}
+n = 5: {'cores': 31584, 'linear': 261, 'linear, an agent on no 3-cycle (T1)': 77, 'linear and triangle-free (LSS itself)': 18}
+n = 6: {'cores': 26866, 'linear': 325, 'linear, an agent on no 3-cycle (T1)': 129, 'linear and triangle-free (LSS itself)': 14}

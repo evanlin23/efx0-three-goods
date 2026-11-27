@@ -1,0 +1,4 @@
+$ python3 k4/girth/dyncert.py --selftest
+selftest: Run and FastRun agree (outcome and recorded class) on 5868 runs
+$ python3 k4/girth/dyncert_sym.py --selftest
+selftest: 600 symbolic runs; 2400 profiles sampled in their classes, same outcome with numbers
