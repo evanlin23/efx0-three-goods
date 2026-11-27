@@ -1,0 +1,1 @@
+$ python3 kgen/charity/w_cert.py w_cuts_s4k5.json

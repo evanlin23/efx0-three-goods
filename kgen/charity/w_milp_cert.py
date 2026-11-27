@@ -10,7 +10,7 @@ used lies in [-1, 1], so big-M = 2 is exact for the disjunctions OR_t (expr_t >=
 coefficient (always <= 0) are dropped and identical ones merged.
 
     python3 kgen/charity/w_milp_cert.py CUTFILE [COREFILE]"""
-import sys, json, time, itertools
+import sys, json, time, gzip, itertools
 import numpy as np
 from scipy.optimize import milp, LinearConstraint, Bounds
 from scipy.sparse import lil_matrix
@@ -139,7 +139,7 @@ def solve(D, cuts, tlim=3600):
 
 if __name__ == '__main__':
     print('$ python3 kgen/charity/w_milp_cert.py', *[a.split('/')[-1] for a in sys.argv[1:]], flush=True)
-    D = json.load(open(sys.argv[1])); cuts = D['cuts']
+    D = json.load(gzip.open(sys.argv[1], 'rt') if sys.argv[1].endswith('.gz') else open(sys.argv[1])); cuts = D['cuts']
     if len(sys.argv) > 2:
         core = json.load(open(sys.argv[2]))['core']; cuts = [cuts[t] for t in core]
     t0 = time.time()

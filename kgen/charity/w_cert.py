@@ -17,7 +17,7 @@ bundle worthless to all.  Strict inequalities are kept strict (QF_LRA).
     python3 kgen/charity/w_cert.py --core CUTFILE COREFILE [--min]
 --core: also extract an unsat core of the cuts (cvc5), re-check the core alone, and write {"core": [indices]} to
 COREFILE (for w_milp_cert.py); --min shrinks the core by deletion (one cvc5 call per cut)."""
-import sys, json, time
+import sys, json, time, gzip
 import cvc5
 
 
@@ -114,7 +114,7 @@ def solve(text):
 if __name__ == '__main__':
     print('$ python3 kgen/charity/w_cert.py', *[a.split('/')[-1] for a in sys.argv[1:]], flush=True)
     if sys.argv[1] == '--core':
-        f, out = sys.argv[2], sys.argv[3]; D = json.load(open(f)); t0 = time.time()
+        f, out = sys.argv[2], sys.argv[3]; D = json.load(gzip.open(f, 'rt') if f.endswith('.gz') else open(f)); t0 = time.time()
         r, core = solve(encode(D, named=True))
         assert r == 'unsat', r
         print('%s: %d cuts; cvc5 unsat, core of %d cuts (%.1f s)' % (f.split('/')[-1], len(D['cuts']), len(core),
@@ -133,7 +133,7 @@ if __name__ == '__main__':
         json.dump({'core': core}, open(out, 'w'))
         sys.exit(0)
     for f in sys.argv[1:]:
-        D = json.load(open(f)); t0 = time.time()
+        D = json.load(gzip.open(f, 'rt') if f.endswith('.gz') else open(f)); t0 = time.time()
         text = encode(D)
         r = solve(text)
         print('%s: n %d, m %d, k %d, X leaves %d out, cuts %d (each leaving <= %d out), fixed support %s: cvc5 says %s '
