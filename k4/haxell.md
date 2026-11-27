@@ -633,6 +633,12 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
     (vᵢ(Yᵢ) > vᵢ(Xᵢ) iff vᵢ(Yᵢ ∖ Xᵢ) > vᵢ(Xᵢ ∖ Yᵢ)). So with strict values it depends only on the type profile, and
     exhaustive checks over types are complete for it.
   - `gstar_measure` measure 19.
+- *Where P^sub holds (exhaustive over strict types, C checker only so far).*
+  - **n = 2** (Theorem N2 below, with its Pareto strengthening): k ≤ 4, with up to two goods valued by nobody.
+  - **n = 3, k ≤ 3**: every strict type profile of every shape (14,100 classes up to interchangeable goods, m ≤ 9,
+    3,757,000 partial EFX₀ states), no P^sub stuck state (`ht_n3types.py`; `n3types_k3_m7.log`, `n3types_k3_m89.log`).
+    Pool-shrinking alone fails at 7,129 of those states.
+  - So two moves suffice for n ≤ 3 (k ≤ 3 at n = 3), and the known failures need n = 4 and an agent with four goods.
 - *Lemma P^sub₃ (CONJECTURE for every |Rᵢ| ≤ 4).* P^sub with **three** moves. It has a step at all 40 known two-move
   failures: the 36 for welfare and the 4 found by the leximin climbs (`gstar_measure 3 1 19 1`; with single-good moves
   only, `3 1 19 0`, also none stuck). It implies W^sub₃ and L^sub₃ and TARGET₄, and it is the cleanest candidate for
@@ -807,6 +813,12 @@ failures need n = 4, so n = 2 is still a fair, bounded target.
 
   Hence W^sub and L^sub hold for these instances, and so does the lemma with any measure that rises when both agents
   gain.
+  - *Pareto strengthening, with junk goods.* Add up to two goods valued by nobody (`ht_n2types.py JUNK=1, 2`). Then
+    pool-shrinking fails at 180 and 240 states, and the misplaced swap covers only 36 and 64 of them. But **every**
+    such state has a *Pareto composite* of at most two moves: the pool kept, EFX₀, one agent strictly better and
+    neither worse. That is type-determined (`n2types_k4_pareto_junk{0,1,2}.log`).
+  - So **P^sub holds at n = 2** for strict k ≤ 4 instances with at most two junk goods. For junk goods, only the C
+    checker has re-run every class; the Pareto composites are witnesses found in Python.
   - *Why the check is complete.* Pool-shrinking and the second alternative depend only on the agents' strict order
     types: EFX₀ compares disjoint sets of an agent's goods, and the gains are "a valued good for a worthless one".
     `ht_n2types.py` runs every strict type profile once, up to the interchangeability of goods valued by the same
