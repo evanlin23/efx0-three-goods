@@ -1408,19 +1408,24 @@ the goods outside ∪T_φ. Y is a perfect SD start of I, with strict values. The
 **Theorem S^φ (K4.MULTI.SPHI).** In this setting, let (k, P, h) meet Theorem S's hypotheses in I (relaxed form,
 h ∈ J ∪ {Y_z}). Let W be the owner's bundle and r the receiver of h. Suppose:
 - **(S-φ1)** W threatens no phantom φ at τ_φ;
-- **(S-φ2)** r's good is not phantom-wanted: v_φ(B′_r) ≤ τ_φ for every φ.
+- **(S-φ2)** r's good is not phantom-wanted: v_φ(B′_r) ≤ τ_φ for every φ;
+- **(S-φ3)** if h = Y_z, then v_φ(Y_z) ≤ τ_φ for every φ. (If h is junk, a phantom-wanted Y_z sits in W, and (S-φ1)
+  catches it.) *Added after the referee's verdict (`k4/referee/oc1max_multi.md` §14, commit 117ff9ea): CORRECT WITH
+  THIS FIX. Without it, 44 random n = 5–6 cases meet (S-φ1) and (S-φ2) and are not EFX₀.*
 
 Then Theorem S's allocation of I, with every phantom keeping T_φ, is EFX₀ in I₀. Its move P is an official move of I₀
-(Lemma LIFT 1, once per phantom, since the junk of I is the junk of I₀). So OC₂ holds via the settlements, then P.
+(Lemma LIFT 1, once per phantom, since the junk of I is the junk of I₀). So OC_{|Φ|+1} holds via the settlements, then
+P; with one settlement, this is OC₂.
 
 *Proof.* Every pair of agents is covered by one of these cases:
 - *Real vs real:* Theorem S (refereed).
-- *A real agent i vs T_φ:* removing a good of T_φ leaves one good, worth less than p_i ≤ v_i(X_i) by (P1).
+- *A real agent i vs T_φ:* removing a good of T_φ leaves one good, worth less than p_i ≤ v_i(X_i) by (P1). This uses
+  |T_φ| = 2; for a triple, (L\*) replaces (P1).
 - *A phantom φ vs a real bundle:*
   - singletons never threaten;
   - W is covered by (S-φ1);
   - the two-good bundle {B′_r, h} threatens φ iff v_φ(B′_r) > τ_φ or v_φ(h) > τ_φ. The first is excluded by (S-φ2).
-    The second is excluded by (P3) for h junk; for h = Y_z, z is not phantom-frozen by the §14 fix.
+    The second is excluded by (P3) for h junk, and by (S-φ3) for h = Y_z.
 - *Phantom vs phantom:* (P2). ∎
 
 Corrected Proposition K-loc (§14) is (S-φ1) ∧ (S-φ2) for a single phantom, spelled out through ℓ's travel along P′.
@@ -1432,7 +1437,10 @@ evaluated against S^φ's hypotheses and the raw EFX₀ definition in I₀.
 |---|---|---|---|---|---|---|
 | walk failures, the 12, n = 5 walks, n = 4 export | 140,292 | 748,744 | 739,144 | 739,144 | **0** | **0** |
 
-So the hypotheses are sufficient (the theorem) and, on this data, also necessary. Every one of the 140,292 failing
+So the hypotheses are sufficient (the theorem) and, on this data, also necessary. (`sphi.py` tests (S-φ2) on both goods of the receiver's
+bundle, h included, so the census already contains (S-φ3).) The referee's independent check, own code: n = 4 export 636,720
+cases, walks 32,164, random 80,486 with one phantom, and random 1,632 with two. With (S-φ3), the hypotheses equal raw
+EFX₀ everywhere. Every one of the 140,292 failing
 starts reaches an S^φ case after exactly one settlement (two moves in all).
 
 *What RSD-IND (K4.MATCH.RSDIND) now needs is existence alone:* at every stage, some settlement or some Theorem S case
