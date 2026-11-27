@@ -18,6 +18,7 @@ UNSAT  <=>  the certificate is valid. Solver: Glucose 4 (synth.py uses CaDiCaL).
 Usage: python3 monotone/check_cert.py results/monotone/*.jsonl
 """
 import sys
+import gzip
 import json
 from pysat.solvers import Solver
 
@@ -131,7 +132,7 @@ def check(rec):
 def main():
     tot = ok = 0
     for f in sys.argv[1:]:
-        for line in open(f):
+        for line in (gzip.open(f, 'rt') if f.endswith('.gz') else open(f)):
             rec = json.loads(line)
             if rec["status"] != "UNSAT":
                 continue

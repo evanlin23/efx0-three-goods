@@ -281,3 +281,80 @@ if __name__ == "__main__":
         print("V =", V, res[0], {k: v for k, v in res[1].items() if k not in ("subs", "tables")})
         if res[0] == "SAT":
             print("  verify:", verify_counterexample(n, m, R, res[1]["subs"]))
+
+
+# ---------------------------------------------------------------------------------------------------------
+# Fast inner search (C, monotone/efx0search.c via ctypes). Every allocation it returns is re-checked here
+# with the raw definition on the agents' subset tables before use.
+import ctypes
+import subprocess
+
+_LIB = None
+
+
+def _lib():
+    global _LIB
+    if _LIB is None:
+        here = os.path.dirname(os.path.abspath(__file__))
+        src = os.path.join(here, "efx0search.c")
+        bdir = os.path.join(here, "_build")
+        os.makedirs(bdir, exist_ok=True)
+        so = os.path.join(bdir, "efx0search.so")
+        if not os.path.exists(so) or os.path.getmtime(so) < os.path.getmtime(src):
+            tmp = so + f".{os.getpid()}"
+            subprocess.check_call(["gcc", "-O2", "-shared", "-fPIC", "-o", tmp, src])
+            os.replace(tmp, so)
+        _LIB = ctypes.CDLL(so)
+        _LIB.find_efx0.restype = ctypes.c_int
+    return _LIB
+
+
+def efx0_local_ok(n, m, R, subs, owner):
+    """Raw EFX0 check of a complete allocation (owner list) from subset tables."""
+    pos = [{g: t for t, g in enumerate(R[i])} for i in range(n)]
+    bundles = [[g for g in range(m) if owner[g] == a] for a in range(n)]
+
+    def v(i, goods):
+        s = 0
+        for g in goods:
+            if g in pos[i]:
+                s |= 1 << pos[i][g]
+        return subs[i][s]
+
+    for i in range(n):
+        own = v(i, bundles[i])
+        for j in range(n):
+            if j != i:
+                for g in bundles[j]:
+                    if v(i, [h for h in bundles[j] if h != g]) > own:
+                        return False
+    return True
+
+
+def find_efx0_fast(n, m, R, subs):
+    """Returns bundles as bitmasks (like find_efx0) or None."""
+    lib = _lib()
+    pos = (ctypes.c_int * (n * m))(*[-1] * (n * m))
+    for i in range(n):
+        for t, g in enumerate(R[i]):
+            pos[i * m + g] = t
+    offs, flat = [], []
+    for i in range(n):
+        offs.append(len(flat))
+        flat.extend(int(x) for x in subs[i])
+    off = (ctypes.c_int * n)(*offs)
+    vals = (ctypes.c_int * len(flat))(*flat)
+    order = sorted(range(m), key=lambda g: -sum(1 for i in range(n) if g in R[i]))
+    ordr = (ctypes.c_int * m)(*order)
+    owner = (ctypes.c_int * m)()
+    r = lib.find_efx0(n, m, pos, off, vals, ordr, owner)
+    if r < 0:
+        raise ValueError("instance too large for efx0search.c")
+    if r == 0:
+        return None
+    own = list(owner)
+    assert efx0_local_ok(n, m, R, subs, own), "C search returned a non-EFX0 allocation"
+    B = [0] * n
+    for g, a in enumerate(own):
+        B[a] |= 1 << g
+    return B

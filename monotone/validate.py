@@ -13,6 +13,7 @@
 Usage: python3 monotone/validate.py [results/monotone/*.jsonl ...] [--samples N]
 """
 import sys
+import gzip
 import os
 import json
 import random
@@ -105,7 +106,7 @@ def check_cert(rec, samples, rng):
 
 
 def main():
-    files = [a for a in sys.argv[1:] if not a.startswith("--") and a.endswith(".jsonl")]
+    files = [a for a in sys.argv[1:] if not a.startswith("--") and (a.endswith(".jsonl") or a.endswith(".jsonl.gz"))]
     samples = 200
     if "--samples" in sys.argv:
         samples = int(sys.argv[sys.argv.index("--samples") + 1])
@@ -117,7 +118,7 @@ def main():
     rng = random.Random(20261126)
     tot = bad = 0
     for f in files:
-        for line in open(f):
+        for line in (gzip.open(f, 'rt') if f.endswith('.gz') else open(f)):
             rec = json.loads(line)
             if rec["status"] != "UNSAT":
                 continue

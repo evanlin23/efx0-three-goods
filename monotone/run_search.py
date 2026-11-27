@@ -21,7 +21,7 @@ from multiprocessing import Pool
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from hypergraphs import enumerate_hypergraphs, to_R
-from synth import AgentEnc, alloc_clause, find_efx0, verify_counterexample
+from synth import AgentEnc, alloc_clause, find_efx0, find_efx0_fast, verify_counterexample
 from mono_lib import table_from_restricted, bundles_of
 from pysat.solvers import Solver
 from pysat.formula import IDPool
@@ -109,9 +109,12 @@ def cegar(n, m, R, enc="order", solver="cadical153", time_limit=None, sb=True, n
                 return "UNSAT", L, None, time.time() - t0
             model = set(l for l in s.get_model() if l > 0)
             subs = [agents[i].decode(model) for i in range(n)]
-            tables = [table_from_restricted(m, R[i], subs[i]) for i in range(n)]
-            X = find_efx0(n, m, tables, R)
+            X = find_efx0_fast(n, m, R, subs)
             if X is None:
+                # confirm with the independent Python search on full tables before reporting SAT
+                tables = [table_from_restricted(m, R[i], subs[i]) for i in range(n)]
+                X = find_efx0(n, m, tables, R)
+                assert X is None, "C and Python inner searches disagree"
                 return "SAT", L, subs, time.time() - t0
             L.append(X)
             cl = alloc_clause(n, m, agents, X)
