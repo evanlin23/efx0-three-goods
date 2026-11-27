@@ -1,0 +1,14 @@
+$ python3 k4/referee/oc1p_ref.py cex
+{"instance": "5_pure idx 164", "n": 5, "m": 8, "agents": {"0": {"goods": 4, "balanced_privates_ok": true, "strict": true, "private": [0]}, "1": {"goods": 4, "balanced_privates_ok": true, "strict": true, "private": [1]}, "2": {"goods": 4, "balanced_privates_ok": true, "strict": true, "private": []}, "3": {"goods": 4, "balanced_privates_ok": true, "strict": true, "private": []}, "4": {"goods": 4, "balanced_privates_ok": true, "strict": true, "private": []}}, "connected": true, "every_good_relevant": true}
+{"sd_picks": {"(1, 4, 2, 0, 3)": [7, 2, 3, 5, 4], "(4, 1, 2, 0, 3)": [7, 2, 3, 5, 4], "(4, 2, 1, 0, 3)": [7, 2, 3, 5, 4]}, "nu": 5}
+{"orders_giving_7_2_3_5_4": 3}
+{"one_absorber_completion_at_picks": false}
+{"generator": "strict", "oc1p_move_states": 21, "states_with_one_absorber_completion": 0}
+{"generator": "wide", "oc1p_move_states": 124, "states_with_one_absorber_completion": 0}
+{"sec29_official_move_states": 21, "sec29_states_with_completion": 0}
+{"md_efx0_allocations": 9, "with_0_getting_2_and_1_getting_7_and_1": 9, "with_agent3_getting_4_or_3": 9, "examples": [[[0, 2], [1, 7], [3], [4], [5, 6]], [[0, 2], [1, 7], [4], [3], [5, 6]], [[0, 2], [1, 7], [5, 6], [3], [4]], [[2], [0, 1, 7], [3], [4], [5, 6]], [[2], [0, 1, 7], [4], [3], [5, 6]], [[2], [0, 1, 7], [5, 6], [3], [4]], [[2], [1, 7], [0, 3], [4], [5, 6]], [[2], [1, 7], [4], [0, 3], [5, 6]], [[2], [1, 7], [5, 6], [0, 3], [4]]]}
+{"oc_depth_sec29": 2}
+{"first_OC1p_moves_after_which_a_second_OC1p_move_repairs": 9}
+{"one_round_state": [[0, 2], [1, 7], [3], [4], [5, 6]], "completion": "[{0, 2}, {1, 7}, {3}, {4}, {5, 6}]", "gains": [true, true, false, true, true]}
+$ python3 k4/referee/oc1p_ref.py n4 two_move_starts_n4.json.gz 112880 1 4   # certifier export, sha256 6159e38d1e70ae16...
+{"source": "OC1' on the certifier's n = 4 export, N=112880 seed=1", "exported": 112880, "checked": 112880, "picks_are_SD": 112880, "OC1p_holds": 112880}

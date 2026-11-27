@@ -1,0 +1,18 @@
+$ python3 k4/oc1cert/run.py 4_n4_1,4_n4_2,4_n4_3,4_pure --prime --jobs=2 --out=/tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_4_prime.json.gz
+hypergraphs 1002 jobs 2
+... 500 hypergraphs, 69 s
+... 1000 hypergraphs, 367 s
+4_n4_1 nu=4 n=4 135
+4_n4_2 nu=4 n=4 309
+4_n4_3 nu=4 n=4 339
+4_pure nu=4 n=4 219
+iterations 178561
+result certified 1002
+witness kind add (found by the inner) 8836
+witness kind chain (found by the inner) 184219
+witness kind chainp (found by the inner) 16128
+witness kind picks (found by the inner) 72579
+witnesses kept 448762
+slowest hypergraph 5.56 s ('4_pure', 43)
+time 368 s
+wrote /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_4_prime.json.gz

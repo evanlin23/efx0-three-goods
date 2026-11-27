@@ -1,0 +1,56 @@
+$ python3 k4/oc1_hall/oc1_gdt.py special (OWNERS=any HOLD=unfrozen-single)
+distinct starts 28
+distinct starts not repaired 0
+instances 4
+start: chains needed 0 102
+start: chains needed 1 72
+starts 174
+time 0 s
+$ python3 k4/oc1_hall/oc1_gdt.py screen (OWNERS=any HOLD=unfrozen-single)
+distinct starts 775
+distinct starts not repaired 0
+instances 168
+start: chains needed 0 3296
+start: chains needed 1 773
+starts 4069
+time 0 s
+$ python3 k4/oc1_hall/oc1_gdt.py suite (OWNERS=any HOLD=unfrozen-single)
+distinct starts 726
+distinct starts not repaired 0
+instances 158
+start: chains needed 0 3428
+start: chains needed 1 899
+starts 4327
+time 0 s
+$ python3 k4/oc1_hall/oc1_gdt.py logs (OWNERS=any HOLD=unfrozen-single)
+distinct starts 4328
+distinct starts not repaired 0
+instances 1637
+start: chains needed 0 37165
+start: chains needed 1 4849
+starts 42014
+time 2 s
+$ python3 k4/oc1_hall/oc1_gdt.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91 (OWNERS=any HOLD=unfrozen-single)
+distinct starts 4583
+distinct starts not repaired 0
+instances 3000
+start: chains needed 0 16292
+start: chains needed 1 680
+starts 16972
+time 2 s
+$ python3 k4/oc1_hall/oc1_gdt.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92 (OWNERS=any HOLD=unfrozen-single)
+distinct starts 3449
+distinct starts not repaired 0
+instances 1500
+start: chains needed 0 35019
+start: chains needed 1 981
+starts 36000
+time 2 s
+$ python3 k4/oc1_hall/oc1_gdt.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93 (OWNERS=any HOLD=unfrozen-single)
+distinct starts 572
+distinct starts not repaired 0
+instances 150
+start: chains needed 0 17607
+start: chains needed 1 393
+starts 18000
+time 1 s

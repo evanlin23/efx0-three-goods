@@ -1,0 +1,17 @@
+$ python3 k4/oc1max_multi/cex_check.py
+4_n4_3#58 n=4 m=7 picks (1, 2, 5, 6) J [0, 3, 4] D [0, 2, 3] D_T [2, 3] unfrozen [1] E_J [] | verified | shared [(2, 3, (3, 4), 1), (3, 2, (3, 4), 1)] | obstacles {'DEMAND': 2, 'CROWD': 1} | KEEP/OWN/clean/RING/U: False False False False False
+4_n4_3#77 n=4 m=7 picks (4, 5, 6, 2) J [0, 1, 3] D [1, 2] D_T [1, 2] unfrozen [0] E_J [] | verified | shared [(1, 2, (1, 3), 0), (2, 1, (1, 3), 0)] | obstacles {'CROWD': 1, 'DEMAND': 2} | KEEP/OWN/clean/RING/U: False False False False False
+4_pure#20 n=4 m=7 picks (6, 5, 3, 4) J [0, 1, 2] D [0, 1] D_T [0, 1] unfrozen [3] E_J [] | verified | shared [(0, 1, (1, 2), 3), (1, 0, (1, 2), 3)] | obstacles {'DEMAND': 2, 'CROWD': 1} | KEEP/OWN/clean/RING/U: False False False False False
+4_pure#21 n=4 m=7 picks (6, 4, 5, 3) J [0, 1, 2] D [0, 1] D_T [0, 1] unfrozen [3] E_J [] | verified | shared [(0, 1, (1, 2), 3), (1, 0, (1, 2), 3)] | obstacles {'DEMAND': 2, 'CROWD': 2} | KEEP/OWN/clean/RING/U: False False False False False
+4_pure#23 n=4 m=7 picks (1, 3, 4, 5) J [0, 2, 6] D [1, 2, 3] D_T [2, 3] unfrozen [0] E_J [] | verified | shared [(2, 3, (2, 6), 0), (3, 2, (2, 6), 0)] | obstacles {'CROWD': 1, 'DEMAND': 2} | KEEP/OWN/clean/RING/U: False False False False False
+4_pure#24 n=4 m=7 picks (1, 5, 4, 6) J [0, 2, 3] D [0, 2, 3] D_T [2, 3] unfrozen [1] E_J [] | verified | shared [(2, 3, (2, 3), 1), (3, 2, (2, 3), 1)] | obstacles {'DEMAND': 2, 'CROWD': 1} | KEEP/OWN/clean/RING/U: False False False False False
+4_pure#26 n=4 m=7 picks (2, 4, 6, 3) J [0, 1, 5] D [0, 1, 2] D_T [1, 2] unfrozen [3] E_J [] | verified | shared [(1, 2, (1, 5), 3), (2, 1, (1, 5), 3)] | obstacles {'DEMAND': 2, 'CROWD': 1} | KEEP/OWN/clean/RING/U: False False False False False
+4_pure#29 n=4 m=7 picks (4, 6, 5, 2) J [0, 1, 3] D [1, 2] D_T [1, 2] unfrozen [0] E_J [] | verified | shared [(1, 2, (1, 3), 0), (2, 1, (1, 3), 0)] | obstacles {'CROWD': 1, 'DEMAND': 2} | KEEP/OWN/clean/RING/U: False False False False False
+4_pure#36 n=4 m=7 picks (0, 2, 6, 5) J [1, 3, 4] D [0, 2, 3] D_T [2, 3] unfrozen [1] E_J [] | verified | shared [(2, 3, (1, 3), 1), (3, 2, (1, 3), 1)] | obstacles {'CROWD': 1, 'DEMAND': 2} | KEEP/OWN/clean/RING/U: False False False False False
+4_pure#38 n=4 m=8 picks (2, 7, 3, 6) J [0, 1, 4, 5] D [0, 1, 3] D_T [1, 3] unfrozen [2] E_J [] | verified | shared [(1, 3, (4, 5), 2), (3, 1, (4, 5), 2)] | obstacles {'CROWD': 1, 'DEMAND': 2} | KEEP/OWN/clean/RING/U: False False False False False
+4_pure#45 n=4 m=8 picks (2, 5, 6, 7) J [0, 1, 3, 4] D [0, 2, 3] D_T [2, 3] unfrozen [1] E_J [] | verified | shared [(2, 3, (3, 4), 1), (3, 2, (3, 4), 1)] | obstacles {'CROWD': 1, 'DEMAND': 2} | KEEP/OWN/clean/RING/U: False False False False False
+TTC-n5-core n=5 m=9 picks (4, 6, 0, 5, 1) J [2, 3, 7, 8] D [1, 3, 4] D_T [] unfrozen [0] E_J [] | verified | shared [(1, 3, (2, 4), 0), (3, 1, (2, 4), 0)] | obstacles {'DEMAND': 4} | KEEP/OWN/clean/RING/U: False False False False False
+a lemma applies (would refute it) 0
+instances 12
+shared pool danger set 12
+verified: perfect, hard, no one-move repair 12

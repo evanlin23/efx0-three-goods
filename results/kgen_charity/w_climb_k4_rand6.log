@@ -1,0 +1,8 @@
+$ python3 kgen/charity/w_climb.py 32 3000 2 rand6 4
+start score -5 (>= 2 out: 45, < 2 out: 50)
+step 17 score -4 (>= 2 out: 42, < 2 out: 46) 1 s
+step 30 score -3 (>= 2 out: 32, < 2 out: 35) 2 s
+step 31 score -2 (>= 2 out: 31, < 2 out: 33) 2 s
+step 39 score -1 (>= 2 out: 37, < 2 out: 38) 2 s
+step 356 score 0 (>= 2 out: 65, < 2 out: 65) 25 s
+(stopped by hand after the plateau; see kgen/charity.md §6)

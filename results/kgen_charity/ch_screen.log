@@ -1,0 +1,40 @@
+$ python3 kgen/charity/ch_screen.py 1 40
+NONZERO GM4-A 4 7 {'empty: pool 0': 20, 'sd: pool 0': 18, 'sd: pool 1': 2, 'sd: robust pool 1': 2} {"X": [[0, 2], [1, 4], [5], [6]], "P": [3], "start": "sd", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO GM4-B 4 7 {'empty: pool 0': 19, 'sd: pool 0': 19, 'empty: pool 1': 1, 'empty: robust pool 1': 1, 'sd: pool 1': 1, 'sd: robust pool 1': 1} {"X": [[0, 2], [1, 4], [6], [5]], "P": [3], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO GM4-D 4 7 {'empty: pool 0': 19, 'sd: pool 0': 20, 'empty: pool 1': 1, 'empty: robust pool 1': 1} {"X": [[2, 4], [0], [5], [1, 3]], "P": [6], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 3}}
+NONZERO GM4-C 4 7 {'empty: pool 0': 19, 'sd: pool 0': 17, 'sd: pool 1': 3, 'sd: robust pool 1': 3, 'empty: pool 1': 1, 'empty: robust pool 1': 1} {"X": [[0, 2], [6], [1, 4], [5]], "P": [3], "start": "sd", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO GM4-F 4 7 {'empty: pool 0': 18, 'sd: pool 0': 20, 'empty: pool 1': 2, 'empty: robust pool 1': 2} {"X": [[0, 4], [1, 3], [2], [5]], "P": [6], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 3}}
+NONZERO GM4-G 4 7 {'empty: pool 0': 18, 'sd: pool 0': 19, 'empty: pool 1': 2, 'empty: robust pool 1': 2, 'sd: pool 1': 1, 'sd: robust pool 1': 1} {"X": [[0, 2], [1, 4], [5], [6]], "P": [3], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO GM4-P 4 7 {'empty: pool 0': 16, 'sd: pool 0': 19, 'empty: pool 1': 4, 'empty: robust pool 0': 2, 'empty: robust pool 1': 2, 'sd: pool 1': 1, 'sd: robust pool 0': 1} {"X": [[1, 2], [0, 4], [6], [5]], "P": [3], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO GM4-Q 4 7 {'empty: pool 0': 19, 'sd: pool 0': 17, 'sd: pool 1': 3, 'sd: robust pool 1': 3, 'empty: pool 1': 1, 'empty: robust pool 1': 1} {"X": [[0, 4], [1, 3], [2], [5]], "P": [6], "start": "sd", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 4}}
+NONZERO c4min-tleximin-n4-m7 4 7 {'empty: pool 0': 18, 'sd: pool 0': 20, 'empty: pool 1': 2, 'empty: robust pool 1': 2} {"X": [[0, 3], [4], [6], [1, 5]], "P": [2], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO c4one-one-rotation-m8 5 8 {'empty: pool 0': 20, 'sd: pool 0': 19, 'sd: pool 1': 1, 'sd: robust pool 1': 1} {"X": [[0, 7], [2], [1, 4], [5], [6]], "P": [3], "start": "sd", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO gap-ipoollocal-n4-m9-n43c304 4 9 {'empty: pool 0': 20, 'sd: pool 0': 19, 'sd: pool 1': 1, 'sd: robust pool 1': 1} {"X": [[5], [0, 2, 3, 4], [1, 6], [7]], "P": [8], "start": "sd", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO gm4-A 4 7 {'empty: pool 1': 2, 'empty: robust pool 1': 2, 'sd: pool 0': 20, 'empty: pool 0': 18} {"X": [[0, 2], [1, 4], [5], [6]], "P": [3], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO gm4-B 4 7 {'empty: pool 1': 1, 'empty: robust pool 1': 1, 'sd: pool 1': 1, 'sd: robust pool 0': 1, 'empty: pool 0': 19, 'sd: pool 0': 19} {"X": [[0, 2], [1, 4], [6], [5]], "P": [3], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO gm4-C 4 7 {'empty: pool 0': 20, 'sd: pool 0': 18, 'sd: pool 1': 2, 'sd: robust pool 1': 2} {"X": [[1, 2], [6], [0, 4], [5]], "P": [3], "start": "sd", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO gm4-F 4 7 {'empty: pool 0': 19, 'sd: pool 0': 20, 'empty: pool 1': 1, 'empty: robust pool 1': 1} {"X": [[0, 4], [1, 3], [2], [5]], "P": [6], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 3}}
+NONZERO gm4-G 4 7 {'empty: pool 0': 20, 'sd: pool 0': 19, 'sd: pool 1': 1, 'sd: robust pool 1': 1} {"X": [[0, 2], [1, 4], [5], [6]], "P": [3], "start": "sd", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO gm4-E 4 7 {'empty: pool 0': 18, 'sd: pool 0': 19, 'empty: pool 1': 2, 'empty: robust pool 1': 2, 'sd: pool 1': 1, 'sd: robust pool 1': 1} {"X": [[0, 4], [1, 3], [2], [5]], "P": [6], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 4}}
+NONZERO gm4-D 4 7 {'empty: pool 0': 18, 'sd: pool 0': 20, 'empty: pool 1': 2, 'empty: robust pool 1': 2} {"X": [[2, 4], [0], [5], [1, 3]], "P": [6], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 3}}
+NONZERO gm4-P 4 7 {'empty: pool 0': 16, 'sd: pool 0': 18, 'empty: pool 1': 4, 'empty: robust pool 1': 3, 'sd: pool 1': 2, 'sd: robust pool 1': 2, 'empty: robust pool 0': 1} {"X": [[1, 2], [0, 4], [6], [5]], "P": [3], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO hall-bt4 4 7 {'empty: pool 0': 20, 'sd: pool 0': 19, 'sd: pool 1': 1, 'sd: robust pool 1': 1} {"X": [[2, 5], [0, 3], [4], [6]], "P": [1], "start": "sd", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO induct-g-r1 2 5 {'empty: pool 0': 17, 'sd: pool 1': 4, 'sd: robust pool 1': 4, 'empty: pool 1': 3, 'empty: robust pool 1': 3, 'sd: pool 0': 16} {"X": [[0, 3], [1, 2]], "P": [4], "start": "sd", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO ls-alt-rule-n4m7 4 7 {'empty: pool 0': 17, 'sd: pool 0': 19, 'empty: pool 1': 3, 'empty: robust pool 1': 3, 'sd: pool 1': 1, 'sd: robust pool 1': 1} {"X": [[2], [0, 5], [6], [3, 4]], "P": [1], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO ls-exchange-no-keep-n3m6 3 6 {'empty: pool 0': 19, 'sd: pool 0': 17, 'sd: pool 1': 3, 'sd: robust pool 1': 3, 'empty: pool 1': 1, 'empty: robust pool 1': 1} {"X": [[0, 5], [3], [2, 4]], "P": [1], "start": "sd", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO ls-dead-end-n4m7 4 7 {'empty: pool 0': 18, 'sd: pool 0': 19, 'empty: pool 1': 2, 'empty: robust pool 1': 2, 'sd: pool 1': 1, 'sd: robust pool 1': 1} {"X": [[2], [6], [1, 4], [3, 5]], "P": [0], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO ls-single-dump-n4m7 4 7 {'empty: pool 0': 18, 'sd: pool 0': 18, 'sd: pool 1': 2, 'sd: robust pool 1': 2, 'empty: pool 1': 2, 'empty: robust pool 0': 1, 'empty: robust pool 1': 1} {"X": [[6], [3], [1, 4], [0, 5]], "P": [2], "start": "sd", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO lsp-bounded-coalitions-n4m7 4 7 {'empty: pool 0': 18, 'sd: pool 0': 20, 'empty: pool 1': 2, 'empty: robust pool 1': 2} {"X": [[2], [0, 6], [5], [3, 4]], "P": [1], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO lsp-early-stop-n4m7 4 7 {'empty: pool 0': 20, 'sd: pool 0': 19, 'sd: pool 1': 1, 'sd: robust pool 1': 1} {"X": [[2], [5], [1, 4], [3, 6]], "P": [0], "start": "sd", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+NONZERO nsw-strict-n4m8 4 8 {'empty: pool 0': 18, 'sd: pool 0': 19, 'empty: pool 1': 2, 'empty: robust pool 1': 1, 'sd: pool 1': 1, 'sd: robust pool 1': 1, 'empty: robust pool 0': 1} {"X": [[3], [4], [2, 7], [0, 1, 6]], "P": [5], "start": "empty", "rep": {"pool": 1, "sources": 2, "min valuers of a pool good": 2}}
+empty: pool 0 3305
+empty: pool 1 55
+empty: robust pool 0 19
+empty: robust pool 1 36
+instances 168
+instances with a nonzero stop 28
+sd: pool 0 3314
+sd: pool 1 46
+sd: robust pool 0 14
+sd: robust pool 1 32
+time 1 s

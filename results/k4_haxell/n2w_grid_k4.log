@@ -1,0 +1,23 @@
+$ python3 k4/haxell/ht_n2w.py K=4 VALS=1,2,4,7
+instances 1540944
+STUCK phi1 (7, (0, 1, 2, 3), (0, 4, 5, 6), (4, 1, 1, 1), (4, 1, 1, 1)) 2 7 states 438 phi0 16 phi1 1 phi2 1 phi3 10 phi4 0 phi5 16 phi6 1 phi7 10 phi8 1 phi9 1 phi10 1 phi11 1 phi12 1 phi13 1 phi14 1 phi15 1 phi16 1 phi17 1 phi18 1 example_phi1 -1 0 0 0 1 1 1
+STUCK phi2 (7, (0, 1, 2, 3), (0, 4, 5, 6), (4, 1, 1, 1), (4, 1, 1, 1)) 2 7 states 438 phi0 16 phi1 1 phi2 1 phi3 10 phi4 0 phi5 16 phi6 1 phi7 10 phi8 1 phi9 1 phi10 1 phi11 1 phi12 1 phi13 1 phi14 1 phi15 1 phi16 1 phi17 1 phi18 1 example_phi1 -1 0 0 0 1 1 1
+STUCK phi1 (7, (0, 1, 2, 3), (0, 4, 5, 6), (4, 1, 1, 1), (7, 1, 1, 1)) 2 7 states 438 phi0 16 phi1 1 phi2 1 phi3 10 phi4 0 phi5 16 phi6 1 phi7 10 phi8 1 phi9 1 phi10 1 phi11 1 phi12 1 phi13 1 phi14 1 phi15 1 phi16 1 phi17 1 phi18 1 example_phi1 -1 0 0 0 1 1 1
+STUCK phi2 (7, (0, 1, 2, 3), (0, 4, 5, 6), (4, 1, 1, 1), (7, 1, 1, 1)) 2 7 states 438 phi0 16 phi1 1 phi2 1 phi3 10 phi4 0 phi5 16 phi6 1 phi7 10 phi8 1 phi9 1 phi10 1 phi11 1 phi12 1 phi13 1 phi14 1 phi15 1 phi16 1 phi17 1 phi18 1 example_phi1 -1 0 0 0 1 1 1
+STUCK phi1 (7, (0, 1, 2, 3), (0, 4, 5, 6), (4, 1, 1, 1), (7, 1, 2, 1)) 2 7 states 420 phi0 19 phi1 1 phi2 1 phi3 10 phi4 0 phi5 19 phi6 1 phi7 10 phi8 1 phi9 1 phi10 1 phi11 1 phi12 1 phi13 1 phi14 1 phi15 1 phi16 1 phi17 1 phi18 1 example_phi1 -1 0 0 0 1 1 1
+STUCK phi2 (7, (0, 1, 2, 3), (0, 4, 5, 6), (4, 1, 1, 1), (7, 1, 2, 1)) 2 7 states 420 phi0 19 phi1 1 phi2 1 phi3 10 phi4 0 phi5 19 phi6 1 phi7 10 phi8 1 phi9 1 phi10 1 phi11 1 phi12 1 phi13 1 phi14 1 phi15 1 phi16 1 phi17 1 phi18 1 example_phi1 -1 0 0 0 1 1 1
+STUCK phi1 (7, (0, 1, 2, 3), (0, 4, 5, 6), (4, 1, 1, 1), (7, 1, 4, 1)) 2 7 states 404 phi0 15 phi1 1 phi2 1 phi3 7 phi4 0 phi5 15 phi6 1 phi7 7 phi8 1 phi9 1 phi10 1 phi11 1 phi12 1 phi13 1 phi14 1 phi15 1 phi16 1 phi17 1 phi18 1 example_phi1 -1 0 0 0 1 1 1
+STUCK phi2 (7, (0, 1, 2, 3), (0, 4, 5, 6), (4, 1, 1, 1), (7, 1, 4, 1)) 2 7 states 404 phi0 15 phi1 1 phi2 1 phi3 7 phi4 0 phi5 15 phi6 1 phi7 7 phi8 1 phi9 1 phi10 1 phi11 1 phi12 1 phi13 1 phi14 1 phi15 1 phi16 1 phi17 1 phi18 1 example_phi1 -1 0 0 0 1 1 1
+STUCK phi1 (7, (0, 1, 2, 3), (0, 4, 5, 6), (4, 1, 1, 1), (7, 2, 1, 1)) 2 7 states 420 phi0 19 phi1 1 phi2 1 phi3 10 phi4 0 phi5 19 phi6 1 phi7 10 phi8 1 phi9 1 phi10 1 phi11 1 phi12 1 phi13 1 phi14 1 phi15 1 phi16 1 phi17 1 phi18 1 example_phi1 -1 0 0 0 1 1 1
+STUCK phi2 (7, (0, 1, 2, 3), (0, 4, 5, 6), (4, 1, 1, 1), (7, 2, 1, 1)) 2 7 states 420 phi0 19 phi1 1 phi2 1 phi3 10 phi4 0 phi5 19 phi6 1 phi7 10 phi8 1 phi9 1 phi10 1 phi11 1 phi12 1 phi13 1 phi14 1 phi15 1 phi16 1 phi17 1 phi18 1 example_phi1 -1 0 0 0 1 1 1
+instances 1540944
+instances with a stuck state phi0 19473
+instances with a stuck state phi1 576
+instances with a stuck state phi2 576
+instances with a stuck state phi5 18069
+partial EFX0 states 470500040
+stuck states phi0 62937
+stuck states phi1 576
+stuck states phi2 576
+stuck states phi5 56613
+time 1491 s

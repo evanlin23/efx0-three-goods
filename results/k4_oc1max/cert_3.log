@@ -1,0 +1,12 @@
+$ python3 k4/oc1cert/run.py 3 --jobs=2 --out=/tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_3.json.gz
+hypergraphs 51 jobs 2
+3 nu=3 n=3 51
+iterations 1270
+result certified 51
+witness kind add (found by the inner) 9
+witness kind chain (found by the inner) 1370
+witness kind picks (found by the inner) 574
+witnesses kept 5595
+slowest hypergraph 0.77 s ('3', 13)
+time 6 s
+wrote /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_3.json.gz

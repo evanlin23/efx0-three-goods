@@ -1,0 +1,15 @@
+$ python3 k4/oc1max_multi/reduce_s.py results/k4_oc1max_multi/oc1max_cex12.jsonl
+12 failing starts
+12 (a) and a Theorem U/S case in I-
+12 lifted, k unthreatened
+12 OC2 by REC-S
+12 P1 with LIFT hypothesis
+12 (a) SD
+12 E(k) only: (a) and a Theorem U/S case in I-
+12 E(k) only: lifted, k unthreatened
+12 E(k) only: OC2 by REC-S
+12 E(k) only: P1 with LIFT hypothesis
+12 E(k) only: (a) SD
+12 E(k) only: SD-E tests
+violations (Theorem U/S in I-, LIFT, or SD-E): 0 []
+a smallest start not covered: null

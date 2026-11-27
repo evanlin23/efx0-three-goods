@@ -1,0 +1,12 @@
+$ DEPTH=1 FORCE1=1 ANY=0 python3 k4/oc1max_multi/rsd.py results/k4_oc1max_multi/hard2_starts.jsonl.gz results/k4_oc1max_multi/hard2_starts_n5.jsonl.gz
+('REC-S fails', '(ii) RING start', 'mechanism ED') 44
+('REC-S fails', '(iii) other', 'mechanism CAN-k') 136
+('REC-S fails', '(iii) other', 'mechanism CLEAN') 1729
+('REC-S fails', '(iii) other', 'mechanism KEEP') 2522
+('REC-S fails', '(iii) other', 'mechanism OWN') 599
+('REC-S fails', '(iii) other', 'mechanism RING') 75
+least number of settlements: 1 3278
+least number of settlements: None 5105
+starts 8383
+smallest REC-S failure (ii) RING start ((3, 6), 'T3', [0, 1, 4], [0, 2, 1])
+smallest REC-S failure (iii) other ((3, 5), 'c4x-n3m5-big-bases', [1, 4, 3], [0, 2, 1])

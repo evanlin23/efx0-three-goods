@@ -1,0 +1,83 @@
+# Failed: R2★, R2-M and R2-O (owner-free, the chain's head, or another receiver as owner) as the proof target for R2
+
+Workstream `proof/k4-ttc` (`k4/ttc.md` §14.6). **Status:**
+- *Refuted at n = 4, exhaustively,* by the certifier (`compute/k4-oc1max-cert`, its message of 01:10; failing starts in
+  `results/k4_oc1max/r2m_fails_n4.jsonl` there). Two of its examples are replayed here (`k4/ttc/r2_owner_check.py`,
+  `results/k4_ttc/r2_owner_check.log`).
+  - R2-M fails on 306 of the 1,002 n = 4 cores.
+  - R2★ fails on 5 of the 20 R2-M failures re-verified by the certifier's raw brute force.
+- *Also refuted, later:* R2-O and R2-O′ (another receiver owns), on 9 of the 1,002 n = 4 cores (section below).
+- *Not refuted:* R2 itself, which is CERTIFIED at n ≤ 4 (K4.SDC.R2.N4), and **R2-C** (some canonical chain to a
+  receiver repairs, any owner), which is CERTIFIED at n = 4 by the certifier.
+
+## The refuted targets
+
+At a perfect serial-dictatorship start with |U| ≥ 2 receivers and no one-absorber completion at the picks, take a
+canonical chain: x₀ dangerous, x₁ valuing y_{x₀} above y_{x₁}, ending at a receiver z. The two targets said that some
+such chain is followed by:
+- **R2★:** a completion in which every agent receives at most one junk good (no absorber);
+- **R2-M:** Lemma M^c's S^c completion with owner x₀ and at most one junk good for it (`proof/k4-oc1max-multi` §9,
+  `max_rest = 1`).
+
+Sampled data had supported both (79/79 at n = 4, 466/466 at n = 6). The exhaustive n = 4 run did not.
+
+## Smallest failing configuration (n = 4, m = 7)
+
+| agent | goods (value) | pick |
+|---|---|---|
+| 0 | g0 (2), g5 (3), g6 (4) | g0 |
+| 1 | g1 (2), g5 (3), g6 (4) | g1 |
+| 2 | g2 (6), g3 (4), g4 (5), g5 (8) | g5 |
+| 3 | g2 (6), g3 (5), g4 (4), g6 (8) | g6 |
+
+**The start.** Picks (g0, g1, g5, g6), junk {g2, g3, g4}.
+- The receivers are 0 and 1. Each holds its worst good, a private one, and wants g5 and g6, so agents 2 and 3 are
+  frozen.
+- The junk is a triangle shared by the dangerous agents 2 and 3: every pair beats 8.
+
+**Why it is hard.** The three junk goods must go to the two receivers, and a bundle with two of them is envied.
+
+**Every repairing move** is a canonical chain (2 or 3, then 0 or 1) in which the dangerous agent takes a pair of the
+triangle and the receiver takes its pick.
+- In every case the completion's absorber is **the other receiver**: owner 1 after a chain to 0, owner 0 after a
+  chain to 1.
+- The dangerous agent cannot take more junk (its pair plus anything is envied by the other sharer).
+- The receiver z now holds a wanted pick, so it is frozen.
+- So two junk goods remain for one free agent: an owner is needed.
+
+A second example (sets [[0,2,6,7],[1,4,5,6],[3,6,7],[4,5,7]], vals [[4,2,10,7],[3,5,6,7],[2,3,4],[3,2,4]], picks
+(g0, g6, g3, g7)) behaves the same way.
+
+## R2-O fails too; R2-C is CERTIFIED at n = 4
+
+- *R2-O and R2-O′:* the certifier's exhaustive run (message of 01:35) refutes R2-O′ on 9 of the 1,002 n = 4 cores,
+  and with it R2-O in both readings. R2-O′ asks the owner to be a receiver other than the chain's end z, on or off the
+  chain, or to have no owner. Its data are `r2og_fails_n4.jsonl` and `verify_r2og_fails_n4.log` on
+  `compute/k4-oc1max-cert`.
+- *The replayed example* (`r2_owner_check.log`, third case):
+  - sets [[0,2,4,8],[1,4,6,8],[3,5,6,7],[5,7,8]], vals [[2,4,8,7],[3,8,4,2],[3,5,7,6],[3,2,4]], picks
+    (g4, g1, g6, g8);
+  - receivers {1, 3}, dangerous {0, 2};
+  - the only repairing canonical chain is (2, 1), and its completions are owned by the chain's end z = 1 or its head
+    x₀ = 2, never by the other receiver 3.
+- *Two examples, two owners:* in the first example the owner must be the other receiver, here it must be z or x₀. So
+  no single owner rule survives.
+- **R2-C is CERTIFIED at n = 4** (certifier, all 1,002 cores, independently checked; `cert_4_r2c.json.gz`,
+  `check_4_r2c.log` there). Some canonical chain (x₀ dangerous, x₁ wanting y_{x₀}) ending at a receiver is followed
+  by a one-absorber completion with some owner.
+
+## The earlier candidate: R2-O
+
+**R2-O.** Some canonical chain to a receiver z is followed by a one-absorber completion whose owner is *another*
+receiver u ∉ the chain. That is the coordinator's original shape: one receiver is the chain's end, the other is the
+owner.
+- It holds on both examples.
+- It holds on all the sampled data: "owner another receiver off the path: some", 79/79 at n = 4 and 466/466 at n = 6
+  (`r2_shape_*.log`).
+- An exhaustive n = 4 check was requested from the certifier.
+
+## Reproduce
+
+```
+MC_DIR=<proof/k4-oc1max-multi checkout>/k4/oc1max_multi python3 k4/ttc/r2_owner_check.py   # MC_DIR only for the M^c column
+```

@@ -1,0 +1,2 @@
+{"source": "Proposition H N=3000 seed=1 Q=100 delta=1", "instances": 3000, "lifted_efx0": 118295, "fail_one_t": 0, "fail_restriction": 0, "fail_tops": 0, "I_has": 3000, "lifted_has": 3000, "mismatch_existence": 0}
+{"source": "Proposition H N=1000 seed=2 Q=100 delta=350", "instances": 1000, "lifted_efx0": 47210, "fail_one_t": 0, "fail_restriction": 24671, "fail_tops": 0, "I_has": 1000, "lifted_has": 1000, "mismatch_existence": 0}

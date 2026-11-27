@@ -1,0 +1,58 @@
+configuration dbl-Q3-Q3: agents {'e': ('g0', 'g1', 'a'), 'f': ('g0', 'g1', 'x')}, I = ['g0', 'g1'], D = ['a', 'x'], 36 profiles
+    DEL                                          reduces     14, new     14
+    GAD-h(a=0,x=2,z0'=1)                         reduces      8, new      8
+    GAD-h(a=2,x=0,z0'=1)                         reduces      8, new      8
+    GAD-h(a=2,x=2,z0'=1)                         reduces      6, new      6
+  reduced: 36 of 36 profiles (4 records)
+configuration dbl-Q3-Q3-c1: agents {'e': ('g0', 'g1', 'a'), 'f': ('g0', 'g1', 'a')}, I = ['g0', 'g1'], D = ['a'], 36 profiles
+    GAD-h(a=2,z0'=1)                             reduces     26, new     26
+    DEL                                          reduces     14, new     10
+  reduced: 36 of 36 profiles (2 records)
+configuration dbl-Q3-P4: agents {'e': ('g0', 'g1', 'a'), 'f': ('g0', 'g1', 'x', 'pf')}, I = ['g0', 'g1', 'pf'], D = ['a', 'x'], 1728 profiles
+    DEL                                          reduces   1132, new   1132
+    GAD-h(a=2,x=0,z0'=1)                         reduces    468, new    324
+    GAD-h(a=0,x=2,z0'=1)                         reduces    336, new    176
+    GAD-h(a=2,x=2,z0'=1)                         reduces    140, new     80
+    GAD-h(a=2,x=4,z0'=1)                         reduces    164, new     16
+  reduced: 1728 of 1728 profiles (5 records)
+configuration dbl-Q3-P4-c1: agents {'e': ('g0', 'g1', 'a'), 'f': ('g0', 'g1', 'a', 'pf')}, I = ['g0', 'g1', 'pf'], D = ['a'], 1728 profiles
+    DEL                                          reduces   1132, new   1132
+    GAD-h(a=2,z0'=1)                             reduces    956, new    596
+  reduced: 1728 of 1728 profiles (2 records)
+configuration dbl-Q3-Q4: agents {'e': ('g0', 'g1', 'a'), 'f': ('g0', 'g1', 'x', 'y')}, I = ['g0', 'g1'], D = ['a', 'x', 'y'], 1728 profiles
+    GAD-h(a=0,x=2,y=2,z0'=3)                     reduces    448, new    448
+    GAD-h(a=8,x=2,y=2,z0'=3)                     reduces    244, new    244
+    GAD-h(a=0,x=0,y=2,z0'=1)                     reduces    168, new    168
+    GAD-h(a=0,x=2,y=0,z0'=1)                     reduces    168, new    168
+    GAD-h(a=2,x=0,y=4,z0'=1)                     reduces    116, new    106
+    GAD-h(a=2,x=4,y=0,z0'=1)                     reduces    116, new    106
+    GAD-h(a=0,x=2,y=4,z0'=1)                     reduces     96, new     96
+    GAD-h(a=0,x=4,y=2,z0'=1)                     reduces     96, new     96
+    GAD-h(a=2,x=4,y=8,z0'=1)                     reduces     72, new     48
+    GAD-h(a=2,x=8,y=4,z0'=1)                     reduces     72, new     48
+    DEL                                          reduces    236, new     28
+    GAD-h(a=4,x=0,y=2,z0'=3)                     reduces     36, new     24
+    GAD-h(a=6,x=8,y=4,z0'=5)                     reduces     24, new     24
+    GAD-h(a=6,x=4,y=8,z0'=5)                     reduces     24, new     20
+    GAD-h(a=4,x=6,y=2,z0'=3)                     reduces     16, new     16
+    GAD-h(a=2,x=2,y=6,z0'=1)                     reduces     52, new     14
+    GAD-h(a=2,x=6,y=2,z0'=1)                     reduces     52, new     14
+    GAD-h(a=10,x=6,y=7,z0'=2)                    reduces     40, new     14
+    GAD-h(a=10,x=7,y=6,z0'=2)                    reduces     40, new     10
+    GAD-h(a=4,x=2,y=6,z0'=3)                     reduces     16, new      8
+    GAD-h(a=2,x=0,y=0,z0'=1)                     reduces    144, new      4
+    GAD-h(a=2,x=2,y=0,z0'=1)                     reduces     28, new      4
+  reduced: 1708 of 1728 profiles (22 records)
+configuration dbl-Q3-Q4-c1: agents {'e': ('g0', 'g1', 'a'), 'f': ('g0', 'g1', 'a', 'y')}, I = ['g0', 'g1'], D = ['a', 'y'], 1728 profiles
+    GAD-h(a=2,y=0,z0'=1)                         reduces    668, new    668
+    GAD-h(a=2,y=2,z0'=3)                         reduces    480, new    444
+    GAD-h(a=2,y=4,z0'=1)                         reduces    312, new    312
+    GAD-h(a=4,y=2,z0'=1)                         reduces    406, new    144
+    GAD-h(a=0,y=2,z0'=1)                         reduces    168, new    120
+    GAD-h(a=4,y=2,z0'=3)                         reduces    252, new     40
+  reduced: 1728 of 1728 profiles (6 records)
+wrote ../results/k4_twins/dbl_q3.json.gz: 41 records, 14854 states
+
+real	0m25.732s
+user	0m26.871s
+sys	0m0.128s

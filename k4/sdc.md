@@ -2041,3 +2041,67 @@ profiles had missed them. The coordinator replayed both independently.
     (some maximum-matching order satisfies OC₁; SD-C).
   - The Lean frames (K4.SDC.OC1MAX.LEAN, OC1PERF.LEAN) are implications and stay valid. They are parametrized by
     the move relation (ConjOC1maxWith), so a two-move relation fits them directly.
+
+**OC₁′^max holds at n = 4 and fails at n = 5** (2026-11-27 00:55 UTC). OC₁′ is from kgen/rounds.md §4.6: a single move
+(addition, chain or ring), where every non-end agent of a chain may also take goods of the end's released base.
+- **n = 4.** OC₁′ holds at all 112,880 (type profile, picks) pairs where OC₁^max fails at n = 4, the certifier's complete
+  export (`results/k4_oc1max/two_move_starts_n4.json.gz` on compute/k4-oc1max-cert, sha256 6159e38d…).
+  - The coordinator's check is `k4/sdc/oc1prime_verify.py`, log `results/k4_sdc/oc1prime_verify_n4.log`, 140 s. Its own
+    widened move generator is written from the definition. At every start it confirms the SD picks and a maximum
+    matching, and it confirms that OC₁ fails at 2,258 sampled starts.
+  - It agrees with kgen-rounds' rnd.c (`results/kgen_rounds/oc1p_vs_oc2.log`).
+  - With the certifier's OC₁^max certificate for every other n = 4 start, **OC₁′^max holds on every strict connected
+    n = 4 core**.
+- **n = 5: OC₁′^max is false.** The instance is the certifier's OC₁^max failure 5_pure idx 164
+  (`k4/sdc/oc1prime_n5_cex.py`, `results/k4_sdc/oc1prime_n5_cex.log`).
+  - sets [[0,2,3,7],[1,2,6,7],[3,4,5,6],[3,4,5,7],[4,5,6,7]], vals [[1,8,6,4],[4,8,2,7],[6,7,3,5],[7,10,2,6],[7,5,3,6]].
+  - It is a strict connected MC2-class core with m = 8.
+  - The orders (1,4,2,0,3), (4,1,2,0,3) and (4,2,1,0,3) give the picks (7,2,3,5,4): a perfect start, ν = 5.
+  - None of the 21 OC₁′ move states has a one-absorber completion. Three implementations agree: the coordinator's,
+    kgen-rounds' forward brute force `verify_k4zero.oc1_prime`, and rnd.c `rndlib.oc1z`
+    (`results/k4_sdc/oc1prime_n5_xcheck.log`).
+  - Two sequential moves repair it, so OC₂^max holds here.
+- **The mechanism is two disjoint conflicts.** It is the "two disjoint swaps" of kgen/rounds.md §4.6, now in a k = 4 core
+  with zeros.
+  - Every one of the 9 EFX₀ allocations that value-dominate the picks swaps agents 0 and 1: agent 0 gets 2, and agent 1
+    gets 7 plus the junk good 1.
+  - Each one also upgrades agent 3, whose pick 5 is worth 2. It takes 4 (from agent 4, who takes 5 and junk 6) or 3
+    (from agent 2).
+  - One chain or ring fixes one of the two. A round of two vertex-disjoint moves fixes both: for example the ring 0 ↔ 1
+    with junk 0 and 1, plus the ring 3 ↔ 4 with junk 6. 12 of the 20 two-move repairs (state pairs) are such disjoint pairs.
+- **So the one-step candidates at k = 4 must allow disjoint moves.**
+  - ROUND-P^max: one round of vertex-disjoint OC₁′ moves. It holds at n = 4 because OC₁′^max holds there, and it holds on
+    this n = 5 start.
+  - OC₂^max is unchanged.
+- **Gluing does not build three disjoint conflicts.** `k4/sdc/oc2max_glue_cex.py`, `results/k4_sdc/oc2max_glue_cex.log`.
+  - Test: two copies of the instance glued at junk good 0 (n = 10, a strict connected MC2 core, a perfect SD start).
+  - Prediction from treating the copies separately: three sequential moves needed.
+  - Result: the picks already have a one-absorber completion. One agent absorbs junk of both copies. The other copy's
+    junk is worth 0 to everyone in a copy, so in EFX₀ it acts as a sink.
+  - So the copies do not separate. OC₂^max holds at that start.
+
+**What (K) of Theorem REC-S asks, locally** (coordinator, 2026-11-27 01:50 UTC; multi §12 has the theorem).
+- Setting: in REC-S, agent k ends with T (two of its at most four relevant goods), and the other bundles come from a
+  completion in I⁻ = I − k − T. Write k's remaining relevant goods as p (its SD pick, now held by its earliest wanter)
+  and g (if k values a fourth good). T is improving, so v_k(T) > v_k(p).
+- A bundle B threatens k exactly when v_k(B) − min_{h∈B} v_k(h) > v_k(T). Only B ∩ {p, g} counts, and by bundle:
+  - B ∩ R_k = {p}: never, since v_k(p) < v_k(T).
+  - B ∩ R_k = {g}: exactly when |B| ≥ 2 and v_k(g) > v_k(T).
+  - B ⊇ {p, g}: exactly when max(v_k(p), v_k(g)) > v_k(T) for |B| = 2, and when v_k(p) + v_k(g) > v_k(T) for |B| ≥ 3.
+- So (K) is a constraint on I⁻'s completion only:
+  - **if v_k(g) > v_k(T), g must end in a singleton bundle**, i.e. its holder takes no junk;
+  - p and g must not share a bundle in the cases above.
+- The other half of the lift is automatic. Nobody EFX₀-envies T: for |T| = 2 the test is max_{h∈T} v_i(h) ≤ v_i(B_i).
+  That holds because junk is never envied as a singleton at an SD start and moves only raise values (Y_z ∈ T is LIFT's
+  case).
+- Hence the inductive hypothesis that a recursion (RSD: settle, delete, recurse) needs is: **OC₂^max on instances with
+  a set of goods that must end in singleton bundles, and some forbidden pairs.** When k's best improving pool pair
+  beats every other good of k, the constraint is empty, and (K) holds for every completion of I⁻.
+- Three-move hunt, negative (`k4/sdc/three_move_hunt.py`, `three_move_climb.py`; logs `results/k4_sdc/three_move_*`).
+  - Random extensions of the 12 two-move seeds by one agent leave almost every start at 0 or 1 moves: 1 two-move start
+    among about 250 cores.
+  - Climbs bottom out at one-move starts.
+  - A new agent with its own pick is a sink for the seed's junk: core agents value its pick at 0, and SD junk is never
+    envied as a singleton.
+  - So multi-move starts need every pick to be wanted. Random extension is the wrong tool, and exhaustive ordinal
+    certification (the certifier's n = 5 lists) is the right one.

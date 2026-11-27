@@ -1,0 +1,12 @@
+$ python3 k4/haxell/ht_n2claim.py 40000 4 9 STATES=40
+give1+place1 38470
+give1+placeS 1869
+giveS+place1 1777
+giveS+placeS 11
+place1 467622
+place1+place1 18
+place1+swapAB 7988
+place1+swapP 683
+place1+trade 864
+states 519302
+time 20 s

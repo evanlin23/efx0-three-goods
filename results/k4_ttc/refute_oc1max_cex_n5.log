@@ -1,0 +1,15 @@
+$ (cd k4/ttc; for i in 0 1; do python3 refute_oc1.py ../../results/k4_ttc/oc1max_cex_n5_two_private.json $i; done)
+sets [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]] vals [[3, 2, 10, 6], [4, 1, 6, 8], [2, 8, 5, 4], [5, 4, 8, 2], [7, 8, 2, 4]] m 9
+order [1, 3, 4, 2, 0] picks [4, 6, 0, 5, 1] junk [2, 3, 7, 8]
+1. picks: one-absorber completion False | free completion False
+2. improving moves: 37 (additions 7, chains 21, rings 9)
+   moves after which the bases have a one-absorber completion: 0
+   moves after which the bases have a free completion (OC): 0 []
+OC1 FAILS for this order (independent replay)
+sets [[0, 4, 5, 6], [2, 3, 4, 6], [0, 1, 5, 6], [2, 4, 5, 6], [0, 1, 7, 8]] vals [[3, 2, 10, 6], [4, 2, 7, 10], [2, 8, 5, 4], [5, 4, 8, 2], [7, 8, 2, 4]] m 9
+order [1, 3, 4, 2, 0] picks [4, 6, 0, 5, 1] junk [2, 3, 7, 8]
+1. picks: one-absorber completion False | free completion False
+2. improving moves: 37 (additions 7, chains 21, rings 9)
+   moves after which the bases have a one-absorber completion: 0
+   moves after which the bases have a free completion (OC): 0 []
+OC1 FAILS for this order (independent replay)

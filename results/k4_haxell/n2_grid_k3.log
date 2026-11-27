@@ -1,0 +1,8 @@
+$ python3 k4/haxell/ht_n2k3.py K=3 VALS=1,2,3,5,8,13
+instances 472860
+instances 472860
+instances with a trap 0
+no complete EFX0 0
+radius-2 traps 0
+traps 0
+time 21 s

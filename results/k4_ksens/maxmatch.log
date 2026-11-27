@@ -1,0 +1,8 @@
+$ python3 k4/ksens/maxmatch.py
+PW5: n 5, nu 5; starts 19, of which maximum-matching 19; OC1 fails on 1 (1 of them maximum-matching); one round fails on 0 (0 maximum-matching)
+RD5: n 4, nu 4; starts 10, of which maximum-matching 8; OC1 fails on 1 (1 of them maximum-matching); one round fails on 1 (1 maximum-matching)
+kgen-n4: n 4, nu 4; starts 6, of which maximum-matching 6; OC1 fails on 1 (1 of them maximum-matching); one round fails on 0 (0 maximum-matching)
+PW436: n 7, nu 7; starts 229, of which maximum-matching 229; OC1 fails on 13 (13 of them maximum-matching); one round fails on 0 (0 maximum-matching)
+PWR1-6: n 6, nu 6; starts 138, of which maximum-matching 138; OC1 fails on 12 (12 of them maximum-matching); one round fails on 0 (0 maximum-matching)
+NF2-6: n 6, nu 6; starts 138, of which maximum-matching 138; OC1 fails on 12 (12 of them maximum-matching); one round fails on 0 (0 maximum-matching)
+NF1R1-6: n 7, nu 7; starts 327, of which maximum-matching 327; OC1 fails on 15 (15 of them maximum-matching); one round fails on 0 (0 maximum-matching)

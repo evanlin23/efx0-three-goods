@@ -1,0 +1,16 @@
+$ python3 k4/haxell/gstar_run.py gen:20000:77:2:7:7 NMAX=2 MMAX=8 SHOW=4
+TRAPS g1699 [[[0, 1, 2, 3, 4, 5, 6], [0, 1, 2, 3, 4, 5, 6]], [[21, 12, 1, 5, 14, 6, 30], [31, 15, 3, 13, 24, 1, 35]]] {'states': 357, 'complete': 12, 'traps': 1, 'radius2traps': 0, 'minpool': 1} e.g. [[0, 1, 5], [2, 3, 6]] pool [4]
+TRAPS g9354 [[[0, 1, 2, 3, 4, 5, 6], [0, 1, 2, 3, 4, 5, 6]], [[5, 37, 11, 25, 6, 1, 10], [19, 38, 15, 34, 3, 31, 18]]] {'states': 420, 'complete': 18, 'traps': 1, 'radius2traps': 0, 'minpool': 1} e.g. [[0, 2, 4, 6], [3, 5]] pool [1]
+TRAPS g10217 [[[0, 1, 2, 3, 4, 5, 6], [0, 1, 2, 3, 4, 5, 6]], [[13, 33, 10, 22, 3, 32, 4], [19, 27, 8, 11, 1, 33, 3]]] {'states': 375, 'complete': 13, 'traps': 4, 'radius2traps': 0, 'minpool': 1} e.g. [[4, 5, 6], [0, 2, 3]] pool [1]
+TRAPS g13951 [[[0, 1, 2, 3, 4, 5, 6], [0, 1, 2, 3, 4, 5, 6]], [[14, 36, 18, 37, 6, 4, 12], [1, 26, 9, 21, 4, 5, 2]]] {'states': 367, 'complete': 13, 'traps': 7, 'radius2traps': 0, 'minpool': 2} e.g. [[4, 5, 6], [0, 2]] pool [1, 3]
+instances 20000
+instances n=2 20000
+instances skipped (size) 0
+instances with a radius-2 trap 0
+instances with a trap 6
+instances with a trap, n=2 6
+instances without a complete EFX0 allocation 0
+partial EFX0 states 10054577
+radius-2 traps 0
+traps 23
+time 13 s

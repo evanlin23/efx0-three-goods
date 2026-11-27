@@ -1,0 +1,14 @@
+$ python3 k4/haxell/ht_n2aug.py K=4 VALS=1,2,4,7 SHOW=12 PROCS=2
+AUGSTUCK 2 5 4 0 2 1 4 2 7 3 2 4 0 4 1 2 2 7 4 2 | 2 5 states 68 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+AUGSTUCK 2 5 4 0 2 1 7 2 4 3 2 4 0 4 1 7 2 2 4 2 | 2 5 states 68 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+AUGSTUCK 2 5 4 0 4 1 2 2 7 3 2 4 0 2 1 4 2 7 4 2 | 2 5 states 68 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+AUGSTUCK 2 5 4 0 4 1 4 2 7 3 2 4 0 4 1 4 2 7 4 2 | 2 5 states 69 phi0 2 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+AUGSTUCK 2 5 4 0 4 1 7 2 2 3 2 4 0 2 1 7 2 4 4 2 | 2 5 states 68 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+AUGSTUCK 2 5 4 0 4 1 7 2 4 3 2 4 0 4 1 7 2 4 4 2 | 2 5 states 69 phi0 2 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+AUGSTUCK 2 5 4 0 7 1 2 2 4 3 2 4 0 7 1 4 2 2 4 2 | 2 5 states 68 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+AUGSTUCK 2 5 4 0 7 1 4 2 2 3 2 4 0 7 1 2 2 4 4 2 | 2 5 states 68 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+AUGSTUCK 2 5 4 0 7 1 4 2 4 3 2 4 0 7 1 4 2 4 4 2 | 2 5 states 69 phi0 2 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+AUGSTUCK 2 5 4 0 2 1 4 2 2 3 7 4 0 4 1 2 3 7 4 2 | 2 5 states 68 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+AUGSTUCK 2 5 4 0 2 1 7 2 2 3 4 4 0 4 1 7 3 2 4 2 | 2 5 states 68 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+AUGSTUCK 2 5 4 0 4 1 2 2 2 3 7 4 0 2 1 4 3 7 4 2 | 2 5 states 68 phi0 1 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0
+(stopped after collecting 12 examples; the totals are those of n2w_grid_k4_sub.log: phi0 fails at 48 states of 36 instances)

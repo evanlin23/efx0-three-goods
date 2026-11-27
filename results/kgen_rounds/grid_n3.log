@@ -1,0 +1,6 @@
+$ python3 kgen/rounds/grid.py 3 5 3 3 6 2 3 7 2 3 8 2 3 6 3
+n 3 m 5 values 1..3: profiles 2421090, starts 5155168, starts needing more than one round 0, more than two rounds 0 (32 s)
+n 3 m 6 values 1..2: profiles 45760, starts 111932, starts needing more than one round 0, more than two rounds 0 (1 s)
+n 3 m 7 values 1..2: profiles 357760, starts 846088, starts needing more than one round 0, more than two rounds 0 (4 s)
+n 3 m 8 values 1..2: profiles 2829056, starts 6577716, starts needing more than one round 0, more than two rounds 0 (35 s)
+n 3 m 6 values 1..3: profiles 64836045, starts 127496212, starts needing more than one round 0, more than two rounds 0 (865 s)

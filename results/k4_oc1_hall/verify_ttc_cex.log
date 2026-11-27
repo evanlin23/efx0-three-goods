@@ -1,0 +1,16 @@
+$ python3 k4/oc1_hall/verify_ttc_cex.py
+A [[[0, 2, 3, 1], [1, 4, 5, 9], [1, 2, 0, 8], [1, 6, 7, 8], [3, 6, 9], [1, 3, 6, 9]], [[2, 7, 8, 3], [3, 6, 4, 9], [12, 2, 4, 8], [12, 6, 3, 4], [7, 2, 10], [7, 8, 4, 1]]]
+   order 0..5, picks (3, 9, 1, 6, None, None) | one-absorber: SAT False brute [] | free completion True | states after one chain or ring: 92 repaired 0
+   OC1^p at the picks: True [[3], [9], [1], [6], [2, 4, 7], [0, 5, 8]] raw EFX0: True
+B [[[0, 2, 3, 1], [6, 4, 5, 9], [1, 2, 3, 9], [1, 6, 7, 8], [3, 6, 9], [1, 3, 6, 9]], [[3, 7, 8, 6], [2, 9, 6, 14], [14, 2, 8, 10], [8, 7, 6, 3], [14, 4, 12], [10, 15, 4, 2]]]
+   order 0..5, picks (3, 9, 1, 6, None, None) | one-absorber: SAT False brute [] | free completion True | states after one chain or ring: 57 repaired 0
+   OC1^p at the picks: True [[3], [9], [1], [6], [2, 4, 7], [0, 5, 8]] raw EFX0: True
+   orders: {'OC1 fails': 24, 'one chain or ring repairs': 383, 'picks complete': 313}
+B< [[[0, 2, 3, 1], [6, 4, 5, 9], [1, 2, 3, 9], [1, 6, 7, 8], [3, 6, 9], [1, 3, 6, 9]], [[6, 14, 16, 12], [4, 18, 12, 28], [28, 4, 16, 21], [16, 14, 12, 6], [28, 8, 24], [20, 30, 8, 4]]]
+   order 0..5, picks (3, 9, 1, 6, None, None) | one-absorber: SAT False brute [] | free completion True | states after one chain or ring: 57 repaired 0
+   OC1^p at the picks: True [[3], [9], [1], [6], [2, 4, 7], [0, 5, 8]] raw EFX0: True
+   orders: {'OC1 fails': 24, 'one chain or ring repairs': 383, 'picks complete': 313}
+B> [[[0, 2, 3, 1], [6, 4, 5, 9], [1, 2, 3, 9], [1, 6, 7, 8], [3, 6, 9], [1, 3, 6, 9]], [[6, 14, 16, 12], [4, 18, 12, 28], [28, 4, 16, 19], [16, 14, 12, 6], [28, 8, 24], [20, 30, 8, 4]]]
+   order 0..5, picks (3, 9, 1, 6, None, None) | one-absorber: SAT False brute [] | free completion True | states after one chain or ring: 57 repaired 0
+   OC1^p at the picks: True [[3], [9], [1], [6], [2, 4, 7], [0, 5, 8]] raw EFX0: True
+   orders: {'OC1 fails': 24, 'one chain or ring repairs': 383, 'picks complete': 313}

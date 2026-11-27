@@ -1,0 +1,14 @@
+$ python3 k4/oc1cert/run.py 5_n4_1 --depth=2 --stride=2 --offset=0 --jobs=4 --out=/tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/n5/5_n4_1_s2o0.jsonl.gz --summary=results/k4_oc1max/n5/5_n4_1_s2o0_summary.jsonl.gz
+hypergraphs 868 jobs 4
+... 500 hypergraphs, 17 s
+5_n4_1 nu=4 n=5 3
+5_n4_1 nu=5 n=5 865
+iterations 95822
+result certified 868
+witness kind add (found by the inner) 412
+witness kind chain (found by the inner) 59012
+witness kind picks (found by the inner) 64528
+witnesses kept 143537
+slowest hypergraph 0.70 s ('5_n4_1', 513)
+time 35 s
+wrote /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/n5/5_n4_1_s2o0.jsonl.gz

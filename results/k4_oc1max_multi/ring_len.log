@@ -1,0 +1,11 @@
+$ python3 k4/oc1max_multi/ring_len.py results/k4_oc1max_multi/hard2_starts.jsonl.gz results/k4_oc1max_multi/hard2_starts_n5.jsonl.gz
+23 ('|D_T|=0', 'shortest S* repair', (2, 'both ends in D'))
+8 ('|D_T|=0', 'shortest S* repair', (2, 'x0 not in D'))
+4 ('|D_T|=0', 'shortest S* repair', (3, 'both ends in D'))
+8 ('|D_T|=0', 'shortest S* repair', (3, 'x0 in D'))
+2 ('|D_T|=2', 'shortest S* repair', (2, 'x0 in D'))
+smallest (2, 'both ends in D') ((3, 6), 'T3', [0, 1, 4])
+smallest (2, 'x0 in D') ((4, 8), 'r640', [2, 7, 5, 6])
+smallest (2, 'x0 not in D') ((4, 9), 'nsw-strict-n4m9', [5, 6, 7, 8])
+smallest (3, 'both ends in D') ((4, 7), 'c4-g2-other-runs-n4m7', [2, 5, 6, 4])
+smallest (3, 'x0 in D') ((4, 7), 'ls-alt-rule-n4m7', [2, 5, 6, 3])

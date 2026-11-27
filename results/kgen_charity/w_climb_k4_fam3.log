@@ -1,0 +1,6 @@
+$ python3 kgen/charity/w_climb.py 21 3000 2 family 4 3
+start score -4 (>= 2 out: 79, < 2 out: 83)
+step 4 score -2 (>= 2 out: 86, < 2 out: 88) 3 s
+step 10 score -1 (>= 2 out: 90, < 2 out: 91) 7 s
+step 16 score 0 (>= 2 out: 94, < 2 out: 94) 14 s
+(stopped by hand after the plateau; see kgen/charity.md §6)

@@ -1,0 +1,10 @@
+$ GSTAR_PAR=1 python3 k4/haxell/ht_gstar.py gen:800:33:3:6:3 NMAX=3 MMAX=8 SHOW=6
+instances 800
+instances with a radius-2 trap 0
+instances with a trap 0
+instances without a complete EFX0 allocation 0
+partial EFX0 states 306325
+radius-2 traps 0
+serial-dictatorship starts that are traps 0
+traps 0
+time 3 s

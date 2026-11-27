@@ -1,0 +1,11 @@
+$ python3 k4/oc1max_multi/lemma_own.py results/k4_oc1max_multi/hard2_starts.jsonl.gz results/k4_oc1max_multi/hard2_starts_n5.jsonl.gz
+('mechanism CAN-k', 'no OWN chain') 585
+('mechanism CLEAN', 'no OWN chain') 1877
+('mechanism ED', 'no OWN chain') 45
+('mechanism KEEP', 'OWN chain') 3077
+('mechanism KEEP', 'no OWN chain') 1762
+('mechanism OWN', 'OWN chain') 886
+('mechanism RING', 'no OWN chain') 151
+OWN (chain, owner, holder) triples 21440
+starts 8383
+Lemma OWN violations: 0 []

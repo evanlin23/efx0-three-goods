@@ -1,0 +1,13 @@
+$ python3 k4/haxell/ht_gstar.py screen NMAX=4 MMAX=7 SHOW=8
+TRAPS c4x-n2m5-base-needs [[[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 3, 4, 8], [2, 3, 4, 8]]] states 63 complete 2 traps 2 fewest pooled 1 e.g. [[[0, 2], [1, 3]], [[0, 3], [1, 2]]] pool [[4], [4]]
+TRAPS dl2-rot-n3m7 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]], [[6, 4, 8, 5], [2, 7, 4, 10], [7, 4, 2, 8]]] states 836 complete 38 traps 1 fewest pooled 1 e.g. [[[0, 6], [3, 5], [2, 4]]] pool [[1]]
+TRAPS induct-g-r1 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[4, 10, 8, 3], [4, 8, 10, 3]]] states 68 complete 4 traps 4 fewest pooled 1 e.g. [[[2], [0, 1, 4]], [[0, 1, 4], [2]]] pool [[3], [3]]
+TRAPS lb4-lbplus-ef-n3m6 [[[0, 1, 2, 3], [0, 1, 4, 5], [2, 3, 4, 5]], [[2, 7, 4, 8], [1, 8, 4, 6], [2, 8, 3, 4]]] states 328 complete 7 traps 2 fewest pooled 1 e.g. [[[0, 2], [1], [4, 5]], [[2, 4], [1], [0, 5]]] pool [[3], [3]]
+TRAPS lb4-n2m5-upgrade [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] states 63 complete 2 traps 6 fewest pooled 1 e.g. [[[4], [0, 1, 2]], [[4], [0, 1, 3]]] pool [[3], [2]]
+instances 109
+instances with a trap 5
+instances with a trap with 1 pooled good(s) 5
+partial EFX0 states 111591
+serial-dictatorship starts that are traps 0
+traps 15
+time 12 s

@@ -91,3 +91,12 @@ import EFX.K3DECostStep
 import EFX.K3DECostRun
 import EFX.K3DECostBound
 import EFX.K3DECostReal
+import EFX.OC1Max
+import EFX.OC1MaxExamples
+import EFX.OC1Perf
+import EFX.OCVariants
+import EFX.OC1MaxCex
+import EFX.OC1MaxMoves
+import EFX.LemmaM
+import EFX.Lift1
+import EFX.T6

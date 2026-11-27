@@ -1,0 +1,392 @@
+$ python3 k4/oc1_hall/f1_uncond.py screen
+T1 FAILS c4-owner-last-n3m8 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[6, 3, 5, 7], [5, 3, 6, 7], [3, 8, 4, 10]]] picks (7, 6, 5) x 0 W [1, 2] {(1, (0, 2)): [], (1, (0, 6)): [1], (1, (2, 6)): [], (2, (0, 2)): [2]} picks complete [0]
+T1 FAILS c4-owner-last-n3m8 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[6, 3, 5, 7], [5, 3, 6, 7], [3, 8, 4, 10]]] picks (0, 7, 5) x 1 W [0, 2] {(0, (1, 4)): [], (0, (1, 6)): [0], (0, (4, 6)): [], (2, (1, 4)): [2], (2, (1, 6)): [2], (2, (4, 6)): []} picks complete [1]
+T1 FAILS c4-owner-last-n3m8 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[6, 3, 5, 7], [5, 3, 6, 7], [3, 8, 4, 10]]] picks (0, 6, 7) x 2 W [0, 1] {(0, (3, 5)): [0], (1, (3, 5)): [1], (1, (5, 6)): []} picks complete [2]
+T1 FAILS c4x-n3m6-ef-bases [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[3, 5, 6, 7], [4, 6, 5, 8], [5, 4, 6, 8]]] picks (5, 3, 4) x 0 W [1, 2] {(1, (0, 3)): [1], (2, (0, 4)): [2]} picks complete [0]
+T1 FAILS c4x-n3m6-ef-bases [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[3, 5, 6, 7], [4, 6, 5, 8], [5, 4, 6, 8]]] picks (4, 3, 5) x 2 W [0, 1] {(0, (2, 4)): [0], (1, (2, 3)): [1]} picks complete [2]
+T1 FAILS c4x-n3m8-pure-top7 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[3, 4, 2, 8], [3, 4, 2, 8], [3, 4, 2, 8]]] picks (7, 4, 5) x 0 W [1, 2] {(1, (0, 2, 6)): [2], (2, (0, 2, 6)): [1]} picks complete [1, 2]
+T1 holds (some minimal swap, owner x) 48
+T1 starts 70
+T2 picks complete 38
+T2 picks complete with a wanter as owner 38
+T2 starts (no improving set) 38
+shown 6
+|W|=1 min|H0|=2 n=2: every minimal swap, owner x 11
+|W|=1 min|H0|=2 n=2: picks complete 8
+|W|=1 min|H0|=2 n=2: some minimal swap, owner outside {x, w} 0
+|W|=1 min|H0|=2 n=2: some minimal swap, owner w 10
+|W|=1 min|H0|=2 n=2: some minimal swap, owner x 11
+|W|=1 min|H0|=2 n=2: some minimal swap, some owner 11
+|W|=1 min|H0|=2 n=2: starts 12
+|W|=1 min|H0|=2 n=3: every minimal swap, owner x 1
+|W|=1 min|H0|=2 n=3: picks complete 0
+|W|=1 min|H0|=2 n=3: some minimal swap, owner outside {x, w} 1
+|W|=1 min|H0|=2 n=3: some minimal swap, owner w 1
+|W|=1 min|H0|=2 n=3: some minimal swap, owner x 1
+|W|=1 min|H0|=2 n=3: some minimal swap, some owner 1
+|W|=1 min|H0|=2 n=3: starts 1
+|W|=1 min|H0|=2 n=4: every minimal swap, owner x 2
+|W|=1 min|H0|=2 n=4: picks complete 2
+|W|=1 min|H0|=2 n=4: some minimal swap, owner outside {x, w} 2
+|W|=1 min|H0|=2 n=4: some minimal swap, owner w 2
+|W|=1 min|H0|=2 n=4: some minimal swap, owner x 2
+|W|=1 min|H0|=2 n=4: some minimal swap, some owner 2
+|W|=1 min|H0|=2 n=4: starts 2
+|W|=1 min|H0|=3 n=2: every minimal swap, owner x 8
+|W|=1 min|H0|=3 n=2: picks complete 2
+|W|=1 min|H0|=3 n=2: some minimal swap, owner outside {x, w} 0
+|W|=1 min|H0|=3 n=2: some minimal swap, owner w 8
+|W|=1 min|H0|=3 n=2: some minimal swap, owner x 8
+|W|=1 min|H0|=3 n=2: some minimal swap, some owner 8
+|W|=1 min|H0|=3 n=2: starts 10
+|W|=1 min|H0|=3 n=3: every minimal swap, owner x 5
+|W|=1 min|H0|=3 n=3: picks complete 5
+|W|=1 min|H0|=3 n=3: some minimal swap, owner outside {x, w} 5
+|W|=1 min|H0|=3 n=3: some minimal swap, owner w 5
+|W|=1 min|H0|=3 n=3: some minimal swap, owner x 5
+|W|=1 min|H0|=3 n=3: some minimal swap, some owner 5
+|W|=1 min|H0|=3 n=3: starts 5
+|W|=1 min|H0|=3 n=4: every minimal swap, owner x 1
+|W|=1 min|H0|=3 n=4: picks complete 1
+|W|=1 min|H0|=3 n=4: some minimal swap, owner outside {x, w} 1
+|W|=1 min|H0|=3 n=4: some minimal swap, owner w 1
+|W|=1 min|H0|=3 n=4: some minimal swap, owner x 1
+|W|=1 min|H0|=3 n=4: some minimal swap, some owner 1
+|W|=1 min|H0|=3 n=4: starts 1
+|W|=2 min|H0|=2 n=3: every minimal swap, owner x 2
+|W|=2 min|H0|=2 n=3: picks complete 7
+|W|=2 min|H0|=2 n=3: some minimal swap, owner outside {x, w} 2
+|W|=2 min|H0|=2 n=3: some minimal swap, owner w 5
+|W|=2 min|H0|=2 n=3: some minimal swap, owner x 2
+|W|=2 min|H0|=2 n=3: some minimal swap, some owner 7
+|W|=2 min|H0|=2 n=3: starts 7
+|W|=2 min|H0|=2 n=4: every minimal swap, owner x 2
+|W|=2 min|H0|=2 n=4: picks complete 2
+|W|=2 min|H0|=2 n=4: some minimal swap, owner outside {x, w} 3
+|W|=2 min|H0|=2 n=4: some minimal swap, owner w 0
+|W|=2 min|H0|=2 n=4: some minimal swap, owner x 2
+|W|=2 min|H0|=2 n=4: some minimal swap, some owner 3
+|W|=2 min|H0|=2 n=4: starts 3
+|W|=2 min|H0|=3 n=3: every minimal swap, owner x 12
+|W|=2 min|H0|=3 n=3: picks complete 26
+|W|=2 min|H0|=3 n=3: some minimal swap, owner outside {x, w} 25
+|W|=2 min|H0|=3 n=3: some minimal swap, owner w 2
+|W|=2 min|H0|=3 n=3: some minimal swap, owner x 14
+|W|=2 min|H0|=3 n=3: some minimal swap, some owner 26
+|W|=2 min|H0|=3 n=3: starts 27
+|W|=2 min|H0|=3 n=4: every minimal swap, owner x 1
+|W|=2 min|H0|=3 n=4: picks complete 2
+|W|=2 min|H0|=3 n=4: some minimal swap, owner outside {x, w} 2
+|W|=2 min|H0|=3 n=4: some minimal swap, owner w 2
+|W|=2 min|H0|=3 n=4: some minimal swap, owner x 2
+|W|=2 min|H0|=3 n=4: some minimal swap, some owner 2
+|W|=2 min|H0|=3 n=4: starts 2
+time 0 s
+$ python3 k4/oc1_hall/f1_uncond.py suite
+T1 FAILS c4-owner-last-n3m8 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[6, 3, 5, 7], [5, 3, 6, 7], [3, 8, 4, 10]]] picks (7, 6, 5) x 0 W [1, 2] {(1, (0, 2)): [], (1, (0, 6)): [1], (1, (2, 6)): [], (2, (0, 2)): [2]} picks complete [0]
+T1 FAILS c4-owner-last-n3m8 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[6, 3, 5, 7], [5, 3, 6, 7], [3, 8, 4, 10]]] picks (0, 7, 5) x 1 W [0, 2] {(0, (1, 4)): [], (0, (1, 6)): [0], (0, (4, 6)): [], (2, (1, 4)): [2], (2, (1, 6)): [2], (2, (4, 6)): []} picks complete [1]
+T1 FAILS c4-owner-last-n3m8 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[6, 3, 5, 7], [5, 3, 6, 7], [3, 8, 4, 10]]] picks (0, 6, 7) x 2 W [0, 1] {(0, (3, 5)): [0], (1, (3, 5)): [1], (1, (5, 6)): []} picks complete [2]
+T1 FAILS c4x-n3m6-ef-bases [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[3, 5, 6, 7], [4, 6, 5, 8], [5, 4, 6, 8]]] picks (5, 3, 4) x 0 W [1, 2] {(1, (0, 3)): [1], (2, (0, 4)): [2]} picks complete [0]
+T1 FAILS c4x-n3m6-ef-bases [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[3, 5, 6, 7], [4, 6, 5, 8], [5, 4, 6, 8]]] picks (4, 3, 5) x 2 W [0, 1] {(0, (2, 4)): [0], (1, (2, 3)): [1]} picks complete [2]
+T1 FAILS c4x-n3m8-pure-top7 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[3, 4, 2, 8], [3, 4, 2, 8], [3, 4, 2, 8]]] picks (7, 4, 5) x 0 W [1, 2] {(1, (0, 2, 6)): [2], (2, (0, 2, 6)): [1]} picks complete [1, 2]
+T1 holds (some minimal swap, owner x) 48
+T1 starts 70
+T2 picks complete 38
+T2 picks complete with a wanter as owner 38
+T2 starts (no improving set) 38
+shown 6
+|W|=1 min|H0|=2 n=2: every minimal swap, owner x 11
+|W|=1 min|H0|=2 n=2: picks complete 8
+|W|=1 min|H0|=2 n=2: some minimal swap, owner outside {x, w} 0
+|W|=1 min|H0|=2 n=2: some minimal swap, owner w 10
+|W|=1 min|H0|=2 n=2: some minimal swap, owner x 11
+|W|=1 min|H0|=2 n=2: some minimal swap, some owner 11
+|W|=1 min|H0|=2 n=2: starts 12
+|W|=1 min|H0|=2 n=3: every minimal swap, owner x 1
+|W|=1 min|H0|=2 n=3: picks complete 0
+|W|=1 min|H0|=2 n=3: some minimal swap, owner outside {x, w} 1
+|W|=1 min|H0|=2 n=3: some minimal swap, owner w 1
+|W|=1 min|H0|=2 n=3: some minimal swap, owner x 1
+|W|=1 min|H0|=2 n=3: some minimal swap, some owner 1
+|W|=1 min|H0|=2 n=3: starts 1
+|W|=1 min|H0|=2 n=4: every minimal swap, owner x 2
+|W|=1 min|H0|=2 n=4: picks complete 2
+|W|=1 min|H0|=2 n=4: some minimal swap, owner outside {x, w} 2
+|W|=1 min|H0|=2 n=4: some minimal swap, owner w 2
+|W|=1 min|H0|=2 n=4: some minimal swap, owner x 2
+|W|=1 min|H0|=2 n=4: some minimal swap, some owner 2
+|W|=1 min|H0|=2 n=4: starts 2
+|W|=1 min|H0|=3 n=2: every minimal swap, owner x 8
+|W|=1 min|H0|=3 n=2: picks complete 2
+|W|=1 min|H0|=3 n=2: some minimal swap, owner outside {x, w} 0
+|W|=1 min|H0|=3 n=2: some minimal swap, owner w 8
+|W|=1 min|H0|=3 n=2: some minimal swap, owner x 8
+|W|=1 min|H0|=3 n=2: some minimal swap, some owner 8
+|W|=1 min|H0|=3 n=2: starts 10
+|W|=1 min|H0|=3 n=3: every minimal swap, owner x 5
+|W|=1 min|H0|=3 n=3: picks complete 5
+|W|=1 min|H0|=3 n=3: some minimal swap, owner outside {x, w} 5
+|W|=1 min|H0|=3 n=3: some minimal swap, owner w 5
+|W|=1 min|H0|=3 n=3: some minimal swap, owner x 5
+|W|=1 min|H0|=3 n=3: some minimal swap, some owner 5
+|W|=1 min|H0|=3 n=3: starts 5
+|W|=1 min|H0|=3 n=4: every minimal swap, owner x 1
+|W|=1 min|H0|=3 n=4: picks complete 1
+|W|=1 min|H0|=3 n=4: some minimal swap, owner outside {x, w} 1
+|W|=1 min|H0|=3 n=4: some minimal swap, owner w 1
+|W|=1 min|H0|=3 n=4: some minimal swap, owner x 1
+|W|=1 min|H0|=3 n=4: some minimal swap, some owner 1
+|W|=1 min|H0|=3 n=4: starts 1
+|W|=2 min|H0|=2 n=3: every minimal swap, owner x 2
+|W|=2 min|H0|=2 n=3: picks complete 7
+|W|=2 min|H0|=2 n=3: some minimal swap, owner outside {x, w} 2
+|W|=2 min|H0|=2 n=3: some minimal swap, owner w 5
+|W|=2 min|H0|=2 n=3: some minimal swap, owner x 2
+|W|=2 min|H0|=2 n=3: some minimal swap, some owner 7
+|W|=2 min|H0|=2 n=3: starts 7
+|W|=2 min|H0|=2 n=4: every minimal swap, owner x 2
+|W|=2 min|H0|=2 n=4: picks complete 2
+|W|=2 min|H0|=2 n=4: some minimal swap, owner outside {x, w} 3
+|W|=2 min|H0|=2 n=4: some minimal swap, owner w 0
+|W|=2 min|H0|=2 n=4: some minimal swap, owner x 2
+|W|=2 min|H0|=2 n=4: some minimal swap, some owner 3
+|W|=2 min|H0|=2 n=4: starts 3
+|W|=2 min|H0|=3 n=3: every minimal swap, owner x 12
+|W|=2 min|H0|=3 n=3: picks complete 26
+|W|=2 min|H0|=3 n=3: some minimal swap, owner outside {x, w} 25
+|W|=2 min|H0|=3 n=3: some minimal swap, owner w 2
+|W|=2 min|H0|=3 n=3: some minimal swap, owner x 14
+|W|=2 min|H0|=3 n=3: some minimal swap, some owner 26
+|W|=2 min|H0|=3 n=3: starts 27
+|W|=2 min|H0|=3 n=4: every minimal swap, owner x 1
+|W|=2 min|H0|=3 n=4: picks complete 2
+|W|=2 min|H0|=3 n=4: some minimal swap, owner outside {x, w} 2
+|W|=2 min|H0|=3 n=4: some minimal swap, owner w 2
+|W|=2 min|H0|=3 n=4: some minimal swap, owner x 2
+|W|=2 min|H0|=3 n=4: some minimal swap, some owner 2
+|W|=2 min|H0|=3 n=4: starts 2
+time 0 s
+$ python3 k4/oc1_hall/f1_uncond.py logs
+T1 FAILS log174 [[[0, 3, 2, 5], [0, 2, 1, 6], [2, 3, 4, 0]], [[10, 24, 19, 31], [35, 43, 33, 40], [65, 27, 15, 24]]] picks (5, 6, 2) x 2 W [1] {(1, (0, 3, 4)): []} picks complete [0, 1]
+T1 FAILS log558 [[[0, 3, 6, 7], [1, 4, 6, 7], [2, 5, 8], [3, 4, 5, 8]], [[8, 1, 6, 4], [4, 8, 3, 2], [4, 2, 3], [5, 8, 6, 4]]] picks (0, 4, 2, 5) x 1 W [3] {(3, (1, 6, 7)): []} picks complete [0, 1, 2, 3]
+T1 FAILS log562 [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[3, 5, 6, 7], [4, 6, 5, 8], [5, 4, 6, 8]]] picks (5, 3, 4) x 0 W [1, 2] {(1, (0, 3)): [1], (2, (0, 4)): [2]} picks complete [0]
+T1 FAILS log562 [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[3, 5, 6, 7], [4, 6, 5, 8], [5, 4, 6, 8]]] picks (4, 3, 5) x 2 W [0, 1] {(0, (2, 4)): [0], (1, (2, 3)): [1]} picks complete [2]
+T1 FAILS log574 [[[0, 1, 2, 3], [0, 4, 5, 6], [0, 6, 7, 8]], [[10, 5, 4, 2], [10, 5, 4, 2], [10, 2, 5, 4]]] picks (1, 0, 7) x 1 W [0, 2] {(0, (4, 5, 6)): [], (2, (4, 5, 6)): [0]} picks complete [0]
+T1 FAILS log574 [[[0, 1, 2, 3], [0, 4, 5, 6], [0, 6, 7, 8]], [[10, 5, 4, 2], [10, 5, 4, 2], [10, 2, 5, 4]]] picks (1, 4, 0) x 2 W [0, 1] {(0, (6, 7, 8)): [], (1, (6, 7, 8)): [0]} picks complete [0]
+T1 holds (some minimal swap, owner x) 149
+T1 starts 171
+T2 picks complete 485
+T2 picks complete with a wanter as owner 485
+T2 starts (no improving set) 485
+shown 6
+|W|=1 min|H0|=2 n=2: every minimal swap, owner x 4
+|W|=1 min|H0|=2 n=2: picks complete 2
+|W|=1 min|H0|=2 n=2: some minimal swap, owner outside {x, w} 0
+|W|=1 min|H0|=2 n=2: some minimal swap, owner w 3
+|W|=1 min|H0|=2 n=2: some minimal swap, owner x 4
+|W|=1 min|H0|=2 n=2: some minimal swap, some owner 4
+|W|=1 min|H0|=2 n=2: starts 5
+|W|=1 min|H0|=2 n=3: every minimal swap, owner x 50
+|W|=1 min|H0|=2 n=3: picks complete 40
+|W|=1 min|H0|=2 n=3: some minimal swap, owner outside {x, w} 50
+|W|=1 min|H0|=2 n=3: some minimal swap, owner w 47
+|W|=1 min|H0|=2 n=3: some minimal swap, owner x 50
+|W|=1 min|H0|=2 n=3: some minimal swap, some owner 50
+|W|=1 min|H0|=2 n=3: starts 50
+|W|=1 min|H0|=2 n=4: every minimal swap, owner x 27
+|W|=1 min|H0|=2 n=4: picks complete 27
+|W|=1 min|H0|=2 n=4: some minimal swap, owner outside {x, w} 28
+|W|=1 min|H0|=2 n=4: some minimal swap, owner w 28
+|W|=1 min|H0|=2 n=4: some minimal swap, owner x 28
+|W|=1 min|H0|=2 n=4: some minimal swap, some owner 28
+|W|=1 min|H0|=2 n=4: starts 28
+|W|=1 min|H0|=2 n=5: every minimal swap, owner x 8
+|W|=1 min|H0|=2 n=5: picks complete 8
+|W|=1 min|H0|=2 n=5: some minimal swap, owner outside {x, w} 8
+|W|=1 min|H0|=2 n=5: some minimal swap, owner w 8
+|W|=1 min|H0|=2 n=5: some minimal swap, owner x 8
+|W|=1 min|H0|=2 n=5: some minimal swap, some owner 8
+|W|=1 min|H0|=2 n=5: starts 8
+|W|=1 min|H0|=3 n=2: every minimal swap, owner x 2
+|W|=1 min|H0|=3 n=2: picks complete 1
+|W|=1 min|H0|=3 n=2: some minimal swap, owner outside {x, w} 0
+|W|=1 min|H0|=3 n=2: some minimal swap, owner w 2
+|W|=1 min|H0|=3 n=2: some minimal swap, owner x 2
+|W|=1 min|H0|=3 n=2: some minimal swap, some owner 2
+|W|=1 min|H0|=3 n=2: starts 3
+|W|=1 min|H0|=3 n=3: every minimal swap, owner x 3
+|W|=1 min|H0|=3 n=3: picks complete 3
+|W|=1 min|H0|=3 n=3: some minimal swap, owner outside {x, w} 3
+|W|=1 min|H0|=3 n=3: some minimal swap, owner w 3
+|W|=1 min|H0|=3 n=3: some minimal swap, owner x 3
+|W|=1 min|H0|=3 n=3: some minimal swap, some owner 3
+|W|=1 min|H0|=3 n=3: starts 4
+|W|=1 min|H0|=3 n=4: every minimal swap, owner x 4
+|W|=1 min|H0|=3 n=4: picks complete 6
+|W|=1 min|H0|=3 n=4: some minimal swap, owner outside {x, w} 4
+|W|=1 min|H0|=3 n=4: some minimal swap, owner w 4
+|W|=1 min|H0|=3 n=4: some minimal swap, owner x 4
+|W|=1 min|H0|=3 n=4: some minimal swap, some owner 4
+|W|=1 min|H0|=3 n=4: starts 6
+|W|=2 min|H0|=2 n=3: every minimal swap, owner x 23
+|W|=2 min|H0|=2 n=3: picks complete 37
+|W|=2 min|H0|=2 n=3: some minimal swap, owner outside {x, w} 33
+|W|=2 min|H0|=2 n=3: some minimal swap, owner w 34
+|W|=2 min|H0|=2 n=3: some minimal swap, owner x 29
+|W|=2 min|H0|=2 n=3: some minimal swap, some owner 39
+|W|=2 min|H0|=2 n=3: starts 39
+|W|=2 min|H0|=2 n=4: every minimal swap, owner x 17
+|W|=2 min|H0|=2 n=4: picks complete 17
+|W|=2 min|H0|=2 n=4: some minimal swap, owner outside {x, w} 17
+|W|=2 min|H0|=2 n=4: some minimal swap, owner w 16
+|W|=2 min|H0|=2 n=4: some minimal swap, owner x 17
+|W|=2 min|H0|=2 n=4: some minimal swap, some owner 17
+|W|=2 min|H0|=2 n=4: starts 17
+|W|=2 min|H0|=3 n=3: every minimal swap, owner x 1
+|W|=2 min|H0|=3 n=3: picks complete 7
+|W|=2 min|H0|=3 n=3: some minimal swap, owner outside {x, w} 5
+|W|=2 min|H0|=3 n=3: some minimal swap, owner w 0
+|W|=2 min|H0|=3 n=3: some minimal swap, owner x 1
+|W|=2 min|H0|=3 n=3: some minimal swap, some owner 6
+|W|=2 min|H0|=3 n=3: starts 8
+|W|=2 min|H0|=3 n=4: every minimal swap, owner x 2
+|W|=2 min|H0|=3 n=4: picks complete 2
+|W|=2 min|H0|=3 n=4: some minimal swap, owner outside {x, w} 2
+|W|=2 min|H0|=3 n=4: some minimal swap, owner w 2
+|W|=2 min|H0|=3 n=4: some minimal swap, owner x 2
+|W|=2 min|H0|=3 n=4: some minimal swap, some owner 2
+|W|=2 min|H0|=3 n=4: starts 2
+|W|=2 min|H0|=3 n=5: every minimal swap, owner x 1
+|W|=2 min|H0|=3 n=5: picks complete 1
+|W|=2 min|H0|=3 n=5: some minimal swap, owner outside {x, w} 1
+|W|=2 min|H0|=3 n=5: some minimal swap, owner w 1
+|W|=2 min|H0|=3 n=5: some minimal swap, owner x 1
+|W|=2 min|H0|=3 n=5: some minimal swap, some owner 1
+|W|=2 min|H0|=3 n=5: starts 1
+time 0 s
+$ python3 k4/oc1_hall/f1_uncond.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+T1 FAILS r17 [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 4, 5]], [[4, 2, 8, 3], [4, 3, 8, 6], [2, 4, 3]]] picks (0, 4, 5) x 1 W [0, 2] {(2, (1, 5)): [0], (2, (3, 5)): [0]} picks complete [0]
+T1 FAILS r17 [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 4, 5]], [[4, 2, 8, 3], [4, 3, 8, 6], [2, 4, 3]]] picks (0, 5, 4) x 2 W [0, 1] {(1, (2, 5)): [0]} picks complete [0]
+T1 FAILS r113 [[[0, 2, 4, 5], [1, 3, 4, 5], [3, 4, 5]], [[8, 6, 5, 4], [3, 2, 6, 10], [3, 2, 4]]] picks (0, 5, 3) x 1 W [2] {(2, (1, 4, 3)): []} picks complete [0, 1, 2]
+T1 FAILS r178 [[[0, 2, 4, 5], [1, 3, 4, 5], [3, 4, 5]], [[4, 2, 3, 8], [3, 6, 5, 7], [2, 3, 4]]] picks (0, 3, 5) x 2 W [0, 1] {(1, (4, 3)): [0]} picks complete [0, 1]
+T1 FAILS r187 [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 4, 5]], [[2, 4, 5, 8], [6, 3, 8, 10], [3, 2, 4]]] picks (5, 4, 2) x 0 W [1, 2] {(1, (3, 4)): [2]} picks complete [1, 2]
+T1 FAILS r208 [[[0, 4, 5], [1, 2, 3, 4], [1, 2, 3, 5]], [[3, 4, 2], [8, 5, 4, 2], [8, 2, 3, 4]]] picks (4, 2, 1) x 2 W [1] {(1, (3, 5, 2)): []} picks complete [0, 1, 2]
+T1 holds (some minimal swap, owner x) 1302
+T1 starts 1364
+T2 picks complete 485
+T2 picks complete with a wanter as owner 485
+T2 starts (no improving set) 485
+shown 6
+|W|=1 min|H0|=2 n=2: every minimal swap, owner x 92
+|W|=1 min|H0|=2 n=2: picks complete 68
+|W|=1 min|H0|=2 n=2: some minimal swap, owner outside {x, w} 0
+|W|=1 min|H0|=2 n=2: some minimal swap, owner w 74
+|W|=1 min|H0|=2 n=2: some minimal swap, owner x 94
+|W|=1 min|H0|=2 n=2: some minimal swap, some owner 94
+|W|=1 min|H0|=2 n=2: starts 94
+|W|=1 min|H0|=2 n=3: every minimal swap, owner x 1037
+|W|=1 min|H0|=2 n=3: picks complete 1024
+|W|=1 min|H0|=2 n=3: some minimal swap, owner outside {x, w} 1044
+|W|=1 min|H0|=2 n=3: some minimal swap, owner w 1018
+|W|=1 min|H0|=2 n=3: some minimal swap, owner x 1042
+|W|=1 min|H0|=2 n=3: some minimal swap, some owner 1044
+|W|=1 min|H0|=2 n=3: starts 1044
+|W|=1 min|H0|=3 n=2: every minimal swap, owner x 1
+|W|=1 min|H0|=3 n=2: picks complete 6
+|W|=1 min|H0|=3 n=2: some minimal swap, owner outside {x, w} 0
+|W|=1 min|H0|=3 n=2: some minimal swap, owner w 1
+|W|=1 min|H0|=3 n=2: some minimal swap, owner x 1
+|W|=1 min|H0|=3 n=2: some minimal swap, some owner 1
+|W|=1 min|H0|=3 n=2: starts 6
+|W|=1 min|H0|=3 n=3: every minimal swap, owner x 59
+|W|=1 min|H0|=3 n=3: picks complete 86
+|W|=1 min|H0|=3 n=3: some minimal swap, owner outside {x, w} 59
+|W|=1 min|H0|=3 n=3: some minimal swap, owner w 59
+|W|=1 min|H0|=3 n=3: some minimal swap, owner x 59
+|W|=1 min|H0|=3 n=3: some minimal swap, some owner 59
+|W|=1 min|H0|=3 n=3: starts 86
+|W|=2 min|H0|=2 n=3: every minimal swap, owner x 91
+|W|=2 min|H0|=2 n=3: picks complete 121
+|W|=2 min|H0|=2 n=3: some minimal swap, owner outside {x, w} 114
+|W|=2 min|H0|=2 n=3: some minimal swap, owner w 94
+|W|=2 min|H0|=2 n=3: some minimal swap, owner x 101
+|W|=2 min|H0|=2 n=3: some minimal swap, some owner 123
+|W|=2 min|H0|=2 n=3: starts 123
+|W|=2 min|H0|=3 n=3: every minimal swap, owner x 3
+|W|=2 min|H0|=3 n=3: picks complete 11
+|W|=2 min|H0|=3 n=3: some minimal swap, owner outside {x, w} 8
+|W|=2 min|H0|=3 n=3: some minimal swap, owner w 7
+|W|=2 min|H0|=3 n=3: some minimal swap, owner x 5
+|W|=2 min|H0|=3 n=3: some minimal swap, some owner 9
+|W|=2 min|H0|=3 n=3: starts 11
+time 0 s
+$ python3 k4/oc1_hall/f1_uncond.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+T1 FAILS r33 [[[0, 1, 2, 4], [0, 2, 4], [1, 3, 5, 6], [3, 5, 6]], [[3, 6, 10, 2], [3, 4, 2], [1, 8, 4, 6], [3, 2, 4]]] picks (2, 0, 3, 6) x 0 W [1] {(1, (1, 4, 0)): []} picks complete [0, 1, 2, 3]
+T1 FAILS r125 [[[0, 2, 6, 7], [1, 4, 7, 8], [3, 5, 7, 8], [5, 6, 8]], [[3, 6, 7, 5], [5, 8, 2, 4], [2, 6, 10, 7], [3, 4, 2]]] picks (2, 4, 7, 6) x 3 W [0] {(0, (5, 8)): [0, 1, 2]} picks complete [0, 1, 2, 3]
+T1 FAILS r139 [[[0, 2, 3, 4], [1, 5, 6, 7], [3, 4, 6, 7], [5, 6, 7]], [[4, 2, 8, 3], [2, 8, 3, 4], [5, 8, 4, 2], [4, 2, 3]]] picks (3, 5, 4, 7) x 1 W [3] {(3, (1, 6, 7)): []} picks complete [0, 1, 2, 3]
+T1 FAILS r141 [[[0, 5, 6, 7], [1, 5, 6], [2, 3, 4, 7], [2, 3, 4, 7]], [[2, 4, 3, 8], [4, 3, 2], [7, 4, 2, 8], [8, 4, 10, 3]]] picks (7, 1, 2, 4) x 0 W [2] {(2, (0, 5, 6)): []} picks complete [0, 1, 2, 3]
+T1 FAILS r164 [[[0, 2, 6, 8], [1, 4, 7, 9], [3, 5, 8, 9], [6, 7, 8, 9]], [[6, 5, 3, 7], [3, 2, 6, 10], [8, 6, 10, 3], [4, 7, 8, 2]]] picks (0, 9, 3, 8) x 3 W [0, 2] {(0, (6, 7)): [0, 2], (2, (6, 7)): [0, 1, 2]} picks complete [0, 2, 3]
+T1 FAILS r249 [[[0, 2, 5, 6], [1, 4, 6], [3, 4, 5, 6], [3, 4, 5, 6]], [[2, 8, 5, 4], [4, 3, 2], [7, 2, 10, 4], [2, 3, 10, 6]]] picks (2, 1, 3, 5) x 3 W [2] {(2, (4, 6, 3)): []} picks complete [0, 1, 2, 3]
+T1 holds (some minimal swap, owner x) 629
+T1 starts 657
+T2 picks complete 513
+T2 picks complete with a wanter as owner 513
+T2 starts (no improving set) 513
+shown 6
+|W|=1 min|H0|=2 n=4: every minimal swap, owner x 513
+|W|=1 min|H0|=2 n=4: picks complete 519
+|W|=1 min|H0|=2 n=4: some minimal swap, owner outside {x, w} 521
+|W|=1 min|H0|=2 n=4: some minimal swap, owner w 517
+|W|=1 min|H0|=2 n=4: some minimal swap, owner x 517
+|W|=1 min|H0|=2 n=4: some minimal swap, some owner 521
+|W|=1 min|H0|=2 n=4: starts 521
+|W|=1 min|H0|=3 n=4: every minimal swap, owner x 22
+|W|=1 min|H0|=3 n=4: picks complete 36
+|W|=1 min|H0|=3 n=4: some minimal swap, owner outside {x, w} 22
+|W|=1 min|H0|=3 n=4: some minimal swap, owner w 22
+|W|=1 min|H0|=3 n=4: some minimal swap, owner x 22
+|W|=1 min|H0|=3 n=4: some minimal swap, some owner 22
+|W|=1 min|H0|=3 n=4: starts 36
+|W|=2 min|H0|=2 n=4: every minimal swap, owner x 70
+|W|=2 min|H0|=2 n=4: picks complete 82
+|W|=2 min|H0|=2 n=4: some minimal swap, owner outside {x, w} 82
+|W|=2 min|H0|=2 n=4: some minimal swap, owner w 78
+|W|=2 min|H0|=2 n=4: some minimal swap, owner x 77
+|W|=2 min|H0|=2 n=4: some minimal swap, some owner 82
+|W|=2 min|H0|=2 n=4: starts 82
+|W|=2 min|H0|=3 n=4: every minimal swap, owner x 6
+|W|=2 min|H0|=3 n=4: picks complete 11
+|W|=2 min|H0|=3 n=4: some minimal swap, owner outside {x, w} 6
+|W|=2 min|H0|=3 n=4: some minimal swap, owner w 7
+|W|=2 min|H0|=3 n=4: some minimal swap, owner x 6
+|W|=2 min|H0|=3 n=4: some minimal swap, some owner 7
+|W|=2 min|H0|=3 n=4: starts 11
+|W|=3 min|H0|=2 n=4: every minimal swap, owner x 4
+|W|=3 min|H0|=2 n=4: picks complete 7
+|W|=3 min|H0|=2 n=4: some minimal swap, owner outside {x, w} 7
+|W|=3 min|H0|=2 n=4: some minimal swap, owner w 6
+|W|=3 min|H0|=2 n=4: some minimal swap, owner x 7
+|W|=3 min|H0|=2 n=4: some minimal swap, some owner 7
+|W|=3 min|H0|=2 n=4: starts 7
+time 1 s
+$ python3 k4/oc1_hall/f1_uncond.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
+T1 holds (some minimal swap, owner x) 35
+T1 starts 35
+T2 picks complete 69
+T2 picks complete with a wanter as owner 69
+T2 starts (no improving set) 69
+|W|=1 min|H0|=2 n=5: every minimal swap, owner x 26
+|W|=1 min|H0|=2 n=5: picks complete 26
+|W|=1 min|H0|=2 n=5: some minimal swap, owner outside {x, w} 26
+|W|=1 min|H0|=2 n=5: some minimal swap, owner w 26
+|W|=1 min|H0|=2 n=5: some minimal swap, owner x 26
+|W|=1 min|H0|=2 n=5: some minimal swap, some owner 26
+|W|=1 min|H0|=2 n=5: starts 26
+|W|=2 min|H0|=2 n=5: every minimal swap, owner x 9
+|W|=2 min|H0|=2 n=5: picks complete 9
+|W|=2 min|H0|=2 n=5: some minimal swap, owner outside {x, w} 9
+|W|=2 min|H0|=2 n=5: some minimal swap, owner w 9
+|W|=2 min|H0|=2 n=5: some minimal swap, owner x 9
+|W|=2 min|H0|=2 n=5: some minimal swap, some owner 9
+|W|=2 min|H0|=2 n=5: starts 9
+time 0 s

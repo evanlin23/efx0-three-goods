@@ -1,0 +1,7 @@
+ 0 5_pure idx 9 core True order (0, 1, 4, 2, 3) | OC1 0 OC1' 0 (forward False) MD 9 | starved (agent, #foreign picks) per MD: {(): 9} | two rounds None
+ 1 5_pure idx 14 core True order (0, 1, 2, 4, 3) | OC1 0 OC1' 0 (forward False) MD 9 | starved (agent, #foreign picks) per MD: {(): 9} | two rounds None
+ 2 5_pure idx 64 core True order (0, 4, 3, 1, 2) | OC1 0 OC1' 0 (forward False) MD 9 | starved (agent, #foreign picks) per MD: {(): 9} | two rounds None
+ 3 5_pure idx 164 core True order (1, 4, 2, 0, 3) | OC1 0 OC1' 0 (forward False) MD 9 | starved (agent, #foreign picks) per MD: {(): 9} | two rounds None
+ 4 5_pure idx 214 core True order (0, 3, 4, 2, 1) | OC1 0 OC1' 0 (forward False) MD 8 | starved (agent, #foreign picks) per MD: {(): 8} | two rounds None
+ 5 5_pure idx 229 core True order (0, 3, 4, 2, 1) | OC1 0 OC1' 0 (forward False) MD 8 | starved (agent, #foreign picks) per MD: {(): 8} | two rounds None
+{('OC1 fails', True): 6, ("OC1' fails rnd.c", True): 6, ("OC1' fails forward", True): 6}
