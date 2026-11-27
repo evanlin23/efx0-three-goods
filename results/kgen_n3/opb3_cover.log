@@ -49,3 +49,22 @@ core at list position 46 (idx 1, m = 8): all covered (388 s)
 core at list position 47 (idx 2, m = 8): all covered (12 s)
 core at list position 45 (idx 0, m = 8): all covered (462 s)
 core at list position 44 (idx 11, m = 7): OPB3: uncovered profile x order pairs 5632, gains only: uncovered profile x order pairs 5632 (746 s)
+core at list position 49 (idx 4, m = 8): OPB3: uncovered profile x order pairs 1024, gains only: uncovered profile x order pairs 1024 (374 s)
+core at list position 48 (idx 3, m = 8): all covered (385 s)
+core at list position 50 (idx 0, m = 9): all covered (374 s)
+26 OPB3: cores with an uncovered profile
+543640 OPB3: uncovered profile x order pairs
+51 cores
+26 gains only: cores with an uncovered profile
+543640 gains only: uncovered profile x order pairs
+51 nu = 3
+1799024256 profile x order pairs
+51 types match the list
+first uncovered (OPB3): core at list position 7 {"picks": [0, 1, 2], "order": [1, 2, 0], "values": [[3, 6, 10, 2], [4, 2, 3], [4, 2, 3]]}
+first uncovered (gains only): core at list position 7 {"picks": [0, 1, 2], "order": [1, 2, 0], "values": [[3, 6, 10, 2], [4, 2, 3], [4, 2, 3]]}
+400 OPB3: box answer = direct brute force
+400 OPB3: direct brute force finds one
+400 OPB3: spot checks
+400 gains only: box answer = direct brute force
+400 gains only: direct brute force finds one
+400 gains only: spot checks
