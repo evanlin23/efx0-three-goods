@@ -1096,6 +1096,24 @@ receiver z satisfies Lemma M^c's (C1)–(C3) at the new state, with **owner x₀
 So R2 reduces to one matching statement at the post-chain state, with the dangerous agent that started the chain as
 owner. Its proof needs a Hall-type count for the needy agents.
 
+**Inputs to that count** (from `proof/k4-oc1max-multi`, its message of 00:32; not a proof, not yet checked here):
+- *Who can be needy,* after a canonical chain to a receiver with owner x₀ (by their Lemma D-red, refereed):
+  - the head z;
+  - other receivers exposed against the pool;
+  - dangerous agents still frozen and threatened (DEMAND), which (C1) requires to be unthreatened;
+  - holders crowded by H₀.
+
+  Frozen agents outside D are never needy.
+- *The count with max_rest = 1:* every junk good but one goes to a slot, so |J′| − 1 ≤ #eligible, plus covering the
+  needy.
+  - By Lemma PL(c), x₀ and every agent sharing two goods of H₀ have at most one junk good left, so junk alone never
+    makes them needy.
+  - The head z is always admissible for the released pick y_z, by their KEEP computation, so y_z can be z's slot good.
+  - The second receiver is an unexposed holder exactly when the junk alone does not threaten it at its pick value
+    (E_J in their Theorem U); then it takes any one good.
+- *The natural target:* |J′| − 1 ≤ (receivers, the head included) + (the frozen slots M^c allows), with J′ =
+  (J ∖ H₀) ∪ {y_z}, and PL(c) for covering the needy. Whether this closes is open.
+
 **No frozen slot is needed** (`r2_slots.py`): at every hard start with |U| ≥ 2, some R2★ chain has a completion in
 which no agent frozen at the new state receives junk. That is F_s = ∅ in Lemma M^c, the plain matching case: 79/79 at
 n = 4 (`r2_slots_walk_n4.log`) and 466/466 at n = 6 (`r2_slots_n6_sample.log`).
