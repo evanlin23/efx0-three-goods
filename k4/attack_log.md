@@ -1289,3 +1289,12 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   exactly, which is the refutation side.
   - Estimate: about 24 CPU-hours (`k4/frontier/README.md`), so about 6–8 h on 4 CPUs.
   - The checkpoint `k4/frontier/checkpoint_6_n4_2_all_p0of1.jsonl` is gitignored and lives in the container.
+
+### 2026-11-27 17:34 UTC: burst 20 (track A/B: the n = 6, two-4-good-agent frontier)
+- Merged #189.
+- The frontier run started at 17:10 died with my turn after 6,925 cores (a `nohup` job does not outlive the turn here).
+  I restarted it as a tracked background job; it resumes from the checkpoint. A git sync then unlinked the log file
+  under the running process. The checkpoint, the authoritative record (7,216 cores, every line parses), was
+  unaffected, so I restarted again, with the live log in the session scratchpad. It is copied into
+  `results/k4_search_6_n4_2.log` at each burst.
+- So far 0 D2 failures and 0 counterexamples.
