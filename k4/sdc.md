@@ -2169,6 +2169,16 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
   - So the natural amended every-form: every u-first maximum-matching vector that is not the image of Y under an
     automorphism of the instance (e.g. a twin relabelling) satisfies OC₁.
 
+- **Amendment (2026-11-27 07:20 UTC): the every-order form of RF is REFUTED at k = 4** (d1, off-export walk at n = 5;
+  coordinator replay `k4/sdc/rf_k4_settwin_cex.py`, `results/k4_sdc/rf_k4_settwin_cex.log`).
+  - Instance: 5_pure #440 (m = 8), sets [[0,3,5,7],[1,2,3,6],[1,2,6,7],[4,5,6,7],[4,5,6,7]], vals [[5,19,13,10],[9,6,17,12],
+    [3,5,7,6],[14,1,7,4],[18,4,11,5]] (strict). Agents 3 and 4 are set-twins: the same goods, different values.
+  - Y = (3,6,7,4,5) fails, and its only receiver is 4. The 4-first order (4,0,1,2,3) gives (3,6,7,5,4), the twins' pick
+    swap, which fails too.
+  - The other five 4-first vectors work, and two of the three rotations (4, o − 4) of orders giving Y work.
+  - So **RF∃ (ledger K4.SDC.RFEX) and RF-rot∃ survive**. They are what the Lean frame (`target4_of_conjRFsome`) and
+    Hall's proof plan use. The set-twin swap case left open in Hall's §24.15 does occur.
+
 **Conjecture RKMAX (rank-maximal start)** (2026-11-27 05:40 UTC, coordinator; ledger K4.SDC.RKMAX). An extremal form
 of OC₁^∃max that needs no rule from the failing start.
 - **Ranks.** At pick vector Y, rank_i(Y) = 1 + #{g ∈ R_i : v_i(g) > v_i(Y_i)}. Values are strict, so ranks are
