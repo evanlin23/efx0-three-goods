@@ -1,1 +1,4 @@
 $ python3 k4/haxell/ht_wclimb.py 6 8 4 STEPS=250 CLIMBERS=2 RESTART=150 RADIUS=2 MEASURE=19 SEED=7219 START=6 8 4 3 30 4 20 5 55 6 57 4 1 31 3 12 4 5 5 39 3 0 44 1 32 3 29 4 0 60 1 31 2 7 6 43 1 7 20 1 7 30
+climber 7219001 hardest score (1, 1) instance 6 8 4 3 30 4 20 5 55 6 57 4 1 31 3 12 4 10 5 39 3 0 44 1 32 3 29 4 0 60 1 31 2 7 6 43 1 7 20 1 7 30
+climber 7219000 hardest score (0, 32) instance 6 8 3 1 26 4 11 6 21 4 1 59 3 19 4 6 5 12 2 2 20 3 14 2 0 50 2 6 2 5 58 7 41 2 0 29 7 11
+counterexamples 0 time 1455 s
