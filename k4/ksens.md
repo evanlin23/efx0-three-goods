@@ -6,7 +6,25 @@ the serial-dictatorship picks of an order, the *junk* is what nobody picked, an 
 agent on it strictly gains), and a *completion* keeps every base. Random and climbed instances are evidence only
 (PROMPT.md §5 rule 3).
 
-## Status (bursts 1–3)
+## Status (bursts 1–4)
+
+**Burst 4: k = 5 by exhaustive search over order types** (`kcegar.py`, §8).
+- *The tool.* An ordinal CEGAR of my own, run over every strict profile of a hypergraph. It agrees with the
+  certifier at k = 4, and with the k = 3 enumeration.
+- *Two chains suffice* from every maximum-matching start, for every strict profile, of:
+  - all 617 connected n = 3 hypergraphs with at most five goods per agent;
+  - the hypergraphs of RD5 and of the n = 4 instance of `proof/kgen-n3`;
+  - the 11 k = 4 counterexamples with one agent extended to five goods (22 hypergraphs).
+
+  So two rounds suffice there too. PW5's hypergraph is still running.
+- *One chain fails already at n = 3 when k = 5:* N3K5, n = 3, m = 6, with agents valuing 5, 5 and 3 goods. Both
+  checkers confirm it (`refute_oc1_k5_n3.py`).
+  - One round fails on N3K5 too, free or one-absorber.
+  - It still fails with every good valued (N3K5⁺). So one round is not enough even for three agents with
+    positive values, where EFX allocations are known to exist.
+  - Two rounds repair it.
+- *Correction:* one round fails at strictly positive values (RD5⁺ of the kgen-rounds session, verified here). My
+  earlier "zeros make rounds necessary" came from a tie in RD5 (§8).
 
 **Bottom line.** Burst 3 corrects bursts 1–2, which said OC₁ holds on all k = 4 data.
 - **OC₁, OC and one round fail already at k = 4, from maximum-matching starts** (§5).
@@ -367,8 +385,11 @@ improving chains. Equivalently, c chains suffice up to k = 2c + 1.
 - k = 4, two chains: tight (§5). **Two moves suffice for every strict profile of every core with n ≤ 4**: OC₂^max,
   certified by the certifier session (`k4/oc1cert.md` §1 on `compute/k4-oc1max-cert`, read here; its moves are the
   official ones, at most two in sequence, with a one-absorber completion). Beyond n = 4 it is evidence only.
-- k = 5, two chains: tight (PW5, RD5). Climbs from PW starts (`climb.py oc2`, n = 5 at k = 5 and n = 6 at k = 6,
-  50 rounds) found no start needing three chains.
+- k = 5, two chains: tight (PW5, RD5, and N3K5 at n = 3).
+  - **Certified** for every strict profile of all 617 connected n = 3 hypergraphs with at most five goods per agent,
+    of the hypergraphs of RD5 and kgen-n4, and of the 22 extended k = 4 counterexamples (`kcegar.py`, §8).
+  - Climbs from PW starts (`climb.py oc2`, n = 5 at k = 5 and n = 6 at k = 6, 50 rounds) found no start needing three
+    chains, and neither did the three-chain climbs from the k = 4 counterexamples at k = 4–6 (`climb_oc3amx_*.log`).
 - k = 6, 8: L′ allows 3 and 4; PW needs only 2 and 3. Whether k = 6 needs three chains is the open rung that decides
   between ⌊k/2⌋ and something smaller at even k.
 - k = 7, 9: tight by PW (3 and 4 chains, ocseq.py).
@@ -847,6 +868,41 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
     - This is the k = 3 failure reported by the k3-oc1 session (`claude/k4-k3-oc1`, there read only in a commit
       message), now checked here. It has the MC2 shape of `k4/sdc.md` §31: the pickless agents value only picks.
 
+**k = 5 by ordinal CEGAR** (`kcegar.py`, `kcegar_batch.py`, `kcegar_*.log`; types `types5.py`).
+- *Types of five goods.* The strict order types are the chambers of the arrangement v(S) = v(T) for disjoint S, T in
+  the open orthant.
+  - Each chamber has an integer point with coordinates at most 80. An extreme ray's coordinates are 4 × 4 minors of
+    {−1, 0, 1} rows, at most 16 by Hadamard, and five rays sum to an interior point.
+  - With the ranking fixed, scanning the C(80, 5) decreasing tuples finds 516 types, the same as the grid up to 40.
+    So there are 61,920 types with the rankings (`types5.log`).
+  - The same scan gives 12 types for three goods and 336 for four, the strict counts of `k4/order_types.json`.
+- *The CEGAR.*
+  - The outer SAT chooses comparison bits and the picks of a maximum-matching SD start.
+  - Realizability is lazy: an agent's assigned bits are checked against its type list, and a minimal conflicting set
+    is blocked. A one-hot encoding of the types is kept as `--onehot` and gives the same verdicts.
+  - A witness is the exact picks plus the comparisons its chains and its completion need. The inner search is brute
+    force over at most D chains (official rule), with backtracking completions on the raw definition.
+  - Every FAIL is re-checked by brute force with empty passes allowed and by ocseq.
+- *Validation.*
+  - On the certifier's 11 k = 4 hypergraphs: D = 1 fails and D = 2 certifies (`kcegar_k4_cex.log`,
+    `kcegar_lazy_check.log`), as in `k4/oc1cert.md`. Each failing profile is confirmed by ocsat and brute force.
+  - At k = 3 it certifies D = 1 on every hypergraph with n ≤ 5, and its D = 0 failures are exactly k3max's.
+- *Results at k = 5* (maximum-matching starts, one-absorber completion, every strict profile):
+  - D = 2 is certified for all 617 connected n = 3 hypergraphs (`kcegar_k5_n3_D2.log`, 880 s on 2 CPUs). It is also
+    certified for RD5's, kgen-n4's and the 22 extended k = 4 hypergraphs (`kcegar_k5_D2.log`; PW5's hypergraph still
+    running). No start needs three chains, so none needs three rounds.
+  - D = 1 fails on n = 3 hypergraphs from m = 6 on (`kcegar_k5_n3_D1.log`, still running). The first is N3K5
+    (`refute_oc1_k5_n3.py`):
+    - agent 0 values goods 0, 2, 3, 4, 5 at 3, 22, 23, 38, 43;
+    - agent 1 values goods 1, 2, 3, 4, 5 at 15, 17, 27, 40, 43;
+    - agent 2 values goods 1, 4, 5 at 1, 2, 4;
+    - order (1, 0, 2) gives the picks 4, 5, 1, a maximum-matching start.
+
+    Both checkers agree: no completion, free or one-absorber, at the picks, after one chain, or after one round. Two
+    chains repair it. MD and SD-C hold.
+  - So one chain first fails at k = 5 already for three agents, and at k = 4 for four (§5). At k = 3 it never fails
+    from a maximum-matching start for n ≤ 5.
+
 **Unrestricted k: every agent values every good** (`general_rounds.py`, `general_rounds_*.log`, `rd5_full.log`,
 `kgen_n3_rounds.log`).
 - *Setting.* Strict positive values, so EFX₀ and EFX coincide here; every start is a maximum-matching start.
@@ -873,10 +929,16 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
   - n = 4, m = 6–8: 80 profiles, 194 starts; 11 need one round.
 - *Climb at n = 5, m = 9 from PW5 lifted* (3 runs, 60 steps each; `general_rounds_climb_n5m9_pw5.log`): every run
   ends at starts needing one round, 7 to 10 of them. None needs two.
+- *N3K5⁺: one round fails for three agents with every good valued.* N3K5 ×100 with its zeros replaced by 1, 2, …
+  (k = m = 6).
+  - From the same start, no round has a completion, free or one-absorber: ocsat, and brute force over 120 round
+    states. Two rounds repair it (`refute_oc1_k5_n3.log`).
+  - With random small values in place of the zeros it fails for some draws and not others (`n3k5_full.log`).
 - *Conclusion at unrestricted k.*
-  - One round fails with every good valued: RD5⁺, n = 4, m = 7.
+  - One round fails with every good valued: RD5⁺ (n = 4, m = 7) and N3K5⁺ (n = 3, m = 6).
   - My random profiles and climbs never found a start needing two rounds, so they missed it. That is another case
     where sampling and climbing failed and a hand-made or exhaustive search did not (compare §5).
-  - Two rounds repair every start tested, RD5⁺ included. The n = 3 test does not refute RD² either: one round
-    sufficed on every n = 3 start tested.
+  - Two rounds repair every start tested, RD5⁺ and N3K5⁺ included. So the decisive n = 3 test does not refute RD²
+    (it would need a start needing three rounds), but my earlier "one round sufficed on every n = 3 start tested" only
+    reflected what random sampling reached.
   - Zero values are not what makes rounds necessary. The earlier conclusion was an artifact of RD5's tie.

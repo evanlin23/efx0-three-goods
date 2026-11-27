@@ -24,3 +24,5 @@ hypergraphs 25
 {"name": "cex10+1@0", "sets": [[0, 2, 3, 6, 1], [1, 4, 5, 7], [2, 3, 6, 7], [4, 5, 6, 7]], "D": 2, "result": "certified", "iterations": 10156, "kinds": {"picks": 4219, "1 chains": 5920, "2 chains": 17}, "types": [61920, 336, 336, 336], "time": 20.9}
 {"name": "cex11+new@0", "sets": [[0, 2, 5, 7, 8], [1, 5, 6, 7], [2, 3, 4, 6], [3, 4, 6, 7]], "D": 2, "result": "certified", "iterations": 6865, "kinds": {"picks": 2939, "1 chains": 3924, "2 chains": 2}, "types": [61920, 336, 336, 336], "time": 16.3}
 {"name": "cex11+1@0", "sets": [[0, 2, 5, 7, 1], [1, 5, 6, 7], [2, 3, 4, 6], [3, 4, 6, 7]], "D": 2, "result": "certified", "iterations": 10467, "kinds": {"picks": 4306, "1 chains": 6145, "2 chains": 16}, "types": [61920, 336, 336, 336], "time": 21.6}
+{"name": "PW5", "sets": [[0, 5, 6, 7, 8], [1, 5, 6, 7, 8], [2, 5, 6, 7, 8], [0, 1, 2, 3], [0, 1, 2, 4]], "D": 2, "result": "certified", "iterations": 179619, "kinds": {"picks": 41834, "1 chains": 137761, "2 chains": 24}, "types": [61920, 61920, 61920, 336, 336], "time": 1047.2}
+{'certified': 25} time 1047 s
