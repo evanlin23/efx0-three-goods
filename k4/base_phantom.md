@@ -22,7 +22,9 @@ Everything called evidence is evidence only (PROMPT.md §5 rule 3).
 | The ℓ-alone trap (§4.2) | every dead end of the n = 4 export, of the walks and of the n5 partial export carries an "ℓ alone" constraint on a present agent's good | computed, two implementations |
 | **P1-free greedy at n = 4** (§4.3) | from every one of the 112,880 n = 4 two-move starts, *every* sequence of admissible rounds whose settlements are P1-free ends in a lifted completion; no dead end is reachable | **CERTIFIED** (exhaustive over the complete export; `rules.py` and `check_rules.py`, 112,880 / 112,880) |
 | "A P1-free round exists at every two-move start" (§4.4) | | **REFUTED** at n = 5: 12 of the 280 sampled 5_pure two-move starts (smallest m = 9) have admissible rounds, but each settles some agent with an ℓ-alone constraint; two implementations |
-| **Conjecture BASE-R** (§5) | the base case in the P1-free class: a state reached by P1-free rounds, with no lifted completion and no P1-free admissible round, has a *final round* (one admissible round of any kind followed by a lifted completion at once) or an *ED repair*. With it, **the greedy process GR (take any P1-free round) never gets stuck**, so ROUND-IND needs no existential choice | evidence: GR is safe at **every start of every data set** (112,880 + 14,047 + 4,955 + 280 + 8,539), independently re-checked |
+| **Conjecture BASE-R** (§5) | the base case in the P1-free class: every state that the greedy process GR visits (it takes P1-free rounds only where there is no completion, final round or ED repair), and that has no lifted completion, no *final round* (one admissible round of any kind followed by a lifted completion at once) and no *ED repair*, has an admissible P1-free round. So **GR never gets stuck**, and ROUND-IND needs no existential choice | evidence: GR is safe at **every start of every data set**: 112,880 (n = 4), 1,285,930 (the certifier's whole n = 5 export), 14,047, 4,955, 280 and 8,539. Independent re-check on all but the n = 5 export, where it runs on the complete sel2 lists |
+| Strong form of BASE-R (§5) | the same for every state reached by P1-free rounds (rounds also taken where a final round exists) | **REFUTED** at 8 of the 280 5_pure starts; two implementations |
+| **Lemma B3, Corollary B3′** (§5.1) | the lift at the last step: an official move plus completion, EFX₀ in the present instance and threatening no phantom, is EFX₀ in I. Theorems U, S, RING-red, D-red, KEEP and OWN in the present instance therefore give ED repairs once the bundles of three or more goods separate the phantoms' pairs. BASE-R ⟸ B1 (ED repair where no round exists) ∧ B2 (final round or ED repair where every round creates an ℓ-alone phantom) | **PROVED** (written proofs); B1, B2 open. On all data B1 occurs only at the 6, and B2 with phantoms at 134,835 states |
 
 **Bottom line.**
 1. The base case cannot be stated for all reachable phantom states. The dead ends of ROUND-RSD are not a base case
@@ -34,9 +36,12 @@ Everything called evidence is evidence only (PROMPT.md §5 rule 3).
    SEP), so the phantom class they generate is nearly constraint-free.
 3. The base case is then a statement about the P1-free class (Conjecture BASE-R): a final round of any kind, or an
    ED move, then a completion at once. ED (Hall's ED chains, `k4/oc1_hall.md` §14) is the right move class, not
-   "canonical chains whose middle agents take junk". On all data the process "take any P1-free round, stop when a
-   completion, a final round or an ED repair exists" never gets stuck. BASE-R would make the whole ROUND-RSD
-   induction greedy.
+   "canonical chains whose middle agents take junk".
+   - The process GR, "stop when a completion, a final round or an ED repair exists, otherwise take any P1-free
+     round", never gets stuck on all data, including the certifier's whole n = 5 export (1,285,930 starts).
+   - BASE-R would make the whole ROUND-RSD induction greedy.
+   - It splits into two open lemmas, B1 and B2, plus a proved lift (B3) that transfers the existing Part 1 theorems
+     to phantom states (§5.1).
 
 ## 0. Setting
 
@@ -296,40 +301,139 @@ Every stop is a raw EFX₀ allocation of I. Each round deletes at least one agen
 creates before the last step is P1-free. Its constraints are therefore separations (Proposition SEP), and (P3),
 (S-φ2), (S-φ3) are automatic along the way.
 
-> **Conjecture BASE-R (K4.BASE.GR).** Let S be a state reached from a hard perfect start (strict values, at most four
-> relevant goods per agent) by admissible rounds whose settlements are P1-free. If S has no lifted completion and no
-> admissible P1-free round, then S has a final round or an ED repair.
+Call a state **GR-visited** if it is a hard perfect start (strict values, at most four relevant goods per agent), or if
+it arises from a GR-visited state S′ by an admissible P1-free round, where S′ has no lifted completion, no final round
+and no ED repair. These are exactly the states GR can reach.
+
+> **Conjecture BASE-R (K4.BASE.GR).** Every GR-visited state that has no lifted completion, no final round and no ED
+> repair has an admissible P1-free round. Equivalently, GR never gets stuck.
+
+*The hypothesis "GR-visited" is needed.* Drop it, so that rounds may also be taken at states that already have a final
+round or an ED repair (MODE=GRR: P1-free rounds are taken wherever one exists, and the base is used only where none
+does). Then some reachable state has no completion, no final round, no ED repair and no admissible round, at 8 of the
+280 5_pure starts (K4.BASE.GRR, REFUTED; `gr.py` and `check_rules.py` agree). At all of them the stuck states have two
+phantoms and no admissible round. *Correction:* the first version of this section, at f2d9304, stated BASE-R for every
+state reached by P1-free rounds; that form is this refuted one.
 
 BASE-R says exactly that GR never gets stuck. With Lemma MAXSD and Lemma RED (`k4/sdc.md` §31) reducing TARGET₄ to
 perfect starts, as for K4.MATCH.CM2, it would imply TARGET₄. It is ROUND-IND (piece (i)) and the base case (piece
 (ii)) in one statement, and it has no existential choice: any P1-free round works.
 
-*Evidence* (`rules.py` with terminal "completion, a final round or a base repair ≤ ED"; independent `check_rules.py`
-with MODE=GR):
+*Evidence:*
+- `rules.py`, with terminal "completion, a final round or a base repair ≤ ED";
+- `gr.py`, GR itself, fast, with the lemma census of §5.1;
+- the independent `check_rules.py` with MODE=GR.
 
 | data | starts | GR stuck | where the base is used |
 |---|---|---|---|
 | n = 4 export | 112,880 | **0** | never: the P1-free rounds alone end in completions (§4.3) |
-| walks | 4,955 | **0** | never |
-| n5 partial | 14,047 | **0** | final round or C0 at the 1,165 starts where P1-free rounds alone fail |
+| walks | 4,955 | **0** | final rounds only |
+| n5 partial, every 50th start | 14,047 | **0** | final round or C0 at the 1,165 starts where P1-free rounds alone fail |
 | 5_pure sample | 280 | **0** | final round (the 12 of §4.4 included) |
 | one-move starts | 8,539 | **0** | ED is needed: with final rounds and C0 only, 7 get stuck; the 6 of §1 have no round at all |
+| **n5 sel2**: 5_pure #419, #447, #38, every profile (the certifier's complete lists, its certificate) | 583,680 | **0** | final rounds only, with a P1-free round also available |
+| **n5 partial6**: six 5_pure hypergraphs, time-capped lists | 702,250 | **0** | final rounds; B2 (§5.1) at 134,822 states with one phantom |
+
+So GR never gets stuck on **1,285,930 n = 5 starts**, the certifier's whole n = 5 export, in about 22 minutes (`gr.py`,
+`gr_n5sel2.log`, `gr_n5partial6.log`). The independent `check_rules.py` re-check of the sel2 lists, in ten chunks,
+is in `check_rules_GR_n5sel2_part*.log`.
 
 Further facts:
-- *The order of GR's steps matters.* If GR keeps taking P1-free rounds while a final round already exists, using the
-  base only where no P1-free round is left (MODE=GRR), it gets stuck at 8 of the 280 5_pure starts.
 - Without step 2, GR with an ED or even a C3 base gets stuck at the 12 starts of §4.4.
 - Without step 3, it gets stuck at 47 one-move starts.
 
-**What a proof of BASE-R needs.**
-- At Φ = ∅ with no admissible round at all (the 6): OC₁ by an ED move. That is Part 1 of the plan (Hall, multi, d1),
-  in its ED form.
-- At states whose only admissible rounds create ℓ-alone phantoms (the 12): a final round. One P1-free and one P1
-  settlement together, then a completion; Theorem S^φ(round) (K4.MULTI.SPHIR) is the tool, with the P1 phantom
-  created in that last round.
-- Everywhere else: SEP removes every phantom condition except separations. So the base case in this class is OC₁ in
-  the present instance with separation constraints, and Theorems U, S and RING-red transfer verbatim when the owner's
-  bundle separates the pairs.
+### 5.1 The proof skeleton: Lemmas B1, B2 and B3
+
+Let S be a GR-visited state with no lifted completion. BASE-R at S follows from two lemmas, according to which
+admissible rounds S has.
+
+> **Lemma B1 (OC₁-ED where no round exists; open).** If S has no admissible round at all, then S has an ED repair.
+
+> **Lemma B2 (the final mixed round; open).** If S has admissible rounds but none of them is P1-free, then S has a final
+> round or an ED repair.
+
+*BASE-R ⟸ B1 ∧ B2.* Suppose S has no final round, no ED repair and no admissible P1-free round. If S has no
+admissible round, B1 gives an ED repair, a contradiction. Otherwise every admissible round of S settles some agent
+with an ℓ-alone constraint, and B2 gives a final round or an ED repair, a contradiction. ∎
+
+> **Lemma B3 (the lift at the last step; PROVED).** Let S be a state reached from a hard perfect start by admissible
+> rounds (P1-free or not). Let X be an allocation of the present goods to the present agents, obtained from S by at most
+> one official move followed by a one-absorber completion. Suppose:
+> - X is EFX₀ among the present agents;
+> - no bundle of X threatens a phantom at its threshold.
+>
+> Then X together with every T_φ is EFX₀ in I. For a P1-free phantom φ (Proposition SEP), the second condition concerns
+> only bundles of three or more goods: for a pair T_φ, such a bundle must not contain both y_φ and ℓ_φ when
+> v_φ(y_φ) + v_φ(ℓ_φ) > τ_φ. A final round followed by a lifted completion is the case "no move" at the state after
+> that round.
+
+*Proof.* Values of present agents never decrease: in a round every chain agent gains and the others keep their goods;
+in an official move every chain agent gains; and a completion only adds goods. Take agents a ≠ b of I.
+1. *a, b present in X.* X is EFX₀ among them.
+2. *a present, b a phantom.* a was present when b was settled. (L\*) at the end of b's round says T_b does not
+   threaten a at a's value then, and a's value only rose since.
+3. *a a phantom, b present.* The second hypothesis. For a P1-free a, Proposition SEP says X_b can threaten a only if
+   X_b has three or more goods, at least two of them in R_a ∖ T_a (for a pair T_a: both y_a and ℓ_a).
+4. *a, b phantoms.* Three cases:
+   - b settled after a: (P2) at b's round;
+   - b settled in a's round: (L\*) at that round's end, toward round-mates at their thresholds;
+   - b settled before a: a was present at b's round. (L\*) there holds at a's value at that round's end, which is at
+     most a's value when a was settled and so below τ_a.
+
+   A threshold never changes, since a phantom keeps T_a. ∎
+
+This is Lemma LIFT\* for rounds (refereed) extended to a last official move, with (Φ) read through SEP. Its use: at
+GR-visited states every phantom before the last step is P1-free, so in B1 and B2 the repair only has to be EFX₀ *in
+the present instance* and separate the pairs. A final round's own phantoms may carry ℓ-alone constraints; for them
+the second condition says that ℓ is alone in its bundle of X (PHANTOM (P1)).
+
+> **Corollary B3′ (Part 1 transfers; PROVED).** At a GR-visited state S, suppose the hypotheses of one of the following
+> hold for the present instance (a perfect SD start):
+> - Theorem U (K4.MULTI.U), or Theorem S (K4.MULTI.S, relaxed form);
+> - Lemma RING-red (K4.MULTI.RING), with its S\* completion owned by k;
+> - Lemma D-red (K4.MULTI.DRED) with no obstacle, or Lemma KEEP or OWN (all refereed CORRECT).
+>
+> If every bundle of three or more goods in that allocation separates the phantoms' pairs, the allocation is an ED
+> repair of S that respects every phantom. In particular, B1 and B2 hold at S whenever such a case exists.
+
+*Proof.* Each of these results gives an allocation, EFX₀ in the present instance, made of one canonical chain or one
+dangerous ring followed by a one-absorber completion. A canonical chain is C0 ⊆ ED; a dangerous ring takes junk only
+at its end d, so it is ED. Apply B3. ∎
+
+In these allocations the bundles with three or more goods are:
+- the owner's bundle (k's W in Theorems U and S, k's H₀ ∪ J′ in RING-red);
+- k's H₀ when it has three goods and another agent owns;
+- in RING-red, d's {Y_{x_{t−1}}} ∪ H_t when \|H_t\| ≥ 2.
+
+So the condition is at most three separation checks. A P1-free phantom's y_φ sits as the single base of the agent that
+took it, unless a later chain released it.
+
+*What the data say about B1 and B2* (`gr.py`, logs `gr_*.log`: at every state where GR stops by its base, whether a
+P1-free round, some other round, or no round existed there):
+
+Counts are of GR-visited states where GR stops by its base (a final round or an ED repair). The three columns of each
+block are: no admissible round (B1), rounds but none P1-free (B2), a P1-free round also available (base not needed).
+
+| data | starts | Φ = ∅: B1 / B2 / not needed | with phantoms: B1 / B2 / not needed |
+|---|---|---|---|
+| one-move, multi file | 8,081 | 6 / 252 / 7,823 | 0 / 0 / 0 |
+| one-move, Hall file | 1,737 | 6 / 83 / 1,648 | 0 / 0 / 0 |
+| one-move, PW file | 291 | 0 / 0 / 291 | 0 / 0 / 0 |
+| 5_pure sample | 280 | 0 / 12 / 138 | 0 / 13 / 314 |
+| walks | 4,955 | 0 / 0 / 577 | 0 / 0 / 7,182 |
+| n = 4 export | 112,880 | 0 / 0 / 0 | 0 / 0 / 302,320 |
+| n5 sel2 | 583,680 | 0 / 0 / 391,680 | 0 / 0 / 192,000 |
+| n5 partial6 | 702,250 | 0 / 0 / 367,433 | 0 / 134,822 / 743,400 |
+
+The 6 B1 states of the multi and Hall files are the same 6 starts. ED repairs are used only at Φ = ∅ (`gr_*.log`).
+
+- **B1 is needed only at Φ = ∅ on all data, at exactly the 6** of §1. At those, the repair is the dangerous ED ring of
+  §3 (Lemma RING-red's shape). No GR-visited state with phantoms ever lacks an admissible round.
+- **B2 with phantoms** occurs at the 5_pure sample and the n5 exports: there every admissible round creates an
+  ℓ-alone phantom, and a final round repairs. The tool for a proof is Theorem S^φ(round) (K4.MULTI.SPHIR), with the
+  P1 phantoms created in the final round itself: then (S-φ2) asks that the ℓ-holder take no junk.
+- **B2 at Φ = ∅** is OC₁ in its two-settlement form (a final round is two simultaneous settlements and a completion).
+  At one-move starts an ED repair always exists (§3), so B2 is needed at Φ = ∅ only at two-move starts.
 
 ## 6. Reproduction
 
@@ -343,10 +447,16 @@ RULES=any,noP1 python3 k4/base_phantom/rules.py n4 results/k4_base_phantom/data/
 python3 k4/base_phantom/check_rules.py results/k4_base_phantom/data/two_move_starts_n4.json.gz      # §4.3, second implementation
 MODE=GR python3 k4/base_phantom/check_rules.py FILE                                                 # §5, second implementation
 python3 k4/base_phantom/verify_nop1_gap.py results/k4_base_phantom/data/n5_5pure_s5o0_two_move_starts.jsonl.gz   # §4.4
+python3 k4/base_phantom/gr.py n5sel2 results/k4_base_phantom/data/two_move_starts_n5_sel2.json.gz          # §5, GR with the lemma census
 sh results/k4_base_phantom/runs.sh; sh results/k4_base_phantom/runs_gr.sh                           # every log (about 40 min, 4 CPUs)
+sh results/k4_base_phantom/runs_gr_n5.sh                                                            # gr.py on every data set, n = 5 exports included (~25 min)
+sh results/k4_base_phantom/runs_sel2_check.sh                                                       # second implementation on sel2 (~4 h)
 ```
 
 Data (`results/k4_base_phantom/data/`, copied byte for byte):
 - from `proof/k4-matching` `results/k4_matching/data/`: the three one-move files, the n = 4 export (sha256 6159e38d…,
   the certifier's export), the 5_pure sample, the n5 partial subsample, and multi's walk starts;
+- from `compute/k4-oc1max-cert` `results/k4_oc1max/n5/`: `two_move_starts_n5_partial6.json.gz` (702,250 starts, six
+  hypergraphs, time-capped lists) and `two_move_starts_n5_sel2.json.gz` (583,680 starts, complete lists of three
+  hypergraphs, with the certifier's logs);
 - sha256 sums in `results/k4_base_phantom/data/SHA256SUMS`.

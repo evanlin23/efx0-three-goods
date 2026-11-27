@@ -1,0 +1,9 @@
+$ MODE=GR python3 k4/base_phantom/gr.py n4 results/k4_base_phantom/data/two_move_starts_n4.json.gz 1 0
+distinct starts: 112880
+  ... 50000 starts, 0 stuck, 23 s
+  ... 100000 starts, 0 stuck, 43 s
+    112880  SAFE
+    302320  end: final round, -- (a P1-free round exists), 1 phantoms
+    112880  starts
+    415200  states visited
+time 53 s
