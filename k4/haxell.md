@@ -627,6 +627,28 @@ In the sketch, `rotate` takes any permutation σ of the agents, given with its i
 More moves make the lemma weaker, so the checked form (single cycles) implies the sketch's form. The sketch's form
 is the convenient one for a proof.
 
+**W^sub on the coordinator's test sets (burst 3; welfare; `gstar_measure 2 1 1 1`, every partial EFX₀ state with a
+nonempty pool of every instance):**
+| test set | instances | partial EFX₀ states | W^sub stuck | log |
+|---|---|---|---|---|
+| n = 2, every relevant-set pair with k ≤ 4, values {1, 2, 4, 7} (ties included) | 1,540,944 | 470,500,040 | **0** (leximin 0) | `n2w_grid_k4_sub.log` |
+| n = 3, every shape with k ≤ 3, values {1, 2, 4, 7, 12}, m ≤ 5 (up to isomorphism; m = 6–9 running) | 5,324,815 | 742,367,662 | **0** | `n3grid_k3_v12.log` |
+| n = 4, k = 4 cores with one 4-good agent, m ≤ 5 (20 cores): **every** strict balanced type profile of the certificate domain, up to automorphism | 451,824 | 223,522,208 | **0** | `n4core_all_m5.log` |
+
+The n = 3 instances are counted after the symmetry reduction: goods of one pattern are interchangeable, and agent
+permutations that fix the shape are factored out. `ht_n3grid_check.py` checks the reduction against the full product
+on a small grid. On the cores, a type profile fixes the ordinal type of each agent, realized by the type's integer
+representative from `k4/order_types.json`; welfare is cardinal, so other realizations are sampled separately (below).
+`ht_n4core_check.py` checks the automorphism reduction. Pool-shrinking alone (φ0) fails in 419,736 of the 451,824
+core instances: on cores the welfare steps do most of the work.
+
+**Why every profile cannot be covered.** A core with a agents of four goods and b of three has up to 288ᵃ · 6ᵇ
+profiles: 2.2·10⁴ to 7·10⁹ per core before symmetry, and 0.5 ms (m = 4) to 0.5 s (m = 9) per instance. Only the
+cores with one 4-good agent and m ≤ 5, plus the two n4_2 cores with m = 4, fit (`n4core_all_m4.log`). Every other
+core is sampled: 200 random certificate-domain profiles per core with m ≤ 8; 100 random profiles per core with every
+strict type allowed and random per-agent scaling 1–4 of the representatives (so cross-agent welfare comparisons
+vary); and 20 per core with m = 9.
+
 **Which move kinds W^sub needs (ablation).** Each kind of move was switched off in turn (`gstar_measure` OFF
 bitmask), and the adversarial climb (`ht_wclimb.py`, below) searched for a state with no step (`wablate_off*.log`;
 n = 2 and n = 3, m = 7, k = 4, 3 climbers × 1,500 instances each). Every failure was re-checked by the independent Python
