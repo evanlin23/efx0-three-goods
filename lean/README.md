@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 1300 audited statements, 2475 theorems, standard axioms only
+    CHECK PASSED: 1316 audited statements, 2506 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -282,6 +282,14 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   and any completion, value domination (`t6_dominate`), at most two other agents' picks per bundle (`t6_count`), the
   shape of a bundle with two (`t6_two`), and the certificate that one move fails (`no_completion_of_cert`), which
   `EFX/OC1MaxCex.lean` applies to instance 1 (`EFX.OC1Max.not_conjOC1max_T6`).
+- `EFX/SDE.lean`: **Lemma SD-E** (`k4/oc1max_multi.md` §12, ledger K4.MULTI.SDE.LEAN): `EFX.OC1Max.sdE`, after the
+  earliest-wanter chain E(k) (`EChain`) with k taking T, the state without k and T is the serial-dictatorship outcome
+  of σ without k; `sdE_perfect`, perfect starts stay perfect. Tools: `Before` (order in a list), `sdPick_turn`,
+  `sdPick_eq_of_greedy` (the greedy characterization of serial dictatorship), `src` (whose pick an agent holds).
+- `EFX/RecS.lean`: **the REC-S frame** (`k4/oc1max_multi.md` §8, §12, ledger K4.MULTI.RECS.LEAN): E(k) with k taking T is
+  an official chain (`echain_isChain`), (L) is automatic (`recs_L`), Lemma LIFT (`oneMove_lift`, `oneAbsorber_lift`),
+  and **`EFX.OC1Max.target4_of_recs`**: Theorem S's conclusion (`ThmSHolds`, a hypothesis) and REC-S existence
+  (`ConjRECS`) imply OC₂ᵖᵉʳᶠ (`conjOC2perf_of_recs`), hence TARGET₄.
 - `EFX/OC1MaxExamples.lean`: non-vacuity of `EFX/OC1Max.lean` by `decide`, on the MC2 core of `k4/sdc.md` §31 where OC
   fails: the failing start (index order) is not a maximum-matching start (`EFX.OC1Max.Ex.not_maximum_MC2`); the order
   3, 4, 0, 1, 2 picks a maximum matching with a one-absorber completion (`EFX.OC1Max.Ex.maximum_ordM`,
