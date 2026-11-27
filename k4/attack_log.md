@@ -931,7 +931,7 @@ at their new heads.
   one-absorber completion test.
 - A trial of 40: random extensions mostly dissolve the obstruction (0 or 1 moves). Larger runs are in progress.
 
-### 2026-11-27 02:47 UTC: hourly burst 6
+### 2026-11-27 02:44 UTC: hourly burst 6
 **Status.** TARGET₄ is open. OC₂^max (≤ 2 sequential moves) survives everything: it is certified at n ≤ 4, and certified
 at n = 5 on 2,670 cores (5_n4_1 and 935 of 4,674 5_pure), with no start needing three moves. Of the uniform repair
 mechanisms, only **ROUND-P** (one round of vertex-disjoint OC₁′ moves) survives all data.
