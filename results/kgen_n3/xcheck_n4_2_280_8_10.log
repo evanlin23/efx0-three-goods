@@ -1,0 +1,12 @@
+$ python3 kgen/hunt_n.py xcheck 4 2 280 8 10
+instances general 40
+instances ident 40
+instances junk 40
+instances klim:3 40
+instances klim:4 40
+instances klim:6 40
+instances zeros 40
+starts 6720
+starts: chains needed 0 6476
+starts: chains needed 1 244
+time 93 s

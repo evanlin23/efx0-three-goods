@@ -1,0 +1,5 @@
+$ python3 kgen/rf/rf_run.py rand 5 3 20000 53
+20000 instances
+2821 max starts: one move repairs
+31485 max starts: picks complete
+time 3 s

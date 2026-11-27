@@ -1,0 +1,15 @@
+$ python3 kgen/lemmaT3.py 13 150 6 8 klim:4,klim:5
+LIFT FAILS klim:4 last [[0, 43, 0, 47, 0, 0, 0], [0, 0, 0, 16, 0, 0, 1], [92, 0, 63, 0, 12, 90, 0]] order (0, 2, 1) picks [3, 6, 0] maximizer [[1, 2, 3, 4], [5, 6], [0]]
+LIFT FAILS klim:4 last [[0, 43, 0, 47, 0, 0, 0], [0, 0, 0, 16, 0, 0, 1], [92, 0, 63, 0, 12, 90, 0]] order (1, 2, 0) picks [1, 3, 0] maximizer [[1, 2, 4, 6], [3, 5], [0]]
+LIFT FAILS klim:5 last [[39, 0, 0, 83, 0, 0], [0, 55, 0, 68, 0, 0], [71, 0, 90, 69, 65, 24]] order (0, 2, 1) picks [3, 1, 2] maximizer [[0, 3], [1, 4, 5], [2]]
+LIFT FAILS klim:5 last [[39, 0, 0, 83, 0, 0], [0, 55, 0, 68, 0, 0], [71, 0, 90, 69, 65, 24]] order (1, 2, 0) picks [0, 3, 2] maximizer [[0, 1], [3, 4], [2, 5]]
+LIFT FAILS klim:4 first [[97, 0, 73, 0, 0, 71], [0, 0, 41, 73, 36, 24], [0, 13, 0, 82, 0, 0]] order (1, 0, 2) picks [0, 3, 1] maximizer [[0], [2, 4], [1, 3, 5]]
+LIFT FAILS klim:4 first [[97, 0, 73, 0, 0, 71], [0, 0, 41, 73, 36, 24], [0, 13, 0, 82, 0, 0]] order (1, 2, 0) picks [0, 3, 1] maximizer [[0], [2, 4], [1, 3, 5]]
+448 klim:4 first: every maximizer EFX0
+450 klim:4 first: starts
+416 klim:4 last: every maximizer EFX0
+450 klim:4 last: starts
+450 klim:5 first: every maximizer EFX0
+450 klim:5 first: starts
+446 klim:5 last: every maximizer EFX0
+450 klim:5 last: starts

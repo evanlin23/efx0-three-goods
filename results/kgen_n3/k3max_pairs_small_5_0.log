@@ -1,0 +1,19 @@
+$ python3 kgen/k3max_pairs.py gap_small_5.gap.gz 0 2
+76    no such k: least omega' = -1; a least-omega' rotation passes owner none/k: True
+868    no such k: least omega' = -2; a least-omega' rotation passes owner none/k: True
+972    no such k: least omega' = -3; a least-omega' rotation passes owner none/k: True
+2059 |E_t| = 2, 0 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+1538 |E_t| = 2, 0 pairs contain Y_t, 1 repeated; some k with h_k <= 1, no equal pair: False
+5401 |E_t| = 2, 1 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+1856 |E_t| = 2, 2 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+282 |E_t| = 2, 2 pairs contain Y_t, 1 repeated; some k with h_k <= 1, no equal pair: False
+32 |E_t| = 3, 0 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+34 |E_t| = 3, 0 pairs contain Y_t, 1 repeated; some k with h_k <= 1, no equal pair: True
+16 |E_t| = 3, 0 pairs contain Y_t, 2 repeated; some k with h_k <= 1, no equal pair: False
+64 |E_t| = 3, 1 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: False
+187 |E_t| = 3, 1 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+128 |E_t| = 3, 1 pairs contain Y_t, 1 repeated; some k with h_k <= 1, no equal pair: True
+189 |E_t| = 3, 2 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+32 |E_t| = 3, 2 pairs contain Y_t, 1 repeated; some k with h_k <= 1, no equal pair: True
+16 |E_t| = 3, 3 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: False
+50 |E_t| = 3, 3 pairs contain Y_t, 1 repeated; some k with h_k <= 1, no equal pair: True

@@ -1,0 +1,33 @@
+$ python3 kgen/k3max_owner.py gap_certs_6_0.gap.gz 0 2
+23244 per draft: some k, Rule E chain, owner none or k: True
+23244 per draft: some k, some need chain, owner none or k: True
+1230 |J| = 3: Lemma 1 with owner none or k (after LB upgrades) passes: True
+723 |J| = 3: lb2: no owner, 0 upgrade(s)
+507 |J| = 3: lb2: no owner, 1 upgrade(s)
+1230 |J| = 3: simple test (LB upgrades, then Lemma 1) passes: True
+472 |J| = 4: Lemma 1 with owner none or k (after LB upgrades) passes: False
+45579 |J| = 4: Lemma 1 with owner none or k (after LB upgrades) passes: True
+21771 |J| = 4: lb2: no owner, 0 upgrade(s)
+18038 |J| = 4: lb2: no owner, 1 upgrade(s)
+4271 |J| = 4: lb2: no owner, 2 upgrade(s)
+411 |J| = 4: lb2: no owner, 3 upgrade(s)
+28 |J| = 4: lb2: owner k, 0 upgrade(s)
+1208 |J| = 4: lb2: owner t, 0 upgrade(s)
+24 |J| = 4: lb2: owner t, 1 upgrade(s)
+244 |J| = 4: lb2: owner: another pair holder, 1 upgrade(s)
+24 |J| = 4: lb2: owner: another pair holder, 2 upgrade(s)
+32 |J| = 4: lb2: owner: another terminal, 1 upgrade(s)
+80 |J| = 4: simple test (LB upgrades, then Lemma 1) passes: False
+45971 |J| = 4: simple test (LB upgrades, then Lemma 1) passes: True
+88 |J| = 5: Lemma 1 with owner none or k (after LB upgrades) passes: False
+3514 |J| = 5: Lemma 1 with owner none or k (after LB upgrades) passes: True
+968 |J| = 5: lb2: no owner, 0 upgrade(s)
+1350 |J| = 5: lb2: no owner, 1 upgrade(s)
+572 |J| = 5: lb2: no owner, 2 upgrade(s)
+64 |J| = 5: lb2: no owner, 3 upgrade(s)
+298 |J| = 5: lb2: owner t, 0 upgrade(s)
+230 |J| = 5: lb2: owner: another pair holder, 1 upgrade(s)
+24 |J| = 5: lb2: owner: another pair holder, 2 upgrade(s)
+90 |J| = 5: lb2: owner: another terminal, 0 upgrade(s)
+6 |J| = 5: lb2: owner: another terminal, 1 upgrade(s)
+3602 |J| = 5: simple test (LB upgrades, then Lemma 1) passes: True

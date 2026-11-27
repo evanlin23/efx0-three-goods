@@ -1,0 +1,17 @@
+$ python3 kgen/k3max_gapfile.py gap_certs_6_0.gap.gz 1 2
+RULE E T1' FAILS GAP [[0, 1, 7], [0, 2, 8], [4, 3, 9], [0, 5, 3], [4, 6, 1], [5, 2, 6]] 10 order (0, 1, 2, 3, 5, 4) picks (0, 2, 4, 5, 1, 6) |T| 1 |E_t| [2] all chains: True
+RULE E T1' FAILS GAP [[0, 1, 7], [0, 2, 8], [4, 9, 3], [0, 5, 3], [4, 6, 1], [5, 2, 6]] 10 order (0, 1, 2, 3, 5, 4) picks (0, 2, 4, 5, 1, 6) |T| 1 |E_t| [2] all chains: True
+RULE E T1' FAILS GAP [[0, 1, 7], [2, 8, 0], [3, 4, 9], [6, 0, 5], [3, 5, 1], [2, 6, 4]] 10 order (0, 1, 2, 5, 3, 4) picks (0, 2, 3, 5, 1, 6) |T| 1 |E_t| [2] all chains: False
+23236   Lemma G5: Rule E keeps the want graph acyclic for every k: True
+23236   T1 (owner allowed): the Rule E rotation completes (lb2) for SOME k: True
+30   T1' over all need chains (Rule E failed): False
+6   T1' over all need chains (Rule E failed): True
+36   T1' with Rule E (some k): False
+23200   T1' with Rule E (some k): True
+23236   T1-E (owner allowed): the Rule E rotation completes (lb2) for EVERY k: True
+633   |J| = 3
+21179   |J| = 4
+1424   |J| = 5
+23236 gap drafts with |T| = 1
+2148 gap lines with |T| != 1 (not this part)
+time 9 s

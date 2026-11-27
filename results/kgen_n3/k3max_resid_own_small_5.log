@@ -1,0 +1,14 @@
+$ python3 kgen/k3max_resid_own.py gap_small_5.gap.gz
+40 R1  rotation: no owner (pre-upgrade) False, a terminal owner by Lemma 3 False, t is one False, some terminal with no frozen exposed False
+124 R1  rotation: no owner (pre-upgrade) False, a terminal owner by Lemma 3 True, t is one True, some terminal with no frozen exposed True
+1164 R1  rotation: no owner (pre-upgrade) True, a terminal owner by Lemma 3 True, t is one True, some terminal with no frozen exposed True
+664 R1 drafts (|J| >= 3)
+664 R1 some rotation completes by (a) or a Lemma 3 terminal owner: True
+664 R1 some rotation has owner t by Lemma 3: True
+664 R1 some rotation leaves a terminal with no frozen exposed agent: True
+80 R2  rotation: no owner (pre-upgrade) False, a terminal owner by Lemma 3 True, t is one True, some terminal with no frozen exposed True
+400 R2  rotation: no owner (pre-upgrade) True, a terminal owner by Lemma 3 True, t is one True, some terminal with no frozen exposed True
+160 R2 drafts (|J| >= 3)
+160 R2 some rotation completes by (a) or a Lemma 3 terminal owner: True
+160 R2 some rotation has owner t by Lemma 3: True
+160 R2 some rotation leaves a terminal with no frozen exposed agent: True

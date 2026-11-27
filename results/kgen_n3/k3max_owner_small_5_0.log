@@ -1,0 +1,16 @@
+$ python3 kgen/k3max_owner.py gap_small_5.gap.gz 0 4
+5942 per draft: some k, Rule E chain, owner none or k: True
+5942 per draft: some k, some need chain, owner none or k: True
+7296 |J| = 2: Lemma 1 with owner none or k (after LB upgrades) passes: True
+5515 |J| = 2: lb2: no owner, 0 upgrade(s)
+1739 |J| = 2: lb2: no owner, 1 upgrade(s)
+42 |J| = 2: lb2: no owner, 2 upgrade(s)
+7296 |J| = 2: simple test (LB upgrades, then Lemma 1) passes: True
+24 |J| = 3: Lemma 1 with owner none or k (after LB upgrades) passes: False
+4951 |J| = 3: Lemma 1 with owner none or k (after LB upgrades) passes: True
+2928 |J| = 3: lb2: no owner, 0 upgrade(s)
+1800 |J| = 3: lb2: no owner, 1 upgrade(s)
+214 |J| = 3: lb2: no owner, 2 upgrade(s)
+9 |J| = 3: lb2: no owner, 3 upgrade(s)
+24 |J| = 3: lb2: owner t, 0 upgrade(s)
+4975 |J| = 3: simple test (LB upgrades, then Lemma 1) passes: True

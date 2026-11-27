@@ -1,0 +1,14 @@
+$ python3 kgen/hunt3.py 2 20000 8 14
+instances general 2222
+instances ident 2222
+instances junk 2222
+instances klim:3 2223
+instances klim:4 2223
+instances klim:5 2222
+instances klim:8 2222
+instances ties 2222
+instances zeros 2222
+orders 120000
+orders: chains needed 0 78507
+orders: chains needed 1 41493
+time 63 s

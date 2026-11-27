@@ -1,0 +1,9 @@
+$ python3 kgen/k3max_resid.py gap_certs_6_0.gap.gz 1 2
+148 R1, |J| = 3: 2 of 2 rotations reach omega' <= 0
+46 R1, |J| = 4: 1 of 2 rotations reach omega' <= 0
+490 R1, |J| = 4: 2 of 2 rotations reach omega' <= 0
+240 R2 |E_t| = 3, |J| = 4: 2 of 3 rotations reach omega' <= 0
+244 R2 |E_t| = 3, |J| = 4: 3 of 3 rotations reach omega' <= 0
+32 R2 |E_t| = 3, |J| = 5: 2 of 3 rotations reach omega' <= 0
+516 R2 |E_t| = 3: some k with (alpha) and h_k <= |T'_k|: True
+516 R2 |E_t| = 3: some rotation passes owner none/k: True

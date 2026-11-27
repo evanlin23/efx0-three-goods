@@ -1,0 +1,3 @@
+$ python3 kgen/k3max_pairs.py sample certs8:15 60 105
+27 hard perfect drafts
+3 |E_t| = 3, 0 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True

@@ -1,0 +1,4 @@
+$ python3 kgen/te_cex5dead.py
+rankings [(1, 0, 2), (3, 1, 0), (4, 0, 2), (5, 1, 6), (4, 5, 3)] m 8 (good 7 dead); order (0, 2, 3, 4, 1) picks [1, 0, 4, 5, 3] J [2, 6, 7] T [1] E_t [0, 2] pairs [(0, 2), (0, 2)] hard: True
+k = 0: Rule E chain [0, 1], omega' = 1, lb2 False, exhaustive: NO ONE-ABSORBER COMPLETION
+k = 2: Rule E chain [2, 4, 1], omega' = -2, lb2 True, exhaustive: [[1, 6], [3, 7], [0, 2], [5], [4]]

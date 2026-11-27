@@ -1,0 +1,8 @@
+$ python3 kgen/n2_zeros.py 1 3000 3 11
+case (i)/(ii) 4101
+case (i)/(ii): OC1 shape 4101
+case (iii) 1076
+case (iii): OC1 shape 1076
+case open (knife) 794
+case open (knife): OC1 shape 794
+y_b missing (skipped) 29

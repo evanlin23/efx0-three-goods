@@ -1,0 +1,4 @@
+$ python3 kgen/r_cex7.py
+rankings [(0, 5, 7), (3, 2, 8), (2, 6, 9), (3, 10, 6), (4, 11, 5), (0, 1, 5), (6, 4, 1)] m 12 order (0, 3, 1, 2, 4, 6, 5) picks [0, 2, 6, 3, 4, 5, 1] J [7, 8, 9, 10, 11] T [5] omega 4 E_t [0, 4] hard: True
+k = 0, chain [0, 5] (Rule E: True): omega' = 2; lb2 True; Lemma 1 owner none/k True; exhaustive: [[5, 7, 8, 9, 10], [2], [6], [3], [4], [0, 11], [1]]
+k = 4, chain [4, 6, 5] (Rule E: True): omega' = 2; lb2 True; Lemma 1 owner none/k True; exhaustive: [[0], [2], [6], [3], [5, 11, 8, 9, 10], [1, 7], [4]]

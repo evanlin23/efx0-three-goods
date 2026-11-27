@@ -1,0 +1,21 @@
+$ python3 kgen/k3max_cover.py certs:5 2 4
+GAP [[0, 1, 6], [0, 2, 7], [3, 4, 8], [1, 3, 5], [4, 2, 5]] 9 picks (1, 0, 8, 3, 4) |T| = 1 deficits [1] repairing trades: 2
+GAP [[0, 1, 6], [0, 2, 7], [3, 4, 8], [1, 3, 5], [4, 5, 2]] 9 picks (1, 0, 8, 3, 4) |T| = 1 deficits [1] repairing trades: 2
+GAP [[0, 1, 6], [0, 2, 7], [3, 4, 8], [3, 1, 5], [2, 4, 5]] 9 picks (0, 2, 4, 3, 5) |T| = 1 deficits [1] repairing trades: 2
+GAP [[0, 1, 6], [0, 2, 7], [3, 4, 8], [3, 1, 5], [2, 4, 5]] 9 picks (0, 2, 8, 3, 4) |T| = 1 deficits [1] repairing trades: 2
+408   gap: least deficit 1
+184   gap: least deficit 2
+592   gap: some DE trade repairs True
+592   gap: |T| = 1
+640 hard: B* applies (some rotation completes)
+0 hard: B* applies but no rotation completes (contradicts B*)
+152 hard: R1-compatible
+592 hard: covered by neither R1C nor B*
+912 hard: |T| = 1 (after upgrades)
+320 hard: |T| = 1, covered
+320 hard: |T| = 2 (after upgrades)
+320 hard: |T| = 2, covered
+4 hypergraphs
+72364 perfect drafts
+1232 perfect, hard
+time 8 s

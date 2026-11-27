@@ -1,0 +1,12 @@
+$ python3 kgen/k3max_r1rule.py gap_certs_6_1.gap.gz
+228   every twin giving t its top works: False
+1148   every twin giving t its top works: True
+1552   longer chain works
+24   pi inside J: False
+1544   pi inside J: True
+1108   shorter chain works
+1344   sigma-first twin works
+1332   sigma-last twin works
+192   some twin gives t its top: False
+1376   some twin gives t its top: True
+1568 R1 |J| >= 3 drafts

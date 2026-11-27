@@ -1,0 +1,10 @@
+$ python3 kgen/k3max_te.py gap_small_5.gap.gz 0 2
+11884 drafts
+9680 drafts where every k with pair in J works: True
+11884 drafts where every k works (T-E)
+2204 drafts with some k whose pair lies in J (a DE chain): False
+9680 drafts with some k whose pair lies in J (a DE chain): True
+24516 rotations
+24472 rotations completing with owner none
+44 rotations completing with owner t
+time 3 s

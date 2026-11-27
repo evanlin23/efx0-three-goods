@@ -8,13 +8,23 @@
                                                      per agent of degree d (an analogue of the k = 4 cores of
                                                      k4/search4.py; no reduction lemma behind it at k = 5)
     python3 k4/ksens/kcegar_batch.py named6 D [--jobs=4] [--limit=SEC]                designed k = 6 hypergraphs (NAMED6 below)
+    python3 k4/ksens/kcegar_batch.py core n K D [m ...] [--jobs=4] [--limit=SEC]       the core-like class of core5 with K
+                                                     in place of 5 (agent degrees 3-K with at least one K)
 --any-start: every SD start, not only the maximum-matching ones (the official move rule either way).
 --kmin=K: (genbg) only hypergraphs in which some agent values at least K goods.
---ckpt=FILE: append every finished hypergraph's record to FILE (JSON lines) and skip the ones already there, so a run
-             can be resumed after the container is reclaimed.
+--grid6=FILE: six-good agents take the grid types of FILE (typesk.py; a subset of all strict types, so 'certified'
+             then covers that subset only; a FAIL is a genuine counterexample).
+--exact6: with --grid6, every grid cut is confirmed by the exact LP (ratlp.py) and bits the grid misses get the LP's
+             point, so 'certified' covers every strict profile (kcegar_exact_check.py validates this).
+--rf: test Conjecture RF instead (rfcegar.py; D is ignored): every receiver-first maximum-matching order of every
+             failing maximum-matching start satisfies OC1, for every strict profile.
+--prio=LOG: (any mode) run first the one-good extensions of the hypergraphs with a FAIL line in LOG.
+--ckpt=FILE: append every finished hypergraph's record to FILE (JSON lines) and skip the ones already there (except
+             timeouts, which are tried again), so a run can be resumed after the container is reclaimed.
 A FAIL is re-checked on its integer representative by ocsat (SAT; empty passes allowed) for D <= 1, by ocseq (SAT, D
 chains) and by brute force (every state of up to D chains from the definition, raw-EFX0 backtracking completions)."""
-import sys, json, time, collections, multiprocessing as mp
+import os, sys, json, time, collections, itertools, multiprocessing as mp
+os.environ.setdefault('OPENBLAS_NUM_THREADS', '1')
 import _paths
 import kcegar, k3max, brute, ocsat, ocseq
 
@@ -63,6 +73,22 @@ def named6():
     return out
 
 
+def canon(S):
+    """isomorphism class of a hypergraph (agents and goods relabelled): the multiset of the goods' agent sets, minimized
+    over agent permutations (goods with the same agent set are interchangeable, so this is complete)"""
+    n = len(S); goods = sorted(set(g for s in S for g in s))
+    return min(tuple(sorted(tuple(sorted(p.index(i) for i in range(n) if g in S[i])) for g in goods))
+               for p in map(list, itertools.permutations(range(n))))
+
+
+def extensions(S):
+    """every hypergraph obtained by giving one agent one more good (a new good, or a good it does not value)"""
+    m = 1 + max(max(s) for s in S)
+    for i, s in enumerate(S):
+        for g in [x for x in range(m) if x not in s] + [m]:
+            yield [sorted(set(t) | {g}) if j == i else list(t) for j, t in enumerate(S)]
+
+
 def recheck(R, vals, Y, D, A=1):
     n = len(R); m = 1 + max(max(s) for s in R); vl = [[vals[i][g] for g in R[i]] for i in range(n)]
     V = [[0] * m for _ in range(n)]
@@ -80,10 +106,17 @@ def recheck(R, vals, Y, D, A=1):
 
 def job(task):
     name, sets, D, limit = task; t0 = time.time()
-    C = kcegar.Cegar(sets, D=D, require_max='--any-start' not in sys.argv); r, w = C.run(time_limit=limit); rec = {'name': name, 'sets': sets, 'D': D, 'result': r,
-        'iterations': C.iters, 'kinds': dict(C.kinds), 'types': [len(t) if t is not None else 'LP' for t in C.T],
+    g6 = next((a[8:] for a in sys.argv if a.startswith('--grid6=')), None)
+    ex = '--exact6' in sys.argv; rf = '--rf' in sys.argv
+    if rf:
+        import rfcegar
+        C = rfcegar.RF(sets, grid6=g6, grid_exact=ex)
+    else: C = kcegar.Cegar(sets, D=D, require_max='--any-start' not in sys.argv, grid6=g6, grid_exact=ex)
+    r, w = C.run(time_limit=limit); rec = {'name': name, 'sets': sets, 'D': 'RF' if rf else D, 'result': r,
+        'iterations': C.iters, 'kinds': dict(C.kinds), 'types': [len(t) if t is not None else ('grid' if C.G[i] else 'LP') for i, t in enumerate(C.T)],
+        'grid6': g6, 'exact6': ex, 'grid_stats': dict(C.gstats),
         'lp_calls': C.lpcalls}
-    if r == 'FAIL': rec['recheck'] = recheck(C.R, w[0], w[1], D)
+    if r == 'FAIL': rec['recheck'] = rfcegar.recheck(C.R, *w) if rf else recheck(C.R, w[0], w[1], D)
     C.close(); rec['time'] = round(time.time() - t0, 1); return rec
 
 
@@ -102,30 +135,45 @@ if __name__ == '__main__':
             for idx, line in enumerate(out):
                 G = nx.from_graph6_bytes(line); sets = [sorted(g - n for g in G[i]) for i in range(n)]
                 if max(map(len, sets)) >= kmin: tasks.append(('n%d_m%d_%d' % (n, m, idx), sets, D, limit))
-    elif args[0] == 'core5':
-        n, D = map(int, args[1:3]); ms = [int(a) for a in args[3:]] or list(range(n, 5 * n + 1))
+    elif args[0] in ('core5', 'core'):
+        if args[0] == 'core5': n, D = map(int, args[1:3]); K = 5; ms = [int(a) for a in args[3:]]
+        else: n, K, D = map(int, args[1:4]); ms = [int(a) for a in args[4:]]
+        ms = ms or list(range(n, K * n + 1))
         import subprocess, networkx as nx
         tasks = []
         for m in ms:
-            out = subprocess.run(['nauty-genbg', '-c', '-q', '-d3:1', '-D5:%d' % n, str(n), str(m)], capture_output=True).stdout.split()
+            out = subprocess.run(['nauty-genbg', '-c', '-q', '-d3:1', '-D%d:%d' % (K, n), str(n), str(m)], capture_output=True).stdout.split()
             for idx, line in enumerate(out):
                 G = nx.from_graph6_bytes(line); sets = [sorted(g - n for g in G[i]) for i in range(n)]
-                if max(map(len, sets)) < 5: continue
+                if max(map(len, sets)) < K: continue
                 deg = {g: sum(g in x for x in sets) for g in range(m)}
                 if any(sum(deg[g] == 1 for g in x) > len(x) - 2 for x in sets): continue
-                tasks.append(('core5_n%d_m%d_%d' % (n, m, idx), sets, D, limit))
+                tasks.append(('core%d_n%d_m%d_%d' % (K, n, m, idx), sets, D, limit))
     elif args[0] == 'named6':
         D = int(args[1]); tasks = [(nm, s, D, limit) for nm, s in named6()]
     else:
         D = int(args[1]); tasks = [(nm, s, D, limit) for nm, s in named()]
+    if 'prio' in opt:
+        # run first the hypergraphs that are one-good extensions of a hypergraph with a FAIL line in the given log
+        # (e.g. the k = 5, D = 1 failures for a k = 6, D = 2 sweep); the set of tasks is unchanged, only the order
+        prio = set()
+        for l in open(opt['prio']):
+            if '"result": "FAIL"' not in l: continue
+            S = json.loads(l)['sets']
+            for H in extensions(S): prio.add(canon(H))
+        key = {t[0]: (canon(t[1]) not in prio) for t in tasks}
+        tasks.sort(key=lambda t: key[t[0]])
+        print('priority (one-good extensions of the FAIL hypergraphs of %s): %d of %d tasks first' % (
+            opt['prio'], sum(not v for v in key.values()), len(tasks)), flush=True)
     C = collections.Counter(); ck = opt.get('ckpt')
     if ck:
         import os
         done = {}
         if os.path.exists(ck):
             for l in open(ck):
-                try: r = json.loads(l); done[r['name']] = r['result']
-                except Exception: pass
+                try: r = json.loads(l)
+                except Exception: continue
+                if r['result'] != 'timeout': done[r['name']] = r['result']       # a timeout is tried again
         for r in done.values(): C[r] += 1
         tasks = [t for t in tasks if t[0] not in done]; ckf = open(ck, 'a')
         print('checkpoint %s: %d done (%s), %d to go' % (ck, len(done), dict(C), len(tasks)), flush=True)
