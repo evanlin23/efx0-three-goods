@@ -30,7 +30,7 @@ Written separately from cegar.py; it shares no code with it or with the reposito
   no other agent may prefer that base good to its own base (a type mask).
 - With OC1_R2=m, star, o or c it checks TTC's R2-M, R2*, R2-O or R2-C (k4/ttc.md §14.6), at perfect starts only.
   - R2-O (o): the one-absorber owner is a receiver off the chain.  og: or no owner at all (nobody takes two junk
-    goods).
+    goods).  op (R2-O'): the owner, if any, is a receiver other than the chain's end, on or off the chain.
   - R2-C: any one-absorber completion.
   - Only profiles with at least two receivers count (a receiver is an agent whose pick no other agent prefers to its
     own).
@@ -261,12 +261,12 @@ def check_core(rec):
                 if R2 in ('m', 'star'):
                     if any(c >= 2 for c in cnt.values()): continue
                     if R2 == 'm' and any(a != x0 and len(nb[a]) >= 2 for a in cnt): continue
-                elif R2 in ('o', 'og'):     # the declared owner: a receiver at the picks, off the chain
-                    u = w.get('owner')
-                    if u is None:              # 'og' only: no owner, nobody takes two junk goods
+                elif R2 in ('o', 'og', 'op'):     # the declared owner: a receiver at the picks, off the chain
+                    u = w.get('owner')                # ('op': any receiver other than the chain's end)
+                    if u is None:              # 'og', 'op': no owner, nobody takes two junk goods
                         if R2 == 'o' or any(c >= 2 for c in cnt.values()): continue
                     else:
-                        if u in path or any(c >= 2 for a, c in cnt.items() if a != u): continue
+                        if (u in path if R2 != 'op' else u == path[-1]) or any(c >= 2 for a, c in cnt.items() if a != u): continue
                         for i in range(n):
                             if i != u: masks[i] &= H.V[i][:, Y[u]] <= H.V[i][:, Y[i]]
                 # R2 == 'c': the one-absorber shape, already checked by shape_ok

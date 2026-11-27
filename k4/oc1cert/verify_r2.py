@@ -18,6 +18,7 @@ At a perfect SD start Y (picks y_i, junk J):
 - R2*: the same, with only "nobody receives two or more junk goods".
 - R2-O: a one-absorber completion whose owner (the only agent allowed two or more junk goods) is a receiver not on the
   chain; such a receiver must exist.  R2-O generous: or a completion with no owner (nobody takes two junk goods).
+  R2-O': the owner, if any, is a receiver other than the chain's end z (on or off the chain).
 - R2-C: any one-absorber completion after a canonical chain.
 For each start: is it perfect, does it have |U| >= 2, is it hard, and do R2-M and R2* hold?
 
@@ -101,13 +102,14 @@ if __name__ == '__main__':
         r2s = any(shaped(I, nb, x0, 'star') for x0, nb, p in sts)
         r2o = any([u for u in U if u not in p] and one_absorber_owner(I, nb, [u for u in U if u not in p]) for x0, nb, p in sts)
         r2og = any(one_absorber_owner(I, nb, [u for u in U if u not in p]) for x0, nb, p in sts)
+        r2op = any(one_absorber_owner(I, nb, [u for u in U if u != p[-1]]) for x0, nb, p in sts)
         r2c = any(I.one_absorber([list(b) for b in nb]) for x0, nb, p in sts)
         res = {'perfect': perfect, 'orders giving the picks': orders, 'receivers': U, 'hard': hard,
-               'canonical chain states': len(sts), 'R2-M repairs': r2m, 'R2* repairs': r2s, 'R2-O repairs': r2o, 'R2-O generous repairs': r2og,
+               'canonical chain states': len(sts), 'R2-M repairs': r2m, 'R2* repairs': r2s, 'R2-O repairs': r2o, 'R2-O generous repairs': r2og, "R2-O' repairs": r2op,
                'R2-C repairs': r2c, 'OC1 (Inst.check)': I.check(Y)}
         verdict = 'R2-M FAILS' if (perfect and orders and len(U) >= 2 and hard and not r2m) else 'R2-M ok or n/a'
         C[verdict] += 1
-        for nm, ok in (('R2*', r2s), ('R2-O', r2o), ('R2-O generous', r2og), ('R2-C', r2c)):
+        for nm, ok in (('R2*', r2s), ('R2-O', r2o), ('R2-O generous', r2og), ("R2-O'", r2op), ('R2-C', r2c)):
             C['%s %s' % (nm, 'FAILS' if (perfect and orders and len(U) >= 2 and hard and not ok) else 'ok or n/a')] += 1
         print(verdict, json.dumps({**{k: d[k] for k in ('sets', 'vals', 'picks')}, **res}), flush=True)
     print(dict(C))

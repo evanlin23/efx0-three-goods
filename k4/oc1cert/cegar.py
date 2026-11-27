@@ -562,12 +562,12 @@ class Cert:
                 continue
             st = [list(nb.get(a, base[a])) for a in range(self.n)]
             owner, Xs = None, []
-            if self.r2 in ('o', 'og'):      # the owner: a receiver at the picks, not on the chain
-                for u in range(self.n):
-                    if recv[u] and u not in path:
+            if self.r2 in ('o', 'og', 'op'):      # the owner: a receiver at the picks, not on the chain
+                for u in range(self.n):                   # ('op', R2-O': any receiver other than the end z)
+                    if recv[u] and (u not in path if self.r2 != 'op' else u != z):
                         Xs = self.complete(prof, st, 1, shape=('o', u))
                         if Xs: owner = u; break
-                if not Xs and self.r2 == 'og':  # generous reading: no owner at all (nobody takes two junk goods)
+                if not Xs and self.r2 in ('og', 'op'):  # or no owner at all (nobody takes two junk goods)
                     Xs = self.complete(prof, st, 1, shape=('star', x0))
             else:
                 Xs = self.complete(prof, st, 1, shape=(self.r2, x0))
