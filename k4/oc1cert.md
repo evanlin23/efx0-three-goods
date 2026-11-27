@@ -263,6 +263,15 @@ The run is in progress: `k4/oc1cert/n5_driver.sh`, at depth 2 (OC₂^max), in ch
   - 702,250 starts, from partial lists cut at 7 min per core;
   - every one has exactly one receiver;
   - 28,093 raw-checked, all 'OC1 fails', and 7,024 sampled two-move raw checks, all repair.
+- **Complete** two-move start lists of 5_pure (m = 10) idx 419, (m = 11) idx 447 and (m = 9) idx 38, the RSD-IND and
+  REC-S cases (`results/k4_oc1max/n5/two_move_starts_n5_sel2.json.gz`, input `two_move_starts_n5_sel2_input.jsonl`,
+  log `two_move_starts_n5_sel2.log`):
+  - The counts: 276,480, 115,200 and 192,000 starts. Each is one (type profile, picks) pair, stored as a valuation
+    representing the types.
+  - Every start has exactly one receiver.
+  - Every 50th start was raw-checked: all 11,674 give 'OC1 fails', and 2,919 sampled two-move raw checks all repair.
+  - Completeness: `two_move_starts_n5_sel2_cert.json.gz` is an OC₁^max certificate of the three cores with exactly
+    these pairs excluded, and `check.py` checks it (`check_two_move_starts_n5_sel2.log`).
 
 ## Reproduce
 
