@@ -11,7 +11,17 @@ extension (Lemma K4.MC1: M1 and M1(b) at k = 4).
   enumeration, own local states, raw EFX₀ definition, gadget legality including H′ ∈ 𝒞_β, every stored extension checked
   against M1/M1(b); no code shared with reduce4.py or twins4.py) with the new configurations hard-coded in the checker.
   A record whose declared configuration differs from the hard-coded one is rejected. Sensitivity test in each check log.
-- Candidate filter: `k4/twins_filter.py` (structural: does a core contain a certified double edge).
+- Candidate filter: `k4/twins_filter.py` (structural: does a core contain a certified double edge; `gamma_prune` does
+  the same on Γ′; `cut_domains` for the partial cases). Candidate pipeline with it: `k4/twins_count.py`.
+
+**Summary.**
+- *Certified* (K4.MC8): no double edge between two agents of kinds in {Q3, P4} (open or closed), and no closed one
+  between a Q3 or P4 agent and a Q4 agent. With K4.MC3 and K4.MC5, every double edge has a Q4 end. The open E3–Q4 ones
+  and the Q4–Q4 ones are only partly reduced (profiles left recorded).
+- *Effect*: β = 4 candidates 5,558 → 3,166; β = 5 candidates per n in §1. The counting bound n ≤ 3(β − 1) is unchanged.
+- *Failed* (attempts/): twins with the same relevant set (provably irreducible under M1 when no good is private to the
+  pair), P3 twins, near-twins with ≤ 1 such good, claws (also with a two-agent gadget on the hardest profile),
+  triangles, closed single edges, Q4 stars.
 
 ## 1. Results
 
@@ -53,13 +63,19 @@ ranks a first, and f (Q4) ranks first the double-edge good that e ranks last, an
   `results/k4_twins/count_n<n>_b5.log`, lists `results/k4_twins/mc_n<n>_b5_mc8.json.gz`. Single implementation of the
   pipeline (it reproduces the 20,882 of n = 6 found by filtering the hunt session's own list):
 
-  | n | before K4.MC8 (hunt session's counts) | after |
+  | n | before K4.MC8 | after |
   |---|---|---|
-  | 6 | 30,337 | 20,882 |
-  | 7 | 122,006 | 78,118 |
-  | 8 | – | 152,568 |
-  | 9 | – | 156,162 |
-  | 10 | – | 78,616 |
+  | 6 | 30,337 (hunt session) | 20,882 |
+  | 7 | 122,006 (hunt session) | 78,118 |
+  | 8 | 249,672 | 152,568 |
+  | 9 | 260,846 | 156,162 |
+  | 10 | 134,113 | 78,616 |
+  | 11 | – | 15,621 |
+  | 12 | – | N12 |
+
+  The "before" counts for n ≥ 8 are `twins_count.py N 5 --no-mc8` (`results/k4_twins/count_n<n>_b5_baseline.log`).
+  The β = 5 total after K4.MC8 is TOTAL candidate cores, which a direct certification of β = 5 (as K4.MC7 did for
+  β = 4) would have to cover.
 
 *Domain cuts.* Applying K4.MC5's px cuts and then K4.MC8's partial double-edge cuts (`twins_filter.cut_domains`, the
 uncovered files above) empties the domains of only a few more candidates: 217 of the 20,882 at β = 5, n = 6; 6 of the
