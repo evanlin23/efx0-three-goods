@@ -174,6 +174,13 @@ and `results/k4_hunt/check_mc_n6_b5.log` (**RESULT OK**) on the committed orbit-
 | core | n | m | β | result |
 |---|---|---|---|---|
 | c4-H2 (`k4/c4.md` §7, H_t with t = 2; seven PP4 agents) | 9 | 23 | 5 | **certified under every strict profile**, 395 s, 1,111 allocations, 256 automorphisms (`named_suite_H2.json.gz`, check `check_named_suite_H2.log`, sat2: OK) |
+| c4-gadget-stacking-2copies-n6m11 | 6 | 11 | 8 | certified, 4.0 s (`named_suite_more.json.gz`, check `check_named_suite_more.log`: OK) |
+| hall-cyc6 | 6 | 15 | 4 | certified, 2.3 s (same files) |
+| lmbt-Hq3 (`k4/lemmam_bt.md`) | 14 | 34 | 9 | **not decided**: timeout after 1 h with 40 allocations (~90 s per iteration) |
+
+Scaling limit: at n = 14 the inner SAT (search4's encoding, one guard per type, own set and threat set: about
+288 · 16 · 15 per 4-good agent) dominates; HH₃ (n = 26) and H₅ (n = 21) were not attempted. A profile-specific inner
+encoding (rebuilt per proposal, only the proposed types) would remove this bottleneck.
 
 ### 3.4 Samples beyond the complete runs (hunting; each sampled core is still a complete search)
 
