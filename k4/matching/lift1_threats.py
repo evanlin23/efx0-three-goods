@@ -35,6 +35,7 @@ def job(row):
     D = I.dangerous(base); z = I.holders(base)[0]; C = collections.Counter(); best = None
     for P1, H01, Hs1, B1 in chain_moves(I, base, D):
         if P1[-1] != z or len(H01) != 2 or z in I.frozen(B1): continue
+        if any(Hs1.get(i) for i in range(1, len(P1))): continue   # no junk for P1's agents after its head
         sharers = [q for q in D if q != P1[0] and I.V(q, [g for g in H01 if g in I.R[q]]) > I.V(q, base[q])]
         if not sharers: continue
         for P2, H02, Hs2, B2 in chain_moves(I, B1):
