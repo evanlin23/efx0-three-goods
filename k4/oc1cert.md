@@ -119,11 +119,15 @@ OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
 | R2-O′ | one absorber, owner a receiver other than the end, or no owner | 9 |
 | R2-O, generous | owner a receiver off the chain, or no owner | 9 (the same) |
 | R2★ | nobody takes two junk goods | 230 |
+| (S) or (L) | (S), or (L): a middle agent dangerous at the start takes junk and some middle agent is a receiver; then any one-absorber completion | 48 |
 | R2-E | the chain is the earliest-wanter chain E(k) of some SD order giving the start; k takes an improving T | 273 |
+| (S) | no junk past the head (x₁, …, x_t take only the previous base), then any one-absorber completion | 273 |
 | R2-M | S^c with owner x₀, max_rest 1 | 306 |
 | R2-O, strict | owner a receiver off the chain (one must exist) | 308 |
 
 All 9 R2-O′ failures, 20 R2-M failures and the first R2-E failure are re-verified by `verify_r2.py`.
+So are all 48 "(S) or (L)" failures (`results/k4_oc1max/r2sl_fails_n4.jsonl`, `verify_r2sl_fails_n4.log`, one start
+per core): at each of them R2-M, R2★, generous R2-O, R2-O′ and R2-C repair, and strict R2-O and R2-E fail.
 
 **OC₁^max holds for every strict profile on**:
 - every core with n = 2 (5) and n = 3 (51);
