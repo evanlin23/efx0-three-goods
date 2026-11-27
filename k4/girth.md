@@ -545,6 +545,49 @@ n = 3 cores** (9,986,740 runs, `results/k4_girth_dom_exhaustive_3.log`; one impl
 LSS's Properties (3) and (4) alone: the PL state of `attempts/k4-girth-linear-pl.md` satisfies both and has no
 completion. If DOM holds, TARGET₄ reduces to a completion lemma for the states of Algorithm 2, with no labeling search.
 
+## 7. Short Berge cycles at the OC₁^max failures (EVIDENCE; coordinator's question, burst 5)
+
+Question: which short-cycle patterns does every OC₁^max failure contain (`k4/sdc.md` §31, K4.SDC.OC1MAX)? Data: all
+112,880 failing (profile, picks) pairs on the 11 failing n = 4 cores (`results/k4_oc1max/two_move_starts_n4.json.gz`,
+complete by K4.SDC.OC1MAX.N3), and the 24 n = 5 failures that `main` stores (`results/k4_oc1max/oc1prime_cex_n5_partial.jsonl`:
+the OC₁′^max failures among the first 137 OC₁^max failures on 5_pure, 5_pure#164 among them; failing OC₁′ implies
+failing OC₁, since OC₁′ only adds moves; a biased subset). Contrast: perfect SD starts where OC₁^max holds, from random
+strict profiles and every order (23,422 on the 11 cores, 10,403 on other n = 4 cores; the failing set removed by
+order type), and 394 random perfect starts of 5_pure cores, whose OC₁^max status is unknown but failures are rare
+(`k4/girth/oc1_cycles.py`, `results/k4_girth_oc1_cycles.log`).
+
+Roles at the picks Y (`k4/oc1_hall.md`, `k4/oc1max_multi.md`): J the junk; F frozen (someone wants its pick); D ⊆ F
+dangerous (values a junk good); D_T ⊆ D truly dangerous (J threatens it at its pick value); U unfrozen (the
+receivers). A *pick swap* is a Berge 2-cycle whose two agents both value both of their picks.
+
+| pattern | n = 4 failures | n = 5 failures | OC₁ holds, same 11 cores | OC₁ holds, other n = 4 | random n = 5 |
+|---|---|---|---|---|---|
+| \|U\| = 1 | 100% | 100% | 9.7% | 13.6% | 10.4% |
+| 2-cycle between two dangerous agents | 100% | 23 of 24 | 26.2% | 21.9% | 53.8% |
+| \|D_T\| = 2, and the two share two junk goods | 100% | 0 of 24 | 4.4% | 1.9% | 6.9% |
+| \|D_T\| = 0 | 0% | 24 of 24 | 53.6% | 68.4% | |
+| pick swap between a dangerous agent and the receiver | 72.6% | 24 of 24 | 42.8% | 39.1% | 49.0% |
+| **P\*:** \|U\| = 1 and (a D_T pair sharing two junk goods, or a dangerous–receiver pick swap) | **100%** | **24 of 24** | **5.2%** | **4.8%** | **5.3%** |
+
+Findings:
+- **n = 4: one mechanism.** Every failing start has exactly one receiver and exactly two truly dangerous agents, and
+  these two form a Berge 2-cycle on two junk goods (their shared goods: two junk goods, plus possibly picks). With
+  |U| = 1 this pattern occurs at 0.9% (same cores) and 0.3% (other cores) of the starts where OC₁ holds.
+- **n = 5: another mechanism.** None of the 24 failures has a truly dangerous agent; each has a pick swap between a
+  dangerous agent and the receiver (the "two disjoint conflicts" of `k4/sdc.md` §31 on 5_pure#164: 16 of 24 have two
+  vertex-disjoint pick swaps through dangerous agents).
+- **The hypothesis as stated is false at n = 5.** "Every two-move start has a Berge 2-cycle through two dangerous
+  agents" holds on all n = 4 failures but not on 5_pure#72: sets [[0,2,6,7],[1,4,8,10],[3,5,9,10],[6,7,8,9],[7,8,9,10]],
+  values [[4,3,8,6],[3,4,10,8],[4,3,8,6],[10,2,3,6],[4,8,7,2]], picks (6,8,9,7,10); roles D, D, D, F, U. Its 2-cycles
+  are {0, 3} on {6, 7}, {1, 4} on {8, 10}, {2, 4} on {9, 10} and {3, 4} on {7, 8, 9}: pick swaps of dangerous agents
+  with the frozen agent 3 and with the receiver 4, and no two dangerous agents share two goods.
+- **Usable hypothesis: P\*.** On all known failures (n = 4 complete, n = 5 partial), OC₁ fails only if exactly one agent
+  is unfrozen and either two truly dangerous agents share two junk goods or a dangerous agent and the receiver share
+  both picks. P\* excludes about 95% of the perfect starts where OC₁ holds. With TTC's R2 (two receivers ⟹ OC₁^max;
+  K4.SDC.R2.N4, certified at n = 4), the open cases of an OC₁ proof would be the |U| = 1 starts, and among them only
+  those with a junk 2-cycle of two truly dangerous agents or a dangerous–receiver pick swap. The n = 5 part rests on
+  24 stored failures; the other OC₁^max failures at n = 5 are not on `main` and were not checked.
+
 ## Reproduce
 
 All plain Python (python-sat not needed); run from the repository root. Times on 4 CPUs.
@@ -571,6 +614,15 @@ python3 k4/girth/dyn_fail_stats.py 1500 1                 # failing labelings an
 python3 k4/girth/dynec_all.py sets | cores N SEED SECS | random SEED SECS   # every labeling, envy-cycle parking -> results/k4_girth_dynec_*.log
 python3 k4/girth/dyn_zero2.py cores N SEED SECS | random SEED SECS          # vertex 0 on no 2-cycle -> results/k4_girth_dyn_zero2_*.log
 python3 k4/girth/smallest.py SEED SECS                    # smallest failing configuration per girth use
+python3 k4/girth/dyncert.py N [PART] [--family=all|default|uniform] [--every=E] [--timecap=S]   # §6 -> results/k4_girth_dyncert_*.log
+python3 k4/girth/dyncert.py --selftest; python3 k4/girth/dyncert_sym.py --selftest    # §6 checks -> results/k4_girth_dyncert_selftest.log
+python3 k4/girth/dyncert_xcheck.py PROFILES SEED                # §6 FastRun vs lss.py -> results/k4_girth_dyncert_xcheck.log
+python3 k4/girth/dyncert_sym.py N [PART] [--every=E]            # §6 independent covering -> results/k4_girth_dyncert_sym_*.log
+python3 k4/girth/dyncert_summary.py results/k4_girth_dyncert_*.log   # §6 table
+python3 k4/girth/dynx.py 3 [--base]                             # §6 exchange moves -> results/k4_girth_dynx_3{,_base}.log
+python3 k4/girth/dom_test.py N SEED SECS [MAXM] | exhaustive N  # §6 Conjecture DOM -> results/k4_girth_dom_*.log
+python3 attempts/k4_girth_uniform.py                            # §6 no labeling per hypergraph (replay with lss.py)
+python3 k4/girth/oc1_cycles.py 300 1                            # §7 cycle patterns at OC1^max failures -> results/k4_girth_oc1_cycles.log
 ```
 Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
 partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).
