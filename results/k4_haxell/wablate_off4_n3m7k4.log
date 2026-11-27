@@ -1,1 +1,13 @@
 $ python3 k4/haxell/ht_wclimb.py 3 7 4 STEPS=1500 CLIMBERS=3 RESTART=300 OFF=4 SEED=74
+climber 74002 hardest score (0, 0) instance 3 7 3 2 48 5 6 6 27 4 0 41 1 56 2 60 5 13 4 1 60 3 6 4 31 5 26
+COUNTEREXAMPLE 3 7 4 1 59 3 35 4 54 5 11 3 0 15 4 41 5 6 4 1 50 2 18 3 17 6 18 | 3 7 states 804 phi0 0 phi1 2 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi1 0 2 -1 0 1 0 0 slack 0 0 2 7
+COUNTEREXAMPLE 3 7 4 0 10 1 35 4 17 5 32 3 3 20 5 52 6 27 4 0 24 1 48 2 5 6 28 | 3 7 states 758 phi0 0 phi1 1 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi1 0 2 0 0 0 1 -1 slack 0 0 1 4
+COUNTEREXAMPLE 3 7 3 2 48 5 6 6 27 4 0 41 1 56 2 60 5 13 4 1 60 3 6 4 31 5 26 | 3 7 states 773 phi0 0 phi1 2 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi1 1 2 0 -1 1 1 1 slack 0 0 2 5
+climber 74001 hardest score (0, 0) instance 3 7 3 1 43 2 20 6 37 4 0 8 2 18 4 38 6 55 3 1 48 3 1 5 6
+COUNTEREXAMPLE 3 7 3 1 43 2 20 6 37 4 0 8 2 18 4 38 6 55 3 1 48 3 1 5 6 | 3 7 states 854 phi0 0 phi1 1 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi1 0 2 0 0 -1 0 1 slack 0 0 1 7
+climber 74000 hardest score (0, 2) instance 3 7 4 0 58 3 1 4 21 6 60 4 1 10 2 11 4 40 6 40 4 0 51 3 16 4 55 5 7
+recheck 3 7 4 1 59 3 35 4 54 5 11 3 0 15 4 41 5 6 4 1 50 2 18 3 17 6 18 phi1 stuck states 2
+recheck 3 7 4 0 10 1 35 4 17 5 32 3 3 20 5 52 6 27 4 0 24 1 48 2 5 6 28 phi1 stuck states 1
+recheck 3 7 3 2 48 5 6 6 27 4 0 41 1 56 2 60 5 13 4 1 60 3 6 4 31 5 26 phi1 stuck states 2
+recheck 3 7 3 1 43 2 20 6 37 4 0 8 2 18 4 38 6 55 3 1 48 3 1 5 6 phi1 stuck states 1
+counterexamples 4 time 81 s

@@ -6,8 +6,11 @@ welfare, ending EFX0), and at states with none, every improving composite of two
 nonempty set of one holder's goods to an agent; swap the holders of two goods; rotate bundles along a cycle of agents.
 Prints the states with the fewest improving composites and their composites.
 
-    python3 k4/haxell/ht_wexplain.py "n m d g v g v ... d g v ..." [SHOW=3] [SUB=1] [AUG=0]
-AUG=1 instead lists the states where no composite of at most two moves shrinks the pool, with their W^sub steps."""
+    python3 k4/haxell/ht_wexplain.py "n m d g v g v ... d g v ..." [SHOW=3] [SUB=1] [AUG=0] [OFF=0]
+AUG=1 instead lists the states where no composite of at most two moves shrinks the pool, with their W^sub steps.
+OFF switches move kinds off, as in gstar_measure.c: 1 swaps of two agents' goods, 2 swaps with the pool, 4 trades,
+8 transfers of two or more pooled goods, 16 transfers of two or more goods between agents, 32 single-good transfers
+between agents, 64 rotations of three or more agents."""
 import sys, itertools
 
 
@@ -20,7 +23,7 @@ def parse(s):
     return n, m, val
 
 
-def run(n, m, val, show=3, sub=True, aug=False):
+def run(n, m, val, show=3, sub=True, aug=False, off=0):
     POOL = -1
 
     def bundles(o):
@@ -42,11 +45,13 @@ def run(n, m, val, show=3, sub=True, aug=False):
     def welfare(o):
         return sum(val[a][g] for g, a in enumerate(o) if a >= 0)
 
-    def moves(o):
+    def moves(o):          # off: the bitmask of gstar_measure.c (move kinds switched off)
         holders = list(range(n)) + [POOL]
         for h in holders:
             G = [g for g in range(m) if o[g] == h]
             for r in range(1, (len(G) if sub else 1) + 1):
+                if r == 1 and h >= 0 and off & 32 or r >= 2 and h < 0 and off & 8 or r >= 2 and h >= 0 and off & 16:
+                    continue
                 for S in itertools.combinations(G, r):
                     for b in range(n):
                         if b != h:
@@ -56,8 +61,13 @@ def run(n, m, val, show=3, sub=True, aug=False):
                             yield tuple(t), ('give', 'pool' if h < 0 else h, S, b)
         for g, h in itertools.combinations(range(m), 2):
             if o[g] != o[h]:
+                withpool = o[g] < 0 or o[h] < 0
+                if withpool and off & 2 or not withpool and off & 1:
+                    continue
                 t = list(o); t[g], t[h] = o[h], o[g]; yield tuple(t), ('swap', g, h)
         for L in range(2, n + 1):
+            if L == 2 and off & 4 or L >= 3 and off & 64:
+                continue
             for cyc in itertools.permutations(range(n), L):
                 if cyc[0] != min(cyc):
                     continue
@@ -113,4 +123,4 @@ if __name__ == '__main__':
     a = dict(x.split('=') for x in sys.argv[2:] if '=' in x)
     n, m, val = parse(sys.argv[1])
     print('$ python3 k4/haxell/ht_wexplain.py', *sys.argv[1:]); print('values', val)
-    run(n, m, val, int(a.get('SHOW', '3')), a.get('SUB', '1') == '1', a.get('AUG', '0') == '1')
+    run(n, m, val, int(a.get('SHOW', '3')), a.get('SUB', '1') == '1', a.get('AUG', '0') == '1', int(a.get('OFF', '0')))
