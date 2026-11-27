@@ -1,0 +1,20 @@
+configuration claw: agents {'f1': ('G', 'y1', 'p1'), 'f2': ('G', 'y2', 'p2'), 'f3': ('G', 'y3', 'p3')}, I = ['G', 'p1', 'p2', 'p3'], D = ['y1', 'y2', 'y3'], 216 profiles
+  two-agent search h1 on ['y1', 'y2', "z1'"], h2 on ['y1', 'y3', "z2'"]: 75704 states, 213 profiles reduced (93 s)
+  two-agent search h1 on ['y1', 'y2', 'y3', "z1'"], h2 on ['y1', "z2'"]: 75704 states, 199 profiles reduced (101 s)
+  two-agent search h1 on ['y2', 'y1', "z1'"], h2 on ['y2', 'y3', "z2'"]: 75704 states, 213 profiles reduced (95 s)
+  two-agent search h1 on ['y1', 'y2', 'y3', "z1'"], h2 on ['y2', "z2'"]: 75704 states, 199 profiles reduced (101 s)
+  two-agent search h1 on ['y3', 'y1', "z1'"], h2 on ['y3', 'y2', "z2'"]: 75704 states, 213 profiles reduced (93 s)
+  two-agent search h1 on ['y1', 'y2', 'y3', "z1'"], h2 on ['y3', "z2'"]: 75704 states, 199 profiles reduced (103 s)
+    DEL                                                        reduces     78, new     78
+    GAD-h(y1=0,y2=0,y3=2,z0'=1)                                reduces     49, new     36
+    GAD-h(y1=0,y2=2,y3=0,z0'=1)                                reduces     49, new     31
+    GAD-h(y1=2,y2=0,y3=0,z0'=1)                                reduces     49, new     26
+    GAD2-h1(y1=3,y2=4,z1'=2)-h2(y1=4,y3=2,z2'=3)               reduces     22, new     14
+    GAD2-h1(y1=4,y2=2,z1'=3)-h2(y1=2,y3=3,z2'=1)               reduces     20, new     12
+    GAD2-h1(y1=0,y2=2,z1'=1)-h2(y1=0,y3=2,z2'=1)               reduces     18, new     11
+    GAD2-h1(y2=2,y1=4,z1'=1)-h2(y2=3,y3=4,z2'=2)               reduces     10, new      5
+    GAD2-h1(y1=0,y2=2,z1'=1)-h2(y1=2,y3=2,z2'=1)               reduces      6, new      1
+    GAD2-h1(y1=2,y2=2,z1'=1)-h2(y1=0,y3=2,z2'=1)               reduces      6, new      1
+    GAD2-h1(y1=0,y2=2,y3=2,z1'=1)-h2(y1=2,z2'=1)               reduces      6, new      1
+  reduced: 216 of 216 profiles (11 records)
+wrote ../results/k4_twins/claw.json.gz: 11 records, 28732 states
