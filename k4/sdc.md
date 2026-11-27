@@ -2138,14 +2138,18 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
     reason is that a wanter of a pick comes after its holder (TTC, `k4/ttc.md` §14.7, refereed item 53).
     - At a perfect start (every agent picks), the last agent is therefore a receiver holding a pick, as in the data's
       definition. "For every receiver u" is then never vacuous, and RF ⟹ OC₁^∃max holds.
-    - **OPEN, a definitional gap at non-perfect starts (ν < n).** The data checks count only receivers that hold a pick.
-      d1 found σ-maximal vectors with no such receiver on a ν = 4, n = 5 core. Lean's RF there also quantifies over
-      pickless receivers, which no check has tested.
-    - So either the failing maximum-matching starts are all perfect, or RF must be tested at pickless receivers. Both
-      the referee and the coordinator are checking.
-    - What the data say so far: all 11 n = 4 cores with an OC₁^max failure have ν = n. The n = 4 export is complete, so
-      no non-perfect failing start exists at n ≤ 4. All 9 exported n = 5 cores also have ν = n. Non-perfect n = 5
-      cores are not yet covered.
+    - **The gap at non-perfect starts is CLOSED by the referee's Lemma REC-∃** (`k4/referee/rfmin.md` §1, item 66,
+      proved). Take a maximum-matching SD start with no receiver holding a pick.
+      - A pickless agent exists, since otherwise the last agent of the order is a receiver.
+      - Every pick holder lies on a chain of wanters, increasing in the order and ending at a pickless agent. That is an
+        alternating path, so by Lemma MAX no pick holder values junk; pickless agents value no junk either.
+      - So all the junk can go to one pickless agent, and the picks complete with one absorber.
+      - Hence every OC₁-failing maximum-matching start has a receiver that holds a pick. The data form of RF (receivers
+        that hold picks) then implies RF∃, and RF∃ ⟹ OC₁^∃max ⟹ TARGET₄.
+      - Random check (referee): 421,258 no-receiver maximum-matching starts, n = 3–6, all complete at the picks.
+    - For Lean: the frame needs only RF∃ (`ConjRFsome`). Lean's `ConjRF` quantifies over pickless receivers too, which is
+      stronger than anything tested, so the honest Lean hypothesis is `ConjRFsome`, or RF over pick-holding receivers.
+    - Data note: all 11 n = 4 cores with an OC₁^max failure, and all 9 exported n = 5 cores, have ν = n.
   - Consequence for the RF proof plan: at n ≥ 5 the R2 class is no longer covered by R2. A uniform proof of girth's "(i)
     owner w or d, or (T), or (C)" is the route, and it never used R2 on the data.
 
