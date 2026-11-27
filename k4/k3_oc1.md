@@ -5,7 +5,22 @@ the hard starts, one per line, readable by every analysis script). Notation: `pa
 and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Everything called evidence is evidence only
 (PROMPT.md §5 rule 3).
 
-## Status (end of burst 5)
+## Status (end of burst 6)
+
+**Burst 6: Conjecture RF at k = 4 through the k = 3 lens** (coordinator's request; §13).
+- **Refuted: receiver-first does not restore (DE-a)**, the k = 3 fact that breaks at k = 4.
+  - At 1,876 of the 7,733 n = 5 (1, 3) RF starts, every repairing chain has a b-holder taking junk
+    (`attempts/k4-k3oc1-rf-dea.md`, independent replay).
+  - DEMOTE-2 at n = 4 is the same (oc1-hall's (U-c)).
+- **The shape carries over.** Every DEMOTE move is a length-one rotation into the unique receiver, and SINK is the
+  k = 3 completion LE.
+- **Proved:**
+  - Lemma RF-13, a reduction for the (1, 3) form, which belongs to TTC and was sent there;
+  - **Lemma RF-A1\***, oc1-hall's RF-A1 with (A1-iv) weakened. Its hypotheses hold at all 71,443 n = 5 DEMOTE-0
+    starts that complete at once; (A1-iv) itself fails at 39,075.
+- **Open:** RF-A1\*'s facts from Y's hardness.
+
+## Status of burst 5
 
 **Burst 5: the joint statement with kgen-n3** (OC₁ at maximum-matching starts, DE's core case; §11–§12).
 - **Proved.**
