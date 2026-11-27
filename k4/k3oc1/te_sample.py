@@ -2,7 +2,8 @@
 cores, certs7:12), every order's draft.  On each hard perfect draft (exact lb2 fails):
   T'_k   some rotation into a terminal completes with owner none or k (tprime_k.check);
   T-E    rules over the valid Rule E rotations (te_rules.results): some / every / every least-omega / every most-T';
-  any    every valid Rule E rotation completes with some owner (exact lb2); also every least-omega' one.
+  any    every valid Rule E rotation completes with some owner (exact lb2); also every least-omega' one;
+  rule P kgen-n3's T1-P: every k with {b_k, c_k} inside J if there is one, else every k (N/E/K, and any owner).
     python3 k4/k3oc1/te_sample.py SOURCE PROFILES_PER_HYPERGRAPH SEED [SHARD NSHARDS]"""
 import sys, os, json, random, collections, time
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -50,6 +51,12 @@ for ci, (sets, m) in enumerate(hypergraphs(src, rng)):
             C[tag + 'T-E any owner, every least-omega rotation %s' % lw] += 1
             C[tag + 'least omega\' <= 0 %s' % (mo <= 0)] += 1
             if not lw: print('TE-anyleastomega', line, flush=True)
+            # kgen-n3's rule T1-P: if some k has its pair inside J (a plain DE chain), every such k; else every k
+            jp = [i for i, x in enumerate(R) if not x['arrow']]; sel = jp if jp else list(range(len(R)))
+            for nm, okf in (('N/E/K', lambda i: R[i]['ok']), ('any owner', lambda i: ex[i])):
+                okP = all(okf(i) for i in sel)
+                C[tag + 'rule P (%s; %s) %s' % (nm, 'junk-pair k exist' if jp else 'no junk-pair k', okP)] += 1
+                if not okP: print('TE-ruleP-' + nm.replace(' ', '_').replace('/', ''), line, flush=True)
     if C['hypergraphs'] % 20 == 0: print('# progress', C['hypergraphs'], 'hypergraphs', round(time.time() - t0), 's', flush=True)
 for k in sorted(C): print(k, C[k])
 print('time', round(time.time() - t0), 's')

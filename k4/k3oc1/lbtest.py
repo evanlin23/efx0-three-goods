@@ -21,7 +21,7 @@ def upgrade(rk, m, base):
             else:
                 t = rk[i].index(B[i][0]); NA |= set(rk[i][:t])
         for k in range(n):
-            if not U[k] and B[k] == [rk[k][1]] and rk[k][2] in J and rk[k][1] not in NA:
+            if len(rk[k]) == 3 and not U[k] and B[k] == [rk[k][1]] and rk[k][2] in J and rk[k][1] not in NA:
                 nb[rk[k][2]] = k; break
         else:
             return tuple(nb)
@@ -50,7 +50,7 @@ def min_hit(sets, limit):
 
 def exposed(rk, base, o, B, J, U):
     W = set(J) | set(B[o])
-    return [x for x in range(len(rk)) if x != o and not U[x] and B[x] == [rk[x][0]] and rk[x][1] in W and rk[x][2] in W]
+    return [x for x in range(len(rk)) if len(rk[x]) == 3 and x != o and not U[x] and B[x] == [rk[x][0]] and rk[x][1] in W and rk[x][2] in W]
 
 
 def lb1(rk, m, base, do_upgrade=True):
@@ -76,7 +76,7 @@ def lb2(rk, m, base):
     A-agent x holding only its top."""
     n = len(rk); B0 = bundles(base, n); U0 = [len(b) >= 2 for b in B0]
     J0 = set(g for g in range(m) if base[g] < 0)
-    Q = [i for i in range(n) if B0[i] == [rk[i][1]] and rk[i][2] in J0]
+    Q = [i for i in range(n) if len(rk[i]) == 3 and B0[i] == [rk[i][1]] and rk[i][2] in J0]
     for r in range(len(Q), -1, -1):
         for S in itertools.combinations(Q, r):
             nb = list(base)
@@ -93,7 +93,7 @@ def lb2_owners(rk, m, base, allowed):
     """lb2 with the owner restricted to `allowed` (a set of agents; 'none' in it allows the no-owner completion)"""
     n = len(rk); B0 = bundles(base, n); U0 = [len(b) >= 2 for b in B0]
     J0 = set(g for g in range(m) if base[g] < 0)
-    Q = [i for i in range(n) if B0[i] == [rk[i][1]] and rk[i][2] in J0]
+    Q = [i for i in range(n) if len(rk[i]) == 3 and B0[i] == [rk[i][1]] and rk[i][2] in J0]
     for r in range(len(Q), -1, -1):
         for S in itertools.combinations(Q, r):
             nb = list(base)
@@ -108,7 +108,7 @@ def lb2_owners(rk, m, base, allowed):
 
 def _owner_test(rk, m, base, B, J, U, T, U0, allowed=None):
     n = len(rk)
-    A = [x for x in range(n) if not U[x] and B[x] == [rk[x][0]]]
+    A = [x for x in range(n) if len(rk[x]) == 3 and not U[x] and B[x] == [rk[x][0]]]   # 1- and 2-good agents are never threatened
     def threat_free(bundle, owner):
         s = set(bundle)
         return len(s) <= 2 or not any(x != owner and rk[x][1] in s and rk[x][2] in s for x in A)

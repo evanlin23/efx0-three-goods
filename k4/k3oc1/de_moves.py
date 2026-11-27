@@ -27,7 +27,7 @@ def info(rk, m, base):
 def blockers(rk, base, o, B, J):
     """agents x != o holding exactly a_x with b_x, c_x in J + B_o"""
     W = set(J) | set(B[o])
-    return [x for x in range(len(rk)) if x != o and B[x] == [rk[x][0]] and rk[x][1] in W and rk[x][2] in W]
+    return [x for x in range(len(rk)) if len(rk[x]) == 3 and x != o and B[x] == [rk[x][0]] and rk[x][1] in W and rk[x][2] in W]
 
 
 def apply_cycle(base, cyc, recv):
@@ -45,7 +45,7 @@ def de_chains(rk, m, base):
     n = len(rk); B, J, rank, U, wants, wanters, free = info(rk, m, base)
     out = []
     for x in range(n):
-        if B[x] != [rk[x][0]] or rk[x][1] not in J or rk[x][2] not in J: continue
+        if len(rk[x]) != 3 or B[x] != [rk[x][0]] or rk[x][1] not in J or rk[x][2] not in J: continue
         def walk(path):
             j = path[-1]; g = B[j][0] if B[j] else None
             ws = wanters.get(g, []) if g is not None else []
@@ -102,7 +102,7 @@ def de_first(rk, m, base):
     """DE's next trade (Algorithm DE): first chain agent, else the pointer ring (first blockers, distinct q's)"""
     n = len(rk); B, J, rank, U, wants, wanters, free = info(rk, m, base)
     for x in range(n):
-        if B[x] == [rk[x][0]] and rk[x][1] in J and rk[x][2] in J:
+        if len(rk[x]) == 3 and B[x] == [rk[x][0]] and rk[x][1] in J and rk[x][2] in J:
             j = [x]
             while True:
                 g = B[j[-1]][0] if B[j[-1]] else None

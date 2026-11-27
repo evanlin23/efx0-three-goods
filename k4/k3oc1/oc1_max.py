@@ -38,6 +38,11 @@ def sources(src, rng=None):
         _, n, dead = src.split(':'); n, dead = int(n), int(dead); reps = {}
         for sets, m in gen(n): reps.setdefault(canon(sets, n), (sets, m))
         for k in sorted(reps): yield reps[k][0], reps[k][1] + dead
+    elif src.startswith('mixed:'):   # mixed:N:DEAD -- statement (P)'s class: agents valuing 1-3 goods (perfect_small)
+        from perfect_small import gen_mixed, canon
+        _, n, dead = src.split(':'); n, dead = int(n), int(dead); reps = {}
+        for sets, m in gen_mixed(n): reps.setdefault(canon(sets, n), (sets, m))
+        for k in sorted(reps): yield reps[k][0], reps[k][1] + dead
     else:
         yield from hypergraphs(src, rng)
 

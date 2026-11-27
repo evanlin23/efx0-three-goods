@@ -737,6 +737,23 @@ profiles, 541 m = 12 cores × 200), every order.
 - "Every rotation, any owner" fails on 8 drafts: 3 in the gap, all with |T| = 1, and 5 covered by B\*, with |T| = 2.
 - "Every least-ω′ rotation, N/E/K" fails on 1 draft, covered by B\*.
 
+**More samples** (`te_sample.py`; logs `te_sample7_11b_*`, `te_sample7_11c_*`, `te_sample7_12c`, `te_sample8_14`,
+`te_sample_gen5_*`; classifications `te_sample*_classify.log`).
+- **Data.**
+  - n = 7 cores: two more batches, 4,460 and 8,141 hard perfect drafts.
+  - n = 8, m = 14 cores: 1,232 cores × 100 profiles, 1,181 hard drafts (240 with |T| = 1, 787 with |T| = 2, 154 with
+    |T| = 3).
+  - DE's general core case n = 5 (652 classes, 0 or 1 dead good): 8,326 hard drafts, including 21 with |T| = 3.
+- **T′_k and T-E∃ hold on all of them, with no failure.**
+- The every-k form fails again, in the gap as well: at n = 7, on one- and two-terminal gap drafts.
+- **A second crossed configuration**, at n = 7 (m = 11): a two-terminal gap draft with no valid single rotation.
+  Agents 0: 0>7>5, 1: 1>8>5, 2: 3>9>6, 3: 4>6>10, 4: 1>0>6, 5: 3>4>2, 6: 2>5>6; order 0, …, 6.
+- **kgen-n3's rule T1-P.** Rotate every k with {b_k, c_k} ⊆ J if some exists, else every k. On the 8,141-draft
+  n = 7 batch:
+  - it holds on all 5,487 one-terminal drafts;
+  - on two terminals it fails on 82 drafts with owners N/E/K and on 12 with any owner, all covered by B\* (none in
+    the gap).
+
 **The crossed configuration** (64 two-terminal gap drafts at n = 6, one hypergraph; `t2k_gap6_T2.log`,
 `t2k_crossed64.log`).
 - **The instance.** Agents 0: 2>0>6, 1: 3>0>7, 2: 4>1>8, 3: 5>1>9, 4: 4>5>0, 5: 2>3>1; order 0, …, 5; picks

@@ -1,0 +1,66 @@
+$ python3 k4/k3oc1/te_sample.py gen:5:1 100 9
+# progress 20 hypergraphs 8 s
+# progress 40 hypergraphs 8 s
+# progress 60 hypergraphs 9 s
+# progress 80 hypergraphs 9 s
+# progress 100 hypergraphs 9 s
+# progress 120 hypergraphs 9 s
+TE-any [[2, 0, 1], [0, 3, 1], [4, 0, 5], [2, 7, 6], [4, 8, 9]] 11 picks (1, 0, 5, 2, 4)
+# progress 140 hypergraphs 10 s
+# progress 160 hypergraphs 10 s
+# progress 180 hypergraphs 10 s
+# progress 200 hypergraphs 10 s
+# progress 220 hypergraphs 11 s
+# progress 240 hypergraphs 11 s
+# progress 260 hypergraphs 11 s
+# progress 280 hypergraphs 11 s
+# progress 300 hypergraphs 12 s
+# progress 320 hypergraphs 12 s
+# progress 340 hypergraphs 12 s
+# progress 360 hypergraphs 12 s
+# progress 380 hypergraphs 13 s
+# progress 400 hypergraphs 13 s
+# progress 420 hypergraphs 13 s
+# progress 440 hypergraphs 13 s
+# progress 460 hypergraphs 14 s
+# progress 480 hypergraphs 14 s
+TE-any [[1, 0, 2], [3, 1, 0], [4, 2, 0], [5, 1, 6], [4, 5, 3]] 8 picks (1, 0, 4, 5, 3)
+# progress 500 hypergraphs 14 s
+# progress 520 hypergraphs 14 s
+# progress 540 hypergraphs 15 s
+# progress 560 hypergraphs 15 s
+# progress 580 hypergraphs 15 s
+# progress 600 hypergraphs 15 s
+# progress 620 hypergraphs 16 s
+# progress 640 hypergraphs 16 s
+hypergraphs 652
+perfect drafts 192093
+profiles 65200
+|T| 1: T'_k k 229
+|T| 1: T'_k none 2815
+|T| 1: T-E (N/E/K) every False 1
+|T| 1: T-E (N/E/K) every True 3043
+|T| 1: T-E (N/E/K) every least-omega True 3044
+|T| 1: T-E (N/E/K) every most-T True 3044
+|T| 1: T-E (N/E/K) some True 3044
+|T| 1: T-E any owner, every rotation False 1
+|T| 1: T-E any owner, every rotation True 3043
+|T| 1: hard perfect 3044
+|T| 2: T'_k k 173
+|T| 2: T'_k none 90
+|T| 2: T-E (N/E/K) every False 4
+|T| 2: T-E (N/E/K) every True 259
+|T| 2: T-E (N/E/K) every least-omega True 263
+|T| 2: T-E (N/E/K) every most-T True 263
+|T| 2: T-E (N/E/K) some True 263
+|T| 2: T-E any owner, every rotation False 1
+|T| 2: T-E any owner, every rotation True 262
+|T| 2: hard perfect 263
+|T| 3: T'_k k 7
+|T| 3: T-E (N/E/K) every True 7
+|T| 3: T-E (N/E/K) every least-omega True 7
+|T| 3: T-E (N/E/K) every most-T True 7
+|T| 3: T-E (N/E/K) some True 7
+|T| 3: T-E any owner, every rotation True 7
+|T| 3: hard perfect 7
+time 16 s
