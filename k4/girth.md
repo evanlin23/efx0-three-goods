@@ -891,21 +891,21 @@ arise at a rank-maximal start: a proof of RKMAX would not meet them there. At n 
 most but not all RF starts (n = 5 DEMOTE-0: 104,429 of 113,484; (1, 3): all 7,733).
 
 **DEMOTE-0 at n = 5, the whole class** (113,484 starts of the full exports). The joint statement with the k3-oc1
-session is **"RF-A1\* or NA at the picks; otherwise RF-T′ or the 3-ring"** (`k4/k3_oc1.md` §13.5 on `claude/k4-k3-oc1`;
-[unverified]: relayed by its messages, not read here):
-- *at once, owner w* (71,443): k3-oc1's Lemma RF-A1\* (Hall's RF-A1 with (A1-iv) weakened), proved, with its
-  hypotheses checked at all 71,443. There d is truly dangerous at Y and |D_T(Y)| = 2 at all of them.
-- *at once, no owner* (41,767, all on 5_pure#464): k3-oc1's Lemma NA, proved for any n. Each junk good goes to a
-  different agent, and X is EFX₀ iff every wanter of a receiving agent's pick is compensated. The criterion agrees
-  with raw EFX₀ on 2,522,460 assignments.
+session is **"NA (no owner) at the picks; otherwise RF-T′ or the 3-ring"** (`k4/k3_oc1.md` §13.5 on
+`claude/k4-k3-oc1`, `demote0_na_all_n5.log` there; Hall's second reading of Lemma NA: CORRECT, `k4/oc1_hall.md` §24.13;
+[unverified]: relayed by their messages, not read here):
+- *at once* (113,210): k3-oc1's Lemma NA (proved for any n): a no-owner completion, with each junk good going to a
+  different agent, exists at all 113,210. X is EFX₀ iff every wanter of a receiving agent's pick is compensated; the
+  criterion agrees with raw EFX₀ on 2,522,460 assignments. On 71,443 of them k3-oc1's Lemma RF-A1\* (Hall's RF-A1 with
+  (A1-iv) weakened; owner w; hypotheses checked at all) is an alternative.
 - *one move* (274): the trade, 242, by Lemma RF-T and Corollary RF-T′ above (refereed CORRECT). RF-T′ covers all
   42,009 trade starts, so on 5_pure#464 it is an alternative to NA. The 3-ring, 32, all on 5_pure#374, by an explicit
   certificate (`k4/girth/oc1_tstar.py`, `results/k4_girth_oc1_tstar.log`): some official 3-ring "c1 takes {Y′_d, j},
   c2 takes Y′_{c1}, d takes Y′_{c2}" is followed by d absorbing all the remaining junk, and the result is EFX₀. Roles
   at Y: u receiver, d pick-dangerous, c1 truly dangerous, c2 pick-dangerous and keeping its pick.
 
-71,443 + 41,767 + 242 + 32 = 113,484. All the lemmas are proved; their facts are checked at n = 5 and remain to be
-derived from the hardness of Y.
+113,210 + 242 + 32 = 113,484. All the lemmas are proved; their facts are checked at n = 5 and remain to be derived
+from the hardness of Y.
 
 **Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every
 strict connected k = 4 core, at every serial-dictatorship order o whose picks form a maximum matching and fail OC₁,
