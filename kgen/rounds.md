@@ -1044,6 +1044,21 @@ MD allocation are informative. At the n = 4 two-move starts and the walk starts,
   - "picks" alone ties a needy keep-and-add with a rho.
   - "absorbers" alone prefers keepers.
   - Maximizing the number of keepers is the worst choice: it selects the keep-and-add allocations.
+- **The local step** (`phi_local.py`, `phi_local_4_7.log`, `phi_local_5_8.log`). This looks at every non-witness MD
+  allocation at every perfect start of random strict cores (n = 4, m = 7: 5,452; n = 5, m = 8: 2,315).
+  - *Every one has keep-and-add shape* (a needy keeper v holding a pickless agent q's pick), sometimes beside a ring.
+  - *Every one has an MD EFX₀ allocation with larger Φ.* This is Φ-MAX on that data.
+  - The nearest one, counted in goods that change owner, is almost always reached by **returning Y_q from the keeper
+    to its owner q**:
+    - n = 4: alone at 1,916; with one junk good moved at 3,178; another kind of move or more than two goods at 358;
+    - n = 5: 996, 1,246 and 73.
+  - So the minimal-counterexample proof needs one *Lemma UNTANGLE*: at a needy keep-and-add, giving Y_q back to q,
+    possibly moving one junk good, keeps EFX₀ and MD.
+  - MD is automatic: q's value rises, and v keeps Y_v.
+  - EFX₀ is the open part.
+    - Others' envy toward q's enlarged bundle.
+    - v's envy after losing Y_q. A needy v has v_v(X_v ∖ {Y_v}) ≤ p_v, so it values Y_q plus its junk at most p_v.
+  - The rare exceptions (distance 3 or more, or other move types) show that the lemma needs a fallback.
 - With the target "simple and one absorber" instead of "witness", the triple (picks, −absorbers, −keepers) comes
   closest (`simple_potential_*.log`). At 2 of the certifier's starts it has a maximizer that is a keep-and-add whose
   keeper still gains without its pick. Lemma FIX allows that case, and it is a witness.
