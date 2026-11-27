@@ -1562,10 +1562,22 @@ Each leaf is a named statement with its status and the session that owns it.
 | 4e | the head is a second dangerous agent | Lemma RING-red (rings with owner k) proves 151 starts, T3 with order (0, 1, 2) among them; RING (45 starts) is open | proof plus open residue | k4-oc1max-multi |
 | 4f | disjoint danger sets: one move | "one chain repairs" when no two dangerous agents share a pool danger set | **evidence** (k4-oc1max-multi, `k4/oc1max_multi/sharing.py`). Without sharing: 7,755 starts, all repaired by one move. 7,681 have a canonical chain from D owned by k, and 7,237 are covered by written lemmas (KEEP 4,657, OWN 632, D-red 1,835, RING-red 113). The 74 others fail only by CROWD (58) or the T3 ring shape (16), never by DEMAND. With sharing: 628 starts, all one move, 623 canonical. So sharing is necessary for every known two-move start, but not sufficient | k4-oc1max-multi |
 | 5 | **no one-move repair**: the second move | Sub-lemma OC2-LIFT (below) | **open**; evidence on all 12 known instances. They all have one unfrozen pick holder, and the obstacles of their canonical chains are only DEMAND and CROWD, never HEAD. At n = 4, D_T = the two sharers; at the TTC core, D_T = ∅ (k4-oc1max-multi's `cex_check.log`) | k4-oc1max-multi (working on it); matching (EX\*) |
-| 5a | LIFT-SHAPE | (1) a start with no one-move repair has exactly one holder z; (2) the first chain P₁ goes from a dangerous k to z, and its H₀ ⊆ J ∪ {y_z} also improves a second dangerous agent (the shared pool danger set) | **open**; item (1) is the first thing to prove | k4-oc1max-multi, matching |
+| 5a | R2, then LIFT-EX (1)–(2) | **R2** (TTC session): a start with two or more receivers (unfrozen pick holders) has a one-move repair. With exactly one receiver z (LIFT-EX (1)), the first chain P₁ goes from a dangerous k to z, and its H₀ ⊆ J ∪ {y_z} also improves a second dangerous agent (LIFT-EX (2), the shared pool danger set) | R2: **open** (claude/k4-ttc). Evidence: every known start with no one-move repair has one receiver, and the k = 5 failure PW5 has two. LIFT-EX (2): **open** | TTC session (R2); k4-oc1max-multi and matching (LIFT-EX (2)) |
 | 5b | LIFT-1 and Lemma LIFT-red | P₂ is canonical and ends at z, giving z its favourite good; its first agent h ≠ P₁'s head owns. LIFT-red, a written proof by matching (`k4/matching.md` §6), shows that only h's bundle can threaten at B₂, so the second move is exactly Lemma M's condition at B₂ for owner h (LIFT-1) | LIFT-red: written proof, not refereed. LIFT-1: **open**. Its hypotheses are met by some pair on all 3,190 n = 4 failing profile–start pairs, with H = ∅ on 2,997 | matching |
 | 5c | Conjecture LIFT-EX = 5a + 5b | the explicit exchange form of OC2-LIFT | evidence: all 3,190 n = 4 pairs, the TTC n = 5 core, RD5 (k = 5). It fails at PW5 (k = 5), so it uses k ≤ 4 | matching |
 | 6 | three moves needed? | three sharers of one pool pair with no slots | being searched (n = 5–7) | compute/k4-oc1max-cert |
+
+**The open core at k = 4** (coordinator's summary, 00:00). OC₂^max follows from the proved and written leaves and
+three precise lemmas:
+1. **D1-HJ** (leaf 3b; `proof/k4-d1`). At a hard start where every canonical chain from the only dangerous agent k has
+   HEAD, some chain whose head adds at most one junk good, with a minimal H₀, repairs with owner k.
+2. **R2** (leaf 5a; TTC session). Two or more receivers ⟹ one move.
+3. **LIFT-1 together with LIFT-EX (2)** (leaves 5a, 5b; matching and `proof/k4-oc1max-multi`). With one receiver, the
+   first chain absorbs a shared pool danger set. The second chain then ends at the receiver and gives it its
+   favourite good, and Lemma M holds at B₂ for the second chain's first agent.
+
+Leaves 4d (SLOT) and 4e (RING) of the one-move side are still open as well. They cover starts with one move, which R2
+and LIFT do not touch.
 
 ### 23.3 The single sub-lemma the second move needs
 
