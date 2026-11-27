@@ -11,33 +11,33 @@ evidence only (PROMPT.md §5 rule 3).
 
 (Updated at the end of each burst.)
 
-**Burst 3 (2026-11-27, coordinator's message 3).** Evidence only; W^sub stated precisely (§6). Some runs are still
-going; their logs are named in §6.
-- **W^sub, the one-step lemma with set moves**: from a partial EFX₀ allocation with a nonempty pool, at most two moves
-  give one with a smaller pool, or the same pool and a larger measure. A move is a set transfer, a swap or a rotation;
-  "W^sub stated precisely" in §6 defines them on `EFX.Inst`, with a Lean sketch. It implies TARGET₄.
-- **With welfare as the measure, W^sub is REFUTED at n = 4, m = 7, k = 4**, on a k = 4 core with strict, balanced
-  values (`attempts/k4-haxell-wsub-welfare.md`; three implementations agree). The adversarial climb found it from
-  the tightest state of the ablation: 36 failing instances, one stuck state each.
-  - With leximin (L^sub) it has a step at all 36, and so does W₃. **But L^sub fails at another n = 4, m = 7 core
-    instance** (`attempts/k4-haxell-lsub-leximin.md`), found by the leximin climb.
-  - **Three moves rescue all 37 known failures, for both measures**, with single or set moves. The candidates are
-    now the three-move forms W^sub₃ and L^sub₃; with single moves only, three moves fail at k = 5 (W5). The radius
-    grew from two to three at n = 4, so it may grow with n.
-  - The n = 3 grids and the cores are being re-run with both measures at radius 2 (`*_wl_*.log`). They test whether
-    two moves suffice for n ≤ 3 and on cores.
-- **W^sub with welfare had no stuck state** on any of the following, which remain evidence for n ≤ 3 and small cores:
-  - the whole n = 2 grid with k ≤ 4 (470.5 million states; leximin too);
-  - the n = 3 grid with k ≤ 3, values {1, 2, 4, 7, 12} and m ≤ 5 (742 million states, reduced by symmetry; m ≥ 6 running);
-  - every type profile, up to automorphism, of the 20 n = 4 cores with one 4-good agent and m ≤ 5 (223.5 million states).
-  Every type profile of every core is out of reach: up to 7·10⁹ profiles per core. The other cores are sampled.
-- **W₃** (three single moves) also has no stuck state on the n = 2 grid, but it fails at k = 5.
-- **The move class is nearly minimal**: six of its seven kinds are each necessary, with witnesses at n = 2, 3, 4 found by
-  an adversarial climb and re-checked in Python (§6 table). The tightest state found (n = 4) has exactly one step.
-- **Welfare is needed**: pool-shrinking alone fails, even with set moves, at n = 3 with strict values, and in 93% of
-  the small-core instances.
-- *Proof*: still open. Any such lemma for every k would imply EFX₀ in general, so its general form is at least as hard
-  as the EFX conjecture; only the k ≤ 4 form is the target.
+**Burst 3 (2026-11-27, coordinator's messages 3 and 4).** Evidence, two refutations, and one computer-verified
+theorem; §6 states everything precisely. Some runs are still going; their logs are named in §6.
+- **The set-move lemma** (§6, "W^sub stated precisely", defined on `EFX.Inst` with a Lean sketch). From a partial EFX₀
+  allocation with a nonempty pool, at most r moves reach one with a smaller pool, or with the same pool and a better
+  measure. A move is a set transfer, a swap or a rotation; any form of it implies TARGET₄.
+- **Two moves fail at n = 4, k = 4, for every measure tried:**
+  - with welfare (W^sub; `attempts/k4-haxell-wsub-welfare.md`);
+  - with leximin (L^sub; `attempts/k4-haxell-lsub-leximin.md`);
+  - with Pareto improvements (P^sub, which implies both).
+  The witnesses are k = 4 cores with strict balanced values, found by adversarial climbs. Each was re-checked by the
+  C checker and by Python with no shared code (`attempts/k4_haxell_wsub.py`).
+- **Two moves do hold for n ≤ 3** where checked:
+  - n = 2: **Theorem N2** (computer-verified on every strict type profile with k ≤ 4; C and an independent Python
+    enumeration agree; §6). Either two moves shrink the pool, or a Pareto composite exists. So W^sub, L^sub and
+    P^sub hold there, also with up to two goods valued by nobody.
+  - n = 3: P^sub holds on every strict type profile with k ≤ 3 (14,100 classes). W^sub with welfare holds on the
+    n = 3 value grids run so far.
+  - Pool-shrinking alone (Claim A2) fails already at n = 2 with strict values
+    (`attempts/k4-haxell-n2-pure-augmentation.md`), so the measure is needed.
+- **Three moves rescue all 40 known two-move failures**, for welfare, leximin and Pareto, with set moves or
+  single-good moves. The candidate is **P^sub₃** (three moves, Pareto). It is ordinal, so checks over types are
+  complete for it. With single-good moves only, three moves fail at k = 5 (W5).
+- **The radius grew from two to three at n = 4.** If it keeps growing with n, no fixed-radius form gives TARGET₄,
+  which is over all n. Radius-3 climbs at n = 4, 5 found no failure so far; that is the decisive open test.
+- **The move class is nearly minimal**: six of its seven kinds are each necessary (§6 ablation).
+- The ledger rows are staged in `k4/haxell/ledger_rows.md`; the assignment says the coordinator edits LEDGER.md.
+- *Proof*: open beyond Theorem N2 (computer-verified, n = 2).
 
 **Burst 2 (2026-11-26, coordinator's requests).** Evidence only; one new conjecture (W), stated precisely in §6.
 - *CONN₂ on every counterexample to OC/OC₁/OC₁^max* (§5). PW5, RD5, the two kgen n = 4 instances (k = 5), their k = 4
