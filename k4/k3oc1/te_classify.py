@@ -13,7 +13,7 @@ from gap_scan import an_order
 C = collections.Counter()
 for fn in sys.argv[1:]:
     for line in read_lines(fn):
-        mt = re.match(r'(TE-\S+|T\'K-\S+|NOROT) (\[\[.*?\]\]) (\d+) picks (\(.*?\))', line)
+        mt = re.match(r'(TE-\S+|T\'K-\S+|NOROT|OMEGA2|RPRIME) (\[\[.*?\]\]) (\d+) picks (\(.*?\))', line)
         if not mt: continue
         kind = mt.group(1); rk = [tuple(r) for r in json.loads(mt.group(2))]; m = int(mt.group(3)); Y = ast.literal_eval(mt.group(4))
         bu = upgrade(rk, m, base_of(Y, m)); B, J, U, NA, F, T = parts(rk, m, bu)

@@ -29,9 +29,9 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
     draft with n ≤ 6 and on all samples.
   - **(P) is exhaustive at n = 5 on its whole class** (agents with 1–3 goods, 0 or 1 dead good): 265,254 + 362,346
     hard perfect drafts, every one repaired by its least-ω′ rotation (§11).
-  - **The release bound (R)**: the least ω′ is ≤ 1 on every gap draft of a core with n ≤ 6, even in the want-count
-    form (R′) (some rotation leaves total rank deficit ≤ 2n − m + 1). With Lemma 5 it reduces T-ω to a small
-    ω′ = 1 case. It is a core statement: in (P)'s class owners must absorb.
+  - **The release bound (R)**, least ω′ ≤ 1, holds on every gap draft of a core with n ≤ 6, also in its
+    want-count form (R′). **It fails at n = 7** (`attempts/k4-k3oc1-release-bound.md`) and in (P)'s class at n = 5.
+    So the best rotation can genuinely need an absorbing owner.
 - **Refuted.**
   - kgen-n3's T1′ (one terminal, no owner): fails on 360 one-terminal gap drafts at n = 6.
   - "Two terminals never land in the gap": 10,304 drafts at n = 6.
@@ -39,9 +39,9 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
     (`attempts/k4-k3oc1-every-k.md`, independent replay). The choice of k matters: the failing rotations release
     nothing, while least-ω′ rotations reach ω′ ≤ 0.
 - **Next.**
-  - Prove (R), and the ω′ = 1 case, for the least-ω′ rotation. This is the release lemma, shared with kgen-n3's
-    T1-k. Simple rules do not achieve (R), so the proof must maximize releases.
-  - Prove (R′) on cores: the deficit of a hard draft lies on one earliest-wanter chain.
+  - Prove T-ω, the least-ω′ rotation completes, by combining Lemma 5 (releases) with B\*'s hitting count for
+    owner k or a terminal, with |T′| slots. (R) alone is false at n = 7.
+  - Work this out with kgen-n3, whose one-terminal case is the same count.
 
 **Bursts 1–4:**
 
@@ -824,7 +824,16 @@ D′ = D − steps − u, and ω′ ≤ D′.
 
 So a hard draft's deficit lies, almost all of it, on one earliest-wanter chain. Proving that is the release lemma.
 
-**(R) and (R′) are statements about the ledger's cores.** In (P)'s class (§11) they fail, while T-ω still holds.
+**(R) and (R′) fail at n = 7, also on cores and in the gap** (`attempts/k4-k3oc1-release-bound.md`, independent
+replay `attempts/k4_k3oc1_release_bound.py`).
+- **The instance.** A gap draft of an n = 7, m = 12 core has ω = 4, and every DE trade leaves ω′ = 2. Both
+  earliest-wanter rotations still complete, with the rotated agent as owner, which takes three junk goods.
+- **Frequency.** On new samples (`te_sample7_*d*.log`, `te_sample8_14d.log`), (R) fails on 81 of 6,445 hard n = 7
+  drafts, 5 of them in the gap, and on 33 of 816 at n = 8. T-ω, T′_k and T-E∃ hold on all of them.
+- **Consequence.** (R) is a small-n effect, and releases alone cannot prove T-ω: the owner's hitting count (B\*
+  with |T′|) is needed.
+
+In (P)'s class (§11) they fail already at n = 5, while T-ω still holds.
 - *Sample, no dead good* (`te_sample_mixed5_0b.log`): 1,821 hard drafts. (R) fails on 8 of them and (R′) on 9. Their
   agents value three private goods, e.g. agents 3: 7>9>8 and 4: 12>11>10 beside a three-agent block, which rule R2
   peels in the ledger's cores.
