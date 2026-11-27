@@ -1,0 +1,1 @@
+$ python3 k4/haxell/ht_n4core.py MODE=sample N=200 MMIN=4 MMAX=8 SEED=11 PROCS=2 MARGS=3,1,19,1

@@ -2,3 +2,12 @@ $ python3 k4/haxell/ht_n4core.py MODE=sample N=200 MMIN=4 MMAX=8 SEED=11 PROCS=2
 STUCK k4_certs_4_n4_3:m7:4 4 7 4 0 4 1 3 2 8 4 10 3 2 4 5 3 6 2 4 3 5 4 6 5 7 6 3 4 3 7 4 2 5 10 6 6 | 4 7 states 2561 phi0 39 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 phi19 1 example_phi19 1 1 0 -1 2 3 1
 STUCK k4_certs_4_n4_3:m7:70 4 7 4 0 5 2 8 3 4 5 6 4 1 2 2 8 5 3 6 4 3 1 3 4 2 6 4 4 3 2 4 5 5 8 6 4 | 4 7 states 2389 phi0 30 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 phi19 1 example_phi19 1 1 0 3 3 -1 2
 STUCK k4_certs_4_n4_3:m7:72 4 7 3 0 2 2 3 6 4 4 1 3 2 6 3 10 6 2 4 1 8 4 10 5 6 6 3 4 3 5 4 8 5 4 6 6 | 4 7 states 2326 phi0 20 phi1 0 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 phi19 1 example_phi19 3 1 1 -1 2 3 0
+cores 780 instances sent 156000 skipped (more than PMAX profiles) {} return codes [0, 0]
+instances 156000
+instances with a stuck state phi0 135808
+instances with a stuck state phi19 3
+partial EFX0 states 499517909
+stuck states phi0 1410587
+stuck states phi19 3
+cores with a stuck instance for phi19: 3 ['k4_certs_4_n4_3:m7:4', 'k4_certs_4_n4_3:m7:70', 'k4_certs_4_n4_3:m7:72']
+time 3576 s
