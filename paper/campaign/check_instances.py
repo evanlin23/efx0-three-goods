@@ -526,6 +526,7 @@ def main(quick=False):
     check_monotone_s3()
     check_revision5()
     check_revision6()
+    check_revision7()
     print('# %d failed; %.0f s' % (report.failed, time.time() - t0))
     return report.failed
 
@@ -1220,6 +1221,55 @@ def check_revision6():
     X = [{0, 2, 4}, {6}, {5}, {3, 1}]
     report('§12.3 (VM1, P34): strict connected core; the two-move completion ({0,2,4},{6},{5},{1,3}) is EFX0',
            I.core_failures() == [] and I.efx0(X) and set().union(*X) == set(range(7)))
+
+
+# ---------------- revision 7: the two routes (RF; ROUND-RSD's base case) ----------------
+
+def oc1_holds(I, picks):
+    """OC1 at the picks (draft §2.4 moves, one-absorber completion)."""
+    return any(has_one_absorber_completion(I, B) for B in one_move_states(I, picks))
+
+
+def check_revision7():
+    # R2 fails at n = 5 (ledger K4.SDC.R2.N5): 5_pure #650, two receivers, OC1 fails; RF holds for both receivers
+    I = from_sets([[0, 1, 5, 7], [0, 5, 6, 7], [1, 5, 6, 7], [2, 3, 4, 6], [2, 3, 4, 7]],
+                  [[3, 6, 7, 5], [2, 10, 7, 6], [2, 8, 4, 3], [4, 5, 6, 8], [5, 4, 6, 8]])
+    picks = (5, 0, 1, 6, 7)
+    orders = [o for o in itertools.permutations(range(5)) if I.sd(o) == picks]
+    F, D, U, J = frozen_sets(I, picks)
+    fails = not oc1_holds(I, picks)
+    rf = {}
+    for u in sorted(U):
+        uo = [o for o in itertools.permutations(range(5)) if o[0] == u]
+        maxi = [o for o in uo if None not in I.sd(o) and I.nu() == 5]
+        rf[u] = bool(maxi) and all(oc1_holds(I, I.sd(o)) for o in maxi)
+    report('§11.10 (R2 at n = 5, 5_pure #650): core; perfect SD start with receivers {1, 2}; OC1 fails; '
+           'RF holds for each receiver', I.core_failures() == [] and orders and I.nu() == 5 and U == {1, 2} and fails
+           and all(rf.values()), str((sorted(U), rf)))
+
+    # ROUND-RSD's base case as posed fails at T3 (ledger K4.BASE.PHI): settle agent 2 by E(2) = (2, 1) with T = {1, 3}
+    I = Inst([{0: 38, 2: 6, 4: 36, 5: 1}, {1: 22, 3: 12, 4: 30}, {0: 38, 1: 20, 3: 12, 4: 28}], 6)
+    picks = I.sd((0, 2, 1))
+    F, D, U, J = frozen_sets(I, picks)
+    T = {1, 3}
+    p = [I.v[i][picks[i]] for i in range(3)]
+    # the round: agent 1 (the only wanter of agent 2's pick) takes 4; agent 2 takes T = {y_1} + junk 3
+    improving = I.val(2, T) > p[2]
+    lstar = not threatens(I, 0, T, p[0]) and not threatens(I, 1, T, I.val(1, {4}))
+    # the remaining instance: agents 0, 1 with goods {0, 2, 4, 5}; its picks complete with no phantom constraint
+    sub = Inst([{g: x for g, x in I.v[i].items() if g in (0, 2, 4, 5)} for i in (0, 1)], 6)
+    oc1at = sub.efx0([{0, 2, 5}, {4}])
+    # with the phantom (agent 2 keeps exactly T): no allocation of the present goods is EFX0 among agents 0, 1 with
+    # no bundle threatening agent 2 at v_2(T) (Lean's OC1PhiAt, after any move or none)
+    tau = I.val(2, T)
+    phi = False
+    for a in itertools.product(range(2), repeat=4):
+        X = [set(g for g, b in zip((0, 2, 4, 5), a) if b == 0), set(g for g, b in zip((0, 2, 4, 5), a) if b == 1)]
+        if sub.efx0(X) and not any(threatens(I, 2, B, tau) for B in X if B):
+            phi = True
+    report('§11.10 (base case, T3): picks (0, 1, 4), D = {0, 2}; the round settling 2 with {1, 3} is improving with '
+           '(L*); after it OC1 holds without phantoms, but no EFX0 allocation keeps agent 2 at {1, 3}',
+           picks == (0, 1, 4) and D == {0, 2} and U == {1} and improving and lstar and oc1at and not phi)
 
 if __name__ == '__main__':
     sys.exit(1 if main(quick=len(sys.argv) > 1 and sys.argv[1] == 'quick') else 0)
