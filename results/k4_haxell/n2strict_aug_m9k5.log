@@ -1,0 +1,4 @@
+$ python3 k4/haxell/ht_wclimb.py 2 9 5 STEPS=1500 CLIMBERS=2 RESTART=300 MEASURE=0 VMAX=1000 SEED=295
+climber 295001 hardest score (0, 2) instance 2 9 5 0 687 1 26 2 342 4 71 5 171 5 0 863 3 154 6 675 7 238 8 130
+climber 295000 hardest score (0, 2) instance 2 9 5 0 46 1 91 4 419 5 682 8 188 5 2 104 3 197 5 791 6 54 7 318
+counterexamples 0 time 263 s

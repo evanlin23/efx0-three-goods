@@ -525,6 +525,7 @@ def main(quick=False):
     check_programme()
     check_monotone_s3()
     check_revision5()
+    check_revision6()
     print('# %d failed; %.0f s' % (report.failed, time.time() - t0))
     return report.failed
 
@@ -1138,6 +1139,87 @@ def check_revision5():
            picks == (4, 5, 1) and I.verdict(picks, allocs, one_absorber=False) == 'fails'
            and not round_fits(I, picks, allocs, False) and not forward_round(I, picks, allocs, False)
            and two_chains_fit(I, picks, allocs))
+
+
+# ---------------- revision 6: RSD-IND's n = 5 counterexamples, VM1 on a core ----------------
+
+def one_move_states(I, picks):
+    """The picks and every state one move (§2.4) away: additions, and chains (which include rings: the start may take
+    the end's base)."""
+    start = tuple(frozenset({q}) for q in picks)
+    J = set(range(I.m)) - set(picks)
+    out = {start}
+    for a in range(I.n):
+        cand = sorted(J & I.R[a])
+        for r in range(1, len(cand) + 1):
+            for H in itertools.combinations(cand, r):
+                B = list(start); B[a] = start[a] | frozenset(H); out.add(tuple(B))
+    for _, B in chain_states(I, start):
+        out.add(B)
+    return out
+
+
+def has_one_absorber_completion(I, B):
+    return any(sum(1 for e in ex if e >= 2) <= 1 and I.efx0(X) for X, ex in completions_shape(I, B))
+
+
+def threatens(I, i, S, value):
+    """Does the bundle S threaten agent i at the value `value` (EFX0: some g with v_i(S - g) > value)?"""
+    return any(I.val(i, set(S) - {g}) > value for g in S)
+
+
+def check_revision6():
+    # RSD-IND is refuted at n = 5 (k4/matching.md §6; k4/oc1_hall.md §24.4): 5_pure m = 10 idx 419
+    I = from_sets([[0, 2, 6, 7], [1, 4, 8, 9], [3, 5, 8, 9], [4, 5, 7, 9], [6, 7, 8, 9]],
+                  [[6, 3, 10, 8], [4, 8, 2, 3], [2, 8, 4, 3], [6, 7, 5, 3], [10, 7, 2, 6]])
+    picks = (6, 4, 5, 9, 7)
+    sd_ok = any(I.sd(o) == picks for o in itertools.permutations(range(5)))
+    states = one_move_states(I, picks)
+    no_one = not any(has_one_absorber_completion(I, B) for B in states)
+    B0 = tuple(frozenset({q}) for q in picks)
+    Ba = apply_chain(I, B0, (0, 4), [{0, 7}, set()])
+    Bb = apply_chain(I, B0, (1, 3), [{1, 8, 9}, set()])
+    both = None
+    if Ba and Bb:
+        both = tuple(Ba[a] if a in (0, 4) else Bb[a] if a in (1, 3) else B0[a] for a in range(5))
+    p = [I.v[i][picks[i]] for i in range(5)]
+    block = (threatens(I, 3, {0, 7}, p[3]) and threatens(I, 4, {1, 8, 9}, p[4])
+             and not threatens(I, 3, {0, 7}, I.val(3, {4})) and not threatens(I, 4, {1, 8, 9}, I.val(4, {6})))
+    report('§11.9 (RSD-IND, 5_pure #419): core; picks (6,4,5,9,7); no one-move repair; chains (0,4) and (1,3) '
+           'together repair; each set threatens the agent only the other chain lifts',
+           I.core_failures() == [] and sd_ok and no_one and both is not None
+           and has_one_absorber_completion(I, both) and block, '(%d one-move states)' % len(states))
+
+    # 5_pure m = 11 idx 447: no one-move repair; some round of two vertex-disjoint chains repairs
+    I = from_sets([[0, 2, 5, 8], [1, 6, 7, 8], [3, 6, 9, 10], [4, 7, 9, 10], [5, 8, 9, 10]],
+                  [[3, 4, 8, 6], [1, 6, 8, 4], [2, 10, 6, 3], [2, 8, 3, 4], [10, 8, 3, 6]])
+    picks = (5, 1, 6, 7, 8)
+    sd_ok = any(I.sd(o) == picks for o in itertools.permutations(range(5)))
+    states = one_move_states(I, picks)
+    no_one = not any(has_one_absorber_completion(I, B) for B in states)
+    B0 = tuple(frozenset({q}) for q in picks)
+    chains = list(chain_states(I, B0))
+    pair = False
+    for (P1, S1), (P2, S2) in itertools.combinations(chains, 2):
+        if set(P1) & set(P2):
+            continue
+        new1 = {a: S1[a] for a in P1}; new2 = {a: S2[a] for a in P2}
+        g1 = set().union(*new1.values()); g2 = set().union(*new2.values())
+        if g1 & g2:
+            continue
+        B = tuple(new1.get(a, new2.get(a, B0[a])) for a in range(5))
+        if has_one_absorber_completion(I, B):
+            pair = True
+            break
+    report('§11.9 (RSD-IND, 5_pure #447): core; picks (5,1,6,7,8); no one-move repair; two vertex-disjoint chains '
+           'repair', I.core_failures() == [] and sd_ok and no_one and pair, '(%d one-move states)' % len(states))
+
+    # VM1 fails on a connected k = 4 core (P34; attempts/k4-vm-vm1-core.md): the printed facts this checker can test
+    I = from_sets([[0, 2, 4, 5], [0, 2, 4, 6], [1, 3, 5, 6], [1, 3, 5, 6]],
+                  [[4, 3, 2, 8], [4, 3, 2, 8], [4, 2, 8, 5], [4, 2, 8, 5]])
+    X = [{0, 2, 4}, {6}, {5}, {3, 1}]
+    report('§12.3 (VM1, P34): strict connected core; the two-move completion ({0,2,4},{6},{5},{1,3}) is EFX0',
+           I.core_failures() == [] and I.efx0(X) and set().union(*X) == set(range(7)))
 
 if __name__ == '__main__':
     sys.exit(1 if main(quick=len(sys.argv) > 1 and sys.argv[1] == 'quick') else 0)

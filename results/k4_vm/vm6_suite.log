@@ -1,0 +1,24 @@
+$ python3 k4/vm/vm6_test.py suite --variants=x-choice,x-stuck --limit=150 --samples=30
+instances                            164
+x-choice: every run EFX0             61
+x-choice: first run (all choices 0) EFX0 151
+x-choice: runs                       13602
+x-choice: runs EFX0                  12735
+x-choice: some run EFX0              164
+x-stuck: every run EFX0              100
+x-stuck: first run (all choices 0) EFX0 139
+x-stuck: runs                        12387
+x-stuck: runs EFX0                   11641
+x-stuck: some run EFX0               162
+  stuck kind ('x-choice', 'no_safe') 867
+  stuck kind ('x-stuck', 'no_safe') 746
+  x-choice [first run]: no EFX0 run on 13: lb4-n2m5-upgrade(n=2,m=5), c4-lbplus-rotation-n3m6(n=3,m=6), lil-text-n3(n=3,m=7), c4x-n3m8-pure-top7(n=3,m=8), count-n3m8(n=3,m=8), f1-bigtop-n3-m8-n3c46(n=3,m=8), gap-itlocal-n3-m8-n3c46(n=3,m=8), hall-btown-core46(n=3,m=8), red-a2-hstar(n=3,m=8), lil-noncore-n3(n=3,m=9), gap-phi-n4-m8-pure104(n=4,m=8), gap-w-n4-m10-pure179(n=4,m=10)
+    smallest: lb4-n2m5-upgrade {"sets": [[0, 2, 3, 4], [1, 2, 3, 4]], "vals": [[1, 4, 6, 8], [2, 4, 5, 8]], "m": 5}
+    smallest: c4-lbplus-rotation-n3m6 {"sets": [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], "vals": [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]], "m": 6}
+  x-stuck [first run]: no EFX0 run on 25: lb4-n2m5-upgrade(n=2,m=5), c4min-nounfreeze-n2-m6(n=2,m=6), gap-npo-n2-m6(n=2,m=6), c4x-n3m6-onefour-a(n=3,m=6), c4x-n3m6-onefour-b(n=3,m=6), induct-pot-util(n=3,m=6), induct-v-r3(n=3,m=6), c4-lbplus-rotation-n3m6(n=3,m=6), c4min-tlam-n3-m6(n=3,m=6), c4x-n3m6-3good-first(n=3,m=6), hall-bestpair-core44(n=3,m=7), lil-text-n3(n=3,m=7)
+    smallest: lb4-n2m5-upgrade {"sets": [[0, 2, 3, 4], [1, 2, 3, 4]], "vals": [[1, 4, 6, 8], [2, 4, 5, 8]], "m": 5}
+    smallest: c4min-nounfreeze-n2-m6 {"sets": [[0, 1, 4, 5], [2, 3, 4, 5]], "vals": [[6, 3, 10, 2], [4, 3, 8, 2]], "m": 6}
+  x-stuck: no EFX0 run on 2: c4min-tlam-n3-m6(n=3,m=6), c4x-n3m6-3good-first(n=3,m=6)
+    smallest: c4min-tlam-n3-m6 {"sets": [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], "vals": [[4, 3, 2, 8], [4, 1, 8, 6], [2, 4, 3]], "m": 6}
+    smallest: c4x-n3m6-3good-first {"sets": [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], "vals": [[2, 3, 4, 8], [1, 4, 8, 6], [2, 4, 3]], "m": 6}
+time 179 s

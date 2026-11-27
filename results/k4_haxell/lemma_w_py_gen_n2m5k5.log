@@ -1,0 +1,5 @@
+$ python3 k4/haxell/ht_lemma_w.py gen:3000:15:2:5:5 NMAX=2 MMAX=6 LIMIT=1000
+instances 1000
+partial EFX0 states 77293
+stuck states 0
+time 1 s

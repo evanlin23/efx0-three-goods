@@ -1,0 +1,254 @@
+$ python3 k4/vm/vm_test.py logs --readings=all --limit=2000 --samples=200
+== rank=G aout=matched n1a=Y
+  instances                    42
+  exhaustive                   42
+  runs                         1358
+  runs stuck                   0
+  runs not EFX                 0
+  runs EFX but not EFX0        1063
+  runs claim_outside           0
+  inst: some run stuck         0
+  inst: some run not EFX       0
+  inst: every run EFX          42
+  inst: some run EFX0          27
+  inst: every run EFX0         0
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('N2', 'A', 'III.efx')                   902
+    ('N3', 'A', 'III.efx')                   640
+    ('N4', 'A', 'III.efx')                   516
+    ('N3', 'N1', 'III.efx')                  243
+    ('N2r', 'A', 'III.efx')                  184
+    ('N2', 'N1', 'III.efx')                  110
+    ('N4', 'N1', 'III.efx')                  100
+    ('N1', 'A', 'III.efx')                   72
+    ('A', 'A', 'I')                          48
+    ('Nr', 'N1', 'III.efx')                  44
+    ('N3', 'N2r', 'III.2-3')                 24
+    ('N1', 'N1', 'III.efx')                  12
+  example notefx0: log:nof_bad_n3:4 (n=3, m=5) [[0, 0, 0], [[4, 0], [2, 3], [1]], [[2, 0, 0], [2, 1, 3]], {"0": "N1", "1": "N1", "2": "N3"}]
+  example notefx0: log:nof_bad_n3:5 (n=3, m=5) [[0, 0, 0], [[2, 0, 1], [4], [3]], [[2, 0, 0], [2, 0, 1]], {"0": "N1", "1": "N1", "2": "N3"}]
+  example notefx0: log:nof_bad_n3:7 (n=3, m=5) [[0, 0], [[4, 0], [3, 1], [2]], [[2, 0, 0], [2, 1, 1]], {"0": "N1", "1": "N1", "2": "N3"}]
+== rank=G aout=matched n1a=N
+  instances                    42
+  exhaustive                   42
+  runs                         521
+  runs stuck                   189
+  runs not EFX                 0
+  runs EFX but not EFX0        213
+  runs claim_outside           24
+  inst: some run stuck         16
+  inst: some run not EFX       0
+  inst: every run EFX          26
+  inst: some run EFX0          24
+  inst: every run EFX0         0
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('N3', 'N1', 'III.efx')                  171
+    ('N2', 'N1', 'III.efx')                  110
+    ('N4', 'N1', 'III.efx')                  70
+    ('Nr', 'N1', 'III.efx')                  44
+    ('N1', 'N1', 'III.efx')                  12
+    ('N1', 'N1', 'II.1')                     8
+    ('N1', 'N2r', 'III.efx')                 6
+    ('Nr', 'N2r', 'III.2-3')                 6
+    ('Nr', 'N2r', 'III.efx')                 6
+    ('A', 'N1', 'III.efx')                   6
+    ('N3', 'N2r', 'III.2-3')                 2
+    ('N3', 'N2r', 'III.efx')                 2
+  example stuck: log:nof_bad_screen:20 (n=3, m=6) [[0, 0], "('no_nodes', 0, [[1], [3, 5], [2]])"]
+  example stuck: log:nof_bad_screen:23 (n=3, m=6) [[0, 0], "('no_nodes', 0, [[5], [4], [3]])"]
+  example stuck: log:nof_d4:29 (n=3, m=6) [[0, 0], "('no_nodes', 0, [[1], [3, 5], [4]])"]
+  example notefx0: log:nof_bad_n3:4 (n=3, m=5) [[0, 0, 0], [[4, 0], [2, 3], [1]], [[2, 0, 0], [2, 1, 3]], {"0": "N1", "1": "N1", "2": "N3"}]
+  example notefx0: log:nof_bad_n3:5 (n=3, m=5) [[0, 0, 0], [[2, 0, 1], [4], [3]], [[2, 0, 0], [2, 0, 1]], {"0": "N1", "1": "N1", "2": "N3"}]
+  example notefx0: log:nof_bad_n3:7 (n=3, m=5) [[0, 0], [[4, 0], [3, 1], [2]], [[2, 0, 0], [2, 1, 1]], {"0": "N1", "1": "N1", "2": "N3"}]
+== rank=G aout=all n1a=Y
+  instances                    42
+  exhaustive                   41
+  runs                         7392
+  runs stuck                   2969
+  runs not EFX                 3961
+  runs EFX but not EFX0        359
+  runs claim_outside           3961
+  inst: some run stuck         8
+  inst: some run not EFX       6
+  inst: every run EFX          34
+  inst: some run EFX0          20
+  inst: every run EFX0         0
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('N3', 'A', 'III.efx')                   274
+    ('N3', 'N1', 'III.efx')                  243
+    ('N2', 'N1', 'III.efx')                  110
+    ('N4', 'N1', 'III.efx')                  100
+    ('N4', 'A', 'III.efx')                   84
+    ('N1', 'A', 'III.efx')                   72
+    ('Nr', 'N1', 'III.efx')                  44
+    ('N3', 'N2r', 'III.2-3')                 12
+    ('N1', 'N1', 'III.efx')                  12
+    ('N1', 'N1', 'II.1')                     8
+    ('N1', 'N2r', 'III.efx')                 6
+    ('Nr', 'N2r', 'III.2-3')                 6
+  example stuck: log:nof_bad_screen:20 (n=3, m=6) [[1, 0], "('no_nodes', 0, [[], [1], [2]])"]
+  example stuck: log:nof_d4:29 (n=3, m=6) [[1, 0], "('no_nodes', 0, [[], [1], [4]])"]
+  example stuck: log:nof_d4:31 (n=3, m=7) [[1, 0], "('no_nodes', 0, [[], [4], [3]])"]
+  example notefx: log:nof_bad_screen:20 (n=3, m=6) [[0, 0, 0, 0, 0], [[1, 0, 4], [], [2, 3, 5]], [[1, 2, 2], [1, 2, 3], [1, 2, 5]]]
+  example notefx: log:nof_d4:29 (n=3, m=6) [[0, 0, 0, 0, 0, 0], [[1, 0, 2, 5], [], [4, 3]], [[1, 0, 1], [1, 0, 5], [1, 2, 4], [1, 2, 3]]]
+  example notefx: log:nof_d4:31 (n=3, m=7) [[0, 0, 0, 0, 0, 0], [[3, 0, 1, 2], [4, 5, 6], []], [[2, 1, 4], [2, 1, 5], [2, 1, 6]]]
+  example notefx0: log:nof_bad_n3:4 (n=3, m=5) [[0, 0, 0], [[4, 0], [2, 3], [1]], [[2, 0, 0], [2, 1, 3]], {"0": "N1", "1": "N1", "2": "N3"}]
+  example notefx0: log:nof_bad_n3:5 (n=3, m=5) [[0, 0, 0], [[2, 0, 1], [4], [3]], [[2, 0, 0], [2, 0, 1]], {"0": "N1", "1": "N1", "2": "N3"}]
+  example notefx0: log:nof_bad_n3:7 (n=3, m=5) [[0, 0], [[4, 0], [3, 1], [2]], [[2, 0, 0], [2, 1, 1]], {"0": "N1", "1": "N1", "2": "N3"}]
+== rank=G aout=all n1a=N
+  instances                    42
+  exhaustive                   42
+  runs                         719
+  runs stuck                   409
+  runs not EFX                 0
+  runs EFX but not EFX0        207
+  runs claim_outside           2
+  inst: some run stuck         16
+  inst: some run not EFX       0
+  inst: every run EFX          26
+  inst: some run EFX0          20
+  inst: every run EFX0         0
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('N3', 'N1', 'III.efx')                  171
+    ('N2', 'N1', 'III.efx')                  110
+    ('N4', 'N1', 'III.efx')                  70
+    ('Nr', 'N1', 'III.efx')                  44
+    ('N1', 'N1', 'III.efx')                  12
+    ('N1', 'N1', 'II.1')                     8
+    ('N1', 'N2r', 'III.efx')                 6
+    ('Nr', 'N2r', 'III.2-3')                 6
+    ('Nr', 'N2r', 'III.efx')                 6
+    ('N3', 'N2r', 'III.2-3')                 2
+    ('N3', 'N2r', 'III.efx')                 2
+    ('N3', 'N2', 'III.2-4')                  2
+  example stuck: log:nof_bad_screen:20 (n=3, m=6) [[0, 0], "('no_nodes', 0, [[1], [], [2]])"]
+  example stuck: log:nof_bad_screen:23 (n=3, m=6) [[0, 0], "('no_nodes', 0, [[5], [4], [3]])"]
+  example stuck: log:nof_d4:29 (n=3, m=6) [[0, 0], "('no_nodes', 0, [[1], [], [4]])"]
+  example notefx0: log:nof_bad_n3:4 (n=3, m=5) [[0, 0, 0], [[4, 0], [2, 3], [1]], [[2, 0, 0], [2, 1, 3]], {"0": "N1", "1": "N1", "2": "N3"}]
+  example notefx0: log:nof_bad_n3:5 (n=3, m=5) [[0, 0, 0], [[2, 0, 1], [4], [3]], [[2, 0, 0], [2, 0, 1]], {"0": "N1", "1": "N1", "2": "N3"}]
+  example notefx0: log:nof_bad_n3:7 (n=3, m=5) [[0, 0], [[4, 0], [3, 1], [2]], [[2, 0, 0], [2, 1, 1]], {"0": "N1", "1": "N1", "2": "N3"}]
+== rank=R aout=matched n1a=Y
+  instances                    42
+  exhaustive                   41
+  runs                         7907
+  runs stuck                   1116
+  runs not EFX                 2115
+  runs EFX but not EFX0        3351
+  runs claim_outside           2383
+  inst: some run stuck         23
+  inst: some run not EFX       28
+  inst: every run EFX          5
+  inst: some run EFX0          7
+  inst: every run EFX0         0
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('N1', 'A', 'III.efx')                   7432
+    ('N1', 'A', 'I')                         390
+    ('Nr', 'A', 'III.efx')                   288
+    ('N2', 'N1', 'III.efx')                  200
+    ('N2', 'A', 'III.efx')                   192
+    ('Nr', 'N1', 'III.efx')                  144
+    ('N2', 'N1', 'II.1')                     112
+    ('Nr', 'A', 'I')                         96
+    ('N2', 'A', 'I')                         48
+    ('N1', 'N1', 'III.efx')                  42
+    ('A', 'N1', 'III.efx')                   30
+    ('Nr', 'N1', 'II.1')                     12
+  example stuck: log:nof_bad_n3:5 (n=3, m=5) [[1, 0], "('no_nodes', 0, [[1], [4], [2]])"]
+  example stuck: log:nof_bad_n3:7 (n=3, m=5) [[1, 0], "('no_nodes', 0, [[2], [3], [4]])"]
+  example stuck: log:nof_bad_n3:6 (n=3, m=6) [[1, 0], "('no_nodes', 0, [[2], [1], [5]])"]
+  example notefx: log:nof_bad_n3:4 (n=3, m=5) [[0, 0, 0, 0], [[4, 0, 1], [2, 3], []], [[2, 0, 4], [2, 0, 1]]]
+  example notefx: log:nof_bad_n3:5 (n=3, m=5) [[0, 0, 0, 0], [[2, 0, 1], [4, 3], []], [[2, 1, 4], [2, 1, 3]]]
+  example notefx: log:nof_bad_n3:7 (n=3, m=5) [[0, 0, 0], [[4, 0, 2], [3, 1], []], [[2, 0, 4], [2, 0, 2]]]
+  example notefx0: log:nof_bad_screen:20 (n=3, m=6) [[1, 0, 0, 0, 0, 0], [[0, 4], [1, 3, 5], [2]], [[0, 1, 3], [0, 1, 5], [2, 1, 1]], {"0": "N1", "1": "A", "2": "N1"}]
+  example notefx0: log:nof_d4:29 (n=3, m=6) [[1, 0, 0, 0, 1], [[2, 0], [1, 3], [4, 5]], [[0, 1, 3]], {"0": "N1", "1": "A", "2": "N1"}]
+  example notefx0: log:nof_d4:32 (n=3, m=6) [[1, 0, 0, 0], [[0], [3, 1, 4], [5, 2]], [[0, 1, 3], [0, 1, 1], [0, 2, 2]], {"0": "N2", "1": "N1", "2": "N1"}]
+== rank=R aout=matched n1a=N
+  instances                    42
+  exhaustive                   42
+  runs                         2053
+  runs stuck                   1413
+  runs not EFX                 420
+  runs EFX but not EFX0        130
+  runs claim_outside           640
+  inst: some run stuck         35
+  inst: some run not EFX       16
+  inst: every run EFX          1
+  inst: some run EFX0          4
+  inst: every run EFX0         0
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('N2', 'N1', 'III.efx')                  176
+    ('N2', 'N1', 'II.1')                     88
+    ('Nr', 'N1', 'III.efx')                  72
+    ('N1', 'N1', 'III.efx')                  30
+    ('A', 'N1', 'III.efx')                   30
+    ('Nr', 'N1', 'II.1')                     12
+  example stuck: log:nof_bad_n3:5 (n=3, m=5) [[1, 0], "('no_nodes', 0, [[1], [4], [2]])"]
+  example stuck: log:nof_bad_n3:7 (n=3, m=5) [[1, 0], "('no_nodes', 0, [[2], [3], [4]])"]
+  example stuck: log:nof_bad_n3:6 (n=3, m=6) [[0, 0, 0], "('no_nodes', 4, [[1, 0, 2], [3], [5]])"]
+  example notefx: log:nof_bad_n3:4 (n=3, m=5) [[0, 0, 0, 0], [[4, 0, 1], [2, 3], []], [[2, 0, 4], [2, 0, 1]]]
+  example notefx: log:nof_bad_n3:5 (n=3, m=5) [[0, 0, 0, 0], [[2, 0, 1], [4, 3], []], [[2, 1, 4], [2, 1, 3]]]
+  example notefx: log:nof_bad_n3:7 (n=3, m=5) [[0, 0, 0], [[4, 0, 2], [3, 1], []], [[2, 0, 4], [2, 0, 2]]]
+  example notefx0: log:nof_bad_screen:20 (n=3, m=6) [[1, 0, 0, 1], [[0], [1], [2, 3, 4, 5]], [[0, 2, 3], [0, 2, 5], [1, 2, 4]], {"0": "N1", "1": "A", "2": "N1"}]
+  example notefx0: log:nof_d4:32 (n=3, m=6) [[1, 0, 0, 0], [[0], [3, 1, 4], [5, 2]], [[0, 1, 3], [0, 1, 1], [0, 2, 2]], {"0": "N2", "1": "N1", "2": "N1"}]
+  example notefx0: log:nof_d4:31 (n=3, m=7) [[1, 0, 0, 1, 0], [[1, 0], [4, 2, 5, 6], [3]], [[2, 1, 2]], {"0": "N1", "1": "N1", "2": "A"}]
+== rank=R aout=all n1a=Y
+  instances                    42
+  exhaustive                   41
+  runs                         9293
+  runs stuck                   4161
+  runs not EFX                 4912
+  runs EFX but not EFX0        220
+  runs claim_outside           5132
+  inst: some run stuck         31
+  inst: some run not EFX       29
+  inst: every run EFX          2
+  inst: some run EFX0          0
+  inst: every run EFX0         0
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('Nr', 'A', 'III.efx')                   288
+    ('N2', 'N1', 'III.efx')                  200
+    ('Nr', 'N1', 'III.efx')                  144
+    ('N2', 'N1', 'II.1')                     112
+    ('N1', 'A', 'III.efx')                   96
+    ('Nr', 'A', 'I')                         96
+    ('N2', 'A', 'III.efx')                   48
+    ('N1', 'N1', 'III.efx')                  18
+    ('Nr', 'N1', 'II.1')                     12
+  example stuck: log:nof_bad_n3:5 (n=3, m=5) [[1, 0], "('no_nodes', 0, [[1], [4], [2]])"]
+  example stuck: log:nof_bad_n3:7 (n=3, m=5) [[1, 0], "('no_nodes', 0, [[2], [3], [4]])"]
+  example stuck: log:nof_bad_n3:6 (n=3, m=6) [[1, 0], "('no_nodes', 0, [[2], [1], [5]])"]
+  example notefx: log:nof_bad_n3:4 (n=3, m=5) [[0, 0, 0, 0], [[4, 0, 1], [2, 3], []], [[2, 0, 4], [2, 0, 1]]]
+  example notefx: log:nof_bad_n3:5 (n=3, m=5) [[0, 0, 0, 0], [[2, 0, 1], [4, 3], []], [[2, 1, 4], [2, 1, 3]]]
+  example notefx: log:nof_bad_n3:7 (n=3, m=5) [[0, 0, 0], [[4, 0, 2], [3, 1], []], [[2, 0, 4], [2, 0, 2]]]
+  example notefx0: log:nof_d4:32 (n=3, m=6) [[1, 0, 0, 0], [[0], [3, 1, 4], [5, 2]], [[0, 1, 3], [0, 1, 1], [0, 2, 2]], {"0": "N2", "1": "N1", "2": "N1"}]
+  example notefx0: log:refute_p1:38 (n=4, m=7) [[0, 0, 0, 0, 0], [[2, 0, 4], [5, 1, 3], [6], []], [[2, 0, 0], [2, 0, 4], [3, 0, 2], [3, 0, 0]], {"0": "A", "1": "A", "2": "N1", "3": "Nr"}]
+  example notefx0: log:nof_bad_n4:13 (n=4, m=8) [[0, 0, 0, 0, 0], [[3, 0, 4], [1], [5, 2, 6], [7]], [[1, 0, 0], [1, 0, 4], [1, 2, 5], [1, 2, 2]], {"0": "N1", "1": "N2", "2": "N1", "3": "N1"}]
+== rank=R aout=all n1a=N
+  instances                    42
+  exhaustive                   42
+  runs                         1722
+  runs stuck                   1202
+  runs not EFX                 420
+  runs EFX but not EFX0        100
+  runs claim_outside           520
+  inst: some run stuck         35
+  inst: some run not EFX       16
+  inst: every run EFX          1
+  inst: some run EFX0          0
+  inst: every run EFX0         0
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('N2', 'N1', 'III.efx')                  176
+    ('N2', 'N1', 'II.1')                     88
+    ('Nr', 'N1', 'III.efx')                  72
+    ('N1', 'N1', 'III.efx')                  18
+    ('Nr', 'N1', 'II.1')                     12
+  example stuck: log:nof_bad_n3:5 (n=3, m=5) [[1, 0], "('no_nodes', 0, [[1], [4], [2]])"]
+  example stuck: log:nof_bad_n3:7 (n=3, m=5) [[1, 0], "('no_nodes', 0, [[2], [3], [4]])"]
+  example stuck: log:nof_bad_n3:6 (n=3, m=6) [[0, 0, 0], "('no_nodes', 4, [[1, 0, 2], [3], [5]])"]
+  example notefx: log:nof_bad_n3:4 (n=3, m=5) [[0, 0, 0, 0], [[4, 0, 1], [2, 3], []], [[2, 0, 4], [2, 0, 1]]]
+  example notefx: log:nof_bad_n3:5 (n=3, m=5) [[0, 0, 0, 0], [[2, 0, 1], [4, 3], []], [[2, 1, 4], [2, 1, 3]]]
+  example notefx: log:nof_bad_n3:7 (n=3, m=5) [[0, 0, 0], [[4, 0, 2], [3, 1], []], [[2, 0, 4], [2, 0, 2]]]
+  example notefx0: log:nof_d4:32 (n=3, m=6) [[1, 0, 0, 0], [[0], [3, 1, 4], [5, 2]], [[0, 1, 3], [0, 1, 1], [0, 2, 2]], {"0": "N2", "1": "N1", "2": "N1"}]
+  example notefx0: log:nof_bad_n4:13 (n=4, m=8) [[0, 0, 0, 0, 0], [[3, 0, 4], [1], [5, 2, 6], [7]], [[1, 0, 0], [1, 0, 4], [1, 2, 5], [1, 2, 2]], {"0": "N1", "1": "N2", "2": "N1", "3": "N1"}]
+  example notefx0: log:nof_bad_n5:14 (n=5, m=7) [[0, 0, 0, 0], [[6, 0, 2], [3, 1], [5], [], [4]], [[2, 0, 6], [2, 0, 0], [2, 1, 1], [3, 0, 0]], {"0": "N1", "1": "N1", "2": "N2", "3": "Nr", "4": "N1"}]
+time 1 s

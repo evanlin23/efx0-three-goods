@@ -1,0 +1,13 @@
+$ python3 k4/vm/vmx2_phases.py screen
+Phase-A states explored                       1700
+instances                                     168
+some Z is B-every                             164
+some Z is B-some (two-phase VMX2)             168
+fewest moves to a B-some state: {0: 157, 1: 11}
+fewest moves to a B-every state: {0: 93, 1: 62, 2: 8, 3: 1}
+B-every states by feature: {'no pool good wanted': 925, 'pool good wanted by someone': 223}
+  no B-every state: c4x-n2m5-frozen n=2 m=5 (B-some: True)
+  no B-every state: induct-g-r1 n=2 m=5 (B-some: True)
+  no B-every state: gap-iit0-n4-m8-n43c145 n=4 m=8 (B-some: True)
+  no B-every state: gap-iit0-n5-m10-n54c6724 n=5 m=10 (B-some: True)
+time 26 s

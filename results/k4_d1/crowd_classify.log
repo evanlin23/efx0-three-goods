@@ -1,0 +1,10 @@
+distinct starts 19389
+1260 ('2e', 'Yz notin Pk', (('off', 2, 2, 0),), ('free', 'free'))
+756 ('2e', 'Yz notin Pk', (('off', 3, 2, 1),), ('free', 'free'))
+36 ('2e', 'Yz in H0', (('off', 2, 2, 0),), ('free', 'free'))
+31 ('2e', 'Yz in H0', (('off', 3, 2, 1),), ('free', 'free'))
+29 ('2e', 'Yz notin Pk', (('off', 3, 2, 1),), ('crowds', 'free'))
+24 ('2e', 'Yz notin Pk', (('off', 3, 2, 1),), ('crowds', 'crowds'))
+13 ('2e', 'Yz in Pk-H0', (('off', 3, 2, 1),), ('free', 'free'))
+12 ('2e', 'Yz in Pk-H0', (('off', 2, 2, 0),), ('free', 'free'))
+1 ('2e', 'Yz in H0', (('off', 3, 2, 1),), ('crowds', 'crowds'))

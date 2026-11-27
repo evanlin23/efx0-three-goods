@@ -1,0 +1,25 @@
+$ python3 kgen/rounds/simple_potential.py summary /tmp/claude-0/-home-user-efx0-three-goods/1bef8951-d60e-5a6c-a841-d862b0933832/scratchpad/multi/5_pure_s5o0_summary.jsonl.gz 1 3
+('junk', 'maximisers simple: all') 8
+('junk,picks', 'maximisers simple: all') 8
+('keepers', 'maximisers simple: none') 8
+('minrat', 'maximisers simple: all') 8
+('nash', 'maximisers simple: all') 8
+('picks', 'maximisers simple: all') 3
+('picks', 'maximisers simple: some') 5
+('picks,-keepers', 'maximisers simple: all') 7
+('picks,-keepers', 'maximisers simple: some') 1
+('picks,junk', 'maximisers simple: all') 8
+('picks,junk,-keepers', 'maximisers simple: all') 8
+('picks,junk,minrat', 'maximisers simple: all') 8
+('picks,junk,util', 'maximisers simple: all') 8
+('picks,minrat', 'maximisers simple: all') 8
+('util', 'maximisers simple: all') 8
+starts 280
+starts where every MD allocation is good (witness) 272
+starts with an MD allocation that is not good (witness) 8
+A MAXIMISER IS NOT GOOD keepers {"list": "5_pure", "idx": 364, "sets": [[0, 2, 5, 7], [1, 4, 6, 9], [3, 5, 8, 9], [4, 6, 7, 8], [6, 7, 8, 9]], "vals": [[6, 3, 10, 8], [2, 4, 7, 10], [2, 8, 4, 3], [2, 4, 5, 8], [6, 7, 2, 10]], "picks": [5, 9, 8, 7, 6]}
+A MAXIMISER IS NOT GOOD keepers {"list": "5_pure", "idx": 419, "sets": [[0, 2, 6, 7], [1, 4, 8, 9], [3, 5, 8, 9], [4, 5, 7, 9], [6, 7, 8, 9]], "vals": [[6, 3, 10, 8], [4, 8, 2, 3], [2, 8, 4, 3], [6, 7, 5, 3], [10, 7, 2, 6]], "picks": [6, 4, 5, 9, 7]}
+A MAXIMISER IS NOT GOOD picks {"list": "5_pure", "idx": 364, "sets": [[0, 2, 5, 7], [1, 4, 6, 9], [3, 5, 8, 9], [4, 6, 7, 8], [6, 7, 8, 9]], "vals": [[6, 3, 10, 8], [2, 4, 7, 10], [2, 8, 4, 3], [2, 4, 5, 8], [6, 7, 2, 10]], "picks": [5, 9, 8, 7, 6]}
+A MAXIMISER IS NOT GOOD picks {"list": "5_pure", "idx": 419, "sets": [[0, 2, 6, 7], [1, 4, 8, 9], [3, 5, 8, 9], [4, 5, 7, 9], [6, 7, 8, 9]], "vals": [[6, 3, 10, 8], [4, 8, 2, 3], [2, 8, 4, 3], [6, 7, 5, 3], [10, 7, 2, 6]], "picks": [6, 4, 5, 9, 7]}
+A MAXIMISER IS NOT GOOD picks,-keepers {"list": "5_pure", "idx": 72, "sets": [[0, 2, 6, 7], [1, 4, 8, 10], [3, 5, 9, 10], [6, 7, 8, 9], [7, 8, 9, 10]], "vals": [[4, 3, 8, 6], [3, 4, 10, 8], [4, 3, 8, 6], [10, 2, 3, 6], [4, 8, 7, 2]], "picks": [6, 8, 9, 7, 10]}
+time 4 s

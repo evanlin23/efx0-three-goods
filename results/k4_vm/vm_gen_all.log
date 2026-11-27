@@ -1,0 +1,267 @@
+$ python3 k4/vm/vm_test.py gen:3000:6:5:9:20 --readings=all --limit=2000 --samples=200
+== rank=G aout=matched n1a=Y
+  instances                    3000
+  exhaustive                   3000
+  runs                         46849
+  runs stuck                   0
+  runs not EFX                 0
+  runs EFX but not EFX0        11635
+  runs claim_outside           0
+  inst: some run stuck         0
+  inst: some run not EFX       0
+  inst: every run EFX          3000
+  inst: some run EFX0          2719
+  inst: every run EFX0         1875
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('A-unmatched', 'A', 'III.efx')          4163
+    ('Nr', 'N1', 'III.efx')                  3941
+    ('N1', 'N1', 'III.efx')                  2786
+    ('Nr', 'A', 'III.efx')                   2701
+    ('A-unmatched', 'N1', 'III.efx')         1737
+    ('N3', 'N1', 'III.efx')                  1685
+    ('N1', 'A', 'III.efx')                   1666
+    ('N2', 'A', 'III.efx')                   1600
+    ('N3', 'A', 'III.efx')                   1447
+    ('N2', 'N1', 'III.efx')                  920
+    ('N1', 'N1', 'II.1')                     656
+    ('N1', 'A', 'I')                         552
+  example notefx0: gen:378 (n=2, m=2) [[1], [[], [1, 0]], [[0, 1, 0]], {"0": "A-unmatched", "1": "A"}]
+  example notefx0: gen:920 (n=2, m=2) [[0], [[0, 1], []], [[1, 0, 1]], {"0": "A", "1": "A-unmatched"}]
+  example notefx0: gen:1987 (n=2, m=2) [[1], [[], [0, 1]], [[0, 1, 1]], {"0": "A-unmatched", "1": "A"}]
+== rank=G aout=matched n1a=N
+  instances                    3000
+  exhaustive                   3000
+  runs                         25114
+  runs stuck                   5811
+  runs not EFX                 0
+  runs EFX but not EFX0        3343
+  runs claim_outside           4466
+  inst: some run stuck         1086
+  inst: some run not EFX       0
+  inst: every run EFX          1914
+  inst: some run EFX0          1951
+  inst: every run EFX0         1380
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('N1', 'N1', 'III.efx')                  1784
+    ('Nr', 'N1', 'III.efx')                  1525
+    ('N3', 'N1', 'III.efx')                  889
+    ('N2', 'N1', 'III.efx')                  494
+    ('N1', 'N1', 'II.1')                     446
+    ('A-unmatched', 'N1', 'III.efx')         379
+    ('N4', 'N1', 'III.efx')                  268
+    ('Nr', 'N2r', 'III.2-3')                 88
+    ('A-unmatched', 'N2r', 'III.2-3')        52
+    ('N3', 'N2r', 'III.2-3')                 41
+    ('Nr', 'N2r', 'III.efx')                 40
+    ('N1', 'N2r', 'III.efx')                 20
+  example stuck: gen:378 (n=2, m=2) [[1], "('no_nodes', 0, [[], [1]])"]
+  example stuck: gen:920 (n=2, m=2) [[0], "('no_nodes', 1, [[0], []])"]
+  example stuck: gen:1987 (n=2, m=2) [[1], "('no_nodes', 1, [[], [0]])"]
+  example notefx0: gen:860 (n=2, m=4) [[0, 1], [[0], [3, 1, 2]], [[0, 1, 1]], {"0": "N1", "1": "N1"}]
+  example notefx0: gen:1224 (n=2, m=4) [[0, 1], [[0], [2, 1, 3]], [[0, 1, 2]], {"0": "N1", "1": "N2r"}]
+  example notefx0: gen:1680 (n=2, m=4) [[0, 1], [[3], [2, 0, 1]], [[0, 1, 0]], {"0": "N1", "1": "N1"}]
+== rank=G aout=all n1a=Y
+  instances                    3000
+  exhaustive                   3000
+  runs                         54599
+  runs stuck                   4046
+  runs not EFX                 2994
+  runs EFX but not EFX0        13378
+  runs claim_outside           6212
+  inst: some run stuck         214
+  inst: some run not EFX       252
+  inst: every run EFX          2588
+  inst: some run EFX0          2396
+  inst: every run EFX0         1778
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('A-unmatched', 'A', 'III.efx')          6944
+    ('A-unmatched', 'N1', 'III.efx')         5970
+    ('Nr', 'N1', 'III.efx')                  3895
+    ('A-unmatched', 'N1', 'II.1')            3329
+    ('N1', 'N1', 'III.efx')                  2898
+    ('Nr', 'A', 'III.efx')                   2655
+    ('N1', 'A', 'III.efx')                   1658
+    ('N3', 'N1', 'III.efx')                  1313
+    ('N2', 'N1', 'III.efx')                  907
+    ('N3', 'A', 'III.efx')                   868
+    ('N1', 'N1', 'II.1')                     752
+    ('N2', 'A', 'III.efx')                   740
+  example stuck: gen:378 (n=2, m=2) [[0], "('no_nodes', 0, [[1], []])"]
+  example stuck: gen:920 (n=2, m=2) [[1], "('no_nodes', 1, [[], [0]])"]
+  example stuck: gen:1987 (n=2, m=2) [[0], "('no_nodes', 1, [[0], []])"]
+  example notefx: gen:12 (n=2, m=2) [[0], [[1, 0], []], [[1, 0, 1], [1, 0, 0]]]
+  example notefx: gen:37 (n=2, m=2) [[0], [[0, 1], []], [[1, 0, 0], [1, 0, 1]]]
+  example notefx: gen:119 (n=2, m=2) [[0], [[1, 0], []], [[1, 0, 1], [1, 0, 0]]]
+  example notefx0: gen:378 (n=2, m=2) [[1], [[], [1, 0]], [[0, 1, 0]], {"0": "A-unmatched", "1": "A"}]
+  example notefx0: gen:920 (n=2, m=2) [[0], [[0, 1], []], [[1, 0, 1]], {"0": "A", "1": "A-unmatched"}]
+  example notefx0: gen:1987 (n=2, m=2) [[1], [[], [0, 1]], [[0, 1, 1]], {"0": "A-unmatched", "1": "A"}]
+== rank=G aout=all n1a=N
+  instances                    3000
+  exhaustive                   3000
+  runs                         27670
+  runs stuck                   8315
+  runs not EFX                 468
+  runs EFX but not EFX0        3626
+  runs claim_outside           5134
+  inst: some run stuck         1164
+  inst: some run not EFX       81
+  inst: every run EFX          1755
+  inst: some run EFX0          1662
+  inst: every run EFX0         1250
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('N1', 'N1', 'III.efx')                  1794
+    ('Nr', 'N1', 'III.efx')                  1483
+    ('A-unmatched', 'N1', 'III.efx')         1378
+    ('N3', 'N1', 'III.efx')                  769
+    ('A-unmatched', 'N1', 'II.1')            765
+    ('N2', 'N1', 'III.efx')                  481
+    ('N1', 'N1', 'II.1')                     464
+    ('N4', 'N1', 'III.efx')                  230
+    ('Nr', 'N2r', 'III.2-3')                 71
+    ('A-unmatched', 'N2r', 'III.2-3')        50
+    ('Nr', 'N2r', 'III.efx')                 34
+    ('N3', 'N2r', 'III.2-3')                 31
+  example stuck: gen:12 (n=2, m=2) [[0], "('no_nodes', 0, [[1], []])"]
+  example stuck: gen:37 (n=2, m=2) [[0], "('no_nodes', 1, [[0], []])"]
+  example stuck: gen:119 (n=2, m=2) [[0], "('no_nodes', 0, [[1], []])"]
+  example notefx: gen:147 (n=3, m=3) [[0], [[1], [], [2, 0]], [[1, 2, 2], [1, 2, 0]]]
+  example notefx: gen:688 (n=3, m=3) [[1], [[], [2], [1, 0]], [[0, 2, 1], [0, 2, 0]]]
+  example notefx: gen:752 (n=3, m=3) [[1], [[], [0], [1, 2]], [[0, 2, 1], [0, 2, 2]]]
+  example notefx0: gen:860 (n=2, m=4) [[0, 1], [[0], [3, 1, 2]], [[0, 1, 1]], {"0": "N1", "1": "N1"}]
+  example notefx0: gen:1224 (n=2, m=4) [[0, 1], [[0], [2, 1, 3]], [[0, 1, 2]], {"0": "N1", "1": "N2r"}]
+  example notefx0: gen:1680 (n=2, m=4) [[0, 1], [[3], [2, 0, 1]], [[0, 1, 0]], {"0": "N1", "1": "N1"}]
+== rank=R aout=matched n1a=Y
+  instances                    3000
+  exhaustive                   3000
+  runs                         67595
+  runs stuck                   4996
+  runs not EFX                 9665
+  runs EFX but not EFX0        15813
+  runs claim_outside           14536
+  inst: some run stuck         293
+  inst: some run not EFX       581
+  inst: every run EFX          2260
+  inst: some run EFX0          2227
+  inst: every run EFX0         1590
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('Nr', 'N1', 'III.efx')                  7895
+    ('N1', 'A', 'III.efx')                   6921
+    ('A-unmatched', 'A', 'III.efx')          5374
+    ('Nr', 'A', 'III.efx')                   4617
+    ('A-unmatched', 'N1', 'III.efx')         3311
+    ('N1', 'N1', 'III.efx')                  2982
+    ('N2', 'N1', 'III.efx')                  2704
+    ('N2', 'N1', 'II.1')                     1316
+    ('Nr', 'N1', 'II.1')                     1301
+    ('Nr', 'A', 'I')                         938
+    ('N1', 'N1', 'II.1')                     904
+    ('N1', 'A', 'I')                         600
+  example stuck: gen:489 (n=2, m=4) [[0, 0], "('no_nodes', 1, [[2, 0], [3]])"]
+  example stuck: gen:1126 (n=2, m=4) [[1, 0], "('no_nodes', 0, [[3], [2]])"]
+  example stuck: gen:1224 (n=2, m=4) [[0, 0], "('no_nodes', 2, [[0], [1]])"]
+  example notefx: gen:561 (n=2, m=3) [[0], [[0, 1], [2]], [[1, 0, 0], [1, 0, 1]]]
+  example notefx: gen:1186 (n=2, m=3) [[0], [[2, 0], [1]], [[1, 0, 2], [1, 0, 0]]]
+  example notefx: gen:2437 (n=2, m=3) [[0], [[0, 2], [1]], [[1, 0, 0], [1, 0, 2]]]
+  example notefx0: gen:378 (n=2, m=2) [[1], [[], [1, 0]], [[0, 1, 0]], {"0": "A-unmatched", "1": "A"}]
+  example notefx0: gen:920 (n=2, m=2) [[0], [[0, 1], []], [[1, 0, 1]], {"0": "A", "1": "A-unmatched"}]
+  example notefx0: gen:1987 (n=2, m=2) [[1], [[], [0, 1]], [[0, 1, 1]], {"0": "A-unmatched", "1": "A"}]
+== rank=R aout=matched n1a=N
+  instances                    3000
+  exhaustive                   3000
+  runs                         36079
+  runs stuck                   11854
+  runs not EFX                 4354
+  runs EFX but not EFX0        4078
+  runs claim_outside           11313
+  inst: some run stuck         1363
+  inst: some run not EFX       448
+  inst: every run EFX          1321
+  inst: some run EFX0          1508
+  inst: every run EFX0         1129
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('Nr', 'N1', 'III.efx')                  2841
+    ('N2', 'N1', 'III.efx')                  2064
+    ('N1', 'N1', 'III.efx')                  1866
+    ('N2', 'N1', 'II.1')                     1034
+    ('Nr', 'N1', 'II.1')                     691
+    ('N1', 'N1', 'II.1')                     544
+    ('A-unmatched', 'N1', 'III.efx')         543
+    ('A-unmatched', 'N1', 'II.1')            47
+    ('A', 'N1', 'III.efx')                   30
+  example stuck: gen:378 (n=2, m=2) [[1], "('no_nodes', 0, [[], [1]])"]
+  example stuck: gen:920 (n=2, m=2) [[0], "('no_nodes', 1, [[0], []])"]
+  example stuck: gen:1987 (n=2, m=2) [[1], "('no_nodes', 1, [[], [0]])"]
+  example notefx: gen:561 (n=2, m=3) [[0], [[0, 1], [2]], [[1, 0, 0], [1, 0, 1]]]
+  example notefx: gen:1186 (n=2, m=3) [[0], [[2, 0], [1]], [[1, 0, 2], [1, 0, 0]]]
+  example notefx: gen:2437 (n=2, m=3) [[0], [[0, 2], [1]], [[1, 0, 0], [1, 0, 2]]]
+  example notefx0: gen:860 (n=2, m=4) [[0, 1], [[0], [3, 1, 2]], [[0, 1, 1]], {"0": "N1", "1": "N1"}]
+  example notefx0: gen:1680 (n=2, m=4) [[0, 1], [[3], [2, 0, 1]], [[0, 1, 0]], {"0": "N1", "1": "N1"}]
+  example notefx0: gen:2062 (n=2, m=4) [[0, 1], [[1], [3, 0, 2]], [[0, 1, 0]], {"0": "N1", "1": "N1"}]
+== rank=R aout=all n1a=Y
+  instances                    3000
+  exhaustive                   3000
+  runs                         72700
+  runs stuck                   9703
+  runs not EFX                 11479
+  runs EFX but not EFX0        15821
+  runs claim_outside           18285
+  inst: some run stuck         444
+  inst: some run not EFX       724
+  inst: every run EFX          2005
+  inst: some run EFX0          1935
+  inst: every run EFX0         1513
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('A-unmatched', 'A', 'III.efx')          7267
+    ('Nr', 'N1', 'III.efx')                  6695
+    ('A-unmatched', 'N1', 'III.efx')         6377
+    ('Nr', 'A', 'III.efx')                   4087
+    ('N1', 'A', 'III.efx')                   3987
+    ('A-unmatched', 'N1', 'II.1')            3581
+    ('N1', 'N1', 'III.efx')                  2966
+    ('N2', 'N1', 'III.efx')                  2574
+    ('N2', 'N1', 'II.1')                     1194
+    ('N1', 'N1', 'II.1')                     996
+    ('Nr', 'N1', 'II.1')                     860
+    ('Nr', 'A', 'I')                         809
+  example stuck: gen:378 (n=2, m=2) [[0], "('no_nodes', 0, [[1], []])"]
+  example stuck: gen:920 (n=2, m=2) [[1], "('no_nodes', 1, [[], [0]])"]
+  example stuck: gen:1987 (n=2, m=2) [[0], "('no_nodes', 1, [[0], []])"]
+  example notefx: gen:12 (n=2, m=2) [[0], [[1, 0], []], [[1, 0, 1], [1, 0, 0]]]
+  example notefx: gen:37 (n=2, m=2) [[0], [[0, 1], []], [[1, 0, 0], [1, 0, 1]]]
+  example notefx: gen:119 (n=2, m=2) [[0], [[1, 0], []], [[1, 0, 1], [1, 0, 0]]]
+  example notefx0: gen:378 (n=2, m=2) [[1], [[], [1, 0]], [[0, 1, 0]], {"0": "A-unmatched", "1": "A"}]
+  example notefx0: gen:920 (n=2, m=2) [[0], [[0, 1], []], [[1, 0, 1]], {"0": "A", "1": "A-unmatched"}]
+  example notefx0: gen:1987 (n=2, m=2) [[1], [[], [0, 1]], [[0, 1, 1]], {"0": "A-unmatched", "1": "A"}]
+== rank=R aout=all n1a=N
+  instances                    3000
+  exhaustive                   3000
+  runs                         37362
+  runs stuck                   13600
+  runs not EFX                 4627
+  runs EFX but not EFX0        4226
+  runs claim_outside           11481
+  inst: some run stuck         1388
+  inst: some run not EFX       464
+  inst: every run EFX          1252
+  inst: some run EFX0          1248
+  inst: every run EFX0         1021
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('Nr', 'N1', 'III.efx')                  2321
+    ('N2', 'N1', 'III.efx')                  2032
+    ('N1', 'N1', 'III.efx')                  1808
+    ('A-unmatched', 'N1', 'III.efx')         1591
+    ('N2', 'N1', 'II.1')                     1002
+    ('A-unmatched', 'N1', 'II.1')            916
+    ('N1', 'N1', 'II.1')                     612
+    ('Nr', 'N1', 'II.1')                     500
+    ('A', 'N1', 'III.efx')                   30
+  example stuck: gen:12 (n=2, m=2) [[0], "('no_nodes', 0, [[1], []])"]
+  example stuck: gen:37 (n=2, m=2) [[0], "('no_nodes', 1, [[0], []])"]
+  example stuck: gen:119 (n=2, m=2) [[0], "('no_nodes', 0, [[1], []])"]
+  example notefx: gen:561 (n=2, m=3) [[0], [[0, 1], [2]], [[1, 0, 0], [1, 0, 1]]]
+  example notefx: gen:1186 (n=2, m=3) [[0], [[2, 0], [1]], [[1, 0, 2], [1, 0, 0]]]
+  example notefx: gen:2437 (n=2, m=3) [[0], [[0, 2], [1]], [[1, 0, 0], [1, 0, 2]]]
+  example notefx0: gen:860 (n=2, m=4) [[0, 1], [[0], [3, 1, 2]], [[0, 1, 1]], {"0": "N1", "1": "N1"}]
+  example notefx0: gen:1680 (n=2, m=4) [[0, 1], [[3], [2, 0, 1]], [[0, 1, 0]], {"0": "N1", "1": "N1"}]
+  example notefx0: gen:2062 (n=2, m=4) [[0, 1], [[1], [3, 0, 2]], [[0, 1, 0]], {"0": "N1", "1": "N1"}]
+time 6 s

@@ -1,0 +1,27 @@
+$ python3 k4/vm/vm6_test.py special --variants=eager,choice,x-choice,x-stuck
+choice: every run EFX0               0
+choice: first run (all choices 0) EFX0 4
+choice: runs                         312
+choice: runs EFX0                    267
+choice: some run EFX0                4
+eager: every run EFX0                2
+eager: first run (all choices 0) EFX0 4
+eager: runs                          139
+eager: runs EFX0                     132
+eager: some run EFX0                 4
+instances                            4
+x-choice: every run EFX0             0
+x-choice: first run (all choices 0) EFX0 4
+x-choice: runs                       443
+x-choice: runs EFX0                  398
+x-choice: some run EFX0              4
+x-stuck: every run EFX0              1
+x-stuck: first run (all choices 0) EFX0 4
+x-stuck: runs                        214
+x-stuck: runs EFX0                   203
+x-stuck: some run EFX0               4
+  stuck kind ('choice', 'no_safe') 45
+  stuck kind ('eager', 'no_safe') 7
+  stuck kind ('x-choice', 'no_safe') 45
+  stuck kind ('x-stuck', 'no_safe') 11
+time 0 s

@@ -1,0 +1,11 @@
+{"source": "Theorem S^phi on two_move_n4.json.gz", "L1_S1_S2_but_not_head_condition": 0, "L1_S1_S2_not_head_and_not_efx0": 0, "L1_THEOREM_VIOLATION_hyp_not_efx0": 0, "L1_cases": 636720, "L1_efx0": 627120, "L1_efx0_without_hyp": 0, "L1_hyp": 627120, "starts": 112880, "states_with_1_phantoms": 584160, "states_with_2_phantoms": 528240}
+{"source": "Theorem S^phi on walk.jsonl.gz", "L1_S1_S2_but_not_head_condition": 0, "L1_S1_S2_not_head_and_not_efx0": 0, "L1_THEOREM_VIOLATION_hyp_not_efx0": 0, "L1_cases": 32164, "L1_efx0": 32164, "L1_efx0_without_hyp": 0, "L1_hyp": 32164, "starts": 4955, "states_with_1_phantoms": 20952, "states_with_2_phantoms": 15690}
+{"source": "Theorem S^phi on 1500000:2", "L1_S1_S2_but_not_head_condition": 44, "L1_S1_S2_not_head_and_not_efx0": 44, "L1_THEOREM_VIOLATION_hyp_not_efx0": 0, "L1_cases": 80486, "L1_efx0": 78233, "L1_efx0_without_hyp": 0, "L1_hyp": 78233, "L2_S1_S2_but_not_head_condition": 0, "L2_S1_S2_not_head_and_not_efx0": 0, "L2_THEOREM_VIOLATION_hyp_not_efx0": 0, "L2_cases": 1632, "L2_efx0": 1619, "L2_efx0_without_hyp": 0, "L2_hyp": 1619, "head_phantom_frozen_skipped": 458, "starts": 1394699, "states_with_1_phantoms": 538120, "states_with_2_phantoms": 66082}
+
+real	1m21.738s
+user	4m9.715s
+sys	0m4.525s
+
+$ python3 k4/referee/sphi_ref.py rand 1500000:2 4   # rerun with examples
+EXAMPLE {"v": [[0, 29, 0, 37, 0, 0, 1, 0], [0, 23, 13, 0, 16, 0, 6, 0], [36, 0, 0, 0, 30, 0, 8, 4], [0, 0, 0, 31, 15, 30, 0, 12], [10, 0, 3, 0, 9, 0, 0, 0]], "picks": [1, 4, 0, 3, 2], "order": [3, 2, 0, 1, 4], "phantoms": [[1, [2, 6], 19]], "chain": [3, 0], "h": 1, "X": [[1, 3], [2, 6], [0], [5, 7], [4]]}
+EXAMPLE {"v": [[0, 25, 0, 0, 0, 0, 30, 38], [0, 11, 0, 19, 18, 0, 0, 29], [11, 0, 1, 9, 0, 0, 0, 0], [0, 11, 17, 0, 0, 21, 36, 0], [0, 10, 0, 19, 0, 31, 0, 1]], "picks": [6, 7, 0, 5, 3], "order": [1, 0, 3, 2, 4], "phantoms": [[3, [1, 2], 28]], "chain": [1, 0], "h": 6, "X": [[6, 7], [3, 4], [0], [1, 2], [5]]}

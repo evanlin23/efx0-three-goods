@@ -1,0 +1,12 @@
+$ python3 k4/vm/vm_hall.py named:/tmp/claude-0/-home-user-efx0-three-goods/454962d1-b841-5e80-a394-b61ed54ba228/scratchpad/ext
+V-M matchings                                                238
+V-M matchings with a wanted pool good (must be 0)            0
+instances                                                    95
+instances: some V-M matching completes without moves         95
+instances: some V-M matching is HDT                          23
+matchings: HDT                                               35
+matchings: HDT and no-move completes                         35
+matchings: HDT but no-move fails (must be 0 up to caps)      0
+matchings: no-move completes                                 231
+matchings: no-move completes but not HDT                     196
+time 38 s

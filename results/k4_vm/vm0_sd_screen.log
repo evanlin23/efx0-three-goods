@@ -1,0 +1,19 @@
+$ python3 k4/vm/vm0_sd.py screen
+SD outcomes                                        775
+SD outcomes that extend                            596
+SD outcomes with an EFX0 run                       649
+instances                                          168
+instances: no SD outcome extends, some EFX0 run    0
+instances: some SD outcome extends (SD-C)          168
+instances: some SD outcome has an EFX0 run         168
+outcomes: extends, no EFX0 run                     24
+outcomes: no extension, EFX0 run (rotation moved the base) 77
+  extends but no EFX0 run: gap-ivsetting-n3-m6-n3c23 n=3 m=6 [[3, 4, 5]]
+  extends but no EFX0 run: GM4-A n=4 m=7 [[2, 4, 5, 6]]
+  extends but no EFX0 run: GM4-B n=4 m=7 [[0, 4, 6, 5]]
+  extends but no EFX0 run: GM4-C n=4 m=7 [[2, 6, 4, 5]]
+  extends but no EFX0 run: GM4-D n=4 m=7 [[2, 0, 5, 3]]
+  extends but no EFX0 run: GM4-E n=4 m=7 [[4, 3, 2, 5]]
+  extends but no EFX0 run: GM4-F n=4 m=7 [[4, 3, 2, 5]]
+  extends but no EFX0 run: GM4-G n=4 m=7 [[2, 4, 5, 6]]
+time 1 s

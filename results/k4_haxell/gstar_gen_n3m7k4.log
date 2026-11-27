@@ -1,0 +1,12 @@
+$ GSTAR_PAR=1 python3 k4/haxell/ht_gstar.py gen:300:44:3:7:4 NMAX=3 MMAX=8 SHOW=6
+TRAPS g54 [[[1, 2, 4, 6], [0, 3, 5, 6], [0, 3, 4, 6]], [[23, 18, 36, 29], [38, 27, 8, 30], [36, 8, 38, 12]]] states 779 complete 32 traps 4 fewest pooled 1 e.g. [[[4], [3, 6], [0, 1, 5]], [[4], [3, 6], [0, 2, 5]]] pool [[2], [1]]
+instances 300
+instances with a radius-2 trap 0
+instances with a trap 1
+instances with a trap with 1 pooled good(s) 1
+instances without a complete EFX0 allocation 0
+partial EFX0 states 265780
+radius-2 traps 0
+serial-dictatorship starts that are traps 0
+traps 4
+time 5 s

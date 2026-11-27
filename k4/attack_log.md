@@ -930,3 +930,139 @@ at their new heads.
 - Every maximum-matching start is classified by the least number of sequential moves, with a numpy exhaustive
   one-absorber completion test.
 - A trial of 40: random extensions mostly dissolve the obstruction (0 or 1 moves). Larger runs are in progress.
+
+### 2026-11-27 02:44 UTC: hourly burst 6
+**Status.** TARGET₄ is open. OC₂^max (≤ 2 sequential moves) survives everything: it is certified at n ≤ 4, and certified
+at n = 5 on 2,670 cores (5_n4_1 and 935 of 4,674 5_pure), with no start needing three moves. Of the uniform repair
+mechanisms, only **ROUND-P** (one round of vertex-disjoint OC₁′ moves) survives all data.
+
+**This hour's hard data at n = 5.** The certifier's first 5_pure chunk stores 280 two-move starts.
+- **REC-S existence gaps:** 7 starts (kgen-rounds, with multi's own code).
+  - The coordinator replayed #773, #963 and #38 (`k4/sdc/recs_gap_check.py`, log): each is hard, needs 2 moves, and
+    ROUND-P repairs it.
+- **RSD** (settle-delete-recurse with |T| ≤ 3; matching, `check_rsd.py`) repairs 278 of 280.
+- **RSD-IND REFUTED.** At 5_pure (m = 10) #419 and (m = 11) #447 no RSD sequence of any depth works. Three independent
+  checks agree (matching ×2 and multi). The obstruction is two sharers whose settlements each threaten an agent that
+  only the other chain improves.
+  - The coordinator replayed #419 (`results/k4_sdc/n5_419_replay.log`): strict core, OC₁ fails, 2 moves. ROUND-P
+    repairs it with two disjoint rings, 0 ↔ 4 (agent 0 takes {0,7}) and 1 ↔ 3 (agent 1 takes {1,8,9}).
+  - The referee also showed RSD-IND is false as written even at n = 4: dead ends are reachable from 16,240 of 112,880
+    starts.
+- **ROUND-P** repairs all 280 (matching, with `k4/sdc/roundp_check.py` unmodified): 234 with one move, 46 with a round
+  of two.
+
+**Refereed this hour.**
+- **Lemma LIFT\* and Lemma PHANTOM: CORRECT.** So TARGET₄ follows from the existential RSD statement ("some step
+  sequence ends in a completion"). An induction needs an invariant that excludes dead ends.
+- K4.MATCH.RSD.N4 CONFIRMED (all 112,880).
+- Lemma WG CORRECT. K-loc WRONG as stated, corrected. Phantom class GAP, fixed.
+- The splice sketch (REC-S ⟹ one round) has a GAP: the case where P₂'s head is x₁ and Y_k leaks (71 random
+  configurations, all with other ROUND-P witnesses).
+- Also refereed CORRECT: k3-oc1 Lemmas 4–7, kgen-n3 G5/G5′, Haxell N2's type reduction, the twins prune. Confirmed:
+  R2-M's refutation (all 306), N3K5, P34.
+
+**Other results.**
+- multi: Theorem S^φ (Theorem S with phantoms; written, exact on the data).
+- TTC: R2-E REFUTED at n = 4 (4_n4_3 #77: one cycle serves both dangerous agents). R2-C certified.
+- charity: P1 fails at n = 3, k = 5 (brute force). The cvc5 and MILP re-check pipeline for UNSAT claims is in place.
+- kgen-n3: Proposition A (k = 3, one terminal; covers 113,736 of 122,680 drafts).
+- Haxell: no third-move failure at n = 5 yet; a fifth agent gives an outlet.
+
+**Merged this burst:** #123 (Lean: SD-E and the REC-S frame) and #127 (the K4.HX ledger rows). Earlier this hour:
+#98, #101, #105, #106, #115, #117, #118, #119, #121, #122.
+
+**Dispatch.**
+- matching: ROUND-RSD, i.e. a round of simultaneous settlements, delete all, recurse; then the base-case census.
+- multi: SD-E and S^φ for a round of settlements.
+- kgen-rounds: a direct ROUND-P proof sketch (item 4a).
+- TTC: are R2-C repairs ROUND-P witnesses?
+- referee: S^φ next.
+- paper: r6 material.
+- Lean: Theorem U.
+
+**Own angle.** The replays above, plus a question for ROUND-RSD.
+- At #419 the two settling chains are vertex-disjoint and their absorbed sets threaten each other's "victims". So a round
+  of settlements needs (L*) only at the end of the round, which is exactly ROUND-P's witness.
+- Conjecture for the next test: every RSD dead end and every RSD-X start is repaired by settling all agents of one
+  "threat component" in one round. The threat component is the agents linked by "my absorbed set threatens an agent your
+  chain improves".
+
+- 03:29 UTC: spawned **base-phantom** (session_01BYMGebS9uNs3yyqMaMxxm7, branch proof/k4-base-phantom). Its task is the base case of ROUND-RSD: OC₁ with phantom constraints at the 6 + 35 + T3 + RING2 starts where reduction fails. The d1 session, whose work is complete (PR #113), handed over its tools.
+
+### 2026-11-27 03:37 UTC: hourly burst 7
+**Headline: Conjecture RF (receiver first)** (ledger K4.SDC.RF, `k4/sdc.md` §31 end).
+- At a maximum-matching start where OC₁ fails, put the start's unique receiver first. Every resulting maximum-matching
+  order satisfies OC₁.
+- The coordinator checked it independently:
+  - all 112,880 n = 4 OC₁^max-failing starts, which with the certifier's certificate certifies it at n = 4;
+  - all 280 stored n = 5 starts.
+- RF ⟹ OC₁^∃max ⟹ TARGET₄, and the second implication is already in Lean.
+- So the one-move, order-choosing route now has a concrete rule. Its source is the certifier's good-order export: rule
+  (b), plus (a) "≥ 2 receivers ⟹ good" and (c) "the nearest good vector differs in two agents".
+- OC₁^∃max itself is certified on all 935 cores of the first n = 5 chunk (certifier, with an independent check).
+
+**Main route ROUND-RSD.** All of its tools are now refereed: SD-E(round), (L*) at the round's end, LIFT* for rounds,
+PHANTOM, S^φ(round). In Lean so far: PHANTOM, LIFT* and SD-E(round) (#136), and Theorem U (#133).
+- Open: ROUND-IND, which is existential because greedy rounds hit dead ends from 16,240 n = 4 starts.
+- Open: the base case, OC₁ with phantoms. It is needed at 35 of 8,539 hard one-move starts, and at 6 even with
+  relaxations. A new session, base-phantom, owns it.
+
+**ROUND-P side (kgen-rounds).**
+- Lemmas PG, GAIN, RING, RHO and FIX and Theorem ROUND-SIMPLE are refereed CORRECT. This gives SIMPLE-MD ⟹ ROUND-P; the
+  converse is still open.
+- Lemma SPLICE: CORRECT with fixes.
+- Φ-MAX would give ROUND-P^max ⟺ MD, a characterization. UNTANGLE is in progress: no single swap rule is complete, so
+  it needs a local search with potential Φ.
+
+**Others.**
+- VM: VM1-chain is CERTIFIED for n ≤ 4 (two implementations). VM1 holds on all 304 n = 5 OC₁^max-failure profiles, so
+  the SD and V-M starts are complementary.
+- twins: K4.MC9 cuts the β = 5 candidates to 320,348.
+- d1: done (PR #113); D1-H2 is certified on the 3-agent and t = 2 4-agent cores.
+- monotone: k = 5 needs ≥ 5 agents. The n = 6, k = 4 run needs a larger machine (250–480 CPU-h) and is on hold.
+
+**Merged this hour:** #99, #106, #123, #127, #128, #130, #131, #132, #133 and #136.
+
+**Dispatch.**
+- girth: prove RF, or rules (b)/(c), from the export.
+- TTC: (ii), "a failing maximum-matching start forces a ≥ 2-receiver maximum-matching outcome".
+- certifier: check RF on every failing pair met in the n = 5 runs.
+- Lean: the ROUND-RSD frame.
+
+### 2026-11-27 04:37 UTC: hourly burst 8
+**State of TARGET₄: open, with two fully specified routes, each with its final implication machine-checked in Lean.**
+1. **RF (receiver first)** ⟹ OC₁^∃max ⟹ TARGET₄. Lean: `target4_of_conjRF` (#143, merged); the frame never uses
+   receiver uniqueness.
+   - Structural half PROVED and refereed, for any n: Lemma RF-PATH. Moving any receiver u to the front changes the SD
+     picks along one ejection path; ejected agents strictly lose; the end d is unfrozen. Also TTC's Lemma RF-ROT: the
+     last picker is always a receiver.
+   - Completion half OPEN: girth's uniform statement. At the RF start, one of:
+     - (i) w or d owns a one-absorber completion;
+     - (T) a receiver and a pick-dangerous agent trade;
+     - (C/C′) a two-agent chain from a truly dangerous agent repairs.
+   - It holds at all 292,080 n = 4 failing orders, all 86 stored n = 5 orders, and the 64 two-receiver starts.
+   - Hall: sub-case A1 (32,000 n = 4 starts) is proved, conditional on four facts that hold at all of them. The open
+     sub-cases are A2 and B (w = d).
+   - Evidence for RF itself: certified at n = 4 (two independent implementations); n = 5 holds at every failing pair
+     the certifier's CEGAR met in chunks 1–2.
+   - R2 is REFUTED at n = 5 (two-receiver failures 5_pure #650, #655, #1014, #1050; three independent replays: certifier,
+     coordinator, TTC). So RF was amended to "some receiver"; at #650 one receiver's per-order RF picks are not maximum.
+2. **ROUND-RSD** (settle a round, delete, recurse). Lean: `target4_of_roundRSD` from ConjRoundInd ∧ ConjBasePhi (#141).
+   - Every tool is refereed. Certified at n = 4, on the 280 stored n = 5 starts, and on all 583,680 two-move starts of
+     the adversarial cores #419, #447 and #38.
+   - Open: ROUND-IND (existential; greedy rounds dead-end) and the base case (base-phantom session).
+
+**Also this hour.**
+- Lean: Theorem U, Theorem S (#142, pending merge), PHANTOM / LIFT* / SD-E(round), and both frames.
+- OC₂^max certified on 3,605 n = 5 cores, with no three-move start.
+- OC₁^∃max on chunk 1, with an independent check.
+- Referee: SPLICE, the §4.11 lemmas, UNTANGLE's proved parts, S^φ(round), K4.MC9 and RF-PATH (both forms), all
+  CORRECT (with fixes where noted).
+
+**Merged this hour:** #102 (pending CI), #113, #133, #136, #137, #138, #140, #141, #143 and #144.
+
+**Dispatch.**
+- hunt: RF checks at n ≥ 6.
+- Hall and girth: the RF completion half.
+- Lean: Theorem S^φ.
+- certifier: RF at every pair met in chunk 3.

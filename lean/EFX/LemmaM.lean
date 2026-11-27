@@ -174,7 +174,19 @@ def SlotMatching (B : A → List G) (o : A) (H : List G) (m : G → A) : Prop :=
   (∀ h ∈ H, ∀ h' ∈ H, m h = m h' → h = h') ∧
   (∀ u ∈ agents, u ≠ o → Holder v agents B u → Exposed v agents goods B o H u → ∃ h ∈ H, m h = u)
 
+/-- An S\* completion with owner `o` that gives each junk good of `H` to `m` of it and every other junk good to `o`. -/
+def SStarWith (B : A → List G) (o : A) (H : List G) (m : G → A) : Prop :=
+  ∃ X : G → A, (IsAllocation agents goods X ∧ EFX0L v agents goods X ∧ (∀ i ∈ agents, ∀ g ∈ B i, X g = i) ∧
+    (∀ g ∈ junkOf agents goods B, X g = o ∨ (X g ≠ o ∧ X g ∈ agents ∧ Holder v agents B (X g))) ∧
+    (∀ i ∈ agents, i ≠ o → ((junkOf agents goods B).filter (fun g => X g = i)).length ≤ 1)) ∧
+    ∀ g ∈ junkOf agents goods B, X g = if g ∈ H then m g else o
+
 end states
+
+theorem sStar_of_sStarWith {v : A → G → Nat} {agents : List A} {goods : List G} {B : A → List G} {o : A}
+    {H : List G} {m : G → A} (h : SStarWith v agents goods B o H m) : SStar v agents goods B o := by
+  obtain ⟨X, hX, -⟩ := h
+  exact ⟨X, hX⟩
 
 section lemmaM
 variable {v : A → G → Nat} {agents : List A} {goods : List G}
@@ -208,13 +220,12 @@ theorem base_or_junk {B : A → List G} {g : G} (hg : g ∈ goods) :
   · exact Or.inl h
   · exact Or.inr (mem_junkOf.mpr ⟨hg, fun i hi hgi => h ⟨i, hi, hgi⟩⟩)
 
-/-- **Lemma M, ⇐** (`k4/matching.md` §1). Under (G1) and (G2), if a set `H` of junk goods satisfies (H1) and has a
-slot matching `m`, then the allocation in which each good of `H` goes to its matched holder, the other junk goods to
-`o`, and every base stays, is an S\* completion with owner `o`. -/
-theorem sStar_of_slotMatching {B : A → List G} {o : A} (hgd : goods.Nodup) (hst : ValidState agents goods B)
+/-- **Lemma M, ⇐, with the allocation** (`k4/matching.md` §1): the S\* completion of `sStar_of_slotMatching` gives
+each good of `H` to its matched holder and the other junk goods to `o`. -/
+theorem sStar_of_slotMatching_spec {B : A → List G} {o : A} (hgd : goods.Nodup) (hst : ValidState agents goods B)
     (ho : o ∈ agents) (hG1 : G1 v agents B o) (hG2 : G2 v agents goods B) {H : List G}
     (hHJ : ∀ h ∈ H, h ∈ junkOf agents goods B) (hH1 : H1 v agents goods B o H) {m : G → A}
-    (hm : SlotMatching v agents goods B o H m) : SStar v agents goods B o := by
+    (hm : SlotMatching v agents goods B o H m) : SStarWith v agents goods B o H m := by
   classical
   obtain ⟨hmH, hinj, hcov⟩ := hm
   let X : G → A := fun g => match agents.find? (fun i => decide (g ∈ B i)) with
@@ -264,7 +275,7 @@ theorem sStar_of_slotMatching {B : A → List G} {o : A} (hgd : goods.Nodup) (hs
     · rw [ite_eq_right hgH] at hXg; exact absurd hXg.symm hjo
   have hbase_le : ∀ i ∈ agents, value v i (B i) ≤ value v i (bundle goods X i) := fun i hi =>
     value_le_of_nodup_sub i (hst.1 i hi).1 fun g hg => (hmemB i hi g).mpr (Or.inl hg)
-  refine ⟨X, fun g hg => ?_, ?_, hXbase, fun g hJ => ?_, fun i hi hio => ?_⟩
+  refine ⟨X, ⟨fun g hg => ?_, ?_, hXbase, fun g hJ => ?_, fun i hi hio => ?_⟩, hXjunk⟩
   · -- `X` is an allocation
     rcases base_or_junk (B := B) hg with ⟨i, hi, hgi⟩ | hJ
     · rw [hXbase i hi g hgi]; exact hi
@@ -339,6 +350,15 @@ theorem sStar_of_slotMatching {B : A → List G} {o : A} (hgd : goods.Nodup) (hs
     obtain ⟨haH, hma⟩ := hrecv i hio a haJ (by simpa using hXa)
     obtain ⟨hbH, hmb⟩ := hrecv i hio b hbJ (by simpa using hXb)
     exact hinj a haH b hbH (hma.trans hmb.symm)
+
+/-- **Lemma M, ⇐** (`k4/matching.md` §1). Under (G1) and (G2), if a set `H` of junk goods satisfies (H1) and has a
+slot matching `m`, then the allocation in which each good of `H` goes to its matched holder, the other junk goods to
+`o`, and every base stays, is an S\* completion with owner `o`. -/
+theorem sStar_of_slotMatching {B : A → List G} {o : A} (hgd : goods.Nodup) (hst : ValidState agents goods B)
+    (ho : o ∈ agents) (hG1 : G1 v agents B o) (hG2 : G2 v agents goods B) {H : List G}
+    (hHJ : ∀ h ∈ H, h ∈ junkOf agents goods B) (hH1 : H1 v agents goods B o H) {m : G → A}
+    (hm : SlotMatching v agents goods B o H m) : SStar v agents goods B o :=
+  sStar_of_sStarWith (sStar_of_slotMatching_spec hgd hst ho hG1 hG2 hHJ hH1 hm)
 
 /-- **Lemma M, ⇒** (`k4/matching.md` §1): every S\* completion with owner `o` gives a set `H` of junk goods (those
 given to the holders) satisfying (H1), with a slot matching (the completion itself). -/
@@ -455,6 +475,7 @@ end EFX
 #print axioms EFX.OC1Max.threat_congr
 #print axioms EFX.OC1Max.not_threat_small
 #print axioms EFX.OC1Max.sStar_of_slotMatching
+#print axioms EFX.OC1Max.sStar_of_slotMatching_spec
 #print axioms EFX.OC1Max.slotMatching_of_sStar
 #print axioms EFX.OC1Max.lemmaM
 #print axioms EFX.OC1Max.oneAbsorber_of_sStar

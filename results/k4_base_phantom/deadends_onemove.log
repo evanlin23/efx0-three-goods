@@ -1,0 +1,39 @@
+$ python3 k4/base_phantom/deadends.py onemove results/k4_base_phantom/data/onemove_hard_multi.jsonl.gz,results/k4_base_phantom/data/onemove_hard_hall2071.jsonl.gz,results/k4_base_phantom/data/onemove_hard_pw291.jsonl.gz 
+distinct starts: 8539
+     8218  a dead end is reachable: False
+      321  a dead end is reachable: True
+     8284  an infeasible state is reachable: False
+      255  an infeasible state is reachable: True
+        3  dead end with phantoms: constraint kinds ('l-alone on a base', 'l-alone on junk'), feasible False
+       43  dead end with phantoms: constraint kinds ('l-alone on a base', 'none'), feasible False
+       94  dead end with phantoms: constraint kinds ('l-alone on a base', 'none', 'pair'), feasible False
+       93  dead end with phantoms: constraint kinds ('l-alone on a base', 'pair'), feasible False
+        2  dead end with phantoms: constraint kinds ('l-alone on a base', 'pair'), feasible True
+       56  dead end with phantoms: constraint kinds ('l-alone on a base',), feasible False
+        7  dead end with phantoms: constraint kinds ('l-alone on a base',), feasible True
+       32  dead end with phantoms: constraint kinds ('l-alone on junk', 'none'), feasible False
+        1  dead end with phantoms: constraint kinds ('l-alone on junk', 'none'), feasible True
+       23  dead end with phantoms: constraint kinds ('l-alone on junk', 'none', 'pair'), feasible False
+       39  dead end with phantoms: constraint kinds ('l-alone on junk', 'pair'), feasible False
+       20  dead end with phantoms: constraint kinds ('none', 'pair'), feasible False
+        6  dead end with phantoms: constraint kinds ('none', 'pair'), feasible True
+      128  dead end with phantoms: constraint kinds ('pair',), feasible False
+       76  dead end with phantoms: constraint kinds ('pair',), feasible True
+        0  dead end with phantoms: constraint kinds (), feasible True
+        6  dead end: 0 phantoms, 0 rounds, feasible True, base class ED
+      104  dead end: 1 phantoms, 1 rounds, feasible False, base class None
+        3  dead end: 1 phantoms, 1 rounds, feasible True, base class C0
+       56  dead end: 1 phantoms, 1 rounds, feasible True, base class None
+      102  dead end: 2 phantoms, 1 rounds, feasible False, base class None
+       16  dead end: 2 phantoms, 1 rounds, feasible True, base class None
+      107  dead end: 2 phantoms, 2 rounds, feasible False, base class None
+       13  dead end: 2 phantoms, 2 rounds, feasible True, base class None
+      116  dead end: 3 phantoms, 2 rounds, feasible False, base class None
+        2  dead end: 3 phantoms, 2 rounds, feasible True, base class C3
+       67  dead end: 3 phantoms, 3 rounds, feasible False, base class None
+        1  dead end: 3 phantoms, 3 rounds, feasible True, base class C3
+        1  dead end: 3 phantoms, 3 rounds, feasible True, base class None
+       15  dead end: 4 phantoms, 3 rounds, feasible False, base class None
+       20  dead end: 4 phantoms, 4 rounds, feasible False, base class None
+       35  start repaired by rounds and a completion: False
+     8504  start repaired by rounds and a completion: True

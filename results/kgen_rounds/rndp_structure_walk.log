@@ -1,0 +1,7 @@
+$ python3 kgen/rounds/rndp_structure.py walk /tmp/claude-0/-home-user-efx0-three-goods/1bef8951-d60e-5a6c-a841-d862b0933832/scratchpad/multi/n5_walk164.jsonl 1 3
+('MD', 'simple', 'witness') 13482
+('simplest witness shape', ('ring',)) 1498
+starts 1498
+starts with a SIMPLE RNDOZ witness 1498
+starts with an RNDOZ witness 1498
+time 16 s

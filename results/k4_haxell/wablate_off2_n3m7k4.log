@@ -1,0 +1,20 @@
+$ python3 k4/haxell/ht_wclimb.py 3 7 4 STEPS=1500 CLIMBERS=3 RESTART=300 OFF=2 SEED=72
+climber 72001 hardest score (0, 0) instance 3 7 4 0 46 2 52 3 43 4 59 4 2 25 3 51 4 36 6 10 4 1 20 2 30 4 38 5 3
+COUNTEREXAMPLE 3 7 3 0 36 3 44 5 45 4 1 38 2 44 3 60 6 1 3 1 9 4 8 5 49 | 3 7 states 823 phi0 0 phi1 2 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi1 0 2 0 1 2 -1 0 slack 0 0 2 11
+COUNTEREXAMPLE 3 7 4 2 16 3 4 5 48 6 44 3 0 36 1 34 5 54 4 0 43 1 8 4 1 6 60 | 3 7 states 786 phi0 0 phi1 1 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi1 2 2 0 0 0 1 -1 slack 0 0 1 9
+COUNTEREXAMPLE 3 7 4 0 57 2 35 3 9 4 29 4 0 57 1 24 2 36 4 43 3 4 42 5 10 6 10 | 3 7 states 876 phi0 0 phi1 1 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi1 -1 2 0 0 1 2 2 slack 0 0 1 13
+COUNTEREXAMPLE 3 7 4 0 46 2 52 3 43 4 59 4 2 25 3 51 4 36 6 10 4 1 20 2 30 4 38 5 3 | 3 7 states 881 phi0 0 phi1 1 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi1 0 0 2 -1 1 0 0 slack 0 0 1 13
+climber 72000 hardest score (0, 0) instance 3 7 4 0 11 2 17 3 43 4 14 3 3 52 4 33 5 57 4 1 34 2 12 5 60 6 20
+COUNTEREXAMPLE 3 7 4 1 60 2 49 3 5 6 15 3 2 43 3 11 4 25 4 0 14 1 54 4 12 5 29 | 3 7 states 777 phi0 0 phi1 1 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi1 2 -1 0 1 1 2 1 slack 0 0 1 7
+COUNTEREXAMPLE 3 7 4 0 8 1 1 3 58 4 39 3 2 36 3 31 5 49 4 3 60 4 23 5 50 6 29 | 3 7 states 860 phi0 0 phi1 1 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi1 0 0 1 -1 0 2 1 slack 0 0 1 7
+COUNTEREXAMPLE 3 7 3 0 22 1 18 3 21 4 2 11 3 58 4 14 5 28 4 0 42 1 25 5 36 6 2 | 3 7 states 814 phi0 0 phi1 1 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi1 2 0 1 -1 1 1 0 slack 0 0 1 12
+COUNTEREXAMPLE 3 7 4 0 11 2 17 3 43 4 14 3 3 52 4 33 5 57 4 1 34 2 12 5 60 6 20 | 3 7 states 804 phi0 0 phi1 1 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi1 0 2 0 1 0 -1 2 slack 0 0 1 8
+climber 72002 hardest score (0, 0) instance 3 7 3 1 36 3 46 6 39 4 1 44 3 51 4 1 5 46 4 0 9 1 52 2 14 3 50
+COUNTEREXAMPLE 3 7 2 0 36 4 35 4 0 58 1 2 2 33 5 60 4 3 46 4 2 5 48 6 1 | 3 7 states 898 phi0 0 phi1 2 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi1 1 0 0 2 0 -1 2 slack 0 0 2 10
+COUNTEREXAMPLE 3 7 3 1 36 3 46 6 39 4 1 44 3 51 4 1 5 46 4 0 9 1 52 2 14 3 50 | 3 7 states 972 phi0 0 phi1 3 phi2 0 phi3 0 phi4 0 phi5 0 phi6 0 phi7 0 phi8 0 phi9 0 phi10 0 phi11 0 phi12 0 phi13 0 phi14 0 phi15 0 phi16 0 phi17 0 phi18 0 example_phi1 0 -1 0 2 1 1 0 slack 0 0 3 8
+recheck 3 7 3 0 36 3 44 5 45 4 1 38 2 44 3 60 6 1 3 1 9 4 8 5 49 phi1 stuck states 2
+recheck 3 7 4 2 16 3 4 5 48 6 44 3 0 36 1 34 5 54 4 0 43 1 8 4 1 6 60 phi1 stuck states 1
+recheck 3 7 4 0 57 2 35 3 9 4 29 4 0 57 1 24 2 36 4 43 3 4 42 5 10 6 10 phi1 stuck states 1
+recheck 3 7 4 0 46 2 52 3 43 4 59 4 2 25 3 51 4 36 6 10 4 1 20 2 30 4 38 5 3 phi1 stuck states 1
+recheck 3 7 4 1 60 2 49 3 5 6 15 3 2 43 3 11 4 25 4 0 14 1 54 4 12 5 29 phi1 stuck states 1
+counterexamples 10 time 79 s

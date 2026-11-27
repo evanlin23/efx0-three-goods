@@ -1,0 +1,12 @@
+5_pure#650 | core True MC2 True | SD orders 12 | perfect True nu 5 | receivers [1, 2] | OC1: OC1 fails
+   RF with receiver 1 : ['non-max', 'one move repairs', 'picks complete']
+   RF with receiver 2 : ['one move repairs', 'picks complete']
+5_pure#655 | core True MC2 True | SD orders 6 | perfect True nu 5 | receivers [1, 2] | OC1: OC1 fails
+   RF with receiver 1 : ['one move repairs', 'picks complete']
+   RF with receiver 2 : ['one move repairs', 'picks complete']
+5_pure#1014 | core True MC2 True | SD orders 6 | perfect True nu 5 | receivers [0, 4] | OC1: OC1 fails
+   RF with receiver 0 : ['one move repairs', 'picks complete']
+   RF with receiver 4 : ['one move repairs', 'picks complete']
+5_pure#1050 | core True MC2 True | SD orders 14 | perfect True nu 5 | receivers [1, 2] | OC1: OC1 fails
+   RF with receiver 1 : ['one move repairs', 'picks complete']
+   RF with receiver 2 : ['one move repairs', 'picks complete']

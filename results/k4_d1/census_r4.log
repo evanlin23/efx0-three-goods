@@ -1,0 +1,12 @@
+$ python3 k4/d1/d1_census.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+  ... repaired by another minimal H0 on the same chain (D1-C) 1
+  ... that fail (would refute Lemma D1-red) 0
+  chains with CROWD that repair 0
+chains 23
+chains free of HEAD and CROWD 22
+chains repairing 22
+chains with CROWD 1
+failing CROWD-only chains 1
+starts 11
+starts with a repairing chain 11
+time 1 s

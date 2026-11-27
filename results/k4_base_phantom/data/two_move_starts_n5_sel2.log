@@ -1,0 +1,13 @@
+$ python3 k4/oc1cert/export_fails.py n5_export_sel2.jsonl two_move_starts_n5_sel2.json.gz 200
+5_pure 419 failing starts 276480 distinct profiles 276480 receivers {1: 276480} 1574 s
+5_pure 447 failing starts 115200 distinct profiles 115200 receivers {1: 115200} 2949 s
+5_pure 38 failing starts 192000 distinct profiles 192000 receivers {1: 192000} 3917 s
+hypergraphs 3
+orders per start 12 391680
+orders per start 4 192000
+raw: OC1 fails 11674
+raw: not checked 572006
+receivers per start 1 583680
+sampled two-move raw check: two moves repair 2919
+starts 583680
+wrote two_move_starts_n5_sel2.json.gz two_move_starts_n5_sel2_cert.json.gz 3971 s

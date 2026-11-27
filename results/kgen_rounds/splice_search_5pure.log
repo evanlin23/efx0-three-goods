@@ -1,0 +1,18 @@
+$ python3 kgen/rounds/splice_search.py summary /tmp/claude-0/-home-user-efx0-three-goods/1bef8951-d60e-5a6c-a841-d862b0933832/scratchpad/multi/5_pure_s5o0_summary.jsonl.gz 1 500 3
+NO REC-S REPAIR {"list": "5_pure", "idx": 38, "sets": [[0, 1, 3, 8], [2, 3, 7, 8], [2, 5, 6, 7], [4, 5, 6, 8], [4, 6, 7, 8]], "vals": [[2, 4, 8, 7], [2, 8, 3, 4], [3, 10, 4, 8], [6, 10, 3, 8], [5, 3, 6, 7]], "picks": [3, 2, 5, 8, 7]}
+NO REC-S REPAIR {"list": "5_pure", "idx": 773, "sets": [[0, 2, 7, 8], [1, 6, 7, 8], [2, 6, 7, 8], [3, 4, 5, 6], [3, 4, 5, 8]], "vals": [[3, 10, 8, 6], [2, 7, 4, 8], [8, 4, 2, 5], [3, 2, 4, 8], [4, 3, 2, 8]], "picks": [2, 1, 7, 6, 8]}
+NO REC-S REPAIR {"list": "5_pure", "idx": 813, "sets": [[0, 3, 5, 8], [1, 4, 5, 7], [2, 3, 6, 8], [2, 6, 7, 8], [4, 6, 7, 8]], "vals": [[3, 8, 10, 6], [1, 6, 8, 4], [6, 10, 3, 8], [5, 4, 6, 8], [4, 3, 8, 10]], "picks": [3, 5, 8, 7, 4]}
+NO REC-S REPAIR {"list": "5_pure", "idx": 963, "sets": [[0, 1, 5, 7], [1, 6, 7, 8], [2, 3, 4, 6], [2, 3, 4, 8], [5, 6, 7, 8]], "vals": [[3, 6, 10, 8], [2, 8, 4, 7], [2, 3, 4, 8], [2, 4, 3, 8], [7, 6, 3, 5]], "picks": [5, 1, 6, 8, 7]}
+NO REC-S REPAIR {"list": "5_pure", "idx": 1073, "sets": [[0, 3, 7, 8], [1, 2, 6, 7], [1, 4, 5, 6], [2, 6, 7, 8], [3, 4, 5, 8]], "vals": [[3, 10, 4, 8], [8, 2, 7, 4], [10, 3, 6, 8], [2, 8, 4, 7], [8, 3, 2, 4]], "picks": [3, 1, 6, 7, 8]}
+NO REC-S REPAIR {"list": "5_pure", "idx": 419, "sets": [[0, 2, 6, 7], [1, 4, 8, 9], [3, 5, 8, 9], [4, 5, 7, 9], [6, 7, 8, 9]], "vals": [[6, 3, 10, 8], [4, 8, 2, 3], [2, 8, 4, 3], [6, 7, 5, 3], [10, 7, 2, 6]], "picks": [6, 4, 5, 9, 7]}
+NO REC-S REPAIR {"list": "5_pure", "idx": 447, "sets": [[0, 2, 5, 8], [1, 6, 7, 8], [3, 6, 9, 10], [4, 7, 9, 10], [5, 8, 9, 10]], "vals": [[3, 4, 8, 6], [1, 6, 8, 4], [2, 10, 6, 3], [2, 8, 3, 4], [10, 8, 3, 6]], "picks": [5, 1, 6, 7, 8]}
+('RNDOZ', 'X is a one-round witness') 783
+('RNDPZ', 'X is a one-round witness') 783
+('WIDE', 'X is a one-round witness') 783
+('case', 'Yz in T', 'h junk', 'u0 passes', 'RNDOZ holds') 171
+('case', 'Yz released', 'h a pick', 'u0 passes', 'RNDOZ holds') 166
+('case', 'Yz released', 'h junk', 'u0 passes', 'RNDOZ holds') 446
+REC-S repairs 783
+starts 280
+starts with NO REC-S repair 7
+time 0 s

@@ -1,0 +1,2 @@
+$ python3 k4/vm/vm_thm_check.py gen:5000:81:6:10:20
+instances 5000 {'lp0': 119337, 'lp1': 1213, 'lp2': 1, 'runs': 120551} time 6 s

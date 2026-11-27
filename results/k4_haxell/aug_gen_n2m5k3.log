@@ -1,0 +1,14 @@
+$ python3 k4/haxell/ht_aug.py gen:3000:13:2:5:3 NMAX=2 MMAX=8 DMAX=4 SHOW=4
+WORST radius 4 g1 [[[1, 2, 3], [0, 1, 4]], [[24, 9, 5], [28, 30, 25]]] state [[0, 4], [1]] pool [2, 3] augmented to [[1, 2], [0, 4]]
+WORST radius 4 g16 [[[0, 1, 2], [2, 3, 4]], [[14, 28, 36], [19, 1, 14]]] state [[2], [0, 1]] pool [3, 4] augmented to [[0, 1, 3], [2]]
+WORST radius 4 g17 [[[0, 1, 3], [0, 2, 4]], [[34, 12, 6], [28, 20, 27]]] state [[2, 4], [0]] pool [1, 3] augmented to [[0, 1], [2, 4]]
+WORST radius 4 g55 [[[0, 1, 4], [2, 3, 4]], [[22, 24, 25], [2, 13, 26]]] state [[4], [0, 1]] pool [2, 3] augmented to [[0, 1, 2], [4]]
+instances 3000
+states with radius 1 183336
+states with radius 2 26201
+states with radius 3 3478
+states with radius 4 162
+instances whose worst radius is 2 16
+instances whose worst radius is 3 2822
+instances whose worst radius is 4 162
+time 1 s

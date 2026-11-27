@@ -1,0 +1,8 @@
+$ python3 k4/haxell/ht_wsample.py 200 16 8 15 5 START=8 LEN=30
+complete start 12
+instances 200
+step A1 1267
+step A2 267
+step A3 54
+walk complete 1588
+time 107 s

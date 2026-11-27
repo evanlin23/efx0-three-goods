@@ -1,0 +1,10 @@
+$ python3 k4/vm/vmx2_phases.py named:/tmp/claude-0/-home-user-efx0-three-goods/454962d1-b841-5e80-a394-b61ed54ba228/scratchpad/ext --maxdepth=1
+Phase-A states explored                       789
+instances                                     95
+some Z is B-every                             94
+some Z is B-some (two-phase VMX2)             95
+fewest moves to a B-some state: {0: 95}
+fewest moves to a B-every state: {0: 92, 1: 2}
+B-every states by feature: {'no pool good wanted': 189, 'pool good wanted by someone': 188}
+  no B-every state: vmx-cex-n4 n=4 m=8 (B-some: True)
+time 97 s

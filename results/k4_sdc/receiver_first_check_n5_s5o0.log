@@ -1,0 +1,6 @@
+$ python3 k4/sdc/receiver_first_n5.py /tmp/claude-0/-home-user/a0d763ef-30c3-5e18-a14c-97622129678b/scratchpad/n5/s5o0.jsonl.gz
+stored failing starts 280
+receiver-first max pick vectors: one move repairs 297
+receiver-first max pick vectors: picks complete 1057
+receiver-first non-max pick vectors 24
+receivers=1 280

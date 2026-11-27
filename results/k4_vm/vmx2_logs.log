@@ -1,0 +1,11 @@
+$ python3 k4/vm/vm6_test.py logs --variants=x2-choice
+instances                            42
+x2-choice: every run EFX0            7
+x2-choice: first run (all choices 0) EFX0 41
+x2-choice: runs                      17513
+x2-choice: runs EFX0                 16560
+x2-choice: some run EFX0             42
+  stuck kind ('x2-choice', 'no_safe') 953
+  x2-choice [first run]: no EFX0 run on 1: log:nof_bad_screen:20(n=3,m=6)
+    smallest: log:nof_bad_screen:20 {"sets": [[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], "vals": [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]], "m": 6}
+time 2 s

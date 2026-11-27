@@ -1,0 +1,25 @@
+$ python3 k4/haxell/ht_tree.py screen NMAX=3 MODEL=G MOVES=2
+STUCK adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] order [0, 2, 1] picks [5, 3, 4]
+STUCK adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] order [2, 0, 1] picks [5, 3, 4]
+STUCK adaptive-p3 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]]] order [0, 1, 2] picks [2, 5, 4]
+STUCK adaptive-p3 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]]] order [1, 0, 2] picks [2, 5, 4]
+STUCK c4-gadget-stacking-1copy-n3m6 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [3, 5, 7, 6], [2, 3, 4, 8]]] order [0, 1, 2] picks [5, 4, 3]
+STUCK c4-gadget-stacking-1copy-n3m6 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [3, 5, 7, 6], [2, 3, 4, 8]]] order [1, 0, 2] picks [5, 4, 3]
+collapse created new victims for a lower edge 398
+collapses 1096
+instances 79
+iterations 1424
+itmax hit 1
+layers max 2
+signature checks 1118
+signature did not decrease 398
+start: STUCK 17
+start: augmentations 1 12
+start: augmentations 2 95
+start: augmentations 3 135
+start: augmentations 4 64
+start: augmentations 5 62
+start: augmentations 6 12
+starts 397
+stuck tree: layers 2 10
+time 1 s

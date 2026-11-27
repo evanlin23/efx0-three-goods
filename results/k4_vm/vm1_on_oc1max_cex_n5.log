@@ -1,0 +1,9 @@
+# 24 n = 5 OC1^max failures (5_pure) from results/k4_oc1max/oc1prime_cex_n5_partial.jsonl on main (read-only copy of sets and vals)
+$ python3 k4/vm/vm1_fast.py json:results/k4_vm/oc1max_cex_n5_partial_instances.jsonl
+fewest moves 0                 24
+instances                      24
+slowest 0.0 s; time 0 s
+$ python3 k4/vm/vm1_plain.py json:results/k4_vm/oc1max_cex_n5_partial_instances.jsonl
+levels: {'plain': 23, 'move': 1} ; time 0 s
+$ python3 k4/vm/vm1_chain.py json:results/k4_vm/oc1max_cex_n5_partial_instances.jsonl --seq
+levels: {'VM1': 24} ; time 0 s

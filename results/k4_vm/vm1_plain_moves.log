@@ -1,0 +1,49 @@
+$ python3 k4/vm/vm1_plain_moves.py screen
+  adaptive-p1 one move [('exchange', 'z worthless', 2), ('upgrade', 2)]
+  adaptive-p3 one move [('exchange', 'z valued', 2), ('upgrade', 2)]
+  c4-exposure-nonleader-n3m5 one move [('exchange', 'z worthless', 2), ('upgrade', 2)]
+  c4-gadget-stacking-1copy-n3m6 one move [('exchange', 'z worthless', 2), ('upgrade', 2)]
+  c4-one-rotation-owner-r-n3m6 rotation [('exchange', 'z valued', 1)]
+  c4-one-rotation-two4-n3m6 one move [('exchange', 'z worthless', 2), ('upgrade', 2)]
+  c4min-tlam-n3-m6 rotation [('exchange', 'z valued', 2), ('exchange', 'z worthless', 3), ('upgrade', 3)]
+  c4x-n3m5-big-bases rotation [('exchange', 'z valued', 1)]
+  c4x-n3m6-3good-first one move [('exchange', 'z worthless', 3), ('upgrade', 3)]
+  c4x-n3m6-onefour-a rotation [('exchange', 'z valued', 2), ('exchange', 'z worthless', 3), ('upgrade', 3)]
+  c4x-n3m6-onefour-b rotation [('exchange', 'z valued', 2), ('exchange', 'z worthless', 3)]
+  c4x-n4m7-frozen-slots-some rotation [('exchange', 'z valued', 2), ('upgrade', 3)]
+  induct-g-r2 one move [('exchange', 'z worthless', 2), ('upgrade', 2)]
+  induct-pot-env-tiebreaks rotation [('exchange', 'z valued', 1), ('exchange', 'z worthless', 2), ('upgrade', 2)]
+  induct-pot-util one move [('exchange', 'z worthless', 2), ('upgrade', 2)]
+  induct-v-r3 rotation [('exchange', 'z valued', 2)]
+  lb4-fixed-insertion-n3m6 one move [('exchange', 'z worthless', 2), ('exchange', 'z worthless', 3), ('upgrade', 2)]
+  lb4-lbplus-ef-n3m6 one move [('exchange', 'z worthless', 2), ('upgrade', 2)]
+  lb4-no-rotation-n3m5 one move [('exchange', 'z worthless', 2), ('upgrade', 2)]
+  lil-text-n3 rotation [('exchange', 'z valued', 1), ('exchange', 'z valued', 2)]
+  red-lil-nokeep-b rotation [('exchange', 'z valued', 1), ('exchange', 'z valued', 2)]
+(class, move, |S|): instances with such a completing move
+   1 ('one move', 'exchange', 'z valued', 2)
+   9 ('one move', 'exchange', 'z worthless', 2)
+   2 ('one move', 'exchange', 'z worthless', 3)
+   10 ('one move', 'upgrade', 2)
+   1 ('one move', 'upgrade', 3)
+   5 ('rotation', 'exchange', 'z valued', 1)
+   7 ('rotation', 'exchange', 'z valued', 2)
+   1 ('rotation', 'exchange', 'z worthless', 2)
+   3 ('rotation', 'exchange', 'z worthless', 3)
+   1 ('rotation', 'upgrade', 2)
+   3 ('rotation', 'upgrade', 3)
+$ python3 k4/vm/vm1_plain_moves.py named:EXT
+  T3 rotation [('exchange', 'z worthless', 2), ('upgrade', 2)]
+  vmx-cex-n3 rotation [('exchange', 'z valued', 2)]
+(class, move, |S|): instances with such a completing move
+   1 ('rotation', 'exchange', 'z valued', 2)
+   1 ('rotation', 'exchange', 'z worthless', 2)
+   1 ('rotation', 'upgrade', 2)
+$ python3 k4/vm/vm1_plain_moves.py k5
+  PW5 one move [('upgrade', 2)]
+  RD5 rotation [('exchange', 'z valued', 1), ('upgrade', 2)]
+  RD4 rotation [('upgrade', 2)]
+(class, move, |S|): instances with such a completing move
+   1 ('one move', 'upgrade', 2)
+   1 ('rotation', 'exchange', 'z valued', 1)
+   2 ('rotation', 'upgrade', 2)
