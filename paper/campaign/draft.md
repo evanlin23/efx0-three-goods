@@ -31,15 +31,17 @@ whose draft is compatible with the peeling priority. EFX₀ also exists for mono
 relevant goods per agent. (vi) A complete proof that a reconstruction of the 4-limited algorithm of Viswanathan and
 Mehta, with one necessary correction, gives ordinary EFX (not EFX₀). (vii) For $k = 4$, the lemmas behind a
 two-move programme: a short certificate that one move fails, exact matching criteria for one-absorber completions,
-reductions of the one-move case to named obstacles, a proof of the one-move statement at perfect starts with one
-receiver and exactly one dangerous agent that the unpicked goods alone threaten, and the second-move lifting
-lemmas. On the negative side we give
+reductions of the one-move case to named obstacles, two theorems proving the one-move statement outright where they
+apply, and a refereed second-move mechanism (settle one dangerous agent by an earliest-wanter chain, then one move
+in the smaller instance) that repairs, on every strict four-agent core, every start that needs two moves. On the
+negative side we give
 counterexamples, each printed in full:
 - "one chain from every order" fails on strict $k = 4$ cores;
 - the campaign's central conjecture OC₁^max (one move from every maximum-matching order) fails at $k = 4$, on a
   four-agent core that millions of random tests had missed;
 - one round of disjoint chains fails, at $k = 4$ and with all values positive;
-- value-monotone methods can get stuck already at $k = 3$.
+- value-monotone methods can get stuck already at $k = 3$;
+- the two-move welfare and leximin lemmas fail at $n = 4$, $k = 4$, even with set moves.
 
 We end with the case tree of the $k = 4$ programme, its nine open statements, and the conjectures that survive, with
 the evidence for each. Among them are two sequential moves from every maximum-matching order (OC₂^max) and its
@@ -156,10 +158,15 @@ The results below are of four kinds.
 4. *Side results*: one chain suffices at $k = 3$ from orders compatible with the peeling priority (§9); EFX₀ exists
    for monotone valuations with at most three relevant goods (§9.4); and a complete proof of a reconstruction of
    Viswanathan and Mehta's ordinary-EFX algorithm (§10).
-5. *The $k = 4$ programme* (§11). These are the refereed lemmas a proof of OC₂^max would use: a certificate that one
-   move fails, exact matching criteria for completions, reductions for one and for several dangerous agents, one case
-   proved outright (Theorem 11.13), and the second-move lemmas. They are arranged in a case tree whose remaining gaps
-   are nine named open statements (§11.9). Two shapes that held at $n = 4$ fail at $n = 5$.
+5. *The $k = 4$ programme* (§11). These are the refereed lemmas a proof of OC₂^max would use:
+   - a certificate that one move fails;
+   - exact matching criteria for completions;
+   - reductions for one and for several dangerous agents;
+   - two theorems that prove the one-move statement outright where they apply (Theorems 11.13 and 11.18);
+   - a second-move mechanism (Theorem 11.23) that repairs every $n = 4$ start needing two moves.
+
+   They are arranged in a case tree whose remaining gaps are nine named open statements, in two parts (§11.9).
+   Several shapes that held at $n = 4$ fail at $n = 5$, and several owner rules fail already at $n = 4$.
 
 ### 1.3 Related work, and what was already in the repository
 
@@ -2894,7 +2901,7 @@ Repository-internal sources cited above: `proofs/lb_last_step.md` (construction 
 
 ## Appendix A. Verification record
 
-**Referee.** Branch `claude/k4-referee`, head `00eb15b`, `k4/referee/README.md` (PR #108), items 1–31. The checks are under
+**Referee.** Branch `claude/k4-referee`, head `49d1e66`, `k4/referee/README.md` (PR #108), items 1–35. The checks are under
 `k4/referee/*.py`, with logs under `results/k4_referee/`.
 
 **Sources.** The "head" column is the branch head when this draft was written. "Unchanged" means the cited sections
@@ -2935,16 +2942,22 @@ or citations added.
 | Lemma 11.21 (LIFT) | `k4/oc1max_multi.md` §8 | `0d26500` | `56cd676` | unchanged | `lift.md` §4 | CORRECT |
 | Lemma 12.3 (RED, as RED₃) | `k4/k3_oc1.md` §11 (`claude/k4-k3-oc1`); `k4/sdc.md` §31 | `974853c` | `84160e3` | unchanged | `k3_oc1.md` addendum | CORRECT |
 | K4.MC8 (Appendix B) | `k4/TWINS.md` §1 (`proof/k4-twins`) | `29bb2e6` | `49b10b3` | theorem unchanged ($\beta = 5$ counts added) | `twins.md` | CORRECT (certified reduction) |
+| Theorem 11.18 (S), Lemma HS, HS-U1 | `k4/oc1max_multi.md` §10 (`proof/k4-oc1max-multi`) | `b107719` | `3143a33` | unchanged (the referee's wording remark on Theorem U applied) | `oc1max_multi.md` §10 | CORRECT (log613's printed values need a fix; not printed here) |
+| Lemma 11.22 (SD-E), Theorem 11.23 (REC-S) | `k4/oc1max_multi.md` §12 | `6c3fd95`, proofs unchanged at `10d3bdf` | `3143a33` | the perfect-start hypothesis made explicit and the referee's remarks added | `oc1max_multi.md` §11 | CORRECT ((L) redundant) |
+| Prop. 11.24 item 8 (K4.MULTI.RECS.N4) | `k4/oc1max_multi.md` §12 | `b8bdc69` | `3143a33` | not re-compared | `oc1max_multi.md` §12 | CONFIRMED (all 112,880 witnesses) |
+| Prop. 11.24 item 7 (OC₁′^max) | `k4/sdc.md` §31, `kgen/rounds.md` §4.6 | main `9cb9a45` | main `c6a7a44` | not re-compared | `oc1prime.md` | CONFIRMED at $n = 5$; $n = 4$ correct conditional on the export |
 
 **Not refereed, included with their verification status.** These are:
 - Propositions 7.1–7.3 and 7.8; the Remark in §7.2; the one-round failure at $k = 4$ and the R1-priority remark in
   §7.3; the refutation of Conjecture W in §12.5;
 - the $k$-ladder cells marked [V], [Cert] or [E];
-- Propositions 9.8, 9.9 and 11.24 (items 1–5 and 7; the referee re-checked samples and item 6);
-- in §11: the [W] statements, S2-X, and the $n = 5$ refutations of LIFT-SHAPE⁺ and OC₁′;
+- Propositions 9.8, 9.9 and 11.24 (items 1–5; the referee re-checked samples, and items 6–8 in full);
+- in §11: the [W] statements, S2-X, the $n = 5$ refutation of LIFT-SHAPE⁺, and the $n = 4$ refutations of R2-M,
+  R2★ and R2-O;
+- the refutation of T′_k (§9), N3K5 (§8), and the refutations of W^sub and L^sub (§12.5);
 - every conjecture of §12.
 
-Heads were re-checked at about 00:55 UTC on 2026-11-27.
+Heads were re-checked at about 01:45 UTC on 2026-11-27.
 
 **Lean.** This write-up's session ran `lean/check.sh` on branch `formal/k4-oc1max` twice.
 - At `838fb0e`: CHECK PASSED, with 1,246 audited statements and 2,350 theorems.
@@ -3014,7 +3027,7 @@ outside the bases, so this is exact for the free and for the one-absorber comple
 reaches" claim is therefore a check over that list of allocations, with moves as in §2.4: additions, chains whose
 passed bases are nonempty, and rings. Rounds and two sequential chains (RD5 only) are enumerated directly.
 
-*What it checks* (62 checks; all pass, `paper/campaign/check_instances.log`):
+*What it checks* (69 checks; all pass, `paper/campaign/check_instances.log`):
 - **Theorem 3.4**: the construction exactly as transcribed in §3.2, on 40,000 random two-agent starts. These come
   from 20,000 instances with ties, zeros and sparse values, $m \le 12$, in both orders. Every output is a complete
   EFX₀ allocation of shape (A1), (B) or (D).
@@ -3064,6 +3077,21 @@ passed bases are nonempty, and rings. Rounds and two sequential chains (RD5 only
 - **Lemma R2-0** (§11.8) on 1,234 random perfect starts with $|J| \le |U|$: junk to distinct receivers is EFX₀.
 - **Lemma 9.6** on all 48 nondegenerate monotone orders of a 3-set (the linear extensions of the Boolean lattice): the
   surrogate weights reproduce every disjoint comparison.
+- **Theorem 11.23's example**: on instance 1 of Proposition 7.4, $E(2) = (2, 1)$ is the earliest-wanter chain; with
+  agent 2 taking $\{3, 4\}$ it is official; the reduced state is the SD outcome of the reduced order (Lemma 11.22);
+  the chain $(0, 1)$ is official there; and the final allocation is EFX₀ and complete.
+- **The R2 forms** at the first R2-M failure of the certifier's list (4_n4_2 #80): a perfect hard start with
+  receivers $\{0, 1\}$; after no canonical chain to a receiver (in the certifier's sense) is there a completion with
+  at most one junk good per agent (so R2★ and R2-M fail); some such chain has a one-absorber completion (R2-C); one
+  move repairs.
+- **The round of two disjoint rings** at 5_pure #164: both rings gain, and the allocation is EFX₀ and complete.
+- **WS4 and LS4** (§12.5), with set transfers, swaps and rotations of every length: no composite of at most two
+  moves gives a welfare step at WS4 or a leximin step at LS4, while the other measure has a step at each. The
+  three-move target at WS4 is EFX₀.
+- **T′_k at $n = 7$** (§9): the draft, its hardness (all $7^4$ junk assignments), and the absorbers of every
+  one-absorber completion after each rotation ($\{3, 4\}$ both times, never none or $k$).
+- **N3K5** (§8): the picks; no free completion after one move, rings included; one round fails, by both methods;
+  two chains repair.
 - **Conjecture W (§12.5)**: the printed state is partial EFX₀. No composite of at most two moves (the move class of
   §12.5) reaches a better partial EFX₀ allocation, and three moves do.
 - **Proposition 7.5**: 186 complete EFX₀ allocations, as the referee found. No free completion at the picks or after
