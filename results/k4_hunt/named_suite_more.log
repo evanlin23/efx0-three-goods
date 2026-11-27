@@ -1,0 +1,5 @@
+command: python3 k4/hunt/named.py results/k4_hunt/suite_more.json --limit=3600
+c4-gadget-stacking-2copies-n6m11: n=6 m=11 certified in 4.0s, {'allocs': 62, 'clauses': 4768, 'bits': 240, 'auts': 128}
+hall-cyc6: n=6 m=15 certified in 2.3s, {'allocs': 112, 'clauses': 1544, 'bits': 266, 'auts': 32}
+lmbt-Hq3: n=14 m=34 timeout in 3690.9s, {'allocs': 40, 'clauses': 2914, 'bits': 387, 'auts': 256}
+wrote /home/user/efx0-three-goods/results/k4_hunt/named_suite_more.json.gz

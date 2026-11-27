@@ -1,0 +1,15 @@
+command: python3 k4/hunt/check_mc_n.py 7 /home/user/efx0-three-goods/results/k4_hunt/cert_mc_n7_sample_b5_orb.json.gz --bmin=5 --bmax=5 --m=17 --jobs=1 --expect=75
+uncovered-profile file: sha256 a2ac24e62616db6e77fdc89946c28af3fc6756362c795ec6e950b05ca924da1f, matches the reductions log
+  beta=5 orbit count n=7, m'=3: 6 graphs G', orbit sum 2142, labeled 2142 ok
+  beta=5 orbit count n=7, m'=4: 60 graphs G', orbit sum 1103424, labeled 1103424 ok
+  beta=5 orbit count n=7, m'=5: 647 graphs G', orbit sum 141838200, labeled 141838200 ok
+  beta=5 orbit count n=7, m'=6: 3529 graphs G', orbit sum 7107206400, labeled 7107206400 ok
+  beta=5 orbit count n=7, m'=7: 10685 graphs G', orbit sum 165212667900, labeled 165212667900 ok
+  beta=5 orbit count n=7, m'=8: 16268 graphs G', orbit sum 1915832066400, labeled 1915832066400 ok
+  beta=5 orbit count n=7, m'=9: 13018 graphs G', orbit sum 11154017196000, labeled 11154017196000 ok
+  beta=5 orbit count n=7, m'=10: 4914 graphs G', orbit sum 30310649712000, labeled 30310649712000 ok
+  beta=5 orbit count n=7, m'=11: 799 graphs G', orbit sum 29649001536000, labeled 29649001536000 ok
+  beta=5: 75 candidates left after the filters and K4.MC5, up to isomorphism
+regenerated candidates: 75 (n = 7, beta 5..5); orbit counting OK
+checked 75 candidates: {'covered': 75, 'profiles': 12325617259669094400}
+RESULT: OK

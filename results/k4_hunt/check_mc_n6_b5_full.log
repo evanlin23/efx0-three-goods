@@ -1,0 +1,15 @@
+command: python3 k4/hunt/check_mc_n.py 6 /home/user/efx0-three-goods/results/k4_hunt/cert_mc_n6_b5.json.gz --bmin=5 --bmax=5 --jobs=2 --expect=30337
+uncovered-profile file: sha256 a2ac24e62616db6e77fdc89946c28af3fc6756362c795ec6e950b05ca924da1f, matches the reductions log
+  beta=5 orbit count n=6, m'=2: 1 graphs G', orbit sum 1, labeled 1 ok
+  beta=5 orbit count n=6, m'=3: 4 graphs G', orbit sum 1440, labeled 1440 ok
+  beta=5 orbit count n=6, m'=4: 64 graphs G', orbit sum 298620, labeled 298620 ok
+  beta=5 orbit count n=6, m'=5: 410 graphs G', orbit sum 18766200, labeled 18766200 ok
+  beta=5 orbit count n=6, m'=6: 1543 graphs G', orbit sum 474700500, labeled 474700500 ok
+  beta=5 orbit count n=6, m'=7: 2582 graphs G', orbit sum 5448548700, labeled 5448548700 ok
+  beta=5 orbit count n=6, m'=8: 2265 graphs G', orbit sum 29227867200, labeled 29227867200 ok
+  beta=5 orbit count n=6, m'=9: 857 graphs G', orbit sum 68733100800, labeled 68733100800 ok
+  beta=5 orbit count n=6, m'=10: 158 graphs G', orbit sum 54672408000, labeled 54672408000 ok
+  beta=5: 30337 candidates left after the filters and K4.MC5, up to isomorphism
+regenerated candidates: 30337 (n = 6, beta 5..5); orbit counting OK
+checked 30337 candidates: {'covered': 30337, 'profiles': 106426785454767104}
+RESULT: OK

@@ -1,0 +1,46 @@
+command: python3 k4/hunt/check_mc_n.py 6 /home/user/efx0-three-goods/results/k4_hunt/cert_mc_n6_sample_b6to9_orb.json.gz --bmin=6 --bmax=9 --jobs=2 --sample --expect=1500
+uncovered-profile file: sha256 a2ac24e62616db6e77fdc89946c28af3fc6756362c795ec6e950b05ca924da1f, matches the reductions log
+  beta=6 orbit count n=6, m'=3: 4 graphs G', orbit sum 1215, labeled 1215 ok
+  beta=6 orbit count n=6, m'=4: 71 graphs G', orbit sum 394200, labeled 394200 ok
+  beta=6 orbit count n=6, m'=5: 705 graphs G', orbit sum 32154300, labeled 32154300 ok
+  beta=6 orbit count n=6, m'=6: 2961 graphs G', orbit sum 1002560400, labeled 1002560400 ok
+  beta=6 orbit count n=6, m'=7: 6302 graphs G', orbit sum 14150407950, labeled 14150407950 ok
+  beta=6 orbit count n=6, m'=8: 6281 graphs G', orbit sum 96234314400, labeled 96234314400 ok
+  beta=6 orbit count n=6, m'=9: 3251 graphs G', orbit sum 312511575600, labeled 312511575600 ok
+  beta=6 orbit count n=6, m'=10: 733 graphs G', orbit sum 439213824000, labeled 439213824000 ok
+  beta=6 orbit count n=6, m'=11: 85 graphs G', orbit sum 198003960000, labeled 198003960000 ok
+  beta=6: 1386 candidates left after the filters and K4.MC5, up to isomorphism
+  beta=7 orbit count n=6, m'=3: 3 graphs G', orbit sum 540, labeled 540 ok
+  beta=7 orbit count n=6, m'=4: 78 graphs G', orbit sum 350460, labeled 350460 ok
+  beta=7 orbit count n=6, m'=5: 821 graphs G', orbit sum 38807100, labeled 38807100 ok
+  beta=7 orbit count n=6, m'=6: 4422 graphs G', orbit sum 1489393800, labeled 1489393800 ok
+  beta=7 orbit count n=6, m'=7: 10361 graphs G', orbit sum 24995842200, labeled 24995842200 ok
+  beta=7 orbit count n=6, m'=8: 12164 graphs G', orbit sum 200932401600, labeled 200932401600 ok
+  beta=7 orbit count n=6, m'=9: 6737 graphs G', orbit sum 783155822400, labeled 783155822400 ok
+  beta=7 orbit count n=6, m'=10: 1916 graphs G', orbit sum 1397848536000, labeled 1397848536000 ok
+  beta=7 orbit count n=6, m'=11: 208 graphs G', orbit sum 955741248000, labeled 955741248000 ok
+  beta=7 orbit count n=6, m'=12: 19 graphs G', orbit sum 154295064000, labeled 154295064000 ok
+  beta=7: 1086 candidates left after the filters and K4.MC5, up to isomorphism
+  beta=8 orbit count n=6, m'=3: 2 graphs G', orbit sum 135, labeled 135 ok
+  beta=8 orbit count n=6, m'=4: 53 graphs G', orbit sum 223560, labeled 223560 ok
+  beta=8 orbit count n=6, m'=5: 801 graphs G', orbit sum 34374550, labeled 34374550 ok
+  beta=8 orbit count n=6, m'=6: 4690 graphs G', orbit sum 1607106600, labeled 1607106600 ok
+  beta=8 orbit count n=6, m'=7: 12748 graphs G', orbit sum 31026143400, labeled 31026143400 ok
+  beta=8 orbit count n=6, m'=8: 15472 graphs G', orbit sum 276845671200, labeled 276845671200 ok
+  beta=8 orbit count n=6, m'=9: 9164 graphs G', orbit sum 1163262643200, labeled 1163262643200 ok
+  beta=8 orbit count n=6, m'=10: 2309 graphs G', orbit sum 2127692448000, labeled 2127692448000 ok
+  beta=8 orbit count n=6, m'=11: 275 graphs G', orbit sum 1321781076000, labeled 1321781076000 ok
+  beta=8: 682 candidates left after the filters and K4.MC5, up to isomorphism
+  beta=9 orbit count n=6, m'=3: 1 graphs G', orbit sum 18, labeled 18 ok
+  beta=9 orbit count n=6, m'=4: 41 graphs G', orbit sum 105900, labeled 105900 ok
+  beta=9 orbit count n=6, m'=5: 574 graphs G', orbit sum 22805700, labeled 22805700 ok
+  beta=9 orbit count n=6, m'=6: 3998 graphs G', orbit sum 1274640750, labeled 1274640750 ok
+  beta=9 orbit count n=6, m'=7: 11043 graphs G', orbit sum 27146498400, labeled 27146498400 ok
+  beta=9 orbit count n=6, m'=8: 13854 graphs G', orbit sum 250348316400, labeled 250348316400 ok
+  beta=9 orbit count n=6, m'=9: 7081 graphs G', orbit sum 988490260800, labeled 988490260800 ok
+  beta=9 orbit count n=6, m'=10: 1499 graphs G', orbit sum 1383951240000, labeled 1383951240000 ok
+  beta=9: 357 candidates left after the filters and K4.MC5, up to isomorphism
+regenerated candidates: 3511 (n = 6, beta 6..9); orbit counting OK
+certificate records that are not regenerated candidates: 0
+checked 3511 candidates: {'raw survivors without a matching record hash': 769416, 'covered': 1500, 'profiles': 346798030532272128, 'not in the sample': 2011}
+RESULT: OK

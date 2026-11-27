@@ -1,0 +1,9 @@
+# regenerable or superseded (not committed):
+# - n = 6 candidate lists for beta >= 6: python3 k4/hunt/mc_n.py 6 --bmin=6 --write=results/k4_hunt/mc_n6.json.gz (~10 min)
+mc_n6_b6.json.gz
+mc_n6_b7.json.gz
+mc_n6_b8.json.gz
+mc_n6_b9.json.gz
+mc_n6_b1[0-6].json.gz
+# - raw class certificate, superseded by the orbit-compressed cert_n6_m10_n42.json.gz (21 MB)
+n6_m10_n42_p0of1.json.gz
