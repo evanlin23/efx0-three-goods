@@ -125,6 +125,10 @@ OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
     - it holds at all 583,680 starts, with 1,676,160 receiver-first maximum pick vectors checked;
     - none of these starts has a non-maximum receiver-first order;
     - with the completeness check, this settles RF exhaustively on these three cores.
+  - RF at every start of the six partial exports (374, 379, 464, 808, 778, 164; `rf_two_move_starts_n5_partial6.*`):
+    - it holds at all 702,250 starts, with 3,473,619 receiver-first maximum pick vectors checked;
+    - 62,604 non-maximum receiver-first vectors are excluded;
+    - every start has a receiver-first maximum order.
 - n = 5, chunk 2 (5_pure_s5o1): OC₁^∃max holds on all 935. The 140 failing cores are covered by `exists_5_pure_s5o1.json.gz`,
   and `check_exists.py` passes them.
 
