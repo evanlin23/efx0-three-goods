@@ -1,0 +1,7 @@
+$ python3 k4/ksens/refute_oc1_k5_n3.py
+N3K5 = [[[0, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 4, 5]], [[3, 22, 23, 38, 43], [15, 17, 27, 40, 43], [1, 2, 4]]] ; orders giving the picks [(1, 0, 2)] ; nu 3 ; complete EFX0 allocations 5
+[picks A1, picks free, one chain A1, one chain free, one round A1, one round free]: SAT [False, False, False, False, False, False], brute [False, False, False, False, False, False]
+one-chain states 32 (official rule 32), round states 42; two-chain states (official rule) with a one-absorber completion: 8; least chains (ocseq, one absorber): 2
+every order: 6 starts; OC1 fails on 1; MD fails on 0; SD-C True; ocsat/brute mismatches 0
+N3K5+ (full valuations) = [[300, 1, 2200, 2300, 3800, 4300], [2, 1500, 1700, 2700, 4000, 4300], [3, 100, 4, 5, 200, 400]] ; start (4, 5, 1) ; one round [SAT A1, SAT free, brute A1, brute free] [False, False, False, False] over 120 round states; two rounds [A1, free] (ocseq) [True, True]
+OK: one chain and one round fail at k = 5 with n = 3 (m = 6), and one round also with every good valued; two chains (two rounds) repair: 0 s
