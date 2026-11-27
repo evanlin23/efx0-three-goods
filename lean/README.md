@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 1393 audited statements, 2670 theorems, standard axioms only
+    CHECK PASSED: 1409 audited statements, 2687 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -331,10 +331,17 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   corrected form (`ConjBaseRWith`) and "GR never gets stuck" (`ConjGRWith`, equivalent), and **`EFX.Round.target4_of_conjBaseR`**: BASE-R, for any move class,
   implies TARGET₄; `liftedAt_iff` (LIFT-SEP: lifted completions are one-absorber completions respecting the phantoms);
   `oc1PhiAt_of_sPhi_p1Free` (Theorem S^φ with P1-free phantoms needs only (S-φ1)).
-- `EFX/RF.lean`: **the receiver-first frame** (`k4/sdc.md` §31 end, ledger K4.SDC.RF.LEAN): Conjecture RF (`ConjRF`:
-  at a maximum-matching start where OC₁ fails, a unique receiver u, and OC₁ at every maximum-matching order with u
-  first, one of which exists) implies OC₁^∃max (`conjOC1exmax_of_conjRF`), hence TARGET₄
-  (**`EFX.OC1Max.target4_of_conjRF`**).
+- `EFX/RF.lean`: **the receiver-first frame** (`k4/sdc.md` §31 end, ledger K4.SDC.RF.LEAN): Conjecture RF (`ConjRF`,
+  amended: at a maximum-matching start where OC₁ fails, for every receiver u, OC₁ at every maximum-matching order with
+  u first, one of which exists) and its weakest form RF∃ (`ConjRFsome`, some receiver) imply OC₁^∃max, hence TARGET₄
+  (**`EFX.OC1Max.target4_of_conjRF`**, `target4_of_conjRFsome`); every start has a receiver (`exists_receiver`).
+- `EFX/RFPick.lean`: **Lemma REC-∃ and RF for pick-holding receivers** (`k4/referee/rfmin.md` §1, ledger
+  K4.SDC.RFPICK.LEAN): at a maximum-matching start where no pick holder is a receiver, the picks complete with one
+  absorber (`oneAbsorber_of_noReceiver`, by Lemma MAX and Lemma M), so a failing start has a pick-holding receiver
+  (`exists_pick_receiver`); RF for those receivers (`ConjRFpick`) implies RF∃, OC₁^∃max and TARGET₄
+  (`target4_of_conjRFpick`); RF∃ in the ledger's form (`ConjRFex`, K4.SDC.RFEX: some pick-holding receiver, some
+  receiver-first maximum-matching order satisfying OC₁) implies TARGET₄ (**`EFX.OC1Max.target4_of_conjRFex`**). The
+  every-order forms (`ConjRF`, `ConjRFpick`, `ConjRFsome`) are refuted with K4.SDC.RF at 5_pure #440.
 - `EFX/RKMax.lean`: **the rank-maximal frame** (`k4/sdc.md` §31 end, ledger K4.SDC.RKMAX.LEAN): Conjecture RKMAX (`ConjRKMAX`:
   every maximum-matching order with a lexicographically maximal rank signature `rankSig` satisfies OC₁) implies
   OC₁^∃max, hence TARGET₄ (**`EFX.OC1Max.target4_of_conjRKMAX`**); `exists_lexMax`, a lexicographic argmax.
