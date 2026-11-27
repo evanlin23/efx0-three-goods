@@ -16,6 +16,8 @@ if MCD:
 CASES = [  # from compute/k4-oc1max-cert, results/k4_oc1max/r2m_fails_n4.jsonl (the two examples of its 01:10 message)
     ([[0, 5, 6], [1, 5, 6], [2, 3, 4, 5], [2, 3, 4, 6]], [[2, 3, 4], [2, 3, 4], [6, 4, 5, 8], [6, 5, 4, 8]], (0, 1, 5, 6)),
     ([[0, 2, 6, 7], [1, 4, 5, 6], [3, 6, 7], [4, 5, 7]], [[4, 2, 10, 7], [3, 5, 6, 7], [2, 3, 4], [3, 2, 4]], (0, 6, 3, 7)),
+    # the certifier's R2-O (generous) / R2-O' counterexample (r2og_fails_n4.jsonl, message of 01:35)
+    ([[0, 2, 4, 8], [1, 4, 6, 8], [3, 5, 6, 7], [5, 7, 8]], [[2, 4, 8, 7], [3, 8, 4, 2], [3, 5, 7, 6], [3, 2, 4]], (4, 1, 6, 8)),
 ]
 
 if __name__ == '__main__':
@@ -25,7 +27,7 @@ if __name__ == '__main__':
         F = T.frozen_set(E, b); U = [i for i in range(E.n) if i not in F]; D = T.dangerous_set(E, b)
         print('sets', sets, 'vals', vals, 'picks', list(picks), 'receivers', U, 'dangerous', sorted(D),
               'hard', not T.extends_A(E, b, 1))
-        r2o = False; r2m = False; r2s = False
+        r2o = False; r2m = False; r2s = False; r2op = False; r2op_ = False; r2c_ = False
         for b2, path in T.iter_chains_path(E, b):
             if not T.extends_A(E, b2, 1):
                 continue
@@ -44,5 +46,9 @@ if __name__ == '__main__':
             print(line)
             if canon and path[-1] in U:
                 r2o |= any(o in U and o not in path for o in owners); r2s |= free
+                r2op = locals().get('r2op', False) or free or any(o in U and o != path[-1] for o in owners)
+                r2op_ = r2op; r2c_ = True
+        print('  R2-C (some canonical chain to a receiver repairs, any owner):', r2c_,
+              "| R2-O' (owner a receiver other than the end, or none):", r2op_)
         print('  R2-O (canonical chain to a receiver, another receiver owns):', r2o,
               '| R2* (same chains, owner-free):', r2s, *(('| R2-M (owner x_0, max_rest 1):', r2m) if MCD else ()))

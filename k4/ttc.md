@@ -4,7 +4,7 @@ Workstream `proof/k4-ttc` (branch `claude/k4-ttc`, draft PR #101). Code: `k4/ttc
 log); logs: `results/k4_ttc/`. Notation as in `k4/sdc.md` (§2, §28–§30). Everything called evidence below is evidence
 only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator integrates.
 
-## Status (burst 7): R2 is owned here, CERTIFIED at n ≤ 4; the owner-free proof targets fail, R2-O is the target (§14.6)
+## Status (burst 7): R2 is owned here, CERTIFIED at n ≤ 4; of its proof targets only R2-C (canonical chain to a receiver, any owner) survives, CERTIFIED at n = 4 (§14.6)
 
 - **R2** (leaf 5a of the case tree, `k4/oc1_hall.md` §23.2): at a perfect serial-dictatorship start with at least two
   receivers (pick holders nobody values above their own pick), one move gives a one-absorber completion.
@@ -24,12 +24,15 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
   Both held on all sampled data (79/79, 466/466), but the certifier's exhaustive n = 4 run refutes them: R2-M on 306
   of 1,002 cores, R2★ on 5 of 20 re-verified starts. In the smallest failure, the dangerous agent's pair can take
   nothing more and the chain's end z becomes frozen, so the *other* receiver must own.
-- **The target now: R2-O.** Some canonical chain to a receiver z is followed by a one-absorber completion owned by
-  *another* receiver u off the chain (the coordinator's original shape). It holds on both counterexamples and on all
-  sampled data. An exhaustive n = 4 check is requested.
+- **R2-O and R2-O′ fail too** (9 of 1,002 n = 4 cores): there the owner must be the chain's end or its head, while
+  in the first counterexample it must be the other receiver.
+- **R2-C is CERTIFIED at n = 4** (certifier, all 1,002 cores, independently checked): some canonical chain from a
+  dangerous agent to a receiver is followed by a one-absorber completion, with some owner. R2-C is the surviving
+  proof target. In all three replayed examples the owner lies in {x₀, z} ∪ U.
 - **k ≤ 4 is necessary:** PW5 (k = 5) has two receivers and fails. Lemma PL (`claude/k4-ksens`) is the k = 4 count a
   proof must use.
-- **Open:** the count that proves R2-O, presumably Lemma M^c with owner u, any rest, frozen slots allowed.
+- **Open:** a proof of R2-C, which is a statement about canonical chains only: Lemma M^c with an owner chosen per
+  case, any rest, frozen slots allowed.
 
 ## Status (burst 6): OC₁^max falls at n = 4; two moves always suffice so far, by a pointer rule in the MC2 class
 
@@ -1111,6 +1114,9 @@ the refuted targets as they were stated.
 The form to state as the lemma, **R2-O′**: the absorber, if there is one, is a receiver of Y other than the chain's end
 z, on or off the chain. The certifier is running the strict form, the generous form (owner-free also counts), and
 R2-C ("some canonical chain to a receiver repairs, any owner") on all 1,002 n = 4 cores.
+
+**Result:** R2-C is CERTIFIED at n = 4. R2★ fails on 230 cores, and R2-O generous and R2-O′ fail on 9
+(`attempts/k4-ttc-r2-owner-free.md`; the third case of `r2_owner_check.log` replays one of the 9).
 
 **The sharpened target (R2-M; refuted, see above).** At a hard perfect start with |U| ≥ 2, some canonical chain from x₀ ∈ D to a
 receiver z satisfies Lemma M^c's (C1)–(C3) at the new state, with **owner x₀** and |J′ ∖ H| ≤ 1.
