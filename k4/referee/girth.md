@@ -240,3 +240,49 @@ random orders; picks not required to be perfect):
 - They give DEMOTE (a) in general, with the remark that ℓ ≤ 2 is a data observation at the OC₁^max failures only.
   Random orders give paths up to length 6.
 - The open half of RF is the completion statement: "(i) owner w or d, or (T), or (C)".
+
+**Generalized RF-PATH** (`k4/girth.md` §7 at `712a5688`). u is any receiver of a perfect start Y (no agent wants Y_u),
+and σ′ = (u, σ − u). The coordinator's priority item, needed for RF at n ≥ 5: **CORRECT.**
+
+*Re-derivation.*
+- t is a pick of an agent x₁ *before* u in σ: a good picked later, or junk, was free at u's turn.
+- The invariant is A′ = A ∖ {m} before u's old turn. At that turn σ removes Y_u and σ′ does not, so
+  A′ = (A ∖ {m}) ∪ {Y_u} after it. If m = Y_u there, because an earlier ejected agent took Y_u, the runs agree from
+  then on.
+- A non-ejected agent a keeps Y_a. Every other good of A′ was free at a's σ-turn, except Y_u, which a does not want.
+- An ejected agent's new good g is either free at its σ-turn, or Y_u, which it does not want. With strict values,
+  v_a(g) < v_a(Y_a) in both cases.
+- If g = Y_u, or g is picked by nobody later in σ (so g is junk of Y), the chain stops. Otherwise the later σ-holder
+  of g is ejected next. This gives (a) and (b). The path may pass u's old position.
+- *(c), g = Y_u.*
+  - Off-path agents keep their picks, and did not want Y_u at Y.
+  - Path agents and u chose their new goods while Y_u was free in σ′.
+- *(c), g junk of Y.* This is the argument of the u = σ_n case.
+- The receiver hypothesis is used twice: once for non-ejected agents and once for ejected ones.
+
+*Check* (`rfpath_ref.py … receiver`; perfect starts, u a random receiver):
+
+| | ≤ 4 goods | ≤ 12 goods |
+|---|---|---|
+| path cases | 63,983 | 92,645 |
+| of which u is not the last picker | 23,322 | 35,305 |
+| failures of (a), (b) and (c) (d unfrozen; σ_{n−1} parts when u = σ_n) | **0** | **0** |
+
+*Mutation* (u a frozen agent: the hypothesis dropped), 2,132 path cases:
+- 1,474 shape failures;
+- 1,818 loss failures;
+- 392 cases with d wanted.
+
+So the receiver hypothesis is needed, and it is enough.
+
+**On PR #102 as a whole.** My referee verdicts cover:
+- Theorem T1 and Lemmas SINK, PARK, SLACK (§2 above, CORRECT);
+- Lemma EC and the stuck-state consequence (§6, CORRECT);
+- RF-PATH in both forms (here, CORRECT).
+
+Not refereed by me:
+- the DYN∃ certification K4.GIRTH.DYN4 (`dyncert.py`, with girth's own second covering);
+- Conjecture DOM;
+- Rule RF and Lemma DEMOTE (evidence and conjectures).
+
+The PR edits no ledger row.

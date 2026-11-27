@@ -6,7 +6,9 @@ RF-PATH (a) Y' = Y off an ejection path x_1 < ... < x_l in σ-order, u takes Y_{
 a junk good of Y, Y_u, or nothing; (b) every x_i strictly loses, u strictly gains; (c) if x_l receives g, nobody wants
 g at Y'; σ_{n-1} is unfrozen at Y'; if Y' has exactly one receiver (unfrozen agent) and x_l receives a good, then
 x_l = σ_{n-1}; t = Y_u implies Y' = Y. RF-ROT: the last picker is unfrozen; σ_{n-1} is unfrozen unless σ_n wants its
-pick; at a start with exactly one receiver, it is σ_n."""
+pick; at a start with exactly one receiver, it is σ_n.
+Generalized RF-PATH (k4/girth.md §7 at 712a5688): u any receiver of a perfect start Y, σ' = (u, σ - u); same (a)-(c)
+(the σ_{n-1} parts only when u = σ_n). Mutation 'frozen': u a frozen agent (the receiver hypothesis dropped)."""
 import json, sys, random
 from collections import Counter
 
@@ -29,6 +31,8 @@ def wants(v, j, g, Y):
 def unfrozen(v, n, Y, i):
     return not any(j != i and wants(v, j, Y[i], Y) for j in range(n))
 
+MODE = "last"   # "last": u = sigma_n; "receiver": u = a random receiver of Y; "frozen": u = a random frozen agent (mutation)
+
 def run(N, seed, kmax):
     rng = random.Random(seed); c = Counter()
     for _ in range(N):
@@ -40,23 +44,31 @@ def run(N, seed, kmax):
                 v[a][g] = x
         sig = list(range(n)); rng.shuffle(sig)
         Y = sd(v, sig, m); u = sig[-1]
+        if MODE != "last":
+            if any(Y[a] is None for a in range(n)):
+                continue                       # the generalized lemma assumes every agent gets a good
+            pool = [a for a in range(n) if unfrozen(v, n, Y, a) == (MODE == "receiver")]
+            if not pool:
+                continue
+            u = rng.choice(pool); c["u_is_last_picker"] += u == sig[-1]
         c["instances"] += 1
         # RF-ROT facts
-        c["ROT_last_picker_frozen_FAIL"] += not unfrozen(v, n, Y, u)
+        last = sig[-1]                      # RF-ROT is about the last picker, whatever u is
+        c["ROT_last_picker_frozen_FAIL"] += not unfrozen(v, n, Y, last)
         if n >= 2:
             s2 = sig[-2]
-            c["ROT_second_last_FAIL"] += (not unfrozen(v, n, Y, s2)) and not wants(v, u, Y[s2], Y)
+            c["ROT_second_last_FAIL"] += (not unfrozen(v, n, Y, s2)) and not wants(v, last, Y[s2], Y)
         rec = [i for i in range(n) if unfrozen(v, n, Y, i)]
         if len(rec) == 1:
-            c["one_receiver_starts"] += 1; c["ROT_one_receiver_not_last_FAIL"] += rec[0] != u
+            c["one_receiver_starts"] += 1; c["ROT_one_receiver_not_last_FAIL"] += rec[0] != last
         Ru = [g for g in range(m) if v[u][g] > 0]
         if not Ru:
             continue
         t = max(Ru, key=lambda g: v[u][g])
-        sig2 = [u] + sig[:-1]; Y2 = sd(v, sig2, m)
+        sig2 = [u] + [a for a in sig if a != u]; Y2 = sd(v, sig2, m)
         if t == Y[u]:
             c["t_is_Yu"] += 1; c["PATH_t_is_Yu_but_changed_FAIL"] += Y2 != Y; continue
-        c["path_cases"] += 1
+        c["path_cases"] += 1; c["path_cases_u_not_last_picker"] += u != sig[-1]
         holder = {Y[a]: a for a in range(n) if Y[a] is not None}
         # build the predicted path
         if t not in holder:
@@ -78,10 +90,13 @@ def run(N, seed, kmax):
         if path and Y2[path[-1]] is not None:
             c["PATH_d_wanted_FAIL"] += not unfrozen(v, n, Y2, path[-1])
             rec2 = [i for i in range(n) if unfrozen(v, n, Y2, i)]
-            if len(rec2) == 1:
+            if len(rec2) == 1 and u == sig[-1]:
                 c["one_receiver_RF_starts"] += 1; c["PATH_d_not_sigma_n_minus_1_FAIL"] += path[-1] != sig[-2]
-        c["PATH_sigma_n_minus_1_frozen_FAIL"] += not unfrozen(v, n, Y2, sig[-2])
-    print(json.dumps(dict(source=f"RF-PATH / RF-ROT check N={N} seed={seed} kmax={kmax}", **dict(sorted(c.items())))))
+        if u == sig[-1]:
+            c["PATH_sigma_n_minus_1_frozen_FAIL"] += not unfrozen(v, n, Y2, sig[-2])
+    print(json.dumps(dict(source=f"RF-PATH / RF-ROT check N={N} seed={seed} kmax={kmax} u={MODE}", **dict(sorted(c.items())))))
 
 if __name__ == "__main__":
+    if len(sys.argv) > 4:
+        MODE = sys.argv[4]
     run(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]))
