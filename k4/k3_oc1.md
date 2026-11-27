@@ -875,6 +875,9 @@ So for DE's general core case a proof must combine Lemma 5 with an owner count, 
   needs no owner. The T′_k counterexample at n = 7 (`attempts/k4-k3oc1-tprime-k.md`) is exactly kgen-n3's twin
   class R1: E_t = {5, 6} with the same pair. Both rotations leave ω′ = 1 and complete only with an absorbing owner
   (the terminal, or agent 3). So the twin case needs owner t's count, not releases alone.
+- **The twin case with owner t** (`twins_check.py`, `twins_check.log`). On all 6,736 twin drafts of the n ≤ 6 gap,
+  and on the n = 7 counterexample, *every* twin's Rule E rotation completes with no owner or owner t. By Lemma 4
+  the other twin is dead for owner t after the rotation.
 
 **Statement (P)'s class** (§11: agents valuing one, two or three goods; the class the reduction RED₃ produces).
 - **The exact test extends.** `lbtest` and `de_moves` now accept agents with one or two goods: they are never
