@@ -1,0 +1,21 @@
+$ python3 kgen/k3max_ownt.py gap_certs_6_0.gap.gz 1 2
+22036 A  drafts, |J| >= 3: some rotation has owner t by Lemma 3: True
+28909 A  rotation: t terminal; frozen exposed of t: a 0 b 0 c 0; Lemma 3 for t True
+98 A  rotation: t terminal; frozen exposed of t: a 0 b 0 c 1; Lemma 3 for t False
+569 A  rotation: t terminal; frozen exposed of t: a 0 b 0 c 1; Lemma 3 for t True
+384 A  rotation: t terminal; frozen exposed of t: a 0 b 1 c 0; Lemma 3 for t False
+2471 A  rotation: t terminal; frozen exposed of t: a 0 b 1 c 0; Lemma 3 for t True
+2031 A  rotation: t terminal; frozen exposed of t: a 1 b 0 c 0; Lemma 3 for t False
+11594 A  rotation: t terminal; frozen exposed of t: a 1 b 0 c 0; Lemma 3 for t True
+80 A  rotation: t terminal; frozen exposed of t: a 1 b 0 c 1; Lemma 3 for t False
+48 A  rotation: t terminal; frozen exposed of t: a 1 b 0 c 1; Lemma 3 for t True
+156 A  rotation: t terminal; frozen exposed of t: a 1 b 1 c 0; Lemma 3 for t False
+163 A  rotation: t terminal; frozen exposed of t: a 1 b 1 c 0; Lemma 3 for t True
+336 A  rotation: t terminal; frozen exposed of t: a 2 b 0 c 0; Lemma 3 for t False
+1090 A  rotation: t terminal; frozen exposed of t: a 2 b 0 c 0; Lemma 3 for t True
+684 R1 drafts, |J| >= 3: some rotation has owner t by Lemma 3: True
+1164 R1 rotation: t terminal; frozen exposed of t: a 0 b 0 c 0; Lemma 3 for t True
+20 R1 rotation: t terminal; frozen exposed of t: a 0 b 0 c 1; Lemma 3 for t True
+184 R1 rotation: t terminal; frozen exposed of t: a 0 b 1 c 0; Lemma 3 for t True
+516 R2 drafts, |J| >= 3: some rotation has owner t by Lemma 3: True
+1548 R2 rotation: t terminal; frozen exposed of t: a 0 b 0 c 0; Lemma 3 for t True
