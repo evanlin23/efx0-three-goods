@@ -986,3 +986,5 @@ mechanisms, only **ROUND-P** (one round of vertex-disjoint OC₁′ moves) survi
 - Conjecture for the next test: every RSD dead end and every RSD-X start is repaired by settling all agents of one
   "threat component" in one round. The threat component is the agents linked by "my absorbed set threatens an agent your
   chain improves".
+
+- 03:29 UTC: spawned **base-phantom** (session_01BYMGebS9uNs3yyqMaMxxm7, branch proof/k4-base-phantom). Its task is the base case of ROUND-RSD: OC₁ with phantom constraints at the 6 + 35 + T3 + RING2 starts where reduction fails. The d1 session, whose work is complete (PR #113), handed over its tools.
