@@ -4,5 +4,5 @@ entries 222035
 invalid entries 0
 not certified by the CEGAR 0
 type classes 123995
-time 143 s
+time 72 s
 RESULT every certified hypergraph (139) has, under every strict profile, an SD order whose maximum-matching picks satisfy OC1

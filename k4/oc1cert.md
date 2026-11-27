@@ -292,7 +292,9 @@ n = 5 core in about a second, and `Inst` confirms it.
 
 ## 4. n = 5
 
-The run is in progress: `k4/oc1cert/n5_driver.sh`, at depth 2 (OC₂^max), in chunks of about 1,000 hypergraphs.
+**Status when the campaign wound down (2026-11-27 06:55 UTC): the run was stopped, partway through.** It ran
+`k4/oc1cert/n5_driver.sh` at depth 2 (OC₂^max), in chunks of about 1,000 hypergraphs. To resume, rerun the driver: it
+skips chunks whose check log has a RESULT line.
 - A depth-2 run also locates every hypergraph where OC₁^max fails. The inner search uses a second move only at a
   (profile, picks) pair where no single move works, and every such pair is re-checked with `Inst`.
 - Per chunk, `results/k4_oc1max/n5/` gets:
@@ -307,11 +309,22 @@ The run is in progress: `k4/oc1cert/n5_driver.sh`, at depth 2 (OC₂^max), in ch
   5_n4_1 (done), 5_pure, 5_n4_4, 5_n4_3, 5_n4_2.
 - Positive control: the TTC session's n = 5 OC₁^max counterexample (outside MC2) is 5_pure idx 280 (m = 9), in
   chunk 5_pure_s5o2.
-- Done so far, each with an independent check:
-  - 5_n4_1 (1,735 cores) and chunk 5_pure_s5o0 (935 cores): OC₂^max is certified for every strict profile on all of
-    them.
-  - 137 of those 935 pure cores have OC₁^max failures. Every recorded failing start is perfect, has exactly one
-    receiver, and gives 'OC1 fails' under `Inst`.
+- **Done, each with an independent check.** OC₂^max is certified for every strict profile on 4,540 cores:
+  5_n4_1 (1,735) and the 5_pure chunks s5o0, s5o1 and s5o2 (935 each). No start needs three moves.
+
+| chunk | cores with OC₁^max failures (all ν = n) | failing pairs met | RF at every pair met | OC₁^∃max (checked) |
+|---|---|---|---|---|
+| 5_n4_1 (2 chunks) | 0 | 0 | n/a | follows from OC₁^max |
+| 5_pure_s5o0 | 137 | 550 | holds | all 935 |
+| 5_pure_s5o1 | 140 | 484 (5 with two receivers: R2 refuted) | holds | all 935 |
+| 5_pure_s5o2 | 139 | 524 | holds | all 935 |
+
+  Every stored failing start is perfect and gives 'OC1 fails' under `Inst`.
+- **Partial, unchecked: 5_pure_s5o3** (`5_pure_s5o3_PARTIAL_run.log`). It was stopped before 500 of its 935 cores and
+  before any check. It recorded 73 cores with OC₁^max failures, all raw 'OC1 fails', and no CEGAR failure. Its summary
+  was not flushed, so nothing is certified from it.
+- **Not run:** 5_pure s5o4, and 5_n4_4, 5_n4_3, 5_n4_2. The census and good-order analysis of 5_pure_s5o2 were not run
+  either.
 - The checker was made about 10× faster at n = 5 (an exact bitset prefilter of witnesses by picks, and mask literals)
   and regression-checked on every n ≤ 4 certificate.
 - Two-move starts of six chosen 5_pure cores (`results/k4_oc1max/n5/two_move_starts_n5_partial6.json.gz`):
