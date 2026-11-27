@@ -1,0 +1,26 @@
+$ python3 k4/oc1_hall/rf_b_u.py
+(F-d) R_d = ['J-S', 'Y_k', 'Y_u', 't'] 26560
+(F-d) R_d = ['S', 'Y_k', 'Y_u', 't'] 5120
+(F-d) R_d = ['Y_k', 'Y_kk', 'Y_u', 't'] 11520
+(F-d) R_d = ['Y_k', 'Y_u', 't'] 320
+(F-d) v_d(t) > v_d(g) for g = Y_u, Y_k, Y_kk: True 43520
+(F-k) v_k(Y_kk) <= v_k(S): True 43520
+(F-kk) R_kk = ['J-S', 'S', 'S', 'Y_kk'] 24640
+(F-kk) R_kk = ['S', 'S', 'Y_k', 'Y_kk'] 11520
+(F-kk) R_kk = ['S', 'S', 'Y_kk', 'Y_u'] 1280
+(F-kk) R_kk = ['S', 'S', 'Y_kk', 't'] 5760
+(F-kk) R_kk = ['S', 'S', 'Y_kk'] 320
+(U-a) R_u = {t, Y_kk, Y_u, Y_k}, t = Y_d: True 43520
+(U-a) Y_k = Y'_k, Y_kk = Y'_kk: True 43520
+(U-b) v_u(Y_kk) >= v_u(Y_u) + v_u(Y_k): True 43520
+(U-c) R_k = {Y_k, Y_kk} + S: True 43520
+(U-c) k wants Y_kk, kk does not want Y_k (at Y'): True 43520
+(U-c) u wants Y_k at Y: True 43520
+(U-c) |J' - S| = 1, d takes Y_u 38400
+(U-c) |J' - S| = 2, d takes Y_u 3840
+(U-c) |J' - S| = 2, d takes junk 1280
+B starts 43520
+REPAIR-Y at the true Y (expected to fail, Y fails OC1): official True, EFX0 False 43520
+perturbed (U-b) violated, (B5) kept, |J - S| = 1: REPAIR-Y official True, EFX0 True 38400
+perturbed, |J - S| = 2: chain k -> u then owner d, X = ['d:t', "k':Y_kk,l", 'k:S,S,l', 'u:Y_k,Y_u'] 1280
+perturbed, |J - S| = 2: chain k -> u then owner k', X = ['d:t', "k':Y_kk,l,l", 'k:S,S', 'u:Y_k,Y_u'] 3840
