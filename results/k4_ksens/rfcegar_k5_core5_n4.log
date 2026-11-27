@@ -3,3 +3,7 @@ checkpoint /home/user/efx0-three-goods/results/k4_ksens/rfcegar_k5_core5_n4.ckpt
 hypergraphs 1138
 ... 100 {'certified': 100} 51 s
 ... 200 {'certified': 200} 301 s
+... 300 {'certified': 300} 814 s
+... 400 {'certified': 400} 1027 s
+... 500 {'certified': 500} 1216 s
+... 600 {'certified': 600} 1582 s
