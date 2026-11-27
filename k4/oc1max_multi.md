@@ -1284,3 +1284,26 @@ choice of the Theorem S case in I⁻. In the phantom language, it must avoid the
 shows such a case always exists (`rec_k.log`): (K-a) never occurs, and the 9,600 (K-b) failures at n = 4 always have
 a sibling case that avoids q. A proof would come from (S-c)'s freedom: Theorem S's receiver is the head or an
 unfrozen second wanter, and the head of a longest chain of I⁻ need not be q.
+
+## 15. Can Part 1 be dropped? The RSD census (the integrator's §24.3 request)
+
+The question: can "settle a sharer first" (REC-S, or its iteration RSD) replace the one-move theory at *every* hard
+start, and not only at the two-move ones? `rsd.py` runs on the 8,383 hard |D| ≥ 2 perfect starts. A settlement is
+E(k) with an improving pool pair T. Every final allocation is checked raw in I, with the settled agents keeping their
+pairs.
+
+| variant | log | completes | fails |
+|---|---|---|---|
+| Theorem S last, zero settlements allowed, at most two | `rsd.log` | 7,441 + 515 (one settlement) + 17 (two) = 7,973 | 410 |
+| exactly one settlement, then Theorem S (REC-S) | `rsd_recs.log` | 3,278 | 5,105 |
+| at least one settlement, at most two, Theorem S last | `rsd_d2.log` | 3,301 | 5,082 |
+| one settlement, then any official move or none, any one-absorber completion | `rsd_any.log` | 8,021 | 362 (a lower bound: one witness completion per absorber is lifted) |
+
+Settling first breaks most of the starts that a chain repairs at the picks (the KEEP, CLEAN and OWN mechanisms). The
+smallest failures are:
+- T3, picks (0, 1, 4) (RING);
+- c4x-n3m5-big-bases (n = 3, m = 5): its reduced start completes with no move, which Theorem S does not produce;
+- with any last step, c4x-n3m6-3good-first (n = 3, m = 6).
+
+**Conclusion: Part 1 (OC₁ where one move suffices) cannot be dropped.** REC-S is the second move. It is not a
+replacement for the first.
