@@ -1137,6 +1137,11 @@ owner. Its proof needs a Hall-type count for the needy agents.
   - The head z is always admissible for the released pick y_z, by their KEEP computation, so y_z can be z's slot good.
   - The second receiver is an unexposed holder exactly when the junk alone does not threaten it at its pick value
     (E_J in their Theorem U); then it takes any one good.
+- *For R2-O (owner u, any rest):* `mc.model(I, B, u, 0)` applies as it is. Their Theorem S (`k4/oc1max_multi.md`
+  §10, reported refereed; [unverified] here) covers a related shape. Its wanter case sends the kept-out good to an
+  unfrozen second wanter of the head's new good when z becomes frozen after the chain, but with owner x₀. Its proof
+  (Theorem U, step 1, on longest chains) shows that such a u is a holder at its pick value, which may give R2-O's
+  admissibility.
 - *The natural target:* |J′| − 1 ≤ (receivers, the head included) + (the frozen slots M^c allows), with J′ =
   (J ∖ H₀) ∪ {y_z}, and PL(c) for covering the needy. Whether this closes is open.
 
