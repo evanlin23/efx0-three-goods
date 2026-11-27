@@ -879,6 +879,24 @@ So for DE's general core case a proof must combine Lemma 5 with an owner count, 
   and on the n = 7 counterexample, *every* twin's Rule E rotation completes with no owner or owner t. By Lemma 4
   the other twin is dead for owner t after the rotation.
 
+**The owner-e route for two or more terminals** (kgen-n3's G6 and G7, `kgen/n3.md` §15.18, both checked here).
+- **G6.** With σ chosen to put a terminal e last (allowed, since nobody needs e), a Rule E chain ending at e gives e
+  a good nobody else wants, so e stays a terminal.
+- **G7.** After the rotation, e's new exposed agents are (a) old ones with pairs disjoint from k's, or (b, c)
+  top-holders whose pair is {g, j}, where g is e's new good and j is junk.
+- **The test** (`t2_owner_e.py`): some exposed frozen k of a σ-last terminal e, rotated along its Rule E chain into
+  e, needs no owner (|J′| ≤ |T′|), or passes Lemma 3 for owner e.
+- **In the gap: no failure besides the crossed drafts.**
+  - n ≤ 6 (`t2_owner_e_gap.log`): every one-terminal gap draft passes, and so do all 10,240 two-terminal ones. The
+    64 crossed drafts fail, as they must: there is no single rotation.
+  - Samples at n = 7 (m = 11, 12) and of (P)'s class at n = 5 with a dead good (`t2_owner_e_sample*.log`): every
+    failure (62 drafts) is covered by R1C or B\*.
+  - In the 49 one-terminal failures the exact test with owner none or e still passes; the simple Lemma 3 is too
+    weak there.
+
+So for |T| ≥ 2 the candidate proof is G6, G7 and Lemma 3 for the σ-last end terminal, plus Lemma 7's rings for
+the crossed case.
+
 **Statement (P)'s class** (§11: agents valuing one, two or three goods; the class the reduction RED₃ produces).
 - **The exact test extends.** `lbtest` and `de_moves` now accept agents with one or two goods: they are never
   exposed, never threatened and never upgraded (§11). `mixed_check.py` compares `lb2` with the exhaustive
