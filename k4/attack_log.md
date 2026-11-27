@@ -1028,3 +1028,41 @@ PHANTOM, S^φ(round). In Lean so far: PHANTOM, LIFT* and SD-E(round) (#136), and
 - TTC: (ii), "a failing maximum-matching start forces a ≥ 2-receiver maximum-matching outcome".
 - certifier: check RF on every failing pair met in the n = 5 runs.
 - Lean: the ROUND-RSD frame.
+
+### 2026-11-27 04:37 UTC: hourly burst 8
+**State of TARGET₄: open, with two fully specified routes, each with its final implication machine-checked in Lean.**
+1. **RF (receiver first)** ⟹ OC₁^∃max ⟹ TARGET₄. Lean: `target4_of_conjRF` (#143, merged); the frame never uses
+   receiver uniqueness.
+   - Structural half PROVED and refereed, for any n: Lemma RF-PATH. Moving any receiver u to the front changes the SD
+     picks along one ejection path; ejected agents strictly lose; the end d is unfrozen. Also TTC's Lemma RF-ROT: the
+     last picker is always a receiver.
+   - Completion half OPEN: girth's uniform statement. At the RF start, one of:
+     - (i) w or d owns a one-absorber completion;
+     - (T) a receiver and a pick-dangerous agent trade;
+     - (C/C′) a two-agent chain from a truly dangerous agent repairs.
+   - It holds at all 292,080 n = 4 failing orders, all 86 stored n = 5 orders, and the 64 two-receiver starts.
+   - Hall: sub-case A1 (32,000 n = 4 starts) is proved, conditional on four facts that hold at all of them. The open
+     sub-cases are A2 and B (w = d).
+   - Evidence for RF itself: certified at n = 4 (two independent implementations); n = 5 holds at every failing pair
+     the certifier's CEGAR met in chunks 1–2.
+   - R2 is REFUTED at n = 5 (two-receiver failures 5_pure #650, #655, #1014, #1050; three independent replays: certifier,
+     coordinator, TTC). So RF was amended to "some receiver"; at #650 one receiver's per-order RF picks are not maximum.
+2. **ROUND-RSD** (settle a round, delete, recurse). Lean: `target4_of_roundRSD` from ConjRoundInd ∧ ConjBasePhi (#141).
+   - Every tool is refereed. Certified at n = 4, on the 280 stored n = 5 starts, and on all 583,680 two-move starts of
+     the adversarial cores #419, #447 and #38.
+   - Open: ROUND-IND (existential; greedy rounds dead-end) and the base case (base-phantom session).
+
+**Also this hour.**
+- Lean: Theorem U, Theorem S (#142, pending merge), PHANTOM / LIFT* / SD-E(round), and both frames.
+- OC₂^max certified on 3,605 n = 5 cores, with no three-move start.
+- OC₁^∃max on chunk 1, with an independent check.
+- Referee: SPLICE, the §4.11 lemmas, UNTANGLE's proved parts, S^φ(round), K4.MC9 and RF-PATH (both forms), all
+  CORRECT (with fixes where noted).
+
+**Merged this hour:** #102 (pending CI), #113, #133, #136, #137, #138, #140, #141, #143 and #144.
+
+**Dispatch.**
+- hunt: RF checks at n ≥ 6.
+- Hall and girth: the RF completion half.
+- Lean: Theorem S^φ.
+- certifier: RF at every pair met in chunk 3.
