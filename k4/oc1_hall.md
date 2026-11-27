@@ -2555,3 +2555,32 @@ injection J′ → agents):
 So at n = 5 Lemma NA alone covers DEMOTE-0's whole at-once part. What it needs is a compensation fact: the junk can be
 placed one good per agent so that every wanter of a receiving agent's pick is compensated. RF-A1\* is an alternative
 with owner w on 71,443 of these starts.
+
+### 24.14 RKMAX plan (a) is false as stated: σ-maximal starts with one receiver and |D_T| ∈ {0, 2} at n = 5
+
+Coordinator's item (a) asks for a proof that at n ≥ 5 σ-maximality excludes |U| = 1 with |D_T| ∈ {0, 2, 3}. On the
+export profiles no such vector occurs (§24.12). On random strict profiles they do.
+
+Data: `k4/oc1_hall/rf_rkmax_rand.py`, `rf_rkmax_rand.log`. EVIDENCE with a verified counterexample: all 4,674 pure
+n = 5 cores, 60 random strict profiles each, seed 2; each agent's values a random 4-subset of 1..20.
+
+**Counterexample** (verified with the raw checker's own SD and an independent classification):
+- 5_pure idx 358, sets [[0,1,4,5],[1,3,6,7],[2,3,6,7],[2,4,5,7],[4,5,6,7]], m = 8;
+- values [[17,4,2,19],[13,14,20,16],[2,16,20,17],[5,17,15,7],[20,17,4,8]];
+- 10 maximum-matching SD vectors; the σ-maximal ones are (5, 7, 6, 2, 4) and (5, 6, 7, 2, 4), with σ = (3, 1, 0, 1);
+- at both, J = {0, 1, 3}, U = {3}, D_T = {0, 1}: class (1, 2), i.e. DEMOTE-2-type;
+- OC₁ holds after one move.
+
+**Census** (280,380 profiles; 60 had no maximum-matching vector):
+- One-receiver σ-maximal vectors:
+  - (1, 0): 161 (21 need one move; some are degenerate cores with m = n and no junk);
+  - (1, 1): 12;
+  - (1, 2): 5 (all need one move);
+  - (1, 3): none seen.
+- **No OC₁ failure at any σ-maximal vector, so RKMAX itself survives.**
+- One-receiver vectors are rare at σ-maximal starts: 178 of 432,385 σ-maximal vectors. For comparison, 9,233 have two
+  receivers and the rest three or more.
+
+So RKMAX's proof cannot skip the hard one-receiver classes at n ≥ 5. It would need DEMOTE-0/2-type arguments there
+too, at a much smaller frequency than at RF starts. The export data are biased toward the failing profiles of 9
+hypergraphs.
