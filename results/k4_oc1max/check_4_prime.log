@@ -1,0 +1,17 @@
+$ python3 k4/oc1cert/check.py /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_4_prime.json.gz --lists=4_n4_1,4_n4_2,4_n4_3,4_pure
+own types: {3: 6, 4: 288}
+... 1000 checked, 167 s
+... 1002 checked, 171 s
+certificate /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_4_prime.json.gz hypergraphs 1002
+list 4_n4_1 source hypergraphs 135 missing or different 0
+list 4_n4_2 source hypergraphs 309 missing or different 0
+list 4_n4_3 source hypergraphs 339 missing or different 0
+list 4_pure source hypergraphs 219 missing or different 0
+covered 1002
+excluded pairs 0
+maximum matchings checked 78486
+type classes (sum over matchings and agents) 2438135
+witnesses applicable (sum over matchings) 1052655
+slowest hypergraph 4.99 s
+time 171 s
+RESULT every certified hypergraph (1002) covered for every type profile and every maximum-matching SD order
