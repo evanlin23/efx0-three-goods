@@ -9,7 +9,7 @@ import sys, os, json, collections
 K = os.environ.get('K3OC1', os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'k4', 'k3oc1'))
 sys.path.insert(0, K); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from k3lib import base_of
-from lbtest import parts, exposed, upgrade
+from lbtest import parts, exposed, upgrade, lb2
 from oc1_fast import drafts
 from oc1_k3 import hypergraphs, profiles
 from k3max_t1 import rotate
@@ -72,6 +72,11 @@ if __name__ == '__main__':
                     C[jk + ': k = sigma-last exposed agent works: %s' % (omk[last] <= 0)] += 1
                     C[jk + ': k = exposed agent whose top t ranks highest works: %s' % (omk[tbest] <= 0)] += 1
                     C[jk + ': every k works: %s' % all(o <= 0 for o in omk.values())] += 1
+                    lbk = {}
+                    for k2 in E:
+                        P = rule_e_chain(rk, B, U, k2, t, pos)
+                        if P is not None: lbk[k2] = bool(lb2(rk, m, rotate(rk, ub, B, k2, P)))
+                    C[jk + ': every k completes with an owner allowed (lb2 after the Rule E rotation): %s' % all(lbk.values())] += 1
                 C['Rule E: some k reaches |J\'| <= |T\'| (T1\' with Rule E): %s' % (best is not None and best <= 0)] += 1
                 if not allac and shown < 3:
                     shown += 1; print('RULE E CYCLE', json.dumps([list(x) for x in rk]), m, 'picks', Y, 'E_t', E, flush=True)

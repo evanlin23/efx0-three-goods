@@ -2,6 +2,7 @@ $ python3 kgen/k3max_ruleE.py certs:5 0 4
 552 Rule E rotation keeps the want graph acyclic for every k: True
 552 Rule E: some k reaches |J'| <= |T'| (T1' with Rule E): True
 552 drafts
+552 |J| = 4: every k completes with an owner allowed (lb2 after the Rule E rotation): True
 224 |J| = 4: every k works: False
 328 |J| = 4: every k works: True
 224 |J| = 4: k = exposed agent whose top t ranks highest works: False
