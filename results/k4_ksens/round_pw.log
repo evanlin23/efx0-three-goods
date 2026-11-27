@@ -1,0 +1,13 @@
+PW (3, 2, 4) k 5 T 10 fail: one chain 10 one round 0 one round + one absorber 0 0s
+PW (4, 2, 4) k 5 T 10 fail: one chain 10 one round 0 one round + one absorber 0 0s
+PW (3, 3, 5) k 6 T 10 fail: one chain 10 one round 0 one round + one absorber 0 0s
+PW (4, 3, 5) k 6 T 10 fail: one chain 10 one round 0 one round + one absorber 0 1s
+PW (4, 3, 6) k 7 T 10 fail: one chain 10 one round 0 one round + one absorber 0 2s
+PW (5, 3, 6) k 7 T 10 fail: one chain 10 one round 0 one round + one absorber 0 7s
+PW (5, 4, 7) k 8 T 10 fail: one chain 10 one round 0 one round + one absorber 0 22s
+PW (5, 4, 8) k 9 T 10 fail: one chain 10 one round 0 one round + one absorber 0 96s
+PW (6, 4, 7) k 8 T 10 fail: one chain 10 one round 0 one round + one absorber 0 55s
+POOL (4, 7) one chain False one round True round+A1 True
+POOL (5, 9) one chain False one round True round+A1 True
+
+[exited with code 0]

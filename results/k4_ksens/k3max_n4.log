@@ -1,0 +1,17 @@
+$ python3 k4/ksens/k3max.py 4 --jobs=4
+hypergraphs 396 for m in [4, 5, 6, 7, 8, 9, 10, 11, 12]
+... 50 hypergraphs, 0 s
+... 100 hypergraphs, 1 s
+... 150 hypergraphs, 1 s
+... 200 hypergraphs, 2 s
+... 250 hypergraphs, 3 s
+... 300 hypergraphs, 5 s
+... 350 hypergraphs, 7 s
+n 4 m 4: hypergraphs 85, profiles 129112, max starts 394326, complete at the picks 394326, one chain 0, FAIL 0
+n 4 m 5: hypergraphs 127, profiles 375360, max starts 1040339, complete at the picks 1040339, one chain 0, FAIL 0
+n 4 m 6: hypergraphs 107, profiles 582432, max starts 1379416, complete at the picks 1337818, one chain 41598, FAIL 0
+n 4 m 7: hypergraphs 56, profiles 484416, max starts 959172, complete at the picks 940508, one chain 18664, FAIL 0
+n 4 m 8: hypergraphs 17, profiles 231552, max starts 390960, complete at the picks 385236, one chain 5724, FAIL 0
+n 4 m 9: hypergraphs 4, profiles 82944, max starts 122176, complete at the picks 120412, one chain 1764, FAIL 0
+total: hypergraphs 396, profiles 1885816, max starts 4286389, complete at the picks 4218639, one chain 67750, FAIL 0, witnesses 13931, hit 4272458
+time 11 s

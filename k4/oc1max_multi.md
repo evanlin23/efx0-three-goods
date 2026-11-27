@@ -51,6 +51,8 @@ rule 3).
 | Corollary TR (§2) | if the head z of a canonical chain from k has Θ(z) ⊆ {k}, DEMAND cannot occur, and the chain behaves as in the case \|D\| = 1 (Hall §21: HEAD and CROWD only) | written proof |
 | **Lemma KEEP** (§3) | let D_T be the *truly dangerous* agents (threatened by the junk alone). Take a canonical chain from k with an improving H₀ inside J, with no crowding, with the other truly dangerous agents and the head unthreatened by J, and with a holder admissible for the head's released pick Y_z. That holder is the head itself when the head is unfrozen, or the second wanter that froze it. Then that holder takes Y_z, and k owns an S\* completion. **Every pick-dangerous agent (D ∖ D_T) is harmless there, however many there are** | written proof; 0 violations in 18,916 chains |
 | **Theorem U, Corollary U1** (§3) | **OC₁ holds at every perfect start with one truly dangerous agent and exactly one unfrozen pick holder** (any \|D\|, null agents allowed): every longest canonical chain from k with every improving H₀ ⊆ J repairs. More generally (Theorem U), it holds when the junk threatens no unfrozen pick holder other than the head of a longest chain | written proof, **unconditional on its class**; 2,234 starts (U1) and 2,880 (U), 0 violations |
+| **Theorem S** (§10) | **Theorem U with a junk good kept out.** OC₁ holds at every perfect start where, for some k ∈ D, longest chain P (head z) and junk good h, W = (J ∖ h) ∪ {Y_z} is improving for k, threatens no other dangerous agent and no other unfrozen pick holder at its pick value, and z values no junk good but h (or W does not threaten z at its final value). The repair: P, then h to the head (or to an unfrozen second wanter), k takes W. **Theorems U and S together prove OC₁ outright at 7,441 of the 8,383 starts (88.8%)**, 424 of the 585 SLOT starts | written proof, **unconditional on its class**; 0 violations in 23,000 cases |
+| SLOT residue (§10) | 161 SLOT starts outside Theorems U and S: one kept-out good 18, two 138, three 5; smallest log613 (n = 3, m = 7), where the second slot strips the goods the threatened holder does not value from the owner's bundle | open (Sub-lemma SLOT2); evidence |
 | Corollary KEEP-1 (§3) | if D_T = {k}, the case reduces to the crowding and head obstacles of the case \|D\| = 1. **3,244 of the 3,259 starts with \|D_T\| = 1 have a KEEP chain**; the other 15 (all n = 5) have crowding by every minimal junk improving set (13) or a frozen, threatened head (2) | written proof; evidence for the count |
 | **Lemma SET** (§4) | the overlap step of PWk(a), in general. After a canonical chain in which k takes a junk pair, k is settled for every owner other than k and x₁ whose base k does not want: it neither envies nor is envied. So k and the pair can be deleted. Agents that share the pair keep at most one junk good (Lemma PL(c)) | written proof; 0 mismatches in 47,248 owner tests |
 | **Lemma OWN** (§4) | the overlap completion, PWk(a)'s owner w₂ in general. After a chain in which k takes a junk pair, an owner o ∉ {k, x₁} with a *free base* (no frozen agent and not k values it) owns an S\* completion, if the other truly dangerous agents are unthreatened by o's base plus J minus the pair (automatic when they share the pair, by Lemma PL(c)) and a holder takes the released pick. No crowding condition | written proof; 0 violations in 21,440 cases |
@@ -690,7 +692,7 @@ failures, which include the 12).
   - each of k, z and q owns an S\* completion afterwards.
 - At the 577 failures near the TTC core, P₁ takes the pool pair {junk, Y_z}, z ends at its top, and k, z and q own.
 
-**Lemma LIFT (K4.MULTI.LIFT; the second move as a move of a smaller instance).** Let B be a state, and k an agent
+**Lemma LIFT (K4.MULTI.LIFT; the second move as a move of a smaller instance).** *Refereed CORRECT (with SD-E and REC-S, §12).* Let B be a state, and k an agent
 holding a pair T such that every other agent with a relevant good values each good of T below its value at B. This
 holds after a canonical chain whose improving set is a junk pair, by (I2). Let I⁻ be the instance without agent k
 and the goods T, and B⁻ the restriction of B.
@@ -875,3 +877,433 @@ one move is an exact one-move criterion on that data. There a junk good is wante
 - **Frozen slots** (the matching session's 88 non-S\* starts; TTC's R2★ step 4): F_s ≠ ∅.
 - **The deficiency δ^c** is the right measure for an exchange argument with compensation: an EX\*-type lemma with
   Γ^c in place of Γ.
+
+## 10. SLOT as an existence statement: Theorem S
+
+The coordinator asked for SLOT as a pure existence count: some chain reaches a state where Lemma M's Hall condition
+holds. This section proves that outright on a class covering 424 of the 585 SLOT starts, together with 7,441 of all
+8,383 starts once Theorem U is included. It names the residue.
+
+**The owner's bundle does not depend on H₀.** After a canonical chain P = (k, …, z) with an improving H₀ ⊆ Π = J ∪ {Y_z},
+an S\* completion with owner k and kept-out set H ⊆ J′ = Π ∖ H₀ gives k the bundle H₀ ∪ (J′ ∖ H) = Π ∖ H. So the
+completion is fixed by H and its receivers. H₀ only has to be an improving subset of Π ∖ H, so that the chain is an
+official move.
+
+**Theorem S (K4.MULTI.S): Theorem U with a junk good kept out.** *Refereed CORRECT, in both forms, together with Lemma
+HS and HS-U1 (`k4/referee/oc1max_multi.md` §10, commit fabd4cf on `claude/k4-referee`; 205,634 independent tests, 0
+failures; mutations of each hypothesis fail).* Let Y be a perfect start, k ∈ D, P a *longest*
+canonical chain from k with head z and a = Y_{x_{t−1}}, and h ∈ J. Put W = (J ∖ {h}) ∪ {Y_z}. Suppose:
+- **(S-a)** v_k(W) > p_k;
+- **(S-b)** W threatens no agent of D ∖ {k} at its pick value;
+- **(S-c)** W threatens no unfrozen pick holder other than z at its pick value;
+- **(S-d)** z values no junk good other than h.
+
+Then OC₁ holds at Y. Take any improving H₀ ⊆ W. The move is P with H₀. The completion depends on whether z is
+unfrozen after P:
+- if so, z takes h;
+- otherwise, some unfrozen wanter w of a takes h.
+
+k takes the rest, so its final bundle is W. The others keep their state goods.
+
+*Relaxed form (S-d′).* (S-d) may be replaced by: W does not threaten z at its value in that allocation. This form is
+chain-level, like Theorem U's condition on z.
+
+*h = Y_z.* With h = Y_z, W = J, and the relaxed form *contains* Theorem U. It is more general: it needs no hardness,
+(S-a) is weaker than k ∈ D_T, and (S-d′) is weaker for a frozen head. Then:
+- (S-b) says D_T ⊆ {k};
+- (S-c) says E_J ⊆ {z};
+- (S-d′) for the head is KEEP's computation v_z(J ∩ R_z) < 2p_z < v_z(a) + p_z, or z ∉ E_J when the wanter takes Y_z.
+
+*Proof.*
+0. *The move exists.*
+   - k ∈ D is frozen, so canonical chains from k exist (D1-chain), and a longest one exists.
+   - By (S-a), W ∩ R_k is an improving set inside W ⊆ Π, so an improving H₀ ⊆ W exists.
+   - The chain is official: every x_i gains, and z gains, since it wants a.
+   - h ∉ W ⊇ H₀, so h ∈ J′.
+1. *The receiver of h is a holder after P.* If z is unfrozen after P, the receiver is z. Otherwise a has a wanter w
+   after P, and Theorem U step 1 applies (Hall's Remark 2 on longest chains):
+   - w is off P and wanted a at the picks;
+   - w is unfrozen at the picks, since otherwise there would be a longer chain;
+   - w holds a pick;
+   - w is unfrozen after P (D-red 2).
+
+   So w is a holder with value p_w, and w is an unfrozen pick holder other than z.
+2. *The allocation A.* A_k = W. The receiver r takes {B′_r, h}. Every other agent keeps its state good. Every agent's
+   value in A is at least its value at B′, which is at least its pick value: values only rise along a chain, and
+   W ⊇ H₀.
+3. *A is EFX₀.*
+   - Singletons never violate EFX₀.
+   - *The two-good bundle {B′_r, h}* threatens i iff v_i(B′_r) > v_i(A_i) or v_i(h) > v_i(A_i).
+     - B′_r is unwanted at B′, because r is a holder.
+     - v_i(h) ≤ p_i by (G2) at the picks: h was available at i's turn.
+     - For k, v_k(h) ≤ p_k < v_k(W).
+   - *W threatens no i ≠ k at v_i(A_i).* Threat is monotone: it is weaker at higher values and on subsets. Every
+     agent other than k is one of the following.
+     - i = z. With (S-d), W ∩ R_z ⊆ {Y_z}, so every W ∖ g is worth at most p_z to z. But z's value in A is v_z(a) > p_z,
+       or more. (S-d′) assumes this directly.
+     - i ∈ D ∖ {k}: (S-b).
+     - i an unfrozen pick holder other than z (this includes w): (S-c).
+     - i ∈ F ∖ D. Such an agent values no junk, so W ∩ R_i ⊆ {Y_z}. Then every W ∖ g is worth at most
+       v_i(Y_z) ≤ p_i to i: Y_z is unwanted at the picks, since the head of a canonical chain is unfrozen there.
+     - i pickless. At a perfect start it is null, so it is never threatened.
+
+   This is an S\* completion of B′ with owner k and H = {h}. ∎
+
+*Remarks.*
+- Hardness is not used.
+- "Longest" is used only when z is frozen after P. Any canonical chain whose head is unfrozen after P does as well.
+- When u = 1, the head of a longest chain is always unfrozen after P (**HS-U1**, the argument of Corollary U1; checked
+  on 753 chains, `slot_hs.log`), so the wanter case does not arise.
+- **Lemma HS** is the chain-level statement used in the census below: (S1) z is unfrozen at B′; (S2) z is admissible
+  for h against W = Π ∖ {h}; (S3) every agent other than k and z is unthreatened by W at its value at B′. Its proof is
+  step 3.
+
+**Checks** (`theorem_s.py`, `theorem_s.log`; raw EFX₀ for every (k, longest P, h, minimal H₀) meeting the hypotheses).
+There were **0 violations** in every row, and a wanter always exists when the head is frozen.
+
+| form | cases checked (z takes h / wanter takes h) | starts covered (of 8,383) | SLOT (CAN-k) starts covered (of 585) |
+|---|---|---|---|
+| Theorem S with (S-d), h ∈ J | 13,025 / 1,265 | 5,945 | 337 |
+| Theorem S with (S-d′), h ∈ J | 15,790 / 1,614 | 6,679 | 409 |
+| **Theorems U and S, (S-d′), h ∈ J ∪ {Y_z}** | 20,640 / 2,097 | **7,441** | **424** |
+
+By regime (§5), the union covers:
+
+| regime | covered |
+|---|---|
+| KEEP | 4,291 of 4,839 |
+| OWN | 769 of 886 |
+| CLEAN | 1,860 of 1,877 |
+| RING-red | 97 of 151 |
+| SLOT | 424 of 585 |
+| ED | 0 of 45 |
+
+So OC₁ is now proved *outright* (existence included) at 88.8% of the starts, against 2,880 (34%) from Theorem U alone.
+
+**The SLOT census** (`slot_hs.py`, `slot_hs.log`). This is plain Lemma M after canonical chains with owner k. (G1) and
+(G2) hold there, by D-red 1.
+
+| strategy | SLOT starts (of 585) |
+|---|---|
+| Lemma HS: one slot, at the head (some chain; the longest when any) | 390 |
+| one slot at any holder | 442 |
+| least kept-out set \|H\| = 1, 2, 3 | 442, 138, 5 |
+
+Violations: 0. Among the starts without HS, the obstruction at the longest chains (per h, `slot_hs.log`) is mostly a
+frozen truly dangerous agent that W still threatens: one good of its junk set cannot be cut.
+
+**The SLOT residue (K4.MULTI.SLOT2).** 161 SLOT starts are outside Theorems U and S:
+
+| least \|H\| | head slot at some chain | starts | smallest |
+|---|---|---|---|
+| 1 | yes | 7 | |
+| 1 | no | 11 | log720 (n = 4, m = 9), picks (3, 7, 6, 5) |
+| 2 | no | 138 | **log613 (n = 3, m = 7)**, picks (1, 2, 3) |
+| 3 | no | 5 | n4_3#947.0 (n = 5, m = 9) |
+
+The one-slot part (18 starts) is Lemma HS or Lemma M with |H| = 1 at a chain that the start-level hypotheses do not
+see. The rest needs two or three slots.
+
+*Sub-lemma SLOT2 (open).* If no (k, longest P, h) meets Theorem S or U, then some canonical chain from some k ∈ D has a
+Lemma M certificate (owner k) with |H| ≤ 3.
+
+*Smallest instance and its Hall-violating set.* log613: R₀ = {0: 3, 1: 4, 2: 10, 3: 8}, R₁ = {2: 8, 4: 4, 5: 2, 6: 3},
+R₂ = {3: 8, 4: 3, 5: 4, 6: 2}, picks (1, 2, 3), J = {0, 4, 5, 6}. Both dangerous agents are truly dangerous, they
+share their whole junk set {4, 5, 6}, and u = 1 with z = 0.
+- *k = 1.* The only improving H₀ is {4, 5, 6}, so J′ = {0, 1}, and agent 2 becomes an unfrozen holder.
+  - With |H| = 1, X ⊇ {4, 5, 6} together with a good that 2 does not value. So X threatens 2 at 8 (9 > 8), and 2
+    values neither good of J′. The needy set {2} has an empty neighbourhood: this is the Hall violation.
+  - With H = {0, 1}, X = {4, 5, 6} ⊆ R₂, and removing 2's cheapest good leaves 7 ≤ 8. Agent 0 takes 1 and agent 2
+    takes 0, which is EFX₀.
+- *k = 2.* The only improving H₀ is the triple {4, 5, 6}, and every (chain, H₀) leaves agent 1 frozen and threatened
+  (DEMAND).
+
+So the second slot does not cut a danger set. It removes the goods that agent 2 does not value from the owner's bundle,
+so that EFX₀'s removal of the least valued good bites. The residue needs a lemma for this *worthless-good* effect.
+That is the natural next target.
+
+## 11. RING as an existence statement: the residue
+
+At none of the 45 RING starts does a canonical chain repair with owner k, and Theorems U and S cover none of them
+(§10). The shortest repairing move with an S\* completion at each (`ring_len.py`, `ring_len.log`):
+
+| shortest repair | \|D_T\| = 0 | \|D_T\| = 2 | smallest |
+|---|---|---|---|
+| a swap of two dangerous agents (ring or chain of length 2, both ends in D) | 23 | 0 | T3, picks (0, 1, 4) (n = 3, m = 6) |
+| length 2, x₀ ∈ D, other end not | 0 | 2 | r640 (n = 4, m = 8) |
+| length 2, x₀ ∉ D | 8 | 0 | nsw-strict-n4m9 (n = 4, m = 9) |
+| length 3, both ends in D | 4 | 0 | c4-g2-other-runs-n4m7 (n = 4, m = 7) |
+| length 3, x₀ ∈ D | 8 | 0 | ls-alt-rule-n4m7 (n = 4, m = 7) |
+
+So 43 of the 45 have no truly dangerous agent (all dangerous agents are pick-dangerous), and every one is repaired by a
+move of length at most 3.
+
+**The Hall obstruction at T3 (0, 2, 1)** (`ring_hall.py`, `ring_hall.log`). The values are
+R₀ = {0: 38, 2: 6, 4: 36, 5: 1}, R₁ = {1: 22, 3: 12, 4: 30} and R₂ = {0: 38, 1: 20, 3: 12, 4: 28}, with picks
+(0, 1, 4), J = {2, 3, 5} and D = {0, 2}.
+- The only canonical chain with an improving set is (2, 1), with H₀ = {1, 3}. After it, agent 0 is frozen (2 wants
+  its good), and agent 1 is the only holder.
+- For |H| ≤ 1, the owner's bundle X ⊇ {1, 3} also contains a good that agent 1 does not value. So X threatens 1 at 30
+  (22 + 12 = 34 > 30), and 1 values neither junk good 2 nor 5. The needy holder 1 has an empty neighbourhood.
+- For H = {2, 5}, X = {1, 3} ⊆ R₁ leaves 22 ≤ 30 after the least good is removed. But |H| = 2 exceeds the single
+  holder, which violates (C3).
+- No canonical chain from 0 has an improving set.
+- The repair is the swap 0 ↔ 2: 2 takes 0, and 0 takes {4, 2}. It has S\* owners 0, 1 and 2. The agent 1, who wants 4,
+  is compensated by junk 3 (22 + 12 ≥ 30). This is (R2) of RING-red failing.
+
+*Sub-lemma RING2 (K4.MULTI.RING2, open).* At a hard perfect start where no canonical chain from D repairs with owner k:
+- some move of length at most 3 repairs;
+- if D_T = ∅ and no other move repairs, the repair is a swap of two dangerous agents k and d (d takes Y_k, k takes Y_d
+  plus junk), with the wanters of Y_d compensated by their own junk goods.
+
+**The common obstruction.** The smallest residues of SLOT (log613) and RING (T3) fail one-slot Lemma M for the same
+reason. A holder is threatened by the owner's bundle only because that bundle contains goods the holder does not value:
+EFX₀ removes a zero-valued good, which costs nothing. Keeping all such goods out cures the threat, but it costs one
+slot per good. Two lemmas would close both residues:
+1. a count of the holders available for these *worthless* goods (SLOT2);
+2. a swap lemma with compensated wanters (RING2).
+
+## 12. OC2-REC (item 4b): Lemma SD-E and Theorem REC-S
+
+This section proves OC2-REC's part (a) in general, and part (b) on a class that contains every known failing start.
+Values are strict: each agent's values are distinct, as in §23.4 of `k4/oc1_hall.md`.
+
+**The earliest-wanter chain.** Let Y be the SD outcome of the order σ, and let k be frozen. The chain
+E(k) = (k = x₀, x₁, …, x_t = z) is defined by:
+- x_l is the σ-earliest wanter of Y_{x_{l−1}};
+- it stops at the first agent z whose pick nobody wants.
+
+A wanter of Y_j picks after j: Y_j was gone at its turn. So σ increases along E(k), its agents are distinct, it is a
+canonical chain, and it exists for every frozen k.
+
+**Lemma SD-E (K4.MULTI.SDE).** *Refereed CORRECT, together with Theorem REC-S and Lemma LIFT
+(`k4/referee/oc1max_multi.md` §11, commit e746fc2c on `claude/k4-referee`).* Let T ⊆ J ∪ {Y_z}. Let B₁ be the state after E(k) in which k takes T: x_l holds
+Y_{x_{l−1}}, and every other agent keeps its pick. Let I⁻ be the instance without k and T. Then B₁ restricted to I⁻ is
+the SD outcome of σ with k deleted. If Y is a perfect start, so is this state, in I⁻. (Without that hypothesis it
+need not be: v₀ = {0: 9}, v₁ = {0: 5, 1: 4}, v₂ = {0: 1}, σ = (0, 1, 2), E(0) = (0, 1) leaves agent 2 pickless
+while it values good 0. This is the referee's example.)
+
+*Proof.* Write b_a for a's good at B₁. We run σ ∖ k in I⁻ and show by induction that every agent a takes b_a.
+- *b_a is available at a's turn.* Only a holds b_a. b_a ∉ T, since b_a is a pick other than Y_z.
+- *a values no other available good g more.* Suppose v_a(g) > v_a(b_a) ≥ p_a.
+  - A junk good of I is worth less than p_a to a: it was available at a's turn (strict values).
+  - Y_z is worth less than p_a to every a ≠ z, since nobody wants it; and z's new value exceeds p_z.
+  - So g is a pick Y_j, and a wants Y_j at the picks. Hence σ(j) < σ(a).
+  - g is available, so its holder at B₁ comes after a. That holder is j itself unless j = x_l, in which case it is
+    x_{l+1}.
+  - It cannot be j, because σ(j) < σ(a).
+  - So σ(x_l) < σ(a) < σ(x_{l+1}), and a wants Y_{x_l}. That contradicts the choice of x_{l+1} as the earliest wanter.
+
+Since every agent takes its B₁ good, the goods left over are exactly the junk of B₁ in I⁻. ∎
+
+So part (a) of OC2-REC holds for E(k) with *any* pool pair. Checked (`reduce_s.py`) at every dangerous k and every
+pool pair T of E(k), for every listed order, at all 4,955 walk failures, the 12 known failures and the matching session's 23,943
+n = 5 walk rows: 0 violations.
+
+**Theorem REC-S (K4.MULTI.RECS): OC₂ by settling a sharer, then Theorem S or U one size down.** Let Y be a perfect start
+with strict values, k ∈ D, E(k) with head z, and T ⊆ (J ∪ {Y_z}) ∩ R_k an improving pair. Suppose:
+- **(L)** every other agent with a relevant good values each good of T below its value after E(k) (Lemma LIFT's
+  hypothesis);
+- **(R)** in I⁻ at B₁⁻, some (k′, P′, h) meets the hypotheses of Theorem S in its relaxed form, with h ∈ J⁻ ∪ {Y_{z′}}
+  (this contains Theorem U);
+- **(K)** no bundle of the resulting allocation X⁻ threatens k at v_k(T).
+
+Then OC₂ holds at Y. The repair is:
+1. E(k), in which k takes T;
+2. P′, an official move of I from B₁ that leaves k's bundle unchanged (LIFT 1);
+3. the completion X⁻ together with X_k = T.
+
+*Proof.*
+- B₁⁻ is a perfect start of I⁻ by Lemma SD-E.
+- Theorem S (refereed CORRECT; it needs no hardness) gives the move P′ in I⁻ and the EFX₀ S\* completion X⁻.
+- LIFT 1 makes P′ an official move of I.
+- LIFT 2 with (L) and (K) makes X⁻ ∪ {k: T} a one-absorber completion in I. ∎
+
+Every hypothesis is checked at the start; the existence of the moves is part of the proof.
+
+*Remarks (referee).*
+- **(L) is automatic.** Values are strict, Y is perfect and T ⊆ J ∪ {Y_z}, so every i ≠ k with a pick values each good
+  of T below p_i:
+  - a junk good was available at i's turn;
+  - for i ≠ z, Y_z is unwanted;
+  - for i = z, v_z(Y_z) = p_z < v_z(a).
+
+  Values only rise along E(k), and pickless agents at a perfect start are null. (L) never failed in 128,679 pairs.
+- **(K) is genuine.** It fails at 188 of 6,065 random Theorem S cases, and every allocation where it fails is not EFX₀.
+- **LIFT 1 when P′ uses agents of E(k).** An official move depends only on the agents' values on the current bundles
+  and the pool. J(I, B₁) = J(I⁻, B₁⁻), because k holds T. In the data, P′'s head is an agent of E(k) in all 9,943
+  repairs, and its owner is one in 57.
+
+*Checks* (`reduce_s.py`, `reduce_s.log`, `reduce_s_cex12.log`; raw EFX₀ in I for every lifted allocation). Both the
+general form (any canonical P₁ with B₁⁻ an SD start) and the E(k)-only form were run:
+
+| data | starts | (L) holds for some E(k), T | REC-S repairs | violations |
+|---|---|---|---|---|
+| the 12 known OC₁^max failures (`oc1max_cex12.jsonl`) | 12 | 12 | **12** | 0 |
+| the walk failures near them (`oc1_fail_walk.jsonl.gz`) | 4,955 | 4,955 | **4,955** | 0 |
+| the matching session's n = 5 walks near 5_pure#164 (`results/k4_matching/n5_walk164.jsonl`, `n5_walk164_long.jsonl.gz` on `proof/k4-matching`, commit 60d4ab1; rows with every order; `reduce_s_matching_n5.log`) | 1,498 + 22,445 | all | **all** | 0 |
+
+*Status of OC2-REC.*
+- (a) is proved (Lemma SD-E).
+- (b) is proved wherever (L), (R) and (K) hold, which is every known failing start.
+- What remains is existence on all hard starts with no one-move repair: that some k ∈ D and some pool pair T of E(k)
+  meet (L), (R) and (K). The matching session's n = 4 certification (K4.MATCH.REC.N4, 112,880 starts) is the natural
+  test set for this exact form.
+
+**Certified at n = 4 (K4.MULTI.RECS.N4).** REC-S's mechanism repairs *every* n = 4 start with no one-move repair. The
+data is the certifier's export: all 112,880 (type profile, picks) pairs over the n = 4 core hypergraphs,
+`results/k4_matching/data/two_move_starts_n4.json.gz` on `proof/k4-matching`; all have strict values.
+- `recs_witness.py` writes one witness per start (`recs_witnesses_n4.json.gz`, `recs_witness_n4.log`): an order, k,
+  E(k), T, the second chain P′ with H₀′ and h, and the final allocation. 112,880 of 112,880 have one.
+- `check_recs.py` checks every witness from the definitions and imports nothing from this workstream
+  (`check_recs_n4.log`):
+  - the picks are the SD outcome of the order;
+  - k is dangerous;
+  - P₁ is E(k);
+  - move 1 is official, and (L) holds;
+  - Lemma SD-E holds;
+  - move 2 is an official canonical chain from a dangerous agent of the reduced state, and does not touch k;
+  - Theorem S's owner bundle W, with h going to one other agent;
+  - the final allocation is complete, extends move 2 by junk only, has one absorber, and is raw EFX₀.
+- Result: **112,880 ok**. All 8,241 negative tests (mutated witnesses) are rejected. The checker also matches the witness file to the export as a multiset
+  of (sets, vals, picks), with sha256: 0 missing and 0 extra.
+- *Audit:* the referee read the checker against the definitions and re-validated every witness with its own code
+  (`k4/referee/oc1max_multi.md` §12, commit 3db66cb7): **CONFIRMED**. Every witness is Theorem S's allocation for a
+  longest chain of I⁻, and (K) holds. As for OC₁′^max, "every n = 4 start" inherits the completeness of the
+  certifier's export.
+- The matching session also ran `reduce_s.py` unmodified on the same export, with the same result
+  (`results/k4_matching/reduce_s_n4export.log` on `proof/k4-matching`, commit 4551d91).
+
+So at n = 4, OC₂^max holds by an explicit mechanism: the earliest-wanter chain settles a sharer, then one Theorem S
+chain in the reduced instance. No 4b sub-lemma needs naming at n = 4.
+
+*Smallest test (the integrator's 4_n4_3#58; it is 4a-type, and REC-S covers it too).* The values are R₀ = {0: 2, 1: 10,
+2: 4, 5: 7}, R₁ = {1: 10, 2: 3, 5: 4, 6: 8}, R₂ = {3: 3, 4: 5, 5: 6, 6: 7} and R₃ = {3: 3, 4: 2, 6: 4}, with picks
+(1, 2, 5, 6), J = {0, 3, 4} and D = {0, 2, 3}. The repair:
+1. E(2) = (2, 1), with agent 2 taking T = {3, 4};
+2. in I⁻, the chain (0, 1) of Theorem S with h = 0 kept out for agent 1.
+
+The final allocation is 0: {2, 5}, 1: {1, 0}, 2: {3, 4}, 3: {6}. An independent raw check confirms it is EFX₀.
+
+## 13. Lemma WG: worthless goods (standalone statement, for the referee)
+
+EFX₀ removes a good of value 0 at no cost to the remover. So a bundle S with |S| ≥ 2 threatens i at t iff
+v_i(S) − μ_i(S) > t, where μ_i(S) = min_{g∈S} v_i(g). Here μ_i(S) = 0 exactly when S contains a good that i does not
+value. Keeping such goods out of the owner's bundle lowers the threat to i by i's cheapest good in it, but each kept-out
+good needs a holder. This is the obstruction at the smallest residues of both SLOT (log613) and RING (T3), §10–§11.
+
+**Lemma WG (K4.MULTI.WG).** Let B be a state satisfying (G1) and (G2) (for instance the state after a canonical chain,
+by D-red 1). Let o be the owner, J the junk, and i ≠ o an agent. Put H = J ∖ R_i (the junk goods worth 0 to i) and
+X = B_o ∪ (J ∩ R_i). Suppose:
+- **(W1)** B_o ⊆ R_i, so that X ⊆ R_i;
+- **(W2)** X threatens no agent other than o at its value at B. For i this reads v_i(X) − min_{g∈X} v_i(g) ≤ v_i(B_i);
+- **(W3)** there are at least |H| holders: agents other than o with at most one base good, which nobody wants.
+
+Then B has an S\* completion with owner o and kept-out set H: o takes X, and |H| distinct holders take one good of H
+each.
+
+*Proof.* Lemma M (refereed) applies at B with owner o and kept-out set H. By (W2) the owner's bundle X threatens nobody
+at its base value, so no agent is needy, and (C1) holds. A non-needy holder accepts every good. So by (W3) any |H|
+distinct holders give a matching saturating H, which is (C3). ∎
+
+*Why it is worth stating.* Without (W1), the kept-out goods change nothing for i: i's threat value stays v_i(X),
+because a good worth 0 to i remains in X. With (W1), the threat value drops by i's cheapest good in X. The lemma
+isolates the count that matters: one holder per worthless junk good.
+
+**Checks** (`wg.py`, `wg.log`; canonical chains from D, minimal H₀, owner k, every i; raw EFX₀):
+
+| residue | starts | covered by Lemma WG | WG cases | violations | smallest not covered |
+|---|---|---|---|---|---|
+| SLOT2 (§10) | 161 | **41**, including log613 | 75 | 0 | lb4-last-block-leader-index-n4m8 (n = 4, m = 8) |
+| RING2 (§11) | 45 | 0 | 0 | 0 | T3, picks (0, 1, 4) |
+
+At T3 (W1) and (W2) hold after the chain (2, 1): B₂ = {1, 3} ⊆ R₁, and X = {1, 3} leaves 22 ≤ 30. But |H| = |{2, 5}| = 2
+and there is one holder, so (W3) fails. The swap repair of §11 avoids the count altogether.
+
+So 120 SLOT2 starts remain. They need a slot that cuts a danger set and a worthless-good cure at the same time; Lemma M
+decides each such combination exactly. RING2 needs the swap lemma.
+
+## 14. The existence half of REC-S: (K) locally, and the phantom class
+
+**(K) is local.** k keeps T. Outside T it values only Y_k and at most one more good ℓ, since |R_k| ≤ 4. Neither good
+alone can threaten k in most positions:
+- v_k(Y_k) = p_k < v_k(T);
+- a junk good alone is worth at most p_k, by (G2).
+
+So the allocation X of the reduced instance threatens k only if one of two things happens:
+- **(K-a)** one bundle holds both Y_k and ℓ, worth more than T to k after the least good is removed;
+- **(K-b)** ℓ is a pick that k values above T, and ℓ sits in a bundle of two or more goods (in Theorem S's allocation,
+  ℓ is the receiver's good next to h, or the released Y_{z′} in W).
+
+`rec_k.py` (`rec_k.log`) runs over E(k) for every order, every improving pool pair T and every Theorem S case of I⁻:
+
+| data | (R) cases | (K-a) fails | (K-b) fails | k's best pool pair T\* has a case with (R) and (K) |
+|---|---|---|---|---|
+| walk failures (4,955 starts) | 8,686 | 0 | 0 | 4,955 |
+| matching session's n = 5 walks (22,445) | 134,670 | 0 | 0 | 22,445 |
+| n = 4 export (112,880) | 605,360 | 0 | 9,600 | **112,880** |
+
+"(K) fails iff (K-a) or (K-b)" matched the raw threat test in every case. So the coordinator's suggestion holds on all
+data: **choosing T as k's best improving pool pair always leaves a (K)-safe Theorem S case.** Only (K-b) ever bites, and
+only for a worse pair. A proof needs one of two things:
+- an argument that the best pair rules out (K-b), i.e. k never values a pick above its best pool pair while that pick's
+  holder receives the slot;
+- or a Theorem S case avoiding ℓ's holder, which (S-c) permits whenever another holder exists.
+
+**The phantom class (the inductive form of REC-S).** After settling k, the reduced instance carries k as a *phantom*:
+an agent with a fixed bundle T_k and a threshold τ_k = v_k(T_k), which values at most two goods outside T_k (Y_k and ℓ).
+In the language of Lemma M^c, a phantom is a non-eligible agent with requirement τ_k and no base:
+- (C1) asks that no multi-good bundle threaten it;
+- a holder whose good the phantom values above τ_k becomes *phantom-frozen*: it may not take a slot, which is exactly
+  (K-b);
+- (L) is automatic for the real agents (§12, remark): they value each good of T_k below their holding, so the phantoms
+  never threaten them.
+
+A class closed under "settle, delete, recurse" (RSD) is therefore: *an SD start of the real agents, plus a set of
+phantoms with fixed pairs, where each phantom is unthreatened by every other phantom's pair.* Each step settles one
+more sharer by E(k) with its best pool pair T. It must check one new condition, that T threatens no existing phantom;
+k values at most two goods of the rest, so this is again a local "keep b and c apart" test. Lemma SD-E, Theorem S
+(with phantom-frozen holders removed from the receivers) and Lemma M^c (phantoms as non-eligible agents with fixed
+requirements) all apply verbatim in this class. If every two-move start reaches a phantom-class start where Theorem S
+applies after at most one settlement, OC₂^max follows. What remains is the existence argument (Sub-lemma
+**RSD-EX**, open): at a hard start with no one-move repair, k's best pool pair is (K)-safe for some Theorem S case.
+
+**Proposition K-loc (K4.MULTI.KLOC): where (K) can fail.** In Theorem S's allocation X⁻ of the reduced instance, the
+multi-good bundles are W⁻ = (J⁻ ∖ h) ∪ {Y_{z′}} and {B₁_r, h}.
+- (K-b) needs a pick ℓ with v_k(ℓ) > v_k(T) > p_k. Such a pick was taken before k's turn, by an agent q that picked
+  before k. Hence q ∉ E(k), since σ increases along E(k), and q still holds ℓ at B₁. In X⁻, ℓ is in a multi-good
+  bundle only if q is the receiver r of h, or q is P′'s head z′ (ℓ released into W⁻, or ℓ = h).
+- (K-a) needs Y_k ∈ W⁻. Y_k is held by x₁ at B₁, so Y_k ∈ W⁻ forces z′ = x₁. It also needs ℓ ∈ W⁻, so ℓ is a pool good
+  of E(k) outside T, and p_k + v_k(ℓ) > v_k(T). (The bundle {Y_k, h} never threatens k, since v_k(h) ≤ p_k.)
+
+So **(K) holds for every Theorem S case of I⁻ whose receiver and head avoid q, and whose head is not x₁ when k values a
+third pool good.** *Proof:* the case analysis above, with (G2) for junk and v_k(Y_k) = p_k < v_k(T). ∎
+
+When ℓ is a pick, k values only Y_k and two pool goods besides ℓ, so T\* is k's only pool pair. RSD-EX is then purely a
+choice of the Theorem S case in I⁻. In the phantom language, it must avoid the phantom-frozen holder q. The census
+shows such a case always exists (`rec_k.log`): (K-a) never occurs, and the 9,600 (K-b) failures at n = 4 always have
+a sibling case that avoids q. A proof would come from (S-c)'s freedom: Theorem S's receiver is the head or an
+unfrozen second wanter, and the head of a longest chain of I⁻ need not be q.
+
+## 15. Can Part 1 be dropped? The RSD census (the integrator's §24.3 request)
+
+The question: can "settle a sharer first" (REC-S, or its iteration RSD) replace the one-move theory at *every* hard
+start, and not only at the two-move ones? `rsd.py` runs on the 8,383 hard |D| ≥ 2 perfect starts. A settlement is
+E(k) with an improving pool pair T. Every final allocation is checked raw in I, with the settled agents keeping their
+pairs.
+
+| variant | log | completes | fails |
+|---|---|---|---|
+| Theorem S last, zero settlements allowed, at most two | `rsd.log` | 7,441 + 515 (one settlement) + 17 (two) = 7,973 | 410 |
+| exactly one settlement, then Theorem S (REC-S) | `rsd_recs.log` | 3,278 | 5,105 |
+| at least one settlement, at most two, Theorem S last | `rsd_d2.log` | 3,301 | 5,082 |
+| one settlement, then any official move or none, any one-absorber completion | `rsd_any.log` | 8,021 | 362 (a lower bound: one witness completion per absorber is lifted) |
+
+Settling first breaks most of the starts that a chain repairs at the picks (the KEEP, CLEAN and OWN mechanisms). The
+smallest failures are:
+- T3, picks (0, 1, 4) (RING);
+- c4x-n3m5-big-bases (n = 3, m = 5): its reduced start completes with no move, which Theorem S does not produce;
+- with any last step, c4x-n3m6-3good-first (n = 3, m = 6).
+
+**Conclusion: Part 1 (OC₁ where one move suffices) cannot be dropped.** REC-S is the second move. It is not a
+replacement for the first.

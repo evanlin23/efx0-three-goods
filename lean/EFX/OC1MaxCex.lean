@@ -1,4 +1,4 @@
-import EFX.OCVariants
+import EFX.T6
 import EFX.DE4Refute
 
 /-!
@@ -19,8 +19,8 @@ so they form a maximum matching (`maximum`) and a perfect start (`perfect`). The
   `target4_of_conjOC1perf` stand; OC₂^max, OC_k^max and the ∃-order form (`EFX/OCVariants.lean`) are not affected.
 
 **Method.**
-- `move_local` (general, any instance): after one move every agent either keeps its base, or strictly gains with a
-  new base, without repetitions, inside its old base, one other agent's base and the junk.
+- `EFX.OC1Max.move_local` (`EFX/OC1MaxMoves.lean`, any instance): after one move every agent either keeps its
+  base, or strictly gains with a new base, without repetitions, inside one agent's base and the junk.
 - So a completion `X` of the picks or of a one-move state passes the test `crit X`: every agent keeps its pick
   under `X`, or some agent `j` makes the goods of `B i ∪ B j ∪ J` that `X` gives to `i` worth more to `i` than its
   pick (`crit_of_local`).
@@ -38,107 +38,6 @@ namespace OC1Max
 
 variable {A G : Type} [DecidableEq A] [DecidableEq G]
 
-/-! ## After one move (any instance) -/
-
-section afterMove
-variable {v : A → G → Nat} {agents : List A} {goods : List G}
-
-omit [DecidableEq A] [DecidableEq G] in
-theorem value_append_eq (i : A) (S T : List G) : value v i (S ++ T) = value v i S + value v i T := by
-  simp [value]
-
-omit [DecidableEq A] in
-/-- The value of a list without repetitions is at most that of any list containing its goods. -/
-theorem value_le_of_nodup_sub (i : A) : ∀ {L M : List G}, L.Nodup → (∀ g ∈ L, g ∈ M) →
-    value v i L ≤ value v i M
-  | [], _, _, _ => by simp
-  | a :: t, M, hnd, hsub => by
-    obtain ⟨hat, htn⟩ := List.nodup_cons.mp hnd
-    have haM : a ∈ M := hsub a List.mem_cons_self
-    have hM : value v i M = v i a + value v i (M.erase a) := by
-      have := ((List.perm_cons_erase haM).map (v i)).sum_nat
-      simpa [value] using this
-    have ih := value_le_of_nodup_sub i htn fun g hg => by
-      have hne : g ≠ a := fun e => hat (e ▸ hg)
-      exact (List.mem_erase_of_ne hne).mpr (hsub g (List.mem_cons_of_mem _ hg))
-    rw [value_cons, hM]; omega
-
-omit [DecidableEq A] in
-theorem nodup_append_junk {B : A → List G} {j : A} (hj : j ∈ agents) {H : List G} (hBj : (B j).Nodup)
-    (hH : H.Nodup) (hHJ : ∀ g ∈ H, g ∈ junkOf agents goods B) : (B j ++ H).Nodup :=
-  List.nodup_append.mpr ⟨hBj, hH, fun _ ha b hb e => (mem_junkOf.mp (hHJ b hb)).2 j hj (e ▸ ha)⟩
-
-omit [DecidableEq A] [DecidableEq G] in
-theorem exists_pair_of_mem {l₁ l₂ : List A} (hlen : l₂.length ≤ l₁.length) {i : A} (hi : i ∈ l₂) :
-    ∃ p ∈ l₁.zip l₂, p.2 = i := by
-  rw [← List.map_snd_zip hlen] at hi
-  exact List.mem_map.mp hi
-
-/-- **After one move** (`OneMove`), with bases without repetitions: every listed agent keeps its base, or it
-strictly gains and its new base, without repetitions, lies inside its old base, the base of one listed agent `j`
-and the junk. -/
-theorem move_local {B B' : A → List G} (hB : ∀ k ∈ agents, (B k).Nodup) (h : OneMove v agents goods B B') :
-    ∀ i ∈ agents, B' i = B i ∨ ∃ j ∈ agents, (B' i).Nodup ∧
-      (∀ g ∈ B' i, g ∈ B i ∨ g ∈ B j ∨ g ∈ junkOf agents goods B) ∧ value v i (B i) < value v i (B' i) := by
-  intro i hi
-  rcases h with ⟨x, H, hx, hHne, hHnd, hHJ, hB'x, hB'y⟩ | ⟨x₀, xs, H, hxs, hnd, hag, hH, -, hH0, hHJ, hgain0,
-    hpairs, hB'0, hB'p, hB'o⟩ | ⟨w₀, ws, H, -, -, hag, hH, -, hp, hB'o⟩
-  · -- an addition
-    by_cases hix : i = x
-    · subst hix
-      refine Or.inr ⟨i, hx, ?_, fun g hg => ?_, ?_⟩
-      · rw [hB'x]; exact nodup_append_junk hx (hB i hx) hHnd fun g hg => (hHJ g hg).1
-      · rw [hB'x] at hg
-        rcases List.mem_append.mp hg with hg | hg
-        · exact Or.inl hg
-        · exact Or.inr (Or.inr (hHJ g hg).1)
-      · rw [hB'x, value_append_eq]
-        obtain ⟨h0, t, rfl⟩ := List.exists_cons_of_ne_nil hHne
-        have := (hHJ h0 List.mem_cons_self).2
-        rw [value_cons]; omega
-    · exact Or.inl (hB'y i hix)
-  · -- a chain
-    by_cases hm : i ∈ x₀ :: xs
-    · rcases List.mem_cons.mp hm with rfl | hixs
-      · refine Or.inr ⟨(i :: xs).getLast (List.cons_ne_nil _ _),
-          hag _ (List.getLast_mem (List.cons_ne_nil _ _)), ?_, fun g hg => ?_, ?_⟩
-        · rw [hB'0]; exact (hH i hm).1
-        · rw [hB'0] at hg
-          rcases hH0 g hg with h1 | h1
-          · exact Or.inr (Or.inr h1)
-          · exact Or.inr (Or.inl h1)
-        · rw [hB'0]; exact hgain0
-      · obtain ⟨p, hp, rfl⟩ := exists_pair_of_mem (l₁ := x₀ :: xs) (by simp) hixs
-        have hp1 : p.1 ∈ x₀ :: xs := (List.of_mem_zip hp).1
-        refine Or.inr ⟨p.1, hag _ hp1, ?_, fun g hg => ?_, ?_⟩
-        · rw [hB'p p hp]
-          exact nodup_append_junk (hag _ hp1) (hB _ (hag _ hp1)) (hH _ hm).1 (hHJ _ hixs)
-        · rw [hB'p p hp] at hg
-          rcases List.mem_append.mp hg with hg | hg
-          · exact Or.inr (Or.inl hg)
-          · exact Or.inr (Or.inr (hHJ _ hixs g hg))
-        · rw [hB'p p hp]; exact (hpairs p hp).2
-    · exact Or.inl (hB'o i hm)
-  · -- a ring
-    by_cases hm : i ∈ w₀ :: ws
-    · have hm' : i ∈ ws ++ [w₀] := by
-        rcases List.mem_cons.mp hm with rfl | h
-        · simp
-        · exact List.mem_append_left _ h
-      obtain ⟨p, hpm, rfl⟩ := exists_pair_of_mem (l₁ := w₀ :: ws) (by simp) hm'
-      have hp1 : p.1 ∈ w₀ :: ws := (List.of_mem_zip hpm).1
-      obtain ⟨-, hgain, hB'⟩ := hp p hpm
-      refine Or.inr ⟨p.1, hag _ hp1, ?_, fun g hg => ?_, ?_⟩
-      · rw [hB']
-        exact nodup_append_junk (hag _ hp1) (hB _ (hag _ hp1)) (hH _ hm).1 fun g hg => ((hH _ hm).2 g hg).1
-      · rw [hB'] at hg
-        rcases List.mem_append.mp hg with hg | hg
-        · exact Or.inr (Or.inl hg)
-        · exact Or.inr (Or.inr ((hH _ hm).2 g hg).1)
-      · rw [hB']; exact hgain
-    · exact Or.inl (hB'o i hm)
-
-end afterMove
 
 /-! ## Instance 1 -/
 
@@ -325,7 +224,7 @@ theorem no_efx0_of_crit (X : Fin 7 → Fin 4) (hc : crit X = true) : ¬ EFX0L v 
   rw [hl] at hc ⊢
   exact chunk (X 0) (X 1) _ (mem_allLists _) hc
 
-/-- **A completion of bases that satisfy `move_local`'s conclusion passes the test.** -/
+/-- **A completion of bases that satisfy (a weak form of) `move_local`'s conclusion passes the test.** -/
 theorem crit_of_local {B' : Fin 4 → List (Fin 7)}
     (hloc : ∀ i ∈ agents, B' i = B i ∨ ∃ j ∈ agents, (B' i).Nodup ∧
       (∀ g ∈ B' i, g ∈ B i ∨ g ∈ B j ∨ g ∈ junkOf agents goods B) ∧ value v i (B i) < value v i (B' i))
@@ -353,13 +252,160 @@ theorem no_completion_move {B' : Fin 4 → List (Fin 7)} (hm : OneMove v agents 
   rintro ⟨X, hE, hX⟩
   rw [pickBase_eq] at hm
   have hloc := move_local (fun k _ => by revert k; decide) hm
-  exact no_efx0_of_crit X (crit_of_local hloc X hX) hE
+  refine no_efx0_of_crit X (crit_of_local (fun i hi => (hloc i hi).imp id fun ⟨j, hj, hnd, hmem, hgain⟩ =>
+    ⟨j, hj, hnd, fun g hg => (hmem g hg).elim (fun h => Or.inr (Or.inl h)) (fun h => Or.inr (Or.inr h)), hgain⟩)
+    X hX) hE
 
 theorem not_oneAbsorber_picks : ¬ OneAbsorber v agents goods (pickBase v goods ord) := fun ⟨X, _, hE, hX, _⟩ =>
   no_completion_picks ⟨X, hE, hX⟩
 
 theorem not_oneAbsorber_move {B' : Fin 4 → List (Fin 7)} (hm : OneMove v agents goods (pickBase v goods ord) B') :
     ¬ OneAbsorber v agents goods B' := fun ⟨X, _, hE, hX, _⟩ => no_completion_move hm ⟨X, hE, hX⟩
+
+/-! ### A second, structural refutation: Lemma T6's certificate -/
+
+/-- The picks. -/
+def y : Fin 4 → Fin 7
+  | 0 => 1 | 1 => 2 | 2 => 5 | _ => 6
+
+theorem B_eq_y : ∀ k ∈ agents, B k = [y k] := by decide
+
+theorem validState_B : ValidState agents goods B := ⟨by decide, by decide⟩
+
+/-- `X` value-dominates the picks. -/
+def dom (X : Fin 7 → Fin 4) : Bool :=
+  agents.all (fun i => decide (value v i (B i) ≤ value v i (bundle goods X i)))
+
+/-- Lemma T6's certificate at `X`: some agent holds three other agents' picks, or two, each worth so little that
+with all of its junk it does not beat its pick. -/
+def cert (X : Fin 7 → Fin 4) : Bool :=
+  agents.any (fun i => decide (3 ≤ (foreignPicks agents y X i).length ∨
+    (2 ≤ (foreignPicks agents y X i).length ∧ ∀ k ∈ foreignPicks agents y X i,
+      v i (y k) + value v i (relevant v i J) ≤ value v i (B i))))
+
+theorem certChunk00 : ∀ l ∈ allLists 5, dom (ofList (0 :: 0 :: l)) = true →
+    EFX0L v agents goods (ofList (0 :: 0 :: l)) → cert (ofList (0 :: 0 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk01 : ∀ l ∈ allLists 5, dom (ofList (0 :: 1 :: l)) = true →
+    EFX0L v agents goods (ofList (0 :: 1 :: l)) → cert (ofList (0 :: 1 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk02 : ∀ l ∈ allLists 5, dom (ofList (0 :: 2 :: l)) = true →
+    EFX0L v agents goods (ofList (0 :: 2 :: l)) → cert (ofList (0 :: 2 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk03 : ∀ l ∈ allLists 5, dom (ofList (0 :: 3 :: l)) = true →
+    EFX0L v agents goods (ofList (0 :: 3 :: l)) → cert (ofList (0 :: 3 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk10 : ∀ l ∈ allLists 5, dom (ofList (1 :: 0 :: l)) = true →
+    EFX0L v agents goods (ofList (1 :: 0 :: l)) → cert (ofList (1 :: 0 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk11 : ∀ l ∈ allLists 5, dom (ofList (1 :: 1 :: l)) = true →
+    EFX0L v agents goods (ofList (1 :: 1 :: l)) → cert (ofList (1 :: 1 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk12 : ∀ l ∈ allLists 5, dom (ofList (1 :: 2 :: l)) = true →
+    EFX0L v agents goods (ofList (1 :: 2 :: l)) → cert (ofList (1 :: 2 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk13 : ∀ l ∈ allLists 5, dom (ofList (1 :: 3 :: l)) = true →
+    EFX0L v agents goods (ofList (1 :: 3 :: l)) → cert (ofList (1 :: 3 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk20 : ∀ l ∈ allLists 5, dom (ofList (2 :: 0 :: l)) = true →
+    EFX0L v agents goods (ofList (2 :: 0 :: l)) → cert (ofList (2 :: 0 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk21 : ∀ l ∈ allLists 5, dom (ofList (2 :: 1 :: l)) = true →
+    EFX0L v agents goods (ofList (2 :: 1 :: l)) → cert (ofList (2 :: 1 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk22 : ∀ l ∈ allLists 5, dom (ofList (2 :: 2 :: l)) = true →
+    EFX0L v agents goods (ofList (2 :: 2 :: l)) → cert (ofList (2 :: 2 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk23 : ∀ l ∈ allLists 5, dom (ofList (2 :: 3 :: l)) = true →
+    EFX0L v agents goods (ofList (2 :: 3 :: l)) → cert (ofList (2 :: 3 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk30 : ∀ l ∈ allLists 5, dom (ofList (3 :: 0 :: l)) = true →
+    EFX0L v agents goods (ofList (3 :: 0 :: l)) → cert (ofList (3 :: 0 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk31 : ∀ l ∈ allLists 5, dom (ofList (3 :: 1 :: l)) = true →
+    EFX0L v agents goods (ofList (3 :: 1 :: l)) → cert (ofList (3 :: 1 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk32 : ∀ l ∈ allLists 5, dom (ofList (3 :: 2 :: l)) = true →
+    EFX0L v agents goods (ofList (3 :: 2 :: l)) → cert (ofList (3 :: 2 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+
+theorem certChunk33 : ∀ l ∈ allLists 5, dom (ofList (3 :: 3 :: l)) = true →
+    EFX0L v agents goods (ofList (3 :: 3 :: l)) → cert (ofList (3 :: 3 :: l)) = true := by
+  unfold EFX0L bundle; decide +kernel
+theorem certChunk : ∀ a b : Fin 4, ∀ l ∈ allLists 5, dom (ofList (a :: b :: l)) = true →
+    EFX0L v agents goods (ofList (a :: b :: l)) → cert (ofList (a :: b :: l)) = true := by
+  intro a b
+  match a, b with
+  | 0, 0 => exact certChunk00
+  | 0, 1 => exact certChunk01
+  | 0, 2 => exact certChunk02
+  | 0, 3 => exact certChunk03
+  | 1, 0 => exact certChunk10
+  | 1, 1 => exact certChunk11
+  | 1, 2 => exact certChunk12
+  | 1, 3 => exact certChunk13
+  | 2, 0 => exact certChunk20
+  | 2, 1 => exact certChunk21
+  | 2, 2 => exact certChunk22
+  | 2, 3 => exact certChunk23
+  | 3, 0 => exact certChunk30
+  | 3, 1 => exact certChunk31
+  | 3, 2 => exact certChunk32
+  | 3, 3 => exact certChunk33
+
+/-- **Every EFX₀ allocation that value-dominates the picks satisfies T6's certificate** (kernel computation over
+all 4⁷ allocations; only 144 dominate the picks, 6 of them EFX₀, and agent 0 holds the picks 2 and 5 in each). -/
+theorem cert_all (X : Fin 7 → Fin 4) (hE : EFX0L v agents goods X)
+    (hdom : ∀ i ∈ agents, value v i (B i) ≤ value v i (bundle goods X i)) :
+    ∃ i ∈ agents, 3 ≤ (foreignPicks agents y X i).length ∨
+      (2 ≤ (foreignPicks agents y X i).length ∧ ∀ k ∈ foreignPicks agents y X i,
+        v i (y k) + value v i (relevant v i (junkOf agents goods B)) ≤ value v i (B i)) := by
+  have hd : dom X = true := List.all_eq_true.mpr fun i hi => decide_eq_true (hdom i hi)
+  rw [← ofList_map X] at hd hE
+  have hl : goods.map X = X 0 :: X 1 :: [X 2, X 3, X 4, X 5, X 6] := rfl
+  rw [hl] at hd hE
+  have hc := certChunk (X 0) (X 1) _ (mem_allLists _) hd hE
+  rw [← hl, ofList_map] at hc
+  obtain ⟨i, hi, h⟩ := List.any_eq_true.mp hc
+  rw [junk_eq]
+  exact ⟨i, hi, of_decide_eq_true h⟩
+
+/-- **No state one move reaches has an EFX₀ completion**, by Lemma T6 (`EFX.OC1Max.no_completion_of_cert`). -/
+theorem no_completion_move_T6 {B' : Fin 4 → List (Fin 7)} (hm : OneMove v agents goods (pickBase v goods ord) B') :
+    ¬ ∃ X : Fin 7 → Fin 4, IsAllocation agents goods X ∧ EFX0L v agents goods X ∧
+      ∀ i ∈ agents, ∀ g ∈ B' i, X g = i := by
+  rw [pickBase_eq] at hm
+  exact no_completion_of_cert (by decide) validState_B B_eq_y (fun X _ hE hdom => cert_all X hE hdom) hm
+
+/-- **The picks have no EFX₀ completion**, by the same certificate: a completion of the picks gives every pick to
+its holder, so nobody holds another agent's pick. -/
+theorem no_completion_picks_T6 : ¬ ∃ X : Fin 7 → Fin 4, EFX0L v agents goods X ∧
+    ∀ i ∈ agents, ∀ g ∈ pickBase v goods ord i, X g = i := by
+  rintro ⟨X, hE, hX⟩
+  rw [pickBase_eq] at hX
+  have hdom : ∀ i ∈ agents, value v i (B i) ≤ value v i (bundle goods X i) := fun i hi =>
+    value_le_of_nodup_sub i (by revert i; decide) fun g hg => mem_bundle.mpr ⟨mem_goods g, hX i hi g hg⟩
+  obtain ⟨i, hi, h⟩ := cert_all X hE hdom
+  have h0 : foreignPicks agents y X i = [] := List.eq_nil_iff_forall_not_mem.mpr fun k hk => by
+    obtain ⟨hka, hki, hXk⟩ := mem_foreignPicks.mp hk
+    rw [hX k hka (y k) (by rw [B_eq_y k hka]; simp)] at hXk
+    exact hki hXk
+  rw [h0] at h
+  simp at h
 
 end Cex1
 
@@ -377,13 +423,18 @@ theorem not_conjOC1perf : ¬ ConjOC1perf (Fin 4) (Fin 7) := fun h => by
   · exact Cex1.not_oneAbsorber_picks h0
   · exact Cex1.not_oneAbsorber_move hm hB'
 
+/-- **OC₁^max is false, by Lemma T6** (the structural certificate of `k4/ttc.md` §14.2). -/
+theorem not_conjOC1max_T6 : ¬ ConjOC1max (Fin 4) (Fin 7) := fun h => by
+  rcases h Cex1.agents Cex1.goods Cex1.v (by decide) (by decide) Cex1.core Cex1.connected Cex1.strict Cex1.ord
+    Cex1.ord_perm Cex1.maximum with ⟨X, -, hE, hX, -⟩ | ⟨B', hm, X, hXa, hE, hX, -⟩
+  · exact Cex1.no_completion_picks_T6 ⟨X, hE, hX⟩
+  · exact Cex1.no_completion_move_T6 hm ⟨X, hXa, hE, hX⟩
+
 end OC1Max
 end EFX
 
 /-! ## Axiom certificates (audited by `check.sh`) -/
 
-#print axioms EFX.OC1Max.value_le_of_nodup_sub
-#print axioms EFX.OC1Max.move_local
 #print axioms EFX.OC1Max.Cex1.core
 #print axioms EFX.OC1Max.Cex1.connected
 #print axioms EFX.OC1Max.Cex1.strict
@@ -395,3 +446,7 @@ end EFX
 #print axioms EFX.OC1Max.Cex1.no_completion_move
 #print axioms EFX.OC1Max.not_conjOC1max
 #print axioms EFX.OC1Max.not_conjOC1perf
+#print axioms EFX.OC1Max.Cex1.cert_all
+#print axioms EFX.OC1Max.Cex1.no_completion_move_T6
+#print axioms EFX.OC1Max.Cex1.no_completion_picks_T6
+#print axioms EFX.OC1Max.not_conjOC1max_T6

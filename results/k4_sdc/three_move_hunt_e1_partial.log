@@ -1,0 +1,6 @@
+$ python3 k4/sdc/three_move_hunt.py 20000 2 1
+... {'cores': 50, 'starts needing 0 moves': 499, 'starts needing 1 moves': 91, 'not a core': 2} 8 s
+... {'cores': 100, 'starts needing 0 moves': 1134, 'starts needing 1 moves': 178, 'not a core': 5} 17 s
+... {'cores': 150, 'starts needing 0 moves': 1675, 'starts needing 1 moves': 239, 'not a core': 7} 26 s
+... {'cores': 200, 'starts needing 0 moves': 2254, 'starts needing 1 moves': 294, 'not a core': 12} 35 s
+... {'cores': 250, 'starts needing 0 moves': 2804, 'starts needing 1 moves': 371, 'not a core': 15, 'starts needing 2 moves': 1} 43 s

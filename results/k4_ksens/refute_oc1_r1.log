@@ -1,0 +1,25 @@
+$ python3 k4/ksens/refute_oc1_r1.py
+PWR1-6 [[[0, 6, 7, 8, 9, 10], [1, 6, 7, 8, 9, 10], [2, 6, 7, 8, 9, 10], [0, 1, 2, 3, 6], [0, 1, 2, 4, 6], [0, 1, 2, 5, 6]], [[40, 38, 36, 34, 32, 30], [40, 38, 36, 34, 32, 30], [40, 38, 36, 34, 32, 30], [12, 8, 4, 2, 3], [12, 8, 4, 2, 3], [12, 8, 4, 2, 3]]]
+   k 6, n 6, m 11; an R1-priority order, picks (0, 6, 2, 1, 4, 5), junk [3, 7, 8, 9, 10]
+   SAT: {'ocsat oc': False, 'ocsat oc1': False, 'ocseq <=1 chain free': False, 'ocseq <=1 chain A=1': False, 'ocseq <=2 chains free': True}
+   SAT-free: 2514 distinct one-chain states; picks complete (free) False; states with a free completion 0, with a one-absorber completion 0 (0 s)
+   R1-priority starts: 114, failing OC1 (ocsat): 6; every-order starts failing OC1: 12
+   OK: OC and OC1 fail from this order; two chains suffice
+PW436 [[[0, 7, 8, 9, 10, 11, 12], [1, 7, 8, 9, 10, 11, 12], [2, 7, 8, 9, 10, 11, 12], [3, 7, 8, 9, 10, 11, 12], [0, 1, 2, 3, 4], [0, 1, 2, 3, 5], [0, 1, 2, 3, 6]], [[20, 19, 18, 17, 16, 15, 14], [20, 19, 18, 17, 16, 15, 14], [20, 19, 18, 17, 16, 15, 14], [20, 19, 18, 17, 16, 15, 14], [8, 6, 4, 2, 1], [8, 6, 4, 2, 1], [8, 6, 4, 2, 1]]]
+   k 7, n 7, m 13; an R1-priority order, picks (0, 7, 2, 3, 1, 5, 6), junk [4, 8, 9, 10, 11, 12]
+   SAT: {'ocsat oc': False, 'ocsat oc1': False, 'ocseq <=1 chain free': False, 'ocseq <=1 chain A=1': False, 'ocseq <=2 chains free': True}
+   SAT-free: 29683 distinct one-chain states; picks complete (free) False; states with a free completion 0, with a one-absorber completion 0 (10 s)
+   R1-priority starts: 198, failing OC1 (ocsat): 6; every-order starts failing OC1: 13
+   OK: OC and OC1 fail from this order; two chains suffice
+NF2-6 [[[0, 6, 7, 8, 9, 10], [1, 6, 7, 8, 9, 10], [2, 6, 7, 8, 9, 10], [0, 1, 2, 3, 6], [0, 1, 2, 4, 6], [0, 1, 2, 5, 6]], [[400, 240, 239, 238, 237, 236], [400, 240, 239, 238, 237, 236], [400, 240, 239, 238, 237, 236], [200, 199, 198, 190, 195], [200, 199, 198, 190, 195], [200, 199, 198, 190, 195]]]
+   k 6, n 6, m 11; the neediest-first order (need = y1 - y2 - y3), picks (0, 1, 2, 6, 4, 5), junk [3, 7, 8, 9, 10]
+   SAT: {'ocsat oc': False, 'ocsat oc1': False, 'ocseq <=1 chain free': False, 'ocseq <=1 chain A=1': False, 'ocseq <=2 chains free': True}
+   SAT-free: 3622 distinct one-chain states; picks complete (free) False; states with a free completion 0, with a one-absorber completion 0 (1 s)
+   R1-priority starts: 114, failing OC1 (ocsat): 6; every-order starts failing OC1: 12
+   OK: OC and OC1 fail from this order; two chains suffice
+NF1R1-6 [[[0, 7, 8, 9, 10, 11], [1, 7, 8, 9, 10, 11], [2, 7, 8, 9, 10, 11], [3, 7, 8, 9, 10, 11], [0, 1, 2, 3, 4, 7], [0, 1, 2, 3, 5, 7], [0, 1, 2, 3, 6, 7]], [[40, 24, 23, 22, 21, 20], [40, 24, 23, 22, 21, 20], [40, 24, 23, 22, 21, 20], [40, 24, 23, 22, 21, 20], [20, 19, 18, 17, 2, 3], [20, 19, 18, 17, 2, 3], [20, 19, 18, 17, 2, 3]]]
+   k 6, n 7, m 12; the R1 neediest-first order with need = y1 - y2, picks (0, 7, 2, 3, 1, 5, 6), junk [4, 8, 9, 10, 11]
+   SAT: {'ocsat oc': False, 'ocsat oc1': False, 'ocseq <=1 chain free': False, 'ocseq <=1 chain A=1': False, 'ocseq <=2 chains free': True}
+   SAT-free: 5181 distinct one-chain states; picks complete (free) False; states with a free completion 0, with a one-absorber completion 0 (1 s)
+   R1-priority starts: 198, failing OC1 (ocsat): 6; every-order starts failing OC1: 15
+   OK: OC and OC1 fail from this order; two chains suffice

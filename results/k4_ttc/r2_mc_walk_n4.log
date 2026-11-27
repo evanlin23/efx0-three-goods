@@ -1,0 +1,12 @@
+$ git show origin/compute/k4-oc1max-cert:results/k4_oc1max/oc1max_cex_n4.json > cex.json   (commit dbc2631); MC_DIR = proof/k4-oc1max-multi:k4/oc1max_multi at 3d157f3
+$ python3 k4/ttc/r2_mc.py walk cex.json 300 1
+  M^c (any owner, any rest) certifies some chain 79
+  M^c (max_rest 1) certifies some chain 79
+  M^c (max_rest 1) certifies some chain with owner another receiver: no 3
+  M^c (max_rest 1) certifies some chain with owner another receiver: yes 76
+  M^c (max_rest 1) certifies some chain with owner x_0: yes 79
+  M^c (max_rest 1) certifies some chain with owner z: yes 79
+  canonical chains to a receiver: (G2) fails after none of them 79
+distinct profiles 3264
+hard starts with >= 2 receivers 79
+time 5 s

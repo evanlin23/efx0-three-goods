@@ -1,0 +1,14 @@
+$ python3 k4/ksens/ocsat.py '[[[0,2,3,4,5],[1,2,3,4,5]],[[100,91,92,93,94],[100,94,93,92,91]]]'
+(0, 1) {'order': (0, 1), 'md': True, 'ext': True, 'oc': True, 'ext1': False, 'oc1': True}
+SD-C True MD True OC True OC1 True
+$ python3 k4/ksens/brute.py '[[[0,2,3,4,5],[1,2,3,4,5]],[[100,91,92,93,94],[100,94,93,92,91]]]'
+EFX0 allocations 14
+(0, 1) {'order': (0, 1), 'md': True, 'ext': True, 'ext1': False, 'oc': True, 'oc1': True}
+SD-C True MD True OC True OC1 True
+# k = 4 version
+$ python3 k4/ksens/brute.py '[[[0,2,3,4],[1,2,3,4]],[[100,91,92,93],[100,93,92,91]]]'
+EFX0 allocations 6
+(0, 1) {'order': (0, 1), 'md': True, 'ext': True, 'ext1': True, 'oc': True, 'oc1': True}
+SD-C True MD True OC True OC1 True
+(0, 1) {'order': (0, 1), 'md': True, 'ext': True, 'oc': True, 'ext1': True, 'oc1': True}
+SD-C True MD True OC True OC1 True

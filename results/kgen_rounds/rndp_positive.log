@@ -1,0 +1,19 @@
+$ python3 kgen/rounds/rndp_positive.py
+('X4', 'RND1Z', False) 1
+('X4', 'RNDPZ', True) 1
+('fails.jsonl', 'RND1Z', False) 43
+('fails.jsonl', 'RNDPZ', True) 43
+('fails_iprime.jsonl', 'RND1Z', False) 3
+('fails_iprime.jsonl', 'RNDPZ', True) 3
+('fails_kcore.jsonl', 'RND1Z', False) 16
+('fails_kcore.jsonl', 'RNDPZ', True) 16
+('fails_kcover.jsonl', 'RND1Z', False) 2
+('fails_kcover.jsonl', 'RNDPZ', True) 2
+('fails_keps.jsonl', 'RND1Z', False) 71
+('fails_keps.jsonl', 'RNDPZ', True) 71
+('fails_oc1p_pos.jsonl', 'RND1Z', True) 10
+('fails_oc1p_pos.jsonl', 'RNDPZ', True) 10
+('fails_twins.jsonl', 'RND1Z', False) 22
+('fails_twins.jsonl', 'RNDPZ', True) 22
+('forward checked',) 112
+mismatches 0 152s

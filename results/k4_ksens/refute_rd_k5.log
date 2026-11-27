@@ -1,0 +1,10 @@
+$ python3 k4/ksens/refute_rd_k5.py
+RD5 = [[[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]] k 5
+order (0, 3, 1, 2) picks (1, 3, 4, 2) junk [0, 5, 6] ; complete EFX0 allocations: 26
+SAT (ocsat): {'round free': False, 'round A=1': False, 'one chain free': False, 'one chain A=1': False}
+brute force: {'round states': 50, 'with a free completion': 0, 'with a one-absorber completion': 0, 'one-chain states': 30}
+least sequential chains: ocseq free 2, one absorber 2; brute force: two-chain states with a free completion 18
+MD for this order (brute): True
+every order: 10 starts; OC1 fails on 1, MD on 0; SD-C True; ocsat/brute mismatches 0
+k = 4 version (agent 0 without good 4): [[[0, 3, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], [[26, 44, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]]] ; starts failing one round: 0; failing OC1: 0
+OK: RD and RD1 fail at k = 5 (n = 4, m = 7) from order (0, 3, 1, 2) ; two chains suffice; 0 s

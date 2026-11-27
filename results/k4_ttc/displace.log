@@ -1,0 +1,18 @@
+$ python3 k4/ttc/displace.py special
+distinct hard starts 16
+every minimal one-path 16
+k* = 1 9
+k* = 2 5
+k* = 3 2
+some minimal one-path 16
+time 0 s
+$ python3 k4/ttc/displace.py screen
+distinct hard starts 194
+every minimal one-path 194
+k* = 0 15
+k* = 1 84
+k* = 2 73
+k* = 3 20
+k* = 4 2
+some minimal one-path 194
+time 1 s

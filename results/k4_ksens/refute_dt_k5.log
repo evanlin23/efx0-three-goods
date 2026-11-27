@@ -1,0 +1,10 @@
+$ python3 k4/ksens/refute_dt_k5.py
+DT5 [[[0, 2, 3, 4, 5], [1, 2, 3, 4, 5]], [[100, 91, 92, 93, 94], [100, 94, 93, 92, 91]]]: picks [0, 1]; one-absorber completion: SAT False, brute force (owner 0, owner 1) [0, 0]; free completion SAT True, brute True; one chain then one absorber (OC1) SAT True
+DT4 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[100, 91, 92, 93], [100, 93, 92, 91]]]: picks [0, 1]; one-absorber completion: SAT True, brute force (owner 0, owner 1) [3, 3]; free completion SAT True, brute True; one chain then one absorber (OC1) SAT True
+DT1-5 [[[1, 2, 3, 6, 7], [0, 1, 2, 4, 7], [2, 3, 4, 5, 7]], [[33, 19, 27, 18, 28], [22, 32, 14, 26, 28], [6, 5, 9, 14, 10]]]: order (0, 1, 2), picks [1, 7, 5]
+   wants (i wants the pick of j): [(1, 0)] ; so x = 0 is the only frozen agent and w = 1 its only wanter
+   x values H0 = (3, 6) at 45 > its pick 33
+   after the swap: bases [[3, 6], [1], [5]], junk [0, 2, 4, 7]; x values its other goods 2 and 7 at 19 + 28 = 47 > 45 (GDT (G3) fails)
+   GDT completion with owner 2: SAT False, brute force 0 allocations
+   any one-absorber completion of the swapped state: SAT True, brute True
+OK: Theorem DT and Theorem DT1 fail at k = 5 as stated; the k = 4 version of DT5 completes

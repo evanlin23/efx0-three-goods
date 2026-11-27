@@ -1,0 +1,11 @@
+configuration tri-Q3-P4-P4: agents {'e1': ('g12', 'g13', 'a1'), 'e2': ('g12', 'g23', 'a2', 'p2'), 'e3': ('g13', 'g23', 'a3', 'p3')}, I = ['g12', 'g13', 'g23', 'p2', 'p3'], D = ['a1', 'a2', 'a3'], 497664 profiles
+  DEL      reduces  313784 of 497664 (1.0 s)
+  gadget h on ['a1', 'a2', 'a3', "z0'"] (1665 menu valuations): 496864 of 497664 reduced, new 183080
+    h = {'a1': 0, 'a2': 0, 'a3': 0, "z0'": 1} reduces 313784
+    h = {'a1': 2, 'a2': 0, 'a3': 0, "z0'": 1} reduces 161864
+    h = {'a1': 0, 'a2': 0, 'a3': 2, "z0'": 1} reduces 110584
+    h = {'a1': 0, 'a2': 2, 'a3': 0, "z0'": 1} reduces 110584
+    h = {'a1': 10, 'a2': 2, 'a3': 6, "z0'": 3} reduces 51752
+    h = {'a1': 10, 'a2': 6, 'a3': 2, "z0'": 3} reduces 51752
+    ... 15 gadgets in a greedy cover
+  together: 496864 of 497664 profiles

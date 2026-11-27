@@ -1,0 +1,11 @@
+$ python3 k4/ksens/k3max.py 3 --all --empty-pass --jobs=2
+starts: every start ; move rule: empty passes allowed
+hypergraphs 52 for m in [3, 4, 5, 6, 7, 8, 9]
+... 50 hypergraphs, 0 s
+n 3 m 3: hypergraphs 13, profiles 2352, starts 6323, complete at the picks 6323, one chain 0, FAIL 0
+n 3 m 4: hypergraphs 17, profiles 5176, starts 10581, complete at the picks 10581, one chain 0, FAIL 0
+n 3 m 5: hypergraphs 14, profiles 8784, starts 14948, complete at the picks 13950, one chain 998, FAIL 0
+n 3 m 6: hypergraphs 6, profiles 6048, starts 8704, complete at the picks 8228, one chain 476, FAIL 0
+n 3 m 7: hypergraphs 2, profiles 3456, starts 4416, complete at the picks 4352, one chain 64, FAIL 0
+total: hypergraphs 52, profiles 25816, starts 44972, complete at the picks 43434, one chain 1538, FAIL 0, witnesses 1005, hit 43967
+time 0 s

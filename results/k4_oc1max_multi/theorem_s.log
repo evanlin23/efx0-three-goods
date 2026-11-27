@@ -1,0 +1,38 @@
+$ python3 k4/oc1max_multi/theorem_s.py results/k4_oc1max_multi/hard2_starts.jsonl.gz results/k4_oc1max_multi/hard2_starts_n5.jsonl.gz
+("(S-d')", 'cases', 'wanter takes h') 1614
+("(S-d')", 'cases', 'z takes h') 15790
+("(S-d')", 'covered') 6679
+("(S-d')", 'covered', 'CAN-k') 409
+("(S-d')", 'covered', 'CLEAN') 1519
+("(S-d')", 'covered', 'KEEP') 4172
+("(S-d')", 'covered', 'OWN') 482
+("(S-d')", 'covered', 'RING') 97
+("(S-d'), h in J + {Y_z} (Theorem U and S)", 'cases', 'wanter takes h') 2097
+("(S-d'), h in J + {Y_z} (Theorem U and S)", 'cases', 'z takes h') 20640
+("(S-d'), h in J + {Y_z} (Theorem U and S)", 'covered') 7441
+("(S-d'), h in J + {Y_z} (Theorem U and S)", 'covered', 'CAN-k') 424
+("(S-d'), h in J + {Y_z} (Theorem U and S)", 'covered', 'CLEAN') 1860
+("(S-d'), h in J + {Y_z} (Theorem U and S)", 'covered', 'KEEP') 4291
+("(S-d'), h in J + {Y_z} (Theorem U and S)", 'covered', 'OWN') 769
+("(S-d'), h in J + {Y_z} (Theorem U and S)", 'covered', 'RING') 97
+('(S-d)', 'cases', 'wanter takes h') 1265
+('(S-d)', 'cases', 'z takes h') 13025
+('(S-d)', 'covered') 5945
+('(S-d)', 'covered', 'CAN-k') 337
+('(S-d)', 'covered', 'CLEAN') 1388
+('(S-d)', 'covered', 'KEEP') 3737
+('(S-d)', 'covered', 'OWN') 402
+('(S-d)', 'covered', 'RING') 81
+('SLOT residue', 'least |H| = 1', 'head slot (Lemma HS) at some chain') 7
+('SLOT residue', 'least |H| = 1', 'no head slot') 11
+('SLOT residue', 'least |H| = 2', 'no head slot') 138
+('SLOT residue', 'least |H| = 3', 'no head slot') 5
+('starts', 'CAN-k') 585
+('starts', 'CLEAN') 1877
+('starts', 'ED') 45
+('starts', 'KEEP') 4839
+('starts', 'OWN') 886
+('starts', 'RING') 151
+starts 8383
+violations (hypotheses hold, allocation not EFX0 or no holder): 0 []
+examples {('res', 1): ((4, 9), 'log720', [3, 7, 6, 5]), ("(S-d'), h in J + {Y_z} (Theorem U and S)", 'CAN-k'): 'gap-ivmax-n5-m9-n53c5848', ('res', 2): ((3, 7), 'log613', [1, 2, 3]), ('res', 3): ((5, 9), 'n4_3#947.0', [4, 3, 6, 5, 7])}
