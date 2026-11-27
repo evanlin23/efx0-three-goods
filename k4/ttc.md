@@ -1359,6 +1359,13 @@ The class (1, 3) is taken here, by agreement with girth.
   `results/k4_girth_oc1_residue_n5.log`, row "(C) cases: w-chain shape … 7733". Re-checked here by
   `c13.py` (`c13_structure_n5.log`, `c13_lemma_n5.log`) with this workstream's own EFX₀ check.
 
+**All 7,733 lie on one hypergraph, 5_pure#778, in two shapes** (found by the k3-oc1 session, rebuilt independently;
+confirmed here on girth's file):
+- the common shape (7,248 starts): Y = (7,6,2,5,8), Y′ = (6,1,7,5,8), path 2 → 0 → 1;
+- the other (485): Y = (2,6,7,5,8), Y′ = (6,1,2,5,8), the same path.
+
+So the facts below come from a single hypergraph, and their generality is not tested by this class.
+
 **Data facts at n = 5** (all 7,733; they are not hypotheses of the lemma below):
 - the RF path is u → w → d, of length 2;
 - d is the unique receiver at Y′, values no junk, and wants Y′_w, its old pick;
@@ -1396,6 +1403,14 @@ The class (1, 3) is taken here, by agreement with girth.
   - y, by (I2).
 - For X_w: this is (3).
 - w and d both gain (v_w(H) > p_w, and v_d(Y′_w) > p_d), so their own envy only falls. ∎
+
+*The same reduction, independently* (k3-oc1 session, `claude/k4-k3-oc1`, its §13 and `k4/k3oc1/rf/rf13_lemma.py`):
+- It states the split J′ ∖ H = A ⊔ B with |B| ≤ 1, X_w = H ∪ B, X_d = {Y_d, g} ∪ A, and EFX₀ iff (W) and (Z).
+- It notes that d is never threatened by X_w: every good of J′ was free at d's turn in σ′, so each is worth less to d
+  than g, and g less than Y_d.
+- In its k = 3 language this is the completion LE: the owner is the receiver at the chain's end, plus one slot for the
+  rotated agent.
+- B = ∅ never works.
 
 **Coverage:**
 - (1), (2) and (4) hold at all 7,733.
