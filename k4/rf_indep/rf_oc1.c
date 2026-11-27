@@ -19,6 +19,8 @@
  *   id C t x_0 .. x_t H_0 .. H_t o X_0 .. X_{n-1}
  *   id F <number of distinct post-chain states tried>
  * P and C are returned at the first success (shorter chains first); F only after the exhaustive search.
+ * With argument "count": P as above, else "id N <repairing post-chain states> <post-chain states>" (exhaustive;
+ * N 0 ... means F), one line per task, flushed (for use as a coprocess).
  *
  *     gcc -O2 -o rf_oc1 rf_oc1.c && ./rf_oc1 < tasks > answers
  */
@@ -125,6 +127,8 @@ static uint32_t B0[MAXN], J0;
 static int seq[MAXN], tlen;          /* seq[0..tlen] */
 static uint32_t H[MAXN], NB[MAXN];
 static int found;
+static int count_mode = 0;           /* argv[1] == "count": count repairing post-chain states, no early exit */
+static long nrepair;
 
 static int try_state(void) {
     for (int i = 0; i < n; i++) NB[i] = B0[i];
@@ -132,7 +136,9 @@ static int try_state(void) {
     for (int i = 1; i <= tlen; i++) NB[seq[i]] = B0[seq[i - 1]] | H[i];
     if (seen(NB)) return 0;
     nstates++;
-    return one_absorber(NB);
+    if (!count_mode) return one_absorber(NB);
+    if (one_absorber(NB)) nrepair++;
+    return 0;
 }
 
 static int hrec(int i, uint32_t used) {   /* choose H_i, i >= 1 */
@@ -172,6 +178,7 @@ static int srec(int k, uint32_t usedag) {  /* build seq of length tlen + 1 */
 
 int main(int argc, char **argv) {
     char id[256];
+    if (argc > 1 && !strcmp(argv[1], "count")) count_mode = 1;
     while (scanf("%255s %d %d", id, &n, &m) == 3) {
         if (n > MAXN || m > MAXM) { fprintf(stderr, "too large\n"); return 1; }
         ALL = (m == 32) ? 0xffffffffu : ((1u << m) - 1);
@@ -190,10 +197,17 @@ int main(int argc, char **argv) {
         if (one_absorber(B0)) {
             printf("%s P %d", id, Wo);
             for (int i = 0; i < n; i++) printf(" %u", WX[i]);
-            printf("\n"); continue;
+            printf("\n"); if (count_mode) fflush(stdout);
+            continue;
         }
         gen++; if (gen == 0) { memset(hgen, 0, sizeof(hgen)); gen = 1; }
         nstates = 0; ninserted = 0; found = 0;
+        if (count_mode) {
+            nrepair = 0;
+            for (tlen = 1; tlen < n; tlen++) srec(0, 0);
+            printf("%s N %ld %ld\n", id, nrepair, nstates); fflush(stdout);
+            continue;
+        }
         for (tlen = 1; tlen < n && !found; tlen++) found = srec(0, 0);
         if (found) {
             tlen--;    /* the loop incremented past the successful length */
@@ -205,6 +219,6 @@ int main(int argc, char **argv) {
             printf("\n");
         } else printf("%s F %ld\n", id, nstates);
     }
-    (void)argc; (void)argv;
+    (void)argc; (void)argv;   /* count mode is set at the top of main */
     return 0;
 }

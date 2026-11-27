@@ -35,7 +35,7 @@ def strict_vals(rnd, vmax, k):
 
 def init_worker(cores, args):
     G['cores'] = cores; G['args'] = args
-    G['perms'] = list(itertools.permutations(range(5)))
+    G['perms'] = {n: list(itertools.permutations(range(n))) for n in set(len(c['sets']) for c in cores)}
 
 
 def work(cid):
@@ -46,7 +46,7 @@ def work(cid):
     for _ in range(a['per_core']):
         vals = [strict_vals(rnd, a['vmax'], len(s)) for s in sets]
         pref = R.prefs(sets, vals)
-        vecs = set(R.sd(pref, o) for o in G['perms'])
+        vecs = set(R.sd(pref, o) for o in G['perms'][n])
         mm = [Y for Y in vecs if sum(1 for y in Y if y is not None) == nu]
         C['profiles'] += 1
         if not mm: C['PROFILES WITHOUT A MAXIMUM-MATCHING SD VECTOR'] += 1; continue
@@ -68,6 +68,8 @@ def main():
     ap.add_argument('--seed', type=int, default=1); ap.add_argument('--procs', type=int, default=os.cpu_count() or 4)
     ap.add_argument('--cores', default=os.path.join(ROOT, 'results', 'k4_certs_5_pure.json.gz'))
     ap.add_argument('--bin', default=None); ap.add_argument('--limit', type=int, default=0)
+    ap.add_argument('--dump', default=None, help='write the one-receiver sigma-maximal vectors (JSONL, gzip) here')
+    ap.add_argument('--any-n', action='store_true', help='allow a core list that is not pure n = 5')
     args = ap.parse_args(); t0 = time.time()
     print('$ python3 k4/rf_indep/rkmax_rand.py --per-core %d --vmax %d --seed %d --procs %d'
           % (args.per_core, args.vmax, args.seed, args.procs))
@@ -82,8 +84,10 @@ def main():
         cores.append(dict(sets=c['sets'], m=c['m'], idx=c['idx'], nu=nu))
     print('cores %d from %s (sha256 %s); nu distribution %s' % (len(cores), os.path.relpath(args.cores, ROOT),
           R.sha(args.cores), dict(collections.Counter(c['nu'] for c in cores))))
-    if any(len(s) != 4 for c in cores for s in c['sets']) or any(len(c['sets']) != 5 for c in cores):
+    if not args.any_n and (any(len(s) != 4 for c in cores for s in c['sets']) or any(len(c['sets']) != 5 for c in cores)):
         raise SystemExit('not a pure n = 5 list')
+    print('agents per core %s, goods per core %s' % (dict(collections.Counter(len(c['sets']) for c in cores)),
+          dict(sorted(collections.Counter(c['m'] for c in cores).items()))))
     T = collections.Counter(); tops = {}
     gc_mod.collect(); gc_mod.freeze()
     a = dict(vmax=args.vmax, seed=args.seed, per_core=args.per_core)
@@ -95,10 +99,10 @@ def main():
 
     def gen():
         for cid in sorted(tops):
-            c = cores[cid]
+            c = cores[cid]; n = len(c['sets'])
             for j, (nrec, key) in enumerate(tops[cid]):
-                B = [[y] if y != 255 else [] for y in key[-5:]]
-                vals = []; flat = list(key[:-5]); p = 0
+                B = [[y] if y != 255 else [] for y in key[-n:]]
+                vals = []; flat = list(key[:-n]); p = 0
                 for s in c['sets']: vals.append(flat[p:p + len(s)]); p += len(s)
                 yield R.task_line('r%d:%d:%d' % (nrec, cid, j), c['sets'], vals, c['m'], B)
     shards, ntasks = R.run_shards(gen(), args.procs, binpath, 'rkr')
@@ -114,6 +118,18 @@ def main():
         second = pool.map(R.py_from_line, fails) if fails else []
     gc_mod.unfreeze()
     print('witnesses verified %.0f s' % (time.time() - t0), flush=True)
+    if args.dump:
+        nd = 0
+        with gzip.open(args.dump, 'wt') as f:
+            for fifo in shards:
+                for line, a in R.pairs(*fifo):
+                    if not line.startswith('r1:'): continue
+                    tid, sets, vals, m, B = R.parse_task(line); c = cores[int(tid.split(':')[1])]
+                    Y = [b[0] if b else None for b in B]
+                    f.write(json.dumps(dict(core_m=c['m'], core_idx=c['idx'], sets=sets, vals=vals, picks=Y,
+                                            sigma=sigma(sets, vals, Y), receivers=R.receivers(sets, vals, Y),
+                                            oc1=' '.join(a))) + '\n'); nd += 1
+        print('dumped %d one-receiver sigma-maximal vectors to %s' % (nd, os.path.relpath(args.dump, ROOT)), flush=True)
 
     print()
     for k in sorted(T): print('   %-70s %d' % (k, T[k]))

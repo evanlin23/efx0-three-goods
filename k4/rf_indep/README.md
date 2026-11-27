@@ -150,6 +150,15 @@ each σ-maximal one. It uses the same OC₁ search and witness checks as above.
 - *Definition.* Here a maximum matching has ν picks. The single core with m = 4 has ν = 4, and its vectors are counted.
   Hall reports 60 profiles with "no maximum-matching vector" there, so the census apparently required n picks.
 
+**One-receiver σ-maximal vectors** (for the rkmax session). Each line of
+`results/k4_rf_indep/rkmax_rand_n5_v20_s1_one_receiver.jsonl.gz` (1,822 lines) and `..._v250_s1_one_receiver.jsonl.gz`
+(1,764 lines) holds one vector:
+- `core_m`, `core_idx`, `sets`, `vals`, `picks`, `sigma` and `receivers`;
+- `oc1`, the search's answer: `P o X…`, or `C t x… H… o X…` (masks, as in `rf_oc1.c`).
+
+They come from rerunning the two hunts with `--dump`, which gave identical counts. Breakdown: at V = 20, P 1,297, one
+chain t = 1 493, t = 2 32; at V = 250, 1,278 / 455 / 31.
+
 **Hall's counterexample to plan (a), replayed** (`rkmax_replay.py`, `results/k4_rf_indep/rkmax_replay_358.log`). The
 core is 5_pure (8, 358). My code gives the same picture as Hall's:
 - 10 maximum-matching SD vectors;
