@@ -7,7 +7,9 @@ Definitions (k4/sdc.md §29-§31, k4/oc1_hall.md §1-§6 on claude/k4-oc1-hall):
   holders    agents with at most one base good that nobody wants (empty bases included);
   completion keep every base, hand out J;
     shape 'oa' (one absorber): one owner o takes any subset, every other agent at most one junk good;
-    shape 'ss' (S*): one owner o (any agent), every holder other than o at most one junk good, the rest nothing.
+    shape 'ss' (S*): one owner o (any agent), every holder other than o at most one junk good, the rest nothing;
+    shape 'sc' (S^c, proof/k4-oc1max-multi's Lemma M^c): one owner o, every other agent with at most one base good
+           (holders and frozen singles) at most one junk good, multi-good agents nothing.
   d dummy slots: d extra capacity-one receivers that value nothing (equivalently, d junk goods deleted).
 
 The FREE-SLOT DEFICIENCY of a state is the least d for which a completion exists (INF if none exists even with all
@@ -113,7 +115,8 @@ class M:
         hold = set(self.holders(base)) if shape == 'ss' else None
         bv = [self.V(i, base[i]) for i in range(n)]
         for o in (range(n) if owners is None else owners):
-            recv = [u for u in range(n) if u != o and (shape == 'oa' or u in hold)]
+            recv = [u for u in range(n) if u != o and (shape == 'oa' or (shape == 'ss' and u in hold) or
+                                                        (shape == 'sc' and len(base[u]) <= 1))]
             nonr = [q for q in range(n) if q != o and q not in recv]
             # fixed bundles among non-receivers (values fixed)
             if any(self.threat(q, base[r], bv[q]) for q in nonr for r in nonr if r != q): continue
@@ -183,7 +186,8 @@ class M:
     def bf_complete(self, base, d, shape, o):
         n = self.n; base = [list(b) for b in base]; J = self.junk(base)
         hold = set(self.holders(base)) if shape == 'ss' else None
-        recv = [u for u in range(n) if u != o and (shape == 'oa' or u in hold)]
+        recv = [u for u in range(n) if u != o and (shape == 'oa' or (shape == 'ss' and u in hold) or
+                                                    (shape == 'sc' and len(base[u]) <= 1))]
         labels = ['o', 'd'] + recv
         for lab in itertools.product(labels, repeat=len(J)):
             if sum(1 for l in lab if l == 'd') > d: continue
@@ -230,3 +234,37 @@ class M:
                 assert ko == df, ('Konig-Ore', self.name, base, o, H)
             if df < best: best, arg = df, H
         return best, arg
+
+
+    # ---- Lemma M^c (proof/k4-oc1max-multi, k4/oc1max_multi.md §9) in matching form, written here independently ---------
+    def mc_def(self, base, o):
+        """min over (H, F_s) with (C1), (C2), needy coverable of |H| - nu(Gamma^c(H, F_s)); INF if none.
+        Assumes (G2) (no junk good wanted)."""
+        n = self.n; J = self.junk(base); b = [self.V(i, base[i]) for i in range(n)]
+        hold = set(self.holders(base)); fz1 = [j for j in self.frozen(base) if j != o]
+        Qm = [q for q in range(n) if q != o and len(base[q]) >= 2]
+        elig0 = [u for u in sorted(hold) if u != o]
+        best = INF
+        for Fs in subsets(fz1):
+            tau = []
+            for i in range(n):
+                t = b[i] if i != o else 0
+                for q in Qm:
+                    if q != i and base[q]:
+                        vs = [self.v[i].get(g, 0) for g in base[q]]; t = max(t, sum(vs) - min(vs))
+                for j in Fs:
+                    if j != i and self.wants(i, base[j][0], base): t = max(t, self.v[i][base[j][0]])
+                tau.append(t)
+            elig = elig0 + list(Fs)
+            for H in subsets(J):
+                X = list(base[o]) + [g for g in J if g not in H]
+                if self.V(o, X) < tau[o]: continue                                   # (C2)
+                needy = [i for i in range(n) if i != o and (tau[i] > b[i] or self.threat(i, X, b[i]))]
+                if any(i not in elig for i in needy): continue                      # (C1)
+                adj = {h: [i for i in elig if i not in needy or
+                           (self.v[i].get(h, 0) > 0 and b[i] + self.v[i][h] >= tau[i] and
+                            not self.threat(i, X, b[i] + self.v[i][h]))] for h in H}
+                radj = {i: [h for h in H if i in adj[h]] for i in needy}
+                if len(bip_match(needy, radj)) < len(needy): continue               # needy coverable
+                best = min(best, len(H) - len(bip_match(H, adj)))
+        return best

@@ -433,6 +433,27 @@ found is confirmed by the raw S\* test: 0 violations.
 - Evidence only: the n = 4 failures were found only by an exhaustive ordinal search. Random profiles (11M orders at
   n = 5) and the climbs of `k4/matching/cm_climb.py` missed them (§7).
 
+**Closing the S\*-shape gap: Lemma M^c** (proof/k4-oc1max-multi, `k4/oc1max_multi.md` §9 on its branch, commit
+3b69d07). It extends Lemma M in two ways:
+- *frozen slots:* a frozen single-good agent may take one junk good when every wanter of its good is compensated;
+- *compensated (G1):* a multi-good bundle may threaten an agent that its own junk good compensates.
+
+Its shape S^c lets every agent with at most one base good take one junk good. At single-good states that is exactly
+the one-absorber shape. Its matching form enumerates the frozen slots F_s and, for each, runs Lemma M's matching with
+per-agent requirements τ_i. Lemma EX\*'s reading carries over verbatim: Lemma M^c at the state after a move.
+
+Checked here with this note's own code (`k4/matching/mc_check.py`, `results/k4_matching/mc_check.log`). Lemma M^c's
+formula is written independently as `mlib.M.mc_def`, and S^c is a new shape of `mlib.M.complete` and `bf_complete`.
+- The formula against the raw S^c deficiency: **65,201 owner tests, 0 mismatches**. The states are the picks of the
+  hard starts and every fifth one-move state, with (G2).
+- The pruned S^c search against the pruning-free brute force: 33,200 tests, 0 mismatches.
+- S^c equals one absorber at the picks: 21,880 owner tests.
+- **Some single move gives an S^c completion exactly when OC₁ holds,** on all 2,371 hard perfect starts of §2 and on
+  the 60 distinct walk starts that only a non-S\* completion repairs; S\* repairs none of those 60.
+
+So with S^c in place of S\*, one exchange (Lemma M^c after the move) decides OC₁ exactly on all data, and the S\*-shape
+gap is closed. The referee has not read Lemma M^c; the multi session reports its own 2,226,322 tests.
+
 **The mechanism, in exchange terms** (`k4/matching/n4_twomoves.py`, `results/k4_matching/n4_twomoves.log`: every
 (first move, EX\* exchange) pair that repairs, 57 over the 11 stored starts).
 - *The first move* is always a chain from a dangerous agent whose head takes a junk pair that another dangerous agent
@@ -654,6 +675,8 @@ python3 k4/matching/n4_walk.py 3000 2; python3 k4/matching/n4_profiles.py 3000 7
 DUMP=results/k4_matching/n4_failing_walk.jsonl python3 k4/matching/n4_walk.py 3000 2  # dumps the failing pairs (§6)
 python3 k4/matching/lift_shapes.py; python3 k4/matching/lift_oblig.py               # Conjecture LIFT-EX and its shape
 python3 k4/matching/lift1_threats.py; python3 k4/matching/lift1_check.py             # Lemma LIFT-1 and (L1)-(L3)
+python3 k4/matching/multi_check.py                            # the multi session's 4,955 failing pairs (§6)
+DUMP2=results/k4_matching/n4_nonsstar_walk.jsonl python3 k4/matching/n4_walk.py 3000 2; python3 k4/matching/mc_check.py   # Lemma M^c (§5)
 python3 k4/matching/cm_big.py cores6 2000 40 31               # CM at n = 6 (sampled orders)
 CAP=10 SEEDFILES=... python3 k4/matching/cm_climb.py 32 2000 22 3 6 [MC2]    # climbs (LOOSE=1 for any instance)
 ```

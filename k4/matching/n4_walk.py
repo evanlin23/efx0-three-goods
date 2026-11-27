@@ -15,6 +15,7 @@ from mlib import M
 from exchange import ex_star_witness
 from oc1max_climb import is_core
 DUMP = os.environ.get('DUMP')   # DUMP=file.jsonl: also write every distinct failing (profile, start) pair
+DUMP2 = os.environ.get('DUMP2')  # DUMP2=file.jsonl: also write the starts that OC1 repairs only through a non-S* completion
 
 
 def evaluate(sets, vals, seen):
@@ -32,6 +33,7 @@ def evaluate(sets, vals, seen):
             ss1 = any(I.complete(B1, 0, 'ss') is not None for B1 in first)
             C['CM False, OC1 True: some move has an S* completion %s' % ss1] += 1
             if ss1: score += 1000; bad.append(('CM != OC1 although S* repairs', Y))
+            elif DUMP2: bad.append(('nonS*', Y))
         if cm: continue
         score += 0 if oc1 else 1
         ex1 = [ex_star_witness(I, B1) is not None for B1 in first]
@@ -72,7 +74,11 @@ if __name__ == '__main__':
             T.update(C)
             print('hypergraph %d: distinct failing (profile, start) pairs visited %d' % (t, C['distinct failing (profile, start)']), flush=True)
             for vals, b in found:
+                if b[0] == 'nonS*':
+                    with open(DUMP2, 'a') as fo: fo.write(json.dumps({'sets': sets, 'vals': vals, 'picks': list(b[1])}) + '\n')
+                    continue
                 if b[0] == 'failing':
+                    if not DUMP: continue
                     with open(DUMP, 'a') as fo: fo.write(json.dumps({'sets': sets, 'vals': vals, 'picks': list(b[1])}) + '\n')
                     continue
                 print('   ', b[0], json.dumps({'sets': sets, 'vals': vals, 'picks': b[1]}), b[2:], flush=True)
