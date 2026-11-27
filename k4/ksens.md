@@ -6,7 +6,48 @@ the serial-dictatorship picks of an order, the *junk* is what nobody picked, an 
 agent on it strictly gains), and a *completion* keeps every base. Random and climbed instances are evidence only
 (PROMPT.md §5 rule 3).
 
-## Status (bursts 1–4)
+## Status (bursts 1–5)
+
+**Burst 5: how the number of moves grows, k = 6 exactly, and Conjecture RF at k = 5** (§4, §8).
+- **Sequential chains: the number needed grows with k, from maximum-matching starts.** [R]
+  - PW(4, 3, 6) (k = 7, n = 7, m = 13): no state reachable by two chains has a completion, not even a free one. Three
+    chains repair it.
+  - The two checks are independent:
+    - ocseq: c chains in one SAT encoding;
+    - kchains: breadth-first search that lists all 158,100 one-chain states (uncapped) and tests each with an ocsat
+      call for one more chain, empty passes allowed (`ladder_pw436_bfs2_free.log`).
+  - PW(5, 4, 8) at k = 9 needs four chains (ocseq only).
+  - So "two sequential moves" fails from k = 7 on. Within PW the least number is ⌊(k − 1)/2⌋ (computed for
+    k = 5 to 9).
+- **Rounds of disjoint chains behave differently.** One round repairs every PW instance, and two rounds (RD²) have
+  no failure anywhere. If any notion of "two moves" holds at every k, it is two rounds.
+- **k = 6 can now be certified exactly** (§8). Two changes made the CEGAR at six goods fast and exact:
+  - *Bitsets.* Every comparison of six ranked goods is precomputed as a bitset over the grid points, so a
+    realizability check is a chain of word ANDs. This is 20–60 times faster than before, with the same iterations
+    and cuts (`kcegar_grid_check_fast.log`, 12 of 12).
+  - *Exact mode.* The grid only proposes cores. A core becomes a cut only after a rational LP proves it unrealizable
+    over the reals; an LP point joins the grid otherwise. Verdicts then cover every strict profile.
+  - *Validation* (`kcegar_exact_check.log`, 16 of 16):
+    - with an incomplete five-good grid (145 of 516 types per ranking), the verdicts equal those of the full type
+      lists, FAIL cases included;
+    - at six goods, two grids and the slow LP route give the same verdicts.
+- **CGM's Table 3 hypergraph (k = 6, n = 3): one chain suffices** from every maximum-matching start, for every strict
+  profile [Cert] (`kcegar_cgm_exact.log`). The LP added 5,956 strict points that the B = 48 grid lacks.
+- **Does k = 6 need a third chain? Nothing needs one so far** (exact mode, D = 2, running):
+  - three agents: the n = 3 hypergraphs that extend a k = 5 one-chain failure by one good go first (36 of the 950);
+  - four agents: the core-like hypergraphs with m = 6, 7 (891; paused for the RF run);
+  - the 18 designed instances;
+  - every hypergraph finished so far is certified (counts in §8).
+  - A three-chain climb from the k = 5 failures (n = 3, k = 6, 40 rounds) found nothing [E].
+- **Conjecture RF (receiver first, `k4/sdc.md` §31 on main) holds at k = 5 for three agents** [Cert]:
+  - `rfcegar.py` certifies every strict profile of all 411 n = 3 hypergraphs with a five-good agent. On the other 206,
+    kcegar finds no failing start, so RF has nothing to check there.
+  - The tool also certifies RF on the 11 k = 4 cores where OC₁^max fails. That agrees with the coordinator's n = 4
+    certificate, which comes from different code.
+  - As a control, the run without the receiver condition fails, and brute force confirms each failure.
+  - A replay from the definitions (`rf_replay.py`): RF holds on all 15 failing starts of N3K5's family, RD5 and
+    PW5.
+  - Running: RF on the 1,138 core-like n = 4, k = 5 hypergraphs with m ≤ 7.
 
 **Burst 4: k = 5 by exhaustive search over order types** (`kcegar.py`, §8).
 - *The tool.* An ordinal CEGAR of my own, run over every strict profile of a hypergraph. It agrees with the
@@ -359,7 +400,8 @@ which a start extends. Two methods:
 | PW(6, 4, 8) | 9 | 10 | 18 | 4 / 4 |
 
 (`results/k4_ksens/ladder.log`; the breadth-first search confirms PW(3, 2, 4), PW(4, 2, 4), PW(3, 3, 5) and
-PW(4, 3, 5), `ladder_pw436.log` shows PW(4, 3, 6) needs more than one.)
+PW(4, 3, 5), `ladder_pw436.log` shows PW(4, 3, 6) needs more than one, and `ladder_pw436_bfs2_free.log` that it needs
+more than two.)
 
 *The count behind it.* In PW(f, W, r) every frozen agent values the whole pool (r = k − 1 goods), and the W
 wanters each want every frozen pick.
@@ -395,8 +437,13 @@ improving chains. Equivalently, c chains suffice up to k = 2c + 1.
   - Climbs from PW starts (`climb.py oc2`, n = 5 at k = 5 and n = 6 at k = 6, 50 rounds) found no start needing three
     chains, and neither did the three-chain climbs from the k = 4 counterexamples at k = 4–6 (`climb_oc3amx_*.log`).
 - k = 6, 8: L′ allows 3 and 4; PW needs only 2 and 3. Whether k = 6 needs three chains is the open rung that decides
-  between ⌊k/2⌋ and something smaller at even k.
+  between ⌊k/2⌋ and something smaller at even k. Exact certificates of two chains at k = 6 (CGM's hypergraph, and the
+  n = 3 and n = 4 sweeps running) are in §8.
 - k = 7, 9: tight by PW (3 and 4 chains, ocseq.py).
+  - At k = 7 a second check agrees: `kchains.py` lists all 158,100 one-chain states of PW(4, 3, 6) and finds none
+    that one more chain repairs (`ladder_pw436_bfs2_free.log`, 1,059 s; free completion, empty passes allowed).
+  - So two sequential chains fail at k = 7 from a maximum-matching start [R]. The number of sequential moves needed
+    grows with k. Rounds do not grow this way within PW (one round repairs every PW instance).
 
 Pool leftover ≤ 1 (Lemma PL) is what keeps PW from breaking one chain at k = 4. It does not give OC₁ at k = 4, which is
 false. A proof of two chains at k = 4 and 5 (the rung c = 2 of L′) has to handle both the k = 5 pools of PW5 and the
@@ -794,10 +841,11 @@ starts; n is the number of agents.
 | one chain from R1-priority starts | | | fails [R] (the 11) | fails | fails [R] (PWR1-6) | k = 4 |
 | one chain from the need2 neediest-first start | | | holds [E] (the 11 included) | | fails [R] (NF2-6, n = 6) | k = 6 |
 | one chain from the need2 R1 neediest-first start (LB₄ʳ's Phase 1) | | | holds [E] | | | none found |
-| least number of chains that always suffices, max (Conjecture L′: ⌊k/2⌋) | 0 [P] | **1** [Cert], n ≤ 5 | **2**: 2 [Cert] on all cores with n ≤ 4 (certifier) and on the 11 (kcegar); 1 fails | **2**: 2 [Cert] on all 617 connected n = 3 hypergraphs, 25 named ones and the 1,138 n = 4 core-like hypergraphs with m ≤ 7 (m ≥ 8 running); 1 fails | ≥ 2; is 3 needed? kcegar running on a grid subset of the types (below) | c = 1 at k = 4; c = 2 at k = 7 within PW (PW(4, 3, 6)) |
+| least number of chains that always suffices, max (Conjecture L′: ⌊k/2⌋) | 0 [P] | **1** [Cert], n ≤ 5 | **2**: 2 [Cert] on all cores with n ≤ 4 (certifier) and on the 11 (kcegar); 1 fails | **2**: 2 [Cert] on all 617 connected n = 3 hypergraphs, 25 named ones and the 1,138 n = 4 core-like hypergraphs with m ≤ 7 (m = 8: 875 so far, paused); 1 fails | ≥ 2; no start needs 3 so far: 2 [Cert] (exact mode) on CGM's hypergraph (where 1 suffices) and on every hypergraph the n = 3 and n = 4 sweeps have finished (below; running) | c = 1 at k = 4; **c = 2 at k = 7 [R]** (PW(4, 3, 6): ocseq and breadth-first search) |
 | one round of disjoint chains (RD, RD₁), max | | holds [Cert] (one chain suffices) | **fails [R]** (the 11) | fails [R]: N3K5 (n = 3), RD5 | fails | k = 4 |
 | one round with every good valued (unrestricted k, values > 0) | | | | | | fails [R]: N3K5⁺ (n = 3, m = 6), RD5⁺ (n = 4) |
-| two rounds (RD²), max | | holds [Cert] | holds [Cert] where two chains are certified (n ≤ 4 cores) | holds [Cert] on the classes of the row above; [E] elsewhere | running | none found |
+| two rounds (RD²), max | | holds [Cert] | holds [Cert] where two chains are certified (n ≤ 4 cores) | holds [Cert] on the classes of the row above; [E] elsewhere | holds [Cert] where two chains are certified (row above) | none found |
+| Conjecture RF (receiver first, `k4/sdc.md` §31), max | | | holds [Cert], n ≤ 4 (coordinator; here `rfcegar.py` on the 11) | holds [Cert] at n = 3 (`rfcegar.py`, all 617); n = 4 running | | none found |
 | SD-C: some order whose picks extend | | holds [E] (K4.SDC.K3 open) | holds [E] | holds [E] | holds [E] | none found (k ≤ 8) |
 | MD: every start value-dominated | | | holds [E] | holds [E] | holds [E] | none found (k ≤ 8) |
 | conclusions of Theorems DT, DT⁺, Lemma GDT, Theorem DT₁ | | | proved [P] | fails [R] | fails | k = 5; DT5: n = 2, m = 6; DT1-5: n = 3, m = 8 (§3) |
@@ -928,30 +976,82 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
   - So one chain first fails at k = 5 already for three agents, and at k = 4 for four (§5). At k = 3 it never fails
     from a maximum-matching start for n ≤ 5.
 
-**k = 6: is a third chain ever needed?** (`ratlp.py`, `typesk.py`, kcegar's LP route and grid mode; running)
-- *Why the exact search stalls at six goods.*
-  - Six goods have far more strict types: 124,187 per ranking, 89 million in all, as I recall the count
-    [unverified].
-  - The grid bound of the completeness argument is 6 × 48 = 288, so a complete scan is out of reach.
-  - kcegar's exact route instead checks realizability with a rational LP: `ratlp.py`, Phase-I simplex with Farkas
-    cores, behind a float simplex whose answers are confirmed exactly. It agrees with the type lists at four and five
-    goods (`kcegar_lp_check.log`, 8 of 8).
-  - It is too slow at six goods. On RD5 with agent 0 extended to six goods it timed out after 3,000 s: 306
-    iterations, 282,989 LP calls (`kcegar_k6_named_D2_exactLP.log`). 13 n = 3 hypergraphs were certified exactly
-    (`kcegar_k6_n3_D2_exactLP.ckpt.jsonl`).
-- *Grid mode, a subset of the types.* `typesk.py` collects the strict types with a decreasing integer representative
-  in [1, B]⁶:
-  - 1 at B = 24, 2,129 at B = 32, 16,666 at B = 40, 46,314 at B = 48 (`types6.log`), out of 124,187;
-  - kcegar takes the agent's ranking from its singleton bits and checks the other bits against this list;
-  - validated against the complete lists at four and five goods (`kcegar_grid_check.log`, 8 of 8 agree).
-- *What a grid run means.*
-  - A FAIL is a genuine counterexample: every grid type is a real strict profile.
-  - "Certified" covers only the profiles whose six-good agents have a grid type, so it is labelled [E], not [Cert].
-- *Running at D = 2, B = 48:* CGM's Table 3 hypergraph (`kcegar_cgm_grid48.log`), the 18 designed hypergraphs
-  (`kcegar_k6_named_D2_grid48.*`), and all 950 connected n = 3 hypergraphs with a six-good agent
-  (`kcegar_k6_n3_D2_grid48.*`).
-- *CGM's own values* (`kcegar_cgm.py`, values from `kgen/charity/cgm_check.py` on `claude/kgen-charity`, read there):
-  one chain suffices from every maximum-matching start (ocsat and brute force).
+**k = 6: is a third chain ever needed?** (`kcegar.py` exact grid mode, `ratlp.py`, `typesk.py`; running)
+- *Why six goods are hard.*
+  - The strict types are too many to list. As I recall the count, it is 124,187 per ranking [unverified].
+  - The completeness bound of the grid argument is 6 × 48 = 288, too large for a full scan.
+  - The pure LP route (rational simplex for every realizability question) is exact but slow. On RD5 with agent 0
+    extended to six goods it timed out after 3,000 s: 306 iterations, 282,989 LP calls
+    (`kcegar_k6_named_D2_exactLP.log`).
+- *Grid mode, made fast.* `typesk.py` lists the strict types with a decreasing integer representative in [1, B]⁶.
+  There are 46,314 at B = 48 (`types6.log`).
+  - The agent's ranking comes from its singleton bits. Each other bit is a comparison of two disjoint sets of the six
+    ranked goods, precomputed as a bitset over the grid.
+  - The first realizing point and a minimal core (progressive deletion) are word ANDs.
+  - Answers are identical to the first version: same iterations and cuts, 12 of 12 (`kcegar_grid_check_fast.log`).
+  - It is 20–60 times faster: n3_m6_105 at D = 2 takes 31.6 s instead of 1,703 s.
+  - Alone, grid mode sees only the grid's types. A FAIL there is genuine, but "certified" is [E].
+- *Exact mode* (`--exact6`; validated by `kcegar_exact_check.py`, `kcegar_exact_check.log`):
+  - the grid, plus every real point found so far, only proposes a core;
+  - the core becomes a cut only after `ratlp.realize` proves it unrealizable over the reals; the cut is the LP's
+    sub-core plus the ranking;
+  - if the LP realizes the core, its strict integer point joins the points, and the core is recomputed;
+  - points and core verdicts are facts about R⁶, so they are cached and shared across hypergraphs. 95% of the core
+    checks hit the cache.
+  - So "certified" covers every strict profile.
+  - *Validation, 16 of 16 agree.*
+    - Five goods with an incomplete grid (B = 18: 145 of 516 types per ranking): exact mode gives the verdicts of the
+      complete type lists on RD5, N3K5, n3_m7_15 and a holding case, at D = 1 (FAIL) and D = 2.
+    - Six goods: exact mode on the B = 32 and B = 48 grids and the pure LP route give the same verdicts.
+  - The first exact version (every core and full bit set sent to the LP) gave the same verdicts
+    (`kcegar_exact_check_v1.log`). It was about 10 times slower.
+- *CGM's Table 3 hypergraph* (sets {0,1,2,3,5,6}, {0,2,3,4,6}, {4,5,6}; `kcegar_cgm.py --exact6`,
+  `kcegar_cgm_exact.log`).
+  - **One chain suffices from every maximum-matching start, for every strict profile [Cert]**: 2,646 iterations,
+    280 s, so two chains as well.
+  - The LP added 5,956 strict points the B = 48 grid lacks, so grid-only certificates really were partial.
+  - With CGM's own values (`kgen/charity/cgm_check.py` on `claude/kgen-charity`, read there), one chain suffices
+    (ocsat and brute force).
+- *Sweeps at D = 2, exact mode* (checkpoints `kcegar_k6_*_exact.ckpt.jsonl`; "certified" = for every strict profile and
+  every maximum-matching start, two chains and a one-absorber completion):
+  - n = 3: all 950 connected hypergraphs with a six-good agent (`kcegar_k6_n3_D2_exact.*`). The one-good extensions
+    of the 13 k = 5 one-chain failures run first (36 of them; `--prio`). 16 certified so far, none failed; the
+    slowest took 1,101 s.
+  - n = 4, the core-like class (agent degrees 3–6 with a 6, at most d − 2 private goods; `kcegar_k6_core6_n4_D2_exact.*`):
+    107 hypergraphs at m = 6 and 784 at m = 7. 93 certified so far (m = 6), none failed; paused for the RF run.
+  - The 18 designed hypergraphs (`named6`: k = 5 and k = 4 instances extended to six goods): 2 certified so far.
+  - Earlier grid-only runs, superseded: 31 n = 3 hypergraphs and the RD5 extensions certified on the B = 48 grid
+    (`kcegar_k6_*_grid48.*`) [E].
+- *Climb* (`climb.py oc3amx`, n = 3, K = 6, 40 rounds from the 13 k = 5 failure witnesses,
+  `climb_oc3amx_n3k6_k5fail.log`): no start needing three chains. The best has 3 two-chain completions [E].
+
+**Conjecture RF at k = 5** (`rfcegar.py`, `rfcegar_*.log`, `rf_replay.py`, `rf_replay.log`).
+- *The statement* (`k4/sdc.md` §31 end, on main, amended version). Let Y be a maximum-matching SD start where OC₁
+  fails, and u a receiver of Y: an agent with a pick that no other agent values above its own pick (an agent without a
+  pick prefers every good it values). Then every order with u first whose picks Z are a maximum matching satisfies
+  OC₁.
+- *The tool.* An extension of kcegar.
+  - The outer SAT carries a second pick system for Z, with its own SD order, |Z| = ν, and u first, plus a one-hot
+    receiver u with the receiver clauses on Y.
+  - The inner search tries to repair Y with one chain, then Z.
+  - A repair witness is a cut on both pick systems, since a repair of given bases under given comparisons does not
+    depend on which order produced them.
+  - A FAIL is re-checked by brute force from the definitions.
+- *Checks of the tool.*
+  - At k = 4 it certifies RF on all 11 OC₁^max-failing cores (`rfcegar_k4_cex.log`, 1–4 s each). That agrees with
+    the coordinator's certificate of RF at n = 4 from the certifier's export, by other code.
+  - Without the receiver condition (`--any-receiver`, not RF) it fails on cex1–4, and brute force confirms each
+    failure. So the FAIL path works.
+- **Result: RF holds for every strict profile of every connected n = 3 hypergraph with at most five goods per agent**
+  [Cert]:
+  - all 411 with a five-good agent are certified (`rfcegar_k5_n3.log`, 1,444 s);
+  - on the other 206, kcegar finds no maximum-matching start that fails OC₁ (`kcegar_k5_n3_D1.log`), so RF has
+    nothing to check.
+  - So RF survives the step from k = 4 to k = 5 at n = 3, where OC₁^max itself fails (N3K5).
+- *Replay from the definitions* (`rf_replay.py`): the 13 kcegar witnesses, RD5 and PW5 give 15 failing
+  maximum-matching starts. Each has a receiver (PW5 has two, {3, 4}), and every receiver-first maximum-matching pick
+  vector completes at the picks or after one chain.
+- *Running:* RF on the 1,138 core-like n = 4 hypergraphs at k = 5 with m ≤ 7 (`rfcegar_k5_core5_n4.*`).
 
 **Unrestricted k: every agent values every good** (`general_rounds.py`, `general_rounds_*.log`, `rd5_full.log`,
 `kgen_n3_rounds.log`).
