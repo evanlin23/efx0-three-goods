@@ -1,0 +1,49 @@
+$ python3 k4/haxell/gstar_measure_run.py suite NMAX=4 MMAX=7 MAXSTATES=400000 RADIUS=2 ROT=1
+instances 94
+partial EFX0 states 78665
+stuck states, phi0 1180
+stuck states, phi1 0
+stuck states, phi10 0
+stuck states, phi11 0
+stuck states, phi12 0
+stuck states, phi13 0
+stuck states, phi14 0
+stuck states, phi15 0
+stuck states, phi16 0
+stuck states, phi17 0
+stuck states, phi18 0
+stuck states, phi2 0
+stuck states, phi3 975
+stuck states, phi4 275
+stuck states, phi5 142
+stuck states, phi6 77
+stuck states, phi7 49
+stuck states, phi8 0
+stuck states, phi9 77
+instances with a stuck state, phi0 71
+instances with a stuck state, phi1 0
+instances with a stuck state, phi10 0
+instances with a stuck state, phi11 0
+instances with a stuck state, phi12 0
+instances with a stuck state, phi13 0
+instances with a stuck state, phi14 0
+instances with a stuck state, phi15 0
+instances with a stuck state, phi16 0
+instances with a stuck state, phi17 0
+instances with a stuck state, phi18 0
+instances with a stuck state, phi2 0
+instances with a stuck state, phi3 70
+instances with a stuck state, phi4 57
+instances with a stuck state, phi5 41
+instances with a stuck state, phi6 44
+instances with a stuck state, phi7 15
+instances with a stuck state, phi8 0
+instances with a stuck state, phi9 44
+first instance with a stuck state for phi0 : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]]
+first instance with a stuck state for phi3 : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]]
+first instance with a stuck state for phi4 : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]]
+first instance with a stuck state for phi5 : c4-lbplus-rotation-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]]]
+first instance with a stuck state for phi6 : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]]
+first instance with a stuck state for phi7 : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]]
+first instance with a stuck state for phi9 : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]]
+time 1 s

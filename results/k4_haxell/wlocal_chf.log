@@ -1,0 +1,7 @@
+$ python3 k4/haxell/ht_wlocal.py chf
+CHF-k4 n 9 m 14 state [[8], [9], [10], [11], [12], [13], [0, 1], [2, 3], [4, 5]] pool [6, 7] EFX0 True welfare 198
+   W step: A2 (('move', 1, 7), ('place', 6, 6)) (0.0 s)
+   replayed: EFX0 True, pool [7], welfare 197, bundles [[8], [9], [10], [11], [12], [13], [0, 6], [1, 2, 3], [4, 5]]
+CHF-k3 n 12 m 17 state [[8], [9], [10], [11], [12], [13], [14], [0, 1], [15], [2, 3], [16], [4, 5]] pool [6, 7] EFX0 True welfare 484
+   W step: A2 (('move', 1, 9), ('place', 6, 7)) (0.0 s)
+   replayed: EFX0 True, pool [7], welfare 483, bundles [[8], [9], [10], [11], [12], [13], [14], [0, 6], [15], [1, 2, 3], [16], [4, 5]]

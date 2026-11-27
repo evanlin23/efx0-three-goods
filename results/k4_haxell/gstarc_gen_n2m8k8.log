@@ -1,0 +1,13 @@
+$ python3 k4/haxell/gstar_run.py gen:10000:88:2:8:8 NMAX=2 MMAX=8 SHOW=4
+TRAPS g1550 [[[0, 1, 2, 3, 4, 5, 6, 7], [0, 1, 2, 3, 4, 5, 6, 7]], [[19, 1, 17, 38, 40, 8, 16, 37], [13, 1, 17, 35, 36, 9, 18, 39]]] {'states': 1018, 'complete': 24, 'traps': 6, 'radius2traps': 0, 'minpool': 3} e.g. [[1, 5, 6], [0, 2]] pool [3, 4, 7]
+instances 10000
+instances n=2 10000
+instances skipped (size) 0
+instances with a radius-2 trap 0
+instances with a trap 1
+instances with a trap, n=2 1
+instances without a complete EFX0 allocation 0
+partial EFX0 states 13599235
+radius-2 traps 0
+traps 6
+time 10 s

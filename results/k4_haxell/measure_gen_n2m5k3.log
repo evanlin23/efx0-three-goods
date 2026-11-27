@@ -1,0 +1,29 @@
+$ python3 k4/haxell/gstar_measure_run.py gen:3000:13:2:5:3 NMAX=2 MMAX=6
+instances 3000
+partial EFX0 states 233880
+stuck states, phi0 198
+stuck states, phi1 0
+stuck states, phi2 0
+stuck states, phi3 198
+stuck states, phi4 0
+stuck states, phi5 198
+stuck states, phi6 99
+stuck states, phi7 0
+stuck states, phi8 0
+stuck states, phi9 99
+instances with a stuck state, phi0 99
+instances with a stuck state, phi1 0
+instances with a stuck state, phi2 0
+instances with a stuck state, phi3 99
+instances with a stuck state, phi4 0
+instances with a stuck state, phi5 99
+instances with a stuck state, phi6 99
+instances with a stuck state, phi7 0
+instances with a stuck state, phi8 0
+instances with a stuck state, phi9 99
+first instance with a stuck state for phi0 : g12 [[[0, 2, 3], [1, 2, 4]], [[12, 39, 7], [4, 35, 10]]]
+first instance with a stuck state for phi3 : g12 [[[0, 2, 3], [1, 2, 4]], [[12, 39, 7], [4, 35, 10]]]
+first instance with a stuck state for phi5 : g12 [[[0, 2, 3], [1, 2, 4]], [[12, 39, 7], [4, 35, 10]]]
+first instance with a stuck state for phi6 : g12 [[[0, 2, 3], [1, 2, 4]], [[12, 39, 7], [4, 35, 10]]]
+first instance with a stuck state for phi9 : g12 [[[0, 2, 3], [1, 2, 4]], [[12, 39, 7], [4, 35, 10]]]
+time 2 s

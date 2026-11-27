@@ -1,0 +1,16 @@
+$ python3 k4/haxell/ht_aug.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz:1500:7 NMAX=3 MMAX=7 DMAX=4 SHOW=4
+WORST radius > 4 r205 [[[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[4, 6, 8, 1], [3, 2, 8, 4], [8, 3, 4, 2]]] state [[1, 3, 5], [4], [2]] pool [0] augmented to None
+WORST radius > 4 r581 [[[0, 2, 4, 5], [1, 3, 5], [2, 3, 4, 5]], [[2, 6, 3, 10], [2, 4, 3], [8, 6, 5, 4]]] state [[0, 1, 4], [5], [3]] pool [2] augmented to None
+WORST radius > 4 r756 [[[0, 2, 5, 6], [1, 3, 4, 6], [3, 4, 5, 6]], [[4, 2, 7, 10], [4, 1, 6, 8], [3, 2, 10, 6]]] state [[5], [6], [0, 2, 3, 4]] pool [1] augmented to None
+WORST radius > 4 r951 [[[0, 3, 4, 5], [1, 3, 5], [2, 4, 5]], [[1, 8, 6, 4], [2, 3, 4], [2, 3, 4]]] state [[0, 1, 4], [3], [5]] pool [2] augmented to None
+instances 1346
+states with radius 1 376918
+states with radius 2 63369
+states with radius 3 46905
+states with radius 4 960
+states with radius more than 4 12
+instances whose worst radius is 2 45
+instances whose worst radius is 3 898
+instances whose worst radius is 4 399
+instances whose worst radius is more than 4 4
+time 14 s

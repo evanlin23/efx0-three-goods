@@ -1,0 +1,9 @@
+$ python3 k4/haxell/ht_bfs.py screen NMAX=5 MODEL=A MODE=count
+instances 168
+instances with a stuck start 0
+start: depth 0 1221
+start: depth 1 2613
+start: depth 2 212
+start: depth 3 23
+starts 4069
+time 0 s
