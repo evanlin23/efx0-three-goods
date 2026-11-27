@@ -182,3 +182,53 @@ hypotheses are also needed. Dropping one (40,000 instances each) gives:
     v_q(Y_z) ≤ p_q;
   - OWN, q = k: add v_k(ℓ) < p_k.
 - T3 (Finding NC) is confirmed.
+
+## 8. Addendum: Theorem U and Corollary U1 (`d31a8f1`, unchanged at `5371d9b`; coordinator's queue, 2026-11-27)
+
+Read: `k4/oc1max_multi.md` §3 (Theorem U, Corollary U1, the paragraph on the Hall session's question). Check:
+`k4/referee/theorem_u_ref.py`, run by `theorem_u_ref_runs.sh`, log `results/k4_referee/theorem_u_ref.log`. Own code,
+raw EFX₀.
+
+**Verdict: CORRECT.**
+
+**The Hall session's question.** It asked whether |D| ≥ 2 needs the extra hypothesis "the other frozen dangerous
+agents are unthreatened by J". It does not: that is implied by D_T = {k}.
+- Every d ∈ D ∖ {k} is pick-dangerous: J does not threaten it at p_d.
+- Since threats are antitone in the value, J does not threaten it at any value ≥ p_d.
+- That covers frozen dangerous middle agents too, whose values only rose.
+- The proof uses this in two places:
+  - (H1), where the owner's bundle is exactly J;
+  - "an exposed d ∈ D ∖ {k} unfrozen at B′ would lie in D_T".
+
+  The note states it explicitly in the paragraph after the theorem.
+
+**The proof, re-derived.**
+- Step 0: the walk of D1-chain needs only "k frozen", and J threatening k gives an improving H₀ ⊆ J.
+- Step 1, the holder for Y_z.
+  - If z is unfrozen at B′, z itself, by KEEP's slot bound v_z(J ∩ R_z) < 2p_z < v_z(a) + p_z.
+  - Otherwise a wanter w of a at B′ is off P and wanted a at the picks.
+  - w is unfrozen at the picks: otherwise the walk from w would give a longer canonical chain, distinct by (π).
+  - w holds a pick (wanting implies non-null), w ∉ E_J, and it is a holder at B′ with value p_w. So it is
+    unexposed against J, hence admissible.
+  - The hypothesis "z ∈ E_J ⟹ z unfrozen at B′" then makes a frozen z unthreatened by J at v_z(a) > p_z.
+- Step 2, Lemma 2\* with owner k and H = {Y_z}, so W_k ∖ H = J.
+  - (H1) holds: F ∖ D values no junk, D ∖ D_T is pick-dangerous, and z is covered by step 1.
+  - No exposed holder other than u exists. Off-path unfrozen agents are exposed iff in E_J ⊆ {z}. Dangerous agents
+    unfrozen at B′ would be in D_T. z is a holder only when it is u.
+- Corollary U1: with one unfrozen pick holder z, every chain ends at z and E_J ⊆ {z}. Step 1 shows that a wanter of a
+  at B′ would be a second unfrozen pick holder, so z is unfrozen at B′.
+
+**Computation (evidence).**
+- Starts: 360,000 instances (n = 3–5, k ≤ 4) and 34,795 one-absorber-hard starts, of which 8,466 have D_T = {k}
+  (7,868 with |D| ≥ 2).
+- Tested: every longest canonical chain from k and every improving H₀ ⊆ J meeting the hypotheses. The completion was
+  checked by brute force, with Y_z forced to z or to an unfrozen second wanter.
+
+| check | tests | failures |
+|---|---|---|
+| Theorem U | 12,135 (10,839 with \|D\| ≥ 2) | 0 |
+| Corollary U1: the hypothesis holds at every one-holder start | 7,353 starts | 0 |
+| mutation: any canonical chain, not only longest | 3,123 | **406** |
+| mutation: drop E_J ⊆ {z} | 2,613 | **21** |
+
+Both hypotheses are used.

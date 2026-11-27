@@ -32,6 +32,8 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 19 | Proposition H (`kgen/n3.md` §10, `eb95583`): OC₁ at n = 3 for every k ⟹ three-agent EFX₀ | `claude/kgen-n3` | `proph.md` | **CORRECT WITH FIXES** (sign of the t-difference in the displayed inequality; conclusion unaffected) |
 | 20 | Lemma EC (envy-cycle rotation) and the stuck-state consequence (`k4/girth.md` §5, `235bca4`) | `claude/k4-girth` | `girth.md` §6 | **CORRECT** (state that (3) holds when parking starts, as it does after Algorithm 2) |
 | 21 | Certifier (evidence): the 11 n = 4 OC₁^max counterexamples; a sample of the OC₂^max witnesses (`k4/oc1cert.md`, `fa8e971`) | `compute/k4-oc1max-cert` | `oc1cert.md` | **CONFIRMED**: 11/11 counterexamples (incl. ordinality); 35,858 sampled + 30,222 near-cex starts covered by validated witnesses, 0 failures |
+| 22 | Lemma EX\*, Lemma LIFT-red, Lemma LIFT-1 (`k4/matching.md` §5–§6, `0ee5969`); Lemma LIFT (`k4/oc1max_multi.md` §8, `0d26500`) | `proof/k4-matching`, `proof/k4-oc1max-multi` | `lift.md` | **CORRECT** (LIFT-1 needs no favourite-good assumption; P₁ junk-free is needed) |
+| 23 | Theorem U, Corollary U1 (`k4/oc1max_multi.md` §3, `d31a8f1`) | `proof/k4-oc1max-multi` | `oc1max_multi.md` §8 | **CORRECT** (the extra hypothesis asked about is implied by D_T = {k}) |
 | – | Literature: EFX₀ for n = 2 | – | `lit_n2.md` | Plaut–Roughgarden Thm 4.3 (EFX₀, monotone) covers existence; not `kgen/n3.md` Theorem 2 (picks kept / one chain) |
 
 **Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the
