@@ -8,3 +8,4 @@ hypergraphs 1138
 ... 500 {'certified': 500} 1216 s
 ... 600 {'certified': 600} 1582 s
 {"name": "core5_n4_m7_688", "sets": [[0, 1, 2, 5, 6], [1, 2, 4, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], "D": "RF", "result": "FAIL", "iterations": 461, "kinds": {"picks": 216, "Y repaired": 458, "1 chains": 244, "Z repaired": 2}, "types": [61920, 61920, 336, 336], "grid6": null, "exact6": false, "grid_stats": {}, "lp_calls": 0, "recheck": {"vals": [[3, 35, 33, 43, 39], [20, 26, 16, 43, 32], [8, 2, 7, 4], [8, 2, 7, 4]], "Y": [6, 5, 4, 3], "Z": [6, 5, 3, 4], "u": 2, "Y is an SD start": true, "Z from a u-first order": true, "maximum matchings": true, "u a receiver of Y": true, "OC1 at Y": null, "OC1 at Z": null}, "time": 1.5}
+... 700 {'certified': 699, 'FAIL': 1} 2422 s

@@ -18,7 +18,10 @@ re-checked by brute force from the definitions (rf_replay.py's oc1).
 --any-receiver: drop the receiver constraint (u any agent with a pick in Y).  Not RF; a weaker-premise control that
 must fail where some non-receiver-first order fails, to show the FAIL path works.
 
-    python3 k4/ksens/rfcegar.py '[[sets]]' [--grid6=FILE --exact6] [--any-receiver]"""
+RFE (--exists): the weak form RF-exists, "some u-first order gives maximum-matching picks that satisfy OC1" (enough for
+OC1^exists-max); see the class docstring.
+
+    python3 k4/ksens/rfcegar.py '[[sets]]' [--grid6=FILE --exact6] [--any-receiver | --exists]"""
 import sys, json, itertools, time
 import _paths
 import kcegar
@@ -104,6 +107,94 @@ class RF(kcegar.Cegar):
             return 'FAIL', (vals, Y, Z, u)
 
 
+class RFE(RF):
+    """RF-exists: for every failing maximum-matching start Y and every receiver u of Y, SOME order with u first gives
+    maximum-matching picks that satisfy OC1.  A violation: every u-first order gives picks that are not a maximum
+    matching or fail OC1.  Encoding: one pick system per fixed order (SD with a fixed order is deterministic), with an
+    indicator mm_s of |Z_s| = nu; a repair witness W of Z_s for s with s[0] = u gives the cut
+    not(u) or not(Z_s = W) or not(its comparisons).  (The parent's p2 system is kept but unused.)"""
+
+    def __init__(self, sets, **kw):
+        super().__init__(sets, **kw)
+        n = self.n; v = self.pool.id
+        self.orders = list(itertools.permutations(range(n)))
+        self.zs = []
+        for oi, o in enumerate(self.orders):
+            p = [{g: v(('pz', oi, i, g)) for g in self.R[i]} for i in range(n)]
+            none = [v(('nz', oi, i)) for i in range(n)]
+            for i in range(n): self._exactly_one(list(p[i].values()) + [none[i]])
+            for g in range(self.m):
+                lits = [p[i][g] for i in range(n) if g in p[i]]
+                for a, b in itertools.combinations(lits, 2): self.S.add_clause([-a, -b])
+            pos = {a: t for t, a in enumerate(o)}
+            for i in range(n):
+                earlier = [j for j in range(n) if pos[j] < pos[i]]
+                for h in self.R[i]:
+                    for g in self.R[i]:
+                        if g == h: continue
+                        c = self.cmp(i, (g,), (h,))
+                        self.S.add_clause([-p[i][h], -c] + [p[j][g] for j in earlier if g in p[j]])
+                for g in self.R[i]:
+                    self.S.add_clause([-none[i]] + [p[j][g] for j in earlier if g in p[j]])
+            mm = v(('mm', oi))
+            lits = [-x for x in none]
+            for c in CardEnc.atleast(lits=lits, bound=self.nu, vpool=self.pool, encoding=EncType.seqcounter).clauses:
+                self.S.add_clause([-mm] + c)
+            for c in CardEnc.atmost(lits=lits, bound=self.nu - 1, vpool=self.pool, encoding=EncType.seqcounter).clauses:
+                self.S.add_clause([mm] + c)
+            self.zs.append((o, p, none, mm))
+
+    def _cut(self, W, Q):
+        comps = [-self.cmp(i, a, b) for i, a, b in set((i, frozenset(a), frozenset(b)) for i, a, b in Q)]
+        cl = [-self.p[i][W[i]] if W[i] is not None else -self.none[i] for i in range(self.n)] + comps
+        self.S.add_clause([l for l in cl if l != -self.TRUE])
+        for o, p, none, mm in self.zs:
+            cl = [-self.u[o[0]]] + [-p[i][W[i]] if W[i] is not None else -none[i] for i in range(self.n)] + comps
+            self.S.add_clause([l for l in cl if l != -self.TRUE])
+
+    def run(self, time_limit=None, verbose=False):
+        t0 = time.time()
+        while True:
+            if time_limit and time.time() - t0 > time_limit: return 'timeout', None
+            if not self.S.solve(): return 'certified', None
+            mdl = set(l for l in self.S.get_model() if l > 0)
+            ty = self.realize(mdl)
+            if ty is None: continue
+            self.iters += 1
+            Y = tuple(next((g for g, x in self.p[i].items() if x in mdl), None) for i in range(self.n))
+            u = next(i for i in range(self.n) if self.u[i] in mdl)
+            vals = [ty[i] if self.LP[i] or self.G[i] else self.T[i][ty[i]] for i in range(self.n)]
+            Q = self.inner(vals, Y)
+            if Q is not None: self._cut(Y, Q); self.kinds['Y repaired'] += 1; continue
+            found = False
+            for o, p, none, mm in self.zs:
+                if o[0] != u or mm not in mdl: continue
+                Z = tuple(next((g for g, x in p[i].items() if x in mdl), None) for i in range(self.n))
+                Q = self.inner(vals, Z)
+                if Q is not None: self._cut(Z, Q); self.kinds['Z repaired'] += 1; found = True; break
+            if not found:
+                Zs = [tuple(next((g for g, x in p[i].items() if x in mdl), None) for i in range(self.n)) for o, p, none, mm in self.zs if o[0] == u]
+                return 'FAIL', (vals, Y, Zs, u)
+
+
+def recheck_e(R, vals, Y, Zs, u):
+    """brute force: Y a failing maximum-matching SD start, u a receiver, and every u-first order's picks either not a
+    maximum matching or failing OC1"""
+    import brute, rf_replay
+    from maxmatch import nu
+    n = len(R); m = 1 + max(max(s) for s in R); vl = [[vals[i][g] for g in R[i]] for i in range(n)]
+    I = brute.Inst(R, vl, m); v = nu(R, vl); val = lambda i, g: vals[i].get(g, 0)
+    rec = Y[u] is not None and not any(j != u and val(j, Y[u]) > (val(j, Y[j]) if Y[j] is not None else 0) for j in range(n))
+    zs = {}
+    for o in itertools.permutations(range(n)):
+        if o[0] != u: continue
+        Z = tuple(I.sd(o)); mx = sum(g is not None for g in Z) == v
+        zs[str(Z)] = (mx, rf_replay.oc1(I, Z, n) if mx else 'not maximum')
+    return {'vals': vl, 'Y': list(Y), 'u': u, 'Y is an SD start': any(tuple(I.sd(o)) == tuple(Y) for o in itertools.permutations(range(n))),
+            'Y maximum': sum(g is not None for g in Y) == v, 'u a receiver of Y': rec, 'OC1 at Y': rf_replay.oc1(I, Y, n),
+            'u-first vectors (maximum, OC1)': zs, 'RF-exists violated': all(not mx or r is None for mx, r in zs.values())}
+
+
 def recheck(R, vals, Y, Z, u, any_receiver=False):
     """brute force from the definitions: Y and Z are maximum-matching SD starts, Z from an order with u first, u a
     receiver of Y (unless any_receiver), and OC1 fails at both"""
@@ -120,9 +211,9 @@ def recheck(R, vals, Y, Z, u, any_receiver=False):
 
 
 if __name__ == '__main__':
-    sets = json.loads(sys.argv[1]); ar = '--any-receiver' in sys.argv
-    C = RF(sets, any_receiver=ar, grid6=next((a[8:] for a in sys.argv if a.startswith('--grid6=')), None),
-           grid_exact='--exact6' in sys.argv)
+    sets = json.loads(sys.argv[1]); ar = '--any-receiver' in sys.argv; ex = '--exists' in sys.argv
+    C = (RFE if ex else RF)(sets, any_receiver=ar, grid6=next((a[8:] for a in sys.argv if a.startswith('--grid6=')), None),
+                            grid_exact='--exact6' in sys.argv)
     t0 = time.time(); r, w = C.run()
     print(r, 'iterations', C.iters, dict(C.kinds), '%.1f s' % (time.time() - t0))
-    if w: print(json.dumps(recheck(C.R, *w, any_receiver=ar)))
+    if w: print(json.dumps(recheck_e(C.R, *w) if ex else recheck(C.R, *w, any_receiver=ar)))
