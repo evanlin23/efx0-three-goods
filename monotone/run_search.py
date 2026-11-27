@@ -11,7 +11,7 @@ Per hypergraph:
      L independently.
 Writes one JSON line per hypergraph to the output file.
 
-Usage: python3 monotone/run_search.py n m k out.jsonl [--jobs J] [--time-limit S] [--np] [--no-rank-check] [--hg cached.json] [--warm V] [--only-k] [--resume]
+Usage: python3 monotone/run_search.py n m k out.jsonl [--jobs J] [--time-limit S] [--np] [--no-rank-check] [--hg cached.json] [--warm V] [--only-k] [--resume] [--shard i/N]
 """
 import sys
 import os
@@ -200,6 +200,10 @@ def main():
     if "--only-k" in sys.argv:
         # only hypergraphs whose largest |R_i| is exactly k (the others are in the k - 1 files)
         hs = [h for h in hs if max(len(r) for r in to_R(h, n)) == k]
+    if "--shard" in sys.argv:
+        # --shard i/N: keep the hypergraphs at positions = i (mod N) of the (deterministic) list
+        si, sn = map(int, sys.argv[sys.argv.index("--shard") + 1].split("/"))
+        hs = [h for t, h in enumerate(hs) if t % sn == si]
     mode = "w"
     if "--resume" in sys.argv and os.path.exists(out):
         done = set(tuple(json.loads(l)["types"]) for l in open(out) if l.strip())

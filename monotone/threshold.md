@@ -116,3 +116,41 @@ fixed, the third cannot drop any good. With one agent fixed, the other two canno
   ≥ 336 additive ones (`monotone/types4.py`).
 - Open: the exact value of k*. Is there a counterexample with k ∈ {4, …, 7} and more agents? At n = 3, is 8 the
   threshold?
+
+## 6. Next: k = 4 at n = 6 (designed, estimated, not run)
+
+A monotone k = 4 counterexample needs ≥ 6 agents (MONO.K4S). n = 6 is therefore the first open case. By §2 it
+has 10 ≤ m ≤ 18.
+
+**Family size** (`monotone/hg_nauty.py`, nauty genbg; this enumeration matches hypergraphs.py on the four families
+tested):
+
+| m | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | total |
+|---|---|---|---|---|---|---|---|---|---|---|
+| hypergraphs | 405,700 | 334,091 | 188,132 | 73,696 | 20,089 | 3,708 | 437 | 28 | 1 | 1,025,882 |
+
+**Cost per hypergraph** (`results/monotone/n6_k4_timing_sample.log`: 40 random hypergraphs per m; CEGAR plus the rank
+re-check; measured while other searches shared the 4 cores, so roughly 1.5–2× the unloaded cost). Mean 1.0 s at
+m = 10, 1.95 s at m = 12, 6.4 s at m = 14 and 48 s at m = 16. At m = 17 the 14 cases took 11–600 s (median 70 s).
+Every sampled hypergraph was UNSAT (EVIDENCE).
+
+**Estimate.** Σ (count × mean cost), interpolating m = 11, 13, 15 and taking ~150 s at m = 17, is about 1.7·10⁶
+CPU-seconds, so **≈ 250–480 CPU-hours**, plus ~15% for the independent certificate check. On this 4-core
+container that is 3–5 days, so not in one session. On 64 cores it is 4–8 hours.
+
+**Run design** (ready):
+```
+python3 monotone/hg_nauty.py 6 $m 4 --out hg_6_${m}_4.json                       # seconds per m
+python3 monotone/run_search.py 6 $m 4 out/n6_m${m}_k4.s$i.jsonl --hg hg_6_${m}_4.json \
+        --shard $i/$N --jobs $CORES --no-rank-check --resume                      # shard i of N
+python3 monotone/check_cert.py out/n6_m*_k4.s*.jsonl                               # independent check
+```
+Each shard is resumable, so a container that is reclaimed loses at most the hypergraphs in flight. Run m = 15..18
+first (the expensive tail, 4,174 hypergraphs, ≈ 60 CPU-h) to learn whether any case explodes, then m = 10..14
+(≈ 1,020,000 hypergraphs, most under 2 s).
+
+**Pruning that could shrink it, not yet available for monotone valuations.** The campaign's minimal-counterexample
+reductions K4.MC2–MC5 (no agent with two private goods; no degree-2 good between two P3 agents; …) were certified
+for additive core types with additive gadgets. Monotone analogues would need re-certifying over the 912 monotone
+types of a 4-good agent (`monotone/types4.py`), with monotone gadgets. That is a project of its own. The
+non-peelability constraints (item 8) are valid but did not speed up the k = 6 test case.
