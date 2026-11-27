@@ -17,12 +17,18 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
   That is the plain matching case of Lemma M^c (`proof/k4-oc1max-multi` §9).
 - **Strong form R2★, which the data suggest is the proof target:** some canonical chain from a dangerous agent to a
   receiver leaves junk that can be spread one good per agent, so no owner is needed (79/79, 466/466).
-- **Proved:** Lemma R2-0. If |J| ≤ |U|, the picks complete with one junk good per receiver. So a hard start with two
-  receivers has at least three junk goods.
+- **Proved:**
+  - Lemma R2-0: if |J| ≤ |U|, the picks complete with one junk good per receiver, so a hard start with two receivers
+    has at least three junk goods;
+  - Lemma R2-G2: after any chain ending at a receiver, no junk good is wanted, so Lemma M^c applies there.
+- **R2 reduced to one matching statement, R2-M:** some canonical chain to a receiver meets Lemma M^c's (C1)–(C3), with
+  the chain's head x₀ as owner and |J′ ∖ H| ≤ 1. Measured with the M^c code of `proof/k4-oc1max-multi`: 79/79 at
+  n = 4 and 466/466 at n = 6.
 - **k ≤ 4 is necessary:** PW5 (k = 5) has two receivers and fails. Lemma PL (`claude/k4-ksens`) is the k = 4 count a
   proof must use.
-- **Open:** steps 1, 3 and 4 of the plan in §14.6. Rule out a 2-cycle of the pointer map; handle agents sharing one
-  good of H₀, and the released pick; count the slots, presumably by Lemma M with no owner.
+- **Open:** the Hall-type count that proves R2-M. Its inputs are Lemma PL (the head, and every agent sharing two goods
+  of H₀, keep no junk danger) and the second receiver as an unconditional slot; it also needs a fixed point of the
+  pointer map (step 1).
 - **Requested:** an exhaustive n = 4 check of R2 and R2★ from the certifier.
 
 ## Status (burst 6): OC₁^max falls at n = 4; two moves always suffice so far, by a pointer rule in the MC2 class
