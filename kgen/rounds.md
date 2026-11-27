@@ -78,7 +78,7 @@ every refutation below is confirmed by three independent programs.
 | *k = 4 with zeros:* **OC₁^max on strict connected cores (K4.SDC.OC1MAX)** | | **FAILS** (C4K, m = 7) | | §4.4 | `k4/sdc/oc1_max_orders.py`, k4/sdc pipeline, ocsat, brute force |
 | *k = 4 with zeros:* two rounds on C4K, W4, K4W | | holds | | §4.3, §4.4 | brute force |
 | *k = 4 with zeros:* **OC₁′^max** (middle chain agents may take the end's released goods) | | holds (data: every OC₁ failure, climbs) | holds (data) | §4.6 | rnd.c, forward brute force |
-| OC₁′ at k = 5 / at positive values | | | **fails** (PW5, zeros and lifted) | §4.6 | rnd.c, forward brute force |
+| OC₁′ at k = 5 / at positive values | | **fails at positive values** (two disjoint swaps, m = 7, 8) | **fails** (PW5, zeros and lifted; m = 9 positive) | §4.6 | rnd.c, forward brute force |
 
 ## 1. Definitions and the round characterization
 
@@ -447,6 +447,23 @@ their four ε-failures, two zero versions satisfy OC₁. The other two are the t
     (`oc1p_pw5.log`). This also tests the "false" branch of the two OC₁′ implementations.
   - It repairs RD5 (k = 5) and kgen's n = 4 instance.
   - So, like OC₁, OC₁′ must use k ≤ 4. At unbounded k the surviving form is still two rounds (RD²⁺).
+- **At positive values a second mechanism defeats OC₁′: two disjoint swaps.**
+  - Positive climbs (`oc1p_pos_*.log`, `fails_oc1p_pos.jsonl`) found starts at n = 4, m = 7, 8 and n = 5, m = 9 where
+    OC₁′ fails. rnd.c and the forward brute force agree (`oc1p_pos_check.log`).
+  - Example: n = 4, m = 7, values [[1115,5553,1291,553,3004,3000,46], [21,2905,920,1305,2402,3000,1938],
+    [232,2943,178,368,2117,2957,72], [21,2905,920,1305,683,3000,1938]], order (3, 1, 0, 2).
+  - In every MD allocation all four agents lose their picks in two disjoint swaps, 0 ↔ 1 and 2 ↔ 3.
+  - One chain performs one swap; one round of two chains performs both. One round (and ROUND-P) holds on every such
+    start.
+  - This is the "two hand-offs on disjoint pairs" of `kgen/n3.md` §7. That note's count says it needs agents with
+    five goods, which fits its absence at k = 4.
+- **The picture at positive values.**
+  - *Starvation* defeats one round (§3). *Two disjoint swaps* defeat one chain, even OC₁′.
+  - **ROUND-P** (vertex-disjoint chains whose agents may also take released end picks) handles both. It holds on every
+    start tested, but on the data it is close to MD (§4.2).
+  - **Two rounds (RD²⁺)** hold on every start tested.
+- **The picture at k = 4 with zeros.** Only starvation has appeared, and **OC₁′^max survives**: every OC₁ failure is
+  repaired, and the direct climbs found no failure.
 
 ## 5. n = 3
 
