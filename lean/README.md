@@ -290,6 +290,13 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   an official chain (`echain_isChain`), (L) is automatic (`recs_L`), Lemma LIFT (`oneMove_lift`, `oneAbsorber_lift`),
   and **`EFX.OC1Max.target4_of_recs`**: Theorem S's conclusion (`ThmSHolds`, a hypothesis) and REC-S existence
   (`ConjRECS`) imply OC₂ᵖᵉʳᶠ (`conjOC2perf_of_recs`), hence TARGET₄.
+- `EFX/ThmU.lean`: **Theorem U and Corollary U1** (`k4/oc1max_multi.md` §3, ledger K4.MULTI.U.LEAN): canonical chains
+  (`CChain`), Lemma D1-chain (`exists_cchain`, `exists_longest_cchain`, by walking up, `exists_walk`), and
+  **`EFX.OC1Max.thmU`**: after a longest canonical chain from k with an improving H₀ ⊆ J ∩ R_k, if J threatens no agent
+  other than k and the head z at its pick value (and z, if so threatened, is unfrozen after the chain), k owns an S\*
+  completion; `thmU_oc1` (one move repairs), `thmU_of_DT` (the note's D_T, E_J form), Corollary U1 (`thmU1`,
+  `thmU1_oc1`: OC₁ at perfect starts with one truly dangerous agent and at most one unfrozen pick holder), and a
+  two-agent start where U1 applies, by `decide` (`EFX.OC1Max.ExU.repair`).
 - `EFX/OC1MaxExamples.lean`: non-vacuity of `EFX/OC1Max.lean` by `decide`, on the MC2 core of `k4/sdc.md` §31 where OC
   fails: the failing start (index order) is not a maximum-matching start (`EFX.OC1Max.Ex.not_maximum_MC2`); the order
   3, 4, 0, 1, 2 picks a maximum matching with a one-absorber completion (`EFX.OC1Max.Ex.maximum_ordM`,

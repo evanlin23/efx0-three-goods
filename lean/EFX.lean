@@ -102,3 +102,4 @@ import EFX.Lift1
 import EFX.T6
 import EFX.SDE
 import EFX.RecS
+import EFX.ThmU
