@@ -754,6 +754,18 @@ profiles, 541 m = 12 cores × 200), every order.
   - on two terminals it fails on 82 drafts with owners N/E/K and on 12 with any owner, all covered by B\* (none in
     the gap).
 
+**Statement (P)'s class** (§11: agents valuing one, two or three goods; the class the reduction RED₃ produces).
+- **The exact test extends.** `lbtest` and `de_moves` now accept agents with one or two goods: they are never
+  exposed, never threatened and never upgraded (§11). `mixed_check.py` compares `lb2` with the exhaustive
+  one-absorber completion on every hypergraph class, every ranking and every perfect draft, and on the state after
+  every DE trade from it. They agree everywhere: n = 3 (97 classes) and n = 4 (738 classes), with 0 or 1 dead good
+  (`mixed_check_*.log`). The hard counts 294, 510, 8,064 and 11,840 match `perfect_small.py`.
+- **T′_k is exhaustive on the whole class at n = 4** (`tprime_k_mixed_4_*.log`): 8,064 hard drafts with no dead good
+  and 11,840 with one, no failure. Owner k is needed on 512 and 1,762 of them.
+- **Sample at n = 5** (6,911 classes; 30 profiles each with no dead good, 15 with one; `te_sample_mixed5_*.log`):
+  3,354 hard drafts. T′_k and T-E∃ have no failure; rule P fails on 2 two-terminal drafts. The exhaustive n = 5 run
+  is in progress.
+
 **The crossed configuration** (64 two-terminal gap drafts at n = 6, one hypergraph; `t2k_gap6_T2.log`,
 `t2k_crossed64.log`).
 - **The instance.** Agents 0: 2>0>6, 1: 3>0>7, 2: 4>1>8, 3: 5>1>9, 4: 4>5>0, 5: 2>3>1; order 0, …, 5; picks

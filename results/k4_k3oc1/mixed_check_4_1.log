@@ -1,0 +1,6 @@
+$ python3 k4/k3oc1/mixed_check.py 4 1 (738 classes)
+draft: lb2 False, exhaustive False 11840
+draft: lb2 True, exhaustive True 422273
+trade: lb2 False, exhaustive False 584
+trade: lb2 True, exhaustive True 396000
+time 102 s
