@@ -1,0 +1,7 @@
+$ python3 kgen/k3max_te.py gap_small_5.gap.gz 0 2
+11884 drafts
+11884 drafts where every k works (T-E)
+24516 rotations
+24472 rotations completing with owner none
+44 rotations completing with owner t
+time 3 s
