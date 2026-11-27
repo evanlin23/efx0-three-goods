@@ -1746,3 +1746,14 @@ two:
 
 So agent 0 is not stranded once the chain's end may take junk. The (G1) refinement "keep every other dangerous agent's
 improving set reachable" would avoid needing the ED stop. GR instead makes the ED stop part of the rule.
+
+*Follow-up (the base-phantom session's gr.py MODE=GRRE, `proof/k4-base-phantom` commit cd4a74b; their
+`k4/base_phantom.md` §5; not re-run here).* GRRE is round-first with E-prefix rounds only, and its stops are a
+completion, a final round, or an ED repair.
+- It is safe on every two-move data set: n = 4 (112,880), walks (4,955), the n = 5 s50 sample (14,047) and 5_pure
+  (280). That includes the 8 5_pure starts where their any-chain round-first variant gets stuck. So **the E-prefix
+  restriction is what keeps (G1) safe at two-move starts.**
+- At *one-move* starts, round-first gets stuck at 154 of them. A round taken where a one-move repair exists can be
+  fatal, as at the 35 starts where pure reduction fails.
+
+So the base must be checked first (GR's order), and (G1) is a statement about two-move starts only.
