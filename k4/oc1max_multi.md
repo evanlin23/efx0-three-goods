@@ -1267,3 +1267,20 @@ k values at most two goods of the rest, so this is again a local "keep b and c a
 requirements) all apply verbatim in this class. If every two-move start reaches a phantom-class start where Theorem S
 applies after at most one settlement, OC₂^max follows. What remains is the existence argument (Sub-lemma
 **RSD-EX**, open): at a hard start with no one-move repair, k's best pool pair is (K)-safe for some Theorem S case.
+
+**Proposition K-loc (K4.MULTI.KLOC): where (K) can fail.** In Theorem S's allocation X⁻ of the reduced instance, the
+multi-good bundles are W⁻ = (J⁻ ∖ h) ∪ {Y_{z′}} and {B₁_r, h}.
+- (K-b) needs a pick ℓ with v_k(ℓ) > v_k(T) > p_k. Such a pick was taken before k's turn, by an agent q that picked
+  before k. Hence q ∉ E(k), since σ increases along E(k), and q still holds ℓ at B₁. In X⁻, ℓ is in a multi-good
+  bundle only if q is the receiver r of h, or q is P′'s head z′ (ℓ released into W⁻, or ℓ = h).
+- (K-a) needs Y_k ∈ W⁻. Y_k is held by x₁ at B₁, so Y_k ∈ W⁻ forces z′ = x₁. It also needs ℓ ∈ W⁻, so ℓ is a pool good
+  of E(k) outside T, and p_k + v_k(ℓ) > v_k(T). (The bundle {Y_k, h} never threatens k, since v_k(h) ≤ p_k.)
+
+So **(K) holds for every Theorem S case of I⁻ whose receiver and head avoid q, and whose head is not x₁ when k values a
+third pool good.** *Proof:* the case analysis above, with (G2) for junk and v_k(Y_k) = p_k < v_k(T). ∎
+
+When ℓ is a pick, k values only Y_k and two pool goods besides ℓ, so T\* is k's only pool pair. RSD-EX is then purely a
+choice of the Theorem S case in I⁻. In the phantom language, it must avoid the phantom-frozen holder q. The census
+shows such a case always exists (`rec_k.log`): (K-a) never occurs, and the 9,600 (K-b) failures at n = 4 always have
+a sibling case that avoids q. A proof would come from (S-c)'s freedom: Theorem S's receiver is the head or an
+unfrozen second wanter, and the head of a longest chain of I⁻ need not be q.
