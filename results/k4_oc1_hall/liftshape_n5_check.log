@@ -1,0 +1,9 @@
+picks (7, 2, 3, 5, 4) nu 5 J [0, 1, 6] F [0, 1, 2, 4] D [0, 1, 2, 4] receivers [3]
+one-absorber at the picks: False
+one-move repairs: 0 of 21
+holder z = 3 , its favourite good 4
+  loose match: first [('chain', (0, 1), {0: (2,), 1: (1,)}), ('chain', (1, 0), {0: (1, 7), 1: ()})] ; second [('chain', (3, 4), {0: (4,), 1: (6,)}), ('chain', (4, 3), {0: (6, 5), 1: ()})] ; z ends with [4]
+  loose match: first [('chain', (0, 1), {0: (0, 2), 1: (1,)}), ('chain', (1, 0), {0: (1, 7), 1: (0,)})] ; second [('chain', (3, 4), {0: (4,), 1: (6,)}), ('chain', (4, 3), {0: (6, 5), 1: ()})] ; z ends with [4]
+repairing (first move, second move) state pairs: 20 ; with a second chain ending at z and z holding its favourite: 2
+example repairing pair: (('chain', (0, 1)), ('chain', (2, 3)))
+repairing pairs of the exact LIFT-SHAPE+ form (items 2 and 3): 0

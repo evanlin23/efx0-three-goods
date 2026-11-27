@@ -1,0 +1,56 @@
+$ python3 k4/oc1_hall/r1_vs_max.py special
+  of them not a maximum matching 1
+  of them produced by no R1-priority order 4
+R1-priority pick vectors 24
+instances 4
+instances where nu < n 0
+instances where some R1-priority pick vector is not maximum 1
+maximum-matching pick vectors 27
+$ python3 k4/oc1_hall/r1_vs_max.py screen
+  of them not a maximum matching 26
+  of them produced by no R1-priority order 77
+R1-priority pick vectors 690
+instances 168
+instances where nu < n 0
+instances where some R1-priority pick vector is not maximum 14
+maximum-matching pick vectors 741
+$ python3 k4/oc1_hall/r1_vs_max.py suite
+  of them not a maximum matching 26
+  of them produced by no R1-priority order 81
+R1-priority pick vectors 637
+instances 158
+instances where nu < n 0
+instances where some R1-priority pick vector is not maximum 14
+maximum-matching pick vectors 692
+$ python3 k4/oc1_hall/r1_vs_max.py logs
+  of them not a maximum matching 192
+  of them produced by no R1-priority order 321
+R1-priority pick vectors 3967
+instances 1637
+instances where nu < n 0
+instances where some R1-priority pick vector is not maximum 108
+maximum-matching pick vectors 4096
+$ python3 k4/oc1_hall/r1_vs_max.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+  of them not a maximum matching 0
+  of them produced by no R1-priority order 94
+R1-priority pick vectors 4489
+instances 3000
+instances where nu < n 0
+instances where some R1-priority pick vector is not maximum 0
+maximum-matching pick vectors 4583
+$ python3 k4/oc1_hall/r1_vs_max.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+  of them not a maximum matching 103
+  of them produced by no R1-priority order 170
+R1-priority pick vectors 3269
+instances 1500
+instances where nu < n 0
+instances where some R1-priority pick vector is not maximum 66
+maximum-matching pick vectors 3336
+$ python3 k4/oc1_hall/r1_vs_max.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
+  of them not a maximum matching 36
+  of them produced by no R1-priority order 56
+R1-priority pick vectors 488
+instances 150
+instances where nu < n 0
+instances where some R1-priority pick vector is not maximum 26
+maximum-matching pick vectors 508
