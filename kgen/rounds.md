@@ -79,6 +79,11 @@ every refutation below is confirmed by three independent programs.
       - Climbs on strict cores at n = 5, 6 have found no failure.
       - The only MD allocations it misses have an agent that keeps its own pick and also holds a pickless agent's
         pick.
+      - **REC-S's two-move repair is one round (§4.10).** Lemma SPLICE (proof written, not refereed): a REC-S repair's
+        final allocation is a round of OC₁′ moves, except in one configuration (EX) that never occurs in the data.
+        All 265,549 REC-S repairs at n = 4 and n = 5 check. E(k) itself is never a witness chain.
+      - **REC-S's existence part fails at 7 n = 5 starts** of the certifier's 5_pure chunk; two of them are its
+        residual case. ROUND-P holds at all 7 (§4.10).
     - It is a one-move alternative to the campaign's current target OC₂^max (two sequential moves).
     - On all 11 of the certifier's instances, every MD allocation has a starved agent, so the obstruction is the same
       k-independent one.
@@ -643,6 +648,20 @@ included, 0 mismatches):
 - ROUND-P holds at every one of them, at the narrow definition above. So does the round of OC₁′ moves (RNDOZ), at all
   112,880 + 11 + 2 + 47 + 26 starts (`rndp_known.log`).
 
+**More n = 5 data** (coordinator, burst 5).
+- *The certifier's first n = 5 chunk* (list 5_n4_1, 1,735 hypergraphs; `results/k4_oc1max/n5/`). It has no
+  OC₁^max-failing start.
+  - Its depth-2 CEGAR certified every hypergraph with one-move witnesses only (kinds picks, chain and addition; no
+    two-move witness).
+  - Its run logs list no hypergraph where OC₁^max fails.
+  - So ROUND-P and RNDOZ hold on the whole chunk, because they contain OC₁.
+- *The matching session's hard n = 5 starts near 5_pure#164* (`n5_walk164.jsonl` and `n5_walk164_long.jsonl.gz` on
+  `proof/k4-matching` at b62ceed6; `rndp_walk5.py`, `rndp_walk5_short.log`, `rndp_walk5_long.log`): 1,498 + 22,445
+  rows.
+  - OC₁ and OC₁′ fail at every row.
+  - One plain round, RNDOZ and ROUND-P hold at every row.
+  - The forward code agrees at 317 sampled rows.
+
 **Positive-value failures** (`rndp_positive.py`, `rndp_positive.log`; 112 re-checked forward, 0 mismatches):
 - *Starvation.* At all 158 ROUND⁺ failure starts of `fails*.jsonl` (raw, twins, ε-lifts, KCORE, KCOVER, KIPRIME), the
   plain round fails, as it must, and the narrow ROUND-P holds.
@@ -675,9 +694,193 @@ the objective is failing starts, then the witness count and margin at the hardes
     existing agent, with or without one new good. Following the coordinator, no instance is two copies glued at a
     junk good.
   - unseeded random strict cores at n = 5, m = 9.
-- CLIMB_RESULT
+- Part 1 (`zclimb_rndpz_*.log`, ZCLASS = RNDPZ): 8 climbs, 1,916 climb rounds, 0 failures. Count climbs bottom out at one witness
+  with slack 1; ratio climbs reach 2 witnesses among 269 MD allocations.
+- Part 2 (`p2_zclimb_rndoz_*.log`) targets the narrowest form, RNDOZ, with 7 climbs: 5,518 climb rounds, 0 failures.
+  - Ratio climbs, seeded from the 120 hardest ROUND-P instances, from 600 walk rows near 5_pure#164, and unseeded at
+    n = 5, m = 9: the best start has 2 witnesses among 557 MD allocations. Both witnesses are the picks extending.
+  - The *hard-start* ratio (`ZOBJ=hardratio`: only starts where the picks do not extend), seeded from the certifier's
+    24 and from the walk rows: the best is 0.076 (18 witnesses). Hard starts stay far from a failure.
+  - A count climb at n = 6: one witness at slack 1.
 - `is_core` alone does not enforce distinct subset sums. Without that constraint the climbs drift to exact ties, such
   as v₀(6) + v₀(7) = v₀(8), so the strict form is enforced (ZSTRICT = 1).
+
+### 4.10 REC-S and ROUND-P: the two moves splice into one round
+*Question (coordinator).* Is REC-S's first chain E(k) (`k4/oc1max_multi.md` §12 on `proof/k4-oc1max-multi`) always one
+of ROUND-P's chains? If so, the two might share one proof.
+
+**Answer on the data: no, but REC-S's repair is itself a one-round repair.**
+`recs_vs_rndp.py` reads multi's REC-S witnesses, one per n = 4 start with no one-move repair
+(`recs_witnesses_n4.json.gz`), and tests every MD EFX₀ allocation with every Lemma RC path structure
+(`recs_vs_rndp_n4.log`):
+
+| test (112,880 starts) | RNDOZ (round of OC₁′ moves) | RNDPZ (ROUND-P) |
+|---|---|---|
+| REC-S's P₁ = E(k) is a chain of some witness round | **0** | **0** |
+| P₁ is a prefix of some witness chain | 0 | 0 |
+| some dangerous agent's E(k) is a witness chain | 0 | 65,920 |
+| REC-S's final allocation X is a one-round witness | **112,880** | **112,880** |
+| X has a structure that is one chain on exactly the agents of E(k) and P₂ | 112,880 (its only structure) | 112,880 (only structure at 39,280) |
+
+- E(k) is never a chain of a witness round, nor a prefix of one.
+- REC-S's own final allocation X is always a witness of a round of OC₁′ moves (RNDOZ). Its round structure is a
+  *single* chain on exactly the agents of E(k) and P₂: the two moves splice.
+  - Example: 4_pure#20, picks (6, 5, 4, 3), order (0, 1, 3, 2).
+  - E(0) = (0, 1, 2), with agent 0 taking T = {1, 2}.
+  - The second move P₂ = (3, 2), with agent 3 taking H₀ = {4, 5}. These are agent 2's released pick 4 and the head's
+    good 5 = Y₁.
+  - One chain from the picks reaches the same allocation, 0 → 1 → 3 → 2. Agent 1's pick goes to agent 3, and agent 3
+    also takes the end's pick 4 (an OC₁′ take).
+- n = 5 (the 23,943 walk rows near 5_pure#164, sampled).
+  - The earliest-wanter chains are long. At idx 164, E(2) = (2, 0, 3), because agent 0 wants good 3 and picks before
+    agent 3. The coordinator's P₁ = (2, 3) there is a general canonical chain, not E(2).
+  - The witness rounds there are short swaps, and no dangerous agent's E(k) is a witness chain (`rndp_walk5_*.log`).
+
+**Every REC-S repair, at n = 4 and n = 5** (`splice_search.py`, `splice_search_*.log`).
+`splice_search.py` enumerates every REC-S repair, not only multi's first one. That means every listed order, dangerous
+k, pool pair T and Theorem S case, built with multi's own code (`k4/oc1max_multi`: mmlib, dred, reduce_check, theorem_s,
+reduce_s). It then tests each final allocation for a round structure.
+
+| data | starts | REC-S repairs | one-round witness (RNDOZ / RNDPZ / WIDE) |
+|---|---|---|---|
+| the 112,880 n = 4 starts without a one-move repair | 112,880 | 216,880 | all / all / all |
+| the certifier's n = 5 OC₁^max failures (`oc1_fails` of `5_pure_s5o0_summary.jsonl.gz` on `compute/k4-oc1max-cert`) | 280 | 783 | all / all / all |
+| the matching session's hard n = 5 walk starts near 5_pure#164 | 23,943 | 47,886 | all / all / all |
+
+All 265,549 repairs fall into three of the proof's cases below:
+- Y_z ∈ T and h is junk: 48,057;
+- Y_z released and h is junk: 217,326;
+- Y_z released and h a pick: 166.
+
+P₂'s start never keeps its own pick.
+
+**Lemma SPLICE (a REC-S repair is one round of OC₁′ moves).** *Proof written here; not refereed.*
+
+Setting:
+- Y is a perfect start with strict values, J its junk, and p_a = v_a(Y_a).
+- *Move 1:* E(k) = (k = x₀, x₁, …, x_t = z) with t ≥ 1. Each x_l (l ≥ 1) takes exactly Y_{x_{l−1}}, and k takes
+  T ⊆ (J ∪ {Y_z}) ∩ R_k with v_k(T) > p_k. Every agent of the move strictly gains. The state is B₁, and the junk of B₁
+  is J₁ = (J ∪ {Y_z}) ∖ T.
+- *Move 2:* P₂ = (u₀, …, u_s) with s ≥ 1 and k ∉ P₂. Each u_i (i ≥ 1) takes exactly B₁[u_{i−1}], and u₀ takes
+  H₀′ ⊆ J₁ ∪ B₁[u_s]. Every agent of the move strictly gains (against its B₁ bundle).
+- *The allocation:* X_{u₀} = W := (J₁ ∪ B₁[u_s]) ∖ {h}, one other agent w ≠ k receives h, and every other agent keeps
+  its bundle after move 2.
+
+These are exactly the shapes that `k4/oc1max_multi/check_recs.py` checks (its items 3, 4 and 7–9). X is EFX₀ by
+REC-S; that is not used below.
+
+*Claim.* X is a witness of one round of vertex-disjoint chains from Y in which:
+- every chain's non-end agents take only goods of their own chain end's base (a round of OC₁′ moves);
+- the completion has one absorber.
+
+The one exception is the configuration (EX) below.
+
+(EX): let q be the agent that holds no pick in X:
+- k when Y_z ∉ T;
+- u₀ when W contains no pick;
+- otherwise there is none.
+
+The exception is that Y_q lies in the bundle of an agent v that also keeps its own pick, and
+v_v(X_v ∖ {Y_v}) ≤ v_v(Y_v). It has three concrete forms:
+- **EX-a:** u₀ = z, Y_z ∉ T, and u_s = x₁, so Y_k lands with z, which keeps Y_z.
+- **EX-b:** Y_z ∉ T, u_s = x₁, and h = Y_k goes to an agent w that keeps its own pick.
+- **EX-c:** Y_z ∈ T, u₀ = x_l, u_s = x_{l+1}, and h = Y_{x_l} goes to an agent w that keeps its own pick.
+
+*Proof.* Let f(a) be the holder of Y_a in X; f is defined on every agent, since X is complete.
+- An agent outside E(k) and P₂ keeps Y_a, and so does every other agent.
+- Every chain agent's received good is a single good. In each move the receiver gets exactly its predecessor's
+  bundle, and those bundles are single picks except k's T.
+
+*Count of picks per bundle.*
+- k holds no pick, or Y_z if Y_z ∈ T.
+- u₀ holds the picks of W, which are B₁[u_s]'s pick (a single pick, since u_s ≠ k) and Y_z if Y_z ∈ J₁, minus h.
+- w holds its bundle's pick plus h, if h is a pick.
+- Every other agent holds exactly one pick.
+
+The other goods of W and h are junk of Y. Going through the cases (Y_z ∈ T or not; h junk, Y_z, or B₁[u_s]'s pick),
+f is a functional graph on the agents in which:
+- at most one agent q ∈ {k, u₀} has in-degree 0 (the q of (EX));
+- at most one agent v ∈ {u₀, w} has in-degree 2;
+- every other agent has in-degree 1.
+
+There are n edges and in-degrees sum to n, so q exists exactly when v does. So:
+- (a) either f is a permutation;
+- (b) or the component of q is a "rho": a tail q → … → a → v joining the cycle through v, v → c₁ → … → c_r → v (a
+  fixed point if f(v) = v). Every other component is a cycle.
+
+*Round structure.* Turn each component into chains:
+- *A cycle a₁ → a₂ → … → a_r → a₁ (r ≥ 2)* becomes the chain a₁ → … → a_r, whose end's pick Y_{a_r} is held and taken
+  by the start a₁. This is a ring, an OC₁′ take of its own chain's end.
+  - Choose a₁ to be an agent that values its received pick.
+    - Any u_i (i ≥ 1), and any x_l (l ≥ 1) other than u₀, does, because it wants that good.
+    - So does k, whose received pick is Y_z ∈ T ⊆ R_k.
+  - Every cycle of length ≥ 2 contains such an agent: its agents lie in E(k) ∪ P₂ ∪ {k}, and it is not the single
+    agent u₀.
+- *A fixed point* (f(a) = a) is off every chain. It keeps its pick and adds any relevant junk of X_a.
+- *The rho of case (b), with f(v) ≠ v,* becomes the single chain q → … → a → v → c₁ → … → c_r. Its end c_r has a
+  predecessor, and c_r's pick lies at v, a non-end agent of the same chain.
+  - v takes it if v values it. Otherwise it is an outside good of v.
+  - The start q takes its bundle: T for k, or W's relevant junk for u₀. Either is non-empty and relevant:
+    v_{u₀}(H₀′) > 0 and H₀′ ⊆ W.
+- *If f(v) = v,* v keeps its own pick and holds a second pick Y_a.
+  - The tail q → … → a ends at a, with a's pick outside at v. This is valid when a has a predecessor, i.e. a ≠ q:
+    v is off the chains and absorbs Y_a. When v = w that is a single outside good; when v = u₀ it is the absorber.
+  - If a = q, then q → v is forced, and v is an end holding its own pick. Its gain needs
+    v_v(X_v ∖ {Y_v}) > p_v. This is (EX). Unwinding which agents can be q and which v can keep its pick gives the
+    three forms EX-a, EX-b and EX-c.
+
+*Gains.* Every chain agent b has f(b) ≠ b, so b ∈ E(k) ∪ P₂ ∪ {k}. Its round value counts its predecessor's pick,
+its relevant junk and the end pick it takes, which is v_b(X_b) minus worthless goods, i.e. v_b(X_b). Values never
+drop between the moves:
+- v_b(X_b) ≥ v_b(B₂[b]) ≥ v_b(B₁[b]) ≥ p_b;
+- at least one of these is strict, because b gained strictly in the move that moved its pick.
+
+The only exception is the end v of (EX), whose own pick is outside.
+
+*One absorber.* The outside goods of an agent are its worthless junk and its untaken end picks.
+- Only u₀ holds junk beyond its base: W.
+- w has at most one extra good, h.
+- Every other bundle is its base: one received pick, or T for k.
+
+So only u₀ can have two or more outside goods. ∎
+
+Consequences:
+- **REC-S ⇒ ROUND-P.** At every start where REC-S applies with a repair outside (EX), a round of OC₁′ moves (RNDOZ,
+  hence ROUND-P) holds.
+- **The repair's structure.** It is a single chain when the components merge, which happens when P₂ meets E(k).
+  Otherwise it is that chain plus rings.
+- **(EX) never occurs at the hard starts.** In the data above, P₂'s start never keeps its own pick, and every
+  REC-S repair is a witness.
+- **(EX) does occur at easy starts, so the exception is real** (`splice_ex.py`, `splice_ex.log`,
+  `attempts/kgen-rounds-splice-ex.md`).
+  - On random strict connected n = 4, 5 cores, REC-S was applied at every perfect start
+    (`splice_search.py random`, `splice_search_random_*.log`).
+  - 49 of 4,616 REC-S repairs are not one-round witnesses. All 49 are in (EX): 48 of form EX-b and 1 of form EX-c.
+    No failure lies outside (EX), which checks the proof's case analysis.
+  - Every exception is at a start where OC₁ holds, and ROUND-P holds there through other allocations.
+  - Smallest: n = 4, m = 7, rows [[0,2289,1831,2530,0,1934,0], [0,836,0,2963,0,2033,642], [0,1387,1223,2254,0,0,1149],
+    [1362,0,271,0,72,1386,0]], order (2, 0, 3, 1), picks (1, 6, 3, 5).
+    - E(3) = (3, 1) with T = {0, 4}; then P₂ = (2, 1), and h = Y₃ goes to agent 0, which keeps its pick 1 and has
+      v₀(5) = 1934 < v₀(1) = 2289.
+    - `check_recs.py` accepts the witness.
+  - Open: is (EX) impossible at a start with no one-move repair? That is what REC-S ⇒ ROUND-P needs, and the
+    265,549 hard-start repairs say yes.
+- So a proof of REC-S's open existence part (`k4/oc1_hall.md` §23.4 item 4) outside (EX) would prove ROUND-P^max on
+  those starts.
+
+**REC-S's existence part fails at n = 5.** At 7 of the 280 stored n = 5 OC₁^max-failing starts of the certifier's
+5_pure chunk, no REC-S repair exists (`recs_gaps.py`, `recs_gaps_5pure.log`). This is confirmed with multi's own
+`recs_witness.witness` and `reduce_s.study`, in both the E(k) and the general canonical-chain forms, with 0
+violations.
+- **5_pure#773 and #963 are REC-S's residual case.** No dangerous agent has an improving pool pair, so (L) is vacuous.
+  `k4/oc1_hall.md` §23.4 item 4 said no such start was known.
+- **#38, #419, #447, #813 and #1073** meet (L) and Lemma SD-E, but have no Theorem S case in I⁻.
+- What holds at these 7:
+  - ROUND-P and RNDOZ hold at all 7;
+  - OC₁′ at 6 (not #419, one of the 24 OC₁′ counterexamples);
+  - one plain round at 6 (not #38).
+- OC₂^max is certified on the chunk, so these starts have two-move repairs, but not REC-S's.
+- ROUND-P^max survives where REC-S does not.
 
 ## 5. n = 3
 
@@ -768,6 +971,8 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 | K4.SDC.OC1MAX | (existing row, REFUTED by the certifier) OC₁^max on strict connected k = 4 cores | REFUTED | additional artifacts: `attempts/kgen-rounds-oc1max-c4k.md`, `results/kgen_rounds/c4k_oc1_max_orders.log`, `results/kgen_rounds/zcore_fails.json`, `results/kgen_rounds/verify_zfails.log`, `results/kgen_rounds/vs_certifier.log` |
 | K4.SDC.OC1PRIME | OC₁′^max: as K4.SDC.OC1MAX, with non-end chain agents allowed to take goods of the end's base (one move; implies MD) | CERTIFIED at n ≤ 4 (the certifier, `cert_4_prime.json.gz` on `compute/k4-oc1max-cert`; agrees with the 112,880-start check here); REFUTED at n = 5 (the certifier's 24, two disjoint cycles; checked here) | `oc1p_vs_oc2.log`, `oc1p_vs_oc2_forward_0.log`, `oc1p_vs_oc2_forward_1.log` (n = 4, with the certifier's export), `vs_certifier.log`, `xcheck_oc1p_150_6.log`, `verify_zfails.log`, `oc1p*_*.log`. False at k = 5 (PW5) and at positive values (two disjoint swaps) |
 | K4.SDC.ROUNDP | Conjecture ROUND-P^max at k = 4: one round of vertex-disjoint chains in which every non-end agent x_i (i < t) of a chain with t ≥ 1 may also take goods of its chain end's base (a round of disjoint OC₁′ moves; letting them take any chain end's goods never adds a witness on the data), one-absorber completion | CONJECTURE (at n ≤ 4 it follows from the CERTIFIED OC₁′^max) | EVIDENCE only: holds at all 112,880 OC₁^max-failing n = 4 starts and at the certifier's 24 n = 5 failures, two implementations (`rndp_known.log`, `xcheck_roundz.log`); strict-core climbs at n = 5, 6 (`zclimb_rndpz_*.log`); `kgen/rounds.md` §4.8, §4.9 |
+| K4.SPLICE | Lemma SPLICE: the final allocation of a REC-S repair (E(k) with T, then a Theorem S chain, the Theorem S completion) is a witness of one round of OC₁′ moves from the picks, except in configuration (EX) (the pickless agent's pick lies with an agent that keeps its own pick and needs it) | PROVED (written proof, `kgen/rounds.md` §4.10; not refereed) | `kgen/rounds/splice_search.py`, `results/kgen_rounds/splice_search_*.log` (265,549 REC-S repairs at hard n = 4, 5 starts, all witnesses; on random cores every failure is in (EX)); (EX) occurs: `kgen/rounds/splice_ex.py`, `results/kgen_rounds/splice_ex.log`, `attempts/kgen-rounds-splice-ex.md` |
+| K4.MULTI.RECS.EXIST.N5 | REC-S's existence part (some dangerous k, pool pair T of E(k) and Theorem S case at every two-move start) at n = 5 | REFUTED (7 of the certifier's 280 stored 5_pure OC₁^max-failing starts, two of them the residual case; multi's own code finds no REC-S repair; ROUND-P holds at all 7) | `kgen/rounds/recs_gaps.py`, `results/kgen_rounds/recs_gaps_5pure.log`, `results/kgen_rounds/splice_search_5pure.log` |
 | K4.SDC.OC1PERF | OC₁ (and one round) at perfect starts for every instance with ≤ 4 relevant goods per agent (the target of Lemma RED's route; the LOOSE form of OC₁^max) | REFUTED | `kgen/rounds/k4w_check.py`, `results/kgen_rounds/k4w_check.log` (K4W, no worthless good), `results/kgen_rounds/verify_k4zero_W4.log` (W4) |
 
 ## 7. Next
