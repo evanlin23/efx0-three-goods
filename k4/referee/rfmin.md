@@ -167,3 +167,52 @@ RF-start classes of `ttc_c13.md` §3.
   - RF-TOP's corollaries do not transfer. The reason given, that RKMAX does not quantify over every receiver-first
     start, is correct.
   - "Top-holding receivers' rotations do not change σ" is correct: the rotation is the identity.
+
+## Addendum (06:40): pickless receivers in Lean's amended RF (coordinator's question)
+
+**The two notions of receiver.**
+- In `formal/k4-rf` (PR #147), `Receiver u` means "no other agent `Wants` u's pick", and `Wants` requires the target
+  to hold a pick. So **every pickless agent is a Lean receiver**, and the last agent of any order is one
+  (`exists_receiver`).
+- `ConjRFWith` (amended) quantifies over every Lean receiver, pickless ones included. `ConjRFsomeWith` (RF∃) asks for
+  one receiver.
+- The data (the certifier's, Hall's, the coordinator's, d1's and mine) count pick-holding receivers only. REC-∃ (§1)
+  shows that one exists at every OC₁-failing maximum-matching start.
+- The two notions differ only where a failing maximum-matching start has a pickless agent, i.e. at ν < n.
+
+**Q1: are there OC₁-failing maximum-matching starts with ν < n?**
+- **n ≤ 4: none.** Every connected k = 4 core with n ≤ 4 has ν = n. All 1,002 n = 4 cores of the certifier's
+  `cert_4_depth2` have ν = 4. For n ≤ 3, any s ≤ 3 agents value at least 3 goods.
+- **n = 5: none.** This rests on the completeness of the certified core lists. Of the 31,584 n = 5 cores in K4.R5,
+  R5c, R5d and R5p (`results/k4_certs_5_*.json.gz`), only 13 have ν = 4:
+  - 12 have m = 4 = ν, so J = ∅ at every maximum-matching start;
+  - one has m = 5 (`[[0,1,3,4],[2,3,4],[2,3,4],[2,3,4],[2,3,4]]`). There agent 0 must pick a private good, and the
+    one junk good is its other private good, which goes back to agent 0.
+  - So every maximum-matching start of these cores completes at the picks, by hand.
+  - Checked by `leanrf_ref.py cores5` (`leanrf_ref_cores5.log`): 200 random strict balanced profiles per core, all 120
+    orders, 289,364 maximum-matching starts, all complete at the picks.
+- **The exports.** All 1,398,810 stored failing starts (n = 4 complete; n = 5 partial) are perfect: no `None` pick, and
+  ν = n on every exported hypergraph.
+- **n = 6, 7, random** (`leanrf_ref.py`). The instances are strict cores in Lean's `IsCore4` sense, connected, with a
+  forced tight set (s ∈ {4, 5} agents inside s − 1 goods), all orders:
+
+  | n | cores with ν < n | maximum-matching starts | failing OC₁ |
+  |---|---|---|---|
+  | 6 | 239,698 | 3,598,267 | **0** |
+  | 7 | 39,906 | 800,622 | **0** |
+
+  This is weak evidence: random cores rarely fail OC₁ even at perfect starts.
+- **Structure.** By Lemma RED (`k4/sdc.md` §31; Hall §21), a failing start with ν < n reduces to a failing perfect
+  start of I′. To get I′, delete the block S ∪ U of agents reachable from pickless agents by alternating paths, and keep
+  the pickless agents U as null agents. The block has at least four agents: a pickless agent values at least three
+  goods, all of them picks of S. So any such failure has an OC₁-failing perfect core of at most n − 4 pick holders
+  inside it, with null agents that may absorb.
+
+**Q2: ReceiverFirst for pickless receivers.** There is nothing to test on present data: no OC₁-failing start with a
+pickless agent is known, and at n ≤ 5 none exists.
+- At every known failure (all perfect), Lean receivers are exactly the pick-holding receivers. Lean's RF and the data
+  form agree there.
+- The pickless clause of the amended `ConjRFWith` is therefore untested, not refuted. For the TARGET₄ frame, either:
+  - use RF∃ (`ConjRFsomeWith`); at perfect starts it is the tested statement, and REC-∃ gives a pick-holding receiver
+    at every failing start; or
+  - restrict `Receiver` to pick holders and prove existence by REC-∃. In Lean that needs Lemma MAX's augmenting path.
