@@ -1,0 +1,7 @@
+# re.json.gz = results/k4_oc1max_multi/round_e_sel2_witnesses.json.gz of proof/k4-oc1max-multi-2 at 4f8a9922 (the multi session's witnesses, not this workstream's), checked with this workstream's check_rsd.py
+$ python3 k4/matching/check_rsd.py --inline re.json.gz ../../results/k4_matching/data/two_move_starts_n5_sel2.json.gz | 583680 witnessed starts
+verified, rounds 1, sizes [[2, 3]] 391680
+verified, rounds 2, sizes [[2], [2]] 192000
+witnessed starts equal the export's starts (as a multiset): True | export 583680 witnessed 583680
+all starts certified: True
+time 142 s

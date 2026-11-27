@@ -20,7 +20,9 @@ For every start (sets, vals, picks, orders) and its witness, from scratch:
      takes any number of the remaining goods and every other present agent at most one; it partitions the goods and
      is EFX0 in the original instance (raw).
 
-    python3 k4/matching/check_rsd.py STARTS WITNESSES      (STARTS as for check_rec.py)"""
+    python3 k4/matching/check_rsd.py STARTS WITNESSES      (STARTS as for check_rec.py)
+    python3 k4/matching/check_rsd.py --inline WITNESSES [EXPORT]   (starts inline, e.g. the multi session's round_e
+                                                                   witnesses; EXPORT: also compare the start sets)"""
 import sys, gzip, json, itertools, collections, time
 
 
@@ -130,7 +132,35 @@ def load(path):
     return [(r['sets'], r) for r in (json.loads(l) for l in op(path, 'rt') if l.strip())]
 
 
+def main_inline(wpath, export=None):
+    """Witness files with the start inline (the multi session's round_e format: per start sets, vals, picks, orders and
+    witness {order, rounds, alloc}).  With EXPORT, also check that the witnessed starts are exactly the export's."""
+    t0 = time.time(); D = json.load(gzip.open(wpath, 'rt')); S = D['starts'] if isinstance(D, dict) else D
+    print('$ python3 k4/matching/check_rsd.py --inline', wpath, export or '', '|', len(S), 'witnessed starts', flush=True)
+    C = collections.Counter(); keys = collections.Counter()
+    for e in S:
+        keys[json.dumps([e['sets'], e['vals'], list(e['picks'])])] += 1
+        w = e['witness']
+        st = {'vals': e['vals'], 'picks': e['picks'], 'orders': [w['order']] if w.get('order') else e.get('orders')}
+        try:
+            C['verified, %s' % check(e['sets'], st, {'rounds': w['rounds'], 'alloc': w['alloc']})] += 1
+        except AssertionError as ex:
+            C['FAILED: %s' % ex] += 1
+    for x in sorted(C): print(x, C[x])
+    ok = not any(x.startswith('FAILED') for x in C)
+    if export:
+        ex = collections.Counter(json.dumps([sets, st['vals'], list(st['picks'])]) for sets, st in load(export))
+        same = ex == keys
+        print('witnessed starts equal the export\'s starts (as a multiset):', same, '| export', sum(ex.values()),
+              'witnessed', sum(keys.values()))
+        ok = ok and same
+    print('all starts certified:', ok)
+    print('time %.0f s' % (time.time() - t0))
+
+
 if __name__ == '__main__':
+    if sys.argv[1] == '--inline':
+        main_inline(sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else None); sys.exit(0)
     t0 = time.time(); rows = []
     W = json.load(gzip.open(sys.argv[-1], 'rt'))['witnesses']
     for p in sys.argv[1:-1]: rows += load(p)
