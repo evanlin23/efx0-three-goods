@@ -1318,3 +1318,17 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   in the container, gitignored.
 - A partial certificate for m ≤ 8 cannot pass `k4/check4_fast.py`, which requires completeness for every m. So no
   ledger row yet; this is EVIDENCE.
+
+### 2026-11-27 20:40 UTC: burst 23 (track A2: size of the β = 5 candidate list)
+- `k4/mincex_shapes.py 5 --nmax=7` was killed for lack of memory (16 GB). It keeps every listed candidate's type
+  domains before removing isomorphic copies.
+- New `k4/mincex_shapes_count.py` has the same generator, isomorphism test and K4.MC5 restriction, but streams. Log
+  `results/k4_min_cex_count_5_n7.log`, 190 s.
+  - Candidates left after K4.MC5 at β = 5: n = 5: 2,097; n = 6: 30,337; n = 7: 122,006, up to 1.6·10¹⁷ profiles per
+    core.
+  - K4.MC4 allows up to n = 12, and the list grows about 4× per n. Compare β = 4: 5,558 candidates in all, n ≤ 9.
+  - The n = 5 candidates are already covered by K4.R3–K4.R5p (every n = 5 core).
+- **Verdict:** certifying β = 5 directly is out of reach. The β sub-line of A2 can only continue through new
+  reductions that cut the list by orders of magnitude, not through more certification. The 1,080 unreduced Q4-open px
+  profiles are the natural first target.
+- A1 is still stopped, pending the user's decision.
