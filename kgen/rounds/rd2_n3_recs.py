@@ -111,6 +111,14 @@ if __name__ == '__main__':
         if not hard(V, y): C['not hard (one round suffices)'] += 1; continue
         C['hard starts'] += 1
         why, w = route(V, y); C[('any second move', why)] += 1
+        if w:   # the structure of the repair found
+            o = w['order']; k = w['k']; pos = o.index(k)
+            C[('repair: k is the', ['first', 'second', 'third'][pos] + ' picker')] += 1
+            C[('repair: |T|', len(w['T']))] += 1
+            C[('repair: k absorbs junk beyond T', len(w['X'][k]) > len(w['T']))] += 1
+            s2 = w['state2']; moved2 = [a for a in range(3) if a != k and sorted(s2[a]) != [y[a]] and not (len(w['E(k)']) > 1 and a in w['E(k)'][1:] and sorted(s2[a]) == [y[w['E(k)'][w['E(k)'].index(a) - 1]]])]
+            C[('repair: agents changed by move 2', len(moved2))] += 1
+            C[('repair: E(k) length', len(w['E(k)']))] += 1
         why2, w2 = th2_route(V, y); C[('Theorem 2 as the second move', why2)] += 1
         print(name, json.dumps(V), 'picks', y, '->', why, '| Theorem 2 route:', why2, json.dumps(w2) if w2 else '', flush=True)
     for k in sorted(C, key=str): print(k, C[k])
