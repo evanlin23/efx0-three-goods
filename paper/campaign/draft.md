@@ -2719,9 +2719,10 @@ TARGET₄. Each step is open or unrefereed, and none is claimed here.
 ### 11.10 TARGET₄: the two routes and what each still needs
 
 Statuses here are those of LEDGER.md on main at `898d80b0`, with the referee's verdicts up to item 57. **TARGET₄
-is open.** OC₂^max (Conjecture 12.1) is the common target statement, and it implies TARGET₄ in Lean
-(`EFX.OC1Max.target4_of_conjOC2max`). Two routes toward a proof are fully specified. Each ends in an implication
-checked in Lean, and each Lean hypothesis, as currently stated, is false. The corrected hypotheses are open.
+is open.** OC₂^max (Conjecture 12.1) is the campaign's main surviving conjecture, and it implies TARGET₄ in Lean
+(`EFX.OC1Max.target4_of_conjOC2max`). Two routes toward a proof of TARGET₄ are fully specified. Each ends in an
+implication checked in Lean, and each Lean hypothesis, as currently stated, is false. The corrected hypotheses are
+open.
 
 **Route 1: receiver first (RF).** A *receiver* of a start is an agent whose pick no other agent prefers to its own.
 The last picker of any order is a receiver.
@@ -2735,8 +2736,9 @@ The last picker of any order is a receiver.
   receiver-first order is a maximum-matching order where it does.
 - **Caveat on the Lean statement.** The formalized hypothesis `ConjRF` (`lean/EFX/RF.lean`) still says that the
   start has *exactly one* receiver. That is false at $n = 5$: 5_pure #650 is an OC₁-failing perfect start of a strict
-  connected core with two receivers (below). The proof does not use uniqueness, so the amended RF implies TARGET₄ by
-  the same argument. But that statement is not the one checked in Lean. Dropping the uniqueness conjunct from
+  connected core with two receivers (below). The proof uses only some receiver with RF's two properties, not
+  uniqueness. So the amended RF, together with the existence of a receiver at such starts, implies TARGET₄ by the
+  same argument. But that statement is not the one checked in Lean. Dropping the uniqueness conjunct from
   `ConjRFWith` would close the gap.
 - **The structural half is proved, for every $n$.**
   - *Lemma RF-PATH (`k4/girth.md` §7, branch `claude/k4-girth`, generalized form at `712a568`) [R].* Let $Y$ be the SD
