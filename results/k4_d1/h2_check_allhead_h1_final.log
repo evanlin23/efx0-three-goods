@@ -1,0 +1,4 @@
+$ python3 k4/d1/h2_check.py results/k4_d1/allhead_h1.jsonl.gz
+  repaired by a canonical chain 352
+  repaired only by a double chain 3
+all-HEAD hard starts 355
