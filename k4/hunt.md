@@ -15,8 +15,15 @@ see "Results" (each claim names its artifact; nothing in LEDGER.md is changed by
 - **A complete per-core search that reaches n = 8** (§1): the ordinal outer encoding (comparison bits) is ~100× faster
   than the DFS scanners on dense n = 6 cores; a glued GM4 core with n = 8, m = 12, β = 13 (288⁸ ≈ 4.8·10¹⁹ profiles) is
   certified in 409 s (§3.3).
-- **n = 6** (§3.2): [RESULTS PENDING]
-- **Patterns** (§4): [PENDING]
+- **n = 6** (§3.2), both independently checked:
+  - every connected core with n = 6, m = 10 and exactly two 4-good agents (28,502) is certified under every strict
+    profile; with K4.MC7 and Mahara's theorem, **every core with n = 6 and at most two 4-good agents has an EFX₀
+    allocation**;
+  - all 30,337 minimal-counterexample candidates with n = 6 and β = 5 (K4.MC2/MC3/MC5 cuts) are certified: **a minimal
+    counterexample with n = 6 has β ≥ 6** (and at least three 4-good agents).
+  - The rest of n = 6 is 366,743 candidates (β = 6–9, m ≥ 10), sampled in §3.4.
+- **Patterns** (§4): certificate size as a hardness measure; agents with two private goods and goods of very high
+  degree make cores easier; the hardest are all-P4/Q4 cores and cores with twin agents.
 
 ## 1. Method (`k4/hunt/cegar.py`)
 
