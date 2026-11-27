@@ -794,7 +794,7 @@ starts; n is the number of agents.
 | one chain from R1-priority starts | | | fails [R] (the 11) | fails | fails [R] (PWR1-6) | k = 4 |
 | one chain from the need2 neediest-first start | | | holds [E] (the 11 included) | | fails [R] (NF2-6, n = 6) | k = 6 |
 | one chain from the need2 R1 neediest-first start (LB₄ʳ's Phase 1) | | | holds [E] | | | none found |
-| least number of chains that always suffices, max (Conjecture L′: ⌊k/2⌋) | 0 [P] | **1** [Cert], n ≤ 5 | **2**: 2 [Cert] on all cores with n ≤ 4 (certifier) and on the 11 (kcegar); 1 fails | **2**: 2 [Cert] on all 617 connected n = 3 hypergraphs, 25 named ones and the n = 4 core-like class with m ≤ 7 (running); 1 fails | ≥ 2; is 3 needed? kcegar running on a grid subset of the types (below) | c = 1 at k = 4; c = 2 at k = 7 within PW (PW(4, 3, 6)) |
+| least number of chains that always suffices, max (Conjecture L′: ⌊k/2⌋) | 0 [P] | **1** [Cert], n ≤ 5 | **2**: 2 [Cert] on all cores with n ≤ 4 (certifier) and on the 11 (kcegar); 1 fails | **2**: 2 [Cert] on all 617 connected n = 3 hypergraphs, 25 named ones and the 1,138 n = 4 core-like hypergraphs with m ≤ 7 (m ≥ 8 running); 1 fails | ≥ 2; is 3 needed? kcegar running on a grid subset of the types (below) | c = 1 at k = 4; c = 2 at k = 7 within PW (PW(4, 3, 6)) |
 | one round of disjoint chains (RD, RD₁), max | | holds [Cert] (one chain suffices) | **fails [R]** (the 11) | fails [R]: N3K5 (n = 3), RD5 | fails | k = 4 |
 | one round with every good valued (unrestricted k, values > 0) | | | | | | fails [R]: N3K5⁺ (n = 3, m = 6), RD5⁺ (n = 4) |
 | two rounds (RD²), max | | holds [Cert] | holds [Cert] where two chains are certified (n ≤ 4 cores) | holds [Cert] on the classes of the row above; [E] elsewhere | running | none found |
@@ -908,6 +908,10 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
   - D = 2 is certified for all 617 connected n = 3 hypergraphs (`kcegar_k5_n3_D2.log`, 880 s on 2 CPUs). It is also
     certified for RD5's, kgen-n4's, PW5's (179,619 iterations, 17 min) and the 22 extended k = 4 hypergraphs
     (`kcegar_k5_D2.log`, 25 of 25). No start needs three chains, so none needs three rounds.
+  - D = 2 is certified for all 1,138 n = 4 core-like hypergraphs with m ≤ 7 (`kcegar_k5_core5_n4_D2_m5-7.log`, 6,382 s on
+    2 CPUs). The class: connected, agent degrees 3–5 with at least one 5, at most d − 2 private goods per agent; it
+    is an analogue of the k = 4 cores, with no reduction lemma behind it at k = 5. The 8,870 with m ≥ 8 are running
+    (checkpoint `kcegar_k5_core5_n4_D2_m8plus.ckpt.jsonl`).
   - D = 1 fails on 13 of the 617 n = 3 hypergraphs (`kcegar_k5_n3_D1.log`, 883 s).
     - By m: 7 at m = 6, 5 at m = 7, 1 at m = 8.
     - Degree profiles: (5, 5, 5) six times, (4, 5, 5) five times, (3, 5, 5) and (4, 4, 5) once each.
