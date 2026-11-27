@@ -2365,11 +2365,30 @@ have no official chain k → d.
 - *Next:* find, from RF's structure, which agents Z ∖ {g} can threaten. At n = 4 the only candidate is u, and Prop.
   RF-B4 covers it by (U-b). At n = 5 there are also off-path frozen agents (§24.9).
 
+**Who Z threatens after the chain** (`k4/oc1_hall/rf_bpp.py`, `rf_bpp.log`; every 10th DEMOTE-2 start of
+`partial6`, the first k whose chain is official; 12,575 starts):
+
+| Z threatens | starts | k′ taking one good g ∈ Z ∖ {Y′_k} gives EFX₀ |
+|---|---|---|
+| nobody (FULL) | 8,402 | – |
+| one off-path agent (neither k′ nor u) | 3,858 | 3,858 (g = Y′_d or a junk good) |
+| u | 312 | 193 |
+| one on-path agent | 3 | 0 |
+
+**Z never threatens two agents** on this sample. When it threatens an off-path agent a, k′ absorbs the one good that
+makes the threat. The 122 others (u or on-path, no fix by k′) use another owner or the other chain.
+
 **Girth's DEMOTE-0 and (1, 3) at n = 5** (`k4/girth/oc1_residue_n5.py`, `results/k4_girth_oc1_residue_n5.log` on
 `claude/k4-girth`; [unverified] here, but girth's class counts agree exactly with §24.10's):
 - DEMOTE-0 (113,484): 71,443 complete at Y′, all by RF-A1's form (w takes J′ ∖ {h}, d takes h, d's favourite junk
   good); 42,009 by the trade (T) with d; 32 by a 3-ring (T\*), all on 5_pure#374.
 - (1, 3) (7,733): all by the chain k → d with a D_T agent taking a junk pair.
+- Girth's explicit forms, checked raw on every start:
+  - DEMOTE-0 trades: "p takes {Y′_d, j}, d takes Y′_p" (p pick-dangerous), then a completion with **no absorber**:
+    every remaining junk good goes to a different agent.
+  - (1, 3): the chain starts at w, which is truly dangerous at Y′. w takes an improving junk pair H and d takes Y′_w.
+    Then d takes Y′_d plus one junk good, and w takes the last one, or the same with d and w exchanged.
+  - RF-B's FULL form works at none of the (1, 3) starts. There k = w lies on the RF path, unlike DEMOTE-2.
 
 So, with §24.10, the uniform statement has no exception on all n = 4 data and on the n = 5 exports. The statement:
 (i) w or d owns; or (T/T\*) a ring of length 2 or 3 through a receiver; or (C/C′) a two-agent chain from a D_T agent.
