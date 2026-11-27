@@ -713,7 +713,8 @@ LIFT's hypothesis:
   owner and every one-absorber assignment.
 
 On all 112,880 n = 4 starts with no one-move repair:
-- **OC2-REC holds at every start.** The reduced start never completes without a move. In the witness found, P₁ ends
+- **OC2-REC holds at every start.** The reduced start never completes without a move. It cannot: a lifting
+  completion right after P₁ would be a one-move repair. In the witness found, P₁ ends
   at the holder z.
 - **The reduced repair is a Lemma EX\* exchange of I⁻ at every start.** So at n = 4 the second move is a Hall
   condition (Lemma M) in the reduced instance after one sharer is settled.
@@ -738,7 +739,8 @@ collected, and the walk climbs towards OC2-REC failures.
   - exactly one holder;
   - LIFT-SHAPE⁺ fails;
   - some repairing pair is vertex-disjoint, so every start is of the integrator's type 4a;
-  - OC2-REC holds, its reduced repair is a Lemma EX\* exchange of I⁻, and B₁⁻ never completes without a move;
+  - OC2-REC holds, its reduced repair is a Lemma EX\* exchange of I⁻, and B₁⁻ never completes without a move (it
+    cannot, as at n = 4);
   - CM₂ holds, and EX\* is exact on the second move (tested at every start).
 - The OC2-REC witnesses are re-checked by `check_rec.py`: 1,498 / 1,498 and 22,445 / 22,445 (`check_rec_n5walk.log`,
   `check_rec_n5walklong.log`).
@@ -757,6 +759,88 @@ collected, and the walk climbs towards OC2-REC failures.
   - sets [[0,4,5,6],[1,2,3,5],[1,3,5,6],[2,4,6]], values [[2,3,10,6],[2,8,3,4],[3,5,7,6],[4,2,3]];
   - picks (4,5,6,2), order (3,1,2,0);
   - the head of every second move, agent 3, becomes dangerous only after the first move.
+
+**Iterated reduction (RSD; the coordinator's question)** (`k4/matching/rsd.py`). This tests whether settling
+sharers one at a time, with no other kind of move, repairs every start with no one-move repair.
+
+A *reduction step* at a perfect SD start B of the current instance I′:
+- a canonical chain P from an agent k that is dangerous in I′ takes a set T ⊆ (J′ ∪ B_end) ∩ R_k with
+  v_k(T) > v_k(B_k);
+- (L\*) T threatens no other agent of I′ at its value after P. For a pair this is Lemma LIFT's hypothesis;
+- deleting k and T leaves a perfect SD outcome of I′ − k − T (checked over all orders).
+  - MODE=E: P is instead the earliest-wanter chain E(k) of a tracked order, and the new order is the old one minus k
+    (the multi session's Lemma SD-E).
+
+RSD(d) holds when at most d steps reach a state whose one-absorber completion lifts. Lifting means: every deleted
+agent keeps its T and receives nothing, the owner is a present agent, and the allocation is raw EFX₀ in I.
+
+> **Lemma LIFT\*** (iterated lift; written proof, uses nothing about k). Let I₀ = I and I_j = I_{j−1} − k_j − T_j for
+> reduction steps j = 1..r, each with (L\*). Let X be an EFX₀ allocation of I_r extending the last state. Suppose
+> (Φ) no bundle of X, and no T_j with j > i, threatens k_i at v_{k_i}(T_i). Then X together with all the T_j is EFX₀
+> in I.
+
+*Proof.* Every agent's value is non-decreasing along the process: a step changes only its chain agents, which gain,
+and k_j, which gains; the completion only adds goods. EFX₀ for agent a is monotone in v_a(A_a). Take agents a ≠ b.
+- If both are present in I_r, X is EFX₀ in I_r, and their bundles hold only goods of I_r.
+- If a = k_i:
+  - a bundle of X, or T_j with j > i, is covered by (Φ);
+  - T_j with j < i: a was present at step j, so by (L\*) T_j did not threaten a then, nor later.
+- If a is present at step j and b = k_j, the same argument gives that T_j does not threaten a. ∎
+
+> **Lemma PHANTOM** (written proof; |R_k| ≤ 4). Let k hold T ⊆ R_k with v_k(T) > v_k(y), where y ∉ T is its former
+> pick, and let X be a bundle disjoint from T.
+> 1. If |T| = 3, X never threatens k.
+> 2. If |T| = 2 and R_k = T ∪ {y, ℓ}, X threatens k exactly when (P1) or (P2) holds:
+>    - (P1) ℓ ∈ X, |X| ≥ 2, and v_k(ℓ) > v_k(T);
+>    - (P2) {y, ℓ} ⊆ X, |X| ≥ 3, and v_k(y) + v_k(ℓ) > v_k(T).
+
+*Proof.* X ∩ R_k ⊆ R_k ∖ T. If |T| = 3 this is ⊆ {y}, and v_k(X) − min ≤ v_k(y) < v_k(T). If |T| = 2:
+- X a singleton, or X ∩ R_k = ∅: the threat is 0.
+- X ∩ R_k = {y}: at most v_k(y) < v_k(T).
+- X ∩ R_k = {ℓ}, |X| ≥ 2: some good of X is worth 0 to k, so the threat is v_k(ℓ).
+- X = {y, ℓ}: the threat is max(v_k(y), v_k(ℓ)), which exceeds v_k(T) iff v_k(ℓ) > v_k(T).
+- X ⊋ {y, ℓ}: the threat is v_k(y) + v_k(ℓ). ∎
+
+So the **phantom constraint** the coordinator asked about is exact and small. An induction on n through reduction
+steps must carry, for each deleted agent with |T| = 2, at most two constraints on the rest of the allocation, and
+none for |T| = 3:
+- "ℓ is alone in its bundle", when v_k(ℓ) > v_k(T);
+- "y and ℓ are not together in a bundle of three or more goods", when v_k(y) + v_k(ℓ) > v_k(T).
+
+Together with (L\*) at each step, these are exactly what Lemma LIFT\* needs.
+
+*On the data* (logs `results/k4_matching/rsd_*.log`):
+
+| start set | RSD with any T (canonical chains / E(k)) | RSD with pairs only | RSD⁺(1) (OC2-REC without "shared") | dead end reachable |
+|---|---|---|---|---|
+| n = 4, all 112,880 (exhaustive) | **d = 2 at all 112,880**, both forms; T sizes (2, 2) at 103,600, (2, 3) at 9,280; witnesses re-verified by `check_rsd.py` | d = 2 at 105,200; **fails at 7,680** | 112,880 | from 16,240 starts |
+| n = 5 walks near #164, 23,924 | **d = 2 at all**, both forms; sizes (2, 2) | (not run) | 23,924 | none |
+
+The answers to the coordinator's questions:
+- **Does some RSD sequence repair every hard start?** Yes on all data: two reduction steps, then a completion, with no
+  other move, at every n = 4 start and every n = 5 walk start.
+- In the 112,880 n = 4 witnesses (`rsd_n4_witnesses.json.gz`):
+  - the first step always takes a shared pair;
+  - the second step's T is never shared;
+  - at the second level there are 1 dangerous agent (80,560 starts) or 2 (32,320);
+  - the second step's head was not dangerous at the picks at 27,760 starts.
+- T must be allowed three goods. With pairs only, 7,680 n = 4 starts have no RSD repair. In the example examined, the
+  second head needs a triple of two junk goods and the end's good. A triple carries no phantom constraint (Lemma
+  PHANTOM, case 1).
+- **Greedy RSD fails.** From 16,240 n = 4 starts some sequence of steps reaches a dead end: a state with no lifting
+  completion and no reduction step. So an induction must choose the step, and the inductive hypothesis must carry
+  the phantom constraints of the earlier steps. An example dead end, after one step: the only dangerous agent's
+  improving triple threatens another agent.
+- At n = 4 every RSD repair is short. The reduced instance after two steps has two agents.
+
+What an induction on n would need, in this form, is the open statement:
+> **RSD-IND (conjecture).** Let I′ (≤ 4 relevant goods per agent) be at a perfect SD start, with a family Φ of
+> phantom constraints of Lemma PHANTOM's two kinds. Suppose Φ comes from earlier reduction steps with (L\*). If the
+> start has no completion respecting Φ, then some reduction step with (L\*) respects Φ (both its T and the rest),
+> and the reduced instance with Φ updated satisfies the hypothesis again.
+
+Lemma LIFT\* turns RSD-IND into EFX₀ existence, with no bound on the number of moves. The dead ends show that RSD-IND
+must be existential, not "every step works".
 
 ## 7. Climbs and reproduction
 
@@ -802,6 +886,11 @@ python3 attempts/k4_matching_lift_n5.py                       # LIFT-SHAPE+ and 
 cd k4/matching; EXACT_STRIDE=20 REC_WIT=../../results/k4_matching/rec_n4_witnesses.json.gz python3 n5_census.py n4export
 python3 check_rec.py ../../results/k4_matching/data/two_move_starts_n4.json.gz ../../results/k4_matching/rec_n4_witnesses.json.gz
                                                               # OC2-REC on all n = 4 failures, and its checker (§6)
+EXPLORE=1 TSIZE=any python3 rsd.py n4export; MODE=E TSIZE=any python3 rsd.py n4export; TSIZE=2 python3 rsd.py n4export
+TSIZE=any RSD_WIT=../../results/k4_matching/rsd_n4_witnesses.json.gz python3 rsd.py n4export
+python3 check_rsd.py ../../results/k4_matching/data/two_move_starts_n4.json.gz ../../results/k4_matching/rsd_n4_witnesses.json.gz
+                                                              # iterated reduction (RSD) and its checker (§6)
+DUMP=../../results/k4_matching/n5_walk164.jsonl python3 fail_walk.py cex5 3000 1 2 3 4   # n = 5 walks (§6)
 DUMP2=results/k4_matching/n4_nonsstar_walk.jsonl python3 k4/matching/n4_walk.py 3000 2; python3 k4/matching/mc_check.py   # Lemma M^c (§5)
 python3 k4/matching/cm_big.py cores6 2000 40 31               # CM at n = 6 (sampled orders)
 CAP=10 SEEDFILES=... python3 k4/matching/cm_climb.py 32 2000 22 3 6 [MC2]    # climbs (LOOSE=1 for any instance)

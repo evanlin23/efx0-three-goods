@@ -151,11 +151,13 @@ def job(row):
 def load(arg):
     if arg == 'cex5':
         return [dict(sets=[[0, 2, 3, 7], [1, 2, 6, 7], [3, 4, 5, 6], [3, 4, 5, 7], [4, 5, 6, 7]],
-                     vals=[[1, 8, 6, 4], [4, 8, 2, 7], [6, 7, 3, 5], [7, 10, 2, 6], [7, 5, 3, 6]], picks=[7, 2, 3, 5, 4])]
+                     vals=[[1, 8, 6, 4], [4, 8, 2, 7], [6, 7, 3, 5], [7, 10, 2, 6], [7, 5, 3, 6]], picks=[7, 2, 3, 5, 4],
+                     orders=[[1, 4, 2, 0, 3]])]
     if arg.startswith('n4export'):
         st = int(arg.split(':')[1]) if ':' in arg else 1
         d = json.load(gzip.open(os.path.join(_mpaths.ROOT, 'results', 'k4_matching', 'data', 'two_move_starts_n4.json.gz'), 'rt'))
-        rows = [dict(sets=hg['sets'], vals=s['vals'], picks=s['picks']) for hg in d['hypergraphs'] for s in hg['starts']]
+        rows = [dict(sets=hg['sets'], vals=s['vals'], picks=s['picks'], orders=s.get('orders'))
+                for hg in d['hypergraphs'] for s in hg['starts']]
         return rows[::st]
     op = gzip.open if arg.endswith('.gz') else open
     return [json.loads(l) for l in op(arg, 'rt') if l.strip()]
