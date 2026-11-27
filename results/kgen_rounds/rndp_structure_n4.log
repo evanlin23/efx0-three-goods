@@ -1,0 +1,12 @@
+$ python3 kgen/rounds/rndp_structure.py recs4 /tmp/claude-0/-home-user-efx0-three-goods/1bef8951-d60e-5a6c-a841-d862b0933832/scratchpad/multi/recs_witnesses_n4.json.gz 1 3
+... 20000 183s
+... 40000 366s
+... 60000 583s
+... 80000 767s
+... 100000 956s
+('MD', 'simple', 'witness') 714560
+('simplest witness shape', ('rho',)) 112880
+starts 112880
+starts with a SIMPLE RNDOZ witness 112880
+starts with an RNDOZ witness 112880
+time 1092 s

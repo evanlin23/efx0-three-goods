@@ -84,6 +84,13 @@ every refutation below is confirmed by three independent programs.
         All 265,549 REC-S repairs at n = 4 and n = 5 check. E(k) itself is never a witness chain.
       - **REC-S's existence part fails at 7 n = 5 starts** of the certifier's 5_pure chunk; two of them are its
         residual case. ROUND-P holds at all 7 (§4.10).
+      - **A proof route for ROUND-P^max (§4.11): the pick graph.** Theorem ROUND-SIMPLE (proof written, not refereed):
+        an MD EFX₀ allocation whose pick graph is *simple* (components are rings, one-path rhos, or keepers) and which
+        has one absorber is a witness of one round of OC₁′ moves.
+        - Its lemmas name the two mechanisms. Rings: disjoint cycles become disjoint rings. Rho: the starved agent is
+          the rho's merge point and takes the end's pick.
+        - What remains is Conjecture SIMPLE-MD, the existence of such an allocation. It holds at every start of the
+          data: all 714,560 MD allocations at the 112,880 n = 4 starts are simple witnesses.
     - It is a one-move alternative to the campaign's current target OC₂^max (two sequential moves).
     - On all 11 of the certifier's instances, every MD allocation has a starved agent, so the obstruction is the same
       k-independent one.
@@ -882,6 +889,110 @@ violations.
 - OC₂^max is certified on the chunk, so these starts have two-move repairs, but not REC-S's.
 - ROUND-P^max survives where REC-S does not.
 
+### 4.11 A proof route for ROUND-P^max: the pick graph
+*Request (coordinator, after the referee's GAP on the splice sketch).* Give a direct proof route for ROUND-P^max in its
+narrowest form, one round of vertex-disjoint OC₁′ moves (RNDOZ, §4.9). Name its structure: starvation leads to a
+pooled take, and two cycles lead to disjoint rings.
+
+**The route in one line.** Every allocation X that value-dominates the picks (an MD allocation) has a *pick graph*.
+When that graph is simple and X has one absorber, X is a witness of one round of OC₁′ moves. Lemmas PG, GAIN, RING, RHO
+and FIX and Theorem ROUND-SIMPLE below are proved. What remains is one existence statement, Conjecture SIMPLE-MD. The
+data support it everywhere tested.
+
+*Setting.*
+- A strict connected k = 4 core: every agent's subset sums of relevant goods are distinct.
+- A perfect start Y: every agent holds a pick Y_a it values, p_a = v_a(Y_a), and J is the junk.
+- X is a complete EFX₀ allocation with v_a(X_a) ≥ p_a for every agent (MD).
+
+**Definition (pick graph).** f(a) is the agent whose bundle contains Y_a. f is a function from the agents to the
+agents, and the in-degree of b is the number of picks in X_b. An agent with in-degree 0 is *pickless*.
+
+**Lemma PG (shapes).** Each weak component of f is one directed cycle with in-trees hanging from it. Call a component:
+- *fixed*: a single agent keeping its pick;
+- *ring*: a cycle of length ≥ 2 with no in-tree;
+- *rho*: a cycle of length ≥ 2 with exactly one in-tree, a path q → … → a → v from a pickless agent q, joining the cycle
+  at v. Then v has in-degree 2 and has lost its pick;
+- *rho-fix*: a fixed point v with exactly one path in-tree q → … → a → v of length ≥ 2;
+- *ka*: a fixed point v with the one-edge in-tree q → v, where q is pickless (the keep-and-add shape of §4.9);
+- *complex*: anything else, such as a branching in-tree or two in-trees.
+
+X is *simple* when every component is fixed, ring, rho or rho-fix.
+
+*Proof.* A function on a finite set has exactly one cycle in each weak component. ∎
+
+**Lemma GAIN (gains are automatic).** If f(b) ≠ b, then v_b(X_b) > p_b.
+
+*Proof.* v_b(X_b) ≥ p_b by MD, and Y_b ∉ X_b. Equality would make the relevant part of X_b a subset of R_b different
+from {Y_b} with the same sum, which distinct subset sums exclude. ∎
+
+**Lemma RING (two cycles lead to disjoint rings).** A ring component a₁ → a₂ → … → a_r → a₁ is the chain
+a₁ → … → a_r, where the start a₁ holds the end's pick Y_{a_r}. That is a ring, an OC₁′ move taking its own chain end's
+pick.
+- The start takes Y_{a_r} if it values it. Otherwise Y_{a_r} is an outside good of a₁, and a₁'s H is its relevant
+  junk, which is non-empty by GAIN.
+- Any number of ring components are vertex-disjoint, so they form *one* round.
+- This is the n = 5 mechanism (§4.8): the certifier's 24 have two ring components. A single chain, even OC₁′, performs
+  only one of them.
+
+**Lemma RHO (starvation leads to a pooled take).** A rho component becomes the single chain
+q → … → a → v → c₁ → … → c_r. Here c_r is v's predecessor on the cycle.
+- The end c_r has a predecessor, and its pick lies at v, a non-end agent of the same chain. v takes it, an OC₁′ take,
+  or it is an outside good of v if v does not value it.
+- The start q is pickless and takes its relevant junk, non-empty by GAIN.
+- v is the *starved agent* of Lemma R1. It lost its pick and holds the two foreign picks Y_a and Y_{c_r}.
+  - One plain round cannot realize the component: v would have to take the end's pick of a chain it is in the middle
+    of.
+  - That is why one plain round fails at all 112,880 n = 4 starts and OC₁′ holds there (§4.9).
+
+**Lemma FIX (a merge at a keeper).**
+- *rho-fix.* The chain is q → … → a, with end a, which has a predecessor because the tail has length ≥ 2. a's pick lies
+  outside at the keeper v; v is off the chains, keeps Y_v and absorbs Y_a.
+- *ka.* q → v is forced, and v is then a chain end holding its own pick. It gains only if v_v(X_v ∖ {Y_v}) > p_v.
+  - This is the only gap shape on random cores (§4.9).
+  - It is exception EX of Lemma SPLICE, and the referee's GAP: Y_k goes to a holder that gains nothing from it.
+
+**Theorem ROUND-SIMPLE.** *Proof written here; not refereed.* Suppose X is simple. Define the outside goods of an
+agent as:
+- its worthless junk;
+- the end pick at a ring start or rho merge point that does not value it;
+- the tail-end pick at a rho-fix keeper.
+
+If at most one agent has two or more outside goods, then X is a witness of one round of OC₁′ moves from Y, with a
+one-absorber completion. So ROUND-P^max holds at Y.
+
+*Proof.*
+- The chains of RING, RHO and FIX are vertex-disjoint, because they lie in different components.
+- Every non-end agent takes only its own chain end's pick.
+- Every chain agent's round value is v_b(X_b) minus the value of its outside goods, which is 0 except at a rho-fix
+  keeper, and keepers are off the chains. So the value is v_b(X_b) > p_b, by GAIN.
+- Fixed points with relevant junk make additions, which strictly gain.
+- The completion gives each agent its outside goods. Only one agent receives two or more. ∎
+
+**Conjecture SIMPLE-MD.** At every perfect start (maximum-matching SD start) of a strict connected k = 4 core, some MD
+EFX₀ allocation is simple and has one absorber. By Theorem ROUND-SIMPLE, SIMPLE-MD implies ROUND-P^max in the narrowest
+form, RNDOZ.
+
+*Evidence* (`rndp_structure.py`, `rndp_structure_*.log`).
+- Theorem ROUND-SIMPLE checks with no counterexample: every simple one-absorber MD allocation in the data is a witness.
+- The simple MD allocations that are not witnesses all have two absorbers. That is 61 at the certifier's n = 5 starts
+  and 369 on random cores at n = 5, m = 9.
+
+| data | starts | MD allocations | simple witnesses | starts with a simple witness | simplest witness shape |
+|---|---|---|---|---|---|
+| the 112,880 n = 4 starts without a one-move repair (`rndp_structure_n4.log`) | 112,880 | 714,560 | **714,560 (all)** | **112,880** | one rho at every start |
+| the certifier's 280 n = 5 OC₁^max failures, 5_pure (`rndp_structure_5pure.log`) | 280 | 10,527 | 9,507 | **280** | one rho at 234, rings at 46 |
+| the walk starts near 5_pure#164 (`rndp_structure_walk*.log`) | 23,943 | 215,487 | **215,487 (all)** | **23,943** | rings at every start |
+| random strict connected cores, every perfect start, n = 4–6 (`rndp_structure_random_*.log`) | 5,556 | | 222,393 simple one-absorber MD allocations, all witnesses | **5,556** | keep 5,024, rho 329, rho-fix 93, ring 110 |
+
+So the proof of ROUND-P^max splits into two parts:
+- (i) the lemmas above (proved);
+- (ii) existence of a simple one-absorber MD allocation.
+
+Part (ii) is where the real work lies: it contains the existence of an MD EFX₀ allocation, which is not known at k = 4
+in general. Its shape is concrete, though. At n = 4 the simplest simple witness is one rho, the starved agent's OC₁′
+chain. At the n = 5 walk starts it is two rings. The keep-and-add shape is the only MD shape SIMPLE-MD rules out that
+ever blocks a witness on the data.
+
 ## 5. n = 3
 
 ### 5.1 One round survives
@@ -973,6 +1084,8 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 | K4.SDC.ROUNDP | Conjecture ROUND-P^max at k = 4: one round of vertex-disjoint chains in which every non-end agent x_i (i < t) of a chain with t ≥ 1 may also take goods of its chain end's base (a round of disjoint OC₁′ moves; letting them take any chain end's goods never adds a witness on the data), one-absorber completion | CONJECTURE (at n ≤ 4 it follows from the CERTIFIED OC₁′^max) | EVIDENCE only: holds at all 112,880 OC₁^max-failing n = 4 starts and at the certifier's 24 n = 5 failures, two implementations (`rndp_known.log`, `xcheck_roundz.log`); strict-core climbs at n = 5, 6 (`zclimb_rndpz_*.log`); `kgen/rounds.md` §4.8, §4.9 |
 | K4.SPLICE | Lemma SPLICE: the final allocation of a REC-S repair (E(k) with T, then a Theorem S chain, the Theorem S completion) is a witness of one round of OC₁′ moves from the picks, except in configuration (EX) (the pickless agent's pick lies with an agent that keeps its own pick and needs it) | PROVED (written proof, `kgen/rounds.md` §4.10; not refereed) | `kgen/rounds/splice_search.py`, `results/kgen_rounds/splice_search_*.log` (265,549 REC-S repairs at hard n = 4, 5 starts, all witnesses; on random cores every failure is in (EX)); (EX) occurs: `kgen/rounds/splice_ex.py`, `results/kgen_rounds/splice_ex.log`, `attempts/kgen-rounds-splice-ex.md` |
 | K4.MULTI.RECS.EXIST.N5 | REC-S's existence part (some dangerous k, pool pair T of E(k) and Theorem S case at every two-move start) at n = 5 | REFUTED (7 of the certifier's 280 stored 5_pure OC₁^max-failing starts, two of them the residual case; multi's own code finds no REC-S repair; ROUND-P holds at all 7) | `kgen/rounds/recs_gaps.py`, `results/kgen_rounds/recs_gaps_5pure.log`, `results/kgen_rounds/splice_search_5pure.log` |
+| K4.ROUNDSIMPLE | Theorem ROUND-SIMPLE: at a perfect start of a strict core, an MD EFX₀ allocation with a simple pick graph and one absorber witnesses one round of OC₁′ moves (with Lemmas PG, GAIN, RING, RHO, FIX) | PROVED (written proof, `kgen/rounds.md` §4.11; not refereed) | `kgen/rounds/rndp_structure.py`, `results/kgen_rounds/rndp_structure_*.log` (no counterexample: every simple one-absorber MD allocation in the data is a witness) |
+| K4.SIMPLEMD | Conjecture SIMPLE-MD: at every perfect maximum-matching start of a strict connected k = 4 core, some MD EFX₀ allocation has a simple pick graph and one absorber (implies ROUND-P^max in the RNDOZ form) | CONJECTURE | EVIDENCE only: all 112,880 n = 4 two-move starts (every MD allocation is a simple witness), the certifier's 280 n = 5 failures, 23,943 walk starts, 5,556 random starts (`rndp_structure_*.log`) |
 | K4.SDC.OC1PERF | OC₁ (and one round) at perfect starts for every instance with ≤ 4 relevant goods per agent (the target of Lemma RED's route; the LOOSE form of OC₁^max) | REFUTED | `kgen/rounds/k4w_check.py`, `results/kgen_rounds/k4w_check.log` (K4W, no worthless good), `results/kgen_rounds/verify_k4zero_W4.log` (W4) |
 
 ## 7. Next
