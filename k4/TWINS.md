@@ -71,10 +71,11 @@ ranks a first, and f (Q4) ranks first the double-edge good that e ranks last, an
   | 9 | 260,846 | 156,162 |
   | 10 | 134,113 | 78,616 |
   | 11 | – | 15,621 |
-  | 12 | – | N12 |
+  | 12 | – | 671 |
 
   The "before" counts for n ≥ 8 are `twins_count.py N 5 --no-mc8` (`results/k4_twins/count_n<n>_b5_baseline.log`).
-  The β = 5 total after K4.MC8 is TOTAL candidate cores, which a direct certification of β = 5 (as K4.MC7 did for
+  The β = 5 total after K4.MC8 is 502,638 candidate cores (n ≤ 3(β − 1) = 12 by K4.MC4; at n = 11 and 12 the
+  Γ′ prune removes 379,810 and 812,295 graphs), which a direct certification of β = 5 (as K4.MC7 did for
   β = 4) would have to cover.
 
 *Domain cuts.* Applying K4.MC5's px cuts and then K4.MC8's partial double-edge cuts (`twins_filter.cut_domains`, the
@@ -125,6 +126,8 @@ smallest failing profile and the command that replays it.
 | near-Q3-P4-0 | 1,728 | 432 |
 | near-Q3-P4-1 | 1,728 | 1,564 |
 | tri-Q3-Q3-Q3 (three Q3 agents pairwise sharing a good of degree 2) | 216 | 208 (left: every agent ranks its boundary good first) |
+| tri-Q3-Q3-P4 | 10,368 | 10,288 |
+| tri-Q3-P4-P4 | 497,664 | 496,864 |
 | claw (three P3 agents on one good of degree 3) | 216 | 177 |
 | star-Q4-2 (a Q4 agent sharing goods of degree 2 with two P3 agents) | 10,368 | ≥ 3,220 (partial run) |
 
@@ -160,6 +163,10 @@ python3 check_twins4.py ../results/k4_twins/dbl_p4q4.json.gz --jobs=4 --selftest
 python3 twins4.py explore twins-Q3-0 twins-Q3-1 twins-P3 claw tri-Q3-Q3-Q3      # the explored configurations
 python3 twins4.py why twins-Q3-0                                                # a failing state per reduction
 python3 twins_filter.py ../results/k4_min_cex_shapes_4.json.gz                  # candidates without a certified double edge
+for n in 6 7 8 9 10 11 12; do python3 twins_count.py $n 5 --write=../results/k4_twins/mc_n${n}_b5_mc8.json.gz; done
+                                                                                # beta = 5 lists; n = 12 ~1 h, the rest < 20 min
+python3 twins_count.py 8 5 --no-mc8                                             # a baseline without K4.MC8 (~10 min, ~6 GB)
+python3 twins4.py claw2 --jobs=1                                                # the two-agent claw gadget (~15 min)
 python3 twins_filter.py ../results/k4_min_cex_shapes_4.json.gz ../results/k4_twins/dbl_q3_uncovered.json \
     ../results/k4_twins/dbl_p4q4_uncovered.json                                  # also the domain cuts (profile counts)
 ```

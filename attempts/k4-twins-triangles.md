@@ -14,10 +14,12 @@ a gadget good z′; all with the unenvied bundle.
 |---|---|---|
 | tri-Q3-Q3-Q3 | 216 | 208 |
 | tri-Q3-Q3-P4 | 10,368 | 10,288 |
+| tri-Q3-P4-P4 | 497,664 | 496,864 (DEL 313,784) |
 
 In tri-Q3-Q3-Q3 the 8 profiles left are those in which every agent ranks its boundary good a_i first (and its two
-triangle goods either way). Not run: the triangles with two or three 4-good agents (≥ 497,664 profiles; reduce4's
-gadget search holds a menu × profiles array).
+triangle goods either way). Not run: tri-P4-P4-P4 and the triangles with a Q4 agent (288³ ≈ 2.4·10⁷ profiles or more; reduce4's gadget search
+holds a menu × profiles array). Among the 152,568 β = 5, n = 8 candidates left after K4.MC8, 48,869 contain a triangle of
+degree-2 goods; the commonest kinds are P3–Q3–Q4 and P3–P4–Q4 (8,863 each), Q3–Q3–P4 and Q3–P4–P4 (8,131 each).
 
 **What would be needed.** Two-agent gadgets (|S′| = 2 < 3), e.g. the triangle replaced by a double edge.
 
@@ -26,4 +28,5 @@ e3 on (g13, g23, a3) = (3, 2, 4).
 - DEL fails at the state where a1, a2, a3 lie together in one outside bundle without outside goods, unenvied.
 - The gadget h = (z′: 1), the menu item that reduces the most profiles, fails at the state h holds {a1, z′}, {a2, a3} is an outside bundle, h's bundle unenvied.
 
-Reproduce: `cd k4 && python3 twins4.py why tri-Q3-Q3-Q3 --zs=1`; `python3 twins4.py explore tri-Q3-Q3-P4 --zs=0,1`.
+Reproduce: `cd k4 && python3 twins4.py why tri-Q3-Q3-Q3 --zs=1`; `python3 twins4.py explore tri-Q3-Q3-P4 --zs=0,1`;
+`python3 twins4.py explore tri-Q3-P4-P4 --zs=1 --jobs=3` (~25 min; log `results/k4_twins/explore_tri_qpp.log`).

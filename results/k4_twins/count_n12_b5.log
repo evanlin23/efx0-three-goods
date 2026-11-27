@@ -1,0 +1,8 @@
+G' graphs pruned by K4.MC8: 812295; expanded cores kept before merging isomorphs: 1112 (3241 s)
+beta=5 n=12 m=21: 121 left after K4.MC5 and K4.MC8 (profiles max 20639121408, total 722492099968)
+beta=5 n=12 m=22: 213 left after K4.MC5 and K4.MC8 (profiles max 660451885056, total 14140506491072)
+beta=5 n=12 m=23: 182 left after K4.MC5 and K4.MC8 (profiles max 14089640214528, total 118991957590272)
+beta=5 n=12 m=24: 113 left after K4.MC5 and K4.MC8 (profiles max 450868486864896, total 1352657834573888)
+beta=5 n=12 m=25: 34 left after K4.MC5 and K4.MC8 (profiles max 21233664000, total 113708176000)
+beta=5 n=12 m=26: 8 left after K4.MC5 and K4.MC8 (profiles max 13271040000, total 26776480000)
+total: 671 candidate cores (3247 s)
