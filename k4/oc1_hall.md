@@ -2378,6 +2378,29 @@ have no official chain k → d.
 **Z never threatens two agents** on this sample. When it threatens an off-path agent a, k′ absorbs the one good that
 makes the threat. The 122 others (u or on-path, no fix by k′) use another owner or the other chain.
 
+*These completions are Lemma 2\* instances.* "d takes Z ∖ {g}, k′ takes g" is an S\* completion of B′ with:
+- owner d, kept-out set H = {g};
+- k′ as the holder for g. This needs k′ to be unfrozen at B′, and no agent to want g, which holds because g is junk
+  or Y′_d.
+
+Threats only shrink when a good is removed (v(T) − min_T v is monotone under removing an element). So Lemma 2\*'s
+condition here is exactly: k′ is unfrozen at B′, and Z ∖ {g} threatens nobody at B′. Nothing new is needed on the
+completion side. What remains for RF-S is the two structural facts:
+- (R-a) k takes S and thereby releases k′; at n = 4 k was its only wanter;
+- (R-b) Z, or Z minus one good, threatens nobody.
+At n = 4 the second is Prop. RF-B4. At n = 5 it is the census above.
+
+**Girth's Lemma RF-T (DEMOTE-0, trade case; written proof in `k4/girth.md` §7, `k4/girth/oc1_trade.py`,
+`results/k4_girth_oc1_trade.log` on `claude/k4-girth`; [unverified] here).**
+- *Setting.* One receiver d, D_T′ = ∅, an RF path of length ℓ ≥ 2 on which d takes a junk good g. A pick-dangerous p
+  trades with d.
+- *The completion X.* Every bundle has at most two goods: x_{ℓ−1} gets {Y_d, z}, d gets {Y_p, Y_u}, p gets {g, j},
+  and the other path agents shift along the path.
+- *Claim.* X is EFX₀ iff (W-d) nobody but x_{ℓ−1} wants Y_d and (W-p) nobody but d wants Y_p, both at X.
+- *Data.* X is EFX₀ at all 42,009 n = 5 trade starts. Open: (W-d) and (W-p) from Y's hardness.
+
+This is the same pattern as here: a completion lemma whose only hypotheses are "these goods have no other wanter".
+
 **Girth's DEMOTE-0 and (1, 3) at n = 5** (`k4/girth/oc1_residue_n5.py`, `results/k4_girth_oc1_residue_n5.log` on
 `claude/k4-girth`; [unverified] here, but girth's class counts agree exactly with §24.10's):
 - DEMOTE-0 (113,484): 71,443 complete at Y′, all by RF-A1's form (w takes J′ ∖ {h}, d takes h, d's favourite junk
