@@ -1,0 +1,11 @@
+$ python3 k4/oc1cert/check.py /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/n5/5_n4_1_s2o1.jsonl.gz
+own types: {3: 6, 4: 288}
+... 867 checked, 22 s
+certificate /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/n5/5_n4_1_s2o1.jsonl.gz hypergraphs 867
+covered 867
+maximum matchings checked 62301
+type classes (sum over matchings and agents) 898782
+witnesses applicable (sum over matchings) 299261
+slowest hypergraph 0.27 s
+time 22 s
+RESULT every certified hypergraph (867) covered for every type profile and every maximum-matching SD order
