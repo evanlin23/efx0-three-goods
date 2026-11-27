@@ -155,7 +155,7 @@ profile of the cut domains), 0 counterexamples; 27,585 CPU-s; per m: 9: max 1.8 
 (images included). Independent check (`check_mc_n.py`): the regeneration with `k4/check_mincex_cores4.py`'s code
 gives the same 30,337 candidates, orbit counting OK for every G′ class, and every one is covered (1.06·10¹⁷ profiles
 in all): `results/k4_hunt/check_mc_n6_b5_full.log` on the full certificate (every image listed, 22 MB, not committed)
-and `results/k4_hunt/check_mc_n6_b5.log` [PENDING] on the committed orbit-compressed one
+and `results/k4_hunt/check_mc_n6_b5.log` (**RESULT OK**) on the committed orbit-compressed one
 (`results/k4_hunt/cert_mc_n6_b5_orb.json.gz`, 11 MB). With K4.MC7: **a minimal counterexample to TARGET₄ with n = 6 has β ≥ 6** (for the coordinator).
 
 ## 4. Patterns
