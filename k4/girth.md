@@ -717,6 +717,18 @@ RF is the rotation (σ_n, σ_1, …, σ_{n−1}), and σ_{n−1} becomes a recei
 exactly when the RF start has one receiver (139,200 of 139,200; 4 of 4). With two or more receivers it is σ_{n−1} in
 43,520 of 152,880 (n = 4) and 11 of 82 (n = 5); d is a receiver in every case (Lemma DEMOTE (a)).
 
+**Residue A2 at n = 4, explicitly** (split with the oc1-hall session, which proved A1 conditionally and takes B;
+`k4/oc1_hall.md` §24.6 on `claude/k4-oc1-hall`; here `k4/girth/oc1_rf_a2.py`, `results/k4_girth_oc1_rf_a2.log`). A2 =
+RF starts with one receiver, D_T′ = ∅ and RF path u → d (w = d, d takes a junk good). All 2,560 distinct A2 starts lie
+on **one core, 4_pure#24** (sets [[0,1,4,5],[1,4,5,6],[2,3,4,6],[2,3,5,6]], m = 7), in two mirror images under the
+automorphism exchanging agents 2 and 3: roles at Y (D_T, D_T, D, U) or (D_T, D_T, U, D), d the pick-dangerous agent,
+and at Y′ every agent but d is pick-dangerous. So A2 is a sporadic n = 4 configuration, closed at n = 4 by the
+enumeration; none of the 86 n = 5 RF starts is of type A2.
+- 1,280 complete at Y′, each in three ways: the three junk goods of J′ to agent 0, agent 1 and d, one each; owner d
+  with two of them and one to agent 1; owner agent 1 with two and one to d.
+- 1,280 need one move: in every case the trade "agent 1 takes {Y′_d, j}, d takes Y′_1" (DEMOTE (T), with p = agent 1,
+  the second truly dangerous agent of Y) repairs, and afterwards d alone absorbs the two remaining junk goods.
+
 **Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every
 strict connected k = 4 core, at every serial-dictatorship order o whose picks form a maximum matching and fail OC₁,
 the receiver u is unique, and the order (u, o − u) has maximum-matching picks that satisfy OC₁. With K4.SDC.MAXSD this
@@ -764,6 +776,7 @@ python3 k4/girth/oc1_rf_owner.py 97                             # §7 owners of 
 python3 k4/girth/oc1_demote.py 97                               # §7 Lemma DEMOTE data -> results/k4_girth_oc1_demote.log
 python3 k4/girth/oc1_residue.py 2                               # §7 Lemma DEMOTE, every failing order -> results/k4_girth_oc1_residue.log
 python3 k4/girth/oc1_rfrot.py                                   # §7 consistency with TTC's RF-ROT -> results/k4_girth_oc1_rfrot.log
+python3 k4/girth/oc1_rf_a2.py                                   # §7 residue A2 explicitly -> results/k4_girth_oc1_rf_a2.log
 ```
 Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
 partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).
