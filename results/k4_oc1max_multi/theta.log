@@ -1,0 +1,30 @@
+  clean repair 6637
+  clean repair, Theta(z) - {k} unfrozen or raised 2634
+  clean repair, single theta 4015
+  single-theta chain 4117
+  single-theta chain repairs 4055
+('min|Theta|=1', False, False) 124
+('min|Theta|=1', False, True) 109
+('min|Theta|=1', True, False) 30
+('min|Theta|=1', True, True) 4025
+('min|Theta|=2', False, False) 1149
+('min|Theta|=2', False, True) 2207
+('min|Theta|=3', False, False) 422
+('min|Theta|=3', False, True) 291
+('min|Theta|=4', False, False) 21
+('min|Theta|=4', False, True) 5
+min |Theta| = 1 4288
+min |Theta| = 2 3356
+min |Theta| = 3 713
+min |Theta| = 4 26
+starts 8383
+example ('min|Theta|=1', False, False) T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks [0, 4, 1]
+example ('min|Theta|=1', False, True) r96 [[[0, 2, 4, 7], [1, 4, 6, 8], [3, 5, 8], [5, 6, 7, 8]], [[5, 6, 4, 8], [4, 2, 10, 7], [4, 2, 3], [2, 7, 8, 4]]] picks [7, 6, 3, 8]
+example ('min|Theta|=1', True, False) D3 [[[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]]] picks [1, 2, 3]
+example ('min|Theta|=1', True, True) T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks [2, 4, 0]
+example ('min|Theta|=2', False, False) hall-local3 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[3, 2, 10, 6], [8, 2, 3, 4], [7, 3, 5, 6]]] picks [0, 2, 3]
+example ('min|Theta|=2', False, True) gap-local-n3-m7-n3c43 [[[0, 3, 4, 6], [1, 3, 5, 6], [2, 4, 5, 6]], [[3, 10, 6, 2], [2, 10, 3, 6], [4, 10, 7, 2]]] picks [0, 3, 4]
+example ('min|Theta|=3', False, False) Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks [1, 3, 5, 4]
+example ('min|Theta|=3', False, True) log732 [[[0, 2, 6, 7], [1, 5, 6, 7], [2, 3, 4, 5], [3, 4, 6, 7]], [[4, 5, 2, 8], [6, 3, 8, 10], [7, 8, 4, 2], [5, 3, 7, 6]]] picks [7, 6, 3, 4]
+example ('min|Theta|=4', False, False) n4_3#2819.0 [[[0, 1, 2], [1, 3, 4, 8], [2, 3, 4, 8], [5, 6, 7, 8], [5, 6, 7]], [[19, 10, 27], [6, 5, 7, 9], [26, 7, 24, 12], [20, 29, 22, 25], [18, 26, 25]]] picks [2, 4, 3, 8, 6]
+example ('min|Theta|=4', False, True) n4_4#843.0 [[[0, 2, 5, 8], [1, 4, 8, 9], [3, 5, 6, 9], [4, 7, 9], [6, 7, 8, 9]], [[19, 17, 29, 15], [20, 13, 24, 2], [11, 26, 14, 4], [25, 28, 15], [20, 6, 19, 4]]] picks [5, 8, 6, 7, 9]

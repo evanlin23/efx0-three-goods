@@ -1,0 +1,10 @@
+# Cross-check of the n = 5 OC1' failure (k4/sdc/oc1prime_n5_cex.py) with kgen-rounds' two implementations, code from
+# origin/proof/kgen-rounds at 06803965 (kgen/rounds/verify_k4zero.py: forward brute force one_chain_prime/oc1_prime; kgen/rounds/rnd.c via rndlib.oc1z), run unchanged from a scratch copy:
+$ python3 -c "import verify_k4zero as VZ, rndlib; ..."
+V [[1, 0, 8, 6, 0, 0, 0, 4], [0, 4, 8, 0, 0, 0, 2, 7], [0, 0, 0, 6, 7, 3, 5, 0], [0, 0, 0, 7, 10, 2, 0, 6], [0, 0, 0, 0, 7, 5, 3, 6]]
+orders with picks (7,2,3,5,4): [(1, 4, 2, 0, 3), (4, 1, 2, 0, 3), (4, 2, 1, 0, 3)]
+verify_k4zero.oc1_prime (1, 4, 2, 0, 3) False
+verify_k4zero.oc1_prime (4, 1, 2, 0, 3) False
+verify_k4zero.oc1_prime (4, 2, 1, 0, 3) False
+rnd.c: EFX0 allocations 38
+rnd.c {'picks': (7, 2, 3, 5, 4), 'order': (1, 4, 2, 0, 3), 'perfect': True, 'EXT1': 0, 'OC1': 0, 'MD': 9, 'OC1P': 0, 'msum': 0.0}

@@ -1,0 +1,26 @@
+$ python3 k4/oc1max_multi/sharing.py results/k4_oc1max_multi/hard2_starts.jsonl.gz results/k4_oc1max_multi/hard2_starts_n5.jsonl.gz
+('no sharing', '(i) canonical chain, owner k') 7681
+('no sharing', '(ii) a written lemma applies') 7237
+('no sharing', '(ii) first mechanism CAN-k') 475
+('no sharing', '(ii) first mechanism CLEAN') 1835
+('no sharing', '(ii) first mechanism ED') 43
+('no sharing', '(ii) first mechanism KEEP') 4657
+('no sharing', '(ii) first mechanism OWN') 632
+('no sharing', '(ii) first mechanism RING') 113
+('no sharing', '(iii) fails (i); obstacles seen: ') 16
+('no sharing', '(iii) fails (i); obstacles seen: CROWD') 58
+('no sharing', 'starts') 7755
+('shared', '(i) canonical chain, owner k') 623
+('shared', '(ii) a written lemma applies') 516
+('shared', '(ii) first mechanism CAN-k') 110
+('shared', '(ii) first mechanism CLEAN') 42
+('shared', '(ii) first mechanism ED') 2
+('shared', '(ii) first mechanism KEEP') 182
+('shared', '(ii) first mechanism OWN') 254
+('shared', '(ii) first mechanism RING') 38
+('shared', '(iii) fails (i); obstacles seen: CROWD, DEMAND') 2
+('shared', '(iii) fails (i); obstacles seen: DEMAND') 2
+('shared', '(iii) fails (i); obstacles seen: DEMAND, DEMAND+HEAD') 1
+('shared', 'starts') 628
+smallest ('no sharing', 'fails (i)') T3 n = 3, m = 6 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks [0, 4, 1]
+smallest ('shared', 'fails (i)') log1480 n = 3, m = 7 [[[0, 2, 4, 3], [6, 3, 1], [1, 2, 0, 5]], [[5, 10, 1, 12], [10, 12, 11], [11, 8, 6, 1]]] picks [3, 6, 1]

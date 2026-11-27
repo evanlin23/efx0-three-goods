@@ -1,0 +1,21 @@
+{"source": "B* random N=20000 n=4 m=5..8 seed=31", "drafts": 57688, "bstar_applies": 5881, "rotations": 8062, "failures": 0}
+{"source": "B* random N=4000 n=5 m=6..10 seed=32", "drafts": 18504, "bstar_applies": 1269, "rotations": 1770, "failures": 0}
+{"source": "B* random N=300 n=6 m=7..12 seed=33", "drafts": 2187, "bstar_applies": 110, "rotations": 154, "failures": 0}
+{"source": "Lemmas 1,3 random DE states N=20000 n=3 m=4..7 seed=34", "states": 40201, "a": 21526, "b": 73551, "c": 0, "fail": 0, "lemma3_hyp": 68414, "lemma3_false": 3039, "lemma3_false_pair_in_owner": 3039, "lemma3_general_hyp": 72418, "lemma3_general_false": 0}
+EXAMPLE ('lemma3_literal_false', [[4, 0, 1], [0, 3, 2], [0, 3, 2]], [[4], [2, 3], [0]], 1, [2])
+EXAMPLE ('lemma3_literal_false', [[5, 6, 0], [2, 5, 1], [4, 1, 5]], [[0, 6], [1, 5], [4]], 1, [2])
+EXAMPLE ('lemma3_literal_false', [[5, 6, 0], [2, 5, 1], [4, 1, 5]], [[0, 6], [1, 5], [4]], 1, [2])
+EXAMPLE ('lemma3_literal_false', [[1, 4, 0], [2, 3, 4], [2, 3, 4]], [[1], [2], [3, 4]], 2, [0, 1])
+EXAMPLE ('lemma3_literal_false', [[1, 4, 0], [2, 3, 4], [2, 3, 4]], [[1], [3, 4], [2]], 1, [0, 2])
+{"source": "Lemmas 1,3 random DE states N=20000 n=4 m=5..9 seed=35", "states": 20306, "a": 10619, "b": 43311, "c": 1049, "fail": 0, "lemma3_hyp": 37732, "lemma3_false": 838, "lemma3_false_pair_in_owner": 838, "lemma3_general_hyp": 43013, "lemma3_general_false": 0}
+EXAMPLE ('lemma3_literal_false', [[5, 4, 2], [2, 4, 0], [4, 1, 3], [2, 3, 1]], [[5], [0, 4], [1, 3], [2]], 2, [3])
+EXAMPLE ('lemma3_literal_false', [[0, 3, 4], [2, 0, 3], [1, 3, 4], [2, 0, 1]], [[3, 4], [0], [1], [2]], 0, [2])
+EXAMPLE ('lemma3_literal_false', [[0, 4, 2], [1, 0, 4], [5, 0, 1], [0, 2, 4]], [[2, 4], [1], [5], [0]], 0, [3])
+EXAMPLE ('lemma3_literal_false', [[2, 4, 5], [6, 1, 5], [5, 3, 1], [4, 3, 1]], [[2], [6], [1, 3], [4]], 2, [1, 3])
+EXAMPLE ('lemma3_literal_false', [[1, 0, 3], [0, 2, 3], [0, 2, 3], [1, 4, 2]], [[1], [2, 3], [0], [4]], 1, [2])
+{"source": "Lemmas 1,3 random DE states N=10000 n=5 m=6..10 seed=36", "states": 5486, "a": 3261, "b": 12984, "c": 918, "fail": 0, "lemma3_hyp": 10864, "lemma3_false": 129, "lemma3_false_pair_in_owner": 129, "lemma3_general_hyp": 12946, "lemma3_general_false": 0}
+EXAMPLE ('lemma3_literal_false', [[2, 3, 9], [2, 6, 9], [5, 9, 3], [4, 8, 5], [8, 0, 3]], [[3, 9], [2], [5], [4], [8]], 0, [1, 2, 4])
+EXAMPLE ('lemma3_literal_false', [[2, 5, 7], [0, 5, 7], [2, 1, 7], [4, 5, 0], [3, 7, 0]], [[5, 7], [0], [2], [4], [3]], 0, [1, 2])
+EXAMPLE ('lemma3_literal_false', [[4, 6, 3], [1, 3, 0], [3, 1, 4], [4, 7, 6], [0, 6, 7]], [[4], [3], [1], [6, 7], [0]], 3, [4])
+EXAMPLE ('lemma3_literal_false', [[1, 4, 2], [5, 0, 1], [5, 0, 1], [5, 2, 0], [3, 2, 4]], [[2, 4], [1], [0], [5], [3]], 0, [4])
+EXAMPLE ('lemma3_literal_false', [[1, 4, 2], [5, 0, 1], [5, 0, 1], [5, 2, 0], [3, 2, 4]], [[2, 4], [1], [0], [5], [3]], 0, [4])

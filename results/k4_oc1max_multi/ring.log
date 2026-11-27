@@ -1,0 +1,24 @@
+$ python3 k4/oc1max_multi/ring.py results/k4_oc1max_multi/hard2_starts.jsonl.gz results/k4_oc1max_multi/hard2_starts_n5.jsonl.gz
+('mechanism CAN-k', 'RING-OWN ring') 67
+('mechanism CAN-k', 'no RING-OWN ring') 518
+('mechanism CAN-k', 'no RING-red ring') 585
+('mechanism CLEAN', 'RING-OWN ring') 876
+('mechanism CLEAN', 'RING-red ring') 677
+('mechanism CLEAN', 'no RING-OWN ring') 1001
+('mechanism CLEAN', 'no RING-red ring') 1200
+('mechanism ED', 'no RING-OWN ring') 45
+('mechanism ED', 'no RING-red ring') 45
+('mechanism KEEP', 'RING-OWN ring') 2428
+('mechanism KEEP', 'RING-red ring') 1837
+('mechanism KEEP', 'no RING-OWN ring') 2411
+('mechanism KEEP', 'no RING-red ring') 3002
+('mechanism OWN', 'RING-OWN ring') 338
+('mechanism OWN', 'RING-red ring') 243
+('mechanism OWN', 'no RING-OWN ring') 548
+('mechanism OWN', 'no RING-red ring') 643
+('mechanism RING', 'RING-OWN ring') 145
+('mechanism RING', 'RING-red ring') 151
+('mechanism RING', 'no RING-OWN ring') 6
+RING-OWN (ring, owner) pairs 22571
+RING-red rings 7347
+RING-red / RING-OWN violations: 0 []
