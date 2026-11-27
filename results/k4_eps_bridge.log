@@ -1,0 +1,4 @@
+EFX0 for v      : [((0,), (1, 2)), ((1, 2), (0,))]
+EFX  for v      : [((0, 1), (2,)), ((0,), (1, 2)), ((1, 2), (0,)), ((1,), (0, 2))]
+EFX  for v^0.001 : [((0,), (1, 2)), ((1, 2), (0,))] | relevant goods per agent under v^eps: [3, 3]
+EFX  for v^1e-06 : [((0,), (1, 2)), ((1, 2), (0,))] | relevant goods per agent under v^eps: [3, 3]

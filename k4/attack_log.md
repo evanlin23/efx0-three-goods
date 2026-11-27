@@ -1298,3 +1298,11 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   unaffected, so I restarted again, with the live log in the session scratchpad. It is copied into
   `results/k4_search_6_n4_2.log` at each burst.
 - So far 0 D2 failures and 0 counterexamples.
+
+### 2026-11-27 18:36 UTC: burst 21 (tracks A1, A3)
+- A1: the n = 6, two-4-good-agent frontier is at 29099 / 119,283 cores (m ≤ 7 done, m = 8 in progress), with 0 D2
+  failures and 0 counterexamples. Rate about 4 cores/s at m = 8, so roughly 8–12 h remain.
+- **A3 dropped:** the ε bridge (). The limit lemma "EFX for v^ε along ε → 0 ⟹ EFX₀" is
+  proved and trivial. But v^ε is not 4-limited, so Theorem VM does not apply; the bridge only restates EFX₀.
+  Smallest instance: V-M's (S3) n = 2, m = 3, with replay .
+- Next: A2, the β = 5 minimal-counterexample candidates (n ≤ 12 by K4.MC4).
