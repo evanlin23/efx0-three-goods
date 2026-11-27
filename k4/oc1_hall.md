@@ -1663,6 +1663,12 @@ holds a pick.
    - Smallest tests:
      - 4_n4_3#58 (n = 4; it has a vertex-disjoint repair (3, 2) then (0, 1));
      - 5_pure#164 (n = 5), where LIFT-SHAPE⁺ and the wider single move OC₁′ both fail.
+     - A **sequential-only** start, the smallest 4b-type start at n = 4 (matching; re-verified by
+       `k4/oc1_hall/seq_only_check.py`, `seq_only_check.log`). No repairing pair is vertex-disjoint, and the second
+       move's head (agent 3) becomes dangerous only after the first move.
+       - Data: sets [[0,4,5,6],[1,2,3,5],[1,3,5,6],[2,4,6]], values [[2,3,10,6],[2,8,3,4],[3,5,7,6],[4,2,3]], order
+         (3, 1, 2, 0), picks (4, 5, 6, 2), D = {1, 2}, T = {1, 3}.
+       - It is on the same hypergraph as 4_n4_3#77.
    - The explicit n = 4 forms LIFT-SHAPE⁺ (K4.MATCH.LIFT.N4) and OC₁′^max also close n = 4. Both are false at n = 5.
 5. **SLOT** (`proof/k4-oc1max-multi`).
    - Statement: either |D_T| ≥ 2, or D_T = ∅ with DEMAND from a second dangerous agent that values Y_z. Then some
