@@ -63,8 +63,9 @@ def _match(adj, left, must):
     return nu, cover
 
 
-def model(I, B, o, d=0):
-    """Lemma M^c: does B have an S^c completion with owner o and d dummy slots?"""
+def model(I, B, o, d=0, max_rest=None):
+    """Lemma M^c: does B have an S^c completion with owner o and d dummy slots?  max_rest: only completions in which
+    the owner receives at most max_rest junk goods (|J - H| <= max_rest), e.g. 1 for 'every agent at most one junk good'"""
     n = I.n; J = junk(I, B); F = set(frozen(I, B))
     N1 = holders(I, B, o)
     F1 = [j for j in range(n) if j != o and len(B[j]) == 1 and j in F]
@@ -80,6 +81,7 @@ def model(I, B, o, d=0):
             elig = set(N1) | set(Fs)
             for s in range(len(J) + 1):
                 for H in itertools.combinations(J, s):
+                    if max_rest is not None and len(J) - len(H) > max_rest: continue
                     X = list(B[o]) + [g for g in J if g not in H]
                     if I.V(o, X) < tau[o]: continue                                   # (C2)
                     needy = [i for i in range(n) if i != o and (tau[i] > b[i] or I.threat(i, b[i], X))]

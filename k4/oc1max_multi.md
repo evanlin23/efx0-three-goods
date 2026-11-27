@@ -849,7 +849,18 @@ allocations (`mc.brute`, raw EFX₀).
 | n = 5 core lists (6,511 starts) | 292,312 | 1,461,560 | **0** |
 | all | 479,145 | **2,226,322** | **0** |
 
-States without (G2) are skipped (3,740, 8,994 and 66,863). There a junk good is wanted, which canonical chains never produce
+States without (G2) are skipped (3,740, 8,994 and 66,863).
+
+*Independent confirmation* (matching session, `k4/matching/mc_check.py`, `results/k4_matching/mc_check.log`, commit
+bebfd52 on `proof/k4-matching`). The matching session wrote the formula from this text in its own code (`mlib.M.mc_def`)
+and compared it with its own raw S^c search:
+- 65,201 owner tests, 0 mismatches;
+- its pruned search against a pruning-free brute force: 33,200 tests, 0 mismatches;
+- S^c = one-absorber at the picks: 21,880 owner tests.
+
+It also reports that "some single move gives an S^c completion" holds exactly when OC₁ holds, on all 2,371 of its hard
+perfect starts. That includes 60 walk starts that OC₁ repairs only through a non-S\* completion. So Lemma M^c after
+one move is an exact one-move criterion on that data. There a junk good is wanted, which canonical chains never produce
 (D-red 1).
 
 **Uses.**
