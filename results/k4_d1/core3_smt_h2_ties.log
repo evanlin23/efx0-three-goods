@@ -1,0 +1,19 @@
+$ python3 k4/d1/core3_smt.py 7
+50 {'structures': 50, 'unsat': 50} 5 s
+100 {'structures': 100, 'unsat': 100} 19 s
+150 {'structures': 150, 'unsat': 150} 50 s
+200 {'structures': 200, 'unsat': 200} 60 s
+250 {'structures': 250, 'unsat': 250} 70 s
+300 {'structures': 300, 'unsat': 300} 85 s
+350 {'structures': 350, 'unsat': 350} 92 s
+400 {'structures': 400, 'unsat': 400} 106 s
+450 {'structures': 450, 'unsat': 450} 113 s
+500 {'structures': 500, 'unsat': 500} 120 s
+550 {'structures': 550, 'unsat': 550} 127 s
+600 {'structures': 600, 'unsat': 600} 140 s
+650 {'structures': 650, 'unsat': 650} 147 s
+700 {'structures': 700, 'unsat': 700} 153 s
+750 {'structures': 750, 'unsat': 750} 159 s
+structures 763
+unsat 763
+time 160 s

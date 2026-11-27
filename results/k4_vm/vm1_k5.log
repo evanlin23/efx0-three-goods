@@ -1,0 +1,9 @@
+$ python3 k4/vm/vmx2_phases.py k5 --freez=1 --zcap=3000 --bcap=200000
+Phase-A states explored                       332
+instances                                     6
+some Z is B-every                             6
+some Z is B-some (two-phase VMX2)             6
+fewest moves to a B-some state: {0: 5, 1: 1}
+fewest moves to a B-every state: {0: 1, 1: 4, 2: 1}
+B-every states by feature: {'pool good wanted by someone': 48, 'no pool good wanted': 99}
+time 0 s

@@ -1,0 +1,11 @@
+$ python3 kgen/rounds/rndp_walk5.py /tmp/claude-0/-home-user-efx0-three-goods/1bef8951-d60e-5a6c-a841-d862b0933832/scratchpad/multi/n5_walk164_long.jsonl.gz 150 | rows 22445
+('OC1', 'FAILS') 22445
+('OC1P', 'FAILS') 22445
+('RND1Z', 'holds') 22445
+('RNDOZ', 'holds') 22445
+('RNDOZ', 'some dangerous E(k) is a witness chain', False) 145
+('RNDPZ', 'holds') 22445
+('RNDPZ', 'some dangerous E(k) is a witness chain', False) 145
+forward checked 145
+rows 22445
+time 57 s

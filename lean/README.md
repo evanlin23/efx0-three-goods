@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 1300 audited statements, 2475 theorems, standard axioms only
+    CHECK PASSED: 1352 audited statements, 2617 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -282,6 +282,36 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   and any completion, value domination (`t6_dominate`), at most two other agents' picks per bundle (`t6_count`), the
   shape of a bundle with two (`t6_two`), and the certificate that one move fails (`no_completion_of_cert`), which
   `EFX/OC1MaxCex.lean` applies to instance 1 (`EFX.OC1Max.not_conjOC1max_T6`).
+- `EFX/SDE.lean`: **Lemma SD-E** (`k4/oc1max_multi.md` §12, ledger K4.MULTI.SDE.LEAN): `EFX.OC1Max.sdE`, after the
+  earliest-wanter chain E(k) (`EChain`) with k taking T, the state without k and T is the serial-dictatorship outcome
+  of σ without k; `sdE_perfect`, perfect starts stay perfect. Tools: `Before` (order in a list), `sdPick_turn`,
+  `sdPick_eq_of_greedy` (the greedy characterization of serial dictatorship), `src` (whose pick an agent holds).
+- `EFX/RecS.lean`: **the REC-S frame** (`k4/oc1max_multi.md` §8, §12, ledger K4.MULTI.RECS.LEAN): E(k) with k taking T is
+  an official chain (`echain_isChain`), (L) is automatic (`recs_L`), Lemma LIFT (`oneMove_lift`, `oneAbsorber_lift`),
+  and **`EFX.OC1Max.target4_of_recs`**: Theorem S's conclusion (`ThmSHolds`, a hypothesis) and REC-S existence
+  (`ConjRECS`) imply OC₂ᵖᵉʳᶠ (`conjOC2perf_of_recs`), hence TARGET₄.
+- `EFX/ThmU.lean`: **Theorem U and Corollary U1** (`k4/oc1max_multi.md` §3, ledger K4.MULTI.U.LEAN): canonical chains
+  (`CChain`), Lemma D1-chain (`exists_cchain`, `exists_longest_cchain`, by walking up, `exists_walk`), and
+  **`EFX.OC1Max.thmU`**: after a longest canonical chain from k with an improving H₀ ⊆ J ∩ R_k, if J threatens no agent
+  other than k and the head z at its pick value (and z, if so threatened, is unfrozen after the chain), k owns an S\*
+  completion; `thmU_oc1` (one move repairs), `thmU_of_DT` (the note's D_T, E_J form), Corollary U1 (`thmU1`,
+  `thmU1_oc1`: OC₁ at perfect starts with one truly dangerous agent and at most one unfrozen pick holder), and a
+  two-agent start where U1 applies, by `decide` (`EFX.OC1Max.ExU.repair`).
+- `EFX/Phantom.lean`: **Lemmas PHANTOM and LIFT\*** (`k4/matching.md` §6, ledger K4.MATCH.LIFTSTAR.LEAN): the exact
+  phantom constraints of a settled agent with #R_k ≤ 4 (`EFX.Round.phantom_three`: none for a triple;
+  `EFX.Round.phantom_two`: (P1) or (P2) for a pair), and **`EFX.Round.liftStar`**: settled agents (in rounds) with
+  disjoint sets, an EFX₀ allocation of the rest, (Φ), (L\*) at each settlement and values that never fall give an EFX₀
+  allocation of the whole instance; `phi_three` (PHANTOM case 1 gives (Φ) for triples).
+- `EFX/SDERound.lean`: **Lemma SD-E(round)** (`k4/oc1max_multi.md` §17, ledger K4.MULTI.SDER.LEAN): **`EFX.Round.sdE_round`**,
+  a round of vertex-disjoint earliest-wanter prefixes (`EPrefix`) under (H) leaves the serial-dictatorship outcome of σ
+  without the settled agents; the abstract form `sdE_round_abs` (the round as a source map), perfect starts
+  (`sdE_round_abs_perfect`), and SD-E as the one-chain round (`sdE_round_single`).
+- `EFX/RoundRSD.lean`: **the ROUND-RSD frame** (`k4/matching.md` §6, `k4/oc1max_multi.md` §17, ledger
+  K4.MATCH.ROUNDRSD.LEAN): states (settled agents with their sets), admissible rounds (`Admissible`: SD-E(round)'s
+  hypotheses, (L\*) at the round's end, (P2), (P3)), reachable states (`Reach`), and
+  **`EFX.Round.target4_of_roundRSD`**: ROUND-IND (`ConjRoundInd`) and OC₁ with phantom constraints (`ConjBasePhi`),
+  both hypotheses, imply TARGET₄; the invariant along reachable states (`inv_of_reach`, `inv_round`) and the final
+  lift (`lift_base`).
 - `EFX/OC1MaxExamples.lean`: non-vacuity of `EFX/OC1Max.lean` by `decide`, on the MC2 core of `k4/sdc.md` §31 where OC
   fails: the failing start (index order) is not a maximum-matching start (`EFX.OC1Max.Ex.not_maximum_MC2`); the order
   3, 4, 0, 1, 2 picks a maximum matching with a one-absorber completion (`EFX.OC1Max.Ex.maximum_ordM`,

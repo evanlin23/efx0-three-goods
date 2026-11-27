@@ -1,0 +1,15 @@
+$ python3 k4/vm/vm0_fair.py special
+fair: every selected extends                  2
+fair: repair from every selected              4
+fair: repair from some selected               4
+fair: some selected extends                   4
+instances                                     4
+rmax: every selected extends                  2
+rmax: repair from every selected              3
+rmax: repair from some selected               4
+rmax: some selected extends                   3
+vm: every selected extends                    0
+vm: repair from every selected                2
+vm: repair from some selected                 4
+vm: some selected extends                     3
+time 0 s

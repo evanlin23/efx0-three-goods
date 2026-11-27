@@ -1,0 +1,11 @@
+$ python3 k4/vm/vm0_sd.py special
+SD outcomes                                        28
+SD outcomes that extend                            12
+SD outcomes with an EFX0 run                       18
+instances                                          4
+instances: no SD outcome extends, some EFX0 run    0
+instances: some SD outcome extends (SD-C)          4
+instances: some SD outcome has an EFX0 run         4
+outcomes: extends, no EFX0 run                     0
+outcomes: no extension, EFX0 run (rotation moved the base) 6
+time 0 s

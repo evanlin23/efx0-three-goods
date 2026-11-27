@@ -1,0 +1,12 @@
+$ python3 k4/vm/vm6_test.py cores:4:800:42 --variants=x2-choice --limit=600 --samples=100
+instances                            800
+x2-choice: every run EFX0            548
+x2-choice: first run (all choices 0) EFX0 797
+x2-choice: runs                      346792
+x2-choice: runs EFX0                 344268
+x2-choice: some run EFX0             800
+  stuck kind ('x2-choice', 'no_safe') 2524
+  x2-choice [first run]: no EFX0 run on 3: core4:271(n=4,m=7), core4:306(n=4,m=8), core4:232(n=4,m=9)
+    smallest: core4:271 {"sets": [[0, 1, 2, 3], [0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]], "vals": [[8, 4, 6, 1], [10, 8, 3, 6], [2, 8, 3, 4], [7, 5, 3, 6]], "m": 7}
+    smallest: core4:306 {"sets": [[0, 1, 4, 5], [1, 5, 6, 7], [2, 3, 4, 7], [2, 3, 6, 7]], "vals": [[2, 7, 10, 4], [8, 3, 4, 10], [10, 8, 4, 3], [4, 6, 5, 8]], "m": 8}
+time 31 s

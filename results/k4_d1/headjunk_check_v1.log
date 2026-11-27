@@ -1,0 +1,7 @@
+$ python3 k4/d1/headjunk_check.py results/k4_d1/allhead_h1.jsonl results/k4_d1/census_logs.jsonl results/k4_d1/census_r3.jsonl results/k4_d1/census_r4.jsonl results/k4_d1/census_suite.jsonl
+all-HEAD   repaired by a canonical chain 61
+all-HEAD   repaired with head junk only 1
+all-HEAD hard starts 62
+some chain without HEAD   repaired by a canonical chain 164
+some chain without HEAD   repaired with head junk only 0
+some chain without HEAD hard starts 164

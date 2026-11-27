@@ -1,0 +1,16 @@
+$ python3 k4/vm/vm6_sd.py screen
+SD outcomes                                        775
+SD outcomes with no EFX0 run                       30
+instances                                          168
+instances: every SD outcome has an EFX0 run        141
+  no EFX0 run from nsw-local-n3m5 n=3 m=5 [[0, 4, 3]]
+  no EFX0 run from gap-ivsetting-n3-m6-n3c23 n=3 m=6 [[3, 4, 5], [4, 3, 5]]
+  no EFX0 run from red-key-without-t0 n=3 m=7 [[2, 6, 5]]
+  no EFX0 run from GM4-A n=4 m=7 [[2, 4, 5, 6]]
+  no EFX0 run from GM4-B n=4 m=7 [[0, 4, 6, 5]]
+  no EFX0 run from GM4-C n=4 m=7 [[2, 6, 4, 5]]
+  no EFX0 run from GM4-D n=4 m=7 [[2, 0, 5, 3]]
+  no EFX0 run from GM4-E n=4 m=7 [[4, 3, 2, 5]]
+  no EFX0 run from GM4-F n=4 m=7 [[4, 3, 2, 5]]
+  no EFX0 run from GM4-G n=4 m=7 [[2, 4, 5, 6]]
+time 0 s

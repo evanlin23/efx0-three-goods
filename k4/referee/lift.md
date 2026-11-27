@@ -172,3 +172,187 @@ the 11:
   - The case split differs from the note's 109,680 / 3,200 only because my search returns the first witness found,
     trying case (a) first.
   - The claim is existence, and it is confirmed.
+
+## 8. Addendum: Lemma LIFT\*, Lemma PHANTOM, K4.MATCH.RSD.N4, and RSD-IND as written (`k4/matching.md` §6 "Iterated reduction" at `8498cde0`; coordinator's priority item, 2026-11-27)
+
+**Read.**
+- §6 from "Iterated reduction (RSD)" to the end of the section;
+- the ledger rows K4.MATCH.RSD.N4 and K4.MATCH.RSDIND;
+- the docstring of `k4/matching/check_rsd.py`, read but not run.
+
+**Checks.**
+- `k4/referee/rsd_ref.py`, an independent validator of every witness plus a random test of PHANTOM, log
+  `results/k4_referee/rsd_ref.log`.
+- `k4/referee/rsd_dead_ref.py`, which searches for dead ends after one step, log `results/k4_referee/rsd_dead_ref.log`.
+- Data, read as data: `results/k4_matching/rsd_n4_witnesses.json.gz` and the n = 4 export.
+
+| item | verdict |
+|---|---|
+| Lemma LIFT\* | **CORRECT** |
+| Lemma PHANTOM | **CORRECT**. Both the exact conditions and case 1 hold |
+| K4.MATCH.RSD.N4 | **CONFIRMED**. All 112,880 witnesses are valid under my own code (asked: a sample) |
+| Conjecture RSD-IND, as written | **FALSE**, at the note's own dead ends. The intended existential form must be stated with an invariant that excludes them |
+
+### Lemma LIFT\*
+
+Values never fall along the process:
+- a step changes only its chain agents, which gain, and k_j, which gains;
+- the completion only adds goods.
+
+EFX₀ for an agent is antitone in the threshold, so it is enough to check each pair (a, b) at a's value at the time the
+relevant bundle appeared:
+- *a and b both present at the end:* X is EFX₀ in I_r, and its bundles hold only goods of I_r.
+- *a = k_i:*
+  - a bundle of X, or a pair T_j with j > i: this is (Φ);
+  - T_j with j < i: k_i was present at step j, so (L\*) at its value after P_j applies, and v_{k_i}(T_i) is at least
+    that value.
+- *b = k_j:* any a present at step j is unthreatened by T_j at its value after P_j, by (L\*), and its final value is at
+  least that.
+
+The four cases are exhaustive. The proof needs nothing about k ≤ 4 or |T|. Correct.
+
+LIFT\* does not say the moves are official in I. That matters only for counting moves (LIFT 1), not for EFX₀
+existence.
+
+### Lemma PHANTOM
+
+The proof uses three facts: y ∈ R_k ∖ T; |R_k| ≤ 4; and X is disjoint from T.
+- *Case 1.* |T| = 3 forces R_k = T ∪ {y}, so a threat is at most v_k(y) < v_k(T).
+- *Case 2.* |T| = 2. The note's case list is exhaustive. (P1) implies (P2) once |X| ≥ 3.
+
+So the two conditions are exact.
+
+*Evidence.*
+- On every deleted agent of every RSD witness, PHANTOM's prediction equals the raw threat test: **677,280 tests, 0
+  mismatches**.
+- On random strict agents (|R_k| = 3, 4) and random bundles: **258,691 tests, 0 mismatches**.
+
+### K4.MATCH.RSD.N4
+
+For each of the 112,880 witnesses, matched to the export's distinct rows, all 112,880 covered, my own code checks:
+- the picks are an SD outcome;
+- every step:
+  - k is present, frozen and dangerous;
+  - the chain is a want chain of present agents;
+  - T ⊆ (J ∪ B_end) ∩ R_k is improving;
+  - the stored state is the result;
+  - (L\*) holds;
+  - after the deletion, the state is single goods and an SD outcome of some order of the smaller instance;
+- in addition, every step is a **§29 official move of the full instance**, replayed by my simulator;
+- the final allocation keeps the last state's bundles, the deleted agents hold exactly their T, there is at most one
+  absorber, it is a partition, and it is raw EFX₀ in I.
+
+**112,880 valid.** T sizes (2, 2): 103,600 and (2, 3): 9,280, as stated.
+
+### RSD-IND as written is false
+
+RSD-IND's hypothesis is "a perfect SD start of I′ with Φ from earlier reduction steps with (L\*)". Its conclusion is
+"a completion respecting Φ, or a reduction step respecting Φ". A *dead end*, i.e. a state reached by steps with (L\*)
+that has neither, satisfies the hypothesis and violates the conclusion. The note reports that dead ends are reachable
+from 16,240 n = 4 starts.
+
+My search reproduces exactly that count: one-step dead ends are reachable from **16,240 of the 112,880 starts**
+(25,760 dead-end states).
+
+**Instance** (re-derived by hand).
+- *Instance.* Values
+  - v₀ = {0: 1, 1: 4, 4: 6, 5: 8};
+  - v₁ = {1: 3, 4: 4, 5: 2, 6: 8};
+  - v₂ = {2: 3, 3: 5, 4: 6, 6: 7};
+  - v₃ = {2: 4, 3: 2, 5: 8, 6: 5}.
+
+  The picks are (5, 1, 4, 6), and J = {0, 2, 3}.
+- *The step.* The chain (3, 1) settles agent 3 with T = {2, 3}, worth 6 > 5.
+  - (L\*) holds: agent 2 sees at most 5 ≤ 6.
+  - The reduced state ({5}, {6}, {4}) of agents 0, 1, 2 is the SD outcome of (0, 1, 2), with junk {0, 1}.
+- *No completion respecting Φ.* Agent 3 values agent 0's good 5 at 8 > 6, so 5 must stay alone (PHANTOM (P1)). That
+  leaves goods 0 and 1 for agents 1 and 2:
+  - with one good each, agent 2 strongly envies agent 1's bundle (7 > 6) whichever way they are split;
+  - with both on agent 1, agent 2 envies again;
+  - with both on agent 2, agent 0 sees 10 > 8.
+- *No reduction step.* The only dangerous agent is 1, frozen because agent 2 wants 6, and it has no improving set:
+  v₁({1, 4}) = 7 < 8.
+
+**What this means.**
+- LIFT\* and PHANTOM are correct. With the existential reading ("some sequence of steps from Φ = ∅ ends in a
+  completion respecting Φ") they give EFX₀ directly, and no induction is needed.
+- But an induction on n needs an **invariant Inv(I′, Φ) that excludes dead ends** and that some step preserves.
+  "Φ comes from earlier steps with (L\*)" is not such an invariant.
+- The statement to prove must say which states the recursion may visit, i.e. what the choice of step must keep. Here
+  the bad step settled agent 3 with a pair below its value for agent 0's good 5. That created a (P1) constraint that
+  the rest could not satisfy.
+- The ledger row K4.MATCH.RSDIND should be restated before it is cited.
+
+## 9. Addendum 2: ROUND-RSD, Lemma LIFT\* for rounds, Conjecture ROUND-IND, K4.MATCH.RSD.BASE (`k4/matching.md` §6 at `56e64a9f`; coordinator's queue, 2026-11-27)
+
+Scripts: `round_rsd_ref.py` (witnesses and the lemma test) and `base_ref.py` (the base case), run by
+`round_rsd_ref_runs.sh`; log `results/k4_referee/round_rsd_ref.log`. My own code throughout: `round_rsd.py`,
+`check_rsd.py`, `rsd.py` and `attempts/k4_matching_rsd_base.py` were read, not run or imported.
+
+Input checks:
+- matching's n = 4 input `data/two_move_starts_n4.json.gz` is byte-identical to the certifier's export
+  (sha256 6159e38d…);
+- its 280 n = 5 rows are exactly the `oc1_fails` of the certifier's `5_pure_s5o0_summary.jsonl.gz`.
+
+**Lemma LIFT\* for rounds: CORRECT.**
+- *Re-derivation.* Every agent's value is non-decreasing. In a round the chains are vertex-disjoint, so each agent
+  changes at most once, and only by a strict gain. Threats only weaken as values rise. Take a ≠ b.
+  - Both present at the end: X is EFX₀ in I_r.
+  - a settled in round i:
+    - b present, or b settled in a later round: this is (Φ);
+    - b settled in the same round: (L\*) at the round's end, with a counted at v_a(T_a);
+    - b settled in an earlier round j: a was present at round j's start, and its final value is at least its value
+      at round j's end.
+  - a present, b settled in round j: (L\*) at round j's end, then monotonicity.
+- *(Φ) is needed only against X and later rounds' T's.* The same-round clause is what (L\*) at the round's end
+  supplies.
+- *The same-round clause is necessary.* With (L\*) not checked against the round's other settled agent (my
+  mutation), raw EFX₀ fails in 21 cases at the 280 5_pure starts.
+- *Lemma test.* From each start I take every sequence of admissible rounds (≤ 2 settlements, (L\*) at the round's
+  end), and at every reached state every extension X of the state to the junk. Whenever X is EFX₀ among the present
+  agents and (Φ) holds, the whole allocation must be raw EFX₀.
+
+  | data | cases meeting the hypotheses | with a two-settlement round | violations |
+  |---|---|---|---|
+  | 280 5_pure starts | 7,175 | 3,054 | **0** |
+  | 3,000 n = 5 walk starts | 36,000 | 18,000 | **0** |
+  | 5,000 n = 4 export starts | 24,872 | 0 (no admissible pair round reaches such a state) | **0** |
+
+**ROUND-RSD witnesses: all valid** (my re-validation from the definitions).
+- Each settlement is a reduction step at the round's start: k present, frozen and dangerous; P a canonical chain;
+  T ⊆ (J ∪ B_end) ∩ R_k and improving.
+- Chains vertex-disjoint and T's disjoint; the stored state is all settlements applied at once.
+- (L\*) holds at the round's end, and the reduced state is SD of some order.
+- Final: a partition, deleted agents hold exactly T, at most one present absorber, raw EFX₀.
+
+| witnesses | valid | rounds |
+|---|---|---|
+| n = 4, 112,880 | **112,880** | two rounds of one at all |
+| 5_pure, 280 | **280** | 150 one round of two, 130 two rounds of one |
+| n = 5 walks, 23,924 | **23,924** | one round of two at all |
+
+**Conjecture ROUND-IND.**
+- Its statement matches what the lemma and the data support.
+- It must be existential: matching reports dead ends reachable under every round rule. I did not re-run the
+  exploration.
+- Its base case cannot be pure (next item).
+
+**K4.MATCH.RSD.BASE (REFUTED): CONFIRMED, with one count to correct.**
+- On the three data files, my brute force over every reduction sequence finds failure sets equal to the ones in
+  matching's logs:
+  - (i) (L\*) at the step: **35**;
+  - ROUND-RSD: the **same 35**;
+  - (ii) (L\*) deferred: 23;
+  - (i) with deleted agents receiving junk: 18;
+  - (iii) deferred and receiving: **6**, a subset of the 35.
+- Per file: multi 35 / 35 / 23 / 18 / 6, Hall 32 / 32 / 21 / 17 / 6, PW 0.
+- All 35 have #D ≥ 2 (23 with 2, 11 with 3, 1 with 4). 15 have n = 3, m = 6, among them T3 (picks (0, 1, 4)).
+- The 6 are ls-alt-rule-n4m7 (the smallest, n = 4, m = 7), Q2, nsw-strict-n4m8, nsw-strict-n4m9,
+  c4one-one-rotation-m8 and c4one-one-rotation-m9.
+  - At each, my code confirms the picks are SD and the start is one-absorber-hard.
+  - At each, one official §29 move followed by a one-absorber completion repairs it.
+  - So OC₁ stays in the base case, as matching says (answer (b)).
+- **Fix:** the starts are 8,539 distinct, not 10,109.
+  - 1,570 starts lie in both the multi and the Hall files, and the PW file is disjoint from both.
+  - 10,109 = 8,081 + 1,737 + 291 is the sum of the per-file distinct counts.
+  - The per-file columns of the table, and the 35 and 6, are right.
