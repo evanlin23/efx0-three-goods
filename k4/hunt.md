@@ -22,6 +22,10 @@ see "Results" (each claim names its artifact; nothing in LEDGER.md is changed by
   - all 30,337 minimal-counterexample candidates with n = 6 and β = 5 (K4.MC2/MC3/MC5 cuts) are certified: **a minimal
     counterexample with n = 6 has β ≥ 6** (and at least three 4-good agents).
   - The rest of n = 6 is 366,743 candidates (β = 6–9, m ≥ 10), sampled in §3.4.
+- **Burst 2** (§3.3b–§3.5): H₂ (n = 9, m = 23) certified under every profile; samples of 1,500 n = 6 (β = 6–9) and
+  675 n = 7 (β = 5) minimal-counterexample candidates all certified, the n = 7, β = 5, m = 17 group complete; a
+  hypergraph climb with 150 exactly evaluated cores found nothing. Finishing n = 6 needs ~430 CPU-hours, n = 7 at β = 5
+  ~50.
 - **Patterns** (§4): certificate size as a hardness measure; agents with two private goods and goods of very high
   degree make cores easier; the hardest are all-P4/Q4 cores and cores with twin agents.
 
