@@ -69,6 +69,17 @@ set has at most three junk goods, and one chain leaves at most one") does not by
 - **R2 at n = 4:** every one of the 112,880 has exactly one receiver (a pick holder whose pick nobody else prefers).
   So TTC's Conjecture R2 (`k4/ttc.md` §14.3: with at least two receivers, OC₁^max holds) is true at n = 4,
   exhaustively.
+- **R2 is false at n = 5.** The second 5_pure chunk (5_pure_s5o1) has 5 stored OC₁^max-failing starts with two
+  receivers, on cores idx 650, 655 (two profiles), 1014 and 1050
+  (`results/k4_oc1max/n5/r2_two_receiver_fails_n5.jsonl`).
+  - Each is perfect and hard and gives 'OC1 fails' under `Inst.check`.
+  - `verify_r2.py` (`verify_r2_two_receiver_fails_n5.log`) finds every R2 form failing there, R2-C included.
+  - `brute_verify.py` uses no repository code (`brute_verify_two_receiver_fails_n5.log`). It finds the profiles strict
+    and balanced and the maximum matching 5, and no one-move state (additions, chains, rings) has a one-absorber or
+    free completion.
+  - The shape: two frozen "twins" share three junk goods, each with a pick wanted by the other part, and both receivers
+    value no junk.
+  - Conjecture RF (receiver first) and OC₂^max hold at all of them.
 
 **The ∃-order form OC₁^∃max (K4.SDC.OC1EXMAX) holds for every strict profile on all 1,002 n = 4 cores.**
 OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
