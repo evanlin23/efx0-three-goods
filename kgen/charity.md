@@ -4,7 +4,7 @@ Workstream `proof/kgen-charity` (branch `claude/kgen-charity`; bursts 1–7 merg
 `results/kgen_charity/`. Everything called evidence below is evidence only (PROMPT.md §5 rule 3). No ledger row is
 changed here; the coordinator integrates.
 
-## Status (end of burst 3)
+## Status (end of burst 8; wound down at the coordinator's request, long runs stopped)
 
 | item | statement | status | artifact |
 |---|---|---|---|
@@ -16,13 +16,14 @@ changed here; the coordinator integrates.
 | CH-E | for every σ ≥ 2 and k ≥ 3: a Pareto maximum (P1's hypothesis) leaving σ − 1 goods out, n = O(σ²) | PROVED (written proof; exhaustive check without SAT for σ ≤ 4, SAT for σ ≤ 7) | §5, `refute_pm.py`, `refute_pm_k*.log`, `pm_family_sat.log` |
 | P1 threshold | P1 (K4.SDC.P1: Pareto maxima are complete) holds for k ≤ 2, for n = 2 at every k (P1₂), and for n = 3 with k ≤ 4 (exhaustive); it fails at k = 3 with n = 4 (m = 7, every agent values exactly 3 goods) and **at n = 3 with k = 5** (m = 7, every agent values exactly 5 goods; so the n = 3 threshold is k = 5) | PROVED for k ≤ 2 (CH6 + CH4′) and for n = 2 (P1₂, written proof); exhaustive at n = 3, k ≤ 4 (z3, one implementation); REFUTED at k = 3 (CH-E with σ = 2; brute force over all 5⁷ partial allocations) and at n = 3, k = 5 (found by z3, verified by brute force over all 4⁷ partial allocations); CGM's example (n = 3, k = 6) fails it too | §5, §9, `refute_pm_k3.log`, `ol_synth_n3_k4_p1.log`, `p1_n3k5.log`, `cgm_check.log` |
 | PM(k) | Pareto maxima leave ≤ f(k) goods out | REFUTED for every k ≥ 3 and every f (CH-E) | §5 |
-| W(k, f) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f goods out (§6 for the exact statement); W(k, f) ⇒ CH(k) | f = 0 REFUTED at k = 3 (n = 4, m = 7) and k = 4 (GM4-G); **f = 1 REFUTED at k = 3 and k = 4** (CH-F: n = 12, m = 17 and n = 9, m = 14, integer values; each verified by SAT and by MILP); f ≥ 2: §6 | §6, `w_brute.log`, `w_counterexample*.log`, `attempts/kgen-charity-welfare-maxima.md` |
+| W(k, f) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f goods out (§6 for the exact statement); W(k, f) ⇒ CH(k) | f = 0 REFUTED at k = 3 (n = 4, m = 7) and k = 4 (GM4-G); **f = 1 REFUTED at k = 3 and k = 4** (CH-F: n = 12, m = 17 and n = 9, m = 14, integer values; each verified by SAT and by MILP); f ≥ 2 open: no values make S′(4, 5) strand three goods (z3, 2,243 cuts; the cvc5 and MILP re-checks were stopped unfinished, so single implementation); S′(4, 4) stopped unfinished (§6) | §6, `w_brute.log`, `w_counterexample*.log`, `attempts/kgen-charity-welfare-maxima.md`, `w_cuts_s4k5.json.gz`, `w_core_s4k5.json` |
 | L(k, 0) | the leximin maximum (then fewest unallocated) is complete | REFUTED at k = 3 and k = 4 (n = 4, m = 7; brute force); complete on the CH-F and S′ instances | §6, `lex_brute.log`, `lex_check.log` |
 | W small n | no welfare maximum strands a good for n = 3, k = 3; none strands two for n = 3, k = 3, 4 and n = 4, k = 3 | exhaustive by one implementation (z3 CEGAR over real values, all m ≤ nk + n by Lemma W0) | §6, `w_synth_n*.log` |
 | DU | an instance whose incidence graph has ≥ 2 components with agents has a complete EFX₀ allocation | PROVED (written proof; recipe checked on 2,000 random unions and on copies of the stranded instances) | §3, Prop. DU, `union_dump.log` |
 | CH-KD | every agent values ≤ k goods, every good has ≤ d valuers: some EFX₀ state with strong charity leaves ≤ min{(k − 2)d − 1, R(d)} goods out (|P|! ≤ d^{|P|−1}); at k = 4: ≤ 2, 4, 6, 9 for d = 2, 3, 4, 5 | PROVED (self-contained proof, §8; CH-A, CH-B marked correct by the referee, k4/referee/charity.md) | §8 |
 | PH | CKMS's rules with fixed phantom bundles satisfying L2's conditions (each phantom weakly prefers its bundle to all remaining goods it values; its bundle is a single good or worthless to the others): EFX₀ for all, nobody envies the pool, Theorem CH-KD's bound | PROVED (written proof) | §10 |
-| OL | from any EFX₀ state with strong charity, some complete EFX₀ allocation leaves at most one agent worse off | CONJECTURE: PROVED at n = 2 (P1₂, no loser); exhaustive (z3, one implementation) at n = 3, k ≤ 4 and n = 4, k = 3; holds on every stranded state found (S′, CH-F, 20 curated Pareto maxima, CGM's three-agent example, CKMS stops, 1,458 random charity states) | §9, `ol_synth_*.log`, `losers.log`, `ol_check*.log`, `cgm_check.log` |
+| PH⁺, PH-L, PH-C | PH from any EFX₀ start with (iii); an active phantom whose demand hinges on one good ℓ is neutralised by settling ℓ's holder q with {ℓ}, which is free when q is content with ℓ alone; lock cascades never raise the number of active phantoms, and only a content ending lowers it | PROVED (written proofs); how often the lock applies: the multi session's census (k = 4, n = 4, 5), reported, not re-run here | §10 |
+| OL | from any EFX₀ state with strong charity, some complete EFX₀ allocation leaves at most one agent worse off | CONJECTURE: PROVED at n = 2 (P1₂, no loser); exhaustive (z3, one implementation) at n = 3, k ≤ 4 and n = 4, k = 3; partial at n = 3, k = 5 (7 size vectors UNSAT, m ≤ 9, then stopped); holds on every stranded state found (S′, CH-F, 20 curated Pareto maxima, CGM's three-agent example, CKMS stops, 1,458 random charity states) | §9, `ol_synth_*.log`, `losers.log`, `ol_check*.log`, `cgm_check.log` |
 | least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
 
 **Conclusion so far.** The rainbow-cycle method works with genuine zeros and gives *exact* EFX₀ with O(√(kn))
@@ -402,10 +403,18 @@ envy. A proof for general σ would have to organise such asymmetries along the r
 **Larger σ.** Whether S′(σ, k) carries values making its σ − 1 stranded goods a welfare maximum for every σ (which
 would refute W(k) for every f, with Θ(√n) goods) is being tested by the same exact search; σ = 3 succeeds at k = 3 and k = 4 (CH-F). For σ = 4 (three goods
 stranded): on S′(4, 5)'s hypergraph (no relays: each source has three champion children; n = 16, m = 23) **no real
-values work** — UNSAT after 2,243 cuts, 4,833 s (`w_synth_family_s4k5_real.log`; single implementation); the integer
-search with values ≤ 80 had stopped at its time limit (`w_synth_family_s4k5.log`). S′(4, 4) (with relays, n = 20) is
-still running (`w_synth_family_s4k4_real.log`; the integer search stopped at its limit). So the S′ pattern does not
-scale to three stranded goods without relays; whether W(4, 2) fails is open.
+values work** by z3 — UNSAT after 2,243 cuts, 4,833 s (`w_synth_family_s4k5_real.log`), reproduced by a rerun that
+dumps its cut list (UNSAT after 2,243 cuts, 5,323 s; `w_synth_family_s4k5_real_cuts.log`, `w_cuts_s4k5.json.gz`).
+z3 with one guard literal per cut (`w_core_z3.py`) confirms that the dumped cuts alone are UNSAT and needs 890 of them
+(`w_core_s4k5.json`). The independent re-checks, cvc5 on a separately written SMT-LIB encoding (`w_cert.py`, on the
+full list and on the 890-cut core) and a HiGHS MILP in homogeneous form (`w_milp_cert.py`, on the core), were
+**stopped without an answer** at the wind-down (after 2.8 h, 2.3 h and 0.5 h; `w_cert_s4k5_full.log`,
+`w_cert_s4k5_core.log`, `w_milp_s4k5_core.log`, all PARTIAL). Both re-check tools agree with z3 on the controls
+(`w_cert_controls.log`). So S′(4, 5) is still a single-implementation (z3) result, not a certified one. The integer
+search with values ≤ 80 had stopped at its time limit (`w_synth_family_s4k5.log`). S′(4, 4) (with relays, n = 20):
+stopped with no answer after 3,150 cuts (`w_synth_family_s4k4_real_cuts.log`, PARTIAL; the cut list is in
+`w_cuts_s4k4_partial.json.gz` for a resumed run; the integer search stopped at its limit). So, on z3's word, the S′
+pattern does not scale to three stranded goods without relays; whether W(4, 2) fails is open.
 
 **Leximin maxima** (the lexicographic selection: maximise the smallest value, then the next, …, then the fewest
 unallocated goods; `chlib.leximin_max`, SAT with nested cardinality thresholds; `lex_check.py`, `lex_check.log`):
