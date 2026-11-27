@@ -1,1 +1,8 @@
 {"source": "base-phantom dead check N=1000000 seed=1", "FAIL_has_admissible_round": 0, "FAIL_has_lifted_completion": 0, "feasible": 3200, "feasible_matches_flag": 32480, "l_alone_on_a_base": 32480, "records": 32480, "state_reached": 32480}
+{"source": "base-phantom safe check N=1000000 seed=1", "P1FREE_UNSAFE": 0, "P1free_safe": 112880, "any_safe": 96640, "any_unsafe": 16240, "starts": 112880}
+{"source": "Proposition SEP random N=2000000 seed=1 mutation=None", "SEP_pair_MISMATCH": 0, "SEP_pair_tests": 166649, "SEP_part1_VIOLATION": 0, "SEP_triple_VIOLATION": 0, "tests": 1156525, "threatened": 61300}
+{"source": "Proposition SEP random N=500000 seed=2 mutation=noP1free", "SEP_pair_MISMATCH": 774, "SEP_pair_tests": 46332, "SEP_part1_VIOLATION": 4848, "SEP_triple_VIOLATION": 0, "tests": 321048, "threatened": 34097}
+
+real	2m9.252s
+user	6m48.464s
+sys	0m3.019s
