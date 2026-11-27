@@ -68,7 +68,7 @@ SINK, PARK, SLACK (general). Everything else below is as marked.
 | K4.GIRTH.RFPATH | Lemma RF-PATH: moving a receiver u of an SD start (e.g. the last picker) to the front of the order changes the picks only along one ejection path x_1, …, x_ℓ (increasing in the order); every x_i loses value, u gains; the path's end is unfrozen at the new picks (any n, strict additive values) | PROVED (written, not refereed) | §7 |
 | K4.GIRTH.RFT | Lemma RF-T and Corollary RF-T′: in DEMOTE-0's trade case, the explicit allocation (p: {Y′_d, j}; d: {Y_p, Y_u}; x_{ℓ−1}: {Y_d, z}; the rest along the path) is EFX₀ iff (W-d) and (W-p), and in particular whenever (F1) d wants Y_p at Y, (F2) no off-path agent wants Y_d at Y, (F3) Y_p is valued only by p, d, u | PROVED (refereed CORRECT, per the coordinator: referee item 59); (F1)–(F3) hold for some trade at every n = 5 trade start (42,009), EVIDENCE | §7, `k4/girth/oc1_trade.py`, `results/k4_girth_oc1_trade.log` |
 | K4.GIRTH.ORD | Lemma ORD: in RF-T's setting u = σ_n and d = σ′_n, so only u can want Y_d at Y; hence (F2) holds without hardness | PROVED (written, not refereed); 454 of 454 settings, 306 of 306 one-receiver configurations, EVIDENCE | §7, `k4/girth/oc1_f2_probe.py`, `results/k4_girth_oc1_f2_probe.log` |
-| K4.GIRTH.RFTHARD | Conjecture RF-T-HARD: in RF-T's setting, if the canonical X fails at every valid trade, Y is not an OC₁ failure (it completes at the picks or after a chain with tail p) | CONJECTURE; 210 of 210 counterfactual n = 5 settings, EVIDENCE | §7, `k4/girth/oc1_rft_hard.py`, `results/k4_girth_oc1_rft_hard.log` |
+| K4.GIRTH.RFTHARD | Conjecture RF-T-HARD: in RF-T's setting, if the canonical X fails at every valid trade, Y is not an OC₁ failure (it completes at the picks or after a chain with tail p) | CONJECTURE; 210 of 210 counterfactual n = 5 settings; the single rule U-ABSORB at 193 of 210, EVIDENCE | §7, `k4/girth/oc1_rft_hard.py`, `results/k4_girth_oc1_rft_hard.log` |
 | K4.GIRTH.RFTA | Lemma RF-T-A: sub-case "only (F1′) fails": under (A0)–(A2), one official chain (p takes {g, j}, u takes Y_p) and single goods give the EFX₀ allocation X_A; uses k = 4 (u values no junk) | PROVED conditional on (A0)–(A2) (written, not refereed); (A0), (A1) at 25 of 25 trades, (A2) at 24 of 25 | §7 |
 | K4.GIRTH.RKMAX1 | One-receiver σ-maximal starts, n = 5: no OC₁ failure; NA / owner d / 3-ring certificate cover 267 of 311 (1, 0) vectors; RF-A1\* never needed, RF-T′ never applies; 44 need trades outside RF-T's shape, chains with a pick-dangerous tail, or two-junk trades | EVIDENCE (560,880 random profiles) | §7, `k4/girth/oc1_rkmax_rand.py`, `results/k4_girth_oc1_rkmax_rand.log`, `results/k4_girth_oc1_rkmax_moves_n5.jsonl.gz` |
 
@@ -954,8 +954,17 @@ off-path agent valuing two of {g, j, Y_u} above its pick, i.e. (A2) fails. In al
 {g, j}, u takes Y_p" is a repairing move.
 
 *Remaining for RF-T-HARD:* (A0)–(A2) from hardness, and the cases where (W-p) fails (at x_{ℓ−1}, at x₁, at an
-off-path agent). In those, the natural repair is the chain "p takes {g, j}, q takes Y_p" for the agent q violating
-(W-p).
+off-path agent). For the second, the sample suggests one rule, **U-ABSORB**:
+- some agent q wants Y_p at Y, so "p takes {g, j}, q takes Y_p" is an official chain;
+- u absorbs the freed pick Y_q (when q = u, Y_u goes to p instead: the X_A of RF-T-A);
+- z goes to one agent.
+
+It repairs Y at **193 of the 210** settings where X fails at every trade. The first working q is d (76, using (F1)),
+u (40), x_{ℓ−1} (52), x₁ (11) or an off-path agent (14), and z goes to d, p or u. For q = d, u's bundle {Y_u, Y_d}
+is safe exactly because of Lemma ORD (only u wants Y_d) and (F1). Where (W-p) fails at a single agent, the working
+completions of the chain "p takes {g, j}, violator takes Y_p" give the violator's freed pick to u in all but 2 of
+them. The other 17 settings
+need other chains with tail p.
 
 **The SINK form of DEMOTE** (CONJECTURE; proposed jointly with oc1-hall; `k4/girth/oc1_sink.py`,
 `results/k4_girth_oc1_sink.log`). At every RF start with maximum-matching picks, Y′ or the state after one DEMOTE move

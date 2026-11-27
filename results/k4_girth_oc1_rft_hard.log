@@ -1,6 +1,17 @@
 $ python3 k4/girth/oc1_rft_hard.py 300 3 3
 cores (pure, n = 5, m = 8): 656
    RF-T settings (Y, Y')                                                                                                        454
+   X fails at every trade; U-ABSORB (p takes {g, j}, a wanter q of Y_p takes it, u absorbs Y_q, z to one agent b): no            17
+   X fails at every trade; U-ABSORB (p takes {g, j}, a wanter q of Y_p takes it, u absorbs Y_q, z to one agent b): works (q d, z to d)      30
+   X fails at every trade; U-ABSORB (p takes {g, j}, a wanter q of Y_p takes it, u absorbs Y_q, z to one agent b): works (q d, z to p)      42
+   X fails at every trade; U-ABSORB (p takes {g, j}, a wanter q of Y_p takes it, u absorbs Y_q, z to one agent b): works (q d, z to u)       4
+   X fails at every trade; U-ABSORB (p takes {g, j}, a wanter q of Y_p takes it, u absorbs Y_q, z to one agent b): works (q off-path, z to d)      10
+   X fails at every trade; U-ABSORB (p takes {g, j}, a wanter q of Y_p takes it, u absorbs Y_q, z to one agent b): works (q off-path, z to p)       4
+   X fails at every trade; U-ABSORB (p takes {g, j}, a wanter q of Y_p takes it, u absorbs Y_q, z to one agent b): works (q u, z to d)      17
+   X fails at every trade; U-ABSORB (p takes {g, j}, a wanter q of Y_p takes it, u absorbs Y_q, z to one agent b): works (q u, z to p)      20
+   X fails at every trade; U-ABSORB (p takes {g, j}, a wanter q of Y_p takes it, u absorbs Y_q, z to one agent b): works (q u, z to u)       3
+   X fails at every trade; U-ABSORB (p takes {g, j}, a wanter q of Y_p takes it, u absorbs Y_q, z to one agent b): works (q x1, z to d)      11
+   X fails at every trade; U-ABSORB (p takes {g, j}, a wanter q of Y_p takes it, u absorbs Y_q, z to one agent b): works (q x_(l-1), z to d)      52
    X fails at every trade; Y repaired by: a chain with tail p                                                                   185
    X fails at every trade; Y repaired by: picks complete                                                                         25
    X fails, by trade: (W-d) fails at d                                                                                          114
@@ -175,6 +186,46 @@ cores (pure, n = 5, m = 8): 656
    only (F1') fails; some repairing move has p taking {g, j} and u taking Y_p: True                                              24
    only (F1') fails; u values: Y_u,Y_p                                                                                           25
    only (F1') fails; u wants Y_p at Y: True                                                                                      25
+   single (W-p) violator off-path q; (F1') holds: False                                                                          27
+   single (W-p) violator off-path q; (F1') holds: True                                                                           21
+   single (W-p) violator off-path q; after "p takes {g, j}, q takes Y_p": Y_q to d, z to u                                        2
+   single (W-p) violator off-path q; after "p takes {g, j}, q takes Y_p": Y_q to u, z to d                                       13
+   single (W-p) violator off-path q; after "p takes {g, j}, q takes Y_p": Y_q to u, z to p                                       19
+   single (W-p) violator off-path q; after "p takes {g, j}, q takes Y_p": Y_q to u, z to q                                       14
+   single (W-p) violator off-path q; after "p takes {g, j}, q takes Y_p": Y_q to u, z to u                                        7
+   single (W-p) violator off-path q; after "p takes {g, j}, q takes Y_p": Y_q to u, z to x1                                       8
+   single (W-p) violator off-path q; after "p takes {g, j}, q takes Y_p": no completion                                          27
+   single (W-p) violator off-path q; it wants Y_p at Y: True                                                                     48
+   single (W-p) violator x1; (F1') holds: False                                                                                   8
+   single (W-p) violator x1; (F1') holds: True                                                                                    5
+   single (W-p) violator x1; after "p takes {g, j}, q takes Y_p": Y_q to u, z to d                                                9
+   single (W-p) violator x1; after "p takes {g, j}, q takes Y_p": Y_q to u, z to p                                                8
+   single (W-p) violator x1; after "p takes {g, j}, q takes Y_p": Y_q to u, z to q                                                7
+   single (W-p) violator x1; after "p takes {g, j}, q takes Y_p": Y_q to u, z to u                                                6
+   single (W-p) violator x1; after "p takes {g, j}, q takes Y_p": Y_q to u, z to x2                                               7
+   single (W-p) violator x1; after "p takes {g, j}, q takes Y_p": no completion                                                   4
+   single (W-p) violator x1; it wants Y_p at Y: False                                                                             2
+   single (W-p) violator x1; it wants Y_p at Y: True                                                                             11
+   single (W-p) violator x1=x_(l-1); (F1') holds: False                                                                          36
+   single (W-p) violator x1=x_(l-1); (F1') holds: True                                                                           69
+   single (W-p) violator x1=x_(l-1); after "p takes {g, j}, q takes Y_p": Y_q to u, z to d                                       67
+   single (W-p) violator x1=x_(l-1); after "p takes {g, j}, q takes Y_p": Y_q to u, z to other                                   23
+   single (W-p) violator x1=x_(l-1); after "p takes {g, j}, q takes Y_p": Y_q to u, z to p                                       52
+   single (W-p) violator x1=x_(l-1); after "p takes {g, j}, q takes Y_p": Y_q to u, z to q                                       31
+   single (W-p) violator x1=x_(l-1); after "p takes {g, j}, q takes Y_p": Y_q to u, z to u                                       59
+   single (W-p) violator x1=x_(l-1); after "p takes {g, j}, q takes Y_p": no completion                                          38
+   single (W-p) violator x1=x_(l-1); it wants Y_p at Y: False                                                                    33
+   single (W-p) violator x1=x_(l-1); it wants Y_p at Y: True                                                                     72
+   single (W-p) violator x2=x_(l-1); (F1') holds: False                                                                           6
+   single (W-p) violator x2=x_(l-1); (F1') holds: True                                                                           12
+   single (W-p) violator x2=x_(l-1); after "p takes {g, j}, q takes Y_p": Y_q to u, z to d                                        9
+   single (W-p) violator x2=x_(l-1); after "p takes {g, j}, q takes Y_p": Y_q to u, z to p                                       10
+   single (W-p) violator x2=x_(l-1); after "p takes {g, j}, q takes Y_p": Y_q to u, z to q                                        6
+   single (W-p) violator x2=x_(l-1); after "p takes {g, j}, q takes Y_p": Y_q to u, z to u                                        7
+   single (W-p) violator x2=x_(l-1); after "p takes {g, j}, q takes Y_p": Y_q to u, z to x1                                       4
+   single (W-p) violator x2=x_(l-1); after "p takes {g, j}, q takes Y_p": no completion                                           7
+   single (W-p) violator x2=x_(l-1); it wants Y_p at Y: False                                                                     5
+   single (W-p) violator x2=x_(l-1); it wants Y_p at Y: True                                                                     13
    stage 1: one receiver at Y, Y' perfect                                                                                     87675
    stage 2: path length >= 2, d takes junk                                                                                    16732
    stage 3: DEMOTE-0 at Y'                                                                                                     4179

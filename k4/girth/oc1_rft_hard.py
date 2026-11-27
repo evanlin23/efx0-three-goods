@@ -6,7 +6,10 @@ one receiver d and D_T' empty; a valid trade p, j: p pick-dangerous at Y' holdin
 v_p({g, j}) > v_p(Y_p), v_d(Y_p) > v_d(g), J' - {j} = {Y_u, z}), record (F1), (F2), (F3) per trade, and whether Y
 is an OC1 failure (k4/sdc/oc1_mc2_rand.Inst.check, raw).  For the starts where some fact fails at every trade, what
 repairs Y: the first repairing completion or official move, described by roles at Y (k4/girth/oc1_demote.describe_move).
-The claim to test: Y an OC1 failure => (F1)-(F3) at some trade.  EVIDENCE.
+Also (k4/girth.md section 7, Conjecture RF-T-HARD and Lemma RF-T-A): whether the canonical X of Lemma RF-T is EFX0
+at some trade; where it fails at every trade, why (which of (W-d), (W-p) fails and at whom), what repairs Y (the
+picks, a chain with tail p, another move), the sub-case "only (F1') fails" (Lemma RF-T-A's X_A and hypotheses), the
+completions after "p takes {g, j}, q takes Y_p" for a single (W-p) violator q, and the rule U-ABSORB.  EVIDENCE.
 
     python3 k4/girth/oc1_rft_hard.py PROFILES_PER_CORE SEED [JOBS]
 """
@@ -119,6 +122,56 @@ def completions_after_pu(I, Y, Y2, u, path, J, p, j):
             if I.efx0(B):
                 out.append('Y_u to %s, z to %s' % (lab(a), lab(b)))
     return out or ['no completion']
+
+
+def completions_after_chain(I, Y, Y2, u, path, J, p, j, q):
+    """after the chain p takes {g, j}, q takes Y_p: the EFX0 placements of the free goods {Y_q, z} (each to one agent)"""
+    n = len(Y)
+    d = path[-1]
+    g = Y2[d]
+    z = [x for x in J if x not in (g, j)][0]
+    st = [[x] for x in Y]
+    st[p] = [g, j]
+    st[q] = [Y[p]]
+    lab = lambda i: 'd' if i == d else 'u' if i == u else 'p' if i == p else 'q' if i == q else (
+        'x%d' % path.index(i) if i in path else 'other')
+    out = []
+    for a in range(n):
+        for b in range(n):
+            B = [list(x) for x in st]
+            B[a].append(Y[q])
+            B[b].append(z)
+            if I.efx0(B):
+                out.append('Y_q to %s, z to %s' % (lab(a), lab(b)))
+    return out or ['no completion']
+
+
+def u_absorb(I, Y, Y2, u, path, J, fs):
+    """the first (q role, b role) for which: q wants Y_p at Y (so 'p takes {g, j}, q takes Y_p' is an official
+    chain), then u absorbs the freed pick Y_q (if q != u; if q = u, Y_u goes to p, the sub-case A form), and z goes
+    to b; the result is EFX0"""
+    n = len(Y)
+    d = path[-1]
+    g = Y2[d]
+    for p, j, *_ in fs:
+        z = [x for x in J if x not in (g, j)][0]
+        lab = lambda i: 'd' if i == d else 'u' if i == u else 'p' if i == p else (
+            'x_(l-1)' if i == path[-2] else 'x%d' % path.index(i) if i in path else 'off-path')
+        for q in range(n):
+            if q == p or not I.v[q].get(Y[p], 0) > I.v[q].get(Y[q], 0):
+                continue
+            for b in [d, p, u, q] + [i for i in range(n) if i not in (d, p, u, q)]:
+                B = [[x] for x in Y]
+                B[p] = [g, j]
+                B[q] = [Y[p]]
+                if q != u:
+                    B[u].append(Y[q])
+                else:
+                    B[p].append(Y[u])
+                B[b].append(z)
+                if I.efx0(B):
+                    return 'works (q %s, z to %s)' % (lab(q), lab(b))
+    return 'no'
 
 
 def p_tail_chain_repairs(I, Y, J, p):
@@ -237,6 +290,26 @@ def job(task):
                         for f in fs:
                             for key in completions_after_pu(I, Y, Y2, u, path, J, f[0], f[1]):
                                 C['only (F1\') fails; after "p takes {g, j}, u takes Y_p": ' + key] += 1
+                for f in fs:
+                    ks = set(why_X_fails(I, Y, Y2, u, path, J2, f[0], f[1]))
+                    ks.discard('(W-d) fails at d')
+                    if len(ks) != 1:
+                        continue
+                    k1 = ks.pop()
+                    if not k1.startswith('(W-p)'):
+                        continue
+                    q = {'off-path q': None}.get(k1.split(' at ')[1], 'path')
+                    viol = [i for i in range(n) if i not in (d, f[0]) and I.v[i].get(Y[f[0]], 0) > I.V(
+                        i, canonical_X(I, Y, Y2, u, path, J2, f[0], f[1])[i])]
+                    for qq in viol:
+                        tag = 'single (W-p) violator %s' % k1.split(' at ')[1]
+                        C[tag + '; it wants Y_p at Y: %s' % (I.v[qq].get(Y[f[0]], 0) > I.v[qq][Y[qq]])] += 1
+                        C[tag + '; (F1\') holds: %s' % (I.V(d, [Y[f[0]], Y[u]]) > I.v[d][Y[d]])] += 1
+                        for key in completions_after_chain(I, Y, Y2, u, path, J, f[0], f[1], qq):
+                            C[tag + '; after "p takes {g, j}, q takes Y_p": ' + key] += 1
+                ua = u_absorb(I, Y, Y2, u, path, J, fs)
+                C['X fails at every trade; U-ABSORB (p takes {g, j}, a wanter q of Y_p takes it, u absorbs Y_q, z to one '
+                  'agent b): %s' % ua] += 1
                 b = [[g] for g in Y]
                 rep = ('picks complete' if I.one_absorber(b) else
                        'a chain with tail p' if any(p_tail_chain_repairs(I, Y, J, f[0]) for f in fs) else
