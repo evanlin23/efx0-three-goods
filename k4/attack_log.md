@@ -713,3 +713,31 @@ before any proof effort: DYN, W₃/W^sub, VM1, RD², OL and OC₂^max.
   - OCVariants.lean adds ConjOCkmax / ConjOC2max ⟹ TARGET₄ and the ∃-order frame ConjOC1exmax ⟹ TARGET₄.
   - The coordinator's independent check.sh re-run is in progress; it compiled with 0 errors and 0 warnings.
 - **Ledger**: new CONJECTURE row K4.SDC.OC1EXMAX (the ∃-order form).
+
+### 2026-11-27 00:04 UTC: Lean refutation of OC₁^max verified independently; OC₁′ (one-move candidate); Lemma LIFT (recursion)
+- **Lean** (formal/k4-oc1max, PR #109, head 598e135). The coordinator re-ran `lean/check.sh` independently: **CHECK
+  PASSED**, 1,278 audited statements, 2,417 theorems, standard axioms only.
+  - `EFX.OC1Max.not_conjOC1max : ¬ ConjOC1max (Fin 4) (Fin 7)` is **machine-checked on instance 1**, together with
+    the core, connected, strict and maximum hypotheses. No completion at all exists at the picks or after any OneMove.
+  - Also machine-checked: ConjOCkmax ⟹ TARGET₄, ConjOC2max ⟹ TARGET₄, the perfect-start variants, and ConjOC1exmax
+    ⟹ TARGET₄.
+- **kgen-rounds: OC₁′**, a one-move candidate. It is the official move, except that non-end chain agents may also take
+  goods of the end's released base. Every agent still gains, so it implies MD and TARGET₄.
+  - It repairs every known OC₁ failure at perfect starts: 77 zero-version starts plus 16 new climb instances (14
+    strict n = 4 cores on 3 hypergraphs), C4K, K4W and W4. Two implementations agree.
+  - The certifier is asked to test OC₁′^max exhaustively at n = 4.
+- **multi: Lemma LIFT** (written proof, k4/oc1max_multi.md §8). After a chain that settles one sharer k with a pair T,
+  delete k and T. Moves of the reduced instance I⁻ are moves of I, and its non-threatening completions lift. So OC₂
+  becomes "settle one sharer, then OC₁ in I⁻".
+  - It holds on the 12 known failures and 4,356 walk failures. The open part is Sub-lemma OC2-REC.
+  - Leaf-4f census: 7,755 of 8,383 one-move starts have no sharing. Sharing is necessary for every known two-move
+    start but not sufficient.
+- **kgen-n3**: OPB₃ is **refuted** exhaustively at n = 3, k = 4 (smallest: m = 5). The OPB line is closed. kgen-n3 and
+  k3-oc1 are set to prove OC₁ at maximum-matching starts for k = 3, every n (exhaustively true up to n = 6).
+- **Referee**: Lemma R1 and the starved-agent certificate are CORRECT, with a fix to a printed repair. Prop. H is
+  CORRECT WITH FIXES (a sign in one display).
+- **Open core at k = 4** (Hall §23.2, one owner each):
+  - D1-HJ: proof/k4-d1;
+  - R2: TTC;
+  - LIFT-1 + LIFT-EX(2), or equivalently OC2-REC: matching and multi;
+  - SLOT and RING: multi.
