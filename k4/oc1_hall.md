@@ -1631,10 +1631,16 @@ holds a pick.
    - Test set: 456 starts in k4-d1's data; in 449 of them a middle agent is a free slot after the chain.
    - **Proposition D1-H4 (CERTIFIED by k4-d1).** D1-H2 holds on every four-agent t = 2 core (k → x → {z, w}).
      756 of the 15,284 structures admit hard all-HEAD starts. Both z3 encodings give UNSAT for "no repair", ties
-     included. All 756 models are raw-checked and repaired canonically. A strict MC2 t = 2 example is being generated.
-   - Smallest test (k4-d1's data): n = 4, m = 7, sets [[1,2,4,5],[2,4],[0,3,4,5],[2,5,6]], values
-     [[26,29,24,25],[20,29],[22,17,30,23],[29,21,25]], order (2, 1, 0, 3), picks (1, 2, 4, 6), k = 2, chains (2, 1, 0) and
-     (2, 1, 3). It is not a core, since agent 1 values two goods. A strict-core example is expected from the SMT run.
+     included. All 756 models are raw-checked and repaired canonically.
+   - In the K4.MC2 class, 112 of 6,034 structures admit hard all-HEAD starts. Every model is a strict core and is
+     repaired canonically.
+   - **Status:** t = 2 is settled on the four-agent core. Open: t ≥ 3, or t = 2 with extra agents.
+   - Smallest strict-core test, **T2-X** (k4-d1; re-verified by `d1h2_tests.py`: `is_core4` = [], hard, all-HEAD).
+     Data: n = 4, m = 7, sets [[0,4,5,6],[0,1,2],[1,2,4],[1,3,5,6]], values [[8,6,5,4],[4,3,2],[4,3,2],[8,4,3,2]], order
+     (0, 1, 2, 3). The canonical chains are (0, 1, 2) and (0, 1, 3), and (0, 1, 2) with H₀ = {4, 5} repairs with owner
+     k.
+   - An earlier, smaller non-core test (k4-d1's data): n = 4, m = 7, order (2, 1, 0, 3), picks (1, 2, 4, 6). Agent 1
+     values only two goods.
 3. **R2-M** (TTC session). **Superseded (§24):** R2-M, R2★ and R2-O are refuted at n = 4. The item is now **R2-C**.
    - Statement: at a hard perfect start with at least two receivers, some canonical chain from a dangerous agent to a
      receiver meets Lemma M^c's (C1)–(C3), with owner x₀ and |J′ ∖ H| ≤ 1.
