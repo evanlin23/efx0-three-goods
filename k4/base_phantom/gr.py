@@ -14,7 +14,8 @@ At every state where GR stops in 2 or 3, the census records which of BASE-R's le
   B2  admissible rounds exist, none P1-free;
   --  a P1-free round exists as well (the base was not needed).
 MODE=GRR keeps taking P1-free rounds wherever one exists and uses steps 2-3 only where none does (the strong form of
-BASE-R; refuted).
+BASE-R; refuted).  MODE=GRRE is GRR with every chain of a taken round an E-prefix (a prefix of the earliest-wanter
+chain E(k) for some SD order of the current state, as in Lemma SD-E(round)); final rounds stay any admissible round.
 
     [MODE=GR|GRR] python3 k4/base_phantom/gr.py NAME FILE [STRIDE] [OFFSET]
        log to stdout; stuck starts to results/k4_base_phantom/gr_stuck_NAME.jsonl
@@ -61,6 +62,27 @@ def ed_repair(I, S):
     return None
 
 
+def sd_orders(I, S):
+    import itertools
+    tgt = {i: S.B[i].bit_length() - 1 for i in S.alive}
+    return [o for o in itertools.permutations(S.alive) if I.sd(o, S.goods) == tgt]
+
+
+def e_prefix(I, S, orders, k, P):
+    for o in orders:
+        pos = {a: t for t, a in enumerate(o)}
+        E = [k]
+        while len(E) < len(P):
+            g = S.B[E[-1]].bit_length() - 1
+            w = [a for a in S.alive if a not in E and wants(I, S.B, a, g)]
+            if not w:
+                break
+            E.append(min(w, key=lambda a: pos[a]))
+        if tuple(E) == tuple(P):
+            return True
+    return False
+
+
 def gr(I, S0):
     C = collections.Counter()
     seen = set()
@@ -78,6 +100,10 @@ def gr(I, S0):
             continue
         rs = list(rounds(I, S))
         free = [S2 for combo, S2 in rs if all(p1free(I, kk, T) for kk, P, T in combo)]
+        if MODE == 'GRRE':
+            orders = sd_orders(I, S)
+            free = [S2 for combo, S2 in rs if all(p1free(I, kk, T) and e_prefix(I, S, orders, kk, P)
+                                                  for kk, P, T in combo)]
         sit = 'B1 (no admissible round)' if not rs else 'B2 (no P1-free round)' if not free else '-- (a P1-free round exists)'
         base = None
         if MODE == 'GR' or not free:

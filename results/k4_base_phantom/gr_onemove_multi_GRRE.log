@@ -1,0 +1,23 @@
+$ MODE=GRRE python3 k4/base_phantom/gr.py onemove_multi_GRRE results/k4_base_phantom/data/onemove_hard_multi.jsonl.gz 1 0
+distinct starts: 8081
+      7994  SAFE
+        87  STUCK start
+        65  STUCK: B1 (no admissible round), 1 phantoms
+        46  STUCK: B1 (no admissible round), 2 phantoms
+         8  STUCK: B1 (no admissible round), 3 phantoms
+         2  STUCK: B1 (no admissible round), 4 phantoms
+         6  end: ED repair, B1 (no admissible round), 0 phantoms
+         3  end: ED repair, B1 (no admissible round), 1 phantoms
+        40  end: ED repair, B2 (no P1-free round), 0 phantoms
+         6  end: ED repair, B2 (no P1-free round), 1 phantoms
+        50  end: ED repair, B2 (no P1-free round), 2 phantoms
+     19968  end: completion, 1 phantoms
+      5684  end: completion, 2 phantoms
+       575  end: completion, 3 phantoms
+        12  end: completion, 4 phantoms
+       212  end: final round, B2 (no P1-free round), 0 phantoms
+        31  end: final round, B2 (no P1-free round), 1 phantoms
+         6  end: final round, B2 (no P1-free round), 2 phantoms
+      8081  starts
+     36913  states visited
+time 9 s

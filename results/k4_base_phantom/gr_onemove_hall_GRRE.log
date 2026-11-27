@@ -1,0 +1,18 @@
+$ MODE=GRRE python3 k4/base_phantom/gr.py onemove_hall_GRRE results/k4_base_phantom/data/onemove_hard_hall2071.jsonl.gz 1 0
+distinct starts: 1737
+      1709  SAFE
+        28  STUCK start
+        23  STUCK: B1 (no admissible round), 1 phantoms
+        19  STUCK: B1 (no admissible round), 2 phantoms
+         6  end: ED repair, B1 (no admissible round), 0 phantoms
+        30  end: ED repair, B2 (no P1-free round), 0 phantoms
+        48  end: ED repair, B2 (no P1-free round), 2 phantoms
+      2728  end: completion, 1 phantoms
+       265  end: completion, 2 phantoms
+         4  end: completion, 3 phantoms
+         6  end: completion, 4 phantoms
+        53  end: final round, B2 (no P1-free round), 0 phantoms
+         2  end: final round, B2 (no P1-free round), 1 phantoms
+      1737  starts
+      4988  states visited
+time 1 s

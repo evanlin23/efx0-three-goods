@@ -1,0 +1,8 @@
+$ MODE=GRRE python3 k4/base_phantom/gr.py n5s50_GRRE results/k4_base_phantom/data/two_move_starts_n5_partial6_s50.jsonl.gz 1 0
+distinct starts: 14047
+     14047  SAFE
+     32296  end: completion, 2 phantoms
+      1922  end: final round, B2 (no P1-free round), 1 phantoms
+     14047  starts
+     69046  states visited
+time 13 s

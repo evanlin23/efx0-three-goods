@@ -1,0 +1,7 @@
+$ MODE=GRRE python3 k4/base_phantom/gr.py walk_GRRE results/k4_base_phantom/data/multi_oc1_fail_walk.jsonl.gz 1 0
+distinct starts: 4955
+      4955  SAFE
+     10343  end: completion, 2 phantoms
+      4955  starts
+     22204  states visited
+time 2 s
