@@ -1,4 +1,5 @@
-"""Twin receivers at RF starts (k4/oc1_hall.md §24.15; coordinator's question for Rule RF-rot).  At every failing order
+"""Twin receivers at RF starts.  A *set-twin* of u is an agent w with R_w = R_u (same goods); an *exact twin* also has
+v_w = v_u on every good.  Both are counted (k4/oc1_hall.md §24.15; coordinator's question for Rule RF-rot).  At every failing order
 o with receiver u, w = the holder of u's top good at Y: is w a twin of u (R_w = R_u), and is the RF rotation then a
 pick swap (Y'_u = Y_w, Y'_w = Y_u)?  At k = 5 such a swap reproduces the failing start (ledger K4.SDC.RF.K5EVERY).
 Data: the n = 4 export (main) and the n = 5 exports of compute/k4-oc1max-cert.  OC1 at the rotation is known from
@@ -24,6 +25,7 @@ def job(task):
                 if not w: C[tag + "u's top good is junk at Y"] += 1; continue
                 Y2 = picks(I, [u] + [x for x in o if x != u])
                 twin = I.R[w[0]] == I.R[u]
+                if twin: C[tag + '  set-twin; also exact twin (identical values on every good): %s' % (I.v[w[0]] == I.v[u])] += 1
                 swap = Y2[u] == Y[w[0]] and Y2[w[0]] == Y[u]
                 C[tag + 'w a twin of u: %s; rotation is the pick swap u <-> w: %s' % (twin, swap)] += 1
                 if twin and swap:

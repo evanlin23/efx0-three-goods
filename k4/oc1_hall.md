@@ -2597,13 +2597,19 @@ path's end.
 
 **Twins at k = 4** (`k4/oc1_hall/rf_twins.py`, `rf_twins.log`). The question: can k ≤ 4 exclude the k = 5 failure,
 where the rotation is a pick swap between u and its twin w, the holder of u's top good?
-- **n = 4** (all 292,080 failing orders): w is a twin of u (R_w = R_u) at 69,120. At **44,800** the rotation is exactly
-  the twin pick swap. There Y′ assigns the same picks to the same sets as Y, with the twins exchanged.
+*Definitions.* A **set-twin** of u is an agent w with R_w = R_u, the same goods. An **exact twin** also has v_w = v_u on
+every good. ksens's k = 5 counterexample uses exact twins. Then the swap start is isomorphic to Y, so OC₁ fails there
+too.
+- **n = 4** (all 292,080 failing orders): w is a **set-twin** of u at 69,120, and **an exact twin at none**: the values
+  always differ. At **44,800** the rotation is exactly the set-twin pick swap. There Y′ assigns the same picks to the
+  same sets as Y, with the twins exchanged; the values differ, so Y′ is a different start.
 - **OC₁ holds at all of them**: every n = 4 rotation satisfies OC₁ (`results/k4_sdc/receiver_first_check_n4.log`, with
   the certifier's OC₁^max certificate).
-- **n = 5** (all 7,608,052 failing orders of the exports): no receiver is a twin of w.
+- **n = 5** (all 7,608,052 failing orders of the exports): no receiver is even a set-twin of w.
 
-So k ≤ 4 does **not** exclude the twin swap. At k = 4 the swapped start is simply not a failing one on the data.
+So k ≤ 4 does **not** exclude the set-twin swap. At k = 4 the swapped start is simply not a failing one on the data.
+An exact-twin swap at a failing start would contradict the n = 4 certificate, and none occurs at n ≤ 4. Whether one can
+occur at n ≥ 5 with k = 4 is open, and the matching session is hunting for it.
 
 **Chosen target (option (ii)):**
 

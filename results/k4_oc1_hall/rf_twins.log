@@ -1,4 +1,5 @@
 $ python3 k4/oc1_hall/rf_twins.py two_move_starts_n4.json.gz two_move_starts_n5_partial6.json.gz two_move_starts_n5_sel2.json.gz
+n=4   set-twin; also exact twin (identical values on every good): False 69120
 n=4   twin swap: Y' equals Y up to swapping the twins: True 44800
 n=4 failing (order, receiver) pairs 292080
 n=4 w a twin of u: False; rotation is the pick swap u <-> w: False 101680
