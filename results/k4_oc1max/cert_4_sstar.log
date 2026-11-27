@@ -1,0 +1,31 @@
+$ python3 k4/oc1cert/run.py 4_n4_1,4_n4_2,4_n4_3,4_pure --sstar --depth=2 --jobs=2 --out=/tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_4_sstar.json.gz
+hypergraphs 1002 jobs 2
+... 500 hypergraphs, 91 s
+OC1MAX FAILS (raw: OC1 fails) {"list": "4_n4_3", "idx": 58, "sets": [[0, 1, 2, 5], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 6]], "vals": [[1, 8, 4, 6], [8, 1, 4, 6], [5, 3, 6, 7], [3, 2, 4]], "picks": [1, 2, 5, 6], "raw_check": {"orders_giving_picks": 3, "raw": "OC1 fails"}}
+OC1MAX FAILS (raw: OC1 fails) {"list": "4_n4_3", "idx": 77, "sets": [[0, 4, 5, 6], [1, 2, 3, 5], [1, 3, 5, 6], [2, 4, 6]], "vals": [[2, 3, 10, 6], [6, 10, 3, 8], [3, 5, 7, 6], [4, 2, 3]], "picks": [4, 5, 6, 2], "raw_check": {"orders_giving_picks": 1, "raw": "OC1 fails"}}
+OC1MAX FAILS (raw: OC1 fails) {"list": "4_pure", "idx": 20, "sets": [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], "vals": [[2, 7, 4, 10], [5, 4, 6, 8], [3, 7, 5, 6], [2, 8, 4, 7]], "picks": [6, 5, 4, 3], "raw_check": {"orders_giving_picks": 3, "raw": "OC1 fails"}}
+OC1MAX FAILS (raw: OC1 fails) {"list": "4_pure", "idx": 21, "sets": [[0, 1, 2, 6], [1, 2, 4, 5], [3, 4, 5, 6], [3, 4, 5, 6]], "vals": [[1, 4, 6, 8], [5, 3, 6, 7], [3, 5, 6, 7], [1, 4, 6, 8]], "picks": [6, 4, 5, 3], "raw_check": {"orders_giving_picks": 1, "raw": "OC1 fails"}}
+OC1MAX FAILS (raw: OC1 fails) {"list": "4_pure", "idx": 23, "sets": [[0, 1, 4, 5], [1, 3, 5, 6], [2, 3, 4, 6], [2, 4, 5, 6]], "vals": [[2, 3, 10, 6], [4, 10, 8, 3], [3, 8, 6, 4], [3, 7, 6, 5]], "picks": [1, 3, 4, 5], "raw_check": {"orders_giving_picks": 1, "raw": "OC1 fails"}}
+OC1MAX FAILS (raw: OC1 fails) {"list": "4_pure", "idx": 24, "sets": [[0, 1, 4, 5], [1, 4, 5, 6], [2, 3, 4, 6], [2, 3, 5, 6]], "vals": [[2, 4, 10, 7], [2, 10, 3, 6], [5, 3, 7, 6], [4, 5, 6, 8]], "picks": [4, 1, 6, 5], "raw_check": {"orders_giving_picks": 1, "raw": "OC1 fails"}}
+OC1MAX FAILS (raw: OC1 fails) {"list": "4_pure", "idx": 26, "sets": [[0, 2, 3, 6], [1, 2, 4, 5], [1, 4, 5, 6], [3, 4, 5, 6]], "vals": [[2, 10, 4, 7], [3, 10, 6, 8], [3, 5, 7, 6], [3, 2, 10, 6]], "picks": [2, 5, 6, 3], "raw_check": {"orders_giving_picks": 1, "raw": "OC1 fails"}}
+OC1MAX FAILS (raw: OC1 fails) {"list": "4_pure", "idx": 29, "sets": [[0, 4, 5, 6], [1, 2, 3, 6], [1, 3, 5, 6], [2, 4, 5, 6]], "vals": [[2, 3, 6, 10], [2, 8, 3, 4], [3, 5, 6, 7], [8, 6, 3, 4]], "picks": [4, 6, 5, 2], "raw_check": {"orders_giving_picks": 1, "raw": "OC1 fails"}}
+OC1MAX FAILS (raw: OC1 fails) {"list": "4_pure", "idx": 36, "sets": [[0, 2, 4, 5], [0, 2, 5, 6], [1, 3, 4, 6], [1, 3, 5, 6]], "vals": [[5, 2, 8, 4], [3, 2, 6, 10], [3, 6, 10, 8], [4, 5, 6, 8]], "picks": [4, 0, 6, 5], "raw_check": {"orders_giving_picks": 1, "raw": "OC1 fails"}}
+OC1MAX FAILS (raw: OC1 fails) {"list": "4_pure", "idx": 38, "sets": [[0, 2, 3, 6], [1, 4, 5, 7], [2, 3, 6, 7], [4, 5, 6, 7]], "vals": [[2, 4, 7, 10], [2, 10, 4, 7], [3, 5, 7, 6], [8, 2, 7, 4]], "picks": [6, 4, 7, 5], "raw_check": {"orders_giving_picks": 3, "raw": "OC1 fails"}}
+OC1MAX FAILS (raw: OC1 fails) {"list": "4_pure", "idx": 45, "sets": [[0, 2, 5, 7], [1, 5, 6, 7], [2, 3, 4, 6], [3, 4, 6, 7]], "vals": [[1, 8, 4, 6], [2, 3, 10, 6], [10, 3, 6, 8], [3, 5, 7, 6]], "picks": [2, 5, 6, 7], "raw_check": {"orders_giving_picks": 1, "raw": "OC1 fails"}}
+... 1000 hypergraphs, 582 s
+4_n4_1 nu=4 n=4 135
+4_n4_2 nu=4 n=4 309
+4_n4_3 nu=4 n=4 339
+4_pure nu=4 n=4 219
+OC1^max failures raw-checked: OC1 fails 16
+hypergraphs where OC1^max fails (one move not enough for some profile) 11
+iterations 287590
+result certified 1002
+witness kind 2 moves (found by the inner) 34
+witness kind add (found by the inner) 46079
+witness kind chain (found by the inner) 231813
+witness kind picks (found by the inner) 147180
+witnesses kept 654525
+slowest hypergraph 12.58 s ('4_pure', 43)
+time 584 s
+wrote /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_4_sstar.json.gz

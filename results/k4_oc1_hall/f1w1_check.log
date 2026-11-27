@@ -1,0 +1,40 @@
+$ python3 k4/oc1_hall/f1w1_check.py special
+time 0 s
+$ python3 k4/oc1_hall/f1w1_check.py screen
+case A 33
+case B2 1
+case B3a 6
+starts (f = 1, |W| = 1, n >= 3) 40
+time 0 s
+$ python3 k4/oc1_hall/f1w1_check.py suite
+case A 33
+case B2 1
+case B3a 6
+starts (f = 1, |W| = 1, n >= 3) 40
+time 0 s
+$ python3 k4/oc1_hall/f1w1_check.py logs
+case A 486
+case B2 59
+case B3a 3
+case B3b 3
+starts (f = 1, |W| = 1, n >= 3) 551
+time 0 s
+$ python3 k4/oc1_hall/f1w1_check.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+case A 825
+case B2 730
+case B3a 31
+case B3b 6
+starts (f = 1, |W| = 1, n >= 3) 1592
+time 0 s
+$ python3 k4/oc1_hall/f1w1_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+case A 643
+case B2 356
+case B3a 12
+case B3b 7
+starts (f = 1, |W| = 1, n >= 3) 1018
+time 0 s
+$ python3 k4/oc1_hall/f1w1_check.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
+case A 78
+case B2 10
+starts (f = 1, |W| = 1, n >= 3) 88
+time 0 s

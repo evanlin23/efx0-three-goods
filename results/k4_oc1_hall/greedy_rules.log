@@ -1,0 +1,129 @@
+$ python3 k4/oc1_hall/greedy_rules.py screen
+NO CANONICAL RULE adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 3, 4) D [0, 2]
+NO CANONICAL RULE adaptive-p3 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]]] picks (2, 5, 4) D [0, 1]
+NO CANONICAL RULE c4-g2-other-runs-n4m7 [[[0, 2, 5], [1, 5, 6], [2, 3, 4, 6], [3, 4, 6]], [[2, 3, 4], [2, 4, 3], [8, 4, 3, 6], [2, 3, 4]]] picks (2, 5, 3, 6) D [0, 1, 3]
+NO CANONICAL RULE c4-gadget-stacking-1copy-n3m6 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [3, 5, 7, 6], [2, 3, 4, 8]]] picks (5, 4, 3) D [0, 1]
+  ALL, owner any owner 219
+  ALL, owner end 186
+  ALL, owner k 216
+  ALL, owner k or end 219
+  ANY, owner any owner 219
+  ANY, owner end 186
+  ANY, owner k 217
+  ANY, owner k or end 219
+  JUNK, owner any owner 148
+  JUNK, owner end 121
+  JUNK, owner k 145
+  JUNK, owner k or end 148
+  MIN, owner any owner 219
+  MIN, owner end 183
+  MIN, owner k 217
+  MIN, owner k or end 219
+hard starts 234
+shown 4
+time 0 s
+$ python3 k4/oc1_hall/greedy_rules.py suite
+NO CANONICAL RULE adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 3, 4) D [0, 2]
+NO CANONICAL RULE adaptive-p3 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]]] picks (2, 5, 4) D [0, 1]
+NO CANONICAL RULE c4-g2-other-runs-n4m7 [[[0, 2, 5], [1, 5, 6], [2, 3, 4, 6], [3, 4, 6]], [[2, 3, 4], [2, 4, 3], [8, 4, 3, 6], [2, 3, 4]]] picks (2, 5, 3, 6) D [0, 1, 3]
+NO CANONICAL RULE c4-gadget-stacking-1copy-n3m6 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [3, 5, 7, 6], [2, 3, 4, 8]]] picks (5, 4, 3) D [0, 1]
+  ALL, owner any owner 218
+  ALL, owner end 190
+  ALL, owner k 215
+  ALL, owner k or end 218
+  ANY, owner any owner 218
+  ANY, owner end 190
+  ANY, owner k 216
+  ANY, owner k or end 218
+  JUNK, owner any owner 156
+  JUNK, owner end 130
+  JUNK, owner k 153
+  JUNK, owner k or end 156
+  MIN, owner any owner 218
+  MIN, owner end 187
+  MIN, owner k 216
+  MIN, owner k or end 218
+hard starts 233
+shown 4
+time 1 s
+$ python3 k4/oc1_hall/greedy_rules.py logs
+NO CANONICAL RULE log554 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1) D [0, 1]
+NO CANONICAL RULE log555 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks (3, 7, 5, 4) D [0, 2]
+NO CANONICAL RULE log560 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]]] picks (2, 4, 5) D [0, 2]
+NO CANONICAL RULE log573 [[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], [[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]]] picks (4, 6, 7, 5) D [0, 3]
+  ALL, owner any owner 1450
+  ALL, owner end 1410
+  ALL, owner k 1446
+  ALL, owner k or end 1450
+  ANY, owner any owner 1452
+  ANY, owner end 1415
+  ANY, owner k 1449
+  ANY, owner k or end 1452
+  JUNK, owner any owner 987
+  JUNK, owner end 952
+  JUNK, owner k 983
+  JUNK, owner k or end 987
+  MIN, owner any owner 1452
+  MIN, owner end 1405
+  MIN, owner k 1449
+  MIN, owner k or end 1452
+hard starts 1470
+shown 4
+time 2 s
+$ python3 k4/oc1_hall/greedy_rules.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+  ALL, owner any owner 431
+  ALL, owner end 389
+  ALL, owner k 428
+  ALL, owner k or end 429
+  ANY, owner any owner 436
+  ANY, owner end 400
+  ANY, owner k 436
+  ANY, owner k or end 436
+  JUNK, owner any owner 327
+  JUNK, owner end 272
+  JUNK, owner k 324
+  JUNK, owner k or end 326
+  MIN, owner any owner 436
+  MIN, owner end 382
+  MIN, owner k 436
+  MIN, owner k or end 436
+hard starts 436
+time 1 s
+$ python3 k4/oc1_hall/greedy_rules.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+  ALL, owner any owner 253
+  ALL, owner end 251
+  ALL, owner k 252
+  ALL, owner k or end 253
+  ANY, owner any owner 255
+  ANY, owner end 253
+  ANY, owner k 254
+  ANY, owner k or end 255
+  JUNK, owner any owner 215
+  JUNK, owner end 207
+  JUNK, owner k 214
+  JUNK, owner k or end 215
+  MIN, owner any owner 255
+  MIN, owner end 248
+  MIN, owner k 254
+  MIN, owner k or end 255
+hard starts 255
+time 1 s
+$ python3 k4/oc1_hall/greedy_rules.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
+  ALL, owner any owner 31
+  ALL, owner end 31
+  ALL, owner k 31
+  ALL, owner k or end 31
+  ANY, owner any owner 31
+  ANY, owner end 31
+  ANY, owner k 31
+  ANY, owner k or end 31
+  JUNK, owner any owner 29
+  JUNK, owner end 29
+  JUNK, owner k 29
+  JUNK, owner k or end 29
+  MIN, owner any owner 31
+  MIN, owner end 31
+  MIN, owner k 31
+  MIN, owner k or end 31
+hard starts 31
+time 1 s

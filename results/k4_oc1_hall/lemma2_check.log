@@ -1,0 +1,56 @@
+$ python3 k4/oc1_hall/lemma2_check.py special chains
+after a chain: construction EFX0 263
+after a chain: owner: hypotheses fail 775
+after a chain: owner: hypotheses hold 346
+picks: construction EFX0 22
+picks: owner: hypotheses fail 58
+picks: owner: hypotheses hold 62
+time 0 s
+$ python3 k4/oc1_hall/lemma2_check.py screen chains
+after a chain: construction EFX0 8323
+after a chain: owner: hypotheses fail 30822
+after a chain: owner: hypotheses hold 12983
+picks: construction EFX0 796
+picks: owner: hypotheses fail 1449
+picks: owner: hypotheses hold 1554
+time 1 s
+$ python3 k4/oc1_hall/lemma2_check.py suite chains
+after a chain: construction EFX0 14432
+after a chain: owner: hypotheses fail 58351
+after a chain: owner: hypotheses hold 22284
+picks: construction EFX0 740
+picks: owner: hypotheses fail 1350
+picks: owner: hypotheses hold 1495
+time 3 s
+$ python3 k4/oc1_hall/lemma2_check.py logs chains
+after a chain: construction EFX0 74484
+after a chain: owner: hypotheses fail 115621
+after a chain: owner: hypotheses hold 88580
+picks: construction EFX0 6956
+picks: owner: hypotheses fail 6323
+picks: owner: hypotheses hold 10361
+time 8 s
+$ python3 k4/oc1_hall/lemma2_check.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91 chains
+after a chain: construction EFX0 85866
+after a chain: owner: hypotheses fail 63433
+after a chain: owner: hypotheses hold 97193
+picks: construction EFX0 8732
+picks: owner: hypotheses fail 3207
+picks: owner: hypotheses hold 10235
+time 7 s
+$ python3 k4/oc1_hall/lemma2_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92 chains
+after a chain: construction EFX0 91426
+after a chain: owner: hypotheses fail 98444
+after a chain: owner: hypotheses hold 101652
+picks: construction EFX0 8298
+picks: owner: hypotheses fail 4273
+picks: owner: hypotheses hold 9523
+time 9 s
+$ python3 k4/oc1_hall/lemma2_check.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93 chains
+after a chain: construction EFX0 10484
+after a chain: owner: hypotheses fail 18920
+after a chain: owner: hypotheses hold 11565
+picks: construction EFX0 1680
+picks: owner: hypotheses fail 972
+picks: owner: hypotheses hold 1888
+time 2 s

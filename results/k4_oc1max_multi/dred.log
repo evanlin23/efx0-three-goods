@@ -1,0 +1,28 @@
+$ python3 k4/oc1max_multi/dred.py results/k4_oc1max_multi/hard2_starts.jsonl.gz results/k4_oc1max_multi/hard2_starts_n5.jsonl.gz (MIN=1)
+  (UNFRZ) 13278
+  (UNFRZ), repaired 12960
+  CROWD 558
+  CROWD+DEMAND 293
+  CROWD+DEMAND+HEAD 4
+  CROWD+DEMAND+HEAD, repaired 2
+  CROWD+DEMAND, repaired 131
+  CROWD+HEAD 3
+  CROWD+HEAD, repaired 2
+  CROWD, repaired 438
+  DEMAND 10469
+  DEMAND+HEAD 721
+  DEMAND+HEAD, repaired 239
+  DEMAND, repaired 8858
+  HEAD 368
+  HEAD, repaired 288
+  clean 11988
+  clean, repaired 11988
+chains 24404
+chains repaired (S* owner k) 21946
+clean chain 6637
+has canonical chain 8383
+repaired by a canonical chain, owner k 8304
+repaired only with an obstacle 4122
+repaired, but no clean chain 1667
+starts 8383
+clean chains that do not repair (Lemma D-red violations): 0 []

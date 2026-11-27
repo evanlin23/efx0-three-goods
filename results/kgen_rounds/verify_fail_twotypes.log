@@ -1,0 +1,7 @@
+instance n 4 m 7, order (0, 1, 2, 3), picks [2, 3, 6, 4]
+[rnd.c] EFX allocations 20 counts {'EXTF': 0, 'EXT1': 0, 'OC1': 0, 'RNDF': 0, 'RND1': 0, 'MD': 8, 'RNDX': 8, 'RNDX1': 8, 'RNDP': 8, 'RNDP1': 8}
+[bruter]  {'ext_free': False, 'ext_1': False, 'oc1': False, 'n_round_states': 424, 'rnd_free': False, 'rnd_1': False, 'rnd2_1': True, 'n_round2_states': 127} 0s
+[ocsat]   {'ext_free': False, 'ext_1': False, 'oc1': False, 'rnd_free': False, 'rnd_1': False, 'md': True} 0s
+[ocseq]   1 round(s): free False, one absorber False 0s
+[ocseq]   2 round(s): free True, one absorber True 1s
+VERDICT one round fails: True | three implementations agree: True

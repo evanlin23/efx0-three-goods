@@ -1,0 +1,30 @@
+$ python3 k4/sdind/e18_mono.py k3:1000:1:5 5
+(Y, o) cases 8002
+(Y, o): some completion with absorber o (or none) is monotone-schedulable 8002
+instances 1000
+time 2 s
+$ python3 k4/sdind/e2_paths.py k3:300:2:5 5
+any insertion sequence: least d 0 132
+any insertion sequence: least d 1 556
+every sub-instance I_U has a one-absorber completion 477
+instances 300
+prefix, best order of Y: least d 0 98
+prefix, best order of Y: least d 1 561
+prefix, best order of Y: least d 2 5
+prefix, best order of Y: least d 3 14
+prefix, best order of Y: least d 4 6
+prefix, best order of Y: least d None 4
+prefix, first order: least d 0 7
+prefix, first order: least d 1 531
+prefix, first order: least d 2 52
+prefix, first order: least d 3 23
+prefix, first order: least d 4 31
+prefix, first order: least d None 44
+starts (one-absorber completion exists) 688
+suffix, best order of Y: least d 0 132
+suffix, best order of Y: least d 1 556
+suffix, first order: least d 0 63
+suffix, first order: least d 1 541
+suffix, first order: least d 2 11
+suffix, first order: least d None 73
+time 82 s

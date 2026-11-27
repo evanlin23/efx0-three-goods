@@ -1,0 +1,25 @@
+$ python3 k4/sdind/e18_mono.py special
+(Y, o) cases 21
+(Y, o): some completion with absorber o (or none) is monotone-schedulable 21
+instances 4
+time 0 s
+$ python3 k4/sdind/e18_mono.py screen 5
+(Y, o) cases 901
+(Y, o): some completion with absorber o (or none) is monotone-schedulable 901
+instances 167
+time 1 s
+$ python3 k4/sdind/e18_mono.py suite 5
+(Y, o) cases 841
+(Y, o): some completion with absorber o (or none) is monotone-schedulable 841
+instances 157
+time 15 s
+$ python3 k4/sdind/e18_mono.py logs 4
+(Y, o) cases 5659
+(Y, o): some completion with absorber o (or none) is monotone-schedulable 5659
+instances 1465
+time 1 s
+$ python3 k4/sdind/e18_mono.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz:1500:92
+(Y, o) cases 8364
+(Y, o): some completion with absorber o (or none) is monotone-schedulable 8364
+instances 1500
+time 2 s
