@@ -1,0 +1,38 @@
+$ python3 k4/sdind/e7_absorber.py special
+(last o) can: every order <= 1 16
+(last o) can: every order <= 2 16
+(last o) cases 21
+(last o) o absorbs some completion (or none needed): True; some order <= 1: True 21
+instances 4
+starts 12
+time 0 s
+$ python3 k4/sdind/e7_absorber.py screen 5
+(last o) can: every order <= 1 823
+(last o) can: every order <= 2 831
+(last o) cases 985
+(last o) o absorbs some completion (or none needed): False; some order <= 1: False 62
+(last o) o absorbs some completion (or none needed): False; some order <= 1: True 22
+(last o) o absorbs some completion (or none needed): True; some order <= 1: True 901
+instances 167
+starts 580
+time 2 s
+$ python3 k4/sdind/e7_absorber.py suite 5
+(last o) can: every order <= 1 761
+(last o) can: every order <= 2 769
+(last o) cases 937
+(last o) o absorbs some completion (or none needed): False; some order <= 1: False 77
+(last o) o absorbs some completion (or none needed): False; some order <= 1: True 19
+(last o) o absorbs some completion (or none needed): True; some order <= 1: True 841
+instances 157
+starts 529
+time 19 s
+$ python3 k4/sdind/e7_absorber.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz:1500:92
+(last o) can: every order <= 1 7872
+(last o) can: every order <= 2 7922
+(last o) cases 8537
+(last o) o absorbs some completion (or none needed): False; some order <= 1: False 98
+(last o) o absorbs some completion (or none needed): False; some order <= 1: True 75
+(last o) o absorbs some completion (or none needed): True; some order <= 1: True 8364
+instances 1500
+starts 3234
+time 9 s
