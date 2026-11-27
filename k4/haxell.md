@@ -769,6 +769,10 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
     
     Lemma R with n = 2 reaches this allocation in at most three transfers. ∎
   - This is why the n = 2 results that matter are the two-move ones (Theorem N2).
+  - Likewise at n = 3, pool-shrinking within five set moves holds for every k, given that a complete EFX₀ allocation
+    exists for three additive agents. That is Chaudhury–Garg–Mehlhorn, as read and recorded by another workstream in
+    `proofs/citations.md` (item 5 and its 2026-09-25 addition; not read in this workstream). So at n = 3 the content
+    is the two-move form, K4.HX.PN3.
 - *What the checker runs.* `gstar_measure 2 1 1 1` (RADIUS 2, ROT 1, ONLY 1 = welfare, SUB 1) implements exactly
   these moves: single moves to an agent, swaps, trades, rotations of length ≥ 3, and transfers of ≥ 2 goods from one
   holder to one agent. Its stuck count for φ1 counts the states violating the lemma. φ0 counts the states with no
