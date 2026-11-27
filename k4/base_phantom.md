@@ -18,7 +18,7 @@ Everything called evidence is evidence only (PROMPT.md §5 rule 3).
 | **The base case as stated** (§2) | "at a state reached by admissible rounds, with no lifted completion and no admissible round, some one-move repair respects the phantoms" | **REFUTED.** False at every one of the 32,480 dead-end states of the n = 4 export (from 16,240 starts); 29,280 of them admit **no EFX₀ allocation at all** that keeps the phantoms' sets. Smallest: T3 (n = 3, m = 6), §2.2, by hand |
 | Dead ends elsewhere (§2) | n5 partial export 9,260 dead ends (3,499 starts), 0 with a one-move repair; walks 6,008, 0; 5_pure 251, 9; one-move starts 629, 6 at Φ = ∅ and 6 with phantoms | computed, two implementations |
 | Base class at Φ = ∅ (§3) | the least class of a one-move repair at the 8,539 one-move starts: **C0** (settlement-shaped canonical chains and rings from a dangerous agent, no junk after x₀) at 8,515; **ED** (only the end takes junk, possibly without wanting its predecessor's good alone) at 24, the 6 included. Canonical chains whose *middle* agents take junk are never needed | evidence |
-| **Proposition SEP** (§4.1) | a phantom k with no "ℓ alone" constraint (every good of R_k ∖ T_k worth at most v_k(T_k): *P1-free*) is threatened only by bundles of three or more goods containing two goods of R_k ∖ T_k; for a pair T this is "y_k and ℓ_k together in a bundle of ≥ 3 goods". So (P3) and S^φ's (S-φ2), (S-φ3) hold automatically | **PROVED** (written proof, from Lemma PHANTOM) |
+| **Proposition SEP** (§4.1; refereed CORRECT) | a phantom k with no "ℓ alone" constraint (every good of R_k ∖ T_k worth at most v_k(T_k): *P1-free*) is threatened only by bundles of three or more goods containing two goods of R_k ∖ T_k; for a pair T this is "y_k and ℓ_k together in a bundle of ≥ 3 goods". So (P3) and S^φ's (S-φ2), (S-φ3) hold automatically | **PROVED** (written proof, from Lemma PHANTOM; refereed CORRECT, `k4/referee/basephantom.md`) |
 | The ℓ-alone trap (§4.2) | every dead end of the n = 4 export, of the walks and of the n5 partial export carries an "ℓ alone" constraint on a present agent's good | computed, two implementations |
 | **P1-free greedy at n = 4** (§4.3) | from every one of the 112,880 n = 4 two-move starts, *every* sequence of admissible rounds whose settlements are P1-free ends in a lifted completion; no dead end is reachable | **CERTIFIED** (exhaustive over the complete export; `rules.py` and `check_rules.py`, 112,880 / 112,880) |
 | "A P1-free round exists at every two-move start" (§4.4) | | **REFUTED** at n = 5: 12 of the 280 sampled 5_pure two-move starts (smallest m = 9) have admissible rounds, but each settles some agent with an ℓ-alone constraint; two implementations |
@@ -194,7 +194,8 @@ reduction fails at 6. T3 with picks (0, 1, 4) is not among my 23, because its sw
 
 ### 4.1 Proposition SEP (P1-free phantoms are separations)
 
-**Proposition SEP (K4.BASE.SEP).** Let a phantom k hold T ⊆ R_k with τ = v_k(T) > p_k, where |R_k| ≤ 4, and suppose k is
+**Proposition SEP (K4.BASE.SEP; refereed CORRECT, `k4/referee/basephantom.md`, with K4.BASE.DEAD.N4 and
+K4.BASE.P1FREE.N4 confirmed there by independent code).** Let a phantom k hold T ⊆ R_k with τ = v_k(T) > p_k, where |R_k| ≤ 4, and suppose k is
 P1-free: v_k(g) ≤ τ for every g ∈ R_k ∖ T. Let X be a bundle disjoint from T.
 1. If |X| ≤ 2, or X contains at most one good of R_k ∖ T, then X does not threaten k.
 2. If |T| = 3, nothing threatens k. If |T| = 2 and R_k = T ∪ {y, ℓ}, X threatens k iff {y, ℓ} ⊆ X, |X| ≥ 3 and
@@ -335,8 +336,10 @@ perfect starts, as for K4.MATCH.CM2, it would imply TARGET₄. It is ROUND-IND (
 | **n5 partial6**: six 5_pure hypergraphs, time-capped lists | 702,250 | **0** | final rounds; B2 (§5.1) at 134,822 states with one phantom |
 
 So GR never gets stuck on **1,285,930 n = 5 starts**, the certifier's whole n = 5 export, in about 22 minutes (`gr.py`,
-`gr_n5sel2.log`, `gr_n5partial6.log`). The independent `check_rules.py` re-check of the sel2 lists, in ten chunks,
-is in `check_rules_GR_n5sel2_part*.log`.
+`gr_n5sel2.log`, `gr_n5partial6.log`). On the complete sel2 lists this is **certified** (K4.BASE.GR.SEL2): the matching
+session's independent `k4/matching/gr.py` (row K4.MATCH.GRX on `proof/k4-matching`) also finds 276,480 / 115,200 /
+192,000 starts safe. A third re-check here (`check_rules.py`, ten chunks, `check_rules_GR_n5sel2_part*.log`) is in
+progress.
 
 Further facts:
 - Without step 2, GR with an ED or even a C3 base gets stuck at the 12 starts of §4.4.
