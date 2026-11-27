@@ -50,7 +50,8 @@ SINK, PARK, SLACK (general). Everything else below is as marked.
 | K4.GIRTH.DYNX | With exchange moves in the parking, every labeling completes | REFUTED (n = 3: 253 of 300 labelings) | `k4/girth/dynx.py`, `results/k4_girth_dynx_3.log` |
 | K4.GIRTH.DOM | For every labeling, Algorithm 2 (G1 repair) leaves a state with a dominating complete EFX₀ allocation (⟹ TARGET₄) | CONJECTURE (exhaustive at n = 3 by one implementation) | §6, `k4/girth/dom_test.py`, `results/k4_girth_dom_*.log` |
 | K4.GIRTH.OCCYC | Every known OC₁^max failure has pattern P\* (one receiver; a D_T pair sharing two junk goods, or a dangerous–receiver pick swap); "a 2-cycle through two dangerous agents" fails at n = 5 | EVIDENCE | §7, `k4/girth/oc1_cycles.py`, `results/k4_girth_oc1_cycles.log` |
-| K4.GIRTH.RF | Rule RF: at every OC₁-failing maximum-matching SD order, the receiver is unique and moving it to the front gives maximum-matching picks that satisfy OC₁ (with MAXSD ⟹ OC₁^∃max ⟹ TARGET₄) | CONJECTURE (exhaustive at n = 4 via the certified failure list; 86 of 86 orders at n = 5) | §7, `k4/girth/oc1_recvfirst.py`, `results/k4_girth_oc1_recvfirst.log`, `results/k4_girth_oc1_orders.log` |
+| K4.GIRTH.RF | Rule RF, per-order form of K4.SDC.RF: at every OC₁-failing maximum-matching SD order, the receiver is unique and moving it to the front gives maximum-matching picks that satisfy OC₁ (with MAXSD ⟹ OC₁^∃max ⟹ TARGET₄) | CONJECTURE (exhaustive at n = 4 via the certified failure list; 86 of 86 orders at n = 5; independently confirmed by the coordinator, K4.SDC.RF) | §7, `k4/girth/oc1_recvfirst.py`, `results/k4_girth_oc1_recvfirst.log`, `results/k4_girth_oc1_orders.log` |
+| K4.GIRTH.DEMOTE | Lemma DEMOTE: at every RF start, w or d owns a one-absorber completion, or the trade (T) or the chain (C) repairs; residue lemmas DEMOTE-0, DEMOTE-2 (with R2 and U1 ⟹ RF) | CONJECTURE (holds on all 292,080 n = 4 and 86 n = 5 failing orders) | §7, `k4/girth/oc1_residue.py`, `results/k4_girth_oc1_residue.log`, `k4/girth/oc1_demote.py`, `results/k4_girth_oc1_demote.log` |
 
 ---
 
@@ -651,6 +652,33 @@ the RF path; w = x₁ is the holder of u's top good at Y.
   Every sampled R2 and U1 case completes at the picks; all 295 one-move cases lie in the residue. At n = 5, 82 of 86
   are in R2's class and 4 in the residue with |D_T′| = 2.
 
+**Lemma DEMOTE, precise form, checked on every failing order** (`k4/girth/oc1_residue.py`,
+`results/k4_girth_oc1_residue.log`; raw checker `k4/sdc/oc1_mc2_rand.Inst`; every move used is confirmed to be an
+official move of `Inst.moves`). Notation as above: Y′ the RF picks, P = (u, w, …, d) the RF path, roles at Y′.
+At every RF start Y′:
+- **(i)** a one-absorber completion of Y′ exists whose owner is w or d (the owner takes ≥ 2 junk goods, every other
+  agent at most one); or
+- **(T) trade:** a receiver r of Y′ (d, or another receiver) and a pick-dangerous agent p trade picks, p adding one
+  junk good j: "p takes {Y′_r, j}, r takes {Y′_p}" (both improve: an official 2-ring), and the new state has a
+  one-absorber completion; or
+- **(C) chain:** a truly dangerous agent k takes an improving set H ⊆ J′ of junk goods and d takes Y′_k plus a set of
+  junk goods (d improves: an official chain with head d), and the new state has a one-absorber completion.
+
+| class at Y′ | n = 4 orders | by (i) | by (T) | by (C) | fails |
+|---|---|---|---|---|---|
+| R2: \|U′\| ≥ 2 | 152,880 | 152,880 | 0 | 0 | 0 |
+| U1: \|U′\| = 1, \|D_T′\| = 1 | 31,520 | 31,520 | 0 | 0 | 0 |
+| DEMOTE-0: \|U′\| = 1, D_T′ = ∅ | 64,160 | 62,880 | 1,280 (d trades) | 0 | 0 |
+| DEMOTE-2: \|U′\| = 1, \|D_T′\| = 2 | 43,520 | 15,840 | 0 | 27,680 | 0 |
+| **all** | **292,080** | 263,120 | 1,280 | 27,680 | **0** |
+
+At n = 5 (all 86 orders of the 24 stored failures): R2 class 82 (76 by (i), 6 by (T) with a receiver other than d),
+DEMOTE-2 class 4 (all by (C)), 0 fails. The residue lemmas to prove are the restrictions:
+- **DEMOTE-0** (|U′| = 1, D_T′ = ∅): (i), or (T) with r = d;
+- **DEMOTE-2** (|U′| = 1, |D_T′| = 2): (i), or (C).
+With R2 and Corollary U1 (which by the table also yield (i) itself at n = 4), DEMOTE-0 and DEMOTE-2 would prove RF,
+hence OC₁^∃max and TARGET₄. 161,520 distinct (profile, Y′, w, d) cases were checked.
+
 **Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every
 strict connected k = 4 core, at every serial-dictatorship order o whose picks form a maximum matching and fail OC₁,
 the receiver u is unique, and the order (u, o − u) has maximum-matching picks that satisfy OC₁. With K4.SDC.MAXSD this
@@ -696,6 +724,7 @@ python3 k4/girth/oc1_recvfirst.py                               # §7 Rule RF, e
 python3 k4/girth/oc1_orders.py 150 2                            # §7 reorders, raw checker on a sample -> results/k4_girth_oc1_orders.log
 python3 k4/girth/oc1_rf_owner.py 97                             # §7 owners of the completions at the RF picks -> results/k4_girth_oc1_rf_owner.log
 python3 k4/girth/oc1_demote.py 97                               # §7 Lemma DEMOTE data -> results/k4_girth_oc1_demote.log
+python3 k4/girth/oc1_residue.py 2                               # §7 Lemma DEMOTE, every failing order -> results/k4_girth_oc1_residue.log
 ```
 Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
 partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).
