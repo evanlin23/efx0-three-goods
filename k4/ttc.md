@@ -4,6 +4,32 @@ Workstream `proof/k4-ttc` (branch `claude/k4-ttc`, draft PR #101). Code: `k4/ttc
 log); logs: `results/k4_ttc/`. Notation as in `k4/sdc.md` (§2, §28–§30). Everything called evidence below is evidence
 only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator integrates.
 
+## Status (burst 8): which receiver-first order (§14.9); Lemma C13 gains the referee's hypothesis (0) (§14.8)
+
+- **At k = 4, only maximality matters** (all data: 112,880 n = 4 starts, 583,680 + 702,250 n = 5 starts, the five
+  two-receiver n = 5 starts).
+  - Every u-first SD outcome that is a maximum matching satisfies OC₁. This is ledger row K4.SDC.RF; the
+    certifier's counts are replicated exactly.
+  - Every failure of a candidate rule is pickless, never an OC₁ failure:
+    - the rotation (u, o − u) at 3,460 one-receiver starts on 5_pure#374, so the per-order form fails even with "some
+      listed order";
+    - YRMH-IGYT at 59,144 starts on 5_pure#379.
+- **Lemma PTR and Corollary RF-MAX (proved, any n, a pure matching statement).** TTC's pointer walk on a reference
+  maximum matching always finds an agent that can take its best good and keep the market fully housed. So
+  **YRMH-F** (YRMH-IGYT with that guard) outputs a maximum u-first SD outcome whenever one exists.
+  - Random check: n = 5–8, 43,572 pairs, no exception.
+- **YRMH-F is the candidate canonical rule (RF-canon).**
+  - It works on all data above.
+  - It also works at ksens's k = 5 twin instance. There the rotation of the first listed order is the twin image of Y
+    and fails, and with it K4.SDC.RF's every-form. The ejection chain avoids the image.
+  - At k = 4, RF-canon follows from K4.SDC.RF alone.
+  - Open: a proof of K4.SDC.RF (or of RF-canon) at k = 4; and whether YRMH-F avoids automorphic images at k = 5 in
+    general, where only the coordinator's amended every-form is safe.
+- **Lemma C13 (§14.8)** now carries the referee's hypothesis (0), "nobody but d wants Y′_d" (`k4/referee/ttc_c13.md`).
+  - The X_d step cites (0).
+  - The referee's counterexample without (0) is replayed (`c13_cex_fix0.log`).
+  - (0)–(4) hold at all 7,733 (1, 3) starts, and the {x, y} twin fact holds at all 7,733.
+
 ## Status (burst 7): R2 is owned here: CERTIFIED at n ≤ 4, REFUTED at n = 5 (§14.6, `attempts/k4-ttc-r2-n5.md`); at n = 4 its repairs are (S), (L) or (E)
 
 - **R2** (leaf 5a of the case tree, `k4/oc1_hall.md` §23.2): at a perfect serial-dictatorship start with at least two
@@ -1442,6 +1468,168 @@ is applied here).**
   so each values at most one more junk good, worth less than its pick. The value condition at the 485 is where the
   argument has to use values, not counts.
 - DEMOTE-0 stays with girth.
+
+### 14.9 Which receiver-first order: at k = 4 only maximality matters, and a TTC pointer rule keeps it
+
+**The task** (coordinator, 06:36). Find a canonical RF∃ rule, i.e. which listed order o to rotate, or which u-first
+order to take. It must work at k = 4 on all data, and at k = 5 on ksens's instances.
+- *The coordinator's datum (06:37):* rank rules cannot break the twin tie at the k = 5 instance. A canonical rule must
+  therefore use the order or the labels, or be stated up to automorphisms. It proposed the **amended every-form:**
+  every u-first maximum-matching SD outcome that is not the image of Y under an automorphism of the instance
+  satisfies OC₁.
+
+**Setting and rules** (`k4/ttc/rf_rules.py`, `k4/ttc/rf_diag.py`). Y is a failing start, o a listed order giving Y,
+and u a receiver of Y. Every rule outputs the SD outcome of some order that starts with u.
+- **ROT:** the rotation (u, o − u), for the first listed o, every listed o, or some listed o.
+- **SHORT:** among the rotations of the listed orders, the one changing the fewest picks.
+- **YRMH:** You-Request-My-House-I-Get-Your-Turn (Abdulkadiroğlu–Sönmez 1999), read as an SD order. The queue is
+  (u, o − u), and the tenancy is Y. When the head takes Y_b for an agent b still waiting, b moves to the head.
+- **-L (YRMH-L, ROT-L):** adds "you take my last house, I get your turn". If the head is about to take the last
+  available good of a waiting agent c, and the head has another option, c moves to the head first.
+- **-F (YRMH-F, ROT-F):** adds a feasibility guard, defined below via the pointer lemma.
+- **Every-forms** over all (n − 1)! orders that start with u:
+  - *every-max:* every u-first SD outcome that is a maximum matching satisfies OC₁;
+  - *AUT-every:* the coordinator's amended form, which also excludes automorphic images of Y;
+  - *RF-exists:* some u-first maximum outcome satisfies OC₁.
+
+A rule *works* at a start if its outcome is a maximum matching satisfying OC₁, by the raw checker
+`k4/sdc/oc1_mc2_rand.Inst.check`, any k. Outcomes are classified as pickless (not maximum), image (an automorphic
+image of Y), ok, or fail.
+
+**Data:**
+- n = 4: the certifier's export of all failing pairs, 112,880 starts;
+- n = 5: the certifier's sel2 and partial6 exports, 583,680 + 702,250 starts, all with one receiver;
+- the five two-receiver n = 5 R2 failures, from `r2_two_receiver_fails_n5.jsonl` on `compute/k4-oc1max-cert`;
+- ksens's k = 5 twin instance (`claude/k4-ksens`).
+
+**Results** (starts where the rule works; for the two-receiver starts, the rule works for every receiver):
+
+| rule | n = 4 (112,880) | n = 5 sel2 (583,680) | n = 5 partial6 (702,250) | n = 5, two receivers (5) | k = 5 twins (1) |
+|---|---|---|---|---|---|
+| ROT, first listed o | all | all | 698,790: 3,460 pickless (#374) | 4: #650, receiver 1 pickless | image: fails |
+| ROT, some listed o | all | all, every 10th start | 69,872 / 70,225, every 10th start | 4 | works |
+| SHORT | all | all, every 10th start | 69,872 / 70,225, every 10th start | 4 | fails |
+| YRMH, first listed o | all | all | 643,106: 59,144 pickless (#379) | 5 | works |
+| YRMH-L, every listed o | all | all | all | 5 | works |
+| ROT-F | all | all | all | 5 | image: fails |
+| **YRMH-F** | **all** | **all** | **all** | **5** | **works** |
+| every-max (K4.SDC.RF) | all | all | all | 5 | fails (the image) |
+| AUT-every | all | all | all | 5 | holds |
+
+Sources:
+- `rf_diag_n4.log`, `rf_diag_n5_sel2.log`, `rf_diag_n5_partial6.log`, `rf_diag_r2two_n5.log`, `rf_diag_rf5.log`;
+- every 10th start: `rf_rules_n5_*_stride10.log`;
+- n = 4 SHORT: `rf_rules_n4.log`;
+- two receivers: `rf_rules_r2two_n5.log`;
+- twins: `rf_rules_rf5.log`.
+
+Every outcome that is not "works" in this table is pickless or the twin image; no u-first maximum outcome fails OC₁ at
+k = 4.
+
+**Finding 1: at k = 4, maximality is the only obstruction.**
+- *The every-max form holds on all data.* Every u-first SD outcome that is a maximum matching satisfies OC₁. This is
+  ledger row K4.SDC.RF ("some order with u first gives a maximum matching and every such order satisfies OC₁").
+  - The certifier checks it on the same exports (`k4/oc1cert/good_orders.py --rf`, `rf_two_move_starts_n5_*.log` on
+    `compute/k4-oc1max-cert`).
+  - The counts here agree exactly: 3,473,619 maximum u-first vectors checked and 62,604 non-maximum ones excluded at
+    partial6, and 1,676,160 and 0 at sel2.
+  - The enumeration and classification are this workstream's code. The serial dictatorship and the OC₁ checker
+    (`oc1_mc2_rand.Inst`) are the certifier's too. So this replicates the counts; it is not an independent check of
+    OC₁.
+  - Automorphisms play no role at k = 4. 1,280 of the n = 4 starts have a nontrivial automorphism, but no u-first
+    outcome there is an image of Y. So AUT-every and every-max coincide on this data.
+- *Every rule failure is pickless.* Every failure of ROT, SHORT, YRMH, YRMH-L and ROT-L is a pickless outcome, never
+  an OC₁ failure.
+- So at k = 4, wherever RF holds, a canonical RF∃ rule only has to pick a u-first order whose SD outcome is a maximum
+  matching. That is a matching question, not an EFX question.
+- *The per-order form fails at n = 5, even in its weakest reading* (some listed order, some receiver). At the 3,460
+  ROT-pickless starts (all on 5_pure#374) there is one receiver and one listed order, and its rotation is pickless.
+  - So "move u to the front of the failing order" fails there, even with "some receiver".
+  - These are Hall's 3,460 pickless rotations (`k4/oc1_hall.md` §24.10), where main's statement of RF holds through
+    other u-first orders.
+  - This also answers §14.7's "what a proof of RF must show": the rotation can leave an agent pickless.
+
+The two pickless patterns at n = 5, which lie on two hypergraphs:
+- **5_pure#374, the rotation.** sets [[0,1,5,7],[1,4,5,7],[2,3,4,6],[2,3,6,7],[4,5,6,7]], vals
+  [[2,3,10,6],[3,7,6,5],[3,5,6,7],[5,4,8,6],[6,5,8,4]], Y = (g1, g5, g4, g6, g7), o = (3, 2, 1, 4, 0), u = 0.
+  - ROT (0, 3, 2, 1, 4) gives (g5, g7, g4, g6, —): agent 4's goods {g4, g5, g6, g7} are all taken before its turn.
+  - YRMH's ejection chain 0 → 1 → 2 → 3 → 4 ends at agent 4 with the same four goods taken.
+- **5_pure#379, YRMH.** sets [[0,1,4,5],[1,3,4,7],[2,3,6,7],[2,5,6,7],[3,4,5,6]], vals
+  [[4,1,6,8],[3,10,6,2],[3,6,7,5],[4,6,8,5],[4,2,8,5]], Y = (g5, g1, g3, g6, g4), o = (0, 3, 2, 4, 1), u = 1.
+  - The ejection chain 1 → 2 → 3 → 0 → 4 runs through every agent, and agent 4 is left with nothing.
+  - ROT is fine here.
+- In both, a waiting agent's last good is taken. YRMH-L and YRMH-F agree on both: (g5, g4, g6, g2, g7) at #374 and
+  (g0, g3, g6, g5, g4) at #379, both perfect and satisfying OC₁.
+
+**Finding 2: at k = 5 the rotation produces the twin image.** At ksens's instance:
+- Y = (g6, g5, g4, g3) fails OC₁, and the receiver is 2. Agents 2 and 3 are twins (the same goods and values), so
+  swapping them is an automorphism.
+- The rotation of the first listed order (1, 0, 3, 2) gives (g6, g5, g3, g4). That is Y's image under the swap, and
+  it fails like Y.
+- The other two listed orders rotate to good outcomes. So the rotation works only with the right listed order, and
+  nothing in the ranks picks it out.
+- YRMH from every listed order gives the order (2, 3, 1, 0) and the outcome (g1, g6, g3, g5), and the picks complete.
+  2 takes g3 = Y_3, so twin 3 picks next and takes g5 = Y_1; then 1 takes g6 = Y_0, and 0 takes the free g1. The
+  ejection becomes a chain, and the twins do not swap.
+- YRMH reads the tenancy Y, not only the ranks, so the coordinator's obstruction does not apply to it.
+- Of the six u-first outcomes, the image is the only bad one, so AUT-every holds.
+
+**Lemma PTR (the pointer lemma; proved).**
+- *Setting:* a state is a queue Q of agents still to pick, the set A of goods still available, and a target t, the
+  number of further picks the outcome needs. The state is *feasible* if the bipartite acceptability graph on (Q, A)
+  has a matching of size ≥ t. M is a maximum matching of (Q, A).
+- *Pointers:* every agent c ∈ Q with an available good points to its best good b(c) ∈ A, and every good g matched in
+  M points to its M-partner.
+- *Claim:* if the state is feasible, then on the pointer walk from any a ∈ Q, a → b(a) → M-partner → b(·) → …, some
+  agent c can take b(c) with the state staying feasible (target t − 1 for Q − c and A − b(c)). The first such agent is
+  reached before the walk repeats an agent.
+- *Proof:*
+  - A matched agent c whose pointer b(c) is M(c), or a good free in M, can take it: M, or M − (c, M(c)) + (c, b(c)),
+    is a matching of size |M| ≥ t containing (c, b(c)).
+  - An unmatched head a whose pointer is free in M can take it: M + (a, b(a)) has size ≥ t.
+  - Otherwise the walk moves to the M-partner of b(c), an M-matched agent.
+  - Suppose the walk repeats an agent, c_i → … → c_j = c_i. Rotating M along that cycle (each c_l takes b(c_l)) gives
+    a matching of size |M| that contains (c_i, b(c_i)). So c_i could take its pointer, and the walk would have
+    stopped at c_i on its first visit, a contradiction. ∎
+
+**Rule YRMH-F** (`rf_diag.feasible_sd`). The queue is (u, o − u), the tenancy is Y, and the target is |Y|.
+- At each step, M is fixed: Kuhn's algorithm on the queue in queue order, trying goods in the agent's order.
+- If the head's best good keeps the state feasible, the head takes it. Otherwise the first feasible agent on the head's
+  pointer walk picks first: "you request my house in M, I get your turn".
+- After each pick, YRMH's ejection applies: the waiting holder of the taken Y-pick moves to the head.
+- ROT-F is the same rule without the ejection.
+- Every agent takes its best available good when it picks, so the outcome is the SD outcome of the realized order.
+
+**Corollary RF-MAX (proved).** Let Y be a maximum SD outcome and u any agent with top good t_u. Some u-first SD order
+gives a maximum outcome ⟺ some maximum matching gives t_u to u. In that case YRMH-F and ROT-F, from any order,
+output such an outcome, with u first.
+- *Proof:* (⟹) is clear. (⟸): after u takes t_u, the state is feasible. By Lemma PTR every later step keeps it
+  feasible, so the outcome reaches |Y|. u is first because the head u's pointer t_u is feasible.
+- *Random check of the matching statement* (`rf_maxcheck.py`, `rf_maxcheck.log`): random K4.MC2 cores, n = 5–8,
+  43,572 (start, receiver) pairs.
+  - YRMH-F and ROT-F are always maximum, and put u first exactly at the 43,474 pairs where some u-first order is
+    maximum.
+  - Not maximum: ROT 2,149 times, YRMH 736 times, YRMH-L 363 times.
+  - At the failing starts of the exports, a maximum u-first outcome always exists (RF-exists).
+
+**What this gives.**
+- **Rule RF-canon (YRMH-F), stated as a conjecture:** at every failing start and every receiver u, YRMH-F's outcome
+  from the first listed order is a maximum matching with u first, and satisfies OC₁.
+  - That outcome is a maximum-matching SD outcome, so RF-canon gives OC₁^∃max just as K4.SDC.RF does.
+- **At k = 4,** RF-canon is implied by K4.SDC.RF alone.
+  - K4.SDC.RF's existence clause ("some order with u first gives a maximum matching") is, by Corollary RF-MAX,
+    exactly the condition that u's top good lies in some maximum matching.
+  - So YRMH-F's outcome is a maximum u-first outcome, and K4.SDC.RF's every-clause gives OC₁ there.
+  - RF-canon holds on all data: 112,880 + 583,680 + 702,250 starts and the five two-receiver starts.
+  - A proof may study one order instead of all maximum u-first orders.
+- **RF-canon is weaker than K4.SDC.RF, but still gives OC₁^∃max.** It names one order to study, and at k = 5 it
+  survives where K4.SDC.RF's every-form fails (ksens's twins: the image).
+  - Nothing yet guarantees that YRMH-F avoids automorphic images in general, so the amended every-form (AUT-every) is
+    the safe statement there.
+  - ksens's k = 5 CEGAR runs found only this one failure, so the k = 5 test is a single instance.
+- **TTC reading:** the ejection turns the receiver's pick into an exchange chain, as in YRMH-IGYT. The guard is TTC's
+  own pointer graph on a reference maximum matching. Its walks end at a vacant house or close a cycle, which is
+  exactly what keeps the market fully housed.
 
 ## 12. Next steps
 

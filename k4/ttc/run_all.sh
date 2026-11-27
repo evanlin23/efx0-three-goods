@@ -115,3 +115,6 @@ python3 rf_diag.py export /tmp/two_move_starts_n4.json.gz 1 /tmp/rf_diag_n4.json
 python3 rf_diag.py export /tmp/two_move_starts_n5_partial6.json.gz 1 /tmp/rf_diag_partial6.jsonl > $L/rf_diag_n5_partial6.log
 python3 rf_diag.py export /tmp/two_move_starts_n5_sel2.json.gz 1 /tmp/rf_diag_sel2.jsonl > $L/rf_diag_n5_sel2.log
 python3 rf_maxcheck.py 3000 2 5 8 > $L/rf_maxcheck.log
+python3 rf_rules.py export /tmp/two_move_starts_n5_sel2.json.gz 10 > $L/rf_rules_n5_sel2_stride10.log
+python3 rf_rules.py export /tmp/two_move_starts_n5_partial6.json.gz 10 > $L/rf_rules_n5_partial6_stride10.log
+python3 rf_rules.py jsonl /tmp/r2_two_receiver_fails_n5.jsonl > $L/rf_rules_r2two_n5.log
