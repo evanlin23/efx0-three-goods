@@ -1,0 +1,21 @@
+$ python3 rs_dual_rand.py cores:4:3000:301
+instances 3000
+  2 ('D1', 'M', 'all dangerous slack')
+  9 ('D1', 'M', 'some dangerous tight')
+  3371 ('D1', 'P', 'all dangerous slack')
+  1058 ('D1', 'P', 'some dangerous tight')
+  3 ('D2', 'NO canonical tight chain')
+  8 ('D2', 'canonical tight chain repairs')
+  3 ('D2wide', 'NO repair inside the tight closure')
+  8 ('D2wide', 'a repair inside the tight closure')
+  11 ('RS-optimal', 'M')
+  4429 ('RS-optimal', 'P')
+violations: 8
+   ('D2wide fails', 'core4:2356', [[3, 5, 7, 6], [2, 3, 4], [4, 2, 3], [4, 3, 2]], (4, 1, 5, 3))
+   ('D2 fails', 'core4:2356', [[3, 5, 7, 6], [2, 3, 4], [4, 2, 3], [4, 3, 2]], (4, 1, 5, 3))
+   ('D1 fails', 'core4:2548', [[4, 6, 3, 8], [6, 7, 10, 2], [3, 4, 2], [4, 3, 2]], (4, 2, 5, 3))
+   ('D2wide fails', 'core4:2548', [[4, 6, 3, 8], [6, 7, 10, 2], [3, 4, 2], [4, 3, 2]], (4, 2, 5, 3))
+   ('D2 fails', 'core4:2548', [[4, 6, 3, 8], [6, 7, 10, 2], [3, 4, 2], [4, 3, 2]], (4, 2, 5, 3))
+   ('D1 fails', 'core4:2976', [[3, 8, 6, 10], [7, 10, 2, 4], [4, 2, 3], [3, 4, 2]], (5, 4, 2, 6))
+   ('D2wide fails', 'core4:2976', [[3, 8, 6, 10], [7, 10, 2, 4], [4, 2, 3], [3, 4, 2]], (5, 4, 2, 6))
+   ('D2 fails', 'core4:2976', [[3, 8, 6, 10], [7, 10, 2, 4], [4, 2, 3], [3, 4, 2]], (5, 4, 2, 6))
