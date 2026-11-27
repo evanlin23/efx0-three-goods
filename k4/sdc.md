@@ -2199,5 +2199,15 @@ OC₁ is checked with the raw checker `oc1_mc2_rand.Inst.check`.
   - Girth: at n = 5 the RF start is σ-maximal at 0 of the 113,484 DEMOTE-0 starts and 0 of the 7,733 (1, 3) starts.
   - At n = 4 the hard classes do occur at σ-maximal starts: (1, 0) 5,840, (1, 1) 20,080, (1, 2) 1,920. They are covered
     there by the certificate.
-  - A proof at n ≥ 5 could aim at: σ-maximal ⟹ |U| ≥ 2, or |U| = 1 with |D_T| = 1. The remaining classes would then
-    close by the proved lemmas: RF-T for the trade, the K chains of RF-B′ and Corollary U1, and the picks completing.
+  - **Plan (a), "σ-maximal ⟹ |U| ≥ 2 or (|U|, |D_T|) = (1, 1)", is FALSE** (Hall, `k4/oc1_hall.md` §24.14,
+    `results/k4_oc1_hall/rf_rkmax_rand.log`). The vanishing above is a bias of the 9 exported hypergraphs.
+    - Counterexample: 5_pure #358, sets [[0,1,4,5],[1,3,6,7],[2,3,6,7],[2,4,5,7],[4,5,6,7]], vals
+      [[17,4,2,19],[13,14,20,16],[2,16,20,17],[5,17,15,7],[20,17,4,8]].
+    - The σ-maximal vectors are (5,7,6,2,4) and (5,6,7,2,4), with σ = (3,1,0,1), the single receiver 3 and junk
+      {0,1,3}. Hall's classification is (1, 2); OC₁ holds after one move.
+    - The coordinator replayed it: the same σ-optima, receiver set {3}, junk {0, 1, 3}, and "one move repairs". This
+      profile has no failing start at all, which is why it is outside the exports.
+    - Random census, 60 strict profiles per pure n = 5 core (280,380 profiles): 178 of 432,385 σ-maximal vectors have
+      one receiver. By class: (1, 0) 161, of which 21 need a move; (1, 1) 12; (1, 2) 5, all needing a move.
+    - No OC₁ failure at any σ-maximal vector, so RKMAX survives. A proof still needs DEMOTE-type arguments for
+      one-receiver σ-maximal starts, which are much rarer than at RF starts.
