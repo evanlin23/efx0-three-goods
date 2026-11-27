@@ -1,0 +1,28 @@
+$ python3 k4/sdc/rf_canon_absorber.py 50
+starts 4835
+Z complete 4497
+Z complete: None or last receiver absorbs: False 1201
+Z complete: None or last receiver absorbs: True 3296
+Z complete: every receiver at Z absorbs: False 1612
+Z complete: every receiver at Z absorbs: True 2885
+Z complete: last pick holder is a receiver at Z: True 4497
+Z complete: last pick holder of the realized order absorbs: False 1398
+Z complete: last pick holder of the realized order absorbs: True 3099
+Z complete: some absorber is none (all junk singletons) 1713
+Z complete: some absorber is other (wanted pick) 1229
+Z complete: some absorber is receiver 4492
+Z complete: some absorber is u 646
+Z complete: some absorber is u+receiver 496
+Z complete: some receiver-at-Z (incl. u, pickless) absorbs: True 4497
+Z complete: the receiver at Z latest in the realized order absorbs: False 1398
+Z complete: the receiver at Z latest in the realized order absorbs: True 3099
+Z complete: u absorbs: False 3355
+Z complete: u absorbs: True 1142
+Z complete: u or a pickless agent or None absorbs: False 2600
+Z complete: u or a pickless agent or None absorbs: True 1897
+Z move: some (move, absorber) with absorber none (all junk singletons) 401
+Z move: some (move, absorber) with absorber other (wanted pick) 268
+Z move: some (move, absorber) with absorber receiver 348
+Z move: some (move, absorber) with absorber u 65
+Z move: some (move, absorber) with absorber u+receiver 152
+Z needs a move 401

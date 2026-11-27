@@ -1,0 +1,10 @@
+$ python3 k4/sdc/rec_rank_check.py ../../results/k4_oc1max/n5/two_move_starts_n5_partial6.json.gz   (run on a byte-identical scratch copy)
+REC-LOW (every receiver holds rank >= 3): True 702250
+receiver holds rank 3 of 4 220958
+receiver holds rank 4 of 4 481292
+starts 702250
+starts with 1 receivers 702250
+
+real	0m31.855s
+user	0m43.017s
+sys	0m2.338s

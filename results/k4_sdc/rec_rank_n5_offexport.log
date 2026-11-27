@@ -1,0 +1,11 @@
+$ python3 k4/sdc/rec_rank_check.py ../../results/k4_rf_offexport/rf_walk_n5_stored_fails.jsonl.gz
+REC-LOW (every receiver holds rank >= 3): True 241728
+receiver holds rank 3 of 4 76657
+receiver holds rank 4 of 4 168338
+starts 241728
+starts with 1 receivers 238461
+starts with 2 receivers 3267
+
+real	0m15.013s
+user	0m22.092s
+sys	0m1.182s

@@ -1,0 +1,5 @@
+$ python3 k4/sdc/rec_rank_check.py extra
+N3K5 (k=5, n=3) ['REC-LOW (every receiver holds rank >= 3): True', 'receiver holds rank 3 of 3']
+n3_m6_93 (k=5, n=3) ['REC-LOW (every receiver holds rank >= 3): True', 'receiver holds rank 3 of 4']
+RF5 (k=5, n=4) ['REC-LOW (every receiver holds rank >= 3): True', 'receiver holds rank 4 of 4']
+5_pure #440 (k=4, n=5) ['REC-LOW (every receiver holds rank >= 3): True', 'receiver holds rank 4 of 4']

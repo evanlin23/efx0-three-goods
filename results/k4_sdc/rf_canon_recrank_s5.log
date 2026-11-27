@@ -1,0 +1,22 @@
+$ python3 k4/sdc/rf_canon_recrank.py 5
+starts 48346
+  in the REC-LOW shape: also in the FAIL-STRUCT0 shape: False -> one move repairs 1546
+  in the REC-LOW shape: also in the FAIL-STRUCT0 shape: False -> picks complete 812
+  in the REC-LOW shape: also in the FAIL-STRUCT0 shape: True -> one move repairs 575
+  in the REC-LOW shape: also in the FAIL-STRUCT0 shape: True -> picks complete 976
+Z escapes the REC-LOW shape: False -> one move repairs 2121
+Z escapes the REC-LOW shape: False -> picks complete 1788
+Z escapes the REC-LOW shape: True -> one move repairs 1965
+Z escapes the REC-LOW shape: True -> picks complete 43127
+min receiver rank at Z: 1 13043
+min receiver rank at Z: 2 32049
+min receiver rank at Z: 3 2082
+min receiver rank at Z: 4 1827
+pairs 49001
+u rank at Z 1 49001
+u receiver at Z: False 43203
+u receiver at Z: True 5798
+
+real	0m34.460s
+user	2m6.732s
+sys	0m0.810s
