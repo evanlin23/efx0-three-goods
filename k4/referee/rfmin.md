@@ -44,7 +44,8 @@ holds." This needs a receiver u of the failing start Y. Two current readings of 
   receiver, so RF gives nothing there.
 - *In Lean* (`ConjRFWith`): `∃ u, (Receiver u ∧ ∀ u', Receiver u' → u' = u) ∧ …`. This has existence, but also
   uniqueness. At the four n = 5 two-receiver starts of K4.SDC.R2.N5 (OC₁-failing, maximum-matching, strict connected
-  cores), uniqueness fails, so **`ConjRF` as formalized is false**. The docstring says "only the second and third parts
+  cores; coordinator's replay `r2_n5_cex_check.log`, not re-replayed here), uniqueness fails, so **`ConjRF` as
+  formalized is false**. The docstring says "only the second and third parts
   of RF are used", but the proof takes u from the first part's existence claim. Only uniqueness is unused.
 
 **Lemma REC-∃ (referee; proof below).** Take any instance, ties allowed, with SD index tie-breaking, and Y = SD(σ) a
