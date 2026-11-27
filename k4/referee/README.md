@@ -31,6 +31,7 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 18 | Lemma R1, starved-agent certificate (`kgen/rounds.md` §1, `a33b135`); RD5⁺, C4G, two types | `proof/kgen-rounds` | `rounds_r1.md` | **CORRECT**; refutations of ROUND⁺ **CONFIRMED**; §3.1's printed two-round repair of RD5⁺ needs a fix (no t = 0 addition in round 1) |
 | 19 | Proposition H (`kgen/n3.md` §10, `eb95583`): OC₁ at n = 3 for every k ⟹ three-agent EFX₀ | `claude/kgen-n3` | `proph.md` | **CORRECT WITH FIXES** (sign of the t-difference in the displayed inequality; conclusion unaffected) |
 | 20 | Lemma EC (envy-cycle rotation) and the stuck-state consequence (`k4/girth.md` §5, `235bca4`) | `claude/k4-girth` | `girth.md` §6 | **CORRECT** (state that (3) holds when parking starts, as it does after Algorithm 2) |
+| 21 | Certifier (evidence): the 11 n = 4 OC₁^max counterexamples; a sample of the OC₂^max witnesses (`k4/oc1cert.md`, `fa8e971`) | `compute/k4-oc1max-cert` | `oc1cert.md` | **CONFIRMED**: 11/11 counterexamples (incl. ordinality); 35,858 sampled + 30,222 near-cex starts covered by validated witnesses, 0 failures |
 | – | Literature: EFX₀ for n = 2 | – | `lit_n2.md` | Plaut–Roughgarden Thm 4.3 (EFX₀, monotone) covers existence; not `kgen/n3.md` Theorem 2 (picks kept / one chain) |
 
 **Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the
