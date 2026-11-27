@@ -1,3 +1,6 @@
 $ python3 k4/ksens/kcegar_batch.py named6 2 --jobs=1 --limit=3000 --grid6=/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz --ckpt=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_named_D2_grid48.ckpt.jsonl
 checkpoint /home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_named_D2_grid48.ckpt.jsonl: 0 done ({}), 18 to go
 hypergraphs 18
+$ python3 k4/ksens/kcegar_batch.py named6 2 --jobs=1 --limit=3000 --grid6=/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz --ckpt=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_named_D2_grid48.ckpt.jsonl
+checkpoint /home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_named_D2_grid48.ckpt.jsonl: 0 done ({}), 18 to go
+hypergraphs 18
