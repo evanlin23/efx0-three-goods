@@ -1075,7 +1075,8 @@ maximum-matching SD vector whose rank signature σ = (#rank 1, …, #rank 4) is 
 - n = 4: 111,600 of 111,600 profiles of the complete failure export. With the certifier's certificate, this is a
   certificate at n = 4 once a second implementation agrees (d1 asked).
 - n = 5: 583,680 of 583,680 profiles of the complete lists of 5_pure #419, #447, #38, the hardest cores (RSD-IND and REC-S
-  counterexamples). Leximin and minimum rank sum hold too. The partial6 lists are running.
+  counterexamples). Leximin and minimum rank sum hold too. On the six partial lists it holds at all 700,500
+  profiles; the σ-optimal picks complete outright at 99.6% of vectors.
 - Why it matters: RKMAX ⟺ "every failing start has a σ-larger maximum-matching SD vector". The witness need not satisfy
   OC₁, so a proof needs a structural signature-raising step at a failing start, not RF's completion half.
 - At every failing pair some receiver-first vector raises σ (112,880 of 112,880), so RKMAX is RF's potential form.

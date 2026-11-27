@@ -2173,7 +2173,10 @@ OC₁ is checked with the raw checker `oc1_mc2_rand.Inst.check`.
   - The σ-maximal vectors satisfy OC₁ at all 583,680; so do the LMR- and RS-optimal ones.
   - No exported failing vector is σ-optimal.
   - The lists are complete, so this certifies RKMAX on these three cores, from one implementation.
-  - The six partial lists are running (`extremal_rank_n5_partial6.log`).
+- **n = 5, the six partial lists** (5_pure #164, #374, #379, #464, #778, #808; `two_move_starts_n5_partial6.json.gz`;
+  `results/k4_sdc/extremal_rank_n5_partial6.log`). These lists are partial, so the result is EVIDENCE.
+  - RKMAX holds at all 700,500 profiles; so do LMR and RS.
+  - At the 1,305,032 σ-optimal vectors, the picks complete at 1,299,946. Only 5,086 (0.4%) need one move.
 - **RF and σ** (`rm_path_check_n4.log`). At every failing pair (Y, u), some u-first maximum-matching order raises σ:
   112,880 of 112,880. The rotation (u, o − u) of a listed order o raises σ at 111,600 pairs.
   - If no ejected agent of RF-PATH holds its top good, σ rises at level 1, because u moves to rank 1. That happens at
