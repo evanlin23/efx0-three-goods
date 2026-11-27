@@ -618,6 +618,11 @@ to the front of o.
   (18,800), U → D (11,520), U → D → D_T (70,720), U → F → D_T (24,960). The last agent of the path always loses value
   (it picked before the receiver in o, when its new good was still available), so RF is not value-monotone, unlike
   OC₁'s moves. The truly dangerous agent that drops to a junk good is exactly the n = 4 mechanism of P\*.
+- Who absorbs (`k4/girth/oc1_rf_owner.py`, `results/k4_girth_oc1_rf_owner.log`; every 97th n = 4 failing order and all
+  86 at n = 5; raw EFX₀): the RF picks complete at once in 2,716 of 3,011 (n = 4) and 76 of 86 (n = 5) cases, and in
+  **every one of them a one-absorber completion exists whose owner is an agent that RF made worse off** (a dropped
+  agent; at n = 4 also with no owner in 2,177, with the receiver as owner in only 17). The other 295 and 10 need one
+  move. A proof of RF could start there: demote the dangerous agent along the path, and let it absorb the junk.
 - The coordinator's other candidates (exhaustive at n = 4 / raw at n = 5): "the receiver just before its pick-swap
   partner" works on every order where it applies (213,760 of 213,760; 86 of 86); "swap the two agents of some Berge
   2-cycle" and "some adjacent transposition" work everywhere; **"swap the two truly dangerous agents" fails on 7,680 of
@@ -669,6 +674,7 @@ python3 attempts/k4_girth_uniform.py                            # §6 no labelin
 python3 k4/girth/oc1_cycles.py 300 1                            # §7 cycle patterns at OC1^max failures -> results/k4_girth_oc1_cycles.log
 python3 k4/girth/oc1_recvfirst.py                               # §7 Rule RF, exhaustive at n = 4 -> results/k4_girth_oc1_recvfirst.log
 python3 k4/girth/oc1_orders.py 150 2                            # §7 reorders, raw checker on a sample -> results/k4_girth_oc1_orders.log
+python3 k4/girth/oc1_rf_owner.py 97                             # §7 owners of the completions at the RF picks -> results/k4_girth_oc1_rf_owner.log
 ```
 Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
 partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).
