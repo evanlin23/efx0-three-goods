@@ -1,1 +1,10 @@
 $ python3 k4/haxell/ht_n4core.py MODE=sample N=200 MMIN=4 MMAX=8 SEED=11 PROCS=2 MARGS=3,1,19,1
+cores 780 instances sent 156000 skipped (more than PMAX profiles) {} return codes [0, 0]
+instances 156000
+instances with a stuck state phi0 32
+instances with a stuck state phi19 0
+partial EFX0 states 499517909
+stuck states phi0 60
+stuck states phi19 0
+cores with a stuck instance for phi19: 0 []
+time 3711 s

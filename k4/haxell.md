@@ -671,6 +671,54 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
         escapes.
       - So at n = 5 the radius did not grow past three, and the two-move failures of n = 4 do not survive a fifth
       agent without help from the climber. This is evidence (climbs), not exhaustion.
+  - **Sampled core profiles** (`run_p3cores.sh`; `n4core_p2_sample_cert.log`, `n4core_p3_sample_cert.log`). The
+    sample takes 200 random certificate-domain type profiles of each of the 780 n = 4, k = 4 cores with 4 ≤ m ≤ 8:
+    156,000 instances and 499,517,909 partial EFX₀ states. P^sub is ordinal, so each sampled profile is checked
+    exactly; only the sampling makes this evidence.
+    - *Two moves*: 3 stuck states, one in each of 3 profiles. All three cores have m = 7, three agents with four goods
+      and one with three (`k4_certs_4_n4_3`, idx 4, 70, 72; the instance lines are the `STUCK` lines of the log).
+      At all three, welfare and leximin do have two-move steps (`gstar_measure 2 1 1 1` and `2 1 2 1`), so these
+      failures are Pareto-only. That is consistent with P^sub being strictly stronger than W^sub and L^sub.
+    - *Three moves* (`gstar_measure 3 1 19 1`): **no stuck state in any of the 156,000 profiles.** At the three
+      two-move failures, three single-good moves also suffice (`3 1 19 0`).
+    - So two-move Pareto failures are rare on cores (3 in 156,000 profiles), and three moves covered every sampled
+      profile. Exhausting every profile is out of reach (up to 288³ · 6 per core, before symmetry; see "Why every
+      profile cannot be covered" below).
+    - The same with every strict type allowed (unbalanced ones too, `DOMAIN=strict`; 100 profiles per core):
+      `run_p3cores_strict.sh`, `n4core_p{2,3}_sample_strict.log`.
+  - **Anatomy of the three-move steps** (`ht_rescue.py`, pure Python from the raw definition, no code shared with the
+    C checker; `rescue_anatomy.log`). The input is all 44 known two-move failures:
+    - the 36 welfare states and the 4 leximin states at n = 4;
+    - the n = 5 Pareto failure;
+    - the 3 core-sample failures.
+    
+    The script re-checks that each state has no step within two moves, then lists every three-move composite that
+    reaches a smaller pool or a Pareto improvement.
+    - **Every failure has a three-move composite that shrinks the pool** (36 to 330 per failure). So the failures are
+      not plateaus of the measure: the pool can shrink, it just takes three moves. Pool-shrinking alone is still not
+      enough in general. In the core sample, no three moves shrink the pool at 60 states (in 32 profiles; φ0 of
+      `n4core_p3_sample_cert.log`), and each of those states has a two-move Pareto step.
+    - Every failure has a rescuing composite whose two intermediate states are partial EFX₀ (2 to 26 per failure):
+      three EFX₀ moves, of which the first two do not improve.
+    - 43 of the 44 have a rescue that is a Haxell-type alternating path. First, pooled goods go to an agent a₁ (a
+      transfer from the pool, or a swap of a pooled good with one of a₁'s goods). Then a set or a swap goes from a₁
+      to a₂, then from a₂ to a₃. The exception is the first core failure (`k4_certs_4_n4_3`, m = 7, idx 4), which
+      has no such rescue.
+    - The commonest rescue (at 41 of the 44) has three moves: agent A gives a good to B; A swaps one of its goods for
+      a pooled good; then A, B and C rotate their bundles. Its net flow is P → B, A → B, A → P, B → C, C → A.
+  - **Measure Q** (`gstar_measure` measure 20). From every partial EFX₀ allocation with a nonempty pool, either two moves
+    give a Pareto improvement (with the pool kept), or three moves shrink the pool.
+    - Q implies P^sub₃, and the anatomy suggests it. On the data so far the two failure sets are disjoint:
+      - two moves fail (P^sub) only where three moves shrink the pool;
+      - three moves fail to shrink the pool only where two moves give a Pareto step.
+    - So **Q holds on everything checked**:
+      - the 44 failures (`gstar_measure 3 1 20 1`, and also with single-good moves only, `3 1 20 0`);
+      - the 156,000 sampled core profiles. This follows from the two logs: the sample's 3 P^sub stuck states each have
+        a pool-shrinking three-move composite.
+      - At n ≤ 3 it follows from Theorem N2 and K4.HX.PN3.
+    - Q splits the work: Pareto steps stay local (two moves), and only augmentations get a longer reach, as in an
+      augmenting-path argument.
+    - Climbs that try to break Q: `run_qclimb.sh`, `qclimb_*.log`.
 - *Lemma P^sub₃ (CONJECTURE for every |Rᵢ| ≤ 4).* P^sub with **three** moves. It has a step at all 40 known two-move
   failures: the 36 for welfare and the 4 found by the leximin climbs (`gstar_measure 3 1 19 1`; with single-good moves
   only, `3 1 19 0`, also none stuck). It implies W^sub₃ and L^sub₃ and TARGET₄, and it is the cleanest candidate for
