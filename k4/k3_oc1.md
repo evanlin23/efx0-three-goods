@@ -651,10 +651,13 @@ top-holder. The owner takes the rest. LE is Lemma 1 plus k's slot. It is sound b
 valid state, a bundle of three goods threatens only a top-holder whose pair lies inside it, and k's bundle contains
 no such pair.
 
-**Conjecture T-E.** At every hard perfect draft in the gap of R1C ∪ B\*, every valid Rule E rotation has a
-completion LE with owner (N) nobody, (E) e, or (K) k. If there is no valid Rule E rotation, some DE ring with several
-pair arrows completes. Outside the gap the owner set {N, E, K} is too small (below); with any owner, every rotation
-completes on the data so far.
+**Conjecture T-E** (as first stated; **its every-k form is false at n = 7**, see below). At every hard perfect
+draft in the gap of R1C ∪ B\*, every valid Rule E rotation has a completion LE with owner (N) nobody, (E) e, or
+(K) k. If there is no valid Rule E rotation, some DE ring with several pair arrows completes.
+
+**Conjecture T-E∃ (what survives).** At every hard perfect draft of a ledger core, *some* valid Rule E rotation has
+a completion LE with owner nobody, e or k; or there is no valid Rule E rotation, and some DE ring with several pair
+arrows completes.
 
 Data (`t2k_e.py`; `te_gap_*.log`, `te_gap_fail_owners.log`): every gap draft with n ≤ 6, all rotations.
 
@@ -691,6 +694,16 @@ at n = 5, m = 9, all covered by R1C or B\*, some rotation completes only with th
   by exhaustive search.
 - **Any owner** (`te_any.py`): every valid Rule E rotation completes on every hard perfect draft with n = 4 (3,196)
   and n = 5, m = 9 (4,272).
+
+**The every-k form fails at n = 7** (`attempts/k4-k3oc1-every-k.md`, independent replay
+`attempts/k4_k3oc1_every_k.py`). A gap draft of an n = 7, m = 12 core has one terminal and four exposed agents.
+The rotation of one of them, along its only chain (k, t), has no one-absorber completion with any owner, while the
+other three rotations complete. This kills kgen-n3's T1-E and the every-k form of T-E. Random sample
+(`te_sample.py`, `te_sample7_*.log`): 4,759 hard perfect drafts of the n = 7 cores (3,103 m = 11 cores × 40
+profiles, 541 m = 12 cores × 200), every order.
+- T′_k and T-E∃ have no failure.
+- "Every rotation, any owner" fails on 8 drafts: 3 in the gap, all with |T| = 1, and 5 covered by B\*, with |T| = 2.
+- "Every least-ω′ rotation, N/E/K" fails on 1 draft, covered by B\*.
 
 **The crossed configuration** (64 two-terminal gap drafts at n = 6, one hypergraph; `t2k_gap6_T2.log`,
 `t2k_crossed64.log`).

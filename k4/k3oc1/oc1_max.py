@@ -31,7 +31,7 @@ def exact(rk, m, st, V):
     if is_de(rk, st): return bool(lb2(rk, m, st))
     return completion(rk, m, st, 1, V) is not None
 
-def sources(src):
+def sources(src, rng=None):
     if src.startswith('gen:'):
         from gen_all import gen
         from oc1_general import canon
@@ -39,7 +39,7 @@ def sources(src):
         for sets, m in gen(n): reps.setdefault(canon(sets, n), (sets, m))
         for k in sorted(reps): yield reps[k][0], reps[k][1] + dead
     else:
-        yield from hypergraphs(src, None)
+        yield from hypergraphs(src, rng)
 
 if __name__ == '__main__':
     src = sys.argv[1]; shard, nsh = (int(sys.argv[2]), int(sys.argv[3])) if len(sys.argv) > 3 else (0, 1)

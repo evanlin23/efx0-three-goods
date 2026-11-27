@@ -19,6 +19,11 @@ def hypergraphs(src, rng):
     elif kind == 'certs':
         for c in json.load(gzip.open(os.path.join(ROOT, 'results', 'certs_5_6.json.gz'))):
             if c['n'] == int(a[0]): yield c['sets'], c['m']
+    elif kind in ('certs7', 'certs8'):   # certs7:M -- the distinct hypergraphs of results/certs_7_M.json.gz (cores)
+        seen = set()
+        for c in json.load(gzip.open(os.path.join(ROOT, 'results', 'certs_%s_%s.json.gz' % (kind[5], a[0])))):
+            key = json.dumps(c['sets'])
+            if key not in seen: seen.add(key); yield c['sets'], c['m']
     elif kind == 'rand':
         n, m, cnt = map(int, a)
         for _ in range(cnt):
