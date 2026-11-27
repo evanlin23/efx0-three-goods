@@ -872,6 +872,23 @@ n = 5 residue classes (1, 0), (1, 2), (1, 3). On the n = 5 classes R2 and U1 (ev
 starts (120,597 at Y′ with absorber d, 5,791 after (C) with absorber w) and all 285 U1 starts (after (T), absorber d). It covers RF-A1 (absorber w, sink d), RF-B (absorber d), Lemma
 RF-T (d absorbs the one good Y_u, sink x_{ℓ−1}) and the (1, 3) form (absorber d, sink w, or the reverse).
 
+**The residue classes at rank-maximal starts** (coordinator's question for Conjecture RKMAX, K4.SDC.RKMAX on
+`claude/kind-lamport-y8fdme`: OC₁ holds at every maximum-matching SD vector whose rank signature σ = (#rank 1, …,
+#rank 4) is lexicographically maximal; `k4/girth/oc1_rkmax.py`, `results/k4_girth_oc1_rkmax.log`, its definitions
+re-coded). Is the RF start Y′ σ-maximal for its profile?
+
+| class | n = 4: σ-maximal of RF starts | n = 5: σ-maximal of RF starts |
+|---|---|---|
+| R2 | 51,880 of 67,120 | (not run) |
+| U1 | 960 of 16,320 | (not run) |
+| (1, 0) = DEMOTE-0 | 960 of 34,560 | **0 of 113,484** |
+| (1, 2) = DEMOTE-2 | 1,920 of 43,520 | (oc1-hall's class) |
+| (1, 3) | — | **0 of 7,733** |
+
+The failing start Y is never σ-maximal (0 in every class). So at n = 5 the residue classes DEMOTE-0 and (1, 3) never
+arise at a rank-maximal start: a proof of RKMAX would not meet them there. At n = 4 they arise rarely. RF raises σ at
+most but not all RF starts (n = 5 DEMOTE-0: 104,429 of 113,484; (1, 3): all 7,733).
+
 **Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every
 strict connected k = 4 core, at every serial-dictatorship order o whose picks form a maximum matching and fail OC₁,
 the receiver u is unique, and the order (u, o − u) has maximum-matching picks that satisfy OC₁. With K4.SDC.MAXSD this
@@ -926,6 +943,7 @@ python3 k4/girth/oc1_demote_n5.py two_move_starts_n5_partial6.json.gz 150 7   # 
 python3 k4/girth/oc1_residue_n5.py build PARTIAL6 SEL2 OUT.jsonl.gz 3; python3 k4/girth/oc1_residue_n5.py check OUT.jsonl.gz 3   # §7 -> results/k4_girth_oc1_residue_n5.log
 python3 k4/girth/oc1_trade.py OUT.jsonl.gz 1                    # §7 Lemma RF-T checks -> results/k4_girth_oc1_trade.log
 python3 k4/girth/oc1_sink.py OUT.jsonl.gz 3                     # §7 the SINK form, n = 4 and n = 5 -> results/k4_girth_oc1_sink.log
+python3 k4/girth/oc1_rkmax.py OUT.jsonl.gz 3                    # §7 residue classes at rank-maximal starts -> results/k4_girth_oc1_rkmax.log
 ```
 Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
 partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).
