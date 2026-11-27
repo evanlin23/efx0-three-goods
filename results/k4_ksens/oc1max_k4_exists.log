@@ -1,0 +1,12 @@
+$ (inline) for each of the 11 k = 4 counterexamples: maximum-matching starts, and how many satisfy OC1 / complete at the picks
+#1 maximum-matching starts 7; OC1 holds on 6; complete at the picks (one absorber) 4
+#2 maximum-matching starts 6; OC1 holds on 5; complete at the picks (one absorber) 4
+#3 maximum-matching starts 7; OC1 holds on 6; complete at the picks (one absorber) 4
+#4 maximum-matching starts 10; OC1 holds on 9; complete at the picks (one absorber) 5
+#5 maximum-matching starts 6; OC1 holds on 5; complete at the picks (one absorber) 4
+#6 maximum-matching starts 7; OC1 holds on 6; complete at the picks (one absorber) 4
+#7 maximum-matching starts 8; OC1 holds on 7; complete at the picks (one absorber) 5
+#8 maximum-matching starts 6; OC1 holds on 5; complete at the picks (one absorber) 4
+#9 maximum-matching starts 7; OC1 holds on 6; complete at the picks (one absorber) 4
+#10 maximum-matching starts 6; OC1 holds on 5; complete at the picks (one absorber) 4
+#11 maximum-matching starts 6; OC1 holds on 5; complete at the picks (one absorber) 4

@@ -1,0 +1,11 @@
+$ python3 k4/ksens/xcheck_brute.py 1 40 3 6 8 5 small
+ext False 13
+ext True 55
+ext1 False 13
+ext1 True 55
+instances 40
+md True 68
+oc True 68
+oc1 True 68
+starts 68
+time 0 s

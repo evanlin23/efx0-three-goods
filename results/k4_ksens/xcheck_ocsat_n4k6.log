@@ -1,0 +1,9 @@
+$ python3 k4/ksens/xcheck_ocsat.py 3 150 4 10 6
+ext False 15
+ext True 380
+ext1 False 15
+ext1 True 380
+oc True 395
+oc1 True 395
+starts 395
+time 16 s

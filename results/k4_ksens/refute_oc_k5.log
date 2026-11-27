@@ -1,0 +1,25 @@
+$ python3 k4/ksens/refute_oc_k5.py
+PW5 = [[[0, 5, 6, 7, 8], [1, 5, 6, 7, 8], [2, 5, 6, 7, 8], [0, 1, 2, 3], [0, 1, 2, 4]], [[10, 9, 8, 7, 6], [10, 9, 8, 7, 6], [10, 9, 8, 7, 6], [6, 4, 2, 1], [6, 4, 2, 1]]]
+PW5: n 5, m 9, k 5; 186 complete EFX0 allocations (brute force); 19 distinct starts over 120 orders; mismatches between the two checks: 0
+   starts failing md  : 0 []
+   starts failing ext : 7 ['picks (0, 1, 2, 3, 4) order (0, 1, 2, 3, 4)', 'picks (0, 1, 5, 2, 4) order (0, 1, 3, 2, 4)', 'picks (0, 1, 5, 3, 2) order (0, 1, 4, 2, 3)']
+   starts failing ext1: 7 ['picks (0, 1, 2, 3, 4) order (0, 1, 2, 3, 4)', 'picks (0, 1, 5, 2, 4) order (0, 1, 3, 2, 4)', 'picks (0, 1, 5, 3, 2) order (0, 1, 4, 2, 3)']
+   starts failing oc  : 1 ['picks (0, 1, 2, 3, 4) order (0, 1, 2, 3, 4)']
+   starts failing oc1 : 1 ['picks (0, 1, 2, 3, 4) order (0, 1, 2, 3, 4)']
+   SD-C (some order extends): ocsat True, brute True
+   time 4.4 s
+order (0, 1, 2, 3, 4) picks (0, 1, 2, 3, 4) junk [5, 6, 7, 8]
+   improving chains from these picks (brute force, distinct states): 537
+   states with a free completion: 0 ; with a one-absorber completion: 0
+   picks extend: free False , one absorber False
+   OC from this order: ocsat False brute False ; OC1: ocsat False brute False
+k = 4 version (pool of three goods): [[[0, 5, 6, 7], [1, 5, 6, 7], [2, 5, 6, 7], [0, 1, 2, 3], [0, 1, 2, 4]], [[10, 9, 8, 7], [10, 9, 8, 7], [10, 9, 8, 7], [6, 4, 2, 1], [6, 4, 2, 1]]]
+PW4: n 5, m 8, k 4; 80 complete EFX0 allocations (brute force); 19 distinct starts over 120 orders; mismatches between the two checks: 0
+   starts failing md  : 0 []
+   starts failing ext : 1 ['picks (0, 1, 2, 3, 4) order (0, 1, 2, 3, 4)']
+   starts failing ext1: 1 ['picks (0, 1, 2, 3, 4) order (0, 1, 2, 3, 4)']
+   starts failing oc  : 0 []
+   starts failing oc1 : 0 []
+   SD-C (some order extends): ocsat True, brute True
+   time 0.9 s
+OK: OC and OC1 fail at k = 5 from order (0, 1, 2, 3, 4) ; MD and SD-C hold; the k = 4 version satisfies all four

@@ -1,0 +1,6 @@
+$ python3 k4/ksens/kcegar_batch.py genbg 4 3 1 --jobs=1 --any-start
+hypergraphs 396
+... 100 {'certified': 100} 0 s
+... 200 {'certified': 200} 1 s
+... 300 {'certified': 300} 1 s
+{'certified': 396} time 3 s

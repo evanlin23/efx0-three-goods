@@ -1,0 +1,5 @@
+$ python3 k4/ksens/pw4_search.py 7 60000 3
+instances 60000
+starts 178308
+starts needing a chain 28175
+time 384 s
