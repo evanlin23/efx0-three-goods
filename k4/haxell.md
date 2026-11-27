@@ -652,8 +652,8 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
     - Adding the fifth agent removes every seed's two-move failure: it gives the goods an outlet.
     - *Two moves* (4 seeds × welfare, leximin, Pareto; 500 steps × 2 climbers each): one failure, Pareto from seed 4.
       At that instance welfare and leximin still have two-move steps, and **three moves give a step for every
-      measure**, single-good moves included. There were no welfare or leximin failures. The hardest states kept
-      2–4 (Pareto), 14–16 (welfare) and 8–10 (leximin) escapes.
+      measure**, single-good moves included. There were no welfare or leximin failures. In the other runs the hardest
+      states kept 2–4 (Pareto), 4–16 (welfare) and 2–10 (leximin) escapes.
     - *Three moves*: running (`n5climb_r3_*.log`).
 - *Lemma P^sub₃ (CONJECTURE for every |Rᵢ| ≤ 4).* P^sub with **three** moves. It has a step at all 40 known two-move
   failures: the 36 for welfare and the 4 found by the leximin climbs (`gstar_measure 3 1 19 1`; with single-good moves
