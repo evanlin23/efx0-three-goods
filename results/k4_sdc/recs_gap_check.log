@@ -1,0 +1,9 @@
+5_pure#773 core True MC2 True | orders 6 | perfect True nu 5 | junk [0, 3, 4, 5] | frozen [0, 2, 3, 4]
+   improving pool sets from junk only (|T|<=2): {0: [], 2: [], 3: [], 4: []}
+   OC1: OC1 fails | least moves: 2 | ROUND-P (<=2 disjoint OC1prime moves): 1
+5_pure#963 core True MC2 True | orders 6 | perfect True nu 5 | junk [0, 2, 3, 4] | frozen [0, 2, 3, 4]
+   improving pool sets from junk only (|T|<=2): {0: [], 2: [], 3: [], 4: []}
+   OC1: OC1 fails | least moves: 2 | ROUND-P (<=2 disjoint OC1prime moves): 1
+5_pure#38 core True MC2 False | orders 4 | perfect True nu 5 | junk [0, 1, 4, 6] | frozen [0, 2, 3, 4]
+   improving pool sets from junk only (|T|<=2): {0: [], 2: [], 3: [(4, 6)], 4: [(4, 6)]}
+   OC1: OC1 fails | least moves: 2 | ROUND-P (<=2 disjoint OC1prime moves): 1

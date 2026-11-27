@@ -1,0 +1,10 @@
+$ python3 k4/d1/d1c_check.py special
+  hard 5
+easy   (R) no crowding 2
+easy chains with no improving set (Prop. 3') 1
+easy no-HEAD chains 2
+hard   (R) no crowding 5
+hard no-HEAD chains 5
+instances 4
+starts with D = {k} 7
+time 0 s

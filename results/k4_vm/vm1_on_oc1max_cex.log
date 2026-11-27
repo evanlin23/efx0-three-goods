@@ -1,0 +1,11 @@
+# the 11 OC1^max n = 4 counterexample cores, from results/k4_oc1max/oc1max_cex_n4.json on compute/k4-oc1max-cert (read-only copy of sets and vals)
+$ python3 k4/vm/vm1_fast.py json:results/k4_vm/oc1max_cex_n4_instances.jsonl
+fewest moves 0                 11
+instances                      11
+slowest 0.0 s; time 0 s
+$ python3 k4/vm/vm1_plain.py json:results/k4_vm/oc1max_cex_n4_instances.jsonl
+levels: {'plain': 11} ; time 0 s
+$ python3 k4/vm/vm1_chain.py json:results/k4_vm/oc1max_cex_n4_instances.jsonl --plain
+levels: {'VM1': 11} ; time 0 s
+$ python3 k4/vm/vm1_chain.py json:results/k4_vm/oc1max_cex_n4_instances.jsonl
+levels: {'VM1': 11} ; time 0 s

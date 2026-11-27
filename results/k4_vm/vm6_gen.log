@@ -1,0 +1,21 @@
+$ python3 k4/vm/vm6_test.py gen:3000:43:6:10:20 --variants=x-choice,x-stuck --limit=1000 --samples=100
+instances                            3000
+x-choice: every run EFX0             2838
+x-choice: first run (all choices 0) EFX0 2996
+x-choice: runs                       549338
+x-choice: runs EFX0                  548026
+x-choice: some run EFX0              3000
+x-stuck: every run EFX0              2887
+x-stuck: first run (all choices 0) EFX0 2994
+x-stuck: runs                        506743
+x-stuck: runs EFX0                   505575
+x-stuck: some run EFX0               3000
+  stuck kind ('x-choice', 'no_safe') 1312
+  stuck kind ('x-stuck', 'no_safe') 1168
+  x-stuck [first run]: no EFX0 run on 6: gen:1359(n=2,m=5), gen:2265(n=2,m=5), gen:122(n=2,m=5), gen:1925(n=2,m=5), gen:2554(n=2,m=5), gen:434(n=2,m=10)
+    smallest: gen:1359 {"sets": [[4, 3, 2], [2, 0, 1]], "vals": [[16, 12, 19], [8, 17, 15]], "m": 5}
+    smallest: gen:2265 {"sets": [[3, 1, 2], [3, 4, 0]], "vals": [[16, 15, 2], [14, 16, 3]], "m": 5}
+  x-choice [first run]: no EFX0 run on 4: gen:1925(n=2,m=5), gen:2554(n=2,m=5), gen:1706(n=2,m=6), gen:1537(n=2,m=8)
+    smallest: gen:1925 {"sets": [[2, 1, 4, 0], [0, 3, 1, 4]], "vals": [[4, 13, 17, 20], [9, 4, 10, 6]], "m": 5}
+    smallest: gen:2554 {"sets": [[3, 0, 1, 4], [2, 3, 1, 0]], "vals": [[20, 10, 18, 16], [2, 17, 18, 12]], "m": 5}
+time 95 s

@@ -1,0 +1,18 @@
+$ python3 k4/vm/vm_extend.py suite --stop=II
+instances                                164
+instances with an EFX0 allocation        164
+instances: every state extends           100
+instances: some state extends            143
+states                                   531
+states extendable                        436
+no state extends: c4-exposure-nonleader-n3m5 n=3 m=5 [[[3], [4], [2]]]
+no state extends: c4x-n3m5-big-bases n=3 m=5 [[[1], [4], [3]]]
+no state extends: induct-g-r2 n=3 m=5 [[[3], [4], [2]]]
+no state extends: induct-pot-env-tiebreaks n=3 m=5 [[[3], [1], [4]]]
+no state extends: lb4-no-rotation-n3m5 n=3 m=5 [[[3], [4], [2]]]
+no state extends: adaptive-p1 n=3 m=6 [[[1], [5], [4]]]
+no state extends: adaptive-p3 n=3 m=6 [[[1], [5], [2]]]
+no state extends: c4-gadget-stacking-1copy-n3m6 n=3 m=6 [[[1], [4], [5]]]
+no state extends: c4-one-rotation-owner-r-n3m6 n=3 m=6 [[[4], [5], [3]]]
+no state extends: c4-one-rotation-two4-n3m6 n=3 m=6 [[[1], [2], [5]]]
+time 15 s

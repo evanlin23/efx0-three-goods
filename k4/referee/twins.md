@@ -116,3 +116,70 @@ Both counts are TWINS.md's. On these lists the Γ′ prune is exactly the core-l
 *Not checked.*
 - The β = 5 counts for n ≥ 7, which come from a single implementation of the pipeline.
 - The domain cuts (`cut_domains`), which depend on the uncovered-profile files.
+
+## Addendum 2: K4.MC9, claws (`k4/TWINS.md` §4 on `proof/k4-twins-2` at `ea71fb54`, PR #135; coordinator's queue, 2026-11-27)
+
+**Read.**
+- `k4/TWINS.md` §4.
+- The diffs of `k4/check_twins4.py` (the three hard-coded configurations and the new sensitivity case).
+- `k4/reduce4c.py`: its docstring and the re-check in `rebuild` and `_chunk`.
+- The logs `check_claw.log`, `reduce4c_test.log` and `count_b5_mc9.log`.
+
+`reduce4c.c` was not read line by line, because soundness does not depend on it (below).
+
+**Checks.**
+- `claw_ref.py`, which reuses my K4.MC8 concrete check `twins_ref.py` (own code, raw EFX₀), and `claw_filter_ref.py`.
+- Runs `claw_ref_runs.sh`; logs `results/k4_referee/claw_ref.log` and `claw_filter_ref.log`.
+
+## Verdict: SOUND (certified result; my checks are concrete evidence)
+
+| question | finding |
+|---|---|
+| Does K4.MC9 follow from the certified coverage? | **Yes.** A claw is three P3 agents on a good G of degree 3. Each f_i holds G, a private p_i, and a third good y_i of degree ≥ 2. So the y's are all distinct (claw), two equal (claw-y12 up to relabelling), or all equal (claw-y123), and all 216 profiles of each are certified. K4.MC1 then excludes the claw |
+| Two-agent gadgets legal? | **Yes.** H′ has n − 1 agents. Each gadget agent values ≤ 4 goods: its boundary goods (≤ 3) and one gadget good of its own, new to H. 𝒞_β is preserved by the argument below, which needs the forest condition. My own scan of the 8 two-agent records: all are forests on ∂, each gadget agent has exactly one own gadget good, and the gadget goods are disjoint |
+| Does the C proposer affect soundness? | **No.** `reduce4c.py` rebuilds every C proposal and asserts reduce4's own domination test, moved-items test, views and safe masks before using it. The certificate is then re-checked by `check_twins4.py` → `check_reductions4.py`, whose functions are unmodified and whose configurations are hard-coded. The C code can only lose coverage. The 12 agreement tests are evidence that it does not |
+| Stored extensions, on concrete instances | **Confirmed** (table below) |
+| Effect on the candidate lists | **Reproduced** with my own predicate: β = 4, 3,166 → **2,079**; β = 5, n = 6, 20,882 → **20,553**, the same set of cores as `mc_n6_b5_mc9.json.gz` |
+
+**𝒞_β is preserved by two-agent gadgets** (my own argument; the checker verifies it by enumerating connections).
+- Let R be H without S ∪ I, and C₁ … C_t the components of R that contain a boundary good.
+- The claw has 9 incidences and |S ∪ I| = 7. So H's component through S has
+  β_H = Σβ(C_i) − t + 3.
+- In H′, take h₁ and h₂ with supports T₁, T₂ ⊆ ∂ and one pendant gadget good each. Let u = |T₁ ∪ T₂|, let t′ be the
+  number of C_i they touch, and let c′ be the number of H′-components containing a gadget. These components have total
+  cyclomatic number Σ_{touched} β(C_i) − t′ + |T₁| + |T₂| − 2 + c′.
+- So each of them is ≤ β_H as soon as (t − t′) + |T₁| + |T₂| + c′ ≤ 5. This holds:
+  - t − t′ ≤ 3 − u, since each untouched C_i contains an untouched boundary good;
+  - the forest F on {h₁, h₂} ∪ T₁ ∪ T₂ has |T₁| + |T₂| ≤ 2 + u − comp(F);
+  - and c′ ≤ comp(F).
+- For claw-y12, |∂| = 2 and the bound is 4.
+- Components without a gadget are components of R, hence subgraphs of H's components.
+- Without the forest condition the count breaks: h₁, h₂ on the same two boundary goods add a cycle, which the
+  checker's sensitivity case rejects.
+
+**The concrete check.**
+- Random instances H containing the configuration: f_i with random strict, strictly balanced values on (G, y_i, p_i);
+  2–3 outside agents on random subsets of the boundary goods and 2–3 outside goods. Some boundary goods have no outside
+  valuer.
+- For every record with fixed gadgets (DEL, one-agent, and the two-agent pairs):
+  - every EFX₀ allocation Y of H′ with an acyclic envy graph, and every unenvied bundle;
+  - the local state, looked up;
+  - every stored extension, realized and tested by raw EFX₀ on H.
+
+| configuration | instances | EFX₀ allocations Y of H′ | states looked up (missing) | extensions realized | with S safe | outside agent then unsafe | instances covered |
+|---|---|---|---|---|---|---|---|
+| claw (11 records, 7 two-agent) | 150 | 132,547 | 414,893 (0) | 715,306 | 277,102 | **0** | **150 / 150** |
+| claw-y12 (4 records, 1 two-agent) | 150 | 11,291 | 28,127 (0) | 93,859 | 23,042 | **0** | **150 / 150** |
+| claw-y123 (2 records) | 150 | 1,651 | 3,070 (0) | 15,639 | 4,486 | **0** | **150 / 150** |
+
+- A further 60 claw instances (seed 11) are all covered, with 0 domination failures.
+- **5 of them are covered only by the two-agent records**, so those gadgets are exercised and behave as claimed.
+
+**Sensitivity (mutation).** Each realized extension is corrupted by moving an interior good of an S agent into an
+outside bundle that holds a boundary good. On 20 + 20 instances this gives **2,995 domination failures**, and
+coverage collapses: 0 of 20 instances covered, for both claw and claw-y12.
+
+**Not checked.**
+- `reduce4c.c` itself; it is not needed for soundness.
+- The β = 5 counts for n ≥ 7, a single implementation.
+- The bound remark "n ≤ (8/3)(β − 1) for cores without Q4 agents".

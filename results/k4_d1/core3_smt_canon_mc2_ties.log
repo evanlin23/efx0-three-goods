@@ -1,0 +1,9 @@
+$ python3 k4/d1/core3_smt.py 7
+50 {'structures': 50, 'unsat': 50} 2 s
+100 {'structures': 100, 'unsat': 100} 3 s
+150 {'structures': 150, 'unsat': 150} 4 s
+200 {'structures': 200, 'unsat': 200} 5 s
+250 {'structures': 250, 'unsat': 250} 7 s
+structures 277
+unsat 277
+time 7 s
