@@ -831,3 +831,102 @@ starts.
 
 **Correction:** the matching session's n = 4 walk count is 3,179 (not 3,190 or 3,308; the earlier figures counted the
 11 stored instances twice). No "holds on all" claim changes.
+
+### 2026-11-27 01:02 UTC: burst 4, addendum (OC₁′, merging)
+- **OC₁′^max: holds at n = 4, REFUTED at n = 5.** OC₁′ is kgen-rounds' widened single move: non-end chain agents may
+  also take the end's released pick.
+  - n = 4: it holds at all 112,880 OC₁^max-failing starts of the certifier's export. Implementations: kgen-rounds' rnd.c,
+    and the coordinator's own widened generator (`k4/sdc/oc1prime_verify.py`, 140 s). So it holds on every n = 4 core,
+    given the certifier's certificate. On a 1/10 sample, every OC₁′ repair even has a free completion, with no
+    absorber.
+  - n = 5: on the certifier's 5_pure idx 164 (perfect start (7,2,3,5,4)), none of the 21 OC₁′ states completes.
+    Implementations: coordinator, verify_k4zero, rnd.c.
+  - The cause is **two disjoint conflicts**: 0 ↔ 1 must swap, and agent 3, whose pick is worth 2, must be upgraded from
+    agent 4 or agent 2. One round of two disjoint rings repairs it, and so do two sequential moves. Ledger row
+    K4.SDC.OC1PMAX, `k4/sdc.md` §31 end.
+- **Negative: gluing does not compound conflicts.** Two copies of idx 164 glued at junk good 0 (n = 10, a strict
+  connected MC2 core) complete at the picks.
+  - One agent absorbs junk of both copies. Goods of the other copy are worth 0 to it, so in EFX₀ they act as a sink.
+  - The general point: an SD start's junk is never envied as a singleton, so junk can go next to any unwanted pick.
+  - Larger n tends to add sinks. Small, dense cores are where the obstructions live.
+- **Candidates now:**
+  - OC₂^max: certified n ≤ 4; n = 5 running.
+  - ROUND-P^max: one round of vertex-disjoint OC₁′ moves; holds at n = 4 and on idx 164.
+  - OC₁^∃max.
+  - Hall asked to split leaf 4 into 4a (a disjoint second repair, ROUND form) and 4b (a genuinely sequential second
+    move).
+- **Merging (the user authorised merging).**
+  - The ready PRs #94, #103, #108, #109, #110, #111 and #115 were merged into this branch. Ledger conflicts were resolved
+    keeping both sides' rows, with the Lean columns from #109 and the K4.MULTI rows from #115.
+  - On the merged tree: `lean/check.sh` CHECK PASSED (1279 audited statements, 2418 theorems), `check_ledger` 426 rows
+    with 0 problems, `check_certs` 0 problems.
+  - PR #95 is marked ready, to be merged into main once CI is green. Drafts stay open until their sessions mark them
+    ready.
+
+### 2026-11-27 01:38 UTC: hourly burst 5
+**Status.** TARGET₄ is open. **OC₂^max at n = 4 now has an explicit, refereed mechanism.**
+- Lemma SD-E: the earliest-wanter chain E(k) with a pool pair T, after which deleting k and T leaves exactly the SD
+  start of I − k.
+- Theorem REC-S: E(k) and T, then a Theorem S chain in I⁻, lifted by Lemma LIFT. Both are by the multi session and
+  refereed CORRECT; REC-S's hypothesis (L) turned out to be automatic.
+- Certified at all 112,880 n = 4 two-move starts (K4.MULTI.RECS.N4; self-contained checker, 8,241 mutations rejected;
+  the referee re-validated every witness).
+- What remains of OC₂^max from n = 5: (i) **existence** of (k, T) with (R), i.e. Theorem S applies in I⁻, and (K), k
+  unthreatened, at starts needing two moves; (ii) the one-move part where one move suffices. There Theorems U and S prove
+  OC₁ at 88.8% of the hard starts, and the residue is SLOT2 (161), RING2 (45), KEEP-C (8) and the D1 items.
+
+**Verified, certified or refereed this hour** (by session):
+- certifier (#114, merged):
+  - OC₁′^max CERTIFIED at n = 4 (all 1,002 cores, independently checked). It is REFUTED at n = 5: 24 of the first 137
+    5_pure OC₁^max failures, all raw-verified; the coordinator's idx 164 is one of them.
+  - OC₂^max with S*-shaped completions CERTIFIED at n ≤ 4.
+  - TTC's R2-M and R2★ REFUTED at n = 4 (306 of 1,002 cores; 20 raw-verified, TTC replayed 2). R2 itself is unaffected.
+- matching: LIFT-SHAPE⁺ CERTIFIED at n = 4 (K4.MATCH.LIFT.N4, referee re-verified with its own witness search) but
+  REFUTED at n = 5 at idx 164. The recursion OC2-REC CERTIFIED at n = 4 (K4.MATCH.REC.N4).
+- kgen-rounds: OC₁′ at all 112,880 by a second implementation (forward brute force).
+  - ROUND-P (pooled takes across chains) and RNDOZ (own chain only, the coordinator's form) agree on all data.
+  - The two mechanisms separate exactly. At n = 4 the plain round fails at all 112,880 (starvation) and ROUND-P holds.
+    At the n = 5 24 the plain round already holds (two cycles).
+  - The only MD allocations that ROUND-P misses have one shape, "keep-and-add".
+- referee: Theorem S, HS, HS-U1, M^c, LIFT-1 (with (L2′) and case (b)), D1-C, MAX₃/RED₃, SD-E and REC-S all CORRECT.
+  K4.SDC.OC1PMAX CONFIRMED by a third implementation. ksens's k = 3 exhaustive one-chain claim CONFIRMED.
+- Hall: the open core is updated (§23.4). Item 4 is OC2-REC, certified at n = 4 and holding at idx 164. S2 is refuted
+  (S2-X, from k4-d1).
+- d1: S2-X; D1-H2 holds on 3,711 starts. Theorem D1-C is refereed CORRECT.
+- Haxell:
+  - REFUTED at n = 4 (k = 4 cores, strict values): W^sub with welfare (WS4) and W^sub with leximin (LS4).
+  - Theorem N2 (n = 2, computational, two implementations): two set moves or one Pareto swap.
+  - P^sub (Pareto) holds exhaustively at n = 3 for k ≤ 3. The candidate is now P^sub₃ (three moves).
+- VM: VM1 fails on the n = 4 core P34 (m = 7). VM1-chain holds on every failing profile so far; the pure list is
+  finishing.
+- ksens:
+  - k = 5: one move fails already at n = 3 (N3K5). Two moves are certified on all 617 n = 3 hypergraphs with ≤ 5 goods
+    per agent, and on the RD5, kgen-n4, PW5 and extended hypergraphs.
+  - k = 6 needs exact-LP realizability (being built).
+- k3-oc1 and kgen-n3 (k = 3, statement (P)):
+  - (P) is exhaustive at n = 5, with and without a dead good.
+  - REFUTED at n = 7: the release bound (R), every-k T-E, and T′_k. The surviving forms are T-E∃ and T-ω.
+  - Lemmas 4–7, G5 and G5′ are written and queued for the referee.
+- monotone: 4 ≤ k* ≤ 8 proved. No monotone counterexample at k = 4 with n ≤ 5 (CERTIFIED, so TARGET₄ for n ≤ 5 by an
+  independent method), nor at k ≤ 6 with n = 3.
+- twins: K4.MC8 removes 36–40% of the β = 5 minimal-counterexample candidates at n = 6–10; about 500k remain.
+- Lean (#109, CI pending): Lemma M, LIFT-1 and T6 are machine-checked; a second structural refutation via T6.
+
+**Merged into main this hour:** #95 (coordinator, integrating #94, #103, #108, #109, #110, #111, #115 at their then
+heads), #110 (paper r4), #108 (referee), #114 (certifier, n ≤ 4), #100 (Hall). #109, #111 and #115 are waiting on CI
+at their new heads.
+
+**New strategic idea, dispatched to matching, multi and charity: RSD, recursive settle-and-delete.**
+- The step: settle a sharer by E(k) and T, delete k and T (SD-E keeps an SD start), and recurse.
+- The lift needs k unthreatened, so the inductive statement must carry "phantom" agents: fixed bundles that must stay
+  unthreatened.
+- If a phantom class closed under the recursion exists, OC₂^max (indeed TARGET₄) follows by induction on n, with no
+  bound on the number of moves.
+- A side remark: only k's two goods outside T can threaten it, so (K) is a local "keep b and c apart" condition.
+
+**Own angle: hunting for a start that needs three moves** (`k4/sdc/three_move_hunt.py`).
+- Each of the 12 two-move seeds (the 11 n = 4 cores and idx 164) is extended by 1–2 random agents that value the seed's
+  goods, so that they are not free sinks.
+- Every maximum-matching start is classified by the least number of sequential moves, with a numpy exhaustive
+  one-absorber completion test.
+- A trial of 40: random extensions mostly dissolve the obstruction (0 or 1 moves). Larger runs are in progress.
