@@ -568,7 +568,8 @@ which at most one agent holds two or more goods outside its base. RD is the same
 **RD is false at k = 5: the instance RD5** (`k4/ksens/refute_rd_k5.py`, `refute_rd_k5.log`).
 - *Found* by `climb.py round1` started from the n = 4 instance of `proof/kgen-n3` (at k = 6,
   `climb_round1_n4k6_kgen.log`), then shrunk by dropping goods (`rd_shrink.log`).
-- *Instance* (n = 4, m = 7, strict values):
+- *Instance* (n = 4, m = 7; distinct values per agent, but not a strict profile: agent 0 has the tie
+  v₀(4) + v₀(5) = 24 + 33 = 57 = v₀(1), which matters at full valuations, §8):
 
   | agent | goods (value) |
   |---|---|
@@ -855,8 +856,13 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
 - *PW5 lifted to full valuations* (every value ×100, the goods an agent did not value worth 1, 2, …; k = m = 9).
   - One chain still fails, and one round repairs.
   - So OC₁ fails at unrestricted k with all values positive. PW's mechanism does not need zero values.
-- *RD5 lifted the same way* (k = m = 7) needs only one round. Its mechanism needs the zeros: with every good valued,
-  an agent can gain by adding any tiny junk good, which makes chains much more flexible.
+- *RD5 lifted the same way* (k = m = 7) needs only one round, **but only because of a tie**.
+  - In RD5, v₀(4) + v₀(5) = 57 = v₀(1). With every good valued, a ring repairs at that equality plus a small value.
+  - With v₀(4) = 23 instead (RD5⁺, found by the kgen-rounds session, `proof/kgen-rounds`, `kgen/rounds.md`; reported
+    to me by message, not read here), **one round fails with every good valued**.
+  - Checked here with ocsat and with brute force over all 225 round states, for three choices of the small values;
+    two rounds repair (ocseq). With the tie restored, one round suffices (`rd5plus_check.log`).
+  - So my earlier remark that "RD5's mechanism needs the zeros" was wrong.
 - *The two configurations of `kgen/n3.md` §10* (branch `claude/kgen-n3`, read here): their stated starts extend
   without a chain, and no start of either needs more than one round.
 - *Climbs maximizing the rounds needed* (values only; one-absorber completion; `general_rounds_climb_*.log`):
@@ -867,8 +873,10 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
   - n = 4, m = 6–8: 80 profiles, 194 starts; 11 need one round.
 - *Climb at n = 5, m = 9 from PW5 lifted* (3 runs, 60 steps each; `general_rounds_climb_n5m9_pw5.log`): every run
   ends at starts needing one round, 7 to 10 of them. None needs two.
-- *Conclusion at unrestricted k:* within n ≤ 5, m ≤ 9 no start needs even two rounds. So the decisive n = 3 test does
-  not refute RD². It only shows that with every good valued, one round has sufficed everywhere tested, at n = 3
-  every start.
-  - Compare k = 5 with zeros (RD5), where two rounds are needed.
-  - Zero values make the problem harder for rounds, not easier.
+- *Conclusion at unrestricted k.*
+  - One round fails with every good valued: RD5⁺, n = 4, m = 7.
+  - My random profiles and climbs never found a start needing two rounds, so they missed it. That is another case
+    where sampling and climbing failed and a hand-made or exhaustive search did not (compare §5).
+  - Two rounds repair every start tested, RD5⁺ included. The n = 3 test does not refute RD² either: one round
+    sufficed on every n = 3 start tested.
+  - Zero values are not what makes rounds necessary. The earlier conclusion was an artifact of RD5's tie.

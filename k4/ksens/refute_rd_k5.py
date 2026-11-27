@@ -1,5 +1,6 @@
 """Conjecture RD (one round of vertex-disjoint improving chains, then a completion; k4/ksens.md §6) is false at k = 5:
-the instance RD5 (n = 4, m = 7, strict values, one agent with five relevant goods, the others with at most four),
+the instance RD5 (n = 4, m = 7, distinct values per agent, one agent with five relevant goods, the others with at
+most four; not a strict profile: v0(4) + v0(5) = v0(1) = 57, see k4/ksens.md §8),
 found by climb.py round1 from the kgen-n4 seed (results/k4_ksens/climb_round1_n4k6_kgen.log, k = 6) and shrunk by
 dropping goods (results/k4_ksens/rd_shrink.log).
 
