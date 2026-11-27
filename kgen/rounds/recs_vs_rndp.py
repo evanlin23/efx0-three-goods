@@ -19,9 +19,10 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import rndlib
 
 
-def structures(V, y, X, pooled):
+def structures(V, y, X, pooled, wide=False):
     """the chains (agent tuples, t >= 1) of every path structure that witnesses the round at X (raw: MD, gains,
-    one absorber)"""
+    one absorber).  pooled: non-end agents take any chain end's pick (RNDPZ), else only their own chain's (RNDOZ);
+    wide: chain ends may take them too (the wide form of kgen/rounds.md §4.2)"""
     n = len(V); own = {g: i for i in range(n) for g in X[i]}
     loc = [own[y[a]] for a in range(n)]
     if any(sum(V[a][g] for g in X[a]) < V[a][y[a]] for a in range(n)): return None
@@ -46,7 +47,7 @@ def structures(V, y, X, pooled):
             extra = [0] * n; out = list(nJ0)
             for e in ends:
                 tk = loc[e]
-                ok_take = tk in chain_of and tk != chain_of[tk][-1] and V[tk][y[e]] > 0 and (pooled or chain_of[tk] == chain_of[e])
+                ok_take = tk in chain_of and (wide or tk != chain_of[tk][-1]) and V[tk][y[e]] > 0 and (pooled or wide or chain_of[tk] == chain_of[e])
                 if loc[e] == e: out[e] += 1                     # an end holding its own pick: it stays outside
                 elif ok_take: extra[tk] += V[tk][y[e]]
                 else: out[tk] += 1
