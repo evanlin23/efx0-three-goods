@@ -1,0 +1,30 @@
+$ python3 kgen/k3max_twins_t.py gap_small_5.gap.gz
+EX 0:0>5>6 1:3>5>7 2:0>4>3 3:4>1>2 4:5>1>2 picks (0, 7, 3, 4, 5) J [1, 2, 6] t 1 {3: ([3, 2, 1], 3, [], True), 4: ([4, 1], 5, [0], False)}
+EX 0:0>5>6 1:3>5>7 2:0>4>3 3:4>1>2 4:5>2>1 picks (0, 7, 3, 4, 5) J [1, 2, 6] t 1 {3: ([3, 2, 1], 3, [], True), 4: ([4, 1], 5, [0], False)}
+EX 0:0>5>6 1:3>5>7 2:0>4>3 3:4>2>1 4:5>1>2 picks (0, 7, 3, 4, 5) J [1, 2, 6] t 1 {3: ([3, 2, 1], 3, [], True), 4: ([4, 1], 5, [0], False)}
+2888   then every such twin passes: True
+3640 drafts
+3640 rule longer chain passes
+3560 rule shorter chain passes
+3640 rule sigma-first passes
+3528 rule sigma-last passes
+752 some twin gives t its top: False
+2888 some twin gives t its top: True
+168 some twin leaves N empty: False
+3472 some twin leaves N empty: True
+3640 some twin passes
+704 twin rotation: |N| = 0 (), |T'| = 1, t gets top False, Lemma 3 for t True
+1072 twin rotation: |N| = 0 (), |T'| = 2, t gets top False, Lemma 3 for t True
+900 twin rotation: |N| = 0 (), |T'| = 2, t gets top True, Lemma 3 for t True
+984 twin rotation: |N| = 0 (), |T'| = 3, t gets top False, Lemma 3 for t True
+1692 twin rotation: |N| = 0 (), |T'| = 3, t gets top True, Lemma 3 for t True
+1304 twin rotation: |N| = 0 (), |T'| = 4, t gets top True, Lemma 3 for t True
+80 twin rotation: |N| = 1 (b), |T'| = 1, t gets top False, Lemma 3 for t False
+144 twin rotation: |N| = 1 (b), |T'| = 2, t gets top False, Lemma 3 for t True
+80 twin rotation: |N| = 1 (b), |T'| = 2, t gets top True, Lemma 3 for t True
+112 twin rotation: |N| = 1 (b), |T'| = 3, t gets top False, Lemma 3 for t True
+32 twin rotation: |N| = 1 (b), |T'| = 3, t gets top True, Lemma 3 for t True
+32 twin rotation: |N| = 1 (c), |T'| = 1, t gets top False, Lemma 3 for t False
+56 twin rotation: |N| = 1 (c), |T'| = 2, t gets top False, Lemma 3 for t True
+32 twin rotation: |N| = 1 (c), |T'| = 2, t gets top True, Lemma 3 for t True
+56 twin rotation: |N| = 1 (c), |T'| = 3, t gets top False, Lemma 3 for t True
