@@ -286,3 +286,39 @@ Not refereed by me:
 - Rule RF and Lemma DEMOTE (evidence and conjectures).
 
 The PR edits no ledger row.
+
+**Lemma RF-T and Corollary RF-T′** (`k4/girth.md` §7 at `3e64bf0d`; coordinator's queue): **both CORRECT.**
+
+*Re-derivation.*
+- X is complete: J = {g, j, z}, the picks move along the path and the trade, and p is off the path.
+- All bundles have ≤ 2 goods, so EFX₀ fails only by someone valuing a single good of another two-good bundle above
+  its own.
+- g, j, z and Y_u are excluded for everyone:
+  - agents before d in σ′ had them all free;
+  - agents after d are off the path, with junk free at their σ-turn and Y_u unwanted at Y;
+  - d: the trade, and its σ′ choice of g;
+  - p: the trade, z free at its σ-turn, and Y_u unwanted.
+- That leaves exactly (W-d) and (W-p).
+- RF-T′:
+  - path agents x_s (s ≤ ℓ − 2) chose Y′ while Y_d was free;
+  - d is covered by (F1), off-path agents by (F2), and Y_p's valuers by (F3);
+  - u holds its top good, which is neither Y_d nor Y_p.
+- The proof uses neither |U′| = 1 nor D_T′ = ∅.
+
+*Check* (`rfbp_rft_ref.py rft`; 1,500,000 random strict instances, n = 4–7; every trade in the lemma's setting):
+- 844 trades, all with X complete;
+- raw EFX₀ ⟺ (W-d) ∧ (W-p) at all 844 (321 EFX₀, 523 not), 0 mismatches;
+- 144 meet (F1)–(F3), and all 144 are EFX₀.
+
+Log `results/k4_referee/rfbp_rft_ref.log`.
+
+**The SINK form of DEMOTE** (`k4/girth.md` §7 at `ea279bb9`; coordinator's queue). It is stated as a **CONJECTURE**, and
+nothing new in it is written as a proof. Its proved parts are the lemmas it cites. Each of their allocations has the
+SINK shape, which I checked against the statements:
+- RF-A1: w absorbs, and d receives one junk good h. CORRECT, `oc1_hall.md` addendum.
+- RF-B: d absorbs everything left, Y′_d and J′ ∖ S. CORRECT, same addendum.
+- RF-T: d receives the one good Y_u, and x_{ℓ−1} the one good z. CORRECT, above.
+- The (1, 3) form is TTC's Lemma C13, which I have not refereed.
+
+The conjecture's data claims (161,520 n = 4 RF starts; the n = 5 classes) were not re-run here. My n = 4 recomputation
+of the A1 and B classes (`rfres_ref.py`) shows the SINK shape at all 32,000 and 43,520 starts.

@@ -1,0 +1,4 @@
+{"source": "Lemma B3 lift, n = 4 export sample N=8000 seed=1 mutation=None", "LIFT_VIOLATION": 0, "hyp_cases": 344693, "hyp_cases_1_phantoms": 256216, "hyp_cases_2_phantoms": 88477, "starts": 8000, "states": 48636}
+{"source": "Lemma B3 lift, n = 4 export sample N=2000 seed=2 mutation=noLstar", "LIFT_VIOLATION": 21082, "hyp_cases": 107203, "hyp_cases_1_phantoms": 80744, "hyp_cases_2_phantoms": 26459, "starts": 2000, "states": 16900}
+{"source": "Lemma B3 lift, n = 4 export sample N=2000 seed=3 mutation=noP2", "LIFT_VIOLATION": 0, "hyp_cases": 84845, "hyp_cases_1_phantoms": 63006, "hyp_cases_2_phantoms": 21839, "starts": 2000, "states": 12159}
+{"source": "P1-free settlement T sizes on GR-type exploration (3,000 n = 4 starts)", "n4_P1free_settlements_T2": 15690, "n4_P1free_settlements_T3": 5082}
