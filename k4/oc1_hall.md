@@ -1971,3 +1971,40 @@ The proof obligation splits in two:
 **A2 and B** (w = d, ℓ = 1) need either a frozen slot at Y′ (Lemma M^c, not Lemma 2\*) or one move: a chain k → d in
 B, or a d–Dp trade in A2 (girth's DEMOTE (c)). These are the harder residue. They are also where the two truly
 dangerous agents of the n = 4 mechanism (§22) sit.
+
+**Lemma RF-A1 (conditional; written proof).** Let Y′ be an RF start of type A1:
+- Y′ is the SD outcome of (u, o − u) at a perfect start, and |U′| = 1 with U′ = {d}, D_T′ = ∅;
+- the RF path is u → w → d: u takes Y_w, w takes Y_d, and d takes a junk good g of Y;
+- J′ = (J ∖ {g}) ∪ {Y_u}.
+
+Suppose:
+- **(A1-i)** d is truly dangerous at Y, its junk goods at Y are a pair {g, h}, and J′ ∩ R_d = {h};
+- **(A1-ii)** among the goods of W := {Y_d} ∪ (J′ ∖ {h}), u values exactly Y_d and Y_u, and
+  v_u(Y_d) + v_u(Y_u) < v_u(Y_w);
+- **(A1-iii)** the other truly dangerous agent k2 of Y values g and h, and does not want Y_d;
+- **(A1-iv)** no frozen agent of Y′ other than w, u and k2 values Y_d.
+
+Then Y′ has an S\* completion: w takes W, d takes {g, h}, and everyone else keeps their pick.
+
+*Proof.* Apply Lemma 2\* at Y′ (a perfect SD start, so (G1) and (G2) hold) with owner w, holders N₁ = {d}, and
+H = {h}, matched to d.
+- *d is admissible for h.* d values h, and by (A1-i), (W_w ∖ {h}) ∩ R_d = {Y_d}. The goods of d are Y_d, g, h and at
+  most one more, which is a pick. So d is threatened only if v_d(Y_d) > v_d(g) + v_d(h). But J ∩ R_d = {g, h}
+  threatens d at Y, so v_d(g) + v_d(h) > v_d(Y_d). Moreover d is non-movable (it wants Y_d ∈ B′_w), and it is matched.
+- *(H1) for u.* By (A1-ii), every subset of W that u values is worth less than v_u(Y_w) = p′_u.
+- *(H1) for k2.* k2's goods are Y_{k2}, g, h and at most one more good x. Since g, h ∉ W, at most x lies in W. A single
+  good threatens k2 only if k2 wants it: if x is junk at Y′, by (I2); if x = Y_d, by (A1-iii).
+- *(H1) for every other frozen q ≠ w.* By (A1-iv), W ∩ R_q ⊆ J′. Since D_T′ = ∅, J′ does not threaten q at p′_q, and
+  being threatened is monotone.
+- There are no multi-good holders, and d is the only holder.
+
+So Lemma 2\*'s condition holds, and its construction gives the completion. ∎
+
+*Check* (`k4/oc1_hall/rf_a1_facts.py`, `rf_a1_facts.log`). (A1-i)–(A1-iv) hold at all 32,000 A1 starts at n = 4,
+together with J′ = J − g + Y_u, u and k2 frozen at Y′, and |D_T(Y)| = 2. The raw S\* test with owner w agrees at all
+32,000 (`rf_a1.log`). So at n = 4 residue A1 is closed: the facts are certified by enumeration and the lemma by
+proof.
+
+*What a general proof needs:* (A1-i)–(A1-iv) from the hardness of Y and the RF order. (A1-i) and (A1-iii) are §22's
+n = 4 mechanism, a junk pair shared by the two truly dangerous agents. At n = 5 the known failures have D_T = ∅
+(girth, §7), so A1 there, if it occurs, will need a different argument.

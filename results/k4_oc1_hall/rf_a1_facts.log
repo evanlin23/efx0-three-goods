@@ -1,0 +1,9 @@
+32000     J' = J - g + Y_u
+32000     d's junk at Y' is exactly {h}
+32000     k2 is frozen at Y'
+32000     u is frozen at Y'
+32000 (ii) u values exactly {Y_d, Y_u} in X_w
+32000 (ii) v_u(Y_d) + v_u(Y_u) < v_u(Y_w)
+32000 (iii) k2 does not want Y_d
+32000 (iv) no frozen agent other than w, u, k2 values Y_d
+32000 A1 starts
