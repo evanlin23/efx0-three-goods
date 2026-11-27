@@ -32,6 +32,9 @@ Written separately from cegar.py; it shares no code with it or with the reposito
   - R2-O (o): the one-absorber owner is a receiver off the chain.  og: or no owner at all (nobody takes two junk
     goods).  op (R2-O'): the owner, if any, is a receiver other than the chain's end, on or off the chain.
   - R2-C: any one-absorber completion.
+  - R2-E (e, e2, eo): the chain is the earliest-wanter chain E(x0) of the witness's recorded SD order (whose SD
+    region is checked).  x0 takes an improving T and nobody else takes junk.  Variants: e2, |T| = 2; eo, the owner
+    is a receiver.
   - Only profiles with at least two receivers count (a receiver is an agent whose pick no other agent prefers to its
     own).
   - Witnesses are completions of the picks (one absorber) or single canonical chains: x0 values a junk good, x1
@@ -274,7 +277,31 @@ def check_core(rec):
                     if i != zz: masks[i] &= H.V[i][:, Y[zz]] <= H.V[i][:, Y[i]]
                 X = w['_X']; inb = {g for b in nb for g in b}
                 cnt = collections.Counter(X[g] for g in range(H.m) if g not in inb)
-                if R2 in ('m', 'star'):
+                if R2 in ('e', 'e2', 'eo'):
+                    # R2-E: the chain is E(x0) for the recorded SD order sigma (which must give Y), with no junk for
+                    # x_1..x_t, x0 taking an improving T (apply's comparison) within (J + {Y_z})
+                    sigma = w.get('order')
+                    if sigma is None or sorted(sigma) != list(range(n)) or any(w['H'][l] for l in range(1, len(path))): continue
+                    if R2 == 'e2' and len(w['H'][0]) != 2: continue
+                    taken = set()
+                    for a in sigma:
+                        rest = [g for g in H.sets[a] if g not in taken]
+                        masks[a] &= np.array([(max(rest, key=lambda g: v[g]) if rest else None) == Y[a] for v in H.types[a]])
+                        if Y[a] is not None: taken.add(Y[a])
+                    pos = {a: q for q, a in enumerate(sigma)}
+                    for l in range(1, len(path)):
+                        prev = path[l - 1]
+                        for i in sigma[:pos[path[l]]]:
+                            if i != prev: masks[i] &= H.V[i][:, Y[prev]] <= H.V[i][:, Y[i]]
+                    if R2 == 'eo':
+                        u = w.get('owner')
+                        if u is None:
+                            if any(c >= 2 for c in cnt.values()): continue
+                        else:
+                            if any(c >= 2 for a, c in cnt.items() if a != u): continue
+                            for i in range(n):
+                                if i != u: masks[i] &= H.V[i][:, Y[u]] <= H.V[i][:, Y[i]]
+                elif R2 in ('m', 'star'):
                     if any(c >= 2 for c in cnt.values()): continue
                     if R2 == 'm' and any(a != x0 and len(nb[a]) >= 2 for a in cnt): continue
                 elif R2 in ('o', 'og', 'op'):     # the declared owner: a receiver at the picks, off the chain
