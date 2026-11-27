@@ -1,0 +1,6 @@
+command: python3 k4/hunt/check.py results/k4_hunt/named_glue_hard3_cores.json.gz --jobs=1 --engine=sat2
+types: d=3: 6, d=4: 288
+named cores: 1 in 1 file(s); status {'certified': 1}
+named cores, a sample, or not every part: completeness not checked
+coverage (sat2): 1/1 certified cores covered (raw EFX₀, every strict profile)
+RESULT: OK

@@ -163,7 +163,8 @@ The last core has goods of degree 7 and 6 (every agent values one of the two glu
 Sweep (`glue.py --s=1,2 --pairs=12 --per=1 --limit=900`, `results/k4_hunt/glue_sweep1.log`): every profile of each
 glued pair; all certified except at the 900 s limit. The hardest are one-good glues of two all-4-good gadgets
 (n = 8, m = 13, β = 12): GM4-C + GM4-C certified in 734 s (5,484 allocations); GM4-C + GM4-D timed out at 900 s
-(7,490 allocations, undecided); **GM4-P + GM4-P** ([[0,2,5,6],[1,4,5,6],[2,3,4,6],[3,4,5,6],[4,8,11,12],[7,10,11,12],
+(7,490 allocations) and was then **certified in 1,253 s with 8,894 allocations** (`named_glue_hard3_cores.json.gz`,
+check `check_named_glue_hard3.log`: OK); **GM4-P + GM4-P** ([[0,2,5,6],[1,4,5,6],[2,3,4,6],[3,4,5,6],[4,8,11,12],[7,10,11,12],
 [8,9,10,12],[9,10,11,12]]) timed out at 900 s and was then **certified in 1,729 s with 9,415 allocations**, the
 largest certificate of this workstream (`named_glue_hard2_cores.json.gz`, check `check_named_glue_hard2.log`: OK).
 Two-good glues are easier (21–275 s).
