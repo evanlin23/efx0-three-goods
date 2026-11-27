@@ -2178,6 +2178,14 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
   - The other five 4-first vectors work, and two of the three rotations (4, o − 4) of orders giving Y work.
   - So **RF∃ (ledger K4.SDC.RFEX) and RF-rot∃ survive**. They are what the Lean frame (`target4_of_conjRFsome`) and
     Hall's proof plan use. The set-twin swap case left open in Hall's §24.15 does occur.
+  - **TTC's canonical rule YRMH-F survives it** (`k4/sdc/rf_canon_440.py`, `results/k4_sdc/rf_canon_440.log`). Take
+    YRMH-IGYT with the maximality guard (`k4/ttc/rf_diag.feasible_sd`, `k4/ttc.md` §14.9). From every one of the four
+    orders giving Y it returns (5,3,7,6,4) with realized order (4,3,1,0,2): u first, a maximum matching, and the picks
+    complete at once.
+    - Plain rotation fails from (0,1,2,3,4); that is the twin swap.
+    - So the canonical conjecture RF-canon ("YRMH-F's outcome satisfies OC₁") is not touched by #440.
+    - TTC's remark that RF-canon follows from K4.SDC.RF no longer applies, since the every-form is refuted.
+      RF-canon stands as its own conjecture.
 
 **Conjecture RKMAX (rank-maximal start)** (2026-11-27 05:40 UTC, coordinator; ledger K4.SDC.RKMAX). An extremal form
 of OC₁^∃max that needs no rule from the failing start.

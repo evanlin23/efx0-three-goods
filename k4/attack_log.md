@@ -1185,3 +1185,18 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
     receiver".
   - matching: no twin failure of RF∃ at k = 4 in its hunt; Conjecture TWIN-TOP.
   - k3-oc1: Theorem FAIL-STRUCT drafted (`k4/k3_oc1.md` §13.7, unchecked).
+
+### 2026-11-27 08:34 UTC: burst 11 (single-session mode)
+- **Wind-down finished.** All child sessions except hunt are archived. Hunt was interrupted at 08:35 so it can commit
+  and stop.
+- **Merged:** #171 (d1's off-export RF), #176 (Lean RKMAX frame), #177, #178 (Lean REC-∃ and `ConjRFex` ⟹ TARGET₄),
+  #179 (TTC: Lemma PTR, RF-MAX, YRMH-F), #180 (carries #112 monotone and #173 base-phantom, with ledger conflicts
+  resolved).
+- **Closed as superseded:** #112, #147, #173.
+- **Drafts left open:** #104 hunt, #107 p3, #158 rkmax, #166 kgen-rounds, #174 twins.
+- **Lean correction (Lean session).** `ConjRF`, `ConjRFpick` and `ConjRFsome` all use `ReceiverFirst` (every u-first
+  maximum order), so #440 refutes them. The live frame is `ConjRFex` (`target4_of_conjRFex`), with REC-∃ formalized
+  (`oneAbsorber_of_noReceiver`).
+- **Own angle.** TTC's canonical rule YRMH-F at #440 (`k4/sdc/rf_canon_440.py`): from all four orders giving the
+  failing start it yields a receiver-first maximum matching whose picks complete. Plain rotation fails from one of
+  them. So RF-canon survives the k = 4 counterexample to the every-form.
