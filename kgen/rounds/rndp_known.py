@@ -30,6 +30,7 @@ def scan(fam, V, C, only=None, oc1fail=False):
         a, b = r['RND1Z'] > 0, r['RNDPZ'] > 0
         C[(fam, 'starts')] += 1; C[(fam, 'RND1Z holds' if a else 'RND1Z FAILS')] += 1
         C[(fam, 'RNDPZ holds' if b else 'RNDPZ FAILS')] += 1
+        C[(fam, 'RNDOZ holds' if r['RNDOZ'] > 0 else 'RNDOZ FAILS')] += 1
         if not a or not b or rng.random() < SAMPLE / 113000: fwd.append((fam, V, r['order'], a, b))
 
 
@@ -39,6 +40,7 @@ for h in d['hypergraphs']:
     for st in h['starts']:
         V = rows(h['sets'], st['vals']); scan('two_move_n4', V, C, only=st['picks'])
 print('112,880 starts', {k[1]: v for k, v in C.items() if k[0] == 'two_move_n4'}, '%.0fs' % (time.time() - t0), flush=True)
+# RNDOZ: a round of OC1' moves (non-end agents take only their own chain end's goods; k4/sdc/roundp_check.py)
 for c in json.load(open(os.path.join(R, 'certifier_oc1max_cex_n4.json')))['instances']:
     scan('cert11_n4_OC1fail', rows(c['sets'], c['vals']), C, oc1fail=True)
 for l in open(os.path.join(R, 'certifier_oc1prime_cex_n5.jsonl')):

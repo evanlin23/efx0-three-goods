@@ -607,6 +607,7 @@ ll rnd2_count_margin(int n_, int m_, const ll *vals, const int *picks, ll cap_, 
    For X (complete EFX0) the witness test: keep (one optional addition + one absorber), or exactly one path of passers
    s(a) = loc(a), with H's maximal (relevant junk in the bundle).
    rnd_oc1z: per distinct perfect start, counts of EXT1 (picks extend, one absorber), OC1 and MD, and OC1 margins. */
+static ll z_c1p[MAXS];   /* witnesses of a round of OC1' moves (bit 64: a non-end agent takes only its own chain's end goods) */
 static ll z_cnt[MAXS][6]; static double z_msum[MAXS], z_rms[MAXS][2];   /* z_rms: RND1Z / RNDPZ margin sums */
 static double z_rb[2];   /* per EFX0 allocation: best gain slack of a plain round / ROUND-P witness structure */
 static int z_perfect[MAXS];
@@ -636,7 +637,7 @@ static int oc1z_start(int s, double *mg) {
         }
         if (res & 1) res |= 2;
         if (res & 2) res |= 8;
-        { int big = 0; for (int a = 0; a < n; a++) if (nJ0[a] >= 2) big++; if (big <= 1) { res |= 16 | 32; z_rb[0] = z_rb[1] = 1e9; } }
+        { int big = 0; for (int a = 0; a < n; a++) if (nJ0[a] >= 2) big++; if (big <= 1) { res |= 16 | 32 | 64; z_rb[0] = z_rb[1] = 1e9; } }
         *mg = best; return res;
     }
     for (int E = Mv;; E = (E - 1) & Mv) {
@@ -656,14 +657,16 @@ static int oc1z_start(int s, double *mg) {
                        pick); bit 32: ROUND-P (every non-end path agent may take any end's pick it holds and values) */
             int stof[MAXN]; for (int a = 0; a < n; a++) stof[a] = -1;
             for (int a = 0; a < n; a++) if (succ[a] >= 0 && pred[a] < 0) { int c = a; stof[c] = a; while (succ[c] >= 0) { c = succ[c]; stof[c] = a; } }
-            for (int mode = 0; mode < 2; mode++) {
+            for (int mode = 0; mode < 3; mode++) {
                 int okr = 1, out[MAXN]; ll extra[MAXN];
                 for (int a = 0; a < n; a++) { out[a] = nJ0[a]; extra[a] = 0; }
                 for (int e = 0; e < n; e++) if (pred[e] >= 0 && succ[e] < 0) {          /* path ends */
                     int tk = loc[e], taken = 0;
                     if (v[tk][y[e]] > 0) {
                         if (mode == 0) taken = (tk == stof[e]);                         /* ring: own start only */
-                        else taken = (succ[tk] >= 0);                                   /* any non-end path agent */
+                        else if (mode == 1) taken = (succ[tk] >= 0);                    /* any non-end path agent */
+                        else taken = (succ[tk] >= 0 && stof[tk] == stof[e]);            /* a non-end agent of e's own
+                                                                                           chain (a round of OC1' moves) */
                     }
                     if (taken) extra[tk] += v[tk][y[e]]; else out[tk]++;
                 }
@@ -674,7 +677,7 @@ static int oc1z_start(int s, double *mg) {
                     if (!(l > v[b][y[b]])) okr = 0; else { double d = (double)(l - v[b][y[b]]) / tot_i[b]; if (d < gr) gr = d; }
                 }
                 if (okr) { int big = 0; for (int a = 0; a < n; a++) if (out[a] >= 2) big++;
-                           if (big <= 1) { res |= (mode == 0 ? 16 : 32); if (gr > z_rb[mode]) z_rb[mode] = gr; } }
+                           if (big <= 1) { res |= (mode == 0 ? 16 : mode == 1 ? 32 : 64); if (mode < 2 && gr > z_rb[mode]) z_rb[mode] = gr; } }
             }
         }
         int nst = 0, x0 = -1;
@@ -741,6 +744,7 @@ static void dfsz(int idx) {
             if (r & 4) z_cnt[s][2]++;
             if ((r & 8) || (r & 2)) z_cnt[s][3]++;
             if ((r & 16) || (r & 2)) { z_cnt[s][4]++; z_rms[s][0] += (em < z_rb[0] ? em : z_rb[0]); }
+            if ((r & 64) || (r & 8) || (r & 2)) z_c1p[s]++;
             if ((r & 32) || (r & 8) || (r & 2)) { z_cnt[s][5]++; z_rms[s][1] += (em < z_rb[1] ? em : z_rb[1]); }
         }
         return;
@@ -789,7 +793,7 @@ int rnd_oc1z(int n_, int m_, const ll *vals, int *out_picks, int *out_order, int
     }
     for (int s = 0; s < nst; s++) {
         z_perfect[s] = 1; for (int a = 0; a < n; a++) if (pick[s][a] < 0) z_perfect[s] = 0;
-        for (int k = 0; k < 6; k++) z_cnt[s][k] = 0; z_msum[s] = 0; z_rms[s][0] = z_rms[s][1] = 0;
+        for (int k = 0; k < 6; k++) z_cnt[s][k] = 0; z_msum[s] = 0; z_rms[s][0] = z_rms[s][1] = 0; z_c1p[s] = 0;
     }
     dfsz(0);
     for (int s = 0; s < nst; s++) {
@@ -835,3 +839,4 @@ ll rnd_grid(int n_, int m_, int V, ll *out, ll *rec, int maxrec, ll limit) {
 
 /* after rnd_oc1z: per start, margin sums of the RND1Z and RNDPZ witnesses (min of EFX0 slack and best gain slack) */
 void rnd_oc1z_rmargins(double *out) { for (int s = 0; s < nst; s++) { out[2 * s] = z_rms[s][0]; out[2 * s + 1] = z_rms[s][1]; } }
+void rnd_oc1z_c1p(ll *out) { for (int s = 0; s < nst; s++) out[s] = z_c1p[s]; }

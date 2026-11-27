@@ -182,11 +182,12 @@ def oc1_prime(V, order):
     return any(completion(V, list(s), 1) is not None for s in one_chain_prime(V, b0))
 
 
-def round_pool(V, bases, pooled=True, adders=False):
+def round_pool(V, bases, pooled=True, adders=False, own_chain=False):
     """One round of vertex-disjoint chains with zeros (kgen/rounds.md §4.9), written from the definition.  Sets H
     inside the taker's relevant goods.  pooled=False: a chain's start may take goods of its own end's base only (the
     plain round); pooled=True (ROUND-P): every non-end agent x_i (i < t) of any chain with t >= 1 may take goods of any
-    chain end's base that it values; adders=True (wider variant) lets t = 0 agents take them too.  t = 0 chains add
+    chain end's base that it values; adders=True (wider variant) lets t = 0 agents take them too; own_chain=True
+    (narrower: a round of OC1' moves) lets them take only goods of their own chain's end.  t = 0 chains add
     relevant junk.  Every chain agent strictly gains; untaken end goods are released."""
     n, m = len(V), len(V[0]); used = set(g for b in bases for g in b)
     J = sorted(g for g in range(m) if g not in used); out = set()
@@ -205,7 +206,7 @@ def round_pool(V, bases, pooled=True, adders=False):
         optsJ = [[None] + [a for a in agents if V[a][g] > 0] for g in J]
         optsE = []
         for g, seq in endgoods:
-            takers = [a for a in nonend if V[a][g] > 0 and (pooled or a == seq[0])]
+            takers = [a for a in nonend if V[a][g] > 0 and (pooled or a == seq[0]) and (not own_chain or a in seq)]
             if not pooled: takers = [a for a in takers if a == seq[0] and len(seq) >= 2]
             optsE.append([None] + takers)
         for aJ in itertools.product(*optsJ):
@@ -229,6 +230,6 @@ def round_pool(V, bases, pooled=True, adders=False):
     return out
 
 
-def round_pool_ok(V, order, pooled=True, A=1, adders=False):
+def round_pool_ok(V, order, pooled=True, A=1, adders=False, own_chain=False):
     y = sd(V, order); b0 = [frozenset([g]) if g is not None else frozenset() for g in y]
-    return any(completion(V, list(s), A) is not None for s in round_pool(V, b0, pooled, adders))
+    return any(completion(V, list(s), A) is not None for s in round_pool(V, b0, pooled, adders, own_chain))

@@ -604,13 +604,22 @@ chains x₀ → … → x_t (t ≥ 0).
     may also take end goods.
   - A variant that also lets t = 0 agents take them is `verify_k4zero.round_pool(adders=True)`. It was never needed,
     because RNDPZ itself never failed.
+- *A round of OC₁′ moves (RNDOZ).* The narrowest form: each non-end agent takes goods of *its own* chain's end only, so
+  the round is a set of disjoint OC₁′ moves from the same start. This is the coordinator's
+  `k4/sdc/roundp_check.py`, whose smallest repair at idx 164 is two disjoint rings,
+  ({2}, {1, 7}, {5, 6}, {3}, {4}). The data does not separate it from RNDPZ:
+  - it holds at every start of the table below;
+  - on the random strict cores of `rndp_gap_*.log` its witness count equals RNDPZ's at every start, so cross-chain
+    takes never add a witness.
+  - It is the form to state. In `rnd.c` it is bit 64 (`RNDOZ` in `rndlib.oc1z`), and in the forward code it is
+    `round_pool(own_chain=True)`.
 
 *Two implementations.*
 - `rnd.c` (`oc1z_start`, bits 16 and 32) tests each complete EFX₀ allocation with Lemma RC: passers s(a) = loc(a), any
   number of paths, maximal H.
 - `verify_k4zero.round_pool` simulates forward from the definition.
-- `xcheck_roundz.py` compares them at every perfect start of the certifier's 11 (n = 4) and 24 (n = 5) and of 400
-  random k-limited instances: 1,256 starts, 0 mismatches (`xcheck_roundz.log`).
+- `xcheck_roundz.py` compares them, for RND1Z, RNDPZ and RNDOZ, at every perfect start of the certifier's 11 (n = 4)
+  and 24 (n = 5) and of 400 random k-limited instances: 1,256 starts, 0 mismatches (`xcheck_roundz.log`).
 
 *The coordinator's start* is the certifier's n = 5 instance idx 164: order (1, 4, 2, 0, 3), picks (7, 2, 3, 5, 4).
 OC₁ and OC₁′ fail there. One plain round holds, and all 9 MD allocations are plain-round witnesses, hence ROUND-P
@@ -631,7 +640,8 @@ included, 0 mismatches):
   - At n = 4 (starvation) the plain round never repairs an OC₁^max failure of the certifier's search. The starved
     agent's second foreign pick is held by a *middle* agent, and only the pooled take reaches it.
   - At n = 5 (two cycles) the plain round always suffices.
-- ROUND-P holds at every one of them, at the narrow definition above.
+- ROUND-P holds at every one of them, at the narrow definition above. So does the round of OC₁′ moves (RNDOZ), at all
+  112,880 + 11 + 2 + 47 + 26 starts (`rndp_known.log`).
 
 **Positive-value failures** (`rndp_positive.py`, `rndp_positive.log`; 112 re-checked forward, 0 mismatches):
 - *Starvation.* At all 158 ROUND⁺ failure starts of `fails*.jsonl` (raw, twins, ε-lifts, KCORE, KCOVER, KIPRIME), the
@@ -757,7 +767,7 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 | KGEN.ID | Identical valuations: the picks of every order extend (any n, zeros allowed) | PROVED | `kgen/rounds.md` §5.2 (written proof; checked on 15,684 starts) |
 | K4.SDC.OC1MAX | (existing row, REFUTED by the certifier) OC₁^max on strict connected k = 4 cores | REFUTED | additional artifacts: `attempts/kgen-rounds-oc1max-c4k.md`, `results/kgen_rounds/c4k_oc1_max_orders.log`, `results/kgen_rounds/zcore_fails.json`, `results/kgen_rounds/verify_zfails.log`, `results/kgen_rounds/vs_certifier.log` |
 | K4.SDC.OC1PRIME | OC₁′^max: as K4.SDC.OC1MAX, with non-end chain agents allowed to take goods of the end's base (one move; implies MD) | CERTIFIED at n ≤ 4 (the certifier, `cert_4_prime.json.gz` on `compute/k4-oc1max-cert`; agrees with the 112,880-start check here); REFUTED at n = 5 (the certifier's 24, two disjoint cycles; checked here) | `oc1p_vs_oc2.log`, `oc1p_vs_oc2_forward_0.log`, `oc1p_vs_oc2_forward_1.log` (n = 4, with the certifier's export), `vs_certifier.log`, `xcheck_oc1p_150_6.log`, `verify_zfails.log`, `oc1p*_*.log`. False at k = 5 (PW5) and at positive values (two disjoint swaps) |
-| K4.SDC.ROUNDP | Conjecture ROUND-P^max at k = 4: one round of vertex-disjoint chains in which every non-end agent x_i (i < t) of a chain with t ≥ 1 may also take goods of any chain end's base, one-absorber completion | CONJECTURE (at n ≤ 4 it follows from the CERTIFIED OC₁′^max) | EVIDENCE only: holds at all 112,880 OC₁^max-failing n = 4 starts and at the certifier's 24 n = 5 failures, two implementations (`rndp_known.log`, `xcheck_roundz.log`); strict-core climbs at n = 5, 6 (`zclimb_rndpz_*.log`); `kgen/rounds.md` §4.8, §4.9 |
+| K4.SDC.ROUNDP | Conjecture ROUND-P^max at k = 4: one round of vertex-disjoint chains in which every non-end agent x_i (i < t) of a chain with t ≥ 1 may also take goods of its chain end's base (a round of disjoint OC₁′ moves; letting them take any chain end's goods never adds a witness on the data), one-absorber completion | CONJECTURE (at n ≤ 4 it follows from the CERTIFIED OC₁′^max) | EVIDENCE only: holds at all 112,880 OC₁^max-failing n = 4 starts and at the certifier's 24 n = 5 failures, two implementations (`rndp_known.log`, `xcheck_roundz.log`); strict-core climbs at n = 5, 6 (`zclimb_rndpz_*.log`); `kgen/rounds.md` §4.8, §4.9 |
 | K4.SDC.OC1PERF | OC₁ (and one round) at perfect starts for every instance with ≤ 4 relevant goods per agent (the target of Lemma RED's route; the LOOSE form of OC₁^max) | REFUTED | `kgen/rounds/k4w_check.py`, `results/kgen_rounds/k4w_check.log` (K4W, no worthless good), `results/kgen_rounds/verify_k4zero_W4.log` (W4) |
 
 ## 7. Next

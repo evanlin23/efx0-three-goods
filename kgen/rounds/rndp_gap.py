@@ -66,6 +66,8 @@ if __name__ == '__main__':
                 c = classify(Z, y, X)
                 if c != 'notMD': got[c] += 1
             C['starts'] += 1
+            if r['RNDPZ'] > r['RNDOZ']: C['starts where cross-chain takes add witnesses'] += 1
+            if r['RNDPZ'] > 0 and r['RNDOZ'] == 0: C['STARTS NEEDING A CROSS-CHAIN TAKE'] += 1
             for k, v in got.items(): C['alloc ' + k] += v
             if got['OK'] != r['RNDPZ']: C['COUNT MISMATCH with rnd.c'] += 1; print('MISMATCH', json.dumps(Z), r['order'], dict(got), r['RNDPZ'])
             if got['OK'] == 0: C['START WITHOUT WITNESS'] += 1

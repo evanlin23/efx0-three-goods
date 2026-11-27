@@ -1,2 +1,2 @@
-{('RND1Z', True): 1245, ('RNDPZ', True): 1256, ('RND1Z', False): 11}
-mismatches 0 128 s
+{('RND1Z', True): 1245, ('RNDPZ', True): 1256, ('RNDOZ', True): 1256, ('RND1Z', False): 11}
+mismatches 0 178 s

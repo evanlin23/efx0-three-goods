@@ -1,4 +1,4 @@
-"""Cross-check rnd.c's zero-aware round classes (RND1Z: one round; RNDPZ: ROUND-P) against the forward
+"""Cross-check rnd.c's zero-aware round classes (RND1Z: one round; RNDPZ: ROUND-P; RNDOZ: a round of OC1' moves) against the forward
 verify_k4zero.round_pool at every perfect start: the certifier's 11 (n = 4) and 24 (n = 5) and random k-limited
 instances with zeros (kgen/rounds.md §4.9).
     python3 kgen/rounds/xcheck_roundz.py T SEED [N5]"""
@@ -25,8 +25,8 @@ for V in insts:
     res, _ = rndlib.oc1z(V)
     for r in res:
         if not r['perfect']: continue
-        for k, pooled in (('RND1Z', False), ('RNDPZ', True)):
-            c = r[k] > 0; b = VZ.round_pool_ok(V, r['order'], pooled)
+        for k, pooled, oc in (('RND1Z', False, False), ('RNDPZ', True, False), ('RNDOZ', True, True)):
+            c = r[k] > 0; b = VZ.round_pool_ok(V, r['order'], pooled, own_chain=oc)
             C[(k, c)] += 1
             if b != c: bad += 1; print('MISMATCH', k, json.dumps(V), r['order'], 'C', c, 'forward', b, flush=True)
         if r['RNDPZ'] == 0:   # the wider variant (t = 0 agents may take end picks too), forward only
