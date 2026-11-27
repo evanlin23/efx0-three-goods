@@ -53,6 +53,7 @@ SINK, PARK, SLACK (general). Everything else below is as marked.
 | K4.GIRTH.RF | Rule RF, per-order form: at every OC₁-failing maximum-matching SD order o, moving a receiver u to the front gives maximum-matching picks that satisfy OC₁ | REFUTED at n = 5 (5_pure#374: the ejection path ends with an agent getting nothing; another order beginning with u works); holds at all 292,080 n = 4 orders (exhaustive via the certified failure list) and 2,567 of 2,569 sampled n = 5 orders. The existence form (some order beginning with a receiver; K4.SDC.RF) survives | §7, `k4/girth/oc1_recvfirst.py`, `results/k4_girth_oc1_recvfirst.log`, `results/k4_girth_oc1_demote_n5.log` |
 | K4.GIRTH.DEMOTE | Lemma DEMOTE, uniform statement: at every maximum-matching RF start, w or d owns a one-absorber completion, or a ring through a receiver of length 2 or 3 (T/T*), or a 2-agent chain from a truly dangerous agent (C/C′) repairs | CONJECTURE (no exception: all 292,080 n = 4 orders; at n = 5 the full residue classes DEMOTE-0 (113,484) and (1, 3) (7,733) of the certifier's exports, the 86 stored orders, the 64 two-receiver RF starts, 2,567 sampled orders; DEMOTE-2 at n = 5 covered by oc1-hall's census) | §7, `k4/girth/oc1_residue.py`, `k4/girth/oc1_residue_n5.py`, `results/k4_girth_oc1_residue.log`, `results/k4_girth_oc1_residue_n5.log`, `results/k4_girth_oc1_r2n5.log` |
 | K4.GIRTH.RFPATH | Lemma RF-PATH: moving a receiver u of an SD start (e.g. the last picker) to the front of the order changes the picks only along one ejection path x_1, …, x_ℓ (increasing in the order); every x_i loses value, u gains; the path's end is unfrozen at the new picks (any n, strict additive values) | PROVED (written, not refereed) | §7 |
+| K4.GIRTH.RFT | Lemma RF-T: in DEMOTE-0's trade case, the explicit allocation (p: {Y′_d, j}; d: {Y_p, Y_u}; x_{ℓ−1}: {Y_d, z}; the rest along the path) is EFX₀ iff (W-d) and (W-p) | PROVED (the reduction; written, not refereed); facts (W-d), (W-p) hold at every n = 5 trade start (42,009), EVIDENCE | §7, `k4/girth/oc1_trade.py`, `results/k4_girth_oc1_trade.log` |
 
 ---
 
@@ -796,6 +797,43 @@ So the uniform statement at every maximum-matching RF start reads: **(i) w or d 
 junk good; or (C/C′) a 2-agent chain from a truly dangerous agent taking an improving junk set.** On the complete n = 4
 data and the full n = 5 exports it has no exception.
 
+**Lemma RF-T (the trade case of DEMOTE-0; reduction PROVED, written here, not refereed; facts checked at n = 5).**
+*Setting.* Y′ is an RF start with one receiver d and D_T′ = ∅. Its RF path is u = x₀, x₁, …, x_ℓ = d with ℓ ≥ 2, and d
+takes a junk good g of Y (RF-PATH; J′ = (J ∖ {g}) ∪ {Y_u}). p is a pick-dangerous agent of Y′ holding its own pick
+Y_p, and j ∈ J ∩ R_p, with the trade conditions v_p({g, j}) > v_p(Y_p) and v_d(Y_p) > v_d(g). Suppose J′ ∖ {j} =
+{Y_u, z}, so J = {g, j, z}. Let X be: u takes {Y_{x₁}} (its top good); x_i takes {Y_{x_{i+1}}} for 1 ≤ i ≤ ℓ − 2;
+x_{ℓ−1} takes {Y_d, z}; d takes {Y_p, Y_u}; p takes {g, j}; every other agent keeps its pick.
+*Claim.* X is a complete allocation, and it is EFX₀ iff
+- **(W-d)** no agent other than x_{ℓ−1} values Y_d above its X-bundle, and
+- **(W-p)** no agent other than d values Y_p above its X-bundle.
+
+*Proof.* Every good is placed once: the picks move along the path and the trade, and J = {g, j, z}. A single-good
+bundle threatens nobody under EFX₀. A two-good bundle {a, b} threatens i exactly when v_i(a) > v_i(X_i) or v_i(b) >
+v_i(X_i), since removing one good leaves the other. All bundles have at most two goods, so X is EFX₀ iff no agent
+values a good of another agent's two-good bundle above its own bundle. We show that nobody does so for g, j, z, Y_u.
+- An agent i ∉ {d, p} has v_i(X_i) ≥ v_i(Y′_i). If i picks before d in σ′, then g, j, z and Y_u were all free at its
+  turn (g is taken only by d; the others by nobody), so v_i(Y′_i) exceeds each of them that i values. If i picks
+  after d, it is off the path, Y′_i = Y_i, and in σ the goods g, j, z were free at its turn (junk), while no agent
+  wants Y_u at Y (u is a receiver). u holds its top good.
+- d: v_d(Y_p) > v_d(g) by the trade, and v_d(g) exceeds v_d(j), v_d(z), v_d(Y_u), because d chose g in σ′ while they
+  were free.
+- p: v_p({g, j}) > v_p(Y_p) by the trade. v_p(Y_p) > v_p(z), since z was free when p picked in σ, and v_p(Y_p) ≥
+  v_p(Y_u), since nobody wants Y_u at Y.
+
+So only Y_d (in x_{ℓ−1}'s bundle) and Y_p (in d's) can be wanted, which is (W-d) and (W-p). ∎
+
+*Checks* (`k4/girth/oc1_trade.py`, `results/k4_girth_oc1_trade.log`; all 42,009 trade starts of DEMOTE-0 at n = 5):
+- the reduction agrees with raw EFX₀ at all 42,251 valid trades tested;
+- J′ ∖ {j} = {Y_u, z} at every trade except 206 where j = Y_u;
+- (W-d) holds at every valid trade, and (W-p) at some valid trade of every start. So X is EFX₀ at all 42,009, and
+  at every valid trade when the trade is unique (41,767);
+- every valid p is truly dangerous at Y and keeps its pick at Y′, and every j is junk at Y (41,803 starts, the
+  unique-trade ones and more).
+
+*Open:* derive (W-d) and (W-p) from the hardness of Y. (W-d) needs: d does not want its old pick back, and no
+off-path agent picking after x_{ℓ−1} wants Y_d. (W-p) needs: no wanter of Y_p at Y (p is frozen at Y) still wants it
+at X.
+
 **Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every
 strict connected k = 4 core, at every serial-dictatorship order o whose picks form a maximum matching and fail OC₁,
 the receiver u is unique, and the order (u, o − u) has maximum-matching picks that satisfy OC₁. With K4.SDC.MAXSD this
@@ -848,6 +886,7 @@ python3 k4/girth/oc1_r2n5.py                                    # §7 RF and DEM
 python3 k4/girth/oc1_rf_b_check.py                              # §7 third check of oc1-hall's repair for residue B -> results/k4_girth_oc1_rf_b_check.log
 python3 k4/girth/oc1_demote_n5.py two_move_starts_n5_partial6.json.gz 150 7   # §7 DEMOTE and RF at n = 5 -> results/k4_girth_oc1_demote_n5.log
 python3 k4/girth/oc1_residue_n5.py build PARTIAL6 SEL2 OUT.jsonl.gz 3; python3 k4/girth/oc1_residue_n5.py check OUT.jsonl.gz 3   # §7 -> results/k4_girth_oc1_residue_n5.log
+python3 k4/girth/oc1_trade.py OUT.jsonl.gz 1                    # §7 Lemma RF-T checks -> results/k4_girth_oc1_trade.log
 ```
 Files: `lss.py` (the algorithm, instrumentation, sinks, parking, rotations, G1 repair), `brute.py` (brute force over
 partial orientations), `gen.py` (generators), `sources.py` (repository instance sets).

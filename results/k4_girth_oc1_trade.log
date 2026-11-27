@@ -1,0 +1,34 @@
+$ python3 k4/girth/oc1_trade.py residue_n5.jsonl.gz 1
+   RF-T: (W-d) holds                                                        42251
+   RF-T: (W-p) holds                                                        42009
+   RF-T: X EFX0                                                             42009
+   RF-T: X EFX0 == ((W-d) and (W-p))                                        42251
+   RF-T: remaining junk is not {Y_u, z}                                       206
+   RF-T: trades tested                                                      42251
+   d's new good Y'_d is junk at Y                                           42009
+   every valid j is junk at Y                                               41803
+   every valid p holds its own pick at Y'                                   41803
+   every valid p is truly dangerous at Y                                    41803
+   every valid trade + Y_u to d, other junk to w                            38976
+   every valid trade + Y_u to d, other junk to x2                            2791
+   every valid trade + Y_u to w, other junk to d                            38976
+   every valid trade + Y_u to x2, other junk to d                            2791
+   every valid trade + all remaining junk to d                               8807
+   every valid trade + all remaining junk to w                                 36
+   every valid trade + singles: any                                         42009
+   path length 2                                                            39218
+   path length 2: remaining junk goods after the trade: 2                   39218
+   path length 3                                                             2791
+   path length 3: remaining junk goods after the trade: 2                    2791
+   some valid trade + Y_u to d, other junk to w                             39218
+   some valid trade + Y_u to d, other junk to x2                             2791
+   some valid trade + Y_u to w, other junk to d                             39218
+   some valid trade + Y_u to x2, other junk to d                             2791
+   some valid trade + all remaining junk to d                                9025
+   some valid trade + all remaining junk to w                                 242
+   some valid trade + singles: any                                          42009
+   trade starts                                                             42009
+   u's old pick Y_u is junk at Y'                                           42009
+   valid trades 1                                                           41767
+   valid trades 2                                                              36
+   valid trades 3                                                             206
