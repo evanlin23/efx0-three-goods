@@ -11,7 +11,7 @@ is why it reported failures that the exact checkers do not confirm.
 States: random allocations of the goods to A, B and the pool, kept when partial EFX0 with a nonempty pool.  For each,
 every composite of at most two moves is enumerated; the kind of the first augmenting composite found is counted.
 
-    python3 k4/haxell/ht_n2claim.py N SEED MMAX [KMAX=MMAX] [STATES=200]"""
+    python3 k4/haxell/ht_n2claim.py N SEED MMAX [KMAX=MMAX] [STATES=200] [RELEVANT=0]"""
 import sys, random, itertools, time
 
 
@@ -59,7 +59,7 @@ def augment(vA, vB, o, m):
 if __name__ == '__main__':
     N, SEED, MMAX = map(int, sys.argv[1:4])
     a = dict(x.split('=') for x in sys.argv[4:] if '=' in x)
-    KMAX = int(a.get('KMAX', str(MMAX))); STATES = int(a.get('STATES', '200'))
+    RELEVANT = a.get('RELEVANT', '0') == '1'; KMAX = int(a.get('KMAX', str(MMAX))); STATES = int(a.get('STATES', '200'))
     print('$ python3 k4/haxell/ht_n2claim.py', *sys.argv[1:], flush=True)
     rng = random.Random(SEED); t0 = time.time(); import collections; C = collections.Counter()
     for t in range(N):
@@ -69,6 +69,8 @@ if __name__ == '__main__':
             sk = rng.random() < 0.5            # half the instances: one or two big goods
             return [(rng.random() * (30 if sk and rng.random() < 0.2 else 1)) if g in R else 0.0 for g in range(m)]
         vA, vB = vals(), vals()
+        if RELEVANT and any(vA[g] == 0 and vB[g] == 0 for g in range(m)):
+            continue                                   # RELEVANT=1: every good is valued by someone
         for _ in range(STATES):
             own = [rng.choice((0, 1, -1)) for _ in range(m)]
             if -1 not in own:
