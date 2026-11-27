@@ -3330,7 +3330,19 @@ Both runs have every declaration on `propext`, `Classical.choice` and `Quot.soun
 passing. The certificates for `EFX.OC1Max.sdpo`, `EFX.OC1Max.exists_order_maximum`, `EFX.OC1Max.max_no_augment`,
 `EFX.OC1Max.picks_no_junk`, `EFX.OC1Max.target4_of_conjOC1maxWith`, `EFX.OC1Max.red` and
 `EFX.OC1Max.target4_of_conjOC1perfWith` are in `paper/campaign/lean_check_oc1max.log`. The frames are implications;
-their one-move hypotheses are false (Proposition 7.4). The branch is not yet merged into `main`.
+their one-move hypotheses are false (Proposition 7.4). That branch has since been merged.
+
+A third run, on main at `898d80b0`, which includes the frames and tools of §11.10 (PRs #141, #143, #149), gave
+**CHECK PASSED**: 1,371 audited statements and 2,644 theorems, with a warning-free build and no `sorry`. All 10,002
+declarations of the library use only `propext`, `Classical.choice` and `Quot.sound`. The certificates of the
+declarations cited in §11.10 are in `paper/campaign/lean_check_main.log`:
+- `EFX.OC1Max.target4_of_conjRF` and `conjOC1exmax_of_conjRF`;
+- `EFX.Round.target4_of_roundRSD`, `exists_efx0_of_rounds`, `inv_of_reach` and `lift_base`;
+- `EFX.Round.liftStar`;
+- `EFX.OC1Max.thmS` and `thmS_oc1`;
+- `EFX.Round.oc1PhiAt_of_sPhi` and `conjBasePhi_of_sPhi`.
+
+These are implications. As §11.10 explains, their hypotheses `ConjRF` and `ConjBasePhi`, as stated in Lean, are false.
 
 ## Appendix B. Other refereed results
 
