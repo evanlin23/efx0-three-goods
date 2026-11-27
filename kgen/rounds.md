@@ -57,6 +57,10 @@ every refutation below is confirmed by three independent programs.
     - Four programs agree, among them the campaign's own `k4/sdc/oc1_max_orders.py`.
     - The mechanism is a starved agent with exactly four goods.
     - Two rounds repair both starts, and MD holds.
+    - Direct climbs on cores with zeros found 16 more instances (§4.5), 14 of them strict cores on three
+      non-isomorphic n = 4, m = 7 hypergraphs.
+  - **OC₁′** survives everything (§4.6): middle agents of the chain may also take the end's released goods. It repairs
+    every OC₁ failure found and implies MD. It is the proposed replacement.
 - **Tools.** Lemma RC (one round) and Lemma RC2 (two rounds) turn reachability into a condition on where the picks lie
   in the final allocation. `rnd.c` enumerates every EFX allocation and decides both, in milliseconds at n = 4. Both
   are cross-checked against forward simulations, by exact counts for two rounds.
@@ -73,6 +77,7 @@ every refutation below is confirmed by three independent programs.
 | *k = 4 with zeros, perfect starts:* OC₁ and one round, non-core instances | | **FAIL** (W4: a worthless good; K4W: none, a top-heavy agent) | | §4.3 | k4/sdc pipeline, ocsat, brute force |
 | *k = 4 with zeros:* **OC₁^max on strict connected cores (K4.SDC.OC1MAX)** | | **FAILS** (C4K, m = 7) | | §4.4 | `k4/sdc/oc1_max_orders.py`, k4/sdc pipeline, ocsat, brute force |
 | *k = 4 with zeros:* two rounds on C4K, W4, K4W | | holds | | §4.3, §4.4 | brute force |
+| *k = 4 with zeros:* **OC₁′^max** (middle chain agents may take the end's released goods) | | holds (data: every OC₁ failure, climbs) | holds (data) | §4.6 | rnd.c, forward brute force |
 
 ## 1. Definitions and the round characterization
 
@@ -395,6 +400,47 @@ their four ε-failures, two zero versions satisfy OC₁. The other two are the t
   repair of OC₁ is a move that lets one agent collect two picks: two sequential chains, or a pooled round where
   middle agents draw from the pool (ROUND-P).
 
+### 4.5 Direct climbs on k = 4 cores with zeros: more OC₁^max counterexamples
+- *A zero-aware checker.* `rnd.c` `rnd_oc1z` tests OC₁ at perfect starts with zero values allowed, using the official
+  move of `k4/sdc.md` §29/§31:
+  - an addition, a chain or a ring;
+  - junk sets inside the receiver's relevant goods, the start taking only end goods it values;
+  - one absorber.
+
+  Witnesses come from the EFX₀ enumeration and the analogue of Lemma RC.
+  - *Cross-check* against k4/sdc's pipeline: 0 mismatches on 1,553 perfect starts, 102 of them failing OC₁
+    (`xcheck_z.py`, `xcheck_z_300_5.log`).
+- *Climbs.* `zclimb.py` climbs directly on strict connected k = 4 cores (K4.CORE plus connectivity), minimizing at the
+  perfect starts the OC₁ witness count and margin (`zcore_*.log`). It found **16 further instances**
+  (`fails_zcore.jsonl`, `zcore_fails.json`).
+  - k4/sdc's own `oc1_max_orders.py` confirms a failing maximum-matching order on every one of them
+    (`verify_zfails.log`).
+  - **14 are strict connected cores with n = 4, m = 7, on three non-isomorphic hypergraphs**: C4K's, and the two with
+    relevant sets {0,2,3,5}, {0,2,4,5}, {1,3,4,6}, {0,1,3,4} and {0,3,5,6}, {0,1,3,4}, {1,2,5,6}, {0,1,3,4}.
+  - The other two are not strict (ties); one has n = 5, m = 10.
+- So C4K is not an isolated accident. OC₁^max fails on a positive fraction of the ε-climbable n = 4, m = 7 core space.
+  Random sampling of profiles missed it because the failing profiles are rare.
+
+### 4.6 OC₁′: a one-move repair that survives
+- **OC₁′.** The move is OC₁'s single chain (or addition, or ring), except that every *non-end* agent of the chain may
+  also take goods of the end's base that it values. The start already may (a ring); now a middle agent may too, on top
+  of the base it receives. That base is released anyway.
+  - Every chain agent strictly gains and the others keep their picks, so OC₁′ still implies MD.
+  - With Lemma MAXSD and the core reduction, OC₁′^max (maximum-matching starts of strict connected k = 4 cores) would
+    still imply TARGET₄.
+  - OC₁′ is the single-chain case of ROUND-P (§4.2).
+- *In C4K:* the chain 1 → 2 → 3. Agent 1 takes the junk {4, 5}; agent 2 receives agent 1's pick g6 and takes the
+  released g3 plus the junk g2, 1787 > 1025; agent 3 receives g0.
+- *Evidence.*
+  - OC₁′ holds at every perfect start where OC₁ fails: 77 zero-version starts from the ε-lifts, and the 16 instances
+    of §4.5, so C4K, K4W and W4 included.
+  - Two implementations agree with 0 mismatches: rnd.c (`OC1P`) and a forward brute force written from the
+    definition (`verify_k4zero.one_chain_prime`). They were compared on 984 perfect starts, 79 of them OC₁-false
+    (`xcheck_oc1p.py`, `xcheck_oc1p_150_6.log`).
+  - Direct OC₁′ climbs on cores (`oc1p_*.log`, ZCLASS = OC1P) bottom out at one witness. No failure so far.
+- *Caveat.* No OC₁′ failure is known, so the two implementations agree only on its "true" branch. Each finds an
+  explicit witness independently at all 79 OC₁-false starts.
+
 ## 5. n = 3
 
 ### 5.1 One round survives
@@ -481,6 +527,7 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 | KGEN.ROUND3 | ROUND⁺ at n = 3 | CONJECTURE | EVIDENCE only (§5.1); a proof would reprove CGM |
 | KGEN.ID | Identical valuations: the picks of every order extend (any n, zeros allowed) | PROVED | `kgen/rounds.md` §5.2 (written proof; checked on 15,684 starts) |
 | K4.SDC.OC1MAX | (existing row) OC₁^max on strict connected k = 4 cores | CONJECTURE → **REFUTED** | `attempts/kgen-rounds-oc1max-c4k.md`, `kgen/rounds/c4k_core.py`, `results/kgen_rounds/c4k.json`, `results/kgen_rounds/c4k_oc1_max_orders.log`, `results/kgen_rounds/c4k_check.log`, `results/kgen_rounds/c4k_mechanism.log` |
+| K4.SDC.OC1PRIME | Conjecture OC₁′^max: as K4.SDC.OC1MAX, with non-end chain agents allowed to take goods of the end's base | CONJECTURE | EVIDENCE only: `kgen/rounds.md` §4.6, `results/kgen_rounds/xcheck_oc1p_150_6.log`, `results/kgen_rounds/verify_zfails.log`, `results/kgen_rounds/oc1p_*.log` |
 | K4.SDC.OC1PERF | OC₁ (and one round) at perfect starts for every instance with ≤ 4 relevant goods per agent (the target of Lemma RED's route; the LOOSE form of OC₁^max) | REFUTED | `kgen/rounds/k4w_check.py`, `results/kgen_rounds/k4w_check.log` (K4W, no worthless good), `results/kgen_rounds/verify_k4zero_W4.log` (W4) |
 
 ## 7. Next
