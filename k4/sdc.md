@@ -2133,6 +2133,9 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
   - RF now reads: for every receiver u of a failing start, every u-first maximum-matching order satisfies OC₁. It holds at
     all 4, for either receiver.
   - The Lean frame `target4_of_conjRF` does not use uniqueness.
+  - **A receiver always exists.** In any order, the last picker is a receiver, because a wanter of a pick picks after
+    its holder (TTC, `k4/ttc.md` §14.7, refereed item 53; Lean `exists_receiver` in #147). So "for every receiver u" is
+    never vacuous, and the amended RF still implies OC₁^∃max. The referee raised this point (item 65 note).
   - Consequence for the RF proof plan: at n ≥ 5 the R2 class is no longer covered by R2. A uniform proof of girth's "(i)
     owner w or d, or (T), or (C)" is the route, and it never used R2 on the data.
 
