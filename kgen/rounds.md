@@ -1143,6 +1143,30 @@ allocations on random strict cores (n = 4, m = 7: 5,452; n = 5, m = 8: 2,315).
   - a rule for choosing h, e.g. the good of X_q that the agents violating (O1) value most;
   - a bound showing that (O2) cannot occur together with (O1) for that h. On the data this is the rare case.
 
+**Explicit rules for h** (`untangle_rule.py`, `untangle_rule_4_7.log`, `untangle_rule_5_8.log`). The coordinator
+suggested "q's most-envied junk good". Each rule applies (U0) if the return is EFX₀, and otherwise the swap with the
+rule's h. Failures over all non-witnesses (5,452 at n = 4, 2,315 at n = 5):
+
+| rule for h | n = 4 | n = 5 |
+|---|---|---|
+| *any single h (the benchmark: best possible swap)* | 397 | 90 |
+| violmin: maximize the smallest value the (O1)-violators give h | **501** | **137** |
+| fixq: maximize the number of agents with no violation toward q's new bundle | 509 | 137 |
+| violator: maximize the largest value an (O1)-violator gives h (the most-envied good) | 519 | 137 |
+| keeper: v's favourite junk good of X_q | 639 | 192 |
+| envysum: maximize Σ_{i ≠ q} v_i(h)/p_i | 650 | 199 |
+| envied: maximize max_{i ≠ q} v_i(h) | 660 | 212 |
+| qleast: q's least valued junk good | 675 | 203 |
+
+- Valuing h by the violators is the right idea: those rules come within 104–122 (n = 4) and 47 (n = 5) of the
+  benchmark.
+- Rules that ignore who violates do markedly worse.
+- No single-good swap is complete. Even the best possible swap fails at 397 and 90 non-witnesses, about 7 % and 4 %.
+- So UNTANGLE needs the fallback (U2) as a genuine second case. On the data it always exists: a pick moving between
+  other agents, or a three-to-five-good exchange (§4.12).
+- A proof along these lines would be a local-search argument with a potential, in the style of the EFX existence
+  proofs for few agents, rather than one exchange.
+
 ## 5. n = 3
 
 ### 5.1 One round survives
