@@ -149,9 +149,9 @@ def main():
         U['  receivers per start %d' % len(r['receivers'])] += 1
     print('globally distinct failing starts (core, ordinal types, picks):')
     for k in sorted(U, key=lambda k: (k.startswith(' '), k)): print('   %-72s %d' % (k, U[k]))
-    print('final score of the seeds (repairing states of the closest vector; capped):',
-          dict(sorted(((k if isinstance(k, str) else min(k, 9)), 0) for k in final) and
-               collections.Counter({(k if isinstance(k, str) else str(min(k, 9))): v for k, v in final.items()})))
+    fs = collections.Counter()
+    for k, v in final.items(): fs[k if isinstance(k, str) else str(min(k, 9))] += v
+    print('final score of the seeds (repairing states of the closest vector, capped at 9):', dict(sorted(fs.items())))
     cores_with = collections.Counter((r['core_m'], r['core_idx']) for r in rows)
     print('distinct failing starts (core, types, picks): %d on %d cores; m of those cores %s'
           % (len(rows), len(cores_with), dict(sorted(collections.Counter(m for m, _ in cores_with).items()))))
