@@ -105,5 +105,7 @@ import EFX.RecS
 import EFX.ThmU
 import EFX.Phantom
 import EFX.SDERound
+import EFX.ThmS
 import EFX.RoundRSD
 import EFX.RF
+import EFX.SPhi

@@ -1,0 +1,6 @@
+{"source": "K4.MULTI.ROUNDE.SEL2 witnesses re-validated", "witness_sha256": "01ec8fb59034c4fc", "export_sha256": "d1f6f0821cf2e83a", "export_minus_witness": 0, "export_starts": 583680, "no_witness": 0, "round_size_1": 384000, "round_size_2": 391680, "rounds_1_2": 391680, "rounds_2_1_1": 192000, "valid": 583680, "witness_minus_export": 0, "witnesses": 583680}
+{"source": "ROUNDE.SEL2 own mutants, every 50th witness", "T_cut_ACCEPTED": 0, "T_cut_tests": 11674, "bundles_0_1_swapped_ACCEPTED": 0, "bundles_0_1_swapped_tests": 11674, "chain_head_replaced_ACCEPTED": 0, "chain_head_replaced_tests": 11674, "order_reversed_ACCEPTED": 0, "order_reversed_tests": 11674, "settled_agent_gets_a_good_ACCEPTED": 0, "settled_agent_gets_a_good_tests": 11674}
+
+real	2m0.020s
+user	1m53.675s
+sys	0m5.689s
