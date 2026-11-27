@@ -2042,7 +2042,7 @@ profiles had missed them. The coordinator replayed both independently.
   - The Lean frames (K4.SDC.OC1MAX.LEAN, OC1PERF.LEAN) are implications and stay valid. They are parametrized by
     the move relation (ConjOC1maxWith), so a two-move relation fits them directly.
 
-**OC₁′^max holds at n = 4 and fails at n = 5** (2026-11-27 01:00 UTC). OC₁′ is from kgen/rounds.md §4.6: a single move
+**OC₁′^max holds at n = 4 and fails at n = 5** (2026-11-27 00:55 UTC). OC₁′ is from kgen/rounds.md §4.6: a single move
 (addition, chain or ring), where every non-end agent of a chain may also take goods of the end's released base.
 - **n = 4.** OC₁′ holds at all 112,880 (type profile, picks) pairs where OC₁^max fails at n = 4, the certifier's complete
   export (`results/k4_oc1max/two_move_starts_n4.json.gz` on compute/k4-oc1max-cert, sha256 6159e38d…).

@@ -832,7 +832,7 @@ starts.
 **Correction:** the matching session's n = 4 walk count is 3,179 (not 3,190 or 3,308; the earlier figures counted the
 11 stored instances twice). No "holds on all" claim changes.
 
-### 2026-11-27 01:10 UTC: burst 4, addendum (OC₁′, merging)
+### 2026-11-27 01:02 UTC: burst 4, addendum (OC₁′, merging)
 - **OC₁′^max: holds at n = 4, REFUTED at n = 5.** OC₁′ is kgen-rounds' widened single move: non-end chain agents may
   also take the end's released pick.
   - n = 4: it holds at all 112,880 OC₁^max-failing starts of the certifier's export. Implementations: kgen-rounds' rnd.c,
