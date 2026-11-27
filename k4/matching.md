@@ -881,6 +881,20 @@ The witnesses are re-checked by `check_rsd.py`, which now also verifies rounds.
   `round_rsd_5pure_s5o0.log`, `check_round_rsd_5pure_s5o0.log`: 280 / 280.
 - **n = 5 walks, 23,924:** one round of two at every start, 23,924 / 23,924.
 
+*The coordinator's threat-graph rule* (`round_rsd.py` with ROUNDS=scc / scc2 / minimal, EXPLORE=1; logs
+`round_rsd_explore_*`). Draw an arc s → s′ between candidate settlements when s's T threatens an agent that lies on s′'s
+chain. The conjecture was: one strongly connected component per round avoids every RSD dead end.
+- Taken literally (a whole component as the round), it fails at #419 and #447. There the component also contains
+  alternative settlements of the same agents, so it is never a compatible round.
+- Taking only the 2-cycles of the graph as rounds (scc2), or only the pairs neither of whose members passes (L\*)
+  alone (minimal), repairs every start: all 112,880 at n = 4, and all 280 5_pure (24 in one round, 256 in two).
+- **But dead ends stay reachable** under every round rule. A dead end is a state with no lifting completion and no
+  admissible round. They are reachable from the same 16,240 n = 4 starts as for RSD, and from 123 of the 280 5_pure
+  starts, whether rounds are scc2, minimal, or any compatible pair. The n = 4 dead ends do not come from threats; one
+  example examined is a state whose only dangerous agent's improving set is a triple that threatens a holder.
+- So the choice of rounds must be existential, as for RSD. The rounds fix the RSD-X starts; they do not make the
+  process greedy.
+
 > **Conjecture ROUND-IND (K4.MATCH.ROUNDRSD).** At a perfect SD start (≤ 4 relevant goods per agent) carrying
 > phantom constraints from earlier rounds, either a completion respecting them exists, or some round of simultaneous
 > settlements, with (L\*) at its end, respects them and leads to a reduced instance that satisfies the hypothesis
