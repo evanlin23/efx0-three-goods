@@ -1094,6 +1094,21 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
       old position.
   - At k = 4, RF is certified at n ≤ 4 (K4.SDC.RF), and rfcegar certifies it on the 11 cores. So RF in this form is
     k-sensitive. The step to k = 5 lets agents 0 and 1 hold five goods each, which is what makes this start fail OC₁.
+- **Twins are not the whole story: RF5b** (`refute_rf_k5.py`, second instance).
+  - Same hypergraph and start, with vals [[3,22,23,43,38],[20,26,16,43,32],[10,2,7,4],[8,1,6,4]].
+  - Agents 2 and 3 rank their goods the same way (3 > 5 > 6 > 4) but differ in type: v₂(3) + v₂(4) = 12 > 11 =
+    v₂(5) + v₂(6), while v₃(3) + v₃(4) = 9 < 10 = v₃(5) + v₃(6).
+  - The same Y and Z fail OC₁, by both checkers.
+  - It was found by `rfcegar.RFT`. That form excuses a failing receiver-first vector that is the start with
+    identical-type agents' picks permuted; "identical type" is exact, via XOR literals over every comparison bit of
+    the pair.
+  - So "every receiver-first order, up to relabelling exact twins" fails too.
+- **Up to ordinal twins it holds on this hypergraph** [Cert] (`rfcegar.py --ordinal-twins`). Ordinal twins have the
+  same relevant set and the same ranking of single goods.
+  - Every strict profile is covered: 7,549 iterations, 4 twin images excused.
+  - SD sees only rankings, so permuting ordinal twins maps SD starts to SD starts. That is a natural excuse.
+  - The candidate refined statement: every receiver-first maximum-matching vector satisfies OC₁, unless it is the
+    start with ordinal twins' picks permuted.
 - **RF∃ ("some receiver-first order works") survives** (`rfcegar.RFE`; `rfecegar_*.log`).
   - *The tool.* One SD pick system per fixed order (24 at n = 4), each with an indicator of being a maximum matching.
     A violation needs every u-first order to give non-maximum picks or picks that fail OC₁. A repair witness of any

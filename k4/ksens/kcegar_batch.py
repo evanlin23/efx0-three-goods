@@ -18,6 +18,7 @@
              point, so 'certified' covers every strict profile (kcegar_exact_check.py validates this).
 --rf: test Conjecture RF instead (rfcegar.py; D is ignored): every receiver-first maximum-matching order of every
              failing maximum-matching start satisfies OC1, for every strict profile.
+--rft: RF up to ordinal twins (rfcegar.RFT, ordinal=True).
 --rfe: the weak form RF-exists (rfcegar.RFE): some receiver-first order gives maximum-matching picks satisfying OC1.
 --prio=LOG: (any mode) run first the one-good extensions of the hypergraphs with a FAIL line in LOG.
 --ckpt=FILE: append every finished hypergraph's record to FILE (JSON lines) and skip the ones already there (except
@@ -108,10 +109,11 @@ def recheck(R, vals, Y, D, A=1):
 def job(task):
     name, sets, D, limit = task; t0 = time.time()
     g6 = next((a[8:] for a in sys.argv if a.startswith('--grid6=')), None)
-    ex = '--exact6' in sys.argv; rf = '--rf' in sys.argv or '--rfe' in sys.argv; rfe = '--rfe' in sys.argv
+    ex = '--exact6' in sys.argv; rf = any(a in sys.argv for a in ('--rf', '--rfe', '--rft')); rfe = '--rfe' in sys.argv
     if rf:
         import rfcegar
-        C = (rfcegar.RFE if rfe else rfcegar.RF)(sets, grid6=g6, grid_exact=ex)
+        if '--rft' in sys.argv: C = rfcegar.RFT(sets, ordinal=True, grid6=g6, grid_exact=ex)
+        else: C = (rfcegar.RFE if rfe else rfcegar.RF)(sets, grid6=g6, grid_exact=ex)
     else: C = kcegar.Cegar(sets, D=D, require_max='--any-start' not in sys.argv, grid6=g6, grid_exact=ex)
     r, w = C.run(time_limit=limit); rec = {'name': name, 'sets': sets, 'D': ('RFE' if rfe else 'RF') if rf else D, 'result': r,
         'iterations': C.iters, 'kinds': dict(C.kinds), 'types': [len(t) if t is not None else ('grid' if C.G[i] else 'LP') for i, t in enumerate(C.T)],
