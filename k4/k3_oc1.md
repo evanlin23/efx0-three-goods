@@ -20,9 +20,10 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - kgen-n3's Lemma G5 (Rule E rotations keep the want graph acyclic), checked.
 - **Conjectured, holding on all data.**
   - **T′_k**: some rotation from an exposed agent k of a terminal t into t completes, with no owner or owner k.
-    Exhaustive on every hard perfect draft with n ≤ 6 (338,916 at n = 6); no failure on 4,759 sampled n = 7 drafts.
+    Exhaustive on every hard perfect draft with n ≤ 6 (338,916 at n = 6). **It fails once at n = 7**: exposed
+    agents share their pair, so owner t is needed (`attempts/k4-k3oc1-tprime-k.md`).
   - **T-E∃**: some valid Rule E (earliest-wanter) rotation completes, with owner nobody, the chain's end e, or k,
-    plus k's slot.
+    plus k's slot. No failure on any data, including the T′_k counterexample, where e = t owns.
   - **The crossed configuration.** Where no single rotation is valid (64 two-terminal gap drafts at n = 6, 1 at
     n = 7), Lemma 7's ring with two pair arrows completes.
   - **T-ω**: every least-ω′ Rule E rotation completes (it releases the most goods, by Lemma 5). It holds on every gap
@@ -663,7 +664,9 @@ does not see releases; that is where a proof must go.
 
 **Conjecture T′ (one move into a terminal).** At every hard perfect draft of a ledger core, some rotation from an
 exposed agent k of a terminal t into t has a one-absorber completion. **Strong form T′_k:** with no owner, or with
-owner k (B\*'s owner). (An earlier version also claimed the no-owner form for |T| = 1 and |E_t| ≥ 2, kgen-n3's T1′;
+owner k (B\*'s owner). **T′_k is false at n = 7** (`attempts/k4-k3oc1-tprime-k.md`). In a one-terminal gap draft
+of an m = 11 core, both exposed agents share their pair, and after either rotation only the terminal (or another
+terminal) can own. T′ itself, and T-E∃ with owner e = t, hold there. (An earlier version also claimed the no-owner form for |T| = 1 and |E_t| ≥ 2, kgen-n3's T1′;
 that is false, see below.)
 - T′ holds on all data, with no failure (`tprime_*.log`):
   - every hard perfect draft of every core with n ≤ 5;
@@ -774,7 +777,8 @@ profiles, 541 m = 12 cores × 200), every order.
   - n = 8, m = 14 cores: 1,232 cores × 100 profiles, 1,181 hard drafts (240 with |T| = 1, 787 with |T| = 2, 154 with
     |T| = 3).
   - DE's general core case n = 5 (652 classes, 0 or 1 dead good): 8,326 hard drafts, including 21 with |T| = 3.
-- **T′_k and T-E∃ hold on all of them, with no failure.**
+- **T′_k and T-E∃ hold on all of them, with no failure.** (A later n = 7 batch, `te_sample7_11e_0.log`, has the one
+  T′_k failure of `attempts/k4-k3oc1-tprime-k.md`.)
 - The every-k form fails again, in the gap as well: at n = 7, on one- and two-terminal gap drafts.
 - **A second crossed configuration**, at n = 7 (m = 11): a two-terminal gap draft with no valid single rotation.
   Agents 0: 0>7>5, 1: 1>8>5, 2: 3>9>6, 3: 4>6>10, 4: 1>0>6, 5: 3>4>2, 6: 2>5>6; order 0, …, 6.
