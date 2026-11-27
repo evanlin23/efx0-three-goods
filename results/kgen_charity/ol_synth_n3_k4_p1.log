@@ -19,3 +19,8 @@ q 1 sizes (5, 2, 2) UNSAT 175 cuts 64.4 s
 q 1 sizes (5, 3, 1) UNSAT 157 cuts 51.8 s
 q 1 sizes (5, 3, 2) UNSAT 168 cuts 87.6 s
 q 1 sizes (5, 3, 3) UNSAT 0 cuts 0.4 s
+q 1 sizes (5, 4, 1) UNSAT 116 cuts 33.4 s
+q 1 sizes (5, 4, 2) UNSAT 0 cuts 0.4 s
+q 1 sizes (5, 5, 1) UNSAT 0 cuts 0.3 s
+q 1 sizes (6, 2, 1) UNSAT 123 cuts 18.2 s
+q 1 sizes (6, 2, 2) UNSAT 132 cuts 37.3 s
