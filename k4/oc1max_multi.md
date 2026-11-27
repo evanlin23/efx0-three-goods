@@ -1202,6 +1202,11 @@ X = B_o ∪ (J ∩ R_i). Suppose:
 Then B has an S\* completion with owner o and kept-out set H: o takes X, and |H| distinct holders take one good of H
 each.
 
+*Refereed CORRECT (`k4/referee/oc1max_multi.md` §13, commit 9ef2fed0). The referee notes that (W1) is never used:
+the statement holds for any kept-out set H ⊆ J such that X = B_o ∪ (J ∖ H) threatens nobody and there are |H|
+holders (79,459 random cases, 49,466 of them without (W1), 0 failures). (W1) is what makes this H the useful choice
+for agent i.*
+
 *Proof.* Lemma M (refereed) applies at B with owner o and kept-out set H. By (W2) the owner's bundle X threatens nobody
 at its base value, so no agent is needy, and (C1) holds. A non-needy holder accepts every good. So by (W3) any |H|
 distinct holders give a matching saturating H, which is (C3). ∎
@@ -1268,22 +1273,62 @@ requirements) all apply verbatim in this class. If every two-move start reaches 
 applies after at most one settlement, OC₂^max follows. What remains is the existence argument (Sub-lemma
 **RSD-EX**, open): at a hard start with no one-move repair, k's best pool pair is (K)-safe for some Theorem S case.
 
-**Proposition K-loc (K4.MULTI.KLOC): where (K) can fail.** In Theorem S's allocation X⁻ of the reduced instance, the
-multi-good bundles are W⁻ = (J⁻ ∖ h) ∪ {Y_{z′}} and {B₁_r, h}.
-- (K-b) needs a pick ℓ with v_k(ℓ) > v_k(T) > p_k. Such a pick was taken before k's turn, by an agent q that picked
-  before k. Hence q ∉ E(k), since σ increases along E(k), and q still holds ℓ at B₁. In X⁻, ℓ is in a multi-good
-  bundle only if q is the receiver r of h, or q is P′'s head z′ (ℓ released into W⁻, or ℓ = h).
-- (K-a) needs Y_k ∈ W⁻. Y_k is held by x₁ at B₁, so Y_k ∈ W⁻ forces z′ = x₁. It also needs ℓ ∈ W⁻, so ℓ is a pool good
-  of E(k) outside T, and p_k + v_k(ℓ) > v_k(T). (The bundle {Y_k, h} never threatens k, since v_k(h) ≤ p_k.)
+**Proposition K-loc (K4.MULTI.KLOC): where (K) can fail.** *Corrected after the referee's verdict
+(`k4/referee/oc1max_multi.md` §13, commit 9ef2fed0). The first version said "q is the receiver or the head". That is
+WRONG: P′ can move ℓ from q to q's successor on P′. The referee's counterexample is from the n = 4 export: picks
+(5, 1, 4, 6), k = 3, E(3) = (3, 2, 1), T = {2, 3}, ℓ = 5, q = 0, and P′ = (0, 1) hands ℓ to the receiver 1. All 9,600
+(K) failures in `rec_k.log` are of this kind.*
 
-So **(K) holds for every Theorem S case of I⁻ whose receiver and head avoid q, and whose head is not x₁ when k values a
-third pool good.** *Proof:* the case analysis above, with (G2) for junk and v_k(Y_k) = p_k < v_k(T). ∎
+Setting: k keeps T with τ = v_k(T). R_k ∖ T ⊆ {Y_k, ℓ}, and q is ℓ's holder at B₁ when ℓ is a pick. q picked before k,
+so q ∉ E(k). Let ℓ⁺ be ℓ's holder after P′: q itself, or q's successor if q is on P′ before its head. In Theorem S's
+allocation of I⁻, the multi-good bundles are W⁻ = (J⁻ ∖ h) ∪ {B₁_{z′}} and {B₂_r, h}. **(K) holds if all three of these
+hold:**
+- q ≠ z′;
+- ℓ⁺ ≠ r;
+- not (z′ = x₁ and ℓ is a pool good of E(k) outside T).
 
-When ℓ is a pick, k values only Y_k and two pool goods besides ℓ, so T\* is k's only pool pair. RSD-EX is then purely a
-choice of the Theorem S case in I⁻. In the phantom language, it must avoid the phantom-frozen holder q. The census
-shows such a case always exists (`rec_k.log`): (K-a) never occurs, and the 9,600 (K-b) failures at n = 4 always have
-a sibling case that avoids q. A proof would come from (S-c)'s freedom: Theorem S's receiver is the head or an
-unfrozen second wanter, and the head of a longest chain of I⁻ need not be q.
+*Proof.* k values only Y_k and ℓ outside T, and v_k(Y_k) = p_k < τ. A pool good is worth less than p_k to k.
+- *{B₂_r, h}* threatens k iff v_k(B₂_r) > τ or v_k(h) > τ.
+  - v_k(B₂_r) > τ forces B₂_r = ℓ, i.e. r = ℓ⁺.
+  - v_k(h) > τ forces h = B₁_{z′} = ℓ, i.e. z′ = q.
+- *W⁻.* If W⁻ ∩ R_k is a single good, it is worth at most max(p_k, v_k(pool good)) < τ. Two goods of R_k ∖ T in W⁻
+  need Y_k ∈ W⁻, so B₁_{z′} = Y_k and z′ = x₁. They also need ℓ ∈ W⁻, so ℓ ∈ J⁻ (a pool good), or ℓ = B₁_{z′}, which
+  means z′ = q.
+- Singletons never threaten. ∎
+
+The referee found the three conditions exact on all data: 636,720 export cases and 32,164 walk cases, with 0
+counterexamples and 0 false alarms. In the phantom language, **ℓ's bundle must stay exactly {ℓ} after P′**, wherever
+P′ moves ℓ. (The charity session, `kgen/charity.md` §10, says the same: ℓ's holder is frozen for every pool good.) The
+census shows that a Theorem S case meeting the three conditions always exists for k's best pool pair (`rec_k.log`).
+RSD-EX asks for a proof of this.
+
+**Phantom class: a gap, and its fix (referee).** The class above lacks (G2) for phantoms: no junk good may be worth
+more than τ_φ to a phantom φ. Theorem S's step 3 and Lemma M^c's Claim use it.
+- The gap: if a later settlement chain ends at the holder of a pick that a phantom wants, that pick is released into
+  the junk, and putting it into the new pair T′ instead threatens the phantom.
+- The referee's hand-built instance (`k4/referee/phantom_cex.py`) has no EFX₀ completion left. Its data: v₀ = {0: 10,
+  6: 6, 7: 5}, v₁ = {0: 9, 1: 5}, v₂ = {1: 10, 2: 6, 4: 4, 5: 3}, v₃ = {2: 8, 3: 4}, σ = (0, 1, 2, 3). It settles 2 by
+  E = (2, 3) with T = {4, 5}, and then 0 by E = (0, 1) with T′ = {6, 7}, which releases good 1.
+- **Fix:** no settlement chain and no final P′ may end at a phantom-frozen agent; phantoms count as wanters when heads
+  are chosen. (G2) for phantoms then holds by induction. It cannot fail at the first settlement, and it never arose in
+  the data (0 of 9,600 second settlements at n = 4).
+
+The referee also checked the class's other invariants. Real agents' (L) is automatic. Earlier phantoms' pairs never
+threaten later phantoms, because a later phantom was a real agent at each earlier settlement. So only the new pair
+needs a check.
+
+**Satisfied and active phantoms** (`phantom_sat.py`, `phantom_sat.log`; the charity session's question). A settled k is
+*satisfied* if v_k(R_k ∖ T) ≤ τ. Then neither (K-a) nor (K-b) can occur, and k imposes no constraint. Otherwise it is
+*active*. Counting E(k) for every order with k's best pool pair:
+
+| data | settlements | satisfied | active, ℓ a pick | active, ℓ a pool good | starts with a satisfied option |
+|---|---|---|---|---|---|
+| walk failures | 9,910 | 1,235 | 7,603 | 1,072 | 879 of 4,955 |
+| n = 4 export | 584,160 | 113,600 | 387,680 | 82,880 | 38,720 of 112,880 |
+| n = 5 walks near 5_pure#164 | 134,670 | 0 | 134,670 | 0 | 0 of 22,445 |
+
+So active phantoms are the rule. An inductive argument must bound how many there are: each active phantom freezes the
+bundle of ℓ, at most one per phantom.
 
 ## 15. Can Part 1 be dropped? The RSD census (the integrator's §24.3 request)
 

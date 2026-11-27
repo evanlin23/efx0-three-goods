@@ -1,0 +1,4 @@
+# inputs: results/k4_oc1max_multi/oc1_fail_walk.jsonl.gz; results/k4_matching/n5_walk164_long.jsonl.gz (proof/k4-matching, 60d4ab1); the n = 4 export results/k4_matching/data/two_move_starts_n4.json.gz (4551d91a) flattened to rows
+oc1_fail_walk.jsonl.gz {'settlements: active, l a pick': 7603, 'settlements: satisfied': 1235, 'starts': 4955, 'starts with some satisfied best-pair settlement': 879, 'settlements: active, l a pool good': 1072}
+n5_walk164_long.jsonl.gz {'settlements: active, l a pick': 134670, 'starts': 22445, 'starts with some satisfied best-pair settlement': 0}
+n4rows.jsonl.gz {'settlements: active, l a pick': 387680, 'settlements: satisfied': 113600, 'starts': 112880, 'starts with some satisfied best-pair settlement': 38720, 'settlements: active, l a pool good': 82880}
