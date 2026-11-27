@@ -66,8 +66,12 @@ every refutation below is confirmed by three independent programs.
       non-isomorphic n = 4, m = 7 hypergraphs.
   - **OC₁′** survives everything (§4.6): middle agents of the chain may also take the end's released goods.
     - It repairs every OC₁ failure found, including all 11 of the certifier's, and implies MD.
-    - **At n = 4 it holds at all 112,880 OC₁^max-failing starts of the certifier's exhaustive search.** So OC₁′^max
-      holds on every n = 4 strict core, given the certifier's certificate (§4.6).
+    - **At n = 4 it holds at all 112,880 OC₁^max-failing starts of the certifier's exhaustive search.** The certifier
+      has since CERTIFIED OC₁′^max at n ≤ 4.
+    - **It FAILS at n = 5** (the certifier, 24 starts; §4.8) by a second mechanism: two disjoint pick cycles, which
+      one round of chains repairs.
+    - So the one-step form that survives every k = 4 failure is **ROUND-P** (a pooled round, §4.8). OC₂^max and two
+      rounds survive as well.
     - It is a one-move alternative to the campaign's current target OC₂^max (two sequential moves).
     - On all 11 of the certifier's instances, every MD allocation has a starved agent, so the obstruction is the same
       k-independent one.
@@ -542,6 +546,40 @@ exhaustive ordinal search.
 - So the grids are evidence for ROUND⁺₃ on small values and say little about RD²⁺. An ordinal search, as the
   certifier did for OC₁^max, would be the right exhaustive test.
 
+### 4.8 OC₁′^max: certified at n ≤ 4, refuted at n = 5 (the certifier); the two-cycle mechanism
+- **The certifier's result** (`compute/k4-oc1max-cert`; it agreed its move generator with
+  `verify_k4zero.one_chain_prime`: identical state sets on 400 random n = 4, 5 core starts, `xcheck_prime.log`).
+  - OC₁′^max holds for every strict profile on all 1,002 n = 4 core hypergraphs (`cert_4_prime.json.gz`, with an
+    independent check), so it is CERTIFIED at n ≤ 4. This agrees with §4.6: two implementations here found OC₁′ at
+    all 112,880 OC₁^max-failing n = 4 starts.
+  - At n = 5 it FAILS: 24 of the first 137 OC₁^max-failing starts of its n = 5 run have no OC₁′ repair
+    (`oc1prime_cex_n5_partial.jsonl` there, copied to `certifier_oc1prime_cex_n5.jsonl`). Each is a perfect
+    maximum-matching start on a strict core.
+- **Checked here** (`check_oc1p_n5.py`, `check_oc1p_n5_first6.log`; `flow_oc1p_n5.py`, `flow_oc1p_n5.log`):
+  - on the first 6, rnd.c and the forward brute force both report that OC₁ and OC₁′ fail;
+  - all 24 are strict cores;
+  - **one round of vertex-disjoint chains repairs all 24**, with one absorber and free (brute force).
+- **The mechanism: two disjoint cycles, not starvation.**
+  - No MD allocation of these starts has a starved agent.
+  - In essentially every MD allocation the moved picks form *two disjoint cycles* (swaps or rotations). For example,
+    in idx 9 the picks rotate 0 → 1 → 2 → 0 and swap 3 ↔ 4.
+  - One chain performs one cycle, even under OC₁′. A round performs both.
+  - It is the positive-value "two disjoint swaps" of §4.6, at k = 4 on cores. `kgen/n3.md` §7's five-good heuristic
+    for it does not hold at n = 5.
+- **The picture at k = 4.**
+
+  | one-step form | starvation (n = 4, C4K, the certifier's 11) | two cycles (n = 5, the certifier's 24) |
+  |---|---|---|
+  | OC₁ (one chain) | fails | fails |
+  | OC₁′ (one chain, middle agents take the end's goods) | holds | fails |
+  | one round of disjoint chains | fails | holds |
+  | ROUND-P (a round whose chain agents take any end's goods) | holds (it contains OC₁′) | holds (it contains the round) |
+  | two sequential moves (OC₂^max) | holds | holds |
+
+  So **ROUND-P^max**, one simultaneous step, is the one-step form that survives every known k = 4 failure, and every
+  positive-value failure (§4.2). At n = 4 it follows from the certified OC₁′^max. Two sequential moves (the
+  campaign's OC₂^max) and two rounds also survive.
+
 ## 5. n = 3
 
 ### 5.1 One round survives
@@ -629,7 +667,8 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 | KGEN.ROUND3 | ROUND⁺ at n = 3 | CONJECTURE | EVIDENCE only (§5.1); a proof would reprove CGM |
 | KGEN.ID | Identical valuations: the picks of every order extend (any n, zeros allowed) | PROVED | `kgen/rounds.md` §5.2 (written proof; checked on 15,684 starts) |
 | K4.SDC.OC1MAX | (existing row, REFUTED by the certifier) OC₁^max on strict connected k = 4 cores | REFUTED | additional artifacts: `attempts/kgen-rounds-oc1max-c4k.md`, `results/kgen_rounds/c4k_oc1_max_orders.log`, `results/kgen_rounds/zcore_fails.json`, `results/kgen_rounds/verify_zfails.log`, `results/kgen_rounds/vs_certifier.log` |
-| K4.SDC.OC1PRIME | Conjecture OC₁′^max: as K4.SDC.OC1MAX, with non-end chain agents allowed to take goods of the end's base (one move; implies MD) | CONJECTURE; at n = 4 holds at all 112,880 OC₁^max-failing starts, by two implementations (with the certifier's OC₁^max certificate, candidate for CERTIFIED at n = 4) | `oc1p_vs_oc2.log`, `oc1p_vs_oc2_forward_0.log`, `oc1p_vs_oc2_forward_1.log` (n = 4, with the certifier's export), `vs_certifier.log`, `xcheck_oc1p_150_6.log`, `verify_zfails.log`, `oc1p*_*.log`. False at k = 5 (PW5) and at positive values (two disjoint swaps) |
+| K4.SDC.OC1PRIME | OC₁′^max: as K4.SDC.OC1MAX, with non-end chain agents allowed to take goods of the end's base (one move; implies MD) | CERTIFIED at n ≤ 4 (the certifier, `cert_4_prime.json.gz` on `compute/k4-oc1max-cert`; agrees with the 112,880-start check here); REFUTED at n = 5 (the certifier's 24, two disjoint cycles; checked here) | `oc1p_vs_oc2.log`, `oc1p_vs_oc2_forward_0.log`, `oc1p_vs_oc2_forward_1.log` (n = 4, with the certifier's export), `vs_certifier.log`, `xcheck_oc1p_150_6.log`, `verify_zfails.log`, `oc1p*_*.log`. False at k = 5 (PW5) and at positive values (two disjoint swaps) |
+| K4.SDC.ROUNDP | Conjecture ROUND-P^max at k = 4: one round of vertex-disjoint chains in which every non-end chain agent may also take goods of any chain end's base, one-absorber completion | CONJECTURE | EVIDENCE only: contains OC₁′ (certified at n ≤ 4) and one round (repairs the certifier's 24 n = 5 failures); `kgen/rounds.md` §4.8 |
 | K4.SDC.OC1PERF | OC₁ (and one round) at perfect starts for every instance with ≤ 4 relevant goods per agent (the target of Lemma RED's route; the LOOSE form of OC₁^max) | REFUTED | `kgen/rounds/k4w_check.py`, `results/kgen_rounds/k4w_check.log` (K4W, no worthless good), `results/kgen_rounds/verify_k4zero_W4.log` (W4) |
 
 ## 7. Next
