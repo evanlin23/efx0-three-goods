@@ -265,7 +265,23 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   strict connected k = 4 core whose picks match every agent, and neither the picks nor any one-move state has an EFX₀
   completion. `EFX.OC1Max.move_local` (any instance): after one move every agent keeps its base or strictly gains with
   a base inside its old base, one other base and the junk; a kernel computation over all 4⁷ allocations, in 16 chunks
-  (`decide +kernel`, about two and a half minutes), shows that no allocation meeting that test is EFX₀.
+  (`decide +kernel`, about two and a half minutes), shows that no allocation meeting that test is EFX₀. A second
+  refutation applies Lemma T6's certificate (`EFX.OC1Max.not_conjOC1max_T6`), with a second kernel computation over
+  the allocations that dominate the picks (the file takes about four minutes).
+- `EFX/OC1MaxMoves.lean`: what one move does, on any instance: `EFX.OC1Max.move_local` (every agent keeps its base,
+  or strictly gains with a base inside one agent's old base and the junk) and `EFX.OC1Max.move_released` (at one-good
+  bases a move releases at most one pick, a chain's end's).
+- `EFX/LemmaM.lean`: **Lemma M** (`k4/matching.md` §1, ledger K4.MATCH.M.LEAN): threats (`EFX.OC1Max.Threat`, EFX₀ in
+  threat form `efx0L_iff`), holders, the S\* completion (`SStar`), (G1), (G2), the owner's set X(H), (H1), exposed
+  holders and the slot graph Γ(H); **`EFX.OC1Max.lemmaM`**: an S\* completion with owner o exists iff some H has (H1)
+  and a slot matching covering E(H) (no dummy slots); (⇐) `sStar_of_slotMatching`, (⇒) `slotMatching_of_sStar`.
+- `EFX/Lift1.lean`: **Lemma LIFT-1** (`k4/matching.md` §6, ledger K4.MATCH.LIFT1.LEAN): **`EFX.OC1Max.lift1`**, "h
+  takes X ∖ {g}, z takes {t, g}" is an S\* completion, as Lemma M (⇐) with H = {g}; the count for z with
+  \|R_z\| ≤ 4 is `value_ownerSet_le`.
+- `EFX/T6.lean`: **Lemma T6** (`k4/ttc.md` §14.2, ledger K4.TTC.T6.LEAN): after one move from a perfect matching start
+  and any completion, value domination (`t6_dominate`), at most two other agents' picks per bundle (`t6_count`), the
+  shape of a bundle with two (`t6_two`), and the certificate that one move fails (`no_completion_of_cert`), which
+  `EFX/OC1MaxCex.lean` applies to instance 1 (`EFX.OC1Max.not_conjOC1max_T6`).
 - `EFX/OC1MaxExamples.lean`: non-vacuity of `EFX/OC1Max.lean` by `decide`, on the MC2 core of `k4/sdc.md` §31 where OC
   fails: the failing start (index order) is not a maximum-matching start (`EFX.OC1Max.Ex.not_maximum_MC2`); the order
   3, 4, 0, 1, 2 picks a maximum matching with a one-absorber completion (`EFX.OC1Max.Ex.maximum_ordM`,
