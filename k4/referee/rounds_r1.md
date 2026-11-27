@@ -148,3 +148,81 @@ own pick and need not gain from Y_k. If it does not gain, no round has X as a wi
   - choose a Theorem S case in which Y_k does not leave the bundles of B₂ (P₂'s start takes Y_k, or P₂'s head is
     not x₁);
   - or show that its final holder gains from it.
+
+## Addendum 2: Lemma SPLICE (`kgen/rounds.md` §4.10 at `7ffbfd2e`, PR #128; coordinator's queue, 2026-11-27)
+
+**Verdict: CORRECT WITH TWO SMALL FIXES** (both wording; the statement the campaign uses, proposed row K4.SPLICE,
+is exactly what is proved). I re-derived the proof step by step and tested it with my own code
+(`splice_ex_ref.py`, `splice_ex_replay.py`, `splice_n5_ref.py`, `splice_n5_gaps_ref.py`; logs
+`results/k4_referee/splice_ex_ref.log`, `splice_ex_replay.log`, `splice_n5_ref.log`). This supersedes the GAP of
+Addendum 1: the case found there is the lemma's EX-b, which the lemma now excludes explicitly.
+
+**Re-derivation.**
+- *Picks per bundle.* k holds Y_z or nothing. u₀ holds W's picks: B₁[u_s] (one pick, since u_s ≠ k) and Y_z when
+  Y_z ∉ T, minus h. w holds one pick, plus h if h is a pick. Every other agent holds one pick.
+  - So the four cases (Y_z ∈ T or not; h junk or a pick) give (q, v) = (none, none), (u₀, w), (k, u₀), (k, w).
+  - In-degree 0 at q exactly when in-degree 2 at v.
+- *Functional graph.* Only one vertex has in-degree 0, so only one component has a tree. That tree is a single path,
+  because a branch point would need a second leaf. v is where it meets the cycle. So f is a permutation or a rho plus
+  cycles.
+- *Round structure.* The Lemma RC structure is forced in one place only:
+  - q has no predecessor (it holds no pick), and as a mover it must pass, so q → f(q).
+  - In the rho with a = q and f(v) = v, v therefore has predecessor q, its own pick is outside its base, and its gain
+    is exactly v_v(X_v ∖ {Y_v}) > p_v.
+  - So **the converse also holds**: in (EX), X is not a witness. My data agree in both directions (below).
+  - Everywhere else the proof's choices are valid structures for RNDOZ: rings start at an agent valuing its received
+    pick; the rho's end pick is at v, a non-end of the same chain; and so on.
+- *Gains and one absorber:* re-derived as written. For b = u₀ this needs v_{u₀}(W) ≥ v_{u₀}(H₀′), i.e. H₀′ ⊆ W
+  (see F1).
+- *The three forms are exhaustive.* Unwinding:
+  - q = k (Y_z ∉ T). Follow Y_k from x₁:
+    - x₁ ∉ P₂: x₁ keeps Y_k. x₁ keeps its own pick only if t = 1 and h = Y_z goes to z = x₁, and then
+      v_z(Y_k) > p_z, so this is not (EX).
+    - x₁ = u_i with i < s, or x₁ = u₀: Y_k's holder u_{i+1} wants it, so this is not (EX).
+    - x₁ = u_s: Y_k lands in W, with v = u₀ = z (**EX-a**), or it is h (**EX-b**).
+  - q = u₀ (Y_z ∈ T, h = B₁[u_s]'s pick). Y_{u₀} reaches an agent that wants it, unless u₀ = x_l and
+    u_s = x_{l+1}, where it is h (**EX-c**).
+- *EX-a needs Y_z ∈ H₀′.* u₀ = z gains strictly in move 2: v_z(H₀′) > v_z(Y_{x_{t−1}}) > p_z. So Y_z ∉ H₀′ would give
+  v_z(W ∖ {Y_z}) > p_z. EX-a was never observed, by me or in the note.
+
+**Fixes.**
+- **F1 (setting).** State h ∉ H₀′ (H₀′ ⊆ W) and w ∉ {k, u₀}.
+  - The proof uses H₀′ ⊆ W in the rho step and in the gains step (b = u₀). It uses w ≠ u₀ in the count of picks.
+  - Both hold for REC-S repairs, because Theorem S takes H₀′ ⊆ W and gives h to z or to a wanter. On my
+    configurations: H₀′ ⊆ X_{u₀}, X a partition, and one extra-good agent, at 3,477 of 3,477.
+- **F2 (ring start).** The list of agents that value their received pick omits w.
+  - It is harmless: in a pure cycle h is junk, because a pick h makes w the in-degree-2 vertex of the rho. So w's
+    received pick is B₂[w], which w wants when it is foreign.
+  - One sentence should say so.
+
+**Data (my code; (EX) as stated, tested against my RNDOZ witness test).**
+
+| data | REC-S configurations | RNDOZ witnesses | (EX) | (EX) and witness / neither |
+|---|---|---|---|---|
+| n = 4 export (112,880 starts) | 627,120 | 627,120 | 0 | 0 / 0 |
+| random strict perfect starts, n = 3–5, seeds 1–3 (687,331 starts) | 23,682 | 23,560 | 122 (all EX-b) | 0 / 0 |
+| the certifier's 280 n = 5 OC₁-failing starts (5_pure) | 4,122 (at 273 starts) | 4,122 | 0 | 0 / 0 |
+
+- At the 280 n = 5 starts, u₀ never keeps its own pick, as the note says.
+- **The constructed instance** (n = 4, m = 7, order (2, 0, 3, 1), picks (1, 6, 3, 5)):
+  - E(3) = (3, 1), T = {0, 4}, P₂ = (2, 1), h = 5 = Y₃ to agent 0, X = ({1, 5}, {3}, {2, 6}, {0, 4}).
+  - X is not a witness (RNDOZ, RNDPZ) and is EX-b.
+  - The other 5 REC-S configurations at this start are witnesses.
+- **Their printed exceptions.** All 43 that the random logs print (of 49; the 4,7 run prints 20 of its 26) replay:
+  - the picks are SD of the stated order, and P₁ is my E(k);
+  - X is complete and raw EFX₀, and is one of my REC-S configurations;
+  - X is no witness, and my (EX) holds: 42 EX-b and 1 EX-c (random4_8 #646).
+  - The totals 49 of 4,616 match the logs' summary lines (26 + 12 + 4 + 7; 2,218 + 1,246 + 669 + 483).
+
+**In passing: K4.MULTI.RECS.EXIST.N5 (REFUTED) is confirmed.**
+- With my E(k) form of REC-S, exactly 7 of the 280 starts have no REC-S configuration: #38, #419, #447, #773, #813,
+  #963 and #1073, the note's seven.
+- #773 and #963: no dangerous agent has an improving pool pair at any order giving the picks.
+- The other five: improving pairs exist and SD-E holds at all of them (8, 12, 12, 2 and 12), but I⁻ has no Theorem S
+  case.
+- Not checked by me: the general canonical-chain form, and the claim that ROUND-P and RNDOZ hold at the 7.
+
+**For the campaign.**
+- REC-S ⇒ ROUND-P is proved outside (EX).
+- "(EX) never occurs at starts without a one-move repair" remains data: 0 of 627,120 at n = 4 and 0 of 4,122 at the
+  n = 5 starts here. It is what a proof of REC-S existence would still need, to give ROUND-P.
