@@ -936,6 +936,9 @@ Logs: `round_rsd_n5partial_s50.log`, `check_round_rsd_n5partial_s50.log`, `rsd_n
   - On the same sample, CM₂ holds and EX\* is exact on the second move at all 2,335.
   - Every #419 and #447 start is of type 4a (a disjoint repairing pair), and every #38 start of type 4b.
   - LIFT-SHAPE⁺ fails at all 2,335.
+- The multi session's `round_e.py` (E-prefix rounds inside its refereed SD-E(round); code at 2d1e1761, unmodified)
+  repairs every 50th start of each list: 11,674 of 11,674, with 0 violations (`round_e_n5sel2_s50.log`). 7,834 take one
+  round and 3,840 take two, matching ROUND-RSD.
 
 **The base case** (the coordinator's question; `attempts/k4-matching-rsd-base.md`; ledger K4.MATCH.RSD.BASE). The
 data are all 10,109 distinct one-absorber-hard starts with a one-move repair: multi's 8,081, Hall's 1,737, and 291

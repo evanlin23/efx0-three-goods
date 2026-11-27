@@ -1,0 +1,7 @@
+# proof/k4-oc1max-multi-2 code at 2d1e1761 (not this workstream's), run unmodified on every 50th start of each hypergraph of results/k4_matching/data/two_move_starts_n5_sel2.json.gz
+$ RMAX=2 python3 k4/oc1max_multi/round_e.py sel2_s50.jsonl.gz
+rounds needed: 1 7834
+rounds needed: 2 3840
+rounds tried 61748
+starts 11674
+not repaired: 0 []
