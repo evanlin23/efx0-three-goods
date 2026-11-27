@@ -1,0 +1,42 @@
+$ python3 kgen/rounds/untangle_roles.py 4,7,600,31
+('distance to better Φ', 1) 1916
+('distance to better Φ', 2) 3349
+('distance to better Φ', 3) 181
+('distance to better Φ', 4) 3
+('distance to better Φ', 5) 3
+('move at distance 1', ('pick to its owner: keeper -> owner',)) 1916
+('move at distance 2', ('junk', 'pick off its owner: keeper -> mover')) 137
+('move at distance 2', ('junk', 'pick to its owner: keeper -> owner')) 3178
+('move at distance 2', ('pick between others: keeper -> keeper', 'pick off its owner: keeper -> mover')) 34
+('non-witness', ('ka', 'ring')) 106
+('non-witness', ('ka',)) 5346
+example distance 2 {"V": [[0, 1653, 956, 0, 0, 980, 2479], [2746, 0, 2352, 0, 2900, 769, 0], [0, 0, 2128, 1064, 1265, 1588, 0], [0, 198, 0, 2338, 993, 0, 2892]], "picks": [6, 4, 2, 3], "X": [[6], [0, 5], [2, 4], [1, 3]], "X2": [[6], [0, 2], [4, 5], [1, 3]], "shapes": ["ka"]}
+example distance 2 {"V": [[0, 1653, 956, 0, 0, 980, 2479], [2746, 0, 2352, 0, 2900, 769, 0], [0, 0, 2128, 1064, 1265, 1588, 0], [0, 198, 0, 2338, 993, 0, 2892]], "picks": [6, 4, 2, 3], "X": [[6], [0, 5], [1, 2], [3, 4]], "X2": [[6], [0, 4], [1, 2], [3, 5]], "shapes": ["ka"]}
+example distance 1 {"V": [[0, 1653, 956, 0, 0, 980, 2479], [2746, 0, 2352, 0, 2900, 769, 0], [0, 0, 2128, 1064, 1265, 1588, 0], [0, 198, 0, 2338, 993, 0, 2892]], "picks": [1, 4, 2, 6], "X": [[1, 4], [0, 5], [2, 3], [6]], "X2": [[1], [0, 4, 5], [2, 3], [6]], "shapes": ["ka"]}
+example distance 1 {"V": [[1320, 0, 0, 2536, 1594, 0, 0], [2992, 1689, 0, 1848, 0, 1645, 0], [0, 0, 1754, 0, 981, 2278, 1056], [2905, 804, 513, 2641, 0, 0, 0]], "picks": [3, 0, 5, 1], "X": [[3], [0], [2, 4, 6], [1, 5]], "X2": [[3], [0], [2, 4, 5, 6], [1]], "shapes": ["ka"]}
+time 39 s
+('direct return fails by', ('other envies q', 'v envies other')) 66
+('direct return fails by', ('other envies q', 'v envies other', 'v envies q')) 23
+('direct return fails by', ('other envies q', 'v envies q')) 723
+('direct return fails by', ('other envies q',)) 1806
+('direct return fails by', ('v envies other', 'v envies q')) 28
+('direct return fails by', ('v envies other',)) 76
+('direct return fails by', ('v envies q',)) 814
+('direct return of Y_q is EFX0', False) 3536
+('direct return of Y_q is EFX0', True) 1916
+('ka keeper needy', True) 5452
+('return + one junk move works', 'NONE') 234
+('return + one junk move works', ('other->other', 'other->q', 'other->v')) 7
+('return + one junk move works', ('other->other', 'other->v')) 41
+('return + one junk move works', ('other->other', 'other->v', 'q->v')) 2
+('return + one junk move works', ('other->other', 'q->other', 'q->v')) 65
+('return + one junk move works', ('other->other',)) 8
+('return + one junk move works', ('other->q', 'other->v')) 8
+('return + one junk move works', ('other->v', 'q->other', 'q->v')) 75
+('return + one junk move works', ('other->v', 'q->v')) 12
+('return + one junk move works', ('other->v',)) 10
+('return + one junk move works', ('q->other', 'q->v')) 2688
+('return + one junk move works', ('q->other', 'q->v', 'v->other')) 10
+('return + one junk move works', ('q->other', 'v->other')) 9
+('return + one junk move works', ('q->other',)) 80
+('return + one junk move works', ('q->v',)) 287

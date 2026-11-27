@@ -1,0 +1,15 @@
+$ python3 kgen/rounds/rndp_structure.py random 5,9,200,13 1 2
+('MD', 'not simple', 'not a witness') 18014
+('MD', 'not simple', 'witness') 3710
+('MD', 'simple', 'not a witness') 369
+('MD', 'simple', 'witness') 87583
+('simple MD', 'one absorber', 'witness') 87583
+('simple MD', 'two absorbers', 'NOT a witness') 369
+('simplest witness shape', ('keep',)) 567
+('simplest witness shape', ('rho',)) 22
+('simplest witness shape', ('rho-fix',)) 1
+('simplest witness shape', ('ring',)) 1
+starts 591
+starts with a SIMPLE RNDOZ witness 591
+starts with an RNDOZ witness 591
+time 14 s
