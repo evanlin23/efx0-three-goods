@@ -20,4 +20,12 @@ if __name__ == '__main__':
             tot += 1; ok = ra == rb == rc and ib == ic; agree += ok
             print('%s D=%d: type lists %s (%.1f s); grid mode %s (%d iterations, %.1f s); first grid version %s (%d '
                   'iterations, %.1f s); %s' % (name, D, ra, ta, rb, ib, tb, rc, ic, tc, 'agree' if ok else 'DISAGREE'), flush=True)
+    G6 = '../../results/k4_ksens/types6_B48.json.gz'          # six goods: no type list; the two grid versions only
+    for S in ([[0, 1, 2, 3, 4, 5], [3, 4, 5], [3, 4, 5]], [[0, 1, 2, 3, 4, 5], [2, 3, 5], [4, 5]]):
+        for D in (1, 2):
+            t = time.time(); b = kcegar.Cegar(S, D=D, grid6=G6); rb = b.run()[0]; ib, cb = b.iters, b.cuts; b.close(); tb = time.time() - t
+            t = time.time(); c = kcegar.Cegar(S, D=D, grid6=G6, grid_fast=False); rc = c.run()[0]; ic, cc = c.iters, c.cuts; c.close(); tc = time.time() - t
+            tot += 1; ok = rb == rc and (ib, cb) == (ic, cc); agree += ok
+            print('k = 6 %s D=%d: grid mode %s (%d iterations, %d cuts, %.1f s); first grid version %s (%d iterations, %d '
+                  'cuts, %.1f s); %s' % (S, D, rb, ib, cb, tb, rc, ic, cc, tc, 'agree' if ok else 'DISAGREE'), flush=True)
     print('agree on %d of %d' % (agree, tot))

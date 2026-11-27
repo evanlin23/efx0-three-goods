@@ -13,8 +13,8 @@
 --grid6=FILE: six-good agents take the grid types of FILE (typesk.py; a subset of all strict types, so 'certified'
              then covers that subset only; a FAIL is a genuine counterexample).
 --prio=LOG: (any mode) run first the one-good extensions of the hypergraphs with a FAIL line in LOG.
---ckpt=FILE: append every finished hypergraph's record to FILE (JSON lines) and skip the ones already there, so a run
-             can be resumed after the container is reclaimed.
+--ckpt=FILE: append every finished hypergraph's record to FILE (JSON lines) and skip the ones already there (except
+             timeouts, which are tried again), so a run can be resumed after the container is reclaimed.
 A FAIL is re-checked on its integer representative by ocsat (SAT; empty passes allowed) for D <= 1, by ocseq (SAT, D
 chains) and by brute force (every state of up to D chains from the definition, raw-EFX0 backtracking completions)."""
 import os, sys, json, time, collections, itertools, multiprocessing as mp
@@ -158,8 +158,9 @@ if __name__ == '__main__':
         done = {}
         if os.path.exists(ck):
             for l in open(ck):
-                try: r = json.loads(l); done[r['name']] = r['result']
-                except Exception: pass
+                try: r = json.loads(l)
+                except Exception: continue
+                if r['result'] != 'timeout': done[r['name']] = r['result']       # a timeout is tried again
         for r in done.values(): C[r] += 1
         tasks = [t for t in tasks if t[0] not in done]; ckf = open(ck, 'a')
         print('checkpoint %s: %d done (%s), %d to go' % (ck, len(done), dict(C), len(tasks)), flush=True)

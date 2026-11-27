@@ -97,7 +97,14 @@ class Cegar:
         if grid6 is not None and any(self.G):
             import numpy as _np
             self.R6 = _np.array(json.load(gzip.open(grid6, 'rt'))['reps'], dtype=_np.int64)
-            self.R6f = self.R6.astype(_np.float32)
+            # the signs of every comparison v(S) > v(T) (disjoint S, T over the six ranking positions) on the grid,
+            # packed: GP[gidx[(S, T)]] is a uint64 bitset over the grid points (padding bits 0)
+            dd = self.gridd; sub = _np.array([[S >> g & 1 for g in range(dd)] for S in range(1 << dd)], dtype=_np.int64)
+            sums = self.R6 @ sub.T; prs = [(S_, T_) for S_ in range(1, 1 << dd) for T_ in range(1, 1 << dd) if S_ & T_ == 0]
+            self.gidx = {p: j for j, p in enumerate(prs)}
+            GT = _np.stack([sums[:, S_] > sums[:, T_] for S_, T_ in prs])
+            pk = _np.packbits(GT, axis=1); pad = (-pk.shape[1]) % 8
+            self.GP = _np.ascontiguousarray(_np.pad(pk, ((0, 0), (0, pad)))).view(_np.uint64)
         assert lazy or not any(self.LP), 'the one-hot mode needs type lists (at most five goods per agent)'
         self.T = [None if self.LP[i] or self.G[i] else agent_types(R) for i, R in enumerate(self.R)]
         self.pool = IDPool(); self.S = Cadical153(); self.cmpv = {}; self.iters = 0; self.kinds = collections.Counter()
@@ -321,9 +328,9 @@ class Cegar:
 
     def realize_grid(self, i, lits):
         """grid mode: a value dict for agent i, or None after adding a blocking clause.  Same answers as
-        realize_grid_ref (the first version, kept as the reference): a recent point satisfying every bit is tried first,
-        then the whole grid in one product (float32, exact: |entries| <= 6 * 48), and the core is found by progressive
-        deletion on prefix ANDs of the sign matrix."""
+        realize_grid_ref (the first version, kept as the reference): a recent point satisfying every bit is tried first;
+        then every bit is a precomputed bitset over the grid (its sign at each grid point), the first point of the AND
+        of all of them is the answer, and the core is found by the same progressive deletion, on prefix ANDs."""
         if not self.grid_fast: return self.realize_grid_ref(i, lits)
         np = self.np; R = self.R[i]; d = len(R)
         sing = {}; other = []
@@ -347,31 +354,30 @@ class Cegar:
             P = np.array(pool, dtype=np.int64); okp = (P @ A.T > 0).all(1)
             if okp.any():
                 vec_ = pool[int(np.argmax(okp))]; return self._grid_found(i, vec_)
-        Wo = np.zeros((len(other), d), dtype=np.float32)       # the non-singleton bits, in ranking coordinates
-        for k, l in enumerate(other):
-            row = self.rowv[abs(l)]; s = 1 if l > 0 else -1
-            for c, x in enumerate(row): Wo[k, pos[R[c]]] = s * x
-        R6f = self.R6f
-        def survivors(cols, alive=None):
-            """the grid points (indices, increasing) satisfying the bits cols in order, or (None, k) at the first
-            column k that leaves none"""
-            for k in cols:
-                pts = R6f if alive is None else R6f[alive]
-                keep = (pts @ Wo[k]) > 0
-                alive = np.nonzero(keep)[0] if alive is None else alive[keep]
-                if not len(alive): return None, k
-            return (np.arange(len(R6f)) if alive is None else alive), None
-        alive, crit = survivors(range(len(other)))
-        if alive is not None:
-            v = self.R6[int(alive[0])]; vec_ = [int(v[pos[g]]) for g in R]
+        # each non-singleton bit is a comparison v(S) > v(T) in ranking coordinates: a packed bitset over the grid
+        keys = []
+        for l in other:
+            row = self.rowv[abs(l)]; s = 1 if l > 0 else -1; Sm = Tm = 0
+            for c, x in enumerate(row):
+                if s * x > 0: Sm |= 1 << pos[R[c]]
+                elif s * x < 0: Tm |= 1 << pos[R[c]]
+            keys.append(self.gidx[(Sm, Tm)])
+        Mk = self.GP[keys]                                      # (bits, words)
+        if len(keys):
+            cum = np.bitwise_and.accumulate(Mk, axis=0); alive = cum.any(1)
+            feasible = bool(alive[-1])
+        else: feasible = True
+        if feasible:
+            k0 = int(np.argmax(np.unpackbits(cum[-1].view(np.uint8)))) if len(keys) else 0
+            v = self.R6[k0]; vec_ = [int(v[pos[g]]) for g in R]
             pool.insert(0, vec_); del pool[64:]
             return self._grid_found(i, vec_)
-        core = [crit]; rest = list(range(crit))                # progressive deletion, as in realize_grid_ref
+        crit = int(np.argmin(alive)); core = [crit]; rest = list(range(crit))   # progressive deletion, as in the reference
         while True:
-            base, _ = survivors(core)
-            if base is None: break
-            _, crit = survivors(rest, base)
-            core.append(crit); rest = rest[:rest.index(crit)]
+            base = np.bitwise_and.reduce(Mk[core], axis=0)
+            if not base.any(): break
+            cur = np.bitwise_and.accumulate(Mk[rest], axis=0) & base
+            k = int(np.argmin(cur.any(1))); core.append(rest[k]); rest = rest[:k]
         self.S.add_clause([-other[k] for k in core] + [-l for l in sing.values()]); self.cuts += 1
         return None
 
