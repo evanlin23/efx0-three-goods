@@ -609,6 +609,10 @@ that is false, see below.)
     |T| = 1 and 140,076 with |T| = 2.
 
   B\* is its deficit-one case with owner k.
+- *Rings with two pair arrows are needed.* `tprime.py` counts as rotations every DE ring through t, including rings
+  with more than one pair arrow. At n = 6, 64 two-terminal gap drafts have no rotation with a single pair arrow at
+  all: the crossed configuration below. On every other draft one pair arrow suffices (Theorems R1C and B\* outside
+  the gap, Conjecture T-E inside it).
 - The no-owner form fails on 21,416 of the n = 6 drafts (14,484 with |T| = 1, 6,932 with |T| = 2), and also on these:
   - n = 4: 20 drafts, all with |T| = 1 and covered by B\*;
   - n = 5, m = 9: 132 with |T| = 1 and 96 with |T| = 2, covered by B\*;
@@ -624,3 +628,89 @@ that is false, see below.)
 - **T′_k on the no-owner failures of the gap** (`owner_k.py`, `owner_k.log`): on all 1,160 of them (360 with
   |T| = 1, 800 with |T| = 2), some rotation completes with owner nobody or k, under the exact test with the owner
   restricted (`lbtest.lb2_owners`). The run of T′_k on every hard perfect draft (`tprime_k.py`) is in progress.
+
+### 12.1 Every earliest-wanter rotation completes (Conjecture T-E)
+
+kgen-n3's **Rule E** (`kgen/n3.md` §15.6 on `claude/kgen-n3`): fix σ, here the order itself (a topological order of
+the draft's need DAG). From a frozen agent x, the next receiver s(x) is the σ-earliest agent that wants Y_x. Since
+wanters come later in σ, iterating s from x ends at a terminal end(x). A *valid Rule E rotation* is a frozen exposed
+agent k with {b_k, c_k} ⊆ J ∪ {Y_e}, e = end(k) (so k ∈ E_e), rotated along its Rule E chain into e. kgen-n3's
+Lemma G5 (checked here) says such a rotation keeps the want graph acyclic.
+
+**The completion LE.** After the rotation and LB's maximal upgrades, give every terminal other than the owner at most
+one junk good, and also k (*k's slot*): k may take a junk good g if {b_k, c_k, g} contains no pair of another
+top-holder. The owner takes the rest. LE is Lemma 1 plus k's slot. It is sound by Theorem 1′'s case analysis. In a
+valid state, a bundle of three goods threatens only a top-holder whose pair lies inside it, and k's bundle contains
+no such pair.
+
+**Conjecture T-E.** At every hard perfect draft of a ledger core, every valid Rule E rotation has a completion LE
+with owner (N) nobody, (E) e, or (K) k. If there is no valid Rule E rotation, some DE ring with several pair arrows
+completes.
+
+Data (`t2k_e.py`; `te_gap_*.log`, `te_gap_fail_owners.log`): every gap draft with n ≤ 6, all rotations.
+
+| gap drafts | valid rotations | LE with owner N or E | needs K (passes simple Lemma 1 with owner k) | no valid rotation |
+|---|---|---|---|---|
+| n = 4, \|T\| = 1: 1,040 | 2,080 | 2,080 | 0 | 0 |
+| n = 5, m = 9, \|T\| = 1: 1,744 | 3,904 | 3,904 | 0 | 0 |
+| n = 5, m ≤ 8, \|T\| = 1: 23,768 | 49,040 | 49,040 | 0 | 0 |
+| n = 6, \|T\| = 1: 96,128 | 210,816 | 210,688 | 128 | 0 |
+| n = 6, \|T\| = 2: 10,304 | 27,008 | 27,008 | 0 | 64 drafts |
+
+- **No failure.** Every valid rotation completes, with no choice of k at all.
+- **Owner e is LB⁺'s owner r.** It fails only on 128 one-terminal rotations at n = 6.
+  - Example: agents 0: 0>1>7, 1: 2>0>8, 2: 3>4>9, 3: 5>0>1, 4: 2>3>6, 5: 6>5>4; m = 10; order (0,1,2,4,5,3);
+    picks (0,2,3,1,6,5); T = {3}, E_3 = {0, 2}; k = 0, chain (0, 3).
+  - Owner 3 fails because agent 1's pair {0, 8} becomes exposed once agent 3 holds a_k = 0.
+  - Owner k sees no new exposure, E′_k ⊆ E_t ∖ {k} (B\* (e); kgen-n3's G3), and passes B\*'s count.
+- **k's slot is needed.** Without it, N or E fails for some rotation on 4,476 one-terminal and 64 two-terminal
+  drafts at n = 6.
+- **Choice rules** (`t2k_rules.py`, `t2k_rules.log`), for the weaker test "simple Lemma 1, owner none or k". On the
+  two-terminal gap at n = 6, "some k" holds on all 10,240 drafts that have a valid rotation; "every k" fails on
+  4,224; the σ-first k fails on 2,752 and the σ-last k on 512; every least-ω′ k fails on 64. Under LE with owner e,
+  every k works.
+- **For every k, any owner** (`t2k_every.py`): all 27,008 two-terminal rotations complete. Length-zero rotations, an
+  exposed terminal dropping its top, are not improving chains and do fail (1,856 of 4,160).
+
+**The crossed configuration** (64 two-terminal gap drafts at n = 6, one hypergraph; `t2k_gap6_T2.log`,
+`t2k_crossed64.log`).
+- **The instance.** Agents 0: 2>0>6, 1: 3>0>7, 2: 4>1>8, 3: 5>1>9, 4: 4>5>0, 5: 2>3>1; order 0, …, 5; picks
+  (2,3,4,5,0,1); J = {6,7,8,9}.
+- **Terminals and exposures.** T = {4, 5}: each holds its c, and nobody wants it. E_4 = {0, 1}, whose pairs are
+  {0,6} and {0,7}, both containing Y_4 = 0. E_5 = {2, 3}, with pairs {1,8} and {1,9}.
+- **Why no single rotation works.** The tops of 0 and 1 are wanted only by 5, and those of 2 and 3 only by 4. So
+  every chain from E_4 ends at 5, and every chain from E_5 ends at 4.
+- **The only DE trades** are the 4 rings t₁ → k₁ → t₂ → k₂ → t₁ with two pair arrows. All complete, and the result
+  is satisfied, e.g. the ring 4 → 0 → 5 → 2 → 4.
+
+**Lemma 5 (release count; proved).** Let P be a perfect DE state (every agent holds a good or a pair). Let P′ be the
+result of a DE trade with q pair-takers, followed by u upgrades: a chain counts its start, and a ring counts its pair
+arrows. Then |J′| = |J| − q − u, |T′| = |T| − q − u + r and ω′ = ω − r, where r = ν − ν′ is the number of *released*
+goods (wanted in P, not wanted in P′). So the no-owner test (a) holds after the trade iff r ≥ ω, and with k's slot,
+when k's slot is usable, iff r ≥ ω − 1.
+
+*Proof.* A chain's start takes two junk goods and its end releases one. Every other pair-taker takes one junk good,
+and so does every upgrade. No agent ends with nothing, so e′ = e = 0, and Lemma 2 gives ω′ − ω = ν′ − ν (upgrades
+leave ν unchanged, since an upgraded b is wanted by nobody, by (UT)). Then |T′| = |J′| − ω′. ∎
+
+**Lemma 6 (hard states; proved).** In a hard DE state, every terminal t has a frozen exposed agent: E_t ∩ F ≠ ∅.
+
+*Proof.* If E_t ∩ F = ∅, Lemma 3's general form holds for owner t: h(E_t ∩ F) = 0 ≤ |T ∖ E_t| − 1, since t ∈ T ∖ E_t.
+Then Lemma 1 (b) completes. ∎
+
+**Lemma 7 (the pointer walk; proved).** At a hard perfect draft, call a frozen exposed agent k *direct* if
+{b_k, c_k} ⊆ J or end(k) = t, where k ∈ E_t. A direct k is a valid Rule E rotation. Suppose no frozen exposed agent
+is direct. For each terminal t choose k_t ∈ E_t ∩ F (Lemma 6). Then f(t) := end(k_t) defines a map T → T with no
+fixed point, and every cycle t₁, …, t_q of f (q ≥ 2) gives a cycle
+t₁ → k_{t₁} ⇝ t₂ → k_{t₂} ⇝ … ⇝ t₁ of DE arrows with q pair arrows, whose Rule E segments are pairwise disjoint. It is a DE ring when the junk partners
+j_i = {b_{k_{t_i}}, c_{k_{t_i}}} ∖ {Y_{t_i}} are distinct.
+
+*Proof.* Since k_t is not direct, {b_k, c_k} ⊄ J. Since k ∈ E_t, {b_k, c_k} = {Y_t, j} with j ∈ J. The arrow
+t → k_t is a pair arrow (t is free; k_t is a blocker of t with leftover j). Also end(k_t) ≠ t, so f has no fixed
+point, and f has a cycle with q ≥ 2. Rule E is deterministic (s(x) depends only on x), so two Rule E chains that
+share an agent end at the same terminal. On a cycle of f the images f(t_i) = t_{i+1} are distinct, so the segments
+from k_{t_i} are pairwise disjoint and contain no t_j (their interior agents are frozen). ∎
+
+In the crossed configuration this walk produces exactly the repairing rings. What remains of T-E is the count after
+the rotation, Lemma 5's r against ω for (N), and B\*'s hitting count with |T′| for (E) and (K). That is the release
+lemma shared with kgen-n3's T1.

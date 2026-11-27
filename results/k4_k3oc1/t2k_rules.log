@@ -1,0 +1,60 @@
+$ python3 k4/k3oc1/t2k_rules.py gapfile:... (n = 6 two-terminal, then n <= 5)
+|T| 2: every k ok False 4224
+|T| 2: every k ok True 6016
+|T| 2: every least-omega k ok False 64
+|T| 2: every least-omega k ok True 10176
+|T| 2: every longest-chain k ok False 64
+|T| 2: every longest-chain k ok True 10176
+|T| 2: every most-T' k ok False 48
+|T| 2: every most-T' k ok True 10192
+|T| 2: how: k 896
+|T| 2: how: k/none 2400
+|T| 2: how: none 6944
+|T| 2: least omega <= 0 False 896
+|T| 2: least omega <= 0 True 9344
+|T| 2: no valid Rule E rotation 64
+|T| 2: sigma-first k ok False 2752
+|T| 2: sigma-first k ok True 7488
+|T| 2: sigma-last k ok False 512
+|T| 2: sigma-last k ok True 9728
+|T| 2: some frozen k ok True 10240
+|T| 2: some k ok True 10240
+|T| 1: every k ok True 1040
+|T| 1: every least-omega k ok True 1040
+|T| 1: every longest-chain k ok True 1040
+|T| 1: every most-T' k ok True 1040
+|T| 1: how: k/none 52
+|T| 1: how: none 988
+|T| 1: least omega <= 0 True 1040
+|T| 1: sigma-first k ok True 1040
+|T| 1: sigma-last k ok True 1040
+|T| 1: some frozen k ok True 1040
+|T| 1: some k ok True 1040
+|T| 1: every k ok False 112
+|T| 1: every k ok True 1632
+|T| 1: every least-omega k ok True 1744
+|T| 1: every longest-chain k ok True 1744
+|T| 1: every most-T' k ok True 1744
+|T| 1: how: k/none 748
+|T| 1: how: none 996
+|T| 1: least omega <= 0 True 1744
+|T| 1: sigma-first k ok False 16
+|T| 1: sigma-first k ok True 1728
+|T| 1: sigma-last k ok False 96
+|T| 1: sigma-last k ok True 1648
+|T| 1: some frozen k ok True 1744
+|T| 1: some k ok True 1744
+|T| 1: every k ok False 72
+|T| 1: every k ok True 23696
+|T| 1: every least-omega k ok True 23768
+|T| 1: every longest-chain k ok True 23768
+|T| 1: every most-T' k ok True 23768
+|T| 1: how: k/none 840
+|T| 1: how: none 22928
+|T| 1: least omega <= 0 True 23768
+|T| 1: sigma-first k ok False 4
+|T| 1: sigma-first k ok True 23764
+|T| 1: sigma-last k ok False 68
+|T| 1: sigma-last k ok True 23700
+|T| 1: some frozen k ok True 23768
+|T| 1: some k ok True 23768
