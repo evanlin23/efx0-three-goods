@@ -26,8 +26,9 @@ Proposition A (proved) gives owner k on its class. So R-ω would have finished t
 - **Exhaustive search** over every completion of the rotated bases (raw EFX₀, values 4, 3, 2): the only absorbers of
   one-absorber completions are agents 3 and 4 = t, four completions each. No completion uses no owner or owner k.
 - **Why owner k fails.** The twin's pair lies inside k's bundle, and Lemma 4 protects only owners other than k.
-- **Owner t works.** Lemma 3 holds for owner t after either rotation: t's new good is its top 1, which no exposed
-  pair contains, so t has no frozen exposed agent.
+- **Owner t works.** Lemma 3 holds for owner t after either rotation.
+  - After (5, 4), t gets its top 1; after (6, 3, 4) it gets 2.
+  - No exposed top-holder's pair contains that good, so t has no frozen exposed agent.
 
 **Reproduce:** `K3OC1=<a checkout of claude/k4-k3-oc1>/k4/k3oc1 python3 kgen/tk_cex7.py`
 (`results/kgen_n3/tk_cex7.log`).
