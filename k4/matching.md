@@ -21,7 +21,7 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
 | **Conjecture CM₂** (§5) | from every perfect start, some first move leads to a state where a Lemma EX\* exchange repairs. CM₂ ⟹ OC₂ at perfect starts ⟹ OC₂^max ⟹ TARGET₄ | evidence: all 30 hard maximum-matching starts of the 11 n = 4 failure instances, every start visited by the walks near them (OC₁ failing: 3,179 distinct in this note's long walk; OC₁ only non-S\*: 88 visits), the multi session's 4,955 failing pairs (n = 4, 5; 8,073 distinct failing starts in all), PW5, RD5. Where OC₁ fails, the first moves after which an EX\* exchange repairs are exactly those after which any second move repairs |
 | Lemma LIFT-1 (§6) | under LIFT-red's hypotheses and (L3) every other agent values at most one good of h's bundle plus the junk: case (a), if (L1) z is unfrozen after P₂ and (L2′) z values h's new bundle at most its favourite good plus its best junk good, h takes that bundle minus z's best junk good and z takes its favourite good plus that junk good; case (b), if (Lb) z values h's bundle plus all the junk at most its favourite good, h takes everything. Either allocation is EFX₀ | written proof (§6; uses \|R_z\| ≤ 4, and Lemma PL(c) for the second sharer); construction EFX₀ (raw) on all 22,240 pairs meeting (L1), (L2′), (L3) over the two walk datasets (8,073 distinct failing starts, n = 4, 5) |
 | **LIFT-SHAPE⁺ at n = 4** (§6) | every n = 4 start with no one-move repair (all 112,880, every strict profile) has the LIFT shape with case (a) or (b) | **CERTIFIED** (K4.MATCH.LIFT.N4): witnesses re-verified by a self-contained raw checker; the set is compute/k4-oc1max-cert's export |
-| **Conjecture LIFT-EX** (§6) | the second move, in exchange form (OC2-LIFT). At a perfect start with no one-move repair there is exactly one holder z; a chain from a dangerous agent to z absorbs a danger set shared with a second dangerous agent; a second chain ending at z gives z its favourite good, and its head owns (Lemma EX\* holds) | evidence: all 3,179 n = 4 failing profile–start pairs of this note's walk, the TTC n = 5 core, RD5; its LIFT-SHAPE⁺ form also on the multi session's 4,955 (n = 4, 5); false at PW5 (k = 5, two holders). Lemmas LIFT-red and LIFT-1 (written proofs) reduce its last step to the shape statement LIFT-SHAPE⁺ |
+| Conjecture LIFT-EX (§6) | the second move, in exchange form (OC2-LIFT). At a perfect start with no one-move repair there is exactly one holder z; a chain from a dangerous agent to z absorbs a danger set shared with a second dangerous agent; a second chain ending at z gives z its favourite good, and its head owns (Lemma EX\* holds) | **refuted at n = 5, k = 4** (with LIFT-SHAPE⁺), by compute/k4-oc1max-cert's first n = 5 two-move start: the second chain is disjoint from the first and settles a second danger set (`attempts/k4-matching-lift-shape.md`). It holds at n = 4 (certified, above) and on the 8,073 walk starts. It is false at PW5 (k = 5, two holders). The multi session's recursion (Lemma LIFT, OC2-REC) covers the n = 5 start |
 | exchange accounting (§3) | what a repairing chain pays for: in 910 of the 2,071 hard starts, deleting the chain agents' demands alone (s = 0) clears an end-owned deficiency of up to 6 | computed |
 
 **Bottom line.**
@@ -41,9 +41,11 @@ against the raw EFX₀ definition. Everything called evidence is evidence only (
    - in each, a first move followed by a Lemma EX\* exchange repairs (Conjecture CM₂, §5). The same holds at all 8,073
      distinct failing profile–start pairs that value walks find near them (§5, §6, with the multi session's walks).
    CM₂ implies OC₂^max, the campaign's current target.
-5. The second move has one uniform shape on all data, Conjecture LIFT-EX (§6). Lemmas LIFT-red and LIFT-1 (written
-   proofs) reduce it to a pure shape statement, LIFT-SHAPE⁺: where the goods sit, plus three value comparisons. That
-   statement holds on all 8,073 distinct failing starts known here (n = 4, 5; with the multi session's walks).
+5. At n = 4 the second move has one uniform shape, LIFT-SHAPE⁺ (§6): where the goods sit, plus three value
+   comparisons. Lemmas LIFT-red and LIFT-1 (written proofs) turn it into a completion, and it is certified on every
+   n = 4 start with no one-move repair (112,880). At n = 5 it fails (`attempts/k4-matching-lift-shape.md`): the
+   second chain can be disjoint from the first, a second augmenting path for a second danger set. The general second
+   move is the multi session's recursion: settle one sharer, then OC₁ one size down (OC2-REC).
 
 ## 0. Setting
 
@@ -478,6 +480,10 @@ This answers the coordinator's request (23:45) to state and prove the second ste
 the Hall session's case tree (`k4/oc1_hall.md` §23.2, leaf 5, Sub-lemma OC2-LIFT). The shape is found and is uniform
 on all data. Its proof is reduced to one condition below, which is not proved.
 
+> **Update: refuted at n = 5.** LIFT-EX and LIFT-SHAPE⁺ fail at compute/k4-oc1max-cert's first n = 5 two-move start
+> (end of this section; `attempts/k4-matching-lift-shape.md`). Both hold at every n = 4 start (certified, below). The
+> conjecture and its evidence are kept as stated.
+
 **Conjecture LIFT-EX (K4.MATCH.LIFT).** Let Y be a perfect start of an instance with ≤ 4 relevant goods per agent,
 with no one-move repair. Then:
 1. Y has exactly one holder z, and every other agent is frozen.
@@ -672,6 +678,27 @@ one-move repairs lift back. Sub-lemma OC2-REC (evidence on all 4,955) says such 
 "no truly dangerous agent" observation may give (L1)–(L3) a structural proof. It is open in general, and so is item 1 (one holder), which fails at k = 5
 (PW5).
 
+**LIFT-SHAPE⁺ fails at n = 5** (`attempts/k4-matching-lift-shape.md`, `attempts/k4_matching_lift_n5.py`,
+`results/k4_matching/lift_n5_cex.log`; ledger K4.MATCH.LIFT REFUTED). The first n = 5 two-move start found by
+compute/k4-oc1max-cert (list 5_pure, idx 164) has n = 5, m = 8, k = 4 and a strict profile.
+- Picks (7, 2, 3, 5, 4), junk {0, 1, 6}. The single holder is z = 3, with favourite good 4.
+- No assignment of the junk completes, at the picks or after any one move.
+- Items (1) and (2) of LIFT-EX hold: 75 first chains end at z with a shared pair inside J ∪ {y_z}.
+- After none of them does a second chain end at z with z's favourite good in z's bundle. So (3) fails, and with it
+  LIFT-SHAPE⁺.
+- The repair is two vertex-disjoint chains: (2, 3), where 2 takes {5, 6}, and (1, 0), where 1 takes {1, 7}. They are
+  two augmenting paths for two danger sets, which is the coordinator's original "deficiency = number of chains"
+  picture.
+- CM₂ holds there. So does the multi session's recursion: after (2, 3), deleting agent 2 and {5, 6} leaves an SD
+  start of the n = 4 instance that one move repairs.
+
+What survives:
+- Lemmas LIFT-red and LIFT-1 (conditional) and the n = 4 certificate;
+- CM₂ as the general conjecture;
+- OC2-REC as the general explicit form of the second move.
+
+At n = 5 the reduced instance has four agents, and its one-move repair need not touch z.
+
 ## 7. Climbs and reproduction
 
 **Climbs against CM** (`k4/matching/cm_climb.py`; `results/k4_matching/cm_climb_*.log`). The climbs maximize hard
@@ -711,8 +738,10 @@ DUMP=results/k4_matching/n4_failing_walk.jsonl python3 k4/matching/n4_walk.py 30
 python3 k4/matching/lift_shapes.py; python3 k4/matching/lift_oblig.py               # Conjecture LIFT-EX and its shape
 python3 k4/matching/lift1_threats.py; python3 k4/matching/lift1_check.py             # Lemma LIFT-1 and (L1)-(L3)
 python3 k4/matching/multi_check.py                            # the multi session's 4,955 failing pairs (§6)
+python3 k4/matching/n4_exhaustive.py; python3 k4/matching/check_lift_n4.py   # LIFT-SHAPE+ on all 112,880 n = 4 failures (§6)
+python3 attempts/k4_matching_lift_n5.py                       # LIFT-SHAPE+ and LIFT-EX fail at n = 5 (§6)
 DUMP2=results/k4_matching/n4_nonsstar_walk.jsonl python3 k4/matching/n4_walk.py 3000 2; python3 k4/matching/mc_check.py   # Lemma M^c (§5)
 python3 k4/matching/cm_big.py cores6 2000 40 31               # CM at n = 6 (sampled orders)
 CAP=10 SEEDFILES=... python3 k4/matching/cm_climb.py 32 2000 22 3 6 [MC2]    # climbs (LOOSE=1 for any instance)
 ```
-Each command takes seconds to a minute on 4 CPUs.
+Each command takes seconds to two minutes on 4 CPUs.
