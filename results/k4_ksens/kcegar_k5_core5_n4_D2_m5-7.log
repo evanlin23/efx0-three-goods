@@ -10,3 +10,5 @@ hypergraphs 1138
 ... 800 {'certified': 800} 2079 s
 ... 900 {'certified': 900} 2485 s
 ... 1000 {'certified': 1000} 3615 s
+... 1100 {'certified': 1100} 5548 s
+{'certified': 1138} time 6382 s

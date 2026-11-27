@@ -1,0 +1,6 @@
+$ python3 k4/ksens/kcegar_cgm.py --grid6=/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz --exact6 --limit=36000
+CGM values, start (5, 4, 6): picks complete (A=1) False; one chain (A=1): ocsat True, brute True
+CGM values, start (5, 2, 4): picks complete (A=1) True; one chain (A=1): ocsat True, brute True
+CGM values, start (2, 4, 5): picks complete (A=1) True; one chain (A=1): ocsat True, brute True
+every strict profile, D = 1: certified (2646 iterations, 0 LP calls, 280 s) {'core LP': 11800, 'core LP cached': 56989, 'points added': 5956, 'extra point used': 605}
+every strict profile, D = 2: certified (2646 iterations, 0 LP calls, 287 s) {'core LP cached': 62833, 'extra point used': 605}

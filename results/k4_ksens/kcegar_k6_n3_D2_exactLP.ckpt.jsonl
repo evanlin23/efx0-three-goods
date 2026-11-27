@@ -10,3 +10,4 @@
 {"name": "n3_m6_17", "sets": [[0, 1, 2, 3, 4, 5], [2, 3, 4], [5]], "D": 2, "result": "certified", "iterations": 65, "kinds": {"picks": 37, "1 chains": 28}, "types": ["LP", 12, 1], "lp_calls": 338, "time": 1.2}
 {"name": "n3_m6_19", "sets": [[0, 1, 2, 3, 4, 5], [2, 3, 4, 5], [5]], "D": 2, "result": "certified", "iterations": 67, "kinds": {"picks": 40, "1 chains": 27}, "types": ["LP", 336, 1], "lp_calls": 468, "time": 1.6}
 {"name": "n3_m6_20", "sets": [[0, 1, 2, 3, 4, 5], [2, 3], [4, 5]], "D": 2, "result": "certified", "iterations": 58, "kinds": {"picks": 36, "1 chains": 22}, "types": ["LP", 2, 2], "lp_calls": 1419, "time": 5.3}
+{"name": "n3_m6_21", "sets": [[0, 1, 2, 3, 4, 5], [2, 3, 5], [4, 5]], "D": 2, "result": "certified", "iterations": 141, "kinds": {"picks": 83, "1 chains": 58}, "types": ["LP", 12, 2], "lp_calls": 68152, "time": 490.6}

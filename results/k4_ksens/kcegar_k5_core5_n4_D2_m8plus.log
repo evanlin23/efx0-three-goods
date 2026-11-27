@@ -1,0 +1,14 @@
+$ python3 k4/ksens/kcegar_batch.py core5 4 2 8 9 10 11 12 13 14 15 16 --jobs=2 --limit=1800 --ckpt=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k5_core5_n4_D2_m8plus.ckpt.jsonl
+checkpoint /home/user/efx0-three-goods/results/k4_ksens/kcegar_k5_core5_n4_D2_m8plus.ckpt.jsonl: 0 done ({}), 8870 to go
+hypergraphs 8870
+$ python3 k4/ksens/kcegar_batch.py core5 4 2 8 9 10 11 12 13 14 15 16 --jobs=1 --limit=1800 --ckpt=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k5_core5_n4_D2_m8plus.ckpt.jsonl
+checkpoint /home/user/efx0-three-goods/results/k4_ksens/kcegar_k5_core5_n4_D2_m8plus.ckpt.jsonl: 42 done ({'certified': 42}), 8828 to go
+hypergraphs 8828
+... 100 {'certified': 100} 386 s
+... 200 {'certified': 200} 1928 s
+... 300 {'certified': 300} 3828 s
+... 400 {'certified': 400} 3964 s
+... 500 {'certified': 500} 4313 s
+... 600 {'certified': 600} 4732 s
+... 700 {'certified': 700} 5791 s
+... 800 {'certified': 800} 6581 s
