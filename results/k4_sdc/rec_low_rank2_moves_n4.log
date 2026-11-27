@@ -1,0 +1,14 @@
+$ python3 k4/sdc/rec_low_rank2_moves.py
+profiles 111600
+  repairing move: 3 agents (dangerous,dangerous,receiver) 800
+  repairing move: 3 agents (dangerous,dangerous,u) 800
+  repairing move: 3 agents (dangerous,receiver,u) 800
+  repairing move: 4 agents (dangerous,dangerous,receiver,u) 800
+  repairing moves involve u: True 800
+  some repairing move gives a rank-2 receiver its top good: True 800
+  some repairing move is the swap of u with the holder of its top good: False 800
+rank-2 vectors needing a move 800
+
+real	0m51.005s
+user	3m8.848s
+sys	0m1.417s

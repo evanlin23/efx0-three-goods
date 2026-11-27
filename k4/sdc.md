@@ -2259,6 +2259,10 @@ ledger K4.SDC.RECLOW).
   never receive junk in a completion at the picks" is FALSE: an agent who wants a frozen agent's pick can be
   compensated by a junk good of its own. The data agree, since a frozen agent is an absorber at 1,229 of the 4,497
   completing outcomes in `rf_canon_absorber_s50.log`.
+- **The rank-2 one-move starts at n = 4** (burst 19, `k4/sdc/rec_low_rank2_moves.py`,
+  `results/k4_sdc/rec_low_rank2_moves_n4.log`). At all 800, some repairing move gives a rank-2 receiver u its top
+  good, but the plain swap of u with that good's holder never repairs. Every repairing move is a chain or ring through
+  3 or 4 agents, including two dangerous agents.
 - **Use.** At YRMH-F's outcome Z, the receiver u holds its top good. So RF-canon follows from REC-LOW wherever u is still
   a receiver at Z, and more generally wherever some receiver at Z holds rank ≤ 2. That covers 92% of the tested pairs
   (above).
