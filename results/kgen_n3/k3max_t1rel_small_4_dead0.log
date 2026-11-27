@@ -1,0 +1,18 @@
+$ python3 kgen/k3max_t1rel.py small:4 0
+64   released agents (terminal after, besides t): 1; |J| - 1 = 0
+228   released agents (terminal after, besides t): 1; |J| - 1 = 1
+116   released agents (terminal after, besides t): 1; |J| - 1 = 2
+80   released agents (terminal after, besides t): 2; |J| - 1 = 0
+492   released agents (terminal after, besides t): 2; |J| - 1 = 1
+204   released agents (terminal after, besides t): 2; |J| - 1 = 2
+96   released: in E_t 0, on the chain 0, other 1
+140   released: in E_t 0, on the chain 1, other 0
+172   released: in E_t 1, on the chain 0, other 0
+776   released: in E_t 1, on the chain 1, other 0
+236   t terminal after: False
+948   t terminal after: True
+812   upgrades after the rotation: 0
+336   upgrades after the rotation: 1
+36   upgrades after the rotation: 2
+1184 drafts
+1184 least omega' <= 0: True
