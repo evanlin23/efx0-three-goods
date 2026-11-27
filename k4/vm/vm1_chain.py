@@ -5,9 +5,10 @@ some V-M matching Y, at most ONE trade, then F1 placements with rotation (vm1_fa
   wishes, an agent j holding a single good y_j that it values below the released good g takes g, releasing y_j.
 Only the state after the whole chain must be EFX0 (as in DE, where a chain is applied at once).
 Reports per instance: 'VM1' (no trade or one VM1 move suffices), 'chain', or FAIL.  EVIDENCE only.
+--seq: only chains whose first step (the upgrade) already keeps EFX0, so the chain is a run of upgrades (Lemma CH).
 --plain: placements WITHOUT rotation after the trade (vm1_plain.completes_norot), i.e. VM1-chain-plain; then 'VM1'
 means VM1-plain.
-    python3 k4/vm/vm1_chain.py SOURCE [--plain]   (a vm_test source, or json:FILE with one JSON instance per line)"""
+    python3 k4/vm/vm1_chain.py SOURCE [--plain] [--seq]   (a vm_test source, or json:FILE with one JSON instance per line)"""
 import sys, os, json, time, itertools, collections, multiprocessing as mp
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vmlib as V
@@ -16,6 +17,7 @@ from vm_test import items_for
 
 CAP = 2000
 PLAIN = ['--plain' in sys.argv]
+SEQ = ['--seq' in sys.argv]          # sequential validity: the state right after x's upgrade must be EFX0 (Lemma CH)
 
 
 def matchings(I):
@@ -39,6 +41,7 @@ def chains(I, Y):
             for S in itertools.combinations(mine, r):
                 if I.val(x, S) <= vy: continue
                 X = [list(b) for b in Y]; X[x] = list(S); pool = (pool0 - set(S)) | {y}
+                if SEQ[0] and not V.is_efx0(I, X): continue
                 stack = [(X, pool, y, {x})]
                 while stack:
                     X, pool, g, used = stack.pop()

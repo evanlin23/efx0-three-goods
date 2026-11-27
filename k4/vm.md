@@ -1041,6 +1041,28 @@ complete EFX₀ allocation:
 With K4.CORE it gives TARGET₄. At general k it fails at k = 9 within the caps (PW(3, 3, 8)), where three VM moves are
 needed.
 
+**Lemma CH (a chain is a run of upgrades; proved).** Let Y be a one-good matching. Take a chain from Y:
+- x upgrades to a pool set S;
+- then j₁, …, j_L, each holding a single good, take in turn the good just released, which they value above their own.
+
+If the state right after x's upgrade is EFX₀, then every prefix of the chain gives an EFX₀ state. Each step after the
+first is a pool upgrade of size 1. So the chain is L + 1 legal VMX₂ moves, and VM1-chain (with this sequential
+validity) implies VMX₂.
+
+*Proof.* After the upgrade every bundle except X_x = S is a single good, and a single good is never EFX₀-envied.
+- Each later step changes one single-good bundle to another single good.
+- It strictly raises that agent's value and changes no other value.
+- The only condition that could fail is the threat on S, θ_i(S) ≤ v_i(X_i). Its left side is fixed and its right
+  side only grows.
+- x itself compares S only with single goods. ∎
+
+By P0, no pool good is wanted at a V-M matching, so a size-1 upgrade becomes possible only for a good that a step
+released. That is why chains, not general sequences of upgrades, are the natural closure of VM1's upgrade.
+`vm1_chain.py` checks EFX₀ only at the end of the chain, as DE does. That is slightly more permissive, because a later
+step can raise the value of an agent that threatened S. With `--seq` (sequential validity) the results are the same:
+all 5 failing cores and 19 of the 20 other failures (`vm1_chain_seq.log`). So on all of them VMX₂ needs only one
+chain's worth of upgrades.
+
 ### 7.8 The ring is one move, and rotation is not needed (coordinator's request 3)
 
 The request was to prove that the rotation class needs one ring, modelled on DE's ring lemma at k = 3. The result is
