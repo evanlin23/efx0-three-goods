@@ -58,14 +58,19 @@ if __name__ == '__main__':
         rk = [tuple(r) for r in json.loads(mt.group(1))]; m = int(mt.group(2)); Y = ast.literal_eval(mt.group(4))
         ub = upgrade(rk, m, base_of(Y, m)); B, J, U, NA, F, T = parts(rk, m, ub); t = T[0]
         E = exposed(rk, ub, t, B, J, U); pos = topo(rk, B, U); C['drafts'] += 1; alldraft = True
+        chainks = [k for k in E if rk[k][1] in J and rk[k][2] in J]          # pair inside the junk: a DE chain
+        C['drafts with some k whose pair lies in J (a DE chain): %s' % bool(chainks)] += 1
+        okchain = []
         for k in E:
             P = rule_e_chain(rk, B, U, k, t, pos); nb = upgrade(rk, m, rotate(rk, ub, B, k, P))
             r = complete(rk, m, nb, [None, t], k)
             if r is None: r = complete(rk, m, nb, [k], k)
+            if k in chainks: okchain.append(r is not None)
             C['rotations'] += 1; C['rotations completing with owner %s' % ('none' if r == 'none' else ('t' if r == t else ('k' if r == k else 'NONE FOUND')))] += 1
             if r is None:
                 alldraft = False
                 if shown < 3: shown += 1; print('T-E FAILS', line.strip(), 'k', k, 'chain', P, flush=True)
         C['drafts where every k works (T-E)'] += alldraft
+        if chainks: C['drafts where every k with pair in J works: %s' % all(okchain)] += 1
     for k in sorted(C): print(C[k], k)
     print('time %.0f s' % (time.time() - t0))
