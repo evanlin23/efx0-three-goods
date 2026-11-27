@@ -91,7 +91,7 @@ class Hunt:
         self.b = {}
         self.tries, self.rng = tries, np.random.default_rng(seed)
         self.auts = automorphisms(self.sets, m) if use_aut else [(list(range(self.n)), list(range(m)))]
-        self.sol, self.x, self.zin = self.C.inner(None, None)
+        self._inner = None                            # search4's inner SAT, built on first use
         self.allocs, self.fails, self.nclauses = [], [], 0
         self.cert = []                                # every allocation whose clause was added (images included)
         self.seen = set()
@@ -132,6 +132,17 @@ class Hunt:
             self.seen.add(key)
             self.cert.append(img)
             self.out.add_clause(self.clause(img)); self.nclauses += 1
+
+    @property
+    def sol(self): return self.inner()[0]
+    @property
+    def x(self): return self.inner()[1]
+    @property
+    def zin(self): return self.inner()[2]
+
+    def inner(self):
+        if self._inner is None: self._inner = self.C.inner(None, None)
+        return self._inner
 
     def best_allocation(self, prof):
         C, x, z = self.C, self.x, self.zin
