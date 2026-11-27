@@ -33,7 +33,12 @@ results below.
   - The other 5 receiver-first maximum-matching vectors of each start satisfy OC₁. So **RF∃** holds: some
     receiver-first maximum-matching order satisfies OC₁, which still gives OC₁^∃max.
 - **The candidate is now RF∃.** `kgen/rf/rf_climb2.py` climbs against it, seeded at the known failures and at random
-  cores with one pair of twins (the RF5 mechanism). Runs: `results/kgen_rf/rf_exists_climb_*.log`.
+  cores with one pair of twins (the RF5 mechanism).
+  - **Partial run** (stopped at the 2026-11-27 wind-down; `results/kgen_rf/rf_exists_climb_known_partial.log`): 83
+    climbs from the 30 known failures (RF5 included) and no RF∃ violation. The closest case still has 4 completable
+    states at its best receiver-first vector; most have 6 or 8.
+  - The twin-seeded runs (k = 5, n = 3, 4; k = 6, n = 4) were not reached.
+- **Open:** RF∃ at k = 5, 6 beyond this data. ksens's exhaustive n = 4, k = 5 sweep is the stronger test.
 - The earlier every-form climb (`rf_climb.py known`; 120 climbs × 1,500 steps from the 29 known failures,
   `results/kgen_rf/rf_climb_targeted_known.log`) found no violation. Its best case kept 6 completable states at
   every receiver-first vector. Climbs are therefore weaker than ksens's exhaustive sweep.
