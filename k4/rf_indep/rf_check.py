@@ -139,10 +139,18 @@ def work(job):
             C['(start, receiver) pairs with some u-first maximum-matching order (RF a)'] += bool(mm)
             for o in uf:
                 keys[(pk + ybytes(allp[o]), 0)] = 1 if o in mm else 0
+            pickless_rot = False
             for o in listed:
                 rot = (u,) + tuple(a for a in o if a != u)
                 Yp = allp[rot]
-                keys[(pk + ybytes(Yp), 1)] = 1 if sum(1 for y in Yp if y is not None) == nu else 0
+                ok = sum(1 for y in Yp if y is not None) == nu
+                keys[(pk + ybytes(Yp), 1)] = 1 if ok else 0
+                pickless_rot |= not ok
+            if pickless_rot:                 # k4/oc1_hall.md 24.10's second bullet: all u-first vectors of such (start, u)
+                C['(start, receiver) pairs with a pickless rotation'] += 1
+                ds = set(allp[o] for o in mm)
+                C['  their distinct u-first maximum-matching vectors, summed over the pairs'] += len(ds)
+                for Yp in ds: keys[(pk + ybytes(Yp), 2)] = 1
     return hid, C, list(keys.items())
 
 
@@ -297,7 +305,7 @@ def main():
     for k, fn in files.items(): print('input %-8s %s sha256 %s' % (k, fn, sha(os.path.join(args.data, fn))))
 
     hyps = {}; jobs = []; meta = {}
-    def add_hyp(group, lst, idx, sets, m, nu_export, complete, starts):
+    def add_hyp(group, lst, idx, sets, m, nu_export, complete, starts, chunk=None):
         key = (lst, idx, json.dumps(sets))
         hid = len(hyps)
         for h2, hh in hyps.items():
@@ -305,8 +313,9 @@ def main():
         if hid == len(hyps):
             nu = nu_kuhn(sets); nb = nu_brute(sets)
             hyps[hid] = dict(key=key, sets=sets, n=len(sets), m=m, nu=nu, nu_brute=nb, nu_export=nu_export)
-            meta[hid] = dict(group=set(), complete=complete, list=lst, idx=idx)
+            meta[hid] = dict(group=set(), complete=complete, list=lst, idx=idx, chunks=set())
         meta[hid]['group'].add(group)
+        if chunk: meta[hid]['chunks'].add(chunk)
         if args.limit: starts = starts[:args.limit]
         cs = [compact(st, len(sets)) for st in starts]
         for i in range(0, len(cs), 4000): jobs.append((hid, group, cs[i:i + 4000]))
@@ -322,7 +331,7 @@ def main():
             r = json.loads(line)
             if not r.get('oc1_fails'): continue
             starts = [dict(vals=f['vals'], picks=f['picks']) for f in r['oc1_fails']]
-            add_hyp('stored', r['list'], r['idx'], r['sets'], r['m'], r['nu'], None, starts)
+            add_hyp('stored', r['list'], r['idx'], r['sets'], r['m'], r['nu'], None, starts, chunk=group)
 
     for hid, h in hyps.items():
         if not (h['nu'] == h['nu_brute'] == h['nu_export']): print('NU MISMATCH', h['key'], h['nu'], h['nu_brute'], h['nu_export'])
@@ -341,6 +350,7 @@ def main():
     perg = collections.defaultdict(collections.Counter)
     uf = collections.defaultdict(dict)       # (group class, hid) -> {profile + Y' bytes: is a maximum matching}
     rot = collections.defaultdict(dict)
+    plr = collections.defaultdict(dict)      # u-first maximum-matching vectors of (start, u) with a pickless rotation
     gclass = lambda g: 'stored' if g == 'stored' else 'export'
     gc_mod.collect(); gc_mod.freeze()
     with Pool(args.procs, initializer=init_worker, initargs=(hyps,)) as pool:
@@ -348,12 +358,13 @@ def main():
             perg[(group, hid)].update(C)
             gcl = gclass(group)
             for (key, isrot), mm in keys:
-                (rot if isrot else uf)[(gcl, hid)][key] = mm
+                (uf, rot, plr)[isrot][(gcl, hid)][key] = mm
     gc_mod.unfreeze()
     print('stage A done %.0f s' % (time.time() - t0), flush=True)
     ufsum = {k: (len(d), sum(d.values())) for k, d in uf.items()}
     rotsum = {k: (len(d), sum(d.values())) for k, d in rot.items()}
-    del rot
+    plrsum = {k: len(d) for k, d in plr.items()}
+    del rot, plr
 
     # ---- stage B: OC1 at every distinct u-first maximum-matching pick vector
     def gen_tasks():
@@ -411,7 +422,7 @@ def main():
         for C in orig.values(): C.pop('_py', None)
         print('orig: %d starts done %.0f s' % (nolines, time.time() - t0), flush=True)
 
-    report(hyps, meta, perg, ufsum, rotsum, ver, second, orig, args)
+    report(hyps, meta, perg, ufsum, rotsum, plrsum, ver, second, orig, args)
     print('time %.0f s' % (time.time() - t0))
 
 
@@ -426,8 +437,10 @@ def unprof(pk, h):
     return out
 
 
-def report(hyps, meta, perg, ufsum, rotsum, ver, second, orig, args):
-    def hname(hid): return '%s#%d' % (meta[hid]['list'], meta[hid]['idx'])
+def report(hyps, meta, perg, ufsum, rotsum, plrsum, ver, second, orig, args):
+    def hname(hid):
+        ch = meta[hid]['chunks']
+        return '%s#%d' % (meta[hid]['list'], meta[hid]['idx']) + ('[%s]' % ','.join(sorted(ch)) if ch else '')
     print()
     print('== hypergraphs')
     for hid, h in sorted(hyps.items()):
@@ -453,6 +466,7 @@ def report(hyps, meta, perg, ufsum, rotsum, ver, second, orig, args):
         C['distinct rotation (u, o - u) pick vectors'] = nr
         C['  rotation vectors that are maximum matchings'] = nrmm
         C['  rotation vectors with a pickless agent'] = nr - nrmm
+        C['distinct u-first maximum-matching vectors of (start, u) pairs with a pickless rotation'] = plrsum.get((gc, hid), 0)
         print('--', gc, hname(hid), '(%s)' % cls)
         for k in C: print('   %-75s %d' % (k, C[k]))
         S[cls].update(C); S['ALL ' + gc].update(C)
@@ -473,12 +487,13 @@ def report(hyps, meta, perg, ufsum, rotsum, ver, second, orig, args):
         ('export distinct rotation RF starts (incl. pickless)', E['distinct rotation (u, o - u) pick vectors'], HALL['export_rf_starts']),
         ('export rotation RF starts that are maximum matchings', E['  rotation vectors that are maximum matchings'], HALL['export_mm']),
         ('export rotation vectors with a pickless agent', E['  rotation vectors with a pickless agent'], HALL['export_pickless_rot']),
+        ('export u-first max-matching vectors behind pickless rotations', E['distinct u-first maximum-matching vectors of (start, u) pairs with a pickless rotation'], HALL['export_pickless_uf_mm']),
         ('stored failing starts', A['stored']['starts'], HALL['stored_starts']),
         ('stored rotation RF starts that are maximum matchings', St['  rotation vectors that are maximum matchings'], HALL['stored_mm']),
         ('stored rotation vectors with a pickless agent', St['  rotation vectors with a pickless agent'], HALL['stored_pickless_rot']),
     ]
     for name, mine, hall in rows:
-        print('   %-60s mine %9d  Hall %9d  %s' % (name, mine, hall, 'agree' if mine == hall else 'DIFFER'))
+        print('   %-64s mine %9d  Hall %9d  %s' % (name, mine, hall, 'agree' if mine == hall else 'DIFFER'))
     if orig is not None:
         print()
         print('== OC1 search at the failing starts Y themselves (--orig %s); expected: F everywhere' % args.orig)
