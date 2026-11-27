@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 1345 audited statements, 2606 theorems, standard axioms only
+    CHECK PASSED: 1355 audited statements, 2620 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -306,6 +306,12 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   a round of vertex-disjoint earliest-wanter prefixes (`EPrefix`) under (H) leaves the serial-dictatorship outcome of σ
   without the settled agents; the abstract form `sdE_round_abs` (the round as a source map), perfect starts
   (`sdE_round_abs_perfect`), and SD-E as the one-chain round (`sdE_round_single`).
+- `EFX/RoundRSD.lean`: **the ROUND-RSD frame** (`k4/matching.md` §6, `k4/oc1max_multi.md` §17, ledger
+  K4.MATCH.ROUNDRSD.LEAN): states (settled agents with their sets), admissible rounds (`Admissible`: SD-E(round)'s
+  hypotheses, (L\*) at the round's end, (P2), (P3)), reachable states (`Reach`), and
+  **`EFX.Round.target4_of_roundRSD`**: ROUND-IND (`ConjRoundInd`) and OC₁ with phantom constraints (`ConjBasePhi`),
+  both hypotheses, imply TARGET₄; the invariant along reachable states (`inv_of_reach`, `inv_round`) and the final
+  lift (`lift_base`).
 - `EFX/RF.lean`: **the receiver-first frame** (`k4/sdc.md` §31 end, ledger K4.SDC.RF.LEAN): Conjecture RF (`ConjRF`:
   at a maximum-matching start where OC₁ fails, a unique receiver u, and OC₁ at every maximum-matching order with u
   first, one of which exists) implies OC₁^∃max (`conjOC1exmax_of_conjRF`), hence TARGET₄

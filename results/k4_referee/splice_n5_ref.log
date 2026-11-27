@@ -1,0 +1,23 @@
+{"source": "SPLICE / REC-S existence on the 280 n = 5 5_pure OC1-failing starts", "EX": 0, "RNDOZ_witness": 4122, "configs": 4122, "mismatch": 0, "orders": 987, "starts": 280, "u0_keeps_own_pick": 0}
+starts with NO REC-S configuration: 7 [(38, [3, 2, 5, 8, 7]), (419, [6, 4, 5, 9, 7]), (447, [5, 1, 6, 7, 8]), (773, [2, 1, 7, 6, 8]), (813, [3, 5, 8, 7, 4]), (963, [5, 1, 6, 8, 7]), (1073, [3, 1, 6, 7, 8])]
+
+real	0m0.285s
+user	0m0.766s
+sys	0m0.032s
+{"idx": 419, "picks": [4, 2, 1, 7, 6], "SDE_holds": 12, "dangerous": 3, "final_raw_EFX0": 12, "improving_pool_pairs": 12, "orders": 6, "theorem_S_cases": 12}
+{"idx": 419, "picks": [2, 4, 1, 7, 6], "SDE_holds": 12, "dangerous": 3, "final_raw_EFX0": 12, "improving_pool_pairs": 12, "orders": 6, "theorem_S_cases": 12}
+{"idx": 419, "picks": [2, 7, 6, 3, 5], "SDE_holds": 2, "dangerous": 3, "final_raw_EFX0": 1, "improving_pool_pairs": 2, "orders": 1, "theorem_S_cases": 1}
+{"idx": 38, "picks": [3, 2, 5, 8, 7], "SDE_holds": 8, "dangerous": 4, "improving_pool_pairs": 8, "orders": 4, "theorem_S_cases": 0}
+{"idx": 773, "picks": [2, 1, 7, 6, 8], "SDE_holds": 12, "dangerous": 3, "final_raw_EFX0": 24, "improving_pool_pairs": 12, "orders": 6, "theorem_S_cases": 24}
+{"idx": 773, "picks": [2, 1, 7, 6, 8], "dangerous": 3, "orders": 6}
+{"idx": 813, "picks": [3, 5, 6, 7, 4], "SDE_holds": 2, "dangerous": 4, "final_raw_EFX0": 3, "improving_pool_pairs": 2, "orders": 1, "theorem_S_cases": 3}
+{"idx": 813, "picks": [3, 5, 8, 7, 4], "SDE_holds": 2, "dangerous": 4, "improving_pool_pairs": 2, "orders": 1, "theorem_S_cases": 0}
+{"idx": 813, "picks": [3, 5, 8, 7, 4], "SDE_holds": 2, "dangerous": 4, "final_raw_EFX0": 3, "improving_pool_pairs": 2, "orders": 1, "theorem_S_cases": 3}
+{"idx": 963, "picks": [5, 1, 6, 8, 7], "SDE_holds": 36, "dangerous": 3, "final_raw_EFX0": 90, "improving_pool_pairs": 36, "orders": 6, "theorem_S_cases": 90}
+{"idx": 963, "picks": [5, 1, 6, 8, 7], "SDE_holds": 12, "dangerous": 3, "final_raw_EFX0": 18, "improving_pool_pairs": 12, "orders": 6, "theorem_S_cases": 18}
+{"idx": 963, "picks": [5, 1, 6, 8, 7], "dangerous": 3, "orders": 6}
+{"idx": 1073, "picks": [3, 1, 6, 7, 8], "SDE_holds": 12, "dangerous": 4, "improving_pool_pairs": 12, "orders": 6, "theorem_S_cases": 0}
+{"idx": 1073, "picks": [3, 1, 6, 7, 8], "SDE_holds": 12, "dangerous": 4, "final_raw_EFX0": 6, "improving_pool_pairs": 12, "orders": 6, "theorem_S_cases": 6}
+{"idx": 1073, "picks": [3, 1, 6, 2, 8], "SDE_holds": 12, "dangerous": 4, "final_raw_EFX0": 6, "improving_pool_pairs": 12, "orders": 6, "theorem_S_cases": 6}
+{"idx": 419, "picks": [6, 4, 5, 9, 7], "SDE_holds": 12, "dangerous": 4, "improving_pool_pairs": 12, "orders": 12, "theorem_S_cases": 0}
+{"idx": 447, "picks": [5, 1, 6, 7, 8], "SDE_holds": 12, "dangerous": 4, "improving_pool_pairs": 12, "orders": 12, "theorem_S_cases": 0}
