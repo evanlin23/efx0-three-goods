@@ -1,0 +1,15 @@
+$ CHECK=1 python3 k4/rkmax/rk_dominance.py 1
+profiles 111600 starts 112880
+  fewest agents changed by a dominating matching: 2 107760
+  fewest agents changed by a dominating matching: 3 5120
+  some dominating matching is itself undominated: True 112880
+  some undominated dominating matching satisfies OC1: True 112880
+profiles 111600
+profiles where every undominated max matching satisfies OC1 111600
+some max matching Pareto-dominates Y in ranks (expect False): False 112880
+some max matching rank-dominates Y: True 112880
+starts 112880
+undominated max matching OC1 M 10840
+undominated max matching OC1 P 202280
+undominated max matchings 213120
+time 68 s

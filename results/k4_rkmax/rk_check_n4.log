@@ -1,0 +1,50 @@
+$ python3 k4/rkmax/rk_check_n4.py
+profiles 111600 starts 112880
+.. 10000 12 s
+.. 20000 25 s
+.. 30000 36 s
+.. 40000 49 s
+.. 50000 63 s
+.. 60000 76 s
+.. 70000 89 s
+.. 80000 102 s
+.. 90000 115 s
+.. 100000 132 s
+.. 110000 156 s
+LMR: optimal vector OC1 M 10840
+LMR: optimal vector OC1 P 186280
+LMR: optimal vector is PO 197120
+LMR: optimal vector is an SD outcome 197120
+LMR: optimal vectors 197120
+LMR: profiles with every optimum OC1 111600
+LMR: profiles with some optimum OC1 111600
+RM optimum class (|U|,|D_T|)=(1,0) OC1 M 160
+RM optimum class (|U|,|D_T|)=(1,0) OC1 P 5680
+RM optimum class (|U|,|D_T|)=(1,1) OC1 M 9720
+RM optimum class (|U|,|D_T|)=(1,1) OC1 P 10360
+RM optimum class (|U|,|D_T|)=(1,2) OC1 M 960
+RM optimum class (|U|,|D_T|)=(1,2) OC1 P 960
+RM optimum class (|U|,|D_T|)=(2,0) OC1 P 74920
+RM optimum class (|U|,|D_T|)=(2,1) OC1 P 95000
+RM optimum class (|U|,|D_T|)=(2,2) OC1 P 640
+RM: optimal vector OC1 M 10840
+RM: optimal vector OC1 P 187560
+RM: optimal vector is PO 198400
+RM: optimal vector is an SD outcome 198400
+RM: optimal vectors 198400
+RM: profiles with every optimum OC1 111600
+RM: profiles with some optimum OC1 111600
+RS: optimal vector OC1 M 10840
+RS: optimal vector OC1 P 202280
+RS: optimal vector is PO 213120
+RS: optimal vector is an SD outcome 213120
+RS: optimal vectors 213120
+RS: profiles with every optimum OC1 111600
+RS: profiles with some optimum OC1 111600
+exported start fails OC1 (rklib) 112880
+exported start is SD 112880
+exported start is a maximum matching 112880
+exported start sigma < sigma-max 112880
+exported starts 112880
+profiles 111600
+time 160 s
