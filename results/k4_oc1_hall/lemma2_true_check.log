@@ -1,0 +1,48 @@
+$ python3 k4/oc1_hall/lemma2_true_check.py special
+after a chain: count holds 164
+after a chain: count holds, DT moves needed (unmatched exposed holders) 7
+after a chain: owner tests 236
+picks: count holds 6
+picks: count holds, DT moves needed (unmatched exposed holders) 0
+picks: owner tests 29
+time 0 s
+$ python3 k4/oc1_hall/lemma2_true_check.py screen
+after a chain: count holds 6194
+after a chain: count holds, DT moves needed (unmatched exposed holders) 957
+after a chain: owner tests 9721
+picks: count holds 593
+picks: count holds, DT moves needed (unmatched exposed holders) 90
+picks: owner tests 1148
+time 1 s
+$ python3 k4/oc1_hall/lemma2_true_check.py suite
+after a chain: count holds 6000
+after a chain: count holds, DT moves needed (unmatched exposed holders) 941
+after a chain: owner tests 9237
+picks: count holds 490
+picks: count holds, DT moves needed (unmatched exposed holders) 85
+picks: owner tests 983
+time 1 s
+$ python3 k4/oc1_hall/lemma2_true_check.py logs
+after a chain: count holds 56914
+after a chain: count holds, DT moves needed (unmatched exposed holders) 16396
+after a chain: owner tests 68203
+picks: count holds 5408
+picks: count holds, DT moves needed (unmatched exposed holders) 2551
+picks: owner tests 7946
+time 7 s
+$ python3 k4/oc1_hall/lemma2_true_check.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+after a chain: count holds 85866
+after a chain: count holds, DT moves needed (unmatched exposed holders) 31788
+after a chain: owner tests 97193
+picks: count holds 8732
+picks: count holds, DT moves needed (unmatched exposed holders) 5294
+picks: owner tests 10235
+time 8 s
+$ python3 k4/oc1_hall/lemma2_true_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 600 92
+after a chain: count holds 35814
+after a chain: count holds, DT moves needed (unmatched exposed holders) 13592
+after a chain: owner tests 39585
+picks: count holds 3357
+picks: count holds, DT moves needed (unmatched exposed holders) 1709
+picks: owner tests 3825
+time 5 s

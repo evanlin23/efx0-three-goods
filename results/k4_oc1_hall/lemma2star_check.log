@@ -1,0 +1,40 @@
+$ python3 k4/oc1_hall/lemma2star_check.py special
+after a chain: (G1) fails 328
+after a chain: (G1) holds 382
+after a chain: (G2) fails 4
+after a chain: owner tests 710
+after a chain: owner tests, owner frozen or multi-good 480
+picks: (G1) holds 60
+picks: owner tests 60
+picks: owner tests, owner frozen or multi-good 40
+time 0 s
+$ python3 k4/oc1_hall/lemma2star_check.py screen
+after a chain: (G1) fails 12402
+after a chain: (G1) holds 15638
+after a chain: (G2) fails 262
+after a chain: owner tests 28040
+after a chain: owner tests, owner frozen or multi-good 18285
+picks: (G1) holds 2208
+picks: owner tests 2208
+picks: owner tests, owner frozen or multi-good 1289
+time 2 s
+$ python3 k4/oc1_hall/lemma2star_check.py suite
+after a chain: (G1) fails 11002
+after a chain: (G1) holds 14628
+after a chain: (G2) fails 257
+after a chain: owner tests 25630
+after a chain: owner tests, owner frozen or multi-good 16675
+picks: (G1) holds 1875
+picks: owner tests 1875
+picks: owner tests, owner frozen or multi-good 1078
+time 2 s
+$ python3 k4/oc1_hall/lemma2star_check.py logs
+after a chain: (G1) fails 50004
+after a chain: (G1) holds 91619
+after a chain: (G2) fails 2307
+after a chain: owner tests 141623
+after a chain: owner tests, owner frozen or multi-good 81216
+picks: (G1) holds 12549
+picks: owner tests 12549
+picks: owner tests, owner frozen or multi-good 5641
+time 8 s
