@@ -1,0 +1,2 @@
+$ python3 kgen/rounds/grid.py 4 5 2 4 6 2 4 7 2
+n 4 m 5 values 1..2: profiles 52360, starts 357835, starts needing more than one round 0, more than two rounds 0 (4 s)

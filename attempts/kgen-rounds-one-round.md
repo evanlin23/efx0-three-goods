@@ -35,9 +35,9 @@ m = 8, 9 (61 distinct failing starts, `results/kgen_rounds/fails*.jsonl`).
 - *Picks.* Order (0, 3, 1, 2): agent 0 takes 1, agent 3 takes 2, agent 1 takes 3, agent 2 takes 4. Junk {0, 5, 6}.
 - *One round fails.* There are 26 EFX allocations, 6 of which value-dominate the picks. In all six agent 0 holds {3, 4}
   and has lost pick 1. Its best one-round base is worth at most 4400 + ε < 5700.
-- *Two rounds repair it.*
-  - Round 1: agent 3 → agent 1 with agent 3 taking {0, 5}, which releases pick 3; agent 0 adds junk 6 (a t = 0 move).
-  - Round 2: the ring 2 → 0, in which agent 0 takes 4 plus the released 3 and agent 2 takes 1.
+- *Two rounds repair it* (the referee's form).
+  - Round 1: agent 3 → agent 1 with agent 3 taking {0, 5}, which releases pick 3.
+  - Round 2: the ring 0 → 2 → 0. Agent 2 receives {1}; agent 0 takes 4 plus the released 3.
   - Completion: ({3, 4, 6}, {2}, {1}, {0, 5}).
 - *Also:* a two-type instance (agents 0 = 1, 2 = 3; `kgen/rounds.md` §3.3). ROUND⁺ fails there although EFX is known
   for two types (Mahara [unverified]).

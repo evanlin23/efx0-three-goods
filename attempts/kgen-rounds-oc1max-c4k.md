@@ -7,6 +7,11 @@ TARGET₄. It had no failure on 11.0M maximum-matching orders at n = 5 and on ev
 
 **Where it breaks.** At n = 4, m = 7, on the core C4K below, from two perfect starts (every agent picks, ν = n = 4).
 
+*Priority.* The certifier (`compute/k4-oc1max-cert`) refuted OC₁^max first, by exhaustive ordinal CEGAR: 11 of the
+1,002 n = 4 core hypergraphs fail (`results/k4_oc1max/oc1max_cex_n4.json` there). C4K's hypergraph is its instance 2.
+All 26 strict cores found here lie on its instances 2, 3 and 5 (`results/kgen_rounds/vs_certifier.log`). This file
+records the independent confirmation, and the repair OC₁′ (`kgen/rounds.md` §4.6), which holds on all 11.
+
 | agent | g0 | g1 | g2 | g3 | g4 | g5 | g6 |
 |---|---|---|---|---|---|---|---|
 | 0 | 0 | 2030 | 0 | 0 | 1714 | 1395 | 1806 |

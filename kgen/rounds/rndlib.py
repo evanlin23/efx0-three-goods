@@ -32,6 +32,7 @@ _L.rnd_list_efx.restype = LL
 _L.rnd2_count.restype = LL
 _L.rnd2_count_margin.restype = LL
 _L.rnd_oc1z.restype = ctypes.c_int
+_L.rnd_grid.restype = LL
 
 
 def _arr(vals):
@@ -131,3 +132,16 @@ def oc1z(vals):
                     'perfect': bool(perf[s]), 'EXT1': cnt[s * 4], 'OC1': cnt[s * 4 + 1], 'MD': cnt[s * 4 + 2],
                     'OC1P': cnt[s * 4 + 3], 'msum': ms[s]})
     return out, nefx.value
+
+
+def grid(n, m, V, maxrec=20, limit=0):
+    """exhaustive: every profile with values in {1..V} (rows as a multiset): (profiles, starts, starts failing one round,
+    starts failing two rounds, list of (vals, picks) for two-round failures)"""
+    out = (LL * 5)(); rec = (LL * (maxrec * (n * m + n)))()
+    _L.rnd_grid(n, m, V, out, rec, maxrec, LL(limit))
+    recs = []
+    for r in range(out[4]):
+        base = r * (n * m + n)
+        vals = [[rec[base + i * m + g] for g in range(m)] for i in range(n)]
+        recs.append((vals, [rec[base + n * m + a] for a in range(n)]))
+    return out[0], out[1], out[2], out[3], recs

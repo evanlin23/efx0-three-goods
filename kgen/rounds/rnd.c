@@ -770,3 +770,34 @@ int rnd_oc1z(int n_, int m_, const ll *vals, int *out_picks, int *out_order, int
     *out_nefx = nefx;
     return nst;
 }
+
+/* ===================================================================================================================
+   EXHAUSTIVE GRID (kgen/rounds.md §4.7): every profile with values in {1..V} (strictly positive), agents' rows as a
+   multiset (every order is tested, so permuting agents changes nothing), n agents, m goods.  For each profile: every
+   distinct start; one round (RND1 = RNDF at n <= 5) by Lemma RC; for starts failing one round, two rounds (free) by
+   Lemma RC2.  out[0..4] = profiles, starts, starts failing one round, starts failing two rounds, max EFX allocations.
+   The first `maxrec` profiles with a two-round failure are written to rec (n*m values each). */
+ll rnd_grid(int n_, int m_, int V, ll *out, ll *rec, int maxrec, ll limit) {
+    int R = 1; for (int g = 0; g < m_; g++) R *= V;
+    int idx[MAXN]; for (int i = 0; i < n_; i++) idx[i] = 0;
+    ll vals[MAXN * MAXM]; ll prof = 0, starts = 0, f1 = 0, f2 = 0, nrec = 0;
+    int picks[MAXS * MAXN], order[MAXS * MAXN]; static ll cnt[MAXS * NK]; ll nefx_;
+    while (1) {
+        for (int i = 0; i < n_; i++) { int x = idx[i]; for (int g = 0; g < m_; g++) { vals[i * m_ + g] = 1 + x % V; x /= V; } }
+        int ns = rnd_analyze(n_, m_, vals, 1, 1 << K_RND1, picks, order, cnt, &nefx_);
+        prof++; starts += ns;
+        for (int s = 0; s < ns; s++) if (cnt[s * NK + K_RND1] == 0) {
+            f1++;
+            ll md; ll c2 = rnd2_count(n_, m_, vals, picks + s * n_, 1, &md);
+            if (c2 == 0) { f2++; if (nrec < maxrec) { for (int k = 0; k < n_ * m_; k++) rec[nrec * (n_ * m_ + n_) + k] = vals[k]; for (int a = 0; a < n_; a++) rec[nrec * (n_ * m_ + n_) + n_ * m_ + a] = picks[s * n_ + a]; nrec++; } }
+        }
+        if (limit > 0 && prof >= limit) break;
+        /* next multiset: idx nondecreasing */
+        int i = n_ - 1;
+        while (i >= 0 && idx[i] == R - 1) i--;
+        if (i < 0) break;
+        idx[i]++; for (int j = i + 1; j < n_; j++) idx[j] = idx[i];
+    }
+    out[0] = prof; out[1] = starts; out[2] = f1; out[3] = f2; out[4] = nrec;
+    return prof;
+}
