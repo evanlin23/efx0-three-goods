@@ -73,3 +73,46 @@ Limits:
   - The stored extensions behave as claimed on concrete instances: 710 instances and 773,190 realized extensions,
     with 0 failures; the mutation is caught.
 - The candidate-list pruning (`twins_filter.py`) was not re-run here.
+
+## Addendum: the candidate filter and its Γ′-level prune (`k4/TWINS.md` §1 at `450a58f`; coordinator's queue, 2026-11-27)
+
+**Read.**
+- `k4/TWINS.md` §1;
+- `k4/twins_filter.py`: the docstrings of `excluded` and `gamma_prune` and their code, read but not run.
+
+**Check.** `k4/referee/twins_prune_ref.py`, log `results/k4_referee/twins_prune_ref.log`.
+- It is my own core-level predicate, written from TWINS.md's table, and my own Γ′-level test, which enumerates every
+  completion of a Γ′.
+- Data, read as data:
+  - the β = 4 core list `results/k4_min_cex_shapes_4.json.gz` (main);
+  - the hunt session's β = 5, n = 6 list `results/k4_hunt/mc_n6_b5.json.gz` (`claude/k4-hunt-cegar`).
+
+**Verdict: the Γ′-level prune is SOUND.**
+
+*Argument.*
+- In Γ′ an agent's degree is its number of shared goods. Private goods are new goods of degree 1, so they never change
+  a shared good's degree.
+- An agent with three shared goods becomes Q3 (no private good) or P4 (one), since k ≤ 4. One with four shared goods is
+  Q4.
+- So two Γ′-degree-3 agents sharing two degree-2 goods form a {Q3, P4} pair with c = |shared| − 2 ∈ {0, 1}. All of
+  those are certified.
+- A degree-3 and a degree-4 agent sharing two degree-2 goods and a third good form a {Q3 or P4, Q4} pair with c = 1,
+  which is certified.
+- Pairs with a Γ′-degree-2 agent (P3, or a 4-good agent with two private goods) and the uncertified cases are never
+  pruned:
+  - open Q3–Q4 or P4–Q4;
+  - every Q4–Q4.
+- So the prune removes a Γ′ only when every core built on it contains a certified double edge.
+
+*Computation.*
+
+| list | cores | excluded by my core predicate | left | distinct Γ′ | Γ′ with some but not all completions excluded | stated rule ≠ "every completion excluded" |
+|---|---|---|---|---|---|---|
+| β = 4 | 5,558 | **2,392** | **3,166** | 1,163 | 0 | 0 |
+| β = 5, n = 6 | 30,337 | **9,455** | **20,882** | 4,143 | 0 | 0 |
+
+Both counts are TWINS.md's. On these lists the Γ′ prune is exactly the core-level filter.
+
+*Not checked.*
+- The β = 5 counts for n ≥ 7, which come from a single implementation of the pipeline.
+- The domain cuts (`cut_domains`), which depend on the uncovered-profile files.

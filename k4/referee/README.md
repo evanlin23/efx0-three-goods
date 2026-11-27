@@ -50,6 +50,8 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 37 | The certifier's refutation of TTC's R2-M and R2★ at n = 4 (`results/k4_oc1max/r2m_fails_n4.jsonl`, `c0de02c`) | `compute/k4-oc1max-cert` | `r2m.md` | **CONFIRMED** on all 306 starts (asked: 5): strict cores, perfect, ≥ 2 receivers, hard; R2-M fails at all, R2★ at 74; R2 holds at all |
 | 38 | ksens N3K5, N3K5⁺: k = 5, one chain and one round fail at n = 3 (`k4/ksens.md` §8, `1ac11ad`) | `claude/k4-ksens` | `ksens.md` §7 | **CONFIRMED**. Remark: OC₁′ (middle agents may take the end's released pick) repairs both |
 | 39 | VM's P34: VM1 fails on a connected k = 4 core (`attempts/k4-vm-vm1-core.md`, `b5a2d6a`) | `claude/k4-vm` | `vm.md` §7 | **CONFIRMED**: strict connected core; V-M matchings exactly the two stated; no completion with ≤ 1 move under a search wider than VM1's; the two-move (one DE chain) completion is EFX₀ |
+| 40 | Theorem N2's type reduction, Lemmas TD and OR (`k4/haxell.md` §6, `158b4d9`) | `claude/k4-haxell` | `haxell_n2.md` | **CORRECT**: both lemmas re-derived; my own class count gives exactly 45,999 (46 shapes); TD 0 mismatches; N2 on 687,499 random states, 0 failures |
+| 41 | K4.MC8 candidate filter and its Γ′-level prune (`k4/TWINS.md` §1, `450a58f`) | `proof/k4-twins` | `twins.md` addendum | **SOUND**: argument plus spot check; counts reproduced (β = 4: 2,392 / 3,166; β = 5, n = 6: 9,455 / 20,882); on every Γ′ the stated rule equals "every completion excluded" |
 | – | Literature: EFX₀ for n = 2 | – | `lit_n2.md` | Plaut–Roughgarden Thm 4.3 (EFX₀, monotone) covers existence; not `kgen/n3.md` Theorem 2 (picks kept / one chain) |
 
 **Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the
