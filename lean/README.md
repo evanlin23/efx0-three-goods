@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 1387 audited statements, 2664 theorems, standard axioms only
+    CHECK PASSED: 1388 audited statements, 2665 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -329,7 +329,8 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
 - `EFX/BaseR.lean`: **the BASE-R frame** (`k4/base_phantom.md` §5, ledger K4.BASE.GR.LEAN): lifted completions (`LiftedAt`),
   P1-free rounds (`AdmissibleP1`, `ReachP1`), final rounds and base repairs, Conjecture BASE-R (`ConjBaseRWith`) and
   "GR never gets stuck" (`ConjGRWith`, equivalent), and **`EFX.Round.target4_of_conjBaseR`**: BASE-R, for any move class,
-  implies TARGET₄; `liftedAt_iff` (LIFT-SEP: lifted completions are one-absorber completions respecting the phantoms).
+  implies TARGET₄; `liftedAt_iff` (LIFT-SEP: lifted completions are one-absorber completions respecting the phantoms);
+  `oc1PhiAt_of_sPhi_p1Free` (Theorem S^φ with P1-free phantoms needs only (S-φ1)).
 - `EFX/RF.lean`: **the receiver-first frame** (`k4/sdc.md` §31 end, ledger K4.SDC.RF.LEAN): Conjecture RF (`ConjRF`:
   at a maximum-matching start where OC₁ fails, a unique receiver u, and OC₁ at every maximum-matching order with u
   first, one of which exists) implies OC₁^∃max (`conjOC1exmax_of_conjRF`), hence TARGET₄

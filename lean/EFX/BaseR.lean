@@ -1,4 +1,5 @@
 import EFX.Sep
+import EFX.SPhi
 
 /-!
 # The BASE-R frame: the greedy process GR never gets stuck ⟹ TARGET₄ (`k4/base_phantom.md` §5)
@@ -228,6 +229,46 @@ theorem liftedAt_iff (hgd : goods.Nodup) {ks : List A} {T : A → List G} (hI : 
   · rintro ⟨X, hX, hE, hkeep, hshape, hΦ⟩
     exact ⟨X, hX, hkeep, hshape, (liftSep hgd hI hX hE (hfin X hkeep)).mpr hΦ⟩
 
+
+/-- **Theorem S^φ in the P1-free class** (`k4/base_phantom.md` §4.1, SEP 3): when every phantom is P1-free, the
+receiver's good and `h` are never phantom-wanted, and a longest chain supplies the receiver when the head is frozen.
+So Theorem S's hypotheses in the remaining instance and (S-φ1) alone give OC₁ with phantom constraints. -/
+theorem oc1PhiAt_of_sPhi_p1Free (hσ : σ.Perm agents) (hag : agents.Nodup) (hgd : goods.Nodup) {ks : List A}
+    {T : A → List G} (hP : ∀ φ ∈ ks, P1Free v goods φ (T φ)) {k : A} {rest : List A}
+    (hch : CChain v (remAgents agents ks) (sdPick v (stOrder σ ks) (remGoods goods ks T)) (k :: rest))
+    (hlong : ∀ rest', CChain v (remAgents agents ks) (sdPick v (stOrder σ ks) (remGoods goods ks T)) (k :: rest') →
+      rest'.length ≤ rest.length)
+    {z : A} (hz : (k :: rest).getLast? = some z) {h : G} (hh : h ∈ remGoods goods ks T)
+    (hhJ : ∀ x, sdPick v (stOrder σ ks) (remGoods goods ks T) x ≠ some h) {H₀ : List G} (hH₀ : H₀.Nodup)
+    (hH₀W : ∀ g ∈ H₀, g ∈ remGoods goods ks T ∧ 0 < v k g ∧
+      ((∀ x, sdPick v (stOrder σ ks) (remGoods goods ks T) x ≠ some g) ∨
+        sdPick v (stOrder σ ks) (remGoods goods ks T) z = some g))
+    (hH₀h : h ∉ H₀) (himp : mval v (sdPick v (stOrder σ ks) (remGoods goods ks T)) k < value v k H₀)
+    (hW : ∀ i ∈ remAgents agents ks, i ≠ k → i ≠ z →
+      ¬ Threat v i (wSet v (remAgents agents ks) (remGoods goods ks T) (stOrder σ ks) z h)
+        (mval v (sdPick v (stOrder σ ks) (remGoods goods ks T)) i))
+    (hZ1 : ¬ Frozen v (remAgents agents ks) (afterE (sdPick v (stOrder σ ks) (remGoods goods ks T)) k rest H₀) z →
+      ¬ Threat v z (wSet v (remAgents agents ks) (remGoods goods ks T) (stOrder σ ks) z h)
+        (value v z (afterE (sdPick v (stOrder σ ks) (remGoods goods ks T)) k rest H₀ z) + v z h))
+    (hZ2 : Frozen v (remAgents agents ks) (afterE (sdPick v (stOrder σ ks) (remGoods goods ks T)) k rest H₀) z →
+      ¬ Threat v z (wSet v (remAgents agents ks) (remGoods goods ks T) (stOrder σ ks) z h)
+        (value v z (afterE (sdPick v (stOrder σ ks) (remGoods goods ks T)) k rest H₀ z)))
+    (hφ1 : ∀ φ ∈ ks, ¬ Threat v φ (wSet v (remAgents agents ks) (remGoods goods ks T) (stOrder σ ks) z h)
+      (value v φ (T φ))) :
+    OC1PhiAt v agents goods σ ks T := by
+  have hσS : (stOrder σ ks).Perm (remAgents agents ks) := hσ.filter _
+  have hagS : (remAgents agents ks).Nodup := hag.sublist List.filter_sublist
+  have hgdS : (remGoods goods ks T).Nodup := hgd.sublist List.filter_sublist
+  obtain ⟨pre, p, hs⟩ := exists_setting hσS hagS hgdS hch hz hH₀ hH₀W himp
+  have hm := hs.matching
+  refine oc1PhiAt_of_sPhi hσ hag hgd hch hz hh hhJ hH₀ hH₀W hH₀h himp hW hZ1 hZ2 hφ1
+    (fun _ φ hφ g hg => p3_of_p1Free hP hφ ((hs.validState.1 z hs.z_agent).2 g hg))
+    (fun hzf => ?_) (fun φ hφ => p3_of_p1Free hP hφ hh)
+  obtain ⟨w, hw, hwc, -, hwun⟩ := hs.wanter_of_frozen hlong hzf
+  refine ⟨w, hw, hwc, hwun, fun φ hφ g hg => p3_of_p1Free hP hφ ?_⟩
+  rw [Option.mem_toList] at hg
+  exact (hm.mem w g hg).2.1
+
 end frame
 
 /-! ## TARGET₄ -/
@@ -281,6 +322,7 @@ end EFX
 #print axioms EFX.Round.exists_efx0_of_conjBaseR_hard
 #print axioms EFX.Round.exists_efx0_of_conjBaseR_perfect
 #print axioms EFX.Round.liftedAt_iff
+#print axioms EFX.Round.oc1PhiAt_of_sPhi_p1Free
 #print axioms EFX.Round.exists_efx0_of_conjBaseR
 #print axioms EFX.Round.target4_of_conjBaseR
 #print axioms EFX.Round.target4_of_conjGR
