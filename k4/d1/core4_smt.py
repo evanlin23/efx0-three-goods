@@ -179,7 +179,8 @@ if __name__ == '__main__':
         only = set()
         for line in open(os.environ['ONLY']):
             if line.startswith('SAT'):
-                only.add(line.split(' wants0 ')[0].split(' ', 2)[1] + ' ' + line.split(' wants0 ')[1].strip())
+                R_, end = json.JSONDecoder().raw_decode(line[4:])
+                only.add(json.dumps(R_) + ' ' + line.split(' wants0 ')[1].strip())
     for idx, (R, junk, w0) in enumerate(structures(maxj)):
         if shard:
             si, sn = map(int, shard.split('/'))

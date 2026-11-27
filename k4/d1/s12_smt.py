@@ -50,6 +50,10 @@ def structures(max_junk):
                         if t >> a & 1: RR[a].add(g)
                     junk.append(g); g += 1
             if not any(h in RR[0] for h in junk): continue
+            # necessary for HEAD on a chain (k, u): u values a junk good; an unfrozen o that values no junk is inert
+            # (Lemma CONTRACT deletes it), so S2 needs o to value junk
+            need = [1, 2, 3]
+            if any(not any(h in RR[i] for h in junk) for i in need): continue
             if MC2:
                 if any(len(r) < 3 for r in RR): continue
                 if any(sum(1 for h in RR[i] if all(h not in RR[j] for j in range(4) if j != i)) >= 2 for i in range(4)): continue
