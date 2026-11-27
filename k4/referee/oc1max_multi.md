@@ -498,3 +498,71 @@ K4.MULTI.RECS.
 
 The coverage claim of §12 (REC-S repairs all 12 and all 4,955, in the E(k)-only form) is reproduced. I did not re-run
 the matching session's 23,943 n = 5 walk rows.
+
+## 12. Addendum: K4.MULTI.RECS.N4, an audit of `check_recs.py` and an independent re-validation (`b8bdc69`; 2026-11-27)
+
+**Read.**
+- `k4/oc1max_multi/check_recs.py` (125 lines) line by line, against the definitions.
+- §12's paragraph "Certified at n = 4", and the ledger row K4.MULTI.RECS.N4.
+
+**Check.** `k4/referee/recs_n4_ref.py`, log `results/k4_referee/recs_n4_ref.log`.
+- It is my own validator: the earliest-wanter chain, reduction and Theorem S enumeration come from my `rec_s_ref.py`;
+  the §29 move simulation, SD and raw EFX₀ from my `cert_ref.py`.
+- `check_recs.py` was read, not run.
+- Data:
+  - the witness file `recs_witnesses_n4.json.gz`;
+  - the certifier's export `two_move_starts_n4.json.gz` (sha256 `6159e38d…`).
+
+**Verdict: CONFIRMED** (CERTIFIED stands). Two remarks on the checker, neither affecting the result.
+
+**Audit of `check_recs.py`.** Its nine checks match the definitions:
+1. SD picks, with ties broken by good index;
+2. k frozen and valuing junk;
+3. E(k) by σ-earliest wanters, up to an unwanted head;
+4. T is two goods of (J ∪ {Y_z}) ∩ R_k with v_k(T) > p_k, and move 1's chain agents strictly gain;
+5. (L), strictly;
+6. SD-E, by SD of σ ∖ k with T banned;
+7. move 2:
+   - its agents are distinct and avoid k;
+   - k′ is frozen and dangerous in the reduced state;
+   - the head is unwanted;
+   - H₀′ ⊆ J₁ ∪ B₁(z′) is improving;
+   - the receivers take single goods and gain;
+8. the owner's bundle is W = (J₁ ∪ B₁(z′)) ∖ {h}, and h goes to one other agent;
+9. the final allocation is a partition (sorted goods = range(m)) that extends move 2 by junk only, with at most one
+   absorber and X_k = T, and is raw EFX₀ over every removed good, zero-valued ones included.
+
+Remarks:
+- **(a) Coverage is not checked by the checker.** It reads each start's sets, values and picks *from the witness file*,
+  so it cannot see a witness file that misses a start of the export or alters one. My validator closes this:
+  - the witness starts equal the export's starts *as a multiset*: 112,880 each, 0 export starts without a witness, 0
+    witness starts outside the export.
+  - It would be worth adding this comparison (and the export's hash) to `check_recs.py`.
+- **(b)** Check 7 does not require H₀′ ⊆ R_{k′}, which §29 requires of H sets. No witness has a good worthless to k′ in
+  H₀′ (0 of 112,880), so this does not matter.
+- Check 8 tests the *shape* of Theorem S, not its hypotheses. That is enough for the OC₂ certificate, since the
+  allocation is checked raw. My validator also shows that **every witness is a genuine Theorem S case**:
+  - in the reduced instance at B₁⁻, (k′, P′, h) meets the relaxed hypotheses with P′ a *longest* canonical chain;
+  - the witness allocation is the one Theorem S builds;
+  - (K) holds.
+
+  So REC-S *as stated* applies at every n = 4 start, not only its shape.
+
+**Re-validation (own code, all 112,880 witnesses).** For each witness, independently of `check_recs.py`:
+- the picks are the SD outcome of the witness order, and k ∈ D;
+- P₁ = E(k), and T is improving inside (J ∪ {Y_z}) ∩ R_k;
+- both moves are replayed as §29 official moves by my simulator (H sets inside the relevant goods and the current junk,
+  strict gains);
+- (L) and SD-E hold, and k′ ∈ D in I⁻;
+- the completion is a partition extending move 2 by junk, with at most one absorber and X_k = T, and is raw EFX₀.
+
+| | count |
+|---|---|
+| export starts / witness starts / matched as multisets | 112,880 / 112,880 / **112,880** (0 missing, 0 extra) |
+| witnesses valid | **112,880** |
+| witness is a Theorem S case of I⁻ (relaxed, longest chain) with (K) | **112,880** |
+| H₀′ with a good worthless to k′ | 0 |
+
+**Standing.** At n = 4, OC₂^max holds by REC-S's mechanism at every start of the export. Like item 34, the claim "at
+every n = 4 start with no one-move repair" inherits the completeness of the certifier's export, which I checked by
+sampling only (item 21).
