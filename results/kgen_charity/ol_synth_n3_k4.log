@@ -5,3 +5,8 @@ q 1 sizes (3, 2, 1) m 7: UNSAT after 139 cuts, 11.5 s
 q 1 sizes (3, 2, 2) m 8: UNSAT after 243 cuts, 60.7 s
 q 1 sizes (3, 3, 1) m 8: UNSAT after 176 cuts, 31.5 s
 q 1 sizes (3, 3, 2) m 9: UNSAT after 335 cuts, 481.6 s
+q 1 sizes (3, 3, 3) m 10: UNSAT after 210 cuts, 363.6 s
+q 1 sizes (4, 2, 1) m 8: UNSAT after 162 cuts, 16.6 s
+q 1 sizes (4, 2, 2) m 9: UNSAT after 260 cuts, 247.3 s
+q 1 sizes (4, 3, 1) m 9: UNSAT after 201 cuts, 116.5 s
+q 1 sizes (4, 3, 2) m 10: UNSAT after 251 cuts, 436.4 s

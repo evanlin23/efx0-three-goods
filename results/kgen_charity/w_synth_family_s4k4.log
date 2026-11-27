@@ -1,1 +1,2 @@
 $ python3 kgen/charity/w_synth_family.py 4 4 - 80
+(stopped by its 7000 s time limit without a result)
