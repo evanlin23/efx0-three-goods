@@ -9,3 +9,4 @@ python3 claw_ref.py $D/claw_y123.json.gz 150 3 claw-y123 > $T/cl3.out &
 python3 claw_ref.py $D/claw.json.gz,$D/claw_y12.json.gz 20 9 claw,claw-y12 interior > $T/cl4.out &   # mutation (must fail)
 wait
 cat $T/cl1.out $T/cl2.out $T/cl3.out $T/cl4.out
+python3 claw_ref.py $D/claw.json.gz 60 11 claw   # which instances need the two-agent gadgets

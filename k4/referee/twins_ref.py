@@ -216,6 +216,8 @@ def main(files, N, seed, configs=None):
             w = [run_record(r, H, rng, c, ex) for r in bycfg[cfg]]
             if any(w):
                 c[cfg + "_covered"] += 1
+                if not any(x for x, r in zip(w, bycfg[cfg]) if len(r["Sp"]) < 2):
+                    c[cfg + "_covered_only_by_two_agent_gadgets"] += 1
             elif cfg not in EXCLUDED:
                 c[cfg + "_not_covered"] += 1
             else:
