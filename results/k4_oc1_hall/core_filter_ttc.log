@@ -1,0 +1,9 @@
+CORE 36 [[[0, 2, 3, 1], [6, 4, 5, 9], [1, 2, 3, 9], [1, 6, 7, 8], [3, 6, 9], [1, 3, 6, 9]], [[3, 7, 8, 6], [2, 9, 6, 14], [14, 2, 8, 10], [8, 7, 6, 3], [14, 4, 12], [10, 15, 4, 2]]]
+  core has fewer than 2 agents 71
+  first peel: R1 43
+  first peel: R2 40
+  remaining core violates OC1 for some order 0
+  remaining core: n = 4 8
+  remaining core: n = 5 4
+already a core 1
+not a core 83

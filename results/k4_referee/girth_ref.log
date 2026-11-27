@@ -1,0 +1,14 @@
+{"source": "T1 add N=20000 n=3..7 m=3..10 size<=4 deg<=4 seed=11", "instances": 20000, "with_3cycle": 7410, "zeros_tested": 82364, "runs": 411820, "fail": 0}
+{"source": "T1 mono N=20000 n=3..7 m=3..10 size<=4 deg<=4 seed=12", "instances": 20000, "with_3cycle": 7519, "zeros_tested": 82223, "runs": 411115, "fail": 0}
+{"source": "T1 add N=5000 n=5..9 m=6..14 size<=4 deg<=6 seed=13", "instances": 5000, "with_3cycle": 3161, "zeros_tested": 24138, "runs": 120690, "fail": 0}
+{"source": "T1 mono N=5000 n=5..9 m=6..14 size<=4 deg<=6 seed=14", "instances": 5000, "with_3cycle": 3183, "zeros_tested": 23970, "runs": 119850, "fail": 0}
+{"source": "T1 add N=3000 n=3..6 m=4..9 size<=4 deg<=4 seed=15", "instances": 3000, "with_3cycle": 2165, "zeros_tested": 10378, "runs": 51890, "fail": 9834}
+EXAMPLE ('P2 (neighbour)', 3, 6, [[0, 1, 2, 4], [2, 3], [3, 4]], 2, [[0], [2], [4]])
+EXAMPLE ('P2 (neighbour)', 3, 6, [[0, 1, 2, 4], [2, 3], [3, 4]], 2, [[0], [2], [4]])
+EXAMPLE ('P2 (neighbour)', 3, 6, [[0, 1, 2, 4], [2, 3], [3, 4]], 2, [[0], [2], [4]])
+EXAMPLE ('P2 (neighbour)', 3, 6, [[0, 1, 2, 4], [2, 3], [3, 4]], 2, [[0], [2], [4]])
+EXAMPLE ('P2 (neighbour)', 3, 6, [[0, 1, 2, 4], [2, 3], [3, 4]], 2, [[0], [2], [4]])
+{"source": "PARK/SLACK/SINK add N=2000 n=3..5 m=3..7 size<=3 deg<=4 seed=16", "instances": 2000, "states": 11221, "park_hyp": 11167, "park_completions": 56179, "park_fail": 0, "slack_cases": 20323, "slack_fail": 0, "sink_cases": 28362, "sink_fail": 0, "combo_cases": 4760, "combo_fail": 0}
+{"source": "PARK/SLACK/SINK mono N=2000 n=3..5 m=3..7 size<=3 deg<=4 seed=17", "instances": 2000, "states": 19233, "park_hyp": 19179, "park_completions": 126888, "park_fail": 0, "slack_cases": 37254, "slack_fail": 0, "sink_cases": 52865, "sink_fail": 0, "combo_cases": 4593, "combo_fail": 0}
+{"source": "PARK/SLACK/SINK add N=500 n=4..6 m=5..8 size<=4 deg<=4 seed=18", "instances": 500, "states": 5174, "park_hyp": 5157, "park_completions": 49380, "park_fail": 0, "slack_cases": 13549, "slack_fail": 0, "sink_cases": 15473, "sink_fail": 0, "combo_cases": 3657, "combo_fail": 0}
+{"source": "PARK/SLACK/SINK mono N=500 n=4..6 m=5..8 size<=4 deg<=4 seed=19", "instances": 500, "states": 9889, "park_hyp": 9871, "park_completions": 110982, "park_fail": 0, "slack_cases": 26495, "slack_fail": 0, "sink_cases": 31683, "sink_fail": 0, "combo_cases": 3539, "combo_fail": 0}

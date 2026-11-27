@@ -1,0 +1,17 @@
+$ python3 k4/oc1_hall/big_sstar.py big:10 200 25 60 DF_HMAX=4 DF_TMAX=99
+... {'instances': 20, 'distinct starts': 333, 'picks complete in S*': 328, 'hard starts': 5, 'hard start repaired: D agent owns': 5} 6 s
+... {'instances': 40, 'distinct starts': 630, 'picks complete in S*': 624, 'hard starts': 6, 'hard start repaired: D agent owns': 6} 8 s
+... {'instances': 60, 'distinct starts': 886, 'picks complete in S*': 880, 'hard starts': 6, 'hard start repaired: D agent owns': 6} 10 s
+... {'instances': 80, 'distinct starts': 1201, 'picks complete in S*': 1195, 'hard starts': 6, 'hard start repaired: D agent owns': 6} 12 s
+... {'instances': 100, 'distinct starts': 1463, 'picks complete in S*': 1457, 'hard starts': 6, 'hard start repaired: D agent owns': 6} 14 s
+... {'instances': 120, 'distinct starts': 1732, 'picks complete in S*': 1726, 'hard starts': 6, 'hard start repaired: D agent owns': 6} 16 s
+... {'instances': 140, 'distinct starts': 2030, 'picks complete in S*': 2024, 'hard starts': 6, 'hard start repaired: D agent owns': 6} 18 s
+... {'instances': 160, 'distinct starts': 2326, 'picks complete in S*': 2318, 'hard starts': 8, 'hard start repaired: D agent owns': 8} 52 s
+... {'instances': 180, 'distinct starts': 2594, 'picks complete in S*': 2585, 'hard starts': 9, 'hard start repaired: D agent owns': 9} 54 s
+... {'instances': 200, 'distinct starts': 2813, 'picks complete in S*': 2804, 'hard starts': 9, 'hard start repaired: D agent owns': 9} 55 s
+distinct starts 2813
+hard start repaired: D agent owns 9
+hard starts 9
+instances 200
+picks complete in S* 2804
+time 55 s

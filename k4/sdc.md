@@ -1964,7 +1964,7 @@ pickless agent by an alternating path values a junk good.
 - So the pickless agents cannot be the wanters that freeze a dangerous agent, which is the configuration of every
   counterexample above.
 
-**Conjecture OC₁^max** (K4.SDC.OC1MAX). In every strict connected k = 4 core, for every SD order whose picks form a
+**Conjecture OC₁^max** (K4.SDC.OC1MAX; **REFUTED at k = 4, n = 4**, see the end of this section). In every strict connected k = 4 core, for every SD order whose picks form a
 maximum matching: the picks have a one-absorber completion, or one improving move (an addition, a chain or a ring)
 gives bases that have one.
 - With Lemma MAXSD it implies TARGET₄, through the core reduction.
@@ -2021,3 +2021,61 @@ Evidence (`k4/sdc/oc1_max_orders.py`):
   TTC session's Hall-deficient climbs are benign. I′ need not be a core, so this route needs the perfect-start form for
   all instances. `k4/sdc/oc1max_climb.py` with LOOSE=1 tests OC₁^max without the core conditions. The 84 non-core TTC
   instances already satisfy it (`results/k4_sdc/oc1_max_orders_ttc84.log`).
+
+**OC₁^max is false at k = 4** (2026-11-26 23:15; `k4/sdc/oc1max_cex_verify.py`, `results/k4_sdc/oc1max_cex_verify.log`).
+The ordinal CEGAR of the compute/k4-oc1max-cert session found two failures on the n = 4 core list 4_n4_3. Random
+profiles had missed them. The coordinator replayed both independently.
+- **Instance 1** (idx 58).
+  - sets [[0,1,2,5],[1,2,5,6],[3,4,5,6],[3,4,6]]; vals [[2,10,4,7],[10,3,4,8],[3,5,6,7],[3,2,4]].
+  - A strict connected MC2-class core with m = 7.
+  - The order (0,3,2,1) gives picks (1,2,5,6): every agent picks, so ν = n = 4.
+  - Agent 1, last, is left with its worst good 2 (worth 3), and it values agent 0's pick at 10.
+  - The instance has 14 EFX₀ allocations. None contains the picks or any of the 15 one-move states.
+- **Instance 2** (idx 77). sets [[0,4,5,6],[1,2,3,5],[1,3,5,6],[2,4,6]], vals [[2,3,10,6],[3,10,6,8],[5,3,7,6],[4,3,2]],
+  order (3,1,2,0), picks (4,5,6,2). It has 24 EFX₀ allocations, and none extends the picks or any one-move state.
+- So OC₁^max, OC^max (free completion) and OC₁ at perfect starts are all false at k = 4.
+- **What survives on these instances.**
+  - Two sequential moves repair both: 8 and 12 two-move states respectively have one-absorber completions.
+  - The other maximum-matching orders complete at the picks: 4 of 7 and 4 of 6 pick vectors.
+  - So the candidates are OC₂^max (at most two sequential moves from every maximum-matching start) and the ∃-forms
+    (some maximum-matching order satisfies OC₁; SD-C).
+  - The Lean frames (K4.SDC.OC1MAX.LEAN, OC1PERF.LEAN) are implications and stay valid. They are parametrized by
+    the move relation (ConjOC1maxWith), so a two-move relation fits them directly.
+
+**OC₁′^max holds at n = 4 and fails at n = 5** (2026-11-27 01:00 UTC). OC₁′ is from kgen/rounds.md §4.6: a single move
+(addition, chain or ring), where every non-end agent of a chain may also take goods of the end's released base.
+- **n = 4.** OC₁′ holds at all 112,880 (type profile, picks) pairs where OC₁^max fails at n = 4, the certifier's complete
+  export (`results/k4_oc1max/two_move_starts_n4.json.gz` on compute/k4-oc1max-cert, sha256 6159e38d…).
+  - The coordinator's check is `k4/sdc/oc1prime_verify.py`, log `results/k4_sdc/oc1prime_verify_n4.log`, 140 s. Its own
+    widened move generator is written from the definition. At every start it confirms the SD picks and a maximum
+    matching, and it confirms that OC₁ fails at 2,258 sampled starts.
+  - It agrees with kgen-rounds' rnd.c (`results/kgen_rounds/oc1p_vs_oc2.log`).
+  - With the certifier's OC₁^max certificate for every other n = 4 start, **OC₁′^max holds on every strict connected
+    n = 4 core**.
+- **n = 5: OC₁′^max is false.** The instance is the certifier's OC₁^max failure 5_pure idx 164
+  (`k4/sdc/oc1prime_n5_cex.py`, `results/k4_sdc/oc1prime_n5_cex.log`).
+  - sets [[0,2,3,7],[1,2,6,7],[3,4,5,6],[3,4,5,7],[4,5,6,7]], vals [[1,8,6,4],[4,8,2,7],[6,7,3,5],[7,10,2,6],[7,5,3,6]].
+  - It is a strict connected MC2-class core with m = 8.
+  - The orders (1,4,2,0,3), (4,1,2,0,3) and (4,2,1,0,3) give the picks (7,2,3,5,4): a perfect start, ν = 5.
+  - None of the 21 OC₁′ move states has a one-absorber completion. Three implementations agree: the coordinator's,
+    kgen-rounds' forward brute force `verify_k4zero.oc1_prime`, and rnd.c `rndlib.oc1z`
+    (`results/k4_sdc/oc1prime_n5_xcheck.log`).
+  - Two sequential moves repair it, so OC₂^max holds here.
+- **The mechanism is two disjoint conflicts.** It is the "two disjoint swaps" of kgen/rounds.md §4.6, now in a k = 4 core
+  with zeros.
+  - Every one of the 9 EFX₀ allocations that value-dominate the picks swaps agents 0 and 1: agent 0 gets 2, and agent 1
+    gets 7 plus the junk good 1.
+  - Each one also upgrades agent 3, whose pick 5 is worth 2. It takes 4 (from agent 4, who takes 5 and junk 6) or 3
+    (from agent 2).
+  - One chain or ring fixes one of the two. A round of two vertex-disjoint moves fixes both: for example the ring 0 ↔ 1
+    with junk 0 and 1, plus the ring 3 ↔ 4 with junk 6. 12 of the 20 two-move repairs (state pairs) are such disjoint pairs.
+- **So the one-step candidates at k = 4 must allow disjoint moves.**
+  - ROUND-P^max: one round of vertex-disjoint OC₁′ moves. It holds at n = 4 because OC₁′^max holds there, and it holds on
+    this n = 5 start.
+  - OC₂^max is unchanged.
+- **Gluing does not build three disjoint conflicts.** `k4/sdc/oc2max_glue_cex.py`, `results/k4_sdc/oc2max_glue_cex.log`.
+  - Test: two copies of the instance glued at junk good 0 (n = 10, a strict connected MC2 core, a perfect SD start).
+  - Prediction from treating the copies separately: three sequential moves needed.
+  - Result: the picks already have a one-absorber completion. One agent absorbs junk of both copies. The other copy's
+    junk is worth 0 to everyone in a copy, so in EFX₀ it acts as a sink.
+  - So the copies do not separate. OC₂^max holds at that start.
