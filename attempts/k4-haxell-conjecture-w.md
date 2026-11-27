@@ -40,7 +40,8 @@ mechanism needs k − 1 single moves, so with plain moves the radius of the lemm
 where k really enters.
 
 **What survives** (`k4/haxell.md` §6):
-- **W₃** (three moves) at k = 4: see `n2w_grid_k4_r3.log`.
+- **W₃** (three moves) at k = 4: no stuck state on the whole n = 2, k ≤ 4 grid (470.5 million states;
+  `n2w_grid_k4_r3.log`). It fails at k = 5 (W5 above).
 - **W^sub** (two moves, a set transfer counting as one move): k-independent in form. It adds moves to W, so it holds
   wherever W held. On the whole n = 2, k ≤ 4 grid (values {1, 2, 4, 7}; 1,540,944 instances, 470.5 million partial
   EFX₀ states) it has no stuck state for welfare or leximin (`n2w_grid_k4_sub.log`). Stated precisely in
