@@ -1592,9 +1592,8 @@ three precise lemmas:
    no extra active agents. Open: all-HEAD starts with extra active agents or a third wanter (S2 is false, by S2-X),
    and t ≥ 2.
 2. **R2** (leaf 5a; TTC session). Two or more receivers ⟹ one move.
-3. **The second move** (§23.4 item 4). Either 4a, disjoint repairs in one round (smallest 5_pure#164), or 4b,
-   SHARE₂'s sequential move OC2-REC (route R, leaf 5c). Route M (LIFT-SHAPE⁺) and OC₁′ are certified at n = 4 and
-   false at n = 5. This item is not needed if **OC₁′** (leaf 5d) holds, since then one wider move suffices.
+3. **The second move: OC2-REC** (§23.4 item 4; route R, leaf 5c). It covers sequential and disjoint second moves. It is
+   certified at n = 4 and open from n = 5. Route M (LIFT-SHAPE⁺) and OC₁′ are certified at n = 4 and false at n = 5. This item is not needed if **OC₁′** (leaf 5d) holds, since then one wider move suffices.
 
 Leaves 4d (SLOT) and 4e (RING) of the one-move side are still open as well. They cover starts with one move, which R2
 and LIFT do not touch.
@@ -1634,41 +1633,26 @@ holds a pick.
      Sets [[0,1,2,3],[0,1,4,5],[2,3,4,5]], values [[8,6,4,1],[4,2,8,5],[4,6,8,3]], order (0, 2, 1), picks (0, 5, 4),
      D = {2}, receivers {0, 1}, |J| = 3, which matches Lemma R2-0's bound.
    - At n = 4 the smallest is Q2, picks (3, 7, 5, 4).
-4. **The second move** (coordinator's split, 00:51). Two cases:
+4. **The second move: OC2-REC** (`proof/k4-oc1max-multi`; tested exhaustively by matching). The 4a/4b split of 00:51 is
+   merged back (01:10), because OC2-REC covers both.
+   - Statement: at a hard perfect start with no one-move repair (one receiver z, by item 3):
+     - some dangerous k has a canonical chain P₁ in which k takes a pool pair T, and Lemma LIFT's hypothesis holds;
+     - the reduced state is an SD outcome of I⁻ = I − k − T;
+     - *some official move of I⁻*, disjoint from P₁ or not, repairs it with a completion that does not threaten k.
 
-   **4a. A disjoint second repair (ROUND form).**
-   - Statement: at a hard perfect start with no one-move repair whose conflicts split into independent parts, the
-     parts are settled by vertex-disjoint moves, each a one-move repair of its part, in one round or in sequence.
-   - Smallest test: 4_n4_3#58 (n = 4; §22's cex1). It is 4a-type: the chain (3, 2), with agent 3 taking {3, 4},
-     then the vertex-disjoint chain (0, 1) repair it (checked here; 4 of its 20 repairing pairs are vertex-disjoint).
-   - 5_pure#164 (n = 5) is the smallest 4a-type start at which even the wider single move OC₁′ fails:
-     - agents 0 and 1 must swap, and separately agent 3, whose pick is worth 2, must be upgraded from agent 4 or 2;
-     - the chains (2, 3) and (1, 0) repair it;
-     - no single chain or ring can.
-   - This case should reduce to the one-move theory applied twice. What has to be proved is that the two parts do not
-     interact: the second repair's completion must still satisfy the first part.
-   - A failed construction, to avoid: gluing two copies at a junk good gives a sink, not three conflicts.
-   - Owner: unassigned. Natural owner: `proof/kgen-rounds` (ROUND⁺).
-
-   **4b. A genuinely sequential second move (OC2-REC).**
-   - Statement: the second move uses the first one's result. Some dangerous k has a canonical chain P₁ to the receiver z
-     with a shared pool pair T. The reduced state is a perfect SD start of I − k − T and has a one-move repair whose
-     completion does not threaten k. Lemma LIFT (refereed) lifts it back.
-   - Smallest test: to be named from the matching session's 13,040 4b-type n = 4 starts. 4_n4_3#58 is 4a-type.
-   - At n = 4 this case is closed twice over: by LIFT-SHAPE⁺ (K4.MATCH.LIFT.N4), and by **OC₁′^max**, whose single
-     wider move repairs every n = 4 start (two independent checks of all 112,880 exported starts).
-   - At n = 5, 5_pure#164 refutes LIFT-SHAPE⁺ (`liftshape_n5_check.py`) and OC₁′^max (K4.SDC.OC1PMAX, `k4/sdc.md` §31).
-     It is a 4a case, though, so it does not refute OC2-REC.
-   - Owners: `proof/k4-oc1max-multi` (OC2-REC); the matching session's exhaustive test.
-   - **n = 4 closed for both 4a and 4b** (matching, `k4/matching/n5_census.py`,
-     `results/k4_matching/n5_census_n4export.log` at cafae70; ledger K4.MATCH.REC.N4, CERTIFIED by them). Of the
-     112,880 n = 4 starts with no one-move repair:
-     - 99,840 are 4a-type (some repairing pair of chains from dangerous agents is vertex-disjoint);
-     - 13,040 are 4b-type (none is);
-     - OC2-REC holds on all of them, with witnesses re-verified by a self-contained checker, and every reduced repair
-       is a Lemma EX\* exchange.
-
-     So OC2-REC covers 4a as well at n = 4. The split matters only from n = 5 on.
+     Lemma LIFT (refereed) lifts the repair back to I.
+   - Status:
+     - n = 4: **certified** on all 112,880 starts with no one-move repair (K4.MATCH.REC.N4; cited by multi as
+       K4.MULTI.REC). 99,840 of them also have a vertex-disjoint repairing pair, and every reduced repair is an EX\*
+       exchange.
+     - n = 5: holds at 5_pure#164, where P₁ = (2, 3) with T = {5, 6}, shared with agent 4, and the reduced move (1, 0) is
+       disjoint from P₁ (both sessions). The general case is **open**.
+   - Residual case: a two-move start where no first chain takes a pool pair (for instance a ROUND repair whose first
+     chain is of another kind). None is known.
+   - Smallest tests:
+     - 4_n4_3#58 (n = 4; it has a vertex-disjoint repair (3, 2) then (0, 1));
+     - 5_pure#164 (n = 5), where LIFT-SHAPE⁺ and the wider single move OC₁′ both fail.
+   - The explicit n = 4 forms LIFT-SHAPE⁺ (K4.MATCH.LIFT.N4) and OC₁′^max also close n = 4. Both are false at n = 5.
 5. **SLOT** (`proof/k4-oc1max-multi`).
    - Statement: either |D_T| ≥ 2, or D_T = ∅ with DEMAND from a second dangerous agent that values Y_z. Then some
      canonical chain from some k ∈ D leaves demands that fit Lemma M's count at B′, with owner k.
