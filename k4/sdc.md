@@ -2178,9 +2178,26 @@ OC₁ is checked with the raw checker `oc1_mc2_rand.Inst.check`.
   - RKMAX holds at all 700,500 profiles; so do LMR and RS.
   - At the 1,305,032 σ-optimal vectors, the picks complete at 1,299,946. Only 5,086 (0.4%) need one move.
 - **RF and σ** (`rm_path_check_n4.log`). At every failing pair (Y, u), some u-first maximum-matching order raises σ:
-  112,880 of 112,880. The rotation (u, o − u) of a listed order o raises σ at 111,600 pairs.
+  112,880 of 112,880. The rotation (u, o − u) of a listed order o raises σ at 111,600 of the 112,880 pairs. At the other
+  1,280, no listed rotation raises σ, but another u-first order does. The referee's text fix.
   - If no ejected agent of RF-PATH holds its top good, σ rises at level 1, because u moves to rank 1. That happens at
     only 16,240 of 292,080 rotations.
   - At the other 266,880 rotations that raise σ, x₁ held its own top, which is u's top. So level 1 cancels, and the
     gain comes from deeper levels of the path.
   - A proof that the RF rotation raises σ therefore has to track the whole ejection path.
+- **Independent confirmation (referee, item 64; `k4/referee/rkmax.md`, PR #157).**
+  - The n = 4 claim is CONFIRMED by a second implementation, with its own SD, ν, raw EFX₀ and move set.
+  - There are 198,400 σ-optima: 187,560 complete at the picks and 10,840 need one move.
+  - The equivalence and "RKMAX ⟹ OC₁^∃max" are CORRECT.
+  - So RKMAX at n = 4 has two implementations on the certifier's complete export.
+- **Classes at σ-maximal starts** (Hall, `k4/oc1_hall.md` §24.12, `results/k4_oc1_hall/rf_rkmax_n5.log`; girth,
+  `results/k4_girth_oc1_rkmax.log`). EVIDENCE on the export profiles.
+  - At n = 5, the one-receiver classes (1, 0), (1, 2) and (1, 3) of §24.10 never occur at a σ-maximal start. These are
+    the classes that need DEMOTE moves at RF starts.
+  - At n = 5, the remaining classes all have the same first repair: the picks complete; or girth's trade (2,296, class
+    (2, 0)); or a K chain (2,790, class (1, 1)).
+  - Girth: at n = 5 the RF start is σ-maximal at 0 of the 113,484 DEMOTE-0 starts and 0 of the 7,733 (1, 3) starts.
+  - At n = 4 the hard classes do occur at σ-maximal starts: (1, 0) 5,840, (1, 1) 20,080, (1, 2) 1,920. They are covered
+    there by the certificate.
+  - A proof at n ≥ 5 could aim at: σ-maximal ⟹ |U| ≥ 2, or |U| = 1 with |D_T| = 1. The remaining classes would then
+    close by the proved lemmas: RF-T for the trade, the K chains of RF-B′ and Corollary U1, and the picks completing.
