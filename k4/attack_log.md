@@ -930,3 +930,59 @@ at their new heads.
 - Every maximum-matching start is classified by the least number of sequential moves, with a numpy exhaustive
   one-absorber completion test.
 - A trial of 40: random extensions mostly dissolve the obstruction (0 or 1 moves). Larger runs are in progress.
+
+### 2026-11-27 02:47 UTC: hourly burst 6
+**Status.** TARGET₄ is open. OC₂^max (≤ 2 sequential moves) survives everything: it is certified at n ≤ 4, and certified
+at n = 5 on 2,670 cores (5_n4_1 and 935 of 4,674 5_pure), with no start needing three moves. Of the uniform repair
+mechanisms, only **ROUND-P** (one round of vertex-disjoint OC₁′ moves) survives all data.
+
+**This hour's hard data at n = 5.** The certifier's first 5_pure chunk stores 280 two-move starts.
+- **REC-S existence gaps:** 7 starts (kgen-rounds, with multi's own code).
+  - The coordinator replayed #773, #963 and #38 (`k4/sdc/recs_gap_check.py`, log): each is hard, needs 2 moves, and
+    ROUND-P repairs it.
+- **RSD** (settle-delete-recurse with |T| ≤ 3; matching, `check_rsd.py`) repairs 278 of 280.
+- **RSD-IND REFUTED.** At 5_pure (m = 10) #419 and (m = 11) #447 no RSD sequence of any depth works. Three independent
+  checks agree (matching ×2 and multi). The obstruction is two sharers whose settlements each threaten an agent that
+  only the other chain improves.
+  - The coordinator replayed #419 (`results/k4_sdc/n5_419_replay.log`): strict core, OC₁ fails, 2 moves. ROUND-P
+    repairs it with two disjoint rings, 0 ↔ 4 (agent 0 takes {0,7}) and 1 ↔ 3 (agent 1 takes {1,8,9}).
+  - The referee also showed RSD-IND is false as written even at n = 4: dead ends are reachable from 16,240 of 112,880
+    starts.
+- **ROUND-P** repairs all 280 (matching, with `k4/sdc/roundp_check.py` unmodified): 234 with one move, 46 with a round
+  of two.
+
+**Refereed this hour.**
+- **Lemma LIFT\* and Lemma PHANTOM: CORRECT.** So TARGET₄ follows from the existential RSD statement ("some step
+  sequence ends in a completion"). An induction needs an invariant that excludes dead ends.
+- K4.MATCH.RSD.N4 CONFIRMED (all 112,880).
+- Lemma WG CORRECT. K-loc WRONG as stated, corrected. Phantom class GAP, fixed.
+- The splice sketch (REC-S ⟹ one round) has a GAP: the case where P₂'s head is x₁ and Y_k leaks (71 random
+  configurations, all with other ROUND-P witnesses).
+- Also refereed CORRECT: k3-oc1 Lemmas 4–7, kgen-n3 G5/G5′, Haxell N2's type reduction, the twins prune. Confirmed:
+  R2-M's refutation (all 306), N3K5, P34.
+
+**Other results.**
+- multi: Theorem S^φ (Theorem S with phantoms; written, exact on the data).
+- TTC: R2-E REFUTED at n = 4 (4_n4_3 #77: one cycle serves both dangerous agents). R2-C certified.
+- charity: P1 fails at n = 3, k = 5 (brute force). The cvc5 and MILP re-check pipeline for UNSAT claims is in place.
+- kgen-n3: Proposition A (k = 3, one terminal; covers 113,736 of 122,680 drafts).
+- Haxell: no third-move failure at n = 5 yet; a fifth agent gives an outlet.
+
+**Merged this burst:** #123 (Lean: SD-E and the REC-S frame) and #127 (the K4.HX ledger rows). Earlier this hour:
+#98, #101, #105, #106, #115, #117, #118, #119, #121, #122.
+
+**Dispatch.**
+- matching: ROUND-RSD, i.e. a round of simultaneous settlements, delete all, recurse; then the base-case census.
+- multi: SD-E and S^φ for a round of settlements.
+- kgen-rounds: a direct ROUND-P proof sketch (item 4a).
+- TTC: are R2-C repairs ROUND-P witnesses?
+- referee: S^φ next.
+- paper: r6 material.
+- Lean: Theorem U.
+
+**Own angle.** The replays above, plus a question for ROUND-RSD.
+- At #419 the two settling chains are vertex-disjoint and their absorbed sets threaten each other's "victims". So a round
+  of settlements needs (L*) only at the end of the round, which is exactly ROUND-P's witness.
+- Conjecture for the next test: every RSD dead end and every RSD-X start is repaired by settling all agents of one
+  "threat component" in one round. The threat component is the agents linked by "my absorbed set threatens an agent your
+  chain improves".
