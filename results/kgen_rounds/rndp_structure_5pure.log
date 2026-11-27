@@ -1,0 +1,11 @@
+$ python3 kgen/rounds/rndp_structure.py summary /tmp/claude-0/-home-user-efx0-three-goods/1bef8951-d60e-5a6c-a841-d862b0933832/scratchpad/multi/5_pure_s5o0_summary.jsonl.gz 1 3
+('MD', 'not simple', 'not a witness') 8
+('MD', 'not simple', 'witness') 951
+('MD', 'simple', 'not a witness') 61
+('MD', 'simple', 'witness') 9507
+('simplest witness shape', ('rho',)) 234
+('simplest witness shape', ('ring',)) 46
+starts 280
+starts with a SIMPLE RNDOZ witness 280
+starts with an RNDOZ witness 280
+time 4 s

@@ -84,6 +84,20 @@ every refutation below is confirmed by three independent programs.
         All 265,549 REC-S repairs at n = 4 and n = 5 check. E(k) itself is never a witness chain.
       - **REC-S's existence part fails at 7 n = 5 starts** of the certifier's 5_pure chunk; two of them are its
         residual case. ROUND-P holds at all 7 (§4.10).
+      - **A proof route for ROUND-P^max (§4.11): the pick graph.** Theorem ROUND-SIMPLE (proof written, not refereed):
+        an MD EFX₀ allocation whose pick graph is *simple* (components are rings, one-path rhos, or keepers) and which
+        has one absorber is a witness of one round of OC₁′ moves.
+        - Its lemmas name the two mechanisms. Rings: disjoint cycles become disjoint rings. Rho: the starved agent is
+          the rho's merge point and takes the end's pick.
+        - What remains is Conjecture SIMPLE-MD, the existence of such an allocation. It holds at every start of the
+          data: all 714,560 MD allocations at the 112,880 n = 4 starts are simple witnesses.
+      - **What forces simplicity (§4.12): Conjecture Φ-MAX.** Every maximizer of Φ = (#agents holding exactly one
+        pick, −#absorbers) among the MD EFX₀ allocations is a witness. That reduces ROUND-P^max to MD existence alone.
+        No counterexample at 3,032 informative starts.
+      - **Lemma UNTANGLE (§4.13), the local exchange.** At a needy keep-and-add pair, the pickless agent takes its pick
+        back, possibly swapping one junk good to the keeper. Φ rises, MD holds, and the pickless agent's EFX₀
+        conditions hold (proved). The others' EFX₀ conditions are open. This repairs 93 % (n = 4) and 96 % (n = 5) of
+        non-witnesses. With UNTANGLE, ROUND-P^max ⟺ MD at maximum-matching starts.
     - It is a one-move alternative to the campaign's current target OC₂^max (two sequential moves).
     - On all 11 of the certifier's instances, every MD allocation has a starved agent, so the obstruction is the same
       k-independent one.
@@ -865,6 +879,13 @@ Consequences:
     - `check_recs.py` accepts the witness.
   - Open: is (EX) impossible at a start with no one-move repair? That is what REC-S ⇒ ROUND-P needs, and the
     265,549 hard-start repairs say yes.
+- *The referee on the earlier sketch, which had no (EX).* The verdict was GAP (`k4/referee/rounds_r1.md` addendum,
+  commit 6fd0b357, as relayed by the coordinator; not read here [unverified]).
+  - Its failing case is EX-b: P₂'s head is x₁, P₂'s start does not take Y_k back, Y_z ∉ T, and Y_k's final holder
+    gains nothing from it.
+  - It reports 71 of 13,608 REC-S configurations on random strict starts, every one at a start that still has a
+    ROUND-P witness.
+  - Lemma SPLICE as stated above excludes exactly this case. ROUND-P itself is now targeted directly (§4.11).
 - So a proof of REC-S's open existence part (`k4/oc1_hall.md` §23.4 item 4) outside (EX) would prove ROUND-P^max on
   those starts.
 
@@ -881,6 +902,319 @@ violations.
   - one plain round at 6 (not #38).
 - OC₂^max is certified on the chunk, so these starts have two-move repairs, but not REC-S's.
 - ROUND-P^max survives where REC-S does not.
+
+### 4.11 A proof route for ROUND-P^max: the pick graph
+*Request (coordinator, after the referee's GAP on the splice sketch).* Give a direct proof route for ROUND-P^max in its
+narrowest form, one round of vertex-disjoint OC₁′ moves (RNDOZ, §4.9). Name its structure: starvation leads to a
+pooled take, and two cycles lead to disjoint rings.
+
+**The route in one line.** Every allocation X that value-dominates the picks (an MD allocation) has a *pick graph*.
+When that graph is simple and X has one absorber, X is a witness of one round of OC₁′ moves. Lemmas PG, GAIN, RING, RHO
+and FIX and Theorem ROUND-SIMPLE below are proved. What remains is one existence statement, Conjecture SIMPLE-MD. The
+data support it everywhere tested.
+
+*Setting.*
+- A strict connected k = 4 core: every agent's subset sums of relevant goods are distinct.
+- A perfect start Y: every agent holds a pick Y_a it values, p_a = v_a(Y_a), and J is the junk.
+- X is a complete EFX₀ allocation with v_a(X_a) ≥ p_a for every agent (MD).
+
+**Definition (pick graph).** f(a) is the agent whose bundle contains Y_a. f is a function from the agents to the
+agents, and the in-degree of b is the number of picks in X_b. An agent with in-degree 0 is *pickless*.
+
+**Lemma PG (shapes).** Each weak component of f is one directed cycle with in-trees hanging from it. Call a component:
+- *fixed*: a single agent keeping its pick;
+- *ring*: a cycle of length ≥ 2 with no in-tree;
+- *rho*: a cycle of length ≥ 2 with exactly one in-tree, a path q → … → a → v from a pickless agent q, joining the cycle
+  at v. Then v has in-degree 2 and has lost its pick;
+- *rho-fix*: a fixed point v with exactly one path in-tree q → … → a → v of length ≥ 2;
+- *ka*: a fixed point v with the one-edge in-tree q → v, where q is pickless (the keep-and-add shape of §4.9);
+- *complex*: anything else, such as a branching in-tree or two in-trees.
+
+X is *simple* when every component is fixed, ring, rho or rho-fix.
+
+*Proof.* A function on a finite set has exactly one cycle in each weak component. ∎
+
+**Lemma GAIN (gains are automatic).** If f(b) ≠ b, then v_b(X_b) > p_b.
+
+*Proof.* v_b(X_b) ≥ p_b by MD, and Y_b ∉ X_b. Equality would make the relevant part of X_b a subset of R_b different
+from {Y_b} with the same sum, which distinct subset sums exclude. ∎
+
+**Lemma RING (two cycles lead to disjoint rings).** A ring component a₁ → a₂ → … → a_r → a₁ is the chain
+a₁ → … → a_r, where the start a₁ holds the end's pick Y_{a_r}. That is a ring, an OC₁′ move taking its own chain end's
+pick.
+- The start takes Y_{a_r} if it values it. Otherwise Y_{a_r} is an outside good of a₁, and a₁'s H is its relevant
+  junk, which is non-empty by GAIN.
+- Any number of ring components are vertex-disjoint, so they form *one* round.
+- This is the n = 5 mechanism (§4.8): the certifier's 24 have two ring components. A single chain, even OC₁′, performs
+  only one of them.
+
+**Lemma RHO (starvation leads to a pooled take).** A rho component becomes the single chain
+q → … → a → v → c₁ → … → c_r. Here c_r is v's predecessor on the cycle.
+- The end c_r has a predecessor, and its pick lies at v, a non-end agent of the same chain. v takes it, an OC₁′ take,
+  or it is an outside good of v if v does not value it.
+- The start q is pickless and takes its relevant junk, non-empty by GAIN.
+- v is the *starved agent* of Lemma R1. It lost its pick and holds the two foreign picks Y_a and Y_{c_r}.
+  - One plain round cannot realize the component: v would have to take the end's pick of a chain it is in the middle
+    of.
+  - That is why one plain round fails at all 112,880 n = 4 starts and OC₁′ holds there (§4.9).
+
+**Lemma FIX (a merge at a keeper).**
+- *rho-fix.* The chain is q → … → a, with end a, which has a predecessor because the tail has length ≥ 2. a's pick lies
+  outside at the keeper v; v is off the chains, keeps Y_v and absorbs Y_a.
+- *ka.* q → v is forced, and v is then a chain end holding its own pick. It gains only if v_v(X_v ∖ {Y_v}) > p_v.
+  - This is the only gap shape on random cores (§4.9).
+  - It is exception EX of Lemma SPLICE, and the referee's GAP: Y_k goes to a holder that gains nothing from it.
+
+**Theorem ROUND-SIMPLE.** *Proof written here; not refereed.* Suppose X is simple. Define the outside goods of an
+agent as:
+- its worthless junk;
+- the end pick at a ring start or rho merge point that does not value it;
+- the tail-end pick at a rho-fix keeper.
+
+If at most one agent has two or more outside goods, then X is a witness of one round of OC₁′ moves from Y, with a
+one-absorber completion. So ROUND-P^max holds at Y.
+
+*Proof.*
+- The chains of RING, RHO and FIX are vertex-disjoint, because they lie in different components.
+- Every non-end agent takes only its own chain end's pick.
+- Every chain agent's round value is v_b(X_b) minus the value of its outside goods, which is 0 except at a rho-fix
+  keeper, and keepers are off the chains. So the value is v_b(X_b) > p_b, by GAIN.
+- Fixed points with relevant junk make additions, which strictly gain.
+- The completion gives each agent its outside goods. Only one agent receives two or more. ∎
+
+**Conjecture SIMPLE-MD.** At every perfect start (maximum-matching SD start) of a strict connected k = 4 core, some MD
+EFX₀ allocation is simple and has one absorber. By Theorem ROUND-SIMPLE, SIMPLE-MD implies ROUND-P^max in the narrowest
+form, RNDOZ.
+
+*Evidence* (`rndp_structure.py`, `rndp_structure_*.log`).
+- Theorem ROUND-SIMPLE checks with no counterexample: every simple one-absorber MD allocation in the data is a witness.
+- The simple MD allocations that are not witnesses all have two absorbers. That is 61 at the certifier's n = 5 starts
+  and 369 on random cores at n = 5, m = 9.
+
+| data | starts | MD allocations | simple witnesses | starts with a simple witness | simplest witness shape |
+|---|---|---|---|---|---|
+| the 112,880 n = 4 starts without a one-move repair (`rndp_structure_n4.log`) | 112,880 | 714,560 | **714,560 (all)** | **112,880** | one rho at every start |
+| the certifier's 280 n = 5 OC₁^max failures, 5_pure (`rndp_structure_5pure.log`) | 280 | 10,527 | 9,507 | **280** | one rho at 234, rings at 46 |
+| the walk starts near 5_pure#164 (`rndp_structure_walk*.log`) | 23,943 | 215,487 | **215,487 (all)** | **23,943** | rings at every start |
+| random strict connected cores, every perfect start, n = 4–6 (`rndp_structure_random_*.log`) | 5,556 | | 222,393 simple one-absorber MD allocations, all witnesses | **5,556** | keep 5,024, rho 329, rho-fix 93, ring 110 |
+
+So the proof of ROUND-P^max splits into two parts:
+- (i) the lemmas above (proved);
+- (ii) existence of a simple one-absorber MD allocation.
+
+Part (ii) is where the real work lies: it contains the existence of an MD EFX₀ allocation, which is not known at k = 4
+in general. Its shape is concrete, though. At n = 4 the simplest simple witness is one rho, the starved agent's OC₁′
+chain. At the n = 5 walk starts it is two rings. The keep-and-add shape is the only MD shape SIMPLE-MD rules out that
+ever blocks a witness on the data.
+
+### 4.12 What forces simplicity: an extremal choice (Conjecture Φ-MAX)
+*Question (coordinator).* Can an MD EFX₀ allocation with a keep-and-add or complex component always be converted into
+a simple one? If so, SIMPLE-MD reduces to MD.
+
+**Framing.**
+- SIMPLE-MD is an existence statement for EFX₀ allocations, so it is at least as strong as MD existence.
+- The route of §4.11 gives one direction, SIMPLE-MD ⇒ ROUND-P^max, and the shape of the allocation.
+- It is not an equivalence. A witness need not be simple: an end's released pick may land with an agent of another
+  chain, giving a component with two in-trees. The certifier's n = 5 starts have 951 such witnesses.
+
+**The extremal choice.** Define, for an MD EFX₀ allocation X with pick graph f:
+- Φ(X) = ( #{agents holding exactly one pick}, −#{absorbers} ), compared lexicographically;
+- an *absorber* is an agent holding two or more goods that are not picks.
+
+By Lemma PG, the first coordinate is n − #(pickless agents) − #(agents holding two or more picks).
+- It equals n exactly when f is a permutation: every component is fixed or a ring, which is a plain round of rings.
+- A rho, a rho-fix and a keep-and-add each cost 2. A complex component costs more.
+
+**Conjecture Φ-MAX.** At every perfect start of a strict connected k = 4 core that has an MD EFX₀ allocation, every
+maximizer of Φ among the MD EFX₀ allocations is a witness of one round of OC₁′ moves.
+
+Φ-MAX ∧ MD ⇒ ROUND-P^max (RNDOZ). The one-absorber condition comes out of Φ itself. So Φ-MAX reduces ROUND-P^max to
+MD existence with no further existence statement. A minimal-counterexample proof of it would have to show that a
+non-witness MD allocation can be changed into one with larger Φ, or with equal Φ and the witness property.
+
+*Evidence* (`simple_potential.py`, TARGET=witness; `witness_potential_*.log`). Only starts with at least one non-witness
+MD allocation are informative. At the n = 4 two-move starts and the walk starts, every MD allocation is a witness
+(§4.11).
+
+| data | informative starts | every Φ-maximizer a witness | (picks) alone | (absorbers) alone | other potentials |
+|---|---|---|---|---|---|
+| the certifier's 280 n = 5 OC₁^max failures | 8 | **8** | 3 (5 only some) | 8 | keepers: 0 of 8 |
+| random strict cores, n = 4, m = 7 (every perfect start) | 1,869 | **1,869** | 1,869 | 1,773 (96 only some) | util 1,735, nash 1,704, leximin 1,646 |
+| n = 5, m = 8 | 487 | **487** | 487 | 466 | |
+| n = 5, m = 9 | 538 | **538** | 325 (213 only some) | 492 | |
+| n = 6, m = 9 | 130 | **130** | 130 | 127 | |
+
+- Both coordinates are needed.
+  - "picks" alone ties a needy keep-and-add with a rho.
+  - "absorbers" alone prefers keepers.
+  - Maximizing the number of keepers is the worst choice: it selects the keep-and-add allocations.
+- **The local step** (`phi_local.py`, `phi_local_4_7.log`, `phi_local_5_8.log`). This looks at every non-witness MD
+  allocation at every perfect start of random strict cores (n = 4, m = 7: 5,452; n = 5, m = 8: 2,315).
+  - *Every one has keep-and-add shape* (a needy keeper v holding a pickless agent q's pick), sometimes beside a ring.
+  - *Every one has an MD EFX₀ allocation with larger Φ.* This is Φ-MAX on that data.
+  - The nearest one, counted in goods that change owner, is almost always reached by **returning Y_q from the keeper
+    to its owner q**:
+    - n = 4: alone at 1,916; with one junk good moved at 3,178; another kind of move or more than two goods at 358;
+    - n = 5: 996, 1,246 and 73.
+  - So the minimal-counterexample proof needs one *Lemma UNTANGLE*: at a needy keep-and-add, giving Y_q back to q,
+    possibly moving one junk good, keeps EFX₀ and MD.
+  - MD is automatic: q's value rises, and v keeps Y_v.
+  - EFX₀ is the open part.
+    - Others' envy toward q's enlarged bundle.
+    - v's envy after losing Y_q. A needy v has v_v(X_v ∖ {Y_v}) ≤ p_v, so it values Y_q plus its junk at most p_v.
+  - The rare exceptions (distance 3 or more, or other move types) show that the lemma needs a fallback.
+- With the target "simple and one absorber" instead of "witness", the triple (picks, −absorbers, −keepers) comes
+  closest (`simple_potential_*.log`). At 2 of the certifier's starts it has a maximizer that is a keep-and-add whose
+  keeper still gains without its pick. Lemma FIX allows that case, and it is a witness.
+
+### 4.13 Lemma UNTANGLE: the local exchange behind Φ-MAX
+*Purpose (coordinator).* ROUND-P^max ⇒ MD trivially: every chain agent gains, and the others keep their picks. With
+Φ-MAX this gives **ROUND-P^max ⟺ MD at maximum-matching starts**. That is a characterization, not a reduction of
+TARGET₄, since MD is TARGET₄-strength. But it is a clean theorem with no existence input: whenever some dominating
+EFX₀ allocation exists, one round of OC₁′ moves reaches one. Its remaining step is a local exchange.
+
+**Setting.**
+- Y is a perfect start of a strict core, with p_a = v_a(Y_a).
+- X is an MD EFX₀ allocation with a *needy keep-and-add pair*:
+  - q is pickless, so X_q is junk;
+  - its pick Y_q lies with an agent v that keeps Y_v;
+  - v_v(X_v ∖ {Y_v}) ≤ p_v.
+
+On the data every non-witness MD allocation has such a pair (§4.12). The keep-and-add shape forces neediness, since a
+keep-and-add pair whose keeper is not needy is a witness (Lemma FIX).
+
+**The moves.**
+- (U0) *return*: X⁰ moves Y_q from v to q.
+- (U1) *swap*: X^h moves Y_q to q and one junk good h ∈ X_q to v.
+- (U1′) the same, with h going to some agent other than v.
+- (U2) *fallback*: some MD EFX₀ allocation with larger Φ.
+
+**Lemma UNTANGLE (conjecture).** For every needy keep-and-add pair, (U0) or (U1), and otherwise (U1′) or (U2), yields
+an MD EFX₀ allocation X′ with Φ(X′) > Φ(X). With Φ-MAX's other cases, this would prove Φ-MAX by a
+minimal-counterexample argument. The other cases are complex components and two absorbers. Neither is ever a
+non-witness at a Φ-maximizer in the data.
+
+**Proved parts (for U0 and U1).**
+1. *Φ rises by 2 in the first coordinate.* q and v end up holding exactly one pick each, Y_q and Y_v. No other agent's
+   pick count changes.
+2. *MD is kept.* v_q(X′_q) ≥ v_q(Y_q) = p_q, and v keeps Y_v.
+3. *q's value rises strictly.* For U0 the gain is +v_q(Y_q) > 0. For U1, h is junk, so it was available at q's
+   serial-dictatorship turn, hence v_q(h) < v_q(Y_q) by strict values.
+4. *Every EFX₀ condition of q holds.*
+   - Towards an unchanged bundle: v_q(X_j − g) ≤ v_q(X_q) < v_q(X′_q).
+   - Towards v's new bundle under U0, which is a subset of X_v: monotonicity.
+   - Towards v's new bundle under U1, X_v − Y_q + h:
+     - removing h leaves X_v − Y_q, worth at most v_q(X_q) by EFX₀ of X;
+     - removing any other g gives v_q(X_v − g) − v_q(Y_q) + v_q(h) < v_q(X_v − g) ≤ v_q(X_q).
+5. *Every condition between two unchanged bundles holds,* and under U0 every condition towards v's shrunken bundle
+   holds.
+
+**Open part (the EFX₀ conditions that can fail).**
+- (O1) Another agent, or v, envies q's enlarged bundle X_q + Y_q (or X_q − h + Y_q) after removing one good.
+- (O2) v envies another bundle after losing Y_q.
+  - Neediness bounds what v loses: v_v(Y_q) + v_v(X_v ∩ J) ≤ p_v.
+  - The SD order bounds v's value only for goods available at v's turn, which are worth less than p_v to v.
+  - *Correction (referee, Addendum 4):* it does not bound the picks of agents that picked before v. Such a pick can be
+    worth more than p_v to v, and it is exactly the (O2) obstruction below.
+- (O3) Under U1, a third agent envies v's new bundle X_v − Y_q + h.
+
+The swap's choice of h is what (O1) needs: taking a junk good out of q's bundle undoes the envy that the return
+creates.
+
+*Data* (`untangle_roles.py`, `untangle_roles_4_7.log`, `untangle_roles_5_8.log`). These are all non-witness MD
+allocations on random strict cores (n = 4, m = 7: 5,452; n = 5, m = 8: 2,315).
+
+| | n = 4 | n = 5 |
+|---|---|---|
+| needy keep-and-add pair present | 5,452 (all) | 2,315 (all) |
+| (U0) return is EFX₀ | 1,916 | 996 |
+| return fails by (O1) only, another agent | 1,806 | 838 |
+| return fails by (O1) with v envying q, or by (O2) | the rest (1,730) | the rest (481) |
+| (U1) swap with h → v repairs, return failing | 3,139 | 1,229 |
+| (U1′) h → another agent, the swap failing | 89 | 37 |
+| return plus one other junk move | 74 | 14 |
+| no single junk move suffices: (U2) | 234 | 39 |
+| *U0 or U1* | **5,055 (92.7 %)** | **2,225 (96.1 %)** |
+
+- (U2) is always available on the data. Every non-witness has an MD allocation with larger Φ (§4.12). In these
+  cases it is reached by another kind of two-good move (a pick moving between other agents) or at distance 3–5
+  (`phi_local_*.log`).
+- So the fallback needs a second step.
+- What a proof of UNTANGLE needs:
+  - a rule for choosing h, e.g. the good of X_q that the agents violating (O1) value most;
+  - a bound showing that (O2) cannot occur together with (O1) for that h. On the data this is the rare case.
+
+**Explicit rules for h** (`untangle_rule.py`, `untangle_rule_4_7.log`, `untangle_rule_5_8.log`). The coordinator
+suggested "q's most-envied junk good". Each rule applies (U0) if the return is EFX₀, and otherwise the swap with the
+rule's h. Failures over all non-witnesses (5,452 at n = 4, 2,315 at n = 5):
+
+| rule for h | n = 4 | n = 5 |
+|---|---|---|
+| *any single h (the benchmark: best possible swap)* | 397 | 90 |
+| violmin: maximize the smallest value the (O1)-violators give h | **501** | **137** |
+| fixq: maximize the number of agents with no violation toward q's new bundle | 509 | 137 |
+| violator: maximize the largest value an (O1)-violator gives h (the most-envied good) | 519 | 137 |
+| keeper: v's favourite junk good of X_q | 639 | 192 |
+| envysum: maximize Σ_{i ≠ q} v_i(h)/p_i | 650 | 199 |
+| envied: maximize max_{i ≠ q} v_i(h) | 660 | 212 |
+| qleast: q's least valued junk good | 675 | 203 |
+
+- Valuing h by the violators is the right idea: those rules come within 104–122 (n = 4) and 47 (n = 5) of the
+  benchmark.
+- Rules that ignore who violates do markedly worse.
+- No single-good swap is complete. Even the best possible swap fails at 397 and 90 non-witnesses, about 7 % and 4 %.
+- So UNTANGLE needs the fallback (U2) as a genuine second case. On the data it always exists: a pick moving between
+  other agents, or a three-to-five-good exchange (§4.12).
+- A proof along these lines would be a local-search argument with a potential, in the style of the EFX existence
+  proofs for few agents, rather than one exchange.
+
+**Referee verdicts** (`k4/referee/rounds_r1.md` on `claude/k4-referee`, read here).
+- *Addendum 3 (§4.11): CORRECT.* That covers Lemmas PG, GAIN, RING, RHO and FIX and Theorem ROUND-SIMPLE, checked
+  with the referee's own code on 36,745 simple one-absorber MD allocations, with 0 non-witnesses and 0 GAIN failures.
+  - GAIN needs the distinct subset sums the setting states. With strict good values alone it fails: v = (a 3, b 1,
+    c 2), Y = a, X = {b, c}.
+  - The referee suggests widening "simple" to admit keep-and-add whose keeper is not needy
+    (v_v(X_v ∖ {Y_v}) > p_v, with Y_v counted among v's outside goods). Such an X is a witness by the same
+    construction. Adopted: call these allocations *simple⁺*. Theorem ROUND-SIMPLE holds for them with the same proof
+    (Lemma FIX).
+  - The converse direction (a witness implies a simple⁺ allocation at the same start) still needs complex
+    components ruled out. None is a witness in the referee's data.
+- *Addendum 4 (§4.13):* parts (1)–(5) are CORRECT. The open parts cannot be closed by any rule for h: each of (O1),
+  (O2) and (O3) alone can block U0 and every U1(h).
+
+*The smallest (O2) block* (the referee's, re-checked here):
+- values v₀ = (0: 38, 3: 45, 4: 23, 5: 9), v₁ = (1: 26, 2: 12, 4: 40, 6: 37), v₂ = (0: 21, 1: 12, 3: 34),
+  v₃ = (1: 44, 3: 32, 4: 31, 5: 21); picks (0, 4, 3, 1), from order (2, 0, 3, 1);
+- X = ({0, 4}, {2, 6}, {3, 5}, {1}) is MD and EFX₀, with q = 1 and v = 0;
+- after the return, agent 0 holds 38 and envies {3} = 45 inside {3, 5};
+- q's junk is worthless to agent 0, so every U1 and U1′ fails.
+
+**A second kind of move, U3: junk into the keeper** (`untangle_u3.py`, `untangle_u3_4_7.log`, `untangle_u3_5_8.log`).
+- After the return, move into v's bundle the junk good, of a bundle v envies, that v values most.
+- In the referee's block, 5 moves from agent 2 to agent 0, giving ({0, 5}, {2, 4, 6}, {3}, {1}). That is EFX₀, MD and
+  a witness.
+  - The referee confirmed this with its own code (Addendum 4, updated).
+  - The U3 and U13 counts below were not re-run by the referee.
+
+The full move set and what each repairs:
+
+| moves, applied in this order | n = 4 (5,452 non-witnesses) | n = 5 (2,315) |
+|---|---|---|
+| U0 return | 1,916 | 996 |
+| U1 swap h ∈ X_q to v | 3,139 | 1,229 |
+| U1′ h to another agent | 89 | 37 |
+| U3 the rule above (junk into v from an envied bundle) | 66 | 14 |
+| U13 one junk good out of q *and* one junk good into v | 232 | 39 |
+| **none of these: a third kind of move** | **10** | **0** |
+
+- A single junk move into v, other than the rule's, never repairs a case the rule misses.
+- In the 10 remaining cases, the nearest allocation with larger Φ *re-routes picks*: three picks rotate among three
+  agents (distance 3–4). That turns the keep-and-add into a rho or a ring, and it is itself a witness.
+- So UNTANGLE, as a local search, needs three kinds of moves:
+  - returning the pick;
+  - moving one or two junk goods (out of q's bundle, or into v's bundle from an envied one);
+  - rarely, a pick rotation.
+- The (O2) obstruction, an earlier agent's pick inside an envied bundle, is what the junk-into-v move answers.
 
 ## 5. n = 3
 
@@ -973,6 +1307,9 @@ allowed), the picks of every order extend to a complete EFX₀ allocation. No ch
 | K4.SDC.ROUNDP | Conjecture ROUND-P^max at k = 4: one round of vertex-disjoint chains in which every non-end agent x_i (i < t) of a chain with t ≥ 1 may also take goods of its chain end's base (a round of disjoint OC₁′ moves; letting them take any chain end's goods never adds a witness on the data), one-absorber completion | CONJECTURE (at n ≤ 4 it follows from the CERTIFIED OC₁′^max) | EVIDENCE only: holds at all 112,880 OC₁^max-failing n = 4 starts and at the certifier's 24 n = 5 failures, two implementations (`rndp_known.log`, `xcheck_roundz.log`); strict-core climbs at n = 5, 6 (`zclimb_rndpz_*.log`); `kgen/rounds.md` §4.8, §4.9 |
 | K4.SPLICE | Lemma SPLICE: the final allocation of a REC-S repair (E(k) with T, then a Theorem S chain, the Theorem S completion) is a witness of one round of OC₁′ moves from the picks, except in configuration (EX) (the pickless agent's pick lies with an agent that keeps its own pick and needs it) | PROVED (written proof, `kgen/rounds.md` §4.10; not refereed) | `kgen/rounds/splice_search.py`, `results/kgen_rounds/splice_search_*.log` (265,549 REC-S repairs at hard n = 4, 5 starts, all witnesses; on random cores every failure is in (EX)); (EX) occurs: `kgen/rounds/splice_ex.py`, `results/kgen_rounds/splice_ex.log`, `attempts/kgen-rounds-splice-ex.md` |
 | K4.MULTI.RECS.EXIST.N5 | REC-S's existence part (some dangerous k, pool pair T of E(k) and Theorem S case at every two-move start) at n = 5 | REFUTED (7 of the certifier's 280 stored 5_pure OC₁^max-failing starts, two of them the residual case; multi's own code finds no REC-S repair; ROUND-P holds at all 7) | `kgen/rounds/recs_gaps.py`, `results/kgen_rounds/recs_gaps_5pure.log`, `results/kgen_rounds/splice_search_5pure.log` |
+| K4.ROUNDSIMPLE | Theorem ROUND-SIMPLE: at a perfect start of a strict core, an MD EFX₀ allocation with a simple (or simple⁺) pick graph and one absorber witnesses one round of OC₁′ moves (with Lemmas PG, GAIN, RING, RHO, FIX) | PROVED (written proof, `kgen/rounds.md` §4.11; refereed CORRECT, `k4/referee/rounds_r1.md` Addendum 3 on `claude/k4-referee`) | `kgen/rounds/rndp_structure.py`, `results/kgen_rounds/rndp_structure_*.log` (no counterexample: every simple one-absorber MD allocation in the data is a witness) |
+| K4.SIMPLEMD | Conjecture SIMPLE-MD: at every perfect maximum-matching start of a strict connected k = 4 core, some MD EFX₀ allocation has a simple pick graph and one absorber (implies ROUND-P^max in the RNDOZ form) | CONJECTURE | EVIDENCE only: all 112,880 n = 4 two-move starts (every MD allocation is a simple witness), the certifier's 280 n = 5 failures, 23,943 walk starts, 5,556 random starts (`rndp_structure_*.log`) |
+| K4.PHIMAX | Conjecture Φ-MAX: at every perfect start of a strict connected k = 4 core with an MD EFX₀ allocation, every maximizer of Φ = (#agents holding exactly one pick, −#absorbers) among the MD EFX₀ allocations witnesses one round of OC₁′ moves (with MD this gives ROUND-P^max) | CONJECTURE | EVIDENCE only: 3,032 informative starts (the certifier's n = 5 failures, random n = 4–6 cores), `results/kgen_rounds/witness_potential_*.log` |
 | K4.SDC.OC1PERF | OC₁ (and one round) at perfect starts for every instance with ≤ 4 relevant goods per agent (the target of Lemma RED's route; the LOOSE form of OC₁^max) | REFUTED | `kgen/rounds/k4w_check.py`, `results/kgen_rounds/k4w_check.log` (K4W, no worthless good), `results/kgen_rounds/verify_k4zero_W4.log` (W4) |
 
 ## 7. Next

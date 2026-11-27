@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 1350 audited statements, 2615 theorems, standard axioms only
+    CHECK PASSED: 1360 audited statements, 2629 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -310,6 +310,12 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   a round of vertex-disjoint earliest-wanter prefixes (`EPrefix`) under (H) leaves the serial-dictatorship outcome of σ
   without the settled agents; the abstract form `sdE_round_abs` (the round as a source map), perfect starts
   (`sdE_round_abs_perfect`), and SD-E as the one-chain round (`sdE_round_single`).
+- `EFX/RoundRSD.lean`: **the ROUND-RSD frame** (`k4/matching.md` §6, `k4/oc1max_multi.md` §17, ledger
+  K4.MATCH.ROUNDRSD.LEAN): states (settled agents with their sets), admissible rounds (`Admissible`: SD-E(round)'s
+  hypotheses, (L\*) at the round's end, (P2), (P3)), reachable states (`Reach`), and
+  **`EFX.Round.target4_of_roundRSD`**: ROUND-IND (`ConjRoundInd`) and OC₁ with phantom constraints (`ConjBasePhi`),
+  both hypotheses, imply TARGET₄; the invariant along reachable states (`inv_of_reach`, `inv_round`) and the final
+  lift (`lift_base`).
 - `EFX/OC1MaxExamples.lean`: non-vacuity of `EFX/OC1Max.lean` by `decide`, on the MC2 core of `k4/sdc.md` §31 where OC
   fails: the failing start (index order) is not a maximum-matching start (`EFX.OC1Max.Ex.not_maximum_MC2`); the order
   3, 4, 0, 1, 2 picks a maximum matching with a one-absorber completion (`EFX.OC1Max.Ex.maximum_ordM`,

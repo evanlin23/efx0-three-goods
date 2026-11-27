@@ -1,0 +1,2 @@
+{"source": "K4.MC9 claw filter on shapes4.json.gz", "after_MC8": 3166, "after_MC9": 2079, "cores": 5558, "excluded_MC8": 2392, "excluded_MC9_claw": 1087}
+{"source": "K4.MC9 claw filter on mc_n6_b5.json.gz", "after_MC8": 20882, "after_MC9": 20553, "cores": 30337, "excluded_MC8": 9455, "excluded_MC9_claw": 329, "theirs": 20553, "same_set_of_cores": true, "mine_not_theirs": 0, "theirs_not_mine": 0}
