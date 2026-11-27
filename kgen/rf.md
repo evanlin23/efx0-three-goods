@@ -24,7 +24,7 @@ results below.
 |---|---|---|---|
 | ksens's 13 n = 3, k = 5 one-chain witnesses (`kcegar_k5_n3_D1.log`), RD5, the kgen n = 4, k = 5 instance | 15 | 15 | `rf_known.log`. The two checkers agree on all 92 max starts. Each n = 3 witness has one receiver; the kgen instance has two, and all 12 receiver-first orders work |
 | random strict cores, k = 5, 6, n = 3, 4 (20,000 each; `rf_run.py rand`) | 0 | n/a | `rf_rand_*.log`: no OC₁^max failure at all |
-| hill climbs (400 × 1,500 steps each; `rf_run.py climb`) | k = 5, n = 4: 3; k = 6, n = 3: 1; k = 6, n = 4: see log | all | `rf_climb_*.log`. Every failing start has exactly one receiver |
+| hill climbs (400 × 1,500 steps each; `rf_run.py climb`) | k = 5, n = 3: 0; k = 5, n = 4: 3; k = 6, n = 3: 1; k = 6, n = 4: 9 | all 13 | `rf_climb_*.log`. Every failing start has exactly one receiver |
 
 - Instances follow the k = 4 MC2-class rules of `k4/sdc/oc1_mc2_rand.gen`, with up to k goods per agent: at most one
   private good each, every shared good valued by ≥ 2 agents, connected, strict, and balanced (2·max < sum).
