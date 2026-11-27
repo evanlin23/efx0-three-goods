@@ -1,0 +1,13 @@
+  pair-P3-P3     DEL                                reduce4     23 (  0.0 s)  reduce4c     23 (  0.0 s)  agree
+  pair-P3-P3     CON-e                              reduce4     26 (  0.2 s)  reduce4c     26 (  0.2 s)  agree
+  pair-P3-P3     CON-f                              reduce4     26 (  0.2 s)  reduce4c     26 (  0.3 s)  agree
+  loop-P3-P3     DEL                                reduce4     23 (  0.0 s)  reduce4c     23 (  0.0 s)  agree
+  loop-P3-P3     GAD                                reduce4     23 (  0.0 s)  reduce4c     23 (  0.0 s)  agree
+  px-Q3          DEL                                reduce4      0 (  0.0 s)  reduce4c      0 (  0.0 s)  agree
+  px-Q3          GAD                                reduce4      6 (  0.3 s)  reduce4c      6 (  0.3 s)  agree
+  dbl-Q3-P4      GAD                                reduce4    164 (  0.2 s)  reduce4c    164 (  0.3 s)  agree
+  dbl-Q3-Q3      DROP-g0                            reduce4      0 (  0.1 s)  reduce4c      0 (  0.2 s)  agree
+  claw           DEL                                reduce4     78 (  0.1 s)  reduce4c     78 (  0.1 s)  agree
+  claw           GAD                                reduce4     11 ( 23.5 s)  reduce4c     11 (  3.0 s)  agree
+  tri-Q3-Q3-Q3   GAD                                reduce4     46 (  5.2 s)  reduce4c     46 (  2.2 s)  agree
+RESULT: OK

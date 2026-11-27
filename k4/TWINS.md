@@ -19,8 +19,11 @@ extension (Lemma K4.MC1: M1 and M1(b) at k = 4).
   between a Q3 or P4 agent and a Q4 agent. With K4.MC3 and K4.MC5, every double edge has a Q4 end. The open E3–Q4 ones
   and the Q4–Q4 ones are only partly reduced (profiles left recorded).
 - *Effect*: β = 4 candidates 5,558 → 3,166; β = 5 candidates per n in §1. The counting bound n ≤ 3(β − 1) is unchanged.
+- *Certified, round 3b* (K4.MC9, §4): no good of degree 3 is valued by three P3 agents (a *claw*). It needs gadgets
+  with two agents, found with a C extension search (`k4/reduce4c.c`, validated against reduce4). β = 5 candidates
+  502,638 → 320,348; β = 4: 3,166 → 2,079.
 - *Failed* (attempts/): twins with the same relevant set (provably irreducible under M1 when no good is private to the
-  pair), P3 twins, near-twins with ≤ 1 such good, claws (also with a two-agent gadget on the hardest profile),
+  pair), P3 twins, near-twins with ≤ 1 such good, claws with one-agent gadgets alone (solved by two-agent ones, §4),
   triangles, closed single edges, Q4 stars.
 
 ## 1. Results
@@ -131,7 +134,7 @@ smallest failing profile and the command that replays it.
 | tri-Q3-Q3-Q3 (three Q3 agents pairwise sharing a good of degree 2) | 216 | 208 (left: every agent ranks its boundary good first) |
 | tri-Q3-Q3-P4 | 10,368 | 10,288 |
 | tri-Q3-P4-P4 | 497,664 | 496,864 |
-| claw (three P3 agents on one good of degree 3) | 216 | 177 |
+| claw (three P3 agents on one good of degree 3), one-agent gadgets only | 216 | 177 (all 216 with two-agent gadgets, §4) |
 | star-Q4-2 (a Q4 agent sharing goods of degree 2 with two P3 agents) | 10,368 | ≥ 3,220 (partial run) |
 
 *Why twins without degree-2 goods cannot be reduced this way* (proved). Suppose I = ∅ (twins-Q3-0: R_e = R_f = {a, b, c},
@@ -146,6 +149,62 @@ valuations are classical in the EFX literature (EFX₀ exists when all agents sh
 Plaut–Roughgarden repair, as restated in Akrami–Ashuri–Chaudhury–Mehlhorn–Soldatov, arXiv 2608.08864, which
 `proofs/citations.md` lists as read; the original Plaut–Roughgarden paper is [unverified] here), but those arguments are
 global and do not give a local reduction.
+
+## 4. Claws (K4.MC9, round 3b)
+
+**Theorem K4.MC9 (claws).** In a minimal counterexample to TARGET₄ (or one within 𝒞_β), with strict types, no good of
+degree 3 is valued by three P3 agents. CERTIFIED (both implementations agree on every count).
+
+*Configurations.* claw: S = {f1, f2, f3}, f_i on (G, y_i, p_i), G valued by them only, p_i private, y1, y2, y3 distinct
+boundary goods; I = {G, p1, p2, p3}. claw-y12: y1 = y2 (f1 and f2 also share their other good); claw-y123: y1 = y2 =
+y3. 216 profiles each. (A boundary good need not have an outside valuer, so these also cover y's of degree 2 or 3.)
+
+*Reductions.* DEL; one-agent gadgets h on the boundary goods plus 0–2 gadget goods; and **two-agent gadgets**: fixed
+agents h1, h2, each on some boundary goods and one gadget good of its own (z1′, z2′), the two forming a forest on the
+boundary goods (for the claw: a path y_a – h1 – y_c – h2 – y_b, or h1 on all three and h2 pendant at one), every valuation
+class of reduce4's menus for each. H′ has two agents instead of three and lies in 𝒞_β (the checker tests every way the
+rest connects the boundary goods; one sensitivity case is a gadget pair that closes a cycle, rejected).
+
+| configuration | one-agent gadgets and DEL | with two-agent gadgets | records |
+|---|---|---|---|
+| claw | 177 | **216 of 216** | 11 (7 two-agent) |
+| claw-y12 | 196 | **216 of 216** | 4 (1 two-agent) |
+| claw-y123 | **216 of 216** | – | 2 |
+
+Why two agents (intuition, not used): in the claw's hardest profile (every f_i ranks G > y_i > p_i), every state in
+which two of the y's lie in outside bundles of ≥ 2 goods is fatal for any extension (each such f_i must hold G, and
+there is one G). A single gadget agent cannot make all such states inadmissible (it can always hold its favourite y),
+but h1 on {y_c, y_a} and h2 on {y_c, y_b} can: whichever two y's are outside, one of h1, h2 holds neither of its goods.
+The gadget goods z1′, z2′ make the gadget bundles inner, which the domination condition needs when a private good joins
+a boundary good (the obstacle of `attempts/k4-mincex-drop-private.md`).
+
+*Tools.*
+- `k4/reduce4c.c` enumerates the extensions of a local state exactly as `reduce4.Reduction.extensions` does, and proposes
+  one per distinct tuple of views. `k4/reduce4c.py` rebuilds every proposal and re-checks it with reduce4's own code
+  (domination, moved-items test, views, safe masks) before using it, so the C code can only lose coverage.
+  `reduce4c.py test` (log `results/k4_twins/reduce4c_test.log`): on 12 reductions (pair, loop, px, dbl, claw, triangle;
+  copy and fixed gadgets) it agrees exactly with `reduce4.run` on the reduced profiles and on every state's coverage.
+- `reduce4c.gadget_search2`: the coverage of a state does not depend on the gadget valuations, so it is computed once;
+  admissibility is the conjunction of one menu vector per gadget agent (reduce4.menu_admissible).
+- Generator `twins4.py certify2`; certificates `results/k4_twins/claw.json.gz`, `claw_y12.json.gz`,
+  `claw_y123.json.gz`; independent check `results/k4_twins/check_claw.log` (check_reductions4's functions through
+  check_twins4.py with the three configurations hard-coded; sensitivity tests on claw and claw-y12, 21 cases rejected).
+- Also tried: the two-agent copy gadget "delete f1, keep f2 and f3" reduces 105 of the claw's 216 profiles, none new
+  (`results/k4_twins/claw2c.log`); for the Q3 triangle, "delete one agent, keep two copies" reduces 44 of 216, none new.
+
+*Effect* (`twins_filter.has_claw`, `gamma_claw`; they agree on all 502,638 β = 5 candidates):
+
+| β = 5, n | 6 | 7 | 8 | 9 | 10 | 11 | 12 | total |
+|---|---|---|---|---|---|---|---|---|
+| after K4.MC8 | 20,882 | 78,118 | 152,568 | 156,162 | 78,616 | 15,621 | 671 | 502,638 |
+| after K4.MC9 | 20,553 | 72,166 | 119,387 | 85,351 | 21,482 | 1,393 | 16 | 320,348 |
+
+Lists `results/k4_twins/mc_n<n>_b5_mc9.json.gz`, log `results/k4_twins/count_b5_mc9.log`. β = 4: 3,166 → 2,079.
+
+*Bound.* K4.MC4's n ≤ 3(β − 1) is still attained by the counting: its extremal case can have t = 0 (every shared good
+of degree 2: Q4 agents with four P3 neighbours, E3 agents with one), where claws do not occur. With claws excluded, the
+count gives A ≤ 2t; the bound improves to n ≤ (8/3)(β − 1) only for cores without Q4 agents. Moving it in general needs
+the Q4 stars (a Q4 agent sharing goods of degree 2 with two or more P3 agents).
 
 ## Reproduce
 
@@ -169,7 +228,14 @@ python3 twins_filter.py ../results/k4_min_cex_shapes_4.json.gz                  
 for n in 6 7 8 9 10 11 12; do python3 twins_count.py $n 5 --write=../results/k4_twins/mc_n${n}_b5_mc8.json.gz; done
                                                                                 # beta = 5 lists; n = 12 ~1 h, the rest < 20 min
 python3 twins_count.py 8 5 --no-mc8                                             # a baseline without K4.MC8 (~10 min, ~6 GB)
-python3 twins4.py claw2 --jobs=1                                                # the two-agent claw gadget (~15 min)
+python3 twins4.py claw2 --jobs=1                                                # the two-agent copy gadget, block search (~15 min)
+gcc -O2 -o /tmp/reduce4c_bin reduce4c.c && python3 reduce4c.py test             # C search vs reduce4, ~2 min
+python3 twins4.py certify2 claw --zs=1 --write=../results/k4_twins/claw.json.gz          # ~12 min on 4 CPUs
+python3 twins4.py certify2 claw-y12 --zs=1,2 --write=../results/k4_twins/claw_y12.json.gz # ~2 min
+python3 twins4.py certify claw-y123 --zs=0,1 --write=../results/k4_twins/claw_y123.json.gz
+python3 check_twins4.py ../results/k4_twins/claw.json.gz --expect=claw:216; python3 check_twins4.py ../results/k4_twins/claw.json.gz --selftest
+python3 check_twins4.py ../results/k4_twins/claw_y12.json.gz --expect=claw-y12:216
+python3 check_twins4.py ../results/k4_twins/claw_y123.json.gz --expect=claw-y123:216
 python3 twins_filter.py ../results/k4_min_cex_shapes_4.json.gz ../results/k4_twins/dbl_q3_uncovered.json \
     ../results/k4_twins/dbl_p4q4_uncovered.json                                  # also the domain cuts (profile counts)
 ```
