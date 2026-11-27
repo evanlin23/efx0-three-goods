@@ -889,7 +889,9 @@ an S\* completion with owner k and kept-out set H ⊆ J′ = Π ∖ H₀ gives k
 completion is fixed by H and its receivers. H₀ only has to be an improving subset of Π ∖ H, so that the chain is an
 official move.
 
-**Theorem S (K4.MULTI.S): Theorem U with a junk good kept out.** Let Y be a perfect start, k ∈ D, P a *longest*
+**Theorem S (K4.MULTI.S): Theorem U with a junk good kept out.** *Refereed CORRECT, in both forms, together with Lemma
+HS and HS-U1 (`k4/referee/oc1max_multi.md` §10, commit fabd4cf on `claude/k4-referee`; 205,634 independent tests, 0
+failures; mutations of each hypothesis fail).* Let Y be a perfect start, k ∈ D, P a *longest*
 canonical chain from k with head z and a = Y_{x_{t−1}}, and h ∈ J. Put W = (J ∖ {h}) ∪ {Y_z}. Suppose:
 - **(S-a)** v_k(W) > p_k;
 - **(S-b)** W threatens no agent of D ∖ {k} at its pick value;
@@ -906,7 +908,8 @@ k takes the rest, so its final bundle is W. The others keep their state goods.
 *Relaxed form (S-d′).* (S-d) may be replaced by: W does not threaten z at its value in that allocation. This form is
 chain-level, like Theorem U's condition on z.
 
-*h = Y_z.* With h = Y_z, W = J, and the relaxed form is Theorem U. Then:
+*h = Y_z.* With h = Y_z, W = J, and the relaxed form *contains* Theorem U. It is more general: it needs no hardness,
+(S-a) is weaker than k ∈ D_T, and (S-d′) is weaker for a frozen head. Then:
 - (S-b) says D_T ⊆ {k};
 - (S-c) says E_J ⊆ {z};
 - (S-d′) for the head is KEEP's computation v_z(J ∩ R_z) < 2p_z < v_z(a) + p_z, or z ∉ E_J when the wanter takes Y_z.
@@ -1004,15 +1007,16 @@ see. The rest needs two or three slots.
 *Sub-lemma SLOT2 (open).* If no (k, longest P, h) meets Theorem S or U, then some canonical chain from some k ∈ D has a
 Lemma M certificate (owner k) with |H| ≤ 3.
 
-*Smallest instance and its Hall-violating set.* log613: R₀ = {0: 3, 1: 4, 2: 10, 3: 8}, R₁ = {2: 8, 4: 2, 5: 3, 6: 4},
-R₂ = {3: 7, 4: 3, 5: 5, 6: 6}, picks (1, 2, 3), J = {0, 4, 5, 6}. Both dangerous agents are truly dangerous, they
+*Smallest instance and its Hall-violating set.* log613: R₀ = {0: 3, 1: 4, 2: 10, 3: 8}, R₁ = {2: 8, 4: 4, 5: 2, 6: 3},
+R₂ = {3: 8, 4: 3, 5: 4, 6: 2}, picks (1, 2, 3), J = {0, 4, 5, 6}. Both dangerous agents are truly dangerous, they
 share their whole junk set {4, 5, 6}, and u = 1 with z = 0.
 - *k = 1.* The only improving H₀ is {4, 5, 6}, so J′ = {0, 1}, and agent 2 becomes an unfrozen holder.
   - With |H| = 1, X ⊇ {4, 5, 6} together with a good that 2 does not value. So X threatens 2 at 8 (9 > 8), and 2
     values neither good of J′. The needy set {2} has an empty neighbourhood: this is the Hall violation.
   - With H = {0, 1}, X = {4, 5, 6} ⊆ R₂, and removing 2's cheapest good leaves 7 ≤ 8. Agent 0 takes 1 and agent 2
     takes 0, which is EFX₀.
-- *k = 2.* Every improving pair leaves agent 1 frozen and threatened (DEMAND).
+- *k = 2.* The only improving H₀ is the triple {4, 5, 6}, and every (chain, H₀) leaves agent 1 frozen and threatened
+  (DEMAND).
 
 So the second slot does not cut a danger set. It removes the goods that agent 2 does not value from the owner's bundle,
 so that EFX₀'s removal of the least valued good bites. The residue needs a lemma for this *worthless-good* effect.
