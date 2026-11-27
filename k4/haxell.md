@@ -627,6 +627,32 @@ In the sketch, `rotate` takes any permutation σ of the agents, given with its i
 More moves make the lemma weaker, so the checked form (single cycles) implies the sketch's form. The sketch's form
 is the convenient one for a proof.
 
+**Which move kinds W^sub needs (ablation).** Each kind of move was switched off in turn (`gstar_measure` OFF
+bitmask), and the adversarial climb (`ht_wclimb.py`, below) searched for a state with no step (`wablate_off*.log`;
+n = 2 and n = 3, m = 7, k = 4, 3 climbers × 1,500 instances each). Every failure was re-checked by the independent Python
+checker `ht_wexplain.py`, which reports no step with the kind off and 6–16 steps with all moves
+(`wablate_recheck.log`).
+| kind switched off | failure found | smallest witness (values; state; pool) |
+|---|---|---|
+| swaps through the pool | yes, n = 3 | v₀ = {0: 36, 3: 44, 5: 45}, v₁ = {1: 38, 2: 44, 3: 60, 6: 1}, v₂ = {1: 9, 4: 8, 5: 49}; ({0, 2, 6}, {3}, {1, 4}); {5} |
+| trades of two bundles | yes, n = 3 | v₀ = {1: 59, 3: 35, 4: 54, 5: 11}, v₁ = {0: 15, 4: 41, 5: 6}, v₂ = {1: 50, 2: 18, 3: 17, 6: 18}; ({0, 2, 3, 5}, {4}, {1}); {6} |
+| rotations of ≥ 3 agents | yes, n = 3 | v₀ = {0: 47, 2: 45, 4: 19, 6: 2}, v₁ = {0: 46, 1: 32, 5: 12, 6: 8}, v₂ = {2: 60, 3: 38, 6: 6}; ({2}, {0}, {3, 4, 5, 6}); {1} |
+| transfers of ≥ 2 goods between agents | yes, n = 2 | v₀ = {2: 59, 3: 15, 4: 8, 5: 31}, v₁ = {0: 14, 1: 27, 2: 51, 6: 4}; ({3, 4, 5}, {0, 1, 6}); {2} (W4's mechanism) |
+| single-good transfers between agents | yes, n = 3 | v₀ = {0: 35, 1: 54, 4: 17, 6: 8}, v₁ = {1: 47, 2: 11, 3: 35, 5: 5}, v₂ = {0: 41, 3: 30, 5: 14, 6: 38}; ({0, 4}, {2, 3}, {5, 6}); {1} |
+| swaps of two agents' goods | none (hardest state: 2 steps) | |
+| transfers of ≥ 2 pooled goods | none (hardest state: 2 steps) | |
+
+So the move class of W^sub is close to minimal: of its seven kinds, five are each needed. Whether the other two can
+be dropped together (OFF = 9) is being run (`wablate_off9_*.log`). If so, the lemma would need only: transfers
+between agents of any nonempty set, placements of one pooled good, swaps with the pool, and rotations.
+
+**Pool-shrinking alone is not enough, even with set moves.** At n = 3, m = 5 with strict values (v₀ = {0: 945},
+v₁ = {2: 897, 3: 696, 4: 83}, v₂ = {0: 679, 1: 534, 3: 556}) the state ({2}, {3}, {1, 4}) with good 0 pooled has
+no composite of two moves that shrinks the pool. Its W^sub step is a welfare step, the swap of good 0 (worth 945 to
+agent 0) for good 2 (worth 0 to agent 0) through the pool (`wexplain_aug_n3m5.log`). Agent 0 must hold good 0
+alone. Good 2 can go nowhere: agent 2 strongly envies {3, 2}, and agent 1 strongly envies {1, 4, 2}. So the welfare
+part of the measure is used, not only as a tie-breaker.
+
 The rest of this paragraph and the evidence above apply to both forms.
 
 *Consequences.* (|pool|, −welfare) strictly decreases and takes finitely many values. So from the empty allocation a
