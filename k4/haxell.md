@@ -11,6 +11,25 @@ evidence only (PROMPT.md §5 rule 3).
 
 (Updated at the end of each burst.)
 
+**Burst 3 (2026-11-27, coordinator's message 3).** Evidence only; W^sub stated precisely (§6). Some runs are still
+going; their logs are named in §6.
+- **W^sub, the one-step lemma with set moves**: from a partial EFX₀ allocation with a nonempty pool, at most two moves
+  give one with a smaller pool, or the same pool and larger welfare. A move is a set transfer, a swap or a rotation;
+  "W^sub stated precisely" in §6 defines them on `EFX.Inst`, with a Lean sketch. It implies TARGET₄.
+- **No stuck state** on any of the following:
+  - the whole n = 2 grid with k ≤ 4 (470.5 million states; leximin too);
+  - the n = 3 grid with k ≤ 3, values {1, 2, 4, 7, 12} and m ≤ 5 (742 million states, reduced by symmetry; m ≥ 6 running);
+  - every type profile, up to automorphism, of the 20 n = 4 cores with one 4-good agent and m ≤ 5 (223.5 million states).
+  Every type profile of every core is out of reach: up to 7·10⁹ profiles per core. The other cores are sampled.
+- **W₃** (three single moves) also has no stuck state on the n = 2 grid, but it fails at k = 5. So W^sub is the
+  k-independent candidate.
+- **The move class is nearly minimal**: six of its seven kinds are each necessary, with witnesses at n = 2, 3, 4 found by
+  an adversarial climb and re-checked in Python (§6 table). The tightest state found (n = 4) has exactly one step.
+- **Welfare is needed**: pool-shrinking alone fails, even with set moves, at n = 3 with strict values, and in 93% of
+  the small-core instances.
+- *Proof*: still open. W^sub for every k would imply EFX₀ in general, so its general form is at least as hard as the
+  EFX conjecture; only the k ≤ 4 form is the target.
+
 **Burst 2 (2026-11-26, coordinator's requests).** Evidence only; one new conjecture (W), stated precisely in §6.
 - *CONN₂ on every counterexample to OC/OC₁/OC₁^max* (§5). PW5, RD5, the two kgen n = 4 instances (k = 5), their k = 4
   versions, the 39 TTC k = 4 cores and B<, B> (n = 6, m = 10): a full census of 3.7 million partial EFX₀ states, **no
