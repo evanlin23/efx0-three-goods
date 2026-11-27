@@ -111,3 +111,32 @@ With the fix, (a) holds for the whole family as described.
 Scope: "PW never breaks OC₁ at k ≤ 4" is (a) with f ≤ 3 and r ≤ 3, since k = max(r + 1, f + 1). (a) is about the
 family for every f, which for f ≥ 4 has k ≥ 5. W = 0 (no frozen agent) is not covered by the proof's chain, but there
 the picks complete directly.
+
+## 6. Addendum: the exhaustive k = 3 one-chain claim (`k4/ksens.md` §8 at `08883f6`; coordinator's queue, 2026-11-27)
+
+The claim: for every strict profile of every connected hypergraph with n ≤ 4 agents, each valuing ≤ 3 goods, every
+SD start's picks, or the bases after one chain, have a one-absorber completion.
+
+Check: `k4/referee/k3max_ref.py`, log `results/k4_referee/k3max_ref.log`. All of it is my own code:
+- hypergraph enumeration up to isomorphism: goods as a multiset of agent sets, agent degree 1–3, connected;
+- type representatives: every ranking, with (4,3,2) or (6,3,2) settling top vs the other two;
+- SD, official chains (t ≥ 1, nonempty passes, no additions), and brute-force one-absorber completions with raw EFX₀.
+
+`k4/ksens/k3max.py` was read only for its hypergraph range, never run.
+
+**Verdict: CONFIRMED, exhaustively at n = 3 and n = 4** (not only a sample).
+
+| n | hypergraphs (m ≥ n) | profiles | starts | need a chain | one chain fails |
+|---|---|---|---|---|---|
+| 3 | 52 | 25,816 | 44,972 | 1,538 | **0** |
+| 4 | 396 | 1,885,816 | 4,982,948 | 126,994 | **0** |
+
+The four counts agree exactly with the note's.
+
+**Scope note.** "Every connected agent–good hypergraph" in the note is the range n ≤ m ≤ 3n, which is `k3max.py`'s
+default. Hypergraphs with fewer goods than agents are not in its counts. I checked them too:
+- n = 3: 5 hypergraphs, 17 profiles, 64 starts;
+- n = 4: 41 hypergraphs, 28,681 profiles, 290,465 starts;
+- none needs a chain.
+
+So the claim also holds with m < n. The n = 5 maximum-matching claim was not re-run.
