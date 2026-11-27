@@ -148,3 +148,25 @@ k4_certs_4_pure.json.gz#m9#22 profiles   3439853568 covered   3439853568 runs  1
 k4_certs_4_pure.json.gz#m9#21 profiles   3439853568 covered   3439853568 runs  2221421 boxes-without-labeling 0 567.4s CERTIFIED | labelings 24, last used #0, by default orders 3439853568
 k4_certs_4_pure.json.gz#m9#25 profiles   3439853568 covered   3439853568 runs   696853 boxes-without-labeling 0 188.4s CERTIFIED | labelings 12, last used #0, by default orders 3439853568
 k4_certs_4_pure.json.gz#m9#24 profiles   3439853568 covered   3439853568 runs  1795257 boxes-without-labeling 0 451.1s CERTIFIED | labelings 16, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m9#26 profiles   3439853568 covered   3439853568 runs  1906399 boxes-without-labeling 0 471.6s CERTIFIED | labelings 24, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m9#27 profiles   3439853568 covered   3439853568 runs  2010282 boxes-without-labeling 0 513.8s CERTIFIED | labelings 24, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m9#30 profiles   3439853568 covered   3439853568 runs   867969 boxes-without-labeling 0 199.3s CERTIFIED | labelings 12, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m9#31 profiles   3439853568 covered   3439853568 runs   797413 boxes-without-labeling 0 212.4s CERTIFIED | labelings 16, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m9#28 profiles   3439853568 covered   3439853568 runs  2612336 boxes-without-labeling 0 636.5s CERTIFIED | labelings 24, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m9#33 profiles   3439853568 covered   3439853568 runs  1282282 boxes-without-labeling 0 331.9s CERTIFIED | labelings 16, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m9#32 profiles   3439853568 covered   3439853568 runs  1843599 boxes-without-labeling 0 454.3s CERTIFIED | labelings 24, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m9#35 profiles   3439853568 covered   3439853568 runs   757430 boxes-without-labeling 0 179.7s CERTIFIED | labelings 12, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m9#29 profiles   3439853568 covered   3439853568 runs  3834336 boxes-without-labeling 0 937.2s CERTIFIED | labelings 24, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m9#34 profiles   3439853568 covered   3439853568 runs  2894621 boxes-without-labeling 0 739.5s CERTIFIED | labelings 24, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m9#36 profiles   3439853568 covered   3439853568 runs  1958870 boxes-without-labeling 0 552.1s CERTIFIED | labelings 16, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m9#37 profiles   3439853568 covered   3439853568 runs  2312030 boxes-without-labeling 0 807.9s CERTIFIED | labelings 16, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m9#39 profiles   6879707136 covered   6879707136 runs  1701924 boxes-without-labeling 0 768.6s CERTIFIED | labelings 24, last used #1, by default orders 6879707136
+k4_certs_4_pure.json.gz#m9#38 profiles   3439853568 covered   3439853568 runs  2673438 boxes-without-labeling 0 1133.4s CERTIFIED | labelings 16, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m9#41 profiles   6879707136 covered   6879707136 runs  2814132 boxes-without-labeling 0 1247.0s CERTIFIED | labelings 24, last used #1, by default orders 6879707136
+k4_certs_4_pure.json.gz#m9#40 profiles   6879707136 covered   6879707136 runs  4044946 boxes-without-labeling 0 1726.9s CERTIFIED | labelings 24, last used #0, by default orders 6879707136
+k4_certs_4_pure.json.gz#m9#43 profiles   6879707136 covered   6879707136 runs  3412155 boxes-without-labeling 0 1349.5s CERTIFIED | labelings 24, last used #2, by default orders 6879707136
+k4_certs_4_pure.json.gz#m9#42 profiles   6879707136 covered   6879707136 runs  3965014 boxes-without-labeling 0 1541.6s CERTIFIED | labelings 24, last used #1, by default orders 6879707136
+k4_certs_4_pure.json.gz#m9#44 profiles   6879707136 covered   6879707136 runs  1753564 boxes-without-labeling 0 654.6s CERTIFIED | labelings 16, last used #1, by default orders 6879707136
+k4_certs_4_pure.json.gz#m9#45 profiles   6879707136 covered   6879707136 runs  2009095 boxes-without-labeling 0 730.8s CERTIFIED | labelings 24, last used #1, by default orders 6879707136
+k4_certs_4_pure.json.gz#m9#47 profiles   6879707136 covered   6879707136 runs  2550112 boxes-without-labeling 0 805.9s CERTIFIED | labelings 12, last used #0, by default orders 6879707136
+# PARTIAL: run stopped by request (session wind-down) after 170 of the 219 pure n = 4 cores, all CERTIFIED, 0 failures, no TOTAL line. Resume with: python3 k4/girth/dyncert.py 4 pure --jobs=4 --skip-done=results/k4_girth_dyncert_4_pure.log > NEW.log

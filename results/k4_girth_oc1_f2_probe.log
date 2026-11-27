@@ -1,0 +1,28 @@
+$ python3 k4/girth/oc1_f2_probe.py
+   (F2) False: |U'| = 2, |D_T'| = 0, d a receiver                                                          143
+   (F2) False: |U'| = 2, |D_T'| = 1, d a receiver                                                           70
+   (F2) False: |U'| = 2, |D_T'| = 2, d a receiver                                                            4
+   (F2) False: |U'| = 3, |D_T'| = 0, d a receiver                                                           33
+   (F2) False: |U'| = 3, |D_T'| = 1, d a receiver                                                            4
+   (F2) False: |U'| >= 2                                                                                   254
+   (F2) True: |U'| = 1                                                                                     306
+   (F2) True: |U'| = 1, |D_T'| = 0, d a receiver                                                           176
+   (F2) True: |U'| = 1, |D_T'| = 1, d a receiver                                                           117
+   (F2) True: |U'| = 1, |D_T'| = 2, d a receiver                                                            13
+   (F2) True: |U'| = 2, |D_T'| = 0, d a receiver                                                           119
+   (F2) True: |U'| = 2, |D_T'| = 1, d a receiver                                                            49
+   (F2) True: |U'| = 2, |D_T'| = 2, d a receiver                                                             1
+   (F2) True: |U'| >= 2                                                                                    169
+   (F2) fails: a wanter of Y_d is unfrozen at Y': False                                                     35
+   (F2) fails: a wanter of Y_d is unfrozen at Y': True                                                     234
+   (F2) fails: the agents wanting that wanter's pick at Y: ('a wanter of Y_d', 'u')                          3
+   (F2) fails: the agents wanting that wanter's pick at Y: ('a wanter of Y_d',)                              9
+   (F2) fails: the agents wanting that wanter's pick at Y: ('another off-path agent', 'u')                   6
+   (F2) fails: the agents wanting that wanter's pick at Y: ('another off-path agent',)                      17
+   (F2) fails: the agents wanting that wanter's pick at Y: ('u',)                                          234
+   (F2) fails: the receivers of Y' other than d: ('a wanter of Y_d', 'a wanter of Y_d')                      3
+   (F2) fails: the receivers of Y' other than d: ('a wanter of Y_d', 'another off-path agent')              34
+   (F2) fails: the receivers of Y' other than d: ('a wanter of Y_d',)                                      194
+   (F2) fails: the receivers of Y' other than d: ('another off-path agent',)                                23
+   configurations                                                                                          729
+   u is the last agent of sigma (must be all)                                                              729

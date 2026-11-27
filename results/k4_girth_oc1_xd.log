@@ -1,0 +1,26 @@
+$ python3 k4/girth/oc1_xd.py residue_n5.jsonl.gz
+   (F1) holds                                                                                                                          113694
+   DEMOTE-0 starts with a trade in RF-T's shape and (F1): True                                                                         113452
+   X_D (z unplaced) is EFX0 (must be all)                                                                                              113694
+   some placement of z completes X_D (must be none at a hard Y)                                                                             0
+   trades in RF-T's shape                                                                                                              113694
+   u values Y_p: False; v_u(Y_p) > v_u(Y_u) + v_u(Y_d): False                                                                             242
+   u values Y_p: True; v_u(Y_p) > v_u(Y_u) + v_u(Y_d): True                                                                            113452
+   z to d is blocked by (threatened, bundle owner): [('off-path', 'd')]                                                                   242
+   z to d is blocked by (threatened, bundle owner): [('u', 'd')]                                                                       113452
+   z to off-path is blocked by (threatened, bundle owner): [('d', 'off-path')]                                                            242
+   z to off-path is blocked by (threatened, bundle owner): [('p', 'off-path'), ('x_(l-1)', 'off-path')]                                  9978
+   z to off-path is blocked by (threatened, bundle owner): [('p', 'off-path')]                                                          27627
+   z to off-path is blocked by (threatened, bundle owner): [('u', 'off-path')]                                                            242
+   z to off-path is blocked by (threatened, bundle owner): [('x_(l-1)', 'off-path')]                                                    72814
+   z to p is blocked by (threatened, bundle owner): [('d', 'p')]                                                                       113210
+   z to p is blocked by (threatened, bundle owner): [('off-path', 'p')]                                                                   484
+   z to u is blocked by (threatened, bundle owner): [('off-path', 'u'), ('x_(l-1)', 'u')]                                               21536
+   z to u is blocked by (threatened, bundle owner): [('off-path', 'u')]                                                                 17440
+   z to u is blocked by (threatened, bundle owner): [('x1', 'u'), ('x_(l-1)', 'u')]                                                       400
+   z to u is blocked by (threatened, bundle owner): [('x1', 'u')]                                                                         391
+   z to u is blocked by (threatened, bundle owner): [('x_(l-1)', 'u')]                                                                  73927
+   z to x1 is blocked by (threatened, bundle owner): [('u', 'x1')]                                                                       2791
+   z to x_(l-1) is blocked by (threatened, bundle owner): [('p', 'x_(l-1)'), ('u', 'x_(l-1)')]                                           4624
+   z to x_(l-1) is blocked by (threatened, bundle owner): [('p', 'x_(l-1)')]                                                             2791
+   z to x_(l-1) is blocked by (threatened, bundle owner): [('u', 'x_(l-1)')]                                                           106279
