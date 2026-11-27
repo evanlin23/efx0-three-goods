@@ -1,0 +1,19 @@
+$ MODE=GR python3 k4/base_phantom/gr.py n5sel2 results/k4_base_phantom/data/two_move_starts_n5_sel2.json.gz 1 0
+distinct starts: 583680
+  ... 50000 starts, 0 stuck, 45 s
+  ... 100000 starts, 0 stuck, 89 s
+  ... 150000 starts, 0 stuck, 134 s
+  ... 200000 starts, 0 stuck, 176 s
+  ... 250000 starts, 0 stuck, 222 s
+  ... 300000 starts, 0 stuck, 271 s
+  ... 350000 starts, 0 stuck, 327 s
+  ... 400000 starts, 0 stuck, 387 s
+  ... 450000 starts, 0 stuck, 471 s
+  ... 500000 starts, 0 stuck, 556 s
+  ... 550000 starts, 0 stuck, 640 s
+    583680  SAFE
+    391680  end: final round, -- (a P1-free round exists), 0 phantoms
+    192000  end: final round, -- (a P1-free round exists), 1 phantoms
+    583680  starts
+    775680  states visited
+time 695 s

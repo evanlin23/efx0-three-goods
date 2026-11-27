@@ -1,0 +1,5 @@
+$ python3 k4/girth/lssrot_cores.py 20
+n = 3: {'linear cores': 3, 'runs': 360}
+n = 4: {'linear cores': 24, 'runs': 3840}
+n = 5: {'linear cores': 261, 'runs': 52200}
+n = 6: {'linear cores': 325, 'runs': 78000}

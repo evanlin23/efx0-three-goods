@@ -1,0 +1,8 @@
+$ python3 k4/girth/oc1_rf_b_check.py
+n=4  B starts                                                       43520
+n=4  the repair is EFX0 (for some admissible k)                     43520
+n=4  the repair is EFX0 for every admissible k                      43520
+n=5  B starts                                                           2
+n=5  not exactly one D_T agent whose pick only d wants: 2               2
+n=5  the repair is EFX0 (for some admissible k)                         2
+n=5  the repair is EFX0 for every admissible k                          0

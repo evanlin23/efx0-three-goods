@@ -1,0 +1,32 @@
+$ python3 k4/girth/oc1_residue_n5.py check residue_n5.jsonl.gz 3
+  ... 20 of 243 chunks, 2 s
+  ... 40 of 243 chunks, 4 s
+  ... 60 of 243 chunks, 6 s
+  ... 80 of 243 chunks, 11 s
+  ... 100 of 243 chunks, 20 s
+  ... 120 of 243 chunks, 27 s
+  ... 140 of 243 chunks, 35 s
+  ... 160 of 243 chunks, 41 s
+  ... 180 of 243 chunks, 48 s
+  ... 200 of 243 chunks, 51 s
+  ... 220 of 243 chunks, 60 s
+  ... 240 of 243 chunks, 81 s
+DEMOTE-0:
+   (T) cases: a trade after which every junk good goes to a different agent                     42009
+   DEMOTE: (T) d trades with a pick-dangerous agent                                             42009
+   DEMOTE: (T*) a 3-ring through d, a pick-dangerous agent adding a junk good                      32
+   DEMOTE: (i) w or d owns                                                                      71443
+   explicit: A1 form: w takes J' - h, d takes h (d's favourite junk)                            71443
+   explicit: owner d takes all junk but one, which goes to one other agent                       3431
+   explicit: owner w takes all junk but one, which goes to one other agent                      71443
+   path length 1, d ends with junk                                                                 32
+   path length 2, d ends with junk                                                             110661
+   path length 3, d ends with junk                                                               2791
+   starts                                                                                      113484
+(1, 3):
+   (C) cases: RF-B shape (k takes H, d takes Y'_k, Y'_d and the rest)                               0
+   (C) cases: w-chain shape (w takes a junk pair, d takes Y'_w; d: old Y'_d + x, w: + y)         7733
+   DEMOTE: (C) the chain k -> d                                                                  7733
+   path length 2, d ends with junk                                                               7733
+   starts                                                                                        7733
+time 83 s

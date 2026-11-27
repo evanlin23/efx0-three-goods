@@ -1,0 +1,22 @@
+$ python3 k4/girth/run_faithful.py
+random girth>=4 (any degree)        2000 instances,  33111 runs: EFX0 33111
+                                   some run EFX0 on 2000/2000 instances; flexible sink (default labels, some vertex 0) on 2000/2000
+random linear, deg<=4, triangles    2000 instances,  44049 runs: EFX0 43910, A3L4:P2(G4) 139
+                                   some run EFX0 on 2000/2000 instances; flexible sink (default labels, some vertex 0) on 2000/2000
+Fano + private goods                 300 instances,   6300 runs: EFX0 6055, A3L4:P2(G4) 245
+                                   some run EFX0 on 300/300 instances; flexible sink (default labels, some vertex 0) on 300/300
+AG(2,3) (deg 4)                      300 instances,   8100 runs: EFX0 8053, A3L4:P2(G4) 47
+                                   some run EFX0 on 300/300 instances; flexible sink (default labels, some vertex 0) on 300/300
+PG(2,3) (deg 4)                      300 instances,  11700 runs: EFX0 11668, A3L4:P2(G4) 32
+                                   some run EFX0 on 300/300 instances; flexible sink (default labels, some vertex 0) on 300/300
+random deg<=4 with 2-cycles         2000 instances,  32883 runs: EFX0 29781, A2L4 336, A3L2 2518, A3L4:G5env 92, A3L4:G6 97, A3L4:G6|A3L4:P2(G3) 2, A3L4:G6|A3L4:P2(G4) 2, A3L4:P2(G3) 15, A3L4:P2(G3,G4) 2, A3L4:P2(G4) 38
+                                   some run EFX0 on 1997/2000 instances; flexible sink (default labels, some vertex 0) on 1983/2000
+screen set (k4/de4/ss_screen.py)     168 instances,   1767 runs: EFX0 1252, A2L4 14, A3L2 174, A3L4:G5env 71, A3L4:G6 175, A3L4:G6|A3L4:P2(G3) 3, A3L4:G6|A3L4:P2(G4) 11, A3L4:P2(G3) 47, A3L4:P2(G4) 20
+                                   some run EFX0 on 163/168 instances; flexible sink (default labels, some vertex 0) on 157/168
+suite (k4/suite/instances)           164 instances,   1911 runs: EFX0 1467, A2L4 28, A3L2 147, A3L4:G5env 70, A3L4:G6 131, A3L4:G6|A3L4:P2(G3) 3, A3L4:G6|A3L4:P2(G4) 9, A3L4:P2(G3) 37, A3L4:P2(G3,G4) 4, A3L4:P2(G4) 15
+                                   some run EFX0 on 159/164 instances; flexible sink (default labels, some vertex 0) on 154/164
+k=4 cores n=2, all, random profiles  2000 instances,  12000 runs: EFX0 8361, A3L2 3606, A3L4:G5env 33
+                                   some run EFX0 on 1849/2000 instances; flexible sink (default labels, some vertex 0) on 1787/2000
+k=4 cores n=3, all, random profiles  3060 instances,  27540 runs: EFX0 22059, A2L4 229, A3L2 4601, A3L4:G5env 96, A3L4:G6 521, A3L4:P2(G3) 31, A3L4:P2(G4) 3
+                                   some run EFX0 on 2999/3060 instances; flexible sink (default labels, some vertex 0) on 2944/3060
+time 279s

@@ -13,9 +13,11 @@ import EFX.SPhi
    the note's ED repair, `Move` = ED moves), apply it and stop;
 4. otherwise apply any admissible round whose settlements are all P1-free (`AdmissibleP1`), and repeat.
 
-**Conjecture BASE-R** (K4.BASE.GR; `ConjBaseRWith Move`, a `Prop`, not an axiom): at every state reached from a hard
-perfect start by admissible P1-free rounds (`ReachP1`) with no lifted completion and no admissible P1-free round, a
-final round or a base repair exists. It says exactly that GR never gets stuck (`ConjGRWith`, `conjGR_of_conjBaseR`).
+**Conjecture BASE-R** (K4.BASE.GR, corrected form; `ConjBaseRWith Move`, a `Prop`, not an axiom). The *GR-visited*
+states (`VisitedGR Move`) are the hard perfect start and every state obtained by an admissible P1-free round from a
+visited state with none of the three stops (`GRStop`). BASE-R: every visited state with no stop has an admissible
+P1-free round. It says exactly that GR never gets stuck (`ConjGRWith`, `conjGR_iff_conjBaseR`). The strong form, over
+every state reached by P1-free rounds (taken also where a stop exists), is refuted (K4.BASE.GRR) and is not used.
 
 **The frame** (`target4_of_conjBaseR`): BASE-R, for any move class, implies TARGET₄. Every stop of GR is an EFX₀
 allocation of the whole instance; each round deletes an agent, so GR terminates; a start that is not hard completes at
@@ -52,14 +54,6 @@ def AdmissibleP1 (v : A → G → Nat) (agents : List A) (goods : List G) (σ : 
     (T : A → List G) (K : List A) (rest : A → List A) (T' : A → List G) : Prop :=
   Admissible v agents goods σ ks T K rest T' ∧ ∀ k ∈ K, P1Free v goods k (T' k)
 
-/-- The states reachable by admissible **P1-free** rounds. -/
-inductive ReachP1 (v : A → G → Nat) (agents : List A) (goods : List G) (σ : List A) :
-    List A → (A → List G) → Prop
-  | start : ReachP1 v agents goods σ [] (fun _ => [])
-  | round {ks : List A} {T : A → List G} {K : List A} {rest : A → List A} {T' : A → List G} :
-      ReachP1 v agents goods σ ks T → AdmissibleP1 v agents goods σ ks T K rest T' →
-      ReachP1 v agents goods σ (ks ++ K) (updT K T' T)
-
 /-- The picks at a state, as bases. -/
 abbrev stBase (v : A → G → Nat) (goods : List G) (σ : List A) (ks : List A) (T : A → List G) : A → List G :=
   pickBase v (remGoods goods ks T) (stOrder σ ks)
@@ -76,56 +70,77 @@ def BaseRepair (Move : MoveRel A G) (v : A → G → Nat) (agents : List A) (goo
   ∃ B', Move v (remAgents agents ks) (remGoods goods ks T) (stBase v goods σ ks T) B' ∧
     LiftedAt v agents goods ks T B'
 
-/-- **Conjecture BASE-R** (K4.BASE.GR) for a move class `Move` (the note's: ED moves). -/
+/-- **GR stops** at a state: a lifted completion, a final round or a base repair. -/
+def GRStop (Move : MoveRel A G) (v : A → G → Nat) (agents : List A) (goods : List G) (σ : List A)
+    (ks : List A) (T : A → List G) : Prop :=
+  LiftedAt v agents goods ks T (stBase v goods σ ks T) ∨ FinalRound v agents goods σ ks T ∨
+    BaseRepair Move v agents goods σ ks T
+
+/-- **The GR-visited states**: the start, and every state obtained by an admissible P1-free round from a visited state
+where GR does not stop. -/
+inductive VisitedGR (Move : MoveRel A G) (v : A → G → Nat) (agents : List A) (goods : List G) (σ : List A) :
+    List A → (A → List G) → Prop
+  | start : VisitedGR Move v agents goods σ [] (fun _ => [])
+  | round {ks : List A} {T : A → List G} {K : List A} {rest : A → List A} {T' : A → List G} :
+      VisitedGR Move v agents goods σ ks T → ¬ GRStop Move v agents goods σ ks T →
+      AdmissibleP1 v agents goods σ ks T K rest T' → VisitedGR Move v agents goods σ (ks ++ K) (updT K T' T)
+
+/-- **Conjecture BASE-R** (K4.BASE.GR) for a move class `Move` (the note's: ED moves): from a hard perfect start, every
+GR-visited state where GR does not stop has an admissible P1-free round. -/
 def ConjBaseRWith (A G : Type) [DecidableEq A] [DecidableEq G] (Move : MoveRel A G) : Prop :=
   ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents ≠ [] → agents.Nodup → goods.Nodup →
     (∀ i ∈ agents, (relevant v i goods).length ≤ 4) → Strict v agents goods → ∀ σ : List A, σ.Perm agents →
       PerfectStart v agents goods (sdPick v σ goods) → ¬ OneAbsorber v agents goods (pickBase v goods σ) →
-      ∀ (ks : List A) (T : A → List G), ReachP1 v agents goods σ ks T →
-        ¬ LiftedAt v agents goods ks T (stBase v goods σ ks T) →
-        (¬ ∃ (K : List A) (rest : A → List A) (T' : A → List G), AdmissibleP1 v agents goods σ ks T K rest T') →
-        FinalRound v agents goods σ ks T ∨ BaseRepair Move v agents goods σ ks T
+      ∀ (ks : List A) (T : A → List G), VisitedGR Move v agents goods σ ks T →
+        ¬ GRStop Move v agents goods σ ks T →
+        ∃ (K : List A) (rest : A → List A) (T' : A → List G), AdmissibleP1 v agents goods σ ks T K rest T'
 
-/-- **GR never gets stuck**: at every state it can reach, it stops or takes a P1-free round. -/
+/-- **GR never gets stuck**: at every state it visits, it stops or takes a P1-free round. -/
 def ConjGRWith (A G : Type) [DecidableEq A] [DecidableEq G] (Move : MoveRel A G) : Prop :=
   ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents ≠ [] → agents.Nodup → goods.Nodup →
     (∀ i ∈ agents, (relevant v i goods).length ≤ 4) → Strict v agents goods → ∀ σ : List A, σ.Perm agents →
       PerfectStart v agents goods (sdPick v σ goods) → ¬ OneAbsorber v agents goods (pickBase v goods σ) →
-      ∀ (ks : List A) (T : A → List G), ReachP1 v agents goods σ ks T →
-        LiftedAt v agents goods ks T (stBase v goods σ ks T) ∨ FinalRound v agents goods σ ks T ∨
-          BaseRepair Move v agents goods σ ks T ∨
+      ∀ (ks : List A) (T : A → List G), VisitedGR Move v agents goods σ ks T →
+        GRStop Move v agents goods σ ks T ∨
           ∃ (K : List A) (rest : A → List A) (T' : A → List G), AdmissibleP1 v agents goods σ ks T K rest T'
 
 /-- **BASE-R says exactly that GR never gets stuck.** -/
 theorem conjGR_iff_conjBaseR {Move : MoveRel A G} : ConjGRWith A G Move ↔ ConjBaseRWith A G Move := by
   constructor
-  · intro h agents goods v hne hag hgd h4 hs σ hσ hperf hhard ks T hr hnl hnr
-    rcases h agents goods v hne hag hgd h4 hs σ hσ hperf hhard ks T hr with hl | hf | hb | hround
-    · exact absurd hl hnl
-    · exact Or.inl hf
-    · exact Or.inr hb
-    · exact absurd hround hnr
-  · intro h agents goods v hne hag hgd h4 hs σ hσ hperf hhard ks T hr
-    by_cases hl : LiftedAt v agents goods ks T (stBase v goods σ ks T)
-    · exact Or.inl hl
-    · by_cases hround : ∃ (K : List A) (rest : A → List A) (T' : A → List G),
-          AdmissibleP1 v agents goods σ ks T K rest T'
-      · exact Or.inr (Or.inr (Or.inr hround))
-      · rcases h agents goods v hne hag hgd h4 hs σ hσ hperf hhard ks T hr hl hround with hf | hb
-        · exact Or.inr (Or.inl hf)
-        · exact Or.inr (Or.inr (Or.inl hb))
+  · intro h agents goods v hne hag hgd h4 hs σ hσ hperf hhard ks T hv hns
+    exact (h agents goods v hne hag hgd h4 hs σ hσ hperf hhard ks T hv).resolve_left hns
+  · intro h agents goods v hne hag hgd h4 hs σ hσ hperf hhard ks T hv
+    by_cases hst : GRStop Move v agents goods σ ks T
+    · exact Or.inl hst
+    · exact Or.inr (h agents goods v hne hag hgd h4 hs σ hσ hperf hhard ks T hv hst)
 
 theorem conjGR_of_conjBaseR {Move : MoveRel A G} (h : ConjBaseRWith A G Move) : ConjGRWith A G Move :=
   conjGR_iff_conjBaseR.mpr h
 
-/-- BASE-R is monotone in the move class (ED moves are official moves). -/
+/-- A larger move class stops more often, so it visits fewer states. -/
+theorem visitedGR_mono {Move Move' : MoveRel A G}
+    (hm : ∀ v agents goods B B', Move v agents goods B B' → Move' v agents goods B B') {v : A → G → Nat}
+    {agents : List A} {goods : List G} {σ : List A} {ks : List A} {T : A → List G}
+    (h : VisitedGR Move' v agents goods σ ks T) : VisitedGR Move v agents goods σ ks T := by
+  induction h with
+  | start => exact VisitedGR.start
+  | round _ hns hA ih =>
+    refine VisitedGR.round ih (fun hst => hns ?_) hA
+    rcases hst with hl | hf | ⟨B', hmv, hl⟩
+    · exact Or.inl hl
+    · exact Or.inr (Or.inl hf)
+    · exact Or.inr (Or.inr ⟨B', hm _ _ _ _ _ hmv, hl⟩)
+
+/-- **BASE-R is monotone in the move class** (ED moves are official moves). -/
 theorem conjBaseR_mono {Move Move' : MoveRel A G}
     (hm : ∀ v agents goods B B', Move v agents goods B B' → Move' v agents goods B B')
     (h : ConjBaseRWith A G Move) : ConjBaseRWith A G Move' := by
-  intro agents goods v hne hag hgd h4 hs σ hσ hperf hhard ks T hr hnl hnr
-  rcases h agents goods v hne hag hgd h4 hs σ hσ hperf hhard ks T hr hnl hnr with hf | ⟨B', hmv, hl⟩
-  · exact Or.inl hf
-  · exact Or.inr ⟨B', hm _ _ _ _ _ hmv, hl⟩
+  intro agents goods v hne hag hgd h4 hs σ hσ hperf hhard ks T hv hns
+  refine h agents goods v hne hag hgd h4 hs σ hσ hperf hhard ks T (visitedGR_mono hm hv) fun hst => hns ?_
+  rcases hst with hl | hf | ⟨B', hmv, hl⟩
+  · exact Or.inl hl
+  · exact Or.inr (Or.inl hf)
+  · exact Or.inr (Or.inr ⟨B', hm _ _ _ _ _ hmv, hl⟩)
 
 /-! ## The frame -/
 
@@ -151,11 +166,11 @@ theorem exists_efx0_of_liftedAt {ks : List A} (hks : ∀ k ∈ ks, k ∈ agents)
   obtain ⟨X, hX, -, -, hE⟩ := h
   exact ⟨_, isAllocation_liftAlloc hks hX, hE⟩
 
-theorem reach_of_reachP1 {ks : List A} {T : A → List G} (h : ReachP1 v agents goods σ ks T) :
-    Reach v agents goods σ ks T := by
+theorem reach_of_visitedGR {Move : MoveRel A G} {ks : List A} {T : A → List G}
+    (h : VisitedGR Move v agents goods σ ks T) : Reach v agents goods σ ks T := by
   induction h with
   | start => exact Reach.start
-  | round _ hA ih => exact Reach.round ih hA.1
+  | round _ _ hA ih => exact Reach.round ih hA.1
 
 /-- **The BASE-R frame at a hard perfect start**: GR stops at an EFX₀ allocation. -/
 theorem exists_efx0_of_conjBaseR_hard {Move : MoveRel A G} (hBR : ConjBaseRWith A G Move) (hne : agents ≠ [])
@@ -164,23 +179,24 @@ theorem exists_efx0_of_conjBaseR_hard {Move : MoveRel A G} (hBR : ConjBaseRWith 
     (hhard : ¬ OneAbsorber v agents goods (pickBase v goods σ)) :
     ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X := by
   have hsv := strictVals_of_strict hs
-  have hGR := conjGR_of_conjBaseR hBR agents goods v hne hag hgd h4 hs σ hσ hperf hhard
-  have key : ∀ n, ∀ (ks : List A) (T : A → List G), ReachP1 v agents goods σ ks T →
+  have key : ∀ n, ∀ (ks : List A) (T : A → List G), VisitedGR Move v agents goods σ ks T →
       (remAgents agents ks).length = n → ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X := by
     intro n
     induction n using Nat.strongRecOn with
     | ind n ih =>
-      intro ks T hr hn
-      have hI := inv_of_reach hσ hag hgd hsv hperf (reach_of_reachP1 hr)
-      rcases hGR ks T hr with hl | ⟨K, rest, T', hA, hl⟩ | ⟨B', -, hl⟩ | ⟨K, rest, T', hA⟩
-      · -- 1. a lifted completion
-        exact exists_efx0_of_liftedAt hI.settled hl
-      · -- 2. a final round, then a lifted completion
-        have hI' := inv_of_reach hσ hag hgd hsv hperf (Reach.round (reach_of_reachP1 hr) hA)
-        exact exists_efx0_of_liftedAt hI'.settled hl
-      · -- 3. a base repair
-        exact exists_efx0_of_liftedAt hI.settled hl
-      · -- 4. a P1-free round: one agent fewer
+      intro ks T hv hn
+      have hI := inv_of_reach hσ hag hgd hsv hperf (reach_of_visitedGR hv)
+      by_cases hst : GRStop Move v agents goods σ ks T
+      · rcases hst with hl | ⟨K, rest, T', hA, hl⟩ | ⟨B', -, hl⟩
+        · -- 1. a lifted completion
+          exact exists_efx0_of_liftedAt hI.settled hl
+        · -- 2. a final round, then a lifted completion
+          have hI' := inv_of_reach hσ hag hgd hsv hperf (Reach.round (reach_of_visitedGR hv) hA)
+          exact exists_efx0_of_liftedAt hI'.settled hl
+        · -- 3. a base repair
+          exact exists_efx0_of_liftedAt hI.settled hl
+      · -- 4. BASE-R: a P1-free round, one agent fewer
+        obtain ⟨K, rest, T', hA⟩ := hBR agents goods v hne hag hgd h4 hs σ hσ hperf hhard ks T hv hst
         have hlt : (remAgents agents (ks ++ K)).length < n := by
           rw [← hn, remAgents_append]
           cases hKc : K with
@@ -188,8 +204,8 @@ theorem exists_efx0_of_conjBaseR_hard {Move : MoveRel A G} (hBR : ConjBaseRWith 
           | cons k K' =>
             have hk : k ∈ K := by rw [hKc]; exact List.mem_cons_self
             exact List.length_filter_lt_length_iff_exists.mpr ⟨k, hA.1.present k hk, by rw [← hKc]; simpa using hk⟩
-        exact ih _ hlt (ks ++ K) (updT K T' T) (ReachP1.round hr hA) rfl
-  exact key _ [] (fun _ => []) ReachP1.start rfl
+        exact ih _ hlt (ks ++ K) (updT K T' T) (VisitedGR.round hv hst hA) rfl
+  exact key _ [] (fun _ => []) VisitedGR.start rfl
 
 /-- **The BASE-R frame at a perfect start**: a start that is not hard completes at once. -/
 theorem exists_efx0_of_conjBaseR_perfect {Move : MoveRel A G} (hBR : ConjBaseRWith A G Move) (hne : agents ≠ [])
@@ -317,6 +333,7 @@ end EFX
 /-! ## Axiom certificates (audited by `check.sh`) -/
 
 #print axioms EFX.Round.conjGR_iff_conjBaseR
+#print axioms EFX.Round.visitedGR_mono
 #print axioms EFX.Round.conjBaseR_mono
 #print axioms EFX.Round.isAllocation_liftAlloc
 #print axioms EFX.Round.exists_efx0_of_conjBaseR_hard

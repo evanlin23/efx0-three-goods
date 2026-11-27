@@ -1,0 +1,17 @@
+$ python3 k4/girth/ht_families.py 6 100
+c4-H1: the built instance (with its values) is isomorphic to the suite copy: True
+c4-H2: the built instance (with its values) is isomorphic to the suite copy: True
+c4-H5: the built instance (with its values) is isomorphic to the suite copy: True
+lmbt-HH3: the built instance (with its values) is isomorphic to the suite copy: True
+H_1: n=5 m=13 linear=True, agents on no 3-cycle: none; LSS with vertex 0 = l EFX0 on 100/100 random profiles
+H_2: n=9 m=23 linear=True, agents on no 3-cycle: ['l']; LSS with vertex 0 = l EFX0 on 100/100 random profiles
+H_3: n=13 m=33 linear=True, agents on no 3-cycle: ['l']; LSS with vertex 0 = l EFX0 on 100/100 random profiles
+H_4: n=17 m=43 linear=True, agents on no 3-cycle: ['l']; LSS with vertex 0 = l EFX0 on 100/100 random profiles
+H_5: n=21 m=53 linear=True, agents on no 3-cycle: ['l']; LSS with vertex 0 = l EFX0 on 100/100 random profiles
+H_6: n=25 m=63 linear=True, agents on no 3-cycle: ['l']; LSS with vertex 0 = l EFX0 on 100/100 random profiles
+HH_1: n=10 m=25 linear=True, agents on no 3-cycle: none; LSS with vertex 0 = lA EFX0 on 100/100 random profiles
+HH_2: n=18 m=45 linear=True, agents on no 3-cycle: ['lA', 'lB']; LSS with vertex 0 = lA EFX0 on 100/100 random profiles
+HH_3: n=26 m=65 linear=True, agents on no 3-cycle: ['lA', 'lB']; LSS with vertex 0 = lA EFX0 on 100/100 random profiles
+HH_4: n=34 m=85 linear=True, agents on no 3-cycle: ['lA', 'lB']; LSS with vertex 0 = lA EFX0 on 100/100 random profiles
+HH_5: n=42 m=105 linear=True, agents on no 3-cycle: ['lA', 'lB']; LSS with vertex 0 = lA EFX0 on 100/100 random profiles
+HH_6: n=50 m=125 linear=True, agents on no 3-cycle: ['lA', 'lB']; LSS with vertex 0 = lA EFX0 on 100/100 random profiles
