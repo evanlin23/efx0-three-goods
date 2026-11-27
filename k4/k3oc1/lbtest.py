@@ -89,7 +89,24 @@ def lb2(rk, m, base):
     return None
 
 
-def _owner_test(rk, m, base, B, J, U, T, U0):
+def lb2_owners(rk, m, base, allowed):
+    """lb2 with the owner restricted to `allowed` (a set of agents; 'none' in it allows the no-owner completion)"""
+    n = len(rk); B0 = bundles(base, n); U0 = [len(b) >= 2 for b in B0]
+    J0 = set(g for g in range(m) if base[g] < 0)
+    Q = [i for i in range(n) if B0[i] == [rk[i][1]] and rk[i][2] in J0]
+    for r in range(len(Q), -1, -1):
+        for S in itertools.combinations(Q, r):
+            nb = list(base)
+            for i in S: nb[rk[i][2]] = i
+            nb = tuple(nb)
+            B, J, U, NA, F, T = parts(rk, m, nb)
+            if any(rk[i][1] in NA for i in S): continue
+            res = _owner_test(rk, m, nb, B, J, U, T, U0, allowed)
+            if res: return res + (('upgrades', S),)
+    return None
+
+
+def _owner_test(rk, m, base, B, J, U, T, U0, allowed=None):
     n = len(rk)
     A = [x for x in range(n) if not U[x] and B[x] == [rk[x][0]]]
     def threat_free(bundle, owner):
@@ -110,8 +127,9 @@ def _owner_test(rk, m, base, B, J, U, T, U0):
                         match[k] = g; return True
             return False
         return all(aug(g, set()) for g in C)
-    if matchable(J, None): return ('no owner',)
+    if (allowed is None or 'none' in allowed) and matchable(J, None): return ('no owner',)
     for o in T + [u for u in range(n) if U[u]]:
+        if allowed is not None and o not in allowed: continue
         for r in range(len(J) + 1):
             for C in itertools.combinations(J, r):
                 rest = B[o] + [g for g in J if g not in C]

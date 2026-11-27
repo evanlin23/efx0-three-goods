@@ -600,8 +600,9 @@ does not see releases; that is where a proof must go.
   - On the other 800 the completion after the rotation needs the exact test: a pair holder's slot, or an owner.
 
 **Conjecture T′ (one move into a terminal).** At every hard perfect draft of a ledger core, some rotation from an
-exposed agent of a terminal t into t has a one-absorber completion. For |T| = 1 and |E_t| ≥ 2 it holds with no owner
-(kgen-n3's T1′), and so does every least-ω′ rotation.
+exposed agent k of a terminal t into t has a one-absorber completion. **Strong form T′_k:** with no owner, or with
+owner k (B\*'s owner). (An earlier version also claimed the no-owner form for |T| = 1 and |E_t| ≥ 2, kgen-n3's T1′;
+that is false, see below.)
 - T′ holds on all data, with no failure (`tprime_*.log`):
   - every hard perfect draft of every core with n ≤ 5;
   - all 338,916 hard perfect drafts of the n = 6, m ∈ {10, 11} cores, every profile and order: 198,840 with
@@ -611,4 +612,15 @@ exposed agent of a terminal t into t has a one-absorber completion. For |T| = 1 
 - The no-owner form fails on 21,416 of the n = 6 drafts (14,484 with |T| = 1, 6,932 with |T| = 2), and also on these:
   - n = 4: 20 drafts, all with |T| = 1 and covered by B\*;
   - n = 5, m = 9: 132 with |T| = 1 and 96 with |T| = 2, covered by B\*;
-  - the 800 two-terminal gap drafts above.
+  - the 800 two-terminal gap drafts above;
+  - **360 of the 96,128 one-terminal gap drafts at n = 6** (`tprime_gap6_T1_*.log`, list `tprime_gap6_T1.fail.gz`).
+    So kgen-n3's T1′ in its no-owner form is false.
+- **The T1′ counterexample** (n = 6, m = 10 core). Agents 0: 1>0>7, 1: 0>2>8, 2: 1>3>9, 3: 0>5>4, 4: 6>2>4,
+  5: 3>6>5. Order (0,1,2,4,5,3) gives the picks (1,0,3,4,6,5) and junk {2,7,8,9}; T = {3} (agent 3 holds its c,
+  and nobody wants it), E_3 = {1, 4}.
+  - Both rotations into 3, the chain (1, 3) and the ring (3, 4, 5), leave |J′| = 3 > |T′| = 2, even after upgrades.
+  - Both complete with owner k (exhaustive search): after the chain, ({1}, {2,7,8}, {3}, {0,4}, {6}, {5,9}), with
+    agent 1 the owner; after the ring, ({1}, {0}, {3}, {5,7}, {2,4,9}, {6,8}), with agent 4 the owner.
+- **T′_k on the no-owner failures of the gap** (`owner_k.py`, `owner_k.log`): on all 1,160 of them (360 with
+  |T| = 1, 800 with |T| = 2), some rotation completes with owner nobody or k, under the exact test with the owner
+  restricted (`lbtest.lb2_owners`). The run of T′_k on every hard perfect draft (`tprime_k.py`) is in progress.
