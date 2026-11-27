@@ -44,7 +44,7 @@ def efx0_frac(V, Y):
     return True
 
 
-def run(n, k, p, sizes, tlim=600, fixed=None, vmax=None, q=None):
+def run(n, k, p, sizes, tlim=600, fixed=None, vmax=None, q=None, dump=None):
     """fixed = (B, P, m, support): a given stranded state and the relevant sets (values free on them, 0 elsewhere).
     q: the number of goods the state X leaves out (default p); X must beat every EFX0 allocation leaving <= p - 1 out."""
     if q is None:
@@ -91,10 +91,15 @@ def run(n, k, p, sizes, tlim=600, fixed=None, vmax=None, q=None):
     WX = z3.Sum([val(i, B[i]) for i in range(n)])
     # inner problem variables
     x = [[z3.Bool('x_%d_%d' % (g, a)) for a in range(n + 1)] for g in range(m)]
-    cuts = 0; t0 = time.time()
+    cuts = 0; t0 = time.time(); cutlist = []
     while True:
         r = S.check()
         if r == z3.unsat:
+            if dump:
+                import json
+                json.dump({'n': n, 'k': k, 'p': p, 'bundles': B, 'pool': P, 'm': m,
+                           'support': None if fixed is None else [sorted(x) for x in fixed[3]],
+                           'cuts': cutlist}, open(dump, 'w'))
             return 'UNSAT', cuts, time.time() - t0, None
         if r != z3.sat:
             return 'UNKNOWN', cuts, time.time() - t0, None
@@ -136,6 +141,7 @@ def run(n, k, p, sizes, tlim=600, fixed=None, vmax=None, q=None):
                     for h in Y[j]:
                         viol.append(val(i, [g for g in Y[j] if g != h]) > val(i, Y[i]))
         S.add(z3.Or([z3.Sum([val(i, Y[i]) for i in range(n)]) < WX] + viol))
+        cutlist.append([sorted(Yi) for Yi in Y])
         cuts += 1
 
 

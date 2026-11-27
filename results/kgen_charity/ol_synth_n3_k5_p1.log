@@ -9,3 +9,4 @@ q 1 sizes (3, 3, 1) FOUND 267 cuts 18.7 s
   values [{0: '1', 1: '1', 2: '6/5', 4: '43/20', 7: '11/10'}, {0: '21/10', 4: '63/20', 5: '1', 6: '21/5'}, {1: '21/10', 2: '21/5', 3: '1', 6: '147/20', 7: '21/5'}]
 q 1 sizes (3, 3, 2) FOUND 771 cuts 1498.1 s
   values [{0: '19/16', 1: '1', 2: '35/8', 5: '9/2', 8: '17/8'}, {0: '17/8', 4: '1', 5: '69/8', 6: '103/16', 7: '13/4'}, {2: '85/8', 3: '1', 6: '119/16', 7: '17/4', 8: '17/8'}]
+stopped by hand after the first FOUND rows: P1 is refuted at n = 3, k = 5 (first FOUND row verified without z3 by p1_n3k5.py, p1_n3k5.log); the remaining sizes were not searched
