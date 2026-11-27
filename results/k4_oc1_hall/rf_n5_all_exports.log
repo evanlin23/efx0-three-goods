@@ -1,1 +1,34 @@
 $ python3 k4/oc1_hall/rf_n5_all.py two_move_starts_n5_partial6.json.gz two_move_starts_n5_sel2.json.gz
+DEMOTE-2: after "k takes S, d takes Y'_k" (official): S^c completion True 128074
+RF starts 1530083
+RF starts with a pickless agent 3460
+class (1, 0) 113484
+class (1, 0): P (picks complete) 113210
+class (1, 0): RAW one move repairs 32
+class (1, 0): T (a receiver trades with a pick-dangerous agent) 242
+class (1, 1) 2782
+class (1, 1): P (picks complete) 2782
+class (1, 2) 140111
+class (1, 2): K (chain from k in D_T', H0 in S; k -> d) 50023
+class (1, 2): K (chain from k in D_T', H0 in S; length 1, head frozen) 83757
+class (1, 2): K (chain from k in D_T', H0 in S; length 2, head frozen) 4
+class (1, 2): P (picks complete) 6327
+class (1, 3) 7733
+class (1, 3): RAW one move repairs 7733
+class (2, 0) 480959
+class (2, 0): P (picks complete) 480959
+class (2, 1) 363402
+class (2, 1): K (chain from k in D_T', H0 in its junk; length 1, head a receiver) 57600
+class (2, 1): P (picks complete) 305802
+class (2, 2) 26472
+class (2, 2): P (picks complete) 26472
+class (3, 0) 391680
+class (3, 0): P (picks complete) 391680
+pickless rotation: (start, u) pairs 3460
+pickless rotation: some u-first order gives a maximum matching: True 3460
+pickless rotation: u-first maximum-matching pick vectors: OC1 one move repairs 4612
+pickless rotation: u-first maximum-matching pick vectors: OC1 picks complete 21912
+
+real	9m4.640s
+user	31m32.588s
+sys	0m4.317s
