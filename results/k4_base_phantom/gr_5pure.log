@@ -1,0 +1,10 @@
+$ MODE=GR python3 k4/base_phantom/gr.py 5pure results/k4_base_phantom/data/n5_5pure_s5o0_two_move_starts.jsonl.gz 1 0
+distinct starts: 280
+       280  SAFE
+       138  end: final round, -- (a P1-free round exists), 0 phantoms
+       314  end: final round, -- (a P1-free round exists), 1 phantoms
+        12  end: final round, B2 (no P1-free round), 0 phantoms
+        13  end: final round, B2 (no P1-free round), 1 phantoms
+       280  starts
+       607  states visited
+time 0 s

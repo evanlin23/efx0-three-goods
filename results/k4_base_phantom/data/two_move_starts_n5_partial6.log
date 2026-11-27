@@ -1,0 +1,24 @@
+$ python3 k4/oc1cert/export_fails.py /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/n5_export_sel.jsonl /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/two_move_starts_n5_sel.json.gz 100
+5_pure 374 failing starts 122166 distinct profiles 121695 receivers {1: 122166} 522 s
+  (time limit: partial list, 122166 starts)
+5_pure 379 failing starts 109541 distinct profiles 109541 receivers {1: 109541} 1049 s
+  (time limit: partial list, 109541 starts)
+5_pure 464 failing starts 170177 distinct profiles 170177 receivers {1: 170177} 1605 s
+  (time limit: partial list, 170177 starts)
+5_pure 808 failing starts 90181 distinct profiles 90161 receivers {1: 90181} 2196 s
+  (time limit: partial list, 90181 starts)
+5_pure 778 failing starts 82193 distinct profiles 80934 receivers {1: 82193} 2778 s
+  (time limit: partial list, 82193 starts)
+5_pure 164 failing starts 127992 distinct profiles 127992 receivers {1: 127992} 3306 s
+  (time limit: partial list, 127992 starts)
+hypergraphs 6
+orders per start 1 210630
+orders per start 3 283426
+orders per start 4 85090
+orders per start 6 123104
+raw: OC1 fails 28093
+raw: not checked 674157
+receivers per start 1 702250
+sampled two-move raw check: two moves repair 7024
+starts 702250
+wrote /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/two_move_starts_n5_sel.json.gz /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/two_move_starts_n5_sel_cert.json.gz 3337 s

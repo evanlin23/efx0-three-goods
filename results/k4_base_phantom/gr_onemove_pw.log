@@ -1,0 +1,7 @@
+$ MODE=GR python3 k4/base_phantom/gr.py onemove_pw results/k4_base_phantom/data/onemove_hard_pw291.jsonl.gz 1 0
+distinct starts: 291
+       291  SAFE
+       291  end: final round, -- (a P1-free round exists), 0 phantoms
+       291  starts
+       291  states visited
+time 0 s
