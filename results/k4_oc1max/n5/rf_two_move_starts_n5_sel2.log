@@ -1,0 +1,37 @@
+$ python3 k4/oc1cert/good_orders.py results/k4_oc1max/n5/two_move_starts_n5_sel2.json.gz results/k4_oc1max/n5/rf_two_move_starts_n5_sel2.json.gz --rf --jobs=2
+... 20000, 125 s
+... 40000, 251 s
+... 60000, 364 s
+... 80000, 486 s
+... 100000, 591 s
+... 120000, 706 s
+... 140000, 818 s
+... 160000, 944 s
+... 180000, 1116 s
+... 200000, 1215 s
+... 220000, 1308 s
+... 240000, 1398 s
+... 260000, 1496 s
+... 280000, 1638 s
+... 300000, 2146 s
+... 320000, 2612 s
+... 340000, 2946 s
+... 360000, 3356 s
+... 380000, 3810 s
+... 400000, 4089 s
+... 420000, 4272 s
+... 440000, 4401 s
+... 460000, 4544 s
+... 480000, 4686 s
+... 500000, 4841 s
+... 520000, 4970 s
+... 540000, 5143 s
+... 560000, 5283 s
+... 580000, 5419 s
+RF holds 583680
+receiver-first maximum pick vectors checked 1676160
+receiver-first non-maximum pick vectors (excluded) 0
+receivers at the failing start: 1 583680
+starts 583680
+starts with no receiver-first maximum order 0
+wrote results/k4_oc1max/n5/rf_two_move_starts_n5_sel2.json.gz 5444 s

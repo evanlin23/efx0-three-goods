@@ -1,0 +1,5 @@
+$ python3 k4/sdc/rf_sigma_check.py ../../results/k4_oc1max/two_move_starts_n4.json.gz
+starts 112880
+(Y,u) pairs 112880
+RFsigma every: True 112880
+RFsigma some: True 112880

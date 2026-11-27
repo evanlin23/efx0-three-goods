@@ -1,0 +1,19 @@
+$ python3 k4/oc1cert/rf_chunk.py results/k4_oc1max/n5/5_pure_s5o1_summary.jsonl.gz rf_5_pure_s5o1.jsonl.gz --jobs=2
+cores with OC1^max failures 140 of 935
+... 20, 146 s
+... 40, 420 s
+... 60, 775 s
+... 80, 1000 s
+... 100, 1344 s
+... 120, 1722 s
+... 140, 2006 s
+RF: VIOLATIONS 0
+RF: failing pairs checked (every pair met) 484
+RF: receiver-first maximum pick vectors checked 2355
+cores 140
+failing pairs met with 1 receivers 479
+failing pairs met with 2 receivers 5
+pairs met equal to the chunk run 140
+result certified 140
+time 2006 s
+wrote rf_5_pure_s5o1.jsonl.gz

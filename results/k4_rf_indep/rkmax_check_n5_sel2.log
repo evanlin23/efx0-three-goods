@@ -1,0 +1,58 @@
+$ python3 k4/rf_indep/rkmax_check.py --data DIR --groups sel2 --procs 4
+input sel2     two_move_starts_n5_sel2.json.gz sha256 d1f6f0821cf2e83a
+5_pure#419   m 10 nu 5 (brute 5, export 5) complete=True
+5_pure#447   m 11 nu 5 (brute 5, export 5) complete=True
+5_pure#38    m  9 nu 5 (brute 5, export 5) complete=True
+orders and signatures done 37 s
+OC1 search on 1004160 sigma-maximal vectors done 46 s
+witnesses verified 54 s
+
+-- 5_pure#419 (sel2, complete=True)
+   OC1 at sigma-maximal vectors: P verified                                         552960
+   distinct SD vectors                                                              2211840
+   distinct maximum-matching SD vectors                                             2211840
+   export failing starts                                                            276480
+   export failing starts with a maximum-matching SD vector of larger sigma          276480
+   max signature (3, 2, 0, 0)                                                       276480
+   profiles                                                                         276480
+   profiles with 2 sigma-maximal vector(s)                                          276480
+   sigma-maximal vectors                                                            552960
+-- 5_pure#447 (sel2, complete=True)
+   OC1 at sigma-maximal vectors: P verified                                         230400
+   distinct SD vectors                                                              921600
+   distinct maximum-matching SD vectors                                             921600
+   export failing starts                                                            115200
+   export failing starts with a maximum-matching SD vector of larger sigma          115200
+   max signature (3, 2, 0, 0)                                                       115200
+   profiles                                                                         115200
+   profiles with 2 sigma-maximal vector(s)                                          115200
+   sigma-maximal vectors                                                            230400
+-- 5_pure#38 (sel2, complete=True)
+   OC1 at sigma-maximal vectors: P verified                                         220800
+   distinct SD vectors                                                              2332800
+   distinct maximum-matching SD vectors                                             2332800
+   export failing starts                                                            192000
+   export failing starts with a maximum-matching SD vector of larger sigma          192000
+   max signature (3, 1, 1, 0)                                                       115200
+   max signature (3, 2, 0, 0)                                                       76800
+   profiles                                                                         192000
+   profiles with 1 sigma-maximal vector(s)                                          163200
+   profiles with 2 sigma-maximal vector(s)                                          28800
+   sigma-maximal vectors                                                            220800
+-- total
+   OC1 at sigma-maximal vectors: P verified                                         1004160
+   distinct SD vectors                                                              5466240
+   distinct maximum-matching SD vectors                                             5466240
+   export failing starts                                                            583680
+   export failing starts with a maximum-matching SD vector of larger sigma          583680
+   max signature (3, 1, 1, 0)                                                       115200
+   max signature (3, 2, 0, 0)                                                       468480
+   profiles                                                                         583680
+   profiles with 1 sigma-maximal vector(s)                                          163200
+   profiles with 2 sigma-maximal vector(s)                                          420480
+   sigma-maximal vectors                                                            1004160
+
+second implementation on F answers: no F answers
+profiles with an OC1-failing sigma-maximal vector: 0
+RESULT RKMAX: 583680 profiles, 1004160 sigma-maximal maximum-matching vectors, OC1 F answers 0, invalid witnesses 0
+time 54 s

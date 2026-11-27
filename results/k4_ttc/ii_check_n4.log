@@ -1,0 +1,15 @@
+$ git show origin/compute/k4-oc1max-cert:results/k4_oc1max/two_move_starts_n4.json.gz > two_move_starts_n4.json.gz   (commit a96c877)
+$ python3 k4/ttc/ii_check.py two_move_starts_n4.json.gz
+ALL ONE RECEIVER {"sets": [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], "vals": [[1, 4, 8, 6], [2, 8, 7, 4], [3, 5, 7, 6], [4, 5, 8, 6]], "tops": [2, 2, 5, 5], "perfect outcomes": 10, "good": 8}
+ALL ONE RECEIVER {"sets": [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], "vals": [[1, 4, 8, 6], [2, 8, 7, 4], [3, 5, 7, 6], [3, 5, 7, 6]], "tops": [2, 2, 5, 5], "perfect outcomes": 10, "good": 8}
+ALL ONE RECEIVER {"sets": [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], "vals": [[1, 4, 8, 6], [2, 8, 7, 4], [4, 5, 8, 6], [4, 5, 8, 6]], "tops": [2, 2, 5, 5], "perfect outcomes": 10, "good": 8}
+ALL ONE RECEIVER {"sets": [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], "vals": [[1, 4, 8, 6], [2, 8, 7, 4], [4, 5, 8, 6], [3, 5, 7, 6]], "tops": [2, 2, 5, 5], "perfect outcomes": 10, "good": 8}
+ALL ONE RECEIVER {"sets": [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], "vals": [[1, 4, 8, 6], [2, 8, 7, 4], [5, 3, 7, 6], [4, 5, 8, 6]], "tops": [2, 2, 5, 5], "perfect outcomes": 10, "good": 8}
+ALL ONE RECEIVER {"sets": [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]], "vals": [[1, 4, 8, 6], [2, 8, 7, 4], [5, 3, 7, 6], [3, 5, 7, 6]], "tops": [2, 2, 5, 5], "perfect outcomes": 10, "good": 8}
+  ... and every such outcome satisfies OC1 110960
+  EVERY perfect outcome has 1 receiver 640
+  one receiver everywhere: every top good shared by >= 2 agents 640
+  one receiver everywhere: some perfect outcome satisfies OC1 640
+  some perfect outcome has >= 2 receivers 110960
+distinct failing profiles 111600
+printed 6

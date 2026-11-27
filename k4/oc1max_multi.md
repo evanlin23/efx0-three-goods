@@ -1202,6 +1202,11 @@ X = B_o ∪ (J ∩ R_i). Suppose:
 Then B has an S\* completion with owner o and kept-out set H: o takes X, and |H| distinct holders take one good of H
 each.
 
+*Refereed CORRECT (`k4/referee/oc1max_multi.md` §13, commit 9ef2fed0). The referee notes that (W1) is never used:
+the statement holds for any kept-out set H ⊆ J such that X = B_o ∪ (J ∖ H) threatens nobody and there are |H|
+holders (79,459 random cases, 49,466 of them without (W1), 0 failures). (W1) is what makes this H the useful choice
+for agent i.*
+
 *Proof.* Lemma M (refereed) applies at B with owner o and kept-out set H. By (W2) the owner's bundle X threatens nobody
 at its base value, so no agent is needy, and (C1) holds. A non-needy holder accepts every good. So by (W3) any |H|
 distinct holders give a matching saturating H, which is (C3). ∎
@@ -1266,24 +1271,104 @@ k values at most two goods of the rest, so this is again a local "keep b and c a
 (with phantom-frozen holders removed from the receivers) and Lemma M^c (phantoms as non-eligible agents with fixed
 requirements) all apply verbatim in this class. If every two-move start reaches a phantom-class start where Theorem S
 applies after at most one settlement, OC₂^max follows. What remains is the existence argument (Sub-lemma
-**RSD-EX**, open): at a hard start with no one-move repair, k's best pool pair is (K)-safe for some Theorem S case.
+**RSD-EX**, open, as reworded after the referee's §13). At a hard start with no one-move repair, k's best pool pair T\*
+leaves a Theorem S case (k′, P′, h) of I⁻ in which:
+- **ℓ does not end at the receiver** (ℓ⁺ ≠ r);
+- P′'s head does not hold ℓ (q ≠ z′);
+- not (z′ = x₁ while ℓ is a pool good).
 
-**Proposition K-loc (K4.MULTI.KLOC): where (K) can fail.** In Theorem S's allocation X⁻ of the reduced instance, the
-multi-good bundles are W⁻ = (J⁻ ∖ h) ∪ {Y_{z′}} and {B₁_r, h}.
-- (K-b) needs a pick ℓ with v_k(ℓ) > v_k(T) > p_k. Such a pick was taken before k's turn, by an agent q that picked
-  before k. Hence q ∉ E(k), since σ increases along E(k), and q still holds ℓ at B₁. In X⁻, ℓ is in a multi-good
-  bundle only if q is the receiver r of h, or q is P′'s head z′ (ℓ released into W⁻, or ℓ = h).
-- (K-a) needs Y_k ∈ W⁻. Y_k is held by x₁ at B₁, so Y_k ∈ W⁻ forces z′ = x₁. It also needs ℓ ∈ W⁻, so ℓ is a pool good
-  of E(k) outside T, and p_k + v_k(ℓ) > v_k(T). (The bundle {Y_k, h} never threatens k, since v_k(h) ≤ p_k.)
+By Proposition K-loc (corrected), these give (K).
 
-So **(K) holds for every Theorem S case of I⁻ whose receiver and head avoid q, and whose head is not x₁ when k values a
-third pool good.** *Proof:* the case analysis above, with (G2) for junk and v_k(Y_k) = p_k < v_k(T). ∎
+> **SUPERSEDED** (the first version of K-loc, at 8924c6b3; WRONG, kept for the record; the corrected form is below):
+> In Theorem S's allocation X⁻ of the reduced instance, the multi-good bundles are W⁻ = (J⁻ ∖ h) ∪ {Y_{z′}} and
+> {B₁_r, h}.
+> - (K-b) needs a pick ℓ with v_k(ℓ) > v_k(T) > p_k. Such a pick was taken before k's turn, by an agent q that picked
+>   before k. Hence q ∉ E(k), since σ increases along E(k), and q still holds ℓ at B₁. In X⁻, ℓ is in a multi-good
+>   bundle only if q is the receiver r of h, or q is P′'s head z′ (ℓ released into W⁻, or ℓ = h).
+> - (K-a) needs Y_k ∈ W⁻. Y_k is held by x₁ at B₁, so Y_k ∈ W⁻ forces z′ = x₁. It also needs ℓ ∈ W⁻, so ℓ is a pool
+>   good of E(k) outside T, and p_k + v_k(ℓ) > v_k(T).
+>
+> So (K) holds for every Theorem S case of I⁻ whose receiver and head avoid q, and whose head is not x₁ when k values a
+> third pool good.
 
-When ℓ is a pick, k values only Y_k and two pool goods besides ℓ, so T\* is k's only pool pair. RSD-EX is then purely a
-choice of the Theorem S case in I⁻. In the phantom language, it must avoid the phantom-frozen holder q. The census
-shows such a case always exists (`rec_k.log`): (K-a) never occurs, and the 9,600 (K-b) failures at n = 4 always have
-a sibling case that avoids q. A proof would come from (S-c)'s freedom: Theorem S's receiver is the head or an
-unfrozen second wanter, and the head of a longest chain of I⁻ need not be q.
+**Proposition K-loc (K4.MULTI.KLOC): where (K) can fail.** *Corrected after the referee's verdict
+(`k4/referee/oc1max_multi.md` §13, commit 9ef2fed0). The first version said "q is the receiver or the head". That is
+WRONG: P′ can move ℓ from q to q's successor on P′. The referee's counterexample is from the n = 4 export: picks
+(5, 1, 4, 6), k = 3, E(3) = (3, 2, 1), T = {2, 3}, ℓ = 5, q = 0, and P′ = (0, 1) hands ℓ to the receiver 1. All 9,600
+(K) failures in `rec_k.log` are of this kind.*
+
+Setting: k keeps T with τ = v_k(T). R_k ∖ T ⊆ {Y_k, ℓ}, and q is ℓ's holder at B₁ when ℓ is a pick. q picked before k,
+so q ∉ E(k). Let ℓ⁺ be ℓ's holder after P′: q itself, or q's successor if q is on P′ before its head. In Theorem S's
+allocation of I⁻, the multi-good bundles are W⁻ = (J⁻ ∖ h) ∪ {B₁_{z′}} and {B₂_r, h}. **(K) holds if all three of these
+hold:**
+- q ≠ z′;
+- ℓ⁺ ≠ r;
+- not (z′ = x₁ and ℓ is a pool good of E(k) outside T).
+
+*Proof.* k values only Y_k and ℓ outside T, and v_k(Y_k) = p_k < τ. A pool good is worth less than p_k to k.
+- *{B₂_r, h}* threatens k iff v_k(B₂_r) > τ or v_k(h) > τ.
+  - v_k(B₂_r) > τ forces B₂_r = ℓ, i.e. r = ℓ⁺.
+  - v_k(h) > τ forces h = B₁_{z′} = ℓ, i.e. z′ = q.
+- *W⁻.* If W⁻ ∩ R_k is a single good, it is worth at most max(p_k, v_k(pool good)) < τ. Two goods of R_k ∖ T in W⁻
+  need Y_k ∈ W⁻, so B₁_{z′} = Y_k and z′ = x₁. They also need ℓ ∈ W⁻, so ℓ ∈ J⁻ (a pool good), or ℓ = B₁_{z′}, which
+  means z′ = q.
+- Singletons never threaten. ∎
+
+The referee found the three conditions exact on all data: 636,720 export cases and 32,164 walk cases, with 0
+counterexamples and 0 false alarms. In the phantom language, **ℓ's bundle must stay exactly {ℓ} after P′**, wherever
+P′ moves ℓ. (The charity session, `kgen/charity.md` §10, says the same: ℓ's holder is frozen for every pool good.) The
+census shows that a Theorem S case meeting the three conditions always exists for k's best pool pair (`rec_k.log`).
+RSD-EX asks for a proof of this.
+
+**Phantom class: a gap, and its fix (referee).** The class above lacks (G2) for phantoms: no junk good may be worth
+more than τ_φ to a phantom φ. Theorem S's step 3 and Lemma M^c's Claim use it.
+- The gap: if a later settlement chain ends at the holder of a pick that a phantom wants, that pick is released into
+  the junk, and putting it into the new pair T′ instead threatens the phantom.
+- The referee's hand-built instance (`k4/referee/phantom_cex.py`) has no EFX₀ completion left. Its data: v₀ = {0: 10,
+  6: 6, 7: 5}, v₁ = {0: 9, 1: 5}, v₂ = {1: 10, 2: 6, 4: 4, 5: 3}, v₃ = {2: 8, 3: 4}, σ = (0, 1, 2, 3). It settles 2 by
+  E = (2, 3) with T = {4, 5}, and then 0 by E = (0, 1) with T′ = {6, 7}, which releases good 1.
+- **Fix:** no settlement chain and no final P′ may end at a phantom-frozen agent. Phantoms count as wanters when heads
+  (and slot receivers) are chosen. An agent is *phantom-frozen* if some phantom φ values its good above τ_φ.
+- *(G2) for phantoms, by induction.* Claim: at every stage, every junk good g of the current instance has
+  v_φ(g) ≤ τ_φ for every phantom φ.
+  - *Base.* When k becomes a phantom, the junk of I⁻ is (J ∪ {Y_z}) ∖ T. Each of these goods is worth less than
+    p_k < τ_k to k: a junk good was available at k's turn, Y_z is unwanted, and values are strict.
+  - *Step.* A later move (a settlement chain E(k′) with its pair, or the final P′ with H₀′) changes the junk in only two
+    ways. It removes the goods that the move's first agent takes, and it adds the head's old good B_{z″}. By the fix,
+    the head is not phantom-frozen, so v_φ(B_{z″}) ≤ τ_φ for every phantom φ.
+  - So the claim holds at every stage.
+- Without the fix the step fails, which is the referee's instance. The fix never binds in the data (0 of 9,600 second
+  settlements at n = 4), and it cannot bind at the first settlement, because there are no phantoms yet.
+
+The referee also checked the class's other invariants. Real agents' (L) is automatic. Earlier phantoms' pairs never
+threaten later phantoms, because a later phantom was a real agent at each earlier settlement. So only the new pair
+needs a check.
+
+**Satisfied and active phantoms** (`phantom_sat.py`, `phantom_sat.log`; the charity session's question). A settled k is
+*satisfied* if v_k(R_k ∖ T) ≤ τ. Then neither (K-a) nor (K-b) can occur, and k imposes no constraint. Otherwise it is
+*active*. Counting E(k) for every order with k's best pool pair:
+
+| data | settlements | satisfied | active, ℓ a pick | active, ℓ a pool good | starts with a satisfied option |
+|---|---|---|---|---|---|
+| walk failures | 9,910 | 1,235 | 7,603 | 1,072 | 879 of 4,955 |
+| n = 4 export | 584,160 | 113,600 | 387,680 | 82,880 | 38,720 of 112,880 |
+| n = 5 walks near 5_pure#164 | 134,670 | 0 | 134,670 | 0 | 0 of 22,445 |
+
+So active phantoms are the rule. An inductive argument must bound how many there are: each active phantom freezes the
+bundle of ℓ, at most one per phantom.
+
+*Locking (the charity session's Proposition PH-L, `kgen/charity.md` §10 on `claude/kgen-charity`, not read here in
+full).* An active phantom k with ℓ a pick held by q is neutralised if q is *content with ℓ alone*:
+v_q(R_q ∖ ({ℓ} ∪ T\*)) ≤ v_q(ℓ) and v_q(T\* ∖ h) ≤ v_q(ℓ). Then q can be settled with {ℓ}.
+
+| data | active settlements, ℓ a pick | q content with ℓ alone | q itself dangerous | starts with an active ℓ-pick settlement whose q is content |
+|---|---|---|---|---|
+| walk failures | 7,603 | 1,539 | 6,501 | 1,539 of 4,599 |
+| n = 4 export | 387,680 | 268,800 | 383,600 | 89,600 of 112,880 |
+| n = 5 walks | 134,670 | 67,335 | 134,670 | 22,445 of 22,445 |
+
+So the lock is not always available, and q is almost always a sharer itself, so the lock cascades. The depth of that
+cascade is the quantity to bound.
 
 ## 15. Can Part 1 be dropped? The RSD census (the integrator's §24.3 request)
 
@@ -1307,3 +1392,368 @@ smallest failures are:
 
 **Conclusion: Part 1 (OC₁ where one move suffices) cannot be dropped.** REC-S is the second move. It is not a
 replacement for the first.
+
+## 16. Theorem S^φ: Theorem S with phantoms (the inductive step of RSD)
+
+**Setting (the phantom class, with the fix of §14).** I₀ is the full instance. Φ is a set of settled agents, the
+phantoms, each with a fixed pair T_φ and threshold τ_φ = v_φ(T_φ). I is the current instance: the agents outside Φ and
+the goods outside ∪T_φ. Y is a perfect SD start of I, with strict values. The invariants are:
+- **(P1)** every real agent i values each good of each T_φ below p_i. This is automatic: at φ's settlement it is (L)
+  (§12, remark), and values only rise.
+- **(P2)** no pair T_φ threatens another phantom at its threshold. Only the newest pair needs a check: earlier pairs
+  never threaten later phantoms, because a later phantom was a real agent at each earlier settlement (referee, §13).
+- **(P3)** (G2) for phantoms: every junk good of I is worth at most τ_φ to every phantom φ. This holds by induction
+  when no chain ends at a phantom-frozen agent (§14).
+
+**Theorem S^φ (K4.MULTI.SPHI).** In this setting, let (k, P, h) meet Theorem S's hypotheses in I (relaxed form,
+h ∈ J ∪ {Y_z}). Let W be the owner's bundle and r the receiver of h. Suppose:
+- **(S-φ1)** W threatens no phantom φ at τ_φ;
+- **(S-φ2)** r's good is not phantom-wanted: v_φ(B′_r) ≤ τ_φ for every φ;
+- **(S-φ3)** if h = Y_z, then v_φ(Y_z) ≤ τ_φ for every φ. (If h is junk, a phantom-wanted Y_z sits in W, and (S-φ1)
+  catches it.) *Added after the referee's verdict (`k4/referee/oc1max_multi.md` §14, commit 117ff9ea): CORRECT WITH
+  THIS FIX. Without it, 44 random n = 5–6 cases meet (S-φ1) and (S-φ2) and are not EFX₀.*
+
+Then Theorem S's allocation of I, with every phantom keeping T_φ, is EFX₀ in I₀. Its move P is an official move of I₀
+(Lemma LIFT 1, once per phantom, since the junk of I is the junk of I₀). So OC_{|Φ|+1} holds via the settlements, then
+P; with one settlement, this is OC₂.
+
+*Proof.* Every pair of agents is covered by one of these cases:
+- *Real vs real:* Theorem S (refereed).
+- *A real agent i vs T_φ:* removing a good of T_φ leaves one good, worth less than p_i ≤ v_i(X_i) by (P1). This uses
+  |T_φ| = 2; for a triple, (L\*) replaces (P1).
+- *A phantom φ vs a real bundle:*
+  - singletons never threaten;
+  - W is covered by (S-φ1);
+  - the two-good bundle {B′_r, h} threatens φ iff v_φ(B′_r) > τ_φ or v_φ(h) > τ_φ. The first is excluded by (S-φ2).
+    The second is excluded by (P3) for h junk, and by (S-φ3) for h = Y_z.
+- *Phantom vs phantom:* (P2). ∎
+
+Corrected Proposition K-loc (§14) is (S-φ1) ∧ (S-φ2) for a single phantom, spelled out through ℓ's travel along P′.
+
+**Checks** (`sphi.py`, `sphi.log`). RSD runs with at most two settlements. At the last step, *every* Theorem S case is
+evaluated against S^φ's hypotheses and the raw EFX₀ definition in I₀.
+
+| data | starts | last-step cases | S^φ hypotheses hold | raw EFX₀ | hypotheses without EFX₀ | EFX₀ without hypotheses |
+|---|---|---|---|---|---|---|
+| walk failures, the 12, n = 5 walks, n = 4 export | 140,292 | 748,744 | 739,144 | 739,144 | **0** | **0** |
+
+So the hypotheses are sufficient (the theorem) and, on this data, also necessary. (`sphi.py` tests (S-φ2) on both goods of the receiver's
+bundle, h included, so the census already contains (S-φ3).) The referee's independent check, own code: n = 4 export 636,720
+cases, walks 32,164, random 80,486 with one phantom, and random 1,632 with two. With (S-φ3), the hypotheses equal raw
+EFX₀ everywhere. Every one of the 140,292 failing
+starts reaches an S^φ case after exactly one settlement (two moves in all).
+
+*What RSD-IND (K4.MATCH.RSDIND) now needs is existence alone:* at every stage, some settlement or some Theorem S case
+meets (S-φ1), (S-φ2) and the head condition. Everything else is a written proof:
+- SD-E (refereed) for the starts;
+- LIFT (refereed) for the moves;
+- S^φ for the completion;
+- (P1)–(P3) for the invariants.
+
+**Triple settlements, and the seven REC-S gaps of kgen-rounds** (`sphi.py` with TMAX=3 and ZERO=1;
+`sphi_gaps7.log`; the rows are in `recs_gaps7_kgen.jsonl`).
+
+kgen-rounds found seven n = 5 starts with no REC-S repair: 5_pure #38, #419, #447, #773, #813, #963 and #1073
+(`results/kgen_rounds/recs_gaps_5pure.log` on `proof/kgen-rounds`). At #773 and #963 no frozen agent has an improving
+junk pair. Two extensions are tried there.
+
+*Extension 1: settling by a triple.* k takes an improving pool triple T, so |R_k ∖ T| ≤ 1 and k values only Y_k
+outside T. Then v_k(Y_k) = p_k < τ_k, so k is a *satisfied* phantom and never threatened.
+- LIFT's hypothesis is no longer automatic: removing one good of T leaves two goods. So the settlement must check
+  **(L\*)**: T threatens no other agent of the current instance. 55 triples fail it on these seven starts.
+- With (L\*) in place of (P1), Theorem S^φ's proof goes through unchanged.
+
+*Extension 2: completing at once.* The last step may also be a completion of the reduced start with no further move.
+This is the matching session's RSD form.
+
+Counting total moves (two moves = OC₂^max):
+
+| settlement sets | last step | repaired in two moves |
+|---|---|---|
+| pairs | S^φ move | 0 (#38 needs three) |
+| pairs and triples | S^φ move | #773, #963 |
+| pairs | completion at once | 3 |
+| pairs and triples | either | **#38, #773, #813, #963, #1073** |
+
+**5_pure #419 and #447 are repaired by none of these forms** within two settlements. Their repairs need a first move
+that is not a settlement, such as the wider OC₁′ move. (*Correction:* a first version of this table also listed #1073
+as unrepaired. That version's completion-at-once check lifted only one witness completion per absorber. With every
+completion tried, #1073 is repaired by two pair settlements and a completion at once, as in the matching session's
+witnesses, `results/k4_matching/rsd_5pure_witnesses.json.gz` on `proof/k4-matching`, commit 36ef09e6.) "Hypotheses ⇒ raw EFX₀" held in every case here, with 0
+violations.
+
+**Depth ≥ 3, and the exact obstruction** (`rsd_gaps.py`, `rsd_gaps.log`; coordinator's request). Depth 3 and 4 with
+S^φ change nothing. The available settlements at the seven starts were therefore listed directly. For each, the
+completions of the reduced instance after at most one move were counted, and how many of them lift.
+- *#38, #773, #813, #963* are repaired by settle-then-complete, as above.
+- *#1073:* settling 2 by (2, 3) with T = {4, 5} leaves 171 completions after at most one move, and 20 of them lift.
+  Settling 4 by (4, 3) with T = {4, 5} leaves 116, and 12 lift. Every one-absorber completion is counted here; the first
+  version counted one witness per absorber. So #1073 is repaired by "settle, then one move of I⁻", and also by two
+  settlements and a completion at once.
+- ***#419 and #447: RSD cannot repair them at any depth.*** The obstruction is the same at both:
+  - The other sharers (1 and 2 at #419; 2 and 3 at #447) have only *triples* as improving pool sets. Each of these
+    triples threatens agent 4, so (L\*) fails.
+  - The only settlement is therefore agent 4, by (4, 3) with T = {8, 9} at #419, and by (4, 1) with T = {9, 10} at
+    #447.
+  - After it, the reduced instance has 29 completions (#419) and 43 (#447) after at most one move, counting every
+    one-absorber completion. Every one of them threatens the phantom 4. No second settlement is possible.
+
+  So agent 4 blocks both routes. As a real agent it is threatened by every other sharer's settlement. As a phantom,
+  every repair of the rest threatens it. This is the **central-sharer obstruction (RSD-X)**.
+- The repair of these two is kgen-rounds' ROUND-P: one OC₁′ move or two disjoint moves. RSD-IND therefore needs a
+  first step that is not a settlement. The natural candidate is an OC₁′-style move that gives agent 4 its pair *and*
+  moves the others at once.
+
+## 17. Rounds: Lemma SD-E for a round, and (L\*) at the end of a round (ROUND-RSD's proof tools)
+
+A *round* settles a set K of dangerous agents at once. Each k ∈ K gets a chain P_k, and the chains are vertex-disjoint.
+P_k is a **prefix** of the earliest-wanter chain E(k): x_l is the σ-earliest wanter of Y_{x_{l−1}}, and P_k stops at
+some head z_k, which may be frozen at the picks. k takes an improving T_k ⊆ (J ∪ {Y_{z_k}}) ∩ R_k, with |T_k| ≤ 3, and
+the T_k are pairwise disjoint.
+
+Full chains E(k) never form disjoint rounds in these data. When u = 1 they share their head. The repairs of ROUND-P
+stop a chain early, at a head whose wanters the round serves. At 5_pure (10, 419) this is (0, 4) with {0, 7}, where
+7 = Y_4 is the head's pick, together with (1, 3) with {1, 8, 9}.
+
+**Lemma SD-E(round) (K4.MULTI.SDER).** *Refereed CORRECT (`k4/referee/oc1max_multi.md` §15, commit 135c4ef0: 312,732
+random rounds, 45,542 of them with a chain stopped early; (H) ⇔ conclusion; arbitrary want-chain prefixes instead of
+E(k) prefixes give 8,457 violations, so earliest-wanter prefixes are needed).* Values are strict. Suppose:
+- **(H)** every agent outside K that wants a *released* head pick Y_{z_k} at the picks (a pick not taken into any
+  T_k′) values its good after the round above that pick.
+
+Then the state after the round, without K and ∪T_k, is the SD outcome of σ with K deleted.
+
+*Proof.* This is the proof of SD-E (§12) with one new case. Let a be an agent outside K, b_a its good after the round,
+and g an available good with v_a(g) > v_a(b_a) ≥ p_a.
+- If g is junk of I, then v_a(g) < p_a. Contradiction.
+- If g is a pick Y_j, then a wanted it, so σ(j) < σ(a). g's holder after the round comes after a, so j lies on some
+  P_k and σ(x_l) < σ(a) < σ(x_{l+1}). This contradicts x_{l+1} being the earliest wanter. The chains are disjoint, so
+  each good has one holder, and the argument runs inside the chain that moved g.
+- *New case:* g is a released head pick Y_{z_k}. Then a wanted it at the picks, and (H) excludes that.
+(H) is vacuous when every chain is a full E(k), because the head is unwanted, or when every frozen head's pick goes into
+the T of its chain, as at (10, 419). ∎
+
+Without (H) the lemma fails. Single chains stopped early fail it 29 times on the seven gaps, every time with a frozen
+head's pick released.
+
+**(L\*) at the end of a round.** No T_k may threaten any other agent at its value *after* the round:
+- real agents at their new values;
+- the other members of K at their thresholds τ_k′.
+
+For a single full-E(k) pair settlement this is automatic (§12). In a round it is not, for two reasons. A released or
+taken head pick may be wanted by someone. And the agents a triple threatens at their pick values may be lifted by the
+round's other chains. That second effect is exactly what makes (10, 419) work: {1, 8, 9} threatens agent 4 at its pick
+value, but not after 4 takes 0's pick in the chain (0, 4).
+
+*When a round follows earlier settlements* (referee's remark), it must also satisfy two conditions toward the earlier
+phantoms φ:
+- the new T_k threaten no earlier phantom at τ_φ ((P2) for the newest pairs);
+- every released head pick is worth at most τ_φ to the earlier phantoms ((P3), the §14 fix).
+
+Earlier pairs never threaten the new phantoms, because those were real agents then.
+
+With (L\*) at the end of the round as invariant (P1\*)–(P2) for the round's phantoms, Theorem S^φ's proof (§16) goes
+through unchanged. Its (P3) base case additionally needs every released head pick to be worth at most τ_k to each
+k ∈ K. In the census below this is checked raw, as part of the lifted EFX₀ test.
+
+**Census** (`round_sde.py`, PREFIX=1; `round_sde_gaps7.log`):
+
+| at the seven gaps | rounds | SD-E(round) | (L\*)-round | repaired (raw EFX₀, every completion lifted) |
+|---|---|---|---|---|
+| \|K\| = 1 (prefix chains) | 248 | 219, and 29 failures, exactly the 29 rounds where (H) fails | 70 | #773, #963 (by a Theorem S move) |
+| \|K\| = 2 (disjoint prefix chains) | 163 | **163** | 150 | **#419, #447, #1073**, all 150 by a completion at once |
+
+**Every one of the seven gaps is repaired:**
+- #419, #447 and #1073 by one round of two simultaneous settlements and a completion;
+- #38, #773, #813 and #963 by sequential settlements (§16).
+
+So ROUND-RSD's proof tools are SD-E(round) under (H) and (L\*) at the end of the round, with Theorem S^φ and the
+completion at once as the last step.
+
+**Corollary S^φ(round) (K4.MULTI.SPHIR).** *Refereed CORRECT (`k4/referee/oc1max_multi.md` §16).* Theorem S^φ (§16, with (S-φ3)) holds verbatim when the phantoms were settled
+in rounds (SD-E(round), refereed). The invariants then read:
+- **(P1\*)** (L\*) at the end of each round: no T_k threatens a real agent at its value after the round. Values only rise
+  afterwards, so it persists.
+- **(P2)** within a round, (L\*) at the round's end toward the round-mates at their τ. Toward earlier phantoms, the new
+  sets must threaten none of them. Earlier sets never threaten later phantoms.
+- **(P3)** every pick a round releases is worth at most τ_φ to every phantom, those of the round included. After that,
+  the induction of §14 applies.
+
+*Proof.* S^φ's proof uses the invariants only at the final state, as a case split over real/real, real/phantom,
+phantom/real and phantom/phantom pairs. (P1\*) gives the real/phantom case for sets of any size. (P2) and (P3) give the
+rest as before. ∎
+
+This makes S^φ the step of the matching session's ROUND-RSD, which repairs every start of its data with rounds of at
+most two settlements and a completion at once (`proof/k4-matching`, commit 56e64a9f; at (11, 447) the round is
+{(0, 4), {0, 8}} + {(2, 1), {3, 9, 10}}). **The base case is not a pure reduction.** The matching session finds
+reduction failing at 35 of 10,109 one-move starts:
+- T3-type starts, where the settled head must also absorb a junk good;
+- 6 starts that need a junk-taking chain agent after the head; the smallest is ls-alt-rule-n4m7.
+
+So the base case must be an OC₁-type move with phantoms. Theorem S^φ's own move is such a move, but it does not cover
+those 35. They are this note's RING2 and the T3 family (§11).
+
+**ROUND-RSD inside the refereed tools** (`round_prefix.py`, `round_prefix.log`; `round_e.py`, `round_e.log`).
+- The matching session's ROUND-RSD (`k4/matching/round_rsd.py` on `proof/k4-matching`, commit 47e0bfd9) allows any
+  canonical chains and checks the SD property directly. So Lemma SD-E(round), which needs earliest-wanter prefixes,
+  does not cover its witnesses as found. On its 280 5_pure witnesses, 146 of the 410 rounds use a chain that is not an
+  E-prefix under any SD order of the round's start. (H) holds in all 410.
+- `round_e.py` therefore searches only the rounds SD-E(round) covers:
+  - every chain is an E-prefix;
+  - (H) holds;
+  - (L\*) holds at the round's end, toward every agent and every earlier phantom;
+  - (P3) holds for released picks.
+
+  At most two rounds of at most two settlements are allowed, followed by a completion at once (every one-absorber
+  completion, lifted, raw EFX₀).
+
+| data | starts | repaired | rounds needed | SD-E(round) violations |
+|---|---|---|---|---|
+| 5_pure, 280 two-move starts (`n5_5pure_s5o0`) | 280 | **280** | 1 round: 2; 2 rounds: 278 | 0 |
+| n = 5 walks near 5_pure#164 | 22,445 | **22,445** | 2 rounds | 0 |
+| n = 4 export | 112,880 | **112,880** | 2 rounds | 0 |
+| certifier's partial n = 5 export, every 50th start (`two_move_starts_n5_partial6_s50`, `round_e_n5partial.log`; the matching session's run agrees) | 14,047 | **14,047** | 2 rounds | 0 |
+
+So on all these data the repair is built entirely from refereed parts:
+- the starts, by SD-E(round);
+- the moves, by LIFT;
+- the invariants, by (L\*) at the end of each round, (P2) and (P3);
+- the completion, which is checked raw.
+
+What remains open:
+- the existence of such rounds at every two-move start (ROUND-IND);
+- the base case at the one-move starts that pure reduction misses (the T3 family, §11).
+
+**Certified on three complete n = 5 cores (K4.MULTI.ROUNDE.SEL2).** The certifier exported every two-move start of
+5_pure m = 10 #419 (276,480 starts), m = 11 #447 (115,200) and m = 9 #38 (192,000): 583,680 in all. Completeness is
+certified at 14904a87 on `compute/k4-oc1max-cert`; the matching session's copy is
+`results/k4_matching/data/two_move_starts_n5_sel2.json.gz`.
+- `round_e.py` with WITNESS (`round_e_sel2.log`, `round_e_sel2_witnesses.json.gz`) repairs **all 583,680**, by
+  E-prefix rounds and a completion at once:
+  - every #419 and #447 start by one round of two settlements;
+  - every #38 start by two rounds of one.
+- `check_rounds.py` is self-contained: it imports nothing from this workstream. It re-checks every witness from the
+  definitions (`check_rounds_sel2.log`):
+  - the SD picks;
+  - each round's dangerous agents and E(k)-prefix chains, with the chains disjoint and official;
+  - T inside the pool, improving and disjoint;
+  - the stated state after the round;
+  - (H), SD-E(round), (L\*) at the round's end, (P2) and (P3);
+  - that the final completion is complete, extends the last state by junk only, has one absorber, gives settled agents
+    nothing, and is raw EFX₀.
+- Result: **583,680 ok**. All 17,511 negative tests are rejected. The witness starts equal the export's as a multiset
+  (sha256 recorded): 0 missing, 0 extra.
+- *Audit:* the referee read `check_rounds.py` line by line and re-validated every witness with its own code
+  (58,370 mutants, 0 accepted; `k4/referee/oc1max_multi.md` §17): **CONFIRMED**. Following the referee's robustness
+  remark, the checker's E(k) loop now rejects a want-cycle instead of looping; none occurs in these inputs.
+- *Second checker:* the matching session's `check_rsd.py --inline` (its own implementation) verifies all 583,680
+  witnesses from the raw definitions, and finds their starts equal to its copy of the export
+  (`results/k4_matching/check_rsd_multi_round_e_sel2.log` on `proof/k4-matching`).
+
+So at these three cores, which defeat REC-S and every sequential settlement at #419 and #447, the round step is
+certified in its refereed form: SD-E(round), (L\*) at the end of the round, LIFT, and the S^φ(round) invariants.
+"Every start" inherits the completeness of the certifier's export.
+
+**The P1-free rule** (the base-phantom session's proposal; `k4/base_phantom.md` on `proof/k4-base-phantom`, PR #139;
+not read here in full). A settlement is *P1-free* if every good of R_k ∖ T_k is worth at most τ_k to k. By their
+Proposition SEP, such a phantom is threatened only by a bundle of three or more goods that contains both of its outside
+goods. Then (P3), (S-φ2) and (S-φ3) are automatic, and no agent is phantom-frozen. Their rule: rounds that are not
+final may use only P1-free settlements. Their reason is that dead ends, where no admissible round is left, are mostly
+infeasible, and they always involve a P1 phantom.
+
+An independent check with this note's code (`round_e.py` with P1FREE=1: a round containing a P1 settlement must be
+followed directly by a completion at once; `round_e_p1free.log`):
+
+| data | starts | repaired | rounds with a P1 settlement (all final) |
+|---|---|---|---|
+| walk failures | 4,955 | **4,955** | 3,004 |
+| 5_pure two-move sample | 280 | **280** | 212 |
+| partial n = 5 export sample | 14,047 | **14,047** | 11,708 |
+| n = 4 export | 112,880 | **112,880** | 12,080 |
+
+So the rule loses nothing on these data. P1 settlements still occur often, but only in the final round, where
+S^φ(round) handles them.
+
+## 18. ROUND-IND: which round-choice rule never gets stuck?
+
+Greedy rounds dead-end at 16,240 n = 4 starts (matching), so ROUND-IND is existential. The question here is the weakest
+*rule* for choosing rounds that never gets stuck. `round_safe.py` (`round_safe.log`) takes every admissible first round
+of `round_e.admissible_rounds` at every start:
+- E-prefix chains, |K| ≤ 2;
+- (H), (L\*), (P2) and (P3);
+- SD-E(round), asserted.
+
+Each round is classified as follows:
+- a *P1-free* round (every settled k values each good outside T_k at most τ_k) is **safe** if the state it leaves is
+  still repairable (further rounds, P1 rounds only as the last round, then a completion at once);
+- a *P1* round is safe if it completes at once.
+
+| data | starts | (G0) some round safe | (G1) every P1-free round safe | P1-free rounds (all / safe) | starts with a P1-free round |
+|---|---|---|---|---|---|
+| kgen-rounds' seven REC-S gaps | 7 | 7 | 7 | 173 / 173 | 6 |
+| walk failures | 4,955 | 4,955 | 4,955 | 6,906 / 6,906 | 4,955 |
+| **n = 4 export (all)** | 112,880 | 112,880 | **112,880** | 564,720 / 564,720 | 112,880 |
+| **5_pure #419, #447, #38, complete** | 583,680 | 583,680 | **583,680** | 28,968,960 / 28,968,960 | 583,680 |
+| 5_pure two-move sample (`n5_5pure_s5o0`) | 280 | 280 | 279 | 2,142 / 2,124 | 268 |
+
+(G2) holds everywhere: when no P1-free round is admissible (12 sample starts and #1073), some P1 round completes at
+once.
+
+So the rule **"take any admissible P1-free round; when there is none, finish with a P1 round"** holds at every n = 4
+start and at all 583,680 adversarial n = 5 starts. It fails at exactly one start of all data.
+
+**The counterexample to (G1): 5_pure #963, sample profile v₀ = {0: 3, 1: 6, 5: 10, 7: 8}, v₁ = {1: 2, 6: 3, 7: 4,
+8: 8}, v₂ = {2: 4, 3: 6, 4: 5, 6: 8}, v₃ = {2: 5, 3: 4, 4: 6, 8: 8}, v₄ = {5: 7, 6: 6, 7: 3, 8: 5}, picks (5, 1, 6, 8, 7).**
+Agents 2 and 3 share the junk set {2, 3, 4}.
+- *Settling 3* by (3, 4, 1) with any pair is safe.
+- *Settling 2* by (2, 4, 1) with any pair is a dead end, even with three or four more rounds allowed. After it:
+  - agent 3's only chain (3, 1) releases good 7, which 3 does not value, so 3 has one pool good and no improving set;
+  - agent 0's pool pair {0, 1} is worth 9 < 10;
+  - no completion at once exists.
+
+The other two profiles of #963 in the sample are safe either way. So (G1) is false in general, and the right rule must
+choose *which* sharer to settle. The obvious candidate, "the sharer whose chain releases a good the other sharer values",
+does **not** separate the two: both chains end at agent 1 and release good 1, which neither sharer values. The
+separating fact is the third dangerous agent 0.
+- After 3 settles, E(0) = (0, 4, 1) reaches good 7, worth 8 to 0, so 0 has the improving set {0, 7}.
+- After 2 settles, agent 4 holds 6 and nobody wants it, so E(0) = (0, 4) releases 6, which 0 does not value. Agent 0
+  is stranded.
+
+A correct rule must therefore keep every remaining dangerous agent's improving set reachable. That is a one-step
+look-ahead, as in the base-phantom session's GR.
+
+What is open is **ROUND-IND(G0)**, existence. On all data it holds as: every two-move start has a safe round, and in all
+but one start every P1-free round is safe. The refinement of (G1) that excludes #963 is the next target.
+
+**How (G1) nests with the base-phantom session's GR** (`k4/base_phantom.md`, conjecture BASE-R, ledger K4.BASE.GR, PR
+#152 on `proof/k4-base-phantom`; read here only as relayed by that session). GR is a *rule*. At each state it stops at
+the first of these:
+- a lifted completion;
+- a final round (P1 settlements allowed) completing at once;
+- an **ED repair**: x₀ dangerous, canonical links with no junk, and the last agent may take its predecessor's good plus
+  junk.
+
+Only when all three fail does it take any admissible P1-free round. BASE-R says GR never gets stuck, whatever choices it
+makes.
+
+So **(G1) is strictly stronger than GR**, because it has only completions and rounds as stops, and #963 separates the
+two:
+- GR stops at the start of #963, with the final round (0, (0, 4), {0, 7}) + (3, (3, 1), any pair).
+- After the bad round, settling 2 by (2, 4, 1), there is no admissible round, but an ED repair exists. It is the ring
+  (0, 4, 1): 0 takes {0, 7}, 4 takes 0's pick 5 (7 > 6), and 1 takes 6 plus junk 1, a weak last link (3 + 2 > 4,
+  though 1 does not want 6 alone). The allocation [[0, 4, 7], [1, 6], [2, 3], [8], [5]] is raw EFX₀ in I, checked
+  here.
+
+So agent 0 is not stranded once the chain's end may take junk. The (G1) refinement "keep every other dangerous agent's
+improving set reachable" would avoid needing the ED stop. GR instead makes the ED stop part of the rule.
+
+*Follow-up (the base-phantom session's gr.py MODE=GRRE, `proof/k4-base-phantom` commit cd4a74b; their
+`k4/base_phantom.md` §5; not re-run here).* GRRE is round-first with E-prefix rounds only, and its stops are a
+completion, a final round, or an ED repair.
+- It is safe on every two-move data set: n = 4 (112,880), walks (4,955), the n = 5 s50 sample (14,047) and 5_pure
+  (280). That includes the 8 5_pure starts where their any-chain round-first variant gets stuck. So **the E-prefix
+  restriction is what keeps (G1) safe at two-move starts.**
+- At *one-move* starts, round-first gets stuck at 154 of them. A round taken where a one-move repair exists can be
+  fatal, as at the 35 starts where pure reduction fails.
+
+So the base must be checked first (GR's order), and (G1) is a statement about two-move starts only.

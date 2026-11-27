@@ -1,0 +1,70 @@
+$ python3 k4/oc1cert/good_orders.py results/k4_oc1max/n5/two_move_starts_n5_partial6.json.gz good_orders_partial6_s50.json.gz --stride=50 --jobs=2
+failing starts 14045 hypergraphs 6
+... 500, 10 s
+... 1000, 21 s
+... 1500, 33 s
+... 2000, 45 s
+... 2500, 55 s
+... 3000, 67 s
+... 3500, 79 s
+... 4000, 92 s
+... 4500, 102 s
+... 5000, 111 s
+... 5500, 118 s
+... 6000, 126 s
+... 6500, 133 s
+... 7000, 140 s
+... 7500, 150 s
+... 8000, 158 s
+... 8500, 188 s
+... 9000, 216 s
+... 9500, 257 s
+... 10000, 301 s
+... 10500, 350 s
+... 11000, 389 s
+... 11500, 423 s
+... 12000, 432 s
+... 12500, 442 s
+... 13000, 451 s
+... 13500, 461 s
+... 14000, 471 s
+(good, bad) pick vectors 10, 1 1159
+(good, bad) pick vectors 10, 2 311
+(good, bad) pick vectors 11, 1 2067
+(good, bad) pick vectors 11, 2 500
+(good, bad) pick vectors 12, 1 2299
+(good, bad) pick vectors 12, 2 265
+(good, bad) pick vectors 13, 1 1966
+(good, bad) pick vectors 13, 2 31
+(good, bad) pick vectors 14, 1 910
+(good, bad) pick vectors 14, 2 56
+(good, bad) pick vectors 15, 1 664
+(good, bad) pick vectors 15, 2 25
+(good, bad) pick vectors 16, 1 318
+(good, bad) pick vectors 16, 2 6
+(good, bad) pick vectors 17, 1 468
+(good, bad) pick vectors 17, 2 9
+(good, bad) pick vectors 18, 1 76
+(good, bad) pick vectors 18, 2 19
+(good, bad) pick vectors 19, 1 50
+(good, bad) pick vectors 19, 2 16
+(good, bad) pick vectors 20, 1 42
+(good, bad) pick vectors 7, 1 682
+(good, bad) pick vectors 8, 1 920
+(good, bad) pick vectors 9, 1 1186
+bad pick vectors with 1 receivers 15283
+good pick vectors with 1 receivers 50581
+good pick vectors with 2 receivers 96970
+good pick vectors with 3 receivers 15879
+good pick vectors: OC1 fails 0
+good pick vectors: one move repairs 40801
+good pick vectors: picks complete 122629
+starts 14045
+candidate rules (True: the rule picks a good order; False: a bad one; None: it picks nothing):
+   every pick vector with the most receivers is good {True: 14045}
+   some pick vector with the most receivers is good {True: 14045}
+   every pick vector with >= 2 receivers is good {True: 14045}
+   the most frequent pick vector is good {True: 14045}
+   every order starting with a receiver of the failing start is good {True: 14045}
+   Hamming distance from the failing picks to the nearest good picks {2: 14045}
+wrote good_orders_partial6_s50.json.gz 481 s

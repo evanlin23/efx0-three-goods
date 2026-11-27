@@ -1,0 +1,8 @@
+$ python3 k4/oc1max_multi/round_prefix.py results/k4_matching/round_rsd_5pure_witnesses.json.gz (proof/k4-matching, 47e0bfd9) results/k4_matching/data/n5_5pure_s5o0_two_move_starts.jsonl.gz
+(H) holds 410
+round: all chains E-prefixes (one common order) 264
+round: some chain NOT an E-prefix 146
+rounds 410
+rounds of size 1 260
+rounds of size 2 150
+witnesses 280

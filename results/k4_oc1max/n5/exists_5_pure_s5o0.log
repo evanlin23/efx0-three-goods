@@ -1,0 +1,12 @@
+$ python3 k4/oc1cert/exists_n5.py results/k4_oc1max/n5/5_pure_s5o0_summary.jsonl.gz exists_5_pure_s5o0.json.gz --jobs=2
+cores with OC1^max failures 137 of 935
+... 20, 154 s
+... 40, 325 s
+... 60, 520 s
+... 80, 735 s
+... 100, 1028 s
+... 120, 1333 s
+iterations 144509
+result certified 137
+time 1594 s
+wrote exists_5_pure_s5o0.json.gz
