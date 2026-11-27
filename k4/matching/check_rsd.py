@@ -83,7 +83,7 @@ def check(sets, st, w):
 
 
 def load(path):
-    if 'two_move_starts' in path:
+    if path.endswith('.json.gz'):
         d = json.load(gzip.open(path, 'rt'))
         return [(hg['sets'], s) for hg in d['hypergraphs'] for s in hg['starts']]
     op = gzip.open if path.endswith('.gz') else open

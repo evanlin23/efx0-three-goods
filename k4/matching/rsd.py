@@ -7,7 +7,9 @@ One reduction step at a state B of the current instance I' (a perfect SD start o
   - k takes a pair T inside (J' + B_end) with v_k(T) > v_k(B_k);
   - Lemma LIFT's hypothesis in I': every other agent of I' values each good of T below its value after P.  With
     TSIZE=any, T is any improving subset of (J' + B_end) instead, provided it threatens no other agent of I' at its
-    value after P.  For a pair this is the same condition, up to ties.
+    value after P.  For a pair this is the same condition, up to ties.  With LSTAR=defer, (L*) is not required at
+    the step at all.  Only the final allocation's raw EFX0 test in I applies, so a deleted T may threaten an agent
+    until a later step raises that agent's value.
   - the reduced state (k and T deleted) is again a perfect SD outcome of the smaller instance I'' (checked over all
     orders). With MODE=E, P must instead be the earliest-wanter chain E(k) of a tracked order, and the reduced
     state's order is that order minus k (Lemma SD-E, multi session).
@@ -33,6 +35,7 @@ from n5_census import load
 
 MODE = os.environ.get('MODE', 'canon'); DMAX = int(os.environ.get('DMAX', '4'))
 TSIZE = os.environ.get('TSIZE', '2')   # '2': pairs T (Lemma LIFT); 'any': any improving T that threatens nobody
+LSTAR = os.environ.get('LSTAR', 'now')  # 'now': (L*) at the step; 'defer': no (L*) at the step, only the final raw check
 
 
 def sub_instance(I, alive, goods):
@@ -95,7 +98,8 @@ def steps(I, alive, goods, B, orders):
                 if Im.V(km, T) <= Im.V(km, Bm[km]): continue
                 nb = [list(b) for b in Bm]; nb[km] = list(T)
                 for t in range(1, len(P)): nb[P[t]] = list(Bm[P[t - 1]])
-                if TSIZE == '2':
+                if LSTAR == 'defer': pass
+                elif TSIZE == '2':
                     if any(Im.v[i].get(g, 0) >= Im.V(i, nb[i]) for i in range(Im.n) if i != km for g in T): continue
                 elif any(Im.threat(i, list(T), Im.V(i, nb[i])) for i in range(Im.n) if i != km): continue
                 shared = any(q != km and Im.V(q, [g for g in T if g in Im.R[q]]) > Im.V(q, Bm[q]) for q in Dm)
@@ -189,7 +193,7 @@ if __name__ == '__main__':
     for r in rows:
         key = json.dumps([r['sets'], r['vals'], list(r['picks'])])
         if key not in seen: seen.add(key); R.append(r)
-    print('$ MODE=%s TSIZE=%s DMAX=%d python3 k4/matching/rsd.py' % (MODE, TSIZE, DMAX), *sys.argv[1:], '|', len(R), 'distinct starts', flush=True)
+    print('$ MODE=%s TSIZE=%s LSTAR=%s DMAX=%d python3 k4/matching/rsd.py' % (MODE, TSIZE, LSTAR, DMAX), *sys.argv[1:], '|', len(R), 'distinct starts', flush=True)
     for t, r in enumerate(R): r['_k'] = t
     T = collections.Counter(); t0 = time.time(); WIT = []
     with mp.Pool(int(os.environ.get('PROCS', mp.cpu_count()))) as pool:

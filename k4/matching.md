@@ -842,6 +842,59 @@ What an induction on n would need, in this form, is the open statement:
 Lemma LIFT\* turns RSD-IND into EFX₀ existence, with no bound on the number of moves. The dead ends show that RSD-IND
 must be existential, not "every step works".
 
+**RSD-IND is false at n = 5** (`attempts/k4-matching-rsd-lstar.md`, `attempts/k4_matching_rsd_n5.py`,
+`results/k4_matching/rsd_n5_cex.log`; ledger K4.MATCH.RSDIND REFUTED). Two of the certifier's sampled n = 5 starts,
+5_pure m = 10 idx 419 and m = 11 idx 447, have no RSD sequence of any depth. This is confirmed by two independent
+brute forces, one with arbitrary final assignments.
+- Each start has two sharers whose sets threaten an agent that only the other sharer's chain improves. So (L\*) fails
+  for whichever is settled first.
+- With (L\*) deferred to the final EFX₀ test, two vertex-disjoint steps repair both. That is one round of two
+  simultaneous moves, the coordinator's ROUND form.
+- What an induction must then carry, besides Lemma PHANTOM's phantom constraints, is **demands**. A present agent i
+  threatened by a deleted T must finish with value at least v_i(T) − min_{g∈T} v_i(g). In the slot graph of Lemma M
+  this is an exposed slot that must be compensated.
+
+> **Conjecture RSD-D (K4.MATCH.RSDD).** The deferred form. At a perfect SD start (≤ 4 relevant goods per agent)
+> carrying phantom constraints and demands from earlier steps, either a completion meets them all, or some reduction
+> step (without (L\*)) leads to a reduced instance that satisfies the hypothesis again, with its new demands.
+
+Lemma LIFT\* holds for RSD-D with (L\*) read at the final values. Its proof only uses that no T threatens an agent at
+that agent's final value. Evidence: all n = 4 starts, the 23,924 n = 5 walk starts, and all 280 sampled 5_pure starts
+(below).
+
+**The certifier's first n = 5 chunk** (5_pure_s5o0, commit 259289f9 of compute/k4-oc1max-cert; OC₂^max certified
+there on all 935 hypergraphs).
+- Data: its summary samples up to 3 two-move starts on each of the 137 hypergraphs with one, 280 starts in all. The
+  copy is `results/k4_matching/data/n5_5pure_s5o0_two_move_starts.json.gz` (and `.jsonl.gz`), with the SD orders added
+  here. This is a sample, not an enumeration.
+- Every start was re-verified as hard (raw) and has exactly one holder.
+
+| mechanism (code) | starts repaired, of 280 |
+|---|---|
+| CM₂, first move + Lemma EX\* exchange (`n5_census.py`) | **280** |
+| ROUND-P, one round of ≤ 2 disjoint OC₁′ moves (coordinator's `roundp_check.py`) | **280** (1 move: 234, 2: 46) |
+| RSD-D, reductions with (L\*) deferred (`rsd.py`, LSTAR=defer) | **280** (2 steps) |
+| RSD, reductions with (L\*) at the step (`rsd.py`; `check_rsd.py` verifies 278 witnesses) | 278 |
+| OC2-REC, this note's implementation (`n5_census.py`; `check_rec.py` verifies 274 witnesses) | 274 |
+| OC2-REC, multi's `reduce_check.py` ("SD and lifts with k keeping T") | 276 |
+| REC-S, multi's `reduce_s.py` / `recs_witness.py` + `check_recs.py` | 273 |
+| LIFT-SHAPE⁺ (refuted form) | 132 |
+
+The logs are `n5_census_5pure_s5o0.log`, `check_rec_5pure_s5o0.log`, `rsd_5pure_s5o0_*.log`,
+`check_rsd_5pure_s5o0.log`, `multi_tools_5pure_s5o0.log` (the multi session's code at 8924c6b3, unmodified) and
+`roundp_5pure_s5o0.log` (the coordinator's code at 6faed757, unmodified).
+- 4a / 4b: 240 starts have a vertex-disjoint repairing pair and 40 do not.
+- The mechanisms fail together on few starts:
+  - the 2 RSD failures (idx 419, 447 above) also fail OC2-REC and REC-S, and both are 4a;
+  - 4b start m = 9, idx 38 fails only REC-S;
+  - every other failure of OC2-REC or REC-S is 4a and is repaired by RSD.
+- EX\* is no longer exact on the second move. At 60 starts, 91 first moves have a repairing second move but no EX\*
+  exchange.
+  - At 90 of them some repairing second move has an S\* completion. At 83 of those, a junk good is wanted after it,
+    so Lemma M's hypothesis (G2)/(W′) fails there.
+  - One needs a non-S\* completion.
+  - CM₂ still holds at every start, through another first move.
+
 ## 7. Climbs and reproduction
 
 **Climbs against CM** (`k4/matching/cm_climb.py`; `results/k4_matching/cm_climb_*.log`). The climbs maximize hard
