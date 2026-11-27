@@ -2187,6 +2187,34 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
     - TTC's remark that RF-canon follows from K4.SDC.RF no longer applies, since the every-form is refuted.
       RF-canon stands as its own conjecture.
 
+**Conjecture FAIL-STRUCT₀ (structure of failing starts)** (2026-11-27 09:40 UTC, coordinator; ledger K4.SDC.FAILSTRUCT0).
+This is a precise, data-checked form of k3-oc1's draft Theorem FAIL-STRUCT (`k4/k3_oc1.md` §13.7). It is a
+*necessary* structure: the shape every OC₁-failing start has, not a criterion for failing.
+- **Definitions at the picks Y, with junk J.**
+  - *Frozen*: a pick holder whose pick another agent prefers to its own.
+  - *Dangerous* (D): frozen and values some junk good.
+  - *Truly dangerous* (D_T): frozen and v(J) > its pick value.
+  - *Receiver*: a pick holder that is not frozen.
+- **Statement.** In every strict connected k = 4 core, every OC₁-failing maximum-matching SD start has exactly one
+  receiver u, |D_T| ≠ 1, and:
+  - (S2) if |D_T| = 0: some dangerous x and u value each other's picks (v_x(Y_u) > 0 and v_u(Y_x) > 0);
+  - (S1′) if |D_T| ≥ 2: two truly dangerous agents x ≠ y have minimal junk sets H_x, H_y with v_x(H_x) > p_x,
+    v_y(H_y) > p_y and H_x ∩ H_y ≠ ∅. That is, they compete for junk.
+- **Evidence** (`k4/sdc/failstruct_check.py`; logs `results/k4_sdc/failstruct_check_{n4,n5_sel2,n5_partial6}.log`; one
+  implementation).
+  - All 112,880 n = 4 failing starts (the complete export) have |D_T| = 2 and (S1′). The literal pair form (S1) of the
+    draft already holds there.
+  - All 583,680 starts of the complete n = 5 lists:
+    - #419: |D_T| = 0, (S2);
+    - #38: |D_T| = 2, (S1′);
+    - #447: |D_T| = 3, (S1′). At #447 no junk *pair* threatens two truly dangerous agents, so the draft's pair form
+      (S1) fails there; three agents share junk {9, 10} and each needs a third, private, good.
+  - All 702,250 partial-list starts: |D_T| = 0 ⟹ (S2) at 287,501, and |D_T| = 2 ⟹ (S1′) at 414,749.
+  - The draft's (S3) is never needed.
+- **Use.** A proof of RF∃ / RF-canon can split on |D_T|: the (S2) case is the pick-swap mechanism, and the (S1′) case
+  is the shared-junk mechanism of RF-A1*, RF-B′ and C13. Proving FAIL-STRUCT₀ itself, i.e. "a failing start has
+  this shape", is the structural half that k3-oc1, girth and Hall reduced the remaining facts to.
+
 **Conjecture RKMAX (rank-maximal start)** (2026-11-27 05:40 UTC, coordinator; ledger K4.SDC.RKMAX). An extremal form
 of OC₁^∃max that needs no rule from the failing start.
 - **Ranks.** At pick vector Y, rank_i(Y) = 1 + #{g ∈ R_i : v_i(g) > v_i(Y_i)}. Values are strict, so ranks are

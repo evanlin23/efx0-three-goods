@@ -1,0 +1,19 @@
+$ python3 k4/sdc/failstruct_check.py /tmp/claude-0/-home-user/a0d763ef-30c3-5e18-a14c-97622129678b/scratchpad/n5/two_move_starts_n5_partial6.json.gz
+S1' (two D_T agents with intersecting minimal threatening junk sets): False 287501
+S1' (two D_T agents with intersecting minimal threatening junk sets): True 414749
+shapes S1 294131
+shapes S1S2 25859
+shapes S1S2S3 71373
+shapes S1S3 23386
+shapes S2S3 287501
+starts 702250
+with S1' : S1' 294131
+with S1' : S1'S2 25859
+with S1' : S1'S2S3 71373
+with S1' : S1'S3 23386
+with S1' : S2S3 287501
+|D|=2 |D_T|=2 receivers=1 11752
+|D|=3 |D_T|=0 receivers=1 126389
+|D|=3 |D_T|=2 receivers=1 301538
+|D|=4 |D_T|=0 receivers=1 161112
+|D|=4 |D_T|=2 receivers=1 101459
