@@ -1343,6 +1343,72 @@ often one-receiver starts. RF needs its own argument for those, and R2 covers on
 good, and its good outcomes have 1 or 2 agents at their top. The number of agents at their top does not separate good
 from bad.
 
+### 14.8 The RF class (|U′|, |D_T′|) = (1, 3) at n = 5: a two-bin trade (with the girth session)
+
+**The task** (coordinator, 05:25). Hall's §24.10 table splits the n = 5 RF starts by class. In two classes neither
+"the picks complete" nor a canonical K chain is the first repair found:
+- (1, 3): 7,733 starts, every one repaired by some single official move;
+- DEMOTE-0: girth keeps that class.
+
+The class (1, 3) is taken here, by agreement with girth.
+
+**Data and the repair form.**
+- *Data:* all 7,733 distinct (1, 3) RF starts, built by girth from the certifier's exports
+  (`results/k4_girth_rf_n5_class13.jsonl.gz` on `claude/k4-girth`, commit 7e4633de; its class counts equal Hall's).
+- *The form, girth's:* its check is `k4/girth/oc1_residue_n5.py`, `w_chain_shape`, in
+  `results/k4_girth_oc1_residue_n5.log`, row "(C) cases: w-chain shape … 7733". Re-checked here by
+  `c13.py` (`c13_structure_n5.log`, `c13_lemma_n5.log`) with this workstream's own EFX₀ check.
+
+**Data facts at n = 5** (all 7,733; they are not hypotheses of the lemma below):
+- the RF path is u → w → d, of length 2;
+- d is the unique receiver at Y′, values no junk, and wants Y′_w, its old pick;
+- w is truly dangerous and u is not;
+- |J′| = 4, and w has exactly one improving junk pair H;
+- every working split of the remaining junk gives w exactly one good of J′ ∖ H.
+
+**The repair, in TTC terms: a two-bin trade.**
+1. *The 2-cycle w ↔ d.* w's demand is its own junk pair H, and d's demand is its old house Y′_w. This is the official
+   chain "w takes H, d takes Y′_w", and Y′_d is released.
+2. *The two bins.* With J′ ∖ H = {x, y}:
+   - X_w = H ∪ {x};
+   - X_d = {Y′_w, Y′_d, y};
+   - every other agent keeps its pick.
+- At 7,248 of the starts, {x, y} is valued exactly by the other two truly dangerous agents, the twins, and is their
+  danger pair. The trade splits the twins' pool pair across the two new bins, so neither twin sees both of its goods in
+  one bundle.
+- This matches girth's SINK form: absorber d, sink w.
+
+**Lemma C13 (PROVED, any n; refereed by girth).**
+- *Setting:* Y′ is a perfect serial-dictatorship start with junk J′, and w ≠ d are agents with:
+  - (1) an improving pair H ⊆ J′ ∩ R_w with J′ ∖ H = {x, y}, and v_d(Y′_w) > p_d, so the chain w → d is official;
+  - (2) d is the only agent that wants Y′_w;
+  - (3) every i ≠ w has v_i(X_w ∖ g) ≤ p_i for every g ∈ X_w. This holds automatically if i values at most one good
+    of X_w, by (I2);
+  - (4) every i ≠ d values at most one good of X_d.
+- *Conclusion:* X is EFX₀, so OC₁ holds at Y′.
+
+*Proof.*
+- Singletons are never strongly envied.
+- For X_d and an agent i ≠ d: by (4), i values at most one good of X_d, so every X_d ∖ g is worth at most that one good
+  to i. Each good of X_d is unwanted by i:
+  - Y′_w, by (2);
+  - Y′_d, because d is a receiver;
+  - y, by (I2).
+- For X_w: this is (3).
+- w and d both gain (v_w(H) > p_w, and v_d(Y′_w) > p_d), so their own envy only falls. ∎
+
+**Coverage:**
+- (1), (2) and (4) hold at all 7,733.
+- (3) holds in its simple form (at most one good of X_w) at 7,248, and in its value form at the other 485. There one
+  twin also values a good of H, but its two goods of X_w sum to less than its pick, e.g. 2 + 6 < 10.
+- The allocation is EFX₀ at all 7,733 (raw check).
+
+**Open:**
+- Deriving (2)–(4) from the class definition and k ≤ 4. A likely tool is Lemma PL(c): the twins share their pool pair,
+  so each values at most one more junk good, worth less than its pick. The value condition at the 485 is where the
+  argument has to use values, not counts.
+- DEMOTE-0 stays with girth.
+
 ## 12. Next steps
 
 1. *OC₁-E / OC₁-ED at larger n.* Adversarial climbs at n = 6–8 with the endpoint objective:
