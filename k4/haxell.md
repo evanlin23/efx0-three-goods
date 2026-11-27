@@ -642,6 +642,11 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
     TD and OR. Pool-shrinking alone fails at 7,129 of those states.
   - So two moves suffice for n ≤ 3 (k ≤ 3 at n = 3). Every known failure has n = 4 and an agent with four goods;
     n = 4 with k ≤ 3, and n = 3 with k = 4 exhaustively, are not settled.
+  - *k = 3 climbs (evidence).* Two-move Pareto climbs with k = 3 found no failure at n = 4 (m = 7, 8) or n = 5
+    (m = 7); the hardest states kept 2 to 8 escapes (`p2climb_*.log`). This suggests a place where k enters:
+    **P^sub may hold for k ≤ 3 at every n, while k = 4 needs a third move.** That is a CONJECTURE (P^sub for k ≤ 3).
+  - *Three-move Pareto climbs (evidence).* No P^sub₃ failure: seeded from 4 of the n = 4 failures, and random at
+    n = 4, m = 8 and n = 5, m = 7, 8 (`p3climb_*.log`).
 - *Lemma P^sub₃ (CONJECTURE for every |Rᵢ| ≤ 4).* P^sub with **three** moves. It has a step at all 40 known two-move
   failures: the 36 for welfare and the 4 found by the leximin climbs (`gstar_measure 3 1 19 1`; with single-good moves
   only, `3 1 19 0`, also none stuck). It implies W^sub₃ and L^sub₃ and TARGET₄, and it is the cleanest candidate for
