@@ -1,0 +1,8 @@
+instance 0: n 6 m 12 core False nu 6 | rnd.c: OC1 fails from 1 perfect starts [[2, 1, 0, 3, 4, 5]] | OC1' holds there: rnd.c True, forward True
+$ python3 k4/sdc/oc1_max_orders.py /home/user/efx0-three-goods/results/kgen_rounds/zcore_fails_n6.json
+instance 0 nu 6 [(('max', 'OC1 fails'), 5), (('max', 'one move repairs'), 49), (('max', 'picks complete'), 666)]
+('max', 'OC1 fails') 5
+('max', 'one move repairs') 49
+('max', 'picks complete') 666
+instances where some maximum-matching order fails OC1: [0]
+

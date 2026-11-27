@@ -19,6 +19,8 @@ fam = collections.OrderedDict([
     ('eps-lift KEPS = 4, cores, round 2', 'kcoreB_*.log'),
     ('k = 4 cores with zeros, OC1 (zclimb)', 'zcore_*.log'),
     ("k = 4 cores with zeros, OC1' (zclimb ZCLASS=OC1P)", 'oc1p_n*.log'),
+    ("k = 4 cores with zeros, OC1' rounds 2-3 (n = 4-7)", 'oc1p[BC]_*.log'),
+    ('k = 4 cores with zeros, OC1 at n = 6', 'zcoreC_*.log'),
     ("positive values, OC1' (zclimb ZFREE=1)", 'oc1p_pos_n*.log'),
 ])
 for name, pat in fam.items():
