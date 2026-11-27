@@ -27,8 +27,13 @@ The tools are those of the Hall session:
 - Corollary 2.1: its Hall form, "a transversal of the demands with a system of distinct admissible holders";
 - Lemma D1-red (§21): the |D| = 1 reduction, whose proof §2 generalizes.
 
-Lemma 2\* and Corollary 2.1 are refereed CORRECT (`k4/referee/oc1_hall.md` on `claude/k4-referee`). Lemma D1-red is
-not refereed.
+Lemma 2\* and Corollary 2.1 are refereed CORRECT (`k4/referee/oc1_hall.md` on `claude/k4-referee`).
+
+**Refereed (2026-11-27, `k4/referee/oc1max_multi.md` on `claude/k4-referee`):** Lemma D-red, Proposition T0, Corollary
+TR, Lemma KEEP with Corollary KEEP-1, Lemma SET, Lemma OWN and Lemma RING-red are CORRECT. Finding NC (T3) is
+confirmed. The referee's independent check covered 172,394 chains with every improving H₀, and dropping any one
+hypothesis produces failures. Its four wording fixes are applied below. Theorem U and Lemma LIFT are not yet
+refereed.
 
 All code is mine (`k4/oc1max_multi/`, raw EFX₀, enumeration, no SAT), and shares nothing with `k4/oc1_hall/ohlib.py`.
 As a cross-check, `xcheck_hall.py` compares my one-absorber enumeration with the Hall session's independent
@@ -177,15 +182,17 @@ Facts from serial dictatorship:
    - If g = Y_z and i ≠ z, then v_i(g) ≤ p_i by (U).
    - If i = z, then v_z(Y_z) = p_z < v_z(Y_{x_{t−1}}).
 
+   Moreover k wants no good of J′: junk is worth less than p_k < v_k(H₀), and v_k(Y_z) ≤ p_k by (U). So (G2) holds.
    Every agent other than k holds at most one good, so (G1) holds.
 2. The first sentence is D1-red step 2: an agent off P that was unfrozen at the picks stays unfrozen, since only
    values on P rose, and x₁, …, x_{t−1} are frozen at the picks.
-   - An agent of F ∖ D values no junk, so it values at most one good of Π (Y_z). A set holding one good it values
-     never threatens it.
+   - An agent q ∈ F ∖ D values no junk, so it values at most one good of Π, namely Y_z, and
+     v_q(Y_z) ≤ p_q ≤ v_q(B′_q) by (U). So removing any good from a subset of Π leaves at most v_q(B′_q), and q is
+     never threatened.
    - For d ∈ D ∖ (Θ(z) ∪ {k}): Π does not threaten d at p_d, so by monotonicity no subset of Π threatens it at any
      value v ≥ p_d.
 3. Let u be an exposed holder.
-   - If u ∈ F ∖ D, then u values at most one good of Π and cannot be exposed.
+   - If u ∈ F ∖ D, then u values at most Y_z in Π, worth at most p_u by (U), so u cannot be exposed (as in 2).
    - The middle agents x₁, …, x_{t−1} are in F, so a middle agent that is exposed lies in D.
    - So u is z, off P and unfrozen at the picks, or in D ∖ {k}. In the last case u is unfrozen at B′, since it is a
      holder.
@@ -454,7 +461,7 @@ J ∖ H₀, and d does not value B′_o, so W contains at most one good of R_d.
   v_k(Y_z) ≤ p_k by (U).
 - *(H1).* Every non-holder q ≠ o is unthreatened by W at v_q(B′_q):
   - *q = k.* R_k is Y_k, H₀ and at most one more good ℓ, since |R_k| ≤ 4. Y_k is x₁'s and x₁ ≠ o, and H₀ ∩ W = ∅. So
-    W ∩ R_k ⊆ {ℓ}, a single good, which never threatens.
+    W ∩ R_k ⊆ {ℓ}. By (W2), ℓ ∉ B′_o, so ℓ is junk, with v_k(ℓ) < p_k < v_k(H₀). Hence W does not threaten k.
   - *q frozen at B′, q ∈ F ∖ D.* q values no junk, and does not value B′_o, so W ∩ R_q = ∅.
   - *q frozen at B′, q ∈ D ∖ D_T* (pick-dangerous). W ∩ R_q ⊆ J ∖ H₀. If J has a good outside R_q, then
     v_q(J ∩ R_q) ≤ p_q, because J does not threaten q. If J ⊆ R_q, then v_q(J) − min_J v_q ≤ p_q, and J ∖ H₀ omits
@@ -562,7 +569,7 @@ Then B′ has an S\* completion owned by k.
 - non-movable exposed holders are excluded by (R2) and (R4);
 - the empty system of representatives suffices. ∎
 
-T3 satisfies (R1)–(R4) with the ring (0, 2, 1), H₁ = {3}, H₀ = {4, 2}.
+T3 satisfies (R1)–(R4) with the ring (0, 2, 1), with head junk H_t = H₂ = {3} and H₀ = {4, 2}.
 
 *Checks* (`ring.py`, `ring.log`). Every ring meeting (R1)–(R4) has an S\* completion owned by k (raw enumeration):
 7,347 rings, 0 violations. RING-red covers some of the RING starts. The rest need an unfrozen head taking junk (Hall's Finding C),
