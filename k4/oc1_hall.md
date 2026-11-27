@@ -1554,7 +1554,7 @@ Each leaf is a named statement with its status and the session that owns it.
 | 3 | \|D\| = 1: **one move** (an ED chain, the head possibly taking one junk good) | Lemma D1-chain, Prop. 3′, Lemma D1-red, Remark 2 (a longest chain avoids H-i), Lemma D1-C₀ and Prop. D1-C′ (§21) | proved | this note |
 | 3a | \|D\| = 1, CROWD residuals C-a to C-c | D1-C via Lemmas C3 and HC (needs every good relevant) | written proof, not refereed | k4-d1 (PR #113) |
 | 3a′ | \|D\| = 1, CROWD in general | Theorem D1-C: every canonical chain without HEAD has a minimal H₀ that repairs | written proof, not refereed (`k4/d1.md` §3) | k4-d1 |
-| 3b | \|D\| = 1, every canonical chain has HEAD | **D1-HJ**: some chain whose head adds at most one junk good repairs, with owner k. The canonical form (D1-LONG, D1-H(ii)) is refuted by D1H-X | **open**; 59/59 all-HEAD starts in k4-d1's data | k4-d1 |
+| 3b | \|D\| = 1, every canonical chain has HEAD | **D1-H2** (refines D1-HJ): some canonical chain (prefix, u), or its extension (prefix, u, u′) in which the other wanter u′ of a takes y_u plus junk, repairs with owner k and a minimal H₀; no head junk on a single chain. **Proposition D1-H₃′**: D1-H2 holds on all 763 three-agent core structures (SMT, two encodings, ties included, no MC2). **Lemma CONTRACT** (t = 1): given S1 (a has exactly two wanters) and S2 (they are the only agents unfrozen at the picks), deleting the other agents leaves a three-agent core whose repairs lift | D1-H₃′ and CONTRACT: written, computer-verified, not refereed. **Open:** S1, S2 (true on all 3,633 data starts) and t ≥ 2 | k4-d1 (`k4/d1.md` §7, 8a3bc43) |
 | 4 | \|D\| ≥ 2 after a canonical chain | Lemma D-red: the obstacles are HEAD, CROWD and DEMAND | written proof | k4-oc1max-multi |
 | 4a | the head's Θ(z) ⊆ {k} | Corollary TR: no DEMAND, so case 3 applies | written proof | k4-oc1max-multi |
 | 4b | one truly dangerous agent | Theorem U (2,880 starts outright), Lemma KEEP, Corollary KEEP-1; KEEP-C (8 starts) open | proof plus open residue | k4-oc1max-multi |
@@ -1585,8 +1585,8 @@ Each leaf is a named statement with its status and the session that owns it.
 
 **The open core at k = 4** (coordinator's summary, 00:00). OC₂^max follows from the proved and written leaves and
 three precise lemmas:
-1. **D1-HJ** (leaf 3b; `proof/k4-d1`). At a hard start where every canonical chain from the only dangerous agent k has
-   HEAD, some chain whose head adds at most one junk good, with a minimal H₀, repairs with owner k.
+1. **D1-H2** (leaf 3b; `proof/k4-d1`). It is reduced to S1 and S2 ("no third wanter, no third unfrozen agent" at an
+   all-HEAD start) for t = 1, and to the case t ≥ 2. The three-agent core is verified.
 2. **R2** (leaf 5a; TTC session). Two or more receivers ⟹ one move.
 3. **SHARE₂** (leaf 5). By route M, what remains is only the shape statement LIFT-SHAPE⁺ (leaf 5a): LIFT-red and
    LIFT-1 are written. Route R (OC2-REC, leaf 5c) is an alternative. This item is not needed if **OC₁′** (leaf 5d) holds, since then one wider move suffices.
