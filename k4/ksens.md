@@ -8,7 +8,14 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
 
 ## Status (bursts 1–5)
 
-**Burst 5: how the number of moves grows, k = 6 exactly, and Conjecture RF at k = 5** (§4, §8).
+**Burst 5: how the number of moves grows, k = 6 exactly, and Conjecture RF at k = 5** (§4, §8). *Stopped at
+the campaign wind-down, 2026-11-27 06:53 UTC.* Every sweep below marked running is partial; its log ends with a
+PARTIAL line giving the count done:
+- k = 6, two chains, exact mode: n = 3, 19 of 950; n = 4 core-like, 93 of 891; designed instances, 4 of 18. All
+  certified.
+- RF at k = 5, n = 4: 784 of 1,138, with 4 FAIL (§8).
+- RF∃ at k = 5, n = 4: 471 of 1,138, all certified.
+- k = 5, two chains, n = 4 core-like with m ≥ 8: 875 of 8,870, all certified.
 - **Sequential chains: the number needed grows with k, from maximum-matching starts.** [R]
   - PW(4, 3, 6) (k = 7, n = 7, m = 13): no state reachable by two chains has a completion, not even a free one. Three
     chains repair it.
@@ -47,6 +54,13 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
   - "Some σ-maximal vector satisfies OC₁" holds on all 28 profiles tested. RF holds (next item).
   - At k = 4 the tool certifies RKMAX on the 11 cores, as the coordinator did. Its tops-only control fails there, as
     the coordinator found.
+- **Conjecture RF, in its "every receiver-first order" form, fails at k = 5 with four agents** [R] (RF5,
+  `refute_rf_k5.py`).
+  - Agents 2 and 3 are twins. At the failing start, the receiver 2 put first gives back the same start with the twins
+    swapped.
+  - **The weak form RF∃ survives everywhere tested** [Cert]: some receiver-first order gives maximum-matching picks
+    that satisfy OC₁. RF∃ still implies OC₁^∃max.
+  - Tested exhaustively: n = 3 at k = 5, RF5's hypergraph, and the 11 k = 4 cores; n = 4 at k = 5 is running.
 - **Conjecture RF (receiver first, `k4/sdc.md` §31 on main) holds at k = 5 for three agents** [Cert]:
   - `rfcegar.py` certifies every strict profile of all 411 n = 3 hypergraphs with a five-good agent. On the other 206,
     kcegar finds no failing start, so RF has nothing to check there.
@@ -854,6 +868,8 @@ starts; n is the number of agents.
 | one round with every good valued (unrestricted k, values > 0) | | | | | | fails [R]: N3K5⁺ (n = 3, m = 6), RD5⁺ (n = 4) |
 | two rounds (RD²), max | | holds [Cert] | holds [Cert] where two chains are certified (n ≤ 4 cores) | holds [Cert] on the classes of the row above; [E] elsewhere | holds [Cert] where two chains are certified (row above) | none found |
 | Conjecture RF (receiver first, `k4/sdc.md` §31), max | | | holds [Cert], n ≤ 4 (coordinator; here `rfcegar.py` on the 11) | holds [Cert] at n = 3 (`rfcegar.py`, all 617); n = 4 running | | none found |
+| RF, every receiver-first order (the K4.SDC.RF form), max | | | holds [Cert], n ≤ 4 | holds [Cert] at n = 3; **fails [R] at n = 4** (RF5, twins) | | **k = 5**; n = 4, m = 7 |
+| RF∃: some receiver-first order works, max | | | holds [Cert] on the 11 (`rfcegar.RFE`) | holds [Cert] at n = 3 and on RF5's hypergraph; n = 4 running | | none found |
 | Conjecture RKMAX (every rank-maximal maximum-matching start), max | | | holds [Cert], n ≤ 4 (coordinator; here `rkcegar.py` on the 11) | **fails [R]** at n = 3: N3K5 (all maximum-matching vectors have σ = (1, 1, 1, 0, 0)) | | **k = 5**; n = 3, m = 6 |
 | SD-C: some order whose picks extend | | holds [E] (K4.SDC.K3 open) | holds [E] | holds [E] | holds [E] | none found (k ≤ 8) |
 | MD: every start value-dominated | | | holds [E] | holds [E] | holds [E] | none found (k ≤ 8) |
@@ -1060,7 +1076,73 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
 - *Replay from the definitions* (`rf_replay.py`): the 13 kcegar witnesses, RD5 and PW5 give 15 failing
   maximum-matching starts. Each has a receiver (PW5 has two, {3, 4}), and every receiver-first maximum-matching pick
   vector completes at the picks or after one chain.
-- *Running:* RF on the 1,138 core-like n = 4 hypergraphs at k = 5 with m ≤ 7 (`rfcegar_k5_core5_n4.*`).
+- **RF fails at k = 5 with four agents** [R]: RF5 (`refute_rf_k5.py`, `refute_rf_k5.log`).
+  - It was found by the sweep over the 1,138 core-like n = 4 hypergraphs with m ≤ 7 (`rfcegar_k5_core5_n4.*`), on
+    core5_n4_m7_688.
+  - The instance:
+    - agent 0: goods 0, 1, 2, 5, 6 worth 3, 35, 33, 43, 39;
+    - agent 1: goods 1, 2, 4, 5, 6 worth 20, 26, 16, 43, 32;
+    - agents 2 and 3 (twins): goods 3, 4, 5, 6 worth 8, 2, 7, 4.
+    - The profile is strict (all subset sums of each agent distinct).
+  - The start Y = (6, 5, 4, 3) comes from orders (1, 0, 3, 2), (1, 3, 0, 2) and (3, 1, 0, 2), and is a maximum
+    matching (ν = 4). OC₁ fails there, even with the free completion.
+  - Its only receiver is agent 2. The other three each have a pick another agent prefers: 0's good 6 (agent 2), 1's
+    good 5 (agent 0) and 3's good 3 (agent 2).
+  - The six orders with 2 first give six distinct maximum-matching vectors:
+    - (2, 1, 0, 3) gives **Z = (6, 5, 3, 4), where OC₁ fails, even with the free completion**;
+    - the other five satisfy OC₁: (1, 5, 3, 6) and (5, 6, 3, 4) after one chain, (1, 6, 3, 5), (5, 2, 3, 6) and
+      (6, 2, 3, 5) at the picks.
+  - Both checkers agree on every vector: brute force from the definitions, and ocsat.
+  - *Mechanism.* Z is Y with the twins' picks exchanged.
+    - In Y the twin 3 is served before 2 and takes their common top good 3, so 2 gets good 4.
+    - With 2 first, 2 takes good 3, and in the order (2, 1, 0, 3) its twin gets good 4.
+    - Up to relabelling the twins, Z is Y, and now the twin 3 is the receiver.
+    - So "every receiver-first order" cannot hold once a receiver has a twin that the rest of the order serves in the
+      old position.
+  - At k = 4, RF is certified at n ≤ 4 (K4.SDC.RF), and rfcegar certifies it on the 11 cores. So RF in this form is
+    k-sensitive. The step to k = 5 lets agents 0 and 1 hold five goods each, which is what makes this start fail OC₁.
+- **Twins are not the whole story: RF5b** (`refute_rf_k5.py`, second instance).
+  - Same hypergraph and start, with vals [[3,22,23,43,38],[20,26,16,43,32],[10,2,7,4],[8,1,6,4]].
+  - Agents 2 and 3 rank their goods the same way (3 > 5 > 6 > 4) but differ in type: v₂(3) + v₂(4) = 12 > 11 =
+    v₂(5) + v₂(6), while v₃(3) + v₃(4) = 9 < 10 = v₃(5) + v₃(6).
+  - The same Y and Z fail OC₁, by both checkers.
+  - It was found by `rfcegar.RFT`. That form excuses a failing receiver-first vector that is the start with
+    identical-type agents' picks permuted; "identical type" is exact, via XOR literals over every comparison bit of
+    the pair.
+  - So "every receiver-first order, up to relabelling exact twins" fails too.
+- **Up to ordinal twins it holds on this hypergraph** [Cert] (`rfcegar.py --ordinal-twins`). Ordinal twins have the
+  same relevant set and the same ranking of single goods.
+  - Every strict profile is covered: 7,549 iterations, 4 twin images excused.
+  - SD sees only rankings, so permuting ordinal twins maps SD starts to SD starts. That is a natural excuse.
+  - The candidate refined statement: every receiver-first maximum-matching vector satisfies OC₁, unless it is the
+    start with ordinal twins' picks permuted.
+- **Partial sweep result, stopped at the campaign wind-down (2026-11-27 06:53 UTC)** [E]
+  (`rfcegar_k5_core5_n4.log`, `.ckpt.jsonl`).
+  - The every-form sweep finished 784 of the 1,138 n = 4 hypergraphs: 780 certified, 4 FAIL (core5_n4_m7_688, 807,
+    816, 826).
+  - Each FAIL was re-checked by brute force only: start, receiver and receiver-first vector, OC₁ failing at both.
+    ocsat was not run on 807, 816 or 826.
+  - In all four, the failing receiver-first vector Z is the start Y with two agents' picks swapped.
+  - In 688 and 816 the swapped agents have the same relevant set.
+  - In 807 and 826 they do not: they are agents 0 and 1 with R₁ = {1,4,5,6} ⊂ R₀ = {0,1,4,5,6} in 807, and
+    R₁ = {1,3,4,5,6} in 826.
+  - So the ordinal-twin form, which is certified only on 688's hypergraph, probably needs more than equal sets. It
+    was not run on 807, 816 or 826. Open.
+- **RF∃ ("some receiver-first order works") survives** (`rfcegar.RFE`; `rfecegar_*.log`).
+  - *The tool.* One SD pick system per fixed order (24 at n = 4), each with an indicator of being a maximum matching.
+    A violation needs every u-first order to give non-maximum picks or picks that fail OC₁. A repair witness of any
+    vector is a cut on every pick system whose order starts with u.
+  - *Controls.*
+    - At k = 4 it certifies the 11 cores.
+    - With no chain allowed (D = 0) it fails, as it must, and brute force confirms that no receiver-first vector
+      completes at the picks.
+  - *Certified* [Cert]:
+    - the 13 n = 3, k = 5 hypergraphs where OC₁^max fails (elsewhere at n = 3 no start fails, so RF∃ holds);
+    - RF5's hypergraph.
+  - *Partial* (stopped at the wind-down): 471 of the 1,138 n = 4, k = 5 core-like hypergraphs certified, no violation
+    (`rfecegar_k5_core5_n4.*`) [E for the class].
+  - RF∃ gives OC₁^∃max as RF does, since a receiver-first maximum-matching order where OC₁ holds is all that
+    argument uses. So RF5 does not touch the route to TARGET.
 
 **Conjecture RKMAX at k = 5: false** (`rkcegar.py`, `rkcegar_*.log`, `refute_rkmax_k5.py`, `refute_rkmax_k5.log`).
 - *The statement* (coordinator's `k4/sdc.md` §31 end, ledger K4.SDC.RKMAX on branch `claude/kind-lamport-y8fdme`,

@@ -1,3 +1,4 @@
 $ python3 k4/ksens/kcegar_batch.py core 4 6 2 6 7 --jobs=1 --limit=3600 --grid6=/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz --exact6 --ckpt=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_core6_n4_D2_exact.ckpt.jsonl
 checkpoint /home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_core6_n4_D2_exact.ckpt.jsonl: 0 done ({}), 891 to go
 hypergraphs 891
+--- PARTIAL: stopped at 2026-11-27T06:53:34Z (campaign wind-down); two chains, k = 6, n = 4 core-like m = 6, 7, exact mode: 93 of 891 hypergraphs done {'certified': 93} ---

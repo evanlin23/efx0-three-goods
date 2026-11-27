@@ -1,0 +1,32 @@
+$ rfcegar RFE (RF-exists) on the 11 k = 4 cores; control: RFE with any agent u (any-receiver)
+cex1 RFE certified 909 {'picks': 638, 'Y repaired': 909, '1 chains': 271} 0.8 s
+cex1 any-u certified 1255 {'picks': 776, 'Y repaired': 1254, '1 chains': 479, 'Z repaired': 1} 1.1 s
+cex2 RFE certified 1004 {'picks': 637, 'Y repaired': 1004, '1 chains': 367} 0.9 s
+cex2 any-u certified 1336 {'picks': 787, 'Y repaired': 1331, '1 chains': 549, 'Z repaired': 5} 1.2 s
+cex3 RFE certified 1530 {'picks': 814, 'Y repaired': 1527, '1 chains': 716, 'Z repaired': 3} 1.9 s
+cex3 any-u certified 1627 {'picks': 897, 'Y repaired': 1627, '1 chains': 730} 1.8 s
+cex4 RFE certified 1263 {'picks': 690, 'Y repaired': 1258, '1 chains': 573, 'Z repaired': 5} 1.7 s
+cex4 any-u certified 1547 {'picks': 825, 'Y repaired': 1546, '1 chains': 722, 'Z repaired': 1} 1.7 s
+cex5 RFE certified 1732 {'picks': 954, 'Y repaired': 1732, '1 chains': 778} 2.2 s
+cex5 any-u certified 2165 {'picks': 1179, 'Y repaired': 2165, '1 chains': 986} 2.6 s
+cex6 RFE certified 1997 {'picks': 1125, 'Y repaired': 1995, '1 chains': 872, 'Z repaired': 2} 2.6 s
+cex6 any-u certified 2323 {'picks': 1292, 'Y repaired': 2315, '1 chains': 1031, 'Z repaired': 8} 3.0 s
+cex7 RFE certified 1569 {'picks': 831, 'Y repaired': 1569, '1 chains': 738} 2.0 s
+cex7 any-u certified 1971 {'picks': 1030, 'Y repaired': 1966, '1 chains': 941, 'Z repaired': 5} 2.5 s
+cex8 RFE certified 1645 {'picks': 902, 'Y repaired': 1643, '1 chains': 743, 'Z repaired': 2} 2.0 s
+cex8 any-u certified 1934 {'picks': 1083, 'Y repaired': 1931, '1 chains': 851, 'Z repaired': 3} 2.3 s
+cex9 RFE certified 2967 {'picks': 1676, 'Y repaired': 2964, '1 chains': 1291, 'Z repaired': 3} 5.0 s
+cex9 any-u certified 3472 {'picks': 2069, 'Y repaired': 3470, '1 chains': 1403, 'Z repaired': 2} 5.3 s
+cex10 RFE certified 2218 {'picks': 1327, 'Y repaired': 2218, '1 chains': 891} 3.1 s
+cex10 any-u certified 2755 {'picks': 1571, 'Y repaired': 2749, '1 chains': 1184, 'Z repaired': 6} 4.0 s
+cex11 RFE certified 2389 {'picks': 1355, 'Y repaired': 2389, '1 chains': 1034} 3.5 s
+cex11 any-u certified 2616 {'picks': 1484, 'Y repaired': 2616, '1 chains': 1132} 3.8 s
+$ control: RFE with no chain allowed (D = 0: Y and every u-first vector must fail at the picks)
+cex1 RFE D=0 FAIL 454 {'picks': 453, 'Y repaired': 326, 'Z repaired': 127} 0.3 s
+    {"vals": [[3, 5, 6, 7], [5, 3, 7, 6], [6, 5, 7, 3], [4, 2, 1]], "Y": [2, 5, 3, 4], "u": 0, "Y is an SD start": true, "Y maximum": true, "u a receiver of Y": true, "OC1 at Y": "one chain", "u-first vectors (maximum, OC1)": {"(5, 6, 3, 4)": [true, "one chain"], "(5, 6, 4, 3)": [true, "one chain"]}, "RF-exists violated": false}
+cex2 RFE D=0 FAIL 250 {'picks': 249, 'Y repaired': 169, 'Z repaired': 80} 0.2 s
+    {"vals": [[5, 6, 7, 3], [6, 5, 3, 7], [5, 4, 8, 6], [2, 4, 1]], "Y": [4, 1, 5, 2], "u": 1, "Y is an SD start": true, "Y maximum": true, "u a receiver of Y": true, "OC1 at Y": "one chain", "u-first vectors (maximum, OC1)": {"(4, 5, 6, 2)": [true, "one chain"], "(0, 5, 6, 4)": [true, "one chain"]}, "RF-exists violated": false}
+cex3 RFE D=0 FAIL 467 {'picks': 466, 'Y repaired': 280, 'Z repaired': 186} 0.3 s
+    {"vals": [[6, 4, 5, 8], [5, 4, 6, 8], [7, 4, 2, 8], [8, 4, 3, 2]], "Y": [6, 5, 3, 4], "u": 1, "Y is an SD start": true, "Y maximum": true, "u a receiver of Y": true, "OC1 at Y": "one chain", "u-first vectors (maximum, OC1)": {"(0, 6, 3, 4)": [true, "one chain"], "(0, 6, 4, 3)": [true, "one chain"]}, "RF-exists violated": false}
+cex4 RFE D=0 FAIL 237 {'picks': 236, 'Y repaired': 134, 'Z repaired': 102} 0.2 s
+    {"vals": [[3, 2, 4, 8], [2, 7, 8, 4], [5, 6, 3, 7], [4, 8, 3, 6]], "Y": [2, 5, 6, 4], "u": 1, "Y is an SD start": true, "Y maximum": true, "u a receiver of Y": true, "OC1 at Y": "one chain", "u-first vectors (maximum, OC1)": {"(6, 4, 3, 5)": [true, "one chain"], "(6, 4, 5, 3)": [true, "one chain"], "(2, 4, 6, 3)": [true, "one chain"], "(2, 4, 3, 6)": [true, "one chain"]}, "RF-exists violated": false}
