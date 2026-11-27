@@ -79,3 +79,49 @@ never gets stuck**.
   together in a bundle of ≥ 3 goods).
 - At n = 4 the certified rows stand, now with my independent computation.
 - Conjecture BASE-R (greedy GR) and the n = 5 refutation K4.BASE.P1FREE were not checked here.
+
+## Addendum: Lemma B3 and Corollary B3′ (`k4/base_phantom.md` §5.1 at `172e8568`; coordinator's queue, 2026-11-27)
+
+**Verdict: both CORRECT**, with one wording remark on B3′. Script `b3_ref.py` (own code: rounds from
+`basephantom_ref.py`, official moves from `cert_ref.moves` on the present instance, raw EFX₀), log
+`results/k4_referee/b3_ref.log`.
+
+**Lemma B3, re-derived.**
+- Present agents' values never decrease: chain agents gain in rounds and in the official move, others keep their
+  goods, and the completion only adds goods.
+- (present, phantom): (L\*) at the end of the phantom's round, then monotonicity.
+- (phantom, present): the hypothesis.
+- (phantom, phantom), three cases:
+  - b settled later: (P2);
+  - same round: (L\*) at its end, at round-mates' τ;
+  - b settled earlier: (L\*) at b's round, at a's value then, which is at most a's pick value before a's settlement,
+    which is < τ_a. Threats are monotone.
+- The official move uses only goods of the present instance, so the T's are untouched.
+
+This is LIFT\* for rounds (`lift.md` §9) with one more value-increasing step.
+
+**Check** (n = 4 export, 8,000 random starts; every state reached by ≤ 2 admissible rounds; at each state with phantoms,
+"no move" and every official move of the present instance, then every one-absorber completion):
+
+| run | states | cases meeting B3's hypotheses (1 / 2 phantoms) | not EFX₀ in I |
+|---|---|---|---|
+| as stated | 48,636 | 344,693 (256,216 / 88,477) | **0** |
+| mutation: rounds without (L\*) (2,000 starts) | 16,900 | 107,203 | 21,082 |
+| mutation: rounds without (P2) (2,000 starts) | 12,159 | 84,845 | 0 |
+
+- (L\*) is necessary.
+- (P2) is not exercised by this data: no second settlement here threatens the first. The proof needs it all the same.
+
+**Corollary B3′.** Correct as a corollary of B3 and the cited, refereed theorems (U, S, RING-red, D-red, KEEP, OWN).
+- Each gives an allocation that is EFX₀ in the present instance, made of one official move from a dangerous agent and
+  a one-absorber completion. That move is canonical (C0) or a dangerous ring taking junk only at its end (ED).
+- At a GR-visited state every phantom is P1-free, so SEP reduces "threatens no phantom" to bundles of ≥ 3 goods.
+
+*Remark (wording).* "Every bundle of three or more goods separates the phantoms' pairs" covers phantoms with
+|T| = 2 (and |T| = 3, which nothing threatens).
+- A P1-free settlement with |T| = 1 (k takes the head's pick alone) is allowed by §0's definition. For it, SEP part 1
+  asks instead that no ≥ 3-good bundle hold two goods of R_k ∖ T_k with sum above τ_k.
+- None occurs on the n = 4 data: in an exploration from 3,000 starts the P1-free settlements have |T| = 2 (15,690) or
+  3 (5,082).
+- Stating B3′'s condition as "no bundle of the allocation threatens a phantom (by SEP, only bundles of ≥ 3 goods
+  matter)" covers every case.
