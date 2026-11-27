@@ -2584,3 +2584,38 @@ n = 5 cores, 60 random strict profiles each, seed 2; each agent's values a rando
 So RKMAX's proof cannot skip the hard one-receiver classes at n ≥ 5. It would need DEMOTE-0/2-type arguments there
 too, at a much smaller frequency than at RF starts. The export data are biased toward the failing profiles of 9
 hypergraphs.
+
+### 24.15 The target statement for the RF proof: Rule RF-rot for some order (after #129)
+
+*Scope* (coordinator, 06:35 and 06:38). The every-order form of RF fails at k = 5, through twins (K4.SDC.RF.K5EVERY).
+Only RF∃ is needed in Lean (`target4_of_conjRFsome`).
+
+**Rule RF-rot.** Take σ′ = (u, o − u). If its picks leave an agent pickless, take (u, d, o − u − d), where d is the RF
+path's end.
+- On the n = 5 exports the rotation's picks satisfy OC₁ at all 1,526,623 maximum-matching RF starts (§24.10).
+- At the 3,460 pickless rotations, "d second" gives a maximum matching with OC₁ (`rf_n5_pickless.log`).
+
+**Twins at k = 4** (`k4/oc1_hall/rf_twins.py`, `rf_twins.log`). The question: can k ≤ 4 exclude the k = 5 failure,
+where the rotation is a pick swap between u and its twin w, the holder of u's top good?
+- **n = 4** (all 292,080 failing orders): w is a twin of u (R_w = R_u) at 69,120. At **44,800** the rotation is exactly
+  the twin pick swap. There Y′ assigns the same picks to the same sets as Y, with the twins exchanged.
+- **OC₁ holds at all of them**: every n = 4 rotation satisfies OC₁ (`results/k4_sdc/receiver_first_check_n4.log`, with
+  the certifier's OC₁^max certificate).
+- **n = 5** (all 7,608,052 failing orders of the exports): no receiver is a twin of w.
+
+So k ≤ 4 does **not** exclude the twin swap. At k = 4 the swapped start is simply not a failing one on the data.
+
+**Chosen target (option (ii)):**
+
+> **Conjecture RF-rot∃.** At every OC₁^max-failing maximum-matching SD start Y with receiver u, some order o giving Y
+> has a rotation (u, o − u), or its "d second" variant when the rotation leaves an agent pickless, whose picks form a
+> maximum matching satisfying OC₁.
+
+The every-o form is recorded as an observation at k = 4: all n = 4 orders, and all n = 5 orders of the exports. It is
+not a target. Its proof would have to show that twin-swapped starts satisfy OC₁, which the reductions of §24.8–24.13
+do not address.
+
+The reductions to prove from Y's hardness for the chosen rotation:
+- DEMOTE-2: RF-B′ / M^c, with SINK;
+- DEMOTE-0: RF-A1\*, NA, RF-T′;
+- (1, 3): girth's and k3-oc1's form.
