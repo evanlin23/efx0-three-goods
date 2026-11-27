@@ -175,7 +175,7 @@ and `results/k4_hunt/check_mc_n6_b5.log` (**RESULT OK**) on the committed orbit-
 
 | set | sampled | certified | slowest | certificate / check |
 |---|---|---|---|---|
-| n = 6, β = 6–9, m ≥ 10: 150 per (β, m) group, 10 groups | 1,500 of 366,743 | 1,500 | 22 s (Q4⁵P4, m = 11, 288⁶ profiles) | `cert_mc_n6_sample_b6to9_orb.json.gz` / `check_mc_n6_sample_b6to9.log` [PENDING] |
+| n = 6, β = 6–9, m ≥ 10: 150 per (β, m) group, 10 groups | 1,500 of 366,743 | 1,500 | 22 s (Q4⁵P4, m = 11, 288⁶ profiles) | `cert_mc_n6_sample_b6to9_orb.json.gz` / `check_mc_n6_sample_b6to9.log` (OK) |
 | n = 7, β = 5: 100 per m (all 75 at m = 17) | 675 of 122,006 | 675 | 53 s (P4⁷, m = 17, 288⁷ ≈ 1.6·10¹⁷ profiles) | `cert_mc_n7_sample_b5_orb.json.gz` / `check_mc_n7_sample_b5.log` (OK) |
 
 The n = 7, β = 5, m = 17 group (75 candidates, every agent P4 or Q4) is thereby **complete**. The independent
