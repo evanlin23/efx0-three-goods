@@ -535,9 +535,9 @@ the n = 3, m = 7 profile {0: 2, 3: 5, 4: 4, 6: 8}, {1: 6, 3: 3, 5: 4, 6: 8}, {2:
 (0, 1, 2), Algorithm 2 leaves {3} | {6} | {2, 4, 5} with goods 0, 1 unallocated, parking is stuck, and
 {6} | {1, 3} | {0, 2, 4, 5} dominates it: agent 0 takes agent 1's good, agent 1 takes agent 0's good plus a leftover,
 which is no envy-cycle rotation (agent 1 does not envy {3}). Evidence: random strict profiles, every labeling, brute
-force over all allocations: n = 3, 312,884 profiles (1,840,372 runs); n = 4 with m ≤ 10, 33,053 profiles (669,972
-runs); no state without a dominating completion (`results/k4_girth_dom_{3,4}.log`; for comparison, parking with
-envy-cycle rotation fails on about 3·10⁻⁵ of all runs, §5, which would be about 80 of these). Exhaustive
+force over all allocations: n = 3, 766,395 profiles (4,508,174 runs); n = 4 with m ≤ 10, 101,316 profiles
+(2,054,352 runs); no state without a dominating completion (`results/k4_girth_dom_{3,4}.log`; for comparison, parking with
+envy-cycle rotation fails on about 3·10⁻⁵ of all runs, §5, which would be about 200 of these). Exhaustive
 at n = 3 (covering, every labeling): running (`results/k4_girth_dom_exhaustive_3.log`). DOM does not follow from
 LSS's Properties (3) and (4) alone: the PL state of `attempts/k4-girth-linear-pl.md` satisfies both and has no
 completion. If DOM holds, TARGET₄ reduces to a completion lemma for the states of Algorithm 2, with no labeling search.
