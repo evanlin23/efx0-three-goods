@@ -732,6 +732,43 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
   (|P|, λ) for L^sub, lexicographically, and the states are finite. So the lemma for an instance gives a complete
   EFX₀ allocation of it, and the lemma for all k = 4 instances gives TARGET₄. Formally this is well-founded induction
   on |P| and then on W, or on λ among the finitely many value vectors.
+- **Lemma R (reachability; PROVED).** Let X be any partial allocation and Y any complete allocation of the same
+  instance. Then a sequence of at most 2n − 1 set transfers (T) leads from X to Y. The transfers follow the cycle
+  1 → 2 → ⋯ → n → 1, so when none of the steps below is empty they form a chain (below): the first gives pooled goods
+  to an agent, and every later one gives goods of the previous receiver to another agent.
+  - *Proof.* Number the agents 1, …, n, and call Y(g) the destination of good g.
+    1. Give every pooled good to agent 1.
+    2. *Round 1.* For i = 1, …, n − 1 in turn, agent i gives to agent i + 1 every good it now holds whose
+       destination is not i.
+    3. Agent n gives to agent 1 every good it holds whose destination is not n.
+    4. *Round 2.* For i = 1, …, n − 2 in turn, agent i gives to agent i + 1 every good it holds whose destination is
+       not i.
+    
+    Skip any step whose set is empty. Every good goes forward along 1 → 2 → ⋯ → n → 1 → ⋯ and stops for good at its
+    destination, since an agent only ever passes on goods that are not its own. Let a good start at agent s (a
+    pooled good counts as s = 1) with destination j. If j ≥ s it is delivered in round 1. If j < s it is at agent n
+    after round 1, and step 3 and round 2 deliver it, since j ≤ n − 1. That is at most
+    1 + (n − 1) + 1 + (n − 2) = 2n − 1 transfers. ∎
+  - *Consequence.* If an instance has a complete EFX₀ allocation, then every partial EFX₀ allocation with a nonempty
+    pool has a pool-shrinking composite of at most 2n − 1 set moves (to that allocation). Conversely, the lemma for
+    every state gives a complete EFX₀ allocation. So **for r ≥ 2n − 1 the set-move lemma with radius r is
+    equivalent to the existence of a complete EFX₀ allocation**, and it says nothing new. Its content is a radius
+    that does not grow with n: two at n ≤ 3 where it holds (K4.HX.N2, K4.HX.PN3), and three at n = 4, 5, 6 in the
+    tests. That is why the n = 5 and n = 6 tests are the decisive ones: 3 is far below 2n − 1 = 9 and 11.
+- **Corollary N2₃ (PROVED; n = 2, every k, any valuations, ties and zero values included).** At n = 2, from every
+  partial EFX₀ allocation with a nonempty pool, at most three set moves reach a **complete** EFX₀ allocation. So the
+  pool-shrinking lemma with three set moves (AUG^sub₃) holds at n = 2, and with it P^sub₃, W^sub₃, L^sub₃ and Q.
+  - *Proof.* A complete EFX₀ allocation of two agents exists by cut-and-choose:
+    1. Order the goods by v_A, largest first, and give each in turn to the part that is currently smaller for v_A.
+       This gives two parts Z₁ and Z₂.
+    2. The parts are EFX₀ toward each other for v_A. Let g be the last good that went to the larger part L, and let
+       Sm be the other part. When g was added, v_A(L ∖ g) ≤ v_A(Sm) held, and Sm only grew afterwards. Every
+       h ∈ L has v_A(h) ≥ v_A(g), so v_A(L ∖ h) ≤ v_A(L ∖ g) ≤ v_A(Sm). Toward the smaller part,
+       v_A(Sm ∖ h) ≤ v_A(Sm) ≤ v_A(L).
+    3. B takes the part it values more, and A takes the other. B envies nothing, and A is EFX₀ toward B by step 2.
+    
+    Lemma R with n = 2 reaches this allocation in at most three transfers. ∎
+  - This is why the n = 2 results that matter are the two-move ones (Theorem N2).
 - *What the checker runs.* `gstar_measure 2 1 1 1` (RADIUS 2, ROT 1, ONLY 1 = welfare, SUB 1) implements exactly
   these moves: single moves to an agent, swaps, trades, rotations of length ≥ 3, and transfers of ≥ 2 goods from one
   holder to one agent. Its stuck count for φ1 counts the states violating the lemma. φ0 counts the states with no

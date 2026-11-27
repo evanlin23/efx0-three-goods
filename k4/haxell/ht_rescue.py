@@ -23,7 +23,12 @@ Properties of a three-move composite X -> X1 -> X2 -> Y:
           from X1).
   through-EFX0: X1 and X2 both partial EFX0.
 
-    python3 k4/haxell/ht_rescue.py LOG [LOG ...] [SHOW=4]"""
+With CHAIN=L the script instead looks, at each state, for the shortest *chain* of length at most L that reaches a smaller
+pool or a Pareto improvement (intermediate states arbitrary; agents may recur along the chain), and prints it.
+
+ALLSTATES=1 (with CHAIN) runs the chain search at every partial EFX0 state with a nonempty pool of each instance.
+
+    python3 k4/haxell/ht_rescue.py LOG [LOG ...] [SHOW=4] [CHAIN=0] [ALLSTATES=0]"""
 import sys, itertools, collections
 
 POOL = -1
@@ -186,6 +191,39 @@ def flow(X, Y, n):
     return ', '.join('%s%s' % (e, '' if c == 1 else 'x%d' % c) for e, c in best), shape
 
 
+def chain_moves(I, o, prev, aug=False):
+    """the moves a chain may make next: from the pool (prev None) or from agent prev; yields (move, new state, next).
+    aug: the first move must be a transfer from the pool (an augmenting chain)"""
+    for mv, t in I.moves(o):
+        if prev is None:
+            if mv[0] == 'T' and mv[1] == POOL:
+                yield mv, t, mv[2]
+            elif mv[0] == 'S' and POOL in (mv[1], mv[2]) and not aug:
+                yield mv, t, (mv[2] if mv[1] == POOL else mv[1])
+        else:
+            if mv[0] == 'T' and mv[1] == prev:
+                yield mv, t, mv[2]
+            elif mv[0] == 'S' and prev in (mv[1], mv[2]) and POOL not in (mv[1], mv[2]):
+                yield mv, t, (mv[2] if mv[1] == prev else mv[1])
+
+
+def shortest_chain(n, m, val, X, L, aug=False, I=None):
+    """BFS over (state, current agent); returns the move list of a shortest improving chain, or None.  aug: only
+    augmenting chains (the first move gives pooled goods to an agent, so every EFX0 end state has a smaller pool)"""
+    I = I or Inst(n, m, val); frontier = {(X, None): []}; seen = set(frontier)
+    for depth in range(1, L + 1):
+        nxt = {}
+        for (o, prev), path in frontier.items():
+            for mv, t, a in chain_moves(I, o, prev, aug):
+                if improving(I, X, t, 19):
+                    return path + [mv]
+                key = (t, a)
+                if key not in seen:
+                    seen.add(key); nxt[key] = path + [mv]
+        frontier = nxt
+    return None
+
+
 def analyse(n, m, val, X, measure):
     I = Inst(n, m, val)
     assert I.efx0(X) and POOL in X, 'not a partial EFX0 state with a nonempty pool'
@@ -219,6 +257,32 @@ if __name__ == '__main__':
     args = [a for a in sys.argv[1:] if '=' not in a]
     kw = dict(a.split('=') for a in sys.argv[1:] if '=' in a); SHOW = int(kw.get('SHOW', '4'))
     print('$ python3 k4/haxell/ht_rescue.py', *sys.argv[1:], flush=True)
+    CH = int(kw.get('CHAIN', '0'))
+    if CH:
+        lens = collections.Counter(); seen = set(); ALL = int(kw.get('ALLSTATES', '0'))
+        for src, inst, X, K in read_logs(args):
+            if ALL:
+                if inst in seen:
+                    continue
+                seen.add(inst); n, m, val, rel = parse_inst(inst.split()); I = Inst(n, m, val); h = collections.Counter()
+                for o in itertools.product(list(range(n)) + [POOL], repeat=m):
+                    if POOL in o and I.efx0(o):
+                        path = shortest_chain(n, m, val, o, CH); h[len(path) if path else None] += 1
+                        if not path:
+                            print('  NO CHAIN within %d:' % CH, o, flush=True)
+                for key, c in h.items():
+                    lens[key] += c
+                print(src, 'all states: shortest chain lengths', dict(h), '|', inst, flush=True)
+                continue
+            if (inst, X) in seen:
+                continue
+            seen.add((inst, X)); n, m, val, rel = parse_inst(inst.split())
+            path = shortest_chain(n, m, val, X, CH)
+            lens[len(path) if path else None] += 1
+            print(src, 'state', X, 'shortest chain', len(path) if path else 'none within %d' % CH, '|',
+                  pattern(path) if path else '', '|', inst)
+        print('TOTAL shortest chain lengths', dict(lens))
+        sys.exit(0)
     seen = set(); tot = collections.Counter(); allpat = collections.Counter(); allflow = collections.Counter()
     for src, inst, X, K in read_logs(args):
         if (inst, X) in seen:

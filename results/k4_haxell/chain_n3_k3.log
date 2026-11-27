@@ -1,0 +1,5 @@
+$ python3 k4/haxell/ht_chain.py GEN=n3 K=3 MMAX=9 L=6 AUG=1
+longest so far: 1 at state (0, -1) (P>A) | 3 2 1 0 1 1 1 1 1 1 1
+longest so far: 2 at state (-1, 2, 0, 1) (P>A ; A<>B) | 3 4 3 0 1 1 4 2 2 1 2 1 1 3 1
+longest so far: 3 at state (-1, 1, 0, 2) (P>A ; A<>B ; B<>C) | 3 4 3 0 1 1 4 2 2 2 1 1 3 2 2 2 2 3 1
+... 5000 instances, 16 s
