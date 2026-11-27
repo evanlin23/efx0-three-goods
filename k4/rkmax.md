@@ -8,7 +8,7 @@ lexicographically maximal, OC₁ holds. RKMAX ⟹ OC₁^∃max ⟹ TARGET₄ (Le
 
 | item | statement | status |
 |---|---|---|
-| Lemmas W, TC, COMP, PO, GAIN, 2AG (§1) | ranks are wants out-degrees; σ, RS, leximin are threshold counts; σ-maximality is local; undominated ⟹ SD outcome; gainers never beat the losers' best old rank at a σ-max start | proved (written, short), not refereed; K4.RKMAX.LEM |
+| Lemmas W, TC, COMP, PO, GAIN, GAIN-RS, SHORT, 2AG (§1) | ranks are wants out-degrees; σ, RS, leximin are threshold counts; σ-maximality is local; undominated ⟹ SD outcome; gainers never beat the losers' best old rank at a σ-max start | proved (written, short), not refereed; K4.RKMAX.LEM |
 | RKMAX at n ≤ 4 (§2) | OC₁ at every σ-maximal maximum-matching start | certified, second implementation; K4.RKMAX.N4 |
 | **RKDOM** (§3) | OC₁ at every maximum matching that no maximum matching rank-dominates (sorted ranks); implies RKMAX, RS, leximin | certified at n ≤ 4 (witness + minimal checker); on the complete n = 5 lists every failing start is dominated (K4.RKMAX.N5) |
 | Starved receivers (§4) | at every known failing start a receiver has rank 3 or 4 and a two- or three-agent change through it dominates | evidence |
@@ -95,6 +95,21 @@ Instances used below:
   good g of k in J ∪ {Y_{x_t}}, every x_i ranks Y_{x_{i−1}} at rank ≥ r_k.
 - *Receiver first.* If a receiver u does not hold its top and the RF rotation (RF-PATH) gives a maximum matching, u is a
   gainer to rank 1, so some ejected agent held its own top (the level-1 cancellation of `k4/sdc.md` §31).
+
+**Lemma GAIN-RS (the rank-sum form; proved).** Let Y have the least rank sum among maximum matchings (the RS form of
+RKMAX, the min-cost view of attack 4). Then in every alternating component C with Y ⊕ C maximum,
+Σ_{gainers} (r_a − r′_a) ≤ Σ_{losers} (r′_b − r_b).
+*Proof.* Y ⊕ C is a maximum matching, so its rank sum is at least Y's, and only the agents of C change. ∎
+
+**Corollary SHORT (proved).** At an RS-optimal start, let k be dangerous with a best junk good g (the junk good of R_k
+of least rank), and let P = (k = x₀, x₁, …, x_t) be a canonical chain. Then t ≤ rank_k(g) − r_k ≤ 3.
+*Proof.* "k takes g, x_i takes Y_{x_{i−1}} (1 ≤ i ≤ t), Y_{x_t} is released" is a chain component. Each x_i gains at
+least one rank level, since it wants Y_{x_{i−1}}. k is the only loser and drops rank_k(g) − r_k ≤ 4 − 1 levels. ∎
+
+So RS-optimality bounds the canonical chains of Theorem S, Lemma S′ and Lemma SINK₁ to length ≤ 3, and to length 1
+when k's best junk good is its next good after the pick. σ-maximality gives no such bound: Lemma GAIN only bounds the
+gainers' new ranks. The census logs list the chain lengths that occur at σ-optimal starts: 1 or 2 at n = 4
+(`rk_hard_profile_n4.log`).
 
 ## 2. Evidence: RKMAX at n = 4 by a second implementation
 
@@ -347,3 +362,19 @@ SINK₁ covers all 44 climb counterexamples to HS-MAX, each with owner = the hea
 **Conjecture HS-MAX′.** In every strict connected k = 4 core, at every perfect σ-maximal maximum-matching start, the
 picks have a one-absorber completion, or Lemma SINK₁ applies. HS-MAX′ ⟹ RKMAX at perfect starts, and the earlier
 censuses (0 gaps, §5) remain valid for it, since SINK₁ contains S′ and RF-B.
+
+**Testing HS-MAX′.**
+- *Climbs against HS-MAX′* (`MECH=sink1` in `rk_climb.py`; logs `results/k4_rkmax/rk_climb_sink1_n4.log`,
+  `rk_climb_sink1_n4_long.log`, `rk_climb_sink1_n5.log`). None finds a counterexample:
+  - n = 4: 300 seeds × 3,000 steps, then 400 × 10,000. The closest climbs (37 and 71 of them) stall with exactly one
+    maximum matching of larger σ.
+  - n = 5: 150 seeds from the partial6 profiles × 1,500 steps.
+- *The SINK₁ residue at n = 4* (`MECH=sink1 rk_residue.py n4 20`, `results/k4_rkmax/rk_residue_sink1_n4.log`; all
+  Pareto-optimal maximum matchings of a 1-in-20 sample). 11,404 hard starts have no SINK₁ case:
+  - 5,641 fail OC₁;
+  - the other 5,763 are all of class (1, 3, 0), which is U0. They are repaired by rings of length 2–4, e.g. a swap of
+    two other dangerous agents in which one adds a junk good, and never by a chain from k.
+  - None of them is σ-maximal.
+
+  So a counterexample to HS-MAX′ would be a σ-maximal U0 start, and a SINK form with rings (girth's (T), (T\*)) would
+  then be the next candidate.

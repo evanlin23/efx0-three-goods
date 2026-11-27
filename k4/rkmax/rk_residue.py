@@ -2,10 +2,12 @@
 hard (no one-absorber completion at the picks) and covered by none of Prop. T0, Lemma S', Lemma RF-B.  HS-MAX says
 none of them is sigma-maximal.  For each: OC1 status, class, receiver ranks, and the fewest-agent sigma-raising change
 (components and roles), to see what a proof of "residue => not sigma-maximal" must produce.
-    python3 rk_residue.py n4 STRIDE | FILE STRIDE"""
+    python3 rk_residue.py n4 STRIDE | FILE STRIDE
+    MECH=sink1 ...      # residue = hard and no Lemma SINK1 case"""
 import sys, os, gzip, json, collections, time, multiprocessing as mp
 from rklib import Prof
-from rk_classes import theta, sprime_cases, rfb_cases
+from rk_classes import theta, sprime_cases, rfb_cases, sink1_cases
+MECH = os.environ.get('MECH', 'sprime')
 from rk_witness import components, role
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..')
@@ -22,8 +24,11 @@ def job(task):
         ro = P.roles(Y)
         if any(not theta(P, Y, ro, z) for z in ro['U']): C['T0'] += 1; continue
         if P.one_absorber([frozenset([g]) for g in Y]) is not None: C['picks complete (not T0)'] += 1; continue
-        if sprime_cases(P, Y, ro): C["hard, S'"] += 1; continue
-        if rfb_cases(P, Y, ro): C['hard, RF-B'] += 1; continue
+        if MECH == 'sink1':
+            if sink1_cases(P, Y, ro): C['hard, SINK1'] += 1; continue
+        else:
+            if sprime_cases(P, Y, ro): C["hard, S'"] += 1; continue
+            if rfb_cases(P, Y, ro): C['hard, RF-B'] += 1; continue
         st = P.oc1(Y); sY = P.sigma(Y); r = P.ranks(Y)
         C['RESIDUE (hard, no T0/S\'/RF-B), OC1 %s, sigma-max %s' % (st, sY == smax)] += 1
         C['  residue class (|U|,|D|,|D_T|)=(%d,%d,%d), receiver ranks %s' % (
@@ -42,7 +47,7 @@ def job(task):
 
 
 if __name__ == '__main__':
-    print('$ python3 k4/rkmax/rk_residue.py', *[os.path.basename(a) for a in sys.argv[1:]], flush=True)
+    print('$ MECH=%s python3 k4/rkmax/rk_residue.py' % MECH, *[os.path.basename(a) for a in sys.argv[1:]], flush=True)
     F = os.path.join(ROOT, 'results', 'k4_oc1max', 'two_move_starts_n4.json.gz') if sys.argv[1] == 'n4' else sys.argv[1]
     STRIDE = int(sys.argv[2])
     d = json.load(gzip.open(F)); prof = {}
