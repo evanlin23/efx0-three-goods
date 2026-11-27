@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 1401 audited statements, 2679 theorems, standard axioms only
+    CHECK PASSED: 1405 audited statements, 2683 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -340,6 +340,9 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   absorber (`oneAbsorber_of_noReceiver`, by Lemma MAX and Lemma M), so a failing start has a pick-holding receiver
   (`exists_pick_receiver`); RF for those receivers (`ConjRFpick`) implies RF∃, OC₁^∃max and TARGET₄
   (**`EFX.OC1Max.target4_of_conjRFpick`**).
+- `EFX/RKMax.lean`: **the rank-maximal frame** (`k4/sdc.md` §31 end, ledger K4.SDC.RKMAX.LEAN): Conjecture RKMAX (`ConjRKMAX`:
+  every maximum-matching order with a lexicographically maximal rank signature `rankSig` satisfies OC₁) implies
+  OC₁^∃max, hence TARGET₄ (**`EFX.OC1Max.target4_of_conjRKMAX`**); `exists_lexMax`, a lexicographic argmax.
 - `EFX/OC1MaxExamples.lean`: non-vacuity of `EFX/OC1Max.lean` by `decide`, on the MC2 core of `k4/sdc.md` §31 where OC
   fails: the failing start (index order) is not a maximum-matching start (`EFX.OC1Max.Ex.not_maximum_MC2`); the order
   3, 4, 0, 1, 2 picks a maximum matching with a one-absorber completion (`EFX.OC1Max.Ex.maximum_ordM`,

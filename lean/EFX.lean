@@ -112,3 +112,4 @@ import EFX.RFPick
 import EFX.SPhi
 import EFX.Sep
 import EFX.BaseR
+import EFX.RKMax
