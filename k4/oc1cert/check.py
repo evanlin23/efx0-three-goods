@@ -223,6 +223,18 @@ def check_core(rec):
             excl[tuple(e['picks'])].append(tuple(tix[i][H.sig(i, dict(zip(H.sets[i], e['vals'][i])))] for i in range(n)))
     efx = {}
     stats = collections.Counter()
+    # Prefilter (exact for validity): a witness can apply at Y only if every agent outside its recorded picks keeps
+    # its pick inside its X bundle (H.shape_ok needs X to contain the bases), and every recorded pick matches Y.
+    # allow[i][g]: bitset of the witnesses that allow Y_i = g (g = None: no pick).
+    allow = [collections.defaultdict(int) for _ in range(n)]
+    for k, w in enumerate(Ws):
+        bit = 1 << k; fixed = {int(a): y for a, y in w['picks'].items()}; X = w['_X']
+        for i in range(n):
+            if i in fixed: allow[i][fixed[i]] |= bit
+            else:
+                allow[i][None] |= bit
+                for g in H.sets[i]:
+                    if X[g] == i: allow[i][g] |= bit
     for Y in Ys:
         holder = {y: i for i, y in enumerate(Y) if y is not None}
         # per agent and type: excluded (a preferred good is unpicked), or the agents that must come before it
@@ -234,7 +246,11 @@ def check_core(rec):
                 row.append(None if any(g not in holder for g in better) else frozenset(holder[g] for g in better))
             sdreq.append(row)
         boxes = []
-        for w in Ws:
+        cand = -1
+        for i in range(n): cand &= allow[i].get(Y[i], 0)
+        for k in range(len(Ws)) if cand else ():
+            if not cand >> k & 1: continue
+            w = Ws[k]
             pk = w['picks']
             if any(Y[int(a)] != y for a, y in pk.items()): continue
             if R2 and w['kind'] not in ('picks', 'chain'): continue
@@ -317,8 +333,18 @@ def check_core(rec):
         for i in range(n):
             for k, ((req, *_), ts) in enumerate(cls[i]):
                 for j in req: solver.add_clause([-z[i][k], bef[(j, i)]])
+        # one literal per distinct agent mask (yl <-> the agent's class lies in the mask): each box is the clause
+        # "some agent's yl is false", and learned clauses speak about masks
+        ylit = {}
+        def yl(i, bi):
+            key = (i, tuple(k for k, (sg, ts) in enumerate(cls[i]) if sg[1][bi]))
+            if key not in ylit:
+                v = ylit[key] = new()
+                solver.add_clause([-v] + [z[i][k] for k in key[1]])
+                for k in key[1]: solver.add_clause([-z[i][k], v])
+            return ylit[key]
         for bi, b in enumerate(boxes):
-            solver.add_clause([z[i][k] for i in range(n) for k, (sg, ts) in enumerate(cls[i]) if not sg[1][bi]])
+            solver.add_clause([-yl(i, bi) for i in range(n)])
         if R2:      # at least two receivers: rec_j -> every other agent's class lies in nw[j]
             rcv = [new() for _ in range(n)]
             for j in range(n):
