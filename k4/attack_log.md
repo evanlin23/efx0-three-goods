@@ -1274,3 +1274,18 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   plain swap never repairs.
 - Paused for a strategy review at the user's request: this line repeats the pattern `k4/strategy.md` diagnosed
   (extremal start, improving move, counterexample, patch).
+
+### 2026-11-27 17:10 UTC: direction change (prove or refute TARGET₄ itself)
+- The user observed that the work was going in circles. Indeed, the conjecture–refute–loosen loop is the one
+  `k4/strategy.md` diagnosed: 121 REFUTED and 77 CONJECTURE rows, while TARGET₄ itself has never failed. The user then
+  asked to "keep on trying to prove target for or try to refute it". The hourly prompt is retargeted accordingly: no
+  new rule- or potential-style conjectures. Track (B) searches for counterexamples to TARGET₄ itself with exact
+  checks; track (A) gives proofs by certified checks (reducible configurations, certified ranges). The kill rule is 3
+  bursts without an artifact.
+- **Started: the n = 6 frontier with two 4-good agents.** `python3 k4/frontier/search.py 6 --n4=2 --tries=2 --jobs=4
+  --out=results/k4_certs_6_n4_2.json.gz`, log `results/k4_search_6_n4_2.log`, 119,283 cores. It is the first class
+  beyond the certified range (K4.R6a: n = 6 with one 4-good agent). Each core either gets a D2 certificate (checked
+  later by `k4/check4_fast.py`) or yields a failing profile. A failing profile would then be tested for TARGET₄
+  exactly, which is the refutation side.
+  - Estimate: about 24 CPU-hours (`k4/frontier/README.md`), so about 6–8 h on 4 CPUs.
+  - The checkpoint `k4/frontier/checkpoint_6_n4_2_all_p0of1.jsonl` is gitignored and lives in the container.
