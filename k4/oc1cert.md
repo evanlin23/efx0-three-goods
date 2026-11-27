@@ -314,6 +314,19 @@ The run is in progress: `k4/oc1cert/n5_driver.sh`, at depth 2 (OC₂^max), in ch
   - 702,250 starts, from partial lists cut at 7 min per core;
   - every one has exactly one receiver;
   - 28,093 raw-checked, all 'OC1 fails', and 7,024 sampled two-move raw checks, all repair.
+- **Census of the stored two-move starts** (`k4/oc1cert/census_n5.py`). It runs the coordinator's
+  `three_move_hunt.depth` (least moves, up to 3) and `roundp_check.round_p` (ROUND-P, R = 2), unmodified, from main
+  at 3425b19b. Results in `results/k4_oc1max/n5/census_n5_<chunk>.json.gz` and `.log`:
+
+| chunk | stored starts | least moves | ROUND-P one move | ROUND-P round of two | receivers |
+|---|---|---|---|---|---|
+| 5_pure_s5o0 | 280 | 2 at all | 234 | 46 | 1 at all |
+| 5_pure_s5o1 | 288 | 2 at all | 246 | 42 | 1 at 283, 2 at 5 (the R2 counterexamples, all ROUND-P one move) |
+
+  Chunk 1's ROUND-P counts agree with matching's run of the same 280 starts.
+- **Good orders at the complete lists** (1 in 20 of the 583,680 starts of 419, 447 and 38:
+  `good_orders_two_move_starts_n5_sel2_s20.json.gz`, `.log`). Every rule of the chunk-1 analysis holds at all 29,184
+  starts, the most-frequent-vector rule included.
 - **Complete** two-move start lists of 5_pure (m = 10) idx 419, (m = 11) idx 447 and (m = 9) idx 38, the RSD-IND and
   REC-S cases (`results/k4_oc1max/n5/two_move_starts_n5_sel2.json.gz`, input `two_move_starts_n5_sel2_input.jsonl`,
   log `two_move_starts_n5_sel2.log`):
