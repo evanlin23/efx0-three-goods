@@ -1,0 +1,17 @@
+$ python3 k4/ksens/pw_grid.py 5 4 8
+f 2 W 1  r=2:ok  r=3:ok  r=4:ok  r=5:ok  r=6:ok  r=7:ok  r=8:ok
+f 2 W 2  r=2:ok  r=3:ok  r=4:ok  r=5:ok  r=6:ok  r=7:ok  r=8:ok
+f 2 W 3  r=2:ok  r=3:ok  r=4:ok  r=5:ok  r=6:ok  r=7:ok  r=8:ok
+f 2 W 4  r=2:ok  r=3:ok  r=4:ok  r=5:ok  r=6:ok  r=7:ok  r=8:ok
+f 3 W 1  r=2:ok  r=3:ok  r=4:ok  r=5:ok  r=6:ok  r=7:ok  r=8:ok
+f 3 W 2  r=2:ok  r=3:ok  r=4:FAIL  r=5:ok  r=6:ok  r=7:ok  r=8:ok
+f 3 W 3  r=2:ok  r=3:ok  r=4:ok  r=5:FAIL  r=6:ok  r=7:ok  r=8:ok
+f 3 W 4  r=2:ok  r=3:ok  r=4:ok  r=5:ok  r=6:ok  r=7:ok  r=8:ok
+f 4 W 1  r=2:ok  r=3:ok  r=4:ok  r=5:ok  r=6:ok  r=7:ok  r=8:ok
+f 4 W 2  r=2:ok  r=3:ok  r=4:FAIL  r=5:FAIL  r=6:ok  r=7:ok  r=8:ok
+f 4 W 3  r=2:ok  r=3:ok  r=4:ok  r=5:FAIL  r=6:FAIL  r=7:ok  r=8:ok
+f 4 W 4  r=2:ok  r=3:ok  r=4:ok  r=5:ok  r=6:FAIL  r=7:FAIL  r=8:ok
+f 5 W 1  r=2:ok  r=3:ok  r=4:ok  r=5:ok  r=6:ok  r=7:ok  r=8:ok
+f 5 W 2  r=2:ok  r=3:ok  r=4:FAIL  r=5:FAIL  r=6:FAIL  r=7:ok  r=8:ok
+f 5 W 3  r=2:ok  r=3:ok  r=4:ok  r=5:FAIL  r=6:FAIL  r=7:FAIL  r=8:ok
+f 5 W 4  r=2:ok  r=3:ok  r=4:ok  r=5:ok  r=6:FAIL  r=7:FAIL  r=8:FAIL

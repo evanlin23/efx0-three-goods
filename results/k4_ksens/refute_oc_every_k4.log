@@ -1,0 +1,4 @@
+$ python3 k4/ksens/refute_oc_every_k4.py
+B< [[[0, 2, 3, 1], [6, 4, 5, 9], [1, 2, 3, 9], [1, 6, 7, 8], [3, 6, 9], [1, 3, 6, 9]], [[6, 14, 16, 12], [4, 18, 12, 28], [28, 4, 16, 21], [16, 14, 12, 6], [28, 8, 24], [20, 30, 8, 4]]] order 0..5 picks (3, 9, 1, 6, None, None) (4 picks, nu 6); completion one absorber; SAT one chain: True; brute: 114 one-chain states (54 official), any with a completion: True (official False)
+MC2 [[[0, 3, 6, 8], [1, 4, 7, 6], [2, 5, 8, 7], [0, 1, 2], [0, 1, 2]], [[10, 6, 5, 7], [10, 6, 5, 7], [10, 6, 5, 7], [4, 3, 2], [2, 4, 3]]] order 0..4 picks (0, 1, 2, None, None) (3 picks, nu 5); completion free; SAT one chain: True; brute: 417 one-chain states (207 official), any with a completion: True (official False)
+both: one chain fails under the official rule and succeeds with empty passes; neither start is maximum: True ; 0 s

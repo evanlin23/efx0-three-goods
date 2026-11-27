@@ -1,0 +1,72 @@
+== pairs n=5 K=5
+$ python3 k4/ksens/survey.py pairs 5 5 1200 11 3
+instances 1200
+instances with a start needing a chain (OC) 476
+instances with a start needing a chain (OC1) 614
+starts 22724
+starts ext 20761
+starts ext1 20154
+starts md 22724
+starts oc 22724
+starts oc1 22724
+time 28 s
+== pairs n=5 K=6
+$ python3 k4/ksens/survey.py pairs 5 6 1200 11 3
+instances 1200
+instances with a start needing a chain (OC) 701
+instances with a start needing a chain (OC1) 944
+starts 22758
+starts ext 19606
+starts ext1 17923
+starts md 22758
+starts oc 22758
+starts oc1 22758
+time 58 s
+== jr n=5 K=5
+$ python3 k4/ksens/survey.py jr 5 5 1200 11 3
+instances 1200
+instances with a start needing a chain (OC) 426
+instances with a start needing a chain (OC1) 521
+starts 10361
+starts ext 9316
+starts ext1 8943
+starts md 10361
+starts oc 10361
+starts oc1 10361
+time 14 s
+== jr n=5 K=6
+$ python3 k4/ksens/survey.py jr 5 6 1200 11 3
+instances 1200
+instances with a start needing a chain (OC) 385
+instances with a start needing a chain (OC1) 467
+starts 10052
+starts ext 9090
+starts ext1 8754
+starts md 10052
+starts oc 10052
+starts oc1 10052
+time 26 s
+== hot1 n=5 K=5
+$ python3 k4/ksens/survey.py hot1 5 5 1200 11 3
+instances 1200
+instances with a start needing a chain (OC) 299
+instances with a start needing a chain (OC1) 385
+starts 10685
+starts ext 9946
+starts ext1 9683
+starts md 10685
+starts oc 10685
+starts oc1 10685
+time 15 s
+== hot1 n=5 K=6
+$ python3 k4/ksens/survey.py hot1 5 6 1200 11 3
+instances 1200
+instances with a start needing a chain (OC) 348
+instances with a start needing a chain (OC1) 452
+starts 10607
+starts ext 9676
+starts ext1 9335
+starts md 10607
+starts oc 10607
+starts oc1 10607
+time 29 s

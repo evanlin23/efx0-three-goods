@@ -1,0 +1,3 @@
+$ kgen/n3.md §10 configurations (branch claude/kgen-n3, read here): least rounds from every start
+k=4 break [[[1, 3, 4, 5], [0, 2, 3, 4], [2, 3, 4, 5]], [[3, 36, 97, 73], [42, 22, 81, 64], [38, 54, 87, 19]]] k 4 | start of order (2, 0, 1) picks (5, 3, 4) rounds (A=1, free) (0, 0) | max over all starts 1 1
+k=5 tie-break [[[0, 2, 3], [0, 1, 3], [0, 4]], [[38, 66, 91], [42, 26, 38], [65, 23]]] k 3 | start of order (1, 0, 2) picks (3, 0, 4) rounds (A=1, free) (0, 0) | max over all starts 0 0

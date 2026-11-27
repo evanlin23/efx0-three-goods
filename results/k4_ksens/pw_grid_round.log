@@ -1,0 +1,18 @@
+$ one round on the failing cells of pw_grid.log (clean PW, natural order, maximum-matching starts)
+PW(3,2,4) k 5: maximum-matching start True; one chain False; one round (A=1) True
+PW(3,3,5) k 6: maximum-matching start True; one chain False; one round (A=1) True
+PW(4,2,4) k 5: maximum-matching start True; one chain False; one round (A=1) True
+PW(4,2,5) k 6: maximum-matching start True; one chain False; one round (A=1) True
+PW(4,3,5) k 6: maximum-matching start True; one chain False; one round (A=1) True
+PW(4,3,6) k 7: maximum-matching start True; one chain False; one round (A=1) True
+PW(4,4,6) k 7: maximum-matching start True; one chain False; one round (A=1) True
+PW(4,4,7) k 8: maximum-matching start True; one chain False; one round (A=1) True
+PW(5,2,4) k 6: maximum-matching start True; one chain False; one round (A=1) True
+PW(5,2,5) k 6: maximum-matching start True; one chain False; one round (A=1) True
+PW(5,2,6) k 7: maximum-matching start True; one chain False; one round (A=1) True
+PW(5,3,5) k 6: maximum-matching start True; one chain False; one round (A=1) True
+PW(5,3,6) k 7: maximum-matching start True; one chain False; one round (A=1) True
+PW(5,3,7) k 8: maximum-matching start True; one chain False; one round (A=1) True
+PW(5,4,6) k 7: maximum-matching start True; one chain False; one round (A=1) True
+PW(5,4,7) k 8: maximum-matching start True; one chain False; one round (A=1) True
+PW(5,4,8) k 9: maximum-matching start True; one chain False; one round (A=1) True
