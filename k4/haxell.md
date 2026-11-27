@@ -633,11 +633,13 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
     (vᵢ(Yᵢ) > vᵢ(Xᵢ) iff vᵢ(Yᵢ ∖ Xᵢ) > vᵢ(Xᵢ ∖ Yᵢ)). So with strict values it depends only on the type profile, and
     exhaustive checks over types are complete for it.
   - `gstar_measure` measure 19.
-- *Where P^sub holds (exhaustive over strict types, C checker only so far).*
+- *Where P^sub holds (exhaustive over strict types).*
   - **n = 2** (Theorem N2 below, with its Pareto strengthening): k ≤ 4, with up to two goods valued by nobody.
-  - **n = 3, k ≤ 3**: every strict type profile of every shape (14,100 classes up to interchangeable goods, m ≤ 9,
-    3,757,000 partial EFX₀ states), no P^sub stuck state (`ht_n3types.py`; `n3types_k3_m7.log`, `n3types_k3_m89.log`).
-    Pool-shrinking alone fails at 7,129 of those states.
+  - **n = 3, k ≤ 3 (computer-verified, two implementations)**: every strict type profile of every shape (14,100
+    classes up to Lemma OR, all m ≤ 9, 3,756,992 partial EFX₀ states) has no P^sub stuck state (`ht_n3types.py`, C;
+    `n3types_k3_m7.log`, `n3types_k3_m89.log`). The independent Python checker `ht_n3types_check.py` re-ran every
+    class with the same state counts and no stuck state (`n3types_k3_pycheck_full.log`). Completeness is by Lemmas
+    TD and OR. Pool-shrinking alone fails at 7,129 of those states.
   - So two moves suffice for n ≤ 3 (k ≤ 3 at n = 3). Every known failure has n = 4 and an agent with four goods;
     n = 4 with k ≤ 3, and n = 3 with k = 4 exhaustively, are not settled.
 - *Lemma P^sub₃ (CONJECTURE for every |Rᵢ| ≤ 4).* P^sub with **three** moves. It has a step at all 40 known two-move
@@ -841,7 +843,9 @@ failures need n = 4, so n = 2 is still a fair, bounded target.
 
       Every orbit of type profiles therefore has exactly one profile in which each designated agent's values increase
       along its class (A for the A-only and the shared goods, B for the B-only goods). Also, every pair of relevant
-      sets is isomorphic to one with A-only goods first, then shared, then B-only. ∎
+      sets is isomorphic to one with A-only goods first, then shared, then B-only. ∎ For n = 3 (`ht_n3types.py`) the
+      designated agent of a class is the first agent valuing it, and the shapes are all multisets of patterns up to
+      agent permutation (`ht_n3grid.py`).
     - The types themselves come from `k4/order_types.json` (K4.OT, CERTIFIED). For one and two goods the strict types
       are 1 and 2, written out in the script.
     With these, `ht_n2types.py` runs every strict type profile once up to Lemma OR (45,999 classes;
