@@ -252,6 +252,54 @@ Closing it needs the exact one-absorber completability count (the Hall session's
   1,297 maximum-matching pick vectors; 1,294 complete at the picks, 3 after one move, none fail. Random cores rarely fail
   OC₁ at all, so this is weak.
 
+**The lift test, read on the completions** (`k4/rfmin/privtop_mech.py`; samples of the partial6 lifted starts).
+- *The first guess is wrong.* The guess was that u's wish freezes the holder x₁ of u's old top t, and that the lift frees
+  x₁.
+  - At all 1,191 sampled starts (every 20th), t is also wanted by another agent, so x₁ stays frozen after the lift.
+  - At 949 of them, no lifted completion gives x₁ any junk; a completion in which x₁ takes none always exists.
+- *What the lift frees.* Only u's valuation changes, so a lifted completion fails in the original values only through u's
+  own safety. At all 240 sampled starts (every 100th), some lifted completion is blocked in the original values by
+  exactly one kind of bundle: a single-junk bundle {g, j}, where g is a good u ranks above its private pick (u's top in 45
+  of them, another such good otherwise).
+  - So u's wishes freeze, for junk, the holders of every good u ranks above its private pick.
+  - The lift frees those holders as parking slots.
+- *The owner is the private-top agent itself.* At all 478 sampled lifted starts (every 50th), a lifted completion with
+  absorber u exists, so the lift completes the picks with the private-top agent as owner.
+
+**Lemma 2 at the picks, with owner f.** Take Hall's Lemma 2 (`k4/oc1_hall.md` §4; slot count for S\* completions with
+owner o) at the picks, with owner o = f, the private-top agent. Its hypotheses hold automatically:
+- (G1): every non-owner bundle is a singleton, and singletons never threaten;
+- (G2): junk is never wanted (SD1);
+- (G5′) and (H3): B_o = {p} is private.
+
+Its condition (H1) for a frozen q is exactly v_q(J ∖ H) ≤ v_q(Y_q), because p is worthless to q. So at the picks, "a
+completion with owner f" is exactly the count: some H ⊆ J meets (H1) and |H| + θ(H) − ν(H) ≤ |N₁|. Lemma ABS is the case
+H = ∅ with no threatened receiver unserved.
+
+**After one move** (`k4/rfmin/privtop_gap.py`, `results/k4_rfmin/privtop_gap.log`). Random strict connected cores with a
+private-top agent, n = 4–6, 20,000 instances: 62,531 maximum-matching starts, of which 103 do not complete at the picks.
+- At all 103, some one-move state has a completion **with owner f**. This is RF-PRIV's conclusion on them, with the
+  owner fixed.
+- At 87 of them a two-agent chain does it: d ∈ D^full takes a pair H₀ of its junk goods, an *unfrozen* wanter w of Y_d
+  takes Y_d, and Y_w is released.
+  - This is the case where Lemma 2's hypotheses also hold after the move:
+    - (G2), because Y_w is unwanted when w is unfrozen;
+    - (G1), because a two-good junk bundle threatens nobody.
+  - A wanter of Y_d always holds a pick at a maximum-matching start: by Lemma MAX, a pickless wanter would make d value
+    no junk.
+- The other 16 need one of:
+  - a frozen wanter (27 repairs);
+  - a three-good H₀ (18);
+  - a longer chain;
+  - f adding junk to its own base (31).
+- Ten have no two-agent repair at all.
+
+So a uniform proof by Lemma 2 at the post-move state needs its hypotheses (G1) and (G2) relaxed, or a second case.
+
+**Conjecture RF-PRIV⁺** (EVIDENCE: the 103 starts above, and the 35,299 lifted n = 5 starts). In a core where some agent f's
+top good is private, at every maximum-matching start the picks, or the bases after one move, have a one-absorber
+completion with owner f.
+
 **Where private-top agents survive in 𝒦.** K4.MC5 forces y > p > g for a P3 agent next to an E3 agent (Q3 or P4) through a
 degree-2 good, so such an agent's top is not private. In px-Q4's recorded set, 576 of the 1,080 open profiles have the P3
 agent ranking its private good first (`results/k4_min_cex_px_uncovered.json`). So in 𝒦, RF-PRIV concerns:
@@ -289,5 +337,7 @@ python3 absorb.py data N4 N5P6 N5S2                         # the stored failing
 python3 census.py N4 N5P6 N5S2; python3 classes.py N4; python3 classes.py N5P6 N5S2     # §4, ~30 min for n = 5
 python3 privtop_lift.py N5P6 1; python3 privtop_lift.py N5S2 10                     # §6 lift test, ~10 min
 python3 privtop_random.py 400 7 4 6                                                 # §6 random private-top cores, ~5 min
+python3 privtop_mech.py N5P6 20                                                     # §6 lift mechanism (x1), ~10 min
+python3 privtop_gap.py 20000 13 4 6                                                 # §6 the starts needing a move, ~20 min
 cd ..; for b in 5 6 7 8 9; do python3 twins_count.py 6 $b --mc9 --write=../results/k4_rfmin/mc_n6_b${b}_mc9.json.gz; done
 ```
