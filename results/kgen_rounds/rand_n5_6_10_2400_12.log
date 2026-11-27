@@ -1,0 +1,243 @@
+$ python3 kgen/rounds/stress.py rand all 5 6 10 2400 12
+bigsmall 10 inst 28
+bigsmall 10 need_chain_A1 17
+bigsmall 10 need_chain_free 15
+bigsmall 10 starts 94
+bigsmall 6 inst 41
+bigsmall 6 starts 384
+bigsmall 7 inst 37
+bigsmall 7 need_chain_A1 22
+bigsmall 7 need_chain_free 22
+bigsmall 7 starts 161
+bigsmall 8 inst 53
+bigsmall 8 need_chain_A1 42
+bigsmall 8 need_chain_free 42
+bigsmall 8 starts 208
+bigsmall 9 inst 41
+bigsmall 9 need_chain_A1 20
+bigsmall 9 need_chain_free 18
+bigsmall 9 starts 149
+corr 10 inst 36
+corr 10 need_chain_A1 110
+corr 10 need_chain_free 91
+corr 10 starts 952
+corr 6 inst 34
+corr 6 starts 1786
+corr 7 inst 40
+corr 7 need_chain_A1 165
+corr 7 need_chain_free 165
+corr 7 starts 1641
+corr 8 inst 42
+corr 8 need_chain_A1 150
+corr 8 need_chain_free 150
+corr 8 starts 1561
+corr 9 inst 48
+corr 9 need_chain_A1 278
+corr 9 need_chain_free 244
+corr 9 starts 1857
+generic 10 inst 26
+generic 10 starts 51
+generic 6 inst 38
+generic 6 starts 322
+generic 7 inst 47
+generic 7 need_chain_A1 16
+generic 7 need_chain_free 16
+generic 7 starts 234
+generic 8 inst 46
+generic 8 need_chain_A1 15
+generic 8 need_chain_free 15
+generic 8 starts 261
+generic 9 inst 43
+generic 9 need_chain_A1 5
+generic 9 need_chain_free 5
+generic 9 starts 147
+ident 10 inst 48
+ident 10 need_chain_A1 360
+ident 10 starts 5760
+ident 6 inst 40
+ident 6 starts 4800
+ident 7 inst 40
+ident 7 starts 4800
+ident 8 inst 33
+ident 8 starts 3960
+ident 9 inst 39
+ident 9 starts 4680
+lex 10 inst 46
+lex 10 starts 118
+lex 6 inst 45
+lex 6 starts 277
+lex 7 inst 38
+lex 7 starts 215
+lex 8 inst 37
+lex 8 starts 172
+lex 9 inst 34
+lex 9 starts 141
+near 10 inst 39
+near 10 starts 3016
+near 6 inst 40
+near 6 starts 3641
+near 7 inst 41
+near 7 need_chain_A1 18
+near 7 need_chain_free 18
+near 7 starts 3627
+near 8 inst 38
+near 8 starts 2911
+near 9 inst 42
+near 9 starts 3307
+pairs 10 inst 39
+pairs 10 starts 107
+pairs 6 inst 42
+pairs 6 starts 441
+pairs 7 inst 39
+pairs 7 need_chain_A1 10
+pairs 7 need_chain_free 10
+pairs 7 starts 286
+pairs 8 inst 32
+pairs 8 need_chain_A1 4
+pairs 8 need_chain_free 4
+pairs 8 starts 138
+pairs 9 inst 48
+pairs 9 need_chain_A1 9
+pairs 9 need_chain_free 9
+pairs 9 starts 165
+pw 10 inst 39
+pw 10 need_chain_A1 183
+pw 10 need_chain_free 183
+pw 10 starts 419
+pw 6 inst 37
+pw 6 starts 669
+pw 7 inst 47
+pw 7 need_chain_A1 20
+pw 7 need_chain_free 20
+pw 7 starts 535
+pw 8 inst 35
+pw 8 need_chain_A1 23
+pw 8 need_chain_free 23
+pw 8 starts 371
+pw 9 inst 42
+pw 9 need_chain_A1 114
+pw 9 need_chain_free 114
+pw 9 one_chain_fails 12
+pw 9 starts 420
+small 10 inst 41
+small 10 starts 159
+small 6 inst 36
+small 6 starts 355
+small 7 inst 37
+small 7 need_chain_A1 3
+small 7 need_chain_free 3
+small 7 starts 226
+small 8 inst 48
+small 8 need_chain_A1 1
+small 8 need_chain_free 1
+small 8 starts 254
+small 9 inst 38
+small 9 starts 160
+threetype 10 inst 39
+threetype 10 need_chain_A1 60
+threetype 10 need_chain_free 60
+threetype 10 starts 780
+threetype 6 inst 42
+threetype 6 starts 1092
+threetype 7 inst 47
+threetype 7 need_chain_A1 48
+threetype 7 need_chain_free 48
+threetype 7 starts 1058
+threetype 8 inst 40
+threetype 8 need_chain_A1 114
+threetype 8 need_chain_free 114
+threetype 8 starts 1086
+threetype 9 inst 32
+threetype 9 need_chain_A1 4
+threetype 9 need_chain_free 4
+threetype 9 starts 494
+tops 10 inst 39
+tops 10 starts 39
+tops 6 inst 34
+tops 6 starts 34
+tops 7 inst 51
+tops 7 starts 51
+tops 8 inst 38
+tops 8 starts 38
+tops 9 inst 38
+tops 9 starts 38
+twotype 10 inst 39
+twotype 10 need_chain_A1 24
+twotype 10 need_chain_free 24
+twotype 10 starts 1104
+twotype 6 inst 37
+twotype 6 starts 1200
+twotype 7 inst 35
+twotype 7 need_chain_A1 132
+twotype 7 need_chain_free 132
+twotype 7 starts 1308
+twotype 8 inst 40
+twotype 8 need_chain_A1 84
+twotype 8 need_chain_free 84
+twotype 8 starts 1152
+twotype 9 inst 49
+twotype 9 need_chain_A1 132
+twotype 9 need_chain_free 132
+twotype 9 starts 1524
+min RND1 witnesses bigsmall 10 22
+min RND1 witnesses bigsmall 6 1
+min RND1 witnesses bigsmall 7 2
+min RND1 witnesses bigsmall 8 4
+min RND1 witnesses bigsmall 9 3
+min RND1 witnesses corr 10 95
+min RND1 witnesses corr 6 1
+min RND1 witnesses corr 7 1
+min RND1 witnesses corr 8 5
+min RND1 witnesses corr 9 4
+min RND1 witnesses generic 10 1424
+min RND1 witnesses generic 6 1
+min RND1 witnesses generic 7 7
+min RND1 witnesses generic 8 41
+min RND1 witnesses generic 9 322
+min RND1 witnesses ident 10 44
+min RND1 witnesses ident 6 1
+min RND1 witnesses ident 7 1
+min RND1 witnesses ident 8 1
+min RND1 witnesses ident 9 1
+min RND1 witnesses lex 10 1
+min RND1 witnesses lex 6 1
+min RND1 witnesses lex 7 1
+min RND1 witnesses lex 8 1
+min RND1 witnesses lex 9 1
+min RND1 witnesses near 10 7047
+min RND1 witnesses near 6 1
+min RND1 witnesses near 7 11
+min RND1 witnesses near 8 66
+min RND1 witnesses near 9 1062
+min RND1 witnesses pairs 10 2056
+min RND1 witnesses pairs 6 1
+min RND1 witnesses pairs 7 4
+min RND1 witnesses pairs 8 83
+min RND1 witnesses pairs 9 485
+min RND1 witnesses pw 10 90
+min RND1 witnesses pw 6 1
+min RND1 witnesses pw 7 1
+min RND1 witnesses pw 8 11
+min RND1 witnesses pw 9 34
+min RND1 witnesses small 10 1470
+min RND1 witnesses small 6 1
+min RND1 witnesses small 7 7
+min RND1 witnesses small 8 75
+min RND1 witnesses small 9 459
+min RND1 witnesses threetype 10 195
+min RND1 witnesses threetype 6 1
+min RND1 witnesses threetype 7 2
+min RND1 witnesses threetype 8 4
+min RND1 witnesses threetype 9 37
+min RND1 witnesses tops 10 1532
+min RND1 witnesses tops 6 5
+min RND1 witnesses tops 7 20
+min RND1 witnesses tops 8 76
+min RND1 witnesses tops 9 307
+min RND1 witnesses twotype 10 396
+min RND1 witnesses twotype 6 1
+min RND1 witnesses twotype 7 1
+min RND1 witnesses twotype 8 5
+min RND1 witnesses twotype 9 22
+TOTAL {'inst': 2400, 'need_chain_A1': 2183, 'need_chain_free': 1766, 'starts': 66936, 'one_chain_fails': 12}
+time 217 s
