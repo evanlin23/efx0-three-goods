@@ -1,0 +1,17 @@
+# Proposed LEDGER.md rows from proof/k4-haxell
+
+The assignment for this workstream says not to edit LEDGER.md: the coordinator integrates. These rows are therefore
+staged here, in the ledger's own format, ready to paste below the K4 rows. Every REFUTED row points to a file on this
+branch. The two "W" rows were revised after the coordinator asked for a W^sub row, because W^sub with welfare is now
+refuted.
+
+| ID | Claim | Status | Artifact | Lean | Notes |
+|---|---|---|---|---|---|
+| K4.CONN2 | Every partial EFX₀ allocation of a k ≤ 4 instance reaches a complete EFX₀ allocation through partial EFX₀ allocations, each step at most two local moves (move one good, swap two goods' holders with the pool as a holder, trade two bundles), the pool never growing | CONJECTURE | | | Evidence only: about 120M states in the census of `k4/haxell/gstar.c` and an independent Python census agreeing on 203 instances; every OC/OC₁ counterexample; k = 5–10 samples (`k4/haxell.md` §4–§5) |
+| K4.CONN1k3 | CONN with single local moves holds when every agent values at most three goods | REFUTED | `attempts/k4_haxell_trap.py` | | g834, n = 4, m = 7 (`attempts/k4-haxell-single-swap-collapse.md`) |
+| K4.AUG | One-shot augmentation within r local moves (AUG₂ at k = 3; AUG₃ at k = 4) | REFUTED | `attempts/k4_haxell_aug.py` | | `attempts/k4-haxell-bounded-augmentation.md` |
+| K4.CI | Collapse invariant for agent- and good-disjoint holding-monotone edges | PROVED | `k4/haxell.md` | | written proof in §4; such trees are value-monotone, which P1 forbids |
+| K4.W | One-step welfare lemma with at most two single-good moves (moves, swaps, rotations) | REFUTED | `attempts/k4_haxell_w.py` | | W4: n = 2, m = 7, k = 4 (`attempts/k4-haxell-conjecture-w.md`) |
+| K4.W3 | The same with at most three single-good moves | REFUTED | `attempts/k4_haxell_w.py` | | fails at k = 5 (W5). For k ≤ 4 it has no stuck state on the n = 2 grid (470.5M states) or at the 36 W^sub failures; a k ≤ 4 row would be a CONJECTURE |
+| K4.WSUB | W^sub with welfare: at most two set moves (`k4/haxell.md` §6, "W^sub stated precisely") reach a smaller pool, or the same pool and larger welfare | REFUTED | `attempts/k4_haxell_wsub.py` | | n = 4, m = 7, a k = 4 core with strict balanced values (`attempts/k4-haxell-wsub-welfare.md`); no stuck state on the n = 2 grid (470.5M states), the n = 3 grid with k ≤ 3 and m ≤ 5 (742M), or every type profile of the small n = 4 cores |
+| K4.LSUB | L^sub: the same with leximin in place of welfare, for every instance with every agent valuing at most four goods (implies TARGET₄) | CONJECTURE | | | Evidence: the n = 2 grid with k ≤ 4 (470.5M states); a step at all 36 W^sub failures; the n = 3 grids and the core runs with both measures are in `results/k4_haxell/*_wl_*.log`. Six of its seven move kinds are each needed (§6 ablation) |

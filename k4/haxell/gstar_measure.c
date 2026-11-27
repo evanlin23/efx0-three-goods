@@ -213,7 +213,8 @@ int main(int argc, char **argv) {
         for (int K = 0; K < NPHI; K++) printf(" phi%d %ld", K, stuck[K]);
         int K0 = -1; for (int K = 1; K < NPHI; K++) if (ex[K] >= 0) { K0 = K; break; }
         if (K0 >= 0) { decode(ex[K0], own); printf(" example_phi%d", K0); for (int g = 0; g < m; g++) printf(" %d", own[g] == n ? -1 : own[g]); }
-        if (SLACK) printf(" slack %ld %ld %ld %ld", r1min, slack_min, slack_nmin, r1stuck);
+        if (SLACK) printf(" slack %ld %ld %ld %ld r2stuck %ld", r1min, slack_min, slack_nmin, r1stuck,
+                          ONLY >= 0 ? stuck3fixed[ONLY] + stuck[ONLY] : -1);   /* r2stuck: states with no step within two moves */
         printf("\n"); fflush(stdout); free(ok);
     }
     return 0;

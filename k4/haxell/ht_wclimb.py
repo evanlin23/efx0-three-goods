@@ -13,7 +13,9 @@ score does not get worse; RESTART steps without strict improvement start a new i
 
     python3 k4/haxell/ht_wclimb.py n m k [STEPS=2000] [CLIMBERS=4] [VMAX=60] [RESTART=300] [SEED=1] [SUB=1] [MEASURE=1]
                                      [OFF=0]   (OFF: move kinds switched off, the bitmask of gstar_measure.c)
-                                     [START="n m d g v ..."]   (every climb starts and restarts from this instance)"""
+                                     [START="n m d g v ..."]   (every climb starts and restarts from this instance)
+                                     [RADIUS=2]   (3: composites of three moves; the score then prefers instances with
+                                                   many states that have no step within two moves)"""
 import sys, os, random, subprocess, time
 import multiprocessing as mpc
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -60,15 +62,20 @@ def mutate(rng, V, n, m, k, vmax):
 
 
 def climber(args):
-    n, m, k, steps, vmax, restart, seed, sub, measure, off, start = args
+    n, m, k, steps, vmax, restart, seed, sub, measure, off, start, radius = args
     rng = random.Random(seed)
-    P = subprocess.Popen([os.path.join(HERE, 'gstar_measure'), '2', '1', str(measure), str(sub), '1', '1', str(off)],
+    P = subprocess.Popen([os.path.join(HERE, 'gstar_measure'), str(radius), '1', str(measure), str(sub), '1', '1', str(off)],
                          stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, bufsize=1)
 
     def score(V):
         P.stdin.write(line(V, n, m) + '\n'); P.stdin.flush()
         w = P.stdout.readline().split(); j = w.index('slack')
-        r1min, smin = int(w[j + 1]), int(w[j + 2])
+        r1min, smin = int(w[j + 1]), int(w[j + 2]); stuck = int(w[w.index('phi%d' % measure) + 1])
+        if stuck:
+            return (0, 0), w
+        if radius >= 3:       # no counterexample: prefer instances with many states that need three moves
+            r2 = int(w[w.index('r2stuck') + 1])
+            return ((0, 1, -r2) if r2 else (1, smin) if smin >= 0 else (2, r1min)), w
         return ((0, smin) if smin >= 0 else (1, r1min)), w
     best_overall = None; found = []
     fresh = (lambda: dict(start)) if start else (lambda: rand_inst(rng, n, m, k, vmax))
@@ -96,7 +103,7 @@ if __name__ == '__main__':
     a = dict(x.split('=') for x in sys.argv[4:] if '=' in x)
     steps = int(a.get('STEPS', '2000')); C = int(a.get('CLIMBERS', '4')); vmax = int(a.get('VMAX', '60'))
     restart = int(a.get('RESTART', '300')); seed = int(a.get('SEED', '1')); sub = int(a.get('SUB', '1'))
-    measure = int(a.get('MEASURE', '1')); off = int(a.get('OFF', '0'))
+    measure = int(a.get('MEASURE', '1')); off = int(a.get('OFF', '0')); radius = int(a.get('RADIUS', '2'))
     start = None
     if 'START' in a:       # an instance line "n m d g v ...": every climb starts (and restarts) from it
         w = list(map(int, a['START'].split())); assert (w[0], w[1]) == (n, m); start = {}; t = 2
@@ -109,13 +116,13 @@ if __name__ == '__main__':
     t0 = time.time(); allfound = []
     with mpc.Pool(min(C, os.cpu_count() or 1)) as pool:
         for s, best, found in pool.imap_unordered(climber, [(n, m, k, steps, vmax, restart, seed * 1000 + c, sub,
-                                                               measure, off, start) for c in range(C)]):
+                                                               measure, off, start, radius) for c in range(C)]):
             print('climber', s, 'hardest score', best[0], 'instance', best[1], flush=True)
             for f in found:
                 print('COUNTEREXAMPLE', f[0], '|', f[1], flush=True)
             allfound += found
     for inst, _ in allfound[:5]:      # re-check without SLACK
-        out = subprocess.run([os.path.join(HERE, 'gstar_measure'), '2', '1', str(measure), str(sub), '0', '0', str(off)],
+        out = subprocess.run([os.path.join(HERE, 'gstar_measure'), str(radius), '1', str(measure), str(sub), '0', '0', str(off)],
                              input=inst + '\n',
                              capture_output=True, text=True).stdout.split()
         print('recheck', inst, 'phi%d stuck states' % measure, out[out.index('phi%d' % measure) + 1])

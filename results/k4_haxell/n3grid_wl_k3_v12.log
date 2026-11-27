@@ -23,3 +23,15 @@ stuck states phi1 0
 stuck states phi2 0
 time 13 s
 $ python3 k4/haxell/ht_n3grid.py K=3 MMIN=4 MMAX=4 VALS=1,2,4,7,12 MARGS=2,1,1,1,0,0,0,2
+shapes 25 instances sent 1851075 return codes [0, 0, 0, 0]
+instances 1851075
+instances m=4 1851075
+instances with a stuck state phi0 528180
+instances with a stuck state phi1 0
+instances with a stuck state phi2 0
+partial EFX0 states 148294130
+stuck states phi0 849190
+stuck states phi1 0
+stuck states phi2 0
+time 295 s
+$ python3 k4/haxell/ht_n3grid.py K=3 MMIN=5 MMAX=5 VALS=1,2,4,7,12 MARGS=2,1,1,1,0,0,0,2
