@@ -1063,7 +1063,7 @@ So the evidence supports:
 > u has a twin t (identical set and values) holding their common most-valued good.
 
 TWIN-TOP would rule out the twin route to RF's every-form at k = 4. A candidate repair for a proof is the chain
-(t, u): t takes its pick's runner-up a together with a junk good c, and u takes b.
+(t, u): t takes u's pick a together with a junk good c, and u takes b.
 
 ## 7. Climbs and reproduction
 
