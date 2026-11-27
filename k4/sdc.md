@@ -2135,3 +2135,42 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
   - The Lean frame `target4_of_conjRF` does not use uniqueness.
   - Consequence for the RF proof plan: at n ≥ 5 the R2 class is no longer covered by R2. A uniform proof of girth's "(i)
     owner w or d, or (T), or (C)" is the route, and it never used R2 on the data.
+
+**Conjecture RKMAX (rank-maximal start)** (2026-11-27 05:40 UTC, coordinator; ledger K4.SDC.RKMAX). An extremal form
+of OC₁^∃max that needs no rule from the failing start.
+- **Ranks.** At pick vector Y, rank_i(Y) = 1 + #{g ∈ R_i : v_i(g) > v_i(Y_i)}. Values are strict, so ranks are
+  distinct; an agent with no pick has rank 5. The signature is σ(Y) = (#rank 1, #rank 2, #rank 3, #rank 4).
+- **Statement.** In every strict connected k = 4 core, let Y be a maximum-matching SD pick vector whose signature is
+  lexicographically maximal among all maximum-matching SD pick vectors. Then OC₁ holds at Y.
+- **RKMAX ⟹ OC₁^∃max ⟹ TARGET₄.** There are finitely many orders and some order gives a maximum matching, so a
+  σ-maximal one exists. Lean frame: requested (it is `target4_of_conjOC1exmax` plus a finite argmax).
+- **Rank-maximal matchings.** Ranks depend only on each agent's order of single goods, so RKMAX is type-invariant, as RF
+  is. The σ-maximal vector is a rank-maximal matching in the sense of Irving–Kavitha–Mehlhorn–Michail–Paluch (2006),
+  restricted to maximum cardinality [unverified: the citation's exact statement]. Such a matching is Pareto optimal,
+  since a Pareto improvement keeps every matched agent matched and raises σ. So it is an SD outcome; the test below
+  optimizes over SD vectors directly and does not use this.
+- **Proof shape.** RKMAX holds iff every OC₁-failing maximum-matching start Y admits a maximum-matching SD vector Y′ with
+  σ(Y′) > σ(Y). This replaces RF's completion half with a purely structural statement: the witness Y′ need not satisfy
+  OC₁, it only needs a better signature. A proof can then take the contrapositive: at a σ-maximal start, use the
+  absence of every signature-raising rotation (RF-PATH's ejection paths among them) as an extra hypothesis when
+  building the completion.
+
+**Evidence** (`k4/sdc/extremal_rank_check.py`, `extremal_rank_n5.py`, `rm_path_check.py`; logs
+`results/k4_sdc/extremal_rank_check_n4.log`, `extremal_rank_n5_*.log`, `rm_path_check_n4.log`). One implementation;
+OC₁ is checked with the raw checker `oc1_mc2_rand.Inst.check`.
+- **n = 4, the complete export** (`two_move_starts_n4.json.gz`: every OC₁^max-failing (type, picks) pair). All 111,600
+  profiles that have a failing start, with all 24 orders of each.
+  - Every σ-maximal maximum-matching vector satisfies OC₁: 111,600 of 111,600 profiles.
+  - Two other rank potentials hold equally: leximin on ranks (LMR) and minimum rank sum (RS), both 111,600.
+  - Maximizing only the number of top goods fails: every optimum is good at only 23,280 profiles, though some optimum is
+    good at all.
+  - A profile outside the export has no failing maximum-matching start. With the certifier's OC₁^max certificate this
+    is a certificate of RKMAX at n = 4, from one implementation; a second is requested.
+  - The optimum is not OC₀: at 127 of 1,982 σ-optimal vectors in a 1-in-100 sample, the picks need one move.
+- **RF and σ** (`rm_path_check_n4.log`). At every failing pair (Y, u), some u-first maximum-matching order raises σ:
+  112,880 of 112,880. The rotation (u, o − u) of a listed order o raises σ at 111,600 pairs.
+  - If no ejected agent of RF-PATH holds its top good, σ rises at level 1, because u moves to rank 1. That happens at
+    only 16,240 of 292,080 rotations.
+  - At the other 266,880 rotations that raise σ, x₁ held its own top, which is u's top. So level 1 cancels, and the
+    gain comes from deeper levels of the path.
+  - A proof that the RF rotation raises σ therefore has to track the whole ejection path.
