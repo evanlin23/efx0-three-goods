@@ -2008,3 +2008,37 @@ proof.
 *What a general proof needs:* (A1-i)–(A1-iv) from the hardness of Y and the RF order. (A1-i) and (A1-iii) are §22's
 n = 4 mechanism, a junk pair shared by the two truly dangerous agents. At n = 5 the known failures have D_T = ∅
 (girth, §7), so A1 there, if it occurs, will need a different argument.
+
+### 24.7 Residue B at n = 4 (`k4/oc1_hall/rf_b.py`, `rf_b.log`)
+
+The setting: all 43,520 B starts of the n = 4 export, where |U′| = 1, |D_T′| = 2 and w = d.
+- **The §22 mechanism persists at Y′.** At every B start the two truly dangerous agents k₁, k₂ share two junk goods
+  of J′.
+- d takes Y_u at 42,240 starts and a junk good at 1,280.
+
+| B starts | number | how they are repaired |
+|---|---|---|
+| complete at the picks Y′ | 15,840 | **always with a compensated frozen slot** (S^c shape, never S\*). The absorber found first is d (12,000) or a truly dangerous agent (3,840) |
+| need one move | 27,680 | **all** by a chain k → d: k ∈ D_T′ takes a minimal improving T ⊆ J′ ∪ {Y′_d}, and d (demoted, so it wants Y_k) takes Y_k. After it, k owns an S\* completion at 25,120, and other owners work at the rest |
+
+Examples, both on the hypergraph 4_n4_3#58 = [[0,1,2,5],[1,2,5,6],[3,4,5,6],[3,4,6]], RF order (1, 3, 2, 0),
+Y′ = (2, 1, 5, 6), d = 0, D_T′ = {2, 3}:
+- *Complete at the picks:* values [[2,10,6,7],[8,2,4,7],[5,3,6,7],[2,3,4]]. The completion is [[2,0,4],[1],[5,3],[6]]:
+  owner d, and the frozen agent 2 takes junk good 3 as a compensated slot.
+- *Chain:* values [[1,8,4,6],[8,2,4,7],[5,3,6,7],[3,2,4]]. In the chain (2, 0), agent 2 takes the shared pair {3, 4}
+  and d takes Y_2 = 5. The completion is [[5,0,2],[1],[3,4],[6]], owned by d.
+
+**Candidate Lemma RF-B (exhaustive at n = 4).** At a B start, either:
+- (B-1) the picks Y′ have a one-absorber completion owned by d or by a truly dangerous agent, with one compensated
+  frozen slot (Lemma M^c's condition); or
+- (B-2) some chain k → d, with k ∈ D_T′ and a minimal T, leaves a one-absorber completion.
+
+**A route for (B-2), with k owning:** Lemma D-red after the chain, with owner k.
+- DEMAND by the other truly dangerous agent k′ should vanish when T is the shared pair, since k′'s junk danger set is
+  then inside k's bundle.
+- HEAD (d frozen after taking Y_k and threatened) and CROWD then remain, as in §21.
+
+This is untested as a proof. The data say k owns at 25,120 of the 27,680.
+
+**Residue A2** (2,560 starts, |D_T′| = 0, w = d): 1,280 complete at the picks with owner d and a frozen slot, and 1,280
+need one move (girth's d–Dp trade). Not yet analysed here.
