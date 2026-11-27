@@ -1271,7 +1271,25 @@ k values at most two goods of the rest, so this is again a local "keep b and c a
 (with phantom-frozen holders removed from the receivers) and Lemma M^c (phantoms as non-eligible agents with fixed
 requirements) all apply verbatim in this class. If every two-move start reaches a phantom-class start where Theorem S
 applies after at most one settlement, OC₂^max follows. What remains is the existence argument (Sub-lemma
-**RSD-EX**, open): at a hard start with no one-move repair, k's best pool pair is (K)-safe for some Theorem S case.
+**RSD-EX**, open, as reworded after the referee's §13). At a hard start with no one-move repair, k's best pool pair T\*
+leaves a Theorem S case (k′, P′, h) of I⁻ in which:
+- **ℓ does not end at the receiver** (ℓ⁺ ≠ r);
+- P′'s head does not hold ℓ (q ≠ z′);
+- not (z′ = x₁ while ℓ is a pool good).
+
+By Proposition K-loc (corrected), these give (K).
+
+> **SUPERSEDED** (the first version of K-loc, at 8924c6b3; WRONG, kept for the record; the corrected form is below):
+> In Theorem S's allocation X⁻ of the reduced instance, the multi-good bundles are W⁻ = (J⁻ ∖ h) ∪ {Y_{z′}} and
+> {B₁_r, h}.
+> - (K-b) needs a pick ℓ with v_k(ℓ) > v_k(T) > p_k. Such a pick was taken before k's turn, by an agent q that picked
+>   before k. Hence q ∉ E(k), since σ increases along E(k), and q still holds ℓ at B₁. In X⁻, ℓ is in a multi-good
+>   bundle only if q is the receiver r of h, or q is P′'s head z′ (ℓ released into W⁻, or ℓ = h).
+> - (K-a) needs Y_k ∈ W⁻. Y_k is held by x₁ at B₁, so Y_k ∈ W⁻ forces z′ = x₁. It also needs ℓ ∈ W⁻, so ℓ is a pool
+>   good of E(k) outside T, and p_k + v_k(ℓ) > v_k(T).
+>
+> So (K) holds for every Theorem S case of I⁻ whose receiver and head avoid q, and whose head is not x₁ when k values a
+> third pool good.
 
 **Proposition K-loc (K4.MULTI.KLOC): where (K) can fail.** *Corrected after the referee's verdict
 (`k4/referee/oc1max_multi.md` §13, commit 9ef2fed0). The first version said "q is the receiver or the head". That is
@@ -1309,9 +1327,18 @@ more than τ_φ to a phantom φ. Theorem S's step 3 and Lemma M^c's Claim use it
 - The referee's hand-built instance (`k4/referee/phantom_cex.py`) has no EFX₀ completion left. Its data: v₀ = {0: 10,
   6: 6, 7: 5}, v₁ = {0: 9, 1: 5}, v₂ = {1: 10, 2: 6, 4: 4, 5: 3}, v₃ = {2: 8, 3: 4}, σ = (0, 1, 2, 3). It settles 2 by
   E = (2, 3) with T = {4, 5}, and then 0 by E = (0, 1) with T′ = {6, 7}, which releases good 1.
-- **Fix:** no settlement chain and no final P′ may end at a phantom-frozen agent; phantoms count as wanters when heads
-  are chosen. (G2) for phantoms then holds by induction. It cannot fail at the first settlement, and it never arose in
-  the data (0 of 9,600 second settlements at n = 4).
+- **Fix:** no settlement chain and no final P′ may end at a phantom-frozen agent. Phantoms count as wanters when heads
+  (and slot receivers) are chosen. An agent is *phantom-frozen* if some phantom φ values its good above τ_φ.
+- *(G2) for phantoms, by induction.* Claim: at every stage, every junk good g of the current instance has
+  v_φ(g) ≤ τ_φ for every phantom φ.
+  - *Base.* When k becomes a phantom, the junk of I⁻ is (J ∪ {Y_z}) ∖ T. Each of these goods is worth less than
+    p_k < τ_k to k: a junk good was available at k's turn, Y_z is unwanted, and values are strict.
+  - *Step.* A later move (a settlement chain E(k′) with its pair, or the final P′ with H₀′) changes the junk in only two
+    ways. It removes the goods that the move's first agent takes, and it adds the head's old good B_{z″}. By the fix,
+    the head is not phantom-frozen, so v_φ(B_{z″}) ≤ τ_φ for every phantom φ.
+  - So the claim holds at every stage.
+- Without the fix the step fails, which is the referee's instance. The fix never binds in the data (0 of 9,600 second
+  settlements at n = 4), and it cannot bind at the first settlement, because there are no phantoms yet.
 
 The referee also checked the class's other invariants. Real agents' (L) is automatic. Earlier phantoms' pairs never
 threaten later phantoms, because a later phantom was a real agent at each earlier settlement. So only the new pair
