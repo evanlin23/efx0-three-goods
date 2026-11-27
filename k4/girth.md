@@ -3,30 +3,29 @@
 Workstream `proof/k4-girth` (branch `claude/k4-girth`). Code in `k4/girth/`. Nothing here changes a ledger status;
 the coordinator integrates.
 
-**Status (end of burst 3).** Refereed CORRECT by the coordinator's review: Theorem T1, Proposition HT, Lemmas SINK,
-PARK, SLACK (general). Everything else below is as marked.
-- §1 (done): lemma-by-lemma digest of arXiv 2608.03171v1. Girth ≥ 3 (two agents share at most one good: *linear*) is
-  used five times (G1, G2, G3, G5, G6); girth ≥ 4 once (G4), only for 3-cycles **through the special vertex 0**.
-- §2 (EVIDENCE): the faithful algorithm (`k4/girth/lss.py`) never fails on girth-≥ 4 instances; on degree-≤ 4 instances
-  with short cycles every failure is one girth use. Smallest failing configurations: `attempts/k4-girth-faithful.md`.
-- §3 (PROVED): Lemmas SINK, PARK (linear), SLACK (any hypergraph), and in §5 Lemma EC (envy-cycle rotation).
-- §4 (PROVED): **Theorem T1** (linear + an agent on no 3-cycle ⟹ EFX₀; LSS's monotone hypergraph model; any degree).
-  **Proposition HT** (every profile on H_t, HH_t, t ≥ 2; also the multi-head chains and gadget trees). Facts F1–F6.
-- §4 (REFUTED): every Pareto-maximal partial EFX₀ orientation of a linear instance completes (false on a strict linear
-  k = 4 core, n = 5); LSS-ROT + static parking (false at n = 4). (CONJECTURE LR-dyn: with dynamic parking; no failure in
-  1.46M runs.)
-- §5 (CONJECTURE DYN, the main candidate for TARGET₄): for some labeling, LSS's Algorithm 2 with the G1 repair and
-  dynamic parking completes. No instance without a completing labeling among: every screen/suite instance; the k = 5
-  counterexamples to OC/OC₁/RD (PW5, RD5, the kgen n = 4 one) and the 41 k = 4 core counterexamples to OC₁ (B<, B>,
-  TTC1–39); 2,164,809 n = 4 and 1,239,515 n = 5 random core profiles; 1,905,183 random instances; 48,000 neighbours of
-  screen instances. With envy-cycle rotation in the parking, every labeling completes on all screen, suite and k = 5
-  instances, and on random data all but 425 of 12.8M runs (156 instances, each completed by another labeling).
-- §5 (stuck states, PROVED): a stuck state of parking with envy-cycle rotation has an acyclic envy graph in which every
-  non-envied agent holds ≥ 2 goods. Failing labelings (EVIDENCE): never when (4) fails for some agent; mostly when vertex
-  0 has no private good; always, in the first sample, with vertex 0 on a 2-cycle, but the rule "vertex 0 on no 2-cycle
-  ⟹ every order works" is false (about 3·10⁻⁴ per run).
-- Next: a move that creates a non-envied one-good holder in a stuck state (the F6-type rotations with EFX₀ checks do it
-  in 1,537 of 1,567 hard runs); a proof of LR-dyn; a labeling rule.
+**Status (burst 5, in progress).** Refereed CORRECT by the coordinator's review: Theorem T1, Proposition HT, Lemmas
+SINK, PARK, SLACK (general). Everything else below is as marked.
+- §6 (CERTIFIED, the coordinator's decisive test): **DYN∃ holds on every connected k = 4 core with n ≤ 4 and on every
+  n = 5 core with one 4-good agent**: for every strict profile SOME labeling of LSS's Algorithm 2 (G1 repair) followed
+  by dynamic parking with envy-cycle rotation completes. Exhaustive covering of the order types (`k4/girth/dyncert.py`):
+  n = 2, 3 (all), n = 4 with one, two, three 4-good agents (all 783; 3.6·10¹⁰ profiles), pure n = 4 (running), n = 5 with
+  one 4-good agent (all 1,735). No profile where every labeling fails. Independent second covering through `lss.py`
+  with symbolic values (`k4/girth/dyncert_sym.py`): n = 2, n = 3 and n = 4 with one 4-good agent agree (all certified).
+- §6 (findings): the n default labelings (choice of vertex 0 only) suffice at n = 3 and on the n = 5 cores with one
+  4-good agent; **no labeling rule that reads only the hypergraph exists** (REFUTED: 6 of 51 n = 3 cores,
+  `attempts/k4-girth-uniform-labeling.md`); exchange moves do not remove the dependence.
+- §6 (CONJECTURE DOM, new main candidate): for EVERY labeling, Algorithm 2's state has a dominating complete EFX₀
+  allocation. Exhaustive at n = 3 (all 300 labelings, every profile; one implementation), no failure in 766,395 n = 3
+  and 101,316 n = 4 random profiles. DYN's parking misses these completions (they need generalized rotations).
+- §7 (EVIDENCE, coordinator's question): every known OC₁^max failure (all 112,880 at n = 4, 24 stored at n = 5)
+  has pattern P\*: one receiver, and either two truly dangerous agents sharing two junk goods (n = 4) or a pick swap of
+  a dangerous agent with the receiver (n = 5); about 5% of OC₁-holding starts have it. "A 2-cycle through two
+  dangerous agents" fails at n = 5 (5_pure#72).
+- Earlier bursts: §1 digest (girth ≥ 3 used five times, girth ≥ 4 once, only for 3-cycles through vertex 0); §2
+  faithful runs (EVIDENCE); §3 Lemmas SINK, PARK, SLACK, §5 Lemma EC and stuck states (PROVED); §4 Theorem T1,
+  Proposition HT (PROVED), PL and LR (REFUTED), LR-dyn (CONJECTURE); §5 DYN evidence and refuted variants.
+- Next: pure n = 4 and the independent covering on samples of the larger classes (running); a second exhaustive
+  encoding of DOM; a proof route for DOM (a completion lemma for Algorithm 2's states).
 
 **Ledger candidates** (for the coordinator; LEDGER.md is not edited here). Proposed IDs:
 
@@ -46,6 +45,11 @@ PARK, SLACK (general). Everything else below is as marked.
 | K4.GIRTH.FAITH | Faithful LSS on degree-≤ 4 instances with short cycles: failures by girth use | EVIDENCE | §2, `results/k4_girth_faithful.log`, `attempts/k4-girth-faithful.md` |
 | K4.GIRTH.SINK2 | LSS's orientation + one sink with 2-cycles | REFUTED (n = 2) | `attempts/k4-girth-sink-2cycles.md` |
 | K4.GIRTH.DYNP | DYN without the G1 repair | REFUTED (n = 4 core profile) | `attempts/k4-girth-dyn-plain.md` |
+| K4.GIRTH.DYN4 | DYN∃ (some labeling; Algorithm 2 with the G1 repair, then dynamic parking with envy-cycle rotation) completes on every strict profile of every connected k = 4 core with n ≤ 4, and of every n = 5 core with one 4-good agent | CERTIFIED (pure n = 4 running; independent covering for n ≤ 3 and n = 4 with one 4-good agent) | §6, `k4/girth/dyncert.py`, `k4/girth/dyncert_sym.py`, `results/k4_girth_dyncert_*.log`, `results/k4_girth_dyncert_sym_*.log`, `results/k4_girth_dyncert_selftest.log`, `results/k4_girth_dyncert_xcheck.log` |
+| K4.GIRTH.UNI | One labeling per core hypergraph works for every profile | REFUTED (n = 3, m = 6) | `attempts/k4-girth-uniform-labeling.md`, `attempts/k4_girth_uniform.py`, `results/k4_girth_dyncert_3_uniform.log` |
+| K4.GIRTH.DYNX | With exchange moves in the parking, every labeling completes | REFUTED (n = 3: 253 of 300 labelings) | `k4/girth/dynx.py`, `results/k4_girth_dynx_3.log` |
+| K4.GIRTH.DOM | For every labeling, Algorithm 2 (G1 repair) leaves a state with a dominating complete EFX₀ allocation (⟹ TARGET₄) | CONJECTURE (exhaustive at n = 3 by one implementation) | §6, `k4/girth/dom_test.py`, `results/k4_girth_dom_*.log` |
+| K4.GIRTH.OCCYC | Every known OC₁^max failure has pattern P\* (one receiver; a D_T pair sharing two junk goods, or a dangerous–receiver pick swap); "a 2-cycle through two dangerous agents" fails at n = 5 | EVIDENCE | §7, `k4/girth/oc1_cycles.py`, `results/k4_girth_oc1_cycles.log` |
 
 ---
 
