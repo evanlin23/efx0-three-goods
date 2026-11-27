@@ -1,0 +1,82 @@
+$ python3 k4/oc1_hall/rf_b_facts.py
+_count n=4  43520
+_count n=5  2
+n=4   PICKS-d fails: FULL(k, S) works for k = ['k<-d'] 27680
+n=4   PICKS-d fails: FULL(k, S) works: True 27680
+n=4   PICKS-d fails: FULL(k, T) some minimal T works: True 27680
+n=4   PICKS-d fails: FULL, T != S works: False 27680
+n=4   PICKS-d fails: FULL, T = S works: True 27680
+n=4   PICKS-d holds and FULL(k<-d, S) is EFX0 too (d wants Y'_k: True) 15840
+n=4   PICKS-d shape (singles ('D_T:S', 'D_T:S'); d takes 1 junk) 10720
+n=4   PICKS-d shape (singles ('D_T:S', 'D_T:S'); d takes 2 junk) 2560
+n=4   PICKS-d shape (singles ('D_T:S', 'D_T:notS'); d takes 1 junk) 2560
+n=4   PICKS-d shape (singles ('D_T:S', 'D_T:notS'); d takes 2 junk) 2560
+n=4   PICKS-d shape (singles ('D_T:S',); d takes 2 junk) 13280
+n=4   PICKS-d shape (singles ('D_T:S',); d takes 3 junk) 2560
+n=4   PICKS-d: D_T agents that take a good of S in some completion: ['k<-d', "k<-k'"] 13280
+n=4   PICKS-d: D_T agents that take a good of S in some completion: ['k<-d'] 2560
+n=4   PICKS-d: one single (a D_T agent, a good of S), d the rest; which agent: ['k<-d'] 15840
+n=4 B starts 43520
+n=4 Lemma RF-B hypothesis B1 |S| = 2 and v_k(S) > p_k: True 43520
+n=4 Lemma RF-B hypothesis B2 d wants Y'_k, nobody else does: True 43520
+n=4 Lemma RF-B hypothesis B3 d unfrozen: True 43520
+n=4 Lemma RF-B hypothesis B4 k values no good of Z but Y'_k: True 43520
+n=4 Lemma RF-B hypothesis B5 every i valuing >= 2 goods of Z: v_i(Z) - min <= p_i: True 43520
+n=4 Lemma RF-B per candidate: hypotheses True, FULL(k, S) EFX0 True 43520
+n=4 Lemma RF-B: agents valuing >= 2 goods of Z (besides k, d): 1 43520
+n=4 Lemma RF-B: all hypotheses hold: True; FULL(k, S) EFX0 (both checkers): True 43520
+n=4 Lemma RF-B: candidates k (labelled k<-d) meeting all of (B1)-(B5): 1 of 1 43520
+n=4 Lemma RF-B: chain (k takes S, d takes Y'_k) is an official move of Inst.moves: True 1088
+n=4 PICKS-d fails 27680
+n=4 PICKS-d holds 15840
+n=4 RF starts by (|U'|, |D_T'|) = (1, 0) 34560
+n=4 RF starts by (|U'|, |D_T'|) = (1, 1) 16320
+n=4 RF starts by (|U'|, |D_T'|) = (1, 2) 43520
+n=4 RF starts by (|U'|, |D_T'|) = (2, 0) 21360
+n=4 RF starts by (|U'|, |D_T'|) = (2, 1) 45760
+n=4 fact: D_T' = D_T (the truly dangerous agents of Y): True 43520
+n=4 fact: S improving for (k1, k2): [True, True] 43520
+n=4 fact: d values 0 junk goods 11840
+n=4 fact: d values 1 junk goods 31680
+n=4 fact: d wants Y'_u: True 43520
+n=4 fact: junk valued by (k1, k2) = [2, 2] 18880
+n=4 fact: junk valued by (k1, k2) = [2, 3] 24640
+n=4 fact: labels of the D_T pair = ['k<-d', "k<-k'"] 38400
+n=4 fact: labels of the D_T pair = ['k<-d', "k<-k'<-d"] 5120
+n=4 fact: number of D_T agents labelled k<-d = 1 43520
+n=4 fact: u in D_T': False 43520
+n=4 fact: |J'| = 3, |S| = 2 38400
+n=4 fact: |J'| = 4, |S| = 2 5120
+n=5   PICKS-d fails: FULL(k, S) works for k = ['k<-d'] 2
+n=5   PICKS-d fails: FULL(k, S) works: True 2
+n=5   PICKS-d fails: FULL(k, T) some minimal T works: True 2
+n=5   PICKS-d fails: FULL, T != S works: False 2
+n=5   PICKS-d fails: FULL, T = S works: True 2
+n=5 B starts 2
+n=5 Lemma RF-B hypothesis B1 |S| = 2 and v_k(S) > p_k: True 2
+n=5 Lemma RF-B hypothesis B2 d wants Y'_k, nobody else does: True 2
+n=5 Lemma RF-B hypothesis B3 d unfrozen: True 2
+n=5 Lemma RF-B hypothesis B4 k values no good of Z but Y'_k: True 2
+n=5 Lemma RF-B hypothesis B5 every i valuing >= 2 goods of Z: v_i(Z) - min <= p_i: True 2
+n=5 Lemma RF-B per candidate: hypotheses False, FULL(k, S) EFX0 False 2
+n=5 Lemma RF-B per candidate: hypotheses True, FULL(k, S) EFX0 True 2
+n=5 Lemma RF-B: agents valuing >= 2 goods of Z (besides k, d): 0 2
+n=5 Lemma RF-B: all hypotheses hold: True; FULL(k, S) EFX0 (both checkers): True 2
+n=5 Lemma RF-B: candidates k (labelled k<-d) meeting all of (B1)-(B5): 1 of 2 2
+n=5 Lemma RF-B: chain (k takes S, d takes Y'_k) is an official move of Inst.moves: True 2
+n=5 PICKS-d fails 2
+n=5 RF starts by (|U'|, |D_T'|) = (1, 2) 2
+n=5 RF starts by (|U'|, |D_T'|) = (2, 0) 21
+n=5 RF starts by (|U'|, |D_T'|) = (3, 0) 1
+n=5 fact: D_T' = D_T (the truly dangerous agents of Y): False 2
+n=5 fact: S improving for (k1, k2): [True, True] 2
+n=5 fact: d values 0 junk goods 2
+n=5 fact: d wants Y'_u: False 2
+n=5 fact: junk valued by (k1, k2) = [2, 2] 2
+n=5 fact: labels of the D_T pair = ['k<-d', 'k<-d'] 2
+n=5 fact: number of D_T agents labelled k<-d = 2 2
+n=5 fact: u in D_T': False 2
+n=5 fact: |J'| = 3, |S| = 2 2
+n=5 failing orders 86
+n=5 failures 24
+n=5 failures with one receiver: True 24

@@ -1,0 +1,17 @@
+$ python3 kgen/n2_extremal.py 1 500 3 10
+maxA any                         864
+maxA first                       864
+maxA_then_fewest_a_goods any     864
+maxA_then_fewest_a_goods first   864
+maxB any                         933
+maxB first                       933
+maxB_then_fewest_b_goods any     933
+maxB_then_fewest_b_goods first   933
+maxmin any                       945
+maxmin first                     945
+starts                           1000
+fails maxB [[[72, 83, 13, 24, 81], [0, 55, 65, 0, 0]], [0, 1], [[0, 3, 4], [1, 2]], null]
+fails maxmin [[[72, 83, 13, 24, 81], [0, 55, 65, 0, 0]], [0, 1], [[0, 3, 4], [1, 2]], null]
+fails maxB_then_fewest_b_goods [[[72, 83, 13, 24, 81], [0, 55, 65, 0, 0]], [0, 1], [[0, 3, 4], [1, 2]], null]
+fails maxA [[[72, 83, 13, 24, 81], [0, 55, 65, 0, 0]], [1, 0], [[0, 3, 4], [1, 2]], null]
+fails maxA_then_fewest_a_goods [[[72, 83, 13, 24, 81], [0, 55, 65, 0, 0]], [1, 0], [[0, 3, 4], [1, 2]], null]

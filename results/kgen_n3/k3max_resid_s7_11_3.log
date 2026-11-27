@@ -1,0 +1,8 @@
+$ python3 kgen/k3max_resid.py sample certs7:11 150 201 3 4
+3 R1, |J| = 3: 2 of 2 rotations reach omega' <= 0
+2 R1, |J| = 4: 1 of 2 rotations reach omega' <= 0
+25 R1, |J| = 4: 2 of 2 rotations reach omega' <= 0
+11 R2 |E_t| = 3, |J| = 4: 2 of 3 rotations reach omega' <= 0
+8 R2 |E_t| = 3, |J| = 4: 3 of 3 rotations reach omega' <= 0
+19 R2 |E_t| = 3: some k with (alpha) and h_k <= |T'_k|: True
+19 R2 |E_t| = 3: some rotation passes owner none/k: True

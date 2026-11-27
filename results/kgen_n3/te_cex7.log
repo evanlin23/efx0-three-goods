@@ -1,0 +1,6 @@
+$ python3 kgen/te_cex7.py
+rankings (a > b > c): [(3, 9, 0), (4, 6, 10), (5, 11, 8), (2, 0, 8), (3, 2, 1), (5, 1, 7), (7, 4, 6)] m = 12 ; order 0..6, picks [3, 4, 5, 2, 1, 7, 6] ; J [0, 8, 9, 10, 11] ; T [6] ; E_t [0, 1, 2, 3] ; hard at the draft (lb2 fails): True
+k = 0: Rule E chain [0, 4, 5, 6] (all need chains: [[0, 4, 5, 6]]); lb2 True; owner none/t/k: none; exhaustive: [[0, 9, 6], [4, 8, 10], [5], [2, 11], [3], [1], [7]]
+k = 1: Rule E chain [1, 6] (all need chains: [[1, 6]]); lb2 False; owner none/t/k: None; exhaustive: NO ONE-ABSORBER COMPLETION
+k = 2: Rule E chain [2, 5, 6] (all need chains: [[2, 5, 6]]); lb2 True; owner none/t/k: none; exhaustive: [[3], [4, 0], [8, 11, 6, 9], [2], [1, 10], [5], [7]]
+k = 3: Rule E chain [3, 4, 5, 6] (all need chains: [[3, 4, 5, 6]]); lb2 True; owner none/t/k: none; exhaustive: [[3], [4, 6], [5], [0, 8, 10], [2, 9, 11], [1], [7]]

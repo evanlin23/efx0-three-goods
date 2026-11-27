@@ -1,0 +1,35 @@
+$ python3 kgen/k3max_twins_t.py gap_certs_6_1.gap.gz
+EX 0:0>1>7 1:0>2>8 2:3>1>9 3:0>4>5 4:2>6>3 5:6>4>5 picks (1, 2, 9, 0, 3, 6) J [4, 5, 7, 8] t 2 {3: ([3, 0, 2], 1, [0], False), 5: ([5, 4, 2], 3, [], True)}
+EX 0:0>1>7 1:0>2>8 2:3>1>9 3:0>4>5 4:2>6>3 5:6>5>4 picks (1, 2, 9, 0, 3, 6) J [4, 5, 7, 8] t 2 {3: ([3, 0, 2], 1, [0], False), 5: ([5, 4, 2], 3, [], True)}
+EX 0:0>1>7 1:0>2>8 2:3>1>9 3:0>4>5 4:6>2>3 5:6>4>5 picks (1, 2, 9, 0, 3, 6) J [4, 5, 7, 8] t 2 {3: ([3, 0, 2], 1, [0], False), 5: ([5, 4, 2], 3, [], True)}
+1376   then every such twin passes: True
+1568 drafts
+1560 rule longer chain passes
+1480 rule shorter chain passes
+1480 rule sigma-first passes
+1568 rule sigma-last passes
+192 some twin gives t its top: False
+1376 some twin gives t its top: True
+48 some twin leaves N empty: False
+1520 some twin leaves N empty: True
+1568 some twin passes
+352 twin rotation: |N| = 0 (), |T'| = 1, t gets top False, Lemma 3 for t True
+308 twin rotation: |N| = 0 (), |T'| = 2, t gets top False, Lemma 3 for t True
+368 twin rotation: |N| = 0 (), |T'| = 2, t gets top True, Lemma 3 for t True
+408 twin rotation: |N| = 0 (), |T'| = 3, t gets top False, Lemma 3 for t True
+392 twin rotation: |N| = 0 (), |T'| = 3, t gets top True, Lemma 3 for t True
+220 twin rotation: |N| = 0 (), |T'| = 4, t gets top False, Lemma 3 for t True
+528 twin rotation: |N| = 0 (), |T'| = 4, t gets top True, Lemma 3 for t True
+256 twin rotation: |N| = 0 (), |T'| = 5, t gets top True, Lemma 3 for t True
+64 twin rotation: |N| = 1 (b), |T'| = 1, t gets top False, Lemma 3 for t False
+24 twin rotation: |N| = 1 (b), |T'| = 2, t gets top False, Lemma 3 for t True
+64 twin rotation: |N| = 1 (b), |T'| = 2, t gets top True, Lemma 3 for t True
+40 twin rotation: |N| = 1 (b), |T'| = 3, t gets top False, Lemma 3 for t True
+8 twin rotation: |N| = 1 (b), |T'| = 3, t gets top True, Lemma 3 for t True
+16 twin rotation: |N| = 1 (b), |T'| = 4, t gets top False, Lemma 3 for t True
+8 twin rotation: |N| = 1 (b), |T'| = 4, t gets top True, Lemma 3 for t True
+24 twin rotation: |N| = 1 (c), |T'| = 1, t gets top False, Lemma 3 for t False
+8 twin rotation: |N| = 1 (c), |T'| = 2, t gets top False, Lemma 3 for t True
+24 twin rotation: |N| = 1 (c), |T'| = 2, t gets top True, Lemma 3 for t True
+16 twin rotation: |N| = 1 (c), |T'| = 3, t gets top False, Lemma 3 for t True
+8 twin rotation: |N| = 1 (c), |T'| = 4, t gets top False, Lemma 3 for t True

@@ -1,0 +1,5 @@
+$ python3 kgen/rf/rf_run.py climb 5 3 400 1500 153
+400 instances
+649 max starts: one move repairs
+658 max starts: picks complete
+time 121 s

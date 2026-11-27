@@ -1,0 +1,20 @@
+$ python3 k4/oc1_hall/rf_b.py
+  d takes Y_u; k1, k2 share 2 junk goods 42240
+  d takes Y_u; k1, k2 share 2 junk goods: ... S* owned by k after it (some repairing chain) 24800
+  d takes Y_u; k1, k2 share 2 junk goods: ... owner d (some repairing chain) 27040
+  d takes Y_u; k1, k2 share 2 junk goods: ... owner k (some repairing chain) 26720
+  d takes Y_u; k1, k2 share 2 junk goods: ... owner other (some repairing chain) 26720
+  d takes Y_u; k1, k2 share 2 junk goods: ... owner the other D_T agent (some repairing chain) 27040
+  d takes Y_u; k1, k2 share 2 junk goods: complete at the picks; first absorber found is a D_T agent; frozen slot used: True 3680
+  d takes Y_u; k1, k2 share 2 junk goods: complete at the picks; first absorber found is d; frozen slot used: True 11520
+  d takes Y_u; k1, k2 share 2 junk goods: one move needed; some chain k -> d (k in D_T', minimal T) repairs 27040
+  d takes junk; k1, k2 share 2 junk goods 1280
+  d takes junk; k1, k2 share 2 junk goods: ... S* owned by k after it (some repairing chain) 320
+  d takes junk; k1, k2 share 2 junk goods: ... owner d (some repairing chain) 640
+  d takes junk; k1, k2 share 2 junk goods: ... owner k (some repairing chain) 320
+  d takes junk; k1, k2 share 2 junk goods: ... owner other (some repairing chain) 320
+  d takes junk; k1, k2 share 2 junk goods: ... owner the other D_T agent (some repairing chain) 640
+  d takes junk; k1, k2 share 2 junk goods: complete at the picks; first absorber found is a D_T agent; frozen slot used: True 160
+  d takes junk; k1, k2 share 2 junk goods: complete at the picks; first absorber found is d; frozen slot used: True 480
+  d takes junk; k1, k2 share 2 junk goods: one move needed; some chain k -> d (k in D_T', minimal T) repairs 640
+B starts 43520

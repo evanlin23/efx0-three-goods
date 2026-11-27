@@ -1,0 +1,28 @@
+$ python3 kgen/k3max_t1stats.py certs:5 2 4
+32 Y_t is t's b
+560 Y_t is t's c
+188 best rotation: chain length s = 1
+272 best rotation: chain length s = 2
+132 best rotation: chain length s = 3
+152 best rotation: no owner (|J'| <= |T'|) False
+440 best rotation: no owner (|J'| <= |T'|) True
+200 best rotation: other exposed agents terminal afterwards: 0 of 1
+64 best rotation: other exposed agents terminal afterwards: 0 of 2
+264 best rotation: other exposed agents terminal afterwards: 1 of 1
+32 best rotation: other exposed agents terminal afterwards: 1 of 2
+32 best rotation: other exposed agents terminal afterwards: 2 of 2
+560 best rotation: t gets its a
+32 best rotation: t gets its b
+48 best rotation: t terminal afterwards False
+544 best rotation: t terminal afterwards True
+592 every exposed top wanted by t False
+592 every exposed top wanted only by t False
+592 exposed pairs pairwise distinct True
+176 exposed pairs share a common good False
+416 exposed pairs share a common good True
+592 gap
+456 some exposed pair contains Y_t False
+136 some exposed pair contains Y_t True
+592 upgraded agents at the draft: 0
+464 |J| = 4, |E_t| = 2
+128 |J| = 4, |E_t| = 3

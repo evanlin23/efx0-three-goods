@@ -1,0 +1,40 @@
+$ python3 k4/oc1_hall/rf_residue.py
+NEITHER d NOR w ABSORBS residue |U'| = 1, |D_T'| = 2 4_n4_3 58 [[[0, 1, 2, 5], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 6]], [[1, 8, 4, 6], [8, 2, 4, 7], [5, 3, 6, 7], [3, 2, 4]]] RF order [1, 3, 2, 0] Y' (2, 1, 5, 6) d 0 w 0 D' [2, 3] D_T' [2, 3] OA False ONE True
+NEITHER d NOR w ABSORBS residue |U'| = 1, |D_T'| = 2 4_n4_3 58 [[[0, 1, 2, 5], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 6]], [[2, 10, 4, 7], [8, 2, 4, 7], [5, 3, 6, 7], [3, 2, 4]]] RF order [1, 3, 2, 0] Y' (2, 1, 5, 6) d 0 w 0 D' [2, 3] D_T' [2, 3] OA False ONE True
+... hypergraph 4_n4_3 58 {'failing orders': 3840, 'distinct RF starts': 1920, "R2 class (|U'| >= 2)": 640, "U1 class (|U'| = 1, |D_T'| = 1)": 160, "residue |U'| = 1, |D_T'| = 2": 640, "residue |U'| = 1, |D_T'| = 0": 480}
+... hypergraph 4_n4_3 77 {'failing orders': 3920, 'distinct RF starts': 2000, "R2 class (|U'| >= 2)": 720, "U1 class (|U'| = 1, |D_T'| = 1)": 160, "residue |U'| = 1, |D_T'| = 2": 640, "residue |U'| = 1, |D_T'| = 0": 480}
+... hypergraph 4_pure 20 {'failing orders': 142160, 'distinct RF starts': 73680, "R2 class (|U'| >= 2)": 26320, "U1 class (|U'| = 1, |D_T'| = 1)": 5920, "residue |U'| = 1, |D_T'| = 2": 23680, "residue |U'| = 1, |D_T'| = 0": 17760}
+... hypergraph 4_pure 21 {'failing orders': 144720, 'distinct RF starts': 76240, "R2 class (|U'| >= 2)": 28880, "U1 class (|U'| = 1, |D_T'| = 1)": 5920, "residue |U'| = 1, |D_T'| = 2": 23680, "residue |U'| = 1, |D_T'| = 0": 17760}
+... hypergraph 4_pure 23 {'failing orders': 145360, 'distinct RF starts': 76880, "R2 class (|U'| >= 2)": 29520, "U1 class (|U'| = 1, |D_T'| = 1)": 5920, "residue |U'| = 1, |D_T'| = 2": 23680, "residue |U'| = 1, |D_T'| = 0": 17760}
+NEITHER d NOR w ABSORBS residue |U'| = 1, |D_T'| = 0 4_pure 24 [[[0, 1, 4, 5], [1, 4, 5, 6], [2, 3, 4, 6], [2, 3, 5, 6]], [[2, 4, 7, 10], [3, 5, 7, 6], [10, 3, 4, 8], [8, 2, 7, 4]]] RF order [3, 0, 1, 2] Y' (5, 6, 4, 2) d 2 w 2 D' [0, 1, 3] D_T' [] OA False ONE True
+NEITHER d NOR w ABSORBS residue |U'| = 1, |D_T'| = 0 4_pure 24 [[[0, 1, 4, 5], [1, 4, 5, 6], [2, 3, 4, 6], [2, 3, 5, 6]], [[2, 4, 7, 10], [3, 5, 7, 6], [8, 2, 4, 7], [8, 2, 7, 4]]] RF order [3, 0, 1, 2] Y' (5, 6, 4, 2) d 2 w 2 D' [0, 1, 3] D_T' [] OA False ONE True
+... hypergraph 4_pure 24 {'failing orders': 234320, 'distinct RF starts': 131920, "R2 class (|U'| >= 2)": 52880, "U1 class (|U'| = 1, |D_T'| = 1)": 12480, "residue |U'| = 1, |D_T'| = 2": 35840, "residue |U'| = 1, |D_T'| = 0": 30720}
+... hypergraph 4_pure 26 {'failing orders': 234960, 'distinct RF starts': 132560, "R2 class (|U'| >= 2)": 53520, "U1 class (|U'| = 1, |D_T'| = 1)": 12480, "residue |U'| = 1, |D_T'| = 2": 35840, "residue |U'| = 1, |D_T'| = 0": 30720}
+... hypergraph 4_pure 29 {'failing orders': 236400, 'distinct RF starts': 134000, "R2 class (|U'| >= 2)": 54960, "U1 class (|U'| = 1, |D_T'| = 1)": 12480, "residue |U'| = 1, |D_T'| = 2": 35840, "residue |U'| = 1, |D_T'| = 0": 30720}
+... hypergraph 4_pure 36 {'failing orders': 253040, 'distinct RF starts': 142960, "R2 class (|U'| >= 2)": 58800, "U1 class (|U'| = 1, |D_T'| = 1)": 13760, "residue |U'| = 1, |D_T'| = 2": 38400, "residue |U'| = 1, |D_T'| = 0": 32000}
+... hypergraph 4_pure 38 {'failing orders': 291440, 'distinct RF starts': 160880, "R2 class (|U'| >= 2)": 66480, "U1 class (|U'| = 1, |D_T'| = 1)": 16320, "residue |U'| = 1, |D_T'| = 2": 43520, "residue |U'| = 1, |D_T'| = 0": 34560}
+... hypergraph 4_pure 45 {'failing orders': 292080, 'distinct RF starts': 161520, "R2 class (|U'| >= 2)": 67120, "U1 class (|U'| = 1, |D_T'| = 1)": 16320, "residue |U'| = 1, |D_T'| = 2": 43520, "residue |U'| = 1, |D_T'| = 0": 34560}
+  residue |U'| = 1, |D_T'| = 0: OA 33280
+  residue |U'| = 1, |D_T'| = 0: OAd 32640
+  residue |U'| = 1, |D_T'| = 0: OAd or OAw 33280
+  residue |U'| = 1, |D_T'| = 0: OAw 33280
+  residue |U'| = 1, |D_T'| = 0: ONE (OC1 at Y') 34560
+  residue |U'| = 1, |D_T'| = 0: S*d 0
+  residue |U'| = 1, |D_T'| = 0: S*d or S*w 32000
+  residue |U'| = 1, |D_T'| = 0: S*w 32000
+  residue |U'| = 1, |D_T'| = 0: w == d 2560
+  residue |U'| = 1, |D_T'| = 2: OA 15840
+  residue |U'| = 1, |D_T'| = 2: OAd 15840
+  residue |U'| = 1, |D_T'| = 2: OAd or OAw 15840
+  residue |U'| = 1, |D_T'| = 2: OAw 15840
+  residue |U'| = 1, |D_T'| = 2: ONE (OC1 at Y') 43520
+  residue |U'| = 1, |D_T'| = 2: S*d 0
+  residue |U'| = 1, |D_T'| = 2: S*d or S*w 0
+  residue |U'| = 1, |D_T'| = 2: S*w 0
+  residue |U'| = 1, |D_T'| = 2: w == d 43520
+R2 class (|U'| >= 2) 67120
+U1 class (|U'| = 1, |D_T'| = 1) 16320
+distinct RF starts 161520
+failing orders 292080
+residue |U'| = 1, |D_T'| = 0 34560
+residue |U'| = 1, |D_T'| = 2 43520

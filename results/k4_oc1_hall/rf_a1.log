@@ -1,0 +1,15 @@
+$ python3 k4/oc1_hall/rf_a1.py
+A1 EXAMPLE 4_n4_3 58 [[[0, 1, 2, 5], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 6]], [[1, 8, 4, 6], [8, 2, 4, 7], [5, 3, 6, 7], [3, 2, 4]]] Y (1, 2, 5, 6) u 1 w 0 d 2 Y' (5, 1, 3, 6) J' [0, 2, 4] good h [4]
+A1 EXAMPLE 4_n4_3 58 [[[0, 1, 2, 5], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 6]], [[2, 10, 4, 7], [8, 2, 4, 7], [5, 3, 6, 7], [3, 2, 4]]] Y (1, 2, 5, 6) u 1 w 0 d 2 Y' (5, 1, 3, 6) J' [0, 2, 4] good h [4]
+  a rejected h fails to compensate d 66560
+  a rejected h leaves threatened: a dangerous agent 6400
+  d frozen at Y 32000
+  d values Y_u 0
+  h = Y_u works 0
+  h = d's favourite good of J' works 32000
+  number of working h: 1 32000
+  raw S* completion owned by w 32000
+  some single h works (Lemma 2* with N1 = {d}) 32000
+  w is dangerous at Y (D) 20160
+  w truly dangerous at Y 0
+A1 starts 32000

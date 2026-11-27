@@ -1,0 +1,14 @@
+$ python3 k4/ksens/kcegar_grid_check.py
+RD5 D=1: type lists FAIL (2.0 s); grid mode FAIL (885 iterations, 1.0 s); first grid version FAIL (885 iterations, 1.8 s); agree
+RD5 D=2: type lists certified (4.2 s); grid mode certified (3643 iterations, 3.2 s); first grid version certified (3643 iterations, 5.7 s); agree
+N3K5 D=1: type lists FAIL (1.8 s); grid mode FAIL (256 iterations, 0.6 s); first grid version FAIL (256 iterations, 1.8 s); agree
+N3K5 D=2: type lists certified (3.3 s); grid mode certified (1265 iterations, 2.2 s); first grid version certified (1265 iterations, 5.7 s); agree
+cex1 (k = 4) D=1: type lists FAIL (0.1 s); grid mode FAIL (342 iterations, 0.2 s); first grid version FAIL (342 iterations, 0.2 s); agree
+cex1 (k = 4) D=2: type lists certified (0.9 s); grid mode certified (1933 iterations, 1.5 s); first grid version certified (1933 iterations, 1.3 s); agree
+cex5 (k = 4) D=1: type lists FAIL (0.5 s); grid mode FAIL (1495 iterations, 1.3 s); first grid version FAIL (1495 iterations, 1.2 s); agree
+cex5 (k = 4) D=2: type lists certified (2.2 s); grid mode certified (3708 iterations, 2.7 s); first grid version certified (3708 iterations, 2.8 s); agree
+k = 6 [[0, 1, 2, 3, 4, 5], [3, 4, 5], [3, 4, 5]] D=1: grid mode certified (90 iterations, 1007 cuts, 0.7 s); first grid version certified (90 iterations, 1007 cuts, 14.2 s); agree
+k = 6 [[0, 1, 2, 3, 4, 5], [3, 4, 5], [3, 4, 5]] D=2: grid mode certified (90 iterations, 1007 cuts, 0.6 s); first grid version certified (90 iterations, 1007 cuts, 14.7 s); agree
+k = 6 [[0, 1, 2, 3, 4, 5], [2, 3, 5], [4, 5]] D=1: grid mode certified (146 iterations, 2604 cuts, 1.5 s); first grid version certified (146 iterations, 2604 cuts, 85.4 s); agree
+k = 6 [[0, 1, 2, 3, 4, 5], [2, 3, 5], [4, 5]] D=2: grid mode certified (146 iterations, 2604 cuts, 1.4 s); first grid version certified (146 iterations, 2604 cuts, 78.3 s); agree
+agree on 12 of 12

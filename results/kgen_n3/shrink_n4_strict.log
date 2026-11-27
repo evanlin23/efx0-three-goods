@@ -1,0 +1,6 @@
+shrunk [[34, 0, 0, 0, 38, 35, 37, 33], [0, 10, 5, 0, 0, 4, 2, 0], [0, 2, 0, 0, 3, 0, 1, 0], [52, 54, 53, 4, 0, 0, 0, 51]] size (k, m, positives, sum) (5, 8, 17, 418)
+  fails at order (0, 3, 1, 2) picks [4, 2, 6, 1]
+  fails at order (0, 3, 2, 1) picks [4, 2, 6, 1]
+  fails at order (3, 0, 1, 2) picks [4, 2, 6, 1]
+  fails at order (3, 0, 2, 1) picks [4, 2, 6, 1]
+  fails at order (3, 1, 0, 2) picks [4, 2, 6, 1]

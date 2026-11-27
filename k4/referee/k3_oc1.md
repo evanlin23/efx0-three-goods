@@ -156,3 +156,83 @@ Check: `k4/referee/red3_ref.py`, log `results/k4_referee/red3_ref.log`. Own code
 |---|---|---|---|---|---|---|
 | ≤ 3 goods per agent | 38,678 | 38,678 | 38,678 | 16,794 moves | 1,746,427 | 0 |
 | ≤ 4 goods per agent | 10,768 | 10,768 | 10,768 | 4,748 moves | 127,354 | 0 |
+
+## Addendum: Lemma RF-A1\* and Lemma NA (`k4/k3_oc1.md` §13.5 at `17777f1e`; coordinator's queue, 2026-11-27)
+
+**Read:** §13.5 line by line. Also Hall's Lemma RF-A1 (`k4/oc1_hall.md` §24.6) and Hall's second reading (§24.13),
+both on `claude/k4-oc1-hall`; I compared them with mine only after writing mine.
+**Check:** `k4/referee/rfa1s_ref.py` (`rfa1s_ref_runs.sh`), logs `results/k4_referee/rfa1s_ref_*.log`. The code is my
+own, with raw EFX₀. Nothing from `k4/k3_oc1/`, `rf/` or `k4/oc1_hall/` is run.
+
+### Verdict: RF-A1\* CORRECT; Lemma NA CORRECT. All n = 5 counts are confirmed.
+
+**RF-A1\*, re-derived.** The setting:
+- Y′ = SD(u, σ − u) is perfect, U′ = {d} and D_T′ = ∅;
+- the path is u → w → d with Y′_u = Y_w, Y′_w = Y_d, Y′_d = g ∈ J, and J′ = (J ∖ {g}) ∪ {Y_u};
+- W = {Y_d} ∪ (J′ ∖ {h}), X_w = W, X_d = {g, h}, and everyone else keeps its pick.
+
+Here h ∈ J ∖ {g} ⊆ J′ by (A1-i), and Y_u ∈ J′ ∖ {h} ⊆ W, since Y_u is a pick of Y and h is not. Only w receives two or
+more free goods, so X is a one-absorber completion of the picks.
+
+Each step of the proof:
+- *Junk below picks.* Every good of J′ was free at every agent's turn in σ′, so v_i(j) ≤ p′_i. (I2) suffices here;
+  strictness is not needed.
+- *X_d against i ≠ d.* v_i(X_d ∖ x) is one good's value.
+  - g = Y′_d: unwanted, since d is a receiver.
+  - h: junk at Y′.
+  - Both are ≤ p′_i ≤ v_i(X_i), including for i = w, whose bundle contains Y′_w. Correct.
+- *d against W.* J′ ∩ R_d = {h} gives W ∩ R_d = {Y_d}, so v_d(W) − min ≤ v_d(Y_d) < v_d(g) + v_d(h) = v_d(X_d) by
+  (A1-i). Correct.
+- *u against W.* By (A1-ii), v_u(W) − min ≤ v_u(Y_d) + v_u(Y_u) < v_u(Y_w) = v_u(X_u). Correct.
+- *k2 against W (k2 ∉ {w, u, d}).* g, h and Y′_{k2} are three distinct goods of R_{k2}, none in W: g is d's pick,
+  h ∉ W, and Y′_{k2} ≠ Y_d since k2 ≠ w. **With |R_{k2}| ≤ 4**, at most one good x of W is valued, and v(x) ≤ p′_{k2},
+  as x is junk at Y′ or x = Y_d with (A1-iii). Correct. This is the proof's only use of k ≤ 4.
+- *Frozen q ∉ {w, u, k2} valuing Y_d.* This is (A1-iv\*) verbatim.
+- *Frozen q not valuing Y_d.* v_q(Y_d) = 0, so the minimum over W is 0, and v_q(W) − min = v_q(J′ ∖ {h}). q is frozen
+  and D_T′ = ∅, so J′ does not threaten q: v_q(J′ ∖ h′) ≤ p′_q for every h′ ∈ J′, in particular h′ = h. Correct. The
+  detour "if q values no junk, 0; otherwise q is dangerous" is harmless but unnecessary.
+- *No other agent.* U′ = {d}, so every agent other than d is frozen. Correct; this is where U′ = {d} is used.
+
+So the hypotheses used are: perfect SD at Y′, U′ = {d}, D_T′ = ∅, k ≤ 4 (for k2), and (A1-i)–(A1-iv\*). Of (A1-i), only
+J′ ∩ R_d = {h} and v_d(g) + v_d(h) > v_d(Y_d) are used. Of (A1-ii), only the bound v_u(W) < v_u(Y_w). This matches
+Hall's second reading.
+
+**Lemma NA, re-derived.** Bundles have at most two goods. Against {Y′_a, j}, the conditions are v_i(j) ≤ v_i(X_i),
+which always holds since j was free at i's turn, and v_i(Y′_a) ≤ v_i(X_i). The latter is automatic unless i wants
+Y′_a. Necessity: if i wants Y′_a and v_i(X_i) < v_i(Y′_a), removing j from X_a violates EFX₀. So the "iff" is
+correct.
+
+**n = 5 data** (`rfa1s_ref.py n5`, `rfa1s_ref_n5.log`). My rebuild from the certifier's two n = 5 exports gives the
+113,484 DEMOTE-0 starts (|J′| = 3 at all of them).
+
+| quantity | mine | k3-oc1 / Hall |
+|---|---|---|
+| complete at the picks (one absorber) / need a move | 113,210 / 274 | 113,210 / 274 |
+| path u → w → d with d taking junk of Y | 110,661 | 110,661 |
+| … d values no good of J′ | 242 | 242 |
+| (A1-i)–(A1-iv\*) hold | **71,443**: 32,368 with (A1-iv), 39,075 only with (A1-iv\*) | 71,443 = 32,368 + 39,075 |
+| X raw EFX₀ | 71,443, exactly where the hypotheses hold | same |
+| X not EFX₀ | 38,976, all with only (A1-iv\*) failing | 38,976 |
+| \|D_T(Y)\| = 2 and d truly dangerous at Y (at the 71,443) | 71,443 | all |
+| (A1-iv) failures | 39,075, all on 5_pure#464: q holds its top at Y′, values Y_u and exactly one junk good of Y | same description |
+| NA criterion vs raw EFX₀, every injection J′ → agents | 6,809,040 assignments, 0 disagreements | 6,809,040, 0 |
+| no-absorber completion exists | at all 113,210 at-once starts, at none of the 274 | same |
+
+On this path shape the hypotheses are exact: X is EFX₀ if and only if (A1-i)–(A1-iv\*) hold.
+
+**Any n, random** (`rfa1s_ref.py gen`). The proof uses only Y′-facts, so I tested RF-A1\*'s claim in Y′ terms: Y′
+perfect, U′ = {d}, D_T′ = ∅, h the only junk good d values, v_d(Y′_d) + v_d(h) > v_d(Y′_w), a u as in (A1-ii), a k2
+as in (A1-iii), and (A1-iv\*). The instances are random strict instances, n = 3–5, all orders, 400,000 per run.
+
+| run | full hypotheses | without (A1-iv\*) | without D_T′ = ∅ | without U′ = {d} |
+|---|---|---|---|---|
+| k ≤ 4 | **758 cases, 0 failures** | 123 of 881 fail | 15 of 826 fail | 8,114 of 47,252 fail |
+| k ≤ 5 | 23 of 8,526 fail | 3,458 of 11,961 fail | 536 of 10,268 fail | 60,321 of 273,962 fail |
+
+At k ≤ 5 every full-hypothesis failure is a k2 candidate with |R_{k2}| = 5 that values two goods of W, which is exactly
+the step that needs |R_{k2}| ≤ 4 (`rfa1s_ref_gen_k5.log`). So each hypothesis is used, and k ≤ 4 is used where the
+proof says. A direct random generator of RF starts with this path shape (`rfa1s_ref.py rand`) hits the setting too
+rarely to add much; its log is kept.
+
+*For the record:* RF-A1\* implies Hall's RF-A1, because (A1-iv) makes (A1-iv\*) vacuous. And at n = 5, Lemma NA alone
+covers DEMOTE-0's at-once part.

@@ -1,0 +1,30 @@
+$ MAINWT=<main> python3 kgen/rf/rf_rm_xcheck.py
+kcegar_k5_n3_D1.log:n3_m6_92           k = 5 n = 3 strict+balanced False | 6 RM-optimal (signature (1, 1, 1, 0, 0)), failing [(4, 5, 1)]; some RM-optimal satisfies OC1: True
+kcegar_k5_n3_D1.log:n3_m6_93           k = 5 n = 3 strict+balanced True | 6 RM-optimal (signature (1, 1, 1, 0, 0)), failing [(3, 5, 1)]; some RM-optimal satisfies OC1: True
+kcegar_k5_n3_D1.log:n3_m6_96           k = 5 n = 3 strict+balanced True | 6 RM-optimal (signature (1, 1, 1, 0, 0)), failing [(3, 4, 5)]; some RM-optimal satisfies OC1: True
+kcegar_k5_n3_D1.log:n3_m6_103          k = 5 n = 3 strict+balanced True | 6 RM-optimal (signature (1, 1, 1, 0, 0)), failing [(5, 3, 4)]; some RM-optimal satisfies OC1: True
+kcegar_k5_n3_D1.log:n3_m6_104          k = 5 n = 3 strict+balanced True | 6 RM-optimal (signature (1, 1, 1, 0, 0)), failing [(2, 4, 1)]; some RM-optimal satisfies OC1: True
+kcegar_k5_n3_D1.log:n3_m6_110          k = 5 n = 3 strict+balanced True | 6 RM-optimal (signature (1, 1, 1, 0, 0)), failing [(4, 5, 2)]; some RM-optimal satisfies OC1: True
+kcegar_k5_n3_D1.log:n3_m6_111          k = 5 n = 3 strict+balanced True | 6 RM-optimal (signature (1, 1, 1, 0, 0)), failing [(4, 0, 5)]; some RM-optimal satisfies OC1: True
+kcegar_k5_n3_D1.log:n3_m7_15           k = 5 n = 3 strict+balanced True | 6 RM-optimal (signature (1, 1, 1, 0, 0)), failing [(2, 5, 6)]; some RM-optimal satisfies OC1: True
+kcegar_k5_n3_D1.log:n3_m7_19           k = 5 n = 3 strict+balanced True | 6 RM-optimal (signature (1, 1, 1, 0, 0)), failing [(5, 4, 6)]; some RM-optimal satisfies OC1: True
+kcegar_k5_n3_D1.log:n3_m7_116          k = 5 n = 3 strict+balanced False | 6 RM-optimal (signature (1, 1, 1, 0, 0)), failing [(5, 3, 6)]; some RM-optimal satisfies OC1: True
+kcegar_k5_n3_D1.log:n3_m7_117          k = 5 n = 3 strict+balanced True | 6 RM-optimal (signature (1, 1, 1, 0, 0)), failing [(4, 3, 6)]; some RM-optimal satisfies OC1: True
+kcegar_k5_n3_D1.log:n3_m7_121          k = 5 n = 3 strict+balanced True | 6 RM-optimal (signature (1, 1, 1, 0, 0)), failing [(1, 5, 6)]; some RM-optimal satisfies OC1: True
+kcegar_k5_n3_D1.log:n3_m8_98           k = 5 n = 3 strict+balanced False | 6 RM-optimal (signature (1, 1, 1, 0, 0)), failing [(5, 6, 7)]; some RM-optimal satisfies OC1: True
+RD5                                    k = 5 n = 4 strict+balanced False | 1 RM-optimal (signature (2, 1, 0, 1, 0)), failing -; some RM-optimal satisfies OC1: True
+kgen-n4-k5 (not balanced)              k = 5 n = 4 strict+balanced False | 2 RM-optimal (signature (2, 2, 0, 0, 0)), failing -; some RM-optimal satisfies OC1: True
+rf_climb_k5_n4.log:154000113           k = 5 n = 4 strict+balanced True | 2 RM-optimal (signature (2, 1, 1, 0, 0)), failing -; some RM-optimal satisfies OC1: True
+rf_climb_k5_n4.log:154000375           k = 5 n = 4 strict+balanced True | 1 RM-optimal (signature (2, 2, 0, 0, 0)), failing -; some RM-optimal satisfies OC1: True
+rf_climb_k5_n4.log:154000378           k = 5 n = 4 strict+balanced True | 2 RM-optimal (signature (2, 1, 1, 0, 0)), failing -; some RM-optimal satisfies OC1: True
+rf_climb_k6_n3.log:163000349           k = 6 n = 3 strict+balanced True | 6 RM-optimal (signature (1, 1, 1, 0, 0, 0)), failing [(4, 2, 0)]; some RM-optimal satisfies OC1: True
+rf_climb_k6_n4.log:164000105           k = 5 n = 4 strict+balanced True | 1 RM-optimal (signature (2, 2, 0, 0, 0)), failing -; some RM-optimal satisfies OC1: True
+rf_climb_k6_n4.log:164000053           k = 6 n = 4 strict+balanced True | 2 RM-optimal (signature (2, 1, 1, 0, 0, 0)), failing -; some RM-optimal satisfies OC1: True
+rf_climb_k6_n4.log:164000159           k = 6 n = 4 strict+balanced True | 2 RM-optimal (signature (2, 2, 0, 0, 0, 0)), failing -; some RM-optimal satisfies OC1: True
+rf_climb_k6_n4.log:164000158           k = 6 n = 4 strict+balanced True | 1 RM-optimal (signature (2, 2, 0, 0, 0, 0)), failing -; some RM-optimal satisfies OC1: True
+rf_climb_k6_n4.log:164000192           k = 6 n = 4 strict+balanced True | 2 RM-optimal (signature (2, 2, 0, 0, 0, 0)), failing -; some RM-optimal satisfies OC1: True
+rf_climb_k6_n4.log:164000285           k = 5 n = 4 strict+balanced True | 1 RM-optimal (signature (2, 2, 0, 0, 0)), failing -; some RM-optimal satisfies OC1: True
+rf_climb_k6_n4.log:164000321           k = 6 n = 4 strict+balanced True | 2 RM-optimal (signature (2, 2, 0, 0, 0, 0)), failing -; some RM-optimal satisfies OC1: True
+rf_climb_k6_n4.log:164000326           k = 6 n = 4 strict+balanced True | 6 RM-optimal (signature (2, 1, 0, 1, 0, 0)), failing [(5, 1, 2, 0)]; some RM-optimal satisfies OC1: True
+rf_climb_k6_n4.log:164000368           k = 5 n = 4 strict+balanced True | 2 RM-optimal (signature (2, 1, 1, 0, 0)), failing -; some RM-optimal satisfies OC1: True
+instances 28; some RM-optimal vector fails OC1: 15; some RM-optimal vector satisfies OC1: 28

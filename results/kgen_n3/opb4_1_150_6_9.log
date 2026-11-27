@@ -1,0 +1,35 @@
+$ python3 kgen/opb4.py 1 150 6 9
+69 general: OC1 through OPB (one ring, absorber condition)
+69 general: OC2 through OPB (two rings, absorber condition)
+69 general: OPB with improving rings exists
+68 general: fewest rings = 0
+1 general: fewest rings = 1
+69 general: starts (distinct pick vectors)
+644 ident: OC1 through OPB (one ring, absorber condition)
+644 ident: OC2 through OPB (two rings, absorber condition)
+644 ident: OPB with improving rings exists
+642 ident: fewest rings = 0
+2 ident: fewest rings = 1
+644 ident: starts (distinct pick vectors)
+54 klim:4: OC1 through OPB (one ring, absorber condition)
+54 klim:4: OC2 through OPB (two rings, absorber condition)
+54 klim:4: OPB with improving rings exists
+52 klim:4: fewest rings = 0
+2 klim:4: fewest rings = 1
+54 klim:4: starts (distinct pick vectors)
+51 klim:5: OC1 through OPB (one ring, absorber condition)
+51 klim:5: OC2 through OPB (two rings, absorber condition)
+51 klim:5: OPB with improving rings exists
+46 klim:5: fewest rings = 0
+5 klim:5: fewest rings = 1
+51 klim:5: starts (distinct pick vectors)
+68 zeros: OC1 through OPB (one ring, absorber condition)
+68 zeros: OC2 through OPB (two rings, absorber condition)
+68 zeros: OPB with improving rings exists
+63 zeros: fewest rings = 0
+5 zeros: fewest rings = 1
+68 zeros: starts (distinct pick vectors)
+
+real	0m34.615s
+user	0m34.102s
+sys	0m0.016s

@@ -1,0 +1,43 @@
+$ RECHOOSE=1 DUMPSWAP=1 python3 kgen/aacgmm3_opb2.py 4 1200 5 10
+FAIL REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick general [[99, 30, 54, 34, 19, 42], [7, 41, 73, 15, 73, 52], [84, 84, 92, 96, 6, 64]] order (0, 1, 2) roles (1, 0, 2) picks [0, 4, 3]
+FAIL invariant 2 lost after REB, re-choosing does not settle zeros [[0, 0, 0, 33, 28, 0, 0], [0, 0, 0, 32, 0, 0, 73], [0, 0, 0, 92, 0, 0, 0]] order (0, 1, 2) roles (0, 2, 1) picks [3, 6, 5]
+FAIL case 2 exit not EFX0 general [[42, 81, 43, 95, 99, 78, 47, 21, 22], [97, 28, 7, 7, 21, 88, 8, 87, 34], [91, 86, 86, 64, 14, 26, 18, 51, 62]] order (0, 1, 2) roles (2, 1, 0) picks [4, 0, 2]
+FAIL case 2: agent 2's two-bundle PR blocked by a pick general [[55, 48, 67, 82, 6, 38, 78, 5], [65, 15, 71, 28, 12, 83, 50, 83], [96, 57, 1, 22, 4, 64, 63, 3]] order (0, 1, 2) roles (1, 2, 0) picks [3, 7, 0]
+FAIL no termination general [[29, 86, 25, 61, 42, 18, 3, 78], [46, 4, 42, 25, 81, 75, 75, 94], [16, 45, 68, 60, 39, 7, 97, 4]] order (0, 1, 2) roles (1, 2, 0) picks [1, 7, 6]
+14400 general: runs
+13910 general: runs ending EFX0
+13206 general: runs ending EFX0 and OC1-reachable
+673 general: runs ending EFX0, not OC1, identity placement
+360 general: runs failing: REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick
+3 general: runs failing: case 2 exit not EFX0
+27 general: runs failing: case 2: agent 2's two-bundle PR blocked by a pick
+94 general: runs failing: invariant 2 lost after REB, re-choosing does not settle
+6 general: runs failing: no termination
+2400 general: starts
+2200 general: starts where roles = order ends OC1-reachable
+2400 general: starts where some role assignment ends OC1-reachable
+14400 ident: runs
+14400 ident: runs ending EFX0
+14366 ident: runs ending EFX0 and OC1-reachable
+10 ident: runs ending EFX0, not OC1, identity placement
+2400 ident: starts
+2388 ident: starts where roles = order ends OC1-reachable
+2400 ident: starts where some role assignment ends OC1-reachable
+14400 zeros: runs
+13654 zeros: runs ending EFX0
+13389 zeros: runs ending EFX0 and OC1-reachable
+16 zeros: runs ending EFX0, not OC1, identity placement
+604 zeros: runs failing: REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick
+142 zeros: runs failing: invariant 2 lost after REB, re-choosing does not settle
+2400 zeros: starts
+2153 zeros: starts where roles = order ends OC1-reachable
+2400 zeros: starts where some role assignment ends OC1-reachable
+110335 moves: move
+9908 moves: pick swap with the dump
+15000 moves: potential fell (after a re-choice)
+42608 moves: rechoose
+8885 moves: swap
+
+real	0m11.155s
+user	0m11.004s
+sys	0m0.004s

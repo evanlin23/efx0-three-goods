@@ -1,0 +1,36 @@
+$ python3 kgen/aacgmm3_opb2.py 2 1200 5 10
+FAIL REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick zeros [[87, 0, 54, 0, 0, 0, 0, 92, 60], [0, 0, 64, 0, 0, 0, 73, 72, 0], [0, 42, 22, 0, 0, 91, 72, 65, 79]] order (0, 1, 2) roles (0, 1, 2) picks [7, 6, 5]
+FAIL invariant 2 lost after REB (X3 feasible for neither agent 2 nor 3) general [[14, 4, 58, 17, 67, 75, 51], [63, 66, 42, 19, 44, 34, 34], [78, 54, 84, 3, 90, 72, 18]] order (0, 1, 2) roles (0, 1, 2) picks [5, 1, 4]
+FAIL case 2: agent 2's two-bundle PR blocked by a pick general [[43, 68, 91, 82, 45, 83, 1, 66, 66], [44, 78, 2, 73, 68, 65, 16, 4, 81], [25, 65, 6, 89, 30, 94, 53, 16, 27]] order (0, 1, 2) roles (0, 1, 2) picks [2, 8, 5]
+14400 general: runs
+13416 general: runs ending EFX0
+12548 general: runs ending EFX0 and OC1-reachable
+848 general: runs ending EFX0, not OC1, identity placement
+456 general: runs failing: REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick
+21 general: runs failing: case 2: agent 2's two-bundle PR blocked by a pick
+507 general: runs failing: invariant 2 lost after REB (X3 feasible for neither agent 2 nor 3)
+2400 general: starts
+2083 general: starts where roles = order ends OC1-reachable
+2388 general: starts where some role assignment ends OC1-reachable
+14400 ident: runs
+14400 ident: runs ending EFX0
+14371 ident: runs ending EFX0 and OC1-reachable
+11 ident: runs ending EFX0, not OC1, identity placement
+2400 ident: starts
+2388 ident: starts where roles = order ends OC1-reachable
+2400 ident: starts where some role assignment ends OC1-reachable
+14400 zeros: runs
+13207 zeros: runs ending EFX0
+12979 zeros: runs ending EFX0 and OC1-reachable
+6 zeros: runs ending EFX0, not OC1, identity placement
+1149 zeros: runs failing: REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick
+44 zeros: runs failing: invariant 2 lost after REB (X3 feasible for neither agent 2 nor 3)
+2400 zeros: starts
+2055 zeros: starts where roles = order ends OC1-reachable
+2400 zeros: starts where some role assignment ends OC1-reachable
+1662 moves: move
+4685 moves: swap
+
+real	0m7.216s
+user	0m7.055s
+sys	0m0.000s

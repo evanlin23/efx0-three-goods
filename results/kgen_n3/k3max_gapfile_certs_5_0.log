@@ -1,0 +1,8 @@
+$ python3 kgen/k3max_gapfile.py gap_certs_5.gap.gz 0 2
+872   Lemma G5: Rule E keeps the want graph acyclic for every k: True
+872   T1 (owner allowed): the Rule E rotation completes (lb2) for SOME k: True
+872   T1' with Rule E (some k): True
+872   T1-E (owner allowed): the Rule E rotation completes (lb2) for EVERY k: True
+872   |J| = 4
+872 gap drafts with |T| = 1
+time 1 s

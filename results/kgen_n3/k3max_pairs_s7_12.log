@@ -1,0 +1,21 @@
+$ python3 kgen/k3max_pairs.py sample certs7:12 200 102
+8    no such k: least omega' = -1; a least-omega' rotation passes owner none/k: True
+6    no such k: least omega' = -2; a least-omega' rotation passes owner none/k: True
+4    no such k: least omega' = 0; a least-omega' rotation passes owner none/k: True
+1879 hard perfect drafts
+221 |E_t| = 2, 0 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+2 |E_t| = 2, 0 pairs contain Y_t, 1 repeated; some k with h_k <= 1, no equal pair: False
+41 |E_t| = 2, 1 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+2 |E_t| = 2, 2 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+4 |E_t| = 3, 0 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: False
+55 |E_t| = 3, 0 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+3 |E_t| = 3, 0 pairs contain Y_t, 1 repeated; some k with h_k <= 1, no equal pair: True
+4 |E_t| = 3, 1 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: False
+30 |E_t| = 3, 1 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+2 |E_t| = 3, 1 pairs contain Y_t, 1 repeated; some k with h_k <= 1, no equal pair: True
+2 |E_t| = 3, 2 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+2 |E_t| = 4, 0 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: False
+1 |E_t| = 4, 0 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: True
+1 |E_t| = 4, 0 pairs contain Y_t, 1 repeated; some k with h_k <= 1, no equal pair: False
+4 |E_t| = 4, 1 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: False
+1 |E_t| = 4, 2 pairs contain Y_t, 0 repeated; some k with h_k <= 1, no equal pair: False

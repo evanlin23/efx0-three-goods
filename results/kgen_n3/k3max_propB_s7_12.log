@@ -1,0 +1,20 @@
+$ python3 kgen/k3max_propB.py sample certs7:12 400 202
+838 A  drafts, |J| >= 3
+838 A  drafts: some rotation passes Lemma 3 for owner t: True
+349 A  drafts: some rotation with (a) empty leaves t no frozen exposed agent: False
+489 A  drafts: some rotation with (a) empty leaves t no frozen exposed agent: True
+315 A  drafts: some rotation with (a) empty passes Lemma 3 for t: False
+523 A  drafts: some rotation with (a) empty passes Lemma 3 for t: True
+19 R1 drafts, |J| >= 3
+19 R1 drafts: some rotation passes Lemma 3 for owner t: True
+1 R1 drafts: some rotation with (a) empty leaves t no frozen exposed agent: False
+18 R1 drafts: some rotation with (a) empty leaves t no frozen exposed agent: True
+19 R1 drafts: some rotation with (a) empty passes Lemma 3 for t: True
+34 R2 drafts, |J| >= 3
+34 R2 drafts: some rotation passes Lemma 3 for owner t: True
+16 R2 drafts: some rotation with (a) empty leaves t no frozen exposed agent: False
+18 R2 drafts: some rotation with (a) empty leaves t no frozen exposed agent: True
+16 R2 drafts: some rotation with (a) empty passes Lemma 3 for t: False
+18 R2 drafts: some rotation with (a) empty passes Lemma 3 for t: True
+16 R2: exposed pairs share a good: False
+18 R2: exposed pairs share a good: True
