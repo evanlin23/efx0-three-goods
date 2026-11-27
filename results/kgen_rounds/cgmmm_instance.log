@@ -1,0 +1,9 @@
+CGMMM Sec.7 instance [values unverified]: EFX0 allocations 114
+  order (0, 1, 2, 3) picks (6, 5, 4, 8) perfect True EXT1 0 OC1 27 OC1P 27 MD 35
+  order (0, 1, 3, 2) picks (6, 5, 2, 4) perfect True EXT1 6 OC1 34 OC1P 34 MD 35
+  order (0, 2, 3, 1) picks (6, 2, 4, 5) perfect True EXT1 6 OC1 37 OC1P 37 MD 39
+  order (1, 2, 0, 3) picks (7, 5, 6, 4) perfect True EXT1 6 OC1 60 OC1P 60 MD 68
+  order (1, 3, 0, 2) picks (7, 5, 4, 6) perfect True EXT1 1 OC1 77 OC1P 79 MD 93
+  order (2, 0, 3, 1) picks (7, 2, 6, 5) perfect True EXT1 3 OC1 64 OC1P 64 MD 70
+  order (3, 1, 0, 2) picks (7, 6, 4, 5) perfect True EXT1 1 OC1 85 OC1P 85 MD 93
+lifted (x100, zeros->1,2,..): EFX 112 starts 7 max rounds 1 one-chain fails 0

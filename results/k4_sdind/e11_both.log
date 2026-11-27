@@ -1,0 +1,115 @@
+$ python3 k4/sdind/e11_both.py special
+SUB EXTENDS, I NOT top (wanted) T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks [0, 4, 1] u 0
+SUB EXTENDS, I NOT top (wanted) T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks [0, 4, 1] u 1
+SUB EXTENDS, I NOT top (wanted) T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks [0, 1, 4] u 0
+instances 4
+top (wanted): A(I) empty 33
+top (wanted): A(sub) empty 17
+top (wanted): SUB EXTENDS BUT I DOES NOT 16
+top (wanted): X' least distance 0 128
+top (wanted): X' least distance 1 17
+top (wanted): X' least distance 2 1
+top (wanted): X' least distance None 17
+top (wanted): cases 59
+top (wanted): rule B1 works 130
+top (wanted): rule B2 works 130
+top (wanted): rule B3 works 130
+time 0 s
+$ python3 k4/sdind/e11_both.py screen 5
+SUB EXTENDS, I NOT top (wanted) adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks [5, 4, 3] u 0
+SUB EXTENDS, I NOT top (wanted) adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks [5, 3, 4] u 0
+SUB EXTENDS, I NOT top (wanted) adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks [5, 3, 4] u 2
+both: A(I) empty 8
+both: A(sub) empty 28
+both: X' least distance 0 594
+both: X' least distance 1 291
+both: X' least distance 2 3
+both: cases 148
+both: rule B1 works 879
+both: rule B2 works 883
+both: rule B3 works 888
+instances 167
+top (wanted): A(I) empty 357
+top (wanted): A(sub) empty 223
+top (wanted): SUB EXTENDS BUT I DOES NOT 137
+top (wanted): X' least distance 0 5500
+top (wanted): X' least distance 1 1053
+top (wanted): X' least distance 2 623
+top (wanted): X' least distance 3 68
+top (wanted): X' least distance 4 61
+top (wanted): X' least distance 5 5
+top (wanted): X' least distance 6 1
+top (wanted): X' least distance None 322
+top (wanted): cases 1331
+top (wanted): rule B1 works 5592
+top (wanted): rule B2 works 5625
+top (wanted): rule B3 works 5625
+time 1 s
+$ python3 k4/sdind/e11_both.py suite 5
+SUB EXTENDS, I NOT top (wanted) adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks [5, 4, 3] u 0
+SUB EXTENDS, I NOT top (wanted) adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks [5, 3, 4] u 0
+SUB EXTENDS, I NOT top (wanted) adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks [5, 3, 4] u 2
+both: A(I) empty 13
+both: A(sub) empty 35
+both: X' least distance 0 701
+both: X' least distance 1 822
+both: X' least distance 2 3
+both: cases 166
+both: rule B1 works 1509
+both: rule B2 works 1521
+both: rule B3 works 1526
+instances 157
+top (wanted): A(I) empty 364
+top (wanted): A(sub) empty 216
+top (wanted): SUB EXTENDS BUT I DOES NOT 151
+top (wanted): X' least distance 0 6714
+top (wanted): X' least distance 1 1091
+top (wanted): X' least distance 2 998
+top (wanted): X' least distance 3 126
+top (wanted): X' least distance 4 182
+top (wanted): X' least distance 5 82
+top (wanted): X' least distance 6 108
+top (wanted): X' least distance 7 12
+top (wanted): X' least distance None 620
+top (wanted): cases 1235
+top (wanted): rule B1 works 6838
+top (wanted): rule B2 works 6868
+top (wanted): rule B3 works 6868
+time 19 s
+$ python3 k4/sdind/e11_both.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz:1500:92
+SUB EXTENDS, I NOT top (wanted) r35 [[[0, 2, 3, 5], [1, 4, 5], [2, 3, 4, 5], [3, 4, 5]], [[7, 2, 8, 4], [3, 2, 4], [3, 8, 6, 4], [3, 2, 4]]] picks [3, 5, 4, None] u 0
+SUB EXTENDS, I NOT top (wanted) r35 [[[0, 2, 3, 5], [1, 4, 5], [2, 3, 4, 5], [3, 4, 5]], [[7, 2, 8, 4], [3, 2, 4], [3, 8, 6, 4], [3, 2, 4]]] picks [3, 5, 2, 4] u 0
+SUB EXTENDS, I NOT top (wanted) r52 [[[0, 2, 7], [1, 6, 7], [2, 3, 4, 5], [3, 4, 5, 6]], [[2, 4, 3], [3, 2, 4], [10, 2, 7, 4], [8, 3, 4, 2]]] picks [0, 7, 2, 3] u 1
+B3 FAILS r78 [[[0, 2, 5, 7], [1, 3, 4, 6], [3, 4, 6, 7], [5, 6, 7]], [[3, 10, 4, 8], [7, 6, 3, 5], [7, 2, 10, 6], [2, 4, 3]]] picks [2, 1, 6, 7] u 0 X' {0: 1, 3: 2, 4: 3, 5: 3} least d 1
+B3 FAILS r94 [[[0, 2, 6, 7], [1, 5, 6, 7], [2, 3, 4, 6], [3, 4, 5, 7]], [[5, 7, 3, 6], [7, 5, 3, 6], [10, 2, 7, 4], [6, 8, 10, 3]]] picks [7, 1, 2, 5] u 1 X' {0: 3, 3: 0, 4: 2, 6: 0} least d 1
+B3 FAILS r125 [[[0, 2, 6, 7], [1, 4, 7, 8], [3, 5, 7, 8], [5, 6, 8]], [[3, 6, 7, 5], [5, 8, 2, 4], [2, 6, 10, 7], [3, 4, 2]]] picks [6, 4, 7, 5] u 2 X' {0: 0, 1: 1, 2: 3, 3: 3, 8: 3} least d 2
+B3 FAILS r125 [[[0, 2, 6, 7], [1, 4, 7, 8], [3, 5, 7, 8], [5, 6, 8]], [[3, 6, 7, 5], [5, 8, 2, 4], [2, 6, 10, 7], [3, 4, 2]]] picks [6, 4, 7, 5] u 2 X' {0: 3, 1: 1, 2: 0, 3: 3, 8: 3} least d 2
+SUB EXTENDS, I NOT both r1179 [[[0, 3, 6, 7], [1, 4, 6, 7], [2, 5, 8], [3, 4, 5, 8]], [[8, 1, 6, 4], [4, 8, 3, 2], [4, 2, 3], [5, 8, 6, 4]]] picks [0, 1, 2, 4] u 0
+both: A(I) empty 34
+both: A(sub) empty 299
+both: SUB EXTENDS BUT I DOES NOT 1
+both: X' least distance 0 64996
+both: X' least distance 1 30740
+both: X' least distance 2 82
+both: X' least distance 3 8
+both: X' least distance None 8
+both: cases 5433
+both: rule B1 works 95286
+both: rule B2 works 95623
+both: rule B3 works 95748
+instances 1500
+top (wanted): A(I) empty 442
+top (wanted): A(sub) empty 303
+top (wanted): SUB EXTENDS BUT I DOES NOT 142
+top (wanted): X' least distance 0 31727
+top (wanted): X' least distance 1 9733
+top (wanted): X' least distance 2 3530
+top (wanted): X' least distance 3 410
+top (wanted): X' least distance 4 38
+top (wanted): X' least distance 5 9
+top (wanted): X' least distance None 333
+top (wanted): cases 3897
+top (wanted): rule B1 works 34679
+top (wanted): rule B2 works 35017
+top (wanted): rule B3 works 35023
+time 7 s

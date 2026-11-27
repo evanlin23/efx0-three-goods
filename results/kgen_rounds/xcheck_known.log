@@ -1,0 +1,31 @@
+$ python3 kgen/rounds/xcheck.py known
+PW5-lift n 5 m 9 mismatches 0
+PW(3,2,5)-lift n 5 m 10 mismatches 0
+RD5-lift n 4 m 7 mismatches 0
+kgenN4-lift n 4 m 8 mismatches 0
+kgenN4ties-lift n 4 m 7 mismatches 0
+CGM-barrier-lift n 3 m 7 mismatches 0
+GM4-A-lift n 4 m 7 mismatches 0
+GM4-B-lift n 4 m 7 mismatches 0
+GM4-C-lift n 4 m 7 mismatches 0
+GM4-D-lift n 4 m 7 mismatches 0
+GM4-E-lift n 4 m 7 mismatches 0
+GM4-G-lift n 4 m 7 mismatches 0
+tops3-m8 n 3 m 8 mismatches 0
+tops3-m9 n 3 m 9 mismatches 0
+tops3-m10 n 3 m 10 mismatches 0
+tops4-m8 n 4 m 8 mismatches 0
+tops4-m9 n 4 m 9 mismatches 0
+tops4-m10 n 4 m 10 mismatches 0
+('EXT1', False) 35
+('EXT1', True) 66
+('EXTF', False) 31
+('EXTF', True) 70
+('MD', True) 101
+('OC1', False) 2
+('OC1', True) 99
+('RND1', True) 101
+('RNDF', True) 101
+starts 101
+mismatches 0
+time 19 s
