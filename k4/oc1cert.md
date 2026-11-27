@@ -79,6 +79,12 @@ OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
   - Independent check: `k4/oc1cert/check_exists.py`, which uses check.py's own types, raw SD per order, raw move rules
     and raw EFX₀, and runs Glucose with one literal per agent mask (`check_exists_4_fail11.log`).
   - A dense engine with no SAT agrees with it on a sensitivity sample.
+- n = 5, first 5_pure chunk (935 cores, stride 5 offset 0): OC₁^∃max holds for every strict profile on all 935.
+  - 798 follow from their OC₁^max certificates, as above.
+  - The other 137, every core of the chunk with an OC₁^max failure, are certified by `exists.py`
+    (`k4/oc1cert/exists_n5.py`; `results/k4_oc1max/n5/exists_5_pure_s5o0.json.gz`, 230,031 entries, log
+    `exists_5_pure_s5o0.log`).
+  - Independent check: `check_exists.py` passes all 137 with 0 invalid entries (`check_exists_5_pure_s5o0.log`).
 
 **OC₁′^max (kgen-rounds' move, `kgen/rounds.md` §4.6 on proof/kgen-rounds) holds at n ≤ 4 and fails at n = 5.**
 - The move: as OC₁'s, except that every non-end chain agent may also take goods of the end's base that it values.

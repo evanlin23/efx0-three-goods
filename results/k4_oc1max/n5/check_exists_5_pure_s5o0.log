@@ -1,0 +1,8 @@
+$ python3 k4/oc1cert/check_exists.py /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/exists_5_pure_s5o0.json.gz
+covered 137
+entries 230031
+invalid entries 0
+not certified by the CEGAR 0
+type classes 125089
+time 289 s
+RESULT every certified hypergraph (137) has, under every strict profile, an SD order whose maximum-matching picks satisfy OC1
