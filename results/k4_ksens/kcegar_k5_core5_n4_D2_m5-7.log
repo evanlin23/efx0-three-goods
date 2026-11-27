@@ -1,0 +1,8 @@
+$ python3 k4/ksens/kcegar_batch.py core5 4 2 5 6 7 --jobs=2 --limit=900
+hypergraphs 1138
+... 100 {'certified': 100} 29 s
+... 200 {'certified': 200} 170 s
+... 300 {'certified': 300} 467 s
+... 400 {'certified': 400} 573 s
+... 500 {'certified': 500} 672 s
+... 600 {'certified': 600} 874 s

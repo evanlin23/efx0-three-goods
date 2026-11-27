@@ -35,6 +35,11 @@ Inner search (no SAT), on the integer representative: a one-absorber completion 
 Result: 'certified' (the outer is UNSAT: OC_D^max holds for every strict profile of the hypergraph) or a FAIL
 (profile, picks) with no repair within D chains, which the caller re-checks.
 
+Agents with six or more goods (lazy mode only): no type list.  Their bits are checked by an exact rational LP
+(ratlp.py: is there v > 0 with the assigned strict signs?), behind a pool of known strict value vectors (random ones
+with distinct subset sums, plus every LP solution) tried first with numpy; an infeasible assignment is blocked by the
+LP's Farkas core.  The representative given to the inner search is that strict integer vector.
+
     python3 k4/ksens/kcegar.py '[[sets]]' D [--A=1] [--empty-pass] [--any-start]"""
 import sys, os, json, gzip, itertools, time, collections
 import _paths
@@ -73,14 +78,27 @@ def agent_types(R):
 
 
 class Cegar:
-    def __init__(self, sets, m=None, D=2, A=1, empty_pass=False, require_max=True, lazy=True):
+    def __init__(self, sets, m=None, D=2, A=1, empty_pass=False, require_max=True, lazy=True, lp_min=6):
         self.R = [sorted(s) for s in sets]; self.n = n = len(sets)
         self.m = m or 1 + max(max(s) for s in sets); self.D, self.A, self.ep = D, A, empty_pass
-        self.T = [agent_types(R) for R in self.R]
+        self.LP = [len(R) >= lp_min for R in self.R]          # lp_min < 6: test the LP route against the type lists
+        assert lazy or not any(self.LP), 'the one-hot mode needs type lists (at most five goods per agent)'
+        self.T = [None if self.LP[i] else agent_types(R) for i, R in enumerate(self.R)]
         self.pool = IDPool(); self.S = Cadical153(); self.cmpv = {}; self.iters = 0; self.kinds = collections.Counter()
         self.lazy = lazy; self.cuts = 0; self.bitv = {}; self.bits_of = [[] for _ in range(n)]
         import numpy as np
-        self.np = np; self.TV = [np.array([[t[g] for g in self.R[i]] for t in self.T[i]], dtype=np.int64) for i in range(n)]
+        self.np = np; self.TV = [None if self.LP[i] else np.array([[t[g] for g in self.R[i]] for t in self.T[i]], dtype=np.int64)
+                                 for i in range(n)]
+        self.rowv = {}; self.lpcalls = 0; rng = __import__('random').Random(12345); self.vpool = [None] * n
+        for i in range(n):
+            if not self.LP[i]: continue
+            d = len(self.R[i]); seeds = []
+            while len(seeds) < 4000:
+                u = [rng.randint(1, 1 << 30) for _ in range(d)]
+                sums = set(sum(u[g] for g in range(d) if S >> g & 1) for S in range(1 << d))
+                if len(sums) == 1 << d: seeds.append(u)
+            self.vpool[i] = np.array(seeds, dtype=np.int64)
+        self.oriented = [[] for _ in range(n)]; self.rep_of = [None if self.vpool[i] is None else list(self.vpool[i][0]) for i in range(n)]
         v = self.pool.id
         self.TRUE = v(('TRUE',)); self.S.add_clause([self.TRUE])
         if not lazy:
@@ -134,7 +152,22 @@ class Cegar:
         if (A, B) > (B, A): return -self.cmp(i, B, A)
         key = (i, A, B)
         if key in self.cmpv: return self.cmpv[key]
-        col = {g: c for c, g in enumerate(self.R[i])}; TV = self.TV[i]
+        col = {g: c for c, g in enumerate(self.R[i])}
+        if self.LP[i]:
+            lit = self.pool.id(('c',) + key); self.bits_of[i].append(lit)
+            row = [(1 if g in A else 0) - (1 if g in B else 0) for g in self.R[i]]; self.rowv[lit] = row
+            self.cmpv[key] = lit
+            # monotonicity: A2 within A1 and B1 within B2 give [v(A2) > v(B2)] -> [v(A1) > v(B1)]
+            sA, sB = set(A), set(B)
+            for A1, B1, L1 in ((sA, sB, lit), (sB, sA, -lit)):
+                for A2, B2, L2 in self.oriented[i]:
+                    if A2 <= A1 and B1 <= B2: self.S.add_clause([-L2, L1])
+                    if A1 <= A2 and B2 <= B1: self.S.add_clause([-L1, L2])
+            self.oriented[i] += [(sA, sB, lit), (sB, sA, -lit)]
+            # phase hint: the sign under the agent's current representative
+            rp = self.rep_of[i]; self.S.set_phases([lit if sum(a * x for a, x in zip(row, rp)) > 0 else -lit])
+            return lit
+        TV = self.TV[i]
         mask = TV[:, [col[g] for g in A]].sum(1) > TV[:, [col[g] for g in B]].sum(1)
         sat = None if self.lazy else [int(k) for k in self.np.nonzero(mask)[0]]
         if mask.all(): lit = self.TRUE
@@ -207,14 +240,15 @@ class Cegar:
                 ty = [next(k for k, x in enumerate(self.t[i]) if x in mdl) for i in range(self.n)]
             self.iters += 1
             Y = tuple(next((g for g, x in self.p[i].items() if x in mdl), None) for i in range(self.n))
-            vals = [self.T[i][ty[i]] for i in range(self.n)]
+            vals = [ty[i] if self.LP[i] else self.T[i][ty[i]] for i in range(self.n)]
             Q = self.inner(vals, Y)
             if Q is None: return 'FAIL', (vals, Y)
             cl = [-self.p[i][Y[i]] if Y[i] is not None else -self.none[i] for i in range(self.n)]
             cl += [-self.cmp(i, a, b) for i, a, b in set((i, frozenset(a), frozenset(b)) for i, a, b in Q)]
             self.S.add_clause([l for l in cl if l != -self.TRUE])
             if verbose and self.iters % 200 == 0:
-                print('   iter', self.iters, 'cuts', self.cuts, dict(self.kinds), '%.0f s' % (time.time() - t0), flush=True)
+                print('   iter', self.iters, 'cuts', self.cuts, 'LP calls', self.lpcalls, dict(self.kinds),
+                      '%.0f s' % (time.time() - t0), flush=True)
 
     def realize(self, mdl):
         """lazy mode: a type per agent with the signs the model gives its bits, or None after blocking a minimal
@@ -223,6 +257,28 @@ class Cegar:
         np = self.np; ty = []
         for i in range(self.n):
             lits = [b if b in mdl else -b for b in self.bits_of[i]]
+            if self.LP[i]:
+                rows = [self.rowv[l] if l > 0 else [-x for x in self.rowv[-l]] for l in lits]
+                if rows:
+                    ok = (self.vpool[i] @ np.array(rows, dtype=np.int64).T > 0).all(1)
+                    hit = int(np.argmax(ok)) if ok.any() else None
+                else: hit = 0
+                if hit is None:
+                    import ratlp
+                    self.lpcalls += 1; st, w = ratlp.realize(rows, len(self.R[i]))
+                    if st != 'ok':
+                        self.S.add_clause([-lits[k] for k in w]); self.cuts += 1
+                        return None
+                    self.vpool[i] = np.vstack([np.array([w], dtype=np.int64), self.vpool[i]]); vec = list(w)
+                else: vec = [int(x) for x in self.vpool[i][hit]]
+                ty.append({g: int(x) for g, x in zip(self.R[i], vec)})
+                if vec != self.rep_of[i]:          # steer the unconstrained bits towards this realizable point
+                    self.rep_of[i] = vec
+                    self.S.set_phases([b if sum(a * x for a, x in zip(self.rowv[b], vec)) > 0 else -b for b in self.bits_of[i]])
+                continue
+                import ratlp
+                self.S.add_clause([-lits[k] for k in w]); self.cuts += 1
+                return None
             vec = lambda l: self.bitv[l] if l > 0 else ~self.bitv[-l]
             ok = np.ones(len(self.T[i]), dtype=bool)
             for l in lits: ok &= vec(l)

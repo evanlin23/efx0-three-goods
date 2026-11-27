@@ -3,6 +3,10 @@
     python3 k4/ksens/kcegar_batch.py genbg n k D [m ...] [--jobs=4] [--limit=SEC]    every connected hypergraph with n
                                                                                       agents, each valuing <= k goods
     python3 k4/ksens/kcegar_batch.py named D [--jobs=4] [--limit=SEC]                 the k = 5 list NAMED below
+    python3 k4/ksens/kcegar_batch.py core5 n D [m ...] [--jobs=4] [--limit=SEC]         the k = 5 core-like class: connected,
+                                                     agent degrees 3-5 with at least one 5, at most d - 2 private goods
+                                                     per agent of degree d (an analogue of the k = 4 cores of
+                                                     k4/search4.py; no reduction lemma behind it at k = 5)
 --any-start: every SD start, not only the maximum-matching ones (the official move rule either way).
 A FAIL is re-checked on its integer representative by ocsat (SAT; empty passes allowed) for D <= 1, by ocseq (SAT, D
 chains) and by brute force (every state of up to D chains from the definition, raw-EFX0 backtracking completions)."""
@@ -63,11 +67,24 @@ if __name__ == '__main__':
             out = subprocess.run(['nauty-genbg', '-c', '-q', '-d1:1', '-D%d:%d' % (k, n), str(n), str(m)], capture_output=True).stdout.split()
             for idx, line in enumerate(out):
                 G = nx.from_graph6_bytes(line); tasks.append(('n%d_m%d_%d' % (n, m, idx), [sorted(g - n for g in G[i]) for i in range(n)], D, limit))
+    elif args[0] == 'core5':
+        n, D = map(int, args[1:3]); ms = [int(a) for a in args[3:]] or list(range(n, 5 * n + 1))
+        import subprocess, networkx as nx
+        tasks = []
+        for m in ms:
+            out = subprocess.run(['nauty-genbg', '-c', '-q', '-d3:1', '-D5:%d' % n, str(n), str(m)], capture_output=True).stdout.split()
+            for idx, line in enumerate(out):
+                G = nx.from_graph6_bytes(line); sets = [sorted(g - n for g in G[i]) for i in range(n)]
+                if max(map(len, sets)) < 5: continue
+                deg = {g: sum(g in x for x in sets) for g in range(m)}
+                if any(sum(deg[g] == 1 for g in x) > len(x) - 2 for x in sets): continue
+                tasks.append(('core5_n%d_m%d_%d' % (n, m, idx), sets, D, limit))
     else:
         D = int(args[1]); tasks = [(nm, s, D, limit) for nm, s in named()]
     print('hypergraphs', len(tasks), flush=True); C = collections.Counter()
     with mp.Pool(jobs) as P:
         for rec in P.imap_unordered(job, tasks, chunksize=1):
             C[rec['result']] += 1
-            if rec['result'] != 'certified' or args[0] != 'genbg': print(json.dumps(rec), flush=True)
+            if rec['result'] != 'certified' or args[0] == 'named': print(json.dumps(rec), flush=True)
+            if sum(C.values()) % 100 == 0: print('...', sum(C.values()), dict(C), '%.0f s' % (time.time() - t0), flush=True)
     print(dict(C), 'time %.0f s' % (time.time() - t0))

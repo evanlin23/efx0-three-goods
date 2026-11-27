@@ -16,13 +16,17 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
   - the hypergraphs of RD5 and of the n = 4 instance of `proof/kgen-n3`;
   - the 11 k = 4 counterexamples with one agent extended to five goods (22 hypergraphs).
 
-  So two rounds suffice there too. PW5's hypergraph is still running.
+  - PW5's hypergraph (three agents with five goods each): 179,619 iterations, 17 min.
+
+  So two rounds suffice there too.
 - *One chain fails already at n = 3 when k = 5:* N3K5, n = 3, m = 6, with agents valuing 5, 5 and 3 goods. Both
   checkers confirm it (`refute_oc1_k5_n3.py`).
   - One round fails on N3K5 too, free or one-absorber.
   - It still fails with every good valued (N3K5⁺). So one round is not enough even for three agents with
     positive values, where EFX allocations are known to exist.
   - Two rounds repair it.
+  - In all, one chain fails on 13 of the 617 n = 3 hypergraphs (m = 6, 7, 8). One of them has a single five-good
+    agent (degrees 4, 4, 5).
 - *Correction:* one round fails at strictly positive values (RD5⁺ of the kgen-rounds session, verified here). My
   earlier "zeros make rounds necessary" came from a tie in RD5 (§8).
 
@@ -889,10 +893,14 @@ k = 4 searches: 80,000 instances, none of which found the k = 4 failures of §5.
   - At k = 3 it certifies D = 1 on every hypergraph with n ≤ 5, and its D = 0 failures are exactly k3max's.
 - *Results at k = 5* (maximum-matching starts, one-absorber completion, every strict profile):
   - D = 2 is certified for all 617 connected n = 3 hypergraphs (`kcegar_k5_n3_D2.log`, 880 s on 2 CPUs). It is also
-    certified for RD5's, kgen-n4's and the 22 extended k = 4 hypergraphs (`kcegar_k5_D2.log`; PW5's hypergraph still
-    running). No start needs three chains, so none needs three rounds.
-  - D = 1 fails on n = 3 hypergraphs from m = 6 on (`kcegar_k5_n3_D1.log`, still running). The first is N3K5
-    (`refute_oc1_k5_n3.py`):
+    certified for RD5's, kgen-n4's, PW5's (179,619 iterations, 17 min) and the 22 extended k = 4 hypergraphs
+    (`kcegar_k5_D2.log`, 25 of 25). No start needs three chains, so none needs three rounds.
+  - D = 1 fails on 13 of the 617 n = 3 hypergraphs (`kcegar_k5_n3_D1.log`, 883 s).
+    - By m: 7 at m = 6, 5 at m = 7, 1 at m = 8.
+    - Degree profiles: (5, 5, 5) six times, (4, 5, 5) five times, (3, 5, 5) and (4, 4, 5) once each.
+    - Every failing profile is re-checked: no repair within one chain by brute force with empty passes, nor by ocseq.
+
+    The first failure is N3K5 (`refute_oc1_k5_n3.py`):
     - agent 0 values goods 0, 2, 3, 4, 5 at 3, 22, 23, 38, 43;
     - agent 1 values goods 1, 2, 3, 4, 5 at 15, 17, 27, 40, 43;
     - agent 2 values goods 1, 4, 5 at 1, 2, 4;
