@@ -728,6 +728,23 @@ On all 112,880 n = 4 starts with no one-move repair:
 So at n = 4 both forms of the second move are certified: the explicit LIFT shape, and the recursion. Only the
 recursion survives at n = 5.
 
+**n = 5 walks near 5_pure #164** (`k4/matching/fail_walk.py`; evidence only). The walks keep the hypergraph fixed and
+change one value by ±1..3 per step, keeping a strict connected core. Every distinct start with no one-move repair is
+collected, and the walk climbs towards OC2-REC failures.
+- Runs: 3,000 steps with seeds 1–4, and 20,000 steps with seeds 11–14. Logs: `n5_walk164.log`, `n5_walk164_long.log`.
+  Dumps: `n5_walk164.jsonl`, `n5_walk164_long.jsonl.gz`.
+- **23,924 distinct n = 5 starts** with no one-move repair (1,498 + 22,445, 19 shared). The census
+  (`n5_census_walk164.log`, `n5_census_walk164_long.log`) finds, at every one of them:
+  - exactly one holder;
+  - LIFT-SHAPE⁺ fails;
+  - some repairing pair is vertex-disjoint, so every start is of the integrator's type 4a;
+  - OC2-REC holds, its reduced repair is a Lemma EX\* exchange of I⁻, and B₁⁻ never completes without a move;
+  - CM₂ holds, and EX\* is exact on the second move (tested at every start).
+- The OC2-REC witnesses are re-checked by `check_rec.py`: 1,498 / 1,498 and 22,445 / 22,445 (`check_rec_n5walk.log`,
+  `check_rec_n5walklong.log`).
+- The walks never leave #164's hypergraph, so this is narrow evidence. The certifier's 5_pure chunks (128
+  hypergraphs with two-move starts) are the broader test.
+
 ## 7. Climbs and reproduction
 
 **Climbs against CM** (`k4/matching/cm_climb.py`; `results/k4_matching/cm_climb_*.log`). The climbs maximize hard
