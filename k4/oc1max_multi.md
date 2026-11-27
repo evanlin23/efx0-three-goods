@@ -1062,3 +1062,80 @@ EFX₀ removes a zero-valued good, which costs nothing. Keeping all such goods o
 slot per good. Two lemmas would close both residues:
 1. a count of the holders available for these *worthless* goods (SLOT2);
 2. a swap lemma with compensated wanters (RING2).
+
+## 12. OC2-REC (item 4b): Lemma SD-E and Theorem REC-S
+
+This section proves OC2-REC's part (a) in general, and part (b) on a class that contains every known failing start.
+Values are strict: each agent's values are distinct, as in §23.4 of `k4/oc1_hall.md`.
+
+**The earliest-wanter chain.** Let Y be the SD outcome of the order σ, and let k be frozen. The chain
+E(k) = (k = x₀, x₁, …, x_t = z) is defined by:
+- x_l is the σ-earliest wanter of Y_{x_{l−1}};
+- it stops at the first agent z whose pick nobody wants.
+
+A wanter of Y_j picks after j: Y_j was gone at its turn. So σ increases along E(k), its agents are distinct, it is a
+canonical chain, and it exists for every frozen k.
+
+**Lemma SD-E (K4.MULTI.SDE).** Let T ⊆ J ∪ {Y_z}. Let B₁ be the state after E(k) in which k takes T: x_l holds
+Y_{x_{l−1}}, and every other agent keeps its pick. Let I⁻ be the instance without k and T. Then B₁ restricted to I⁻ is
+the SD outcome of σ with k deleted. In particular it is a perfect start of I⁻.
+
+*Proof.* Write b_a for a's good at B₁. We run σ ∖ k in I⁻ and show by induction that every agent a takes b_a.
+- *b_a is available at a's turn.* Only a holds b_a. b_a ∉ T, since b_a is a pick other than Y_z.
+- *a values no other available good g more.* Suppose v_a(g) > v_a(b_a) ≥ p_a.
+  - A junk good of I is worth less than p_a to a: it was available at a's turn (strict values).
+  - Y_z is worth less than p_a to every a ≠ z, since nobody wants it; and z's new value exceeds p_z.
+  - So g is a pick Y_j, and a wants Y_j at the picks. Hence σ(j) < σ(a).
+  - g is available, so its holder at B₁ comes after a. That holder is j itself unless j = x_l, in which case it is
+    x_{l+1}.
+  - It cannot be j, because σ(j) < σ(a).
+  - So σ(x_l) < σ(a) < σ(x_{l+1}), and a wants Y_{x_l}. That contradicts the choice of x_{l+1} as the earliest wanter.
+
+Since every agent takes its B₁ good, the goods left over are exactly the junk of B₁ in I⁻. ∎
+
+So part (a) of OC2-REC holds for E(k) with *any* pool pair. Checked (`reduce_s.py`) at every dangerous k and every
+pool pair T of E(k), at all 4,955 walk failures and the 12 known failures: 0 violations.
+
+**Theorem REC-S (K4.MULTI.RECS): OC₂ by settling a sharer, then Theorem S or U one size down.** Let Y be a perfect start
+with strict values, k ∈ D, E(k) with head z, and T ⊆ (J ∪ {Y_z}) ∩ R_k an improving pair. Suppose:
+- **(L)** every other agent with a relevant good values each good of T below its value after E(k) (Lemma LIFT's
+  hypothesis);
+- **(R)** in I⁻ at B₁⁻, some (k′, P′, h) meets the hypotheses of Theorem S in its relaxed form, with h ∈ J⁻ ∪ {Y_{z′}}
+  (this contains Theorem U);
+- **(K)** no bundle of the resulting allocation X⁻ threatens k at v_k(T).
+
+Then OC₂ holds at Y. The repair is:
+1. E(k), in which k takes T;
+2. P′, an official move of I from B₁ that leaves k's bundle unchanged (LIFT 1);
+3. the completion X⁻ together with X_k = T.
+
+*Proof.*
+- B₁⁻ is a perfect start of I⁻ by Lemma SD-E.
+- Theorem S (refereed CORRECT; it needs no hardness) gives the move P′ in I⁻ and the EFX₀ S\* completion X⁻.
+- LIFT 1 makes P′ an official move of I.
+- LIFT 2 with (L) and (K) makes X⁻ ∪ {k: T} a one-absorber completion in I. ∎
+
+Every hypothesis is checked at the start; the existence of the moves is part of the proof.
+
+*Checks* (`reduce_s.py`, `reduce_s.log`, `reduce_s_cex12.log`; raw EFX₀ in I for every lifted allocation). Both the
+general form (any canonical P₁ with B₁⁻ an SD start) and the E(k)-only form were run:
+
+| data | starts | (L) holds for some E(k), T | REC-S repairs | violations |
+|---|---|---|---|---|
+| the 12 known OC₁^max failures (`oc1max_cex12.jsonl`) | 12 | 12 | **12** | 0 |
+| the walk failures near them (`oc1_fail_walk.jsonl.gz`) | 4,955 | 4,955 | **4,955** | 0 |
+
+*Status of OC2-REC.*
+- (a) is proved (Lemma SD-E).
+- (b) is proved wherever (L), (R) and (K) hold, which is every known failing start.
+- What remains is existence on all hard starts with no one-move repair: that some k ∈ D and some pool pair T of E(k)
+  meet (L), (R) and (K). The matching session's n = 4 certification (K4.MATCH.REC.N4, 112,880 starts) is the natural
+  test set for this exact form.
+
+*Smallest test (the integrator's 4_n4_3#58; it is 4a-type, and REC-S covers it too).* The values are R₀ = {0: 2, 1: 10,
+2: 4, 5: 7}, R₁ = {1: 10, 2: 3, 5: 4, 6: 8}, R₂ = {3: 3, 4: 5, 5: 6, 6: 7} and R₃ = {3: 3, 4: 2, 6: 4}, with picks
+(1, 2, 5, 6), J = {0, 3, 4} and D = {0, 2, 3}. The repair:
+1. E(2) = (2, 1), with agent 2 taking T = {3, 4};
+2. in I⁻, the chain (0, 1) of Theorem S with h = 0 kept out for agent 1.
+
+The final allocation is 0: {2, 5}, 1: {1, 0}, 2: {3, 4}, 3: {6}. An independent raw check confirms it is EFX₀.
