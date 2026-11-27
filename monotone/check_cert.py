@@ -9,7 +9,7 @@ counterexample stays one after a small strictly increasing perturbation that mak
 each agent distinct). A nondegenerate profile is, per agent, a strict total order on the subsets of R_i
 extending strict inclusion. This checker encodes exactly that:
   variables  o_i[S][T]  (S < T as integers)  <=>  v_i(S) < v_i(T),   with o_i[T][S] := -o_i[S][T];
-  inclusion  o_i[S][T] for S strict subset T;   transitivity: no 3-cycle, for every triple of subsets;
+  inclusion  o_i[S][T] for S strict subset T;   transitivity: no strict 3-cycle on any triple of subsets;
   for every X in L, the clause "X is not EFX0": the disjunction, over all i != j and g in X_j, of
      o_i[ X_i cap R_i ][ (X_j - g) cap R_i ]    (taken literally from the definition; a literal with both
      sides equal is impossible, since the two sets are disjoint, unless both are empty: then omitted).
@@ -58,14 +58,13 @@ def check(rec):
             for T in range(N):
                 if S != T and S & T == S:
                     clauses.append([lit(i, S, T)])
+        # no strict 3-cycle: for each unordered triple a < b < c, forbid both cyclic orientations
         for a in range(N):
-            for b in range(N):
-                if b == a:
-                    continue
-                for c in range(N):
-                    if c == a or c == b:
-                        continue
-                    clauses.append([-lit(i, a, b), -lit(i, b, c), -lit(i, c, a)])
+            for b in range(a + 1, N):
+                ab, ba = lit(i, a, b), lit(i, b, a)
+                for c in range(b + 1, N):
+                    clauses.append([-ab, -lit(i, b, c), -lit(i, c, a)])
+                    clauses.append([-ba, -lit(i, a, c), -lit(i, c, b)])
 
     if rec.get("sb"):
         # symmetry breaking used by the search: goods valued by exactly the same agents are

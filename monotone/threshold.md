@@ -40,6 +40,11 @@ fewest agents, and among those the fewest goods, is *minimal*. A minimal k-count
    1707.04769, read: Definition 2.3 is the all-goods EFX, §2 defines "general valuations" as normalized and
    monotone, and Theorem 4.3 is cut-and-choose on the leximin++ solution, pp. 16–17). One agent takes everything.
 
+8. **No agent is peelable** (optional constraint, `--np`): for every agent i, v_i(P) < v_i(R_i ∖ P) whenever P is a
+   single good of R_i or a nonempty set of goods valued by no other agent. Otherwise L2's general step peels i
+   with bundle P, and the rest has fewer agents. Runs that use this constraint say so (`"np": true`), and then
+   cover minimal counterexamples only. That suffices for every "no counterexample with ≤ n₀ agents" claim.
+
 So if a k-counterexample with at most n₀ agents exists, a minimal one exists among the hypergraphs with
 3 ≤ |R_i| ≤ k, items 1–6, 3 ≤ n ≤ n₀ and n + 4 ≤ m ≤ (k − 1)n, under some valuation profile. (For n = 2 the
 search was also run for k ≤ 6, as a check of the tooling: every hypergraph is UNSAT, `results/monotone/n2_*`.)
@@ -54,12 +59,24 @@ search finds an EFX₀ allocation for it, and that allocation's clause is added,
 without an EFX₀ allocation is found. On UNSAT, the collected allocations L form the certificate: *every monotone
 profile on this hypergraph makes some allocation of L EFX₀.*
 
+**Symmetry breaking** (always on, `"sb": true`). Call goods that are relevant to exactly the same agents a
+*class*. Permuting the goods of a class maps the hypergraph to itself, and turns a profile without an EFX₀
+allocation into another such profile: X is EFX₀ for v∘π iff π(X) is EFX₀ for v. For each class, pick the
+permutation that sorts its goods by the singleton values of the class's least agent. Permutations of different
+classes act on disjoint goods and commute. So if any counterexample exists, one exists in which, for every class,
+its least agent's singleton values increase with the goods' indices (strictly, by nondegeneracy). The same
+argument preserves minimality and item 8, so the constraints combine.
+
 Trust chain for an UNSAT claim (PROMPT.md §5 rule 4: two independent implementations):
-- Encoding 1 (`synth.py`, `rank`): integer values in order encoding, V = 2^|R_i| levels. A counterexample can be
-  perturbed to a nondegenerate one, whose ranks lie in 0..2^|R_i| − 1, so this is exact. Solver: CaDiCaL.
-- Encoding 2 (`synth.py`, `order`): strict total orders by pairwise variables plus transitivity; also run on L.
-- **Independent checker** (`monotone/check_cert.py`, no shared code): order encoding again. The clauses come
-  straight from the definition (every i ≠ j and g ∈ X_j, no reduction to maximal sets). Solver: Glucose 4.
+- The search (`run_search.py`): CEGAR with the `order` encoding of `synth.py`. Strict total orders on 2^{R_i} by
+  pairwise variables, with inclusion and transitivity; exact for nondegenerate profiles, which suffice. Solver:
+  CaDiCaL. The order encoding is re-run on the final L.
+- Second encoding (`synth.py`, `rank`), run on L where the record has `"rank_on_cert_unsat": true`: integer values
+  in order (unary) encoding with V = 2^|R_i| levels. A counterexample can be perturbed to a nondegenerate one, whose
+  ranks lie in 0..2^|R_i| − 1, so this is exact too. Records with `null` skipped it to save time (k ≥ 7).
+- **Independent checker** (`monotone/check_cert.py`, no shared code, run on every UNSAT record): order encoding.
+  Its clauses come straight from the definition (every i ≠ j and g ∈ X_j, no reduction to maximal sets), with its
+  own implementation of the symmetry breaking and of item 8. Solver: Glucose 4.
 - Validation (`monotone/validate.py`): with the known counterexample's values pinned (nondegenerate
   strictification), both encodings of synth.py are SAT on all 6,561 allocation clauses. Random monotone profiles
   (EVIDENCE) never escape a certificate.

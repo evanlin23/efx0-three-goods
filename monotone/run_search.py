@@ -11,7 +11,7 @@ Per hypergraph:
      L independently.
 Writes one JSON line per hypergraph to the output file.
 
-Usage: python3 monotone/run_search.py n m k out.jsonl [--jobs J] [--time-limit S] [--np] [--no-rank-check]
+Usage: python3 monotone/run_search.py n m k out.jsonl [--jobs J] [--time-limit S] [--np] [--no-rank-check] [--hg cached.json]
 """
 import sys
 import os
@@ -157,7 +157,10 @@ def main():
         time_limit = float(sys.argv[sys.argv.index("--time-limit") + 1])
     npl = "--np" in sys.argv          # add non-peelability constraints (threshold.md §2, item 8)
     rankcheck = "--no-rank-check" not in sys.argv
-    hs = enumerate_hypergraphs(n, m, k)
+    if "--hg" in sys.argv:  # cached output of enumerate_hypergraphs(n, m, k), as a JSON list
+        hs = [tuple(h) for h in json.load(open(sys.argv[sys.argv.index("--hg") + 1]))]
+    else:
+        hs = enumerate_hypergraphs(n, m, k)
     print(f"n={n} m={m} k<={k}: {len(hs)} hypergraphs", flush=True)
     t0 = time.time()
     counts = {}
