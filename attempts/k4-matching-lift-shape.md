@@ -26,7 +26,8 @@ n = 5 is the smallest n. This is the first n = 5 two-move start found by compute
   completes either shape.
 - LIFT-EX: 75 first chains satisfy condition (2). After none of them does an official second chain end at z with z's
   favourite good 4 in z's new bundle.
-- Two disjoint chains do repair it:
+- 120 pairs of chains from dangerous agents repair it (raw, any completion of the remaining junk). 45 of them are
+  vertex-disjoint, and the other 75 overlap without giving z its favourite good. A disjoint example:
   - P₁ = (2, 3): 2 takes {5, 6} (z's pick and junk), and 3 takes 2's pick 3. Here z is frozen afterwards, because agent
     0 wants 3, but agent 0 becomes a holder.
   - P₂ = (1, 0): 1 takes {1, 7} (junk and 0's pick), and 0 takes 1's pick 2. This chain is also official at the picks,

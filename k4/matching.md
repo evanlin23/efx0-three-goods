@@ -686,9 +686,10 @@ compute/k4-oc1max-cert (list 5_pure, idx 164) has n = 5, m = 8, k = 4 and a stri
 - Items (1) and (2) of LIFT-EX hold: 75 first chains end at z with a shared pair inside J ∪ {y_z}.
 - After none of them does a second chain end at z with z's favourite good in z's bundle. So (3) fails, and with it
   LIFT-SHAPE⁺.
-- The repair is two vertex-disjoint chains: (2, 3), where 2 takes {5, 6}, and (1, 0), where 1 takes {1, 7}. They are
-  two augmenting paths for two danger sets, which is the coordinator's original "deficiency = number of chains"
-  picture.
+- 120 pairs of chains from dangerous agents repair it (raw, any completion). 45 of them are vertex-disjoint, e.g.
+  (2, 3), where 2 takes {5, 6}, then (1, 0), where 1 takes {1, 7}: two augmenting paths for two danger sets, the
+  coordinator's original "deficiency = number of chains" picture. The other 75 overlap, but none of them has its
+  second chain end at z with z's favourite good.
 - CM₂ holds there. So does the multi session's recursion: after (2, 3), deleting agent 2 and {5, 6} leaves an SD
   start of the n = 4 instance that one move repairs.
 

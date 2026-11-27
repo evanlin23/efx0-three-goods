@@ -15,12 +15,13 @@ strict profile.  The script checks, by brute force:
      4b. the weaker LIFT-EX (ledger K4.MATCH.LIFT) fails too: for each of the 75 first chains with its condition (2),
      no official second chain ends at z with z's favourite good in z's new bundle;
   5. two vertex-disjoint chains from dangerous agents repair it: 2 takes {5, 6} and 3 takes 2's pick 3, then 1 takes
-     {1, 7} and 0 takes 1's pick 2.  The last junk good 0 goes to agent 1, and the result is EFX0;
+     {1, 7} and 0 takes 1's pick 2.  The last junk good 0 goes to agent 1, and the result is EFX0.  It also counts
+     every repairing pair of chains from dangerous agents (disjoint or overlapping);
   6. the same repair read as the proof/k4-oc1max-multi recursion: deleting agent 2 and T = {5, 6} after the first chain
      leaves an SD outcome of the smaller instance.
 
     python3 attempts/k4_matching_lift_n5.py"""
-import itertools
+import itertools, collections
 
 SETS = [[0, 2, 3, 7], [1, 2, 6, 7], [3, 4, 5, 6], [3, 4, 5, 7], [4, 5, 6, 7]]
 VALS = [[1, 8, 6, 4], [4, 8, 2, 7], [6, 7, 3, 5], [7, 10, 2, 6], [7, 5, 3, 6]]
@@ -124,6 +125,11 @@ if __name__ == '__main__':
     assert any(norm(c[3]) == B1 for c in first) and any(norm(c[3]) == B2 for c in chains(B1, dangerous(B1)))
     A = [list(b) for b in B2]; A[1] = A[1] + [0]
     print('5. disjoint chains (2, 3) then (1, 0), both official; final allocation', A, 'EFX0:', efx0(A))
+    pairs = collections.Counter()
+    for Q1, _, _, C1 in first:
+        for Q2, _, _, C2 in chains(C1, dangerous(C1)):
+            if completes(C2) is not None: pairs['disjoint' if not set(Q1) & set(Q2) else 'overlapping'] += 1
+    print('   repairing pairs of chains from dangerous agents (any completion):', dict(pairs))
     # 6. the multi session's recursion (Lemma LIFT, OC2-REC): delete agent 2 and T = {5, 6}; the reduced state is an SD
     # outcome of the smaller instance, and (1, 0) then the junk to agent 1 completes it, lifting to A
     keep = [0, 1, 3, 4]; T = {5, 6}
