@@ -107,9 +107,9 @@ def gr(I, alive, goods, B, dead, memo, C, root_hard):
     if not (root_hard and not dead) and lifted_completion(I, B, dead) is not None:
         C['stop: completion'] += 1; return True
     rounds = list(admissible_rounds(I, alive, goods, B, dead))
-    for K, Tall, full, free in rounds:
+    for K, Tall, full, free in sorted(rounds, key=lambda r: not r[3]):   # P1-free final rounds first
         if lifted_completion(I, full, dead | set(K)) is not None:
-            C['stop: final round'] += 1; return True
+            C['stop: final round' + ('' if free else ' (with a P1 settlement)')] += 1; return True
     if ed_repair(I, alive, goods, B, dead):
         C['stop: ED repair'] += 1; return True
     nxt = [(K, Tall, full) for K, Tall, full, free in rounds if free]
