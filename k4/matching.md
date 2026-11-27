@@ -928,6 +928,14 @@ Logs: `round_rsd_n5partial_s50.log`, `check_round_rsd_n5partial_s50.log`, `rsd_n
   (`check_round_rsd_n5sel2.log`): 583,680 / 583,680. Ledger K4.MATCH.ROUNDRSD.SEL2, CERTIFIED.
 - So the two RSD-X cores are repaired by a single round at every type profile, and the 4b-type core #38 by two
   sequential settlements.
+- On every 250th start of each list (2,335 starts; `rsd_n5sel2_s250.log`, `n5_census_n5sel2_s250.log`), RSD with
+  (L\*) at the step and OC2-REC **fail at every sampled start of #419 (1,106) and #447 (461)**. Both hold at every
+  sampled start of #38 (768).
+  - The obstruction is a property of the core, not of particular profiles: wherever one sharer is settled first, the
+    other's set still threatens.
+  - On the same sample, CM₂ holds and EX\* is exact on the second move at all 2,335.
+  - Every #419 and #447 start is of type 4a (a disjoint repairing pair), and every #38 start of type 4b.
+  - LIFT-SHAPE⁺ fails at all 2,335.
 
 **The base case** (the coordinator's question; `attempts/k4-matching-rsd-base.md`; ledger K4.MATCH.RSD.BASE). The
 data are all 10,109 distinct one-absorber-hard starts with a one-move repair: multi's 8,081, Hall's 1,737, and 291
