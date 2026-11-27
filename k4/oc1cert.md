@@ -80,6 +80,21 @@ OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
     and raw EFX₀, and runs Glucose with one literal per agent mask (`check_exists_4_fail11.log`).
   - A dense engine with no SAT agrees with it on a sensitivity sample.
 
+**OC₁′^max (kgen-rounds' move, `kgen/rounds.md` §4.6 on proof/kgen-rounds) holds at n ≤ 4 and fails at n = 5.**
+- The move: as OC₁'s, except that every non-end chain agent may also take goods of the end's base that it values.
+- The generator (`cegar.py --prime`) agrees exactly with kgen-rounds' `one_chain_prime` on 400 random starts
+  (`k4/oc1cert/xcheck_prime.py`, `results/k4_oc1max/xcheck_prime.log`). Their code has no rings; mine keeps the official
+  rings.
+- n = 4: certified for every strict profile on all 1,002 cores (`results/k4_oc1max/cert_4_prime.json.gz`), with an
+  independent check (`check.py` with OC1_PRIME=1, `check_4_prime.log`). n ≤ 3 follows from OC₁^max.
+- n = 5: 24 of the first 137 n = 5 OC₁^max failures (5_pure) have no OC₁′ repair, rings included.
+  - All 24 are verified with kgen-rounds' own raw brute force (`one_chain_prime` + `completion`) and with `Inst` for
+    rings (`k4/oc1cert/verify_prime_fails.py`, `results/k4_oc1max/oc1prime_cex_n5_partial.jsonl`,
+    `oc1prime_cex_n5_verify.log`).
+  - 13 are MC2-class; each is a perfect start.
+  - Example: 5_pure idx 164, sets [[0,2,3,7],[1,2,6,7],[3,4,5,6],[3,4,5,7],[4,5,6,7]], values
+    [[1,8,6,4],[4,8,2,7],[6,7,3,5],[7,10,2,6],[7,5,3,6]], picks (7,2,3,5,4).
+
 **OC₁^max holds for every strict profile on**:
 - every core with n = 2 (5) and n = 3 (51);
 - 991 of the 1,002 n = 4 cores.
