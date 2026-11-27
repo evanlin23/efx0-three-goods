@@ -1,0 +1,5 @@
+$ python3 k4/base_phantom/b2_shapes.py results/k4_base_phantom/data/n5_5pure_s5o0_two_move_starts.jsonl.gz 1
+       12  B2 state, 0 phantoms: a single-settlement final round exists: False
+       12  B2 state, 0 phantoms: final-round shapes available ['2 settlement(s), 1 with l alone']
+       13  B2 state, 1 phantoms: a single-settlement final round exists: True
+       13  B2 state, 1 phantoms: final-round shapes available ['1 settlement(s), 1 with l alone']

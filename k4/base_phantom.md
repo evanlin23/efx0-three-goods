@@ -435,6 +435,22 @@ The 6 B1 states of the multi and Hall files are the same 6 starts. ED repairs ar
 - **B2 at Φ = ∅** is OC₁ in its two-settlement form (a final round is two simultaneous settlements and a completion).
   At one-move starts an ED repair always exists (§3), so B2 is needed at Φ = ∅ only at two-move starts.
 
+*The shape of B2's final rounds* (`b2_shapes.py`; `b2_shapes_5pure.log`, `b2_shapes_n5partial6_s50.log` on every 50th
+start of partial6):
+
+| B2 states | final rounds available |
+|---|---|
+| Φ = ∅ (the 12 5_pure starts) | only rounds of **two** settlements, exactly one of them with an ℓ-alone constraint; no single settlement completes |
+| one phantom (5_pure: 13; partial6 sample: 2,681) | always a **single** settlement with an ℓ-alone constraint, then a completion |
+
+So B2 has two forms:
+- **B2⁰**, at Φ = ∅: a mixed round of one P1-free and one P1 settlement, then a completion. This is the round form of
+  OC₁ at two-move starts; ROUND-P and the matching session's round repairs (#419, #447) are of this kind.
+- **B2⁺**, with P1-free phantoms: one settlement whose phantom keeps an ℓ-alone constraint, then a completion. This is
+  a C0 one-move repair of the present instance. By Lemma B3 it only needs EFX₀ in the present instance, the
+  separations, and ℓ alone in its bundle. That is Theorem S^φ's setting with the new phantom's (S-φ2): the holder of
+  ℓ takes no junk.
+
 ## 6. Reproduction
 
 ```
