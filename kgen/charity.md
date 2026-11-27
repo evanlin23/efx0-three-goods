@@ -14,14 +14,14 @@ changed here; the coordinator integrates.
 | CH-C | at every CKMS stopping state, \|P\| < σ ≤ (k − 2) · min_{g∈P} \|V(g)\| | PROVED | §2, Lemma CH4 |
 | CH-D | for every σ ≥ 2: a k = 3 instance and a state leaving σ − 1 goods out at which no CKMS rule applies under any champion choice (n ≈ 1.5σ²) | PROVED (written proof; checked for σ ≤ 7, k = 3, 4) | §4, `stuck_family.py`, `stuck_family_k*.log` |
 | CH-E | for every σ ≥ 2 and k ≥ 3: a Pareto maximum (P1's hypothesis) leaving σ − 1 goods out, n = O(σ²) | PROVED (written proof; exhaustive check without SAT for σ ≤ 4, SAT for σ ≤ 7) | §5, `refute_pm.py`, `refute_pm_k*.log`, `pm_family_sat.log` |
-| P1 threshold | P1 (K4.SDC.P1: Pareto maxima are complete) holds for k ≤ 2, and for n = 2 at every k (P1₂); it fails at k = 3 (n = 4, m = 7, every agent values exactly 3 goods) | PROVED for k ≤ 2 (CH6 + CH4′); REFUTED at k = 3 (CH-E with σ = 2; brute force over all 5⁷ partial allocations) | §5, `refute_pm_k3.log` |
+| P1 threshold | P1 (K4.SDC.P1: Pareto maxima are complete) holds for k ≤ 2, for n = 2 at every k (P1₂), and for n = 3 with k ≤ 4 (exhaustive); it fails at k = 3 with n = 4 (m = 7, every agent values exactly 3 goods) and at n = 3 with k = 6 (CGM) | PROVED for k ≤ 2 (CH6 + CH4′); REFUTED at k = 3 (CH-E with σ = 2; brute force over all 5⁷ partial allocations) | §5, `refute_pm_k3.log` |
 | PM(k) | Pareto maxima leave ≤ f(k) goods out | REFUTED for every k ≥ 3 and every f (CH-E) | §5 |
 | W(k, f) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f goods out (§6 for the exact statement); W(k, f) ⇒ CH(k) | f = 0 REFUTED at k = 3 (n = 4, m = 7) and k = 4 (GM4-G); **f = 1 REFUTED at k = 3 and k = 4** (CH-F: n = 12, m = 17 and n = 9, m = 14, integer values; each verified by SAT and by MILP); f ≥ 2: §6 | §6, `w_brute.log`, `w_counterexample*.log`, `attempts/kgen-charity-welfare-maxima.md` |
 | L(k, 0) | the leximin maximum (then fewest unallocated) is complete | REFUTED at k = 3 and k = 4 (n = 4, m = 7; brute force); complete on the CH-F and S′ instances | §6, `lex_brute.log`, `lex_check.log` |
 | W small n | no welfare maximum strands a good for n = 3, k = 3; none strands two for n = 3, k = 3, 4 and n = 4, k = 3 | exhaustive by one implementation (z3 CEGAR over real values, all m ≤ nk + n by Lemma W0) | §6, `w_synth_n*.log` |
 | DU | an instance whose incidence graph has ≥ 2 components with agents has a complete EFX₀ allocation | PROVED (written proof; recipe checked on 2,000 random unions and on copies of the stranded instances) | §3, Prop. DU, `union_dump.log` |
 | CH-KD | every agent values ≤ k goods, every good has ≤ d valuers: some EFX₀ state with strong charity leaves ≤ min{(k − 2)d − 1, R(d)} goods out (|P|! ≤ d^{|P|−1}); at k = 4: ≤ 2, 4, 6, 9 for d = 2, 3, 4, 5 | PROVED (self-contained proof, §8; CH-A, CH-B marked correct by the referee, k4/referee/charity.md) | §8 |
-| OL | from any EFX₀ state with strong charity, some complete EFX₀ allocation leaves at most one agent worse off | CONJECTURE: PROVED at n = 2 (P1₂, no loser); exhaustive (z3, one implementation) at n = 3, k = 3 and n = 4, k = 3; holds on every stranded state found (S′, CH-F, 20 curated Pareto maxima, CGM's three-agent example, CKMS stops, 1,458 random charity states) | §9, `ol_synth_*.log`, `losers.log`, `ol_check*.log`, `cgm_check.log` |
+| OL | from any EFX₀ state with strong charity, some complete EFX₀ allocation leaves at most one agent worse off | CONJECTURE: PROVED at n = 2 (P1₂, no loser); exhaustive (z3, one implementation) at n = 3, k ≤ 4 and n = 4, k = 3; holds on every stranded state found (S′, CH-F, 20 curated Pareto maxima, CGM's three-agent example, CKMS stops, 1,458 random charity states) | §9, `ol_synth_*.log`, `losers.log`, `ol_check*.log`, `cgm_check.log` |
 | least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
 
 **Conclusion so far.** The rainbow-cycle method works with genuine zeros and gives *exact* EFX₀ with O(√(kn))
@@ -607,7 +607,7 @@ n = 4 stranding of §5 in 36 cuts and correctly finds none at n = 3, k = 3.
 |---|---|---|---|
 | 2 | any | OL holds with no loser (Proposition P1₂, proved); the search: UNSAT for every size vector at k = 3, 4 | `ol_synth_n2_k3.log`, `ol_synth_n2_k4.log` |
 | 3 | 3 | OL holds | `ol_synth_n3_k3.log` |
-| 3 | 4 | (running) | `ol_synth_n3_k4.log` |
+| 3 | 4 | OL holds (43 size vectors, pool sizes 1–2, m ≤ 12); P1 holds too (no stranded Pareto maximum) | `ol_synth_n3_k4.log`, `ol_synth_n3_k4_p1.log` |
 | 4 | 3 | OL holds (43 size vectors, pool sizes 1–3, m ≤ 12) | `ol_synth_n4_k3.log` |
 
 **Proposition P1₂ (two agents: Pareto maxima are complete; written proof).** In every additive instance with two
@@ -627,7 +627,8 @@ complete EFX₀ allocation dominates X, a contradiction. For the equivalent form
 Pareto maximum above it (as in OL0(b)). ∎
 (The cut-and-choose step is Plaut–Roughgarden's two-agent argument with their leximin++ rule [unverified: not
 re-read here; the proof above is self-contained].) So P1 holds at n = 2 for every k and fails at n = 4 for k = 3
-(§5); n = 3 is the threshold question, see below. The exact searches agree: no Pareto maximum strands a good at
+(§5). At n = 3 it holds for k ≤ 4 (exhaustive, `ol_synth_n3_k4_p1.log`; k = 3 in `ol_synth_n3_k3.log`) and fails at
+k = 6 (CGM's example, below); k = 5 is being searched (`ol_synth_n3_k5_p1.log`). The exact searches agree: no Pareto maximum strands a good at
 n = 2 for k ≤ 6 (`ol_synth_n2_p1.log`), nor on 3,000 random two-agent instances with m ≤ 9, half of them with every
 good relevant to both agents (`p1_n2.py`, `p1_n2.log`).
 
