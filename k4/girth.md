@@ -638,8 +638,8 @@ the RF path; w = x₁ is the holder of u's top good at Y.
   Y_{x_{i+1}}, and d takes Y_u (166,080 of 292,080) or a junk good (126,000). Every x_i with i ≥ 1 loses value, and
   **d is unfrozen at Y′** (292,080 of 292,080; 86 of 86). Giving all junk to d is never EFX₀ (0 of 292,080).
 - (b) *Owner* (every 97th n = 4 order, 3,011; all 86 at n = 5). Where Y′ completes at once (2,716; 76), **w or d owns a
-  one-absorber completion in every case**: w in 2,693 and 73, d in 1,982 and 76. Where d fails, the path is
-  u → w → d with d truly dangerous taking a junk good, and w owns.
+  one-absorber completion in every case**: w in 2,693 and 73, d in 1,982 and 76; where d fails, w owns (in an
+  unlogged pass those were all paths u → w → d ending with a truly dangerous d taking a junk good).
 - (c) *The move* (the 295 and 10 cases that need one). It is always a two-agent move through d or another receiver:
   when Y′ has two truly dangerous agents (279 at n = 4, 4 at n = 5), a truly dangerous agent k takes a junk pair and d
   takes Y_k (a chain k → d; every such case); when Y′ has none (16 at n = 4), d and a pick-dangerous agent trade
