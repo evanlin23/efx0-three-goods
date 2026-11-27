@@ -1,0 +1,12 @@
+$ python3 k4/vm/vm6_test.py gen:3000:43:6:10:20 --variants=x2-choice --limit=1000 --samples=100
+instances                            3000
+x2-choice: every run EFX0            2786
+x2-choice: first run (all choices 0) EFX0 2994
+x2-choice: runs                      667194
+x2-choice: runs EFX0                 665165
+x2-choice: some run EFX0             3000
+  stuck kind ('x2-choice', 'no_safe') 2029
+  x2-choice [first run]: no EFX0 run on 6: gen:1925(n=2,m=5), gen:2554(n=2,m=5), gen:1706(n=2,m=6), gen:1537(n=2,m=8), gen:2332(n=3,m=6), gen:2838(n=3,m=10)
+    smallest: gen:1925 {"sets": [[2, 1, 4, 0], [0, 3, 1, 4]], "vals": [[4, 13, 17, 20], [9, 4, 10, 6]], "m": 5}
+    smallest: gen:2554 {"sets": [[3, 0, 1, 4], [2, 3, 1, 0]], "vals": [[20, 10, 18, 16], [2, 17, 18, 12]], "m": 5}
+time 71 s

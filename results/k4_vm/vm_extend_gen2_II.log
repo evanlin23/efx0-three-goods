@@ -1,0 +1,8 @@
+$ python3 k4/vm/vm_extend.py gen:20000:8:2:6:20:ties --stop=II
+instances                                20000
+instances with an EFX0 allocation        20000
+instances: every state extends           19968
+instances: some state extends            20000
+states                                   23791
+states extendable                        23759
+time 3 s

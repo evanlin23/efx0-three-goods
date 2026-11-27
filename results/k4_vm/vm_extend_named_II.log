@@ -1,0 +1,10 @@
+$ python3 k4/vm/vm_extend.py named:/tmp/claude-0/-home-user-efx0-three-goods/454962d1-b841-5e80-a394-b61ed54ba228/scratchpad/ext --stop=II
+instances                                95
+instances with an EFX0 allocation        95
+instances: every state extends           18
+instances: some state extends            93
+states                                   238
+states extendable                        141
+no state extends: T3 n=3 m=6 [[[0], [4], [1]]]
+no state extends: vmx-cex-n3 n=3 m=6 [[[5], [3], [2]]]
+time 0 s

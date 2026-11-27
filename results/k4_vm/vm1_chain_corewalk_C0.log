@@ -1,0 +1,3 @@
+$ python3 k4/vm/vm1_core_repair.py {"sets": [[3, 6, 2, 4], [7, 0, 4], [1, 3, 2, 0], [7, 4, 2, 3], [7, 6, 5, 4]], "vals": [[25, 5, 15, 26], [17, 30, 23], [6, 15, 30, 25], [14, 9, 24, 3], [11, 15, 8, 30]], "m": 8} 8 400 91 --chain
+walks 8 ; distinct failing cores visited (VM1 fails): 319 ; VM1-chain failures among them: 0
+time 65 s

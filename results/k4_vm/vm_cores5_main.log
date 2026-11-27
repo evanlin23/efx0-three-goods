@@ -1,0 +1,31 @@
+$ python3 k4/vm/vm_test.py cores:5:2000:3 --limit=1000 --samples=200
+== rank=G aout=matched n1a=Y
+  instances                    2000
+  exhaustive                   1716
+  runs                         578705
+  runs stuck                   0
+  runs not EFX                 0
+  runs EFX but not EFX0        243325
+  runs claim_outside           0
+  inst: some run stuck         0
+  inst: some run not EFX       0
+  inst: every run EFX          2000
+  inst: some run EFX0          1764
+  inst: every run EFX0         439
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('N3', 'N1', 'III.efx')                  118933
+    ('Nr', 'N1', 'III.efx')                  105865
+    ('N2', 'N1', 'III.efx')                  84474
+    ('N1', 'N1', 'III.efx')                  81518
+    ('N4', 'N1', 'III.efx')                  50053
+    ('N1', 'N1', 'II.1')                     32446
+    ('N2', 'A', 'III.efx')                   25056
+    ('N3', 'A', 'III.efx')                   24557
+    ('Nr', 'A', 'III.efx')                   20959
+    ('N1', 'A', 'III.efx')                   12485
+    ('N4', 'A', 'III.efx')                   8361
+    ('N1', 'A', 'I')                         4747
+  example notefx0: core5:357 (n=5, m=5) [[0, 0, 0], [[3, 0], [4], [2, 1], [], []], [[3, 0, 0], [3, 2, 1], [4, 0, 0], [4, 2, 1]], {"0": "N1", "1": "N1", "2": "N2r", "3": "Nr", "4": "Nr"}]
+  example notefx0: core5:558 (n=5, m=5) [[0, 0], [[1, 0], [4], [3], [], [2]], [[3, 0, 0]], {"0": "N1", "1": "N1", "2": "N1", "3": "Nr", "4": "N1"}]
+  example notefx0: core5:827 (n=5, m=5) [[0, 0], [[2, 0], [4], [3], [], [1]], [[3, 0, 0]], {"0": "N1", "1": "N1", "2": "N2", "3": "Nr", "4": "N1"}]
+time 17 s

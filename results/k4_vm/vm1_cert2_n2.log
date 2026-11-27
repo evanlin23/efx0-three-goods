@@ -1,0 +1,7 @@
+$ python3 k4/vm/vm1chain_cert2.py 2
+  k4_certs_2.json.gz idx 0 n=2 m=5: 14 boxes {'none': 14}, 4 automorphisms, bitmap, 0 plain failing profiles {}, 0.0 s
+  k4_certs_2.json.gz idx 0 n=2 m=4: 6 boxes {'none': 6}, 6 automorphisms, bitmap, 0 plain failing profiles {}, 0.0 s
+  k4_certs_2.json.gz idx 0 n=2 m=6: 14 boxes {'none': 14}, 16 automorphisms, bitmap, 0 plain failing profiles {}, 0.0 s
+  k4_certs_2.json.gz idx 1 n=2 m=5: 23 boxes {'none': 23}, 12 automorphisms, bitmap, 0 plain failing profiles {}, 0.0 s
+  k4_certs_2.json.gz idx 1 n=2 m=4: 5 boxes {'none': 5}, 48 automorphisms, bitmap, 0 plain failing profiles {}, 0.0 s
+total {'hypergraphs': 5, 'boxes': 62, 'plain failing profiles': 0, 'runs none': 62} ; time 1 s

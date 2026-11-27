@@ -1,0 +1,18 @@
+$ python3 k4/vm/vm_strip_test.py screen
+instances                                168
+strip-rot-first: every run EFX0          88
+strip-rot-first: some run EFX0           154
+strip-rot: every run EFX0                88
+strip-rot: some run EFX0                 154
+strip: every run EFX0                    84
+strip: some run EFX0                     146
+  stuck kind ('strip', 'no_safe') 45762
+  stuck kind ('strip', 'positive_violation') 33
+  stuck kind ('strip-rot', 'no_safe') 31374
+  stuck kind ('strip-rot', 'positive_violation') 33
+  stuck kind ('strip-rot-first', 'no_safe') 15900
+  stuck kind ('strip-rot-first', 'positive_violation') 19
+  strip: no EFX0 run (22): c4-exposure-nonleader-n3m5(n=3,m=5), c4x-n3m5-big-bases(n=3,m=5), induct-g-r2(n=3,m=5), induct-pot-env-tiebreaks(n=3,m=5), lb4-no-rotation-n3m5(n=3,m=5), adaptive-p1(n=3,m=6), adaptive-p3(n=3,m=6), c4-gadget-stacking-1copy-n3m6(n=3,m=6)
+  strip-rot: no EFX0 run (14): c4-exposure-nonleader-n3m5(n=3,m=5), induct-g-r2(n=3,m=5), lb4-no-rotation-n3m5(n=3,m=5), adaptive-p1(n=3,m=6), adaptive-p3(n=3,m=6), c4-gadget-stacking-1copy-n3m6(n=3,m=6), c4-one-rotation-two4-n3m6(n=3,m=6), c4min-tlam-n3-m6(n=3,m=6)
+  strip-rot-first: no EFX0 run (14): c4-exposure-nonleader-n3m5(n=3,m=5), induct-g-r2(n=3,m=5), lb4-no-rotation-n3m5(n=3,m=5), adaptive-p1(n=3,m=6), adaptive-p3(n=3,m=6), c4-gadget-stacking-1copy-n3m6(n=3,m=6), c4-one-rotation-two4-n3m6(n=3,m=6), c4min-tlam-n3-m6(n=3,m=6)
+time 50 s

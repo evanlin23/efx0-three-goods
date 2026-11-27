@@ -1,0 +1,18 @@
+$ python3 k4/vm/vm0_fair.py screen
+fair: every selected extends                  144
+fair: repair from every selected              141
+fair: repair from some selected               165
+fair: some selected extends                   163
+instances                                     168
+rmax: every selected extends                  138
+rmax: repair from every selected              131
+rmax: repair from some selected               162
+rmax: some selected extends                   154
+vm: every selected extends                    103
+vm: repair from every selected                120
+vm: repair from some selected                 154
+vm: some selected extends                     147
+  vm: no selected outcome repairs (14): c4-exposure-nonleader-n3m5(n=3,m=5), induct-g-r2(n=3,m=5), lb4-no-rotation-n3m5(n=3,m=5), adaptive-p1(n=3,m=6), adaptive-p3(n=3,m=6), c4-gadget-stacking-1copy-n3m6(n=3,m=6), c4-one-rotation-two4-n3m6(n=3,m=6), c4min-tlam-n3-m6(n=3,m=6), c4x-n3m6-3good-first(n=3,m=6), induct-pot-util(n=3,m=6)
+  rmax: no selected outcome repairs (6): c4-exposure-nonleader-n3m5(n=3,m=5), induct-g-r2(n=3,m=5), lb4-no-rotation-n3m5(n=3,m=5), c4min-tlam-n3-m6(n=3,m=6), c4x-n3m6-3good-first(n=3,m=6), induct-pot-util(n=3,m=6)
+  fair: no selected outcome repairs (3): induct-g-r2(n=3,m=5), lb4-no-rotation-n3m5(n=3,m=5), nsw-local-n3m5(n=3,m=5)
+time 1 s

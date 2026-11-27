@@ -1,0 +1,15 @@
+$ python3 k4/vm/vm0_test.py cores:4:3000:12 --variants=f2,f2rot
+S1 passes (some V-M matching extends)              2992
+f2: S1 fails, some run EFX0                        0
+f2: S1 passes, no run EFX0                         2
+f2: every run EFX0                                 2453
+f2: some run EFX0                                  2990
+f2rot: S1 fails, some run EFX0                     6
+f2rot: S1 passes, no run EFX0                      1
+f2rot: every run EFX0                              2479
+f2rot: some run EFX0                               2997
+instances                                          3000
+  f2 S1 passes, no run EFX0: core4:1702 n=4 m=7 [[0, 0, 0], "('no_safe', 1, [[4], [5], [2, 6], [3, 0]])"]
+  f2 S1 passes, no run EFX0: core4:1615 n=4 m=8 [[0, 0], "('no_safe', 2, [[7], [3, 1, 0], [5, 6], [4]])"]
+  f2rot S1 passes, no run EFX0: core4:1615 n=4 m=8 [[0, 0], "('no_safe', 2, [[7], [3, 1, 0], [5, 6], [4]])"]
+time 404 s
