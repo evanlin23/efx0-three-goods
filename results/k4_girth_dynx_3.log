@@ -1,0 +1,78 @@
+$ python3 k4/girth/dynx.py 3 --jobs=1 (51 cores, 1 jobs)
+k4_certs_3.json.gz#m4#0      labelings   6, complete on every profile   6, runs      940 0.8s
+k4_certs_3.json.gz#m4#1      labelings   6, complete on every profile   6, runs      953 0.1s
+k4_certs_3.json.gz#m4#2      labelings   6, complete on every profile   6, runs     2234 0.2s
+k4_certs_3.json.gz#m4#3      labelings   6, complete on every profile   6, runs     5526 0.4s
+k4_certs_3.json.gz#m5#0      labelings   6, complete on every profile   6, runs     2007 0.2s
+k4_certs_3.json.gz#m5#1      labelings   6, complete on every profile   6, runs     2693 0.2s
+k4_certs_3.json.gz#m5#2      labelings   6, complete on every profile   6, runs    30883 2.7s
+k4_certs_3.json.gz#m5#3      labelings   6, complete on every profile   6, runs     2175 0.2s
+k4_certs_3.json.gz#m5#4      labelings   6, complete on every profile   6, runs    20807 1.8s
+k4_certs_3.json.gz#m5#5      labelings   6, complete on every profile   6, runs     3831 0.3s
+k4_certs_3.json.gz#m5#6      labelings   6, complete on every profile   6, runs    22680 2.0s
+k4_certs_3.json.gz#m5#7      labelings   6, complete on every profile   6, runs   191067 18.0s
+k4_certs_3.json.gz#m5#8      labelings   6, complete on every profile   6, runs     2671 0.2s
+k4_certs_3.json.gz#m5#9      labelings   6, complete on every profile   6, runs    22343 1.9s
+k4_certs_3.json.gz#m5#10     labelings   6, complete on every profile   6, runs   194729 18.3s
+k4_certs_3.json.gz#m6#0      labelings   6, complete on every profile   6, runs     2312 0.2s
+k4_certs_3.json.gz#m6#1      labelings   6, complete on every profile   6, runs    23998 2.5s
+k4_certs_3.json.gz#m6#2      labelings   6, complete on every profile   6, runs   187244 21.9s
+k4_certs_3.json.gz#m6#3      labelings   6, complete on every profile   6, runs     2374 0.2s
+k4_certs_3.json.gz#m6#4      labelings   6, complete on every profile   6, runs     2236 0.2s
+k4_certs_3.json.gz#m6#5      labelings   6, complete on every profile   6, runs    21740 2.4s
+k4_certs_3.json.gz#m6#6      labelings   6, complete on every profile   6, runs     3078 0.3s
+k4_certs_3.json.gz#m6#7      labelings   6, complete on every profile   4, runs    25123 2.7s
+    labels [0, 1, 2] fails on [{0: 2, 3: 4, 4: 3, 5: 8}, {1: 6, 3: 3, 4: 4, 5: 8}, {2: 2, 4: 3, 5: 4}]
+    labels [1, 0, 2] fails on [{0: 3, 3: 7, 4: 5, 5: 6}, {1: 3, 3: 8, 4: 4, 5: 2}, {2: 2, 4: 4, 5: 3}]
+k4_certs_3.json.gz#m6#8      labelings   6, complete on every profile   0, runs    45685 5.8s
+    labels [0, 1, 2] fails on [{0: 2, 3: 4, 4: 3, 5: 8}, {1: 6, 3: 3, 4: 4, 5: 8}, {2: 2, 3: 4, 4: 7, 5: 8}]
+    labels [1, 0, 2] fails on [{0: 6, 3: 7, 4: 3, 5: 5}, {1: 2, 3: 8, 4: 3, 5: 4}, {2: 2, 3: 8, 4: 7, 5: 4}]
+k4_certs_3.json.gz#m6#9      labelings   6, complete on every profile   6, runs     4164 0.4s
+k4_certs_3.json.gz#m6#10     labelings   6, complete on every profile   2, runs    16773 1.8s
+    labels [0, 1, 2] fails on [{0: 2, 2: 4, 4: 5, 5: 8}, {1: 6, 3: 3, 4: 4, 5: 8}, {2: 2, 3: 3, 5: 4}]
+    labels [1, 0, 2] fails on [{0: 3, 2: 5, 4: 7, 5: 6}, {1: 3, 3: 2, 4: 8, 5: 4}, {2: 2, 3: 3, 5: 4}]
+k4_certs_3.json.gz#m6#11     labelings   4, complete on every profile   4, runs     1601 0.2s
+k4_certs_3.json.gz#m6#12     labelings   6, complete on every profile   5, runs    25200 2.7s
+    labels [2, 1, 0] fails on [{0: 4, 2: 8, 4: 2, 5: 5}, {1: 2, 3: 4, 5: 3}, {2: 4, 3: 8, 4: 3, 5: 2}]
+k4_certs_3.json.gz#m6#13     labelings   6, complete on every profile   0, runs   126193 14.4s
+    labels [0, 1, 2] fails on [{0: 2, 2: 3, 4: 4, 5: 8}, {1: 6, 3: 3, 4: 4, 5: 8}, {2: 2, 3: 7, 4: 4, 5: 8}]
+    labels [1, 0, 2] fails on [{0: 3, 2: 6, 4: 5, 5: 7}, {1: 3, 3: 2, 4: 4, 5: 8}, {2: 2, 3: 7, 4: 8, 5: 4}]
+k4_certs_3.json.gz#m6#14     labelings   6, complete on every profile   0, runs    42332 5.0s
+    labels [0, 1, 2] fails on [{0: 2, 1: 5, 2: 4, 5: 8}, {1: 2, 3: 4, 4: 7, 5: 8}, {2: 4, 3: 5, 4: 2, 5: 8}]
+    labels [1, 0, 2] fails on [{0: 3, 1: 6, 2: 5, 5: 7}, {1: 4, 3: 2, 4: 3, 5: 8}, {2: 4, 3: 5, 4: 2, 5: 8}]
+k4_certs_3.json.gz#m6#15     labelings   6, complete on every profile   5, runs    42596 4.6s
+    labels [0, 2, 1] fails on [{0: 3, 3: 4, 4: 2, 5: 8}, {1: 2, 2: 4, 3: 8, 4: 5}, {1: 2, 2: 3, 5: 4}]
+k4_certs_3.json.gz#m6#16     labelings   6, complete on every profile   4, runs    34323 4.0s
+    labels [1, 0, 2] fails on [{0: 2, 4: 4, 5: 3}, {1: 2, 2: 3, 3: 4, 4: 8}, {1: 3, 2: 4, 3: 8, 5: 6}]
+    labels [1, 2, 0] fails on [{0: 2, 4: 3, 5: 4}, {1: 2, 2: 4, 3: 8, 4: 5}, {1: 3, 2: 2, 3: 4, 5: 8}]
+k4_certs_3.json.gz#m6#17     labelings   6, complete on every profile   0, runs    86853 10.9s
+    labels [0, 1, 2] fails on [{0: 3, 1: 8, 2: 4, 3: 2}, {0: 1, 1: 8, 4: 4, 5: 6}, {2: 8, 3: 4, 4: 2, 5: 5}]
+    labels [1, 0, 2] fails on [{0: 1, 1: 8, 2: 4, 3: 6}, {0: 3, 1: 8, 4: 4, 5: 2}, {2: 2, 3: 4, 4: 8, 5: 5}]
+k4_certs_3.json.gz#m7#0      labelings   6, complete on every profile   4, runs   147563 20.5s
+    labels [1, 0, 2] fails on [{0: 1, 1: 4, 2: 8, 3: 6}, {2: 8, 4: 2, 5: 3, 6: 4}, {3: 4, 4: 5, 5: 2, 6: 8}]
+    labels [1, 2, 0] fails on [{0: 1, 1: 4, 2: 6, 3: 8}, {2: 4, 4: 8, 5: 3, 6: 6}, {3: 8, 4: 4, 5: 3, 6: 2}]
+k4_certs_3.json.gz#m7#1      labelings   6, complete on every profile   6, runs    17006 2.2s
+k4_certs_3.json.gz#m7#2      labelings   6, complete on every profile   6, runs    18509 2.2s
+k4_certs_3.json.gz#m7#3      labelings   6, complete on every profile   6, runs     2273 0.2s
+k4_certs_3.json.gz#m7#4      labelings   6, complete on every profile   6, runs    24433 3.1s
+k4_certs_3.json.gz#m7#5      labelings   6, complete on every profile   4, runs   181704 25.3s
+    labels [2, 0, 1] fails on [{0: 1, 2: 4, 5: 6, 6: 8}, {1: 2, 4: 4, 5: 3, 6: 8}, {3: 6, 4: 3, 5: 4, 6: 8}]
+    labels [2, 1, 0] fails on [{0: 1, 2: 4, 5: 6, 6: 8}, {1: 3, 4: 7, 5: 5, 6: 6}, {3: 3, 4: 8, 5: 2, 6: 4}]
+k4_certs_3.json.gz#m7#6      labelings   6, complete on every profile   6, runs    33136 4.3s
+k4_certs_3.json.gz#m7#7      labelings   4, complete on every profile   4, runs    13354 1.8s
+k4_certs_3.json.gz#m7#8      labelings   6, complete on every profile   5, runs   315022 47.2s
+    labels [1, 2, 0] fails on [{0: 1, 2: 4, 5: 8, 6: 6}, {1: 4, 3: 8, 4: 3, 6: 6}, {3: 4, 4: 3, 5: 8, 6: 2}]
+k4_certs_3.json.gz#m7#9      labelings   6, complete on every profile   6, runs    39677 4.7s
+k4_certs_3.json.gz#m7#10     labelings   6, complete on every profile   0, runs    55986 8.0s
+    labels [0, 1, 2] fails on [{0: 2, 3: 5, 4: 4, 6: 8}, {1: 6, 3: 3, 5: 4, 6: 8}, {2: 1, 4: 4, 5: 6, 6: 8}]
+    labels [1, 0, 2] fails on [{0: 3, 3: 6, 4: 5, 6: 7}, {1: 3, 3: 4, 5: 2, 6: 8}, {2: 1, 4: 4, 5: 6, 6: 8}]
+k4_certs_3.json.gz#m7#11     labelings   6, complete on every profile   4, runs   413403 66.5s
+    labels [0, 1, 2] fails on [{0: 3, 2: 4, 4: 2, 6: 8}, {1: 1, 3: 4, 5: 6, 6: 8}, {2: 8, 3: 2, 4: 4, 5: 5}]
+    labels [1, 0, 2] fails on [{0: 1, 2: 4, 4: 6, 6: 8}, {1: 3, 3: 4, 5: 2, 6: 8}, {2: 2, 3: 8, 4: 4, 5: 5}]
+k4_certs_3.json.gz#m8#0      labelings   4, complete on every profile   4, runs   124857 21.3s
+k4_certs_3.json.gz#m8#1      labelings   6, complete on every profile   6, runs   165179 26.3s
+k4_certs_3.json.gz#m8#2      labelings   6, complete on every profile   6, runs    17434 2.7s
+k4_certs_3.json.gz#m8#3      labelings   6, complete on every profile   6, runs   221957 36.0s
+k4_certs_3.json.gz#m8#4      labelings   6, complete on every profile   6, runs   326387 53.7s
+k4_certs_3.json.gz#m9#0      labelings   6, complete on every profile   6, runs   138398 26.4s
+TOTAL {'cores': 51, 'cores_every_labeling': 37, 'labelings': 300, 'labelings_good': 253, 'runs': 3455642} 480s
