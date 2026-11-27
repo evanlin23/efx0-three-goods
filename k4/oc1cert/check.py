@@ -28,7 +28,10 @@ Written separately from cegar.py; it shares no code with it or with the reposito
 - With OC1_SSTAR=1 every completion must have the S* shape of k4/oc1_hall.md §2 (claude/k4-oc1-hall), with the
   witness's declared owner.  Every other junk receiver must hold at most one base good and one junk good, and
   no other agent may prefer that base good to its own base (a type mask).
-- With OC1_R2=m (or star) it checks TTC's R2-M (or R2*) (k4/ttc.md §14.6), at perfect starts only.
+- With OC1_R2=m, star, o or c it checks TTC's R2-M, R2*, R2-O or R2-C (k4/ttc.md §14.6), at perfect starts only.
+  - R2-O (o): the one-absorber owner is a receiver off the chain.  og: or no owner at all (nobody takes two junk
+    goods).
+  - R2-C: any one-absorber completion.
   - Only profiles with at least two receivers count (a receiver is an agent whose pick no other agent prefers to its
     own).
   - Witnesses are completions of the picks (one absorber) or single canonical chains: x0 values a junk good, x1
@@ -255,8 +258,18 @@ def check_core(rec):
                     if i != zz: masks[i] &= H.V[i][:, Y[zz]] <= H.V[i][:, Y[i]]
                 X = w['_X']; inb = {g for b in nb for g in b}
                 cnt = collections.Counter(X[g] for g in range(H.m) if g not in inb)
-                if any(c >= 2 for c in cnt.values()): continue
-                if R2 == 'm' and any(a != x0 and len(nb[a]) >= 2 for a in cnt): continue
+                if R2 in ('m', 'star'):
+                    if any(c >= 2 for c in cnt.values()): continue
+                    if R2 == 'm' and any(a != x0 and len(nb[a]) >= 2 for a in cnt): continue
+                elif R2 in ('o', 'og'):     # the declared owner: a receiver at the picks, off the chain
+                    u = w.get('owner')
+                    if u is None:              # 'og' only: no owner, nobody takes two junk goods
+                        if R2 == 'o' or any(c >= 2 for c in cnt.values()): continue
+                    else:
+                        if u in path or any(c >= 2 for a, c in cnt.items() if a != u): continue
+                        for i in range(n):
+                            if i != u: masks[i] &= H.V[i][:, Y[u]] <= H.V[i][:, Y[i]]
+                # R2 == 'c': the one-absorber shape, already checked by shape_ok
             if SSTAR:
                 # S*: every junk receiver other than the declared owner holds at most one base good and one junk
                 # good, and no other agent prefers its base good to its own base

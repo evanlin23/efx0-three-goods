@@ -395,11 +395,19 @@ class Cert:
             ass += [(self.inh[j] if j in NH else -self.inh[j]) for j in range(self.n)]
             self.last_owners = []
         elif self.r2 and shape is not None:
-            # R2 shapes: nobody takes two junk goods; with 'm' (owner x0) the holders of two or more base goods
-            # other than x0 take none
             kind, x0 = shape
-            ass += [-self.iown[j] for j in range(self.n)]
-            ass += [(self.inh[j] if (kind == 'm' and j != x0 and len(base[j]) >= 2) else -self.inh[j]) for j in range(self.n)]
+            if kind in ('m', 'star'):
+                # R2-M / R2*: nobody takes two junk goods; with 'm' (owner x0) the holders of two or more base goods
+                # other than x0 take none
+                ass += [-self.iown[j] for j in range(self.n)]
+                ass += [(self.inh[j] if (kind == 'm' and j != x0 and len(base[j]) >= 2) else -self.inh[j]) for j in range(self.n)]
+            elif kind == 'o':
+                # R2-O: one absorber, and only the agent x0 (here: the chosen owner u) may take two or more
+                ass += [-self.iown[j] for j in range(self.n) if j != x0]
+                ass += [-self.inh[j] for j in range(self.n)]
+            else:
+                # R2-C: any one-absorber completion
+                ass += [-self.inh[j] for j in range(self.n)]
         elif self.r2:
             ass += [-self.inh[j] for j in range(self.n)]       # the plain one-absorber completion
         res = []
@@ -553,12 +561,23 @@ class Cert:
             if not (frozen[x0] and any(g in self.R[x0] and g not in held for g in range(self.m)) and wants(x1, x0) and recv[z]):
                 continue
             st = [list(nb.get(a, base[a])) for a in range(self.n)]
-            Xs = self.complete(prof, st, 1, shape=(self.r2, x0))
+            owner, Xs = None, []
+            if self.r2 in ('o', 'og'):      # the owner: a receiver at the picks, not on the chain
+                for u in range(self.n):
+                    if recv[u] and u not in path:
+                        Xs = self.complete(prof, st, 1, shape=('o', u))
+                        if Xs: owner = u; break
+                if not Xs and self.r2 == 'og':  # generous reading: no owner at all (nobody takes two junk goods)
+                    Xs = self.complete(prof, st, 1, shape=('star', x0))
+            else:
+                Xs = self.complete(prof, st, 1, shape=(self.r2, x0))
             if not Xs: continue
             req = list(imp) + [(x1, (Y[x0],), (Y[x1],))]
             req += [(i, (Y[i],), (Y[z],)) for i in range(self.n) if i != z and Y[z] in self.R[i]]
+            if owner is not None:
+                req += [(i, (Y[i],), (Y[owner],)) for i in range(self.n) if i != owner and Y[owner] in self.R[i]]
             W = Witness({a: Y[a] for a in range(self.n)}, {a: tuple(st[a]) for a in range(self.n)}, req, Xs[0],
-                        ((kind, path, Hs),), None)
+                        ((kind, path, Hs),), owner)
             cands.append(W)
             if len(cands) >= self.kcand: break
         return sorted(cands, key=self.volume, reverse=True)[:self.keep]
