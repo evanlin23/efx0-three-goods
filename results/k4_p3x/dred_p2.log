@@ -1,0 +1,21 @@
+$ python3 k4/oc1max_multi/dred.py k4/p3/hard2_p2.jsonl   (run from proof/k4-oc1max-multi at 3d157f37; hard2_p2.jsonl = the 210 of its 8,383 collected hard starts with |D| >= 2 in which every good has at most two valuers, from results/k4_oc1max_multi/hard2_starts*.jsonl.gz there)
+$ python3 k4/oc1max_multi/dred.py /tmp/claude-0/-home-user-efx0-three-goods/30bb0add-b7b6-52a9-aad1-ef4a237f8fd4/scratchpad/hard2_p2.jsonl (MIN=1)
+  (UNFRZ) 383
+  (UNFRZ), repaired 367
+  CROWD 28
+  CROWD+DEMAND 28
+  CROWD+DEMAND, repaired 1
+  CROWD, repaired 19
+  DEMAND 392
+  DEMAND, repaired 332
+  clean 178
+  clean, repaired 178
+chains 626
+chains repaired (S* owner k) 530
+clean chain 122
+has canonical chain 210
+repaired by a canonical chain, owner k 209
+repaired only with an obstacle 176
+repaired, but no clean chain 87
+starts 210
+clean chains that do not repair (Lemma D-red violations): 0 []
