@@ -1311,6 +1311,10 @@ the rotation σ ↦ (σ_n, σ_1, …, σ_{n−1}).
 - *What a proof of RF must show:* this rotation never leaves a pickless agent, and gives OC₁. At the 640 the rotated
   start is always perfect.
 
+*RF does not reduce to R2.* Outside the 640, RF's start has two receivers at 3,002 of the 5,730 sampled failing
+orders, and exactly one at the other 2,728, where it still satisfies OC₁ (`rf_check_n4.log`). So RF's good starts are
+often one-receiver starts. RF needs its own argument for those, and R2 covers only part of it.
+
 *The shape of the good outcomes at the 640:* each profile has 2 bad perfect outcomes, each with 2 agents at their top
 good, and its good outcomes have 1 or 2 agents at their top. The number of agents at their top does not separate good
 from bad.

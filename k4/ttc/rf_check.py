@@ -53,6 +53,8 @@ if __name__ == '__main__':
                     if g2 is None:
                         g2 = oc1(E, T.base_of(E, Y2))
                     C['  %s: RF start satisfies OC1' % cls if g2 else '  %s: RF START FAILS OC1' % cls] += 1
+                    nr2 = n - len(T.frozen_set(E, T.base_of(E, Y2)))
+                    C['  %s: RF start has %d receivers' % (cls, nr2)] += 1
                     rf_all &= g2
             if one:
                 tops = [max(sets[i], key=lambda g: E.v[i][g]) for i in range(n)]
