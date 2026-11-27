@@ -1124,6 +1124,7 @@ general form (any canonical P₁ with B₁⁻ an SD start) and the E(k)-only for
 |---|---|---|---|---|
 | the 12 known OC₁^max failures (`oc1max_cex12.jsonl`) | 12 | 12 | **12** | 0 |
 | the walk failures near them (`oc1_fail_walk.jsonl.gz`) | 4,955 | 4,955 | **4,955** | 0 |
+| the matching session's n = 5 walks near 5_pure#164 (`results/k4_matching/n5_walk164.jsonl`, `n5_walk164_long.jsonl.gz` on `proof/k4-matching`, commit 60d4ab1; rows with every order; `reduce_s_matching_n5.log`) | 1,498 + 22,445 | all | **all** | 0 |
 
 *Status of OC2-REC.*
 - (a) is proved (Lemma SD-E).

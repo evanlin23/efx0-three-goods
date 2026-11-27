@@ -15,7 +15,7 @@ Census per failing start: some P1 with (a) SD; some P1 with (a) and a U/S case i
 allocation (raw EFX0 in I).  Checks: every U/S allocation is EFX0 in I- (Theorems U, S), and every lifted allocation
 with k unthreatened is EFX0 in I (Lemma LIFT).
 
-    python3 k4/oc1max_multi/reduce_s.py FILE.jsonl[.gz]     (rows with sets, vals, picks)
+    python3 k4/oc1max_multi/reduce_s.py FILE.jsonl[.gz]     (rows with sets, vals, picks, and order or orders)
 """
 import sys, os, json, gzip, itertools, collections, multiprocessing as mp
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -39,15 +39,16 @@ def study(rec, only_E=False):
     I = Inst(rec['sets'], rec['vals']); b = base_from_picks(tuple(rec['picks'])); J = junk(I, b)
     D = dangerous(I, b); p = [I.V(i, b[i]) for i in range(I.n)]; st = set(); bad = []
     for k in D:
-        chains = [earliest_chain(I, b, k, rec['order'])] if only_E else canonical_chains(I, b, k)
-        for P in chains:
+        orders = rec.get('orders') or [rec['order']]          # rows may list every order with these picks
+        chains = [(earliest_chain(I, b, k, o), tuple(o)) for o in orders] if only_E else [(P, None) for P in canonical_chains(I, b, k)]
+        for P, order in dict.fromkeys(chains):
             pool = [g for g in J + list(b[P[-1]]) if g in I.R[k]]
             for T in itertools.combinations(pool, 2):
                 if I.V(k, T) <= p[k]: continue
                 nb = apply_chain(I, b, P, T); val = [I.V(i, nb[i]) for i in range(I.n)]
                 I2, b2, keep = reduced(I, nb, k)
                 if only_E:     # Lemma SD-E (any pair T inside the pool): B1- is the SD outcome of the order without k
-                    st.add('SD-E tests'); oo = [keep.index(a) for a in rec['order'] if a != k]
+                    st.add('SD-E tests'); oo = [keep.index(a) for a in order if a != k]
                     if I2.sd(oo) != tuple(x[0] if x else None for x in b2): bad.append(('SD-E', rec, P, T)); continue
                 if any(i != k and I.R[i] and any(I.v[i].get(g, 0) >= val[i] for g in T) for i in range(I.n)): continue
                 st.add('P1 with LIFT hypothesis')
