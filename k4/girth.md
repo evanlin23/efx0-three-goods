@@ -782,8 +782,12 @@ where d gets nothing. These are the same numbers as oc1-hall's census.
     an official ring in which only p adds a junk good. All 32 are on 5_pure#374, with roles (D_T, D_T, U, D, D) at Y and
     RF path u → d of length 1.
   - No failure once (T\*) is added.
-- **(1, 3)** (7,733): all are repaired by the chain (C), where a truly dangerous agent takes a junk pair and d takes
-  its pick. All have RF path u → w → d with d taking junk.
+- **(1, 3)** (7,733): all are repaired by the chain (C). All have RF path u → w → d with d taking junk, and w is
+  truly dangerous at Y′. **One explicit form works at all 7,733:** w takes an improving junk pair H and d takes Y′_w
+  (the chain); then d takes its old good Y′_d and one junk good x, and w takes the last junk good y (or the same with
+  d and w exchanged). The RF-B form (d absorbs Y′_d and all remaining junk) works at none of them.
+- Explicit forms in DEMOTE-0: at the 71,443 that complete at once, RF-A1's completion; at all 42,009 trade cases,
+  **some trade after which every remaining junk good goes to a different agent** (no absorber).
 - With (T\*) added (tried after (T), before (C)), the counts on all earlier data are unchanged: 292,080 n = 4 orders,
   86 stored n = 5 orders, and the 64 two-receiver RF starts.
 

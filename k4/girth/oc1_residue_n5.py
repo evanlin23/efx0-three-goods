@@ -127,6 +127,78 @@ def candidate_repairs(I, sets, vals, Y, Y2, u, path, rl2, J2):
     return ok
 
 
+def trade_then_singles(I, Y2, d, rl2, J2):
+    """some trade (T) of d with a pick-dangerous p (p takes {Y'_d, j}, d takes Y'_p, both improve) after which every
+    remaining junk good goes to a different agent (no absorber) and the allocation is EFX0"""
+    from oc1_rf_owner import owner_ok
+    n = len(Y2)
+    v = I.v
+    base = [[p] for p in Y2]
+    for p in range(n):
+        if rl2[p] != 'Dp':
+            continue
+        for j in J2:
+            if j not in v[p]:
+                continue
+            if not (I.V(p, [Y2[d], j]) > I.V(p, [Y2[p]]) and I.V(d, [Y2[p]]) > I.V(d, [Y2[d]])):
+                continue
+            st = [list(b) for b in base]
+            st[p] = [Y2[d], j]
+            st[d] = [Y2[p]]
+            if owner_ok(I, st, None):
+                return True
+    return False
+
+
+def chain_then_d_absorbs(I, Y2, d, rl2, J2):
+    """oc1-hall's RF-B shape, any number of truly dangerous agents: some k in D_T' takes an improving junk set H, and d
+    takes Y'_k, Y'_d and the rest of the junk; EFX0 at once"""
+    n = len(Y2)
+    v = I.v
+    for k in range(n):
+        if rl2[k] != 'DT' or k == d:
+            continue
+        Jk = [g for g in J2 if g in v[k]]
+        for r in range(1, len(Jk) + 1):
+            for H in itertools.combinations(Jk, r):
+                if not I.V(k, H) > I.V(k, [Y2[k]]):
+                    continue
+                B = [[p] for p in Y2]
+                B[k] = list(H)
+                B[d] = [Y2[k], Y2[d]] + [g for g in J2 if g not in H]
+                if I.efx0(B):
+                    return True
+    return False
+
+
+def w_chain_shape(I, Y2, d, w, J2):
+    """(1, 3) shape: w (truly dangerous at Y') takes an improving junk pair H, d takes Y'_w; then d takes its old
+    good Y'_d and one junk good x, and w takes one more junk good y (or the same with d and w exchanged); every junk
+    good placed, EFX0 at once"""
+    v = I.v
+    Jw = [g for g in J2 if g in v[w]]
+    for H in itertools.combinations(Jw, 2):
+        if not I.V(w, H) > I.V(w, [Y2[w]]):
+            continue
+        rest = [g for g in J2 if g not in H]
+        for x in rest:
+            for y in rest:
+                if x == y and len(rest) > 1:
+                    continue
+                for a, b in ((d, w), (w, d)):
+                    B = [[p] for p in Y2]
+                    B[w] = list(H)
+                    B[d] = [Y2[w]]
+                    B[a] += [Y2[d], x]
+                    left = [g for g in rest if g != x]
+                    if len(left) > 1 or (left and left[0] != y):
+                        continue
+                    B[b] += left
+                    if I.efx0(B):
+                        return True
+    return False
+
+
 def check_job(lines):
     from oc1_mc2_rand import Inst
     from oc1_residue import check_one
@@ -142,6 +214,19 @@ def check_job(lines):
         w = Y.index(top) if top in Y and Y.index(top) != u else path[-1]
         cls, verdict = check_one(sets, vals, Y2, w, path[-1])
         tag = r['cls']
+        if verdict.startswith('(T)') or verdict.startswith('(C)'):
+            from oc1_mc2_rand import Inst as _I
+            I0 = _I(sets, vals)
+            rl2_, J2_ = roles(sets, vals, list(Y2))
+            if verdict.startswith('(T)'):
+                C[(tag, '(T) cases: a trade after which every junk good goes to a different agent')] += \
+                    trade_then_singles(I0, Y2, path[-1], rl2_, sorted(J2_))
+            else:
+                C[(tag, '(C) cases: RF-B shape (k takes H, d takes Y\'_k, Y\'_d and the rest)')] += \
+                    chain_then_d_absorbs(I0, Y2, path[-1], rl2_, sorted(J2_))
+                if len(path) == 3 and rl2_[path[1]] == 'DT':
+                    C[(tag, "(C) cases: w-chain shape (w takes a junk pair, d takes Y'_w; d: old Y'_d + x, w: + y)")] += \
+                        w_chain_shape(I0, Y2, path[-1], path[1], sorted(J2_))
         C[(tag, 'starts')] += 1
         C[(tag, 'path length %d, d ends with %s' % (len(path) - 1, 'junk' if Y2[path[-1]] not in Y else "u's old pick" if Y2[path[-1]] == Y[u] else 'a pick'))] += 1
         C[(tag, 'DEMOTE: ' + (verdict.split(' (')[0] if verdict.startswith('FAILS') else verdict))] += 1
