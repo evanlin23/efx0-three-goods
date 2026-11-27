@@ -1791,7 +1791,8 @@ perfect starts):
   - **R2-C** at starts with at least two receivers (TTC). It is certified at n = 4, and it is the one-move statement
     there.
 
-**Part 2: the second move elsewhere.**
+**Part 2: the second move elsewhere.** (Amended in §24.4: a *round* of two simultaneous moves is needed at some n = 5
+starts. REC-S existence alone is not enough.)
 - **REC-S existence** (k4-oc1max-multi): at every hard perfect start with no one-move repair, REC-S's hypotheses hold
   for some dangerous k and some pool pair T.
 - REC-S itself (SD-E + LIFT + Theorem S in I⁻) is refereed, and it is certified at n = 4 (K4.MULTI.RECS.N4).
@@ -1840,4 +1841,43 @@ the 8,383 hard |D| ≥ 2 perfect starts. The 197 starts with |D| = 1 were not ru
   - Smallest failures: T3, order (0, 2, 1); c4x-n3m6-3good-first (n = 3, m = 6), order (0, 1, 2), picks (5, 4, 3).
 - **Conclusion:** settling first fails at hundreds of starts that one move repairs. **Part 1 is needed in I itself**,
   not only in I⁻. The plan of §24.2 stands, with both parts.
+
+### 24.4 n = 5: two starts where every settle-and-lift form fails, but OC₂ holds by a round (02:30)
+
+Found by the matching session (`attempts/k4-matching-rsd-lstar.md` and `k4/matching.md` §6 on `proof/k4-matching`,
+36ef09e6) in the certifier's chunk 5_pure_s5o0. Re-checked here by `k4/oc1_hall/round_n5_check.py`
+(`round_n5_check.log`).
+
+**5_pure m = 10, idx 419.**
+- Sets [[0,2,6,7],[1,4,8,9],[3,5,8,9],[4,5,7,9],[6,7,8,9]], values [[6,3,10,8],[4,8,2,3],[2,8,4,3],[6,7,5,3],[10,7,2,6]],
+  picks (6, 4, 5, 9, 7).
+- Here: no one-move repair (0 of 19 moves). There are 18 two-move repairs, 12 of them by vertex-disjoint moves, for
+  example chain (0, 4), with agent 0 taking {0, 7}, then chain (1, 3), with agent 1 taking {1, 8, 9}.
+
+**5_pure m = 11, idx 447.**
+- Sets [[0,2,5,8],[1,6,7,8],[3,6,9,10],[4,7,9,10],[5,8,9,10]], values [[3,4,8,6],[1,6,8,4],[2,10,6,3],[2,8,3,4],[10,8,3,6]],
+  picks (5, 1, 6, 7, 8).
+- Here: no one-move repair (0 of 41). There are 66 two-move repairs, 24 of them by vertex-disjoint moves.
+
+**Why every sequential proof form fails.** Each chain's absorbed set threatens an agent that only the *other* chain
+improves. In idx 419:
+- {0, 7} threatens agent 3, which only (1, 3) lifts;
+- {1, 8, 9} threatens agent 4, which only (0, 4) lifts.
+
+So whichever chain is settled first, its set T threatens a present agent at that agent's current value. The lift
+condition (L\*) then fails at every order. This defeats OC2-REC, REC-S and RSD at every depth (matching, two
+independent encodings). Applied together, the two chains commute and repair, and **OC₂^max holds** there. They are also
+the coordinator's ROUND-P.
+
+**Consequences for the plan:**
+- **Part 2 is amended.** The second move is either a settle-and-lift repair (REC-S / OC2-REC; on the chunk 273 and 274
+  of 280) or a **round** of two vertex-disjoint moves whose lift is checked only at the end. That deferred form is
+  **RSD-D** (matching, K4.MATCH.RSDD), and it repairs all 280 sampled n = 5 starts of the chunk.
+- An induction in RSD-D form must carry *demands* as well as phantom constraints. A present agent threatened by a
+  deleted T must end with at least v_i(T) − min_T v_i. That is Lemma M's exposed slot that must be compensated.
+- **Item 4a is restored** (§23.4's split of 00:51 was right after all): *disjoint repairs that must be applied
+  together*. Tests: 5_pure m = 10 #419 and m = 11 #447. Natural owner: proof/kgen-rounds (ROUND-P).
+- **Item 4b** is the settle-and-lift case (OC2-REC / REC-S). On the chunk, the only 4b start REC-S misses is 5_pure
+  m = 9 idx 38, and OC2-REC and RSD cover it.
+- The census of the chunk (280 sampled two-move starts): 240 are 4a-type, 40 are 4b-type, and all have one holder.
 
