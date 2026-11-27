@@ -2189,6 +2189,15 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
   - **Off the exports** (burst 15, `k4/sdc/rf_canon_offexport.py`, `results/k4_sdc/rf_canon_offexport.log`): YRMH-F
     works at all 244,995 (start, receiver) pairs of d1's walk (241,728 failing n = 5 starts on 277 cores), already from
     the first listed order. Ledger K4.SDC.RFCANON.
+  - **By FAIL-STRUCT₀ case** (burst 16, `k4/sdc/rf_canon_bycase.py`, `results/k4_sdc/rf_canon_bycase_s5.log`; every fifth
+    start of d1's walk, 49,001 (start, receiver) pairs).
+    - YRMH-F's outcome Z completes at the picks at 87% of the t = 0 (pick-swap) pairs, 93% of the t = 2 pairs and all
+      226 t = 3 pairs. The rest need one move. Here t is the number of truly dangerous agents at Y.
+    - YRMH-F mostly removes the danger: t(Z) = 0 at 77% of pairs and t(Z) = 1 at 20%.
+    - Where Z lacks FAIL-STRUCT₀'s necessary shape (t(Z) = 1, or t(Z) = 0 without S2, or t(Z) ≥ 2 without S1′),
+      FAIL-STRUCT₀ alone would prove OC₁ at Z. That is only 16,105 of 49,001 pairs (33%), because the shape is necessary
+      and far from sufficient.
+    - So a proof of RF-canon needs a sufficient condition at Z, not just FAIL-STRUCT₀.
 
 **Conjecture FAIL-STRUCT₀ (structure of failing starts)** (2026-11-27 09:40 UTC, coordinator; ledger K4.SDC.FAILSTRUCT0).
 This is a precise, data-checked form of k3-oc1's draft Theorem FAIL-STRUCT (`k4/k3_oc1.md` §13.7). It is a

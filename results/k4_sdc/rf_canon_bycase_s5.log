@@ -1,0 +1,17 @@
+$ python3 k4/sdc/rf_canon_bycase.py 5
+starts 48346
+Z has the FAIL-STRUCT0 shape: False 16105
+Z has the FAIL-STRUCT0 shape: True 32896
+t(Y)=0 -> Z: one move repairs 1077
+t(Y)=0 -> Z: picks complete 7131
+t(Y)=0 -> t(Z)=0 6610
+t(Y)=0 -> t(Z)=1 1382
+t(Y)=0 -> t(Z)=2 216
+t(Y)=2 -> Z: one move repairs 3009
+t(Y)=2 -> Z: picks complete 37558
+t(Y)=2 -> t(Z)=0 30908
+t(Y)=2 -> t(Z)=1 8712
+t(Y)=2 -> t(Z)=2 947
+t(Y)=3 -> Z: picks complete 226
+t(Y)=3 -> t(Z)=0 221
+t(Y)=3 -> t(Z)=1 5
