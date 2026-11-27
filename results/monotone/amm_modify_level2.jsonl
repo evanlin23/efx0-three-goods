@@ -1,0 +1,17 @@
+{"pinned": ["a"], "b_ignores": "A1", "c_ignores": "A1", "status": "UNSAT", "iters": 398, "time": 17.5}
+{"pinned": ["a"], "b_ignores": "A1", "c_ignores": "A2", "status": "UNSAT", "iters": 386, "time": 23.4}
+{"pinned": ["a"], "b_ignores": "A1", "c_ignores": "B1", "status": "UNSAT", "iters": 372, "time": 16.4}
+{"pinned": ["a"], "b_ignores": "A1", "c_ignores": "C1", "status": "UNSAT", "iters": 328, "time": 12.5}
+{"pinned": ["a"], "b_ignores": "A1", "c_ignores": "x", "status": "UNSAT", "iters": 350, "time": 16.3}
+{"pinned": ["a"], "b_ignores": "A1", "c_ignores": "y", "status": "UNSAT", "iters": 337, "time": 19.5}
+{"pinned": ["a"], "b_ignores": "B1", "c_ignores": "B1", "status": "UNSAT", "iters": 403, "time": 17.3}
+{"pinned": ["a"], "b_ignores": "B1", "c_ignores": "B2", "status": "UNSAT", "iters": 314, "time": 13.0}
+{"pinned": ["a"], "b_ignores": "B1", "c_ignores": "C1", "status": "UNSAT", "iters": 361, "time": 17.3}
+{"pinned": ["a"], "b_ignores": "B1", "c_ignores": "x", "status": "UNSAT", "iters": 369, "time": 21.6}
+{"pinned": ["a"], "b_ignores": "B1", "c_ignores": "y", "status": "UNSAT", "iters": 387, "time": 23.7}
+{"pinned": ["a"], "b_ignores": "C1", "c_ignores": "B1", "status": "UNSAT", "iters": 342, "time": 13.8}
+{"pinned": ["a"], "b_ignores": "C1", "c_ignores": "x", "status": "UNSAT", "iters": 383, "time": 18.7}
+{"pinned": ["a"], "b_ignores": "C1", "c_ignores": "y", "status": "UNSAT", "iters": 405, "time": 23.4}
+{"pinned": ["a"], "b_ignores": "x", "c_ignores": "x", "status": "UNSAT", "iters": 376, "time": 16.8}
+{"pinned": ["a"], "b_ignores": "x", "c_ignores": "y", "status": "UNSAT", "iters": 380, "time": 19.5}
+{"pinned": ["a"], "b_ignores": "y", "c_ignores": "y", "status": "UNSAT", "iters": 378, "time": 23.8}
