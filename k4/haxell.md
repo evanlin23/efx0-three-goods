@@ -626,6 +626,17 @@ fails, at k = 4, 5 and 6. (W₃ is not run at k ≥ 5, where W5 already refutes 
   a step at all 36 states where W^sub fails, and had no stuck state wherever it was run before (the n = 2 grid, the
   skewed sets).
 - *W₃* (welfare, three single-good moves, no set transfers) also has a step at all 36. It fails at k = 5 (W5).
+- *Lemma P^sub (Pareto; REFUTED at n = 4).* The same moves, but the measure step must be a **Pareto improvement**:
+  the pool size kept, no agent worse, some agent strictly better. A Pareto improvement raises welfare and leximin, so
+  P^sub implies both W^sub and L^sub, and fails wherever either fails.
+  - It is **ordinal**: whether Y is a Pareto improvement of X compares, for each agent, two sets of its goods
+    (vᵢ(Yᵢ) > vᵢ(Xᵢ) iff vᵢ(Yᵢ ∖ Xᵢ) > vᵢ(Xᵢ ∖ Yᵢ)). So with strict values it depends only on the type profile, and
+    exhaustive checks over types are complete for it.
+  - `gstar_measure` measure 19.
+- *Lemma P^sub₃ (CONJECTURE for every |Rᵢ| ≤ 4).* P^sub with **three** moves. It has a step at all 40 known two-move
+  failures: the 36 for welfare and the 4 found by the leximin climbs (`gstar_measure 3 1 19 1`; with single-good moves
+  only, `3 1 19 0`, also none stuck). It implies W^sub₃ and L^sub₃ and TARGET₄, and it is the cleanest candidate for
+  verification by types and for a proof.
 - *Lemma W^sub₃ / L^sub₃ (CONJECTURE for every |Rᵢ| ≤ 4).* The same with **three** moves, with welfare or leximin
   as the measure. At n = 4 neither two-move form holds: W^sub fails at WS4 and L^sub at LS4, at different states.
   Three moves give a step at all 37 known failures, for both measures (`attempts/k4_haxell_wsub.py`). Radius-3

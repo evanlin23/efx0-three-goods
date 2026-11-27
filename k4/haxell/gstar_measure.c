@@ -29,7 +29,7 @@
 #include <string.h>
 #define MAXN 6
 #define MAXM 11
-#define NPHI 19
+#define NPHI 20
 static int n, m;
 static long val[MAXN][MAXM];
 static long NS;
@@ -53,6 +53,12 @@ static int efx0(const int *own) {
 /* phi as a vector of up to MAXN+1 longs, compared lexicographically (smaller is better) */
 typedef struct { long x[MAXN + 1]; } Phi;
 static int cmpphi(const Phi *a, const Phi *b) { for (int t = 0; t <= MAXN; t++) { if (a->x[t] < b->x[t]) return -1; if (a->x[t] > b->x[t]) return 1; } return 0; }
+/* q improves on p: lexicographically smaller, except phi19 (Pareto): no agent worse and some agent strictly better */
+static int better_phi(int K, const Phi *q, const Phi *p) {
+    if (K != 19) return cmpphi(q, p) < 0;
+    int strict = 0; for (int t = 0; t <= MAXN; t++) { if (q->x[t] > p->x[t]) return 0; if (q->x[t] < p->x[t]) strict = 1; }
+    return strict;
+}
 static int cmpl(const void *a, const void *b) { long x = *(const long *)a, y = *(const long *)b; return x < y ? -1 : x > y; }
 static void phi1(int K, const int *own, Phi *out);
 static void phi(int K, const int *own, Phi *out) {
@@ -93,6 +99,7 @@ static void phi1(int K, const int *own, Phi *out) {
             if (any && best > 0) tot += best; }
         out->x[0] = tot; return; }
     if (K == 9) { long c = 0; for (int g = 0; g < m; g++) if (own[g] < n && val[own[g]][g] > 0) c++; out->x[0] = -c; return; }
+    if (K == 19) { for (int i = 0; i < n; i++) out->x[i] = -hold[i]; return; }   /* Pareto: compared by dominance, see better() */
 }
 static int nb_count; static long nb_buf[4096];
 static void gen_cycles(void);
@@ -178,13 +185,13 @@ int main(int argc, char **argv) {
                 long r1 = 0;
                 for (int t = 0; t < c1; t++) { long u = first[t]; if (!ok[u]) continue; int ou[MAXM]; decode(u, ou);
                     int pu = poolsz(ou); if (pu > p) continue; Phi q; phi(ONLY, ou, &q);
-                    if (pu < p || cmpphi(&q, &ps[ONLY]) < 0) r1++; }
+                    if (pu < p || better_phi(ONLY, &q, &ps[ONLY])) r1++; }
                 if (r1min < 0 || r1 < r1min) r1min = r1;
                 if (!r1) { r1stuck++; long cnt = 0;
                     for (int t = 0; t < c1; t++) { int o1[MAXM]; decode(first[t], o1); neighbours(o1);
                         for (int w = 0; w < nb_count; w++) { long u = nb_buf[w]; if (!ok[u]) continue; int ou[MAXM]; decode(u, ou);
                             int pu = poolsz(ou); if (pu > p) continue; Phi q; phi(ONLY, ou, &q);
-                            if (pu < p || cmpphi(&q, &ps[ONLY]) < 0) cnt++; } }
+                            if (pu < p || better_phi(ONLY, &q, &ps[ONLY])) cnt++; } }
                     if (slack_min < 0 || cnt < slack_min) { slack_min = cnt; slack_nmin = 1; } else if (cnt == slack_min) slack_nmin++; } }
             for (int pass = 0; pass < (RADIUS < 2 ? RADIUS : 2) && left; pass++)
                 for (int t = 0; t < c1 && left; t++) {
@@ -195,7 +202,7 @@ int main(int argc, char **argv) {
                         int ou[MAXM]; decode(u, ou); int pu = poolsz(ou); if (pu > p) continue;
                         for (int K = 0; K < NPHI; K++) { if (done[K]) continue;
                             int better = pu < p;
-                            if (!better && K > 0) { Phi q; phi(K, ou, &q); better = cmpphi(&q, &ps[K]) < 0; }
+                            if (!better && K > 0) { Phi q; phi(K, ou, &q); better = better_phi(K, &q, &ps[K]); }
                             if (better) { done[K] = 1; left--; } } }
                 }
             if (left && RADIUS >= 3) {      /* third pass: composites of three moves, only for the measures still stuck */
@@ -205,7 +212,7 @@ int main(int argc, char **argv) {
                         for (int z = 0; z < nb_count && left; z++) { long u = nb_buf[z]; if (!ok[u]) continue;
                             int ou[MAXM]; decode(u, ou); int pu = poolsz(ou); if (pu > p) continue;
                             for (int K = 0; K < NPHI; K++) { if (done[K]) continue; int better = pu < p;
-                                if (!better && K > 0) { Phi q; phi(K, ou, &q); better = cmpphi(&q, &ps[K]) < 0; }
+                                if (!better && K > 0) { Phi q; phi(K, ou, &q); better = better_phi(K, &q, &ps[K]); }
                                 if (better) { done[K] = 1; left--; stuck3fixed[K]++; } } } } } }
             for (int K = 0; K < NPHI; K++) if (!done[K]) { stuck[K]++; if (ex[K] < 0) ex[K] = s; }
         }
