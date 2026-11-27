@@ -12,7 +12,8 @@ covered).  For every pair the record gives:
 It also writes OUT_cert.json.gz: per hypergraph every witness the run added and the excluded (failing) pairs, so that
 check.py can confirm independently that every other pair is repaired (the enumeration is complete).
 
-    python3 k4/oc1cert/export_fails.py CERT_DEPTH1.json.gz OUT.json.gz [SAMPLE]"""
+    python3 k4/oc1cert/export_fails.py CERT_DEPTH1.json.gz|HYPERGRAPHS.jsonl OUT.json.gz [SAMPLE]
+RAW_EVERY=K: Inst.check only on every K-th pair (n = 5 is slower)."""
 import sys, os, gzip, json, itertools, collections, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -30,7 +31,11 @@ def receivers(I, Y):
 def main():
     src, out = sys.argv[1], sys.argv[2]; SAMPLE = int(sys.argv[3]) if len(sys.argv) > 3 else 50
     print('$ python3 k4/oc1cert/export_fails.py', *sys.argv[1:], flush=True)
-    recs = json.load(gzip.open(src))['cores']
+    if src.endswith('.jsonl'):        # a list of hypergraphs {'list', 'idx', 'sets'} (e.g. n = 5 picks)
+        recs = [dict(json.loads(l), result='FAIL') for l in open(src) if l.strip()]
+    else:
+        recs = json.load(gzip.open(src))['cores']
+    RAW_EVERY = int(os.environ.get('RAW_EVERY', '1'))     # Inst.check on every RAW_EVERY-th pair (1: all)
     res = []; cert = []; T = collections.Counter(); t0 = time.time()
     for r in recs:
         if r['result'] == 'certified': continue
@@ -41,7 +46,7 @@ def main():
             vals = [list(C.dom[i][t]) for i, t in enumerate(prof)]
             I = Inst(r['sets'], vals)
             orders = [list(o) for o in itertools.permutations(range(I.n)) if I.sd(o) == tuple(Y)]
-            raw = I.check(tuple(Y))
+            raw = I.check(tuple(Y)) if k % RAW_EVERY == 0 else 'not checked'
             rc = receivers(I, Y)
             e = {'vals': vals, 'picks': list(Y), 'orders': orders, 'receivers': rc, 'raw': raw}
             if k % SAMPLE == 0:
