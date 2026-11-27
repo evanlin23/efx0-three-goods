@@ -1,6 +1,6 @@
 # Bounded charity in terms of relevant goods (CH(k))
 
-Workstream `proof/kgen-charity` (branch `claude/kgen-charity`, draft PR #105). Scripts: `kgen/charity/`; logs:
+Workstream `proof/kgen-charity` (branch `claude/kgen-charity`; bursts 1–7 merged in PR #105, current draft PR #124). Scripts: `kgen/charity/`; logs:
 `results/kgen_charity/`. Everything called evidence below is evidence only (PROMPT.md §5 rule 3). No ledger row is
 changed here; the coordinator integrates.
 
@@ -614,7 +614,7 @@ n = 4 stranding of §5 in 36 cuts and correctly finds none at n = 3, k = 3.
 | 3 | 3 | OL holds | `ol_synth_n3_k3.log` |
 | 3 | 4 | OL holds (43 size vectors, pool sizes 1–2, m ≤ 12); P1 holds too (no stranded Pareto maximum) | `ol_synth_n3_k4.log`, `ol_synth_n3_k4_p1.log` |
 | 4 | 3 | OL holds (43 size vectors, pool sizes 1–3, m ≤ 12) | `ol_synth_n4_k3.log` |
-| 3 | 5 | P1 fails (Proposition P1₃,₅, brute-force checked); OL: being searched | `p1_n3k5.log`, `ol_synth_n3_k5_q*.log` |
+| 3 | 5 | P1 fails (Proposition P1₃,₅, brute-force checked), OL holds on its four instances (one loser); the OL search is partial: UNSAT for sizes (2, 2, 1), (2, 2, 2), (3, 2, 1), (3, 2, 2), (3, 3, 1) at q = 1 and (2, 2, 2), (3, 2, 2) at q = 2 (m ≤ 9); stopped at its time limit on (3, 3, 2) (each size vector took up to 45 min; the remaining ones, up to m = 15, were not run) | `p1_n3k5.log`, `ol_synth_n3_k5_q*.log` |
 
 **Proposition P1₂ (two agents: Pareto maxima are complete; written proof).** In every additive instance with two
 agents (any number of goods, any values ≥ 0), every Pareto maximum is complete. Equivalently, every partial EFX₀

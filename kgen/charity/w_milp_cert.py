@@ -9,7 +9,7 @@ eps > 0 scales back, so the original is infeasible iff the optimum is eps* = 0. 
 used lies in [-1, 1], so big-M = 2 is exact for the disjunctions OR_t (expr_t >= eps).  Disjuncts with no positive
 coefficient (always <= 0) are dropped and identical ones merged.
 
-    python3 kgen/charity/w_milp_cert.py CUTFILE [COREFILE]"""
+    python3 kgen/charity/w_milp_cert.py CUTFILE [COREFILE] [--tlim=SECONDS]   (default 3600 s)"""
 import sys, json, time, gzip, itertools
 import numpy as np
 from scipy.optimize import milp, LinearConstraint, Bounds
@@ -139,11 +139,13 @@ def solve(D, cuts, tlim=3600):
 
 if __name__ == '__main__':
     print('$ python3 kgen/charity/w_milp_cert.py', *[a.split('/')[-1] for a in sys.argv[1:]], flush=True)
+    tl = [float(a.split('=')[1]) for a in sys.argv[1:] if a.startswith('--tlim=')]
+    sys.argv = [a for a in sys.argv if not a.startswith('--tlim=')]
     D = json.load(gzip.open(sys.argv[1], 'rt') if sys.argv[1].endswith('.gz') else open(sys.argv[1])); cuts = D['cuts']
     if len(sys.argv) > 2:
         core = json.load(open(sys.argv[2]))['core']; cuts = [cuts[t] for t in core]
     t0 = time.time()
-    msg, eps, bound, N = solve(D, cuts)
+    msg, eps, bound, N = solve(D, cuts, tl[0] if tl else 3600)
     print('%s: n %d, m %d, %d cuts used; MILP with %d variables: %s; eps* = %s, dual bound %s (%.1f s)' % (
         sys.argv[1].split('/')[-1], D['n'], D['m'], len(cuts), N, msg, eps, None if bound is None else -bound,
         time.time() - t0), flush=True)

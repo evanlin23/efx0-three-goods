@@ -5,3 +5,4 @@ q 1 sizes (3, 2, 1) m 7 UNSAT 246 cuts 93.3 s
 q 1 sizes (3, 2, 2) m 8 UNSAT 545 cuts 2222.4 s
 (container restarted; resumed, skipping the size vectors above)
 q 1 sizes (3, 3, 1) m 8 UNSAT 584 cuts 1740.1 s
+(the 14000 s timeout of the resumed run expired during sizes (3, 3, 2); stopped there, no answer for (3, 3, 2) or later size vectors)
