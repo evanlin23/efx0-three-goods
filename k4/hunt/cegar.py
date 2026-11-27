@@ -71,7 +71,7 @@ def automorphisms(sets, m, cap=256):
 
 
 class Hunt:
-    def __init__(self, sets, m, domains=None, solver='cd15', tries=4, use_aut=True, seed=1):
+    def __init__(self, sets, m, domains=None, solver='cd15', tries=4, use_aut=True, seed=1, per_profile=False):
         self.sets, self.m, self.n = [list(S) for S in sets], m, len(sets)
         self.C = S4.Core(self.n, m, self.sets)
         if domains is not None:                       # restricted domains: lists of type vectors (in S's order)
@@ -92,6 +92,7 @@ class Hunt:
         self.tries, self.rng = tries, np.random.default_rng(seed)
         self.auts = automorphisms(self.sets, m) if use_aut else [(list(range(self.n)), list(range(m)))]
         self._inner = None                            # search4's inner SAT, built on first use
+        self.per_profile = per_profile                # inner SAT built per proposal from its values (large n)
         self.allocs, self.fails, self.nclauses = [], [], 0
         self.cert = []                                # every allocation whose clause was added (images included)
         self.seen = set()
@@ -144,7 +145,22 @@ class Hunt:
         if self._inner is None: self._inner = self.C.inner(None, None)
         return self._inner
 
+    def profile_allocation(self, prof):
+        """EFX₀ allocation for one profile with k4/sdc/sdclib.Enc (values = the types' representatives), complete."""
+        sys.path.insert(0, os.path.join(os.path.dirname(HERE), 'sdc'))
+        from sdclib import Enc
+        from pysat.solvers import Cadical153
+        E = Enc(self.sets, [list(self.dom[i][t]) for i, t in enumerate(prof)], self.m)
+        s = Cadical153(bootstrap_with=E.cl + [[-E.x[g][self.n]] for g in range(self.m)])
+        A = None
+        if s.solve():
+            mod = set(l for l in s.get_model() if l > 0)
+            A = [next(j for j in range(self.n) if E.x[g][j] in mod) for g in range(self.m)]
+        s.delete()
+        return A
+
     def best_allocation(self, prof):
+        if self.per_profile: return self.profile_allocation(prof)
         C, x, z = self.C, self.x, self.zin
         xs = [x[g][j] for g in range(self.m) for j in range(self.n)]
         best, bestv = None, None

@@ -28,7 +28,7 @@ def main():
     for name, sets in items:
         m = 1 + max(g for S in sets for g in S)
         t0 = time.time()
-        H = cegar.Hunt(sets, m, tries=int(opt.get('tries', 2)))
+        H = cegar.Hunt(sets, m, tries=int(opt.get('tries', 2)), per_profile='per-profile' in opt)
         st = H.run(cap=1, time_limit=float(opt.get('limit', 3600)))
         rec = {'name': name, 'n': len(sets), 'm': m, 'sets': sets, 'status': st, 'time': round(time.time() - t0, 1),
                **H.stats(), 'allocs_list': H.cert}
