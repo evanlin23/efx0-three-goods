@@ -1,0 +1,5 @@
+{"pinned": ["a", "b"], "free": "c", "c_ignores": "A1", "status": "UNSAT", "iters": 31, "time": 0.6}
+{"pinned": ["a", "b"], "free": "c", "c_ignores": "B1", "status": "UNSAT", "iters": 44, "time": 0.8}
+{"pinned": ["a", "b"], "free": "c", "c_ignores": "C1", "status": "UNSAT", "iters": 31, "time": 0.5}
+{"pinned": ["a", "b"], "free": "c", "c_ignores": "x", "status": "UNSAT", "iters": 28, "time": 0.5}
+{"pinned": ["a", "b"], "free": "c", "c_ignores": "y", "status": "UNSAT", "iters": 28, "time": 0.6}

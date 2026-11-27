@@ -1,0 +1,1 @@
+{"n": 2, "m": 6, "types": [1, 1, 2, 2, 3, 3], "R": [[0, 1, 4, 5], [2, 3, 4, 5]], "deg": [4, 4], "status": "UNSAT", "time": 0.01, "cert_size": 2, "sb": true, "cert": [[0, 0, 0, 0, 0, 1], [0, 0, 1, 1, 1, 0]], "rank_on_cert_unsat": true, "order_on_cert_unsat": true}

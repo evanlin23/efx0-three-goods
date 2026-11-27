@@ -36,8 +36,13 @@ fewest agents, and among those the fewest goods, is *minimal*. A minimal k-count
 6. **Counting.** Items 3–4 give at most (k − 2)n private goods and at least 2n incidences on shared goods, so
    m = (#shared) + (#private) ≤ (kn + #private)/2 ≤ (k − 1)n.
 
+7. **n ≥ 3.** Two agents always have an EFX₀ allocation for monotone valuations (Plaut–Roughgarden, arXiv
+   1707.04769, read: Definition 2.3 is the all-goods EFX, §2 defines "general valuations" as normalized and
+   monotone, and Theorem 4.3 is cut-and-choose on the leximin++ solution, pp. 16–17). One agent takes everything.
+
 So if a k-counterexample with at most n₀ agents exists, a minimal one exists among the hypergraphs with
-3 ≤ |R_i| ≤ k, items 1–6, 3 ≤ n ≤ n₀ (n ≤ 2: see §4) and n + 4 ≤ m ≤ (k − 1)n, under some valuation profile.
+3 ≤ |R_i| ≤ k, items 1–6, 3 ≤ n ≤ n₀ and n + 4 ≤ m ≤ (k − 1)n, under some valuation profile. (For n = 2 the
+search was also run for k ≤ 6, as a check of the tooling: every hypergraph is UNSAT, `results/monotone/n2_*`.)
 
 ## 3. Search method
 
