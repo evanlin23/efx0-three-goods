@@ -765,6 +765,34 @@ They fail together exactly when τ_B(X_A + g) > v_B(X_B), τ_A(X_B + g) > v_A(X_
 the moves that take a good from the receiver of g, and the case analysis of when they keep EFX₀. That is the first
 open case.
 
+**The n = 2 case (burst 3, toward a proof).** W^sub and L^sub have no stuck state on the n = 2 grid. Both two-move
+failures need n = 4, so n = 2 is still a fair, bounded target.
+- *With ties the measure is needed.* On the grid, 48 states (in 36 instances) have no pool-shrinking composite of two
+  moves (`n2aug_grid_k4.log`, which lists 12). In the smallest, m = 5: v_A = (2, 4, 7, 2, 0), v_B = (4, 2, 7, 0, 2), the
+  state is ({1, 4}, {0, 3}) and good 2 (worth 7 to both) is pooled. Each agent holds a good it values at 0 that the
+  other wants, and the step is the welfare swap of goods 3 and 4.
+- *With strict values, pure augmentation looks enough* (**Claim A2**: some composite of at most two moves shrinks the
+  pool). There was no failure on 1,067,080 random partial EFX₀ states with real values (`ht_n2claim.py`;
+  `n2claim_m9.log`: m ≤ 9 and any k; `n2claim_m10k4.log`: m ≤ 10 and k ≤ 4). This is random evidence only.
+  - How the augmentations are made: a single placement in 91% of the states.
+  - Otherwise, one of:
+    - give one good, then place: 6.6%;
+    - place, then swap two agents' goods: 1.4%;
+    - place, then trade: 0.15%;
+    - place, then swap with the pool: 0.12%;
+    - a set transfer with a placement: 0.9% (the W4 mechanism);
+    - two placements.
+  - An earlier version of the script tested only the families "B's bundle grows", "A's bundle grows" and "trade,
+    then place". It reported failures that the exact checkers rejected: "swap two agents' goods, then place" was
+    missing. So a proof of Claim A2 must include that family.
+- *So the n = 2 proof splits.*
+  - For strict values: prove Claim A2. The six blocking inequalities (the four obvious completions and "g alone") are
+    the hypotheses. The families to exhibit are "g to one agent, then a transfer, a swap or a trade".
+  - For ties: use the measure, or perturb. A perturbation argument needs care, since a step for perturbed values need
+    not be one for the tied values.
+  - Neither part is written.
+
+
 ## 7. W on large instances: the stranded welfare maxima, the S′ family, and n = 6–8 (burst 2, continued)
 
 For instances too large to enumerate, W is checked at given states by `ht_wlocal.py`. Its augmenting search is
