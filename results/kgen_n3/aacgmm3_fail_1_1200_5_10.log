@@ -1,0 +1,33 @@
+$ python3 kgen/aacgmm3_fail.py 1 1200 5 10
+NO-ROLE zeros [[88, 0, 0, 0, 0, 0], [0, 0, 0, 0, 93, 0], [13, 0, 2, 0, 46, 0]] order (0, 1, 2) picks [0, 4, 2] OC1 witness [[0], [4], [1, 2, 3, 5]]
+NO-ROLE zeros [[88, 0, 0, 0, 0, 0], [0, 0, 0, 0, 93, 0], [13, 0, 2, 0, 46, 0]] order (1, 0, 2) picks [0, 4, 2] OC1 witness [[0], [4], [1, 2, 3, 5]]
+NO-ROLE zeros [[45, 0, 0, 0, 53, 0, 0, 91], [0, 21, 0, 0, 35, 0, 24, 82], [58, 0, 0, 0, 47, 38, 0, 0]] order (0, 1, 2) picks [7, 4, 0] OC1 witness [[7], [1, 2, 3, 4, 6], [0, 5]]
+NO-ROLE zeros [[45, 0, 0, 0, 53, 0, 0, 91], [0, 21, 0, 0, 35, 0, 24, 82], [58, 0, 0, 0, 47, 38, 0, 0]] order (0, 2, 1) picks [7, 4, 0] OC1 witness [[7], [1, 2, 3, 4, 6], [0, 5]]
+703 general:   ... but OC1 holds
+15 general:   no-role starts where OC1 holds
+0 general:   no-role starts where some agent values another pick at 0
+0 general:   no-role starts with a pickless agent
+703 general: AACGMM output (roles = order) not OC1
+2400 general: OC1 holds (brute force)
+15 general: no role assignment OC1
+2400 general: starts
+392 ident:   ... but OC1 holds
+18 ident:   no-role starts where OC1 holds
+0 ident:   no-role starts where some agent values another pick at 0
+0 ident:   no-role starts with a pickless agent
+392 ident: AACGMM output (roles = order) not OC1
+2400 ident: OC1 holds (brute force)
+18 ident: no role assignment OC1
+2400 ident: starts
+718 zeros:   ... but OC1 holds
+21 zeros:   no-role starts where OC1 holds
+21 zeros:   no-role starts where some agent values another pick at 0
+0 zeros:   no-role starts with a pickless agent
+718 zeros: AACGMM output (roles = order) not OC1
+2400 zeros: OC1 holds (brute force)
+21 zeros: no role assignment OC1
+2400 zeros: starts
+
+real	0m1.799s
+user	0m1.760s
+sys	0m0.012s

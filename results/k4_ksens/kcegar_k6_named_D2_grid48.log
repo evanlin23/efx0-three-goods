@@ -1,0 +1,14 @@
+$ python3 k4/ksens/kcegar_batch.py named6 2 --jobs=1 --limit=3000 --grid6=/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz --ckpt=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_named_D2_grid48.ckpt.jsonl
+checkpoint /home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_named_D2_grid48.ckpt.jsonl: 0 done ({}), 18 to go
+hypergraphs 18
+$ python3 k4/ksens/kcegar_batch.py named6 2 --jobs=1 --limit=3000 --grid6=/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz --ckpt=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_named_D2_grid48.ckpt.jsonl
+checkpoint /home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_named_D2_grid48.ckpt.jsonl: 0 done ({}), 18 to go
+hypergraphs 18
+{"name": "RD5+new@0", "sets": [[0, 1, 3, 4, 5, 7], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], "D": 2, "result": "timeout", "iterations": 2503, "kinds": {"picks": 1038, "1 chains": 1464, "2 chains": 1}, "types": ["grid", 12, 336, 336], "grid6": "/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz", "lp_calls": 0, "time": 3000.1}
+{"name": "RD5+2@0", "sets": [[0, 1, 2, 3, 4, 5], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], "D": 2, "result": "timeout", "iterations": 4911, "kinds": {"picks": 1903, "1 chains": 2993, "2 chains": 15}, "types": ["grid", 12, 336, 336], "grid6": "/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz", "lp_calls": 0, "time": 3000.1}
+--- restarted with the bitset grid check; timeouts retried (2026-11-27T04:44:13Z) ---
+$ python3 k4/ksens/kcegar_batch.py named6 2 --jobs=1 --limit=5400 --grid6=/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz --ckpt=/home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_named_D2_grid48.ckpt.jsonl
+checkpoint /home/user/efx0-three-goods/results/k4_ksens/kcegar_k6_named_D2_grid48.ckpt.jsonl: 0 done ({}), 18 to go
+hypergraphs 18
+{"name": "RD5+new@0", "sets": [[0, 1, 3, 4, 5, 7], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], "D": 2, "result": "certified", "iterations": 6395, "kinds": {"picks": 2466, "1 chains": 3919, "2 chains": 10}, "types": ["grid", 12, 336, 336], "grid6": "/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz", "lp_calls": 0, "time": 154.7}
+{"name": "RD5+2@0", "sets": [[0, 1, 2, 3, 4, 5], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]], "D": 2, "result": "certified", "iterations": 5538, "kinds": {"picks": 2179, "1 chains": 3344, "2 chains": 15}, "types": ["grid", 12, 336, 336], "grid6": "/home/user/efx0-three-goods/results/k4_ksens/types6_B48.json.gz", "lp_calls": 0, "time": 63.6}

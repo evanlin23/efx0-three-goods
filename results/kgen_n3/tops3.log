@@ -1,0 +1,6 @@
+$ python3 kgen/tops3.py
+m =  6: shape families with an EFX0 completion (oc3.c, all 6 orders): ['none', 't0', 't1', 't2']; EFX0 allocations keeping all picks with some agent at <= 1 extra good (Python): 6
+m =  7: shape families with an EFX0 completion (oc3.c, all 6 orders): ['none', 't0', 't1']; EFX0 allocations keeping all picks with some agent at <= 1 extra good (Python): 36
+m =  8: shape families with an EFX0 completion (oc3.c, all 6 orders): ['t0', 't1']; EFX0 allocations keeping all picks with some agent at <= 1 extra good (Python): 90
+m =  9: shape families with an EFX0 completion (oc3.c, all 6 orders): ['t1', 't2']; EFX0 allocations keeping all picks with some agent at <= 1 extra good (Python): 0
+m = 10: shape families with an EFX0 completion (oc3.c, all 6 orders): ['t1', 't2']; EFX0 allocations keeping all picks with some agent at <= 1 extra good (Python): 0

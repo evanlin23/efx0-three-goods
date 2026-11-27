@@ -1,0 +1,36 @@
+$ python3 k4/oc1_hall/rf_rkmax_rand.py 60 2
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 9, "sets": [[0, 1, 2, 5], [1, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], "vals": [[11, 8, 19, 7], [1, 20, 10, 19], [6, 9, 11, 7], [6, 15, 20, 5], [15, 1, 19, 12]], "picks": [2, 3, 1, 4, 5], "sigma": [3, 0, 1, 1], "class": [1, 0], "OC1": "picks complete"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 10, "sets": [[0, 1, 4, 5], [1, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], "vals": [[5, 14, 10, 6], [6, 15, 14, 9], [15, 3, 11, 10], [20, 7, 18, 14], [7, 6, 20, 15]], "picks": [1, 5, 3, 2, 4], "sigma": [3, 0, 1, 1], "class": [1, 0], "OC1": "picks complete"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 10, "sets": [[0, 1, 4, 5], [1, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], "vals": [[5, 14, 10, 6], [6, 15, 14, 9], [15, 3, 11, 10], [20, 7, 18, 14], [7, 6, 20, 15]], "picks": [0, 2, 1, 5, 4], "sigma": [3, 0, 1, 1], "class": [1, 0], "OC1": "picks complete"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 11, "sets": [[0, 1, 4, 5], [1, 2, 3, 5], [1, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], "vals": [[9, 20, 17, 11], [8, 5, 20, 16], [20, 13, 11, 4], [2, 18, 7, 11], [4, 18, 16, 11]], "picks": [4, 3, 1, 5, 2], "sigma": [2, 2, 0, 1], "class": [1, 0], "OC1": "picks complete"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 11, "sets": [[0, 1, 4, 5], [1, 2, 3, 5], [1, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], "vals": [[9, 20, 17, 11], [8, 5, 20, 16], [20, 13, 11, 4], [2, 18, 7, 11], [4, 18, 16, 11]], "picks": [4, 5, 1, 3, 2], "sigma": [2, 2, 0, 1], "class": [1, 0], "OC1": "picks complete"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 12, "sets": [[0, 1, 2, 3], [1, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], "vals": [[3, 18, 19, 2], [1, 2, 3, 13], [9, 8, 17, 12], [17, 6, 19, 12], [14, 7, 3, 13]], "picks": [1, 5, 3, 4, 2], "sigma": [3, 1, 0, 1], "class": [1, 0], "OC1": "picks complete"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 14, "sets": [[0, 2, 3, 4], [1, 2, 3, 5], [1, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], "vals": [[13, 11, 7, 15], [6, 17, 7, 14], [14, 16, 5, 13], [7, 6, 9, 17], [9, 4, 5, 17]], "picks": [4, 2, 1, 3, 5], "sigma": [3, 1, 0, 1], "class": [1, 0], "OC1": "picks complete"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 14, "sets": [[0, 2, 3, 4], [1, 2, 3, 5], [1, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], "vals": [[3, 15, 7, 19], [7, 5, 12, 4], [17, 3, 14, 9], [4, 17, 12, 1], [15, 19, 20, 10]], "picks": [2, 5, 1, 3, 4], "sigma": [3, 1, 0, 1], "class": [1, 0], "OC1": "picks complete"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 1, "sets": [[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], "vals": [[6, 7, 3, 9], [8, 9, 7, 11], [6, 4, 16, 14], [19, 1, 17, 13], [20, 1, 13, 9]], "picks": [0, 5, 4, 3, 2], "sigma": [3, 0, 1, 1], "class": [1, 0], "OC1": "picks complete"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 1, "sets": [[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], "vals": [[6, 7, 3, 9], [8, 9, 7, 11], [6, 4, 16, 14], [19, 1, 17, 13], [20, 1, 13, 9]], "picks": [5, 1, 4, 3, 2], "sigma": [3, 0, 1, 1], "class": [1, 0], "OC1": "picks complete"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 2, "sets": [[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], "vals": [[2, 12, 13, 14], [10, 11, 16, 20], [10, 12, 9, 3], [5, 14, 19, 2], [1, 12, 2, 8]], "picks": [0, 5, 2, 4, 3], "sigma": [3, 1, 0, 1], "class": [1, 0], "OC1": "picks complete"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 2, "sets": [[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], "vals": [[12, 13, 11, 4], [5, 6, 16, 11], [13, 6, 11, 20], [2, 1, 5, 18], [11, 17, 19, 13]], "picks": [2, 1, 5, 3, 4], "sigma": [3, 0, 0, 2], "class": [1, 0], "OC1": "picks complete"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 358, "sets": [[0, 1, 4, 5], [1, 3, 6, 7], [2, 3, 6, 7], [2, 4, 5, 7], [4, 5, 6, 7]], "vals": [[17, 4, 2, 19], [13, 14, 20, 16], [2, 16, 20, 17], [5, 17, 15, 7], [20, 17, 4, 8]], "picks": [5, 7, 6, 2, 4], "sigma": [3, 1, 0, 1], "class": [1, 2], "OC1": "one move repairs"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 358, "sets": [[0, 1, 4, 5], [1, 3, 6, 7], [2, 3, 6, 7], [2, 4, 5, 7], [4, 5, 6, 7]], "vals": [[17, 4, 2, 19], [13, 14, 20, 16], [2, 16, 20, 17], [5, 17, 15, 7], [20, 17, 4, 8]], "picks": [5, 6, 7, 2, 4], "sigma": [3, 1, 0, 1], "class": [1, 2], "OC1": "one move repairs"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 161, "sets": [[0, 2, 5, 7], [1, 4, 8, 9], [3, 5, 6, 9], [6, 7, 8, 9], [6, 7, 8, 9]], "vals": [[5, 14, 3, 15], [3, 9, 11, 8], [9, 6, 12, 15], [6, 7, 11, 17], [2, 9, 11, 19]], "picks": [7, 8, 3, 9, 6], "sigma": [3, 0, 1, 1], "class": [1, 2], "OC1": "one move repairs"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 161, "sets": [[0, 2, 5, 7], [1, 4, 8, 9], [3, 5, 6, 9], [6, 7, 8, 9], [6, 7, 8, 9]], "vals": [[5, 14, 3, 15], [3, 9, 11, 8], [9, 6, 12, 15], [6, 7, 11, 17], [2, 9, 11, 19]], "picks": [7, 8, 3, 6, 9], "sigma": [3, 0, 1, 1], "class": [1, 2], "OC1": "one move repairs"}
+ONE-RECEIVER SIGMA-MAXIMAL VECTOR, |D_T| != 1: {"idx": 196, "sets": [[0, 2, 7, 8], [1, 4, 7, 9], [3, 5, 6, 9], [5, 6, 8, 9], [6, 7, 8, 9]], "vals": [[9, 2, 8, 17], [14, 11, 1, 17], [2, 4, 9, 6], [4, 19, 6, 1], [20, 4, 5, 13]], "picks": [8, 9, 3, 5, 6], "sigma": [3, 0, 1, 1], "class": [1, 2], "OC1": "one move repairs"}
+  (1, 0): OC1 one move repairs 21
+  (1, 0): OC1 picks complete 140
+  (1, 2): OC1 one move repairs 5
+profiles 280380
+profiles with no maximum-matching vector 60
+sigma-maximal vectors by (|U|, |D_T|) = (1, 0) 161
+sigma-maximal vectors by (|U|, |D_T|) = (1, 1) 12
+sigma-maximal vectors by (|U|, |D_T|) = (1, 2) 5
+sigma-maximal vectors by (|U|, |D_T|) = (2, 0) 6650
+sigma-maximal vectors by (|U|, |D_T|) = (2, 1) 2845
+sigma-maximal vectors by (|U|, |D_T|) = (2, 2) 653
+sigma-maximal vectors by (|U|, |D_T|) = (2, 3) 38
+sigma-maximal vectors by (|U|, |D_T|) = (3, 0) 53078
+sigma-maximal vectors by (|U|, |D_T|) = (3, 1) 37275
+sigma-maximal vectors by (|U|, |D_T|) = (3, 2) 9168
+sigma-maximal vectors by (|U|, |D_T|) = (4, 0) 141420
+sigma-maximal vectors by (|U|, |D_T|) = (4, 1) 77374
+sigma-maximal vectors by (|U|, |D_T|) = (5, 0) 94254

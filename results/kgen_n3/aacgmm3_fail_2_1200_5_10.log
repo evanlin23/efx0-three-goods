@@ -1,0 +1,33 @@
+$ python3 kgen/aacgmm3_fail.py 2 1200 5 10
+NO-ROLE ident [[188, 217, 209, 196, 166, 138, 171, 216, 121], [193, 209, 208, 197, 155, 130, 162, 220, 119], [188, 214, 205, 196, 159, 136, 164, 226, 118]] order (0, 1, 2) picks [1, 7, 2] OC1 witness [[0, 1, 2], [6, 7, 8], [3, 4, 5]]
+NO-ROLE ident [[188, 217, 209, 196, 166, 138, 171, 216, 121], [193, 209, 208, 197, 155, 130, 162, 220, 119], [188, 214, 205, 196, 159, 136, 164, 226, 118]] order (0, 2, 1) picks [1, 2, 7] OC1 witness [[0, 1, 2], [6, 7, 8], [3, 4, 5]]
+NO-ROLE ident [[188, 217, 209, 196, 166, 138, 171, 216, 121], [193, 209, 208, 197, 155, 130, 162, 220, 119], [188, 214, 205, 196, 159, 136, 164, 226, 118]] order (1, 0, 2) picks [1, 7, 2] OC1 witness [[0, 1, 2], [6, 7, 8], [3, 4, 5]]
+NO-ROLE ident [[188, 217, 209, 196, 166, 138, 171, 216, 121], [193, 209, 208, 197, 155, 130, 162, 220, 119], [188, 214, 205, 196, 159, 136, 164, 226, 118]] order (1, 2, 0) picks [2, 7, 1] OC1 witness [[0, 1, 2], [6, 7, 8], [3, 4, 5]]
+685 general:   ... but OC1 holds
+30 general:   no-role starts where OC1 holds
+0 general:   no-role starts where some agent values another pick at 0
+0 general:   no-role starts with a pickless agent
+685 general: AACGMM output (roles = order) not OC1
+2400 general: OC1 holds (brute force)
+30 general: no role assignment OC1
+2400 general: starts
+358 ident:   ... but OC1 holds
+13 ident:   no-role starts where OC1 holds
+0 ident:   no-role starts where some agent values another pick at 0
+0 ident:   no-role starts with a pickless agent
+358 ident: AACGMM output (roles = order) not OC1
+2400 ident: OC1 holds (brute force)
+13 ident: no role assignment OC1
+2400 ident: starts
+878 zeros:   ... but OC1 holds
+34 zeros:   no-role starts where OC1 holds
+34 zeros:   no-role starts where some agent values another pick at 0
+0 zeros:   no-role starts with a pickless agent
+878 zeros: AACGMM output (roles = order) not OC1
+2400 zeros: OC1 holds (brute force)
+34 zeros: no role assignment OC1
+2400 zeros: starts
+
+real	0m1.715s
+user	0m1.691s
+sys	0m0.008s

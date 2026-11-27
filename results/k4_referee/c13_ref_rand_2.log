@@ -1,0 +1,15 @@
+$ python3 k4/referee/c13_ref.py rand 200000 2
+  full: instances meeting hypotheses                 7129
+  no0: NOT EFX0                                      298
+  no0: instances meeting hypotheses                  7427
+  no2: NOT EFX0                                      848
+  no2: instances meeting hypotheses                  7977
+  no3: NOT EFX0                                      1515
+  no3: instances meeting hypotheses                  8920
+  no4: NOT EFX0                                      5847
+  no4: instances meeting hypotheses                  16793
+  perfect starts                                     144566
+  smallest failure no0 {"v": [[3, 2, 0, 0, 0, 0, 0], [0, 0, 0, 4, 0, 2, 3], [2, 0, 0, 3, 0, 0, 0]], "Y": [1, 3, 0], "w": 1, "d": 2, "H": [5, 6], "x": 2, "y": 4}
+  smallest failure no2 {"v": [[0, 20, 0, 0, 35, 19, 0], [0, 0, 0, 0, 22, 0, 1], [7, 0, 0, 0, 20, 0, 0]], "Y": [4, 6, 0], "w": 0, "d": 1, "H": [1, 5], "x": 2, "y": 3}
+  smallest failure no3 {"v": [[0, 0, 3, 3, 1, 0, 0], [3, 2, 4, 0, 0, 1, 0], [1, 1, 0, 3, 0, 3, 0]], "Y": [4, 2, 3], "w": 1, "d": 0, "H": [0, 1], "x": 5, "y": 6}
+  smallest failure no4 {"v": [[21, 0, 0, 18, 16, 27, 31], [34, 18, 32, 0, 35, 4, 0], [0, 0, 8, 4, 0, 0, 10]], "Y": [6, 4, 2], "w": 0, "d": 2, "H": [3, 5], "x": 1, "y": 0}

@@ -1,0 +1,5 @@
+$ python3 k4/girth/dynec_all.py sets
+screen {'instances': 168, 'runs': 3039, 'dynamic parking alone': 2893, 'needed an envy-cycle rotation': 146, 'instances: every labeling completes': 168}
+suite {'instances': 164, 'runs': 3481, 'dynamic parking alone': 3355, 'instances: every labeling completes': 164, 'needed an envy-cycle rotation': 126}
+k=5 and OC counterexamples {'instances': 44, 'runs': 5904, 'dynamic parking alone': 5896, 'instances: every labeling completes': 44, 'needed an envy-cycle rotation': 8}
+total {'instances': 376, 'runs': 12424, 'dynamic parking alone': 12144, 'needed an envy-cycle rotation': 280, 'instances: every labeling completes': 376}

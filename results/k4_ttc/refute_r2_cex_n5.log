@@ -1,0 +1,8 @@
+$ (cd k4/ttc; python3 refute_oc1.py ../../results/k4_ttc/r2_cex_n5.json 0)
+sets [[0, 1, 5, 7], [0, 5, 6, 7], [1, 5, 6, 7], [2, 3, 4, 6], [2, 3, 4, 7]] vals [[3, 6, 7, 5], [2, 10, 7, 6], [2, 8, 4, 3], [4, 5, 6, 8], [5, 4, 6, 8]] m 8
+order [0, 3, 4, 1, 2] picks [5, 0, 1, 6, 7] junk [2, 3, 4]
+1. picks: one-absorber completion False | free completion False
+2. improving moves: 62 (additions 14, chains 32, rings 16)
+   moves after which the bases have a one-absorber completion: 0
+   moves after which the bases have a free completion (OC): 0 []
+OC1 FAILS for this order (independent replay)

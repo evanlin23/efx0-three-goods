@@ -1,0 +1,10 @@
+$ python3 k4/ksens/kcegar_grid_check.py
+RD5 D=1: type lists FAIL (2.3 s); grid mode FAIL (885 iterations, 2.4 s); agree
+RD5 D=2: type lists certified (4.7 s); grid mode certified (3643 iterations, 6.9 s); agree
+N3K5 D=1: type lists FAIL (1.7 s); grid mode FAIL (256 iterations, 2.1 s); agree
+N3K5 D=2: type lists certified (3.4 s); grid mode certified (1265 iterations, 7.3 s); agree
+cex1 (k = 4) D=1: type lists FAIL (0.2 s); grid mode FAIL (342 iterations, 0.2 s); agree
+cex1 (k = 4) D=2: type lists certified (1.0 s); grid mode certified (1933 iterations, 1.4 s); agree
+cex5 (k = 4) D=1: type lists FAIL (0.5 s); grid mode FAIL (1495 iterations, 1.4 s); agree
+cex5 (k = 4) D=2: type lists certified (2.6 s); grid mode certified (3708 iterations, 3.3 s); agree
+agree on 8 of 8

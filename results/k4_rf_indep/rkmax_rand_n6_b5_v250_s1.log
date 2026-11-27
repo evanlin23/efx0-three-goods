@@ -1,0 +1,25 @@
+$ python3 k4/rf_indep/rkmax_rand.py --per-core 30 --vmax 250 --seed 1 --procs 4 --cores mc_n6_b5_mc9.json.gz --min4 2 --any-n
+cores 18044 from mc_n6_b5_mc9.json.gz (sha256 22ef143abaee16b1); nu distribution {6: 18044}
+agents per core {6: 18044}, goods per core {10: 6407, 11: 7120, 12: 3669, 13: 781, 14: 67}
+orders and signatures done 136 s
+OC1 search on 864206 sigma-maximal vectors done 149 s
+witnesses verified 158 s
+dumped 0 one-receiver sigma-maximal vectors to results/k4_rf_indep/rkmax_rand_n6_b5_v250_s1_one_receiver.jsonl.gz
+
+   profiles                                                               541320
+   sigma-maximal vectors                                                  864206
+   sigma-maximal vectors with 2 receiver(s)                               562
+   sigma-maximal vectors with 3 receiver(s)                               36820
+   sigma-maximal vectors with 4 receiver(s)                               269442
+   sigma-maximal vectors with 5 receiver(s)                               409591
+   sigma-maximal vectors with 6 receiver(s)                               147791
+OC1 at the sigma-maximal vectors, by number of receivers:
+   r2     {'C verified, t = 1': 27, 'P verified': 535}
+   r3     {'C verified, t = 1': 59, 'P verified': 36761}
+   r4     {'C verified, t = 1': 6, 'P verified': 269436}
+   r5     {'P verified': 409591}
+   r6     {'P verified': 147791}
+   all    {'C verified, t = 1': 92, 'P verified': 864114}
+cores with a sigma-maximal vector that needs a move: 84
+RESULT RKMAX random: 18044 cores x 30 profiles (V = 250, seed 1): 864206 sigma-maximal vectors, OC1 F answers 0 (confirmed by the second implementation: 0), invalid witnesses 0
+time 159 s

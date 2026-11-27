@@ -1,0 +1,75 @@
+$ python3 k4/girth/oc1_demote_n5.py two_move_starts_n5_partial6.json.gz 150 7
+5_pure#374 (122166 starts in the export):
+   (order, receiver): DEMOTE R2 / (i) w or d owns                                      382
+   (order, receiver): DEMOTE residue D_T'=0 / (T) d trades with a pick-dangerous agent      3
+   (order, receiver): DEMOTE residue D_T'=0 / (i) w or d owns                           78
+   (order, receiver): DEMOTE residue D_T'=2 / (C) the chain k -> d                      81
+   (order, receiver): DEMOTE residue D_T'=2 / (i) w or d owns                            1
+   (order, receiver): RF picks not maximum                                               2
+   (order, receiver): one ejection path                                                545
+   (order, receiver): raw OC1 at Y': one move repairs                                   84
+   (order, receiver): raw OC1 at Y': picks complete                                    461
+   failing orders                                                                      547
+   failing orders: RF works for some receiver                                          545
+   starts                                                                              150
+5_pure#379 (109541 starts in the export):
+   (order, receiver): DEMOTE R2 / (i) w or d owns                                      247
+   (order, receiver): one ejection path                                                247
+   (order, receiver): raw OC1 at Y': picks complete                                    247
+   failing orders                                                                      247
+   failing orders: RF works for some receiver                                          247
+   starts                                                                              150
+5_pure#464 (170177 starts in the export):
+   (order, receiver): DEMOTE R2 / (i) w or d owns                                      343
+   (order, receiver): DEMOTE residue D_T'=0 / (T) d trades with a pick-dangerous agent     79
+   (order, receiver): DEMOTE residue D_T'=0 / (i) w or d owns                          115
+   (order, receiver): DEMOTE residue D_T'=2 / (C) the chain k -> d                     134
+   (order, receiver): one ejection path                                                671
+   (order, receiver): raw OC1 at Y': one move repairs                                  134
+   (order, receiver): raw OC1 at Y': picks complete                                    537
+   failing orders                                                                      671
+   failing orders: RF works for some receiver                                          671
+   starts                                                                              150
+5_pure#808 (90181 starts in the export):
+   (order, receiver): DEMOTE R2 / (i) w or d owns                                      348
+   (order, receiver): one ejection path                                                348
+   (order, receiver): raw OC1 at Y': picks complete                                    348
+   failing orders                                                                      348
+   failing orders: RF works for some receiver                                          348
+   starts                                                                              150
+5_pure#778 (82193 starts in the export):
+   (order, receiver): DEMOTE R2 / (i) w or d owns                                      219
+   (order, receiver): DEMOTE residue D_T'=2 / (C') the chain k -> h, h a Dp other than d      8
+   (order, receiver): DEMOTE residue D_T'=2 / (C) the chain k -> d                      27
+   (order, receiver): DEMOTE residue D_T'=2 / (i) w or d owns                           13
+   (order, receiver): DEMOTE residue D_T'=3 / (C) the chain k -> d                      39
+   (order, receiver): one ejection path                                                306
+   (order, receiver): raw OC1 at Y': one move repairs                                   74
+   (order, receiver): raw OC1 at Y': picks complete                                    232
+   failing orders                                                                      306
+   failing orders: RF works for some receiver                                          306
+   starts                                                                              150
+5_pure#164 (127992 starts in the export):
+   (order, receiver): DEMOTE R2 / (i) w or d owns                                      390
+   (order, receiver): DEMOTE residue D_T'=2 / (C) the chain k -> d                      60
+   (order, receiver): one ejection path                                                450
+   (order, receiver): raw OC1 at Y': one move repairs                                   60
+   (order, receiver): raw OC1 at Y': picks complete                                    390
+   failing orders                                                                      450
+   failing orders: RF works for some receiver                                          450
+   starts                                                                              150
+TOTAL:
+   (order, receiver): DEMOTE R2 / (i) w or d owns                                     1929
+   (order, receiver): DEMOTE residue D_T'=0 / (T) d trades with a pick-dangerous agent     82
+   (order, receiver): DEMOTE residue D_T'=0 / (i) w or d owns                          193
+   (order, receiver): DEMOTE residue D_T'=2 / (C') the chain k -> h, h a Dp other than d      8
+   (order, receiver): DEMOTE residue D_T'=2 / (C) the chain k -> d                     302
+   (order, receiver): DEMOTE residue D_T'=2 / (i) w or d owns                           14
+   (order, receiver): DEMOTE residue D_T'=3 / (C) the chain k -> d                      39
+   (order, receiver): RF picks not maximum                                               2
+   (order, receiver): one ejection path                                               2567
+   (order, receiver): raw OC1 at Y': one move repairs                                  352
+   (order, receiver): raw OC1 at Y': picks complete                                   2215
+   failing orders                                                                     2569
+   failing orders: RF works for some receiver                                         2567
+   starts                                                                              900

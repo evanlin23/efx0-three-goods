@@ -1,0 +1,12 @@
+$ python3 kgen/hunt_n.py hunt 4 3 2100 9 12
+instances general 300
+instances ident 300
+instances junk 300
+instances klim:3 300
+instances klim:4 300
+instances klim:6 300
+instances zeros 300
+starts 50400
+starts: chains needed 0 41274
+starts: chains needed 1 9126
+time 64 s

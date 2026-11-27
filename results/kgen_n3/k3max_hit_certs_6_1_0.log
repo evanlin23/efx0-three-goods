@@ -1,0 +1,19 @@
+$ python3 kgen/k3max_hit.py gap_certs_6_1.gap.gz 0 2
+10   least-omega' >= 1 rotation: |T'| = 1, |E'_k| = 1, same pair 0, h = 1, owner-k count True
+210   least-omega' >= 1 rotation: |T'| = 2, |E'_k| = 1, same pair 0, h = 1, owner-k count True
+60   least-omega' >= 1 rotation: |T'| = 3, |E'_k| = 1, same pair 0, h = 1, owner-k count True
+399 |E_t| = 2, omega = 2, least omega' = -1
+635 |E_t| = 2, omega = 2, least omega' = -2
+42 |E_t| = 2, omega = 2, least omega' = 0
+5653 |E_t| = 2, omega = 3, least omega' = -1
+9871 |E_t| = 2, omega = 3, least omega' = -2
+2089 |E_t| = 2, omega = 3, least omega' = 0
+84 |E_t| = 2, omega = 3, least omega' = 1
+1020 |E_t| = 2, omega = 4, least omega' = -1
+74 |E_t| = 2, omega = 4, least omega' = 0
+100 |E_t| = 2, omega = 4, least omega' = 1
+1456 |E_t| = 3, omega = 3, least omega' = -1
+2789 |E_t| = 3, omega = 3, least omega' = -2
+194 |E_t| = 3, omega = 3, least omega' = 0
+366 |E_t| = 3, omega = 4, least omega' = -1
+46 |E_t| = 3, omega = 4, least omega' = 0

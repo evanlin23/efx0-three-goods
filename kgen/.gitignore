@@ -1,0 +1,4 @@
+*.so
+*.so.*
+oc3_grid
+libocn.so*

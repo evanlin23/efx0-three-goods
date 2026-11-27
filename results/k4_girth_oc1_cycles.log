@@ -1,0 +1,51 @@
+$ python3 k4/girth/oc1_cycles.py 300 1
+failing starts: n = 4: 112880 (11 cores); n = 5: 24.  OC1^max-holding perfect starts sampled: 23422 on the 11 cores, 10403 on other n = 4 cores; random perfect n = 5 pure starts: 394
+pattern                                                              fail n=4  fail n=5    ok same   ok other   rand n=5
+2-cycle D-D                                                           100.00%     95.8%     26.21%     21.92%     53.81%
+2-cycle D-D or pick swap through a dangerous agent                    100.00%    100.0%     55.86%     56.25%     78.17%
+2-cycle D-D sharing a junk good                                       100.00%     95.8%     19.35%     15.77%     33.76%
+2-cycle D-D sharing a pick of the pair                                 97.73%     70.8%     23.63%     20.23%     50.76%
+2-cycle D-D sharing two junk goods                                    100.00%      0.0%      4.38%      1.87%      6.85%
+2-cycle D-F                                                            23.95%     41.7%      1.57%     12.05%     14.97%
+2-cycle D-U                                                           100.00%    100.0%     75.60%     71.92%     88.58%
+2-cycle D-U sharing a junk good                                         1.70%     16.7%     59.32%     45.80%     64.47%
+2-cycle DT-DT                                                         100.00%      0.0%      4.92%      1.77%      9.14%
+2-cycle F-F                                                             0.00%      0.0%      0.00%      3.68%      6.09%
+2-cycle F-U                                                            24.59%     41.7%      2.57%     20.36%     19.29%
+2-cycle U-U                                                             0.00%      0.0%     72.79%     61.58%     71.32%
+2-cycle sharing a pick of the pair and a junk good                     97.73%     58.3%     86.98%     66.72%     79.19%
+2-cycle sharing two junk goods                                        100.00%      0.0%     31.83%     14.53%     22.84%
+3-cycle through U                                                     100.00%    100.0%     94.82%     90.37%     98.48%
+3-cycle with 0 dangerous                                                0.00%      0.0%     47.32%     44.10%     52.03%
+3-cycle with 1 dangerous                                               24.59%     41.7%     63.12%     62.58%     80.71%
+3-cycle with 2 dangerous                                              100.00%    100.0%     35.63%     31.84%     64.47%
+3-cycle with 3 dangerous                                               43.09%     45.8%      6.56%      3.79%     23.60%
+P*: |U| = 1 and (D_T pair sharing two junk goods or D-U pick swap)    100.00%    100.0%      5.19%      4.82%      5.33%
+no 2-cycle                                                              0.00%      0.0%      0.00%      1.13%      0.00%
+no 3-cycle                                                              0.00%      0.0%      5.10%      9.48%      1.52%
+pick swap D-D                                                          20.41%     41.7%     10.00%      9.65%     27.92%
+pick swap D-F                                                           3.54%     33.3%      0.67%      7.91%      8.12%
+pick swap D-U                                                          72.57%    100.0%     42.80%     39.09%     48.98%
+pick swap through a dangerous agent                                    76.12%    100.0%     49.24%     50.97%     66.50%
+some 2-cycle                                                          100.00%    100.0%    100.00%     98.87%    100.00%
+some 3-cycle                                                          100.00%    100.0%     94.90%     90.52%     98.48%
+two dangerous agents share a junk good                                100.00%     95.8%     22.94%     20.13%     36.80%
+two dangerous agents share some good                                  100.00%    100.0%     37.88%     36.13%     65.99%
+two vertex-disjoint pick swaps through dangerous agents                20.41%     66.7%      4.99%      4.34%     12.18%
+|D_T| = 0                                                               0.00%    100.0%     53.61%     68.40%     57.61%
+|D_T| = 1                                                               0.00%      0.0%     37.86%     26.72%     29.19%
+|D_T| = 2                                                             100.00%      0.0%      8.05%      4.72%     11.68%
+|D_T| = 3                                                               0.00%      0.0%      0.48%      0.15%      1.52%
+|D| = 0                                                                 0.00%      0.0%     21.16%     19.53%      7.36%
+|D| = 1                                                                 0.00%      0.0%     39.43%     42.05%     25.13%
+|D| = 2                                                                24.59%      0.0%     30.63%     32.38%     35.53%
+|D| = 3                                                                75.41%     41.7%      8.77%      6.04%     27.66%
+|D| = 4                                                                 0.00%     58.3%      0.00%      0.00%      4.31%
+|U| = 1                                                               100.00%    100.0%      9.68%     13.63%     10.41%
+|U| = 1 and D-U pick swap                                              72.57%    100.0%      4.56%      4.57%      4.31%
+|U| = 1 and D_T pair sharing two junk goods                           100.00%      0.0%      0.94%      0.34%      1.02%
+|U| = 2                                                                 0.00%      0.0%     30.95%     37.19%     31.73%
+|U| = 3                                                                 0.00%      0.0%     38.75%     35.02%     34.01%
+|U| = 4                                                                 0.00%      0.0%     20.63%     14.16%     19.29%
+|U| = 5                                                                 0.00%      0.0%      0.00%      0.00%      4.57%
+patterns in EVERY failing start (n = 4 and n = 5): ['2-cycle D-D or pick swap through a dangerous agent', '2-cycle D-U', '3-cycle through U', '3-cycle with 2 dangerous', 'P*: |U| = 1 and (D_T pair sharing two junk goods or D-U pick swap)', 'some 2-cycle', 'some 3-cycle', 'two dangerous agents share some good', '|U| = 1']

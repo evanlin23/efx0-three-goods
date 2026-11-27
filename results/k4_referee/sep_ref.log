@@ -1,0 +1,2 @@
+{"source": "Proposition SEP random N=2000000 seed=1 mutation=None", "SEP_pair_MISMATCH": 0, "SEP_pair_tests": 166649, "SEP_part1_VIOLATION": 0, "SEP_triple_VIOLATION": 0, "tests": 1156525, "threatened": 61300}
+{"source": "Proposition SEP random N=500000 seed=2 mutation=noP1free", "SEP_pair_MISMATCH": 774, "SEP_pair_tests": 46332, "SEP_part1_VIOLATION": 4848, "SEP_triple_VIOLATION": 0, "tests": 321048, "threatened": 34097}

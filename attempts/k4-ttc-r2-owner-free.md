@@ -1,4 +1,4 @@
-# Failed: R2★, R2-M and R2-O (owner-free, the chain's head, or another receiver as owner) as the proof target for R2
+# Failed: R2★, R2-M, R2-O and R2-E as proof targets for R2 (only R2-C survives at n = 4)
 
 Workstream `proof/k4-ttc` (`k4/ttc.md` §14.6). **Status:**
 - *Refuted at n = 4, exhaustively,* by the certifier (`compute/k4-oc1max-cert`, its message of 01:10; failing starts in
@@ -80,4 +80,23 @@ owner.
 
 ```
 MC_DIR=<proof/k4-oc1max-multi checkout>/k4/oc1max_multi python3 k4/ttc/r2_owner_check.py   # MC_DIR only for the M^c column
+```
+
+## R2-E fails too (REC-S's earliest-wanter chain)
+
+**R2-E:** for some order giving the start, some k ∈ D and some improving T ⊆ (J ∪ {Y_z}) ∩ R_k, the state after the
+earliest-wanter chain E(k) completes.
+- It held on all sampled data (`r2_ek_*.log`: 79/79, 466/466).
+- The certifier refutes it at n = 4 (message of 02:00). Its first failing start, replayed here with `k4/ttc/r2_ek.py`:
+  4_n4_3 #77, sets [[0,4,5,6],[1,2,3,5],[1,3,5,6],[2,4,6]], vals [[4,8,2,7],[3,8,10,6],[3,8,2,4],[3,4,2]], picks
+  (g4, g3, g6, g2).
+- The only repairing canonical chains, (0, 3, 1, 2) and (1, 2, 0, 3), pass a receiver and give junk to the second
+  dangerous agent as a middle member (k4/ttc.md §14.6).
+
+Reproduce:
+
+```
+python3 -c "import sys; sys.path.insert(0,'k4/ttc'); import collections, ttclib as T, r2_ek as K
+E=T.Enc([[0,4,5,6],[1,2,3,5],[1,3,5,6],[2,4,6]],[[4,8,2,7],[3,8,10,6],[3,8,2,4],[3,4,2]],7)
+C=collections.Counter(); [K.test_start(E,Y,o,C,[],{}) for Y,o in K.starts_with_orders(E,4) if Y==(4,3,6,2)]; print(dict(C))"
 ```

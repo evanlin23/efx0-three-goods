@@ -1,0 +1,25 @@
+$ python3 k4/girth/oc1_rkmax.py residue_n5.jsonl.gz 3
+   n=4    (1, 0)     RF starts                       34560
+   n=4    (1, 0)     Y' sigma-maximal                  960
+   n=4    (1, 0)     failing Y sigma-maximal             0
+   n=4    (1, 0)     sigma(Y') > sigma(Y)            33280
+   n=4    (1, 2)     RF starts                       43520
+   n=4    (1, 2)     Y' sigma-maximal                 1920
+   n=4    (1, 2)     failing Y sigma-maximal             0
+   n=4    (1, 2)     sigma(Y') > sigma(Y)            38400
+   n=4    R2         RF starts                       67120
+   n=4    R2         Y' sigma-maximal                51880
+   n=4    R2         failing Y sigma-maximal             0
+   n=4    R2         sigma(Y') > sigma(Y)            64560
+   n=4    U1         RF starts                       16320
+   n=4    U1         Y' sigma-maximal                  960
+   n=4    U1         failing Y sigma-maximal             0
+   n=4    U1         sigma(Y') > sigma(Y)            16320
+   n=5    (1, 3)     RF starts                        7733
+   n=5    (1, 3)     Y' sigma-maximal                    0
+   n=5    (1, 3)     failing Y sigma-maximal             0
+   n=5    (1, 3)     sigma(Y') > sigma(Y)             7733
+   n=5    DEMOTE-0   RF starts                      113484
+   n=5    DEMOTE-0   Y' sigma-maximal                    0
+   n=5    DEMOTE-0   failing Y sigma-maximal             0
+   n=5    DEMOTE-0   sigma(Y') > sigma(Y)           104429

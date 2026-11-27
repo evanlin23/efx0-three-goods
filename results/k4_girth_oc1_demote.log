@@ -1,0 +1,93 @@
+$ python3 k4/girth/oc1_demote.py 97
+n=4  ALL or ALL-1 (one junk good to another agent)                               1958
+n=4  ALL: every junk good to d is EFX0                                              0
+n=4  ANY: some one-absorber completion at the picks                              2716
+n=4  OWNER d or w works                                                          2716
+n=4  OWNER d: some one-absorber completion with owner d                          1982
+n=4  OWNER w (holder of the receiver top good) works                             2693
+n=4  at Y': d is U                                                             292080
+n=4  at Y': |D_T'| = 0                                                          85520
+n=4  at Y': |D_T'| = 1                                                         163040
+n=4  at Y': |D_T'| = 2                                                          43520
+n=4  at Y': |U'| = 1                                                           139200
+n=4  at Y': |U'| = 2                                                           152880
+n=4  class R2 (|U'| >= 2; certified at n = 4, K4.SDC.R2.N4)                    152880
+n=4  class U1 (|U'| = 1, |D_T'| = 1; Corollary U1, K4.MULTI.U)                  31520
+n=4  d ends with junk                                                          126000
+n=4  d ends with pick of u                                                     166080
+n=4  d loses value                                                             292080
+n=4  needs a move                                                                 295
+n=4  needs a move, repairing moves available: 3                                    83
+n=4  needs a move, repairing moves available: 4                                    87
+n=4  needs a move, repairing moves available: 5                                   125
+n=4  only the path changes                                                     292080
+n=4  orders                                                                    292080
+n=4  path roles U->DT                                                           18800
+n=4  path roles U->Dp                                                          131520
+n=4  path roles U->Dp->DT                                                       70720
+n=4  path roles U->F                                                            46080
+n=4  path roles U->F->DT                                                        24960
+n=4  repairing move: DT takes {junk, junk, pick of U(d)}; U(d) takes {junk, pick of DT}       4
+n=4  repairing move: DT takes {junk, junk, pick of U(d)}; U(d) takes {pick of DT}      63
+n=4  repairing move: DT takes {junk, junk}; DT takes {pick of DT}                 279
+n=4  repairing move: DT takes {junk, junk}; DT takes {pick of DT}; U(d) takes {junk, pick of DT}     125
+n=4  repairing move: DT takes {junk, junk}; DT takes {pick of DT}; U(d) takes {pick of DT}     279
+n=4  repairing move: DT takes {junk, junk}; U(d) takes {junk, pick of DT}         125
+n=4  repairing move: DT takes {junk, junk}; U(d) takes {pick of DT}               279
+n=4  repairing move: DT takes {junk, pick of U(d), junk}; U(d) takes {pick of DT}      17
+n=4  repairing move: DT takes {pick of U(d), junk, junk}; U(d) takes {junk, pick of DT}       3
+n=4  repairing move: DT takes {pick of U(d), junk, junk}; U(d) takes {pick of DT}       5
+n=4  repairing move: Dp takes {junk, pick of U(d)}; Dp takes {pick of Dp}; U(d) takes {junk, pick of Dp}      16
+n=4  repairing move: Dp takes {junk, pick of U(d)}; Dp takes {pick of Dp}; U(d) takes {pick of Dp}      16
+n=4  repairing move: Dp takes {junk, pick of U(d)}; U(d) takes {junk, pick of Dp}      16
+n=4  repairing move: Dp takes {junk, pick of U(d)}; U(d) takes {pick of Dp}        16
+n=4  residue (|U'| = 1, |D_T'| = 0)                                             64160
+n=4  residue (|U'| = 1, |D_T'| = 2)                                             43520
+n=4  sampled: class R2 (|U'| >= 2; certified at n = 4, K4.SDC.R2.N4)             1557
+n=4  sampled: class R2 (|U'| >= 2; certified at n = 4, K4.SDC.R2.N4), completes at the picks    1557
+n=4  sampled: class U1 (|U'| = 1, |D_T'| = 1; Corollary U1, K4.MULTI.U)           323
+n=4  sampled: class U1 (|U'| = 1, |D_T'| = 1; Corollary U1, K4.MULTI.U), completes at the picks     323
+n=4  sampled: residue (|U'| = 1, |D_T'| = 0)                                      672
+n=4  sampled: residue (|U'| = 1, |D_T'| = 0), completes at the picks              656
+n=4  sampled: residue (|U'| = 1, |D_T'| = 0), needs a move                         16
+n=4  sampled: residue (|U'| = 1, |D_T'| = 2)                                      459
+n=4  sampled: residue (|U'| = 1, |D_T'| = 2), completes at the picks              180
+n=4  sampled: residue (|U'| = 1, |D_T'| = 2), needs a move                        279
+n=5  ALL or ALL-1 (one junk good to another agent)                                 76
+n=5  ALL: every junk good to d is EFX0                                              0
+n=5  ANY: some one-absorber completion at the picks                                76
+n=5  OWNER d or w works                                                            76
+n=5  OWNER d: some one-absorber completion with owner d                            76
+n=5  OWNER w (holder of the receiver top good) works                               73
+n=5  at Y': d is U                                                                 86
+n=5  at Y': |D_T'| = 0                                                             82
+n=5  at Y': |D_T'| = 2                                                              4
+n=5  at Y': |U'| = 1                                                                4
+n=5  at Y': |U'| = 2                                                               70
+n=5  at Y': |U'| = 3                                                               12
+n=5  class R2 (|U'| >= 2; certified at n = 4, K4.SDC.R2.N4)                        82
+n=5  d ends with junk                                                              36
+n=5  d ends with pick of u                                                         50
+n=5  d loses value                                                                 86
+n=5  needs a move                                                                  10
+n=5  needs a move, repairing moves available: 2                                     6
+n=5  needs a move, repairing moves available: 3                                     3
+n=5  needs a move, repairing moves available: 4                                     1
+n=5  only the path changes                                                         86
+n=5  orders                                                                        86
+n=5  path roles U->Dp                                                              79
+n=5  path roles U->Dp->Dp                                                           7
+n=5  repairing move: DT takes {junk, junk}; U(d) takes {pick of DT}                 4
+n=5  repairing move: DT takes {pick of Dp}; DT(w) takes {junk, junk}; Dp takes {junk, pick of DT(w)}       1
+n=5  repairing move: DT takes {pick of Dp}; DT(w) takes {junk, junk}; Dp takes {junk, pick of DT(w)}; U(d) takes {pick of DT}       1
+n=5  repairing move: DT(w) takes {junk, junk}; Dp takes {junk, pick of DT(w)}       3
+n=5  repairing move: DT(w) takes {junk, junk}; Dp takes {junk, pick of DT(w)}; U(d) takes {pick of Dp}       4
+n=5  repairing move: Dp takes {junk, junk, pick of U}; U takes {pick of Dp}         6
+n=5  repairing move: Dp takes {junk, pick of U}; U takes {pick of Dp}               6
+n=5  residue (|U'| = 1, |D_T'| = 2)                                                 4
+n=5  sampled: class R2 (|U'| >= 2; certified at n = 4, K4.SDC.R2.N4)               82
+n=5  sampled: class R2 (|U'| >= 2; certified at n = 4, K4.SDC.R2.N4), completes at the picks      76
+n=5  sampled: class R2 (|U'| >= 2; certified at n = 4, K4.SDC.R2.N4), needs a move       6
+n=5  sampled: residue (|U'| = 1, |D_T'| = 2)                                        4
+n=5  sampled: residue (|U'| = 1, |D_T'| = 2), needs a move                          4
+(n = 4: the ALL, path and role counts are over every failing order; ALL-1, OWNER, ANY and the moves over every 97-th)

@@ -2126,3 +2126,134 @@ The coordinator tested it with independent code: `k4/sdc/receiver_first_check.py
 - **Why it might hold.** u goes first and takes its favourite good. The failing start's difficulty is that u, the agent
   nobody envies, sits on a pick that frees nothing. With u first, the picks change in exactly two agents (rule (c) of
   the export). That is the pick swap of the two-cycle mechanism, or the starved agent's upgrade.
+- **Amendment (2026-11-27 04:22 UTC): R2 fails at n = 5, so RF drops "exactly one receiver".**
+  - The certifier found OC₁^max-failing starts with two receivers in chunk 5_pure_s5o1: #650, #655, #1014 and #1050.
+    The coordinator replayed all 4 cores (`k4/sdc/r2_n5_cex_check.py`, `results/k4_sdc/r2_n5_cex_check.log`): strict
+    connected MC2 cores, perfect starts, receivers {1,2}, {1,2}, {0,4} and {1,2}, and OC₁ fails. Ledger row K4.SDC.R2.N5.
+  - RF now reads: for every receiver u of a failing start, every u-first maximum-matching order satisfies OC₁. It holds at
+    all 4, for either receiver.
+  - The Lean frame `target4_of_conjRF` does not use uniqueness.
+  - **Receiver existence (the referee's item-65 note).** In any order the last agent is a receiver in Lean's sense
+    (`exists_receiver`, #147): Lean's `Receiver` does not require a pick, and nobody wants a pickless agent's pick. The
+    reason is that a wanter of a pick comes after its holder (TTC, `k4/ttc.md` §14.7, refereed item 53).
+    - At a perfect start (every agent picks), the last agent is therefore a receiver holding a pick, as in the data's
+      definition. "For every receiver u" is then never vacuous, and RF ⟹ OC₁^∃max holds.
+    - **The gap at non-perfect starts is CLOSED by the referee's Lemma REC-∃** (`k4/referee/rfmin.md` §1, item 66,
+      proved). Take a maximum-matching SD start with no receiver holding a pick.
+      - A pickless agent exists, since otherwise the last agent of the order is a receiver.
+      - Every pick holder lies on a chain of wanters, increasing in the order and ending at a pickless agent. That is an
+        alternating path, so by Lemma MAX no pick holder values junk; pickless agents value no junk either.
+      - So all the junk can go to one pickless agent, and the picks complete with one absorber.
+      - Hence every OC₁-failing maximum-matching start has a receiver that holds a pick. The data form of RF (receivers
+        that hold picks) then implies RF∃, and RF∃ ⟹ OC₁^∃max ⟹ TARGET₄.
+      - Random check (referee): 421,258 no-receiver maximum-matching starts, n = 3–6, all complete at the picks.
+    - For Lean: the frame needs only RF∃ (`ConjRFsome`). Lean's `ConjRF` quantifies over pickless receivers too, which is
+      stronger than anything tested, so the honest Lean hypothesis is `ConjRFsome`, or RF over pick-holding receivers.
+    - Data note: all 11 n = 4 cores with an OC₁^max failure, and all 9 exported n = 5 cores, have ν = n.
+  - Consequence for the RF proof plan: at n ≥ 5 the R2 class is no longer covered by R2. A uniform proof of girth's "(i)
+    owner w or d, or (T), or (C)" is the route, and it never used R2 on the data.
+
+- **Amendment (2026-11-27 06:36 UTC): at k = 5 the every-order form fails through twins** (ksens, `k4/ksens/refute_rf_k5.py`;
+  coordinator replay `k4/sdc/rf_k5_twin_cex.py`, `results/k4_sdc/rf_k5_twin_cex.log`; ledger K4.SDC.RF.K5EVERY).
+  - Instance: n = 4, sets [[0,1,2,5,6],[1,2,4,5,6],[3,4,5,6],[3,4,5,6]], vals [[3,35,33,43,39],[20,26,16,43,32],[8,2,7,4],
+    [8,2,7,4]]. Agents 2 and 3 are twins.
+  - At the failing start (6,5,4,3) the receiver is 2. The 2-first order (2,1,0,3) gives (6,5,3,4): the same start with the
+    twins swapped, which fails again.
+  - Five of the six 2-first vectors work, so **RF∃** ("some receiver-first maximum-matching order satisfies OC₁") holds.
+  - RF∃ is what the Lean frame uses, and it is the robust target. At k = 4 the every-form still stands on all data, but a
+    proof should aim at RF∃, or at "every u-first order up to relabelling twins".
+  - No rank rule breaks the tie (coordinator, `k4/sdc/rf_sigma_check.py`, `results/k4_sdc/rf_sigma_check_twin.log`,
+    `rf_sigma_check_n4.log`). Take the σ-maximal u-first vectors, as in RFσ. At the twin instance the failing swap Z and
+    the good vector (5,6,3,4) tie at σ = (2,1,0,1,0); any rule that depends only on valuations and ranks sees Z and Y as
+    the same start. RFσ "every" holds at all 112,880 n = 4 pairs, as it must, since the every-form of RF does.
+  - So the natural amended every-form: every u-first maximum-matching vector that is not the image of Y under an
+    automorphism of the instance (e.g. a twin relabelling) satisfies OC₁.
+
+**Conjecture RKMAX (rank-maximal start)** (2026-11-27 05:40 UTC, coordinator; ledger K4.SDC.RKMAX). An extremal form
+of OC₁^∃max that needs no rule from the failing start.
+- **Ranks.** At pick vector Y, rank_i(Y) = 1 + #{g ∈ R_i : v_i(g) > v_i(Y_i)}. Values are strict, so ranks are
+  distinct; an agent with no pick has rank 5. The signature is σ(Y) = (#rank 1, #rank 2, #rank 3, #rank 4).
+- **Statement.** In every strict connected k = 4 core, let Y be a maximum-matching SD pick vector whose signature is
+  lexicographically maximal among all maximum-matching SD pick vectors. Then OC₁ holds at Y.
+- **RKMAX ⟹ OC₁^∃max ⟹ TARGET₄.** There are finitely many orders and some order gives a maximum matching, so a
+  σ-maximal one exists. Lean frame: requested (it is `target4_of_conjOC1exmax` plus a finite argmax).
+- **Rank-maximal matchings.** Ranks depend only on each agent's order of single goods, so RKMAX is type-invariant, as RF
+  is. The σ-maximal vector is a rank-maximal matching in the sense of Irving–Kavitha–Mehlhorn–Michail–Paluch (2006),
+  restricted to maximum cardinality [unverified: the citation's exact statement]. Such a matching is Pareto optimal,
+  since a Pareto improvement keeps every matched agent matched and raises σ. So it is an SD outcome; the test below
+  optimizes over SD vectors directly and does not use this.
+- **Proof shape.** RKMAX holds iff every OC₁-failing maximum-matching start Y admits a maximum-matching SD vector Y′ with
+  σ(Y′) > σ(Y). This replaces RF's completion half with a purely structural statement: the witness Y′ need not satisfy
+  OC₁, it only needs a better signature. A proof can then take the contrapositive: at a σ-maximal start, use the
+  absence of every signature-raising rotation (RF-PATH's ejection paths among them) as an extra hypothesis when
+  building the completion.
+
+**Evidence** (`k4/sdc/extremal_rank_check.py`, `extremal_rank_n5.py`, `rm_path_check.py`; logs
+`results/k4_sdc/extremal_rank_check_n4.log`, `extremal_rank_n5_*.log`, `rm_path_check_n4.log`). One implementation;
+OC₁ is checked with the raw checker `oc1_mc2_rand.Inst.check`.
+- **n = 4, the complete export** (`two_move_starts_n4.json.gz`: every OC₁^max-failing (type, picks) pair). All 111,600
+  profiles that have a failing start, with all 24 orders of each.
+  - Every σ-maximal maximum-matching vector satisfies OC₁: 111,600 of 111,600 profiles.
+  - Two other rank potentials hold equally: leximin on ranks (LMR) and minimum rank sum (RS), both 111,600.
+  - Maximizing only the number of top goods fails: every optimum is good at only 23,280 profiles, though some optimum is
+    good at all.
+  - A profile outside the export has no failing maximum-matching start. With the certifier's OC₁^max certificate this
+    is a certificate of RKMAX at n = 4, from one implementation; a second is requested.
+  - The optimum is not OC₀: at 127 of 1,982 σ-optimal vectors in a 1-in-100 sample, the picks need one move.
+- **n = 5, the complete lists of 5_pure #419, #447, #38** (`two_move_starts_n5_sel2.json.gz` of compute/k4-oc1max-cert,
+  `results/k4_oc1max/n5/`; `results/k4_sdc/extremal_rank_n5_sel2.log`). These are the cores of the RSD-IND and REC-S
+  counterexamples. All 120 orders were run at each of the 583,680 exported profiles.
+  - The σ-maximal vectors satisfy OC₁ at all 583,680; so do the LMR- and RS-optimal ones.
+  - No exported failing vector is σ-optimal.
+  - The lists are complete, so this certifies RKMAX on these three cores, from one implementation.
+- **n = 5, the six partial lists** (5_pure #164, #374, #379, #464, #778, #808; `two_move_starts_n5_partial6.json.gz`;
+  `results/k4_sdc/extremal_rank_n5_partial6.log`). These lists are partial, so the result is EVIDENCE.
+  - RKMAX holds at all 700,500 profiles; so do LMR and RS.
+  - At the 1,305,032 σ-optimal vectors, the picks complete at 1,299,946. Only 5,086 (0.4%) need one move.
+- **RF and σ** (`rm_path_check_n4.log`). At every failing pair (Y, u), some u-first maximum-matching order raises σ:
+  112,880 of 112,880. The rotation (u, o − u) of a listed order o raises σ at 111,600 of the 112,880 pairs. At the other
+  1,280, no listed rotation raises σ, but another u-first order does. The referee's text fix.
+  - If no ejected agent of RF-PATH holds its top good, σ rises at level 1, because u moves to rank 1. That happens at
+    only 16,240 of 292,080 rotations.
+  - At the other 266,880 rotations that raise σ, x₁ held its own top, which is u's top. So level 1 cancels, and the
+    gain comes from deeper levels of the path.
+  - A proof that the RF rotation raises σ therefore has to track the whole ejection path.
+- **At k = 5 the RKMAX form is FALSE** (ksens and kgen-n3, independently; coordinator replay `k4/sdc/rkmax_k5_cex.py`,
+  `results/k4_sdc/rkmax_k5_cex.log`; ledger K4.SDC.RKMAX.K5).
+  - Instance N3K5: sets [[0,2,3,4,5],[1,2,3,4,5],[1,4,5]], vals [[3,22,23,38,43],[15,17,27,40,43],[1,2,4]].
+  - The three agents share their top two goods, so in every order the first picker gets rank 1, the second rank 2 and
+    the third rank 3. Every SD vector then has σ = (1,1,1,0,0), and RKMAX reduces to OC₁^max, which fails at (4, 5, 1).
+  - All 13 n = 3, k = 5 hypergraphs where OC₁^max fails refute it (ksens, `k4/ksens/refute_rkmax_k5.py`). Leximin and
+    rank sum fail the same way; at k = 6 kgen-n3 also has an n = 4 failure.
+  - RF holds for every strict profile at n = 3, k = 5 (ksens, rfcegar, certified). The receiver separates the vectors
+    that σ cannot.
+  - Consequence: RKMAX is a k = 4 statement, like OC₁^max itself. A proof must use k ≤ 4. For general k, RF is the
+    candidate, not RKMAX.
+  - At k = 4 there is no contradiction. At n = 3 a tie σ = (1,1,1) reduces RKMAX to OC₁^max, which is certified at
+    n ≤ 4.
+- **Independent confirmation (referee, item 64; `k4/referee/rkmax.md`, PR #157).**
+  - The n = 4 claim is CONFIRMED by a second implementation, with its own SD, ν, raw EFX₀ and move set.
+  - There are 198,400 σ-optima: 187,560 complete at the picks and 10,840 need one move.
+  - The equivalence and "RKMAX ⟹ OC₁^∃max" are CORRECT.
+  - So RKMAX at n = 4 has two implementations on the certifier's complete export.
+- **Classes at σ-maximal starts** (Hall, `k4/oc1_hall.md` §24.12, `results/k4_oc1_hall/rf_rkmax_n5.log`; girth,
+  `results/k4_girth_oc1_rkmax.log`). EVIDENCE on the export profiles.
+  - At n = 5, the one-receiver classes (1, 0), (1, 2) and (1, 3) of §24.10 never occur at a σ-maximal start. These are
+    the classes that need DEMOTE moves at RF starts.
+  - At n = 5, the remaining classes all have the same first repair: the picks complete; or girth's trade (2,296, class
+    (2, 0)); or a K chain (2,790, class (1, 1)).
+  - Girth: at n = 5 the RF start is σ-maximal at 0 of the 113,484 DEMOTE-0 starts and 0 of the 7,733 (1, 3) starts.
+  - At n = 4 the hard classes do occur at σ-maximal starts: (1, 0) 5,840, (1, 1) 20,080, (1, 2) 1,920. They are covered
+    there by the certificate.
+  - **Plan (a), "σ-maximal ⟹ |U| ≥ 2 or (|U|, |D_T|) = (1, 1)", is FALSE** (Hall, `k4/oc1_hall.md` §24.14,
+    `results/k4_oc1_hall/rf_rkmax_rand.log`). The vanishing above is a bias of the 9 exported hypergraphs.
+    - Counterexample: 5_pure #358, sets [[0,1,4,5],[1,3,6,7],[2,3,6,7],[2,4,5,7],[4,5,6,7]], vals
+      [[17,4,2,19],[13,14,20,16],[2,16,20,17],[5,17,15,7],[20,17,4,8]].
+    - The σ-maximal vectors are (5,7,6,2,4) and (5,6,7,2,4), with σ = (3,1,0,1), the single receiver 3 and junk
+      {0,1,3}. Hall's classification is (1, 2); OC₁ holds after one move.
+    - The coordinator replayed it: the same σ-optima, receiver set {3}, junk {0, 1, 3}, and "one move repairs". This
+      profile has no failing start at all, which is why it is outside the exports.
+    - Random census, 60 strict profiles per pure n = 5 core (280,380 profiles): 178 of 432,385 σ-maximal vectors have
+      one receiver. By class: (1, 0) 161, of which 21 need a move; (1, 1) 12; (1, 2) 5, all needing a move.
+    - No OC₁ failure at any σ-maximal vector, so RKMAX survives. A proof still needs DEMOTE-type arguments for
+      one-receiver σ-maximal starts, which are much rarer than at RF starts.

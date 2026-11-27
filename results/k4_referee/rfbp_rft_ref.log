@@ -1,0 +1,2 @@
+{"source": "Lemma RF-B' N=40000 seed=1", "G2_FAIL": 0, "Mc_MISMATCH": 0, "Sc_exists": 16732, "owner_tests": 17344, "states": 4369}
+{"source": "Lemma RF-T / RF-T' random N=1500000 seed=2", "EFX0": 321, "F1_F2_F3": 144, "RFT_IFF_MISMATCH": 0, "RFTprime_VIOLATION": 0, "X_complete": 844, "trades": 844}

@@ -1,0 +1,19 @@
+$ python3 kgen/k3max_t1.py small:5 2 4
+BEST-FOR-T ROTATION FAILS [[5, 0, 6], [5, 3, 7], [0, 4, 3], [4, 1, 2], [5, 1, 2]] 8 picks (0, 7, 3, 4, 5) J [1, 2, 6] T [1] E_t [3, 4] rotations (k, chain, rank of t's new good, repairs): [(3, (3, 2, 1), 1, True), (4, (4, 0, 2, 1), 1, True), (4, (4, 1), 0, False)]
+BEST-FOR-T ROTATION FAILS [[5, 0, 6], [5, 3, 7], [0, 4, 3], [4, 1, 2], [5, 2, 1]] 8 picks (0, 7, 3, 4, 5) J [1, 2, 6] T [1] E_t [3, 4] rotations (k, chain, rank of t's new good, repairs): [(3, (3, 2, 1), 1, True), (4, (4, 0, 2, 1), 1, True), (4, (4, 1), 0, False)]
+BEST-FOR-T ROTATION FAILS [[5, 0, 6], [5, 3, 7], [0, 4, 3], [4, 2, 1], [5, 1, 2]] 8 picks (0, 7, 3, 4, 5) J [1, 2, 6] T [1] E_t [3, 4] rotations (k, chain, rank of t's new good, repairs): [(3, (3, 2, 1), 1, True), (4, (4, 0, 2, 1), 1, True), (4, (4, 1), 0, False)]
+6080   every least-omega rotation into t (omega after upgrades) repairs
+6080   every least-omega rotation into t (omega before upgrades) repairs
+5656   every rotation from E_t into t repairs
+6056   every rotation giving t its best reachable good repairs
+212   first repairing rotation: no owner needed (|J'| <= |T'|) False
+5868   first repairing rotation: no owner needed (|J'| <= |T'|) True
+6080   least omega after a repairing rotation <= 0 True
+6080   rotations from E_t into t exist
+6080   some rotation from E_t into t repairs
+5688   t gets its top in some repairing rotation
+5712   t gets its top in some rotation
+5600   |E_t| = 2
+480   |E_t| = 3
+6080 gap drafts (|T| = 1)
+time 157 s

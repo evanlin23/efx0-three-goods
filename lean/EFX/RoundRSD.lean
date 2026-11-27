@@ -38,6 +38,14 @@ gives a completion whose values are at least the picks' (`lift_base`), and LIFT\
 phantoms' sets, to an EFX₀ allocation of the whole instance. Otherwise ROUND-IND gives a round, which keeps the
 invariant (`inv_round`, through SD-E(round)) and deletes at least one agent. Strict instances reduce to perfect
 starts by Lemma RED, and ties by K4.TIE.
+
+**Caveat: `ConjBasePhi` is false as stated** (K4.BASE.PHI, refuted; the write-up session's reading, checked
+numerically, not in Lean). At T3 (n = 3, order (0, 2, 1), picks (0, 1, 4)) the round settling agent 2 along
+E(2) = (2, 1) with T = {1, 3} is admissible; after it the remaining instance has a one-move repair (`OC1At`), but no
+completion respects the phantom, since good 0 is worth 38 to agent 2 (`OC1PhiAt` fails). So the hypothesis of
+`target4_of_roundRSD` cannot be met; the theorem stands as an implication. The corrected route is the BASE-R frame
+(`EFX/BaseR.lean`, K4.BASE.GR.LEAN), where the recursion takes P1-free rounds only and stops at a lifted completion,
+a final round or a base repair.
 -/
 
 set_option autoImplicit false
@@ -130,7 +138,8 @@ def ConjRoundInd (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
           ∃ (K : List A) (rest : A → List A) (T' : A → List G), Admissible v agents goods σ ks T K rest T'
 
 /-- **The base case: OC₁ with phantom constraints.** At every reachable state with a one-move repair, there is one
-that respects the phantom constraints. A `Prop`, not an axiom. -/
+that respects the phantom constraints. A `Prop`, not an axiom. **False as stated** (K4.BASE.PHI: at T3, after its
+only admissible round, no completion respects the phantom); see the module docstring and the BASE-R frame. -/
 def ConjBasePhi (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents ≠ [] → agents.Nodup → goods.Nodup →
     (∀ i ∈ agents, (relevant v i goods).length ≤ 4) → Strict v agents goods → ∀ σ : List A, σ.Perm agents →

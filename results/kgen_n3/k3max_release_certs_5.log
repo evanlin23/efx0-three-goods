@@ -1,0 +1,10 @@
+$ python3 kgen/k3max_release.py gap_certs_5.gap.gz
+1744 |J| = 4: drafts
+1528 |J| = 4: least omega' = -1 (omega = 3)
+216 |J| = 4: least omega' = 0 (omega = 3)
+216 |J| = 4: release count r = 3, need omega - 1 = 2
+1528 |J| = 4: release count r = 4, need omega - 1 = 2
+2880 |J| = 4: released goods, former wanters: chain agents only
+56 |J| = 4: released goods, former wanters: t and chain agents
+1896 |J| = 4: released goods, former wanters: t only
+1928 |J| = 4: released goods, former wanters: with an upgraded agent

@@ -1,0 +1,10 @@
+$ python3 kgen/rf/rf_run.py climb 6 3 400 1500 163
+FAILSTART {"seed": 163000349, "sets": [[0, 2, 3, 4], [0, 1, 2, 3], [0, 1, 2, 3, 4, 5]], "vals": [[49, 34, 11, 14], [55, 50, 52, 24], [59, 29, 57, 36, 17, 1]], "picks": [4, 2, 0], "receivers": [0], "rf_orders": 2, "rf_bad": []}
+1 RF holds at a failing start: True
+1 failing max starts with 1 receivers
+400 instances
+1 max starts: OC1 fails
+653 max starts: one move repairs
+662 max starts: picks complete
+0 receiver-first non-max orders
+time 194 s

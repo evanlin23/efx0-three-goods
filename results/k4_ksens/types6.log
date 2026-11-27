@@ -1,0 +1,6 @@
+$ python3 k4/ksens/typesk.py 6 24 32 40 48
+d = 6, B = 24: 1 strict types with a fixed ranking (301 disjoint pairs; 1 s)
+d = 6, B = 32: 2129 strict types with a fixed ranking (301 disjoint pairs; 10 s)
+d = 6, B = 40: 16666 strict types with a fixed ranking (301 disjoint pairs; 44 s)
+d = 6, B = 48: 46314 strict types with a fixed ranking (301 disjoint pairs; 159 s)
+wrote results/k4_ksens/types6_B48.json.gz (46314 representatives)

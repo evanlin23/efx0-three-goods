@@ -1,0 +1,41 @@
+$ python3 k4/girth/oc1_recvfirst.py
+4_n4_3#58: 1280 starts, 3840 failing orders; RF works on 3840
+4_n4_3#77: 80 starts, 80 failing orders; RF works on 80
+4_pure#20: 46080 starts, 138240 failing orders; RF works on 138240
+4_pure#21: 2560 starts, 2560 failing orders; RF works on 2560
+4_pure#23: 640 starts, 640 failing orders; RF works on 640
+4_pure#24: 40320 starts, 88960 failing orders; RF works on 88960
+4_pure#26: 640 starts, 640 failing orders; RF works on 640
+4_pure#29: 1440 starts, 1440 failing orders; RF works on 1440
+4_pure#36: 6400 starts, 16640 failing orders; RF works on 16640
+4_pure#38: 12800 starts, 38400 failing orders; RF works on 38400
+4_pure#45: 640 starts, 640 failing orders; RF works on 640
+n = 4 (exhaustive): 112880 failing starts, 292080 failing orders
+   RF: receiver first                               works on  292080 of  292080 applicable failing orders
+   receiver just before its pick-swap partner       works on  213760 of  213760 applicable failing orders
+   some adjacent transposition                      works on  292080 of  292080 applicable failing orders
+   swap the D_T pair sharing two junk goods         works on  284400 of  292080 applicable failing orders
+   swap the two agents of some Berge 2-cycle        works on  292080 of  292080 applicable failing orders
+   RF change: U takes the pick of DT; DT takes junk | 2 picks change   18800
+   RF change: U takes the pick of Dp; Dp takes junk | 2 picks change   11520
+   RF change: U takes the pick of Dp; Dp takes the pick of DT; DT takes junk | 3 picks change   70720
+   RF change: U takes the pick of Dp; Dp takes the pick of U (closes) | 2 picks change  120000
+   RF change: U takes the pick of F; F takes the pick of DT; DT takes junk | 3 picks change   24960
+   RF change: U takes the pick of F; F takes the pick of U (closes) | 2 picks change   46080
+   RF change: the last agent of the path loses value  292080
+   RF picks with 1 receivers                         139200
+   RF picks with 2 receivers                         152880
+   RF raw sample: one move repairs                      294
+   RF raw sample: picks complete                       2711
+   RF start: receiver top good is the pick of a DT agent   18800
+   RF start: receiver top good is the pick of a Dp agent   70400
+   RF start: receiver top good is the pick of a F agent   23680
+   RF: receiver gets a good that someone wants       292080
+n = 5 (the 24 stored failures, raw checker): 24 failing starts, 86 failing orders
+   RF: receiver first                               works on      86 of      86 applicable failing orders
+   receiver just before its pick-swap partner       works on      86 of      86 applicable failing orders
+   some adjacent transposition                      works on      86 of      86 applicable failing orders
+   swap the two agents of some Berge 2-cycle        works on      86 of      86 applicable failing orders
+   RF raw: one move repairs                              10
+   RF raw: picks complete                                76
+   RF start: receiver top good is the pick of a Dp agent      24

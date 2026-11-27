@@ -97,3 +97,12 @@ python3 r2_replay_n4.py /tmp/two_move_starts_n4.json.gz > $L/r2_replay_n4.log   
 MC_DIR=$MC_DIR python3 r2_owner_check.py > $L/r2_owner_check.log
 python3 r2_ek.py walk /tmp/cex.json 300 1 > $L/r2_ek_walk_n4.log
 python3 r2_ek.py sweep 2,3,4 100 1 71 > $L/r2_ek_n6_sample.log
+python3 r2c_shape.py walk /tmp/cex.json 300 1 > $L/r2c_shape_walk_n4.log
+python3 r2c_shape.py sweep 2,3,4 100 1 71 > $L/r2c_shape_n6_sample.log
+python3 ii_check.py /tmp/two_move_starts_n4.json.gz > $L/ii_check_n4.log   # from compute/k4-oc1max-cert a96c877
+python3 tops_check.py 4 1 20 > $L/tops_check.log; python3 tops_check.py 5 20 3 >> $L/tops_check.log
+python3 rf_check.py /tmp/two_move_starts_n4.json.gz 50 > $L/rf_check_n4.log   # from compute/k4-oc1max-cert a96c877
+# python3 rf_classes_n5.py /tmp/rf_dump.jsonl /tmp/two_move_starts_n5_partial6.json.gz /tmp/two_move_starts_n5_sel2.json.gz > $L/rf_classes_n5.log
+# class (1, 3): Lemma C13 with the referee's hypothesis (0) (k4/referee/ttc_c13.md); class13.jsonl.gz from claude/k4-girth 7e4633de
+python3 c13.py /tmp/class13.jsonl.gz lemma > $L/c13_lemma_n5_fix0.log
+python3 c13.py cex > $L/c13_cex_fix0.log

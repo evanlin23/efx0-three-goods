@@ -69,6 +69,17 @@ set has at most three junk goods, and one chain leaves at most one") does not by
 - **R2 at n = 4:** every one of the 112,880 has exactly one receiver (a pick holder whose pick nobody else prefers).
   So TTC's Conjecture R2 (`k4/ttc.md` §14.3: with at least two receivers, OC₁^max holds) is true at n = 4,
   exhaustively.
+- **R2 is false at n = 5.** The second 5_pure chunk (5_pure_s5o1) has 5 stored OC₁^max-failing starts with two
+  receivers, on cores idx 650, 655 (two profiles), 1014 and 1050
+  (`results/k4_oc1max/n5/r2_two_receiver_fails_n5.jsonl`).
+  - Each is perfect and hard and gives 'OC1 fails' under `Inst.check`.
+  - `verify_r2.py` (`verify_r2_two_receiver_fails_n5.log`) finds every R2 form failing there, R2-C included.
+  - `brute_verify.py` uses no repository code (`brute_verify_two_receiver_fails_n5.log`). It finds the profiles strict
+    and balanced and the maximum matching 5, and no one-move state (additions, chains, rings) has a one-absorber or
+    free completion.
+  - The shape: two frozen "twins" share three junk goods, each with a pick wanted by the other part, and both receivers
+    value no junk.
+  - Conjecture RF (receiver first) and OC₂^max hold at all of them.
 
 **The ∃-order form OC₁^∃max (K4.SDC.OC1EXMAX) holds for every strict profile on all 1,002 n = 4 cores.**
 OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
@@ -79,6 +90,47 @@ OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
   - Independent check: `k4/oc1cert/check_exists.py`, which uses check.py's own types, raw SD per order, raw move rules
     and raw EFX₀, and runs Glucose with one literal per agent mask (`check_exists_4_fail11.log`).
   - A dense engine with no SAT agrees with it on a sensitivity sample.
+- n = 5, first 5_pure chunk (935 cores, stride 5 offset 0): OC₁^∃max holds for every strict profile on all 935.
+  - 798 follow from their OC₁^max certificates, as above.
+  - The other 137, every core of the chunk with an OC₁^max failure, are certified by `exists.py`
+    (`k4/oc1cert/exists_n5.py`; `results/k4_oc1max/n5/exists_5_pure_s5o0.json.gz`, 230,031 entries, log
+    `exists_5_pure_s5o0.log`).
+  - Independent check: `check_exists.py` passes all 137 with 0 invalid entries (`check_exists_5_pure_s5o0.log`).
+- **Which orders are good** (`k4/oc1cert/good_orders.py`, raw `Inst` code only).
+  - What it does: at each failing start, it runs all n! SD orders, keeps the maximum-matching ones (ν picks) and
+    groups them by pick vector. Each pick vector gets the raw OC₁ result, its orders, receivers, frozen agents and
+    junk.
+  - Chunk 1's 280 stored failing starts, at least one per failing core (`results/k4_oc1max/n5/good_orders_5_pure_s5o0.json.gz`,
+    log `good_orders_5_pure_s5o0.log`):
+    - Every start has 7–25 good pick vectors and 1–4 bad ones.
+    - Every bad pick vector has exactly one receiver.
+    - Every start has a pick vector with ≥ 2 receivers, and every such pick vector is good.
+    - Every order that starts with the failing start's receiver is good.
+    - The nearest good pick vector always differs from the failing one in exactly 2 agents.
+    - The most frequent pick vector is good at 279 of the 280.
+  - Every 50th start of the six partial exports, 14,045 starts (`good_orders_partial6_s50.json.gz`, `.log`):
+    - every observation above holds at all 14,045;
+    - here the most frequent pick vector is good at every start too.
+  - The receiver-first rule is the coordinator's Conjecture RF (K4.SDC.RF).
+    - From now on `run.py --depth=2` checks it at every OC₁^max-failing pair the CEGAR meets (summary field `rf`).
+    - `rf_chunk.py` reruns the failing cores of chunks run before that.
+    - `good_orders.py --rf` checks it at every start of an export.
+  - RF at every failing pair met on chunk 1 (`rf_5_pure_s5o0.jsonl.gz`, `rf_5_pure_s5o0.log`): 550 pairs on the 137
+    cores, 2,769 receiver-first maximum pick vectors, no violation. The rerun met exactly the chunk run's pairs on all
+    137 cores.
+  - Chunk 2 (`rf_5_pure_s5o1.*`): 484 pairs met on 140 cores, 5 of them with two receivers, 2,355 receiver-first
+    maximum pick vectors, no violation.
+  - **RF at every OC₁^max-failing pair of 5_pure 419, 447 and 38**, the complete lists above
+    (`rf_two_move_starts_n5_sel2.json.gz`, `.log`):
+    - it holds at all 583,680 starts, with 1,676,160 receiver-first maximum pick vectors checked;
+    - none of these starts has a non-maximum receiver-first order;
+    - with the completeness check, this settles RF exhaustively on these three cores.
+  - RF at every start of the six partial exports (374, 379, 464, 808, 778, 164; `rf_two_move_starts_n5_partial6.*`):
+    - it holds at all 702,250 starts, with 3,473,619 receiver-first maximum pick vectors checked;
+    - 62,604 non-maximum receiver-first vectors are excluded;
+    - every start has a receiver-first maximum order.
+- n = 5, chunk 2 (5_pure_s5o1): OC₁^∃max holds on all 935. The 140 failing cores are covered by `exists_5_pure_s5o1.json.gz`,
+  and `check_exists.py` passes them.
 
 **OC₁′^max (kgen-rounds' move, `kgen/rounds.md` §4.6 on proof/kgen-rounds) holds at n ≤ 4 and fails at n = 5.**
 - The move: as OC₁'s, except that every non-end chain agent may also take goods of the end's base that it values.
@@ -105,6 +157,50 @@ OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
   inside S*.
 - In the CEGAR, an S* witness fixes every pick and the owner, and carries each junk-receiving holder's "nobody wants my
   base" comparisons, which depend on the types.
+
+**TTC's R2 forms at n ≤ 4** (`k4/ttc.md` §14.6 on claude/k4-ttc).
+- The setting: perfect SD starts with no one-absorber completion of the picks and at least two receivers, over every
+  strict profile of all 1,002 n = 4 cores. A receiver is a pick holder whose pick no other agent prefers.
+- Code: CEGAR `--r2=…`, checker `OC1_R2=…`, raw brute force `k4/oc1cert/verify_r2.py`.
+- A canonical chain starts at x₀ ∈ D (frozen, valuing junk), has x₁ preferring x₀'s pick to its own, follows the
+  official rules and ends at a receiver.
+
+| form | the chain, then | n = 4 cores where it fails |
+|---|---|---|
+| R2-C | any one-absorber completion | **none: certified** (n ≤ 3 too; row K4.SDC.R2C.N4) |
+| R2-O′ | one absorber, owner a receiver other than the end, or no owner | 9 |
+| R2-O, generous | owner a receiver off the chain, or no owner | 9 (the same) |
+| R2★ | nobody takes two junk goods | 230 |
+| (S) or (L) | (S), or (L): a middle agent dangerous at the start takes junk and some middle agent is a receiver; then any one-absorber completion | 48 |
+| R2-E | the chain is the earliest-wanter chain E(k) of some SD order giving the start; k takes an improving T | 273 |
+| (S) | no junk past the head (x₁, …, x_t take only the previous base), then any one-absorber completion | 273 |
+| R2-M | S^c with owner x₀, max_rest 1 | 306 |
+| R2-O, strict | owner a receiver off the chain (one must exist) | 308 |
+
+All 9 R2-O′ failures, 20 R2-M failures and the first R2-E failure are re-verified by `verify_r2.py`.
+So are all 48 "(S) or (L)" failures (`results/k4_oc1max/r2sl_fails_n4.jsonl`, `verify_r2sl_fails_n4.log`, one start
+per core): at each of them R2-M, R2★, generous R2-O, R2-O′ and R2-C repair, and strict R2-O and R2-E fail.
+
+**Census of R2-C repair shapes where (S) fails** (`k4/oc1cert/census_r2.py`, `results/k4_oc1max/census_r2_n4.json.gz`,
+log `census_r2_n4.log`).
+- Coverage: the 273 n = 4 cores where (S) fails, with 1,550,356 (S)-failing starts enumerated. 121 cores are partial
+  lists, cut at 20 s each. Every second start was analysed, 775,199 in all.
+- A shape is the set of positions past the head that take junk (end / mid-receiver / mid-dangerous / mid-other), plus
+  whether the chain passes a middle receiver.
+- Every repairing chain at every analysed start passes a middle receiver, and no shape uses 'mid-other'.
+- Starts with each shape (a start counts once for every shape it has):
+
+| shape | starts |
+|---|---|
+| mid-dangerous only | 745,932 |
+| end and mid-dangerous | 719,132 |
+| mid-dangerous and mid-receiver | 719,132 |
+| end only | 580,550 |
+| end and mid-receiver | 392,430 |
+| end, mid-dangerous and mid-receiver | 297,651 |
+
+- Smallest cover, exact: {end only, mid-dangerous only}, each passing a receiver. The data needs both: 25,507 starts
+  have only "mid-dangerous only" and 3,643 have only "end only".
 
 **OC₁^max holds for every strict profile on**:
 - every core with n = 2 (5) and n = 3 (51);
@@ -211,6 +307,39 @@ The run is in progress: `k4/oc1cert/n5_driver.sh`, at depth 2 (OC₂^max), in ch
   5_n4_1 (done), 5_pure, 5_n4_4, 5_n4_3, 5_n4_2.
 - Positive control: the TTC session's n = 5 OC₁^max counterexample (outside MC2) is 5_pure idx 280 (m = 9), in
   chunk 5_pure_s5o2.
+- Done so far, each with an independent check:
+  - 5_n4_1 (1,735 cores) and chunk 5_pure_s5o0 (935 cores): OC₂^max is certified for every strict profile on all of
+    them.
+  - 137 of those 935 pure cores have OC₁^max failures. Every recorded failing start is perfect, has exactly one
+    receiver, and gives 'OC1 fails' under `Inst`.
+- The checker was made about 10× faster at n = 5 (an exact bitset prefilter of witnesses by picks, and mask literals)
+  and regression-checked on every n ≤ 4 certificate.
+- Two-move starts of six chosen 5_pure cores (`results/k4_oc1max/n5/two_move_starts_n5_partial6.json.gz`):
+  - 702,250 starts, from partial lists cut at 7 min per core;
+  - every one has exactly one receiver;
+  - 28,093 raw-checked, all 'OC1 fails', and 7,024 sampled two-move raw checks, all repair.
+- **Census of the stored two-move starts** (`k4/oc1cert/census_n5.py`). It runs the coordinator's
+  `three_move_hunt.depth` (least moves, up to 3) and `roundp_check.round_p` (ROUND-P, R = 2), unmodified, from main
+  at 3425b19b. Results in `results/k4_oc1max/n5/census_n5_<chunk>.json.gz` and `.log`:
+
+| chunk | stored starts | least moves | ROUND-P one move | ROUND-P round of two | receivers |
+|---|---|---|---|---|---|
+| 5_pure_s5o0 | 280 | 2 at all | 234 | 46 | 1 at all |
+| 5_pure_s5o1 | 288 | 2 at all | 246 | 42 | 1 at 283, 2 at 5 (the R2 counterexamples, all ROUND-P one move) |
+
+  Chunk 1's ROUND-P counts agree with matching's run of the same 280 starts.
+- **Good orders at the complete lists** (1 in 20 of the 583,680 starts of 419, 447 and 38:
+  `good_orders_two_move_starts_n5_sel2_s20.json.gz`, `.log`). Every rule of the chunk-1 analysis holds at all 29,184
+  starts, the most-frequent-vector rule included.
+- **Complete** two-move start lists of 5_pure (m = 10) idx 419, (m = 11) idx 447 and (m = 9) idx 38, the RSD-IND and
+  REC-S cases (`results/k4_oc1max/n5/two_move_starts_n5_sel2.json.gz`, input `two_move_starts_n5_sel2_input.jsonl`,
+  log `two_move_starts_n5_sel2.log`):
+  - The counts: 276,480, 115,200 and 192,000 starts. Each is one (type profile, picks) pair, stored as a valuation
+    representing the types.
+  - Every start has exactly one receiver.
+  - Every 50th start was raw-checked: all 11,674 give 'OC1 fails', and 2,919 sampled two-move raw checks all repair.
+  - Completeness: `two_move_starts_n5_sel2_cert.json.gz` is an OC₁^max certificate of the three cores with exactly
+    these pairs excluded, and `check.py` checks it (`check_two_move_starts_n5_sel2.log`).
 
 ## Reproduce
 

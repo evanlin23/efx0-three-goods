@@ -1,0 +1,9 @@
+$ python3 k4/ttc/c13.py cex
+SD(w, d, i) = (0, 1, 2)  J' = [3, 4, 5, 6]
+(0) nobody but d wants Y'_d: False
+allocation [[3, 4, 5], [0, 1, 6], [2]] EFX0 (raw): False
+(1) H = {3, 4} improving for w: True  d wants Y'_w: True
+(2) only d wants Y'_w: True
+(3) value form: True
+(4) at most one valued good of X_d for i != d: True
+with (0) the lemma finds no witness: lemma_c13_value -> []

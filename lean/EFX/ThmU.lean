@@ -388,7 +388,7 @@ theorem mem_afterE_ne (Y : A → Option G) {k : A} (rest : List A) (T : List G) 
 /-! ## (D) The setting of the proof -/
 
 /-- The setting of Theorem U's proof: a canonical chain `k :: rest = pre ++ [p, z]` at the picks of `σ`, and a set
-`H₀ ⊆ J ∩ R_k` of junk goods improving for `k`. -/
+`H₀ ⊆ (J ∪ {Y_z}) ∩ R_k` improving for `k` (Theorem U takes `H₀ ⊆ J`; Theorem S may use the head's pick). -/
 structure USetting (v : A → G → Nat) (agents : List A) (goods : List G) (σ : List A) (k : A) (rest : List A)
     (H₀ : List G) (pre : List A) (p z : A) : Prop where
   perm : σ.Perm agents
@@ -397,7 +397,7 @@ structure USetting (v : A → G → Nat) (agents : List A) (goods : List G) (σ 
   chain : CChain v agents (sdPick v σ goods) (k :: rest)
   dec : k :: rest = pre ++ [p, z]
   H₀_nodup : H₀.Nodup
-  H₀_junk : ∀ g ∈ H₀, g ∈ goods ∧ 0 < v k g ∧ ∀ x, sdPick v σ goods x ≠ some g
+  H₀_junk : ∀ g ∈ H₀, g ∈ goods ∧ 0 < v k g ∧ ((∀ x, sdPick v σ goods x ≠ some g) ∨ sdPick v σ goods z = some g)
   improving : mval v (sdPick v σ goods) k < value v k H₀
 
 namespace USetting
@@ -520,6 +520,16 @@ theorem src_inj (hs : USetting v agents goods σ k rest H₀ pre p z) {i j : A} 
   · exact absurd (List.of_mem_zip hpj).1 (by rw [← h, hsi]; exact hi)
   · exact hsi.symm.trans (h.trans hsj)
 
+/-- Nobody other than `k` holds the head's pick after the chain. -/
+theorem src_ne_z (hs : USetting v agents goods σ k rest H₀ pre p z) (j : A) : src (k :: rest) j ≠ z := by
+  intro hsz
+  by_cases hjr : j ∈ rest
+  · obtain ⟨q, hq⟩ := mem_tail_iff_pair.mp (show j ∈ (k :: rest).tail from hjr)
+    rw [src_of_pair hs.chain.nodup hq] at hsz
+    exact hs.z_no_succ j (by rw [← hsz]; exact hq)
+  · rw [src_of_not_tail hjr] at hsz
+    exact hjr (by rw [hsz]; exact hs.z_mem)
+
 /-- The state after the chain is a valid state. -/
 theorem validState (hs : USetting v agents goods σ k rest H₀ pre p z) :
     ValidState agents goods (afterE (sdPick v σ goods) k rest H₀) := by
@@ -535,10 +545,14 @@ theorem validState (hs : USetting v agents goods σ k rest H₀ pre p z) :
   · by_cases hik : i = k
     · rw [hik, afterE_self] at hgi
       have hjk : j ≠ k := fun e => hij (hik.trans e.symm)
-      exact (hs.H₀_junk g hgi).2.2 _ ((mem_afterE_ne _ rest H₀ hjk).mp hgj)
+      rcases (hs.H₀_junk g hgi).2.2 with hall | hzg
+      · exact hall _ ((mem_afterE_ne _ rest H₀ hjk).mp hgj)
+      · exact hs.src_ne_z _ (hm.inj _ _ g ((mem_afterE_ne _ rest H₀ hjk).mp hgj) hzg)
     · by_cases hjk : j = k
       · rw [hjk, afterE_self] at hgj
-        exact (hs.H₀_junk g hgj).2.2 _ ((mem_afterE_ne _ rest H₀ hik).mp hgi)
+        rcases (hs.H₀_junk g hgj).2.2 with hall | hzg
+        · exact hall _ ((mem_afterE_ne _ rest H₀ hik).mp hgi)
+        · exact hs.src_ne_z _ (hm.inj _ _ g ((mem_afterE_ne _ rest H₀ hik).mp hgi) hzg)
       · exact hij (hs.src_inj hik hjk (hm.inj _ _ g ((mem_afterE_ne _ rest H₀ hik).mp hgi)
           ((mem_afterE_ne _ rest H₀ hjk).mp hgj)))
 
@@ -580,14 +594,14 @@ theorem mem_junk (hs : USetting v agents goods σ k rest H₀ pre p z) {g : G} :
           exact hir (by rw [hsz]; exact hs.z_mem)
 
 /-- With `H = {Y_z}` kept out, the owner's set after the chain is the junk `J` of the picks. -/
-theorem mem_ownerSet_iff (hs : USetting v agents goods σ k rest H₀ pre p z) {yz : G}
-    (hyz : sdPick v σ goods z = some yz) {g : G} :
+theorem mem_ownerSet_iff (hs : USetting v agents goods σ k rest H₀ pre p z)
+    (hH₀J : ∀ g ∈ H₀, ∀ x, sdPick v σ goods x ≠ some g) {yz : G} (hyz : sdPick v σ goods z = some yz) {g : G} :
     g ∈ ownerSet agents goods (afterE (sdPick v σ goods) k rest H₀) k [yz] ↔
       g ∈ junkOf agents goods (pickBase v goods σ) := by
   rw [mem_ownerSet, afterE_self, hs.mem_junk, mem_junkOf_pickBase hs.perm]
   constructor
   · rintro (h | ⟨⟨hg, -, hor⟩, hne⟩)
-    · exact ⟨(hs.H₀_junk g h).1, (hs.H₀_junk g h).2.2⟩
+    · exact ⟨(hs.H₀_junk g h).1, hH₀J g h⟩
     · refine ⟨hg, hor.resolve_right fun h => hne ?_⟩
       rw [hyz] at h
       exact List.mem_singleton.mpr (Option.some.inj h).symm
@@ -597,12 +611,13 @@ theorem mem_ownerSet_iff (hs : USetting v agents goods σ k rest H₀ pre p z) {
     · refine Or.inr ⟨⟨hg, hH, Or.inl hall⟩, fun h => ?_⟩
       exact hall z (by rw [hyz, List.mem_singleton.mp h])
 
-theorem threat_iff (hs : USetting v agents goods σ k rest H₀ pre p z) {yz : G}
-    (hyz : sdPick v σ goods z = some yz) {i : A} {w : Nat} :
+theorem threat_iff (hs : USetting v agents goods σ k rest H₀ pre p z)
+    (hH₀J : ∀ g ∈ H₀, ∀ x, sdPick v σ goods x ≠ some g) {yz : G} (hyz : sdPick v σ goods z = some yz)
+    {i : A} {w : Nat} :
     Threat v i (ownerSet agents goods (afterE (sdPick v σ goods) k rest H₀) k [yz]) w ↔
       Threat v i (junkOf agents goods (pickBase v goods σ)) w :=
   threat_congr (nodup_ownerSet hs.k_agent hs.validState hs.goods_nodup _)
-    (hs.goods_nodup.sublist List.filter_sublist) fun _ => hs.mem_ownerSet_iff hyz
+    (hs.goods_nodup.sublist List.filter_sublist) fun _ => hs.mem_ownerSet_iff hH₀J hyz
 
 /-- **The count of Lemma KEEP**: with `|R_z| ≤ 4`, `v_z(J) ≤ 2 p_z ≤ v_z(a) + p_z`, where `a = Y_p` is the head's
 new good. -/
@@ -717,7 +732,8 @@ end USetting
 theorem exists_setting {v : A → G → Nat} {agents : List A} {goods : List G} {σ : List A} (hσ : σ.Perm agents)
     (hag : agents.Nodup) (hgd : goods.Nodup) {k : A} {rest : List A}
     (hch : CChain v agents (sdPick v σ goods) (k :: rest)) {z : A} (hz : (k :: rest).getLast? = some z)
-    {H₀ : List G} (hH₀ : H₀.Nodup) (hH₀J : ∀ g ∈ H₀, g ∈ goods ∧ 0 < v k g ∧ ∀ x, sdPick v σ goods x ≠ some g)
+    {H₀ : List G} (hH₀ : H₀.Nodup) (hH₀J : ∀ g ∈ H₀, g ∈ goods ∧ 0 < v k g ∧
+      ((∀ x, sdPick v σ goods x ≠ some g) ∨ sdPick v σ goods z = some g))
     (himp : mval v (sdPick v σ goods) k < value v k H₀) :
     ∃ pre p, USetting v agents goods σ k rest H₀ pre p z := by
   have h2 : 2 ≤ (k :: rest).length := by
@@ -756,7 +772,8 @@ theorem thmU (hσ : σ.Perm agents) (hag : agents.Nodup) (hgd : goods.Nodup)
     (hZ : Threat v z (junkOf agents goods (pickBase v goods σ)) (mval v (sdPick v σ goods) z) →
       ¬ Frozen v agents (afterE (sdPick v σ goods) k rest H₀) z) :
     SStar v agents goods (afterE (sdPick v σ goods) k rest H₀) k := by
-  obtain ⟨pre, p, hs⟩ := exists_setting hσ hag hgd hch hz hH₀ hH₀J himp
+  obtain ⟨pre, p, hs⟩ := exists_setting hσ hag hgd hch hz hH₀
+    (fun g hg => ⟨(hH₀J g hg).1, (hH₀J g hg).2.1, Or.inl (hH₀J g hg).2.2⟩) himp
   have hm := hs.matching
   have hk := hs.k_agent
   obtain ⟨a, ha, hza⟩ := hs.wants_zp
@@ -768,7 +785,7 @@ theorem thmU (hσ : σ.Perm agents) (hag : agents.Nodup) (hgd : goods.Nodup)
   have hno : ∀ q ∈ agents, q ≠ k → q ≠ z → ¬ Threat v q
       (ownerSet agents goods (afterE (sdPick v σ goods) k rest H₀) k [yz])
       (value v q (afterE (sdPick v σ goods) k rest H₀ q)) := fun q hq hqk hqz h =>
-    not_threat_mono (hJ q hq hqk hqz) (hs.value_le q) ((hs.threat_iff hyz).mp h)
+    not_threat_mono (hJ q hq hqk hqz) (hs.value_le q) ((hs.threat_iff (fun g hg => (hH₀J g hg).2.2) hyz).mp h)
   -- (G1)
   have hG1 : G1 v agents (afterE (sdPick v σ goods) k rest H₀) k := fun j _ hjk _ _ _ _ =>
     not_threat_of_length_le_one (by rw [afterE_ne _ rest H₀ hjk]; exact length_toList_le _)
@@ -796,7 +813,7 @@ theorem thmU (hσ : σ.Perm agents) (hag : agents.Nodup) (hgd : goods.Nodup)
       intro h
       have hzJ : ¬ Threat v z (junkOf agents goods (pickBase v goods σ)) (mval v (sdPick v σ goods) z) :=
         fun h' => hqh ⟨hZ h', by rw [hB'z]; simp⟩
-      exact not_threat_mono hzJ (hs.value_le z) ((hs.threat_iff hyz).mp h)
+      exact not_threat_mono hzJ (hs.value_le z) ((hs.threat_iff (fun g hg => (hH₀J g hg).2.2) hyz).mp h)
     · exact hno q hq hqk hqz
   -- `H = {Y_z}` lies in the junk after the chain
   have hyzJ : yz ∈ junkOf agents goods (afterE (sdPick v σ goods) k rest H₀) :=
@@ -825,7 +842,7 @@ theorem thmU (hσ : σ.Perm agents) (hag : agents.Nodup) (hgd : goods.Nodup)
   · -- the receiver of `Y_z` is the head `z` itself (Lemma KEEP's count)
     have hEdge : Edge v agents goods (afterE (sdPick v σ goods) k rest H₀) k [yz] yz z := by
       refine Or.inr ⟨(hm.mem z yz hyz).2.2, ?_⟩
-      rw [hs.threat_iff hyz, hB'z]
+      rw [hs.threat_iff (fun g hg => (hH₀J g hg).2.2) hyz, hB'z]
       refine not_threat_of_value_le ?_
       have := hs.keep (hrel z hs.z_agent) ha hyz
       simp only [value_cons, value_nil]; omega
@@ -903,7 +920,8 @@ theorem thmU1 (hσ : σ.Perm agents) (hag : agents.Nodup) (hgd : goods.Nodup)
     SStar v agents goods (afterE (sdPick v σ goods) k rest H₀) k := by
   obtain ⟨z, hz⟩ : ∃ z, (k :: rest).getLast? = some z :=
     ⟨_, List.getLast?_eq_some_getLast (List.cons_ne_nil k rest)⟩
-  obtain ⟨pre, p, hs⟩ := exists_setting hσ hag hgd hch hz hH₀ hH₀J himp
+  obtain ⟨pre, p, hs⟩ := exists_setting hσ hag hgd hch hz hH₀
+    (fun g hg => ⟨(hH₀J g hg).1, (hH₀J g hg).2.1, Or.inl (hH₀J g hg).2.2⟩) himp
   have hm := hs.matching
   -- the head is an unfrozen pick holder
   obtain ⟨a, ha, hza⟩ := hs.wants_zp
