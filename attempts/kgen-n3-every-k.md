@@ -23,3 +23,19 @@ from k3-oc1's complete gap lists, checked by two independent completion tests.
 (`results/kgen_n3/te_cex7.log`).
 
 **What survives:** the "some k" form (T1-k), on all n ≤ 6 data and on k3-oc1's n = 7 sample.
+
+## Second failure: rule P's ring branch (DE's core case with a dead good)
+
+**The rule.** If some exposed agent's pair lies in the junk, rotate any such agent. Otherwise every exposed agent's
+rotation was supposed to work. Rule P held on every one-terminal gap draft with n ≤ 6 and on k3-oc1's n = 7 sample.
+
+**Smallest failing configuration** (found by k3-oc1 in the exhaustive mixed n = 5 class with one dead good; checked
+here).
+- Rankings 0: 1≻0≻2, 1: 3≻1≻0, 2: 4≻0≻2, 3: 5≻1≻6, 4: 4≻5≻3; m = 8 with good 7 dead; order (0, 2, 3, 4, 1); picks
+  (1, 0, 4, 5, 3); J = {2, 6, 7}; T = {1}; E_t = {0, 2}.
+- Both exposed agents have the pair {0, 2} ∋ Y_t.
+- k = 0's rotation (0, 1) has no one-absorber completion. k = 2's rotation (2, 4, 1) completes.
+
+**Reproduce:** `K3OC1=... python3 kgen/te_cex5dead.py` (`results/kgen_n3/te_cex5dead.log`).
+
+**What survives:** the least-ω′ choice (T-ω).
