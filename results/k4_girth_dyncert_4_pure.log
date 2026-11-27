@@ -131,3 +131,4 @@ k4_certs_4_pure.json.gz#m9#6 profiles   1719926784 covered   1719926784 runs  10
 k4_certs_4_pure.json.gz#m9#9 profiles   1719926784 covered   1719926784 runs   371240 boxes-without-labeling 0 101.0s CERTIFIED | labelings 16, last used #0, by default orders 1719926784
 k4_certs_4_pure.json.gz#m9#7 profiles   1719926784 covered   1719926784 runs  1241034 boxes-without-labeling 0 300.5s CERTIFIED | labelings 24, last used #0, by default orders 1719926784
 k4_certs_4_pure.json.gz#m8#60 profiles   6879707136 covered   6879707136 runs  8539510 boxes-without-labeling 0 2177.1s CERTIFIED | labelings 8, last used #2, by default orders 6879707136
+k4_certs_4_pure.json.gz#m9#10 profiles   1719926784 covered   1719926784 runs   828812 boxes-without-labeling 0 220.5s CERTIFIED | labelings 24, last used #0, by default orders 1719926784
