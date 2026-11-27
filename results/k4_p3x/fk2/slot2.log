@@ -1,0 +1,28 @@
+$ python3 k4/p3/slot2.py k4/p3/hard2_p2.jsonl results/k4_p3x/hard_p2_n34.jsonl.gz results/k4_p3x/hard_p2_n5b.jsonl.gz results/k4_p3x/hard_p2_n6.jsonl.gz results/k4_p3x/hard_p2_n6b.jsonl.gz results/k4_p3x/can2/can2_4_mg.json.gz results/k4_p3x/can2/can2_5_mg.json.gz
+   Lemma 2* fails for owner d_1 (another owner or shape completes): 5605
+   Lemma 2* holds for owner d_1: 30721
+   slot good: danger of a frozen agent -> exposed chain agent valuing it: 32
+   slot good: danger of a frozen agent -> exposed off-chain root valuing it: 142
+   slot good: danger of a frozen agent -> exposed off-chain, frozen at the picks valuing it: 171
+   slot good: danger of a frozen agent -> unexposed chain agent not valuing it: 4974
+   slot good: danger of a frozen agent -> unexposed chain agent valuing it: 139
+   slot good: danger of a frozen agent -> unexposed off-chain root not valuing it: 543
+   slot good: danger of a frozen agent -> unexposed off-chain root valuing it: 141
+   slot good: danger of a frozen agent -> unexposed off-chain, frozen at the picks not valuing it: 321
+   slot good: danger of a frozen agent -> unexposed off-chain, frozen at the picks valuing it: 123
+   slot good: other -> exposed off-chain root valuing it: 2
+   slot good: other -> exposed off-chain, frozen at the picks valuing it: 2
+   slot good: other -> unexposed chain agent not valuing it: 1
+   slot good: other -> unexposed chain agent valuing it: 52
+   slot good: other -> unexposed off-chain, frozen at the picks valuing it: 2
+SLOT start: no repairing jump chain satisfies Lemma 2* with owner d_1: 12
+SLOT starts: 6130
+least |H| = 1: 5602
+least |H| = 2: 507
+least |H| = 3: 7
+least |H| = 4: 2
+repairing jump chains: 36326
+smallest with |H| = 1 {"sets": [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], "vals": [[3, 2, 10, 6], [8, 2, 3, 4], [7, 3, 5, 6]], "picks": [0, 2, 3]}
+smallest with |H| = 2 {"sets": [[0, 2, 6], [1, 5, 6], [2, 3, 4], [3, 4, 5]], "vals": [[2, 4, 3], [2, 4, 3], [4, 2, 3], [3, 2, 4]], "picks": [6, 1, 2, 5]}
+smallest with |H| = 3 {"sets": [[0, 1, 5], [1, 3, 4, 6], [2, 3, 4, 5], [2, 7, 8], [6, 7, 8]], "vals": [[2, 3, 4], [8, 3, 4, 10], [10, 3, 2, 6], [4, 3, 2], [4, 3, 2]], "picks": [1, 4, 5, 2, 6]}
+smallest with |H| = 4 {"sets": [[0, 3, 8], [1, 4, 5, 7], [2, 3, 6], [2, 9, 10], [4, 5, 6, 7], [8, 9, 10]], "vals": [[2, 3, 4], [6, 10, 8, 3], [4, 3, 2], [4, 3, 2], [5, 2, 8, 4], [4, 2, 3]], "picks": [3, 4, 6, 2, 7, 8]}
