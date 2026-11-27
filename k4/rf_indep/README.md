@@ -125,3 +125,34 @@ each σ-maximal one. It uses the same OC₁ search and witness checks as above.
 - No profile has a tie between two single goods of one agent.
 - This is a second implementation for the coordinator's sel2 count, 583,680 of 583,680. Calling it a certificate on
   #38, #419 and #447 still relies on the certifier's completeness flag and on the type reduction.
+
+## RKMAX on random strict profiles of every pure n = 5 core (`rkmax_rand.py`)
+
+**Setup.**
+- Cores: all 4,674 pure n = 5 cores of `results/k4_certs_5_pure.json.gz`, named (m, idx) as there. The certifier's
+  "5_pure #k" with m goods is the core (m, k).
+- Profiles are strict: each agent's four values are a random 4-subset of 1..V, with all 16 subset sums distinct.
+  V = 20 is the distribution of Hall's census (`k4/oc1_hall.md` §24.14, which used 60 profiles per core).
+- For each profile: all 120 orders, the maximum matchings among them, then OC₁ at every σ-maximal one.
+
+**Results** (`results/k4_rf_indep/rkmax_rand_n5_v20_s1.log`, `rkmax_rand_n5_v250_s1.log`, about 4 min each):
+
+| V | profiles | σ-maximal vectors | P | one chain, t = 1 / 2 / 3 | F |
+|---|---|---|---|---|---|
+| 20 | 2,804,400 | 4,224,072 | 4,217,075 | 6,961 / 36 / 0 | 0 |
+| 250 | 2,804,400 | 4,225,553 | 4,218,988 | 6,526 / 37 / 2 | 0 |
+
+- 600 profiles per core is 10× Hall's census at each V. No RKMAX counterexample was found, and every witness verifies.
+- Receivers of the σ-maximal vectors at V = 20 (0 / 1 / 2 / 3 / 4 / 5 receivers): 2,160 / 1,822 / 100,578 / 992,685 /
+  2,184,604 / 942,223.
+  - One-receiver vectors: 1,822, about 10× Hall's 178. 525 of them need a chain, the largest share of any class.
+  - At V = 250: 1,764 one-receiver vectors, 486 of them needing a chain.
+- *Definition.* Here a maximum matching has ν picks. The single core with m = 4 has ν = 4, and its vectors are counted.
+  Hall reports 60 profiles with "no maximum-matching vector" there, so the census apparently required n picks.
+
+**Hall's counterexample to plan (a), replayed** (`rkmax_replay.py`, `results/k4_rf_indep/rkmax_replay_358.log`). The
+core is 5_pure (8, 358). My code gives the same picture as Hall's:
+- 10 maximum-matching SD vectors;
+- σ-maximal vectors (5, 6, 7, 2, 4) and (5, 7, 6, 2, 4), with σ = (3, 1, 0, 1);
+- receivers {3} and junk {0, 1, 3};
+- OC₁ after one verified chain 0 → 3: agent 0 takes {0, 1}, agent 3 takes good 5.
