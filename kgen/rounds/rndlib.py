@@ -31,6 +31,7 @@ _L.rnd_witness.restype = ctypes.c_int
 _L.rnd_list_efx.restype = LL
 _L.rnd2_count.restype = LL
 _L.rnd2_count_margin.restype = LL
+_L.rnd_oc1z.restype = ctypes.c_int
 
 
 def _arr(vals):
@@ -113,3 +114,19 @@ def two_rounds_margin(vals, picks, cap=0):
     P = (ctypes.c_int * n)(*picks); md = LL(); ms = ctypes.c_double()
     c = _L.rnd2_count_margin(n, m, A, P, LL(cap), ctypes.byref(md), ctypes.byref(ms))
     return c, md.value, ms.value
+
+
+def oc1z(vals):
+    """zero values allowed: per distinct start (zero-aware SD), perfect flag and, for perfect starts, counts of EFX0
+    allocations witnessing EXT1 (picks extend, one absorber), OC1 (k4/sdc.md §29/§31 official move: addition, chain or
+    ring, one absorber) and MD, plus the OC1 margin sum"""
+    n, m, A = _arr(vals)
+    NS = 5040
+    picks = (ctypes.c_int * (NS * n))(); order = (ctypes.c_int * (NS * n))(); perf = (ctypes.c_int * NS)()
+    cnt = (LL * (NS * 3))(); ms = (ctypes.c_double * NS)(); nefx = LL()
+    ns = _L.rnd_oc1z(n, m, A, picks, order, perf, cnt, ms, ctypes.byref(nefx))
+    out = []
+    for s in range(ns):
+        out.append({'picks': tuple(picks[s * n + a] for a in range(n)), 'order': tuple(order[s * n + a] for a in range(n)),
+                    'perfect': bool(perf[s]), 'EXT1': cnt[s * 3], 'OC1': cnt[s * 3 + 1], 'MD': cnt[s * 3 + 2], 'msum': ms[s]})
+    return out, nefx.value

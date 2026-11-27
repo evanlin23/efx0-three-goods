@@ -599,3 +599,152 @@ ll rnd2_count_margin(int n_, int m_, const ll *vals, const int *picks, ll cap_, 
     T_slackmode = 0; *out_msum = r2_msum;
     return c;
 }
+
+/* ===================================================================================================================
+   ZEROS (kgen/rounds.md §4.5): OC1 with zero values allowed, at PERFECT starts (every agent picks), the official move
+   of k4/sdc.md §29/§31: an addition (t = 0), a chain or a ring; sets H inside the receiver's relevant goods; x0 takes
+   only end goods it values; one-absorber completion (at most one agent holds >= 2 goods outside its base).
+   For X (complete EFX0) the witness test: keep (one optional addition + one absorber), or exactly one path of passers
+   s(a) = loc(a), with H's maximal (relevant junk in the bundle).
+   rnd_oc1z: per distinct perfect start, counts of EXT1 (picks extend, one absorber), OC1 and MD, and OC1 margins. */
+static ll z_cnt[MAXS][3]; static double z_msum[MAXS];
+static int z_perfect[MAXS];
+
+static int oc1z_start(int s, double *mg) {
+    int *y = pick[s];
+    int loc[MAXN], isj[MAXM];
+    for (int g = 0; g < m; g++) isj[g] = 1;
+    for (int a = 0; a < n; a++) isj[y[a]] = 0;
+    for (int a = 0; a < n; a++) loc[a] = owner[y[a]];
+    for (int a = 0; a < n; a++) if (val[a][a] < v[a][y[a]]) return 0;    /* MD is necessary */
+    int res = 4;                                                          /* bit 2: MD */
+    ll vJr[MAXN]; int nJr[MAXN], nJ0[MAXN];   /* relevant junk value/count, worthless junk count, per holder */
+    for (int a = 0; a < n; a++) { vJr[a] = 0; nJr[a] = 0; nJ0[a] = 0; }
+    for (int g = 0; g < m; g++) if (isj[g]) { int b = owner[g]; if (v[b][g] > 0) { vJr[b] += v[b][g]; nJr[b]++; } else nJ0[b]++; }
+    double best = -1;
+    int Mv = 0;
+    for (int a = 0; a < n; a++) if (loc[a] != a) Mv |= 1 << a;
+    if (Mv == 0) {
+        /* outside goods = all junk of each agent; one addition at agent t moves its relevant junk into its base */
+        int big = 0; for (int a = 0; a < n; a++) if (nJr[a] + nJ0[a] >= 2) big++;
+        if (big <= 1) { res |= 1; best = 1e9; }
+        for (int t = 0; t < n; t++) if (nJr[t] > 0) {
+            int bg = 0; for (int a = 0; a < n; a++) { int out = (a == t) ? nJ0[a] : nJr[a] + nJ0[a]; if (out >= 2) bg++; }
+            if (bg <= 1) { double d = (double)vJr[t] / tot_i[t]; if (d > best) best = d; res |= 2; }
+        }
+        if (res & 1) res |= 2;
+        *mg = best; return res;
+    }
+    for (int E = Mv;; E = (E - 1) & Mv) {
+        int P = Mv & ~E, pred[MAXN], succ[MAXN], ok = 1, tg = 0;
+        for (int a = 0; a < n; a++) { pred[a] = -1; succ[a] = -1; }
+        for (int a = 0; a < n && ok; a++) if (P >> a & 1) {
+            int b = loc[a];
+            if (tg >> b & 1) ok = 0; else { tg |= 1 << b; pred[b] = a; succ[a] = b; }
+        }
+        if (ok) for (int a = 0; a < n && ok; a++) if (P >> a & 1) {
+            int c = a, st = 0;
+            while (succ[c] >= 0 && st <= n) { c = succ[c]; st++; if (c == a) { ok = 0; break; } }
+        }
+        if (ok) for (int a = 0; a < n && ok; a++) if ((E >> a & 1) && pred[a] < 0) ok = 0;
+        int nst = 0, x0 = -1;
+        if (ok) { for (int a = 0; a < n; a++) if (succ[a] >= 0 && pred[a] < 0) { nst++; x0 = a; } if (nst != 1) ok = 0; }
+        if (ok) {
+            double gm = 1e9;
+            int onp[MAXN]; for (int a = 0; a < n; a++) onp[a] = (succ[a] >= 0 || pred[a] >= 0);
+            for (int b = 0; b < n && ok; b++) if (pred[b] >= 0) {
+                ll l = v[b][y[pred[b]]] + vJr[b];
+                if (!(l > v[b][y[b]])) ok = 0; else { double d = (double)(l - v[b][y[b]]) / tot_i[b]; if (d < gm) gm = d; }
+            }
+            int e = x0; while (succ[e] >= 0) e = succ[e];
+            int ring = (loc[e] == x0 && v[x0][y[e]] > 0);
+            if (ok) {
+                ll l = vJr[x0] + (ring ? v[x0][y[e]] : 0);
+                if (!(l > v[x0][y[x0]])) ok = 0; else { double d = (double)(l - v[x0][y[x0]]) / tot_i[x0]; if (d < gm) gm = d; }
+            }
+            if (ok) {
+                /* outside goods: off-path: all junk; on path: worthless junk; plus the end's pick if not taken by x0 */
+                int out[MAXN];
+                for (int a = 0; a < n; a++) out[a] = onp[a] ? nJ0[a] : nJr[a] + nJ0[a];
+                if (!ring) out[loc[e]]++;
+                int big = 0; for (int a = 0; a < n; a++) if (out[a] >= 2) big++;
+                if (big <= 1) { res |= 2; if (gm > best) best = gm; }
+            }
+        }
+        if (E == 0) break;
+    }
+    *mg = best;
+    return res;
+}
+
+static void dfsz(int idx) {
+    if (idx == m) {
+        double em = 1e9;      /* EFX0 slack over the pairs with a real threat (with zeros, slack 0 is common otherwise) */
+        for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) if (i != j && bsz[j] > 0 && val[i][j] - mn[i][j] > 0) {
+            double d = (double)(val[i][i] - (val[i][j] - mn[i][j])) / tot_i[i]; if (d < em) em = d;
+        }
+        nefx++;
+        for (int s = 0; s < nst; s++) if (z_perfect[s]) {
+            double mg; int r = oc1z_start(s, &mg);
+            if (r & 1) z_cnt[s][0]++;
+            if (r & 2) { z_cnt[s][1]++; z_msum[s] += (em < mg ? em : mg); }
+            if (r & 4) z_cnt[s][2]++;
+        }
+        return;
+    }
+    int g = gord[idx];
+    for (int a = 0; a < n; a++) {
+        ll oldmn[MAXN];
+        owner[g] = a; bsz[a]++;
+        for (int i = 0; i < n; i++) { val[i][a] += v[i][g]; rem[i] -= v[i][g]; oldmn[i] = mn[i][a]; if (v[i][g] < mn[i][a]) mn[i][a] = v[i][g]; }
+        int bad = 0;
+        for (int i = 0; i < n && !bad; i++) {
+            ll pot = val[i][i] + rem[i];
+            for (int j = 0; j < n; j++) if (j != i && bsz[j] > 0 && val[i][j] - mn[i][j] > pot) { bad = 1; break; }
+        }
+        if (!bad) dfsz(idx + 1);
+        for (int i = 0; i < n; i++) { val[i][a] -= v[i][g]; rem[i] += v[i][g]; mn[i][a] = oldmn[i]; }
+        bsz[a]--; owner[g] = -1;
+    }
+}
+
+/* SD with zeros: favourite remaining relevant good (ties to the smaller index), none if nothing relevant is left */
+static void sdz(const int *order, int *y) {
+    int used[MAXM] = {0};
+    for (int k = 0; k < n; k++) {
+        int a = order[k], best = -1;
+        for (int g = 0; g < m; g++) if (!used[g] && v[a][g] > 0 && (best < 0 || v[a][g] > v[a][best])) best = g;
+        y[a] = best; if (best >= 0) used[best] = 1;
+    }
+}
+
+int rnd_oc1z(int n_, int m_, const ll *vals, int *out_picks, int *out_order, int *out_perfect, ll *out_cnt, double *out_msum, ll *out_nefx) {
+    setup(n_, m_, vals);
+    /* recompute the starts with the zero-aware SD */
+    int perm[MAXN]; for (int i = 0; i < n; i++) perm[i] = i;
+    nst = 0;
+    while (1) {
+        int y[MAXN]; sdz(perm, y);
+        int found = 0;
+        for (int s = 0; s < nst && !found; s++) if (!memcmp(pick[s], y, sizeof(int) * n)) found = 1;
+        if (!found) { memcpy(pick[nst], y, sizeof(int) * n); memcpy(sorder[nst], perm, sizeof(int) * n); nst++; }
+        int i = n - 2; while (i >= 0 && perm[i] > perm[i + 1]) i--;
+        if (i < 0) break;
+        int j = n - 1; while (perm[j] < perm[i]) j--;
+        int t = perm[i]; perm[i] = perm[j]; perm[j] = t;
+        for (int a = i + 1, b = n - 1; a < b; a++, b--) { t = perm[a]; perm[a] = perm[b]; perm[b] = t; }
+    }
+    for (int s = 0; s < nst; s++) {
+        z_perfect[s] = 1; for (int a = 0; a < n; a++) if (pick[s][a] < 0) z_perfect[s] = 0;
+        z_cnt[s][0] = z_cnt[s][1] = z_cnt[s][2] = 0; z_msum[s] = 0;
+    }
+    dfsz(0);
+    for (int s = 0; s < nst; s++) {
+        for (int a = 0; a < n; a++) { out_picks[s * n + a] = pick[s][a]; out_order[s * n + a] = sorder[s][a]; }
+        out_perfect[s] = z_perfect[s];
+        for (int k = 0; k < 3; k++) out_cnt[s * 3 + k] = z_cnt[s][k];
+        out_msum[s] = z_msum[s];
+    }
+    *out_nefx = nefx;
+    return nst;
+}
