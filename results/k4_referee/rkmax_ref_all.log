@@ -1,0 +1,40 @@
+$ python3 k4/referee/rkmax_ref.py all two_move_starts_n4.json.gz 3   (certifier export, compute/k4-oc1max-cert)
+profiles in export 111600, this run 111600
+  ... 10000 profiles
+  ... 20000 profiles
+  ... 30000 profiles
+  ... 40000 profiles
+  ... 50000 profiles
+  ... 60000 profiles
+  ... 70000 profiles
+  ... 80000 profiles
+  ... 90000 profiles
+  ... 100000 profiles
+  ... 110000 profiles
+      rotation MM and raises sigma                   283120
+      rotation MM, sigma not raised                  8960
+    rotations (u, o - u) of listed orders            292080
+    some listed rotation raises sigma                111600
+    some u-first MM order raises sigma               112880
+  LMR: every optimum OC1                             111600
+  LMR: optima                                        197120
+  LMR: some optimum OC1                              111600
+  MM vectors                                         769360
+  MM vectors failing OC1 (mine)                      112880
+  RS: every optimum OC1                              111600
+  RS: optima                                         213120
+  RS: some optimum OC1                               111600
+  TOP: every optimum OC1                             23280
+  TOP: optima                                        595120
+  TOP: some optimum OC1                              111600
+  failing Y has a sigma-larger MM vector             112880
+  failing pairs (Y, u)                               112880
+  failing set == export picks                        111600
+  failing starts                                     112880
+  profiles                                           111600
+  receivers 1                                        112880
+  sigma: every optimum OC1                           111600
+  sigma: optima                                      198400
+  sigma: optima completing at the picks              187560
+  sigma: optima needing one move                     10840
+  sigma: some optimum OC1                            111600

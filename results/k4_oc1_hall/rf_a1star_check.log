@@ -1,0 +1,8 @@
+$ python3 k4/oc1_hall/rf_a1star_check.py two_move_starts_n5_partial6.json.gz two_move_starts_n5_sel2.json.gz
+  (A1-i) True, (A1-ii) True, (A1-iii) True, (A1-iv*) False, (A1-iv) False 38976
+  (A1-i) True, (A1-ii) True, (A1-iii) True, (A1-iv*) True, (A1-iv) False 39075
+  (A1-i) True, (A1-ii) True, (A1-iii) True, (A1-iv*) True, (A1-iv) True 32368
+  d values no good of J' 242
+  hypotheses of RF-A1* hold: False; X EFX0 (ohlib False, raw False) 38976
+  hypotheses of RF-A1* hold: True; X EFX0 (ohlib True, raw True) 71443
+DEMOTE-0 starts with path u -> w -> d, d taking junk 110661

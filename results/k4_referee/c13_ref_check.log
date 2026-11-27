@@ -1,0 +1,23 @@
+$ python3 k4/referee/c13_ref.py check c13_class13_ref.jsonl.gz class13.jsonl.gz
+    (0) nobody but d wants Y'_d                                            7733
+    ... (3) only in value form                                             485
+    ... with (3) in simple form                                            7248
+    allocation raw EFX0                                                    7733
+    official chain + one-absorber completion                               7733
+    value-form case: agent values 2 goods of X_w, in D_T' True, values a good of H True, goods of X_w valued sum < p_i True 485
+    {x,y} valued exactly by D_T' - w                                       7733
+  (1),(2),(4),(3) value form hold for some (H,x,y)                         7733
+  U' = {d}                                                                 7733
+  Y'_w = Y_d (d's old pick)                                                7733
+  d values 0 junk goods of J'                                              7733
+  d wants Y'_w                                                             7733
+  path length 2                                                            7733
+  starts                                                                   7733
+  u not in D_T'                                                            7733
+  w has 1 improving junk pairs (inside R_w)                                7733
+  w has 1 improving pairs of J' (any)                                      7733
+  w in D_T'                                                                7733
+  working w/d splits give w [1] goods of J' - H                            7733
+  |J'| = 4                                                                 7733
+  value-form example {"sets": [[0, 2, 6, 7], [1, 5, 6, 8], [2, 5, 6, 7], [3, 4, 5, 8], [3, 4, 7, 8]], "vals": [[2, 10, 7, 6], [2, 7, 4, 8], [10, 7, 4, 2], [5, 4, 6, 8], [6, 7, 2, 10]], "Y2": [6, 1, 2, 5, 8], "w": 0, "d": 1, "H": [0, 7], "x": 3, "y": 4, "X": [[0, 7, 3], [6, 1, 4], [2], [5], [8]], "bad": [4], "vals_bad": [[0, 2, 6, 10]]}
+  girth list 7733, mine 7733, common 7733, only girth 0, only mine 0
