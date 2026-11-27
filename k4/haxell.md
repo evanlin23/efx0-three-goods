@@ -774,13 +774,14 @@ failures need n = 4, so n = 2 is still a fair, bounded target.
 - *With strict values, pure augmentation looks enough* (**Claim A2**: some composite of at most two moves shrinks the
   pool). There was no failure on 1,067,080 random partial EFX₀ states with real values (`ht_n2claim.py`;
   `n2claim_m9.log`: m ≤ 9 and any k; `n2claim_m10k4.log`: m ≤ 10 and k ≤ 4). This is random evidence only.
-  - How the augmentations are made: a single placement in 91% of the states.
+  - How the augmentations are made, counting the first augmenting composite in the enumeration order (so these
+    shares describe the steps found, not which kinds are required): a single placement in 91% of the states.
   - Otherwise, one of:
     - give one good, then place: 6.6%;
     - place, then swap two agents' goods: 1.4%;
     - place, then trade: 0.15%;
     - place, then swap with the pool: 0.12%;
-    - a set transfer with a placement: 0.9% (the W4 mechanism);
+    - a transfer of two or more goods (between agents, or from the pool) with a placement: 0.6% (the W4 mechanism);
     - two placements.
   - An earlier version of the script tested only the families "B's bundle grows", "A's bundle grows" and "trade,
     then place". It reported failures that the exact checkers rejected: "swap two agents' goods, then place" was
