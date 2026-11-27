@@ -1,1 +1,2 @@
 $ python3 kgen/charity/w_synth_family.py 4 5
+S'(4, 5) hypergraph, n 16, m 23, stranded 3: UNSAT after 2243 cuts, 4832.6 s

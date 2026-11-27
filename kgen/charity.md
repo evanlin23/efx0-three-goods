@@ -399,8 +399,12 @@ In the z3 solutions each parent values one child about twice the other (s₂: 8 
 envy. A proof for general σ would have to organise such asymmetries along the relay trees.
 
 **Larger σ.** Whether S′(σ, k) carries values making its σ − 1 stranded goods a welfare maximum for every σ (which
-would refute W(k) for every f, with Θ(√n) goods) is being tested by the same exact search; σ = 3 succeeds at k = 3 and k = 4 (CH-F), σ = 4 at k = 4
-(three goods stranded, n = 20) is running (`w_synth_family_s4k4.log`).
+would refute W(k) for every f, with Θ(√n) goods) is being tested by the same exact search; σ = 3 succeeds at k = 3 and k = 4 (CH-F). For σ = 4 (three goods
+stranded): on S′(4, 5)'s hypergraph (no relays: each source has three champion children; n = 16, m = 23) **no real
+values work** — UNSAT after 2,243 cuts, 4,833 s (`w_synth_family_s4k5_real.log`; single implementation); the integer
+search with values ≤ 80 had stopped at its time limit (`w_synth_family_s4k5.log`). S′(4, 4) (with relays, n = 20) is
+still running (`w_synth_family_s4k4_real.log`; the integer search stopped at its limit). So the S′ pattern does not
+scale to three stranded goods without relays; whether W(4, 2) fails is open.
 
 **Leximin maxima** (the lexicographic selection: maximise the smallest value, then the next, …, then the fewest
 unallocated goods; `chlib.leximin_max`, SAT with nested cardinality thresholds; `lex_check.py`, `lex_check.log`):
