@@ -1,0 +1,26 @@
+$ python3 k4/oc1cert/run.py 4_n4_1,4_n4_2,4_n4_3,4_pure --r2=og --jobs=2 --out=/tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_4_r2og.json.gz
+hypergraphs 1002 jobs 2
+... 500 hypergraphs, 54 s
+NOT CERTIFIED {"list": "4_n4_3", "idx": 38, "sets": [[0, 2, 4, 8], [1, 4, 6, 8], [3, 5, 6, 7], [5, 7, 8]], "m": 9, "nu": 4, "domains": [144, 288, 288, 6], "result": "FAIL", "stats": {"iters": 194, "found": 283, "kinds": {"picks": 102, "chain": 181}, "clauses": 775, "bits": 77, "auts": 4, "nu": 4}, "time": 0.698, "fails": [{"vals": [[2, 4, 8, 7], [3, 8, 4, 2], [3, 5, 7, 6], [3, 2, 4]], "picks": [4, 1, 6, 8], "raw_check": {"orders_giving_picks": 8, "raw": "one move repairs"}}]}
+NOT CERTIFIED {"list": "4_pure", "idx": 22, "sets": [[0, 2, 4, 8], [1, 4, 7, 8], [3, 5, 6, 7], [5, 6, 7, 8]], "m": 9, "nu": 4, "domains": [144, 288, 288, 288], "result": "FAIL", "stats": {"iters": 292, "found": 431, "kinds": {"picks": 151, "chain": 280}, "clauses": 1135, "bits": 96, "auts": 4, "nu": 4}, "time": 1.193, "fails": [{"vals": [[6, 3, 10, 8], [3, 8, 4, 2], [3, 5, 6, 7], [4, 5, 2, 8]], "picks": [4, 1, 7, 8], "raw_check": {"orders_giving_picks": 8, "raw": "one move repairs"}}]}
+NOT CERTIFIED {"list": "4_pure", "idx": 24, "sets": [[0, 2, 7, 8], [1, 4, 5, 6], [3, 4, 7, 8], [5, 6, 7, 8]], "m": 9, "nu": 4, "domains": [144, 288, 288, 288], "result": "FAIL", "stats": {"iters": 123, "found": 184, "kinds": {"picks": 59, "chain": 125}, "clauses": 983, "bits": 93, "auts": 8, "nu": 4}, "time": 0.61, "fails": [{"vals": [[3, 6, 8, 10], [3, 7, 5, 6], [3, 4, 2, 8], [2, 4, 5, 8]], "picks": [8, 4, 3, 7], "raw_check": {"orders_giving_picks": 5, "raw": "one move repairs"}}]}
+NOT CERTIFIED {"list": "4_pure", "idx": 38, "sets": [[0, 2, 7, 8], [1, 3, 7, 8], [3, 4, 5, 6], [4, 5, 6, 8]], "m": 9, "nu": 4, "domains": [144, 288, 288, 288], "result": "FAIL", "stats": {"iters": 358, "found": 578, "kinds": {"picks": 135, "chain": 443}, "clauses": 3637, "bits": 98, "auts": 12, "nu": 4}, "time": 1.801, "fails": [{"vals": [[4, 2, 8, 7], [3, 4, 8, 2], [7, 3, 6, 5], [2, 7, 6, 10]], "picks": [7, 1, 3, 8], "raw_check": {"orders_giving_picks": 8, "raw": "one move repairs"}}]}
+NOT CERTIFIED {"list": "4_pure", "idx": 36, "sets": [[0, 2, 6, 8], [1, 3, 4, 5], [3, 4, 7, 8], [5, 6, 7, 8]], "m": 9, "nu": 4, "domains": [144, 288, 288, 288], "result": "FAIL", "stats": {"iters": 520, "found": 837, "kinds": {"picks": 201, "chain": 636}, "clauses": 2191, "bits": 98, "auts": 4, "nu": 4}, "time": 1.569, "fails": [{"vals": [[6, 3, 10, 8], [3, 6, 5, 7], [6, 7, 2, 10], [4, 8, 3, 2]], "picks": [6, 5, 8, 7], "raw_check": {"orders_giving_picks": 8, "raw": "one move repairs"}}]}
+NOT CERTIFIED {"list": "4_pure", "idx": 44, "sets": [[0, 3, 4, 5], [1, 3, 7, 8], [2, 6, 7, 8], [4, 5, 6, 8]], "m": 9, "nu": 4, "domains": [288, 288, 288, 288], "result": "FAIL", "stats": {"iters": 929, "found": 1519, "kinds": {"picks": 337, "chain": 1182}, "clauses": 2728, "bits": 99, "auts": 2, "nu": 4}, "time": 3.553, "fails": [{"vals": [[3, 7, 5, 6], [3, 4, 8, 2], [4, 2, 8, 7], [6, 4, 1, 8]], "picks": [3, 1, 7, 8], "raw_check": {"orders_giving_picks": 8, "raw": "one move repairs"}}]}
+NOT CERTIFIED {"list": "4_pure", "idx": 15, "sets": [[0, 2, 6, 7], [1, 5, 8, 9], [3, 6, 8, 9], [4, 7, 8, 9]], "m": 10, "nu": 4, "domains": [144, 144, 288, 288], "result": "FAIL", "stats": {"iters": 148, "found": 229, "kinds": {"picks": 64, "chain": 165}, "clauses": 1875, "bits": 96, "auts": 16, "nu": 4}, "time": 0.885, "fails": [{"vals": [[6, 3, 5, 7], [6, 3, 10, 8], [4, 2, 5, 8], [3, 4, 8, 2]], "picks": [7, 8, 9, 4], "raw_check": {"orders_giving_picks": 8, "raw": "one move repairs"}}]}
+NOT CERTIFIED {"list": "4_pure", "idx": 16, "sets": [[0, 2, 6, 8], [1, 5, 7, 9], [3, 6, 8, 9], [4, 7, 8, 9]], "m": 10, "nu": 4, "domains": [144, 144, 288, 288], "result": "FAIL", "stats": {"iters": 112, "found": 162, "kinds": {"picks": 59, "chain": 103}, "clauses": 706, "bits": 96, "auts": 8, "nu": 4}, "time": 0.343, "fails": [{"vals": [[3, 5, 6, 7], [2, 4, 8, 7], [3, 6, 2, 10], [3, 8, 4, 2]], "picks": [8, 7, 9, 4], "raw_check": {"orders_giving_picks": 8, "raw": "one move repairs"}}]}
+NOT CERTIFIED {"list": "4_pure", "idx": 25, "sets": [[0, 2, 8, 9], [1, 5, 6, 7], [3, 5, 6, 9], [4, 7, 8, 9]], "m": 10, "nu": 4, "domains": [144, 288, 288, 288], "result": "FAIL", "stats": {"iters": 379, "found": 567, "kinds": {"picks": 188, "chain": 379}, "clauses": 1565, "bits": 97, "auts": 4, "nu": 4}, "time": 1.062, "fails": [{"vals": [[6, 3, 10, 8], [3, 5, 6, 7], [2, 6, 7, 10], [3, 4, 8, 2]], "picks": [8, 7, 9, 4], "raw_check": {"orders_giving_picks": 8, "raw": "one move repairs"}}]}
+... 1000 hypergraphs, 369 s
+4_n4_1 nu=4 n=4 135
+4_n4_2 nu=4 n=4 309
+4_n4_3 nu=4 n=4 339
+4_pure nu=4 n=4 219
+iterations 139166
+result FAIL 9
+result certified 993
+witness kind chain (found by the inner) 124833
+witness kind picks (found by the inner) 76694
+witnesses kept 335102
+slowest hypergraph 4.96 s ('4_pure', 43)
+time 369 s
+wrote /tmp/claude-0/-home-user-efx0-three-goods/76a0beec-d2d1-5f61-a9e7-e54f189c7ca5/scratchpad/runs/cert_4_r2og.json.gz
