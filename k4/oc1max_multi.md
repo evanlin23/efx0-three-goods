@@ -1569,3 +1569,26 @@ k ∈ K. In the census below this is checked raw, as part of the lifted EFX₀ t
 
 So ROUND-RSD's proof tools are SD-E(round) under (H) and (L\*) at the end of the round, with Theorem S^φ and the
 completion at once as the last step.
+
+**Corollary S^φ(round) (K4.MULTI.SPHIR).** Theorem S^φ (§16, with (S-φ3)) holds verbatim when the phantoms were settled
+in rounds (SD-E(round), refereed). The invariants then read:
+- **(P1\*)** (L\*) at the end of each round: no T_k threatens a real agent at its value after the round. Values only rise
+  afterwards, so it persists.
+- **(P2)** within a round, (L\*) at the round's end toward the round-mates at their τ. Toward earlier phantoms, the new
+  sets must threaten none of them. Earlier sets never threaten later phantoms.
+- **(P3)** every pick a round releases is worth at most τ_φ to every phantom, those of the round included. After that,
+  the induction of §14 applies.
+
+*Proof.* S^φ's proof uses the invariants only at the final state, as a case split over real/real, real/phantom,
+phantom/real and phantom/phantom pairs. (P1\*) gives the real/phantom case for sets of any size. (P2) and (P3) give the
+rest as before. ∎
+
+This makes S^φ the step of the matching session's ROUND-RSD, which repairs every start of its data with rounds of at
+most two settlements and a completion at once (`proof/k4-matching`, commit 56e64a9f; at (11, 447) the round is
+{(0, 4), {0, 8}} + {(2, 1), {3, 9, 10}}). **The base case is not a pure reduction.** The matching session finds
+reduction failing at 35 of 10,109 one-move starts:
+- T3-type starts, where the settled head must also absorb a junk good;
+- 6 starts that need a junk-taking chain agent after the head; the smallest is ls-alt-rule-n4m7.
+
+So the base case must be an OC₁-type move with phantoms. Theorem S^φ's own move is such a move, but it does not cover
+those 35. They are this note's RING2 and the T3 family (§11).
