@@ -1018,4 +1018,48 @@ So the answer to question 2 is no.
   - On the other shape (485 starts) agent 4 values two goods of w's bundle, and only the sum inequality holds.
 - It is the k = 3 completion LE with a b-holder as the rotated agent.
 
-**13.5 Next.** DEMOTE-0's at-once part at n = 5: oc1-hall's RF-A1 facts there (agreed with girth).
+**13.5 DEMOTE-0's at-once part at n = 5: Lemma RF-A1\*** (agreed with girth; oc1-hall's Lemma RF-A1,
+`k4/oc1_hall.md` §24.6 on `claude/k4-oc1-hall`, checked there only at n = 4).
+- **Census** (`rf/rfa1_n5.py`, `rf/rfa1_star.py`, `rfa1_star_n5.log`). The 71,443 n = 5 DEMOTE-0 starts that
+  complete at once by the A1 form (w takes W := {Y′_w} ∪ (J′ ∖ {h}), d takes {Y′_d, h}, h = d's favourite good of J′)
+  have the following structure:
+  - all have RF path u → w → d with d taking a junk good g of Y, and |D_T(Y)| = 2;
+  - Hall's (A1-i), (A1-ii) and (A1-iii) hold at all of them, so d is truly dangerous at Y here; girth's concern was
+    about the 24 stored failures;
+  - **(A1-iv) fails at 39,075.** All of these are on 5_pure#464, where a fifth agent q, frozen and holding its top at
+    Y′, values Y_d, Y_u and one junk good of Y.
+- **Lemma RF-A1\* (PROVED, not refereed): Hall's RF-A1 with (A1-iv) weakened.**
+  - *Setting.* σ is an order with perfect SD picks Y, u its receiver, σ′ = (u, σ − u). Y′ = SD(σ′) is perfect, with
+    one receiver d and no truly dangerous agent. The RF path is u → w → d with d taking a junk good g of Y. So
+    Y′_u = Y_w, Y′_w = Y_d, Y′_d = g and J′ = (J ∖ {g}) ∪ {Y_u}. Let W = {Y_d} ∪ (J′ ∖ {h}).
+  - *Hypotheses.*
+    - (A1-i) J ∩ R_d = {g, h}, v_d(g) + v_d(h) > v_d(Y_d), and J′ ∩ R_d = {h}.
+    - (A1-ii) W ∩ R_u = {Y_d, Y_u} and v_u(Y_d) + v_u(Y_u) < v_u(Y_w).
+    - (A1-iii) There is an agent k2 ≠ d valuing g and h with v_{k2}(Y_d) ≤ p′_{k2}.
+    - **(A1-iv\*)** Every frozen agent q of Y′ outside {w, u, k2} that values Y_d has v_q(W) − min_W v_q ≤ p′_q.
+  - *Conclusion.* X (w takes W, d takes {g, h}, everyone else keeps its pick) is a one-absorber EFX₀ completion of
+    Y′, with absorber w and d taking one free good.
+  - *Proof.*
+    - Every good is placed once. Only w receives two or more free goods. Singletons never violate EFX₀.
+    - Every good of J′ was free at every agent's turn in σ′, so each is worth less than p′_i to every agent i that
+      values it (strict values). No agent wants g at Y′, by RF-PATH (c) (`k4/girth.md` §7).
+    - *X_d = {g, h}* threatens nobody: each of its goods is worth at most p′_i ≤ v_i(X_i) to every i ≠ d.
+    - *X_w = W* against each i ≠ w:
+      - *d.* W ∩ R_d = {Y_d} by (A1-i), so v_d(W) − min_W v_d ≤ v_d(Y_d) < v_d(g) + v_d(h) = v_d(X_d).
+      - *u.* By (A1-ii), v_u(W) − min ≤ v_u(Y_d) + v_u(Y_u) < v_u(Y_w) = v_u(X_u).
+      - *k2.* k2's at most four goods include g and h, which are not in W, and its pick, which is not in W. So
+        W ∩ R_{k2} has at most one good x, and v_{k2}(W) − min ≤ v_{k2}(x). Either x is junk of Y′, so
+        v_{k2}(x) < p′_{k2}; or x = Y_d, and v_{k2}(x) ≤ p′_{k2} by (A1-iii).
+      - *A frozen q ∉ {w, u, k2, d} that values Y_d.* This is (A1-iv\*).
+      - *A frozen q ∉ {w, u, k2, d} that does not value Y_d.* W contains a good worth 0 to q, so
+        v_q(W) − min_W v_q = v_q(J′ ∖ {h}). Since q is not truly dangerous, J′ does not threaten it at p′_q, and
+        v_q(J′ ∖ {h}) is at most that threat value.
+      - *There is no other unfrozen agent*, since U′ = {d}. ∎
+- **Data.** The hypotheses hold at all 71,443 at-once starts: 32,368 with Hall's (A1-iv), 39,075 only with
+  (A1-iv\*). X is EFX₀ wherever they hold, and at no other DEMOTE-0 start with this path shape. So at n = 5 the
+  at-once part of DEMOTE-0 is Lemma RF-A1\* plus its four facts.
+- **Open: the facts from Y's hardness.** On #464, (A1-iv\*) says that q's top good beats its two best goods of W.
+  At some of these starts it follows from D_T′ = ∅ alone (q's two best goods of W are junk); at others Y_d is among
+  them, and it does not.
+
+**13.6 Next.** The facts (A1-i)–(A1-iii) and (A1-iv\*) from hardness, with Hall and girth.
