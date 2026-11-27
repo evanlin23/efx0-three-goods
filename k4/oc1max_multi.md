@@ -620,10 +620,10 @@ Each statement is local. Each is checked on all 8,383 starts, and is stated with
     violations. But it covers *none* of the 45.
   - *Why* (`ring_comp.py`, `ring_comp.log`):
     - At 27 of the 45, a repair has an agent off the chain that wants a good of x₀'s new bundle (in T3 (0, 2, 1),
-      agent 1 wants the pick 4 that agent 0 receives). That agent is safe only because the completion gives it its
-      own junk good (agent 1 takes 3: 22 + 12 > 30). So x₀'s bundle violates (G1) of Lemma 2\*. What is needed
-      there is Lemma 2\* with *compensated (G1)*: agents threatened by a fixed multi-good bundle are matched to
-      compensating junk, as they are for the owner's bundle.
+      agent 1 wants the pick 4 that agent 0 receives), and the agent is compensated by its own junk good (agent 1
+      takes 3: 22 + 12 > 30). With an owner other than x₀ this violates (G1) of Lemma 2\*. Lemma M^c (§9) certifies
+      it. But §9's census shows that every RING start also has a repair certified by plain Lemma M (owner x₀ or
+      another), so the compensation is not essential.
     - The other 18 are repaired only by ED chains without such a wanter, such as an unfrozen head taking junk with
       slots. The smallest is Q2, picks (3, 7, 5, 4).
 - **The existence part.** In every regime the lemmas assume the right chain. What is missing is an argument that a
@@ -853,9 +853,14 @@ States without (G2) are skipped (3,740, 8,994 and 66,863). There a junk good is 
 (D-red 1).
 
 **Uses.**
-- **RING.** At 27 of the 45 RING starts, the repair has an agent off the chain that wants a good of x₀'s new bundle and
-  is compensated by its own junk good. That is (C3) with a needy agent whose requirement comes from a Q_m bundle.
-  Lemma M^c certifies these repairs exactly, where Lemma 2\* (which assumes (G1)) cannot.
+- **SLOT and RING** (`mc_apply.py`, `mc_apply.log`). For every repairing move and every absorber, I took the least
+  certificate kind. On **all 585 SLOT and all 45 RING starts**, some repair has a *plain* certificate: F_s = ∅, and no
+  needy agent's requirement comes from a fixed multi-good bundle. That is Lemma M (refereed) with a nonempty kept-out
+  set H.
+  - So the compensated-(G1) repairs seen at 27 RING starts (§7) also have an alternative repair with another owner,
+    often x₀ itself. There the wanter is an exposed holder compensated against the owner's bundle.
+  - This corrects §7's remark: SLOT and RING do not need M^c's extensions, only Lemma M's slot count with H ≠ ∅.
+  - What is open in both is existence: that a chain exists whose post-state satisfies Lemma M's Hall condition.
 - **Frozen slots** (the matching session's 88 non-S\* starts; TTC's R2★ step 4): F_s ≠ ∅.
 - **The deficiency δ^c** is the right measure for an exchange argument with compensation: an EX\*-type lemma with
   Γ^c in place of Γ.
