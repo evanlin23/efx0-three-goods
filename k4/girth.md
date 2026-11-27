@@ -862,7 +862,9 @@ all 121,217 starts of the n = 5 classes DEMOTE-0 and (1, 3), with no exception. 
 n = 5 DEMOTE-2 starts**, 0 exceptions (`k4/oc1_hall/rf_sink.py`, `results/k4_oc1_hall/rf_sink.log`, §24.11 on
 `claude/k4-oc1-hall`; [unverified]: relayed, not re-run here): 6,327 at Y′, 128,074 after (C) with H₀ ⊆ S, 5,710 after
 (C′) to a frozen head; the absorber is always w or d. So SINK is exception-free on all n = 4 RF starts and on the
-n = 5 residue classes (1, 0), (1, 2), (1, 3). It covers RF-A1 (absorber w, sink d), RF-B (absorber d), Lemma
+n = 5 residue classes (1, 0), (1, 2), (1, 3). On the n = 5 classes R2 and U1 (every 10th start of the exports;
+`python3 k4/girth/oc1_sink.py stream … 10 3`, `results/k4_girth_oc1_sink_n5_r2u1.log`) it holds at all 126,388 R2
+starts (120,597 at Y′ with absorber d, 5,791 after (C) with absorber w) and all 285 U1 starts (after (T), absorber d). It covers RF-A1 (absorber w, sink d), RF-B (absorber d), Lemma
 RF-T (d absorbs the one good Y_u, sink x_{ℓ−1}) and the (1, 3) form (absorber d, sink w, or the reverse).
 
 **Conjecture RF** (CONJECTURE; certified at n = 4 by the lookup above, 24 of 24 stored failures at n = 5). In every
