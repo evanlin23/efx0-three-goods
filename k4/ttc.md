@@ -1053,6 +1053,19 @@ So a hard start with |U| ≥ 2 has |J| ≥ |U| + 1 ≥ 3.
 R2★ says that step 4 needs no owner at all, so Lemma M's owner-free case, a pure matching of junk to safe agents,
 should be the counting tool.
 
+**The tool for step 4: Lemma M^c.** It is in `proof/k4-oc1max-multi`, `k4/oc1max_multi.md` §9, commit 3b69d07: a
+written proof, not refereed, whose statement and claim I have read. It is an exact compensated matching condition for
+completions of shape S^c:
+- the owner o takes the rest;
+- holders and frozen singles take at most one junk good each;
+- multi-good agents take nothing.
+
+Frozen slots are handled by enumerating F_s; for a fixed F_s the condition is a bipartite matching.
+
+R2★'s completions are S^c completions whose owner (x₀ or z) receives at most one junk good beyond its base, that is,
+|J ∖ H| ≤ 1. So step 4 is the statement that after the chain some (H, F_s) with |J ∖ H| ≤ 1 meets (C1)–(C3). The
+counting argument must produce it: a Hall-type deficiency δ^c ≤ 0 from Lemma PL and the second receiver.
+
 ## 12. Next steps
 
 1. *OC₁-E / OC₁-ED at larger n.* Adversarial climbs at n = 6–8 with the endpoint objective:
