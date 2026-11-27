@@ -97,6 +97,13 @@ OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
     - Every order that starts with the failing start's receiver is good.
     - The nearest good pick vector always differs from the failing one in exactly 2 agents.
     - The most frequent pick vector is good at 279 of the 280.
+  - Every 50th start of the six partial exports, 14,045 starts (`good_orders_partial6_s50.json.gz`, `.log`):
+    - every observation above holds at all 14,045;
+    - here the most frequent pick vector is good at every start too.
+  - The receiver-first rule is the coordinator's Conjecture RF (K4.SDC.RF).
+    - From now on `run.py --depth=2` checks it at every OC₁^max-failing pair the CEGAR meets (summary field `rf`).
+    - `rf_chunk.py` reruns the failing cores of chunks run before that.
+    - `good_orders.py --rf` checks it at every start of an export.
 
 **OC₁′^max (kgen-rounds' move, `kgen/rounds.md` §4.6 on proof/kgen-rounds) holds at n ≤ 4 and fails at n = 5.**
 - The move: as OC₁'s, except that every non-end chain agent may also take goods of the end's base that it values.
