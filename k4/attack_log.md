@@ -1266,3 +1266,11 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
 - The rank-1 case is not a static lemma, because a frozen threat can force a move. One shortcut I tried ("frozen agents
   never receive junk") is false, and I recorded why in `k4/sdc.md`.
 - Next: the rank-2 one-move starts (800 at n = 4), to see which move REC-LOW's proof must supply.
+
+### 2026-11-27 16:34 UTC: burst 19 (single-session mode)
+- Merged #188.
+- Own angle: the 800 rank-2 one-move starts of REC-LOW at n = 4 (`k4/sdc/rec_low_rank2_moves.py`). Every one is
+  repaired by a 3- or 4-agent chain or ring through two dangerous agents that gives the receiver its top good. The
+  plain swap never repairs.
+- Paused for a strategy review at the user's request: this line repeats the pattern `k4/strategy.md` diagnosed
+  (extremal start, improving move, counterexample, patch).
