@@ -648,9 +648,13 @@ re-check (`wablate_off9_recheck.log`) shows that switching off the agent swaps a
 moves the state has **exactly one W^sub step**: place good 6 with agent 0 and swap agent 0's good 5 for agent 1's
 good 4. That gives the complete EFX₀ allocation ({4, 6}, {2, 3, 5}, {1}, {0}), welfare 188 > 168. This is the
 tightest state found for W^sub: one escape.
-- Why it is tight. Agent 0 must not keep good 5 next to good 6: agent 3 values {5, 6} at 40 after dropping good 5,
-  less than its 58, but agent 1 values good 5 at 29 > 18.
-- Good 4 has to move the other way. Good 6 cannot go to agent 3, since agent 0 would strongly envy {0, 6}.
+- Why it is tight: every placement of good 6 alone is blocked, each time by strong envy (τ against own value).
+  - At agent 0, by agent 1 (29 > 18: it wants good 5).
+  - At agent 1, by agents 0 and 3 (59 > 56, 78 > 58).
+  - At agent 2, by agent 1 (19 > 18).
+  - At agent 3, by agent 2 (37 > 36).
+- The step repairs the first block. Agent 1 receives good 5 (worth 29 to it) for good 4 (12), and agent 0 keeps 6
+  and 4 (59 ≥ 56, the most it can claim from agent 1's new bundle).
 
 Only transfers of two or more pooled goods remain without a witness. With up to four relevant goods per agent and
 one good pooled at every hard state found, that kind may simply never be used at these sizes.
