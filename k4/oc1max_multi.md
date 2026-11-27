@@ -51,6 +51,8 @@ rule 3).
 | Corollary TR (§2) | if the head z of a canonical chain from k has Θ(z) ⊆ {k}, DEMAND cannot occur, and the chain behaves as in the case \|D\| = 1 (Hall §21: HEAD and CROWD only) | written proof |
 | **Lemma KEEP** (§3) | let D_T be the *truly dangerous* agents (threatened by the junk alone). Take a canonical chain from k with an improving H₀ inside J, with no crowding, with the other truly dangerous agents and the head unthreatened by J, and with a holder admissible for the head's released pick Y_z. That holder is the head itself when the head is unfrozen, or the second wanter that froze it. Then that holder takes Y_z, and k owns an S\* completion. **Every pick-dangerous agent (D ∖ D_T) is harmless there, however many there are** | written proof; 0 violations in 18,916 chains |
 | **Theorem U, Corollary U1** (§3) | **OC₁ holds at every perfect start with one truly dangerous agent and exactly one unfrozen pick holder** (any \|D\|, null agents allowed): every longest canonical chain from k with every improving H₀ ⊆ J repairs. More generally (Theorem U), it holds when the junk threatens no unfrozen pick holder other than the head of a longest chain | written proof, **unconditional on its class**; 2,234 starts (U1) and 2,880 (U), 0 violations |
+| **Theorem S** (§10) | **Theorem U with a junk good kept out.** OC₁ holds at every perfect start where, for some k ∈ D, longest chain P (head z) and junk good h, W = (J ∖ h) ∪ {Y_z} is improving for k, threatens no other dangerous agent and no other unfrozen pick holder at its pick value, and z values no junk good but h (or W does not threaten z at its final value). The repair: P, then h to the head (or to an unfrozen second wanter), k takes W. **Theorems U and S together prove OC₁ outright at 7,441 of the 8,383 starts (88.8%)**, 424 of the 585 SLOT starts | written proof, **unconditional on its class**; 0 violations in 23,000 cases |
+| SLOT residue (§10) | 161 SLOT starts outside Theorems U and S: one kept-out good 18, two 138, three 5; smallest log613 (n = 3, m = 7), where the second slot strips the goods the threatened holder does not value from the owner's bundle | open (Sub-lemma SLOT2); evidence |
 | Corollary KEEP-1 (§3) | if D_T = {k}, the case reduces to the crowding and head obstacles of the case \|D\| = 1. **3,244 of the 3,259 starts with \|D_T\| = 1 have a KEEP chain**; the other 15 (all n = 5) have crowding by every minimal junk improving set (13) or a frozen, threatened head (2) | written proof; evidence for the count |
 | **Lemma SET** (§4) | the overlap step of PWk(a), in general. After a canonical chain in which k takes a junk pair, k is settled for every owner other than k and x₁ whose base k does not want: it neither envies nor is envied. So k and the pair can be deleted. Agents that share the pair keep at most one junk good (Lemma PL(c)) | written proof; 0 mismatches in 47,248 owner tests |
 | **Lemma OWN** (§4) | the overlap completion, PWk(a)'s owner w₂ in general. After a chain in which k takes a junk pair, an owner o ∉ {k, x₁} with a *free base* (no frozen agent and not k values it) owns an S\* completion, if the other truly dangerous agents are unthreatened by o's base plus J minus the pair (automatic when they share the pair, by Lemma PL(c)) and a holder takes the released pick. No crowding condition | written proof; 0 violations in 21,440 cases |
@@ -875,3 +877,143 @@ one move is an exact one-move criterion on that data. There a junk good is wante
 - **Frozen slots** (the matching session's 88 non-S\* starts; TTC's R2★ step 4): F_s ≠ ∅.
 - **The deficiency δ^c** is the right measure for an exchange argument with compensation: an EX\*-type lemma with
   Γ^c in place of Γ.
+
+## 10. SLOT as an existence statement: Theorem S
+
+The coordinator asked for SLOT as a pure existence count: some chain reaches a state where Lemma M's Hall condition
+holds. This section proves that outright on a class covering 424 of the 585 SLOT starts, together with 7,441 of all
+8,383 starts once Theorem U is included. It names the residue.
+
+**The owner's bundle does not depend on H₀.** After a canonical chain P = (k, …, z) with an improving H₀ ⊆ Π = J ∪ {Y_z},
+an S\* completion with owner k and kept-out set H ⊆ J′ = Π ∖ H₀ gives k the bundle H₀ ∪ (J′ ∖ H) = Π ∖ H. So the
+completion is fixed by H and its receivers. H₀ only has to be an improving subset of Π ∖ H, so that the chain is an
+official move.
+
+**Theorem S (K4.MULTI.S): Theorem U with a junk good kept out.** Let Y be a perfect start, k ∈ D, P a *longest*
+canonical chain from k with head z and a = Y_{x_{t−1}}, and h ∈ J. Put W = (J ∖ {h}) ∪ {Y_z}. Suppose:
+- **(S-a)** v_k(W) > p_k;
+- **(S-b)** W threatens no agent of D ∖ {k} at its pick value;
+- **(S-c)** W threatens no unfrozen pick holder other than z at its pick value;
+- **(S-d)** z values no junk good other than h.
+
+Then OC₁ holds at Y. Take any improving H₀ ⊆ W. The move is P with H₀. The completion depends on whether z is
+unfrozen after P:
+- if so, z takes h;
+- otherwise, some unfrozen wanter w of a takes h.
+
+k takes the rest, so its final bundle is W. The others keep their state goods.
+
+*Relaxed form (S-d′).* (S-d) may be replaced by: W does not threaten z at its value in that allocation. This form is
+chain-level, like Theorem U's condition on z.
+
+*h = Y_z.* With h = Y_z, W = J, and the relaxed form is Theorem U. Then:
+- (S-b) says D_T ⊆ {k};
+- (S-c) says E_J ⊆ {z};
+- (S-d′) for the head is KEEP's computation v_z(J ∩ R_z) < 2p_z < v_z(a) + p_z, or z ∉ E_J when the wanter takes Y_z.
+
+*Proof.*
+0. *The move exists.*
+   - k ∈ D is frozen, so canonical chains from k exist (D1-chain), and a longest one exists.
+   - By (S-a), W ∩ R_k is an improving set inside W ⊆ Π, so an improving H₀ ⊆ W exists.
+   - The chain is official: every x_i gains, and z gains, since it wants a.
+   - h ∉ W ⊇ H₀, so h ∈ J′.
+1. *The receiver of h is a holder after P.* If z is unfrozen after P, the receiver is z. Otherwise a has a wanter w
+   after P, and Theorem U step 1 applies (Hall's Remark 2 on longest chains):
+   - w is off P and wanted a at the picks;
+   - w is unfrozen at the picks, since otherwise there would be a longer chain;
+   - w holds a pick;
+   - w is unfrozen after P (D-red 2).
+
+   So w is a holder with value p_w, and w is an unfrozen pick holder other than z.
+2. *The allocation A.* A_k = W. The receiver r takes {B′_r, h}. Every other agent keeps its state good. Every agent's
+   value in A is at least its value at B′, which is at least its pick value: values only rise along a chain, and
+   W ⊇ H₀.
+3. *A is EFX₀.*
+   - Singletons never violate EFX₀.
+   - *The two-good bundle {B′_r, h}* threatens i iff v_i(B′_r) > v_i(A_i) or v_i(h) > v_i(A_i).
+     - B′_r is unwanted at B′, because r is a holder.
+     - v_i(h) ≤ p_i by (G2) at the picks: h was available at i's turn.
+     - For k, v_k(h) ≤ p_k < v_k(W).
+   - *W threatens no i ≠ k at v_i(A_i).* Threat is monotone: it is weaker at higher values and on subsets. Every
+     agent other than k is one of the following.
+     - i = z. With (S-d), W ∩ R_z ⊆ {Y_z}, so every W ∖ g is worth at most p_z to z. But z's value in A is v_z(a) > p_z,
+       or more. (S-d′) assumes this directly.
+     - i ∈ D ∖ {k}: (S-b).
+     - i an unfrozen pick holder other than z (this includes w): (S-c).
+     - i ∈ F ∖ D. Such an agent values no junk, so W ∩ R_i ⊆ {Y_z}. Then every W ∖ g is worth at most
+       v_i(Y_z) ≤ p_i to i: Y_z is unwanted at the picks, since the head of a canonical chain is unfrozen there.
+     - i pickless. At a perfect start it is null, so it is never threatened.
+
+   This is an S\* completion of B′ with owner k and H = {h}. ∎
+
+*Remarks.*
+- Hardness is not used.
+- "Longest" is used only when z is frozen after P. Any canonical chain whose head is unfrozen after P does as well.
+- When u = 1, the head of a longest chain is always unfrozen after P (**HS-U1**, the argument of Corollary U1; checked
+  on 753 chains, `slot_hs.log`), so the wanter case does not arise.
+- **Lemma HS** is the chain-level statement used in the census below: (S1) z is unfrozen at B′; (S2) z is admissible
+  for h against W = Π ∖ {h}; (S3) every agent other than k and z is unthreatened by W at its value at B′. Its proof is
+  step 3.
+
+**Checks** (`theorem_s.py`, `theorem_s.log`; raw EFX₀ for every (k, longest P, h, minimal H₀) meeting the hypotheses).
+There were **0 violations** in every row, and a wanter always exists when the head is frozen.
+
+| form | cases checked (z takes h / wanter takes h) | starts covered (of 8,383) | SLOT (CAN-k) starts covered (of 585) |
+|---|---|---|---|
+| Theorem S with (S-d), h ∈ J | 13,025 / 1,265 | 5,945 | 337 |
+| Theorem S with (S-d′), h ∈ J | 15,790 / 1,614 | 6,679 | 409 |
+| **Theorems U and S, (S-d′), h ∈ J ∪ {Y_z}** | 20,640 / 2,097 | **7,441** | **424** |
+
+By regime (§5), the union covers:
+
+| regime | covered |
+|---|---|
+| KEEP | 4,291 of 4,839 |
+| OWN | 769 of 886 |
+| CLEAN | 1,860 of 1,877 |
+| RING-red | 97 of 151 |
+| SLOT | 424 of 585 |
+| ED | 0 of 45 |
+
+So OC₁ is now proved *outright* (existence included) at 88.8% of the starts, against 2,880 (34%) from Theorem U alone.
+
+**The SLOT census** (`slot_hs.py`, `slot_hs.log`). This is plain Lemma M after canonical chains with owner k. (G1) and
+(G2) hold there, by D-red 1.
+
+| strategy | SLOT starts (of 585) |
+|---|---|
+| Lemma HS: one slot, at the head (some chain; the longest when any) | 390 |
+| one slot at any holder | 442 |
+| least kept-out set \|H\| = 1, 2, 3 | 442, 138, 5 |
+
+Violations: 0. Among the starts without HS, the obstruction at the longest chains (per h, `slot_hs.log`) is mostly a
+frozen truly dangerous agent that W still threatens: one good of its junk set cannot be cut.
+
+**The SLOT residue (K4.MULTI.SLOT2).** 161 SLOT starts are outside Theorems U and S:
+
+| least \|H\| | head slot at some chain | starts | smallest |
+|---|---|---|---|
+| 1 | yes | 7 | |
+| 1 | no | 11 | log720 (n = 4, m = 9), picks (3, 7, 6, 5) |
+| 2 | no | 138 | **log613 (n = 3, m = 7)**, picks (1, 2, 3) |
+| 3 | no | 5 | n4_3#947.0 (n = 5, m = 9) |
+
+The one-slot part (18 starts) is Lemma HS or Lemma M with |H| = 1 at a chain that the start-level hypotheses do not
+see. The rest needs two or three slots.
+
+*Sub-lemma SLOT2 (open).* If no (k, longest P, h) meets Theorem S or U, then some canonical chain from some k ∈ D has a
+Lemma M certificate (owner k) with |H| ≤ 3.
+
+*Smallest instance and its Hall-violating set.* log613: R₀ = {0: 3, 1: 4, 2: 10, 3: 8}, R₁ = {2: 8, 4: 2, 5: 3, 6: 4},
+R₂ = {3: 7, 4: 3, 5: 5, 6: 6}, picks (1, 2, 3), J = {0, 4, 5, 6}. Both dangerous agents are truly dangerous, they
+share their whole junk set {4, 5, 6}, and u = 1 with z = 0.
+- *k = 1.* The only improving H₀ is {4, 5, 6}, so J′ = {0, 1}, and agent 2 becomes an unfrozen holder.
+  - With |H| = 1, X ⊇ {4, 5, 6} together with a good that 2 does not value. So X threatens 2 at 8 (9 > 8), and 2
+    values neither good of J′. The needy set {2} has an empty neighbourhood: this is the Hall violation.
+  - With H = {0, 1}, X = {4, 5, 6} ⊆ R₂, and removing 2's cheapest good leaves 7 ≤ 8. Agent 0 takes 1 and agent 2
+    takes 0, which is EFX₀.
+- *k = 2.* Every improving pair leaves agent 1 frozen and threatened (DEMAND).
+
+So the second slot does not cut a danger set. It removes the goods that agent 2 does not value from the owner's bundle,
+so that EFX₀'s removal of the least valued good bites. The residue needs a lemma for this *worthless-good* effect.
+That is the natural next target.
