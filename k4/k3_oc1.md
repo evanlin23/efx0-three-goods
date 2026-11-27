@@ -523,3 +523,16 @@ goods unwanted. The other exposed agents end up as follows:
 
 A proof of (b) for one terminal is therefore a counting statement: some single trade releases at least |J| − 1
 wanted goods, counting the releases from LB's upgrades of the chain's end.
+
+A natural rule for the one-terminal case, "rotate so that ℓ ends with its top", is not enough (`top_to_l.py`,
+`top_to_l.log`; 6,121 one-terminal hard perfect drafts):
+- no such rotation exists on 1,173 of them;
+- where one exists, every one repairs on 4,947 drafts, and none does on 1.
+
+So the release count must be run over all rotations, as ω does, not through a fixed target for ℓ.
+
+**Status of the joint statement.**
+- The reduction (Lemmas MAX₃, RED₃) is written and proved.
+- (P) holds on its whole class for n ≤ 4, and on DE's core case wherever §10 tested it.
+- (P) itself, OC₁ at perfect starts for every n, is open. It is the content of the case analysis (kgen-n3) and of the
+  release count (b).
