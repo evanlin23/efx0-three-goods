@@ -1,0 +1,8 @@
+$ python3 k4/oc1cert/check_exists.py results/k4_oc1max/exists_4_fail11.json.gz
+covered 11
+entries 7603
+invalid entries 0
+not certified by the CEGAR 0
+type classes 7736
+time 8 s
+RESULT every certified hypergraph (11) has, under every strict profile, an SD order whose maximum-matching picks satisfy OC1

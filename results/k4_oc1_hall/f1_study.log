@@ -1,0 +1,95 @@
+$ python3 k4/oc1_hall/f1_study.py special
+time 0 s
+$ python3 k4/oc1_hall/f1_study.py screen
+|W|=1 every minimal-H0 swap repairs, owner x 13
+|W|=1 every wanter repairs with x taking everything (owner x) 13
+|W|=1 hard starts 13
+|W|=1 some minimal-H0 swap repairs 13
+|W|=1 some minimal-H0 swap repairs, owner x 13
+|W|=1 some swap repairs 13
+|W|=1 some swap repairs with owner w 13
+|W|=1 some swap repairs with owner x 13
+|W|=1 some wanter repairs with x taking everything (owner x) 13
+|W|=2 every minimal-H0 swap repairs, owner x 2
+|W|=2 every wanter repairs with x taking everything (owner x) 2
+|W|=2 hard starts 2
+|W|=2 some minimal-H0 swap repairs 2
+|W|=2 some minimal-H0 swap repairs, owner x 2
+|W|=2 some swap repairs 2
+|W|=2 some swap repairs with owner w 0
+|W|=2 some swap repairs with owner x 2
+|W|=2 some wanter repairs with x taking everything (owner x) 2
+time 0 s
+$ python3 k4/oc1_hall/f1_study.py suite
+|W|=1 every minimal-H0 swap repairs, owner x 13
+|W|=1 every wanter repairs with x taking everything (owner x) 13
+|W|=1 hard starts 13
+|W|=1 some minimal-H0 swap repairs 13
+|W|=1 some minimal-H0 swap repairs, owner x 13
+|W|=1 some swap repairs 13
+|W|=1 some swap repairs with owner w 13
+|W|=1 some swap repairs with owner x 13
+|W|=1 some wanter repairs with x taking everything (owner x) 13
+|W|=2 every minimal-H0 swap repairs, owner x 2
+|W|=2 every wanter repairs with x taking everything (owner x) 2
+|W|=2 hard starts 2
+|W|=2 some minimal-H0 swap repairs 2
+|W|=2 some minimal-H0 swap repairs, owner x 2
+|W|=2 some swap repairs 2
+|W|=2 some swap repairs with owner w 0
+|W|=2 some swap repairs with owner x 2
+|W|=2 some wanter repairs with x taking everything (owner x) 2
+time 0 s
+$ python3 k4/oc1_hall/f1_study.py logs
+|W|=1 every minimal-H0 swap repairs, owner x 16
+|W|=1 every wanter repairs with x taking everything (owner x) 16
+|W|=1 hard starts 17
+|W|=1 some minimal-H0 swap repairs 17
+|W|=1 some minimal-H0 swap repairs, owner x 17
+|W|=1 some swap repairs 17
+|W|=1 some swap repairs with owner w 17
+|W|=1 some swap repairs with owner x 17
+|W|=1 some wanter repairs with x taking everything (owner x) 16
+|W|=2 every minimal-H0 swap repairs, owner x 2
+|W|=2 every wanter repairs with x taking everything (owner x) 2
+|W|=2 hard starts 3
+|W|=2 some minimal-H0 swap repairs 3
+|W|=2 some minimal-H0 swap repairs, owner x 3
+|W|=2 some swap repairs 3
+|W|=2 some swap repairs with owner w 2
+|W|=2 some swap repairs with owner x 3
+|W|=2 some wanter repairs with x taking everything (owner x) 3
+time 0 s
+$ python3 k4/oc1_hall/f1_study.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+|W|=1 every minimal-H0 swap repairs, owner x 45
+|W|=1 every wanter repairs with x taking everything (owner x) 44
+|W|=1 hard starts 46
+|W|=1 some minimal-H0 swap repairs 46
+|W|=1 some minimal-H0 swap repairs, owner x 46
+|W|=1 some swap repairs 46
+|W|=1 some swap repairs with owner w 46
+|W|=1 some swap repairs with owner x 46
+|W|=1 some wanter repairs with x taking everything (owner x) 44
+|W|=2 every minimal-H0 swap repairs, owner x 1
+|W|=2 every wanter repairs with x taking everything (owner x) 1
+|W|=2 hard starts 2
+|W|=2 some minimal-H0 swap repairs 2
+|W|=2 some minimal-H0 swap repairs, owner x 2
+|W|=2 some swap repairs 2
+|W|=2 some swap repairs with owner w 2
+|W|=2 some swap repairs with owner x 2
+|W|=2 some wanter repairs with x taking everything (owner x) 2
+time 0 s
+$ python3 k4/oc1_hall/f1_study.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+|W|=1 every minimal-H0 swap repairs, owner x 1
+|W|=1 every wanter repairs with x taking everything (owner x) 1
+|W|=1 hard starts 2
+|W|=1 some minimal-H0 swap repairs 2
+|W|=1 some minimal-H0 swap repairs, owner x 2
+|W|=1 some swap repairs 2
+|W|=1 some swap repairs with owner w 2
+|W|=1 some swap repairs with owner x 2
+|W|=1 some wanter repairs with x taking everything (owner x) 1
+time 1 s
+$ python3 k4/oc1_hall/f1_study.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
+time 1 s

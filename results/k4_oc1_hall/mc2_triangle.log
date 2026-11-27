@@ -1,0 +1,5 @@
+$ hand-made K4.MC2 analogue of the TTC n = 5 core (danger pairs on a triangle of shared junk goods)
+instance [[[0, 3, 4, 6], [1, 4, 5, 7], [2, 5, 3, 8], [0, 1, 2], [0, 1, 2]], [[10, 6, 5, 3], [10, 6, 5, 3], [10, 6, 5, 3], [4, 3, 2], [2, 4, 3]]] is_core4 []
+order 0..4, picks (0, 1, 2, None, None) one-absorber at the picks: False
+states after one chain or ring with a one-absorber completion: 12 e.g. [[0], [4, 5], [2], [1], []]
+orders: {'one move repairs': 12, 'picks complete': 108}

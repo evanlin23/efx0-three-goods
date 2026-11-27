@@ -1,0 +1,28 @@
+$ python3 k4/oc1_hall/slot_check.py special (BRUTE=1)
+GAP Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks (3, 6, 7, 5) F [0, 2, 3] slot owners [1] witness {1: {2: 0}}
+GAP Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks (4, 3, 5, 7) F [0, 1, 2] slot owners [0, 3] witness {0: {3: 6}, 3: {0: 2}}
+   ... a frozen owner works with no frozen slots 1
+   ... an unfrozen owner works once frozen agents may take slots 2
+   ... only frozen owners work 0
+distinct starts 28
+instances 4
+sat yes 12
+sat yes, gdt shape no 2
+shown gap 2
+time 0 s
+$ python3 k4/oc1_hall/slot_check.py screen (BRUTE=1)
+GAP A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] picks (6, 1, 2, 5) F [0, 2, 3] slot owners [1] witness {1: {0: 0}}
+GAP A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] picks (0, 6, 2, 5) F [1, 2, 3] slot owners [0] witness {0: {1: 1}}
+GAP B131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 2, 8, 4], [3, 8, 2, 4], [2, 4, 3], [4, 2, 3]]] picks (0, 6, 3, 4) F [1, 2, 3] slot owners [0] witness {0: {1: 1}}
+GAP B131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 2, 8, 4], [3, 8, 2, 4], [2, 4, 3], [4, 2, 3]]] picks (6, 1, 3, 4) F [0, 2, 3] slot owners [1] witness {1: {0: 0}}
+GAP C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] picks (2, 4, 5, 6) F [0, 1, 3] slot owners [0, 2] witness {0: {2: 3}, 2: {0: 0}}
+GAP C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] picks (2, 6, 5, 4) F [0, 1, 3] slot owners [0, 2] witness {0: {2: 3}, 2: {0: 0}}
+   ... a frozen owner works with no frozen slots 37
+   ... an unfrozen owner works once frozen agents may take slots 77
+   ... only frozen owners work 0
+distinct starts 775
+instances 168
+sat yes 581
+sat yes, gdt shape no 77
+shown gap 6
+time 2 s
