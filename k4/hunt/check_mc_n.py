@@ -12,7 +12,8 @@ agent, and per allocation "some agent has a type unsafe in it", with one variabl
 Shape (D2) is not required: TARGET₄ needs EFX₀ only.
 --sample: the certificate covers a sample; candidates without a record are counted, not failed, and every record must
 be a regenerated candidate.
-Usage: check_mc_n.py N CERT.json.gz [CERT2.json.gz ...] [--bmin=5] [--bmax=B] [--jobs=J] [--expect=K] [--sample]"""
+Usage: check_mc_n.py N CERT.json.gz [CERT2.json.gz ...] [--bmin=5] [--bmax=B] [--jobs=J] [--expect=K] [--sample] [--m=M1,M2]
+--m: only the candidates with these numbers of goods (then every one of them must be certified unless --sample)."""
 import sys, os, re, json, gzip, hashlib, collections
 import numpy as np
 import networkx as nx
@@ -98,6 +99,7 @@ def main():
     opt = dict(a[2:].split('=', 1) for a in sys.argv[1:] if a.startswith('--') and '=' in a)
     N = int(args[0]); bmin = int(opt.get('bmin', 5)); bmax = int(opt.get('bmax', 3 * N - 2))
     sample = '--sample' in sys.argv
+    mset = set(map(int, opt['m'].split(','))) if 'm' in opt else None      # --m=: only candidates with these m
     jobs = int(opt.get('jobs', 4))
     print('command: python3 k4/hunt/check_mc_n.py ' + ' '.join(sys.argv[1:]), flush=True)
     pxf = os.path.join(ROOT, 'results', 'k4_min_cex_px_uncovered.json')
@@ -135,6 +137,7 @@ def main():
                     for n_, m, sets, dom, kinds in surv:
                         G = CM.graph(sets, m)
                         h = (n_, m, nx.weisfeiler_lehman_graph_hash(G, node_attr='c'))
+                        if mset is not None and m not in mset: continue
                         if sample and h not in cb:          # sample mode: keep only candidates a record may match
                             stats['raw survivors without a matching record hash'] += 1; continue
                         if any(nx.is_isomorphic(G, G2, node_match=lambda a, b: a['c'] == b['c']) for G2 in buckets[h]): continue
