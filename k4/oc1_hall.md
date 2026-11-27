@@ -1832,6 +1832,12 @@ the 8,383 hard |D| ≥ 2 perfect starts. The 197 starts with |D| = 1 were not ru
   - another kind: c4x-n3m5-big-bases (n = 3, m = 5), order (0, 2, 1), picks (1, 4, 3), D = {0, 2}. k = 0 has no
     improving pool pair. With k = 2, the pair {2, 4} via E(2) = (2, 1) leaves a reduced start that completes with no
     move at all (agent 1 takes junk 0), and Theorem S does not produce that.
-- Pending: the run with *any* official move (or none) as the last step, after at least one settlement (`rsd_any.log`).
-  If it covers everything, Part 1 does not disappear but moves into I⁻ ("settle first, then OC₁ in I⁻").
+- **With any last step** (`rsd_any.log`): one settlement by E(k) with a pool pair, then *any* official move of I⁻ or
+  none, with a one-absorber completion lifted and checked raw EFX₀ in I. This repairs **8,021 of 8,383**, and **362
+  fail**.
+  - By mechanism: CLEAN 211, KEEP 90, ED/RING 43, CAN-k 10, RING-red 8.
+  - The count is a lower bound for "settle first": only one witness completion of I⁻ per absorber is lifted.
+  - Smallest failures: T3, order (0, 2, 1); c4x-n3m6-3good-first (n = 3, m = 6), order (0, 1, 2), picks (5, 4, 3).
+- **Conclusion:** settling first fails at hundreds of starts that one move repairs. **Part 1 is needed in I itself**,
+  not only in I⁻. The plan of §24.2 stands, with both parts.
 
