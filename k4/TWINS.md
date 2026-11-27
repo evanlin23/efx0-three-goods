@@ -83,7 +83,8 @@ uncovered files above) empties the domains of only a few more candidates: 217 of
 left; profile total 4.3·10¹⁶ → 2.4·10¹⁶); 6 of the 359 in the n = 7 sample; 8 of the 3,166 at β = 4. Single
 implementation. `twins_filter.restricted_domains(sets, m, fail, load_uncovered())` is a drop-in for
 `mincex_shapes.restricted_domains` that applies both; `twins_count.py N 5 --cuts` writes the cut lists
-(`results/k4_twins/mc_n6_b5_mc8cut.json.gz`, log `count_n6_b5_cuts.log`; n = 7 likewise).
+(`results/k4_twins/mc_n6_b5_mc8cut.json.gz`, log `count_n6_b5_cuts.log`). At n = 7 the cuts leave 77,427 of 78,118
+candidates (profile total 3.5·10¹⁸ → 2.6·10¹⁸; `mc_n7_b5_mc8cut.json.gz`, `count_n7_b5_cuts.log`).
 
 The counting bound n ≤ 3(β − 1) of K4.MC4 counts P3 incidences, so K4.MC8 does not change it. (In its extremal case
 every E3 agent has one P3 neighbour through a degree-2 good and its two other incidences are degree-2 goods shared with
