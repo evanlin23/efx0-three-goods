@@ -338,10 +338,38 @@ perfect starts, as for K4.MATCH.CM2, it would imply TARGET₄. It is ROUND-IND (
 So GR never gets stuck on **1,285,930 n = 5 starts**, the certifier's whole n = 5 export, in about 22 minutes (`gr.py`,
 `gr_n5sel2.log`, `gr_n5partial6.log`). On the complete sel2 lists this is **certified** (K4.BASE.GR.SEL2): the matching
 session's independent `k4/matching/gr.py` (row K4.MATCH.GRX on `proof/k4-matching`) also finds 276,480 / 115,200 /
-192,000 starts safe. A third re-check here (`check_rules.py`, ten chunks, `check_rules_GR_n5sel2_part*.log`) is in
-progress.
+192,000 starts safe. On partial6 the same implementation finds 702,250 / 702,250 safe with exactly the stop counts of
+`gr.py`: 1,110,833 final rounds with a P1-free round available, 134,822 B2 final rounds and no ED stop. A third
+re-check here (`check_rules.py`, ten chunks, `check_rules_GR_n5sel2_part*.log`) is **partial**: it was stopped at the
+campaign's wind-down after chunks 0–6 (408,576 starts, all safe); chunks 7–9 were not run.
 
 Further facts:
+- *GR is a rule, and its stops matter.* The multi session's census (`k4/oc1max_multi.md` §18 on `proof/k4-oc1max-multi-2`)
+  checks a stronger rule: every admissible P1-free round is safe, with completions and further rounds as the only
+  stops. That rule fails at one 5_pure start, #963:
+  - v₀ = {0:3, 1:6, 5:10, 7:8}, v₁ = {1:2, 6:3, 7:4, 8:8}, v₂ = {2:4, 3:6, 4:5, 6:8}, v₃ = {2:5, 3:4, 4:6, 8:8},
+    v₄ = {5:7, 6:6, 7:3, 8:5};
+  - picks (5, 1, 6, 8, 7);
+  - settling 2 by (2, 4, 1) is a dead end for that rule.
+
+  GR is safe there twice over.
+  - GR stops at the start, by the final round (0, (0, 4), {0, 7}) + (3, (3, 1), {2, 3}).
+  - Even after settling 2, the state has no admissible round but an ED repair: the ring (0, 4, 1).
+    - 0 takes {0, 7}.
+    - 4 takes 0's pick 5, which it wants.
+    - 1 takes 4's good 6 plus junk 1. This is a weak last link: 3 + 2 > 4, although 1 does not want 6 alone.
+    - Then 0 owns the rest, e.g. [[0, 4, 7], [1, 6], [2, 3], [8], [5]], raw EFX₀ (`gr.py`).
+  - So the two rules nest, and #963 separates them by a B1-type ED ring at a state with a phantom.
+- *What saves the round-first form at two-move starts is the E-prefix restriction* (the multi session's question;
+  `gr.py` MODE=GRRE). Here MODE=GRRE is round-first, but every chain of a taken round must be a prefix of an
+  earliest-wanter chain E(k) for some SD order, as in Lemma SD-E(round).
+  - It is safe at all 8 starts where GRR gets stuck.
+  - It is safe at every two-move data set: n = 4 112,880, walks 4,955, n5 s50 14,047, 5_pure 280.
+  - It gets stuck at 154 one-move starts: 87 of the multi file, 28 of the Hall file and 39 of the PW file
+    (`gr_*_GRRE.log`). There a round taken instead of the available one-move repair can be fatal, as at the 35 of §1.
+
+  So on the data: at two-move starts, every E-prefix P1-free round is safe; at one-move starts, the base must come
+  first.
 - Without step 2, GR with an ED or even a C3 base gets stuck at the 12 starts of §4.4.
 - Without step 3, it gets stuck at 47 one-move starts.
 

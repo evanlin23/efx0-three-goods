@@ -1,0 +1,11 @@
+$ MODE=GRRE python3 k4/base_phantom/gr.py 5pure_GRRE results/k4_base_phantom/data/n5_5pure_s5o0_two_move_starts.jsonl.gz 1 0
+distinct starts: 280
+       280  SAFE
+         3  end: ED repair, B1 (no admissible round), 1 phantoms
+       726  end: completion, 2 phantoms
+        13  end: completion, 3 phantoms
+        12  end: final round, B2 (no P1-free round), 0 phantoms
+        10  end: final round, B2 (no P1-free round), 1 phantoms
+       280  starts
+      1463  states visited
+time 0 s

@@ -1,0 +1,4 @@
+m=10: 405700 hypergraphs; sample 40: mean 0.99s median 0.68s max 6.80s; mean cert 788
+m=12: 188132 hypergraphs; sample 40: mean 1.95s median 1.41s max 7.34s; mean cert 1043
+m=14: 20089 hypergraphs; sample 40: mean 6.39s median 6.41s max 12.42s; mean cert 923
+m=16: 437 hypergraphs; sample 40: mean 47.91s median 39.42s max 133.49s; mean cert 901
