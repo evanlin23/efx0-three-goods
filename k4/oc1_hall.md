@@ -109,6 +109,7 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | **Lemma RF-A1** (§24.6) | residue A1 of Conjecture RF (one receiver, D_T′ = ∅, path u → w → d, d takes junk): w owns an S\* completion, keeping out d's favourite good of J′ | written proof conditional on (A1-i)–(A1-iv), certified at all 32,000 n = 4 A1 starts |
 | **Lemma RF-B** (§24.8) | at picks Y′ with (B1)–(B5): "k takes S, d takes Y′_k", then d absorbs Y′_d and J′ ∖ S, is EFX₀ (one move, owner d) | written proof, any n; conclusion checked at all 43,520 n = 4 B starts and both n = 5 ones (two EFX₀ checkers) |
 | **Prop. RF-B4, Lemma REPAIR-Y** (§24.8) | n = 4: every B start (DEMOTE-2) meets Lemma RF-B, from the §22 pair, the SD structure and (U-b) v_u(Y_{k′}) ≥ v_u(Y_u) + v_u(Y_k); REPAIR-Y derives (U-b) from Y's failure when \|J ∖ S\| = 1 | written proofs from facts certified at all 43,520 starts; (U-b) derived at 38,400, evidence at 5,120; general n open |
+| **Conjecture RF-S** (§24.9) | DEMOTE-2 at any n: some k ∈ D_T′ takes an improving H₀ ⊆ S (the junk both truly dangerous agents value), then a chain from k leaves a one-absorber completion. Lemma RF-B covers only 60.6% of DEMOTE-2 at n = 5; RF-PATH for any receiver holds at all 7,608,052 n = 5 failing orders | evidence: 140,111/140,111 (n = 5 exports), 48/48 (stored), 43,520/43,520 (n = 4) |
 | **Lemma MAX** (§19) | if the picks form a maximum matching, no agent reachable from a pickless agent by an alternating path values a junk good. So no pickless agent wants a dangerous frozen agent, or any agent on a want-chain above one, and the pickless-bin pigeonhole of §16/§18 cannot form | written proof (§19); checked at every maximum-matching start of special, screen and the K4.MC2 core |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
 | refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `attempts/k4-oc1-hall-canonical-chains.md` |
@@ -2174,3 +2175,72 @@ are as required.
 **Open for general n:** why every DEMOTE-2 start has an agent k meeting (B1)–(B5). The n = 4 mechanism is (a) plus
 (U-b). Proving it needs the structure of OC₁^max failures at general n, which differs at n = 5: there D_T = ∅ at Y,
 and D_T′ arises only at Y′.
+
+### 24.9 n = 5: Lemma RF-B covers 61% of DEMOTE-2; "k takes the shared junk" covers all of it
+
+Script `k4/oc1_hall/rf_n5.py`. Data, all from `compute/k4-oc1max-cert` (commit d830b54a), with logs here:
+- the certifier's two complete n = 5 failure exports, `results/k4_oc1max/n5/two_move_starts_n5_partial6.json.gz` and
+  `two_move_starts_n5_sel2.json.gz`: 9 hypergraphs, 1,285,930 failing starts, 7,608,052 failing orders
+  (`rf_n5_exports.log`);
+- the stored failures of its 5_pure chunk summaries, `oc1_fails` of `5_pure_s5o0_summary.jsonl.gz` and `s5o1`: 568
+  starts, 5 of them with two receivers, which are R2's n = 5 counterexamples (`rf_n5_stored.log`).
+
+RF is run from **every** receiver. Distinct (profile, Y′) pairs are counted once.
+
+**Lemma RF-PATH for any receiver: confirmed on this data** (coordinator's request). At every failing order and every
+receiver u moved to the front, the agents whose picks change form one ejection path u → x₁ → … → d in o-order, every
+x_i strictly loses, u gains, and d is unfrozen at Y′: 7,608,052 of 7,608,052 (exports) and 2,121 of 2,121 (stored,
+two-receiver starts included).
+
+**Classes of the 1,530,083 distinct export RF starts** (|U′|, |D_T′|):
+
+| (\|U′\|, \|D_T′\|) | starts |
+|---|---|
+| (2, 0) | 480,959 |
+| (3, 0) | 391,680 |
+| (2, 1) | 363,402 |
+| (1, 2) = DEMOTE-2 | 140,111 |
+| (1, 0) = DEMOTE-0 | 113,484 |
+| (2, 2) | 26,472 |
+| (1, 3) | 7,733 |
+| (1, 1) = U1 | 2,782 |
+| pickless agent | 3,460 |
+
+**DEMOTE-2 at n = 5, by tier:**
+
+| tier | repair | exports (140,111) | stored (48) |
+|---|---|---|---|
+| 1 | **Lemma RF-B**: some candidate k meets (B1)–(B5), so FULL(k, S) is EFX₀ (checked) | 84,940 | 21 |
+| 2 | the same chain "k takes S, d takes Y′_k", then some other one-absorber completion | 43,134 | 22 |
+| 3 | a canonical chain from k ∈ D_T′ with H₀ = S whose head is another frozen agent, or which has length 2 or 3 ending at d; then some completion | 12,037 | 3 |
+| — | none of these | **0** | 2 |
+
+- Tier 3 is exactly the starts with no candidate k, i.e. where d wants the pick of neither truly dangerous agent, or
+  of one that the other also wants.
+- The 2 stored starts outside the tiers are repaired by the official moves below; S is still the key.
+  - 5_pure, Y′ = (5, 0, 4, 7, 6). k₁ takes S = {2, 3}, then a chain k₁ → a₀ → k₀ in which the middle agent a₀ also
+    adds a junk good, so the chain is not canonical.
+  - The shape of R2's counterexamples: k and k′ share **three** junk goods, |S| = 3. k takes an improving two-good
+    subset of S.
+- *Choice of k.* On the RF path, a candidate never meets (B1)–(B5) (16,431 exports, 10 stored), so "k off the RF
+  path" is necessary, as girth suggested. It is not sufficient: 43,134 off-path candidates fail, mostly on (B5).
+  "The candidate whose pick d values more" works at 15,262 of the 16,431 two-candidate starts and fails at 1,169;
+  at 241 of those the other candidate works.
+- *(B5) violators* (stored data): u, at 8 starts (the n = 4 inequality (U-b) is not forced at n = 5), and frozen agents
+  off the path that value Y′_k together with junk or Y_u (24).
+
+**What this means for the RF route.**
+- Lemma RF-B remains proved, but **it is an n = 4 mechanism**: it covers 60.6% of DEMOTE-2 at n = 5.
+- The common structure at n = 5 is the first step: a truly dangerous agent takes (an improving subset of) the junk it
+  shares with the other. It covers 140,111 of 140,111 export starts and 48 of 48 stored ones.
+- After the chain k → d the state satisfies (G2): the free goods are junk, below every pick, and Y′_d, unwanted by
+  RF-PATH (c). So the exact test there is Lemma M^c (`k4/oc1max_multi.md` §9).
+
+**Conjecture RF-S** (EVIDENCE: 140,111 of 140,111 n = 5 export starts, 48 of 48 stored, 43,520 of 43,520 at n = 4).
+At every DEMOTE-2 RF start, some k ∈ D_T′ takes an improving set H₀ ⊆ S, where S is the set of junk goods valued by
+both truly dangerous agents. Then some chain from k, each agent taking its predecessor's pick and possibly junk, leaves
+a one-absorber completion.
+
+**Open:**
+- a proof of RF-S beyond n = 4, presumably Lemma M^c at the post-chain state;
+- DEMOTE-0 and the new class (1, 3) at n = 5, with 113,484 and 7,733 starts, which this note has not analysed.

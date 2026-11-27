@@ -45,3 +45,7 @@ RF starts with a pickless agent 3460
 RF-PATH (one ejection path in o-order, ejected agents lose, end unfrozen at Y'): True 7608052
 failing orders 7608052
 failing starts with 1 receivers 1285930
+
+real	1m37.372s
+user	3m34.824s
+sys	0m4.098s
