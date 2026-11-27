@@ -1,0 +1,6 @@
+$ python3 k4/k3oc1/tprime_k.py source:certs:6 2 3
+|T| 1: k 5824
+|T| 1: none 58660
+|T| 2: k 2024
+|T| 2: none 44140
+FAIL lines: 0; NEEDK lines (owner k needed) in tprime_k_needk.gz: 7848

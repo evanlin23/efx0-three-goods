@@ -1,0 +1,5 @@
+$ python3 k4/k3oc1/rf/demote0_na_all.py RESIDUE
+274 5_pure#374: RF-A1* form False, no-absorber completion False
+32368 5_pure#374: RF-A1* form True, no-absorber completion True
+41767 5_pure#464: RF-A1* form False, no-absorber completion True
+39075 5_pure#464: RF-A1* form True, no-absorber completion True

@@ -1,0 +1,17 @@
+$ python3 k4/matching/hard_starts.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93 (NMAX=5)
+complete at the picks 491
+complete at the picks (one absorber, not S*) 1
+hard: delta_oa = 1 13
+hard: delta_oa = 1 -> best after one move 0 13
+hard: delta_oa = 1, OC1 holds 13
+hard: delta_oa = 2 3
+hard: delta_oa = 2 -> best after one move 0 3
+hard: delta_oa = 2, OC1 holds 3
+hard: delta_ss = 1 13
+hard: delta_ss = 2 3
+instances 150
+max starts 508
+non-max starts (skipped) 64
+one-absorber-hard 16
+rows written to results/k4_matching/hard_cores_150_93.jsonl
+time 0 s

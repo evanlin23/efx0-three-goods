@@ -1,0 +1,6 @@
+$ KNOWN_HARD= python3 k4/matching/gr.py ../../results/k4_matching/data/onemove_hard_multi.jsonl.gz | 8081 distinct starts
+GR safe True 8081
+GR safe True | all 8081
+states, stop: ED repair 85
+states, stop: final round 7996
+time 44 s

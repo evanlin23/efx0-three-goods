@@ -138,3 +138,68 @@ matchings but do not raise σ.
 
 So the potential form of RF in the ledger row ("At every failing pair (Y, u) some u-first maximum-matching vector raises
 σ, 112,880 of 112,880") is correct as stated. It concerns some u-first vector, not the rotation of a listed order.
+
+## Addendum (07:20): the rkmax session's note (`k4/rkmax.md` on `proof/k4-rkmax` at `ebd17e7e`, draft PR #158)
+
+**Read:** §1 (Observation W; Lemmas TC, COMP, PO, 2AG), §2 and §3, line by line. There is no lemma named "GAIN" at
+this head; 2AG, the two-agent gain/loss lemma, is taken to be the one meant.
+**Check:** `k4/referee/rkdom_ref.py`, log `results/k4_referee/rkdom_ref_n4.log`. The code is my own: it enumerates
+all maximum matchings directly, and uses `rkmax_ref.oc1` for OC₁. Nothing from `k4/rkmax/` is run.
+
+### Verdicts
+
+- **Observation W: CORRECT FOR MATCHED AGENTS; a wording fix.**
+  - At a Pareto-optimal matching every good i prefers to M_i is matched, since otherwise giving it to i improves on M.
+    So for a matched agent, rank − 1 = #{goods preferred} = out-degree in W.
+  - For an *unmatched* agent, rank = 5 by convention, while its out-degree is |R_i|: every valued good is matched and
+    preferred. That is 3 for a three-good agent. So "rank_i − 1 is the out-degree" and "the rank sum is n + |W(Y)|"
+    fail at a non-perfect start with an unmatched three-good agent.
+  - Also, "the receivers are the agents of in-degree 0" counts pickless agents too, unless receivers are read in Lean's
+    sense.
+  - Fix: say "at a perfect start", or "for matched agents". The signature counts ranks 1–4 only, so σ as the
+    out-degree distribution of the matched agents is correct.
+- **Lemma TC: CORRECT.**
+  - (a): the first nonzero Δσ_t is the first nonzero Δc_t.
+  - (b): the standard equivalence for sorted vectors via counts. c₅ = n for both, so t = 1..4 suffices.
+  - (c): σ by (a). The rank sum is Σ_{t=0}^{4} (n − c_t). Leximin follows from pointwise ≤ of the sorted vectors with
+    inequality somewhere.
+  - (d): an agent's rank depends on its own good only.
+- **Lemma COMP: CORRECT.**
+  - Y ⊕ Y′ for two maximum matchings has components that are even cycles and paths with equally many edges of each.
+    A path with more Y′ edges would augment Y, and one with more Y edges would augment Y′.
+  - The equal paths are chains (two good ends) or shifts (two agent ends), and each Y ⊕ C_j is maximum.
+  - Δc is additive over components on disjoint agents, by TC(d), and the lexicographic order on ℤ⁴ is compatible with
+    addition. So no σ-raising single component implies no σ-raising Y′. The converse is immediate.
+- **Lemma PO: CORRECT.** A Pareto improvement of a maximum matching keeps the matched set, since it can neither lose
+  nor, by maximality, add an agent. Ranks weakly fall and one strictly, which is rank dominance by TC(b). The
+  "in particular" follows from TC(c) and SDPO (strict values).
+- **Lemma 2AG: CORRECT.**
+  - Δc_t = [r′_a ≤ t < r_a] − [r_b ≤ t < r′_b].
+  - Rank dominance means the drop interval ⊆ the rise interval with the two different, i.e. r′_a ≤ r_b, r′_b ≤ r_a,
+    not both equalities.
+  - σ rises iff the first nonzero Δc_t is +1: r′_a < r_b, or r′_a = r_b with the drop ending first (r′_b < r_a).
+    Equal intervals give Δc ≡ 0.
+
+### Data (n = 4, the certifier's complete export; every profile)
+
+| claim (§3) | rkmax session | mine |
+|---|---|---|
+| every failing start is rank-dominated | 112,880 of 112,880 | **112,880 of 112,880** |
+| … least dominating change: 2 agents / 3 agents | 107,760 / 5,120 | 107,760 / 5,120 |
+| undominated maximum matchings, all satisfying OC₁ | 213,120 | **213,120**, all SD outcomes, all OC₁ |
+| σ-optimal vectors (§2): total; completing at the picks / after one move | 198,400; 187,560 / 10,840 | the same (§2 above) |
+| RS / LMR optimal vectors | 213,120 / 197,120 | the same |
+
+On every 20th profile (5,580 profiles, 571,236 maximum matchings), I also checked:
+- **COMP** directly: at every σ-maximal maximum matching (9,624), no maximum matching differing on a single component
+  of the symmetric difference has larger σ. At every non-maximal one (561,612), one does. No violation.
+- **2AG's formula** against the direct comparison (dominance and σ) on all 6,918,828 two-agent changes between maximum
+  matchings: equal at all.
+
+So **Conjecture RKDOM at n = 4** now has a second implementation. Since the export lists every failing start, "every
+failing start is rank-dominated" certifies RKDOM, hence RKMAX, RS and LMR, at n = 4, together with the certifier's
+completeness and the type reduction.
+
+**Not re-run:**
+- the n = 5 RKDOM runs of the commit message (583,680 sel2 starts dominated by a 2-agent change);
+- the n = 4 class census of §2 and the Theorem U/S census of `ebd17e7e`.

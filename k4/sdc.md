@@ -2253,6 +2253,10 @@ OC₁ is checked with the raw checker `oc1_mc2_rand.Inst.check`.
       {0,1,3}. Hall's classification is (1, 2); OC₁ holds after one move.
     - The coordinator replayed it: the same σ-optima, receiver set {3}, junk {0, 1, 3}, and "one move repairs". This
       profile has no failing start at all, which is why it is outside the exports.
+    - Caveat (write-up session): as printed, the values have subset-sum ties (agent 0: 17 + 2 = 19; agent 3: 5 + 17 =
+      15 + 7), so the profile is not strict. The coordinator replayed the strict perturbation v′ = 1000v + 2^j (j = the
+      good's position in the agent's list). It has the same σ-optima, receiver {3}, junk {0, 1, 3} and "one move
+      repairs", and no failing start. So plan (a) is refuted by a strict profile.
     - Random census, 60 strict profiles per pure n = 5 core (280,380 profiles): 178 of 432,385 σ-maximal vectors have
       one receiver. By class: (1, 0) 161, of which 21 need a move; (1, 1) 12; (1, 2) 5, all needing a move.
     - No OC₁ failure at any σ-maximal vector, so RKMAX survives. A proof still needs DEMOTE-type arguments for

@@ -1,0 +1,28 @@
+$ python3 k4/matching/cm_big.py cores6 2000 40 31
+... 100 instances, 0 s
+... 200 instances, 0 s
+... 300 instances, 0 s
+... 400 instances, 0 s
+... 500 instances, 0 s
+... 600 instances, 0 s
+... 700 instances, 0 s
+... 800 instances, 1 s
+... 900 instances, 1 s
+... 1000 instances, 1 s
+... 1100 instances, 1 s
+... 1200 instances, 1 s
+... 1300 instances, 1 s
+... 1400 instances, 1 s
+... 1500 instances, 1 s
+... 1600 instances, 1 s
+... 1700 instances, 1 s
+... 1800 instances, 1 s
+... 1900 instances, 1 s
+... 2000 instances, 1 s
+CM holds, owner end 2
+CM holds, owner k 59
+hard perfect starts 61
+instances 2000
+non-perfect starts 3687
+perfect starts 8325
+time 1 s

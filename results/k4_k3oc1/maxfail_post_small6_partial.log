@@ -1,0 +1,5 @@
+every (least omega, then max score) trade passes the simple test True 912
+every least-omega trade passes the exact test True 912
+every least-omega trade passes the simple test True 912
+every max-score trade passes the exact test True 912
+max-score fails the simple test 912

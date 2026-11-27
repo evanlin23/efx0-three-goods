@@ -1,0 +1,14 @@
+$ python3 attempts/k4_matching_rsd_n5.py
+== 5_pure m=10 idx 419 | picks [6, 4, 5, 9, 7] from 12 orders; junk [0, 1, 2, 3, 8]
+1. no completion at the picks: True
+2. an RSD sequence with (L*) at every step, any depth: None
+3. with (L*) deferred: ([(0, [0, 7], [0, 4]), (1, [1, 8, 9], [1, 3])], [[0, 7], [1, 8, 9], [5], [4, 2, 3], [6]])
+4. the two chains [0, 4] [1, 3] vertex-disjoint: True
+   the second chain is also a move at the picks: True
+== 5_pure m=11 idx 447 | picks [5, 1, 6, 7, 8] from 12 orders; junk [0, 2, 3, 4, 9, 10]
+1. no completion at the picks: True
+2. an RSD sequence with (L*) at every step, any depth: None
+3. with (L*) deferred: ([(0, [0, 8], [0, 4]), (2, [3, 9, 10], [2, 1])], [[0, 8], [6, 1, 2, 4], [3, 9, 10], [7], [5]])
+4. the two chains [0, 4] [2, 1] vertex-disjoint: True
+   the second chain is also a move at the picks: True
+RSD with (L*) at the step refuted at n = 5, k = 4; deferred, it repairs both

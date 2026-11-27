@@ -1,0 +1,10 @@
+$ python3 k4/k3oc1/rf/a1_hardness_census.py RESIDUE   (shape = hypergraph, Y, Y', RF path, roles at Y, junk goods with their valuers; u/w/d = path roles, oN = agent N)
+45039 ('5_pure#464', (5, 4, 7, 6, 3), (5, 4, 1, 3, 7), (3, 4, 2), ('Dp', 'DT', 'DT', 'U', 'F'), 'junk valued by', ((0, ('o0',)), (1, ('d', 'o1')), (2, ('d', 'o1'))))
+33012 ('5_pure#464', (5, 4, 7, 6, 3), (5, 4, 2, 3, 7), (3, 4, 2), ('Dp', 'DT', 'DT', 'U', 'F'), 'junk valued by', ((0, ('o0',)), (1, ('d', 'o1')), (2, ('d', 'o1'))))
+22928 ('5_pure#374', (1, 7, 4, 6, 5), (1, 4, 2, 6, 7), (4, 1, 2), ('Dp', 'F', 'DT', 'DT', 'U'), 'junk valued by', ((0, ('o0',)), (2, ('d', 'o3')), (3, ('d', 'o3'))))
+3986 ('5_pure#374', (1, 5, 4, 6, 7), (1, 4, 3, 6, 5), (4, 1, 2), ('Dp', 'F', 'DT', 'DT', 'U'), 'junk valued by', ((0, ('o0',)), (2, ('d', 'o3')), (3, ('d', 'o3'))))
+3474 ('5_pure#374', (1, 5, 4, 6, 7), (1, 4, 2, 6, 5), (4, 1, 2), ('Dp', 'F', 'DT', 'DT', 'U'), 'junk valued by', ((0, ('o0',)), (2, ('d', 'o3')), (3, ('d', 'o3'))))
+1980 ('5_pure#374', (1, 7, 4, 6, 5), (1, 4, 3, 6, 7), (4, 1, 2), ('Dp', 'F', 'DT', 'DT', 'U'), 'junk valued by', ((0, ('o0',)), (2, ('d', 'o3')), (3, ('d', 'o3'))))
+242 ('5_pure#374', (5, 4, 2, 3, 6), (5, 4, 3, 6, 7), (2, 3, 4), ('DT', 'DT', 'U', 'Dp', 'Dp'), 'junk valued by', ((0, ('o0',)), (1, ('o0', 'o1')), (7, ('d', 'o0', 'o1', 'w'))))
+242 (A1-i) False (A1-ii) False (A1-iii) False
+110419 (A1-i) True (A1-ii) True (A1-iii) True

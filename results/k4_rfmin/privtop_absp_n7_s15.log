@@ -1,0 +1,21 @@
+ABS' on random private-top cores: 20000 instances, n = 7..7, seed 15
+    ABS' after a chain d -> w with w unfrozen                    11
+    ABS' after: chain d -> w: d in D_full, w unfrozen, |H0| = 2  10
+    ABS' after: chain d -> w: d in D_full, w unfrozen, |H0| = 3  4
+    ABS' after: chain of 3 agents                                31
+    ABS' after: chain of 4 agents                                53
+    ABS' after: chain of 5 agents                                41
+    ABS' after: chain of 6 agents                                23
+    ABS' after: other                                            11
+    at the picks: ABS' A3                                        35641
+    at the picks: ABS' construction EFX0 (raw)                   92174
+    at the picks: ABS' fails, but a one-absorber completion exists 35576
+    at the picks: ABS' ok                                        92174
+    states where ABS' applies; construction EFX0 (raw)           1197
+  ABS' applies after some move                                   65
+  gap starts (picks do not complete)                             65
+  max starts                                                     127815
+
+real	2m45.348s
+user	10m40.880s
+sys	0m2.827s

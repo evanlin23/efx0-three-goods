@@ -1,0 +1,10 @@
+$ python3 k4/k3oc1/t2k_e.py gapfile:results/k4_k3oc1/gap_certs_5.gap.gz
+|T| 1: drafts: every rotation LE (owner none or e, slots T and k) True 1744
+|T| 1: drafts: every rotation exact none-or-e True 1744
+|T| 1: drafts: every rotation simple none-or-e False 96
+|T| 1: drafts: every rotation simple none-or-e True 1648
+|T| 1: rotations: simple None, LE no owner, exact none-or-e True 16
+|T| 1: rotations: simple None, LE owner, exact none-or-e True 80
+|T| 1: rotations: simple e, LE no owner, exact none-or-e True 648
+|T| 1: rotations: simple e, LE owner, exact none-or-e True 132
+|T| 1: rotations: simple none, LE no owner, exact none-or-e True 3028

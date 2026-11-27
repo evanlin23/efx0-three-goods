@@ -13,3 +13,7 @@ python3 $P park 2000 3 5 3 7 3 4 mono 17
 python3 $P park 500 4 6 5 8 4 4 add 18
 python3 $P park 500 4 6 5 8 4 4 mono 19
 } > results/k4_referee/girth_ref.log 2>&1
+# Lemma ORD and Lemma RF-T-A (k4/girth.md §7 at 56941dc6); run from the repository root; the log keeps 3 of the
+# COUNTEREXAMPLE lines (one is printed per core where one occurs)
+python3 k4/referee/rft_ref.py 300 2 4 > results/k4_referee/rft_ref_300.log
+python3 k4/referee/rft_ref.py 2 7 1 | grep -m1 COUNTEREXAMPLE > results/k4_referee/rft_ref_example.log

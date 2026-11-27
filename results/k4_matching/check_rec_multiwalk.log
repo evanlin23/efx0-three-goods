@@ -1,0 +1,4 @@
+$ python3 k4/matching/check_rec.py ../../results/k4_matching/data/multi_oc1_fail_walk.jsonl.gz ../../results/k4_matching/rec_multiwalk_witnesses.json.gz | 4955 distinct starts, 4955 witnesses
+verified, after one move of I- 4955
+all starts certified: True
+time 1 s

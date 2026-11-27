@@ -1,0 +1,18 @@
+least-omega trade DEchain; witness no owner; other exposed: killed 826
+least-omega trade DEchain; witness no owner; other exposed: killed+released 785
+least-omega trade DEchain; witness no owner; other exposed: killed+released, killed+released 32
+least-omega trade DEchain; witness no owner; other exposed: killed+released, released 160
+least-omega trade DEchain; witness no owner; other exposed: killed+released, still exposed and frozen 50
+least-omega trade DEchain; witness no owner; other exposed: killed, killed 1
+least-omega trade DEchain; witness no owner; other exposed: killed, killed+released 33
+least-omega trade DEchain; witness no owner; other exposed: killed, released 114
+least-omega trade DEchain; witness no owner; other exposed: killed, still exposed and frozen 2
+least-omega trade DEchain; witness no owner; other exposed: released 106
+least-omega trade DEchain; witness no owner; other exposed: still exposed and frozen 226
+least-omega trade DEring; witness no owner; other exposed: killed 87
+least-omega trade DEring; witness no owner; other exposed: killed+released 238
+least-omega trade DEring; witness no owner; other exposed: released 74
+least-omega trade DEring; witness no owner; other exposed: released, released 17
+least-omega trade DEring; witness no owner; other exposed: released, still exposed and frozen 16
+least-omega trade DEring; witness no owner; other exposed: still exposed and frozen 80
+one-terminal perfect, |E| >= 2 2847

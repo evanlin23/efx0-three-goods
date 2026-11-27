@@ -1,0 +1,4 @@
+# claude/kind-lamport-y8fdme code at 6faed757 (coordinator's, not this workstream's), run unmodified
+$ python3 k4/sdc/roundp_check.py results/k4_matching/data/n5_5pure_s5o0_two_move_starts.json.gz 3
+starts 280
+moves in the smallest repairing round (None = fails): {1: 234, 2: 46} 7 s

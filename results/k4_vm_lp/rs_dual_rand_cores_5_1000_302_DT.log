@@ -1,0 +1,6 @@
+$ python3 rs_dual_rand.py cores:5:1000:302
+instances 1000
+  1305 ('D1', 'P', 'all dangerous slack')
+  366 ('D1', 'P', 'some dangerous tight')
+  1671 ('RS-optimal', 'P')
+violations: 0

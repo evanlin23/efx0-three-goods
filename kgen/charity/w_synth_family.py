@@ -2,7 +2,9 @@
 S'(sigma, k) make its stranded state (sigma - 1 goods out) the welfare maximum, i.e. strictly heavier than every
 EFX0 allocation leaving fewer goods out?  Exact (z3 CEGAR, w_synth.run with a fixed state and support).
 
-    python3 kgen/charity/w_synth_family.py SIGMA K [P|-] [VMAX|-] [CUTFILE]
+    python3 kgen/charity/w_synth_family.py SIGMA K [P|-] [VMAX|-] [CUTFILE [--resume]]
+CUTFILE: the cut list is written there on UNSAT (or FOUND), and to CUTFILE.partial every 25 cuts; --resume restarts
+from CUTFILE.partial (the cuts are valid constraints whatever run produced them, so resuming is sound).
 P: the number of stranded goods to require (default sigma - 1); VMAX: integer values in 1..VMAX instead of reals."""
 import sys, time
 import w_synth
@@ -15,9 +17,9 @@ if __name__ == '__main__':
     I, X, pool, src, ch = build(sigma, K, own=True)
     # renumber goods: bundles first in agent order, then the pool, as w_synth expects nothing about order
     B = [sorted(X[a]) for a in range(I.n)]; Pl = sorted(pool)
-    DUMP = sys.argv[5] if len(sys.argv) > 5 else None
+    DUMP = sys.argv[5] if len(sys.argv) > 5 else None; RESUME = '--resume' in sys.argv
     res = w_synth.run(I.n, K, P, None, 3000, fixed=(B, Pl, I.m, [set(I.R[a]) for a in range(I.n)]), vmax=VMAX,
-                      dump=DUMP)
+                      dump=DUMP, resume=RESUME)
     print("S'(%d, %d) hypergraph, n %d, m %d, stranded %d: %s after %d cuts, %.1f s" % (sigma, K, I.n, I.m, len(Pl),
                                                                                 res[0], res[1], res[2]), flush=True)
     if res[0] == 'FOUND':

@@ -1,0 +1,140 @@
+$ RKMAX_OUT=results/k4_girth_oc1_rkmax_moves_n5.jsonl.gz python3 k4/girth/oc1_rkmax_rand.py 120 12 2
+profiles 560880 (with no perfect vector: 120)
+   (1, 0) |J|=0 a virtual RF start whose path ends at the receiver: False                                                34
+   (1, 0) |J|=0 a virtual RF start whose path ends at the receiver: True                                                 30
+   (1, 0) |J|=0 first form: picks: NA (no owner)                                                                         64
+   (1, 0) |J|=0 one-receiver sigma-maximal vectors                                                                       64
+   (1, 0) |J|=0 picks: NA (no owner) | SINK form (absorber w or d of a virtual RF): FAILS                                34
+   (1, 0) |J|=0 picks: NA (no owner) | SINK form (absorber w or d of a virtual RF): at the picks                         30
+   (1, 0) |J|=0 picks: NA (no owner) | covered by: NA                                                                    64
+   (1, 0) |J|=0 raw OC1: picks complete                                                                                  64
+   (1, 0) |J|=1 a virtual RF start whose path ends at the receiver: False                                                13
+   (1, 0) |J|=1 a virtual RF start whose path ends at the receiver: True                                                 59
+   (1, 0) |J|=1 first form: picks: NA (no owner)                                                                         72
+   (1, 0) |J|=1 one-receiver sigma-maximal vectors                                                                       72
+   (1, 0) |J|=1 picks: NA (no owner) | SINK form (absorber w or d of a virtual RF): FAILS                                13
+   (1, 0) |J|=1 picks: NA (no owner) | SINK form (absorber w or d of a virtual RF): at the picks                         59
+   (1, 0) |J|=1 picks: NA (no owner) | covered by: 3-ring certificate, NA                                                 2
+   (1, 0) |J|=1 picks: NA (no owner) | covered by: NA                                                                    70
+   (1, 0) |J|=1 raw OC1: picks complete                                                                                  72
+   (1, 0) |J|=2 a virtual RF start whose path ends at the receiver: True                                                108
+   (1, 0) |J|=2 first form: move: (C) with a pick-dangerous tail, |J| = 2, head Dp                                        1
+   (1, 0) |J|=2 first form: move: (C) with a pick-dangerous tail, |J| = 2, head F                                         4
+   (1, 0) |J|=2 first form: move: (C) with a pick-dangerous tail, |J| = 2, head U                                         9
+   (1, 0) |J|=2 first form: move: (T)                                                                                    16
+   (1, 0) |J|=2 first form: move: (T*)                                                                                   12
+   (1, 0) |J|=2 first form: picks: owner U                                                                               66
+   (1, 0) |J|=2 move: (C) with a pick-dangerous tail, |J| = 2, head Dp | SINK form (absorber w or d of a virtual RF): FAILS      1
+   (1, 0) |J|=2 move: (C) with a pick-dangerous tail, |J| = 2, head Dp | covered by: NONE of the forms                    1
+   (1, 0) |J|=2 move: (C) with a pick-dangerous tail, |J| = 2, head F | SINK form (absorber w or d of a virtual RF): FAILS      4
+   (1, 0) |J|=2 move: (C) with a pick-dangerous tail, |J| = 2, head F | covered by: NONE of the forms                     4
+   (1, 0) |J|=2 move: (C) with a pick-dangerous tail, |J| = 2, head U | SINK form (absorber w or d of a virtual RF): FAILS      9
+   (1, 0) |J|=2 move: (C) with a pick-dangerous tail, |J| = 2, head U | covered by: NONE of the forms                     9
+   (1, 0) |J|=2 move: (T) | SINK form (absorber w or d of a virtual RF): after (T)                                       16
+   (1, 0) |J|=2 move: (T) | covered by: 3-ring certificate                                                                2
+   (1, 0) |J|=2 move: (T) | covered by: NONE of the forms                                                                14
+   (1, 0) |J|=2 move: (T*) | SINK form (absorber w or d of a virtual RF): after (T*)                                     12
+   (1, 0) |J|=2 move: (T*) | covered by: 3-ring certificate                                                              12
+   (1, 0) |J|=2 one-receiver sigma-maximal vectors                                                                      108
+   (1, 0) |J|=2 picks: owner U | SINK form (absorber w or d of a virtual RF): at the picks                               66
+   (1, 0) |J|=2 picks: owner U | covered by: owner d = the receiver (DEMOTE (i))                                         66
+   (1, 0) |J|=2 raw OC1: one move repairs                                                                                42
+   (1, 0) |J|=2 raw OC1: picks complete                                                                                  66
+   (1, 0) |J|=3 a virtual RF start whose path ends at the receiver: True                                                 51
+   (1, 0) |J|=3 first form: move: (C) with a pick-dangerous tail, |J| = 3, head F                                         1
+   (1, 0) |J|=3 first form: move: (C) with a pick-dangerous tail, |J| = 3, head U                                         2
+   (1, 0) |J|=3 first form: move: (T)                                                                                    10
+   (1, 0) |J|=3 first form: move: (T*)                                                                                    2
+   (1, 0) |J|=3 first form: move: another official move                                                                   3
+   (1, 0) |J|=3 first form: picks: owner U                                                                               33
+   (1, 0) |J|=3 move: (C) with a pick-dangerous tail, |J| = 3, head F | SINK form (absorber w or d of a virtual RF): FAILS      1
+   (1, 0) |J|=3 move: (C) with a pick-dangerous tail, |J| = 3, head F | covered by: NONE of the forms                     1
+   (1, 0) |J|=3 move: (C) with a pick-dangerous tail, |J| = 3, head U | SINK form (absorber w or d of a virtual RF): FAILS      2
+   (1, 0) |J|=3 move: (C) with a pick-dangerous tail, |J| = 3, head U | covered by: NONE of the forms                     2
+   (1, 0) |J|=3 move: (T) | SINK form (absorber w or d of a virtual RF): after (T)                                       10
+   (1, 0) |J|=3 move: (T) | covered by: 3-ring certificate                                                                2
+   (1, 0) |J|=3 move: (T) | covered by: NONE of the forms                                                                 8
+   (1, 0) |J|=3 move: (T*) | SINK form (absorber w or d of a virtual RF): after (T*)                                      2
+   (1, 0) |J|=3 move: (T*) | covered by: 3-ring certificate                                                               1
+   (1, 0) |J|=3 move: (T*) | covered by: NONE of the forms                                                                1
+   (1, 0) |J|=3 move: another official move | SINK form (absorber w or d of a virtual RF): FAILS                          3
+   (1, 0) |J|=3 move: another official move | covered by: NONE of the forms                                               3
+   (1, 0) |J|=3 one-receiver sigma-maximal vectors                                                                       51
+   (1, 0) |J|=3 picks: owner U | SINK form (absorber w or d of a virtual RF): at the picks                               33
+   (1, 0) |J|=3 picks: owner U | covered by: owner d = the receiver (DEMOTE (i))                                         33
+   (1, 0) |J|=3 raw OC1: one move repairs                                                                                18
+   (1, 0) |J|=3 raw OC1: picks complete                                                                                  33
+   (1, 0) |J|=4 a virtual RF start whose path ends at the receiver: True                                                 14
+   (1, 0) |J|=4 first form: move: (T)                                                                                     1
+   (1, 0) |J|=4 first form: picks: owner U                                                                               13
+   (1, 0) |J|=4 move: (T) | SINK form (absorber w or d of a virtual RF): after (T)                                        1
+   (1, 0) |J|=4 move: (T) | covered by: NONE of the forms                                                                 1
+   (1, 0) |J|=4 one-receiver sigma-maximal vectors                                                                       14
+   (1, 0) |J|=4 picks: owner U | SINK form (absorber w or d of a virtual RF): at the picks                               13
+   (1, 0) |J|=4 picks: owner U | covered by: owner d = the receiver (DEMOTE (i))                                         13
+   (1, 0) |J|=4 raw OC1: one move repairs                                                                                 1
+   (1, 0) |J|=4 raw OC1: picks complete                                                                                  13
+   (1, 0) |J|=5 a virtual RF start whose path ends at the receiver: True                                                  2
+   (1, 0) |J|=5 first form: picks: owner U                                                                                2
+   (1, 0) |J|=5 one-receiver sigma-maximal vectors                                                                        2
+   (1, 0) |J|=5 picks: owner U | SINK form (absorber w or d of a virtual RF): at the picks                                2
+   (1, 0) |J|=5 picks: owner U | covered by: owner d = the receiver (DEMOTE (i))                                          2
+   (1, 0) |J|=5 raw OC1: picks complete                                                                                   2
+   (1, 1) |J|=3 a virtual RF start whose path ends at the receiver: True                                                 29
+   (1, 1) |J|=3 first form: move: (C)                                                                                    22
+   (1, 1) |J|=3 first form: move: (T)                                                                                     3
+   (1, 1) |J|=3 first form: picks: owner U                                                                                4
+   (1, 1) |J|=3 move: (C) | SINK form (absorber w or d of a virtual RF): after (C)                                       22
+   (1, 1) |J|=3 move: (C) | covered by: NONE of the forms                                                                14
+   (1, 1) |J|=3 move: (C) | covered by: RF-B form                                                                         8
+   (1, 1) |J|=3 move: (T) | SINK form (absorber w or d of a virtual RF): after (T)                                        3
+   (1, 1) |J|=3 move: (T) | covered by: NONE of the forms                                                                 2
+   (1, 1) |J|=3 move: (T) | covered by: RF-B form                                                                         1
+   (1, 1) |J|=3 one-receiver sigma-maximal vectors                                                                       29
+   (1, 1) |J|=3 picks: owner U | SINK form (absorber w or d of a virtual RF): at the picks                                4
+   (1, 1) |J|=3 picks: owner U | covered by: owner d = the receiver (DEMOTE (i))                                          4
+   (1, 1) |J|=3 raw OC1: one move repairs                                                                                25
+   (1, 1) |J|=3 raw OC1: picks complete                                                                                   4
+   (1, 1) |J|=4 a virtual RF start whose path ends at the receiver: True                                                 24
+   (1, 1) |J|=4 first form: move: (C)                                                                                    22
+   (1, 1) |J|=4 first form: move: (T)                                                                                     2
+   (1, 1) |J|=4 move: (C) | SINK form (absorber w or d of a virtual RF): after (C)                                       22
+   (1, 1) |J|=4 move: (C) | covered by: NONE of the forms                                                                10
+   (1, 1) |J|=4 move: (C) | covered by: RF-B form                                                                        12
+   (1, 1) |J|=4 move: (T) | SINK form (absorber w or d of a virtual RF): after (T)                                        2
+   (1, 1) |J|=4 move: (T) | covered by: NONE of the forms                                                                 2
+   (1, 1) |J|=4 one-receiver sigma-maximal vectors                                                                       24
+   (1, 1) |J|=4 raw OC1: one move repairs                                                                                24
+   (1, 1) |J|=5 a virtual RF start whose path ends at the receiver: True                                                  3
+   (1, 1) |J|=5 first form: move: (C)                                                                                     3
+   (1, 1) |J|=5 move: (C) | SINK form (absorber w or d of a virtual RF): after (C)                                        3
+   (1, 1) |J|=5 move: (C) | covered by: NONE of the forms                                                                 3
+   (1, 1) |J|=5 one-receiver sigma-maximal vectors                                                                        3
+   (1, 1) |J|=5 raw OC1: one move repairs                                                                                 3
+   (1, 1) |J|=7 a virtual RF start whose path ends at the receiver: True                                                  1
+   (1, 1) |J|=7 first form: move: (C)                                                                                     1
+   (1, 1) |J|=7 move: (C) | SINK form (absorber w or d of a virtual RF): after (C)                                        1
+   (1, 1) |J|=7 move: (C) | covered by: NONE of the forms                                                                 1
+   (1, 1) |J|=7 one-receiver sigma-maximal vectors                                                                        1
+   (1, 1) |J|=7 raw OC1: one move repairs                                                                                 1
+   (1, 2) |J|=3 a virtual RF start whose path ends at the receiver: True                                                  2
+   (1, 2) |J|=3 first form: move: (C)                                                                                     2
+   (1, 2) |J|=3 move: (C) | SINK form (absorber w or d of a virtual RF): after (C)                                        2
+   (1, 2) |J|=3 move: (C) | covered by: RF-B form                                                                         2
+   (1, 2) |J|=3 one-receiver sigma-maximal vectors                                                                        2
+   (1, 2) |J|=3 raw OC1: one move repairs                                                                                 2
+   (1, 2) |J|=4 a virtual RF start whose path ends at the receiver: True                                                  3
+   (1, 2) |J|=4 first form: move: (C)                                                                                     3
+   (1, 2) |J|=4 move: (C) | SINK form (absorber w or d of a virtual RF): after (C)                                        3
+   (1, 2) |J|=4 move: (C) | covered by: NONE of the forms                                                                 2
+   (1, 2) |J|=4 move: (C) | covered by: RF-B form                                                                         1
+   (1, 2) |J|=4 one-receiver sigma-maximal vectors                                                                        3
+   (1, 2) |J|=4 raw OC1: one move repairs                                                                                 3
+   (1, 2) |J|=5 a virtual RF start whose path ends at the receiver: True                                                  2
+   (1, 2) |J|=5 first form: move: (C)                                                                                     2
+   (1, 2) |J|=5 move: (C) | SINK form (absorber w or d of a virtual RF): after (C)                                        2
+   (1, 2) |J|=5 move: (C) | covered by: NONE of the forms                                                                 1
+   (1, 2) |J|=5 move: (C) | covered by: RF-B form                                                                         1
+   (1, 2) |J|=5 one-receiver sigma-maximal vectors                                                                        2
+   (1, 2) |J|=5 raw OC1: one move repairs                                                                                 2
+wrote 121 one-move vectors to k4_girth_oc1_rkmax_moves_n5.jsonl.gz

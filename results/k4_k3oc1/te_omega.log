@@ -1,0 +1,27 @@
+$ python3 k4/k3oc1/te_omega.py gapfile:(gap_small_4, gap_certs_5, gap_small_5)
+884 |T| 1: omega 1, least omega' -1, every least-omega' completes True
+6596 |T| 1: omega 1, least omega' -2, every least-omega' completes True
+7528 |T| 1: omega 1, least omega' -3, every least-omega' completes True
+16 |T| 1: omega 1, least omega' 0, every least-omega' completes True
+2916 |T| 1: omega 2, least omega' -1, every least-omega' completes True
+6656 |T| 1: omega 2, least omega' -2, every least-omega' completes True
+212 |T| 1: omega 2, least omega' 0, every least-omega' completes True
+1528 |T| 1: omega 3, least omega' -1, every least-omega' completes True
+216 |T| 1: omega 3, least omega' 0, every least-omega' completes True
+$ python3 k4/k3oc1/te_omega.py gapfile:results/k4_k3oc1/gap_certs_6_1.gap.gz
+832 |T| 1: omega 2, least omega' -1, every least-omega' completes True
+1248 |T| 1: omega 2, least omega' -2, every least-omega' completes True
+64 |T| 1: omega 2, least omega' 0, every least-omega' completes True
+14012 |T| 1: omega 3, least omega' -1, every least-omega' completes True
+25708 |T| 1: omega 3, least omega' -2, every least-omega' completes True
+4428 |T| 1: omega 3, least omega' 0, every least-omega' completes True
+156 |T| 1: omega 3, least omega' 1, every least-omega' completes True
+2824 |T| 1: omega 4, least omega' -1, every least-omega' completes True
+208 |T| 1: omega 4, least omega' 0, every least-omega' completes True
+168 |T| 1: omega 4, least omega' 1, every least-omega' completes True
+864 |T| 2: omega 2, least omega' -1, every least-omega' completes True
+3040 |T| 2: omega 2, least omega' -2, every least-omega' completes True
+704 |T| 2: omega 2, least omega' 0, every least-omega' completes True
+864 |T| 2: omega 3, least omega' -1, every least-omega' completes True
+160 |T| 2: omega 3, least omega' 0, every least-omega' completes True
+384 |T| 2: omega 3, least omega' 1, every least-omega' completes True

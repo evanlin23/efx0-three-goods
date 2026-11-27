@@ -1,0 +1,15 @@
+$ rfcegar RFE on the 13 n = 3, k = 5 hypergraphs where OC1max fails (elsewhere at n = 3, k <= 5 no start fails, so RF-exists holds)
+n3_m6_92 [[0, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 4, 5]] certified 784 {'picks': 402, 'Y repaired': 784, '1 chains': 382} 2.4 s
+n3_m6_93 [[0, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 3, 4, 5]] certified 1595 {'picks': 662, 'Y repaired': 1593, '1 chains': 933, 'Z repaired': 2} 4.4 s
+n3_m6_96 [[0, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 4, 5]] certified 854 {'picks': 436, 'Y repaired': 854, '1 chains': 418} 1.5 s
+n3_m6_103 [[0, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]] certified 1786 {'picks': 753, 'Y repaired': 1784, '1 chains': 1033, 'Z repaired': 2} 4.4 s
+n3_m6_104 [[0, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]] certified 3193 {'picks': 1095, 'Y repaired': 3168, '1 chains': 2098, 'Z repaired': 25} 11.1 s
+n3_m6_110 [[0, 1, 3, 4, 5], [0, 2, 3, 4, 5], [1, 2, 4, 5]] certified 1928 {'picks': 867, 'Y repaired': 1927, '1 chains': 1061, 'Z repaired': 1} 5.0 s
+n3_m6_111 [[0, 1, 3, 4, 5], [0, 2, 3, 4, 5], [1, 2, 3, 4, 5]] certified 3417 {'picks': 1258, 'Y repaired': 3405, '1 chains': 2159, 'Z repaired': 12} 11.5 s
+n3_m7_15 [[0, 1, 2, 5, 6], [2, 3, 4, 5, 6], [3, 4, 5, 6]] certified 1330 {'picks': 597, 'Y repaired': 1330, '1 chains': 733} 3.8 s
+n3_m7_19 [[0, 1, 4, 5, 6], [2, 3, 4, 5, 6], [2, 3, 4, 5, 6]] certified 2598 {'picks': 988, 'Y repaired': 2597, '1 chains': 1610, 'Z repaired': 1} 9.5 s
+n3_m7_116 [[0, 2, 4, 5, 6], [1, 3, 5, 6], [2, 3, 4, 5, 6]] certified 1961 {'picks': 864, 'Y repaired': 1958, '1 chains': 1097, 'Z repaired': 3} 7.4 s
+n3_m7_117 [[0, 2, 4, 5, 6], [1, 3, 4, 5, 6], [2, 3, 4, 5, 6]] certified 3612 {'picks': 1373, 'Y repaired': 3606, '1 chains': 2239, 'Z repaired': 6} 16.3 s
+n3_m7_121 [[0, 1, 2, 5, 6], [1, 3, 4, 5, 6], [2, 3, 4, 5, 6]] certified 3973 {'picks': 1504, 'Y repaired': 3971, '1 chains': 2469, 'Z repaired': 2} 17.4 s
+n3_m8_98 [[0, 2, 5, 6, 7], [1, 3, 4, 6, 7], [3, 4, 5, 6, 7]] certified 3122 {'picks': 1261, 'Y repaired': 3120, '1 chains': 1861, 'Z repaired': 2} 13.5 s
+certified 13 of 13

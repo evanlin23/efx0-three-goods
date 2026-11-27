@@ -1,0 +1,7 @@
+$ python3 k4/k3oc1/gap_scan.py small:5
+GAP, |T| = 1 23768
+covered by B* (not R1C) 31872
+covered by R1C 45740
+hard perfect 101380
+hypergraphs 277
+time 245 s

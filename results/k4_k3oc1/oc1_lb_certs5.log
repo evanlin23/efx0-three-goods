@@ -1,0 +1,7 @@
+$ python3 k4/k3oc1/oc1_lb.py certs:5 0
+draft completes 13882204
+hypergraphs 15
+one DE trade repairs; every max-score trade repairs True 114596
+profiles 116640
+starts 13996800
+time 20 s

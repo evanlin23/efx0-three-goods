@@ -1,0 +1,6 @@
+$ python3 k4/matching/twin_hunt.py climbtwin6 200 7
+instances 200
+... 200 148 s
+profiles 27892
+failures: (a) 0, (b) 0, (b) for every receiver 0
+time 148 s

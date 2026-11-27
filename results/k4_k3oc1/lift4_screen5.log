@@ -1,0 +1,11 @@
+$ python3 k4/k3oc1/lift4.py screen 5
+exact-hard: every least-omega chain repairs (exact) False 145
+exact-hard: every least-omega chain repairs (exact) True 49
+exact-hard: every max rank-score chain repairs (exact) False 130
+exact-hard: every max rank-score chain repairs (exact) True 64
+hard (DE-shape); picks exact False; one chain DE-shape True; one chain exact True 662
+hard (DE-shape); picks exact True; one chain DE-shape True; one chain exact True 205
+instances 168
+picks pass DE-shape 3202
+starts 4069
+time 7 s

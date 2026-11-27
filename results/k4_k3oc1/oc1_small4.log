@@ -1,0 +1,9 @@
+$ python3 k4/k3oc1/oc1_k3.py small:4 0
+chains needed 0 1226464
+chains needed 1 17696
+distinct picks 167080
+hard distinct picks 5296
+hypergraphs 40
+profiles 51840
+starts 1244160
+time 8 s

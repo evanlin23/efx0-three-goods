@@ -1,0 +1,12 @@
+$ RMAX=2 DMAX=4 LSTAR=now python3 k4/matching/round_rsd.py ../../results/k4_matching/data/two_move_starts_n5_partial6_s50.jsonl.gz | 14047 distinct starts
+... 10000 25 s
+ROUND-RSD: T sizes [[2, 2]] 6867
+ROUND-RSD: T sizes [[2], [2]] 5193
+ROUND-RSD: T sizes [[2], [3]] 1496
+ROUND-RSD: T sizes [[3, 2]] 491
+ROUND-RSD: least number of rounds = 1 7358
+ROUND-RSD: least number of rounds = 2 6689
+ROUND-RSD: round sizes [1, 1] 6689
+ROUND-RSD: round sizes [2] 7358
+wrote ../../results/k4_matching/round_rsd_n5partial_witnesses.json.gz 14047 witnesses
+time 36 s

@@ -292,7 +292,9 @@ n = 5 core in about a second, and `Inst` confirms it.
 
 ## 4. n = 5
 
-The run is in progress: `k4/oc1cert/n5_driver.sh`, at depth 2 (OC₂^max), in chunks of about 1,000 hypergraphs.
+**Status when the campaign wound down (2026-11-27 06:55 UTC): the run was stopped, partway through.** It ran
+`k4/oc1cert/n5_driver.sh` at depth 2 (OC₂^max), in chunks of about 1,000 hypergraphs. To resume, rerun the driver: it
+skips chunks whose check log has a RESULT line.
 - A depth-2 run also locates every hypergraph where OC₁^max fails. The inner search uses a second move only at a
   (profile, picks) pair where no single move works, and every such pair is re-checked with `Inst`.
 - Per chunk, `results/k4_oc1max/n5/` gets:
@@ -307,11 +309,21 @@ The run is in progress: `k4/oc1cert/n5_driver.sh`, at depth 2 (OC₂^max), in ch
   5_n4_1 (done), 5_pure, 5_n4_4, 5_n4_3, 5_n4_2.
 - Positive control: the TTC session's n = 5 OC₁^max counterexample (outside MC2) is 5_pure idx 280 (m = 9), in
   chunk 5_pure_s5o2.
-- Done so far, each with an independent check:
-  - 5_n4_1 (1,735 cores) and chunk 5_pure_s5o0 (935 cores): OC₂^max is certified for every strict profile on all of
-    them.
-  - 137 of those 935 pure cores have OC₁^max failures. Every recorded failing start is perfect, has exactly one
-    receiver, and gives 'OC1 fails' under `Inst`.
+- **Done, each with an independent check.** OC₂^max is certified for every strict profile on 4,540 cores:
+  5_n4_1 (1,735) and the 5_pure chunks s5o0, s5o1 and s5o2 (935 each). No start needs three moves.
+
+| chunk | cores with OC₁^max failures (all ν = n) | failing pairs met | RF at every pair met | OC₁^∃max (checked) |
+|---|---|---|---|---|
+| 5_n4_1 (2 chunks) | 0 | 0 | n/a | follows from OC₁^max |
+| 5_pure_s5o0 | 137 | 550 | holds | all 935 |
+| 5_pure_s5o1 | 140 | 484 (5 with two receivers: R2 refuted) | holds | all 935 |
+| 5_pure_s5o2 | 139 | 524 | holds | all 935 |
+
+  Every stored failing start is perfect and gives 'OC1 fails' under `Inst`.
+- **Partial, unchecked: 5_pure_s5o3** (`5_pure_s5o3_PARTIAL_run.log`). It was stopped before 500 of its 935 cores and
+  before any check. It recorded 73 cores with OC₁^max failures, all raw 'OC1 fails', and no CEGAR failure. Its summary
+  was not flushed, so nothing is certified from it.
+- **Not run:** 5_pure s5o4, and 5_n4_4, 5_n4_3, 5_n4_2.
 - The checker was made about 10× faster at n = 5 (an exact bitset prefilter of witnesses by picks, and mask literals)
   and regression-checked on every n ≤ 4 certificate.
 - Two-move starts of six chosen 5_pure cores (`results/k4_oc1max/n5/two_move_starts_n5_partial6.json.gz`):
@@ -322,10 +334,16 @@ The run is in progress: `k4/oc1cert/n5_driver.sh`, at depth 2 (OC₂^max), in ch
   `three_move_hunt.depth` (least moves, up to 3) and `roundp_check.round_p` (ROUND-P, R = 2), unmodified, from main
   at 3425b19b. Results in `results/k4_oc1max/n5/census_n5_<chunk>.json.gz` and `.log`:
 
-| chunk | stored starts | least moves | ROUND-P one move | ROUND-P round of two | receivers |
-|---|---|---|---|---|---|
-| 5_pure_s5o0 | 280 | 2 at all | 234 | 46 | 1 at all |
-| 5_pure_s5o1 | 288 | 2 at all | 246 | 42 | 1 at 283, 2 at 5 (the R2 counterexamples, all ROUND-P one move) |
+| chunk | failing cores (all ν = n) | stored starts | least moves | ROUND-P one move | ROUND-P round of two | receivers |
+|---|---|---|---|---|---|---|
+| 5_pure_s5o0 | 137 | 280 | 2 at all | 234 | 46 | 1 at all |
+| 5_pure_s5o1 | 140 | 288 | 2 at all | 246 | 42 | 1 at 283, 2 at 5 (the R2 counterexamples, all ROUND-P one move) |
+| 5_pure_s5o2 | 139 | 295 | 2 at all | 250 | 45 | 1 at 291, 2 at 4 (more R2 counterexamples; `Inst`-checked only) |
+
+  Every core with an OC₁^max failure so far has ν = n. Cores with ν < n are rare: 1 of 935 in chunk 1, none in chunks
+  2 and 3, and 6 of 1,735 in 5_n4_1. None of them fails.
+  RF and the rule "a pick vector with the most receivers is good" hold at all 295 of chunk 3's stored starts
+  (`good_orders_5_pure_s5o2.*`).
 
   Chunk 1's ROUND-P counts agree with matching's run of the same 280 starts.
 - **Good orders at the complete lists** (1 in 20 of the 583,680 starts of 419, 447 and 38:

@@ -1,0 +1,18 @@
+$ RMAX=2 DMAX=4 LSTAR=now python3 k4/matching/round_rsd.py n4export | 112880 distinct starts
+... 10000 9 s
+... 20000 16 s
+... 30000 24 s
+... 40000 33 s
+... 50000 42 s
+... 60000 49 s
+... 70000 57 s
+... 80000 66 s
+... 90000 74 s
+... 100000 83 s
+... 110000 103 s
+ROUND-RSD: T sizes [[2], [2]] 103600
+ROUND-RSD: T sizes [[2], [3]] 9280
+ROUND-RSD: least number of rounds = 2 112880
+ROUND-RSD: round sizes [1, 1] 112880
+wrote ../../results/k4_matching/round_rsd_n4_witnesses.json.gz 112880 witnesses
+time 115 s

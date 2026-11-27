@@ -1,0 +1,17 @@
+# k4/oc1max_multi/reduce_s.py of proof/k4-oc1max-multi at commit 4179bcc (not this workstream's code), run unmodified from a detached worktree on this workstream's inputs:
+# n4export.jsonl.gz = results/k4_matching/data/two_move_starts_n4.json.gz flattened to rows {sets, vals, picks, orders}, in export order
+$ python3 k4/oc1max_multi/reduce_s.py n4export.jsonl.gz
+112880 failing starts
+112880 (a) and a Theorem U/S case in I-
+112880 OC2 by REC-S
+112880 P1 with LIFT hypothesis
+112880 lifted, k unthreatened
+112880 (a) SD
+112880 E(k) only: SD-E tests
+112880 E(k) only: (a) and a Theorem U/S case in I-
+112880 E(k) only: OC2 by REC-S
+112880 E(k) only: P1 with LIFT hypothesis
+112880 E(k) only: lifted, k unthreatened
+112880 E(k) only: (a) SD
+violations (Theorem U/S in I-, LIFT, or SD-E): 0 []
+a smallest start not covered: null

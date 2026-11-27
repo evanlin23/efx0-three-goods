@@ -1,0 +1,8 @@
+$ RMAX=2 DMAX=4 LSTAR=now python3 k4/matching/round_rsd.py ../../results/k4_matching/n5_walk164.jsonl ../../results/k4_matching/n5_walk164_long.jsonl.gz | 23924 distinct starts
+... 10000 11 s
+... 20000 21 s
+ROUND-RSD: T sizes [[2, 2]] 23924
+ROUND-RSD: least number of rounds = 1 23924
+ROUND-RSD: round sizes [2] 23924
+wrote ../../results/k4_matching/round_rsd_n5walk_witnesses.json.gz 23924 witnesses
+time 27 s

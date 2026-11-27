@@ -1,0 +1,18 @@
+$ python3 k4/matching/n5_census.py ../../results/k4_matching/data/two_move_starts_n5_partial6_s50.jsonl.gz | 14047 distinct starts (EXACT_STRIDE=1)
+... 10000 168 s
+  OC2-REC with (b) by a Lemma EX* exchange in I- True 14047
+  OC2-REC: B1- completes at once False 14047
+  OC2-REC: P1 ends at the holder True 14047
+  a repairing pair has P2 ending at the holder True 14047
+  a repairing pair is vertex-disjoint False 711
+  a repairing pair is vertex-disjoint True 13336
+(EX* sample) exact on the second move False 1608
+(EX* sample) exact on the second move True 12439
+CM2 True 14047
+LIFT-SHAPE+ False 10599
+LIFT-SHAPE+ True 3448
+OC2 (chains from dangerous agents) True 14047
+OC2-REC True 14047
+hard, OC1 fails (raw) True 14047
+holders = 1 14047
+time 245 s

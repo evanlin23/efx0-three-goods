@@ -1,0 +1,6 @@
+$ python3 k4/k3oc1/tprime_k.py source:mixed:4:1
+|T| 1: k 1026
+|T| 1: none 10014
+|T| 2: k 736
+|T| 2: none 64
+FAIL lines: 0; NEEDK lines: 1762

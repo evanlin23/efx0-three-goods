@@ -1,1 +1,4 @@
 $ python3 kgen/charity/w_synth_family.py 4 5 - - /home/user/efx0-three-goods/results/kgen_charity/w_cuts_s4k5.json
+(container restarted at this point; rerun below)
+$ python3 kgen/charity/w_synth_family.py 4 5 - - /home/user/efx0-three-goods/results/kgen_charity/w_cuts_s4k5.json --resume
+S'(4, 5) hypergraph, n 16, m 23, stranded 3: UNSAT after 2243 cuts, 5322.5 s

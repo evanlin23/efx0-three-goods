@@ -1,0 +1,41 @@
+$ python3 k4/k3oc1/te_classify.py te_sample7_11e_0.log te_sample7_11e_1.log te_sample7_12e.log te_sample_mixed5_1e.log
+T'K-any GAP [[7, 0, 8], [5, 7, 9], [5, 10, 7], [0, 3, 2], [1, 2, 6], [1, 6, 4], [3, 4, 6]] 11 order (2, 1, 0, 5, 6, 3, 4) picks (0, 7, 5, 2, 6, 1, 3) |T| 1 |E_t| [2]
+TE-ruleP-NEK GAP [[4, 9, 0], [8, 3, 10], [7, 5, 0], [3, 1, 2], [8, 2, 1], [7, 4, 6], [6, 8, 5]] 11 order (0, 2, 3, 4, 1, 5, 6) picks (4, 10, 7, 3, 8, 6, 5) |T| 2 |E_t| [3, 4]
+TE-ruleP-NEK GAP [[1, 8, 7], [2, 7, 9], [5, 7, 10], [2, 1, 0], [0, 6, 5], [6, 3, 4], [7, 4, 3]] 11 order (0, 1, 3, 5, 4, 6, 2) picks (1, 2, 10, 0, 5, 6, 7) |T| 1 |E_t| [2]
+RPRIME GAP [[0, 7, 2], [4, 2, 8], [5, 3, 9], [6, 4, 10], [5, 6, 11], [1, 0, 6], [3, 5, 1]] 12 order (0, 1, 4, 2, 6, 5, 3) picks (0, 4, 3, 10, 5, 6, 1) |T| 1 |E_t| [2]
+TE-ruleP-NEK GAP [[2, 8, 1], [5, 4, 9], [7, 10, 4], [5, 7, 11], [6, 0, 1], [7, 3, 0], [2, 6, 3]] 12 order (0, 1, 2, 3, 4, 6, 5) picks (2, 5, 7, 11, 6, 0, 3) |T| 2 |E_t| [3, 4]
+TE-ruleP-NEK GAP [[7, 2, 8], [3, 5, 9], [4, 10, 5], [7, 6, 11], [2, 1, 0], [7, 1, 0], [4, 3, 6]] 12 order (1, 2, 4, 5, 0, 6, 3) picks (8, 3, 4, 11, 2, 7, 6) |T| 2 |E_t| [4, 4]
+TE-any GAP [[2, 7, 8], [3, 9, 5], [4, 5, 10], [7, 6, 11], [2, 0, 1], [7, 0, 1], [3, 4, 6]] 12 order (1, 2, 4, 5, 0, 6, 3) picks (8, 3, 4, 11, 2, 7, 6) |T| 2 |E_t| [4, 4]
+    sigma (1, 2, 4, 5, 0, 6, 3) k 1 chain [1, 6, 3] completes True
+    sigma (1, 2, 4, 5, 0, 6, 3) k 2 chain [2, 6, 3] completes True
+    sigma (1, 2, 4, 5, 0, 6, 3) k 4 chain [4, 0] completes True
+    sigma (1, 2, 4, 5, 0, 6, 3) k 5 chain [5, 0] completes False
+TE-ruleP-NEK GAP [[2, 7, 8], [3, 9, 5], [4, 5, 10], [7, 6, 11], [2, 0, 1], [7, 0, 1], [3, 4, 6]] 12 order (1, 2, 4, 5, 0, 6, 3) picks (8, 3, 4, 11, 2, 7, 6) |T| 2 |E_t| [4, 4]
+TE-ruleP-any_owner GAP [[2, 7, 8], [3, 9, 5], [4, 5, 10], [7, 6, 11], [2, 0, 1], [7, 0, 1], [3, 4, 6]] 12 order (1, 2, 4, 5, 0, 6, 3) picks (8, 3, 4, 11, 2, 7, 6) |T| 2 |E_t| [4, 4]
+TE-any GAP [[2, 9, 1], [3, 6, 10], [8, 11, 4], [0, 2, 1], [5, 7, 0], [3, 8, 5], [7, 4, 6]] 12 order (0, 1, 2, 5, 6, 4, 3) picks (2, 3, 8, 1, 0, 5, 7) |T| 1 |E_t| [4]
+    sigma (0, 1, 2, 5, 6, 4, 3) k 0 chain [0, 3] completes False
+    sigma (0, 1, 2, 5, 6, 4, 3) k 1 chain [1, 5, 4, 3] completes True
+    sigma (0, 1, 2, 5, 6, 4, 3) k 2 chain [2, 5, 4, 3] completes True
+    sigma (0, 1, 2, 5, 6, 4, 3) k 6 chain [6, 4, 3] completes True
+TE-any GAP [[1, 2, 9], [3, 10, 6], [8, 4, 11], [0, 1, 2], [5, 7, 0], [3, 8, 5], [7, 4, 6]] 12 order (0, 1, 2, 5, 6, 4, 3) picks (1, 3, 8, 2, 0, 5, 7) |T| 1 |E_t| [4]
+    sigma (0, 1, 2, 5, 6, 4, 3) k 0 chain [0, 3] completes False
+    sigma (0, 1, 2, 5, 6, 4, 3) k 1 chain [1, 5, 4, 3] completes True
+    sigma (0, 1, 2, 5, 6, 4, 3) k 2 chain [2, 5, 4, 3] completes True
+    sigma (0, 1, 2, 5, 6, 4, 3) k 6 chain [6, 4, 3] completes True
+OMEGA2 |T| 1: B* 58
+OMEGA2 |T| 1: R1C 6
+OMEGA2 |T| 2: B* 5
+RPRIME |T| 1: B* 101
+RPRIME |T| 1: GAP 1
+RPRIME |T| 1: R1C 13
+RPRIME |T| 2: B* 31
+T'K-any |T| 1: GAP 1
+TE-any |T| 1: GAP 2
+TE-any |T| 2: B* 6
+TE-any |T| 2: GAP 1
+TE-every_least-omega |T| 2: B* 1
+TE-ruleP-NEK |T| 1: GAP 1
+TE-ruleP-NEK |T| 2: B* 46
+TE-ruleP-NEK |T| 2: GAP 4
+TE-ruleP-any_owner |T| 2: B* 5
+TE-ruleP-any_owner |T| 2: GAP 1

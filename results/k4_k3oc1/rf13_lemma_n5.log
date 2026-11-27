@@ -1,0 +1,7 @@
+$ python3 k4/k3oc1/rf/rf13_lemma.py RESIDUE
+485 start: some (H, A, B) meets (F1)-(F3): False
+7248 start: some (H, A, B) meets (F1)-(F3): True
+7733 start: some X is EFX0: True
+7733 |B| = 0: hypotheses False, X EFX0 False
+970 |B| = 1: hypotheses False, X EFX0 True
+14496 |B| = 1: hypotheses True, X EFX0 True

@@ -1,0 +1,15 @@
+$ python3 attempts/k4_k3oc1_rf_dea.py
+== (1, 3) class, 5_pure#778: every repairing chain violates (DE-a) | order (0, 4, 3, 1, 2) picks [7, 6, 2, 5, 8] | receiver 2 | RF picks [6, 1, 7, 5, 8] junk [0, 2, 3, 4]
+   (1) one-absorber completion at the RF picks: False
+   (2) improving chains: 48; repairing: 9
+   (3) repairing chains satisfying (DE-a): 0
+       e.g. path (0, 1), junk taken ((0, 2), ()), mover ranks [1, 3]
+       e.g. path (1, 0), junk taken ((), (0, 2)), mover ranks [3, 1]
+       e.g. path (3, 1), junk taken ((3, 4), ()), mover ranks [1, 3]
+== (1, 3) class, 5_pure#778, other values: a (DE-a) repair exists | order (0, 4, 3, 1, 2) picks [7, 6, 2, 5, 8] | receiver 2 | RF picks [6, 1, 7, 5, 8] junk [0, 2, 3, 4]
+   (1) one-absorber completion at the RF picks: False
+   (2) improving chains: 48; repairing: 9
+   (3) repairing chains satisfying (DE-a): 3
+       e.g. path (0, 1), junk taken ((0, 2), ()), mover ranks [1, 3]
+       e.g. path (1, 0), junk taken ((), (0, 2)), mover ranks [3, 1]
+       e.g. path (3, 1), junk taken ((3, 4), ()), mover ranks [1, 3]

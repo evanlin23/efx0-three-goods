@@ -1,0 +1,24 @@
+$ python3 k4/matching/multi_check.py | 4955 rows
+... 500 3 s
+... 1000 6 s
+... 1500 9 s
+... 2000 12 s
+... 2500 15 s
+... 3000 18 s
+... 3500 20 s
+... 4000 27 s
+... 4500 34 s
+n = 4 4378
+n = 4: (L2') holds where (L2) fails 128
+n = 4: CM2 True 4378
+n = 4: EX* exact on the second move (first moves with an EX* exchange = first moves after which some move repairs) True 4378
+n = 4: LIFT-1 construction raw EFX0 True 12196
+n = 4: some LIFT-red pair meets (L1)-(L3): True 4378
+n = 4: verified (perfect SD start, no one-move repair, raw) True 4378
+n = 5 577
+n = 5: CM2 True 577
+n = 5: EX* exact on the second move (first moves with an EX* exchange = first moves after which some move repairs) True 577
+n = 5: LIFT-1 construction raw EFX0 True 1128
+n = 5: some LIFT-red pair meets (L1)-(L3): True 577
+n = 5: verified (perfect SD start, no one-move repair, raw) True 577
+time 42 s

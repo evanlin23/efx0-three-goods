@@ -1,0 +1,15 @@
+$ python3 k4/k3oc1/rf/demote0_rest.py RESIDUE
+16960 5_pure#464 path 2: completes at picks True; forms [('none', ('d', 'off-path Dp', 'w')), ('none', ('d', 'u', 'w'))]
+13760 5_pure#464 path 2: completes at picks True; forms [('none', ('d', 'off-path Dp', 'w'))]
+4576 5_pure#464 path 2: completes at picks True; forms [('none', ('d', 'off-path Dp', 'w')), ('none', ('d', 'u', 'w')), ('off-path Dp', ('d',))]
+3680 5_pure#464 path 2: completes at picks True; forms [('none', ('d', 'off-path Dp', 'w')), ('off-path Dp', ('d',))]
+1440 5_pure#464 path 3: completes at picks True; forms [('none', ('d', 'off-path Dp', 'off-path Dp'))]
+1351 5_pure#464 path 3: completes at picks True; forms [('none', ('d', 'off-path Dp', 'off-path Dp')), ('off-path Dp', ('d',))]
+242 5_pure#374 path 2: completes at picks False; forms []
+32 5_pure#374 path 1: completes at picks False; forms []
+$ python3 k4/k3oc1/rf/demote0_na.py RESIDUE
+2522460 criterion agrees with raw EFX0: True
+36000 receivers ['d', 'off', 'w']; compensations ["d wants off's pick, compensated", "d wants w's pick, compensated"]; d takes its favourite junk True
+2976 receivers ['d', 'off', 'w']; compensations ["d wants w's pick, compensated", "w wants off's pick, compensated"]; d takes its favourite junk True
+2791 receivers ['d', 'off', 'off']; compensations ["d wants off's pick, compensated", "d wants off's pick, compensated"]; d takes its favourite junk True
+274 no no-absorber completion

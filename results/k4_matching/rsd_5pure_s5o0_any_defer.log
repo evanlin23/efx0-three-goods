@@ -1,0 +1,13 @@
+$ MODE=canon TSIZE=any LSTAR=defer DMAX=4 python3 k4/matching/rsd.py ../../results/k4_matching/data/n5_5pure_s5o0_two_move_starts.jsonl.gz | 280 distinct starts
+RSD+: every step shared False 108
+RSD+: every step shared True 172
+RSD+: least d = 1 280
+RSD+: sizes of T along the sequence [2] 273
+RSD+: sizes of T along the sequence [3] 7
+RSD: every step shared False 267
+RSD: every step shared True 13
+RSD: least d = 2 280
+RSD: sizes of T along the sequence [2, 2] 262
+RSD: sizes of T along the sequence [2, 3] 11
+RSD: sizes of T along the sequence [3, 2] 7
+time 9 s

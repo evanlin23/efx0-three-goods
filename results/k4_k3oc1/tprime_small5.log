@@ -1,0 +1,6 @@
+|T| 1:   ... but some rotation repairs with an owner True 704
+|T| 1: every least-omega rotation needs no owner True 100388
+|T| 1: some rotation needs no owner False 704
+|T| 1: some rotation needs no owner True 100388
+|T| 2: every least-omega rotation needs no owner True 288
+|T| 2: some rotation needs no owner True 288

@@ -1,0 +1,217 @@
+$ python3 k4/k3oc1/te_sample.py certs7:11 60 31 1 2
+# progress 20 hypergraphs 1 s
+# progress 40 hypergraphs 2 s
+# progress 60 hypergraphs 2 s
+# progress 80 hypergraphs 3 s
+# progress 100 hypergraphs 4 s
+# progress 120 hypergraphs 4 s
+# progress 140 hypergraphs 5 s
+# progress 160 hypergraphs 6 s
+# progress 180 hypergraphs 6 s
+# progress 200 hypergraphs 7 s
+# progress 220 hypergraphs 7 s
+# progress 240 hypergraphs 8 s
+# progress 260 hypergraphs 9 s
+# progress 280 hypergraphs 9 s
+# progress 300 hypergraphs 10 s
+# progress 320 hypergraphs 11 s
+# progress 340 hypergraphs 11 s
+# progress 360 hypergraphs 12 s
+# progress 380 hypergraphs 13 s
+# progress 400 hypergraphs 13 s
+# progress 420 hypergraphs 14 s
+# progress 440 hypergraphs 15 s
+# progress 460 hypergraphs 15 s
+RPRIME [[1, 0, 7], [1, 2, 8], [5, 4, 9], [6, 10, 5], [4, 3, 0], [6, 3, 2], [6, 5, 4]] 11 picks (1, 8, 5, 6, 3, 2, 4) least D' 2
+RPRIME [[1, 0, 7], [1, 2, 8], [5, 4, 9], [6, 10, 5], [4, 3, 0], [6, 3, 2], [6, 5, 4]] 11 picks (7, 1, 5, 6, 0, 3, 4) least D' 2
+RPRIME [[1, 0, 7], [1, 2, 8], [5, 4, 9], [6, 10, 5], [4, 3, 0], [6, 3, 2], [6, 5, 4]] 11 picks (1, 8, 4, 6, 3, 2, 5) least D' 2
+RPRIME [[1, 0, 7], [1, 2, 8], [5, 4, 9], [6, 10, 5], [4, 3, 0], [6, 3, 2], [6, 5, 4]] 11 picks (7, 1, 4, 6, 0, 3, 5) least D' 2
+RPRIME [[1, 0, 7], [1, 5, 8], [2, 5, 9], [6, 4, 10], [6, 3, 0], [2, 3, 4], [6, 4, 5]] 11 picks (1, 8, 2, 6, 3, 4, 5) least D' 2
+OMEGA2 [[1, 0, 7], [1, 6, 8], [2, 5, 9], [6, 10, 3], [0, 5, 6], [2, 5, 4], [4, 6, 3]] 11 picks (0, 1, 2, 6, 5, 4, 3) least omega' 2
+RPRIME [[1, 0, 7], [1, 6, 8], [2, 5, 9], [6, 10, 3], [0, 5, 6], [2, 5, 4], [4, 6, 3]] 11 picks (0, 1, 2, 6, 5, 4, 3) least D' 2
+OMEGA2 [[0, 1, 7], [1, 4, 8], [2, 6, 9], [6, 10, 3], [0, 5, 4], [4, 2, 5], [5, 6, 3]] 11 picks (1, 4, 2, 6, 0, 5, 3) least omega' 2
+RPRIME [[0, 1, 7], [1, 4, 8], [2, 6, 9], [6, 10, 3], [0, 5, 4], [4, 2, 5], [5, 6, 3]] 11 picks (1, 4, 2, 6, 0, 5, 3) least D' 2
+RPRIME [[1, 0, 7], [1, 6, 8], [5, 2, 9], [3, 4, 10], [5, 4, 0], [4, 2, 6], [5, 3, 6]] 11 picks (1, 8, 2, 4, 5, 6, 3) least D' 2
+# progress 480 hypergraphs 16 s
+RPRIME [[1, 0, 7], [6, 1, 8], [4, 9, 6], [5, 6, 10], [3, 6, 0], [5, 2, 3], [4, 5, 2]] 11 picks (1, 8, 4, 5, 6, 3, 2) least D' 2
+# progress 500 hypergraphs 16 s
+# progress 520 hypergraphs 17 s
+RPRIME [[1, 0, 7], [3, 6, 8], [3, 9, 6], [5, 10, 4], [1, 4, 0], [2, 5, 4], [5, 6, 2]] 11 picks (1, 6, 3, 5, 0, 4, 2) least D' 2
+# progress 540 hypergraphs 17 s
+RPRIME [[4, 0, 7], [6, 1, 8], [6, 2, 9], [4, 5, 10], [1, 2, 0], [3, 5, 6], [3, 6, 5]] 11 picks (7, 1, 2, 4, 0, 3, 6) least D' 2
+# progress 560 hypergraphs 18 s
+RPRIME [[4, 0, 7], [1, 5, 8], [6, 3, 9], [4, 5, 10], [0, 1, 6], [4, 2, 3], [5, 6, 2]] 11 picks (0, 5, 6, 4, 1, 3, 2) least D' 2
+# progress 580 hypergraphs 19 s
+RPRIME [[0, 5, 7], [5, 8, 1], [6, 3, 9], [6, 10, 4], [4, 0, 1], [3, 6, 2], [2, 4, 5]] 11 picks (7, 5, 3, 6, 0, 2, 4) least D' 2
+NOROT [[0, 7, 5], [1, 5, 8], [3, 6, 9], [4, 10, 6], [0, 1, 6], [3, 4, 2], [2, 5, 4]] 11 picks (0, 1, 3, 4, 6, 2, 5)
+# progress 600 hypergraphs 19 s
+# progress 620 hypergraphs 20 s
+OMEGA2 [[0, 7, 2], [5, 1, 8], [4, 6, 9], [5, 6, 10], [6, 0, 2], [5, 1, 3], [3, 4, 6]] 11 picks (0, 1, 4, 5, 2, 3, 6) least omega' 2
+RPRIME [[0, 7, 2], [5, 1, 8], [4, 6, 9], [5, 6, 10], [6, 0, 2], [5, 1, 3], [3, 4, 6]] 11 picks (0, 1, 4, 5, 2, 3, 6) least D' 3
+OMEGA2 [[0, 7, 2], [5, 1, 8], [4, 6, 9], [5, 6, 10], [6, 0, 2], [5, 1, 3], [3, 4, 6]] 11 picks (0, 1, 6, 5, 2, 3, 4) least omega' 2
+RPRIME [[0, 7, 2], [5, 1, 8], [4, 6, 9], [5, 6, 10], [6, 0, 2], [5, 1, 3], [3, 4, 6]] 11 picks (0, 1, 6, 5, 2, 3, 4) least D' 3
+# progress 640 hypergraphs 20 s
+TE-ruleP-NEK [[3, 0, 7], [2, 8, 1], [4, 5, 9], [4, 6, 10], [6, 2, 0], [6, 1, 5], [3, 5, 6]] 11 picks (7, 2, 4, 10, 0, 6, 3)
+RPRIME [[0, 3, 7], [1, 2, 8], [5, 4, 9], [6, 10, 4], [2, 0, 4], [5, 6, 1], [6, 5, 3]] 11 picks (0, 2, 9, 6, 4, 1, 5) least D' 2
+RPRIME [[0, 3, 7], [2, 8, 1], [5, 4, 9], [6, 4, 10], [4, 2, 0], [5, 6, 1], [5, 6, 3]] 11 picks (7, 2, 5, 4, 0, 6, 3) least D' 2
+TE-ruleP-NEK [[4, 0, 7], [1, 2, 8], [5, 3, 9], [6, 5, 10], [6, 0, 2], [1, 6, 5], [4, 3, 6]] 11 picks (4, 1, 9, 10, 6, 5, 3)
+TE-ruleP-NEK [[0, 7, 4], [1, 2, 8], [5, 9, 3], [6, 10, 5], [0, 6, 2], [6, 5, 1], [6, 3, 4]] 11 picks (0, 8, 5, 10, 2, 1, 6)
+TE-ruleP-NEK [[5, 0, 7], [1, 8, 2], [6, 3, 9], [4, 5, 10], [4, 0, 2], [1, 4, 6], [5, 3, 6]] 11 picks (5, 1, 9, 10, 4, 6, 3)
+# progress 660 hypergraphs 21 s
+# progress 680 hypergraphs 22 s
+TE-ruleP-NEK [[3, 0, 7], [1, 6, 8], [5, 2, 9], [4, 3, 10], [6, 2, 0], [5, 1, 4], [5, 6, 4]] 11 picks (3, 8, 5, 10, 6, 1, 4)
+RPRIME [[3, 0, 7], [6, 8, 1], [2, 9, 5], [3, 6, 10], [0, 2, 4], [4, 5, 1], [4, 6, 5]] 11 picks (0, 6, 2, 3, 4, 1, 5) least D' 2
+RPRIME [[3, 0, 7], [1, 8, 6], [2, 9, 5], [6, 3, 10], [2, 4, 0], [4, 1, 5], [5, 4, 6]] 11 picks (3, 1, 2, 10, 4, 5, 6) least D' 2
+RPRIME [[0, 5, 7], [3, 8, 1], [2, 9, 6], [5, 4, 10], [2, 0, 6], [4, 6, 1], [5, 3, 6]] 11 picks (5, 3, 2, 4, 0, 1, 6) least D' 2
+# progress 700 hypergraphs 22 s
+RPRIME [[3, 7, 0], [1, 8, 4], [6, 5, 9], [6, 10, 5], [3, 2, 0], [1, 4, 2], [5, 6, 4]] 11 picks (3, 1, 5, 6, 0, 2, 4) least D' 2
+# progress 720 hypergraphs 23 s
+RPRIME [[4, 0, 7], [6, 1, 8], [5, 3, 9], [6, 10, 5], [3, 2, 0], [1, 4, 2], [6, 5, 4]] 11 picks (4, 1, 3, 6, 0, 2, 5) least D' 2
+RPRIME [[5, 7, 0], [6, 1, 8], [6, 3, 9], [5, 4, 10], [2, 0, 3], [4, 2, 1], [5, 6, 4]] 11 picks (5, 8, 6, 10, 2, 1, 4) least D' 2
+RPRIME [[2, 0, 7], [1, 6, 8], [6, 4, 9], [5, 6, 10], [5, 0, 3], [3, 5, 1], [2, 4, 6]] 11 picks (0, 8, 6, 5, 3, 1, 2) least D' 2
+TE-ruleP-NEK [[0, 7, 2], [1, 8, 6], [6, 4, 9], [5, 6, 10], [0, 6, 3], [5, 3, 1], [5, 4, 2]] 11 picks (0, 8, 6, 10, 3, 1, 5)
+# progress 740 hypergraphs 23 s
+RPRIME [[2, 7, 0], [5, 1, 8], [4, 6, 9], [5, 10, 6], [6, 3, 0], [5, 1, 4], [2, 6, 3]] 11 picks (2, 1, 6, 5, 0, 4, 3) least D' 2
+# progress 760 hypergraphs 24 s
+RPRIME [[5, 0, 7], [6, 1, 8], [5, 9, 2], [4, 10, 5], [3, 4, 0], [6, 1, 3], [6, 4, 2]] 11 picks (7, 1, 5, 4, 0, 3, 6) least D' 2
+OMEGA2 [[6, 7, 0], [4, 2, 8], [2, 5, 9], [4, 5, 10], [3, 6, 0], [4, 1, 3], [5, 1, 6]] 11 picks (6, 2, 5, 4, 0, 3, 1) least omega' 2
+RPRIME [[6, 7, 0], [4, 2, 8], [2, 5, 9], [4, 5, 10], [3, 6, 0], [4, 1, 3], [5, 1, 6]] 11 picks (6, 2, 5, 4, 0, 3, 1) least D' 3
+# progress 780 hypergraphs 25 s
+RPRIME [[0, 4, 7], [4, 8, 3], [5, 6, 9], [5, 6, 10], [2, 0, 3], [1, 6, 2], [5, 6, 1]] 11 picks (7, 4, 5, 6, 0, 2, 1) least D' 3
+RPRIME [[0, 4, 7], [4, 8, 3], [5, 6, 9], [5, 6, 10], [2, 0, 3], [1, 6, 2], [5, 6, 1]] 11 picks (7, 4, 6, 5, 0, 2, 1) least D' 3
+# progress 800 hypergraphs 25 s
+RPRIME [[0, 7, 5], [5, 3, 8], [4, 6, 9], [5, 6, 10], [0, 2, 3], [2, 4, 1], [4, 1, 6]] 11 picks (0, 5, 4, 10, 2, 1, 6) least D' 2
+OMEGA2 [[5, 7, 0], [5, 3, 8], [6, 4, 9], [5, 6, 10], [2, 3, 0], [4, 1, 2], [1, 4, 6]] 11 picks (5, 3, 4, 6, 0, 2, 1) least omega' 2
+RPRIME [[5, 7, 0], [5, 3, 8], [6, 4, 9], [5, 6, 10], [2, 3, 0], [4, 1, 2], [1, 4, 6]] 11 picks (5, 3, 4, 6, 0, 2, 1) least D' 2
+# progress 820 hypergraphs 26 s
+RPRIME [[6, 0, 7], [4, 8, 3], [5, 6, 9], [5, 6, 10], [0, 2, 6], [2, 1, 3], [5, 4, 1]] 11 picks (0, 4, 6, 5, 2, 3, 1) least D' 2
+RPRIME [[6, 0, 7], [4, 8, 3], [5, 6, 9], [5, 6, 10], [0, 2, 6], [2, 1, 3], [5, 4, 1]] 11 picks (0, 4, 5, 6, 2, 3, 1) least D' 2
+RPRIME [[5, 0, 7], [5, 3, 8], [4, 6, 9], [4, 10, 6], [2, 0, 5], [1, 6, 2], [6, 1, 3]] 11 picks (7, 5, 6, 4, 0, 2, 1) least D' 2
+# progress 840 hypergraphs 26 s
+RPRIME [[0, 4, 7], [4, 3, 8], [6, 9, 4], [5, 10, 6], [2, 5, 0], [5, 1, 2], [6, 1, 3]] 11 picks (7, 4, 6, 5, 0, 2, 1) least D' 2
+# progress 860 hypergraphs 27 s
+RPRIME [[2, 7, 1], [4, 2, 8], [6, 3, 9], [5, 10, 6], [0, 1, 6], [0, 5, 6], [6, 3, 4]] 11 picks (2, 8, 3, 5, 0, 6, 4) least D' 2
+# progress 880 hypergraphs 28 s
+RPRIME [[2, 1, 7], [6, 2, 8], [6, 3, 9], [5, 6, 10], [0, 4, 1], [4, 5, 0], [5, 4, 3]] 11 picks (7, 2, 6, 5, 1, 0, 4) least D' 2
+# progress 900 hypergraphs 28 s
+RPRIME [[4, 1, 7], [5, 2, 8], [3, 9, 6], [5, 4, 10], [2, 0, 1], [6, 4, 0], [5, 3, 6]] 11 picks (4, 2, 3, 5, 1, 0, 6) least D' 2
+# progress 920 hypergraphs 29 s
+RPRIME [[3, 7, 1], [2, 3, 8], [5, 9, 4], [6, 4, 10], [6, 0, 1], [6, 0, 5], [5, 6, 2]] 11 picks (3, 8, 9, 6, 0, 5, 2) least D' 2
+RPRIME [[3, 1, 7], [3, 2, 8], [4, 9, 5], [4, 6, 10], [4, 0, 1], [0, 5, 6], [6, 5, 2]] 11 picks (3, 8, 4, 6, 0, 5, 2) least D' 2
+RPRIME [[1, 3, 7], [3, 8, 2], [6, 4, 9], [6, 10, 5], [4, 0, 1], [5, 6, 0], [5, 2, 4]] 11 picks (7, 3, 4, 6, 1, 0, 5) least D' 2
+RPRIME [[5, 1, 7], [3, 2, 8], [3, 4, 9], [5, 10, 6], [0, 1, 6], [5, 0, 6], [6, 4, 2]] 11 picks (1, 3, 9, 5, 6, 0, 4) least D' 2
+RPRIME [[5, 1, 7], [3, 2, 8], [3, 4, 9], [5, 10, 6], [0, 1, 6], [5, 0, 6], [6, 4, 2]] 11 picks (1, 3, 4, 5, 6, 0, 2) least D' 2
+# progress 940 hypergraphs 29 s
+# progress 960 hypergraphs 30 s
+# progress 980 hypergraphs 31 s
+# progress 1000 hypergraphs 31 s
+# progress 1020 hypergraphs 32 s
+RPRIME [[0, 3, 8], [7, 0, 9], [7, 5, 10], [6, 1, 2], [7, 4, 1], [6, 5, 2], [7, 4, 3]] 11 picks (0, 9, 7, 2, 1, 6, 4) least D' 2
+# progress 1040 hypergraphs 33 s
+OMEGA2 [[0, 2, 8], [7, 1, 9], [6, 10, 7], [1, 0, 2], [4, 5, 3], [4, 3, 6], [6, 5, 7]] 11 picks (0, 1, 6, 2, 5, 4, 7) least omega' 2
+RPRIME [[0, 2, 8], [7, 1, 9], [6, 10, 7], [1, 0, 2], [4, 5, 3], [4, 3, 6], [6, 5, 7]] 11 picks (0, 1, 6, 2, 5, 4, 7) least D' 2
+# progress 1060 hypergraphs 33 s
+TE-ruleP-NEK [[4, 8, 0], [6, 1, 9], [4, 3, 10], [7, 1, 0], [6, 5, 2], [6, 7, 2], [7, 5, 3]] 11 picks (4, 6, 10, 7, 5, 2, 3)
+OMEGA2 [[0, 6, 8], [1, 7, 9], [7, 3, 10], [1, 5, 0], [4, 5, 2], [4, 6, 2], [6, 7, 3]] 11 picks (6, 1, 7, 0, 5, 4, 3) least omega' 2
+RPRIME [[0, 6, 8], [1, 7, 9], [7, 3, 10], [1, 5, 0], [4, 5, 2], [4, 6, 2], [6, 7, 3]] 11 picks (6, 1, 7, 0, 5, 4, 3) least D' 2
+# progress 1080 hypergraphs 34 s
+RPRIME [[2, 0, 8], [1, 9, 5], [6, 10, 4], [7, 2, 0], [7, 1, 4], [6, 3, 5], [6, 3, 7]] 11 picks (2, 1, 6, 0, 4, 3, 7) least D' 2
+OMEGA2 [[0, 2, 8], [1, 9, 7], [5, 7, 10], [6, 0, 2], [7, 1, 4], [4, 6, 3], [5, 7, 3]] 11 picks (0, 1, 5, 2, 4, 6, 7) least omega' 2
+RPRIME [[0, 2, 8], [1, 9, 7], [5, 7, 10], [6, 0, 2], [7, 1, 4], [4, 6, 3], [5, 7, 3]] 11 picks (0, 1, 5, 2, 4, 6, 7) least D' 2
+OMEGA2 [[0, 2, 8], [1, 9, 7], [5, 7, 10], [6, 0, 2], [7, 1, 4], [4, 6, 3], [5, 7, 3]] 11 picks (0, 1, 7, 2, 4, 6, 5) least omega' 2
+RPRIME [[0, 2, 8], [1, 9, 7], [5, 7, 10], [6, 0, 2], [7, 1, 4], [4, 6, 3], [5, 7, 3]] 11 picks (0, 1, 7, 2, 4, 6, 5) least D' 2
+# progress 1100 hypergraphs 34 s
+# progress 1120 hypergraphs 35 s
+OMEGA2 [[0, 3, 8], [4, 1, 9], [7, 4, 10], [2, 0, 3], [1, 2, 6], [6, 7, 5], [6, 7, 5]] 11 picks (0, 1, 4, 3, 2, 6, 7) least omega' 2
+RPRIME [[0, 3, 8], [4, 1, 9], [7, 4, 10], [2, 0, 3], [1, 2, 6], [6, 7, 5], [6, 7, 5]] 11 picks (0, 1, 4, 3, 2, 6, 7) least D' 2
+OMEGA2 [[0, 3, 8], [4, 1, 9], [7, 4, 10], [2, 0, 3], [1, 2, 6], [6, 7, 5], [6, 7, 5]] 11 picks (0, 1, 4, 3, 2, 7, 6) least omega' 2
+RPRIME [[0, 3, 8], [4, 1, 9], [7, 4, 10], [2, 0, 3], [1, 2, 6], [6, 7, 5], [6, 7, 5]] 11 picks (0, 1, 4, 3, 2, 7, 6) least D' 2
+# progress 1140 hypergraphs 35 s
+TE-ruleP-NEK [[0, 8, 4], [3, 9, 6], [5, 7, 10], [7, 0, 2], [2, 3, 1], [5, 1, 6], [7, 6, 4]] 11 picks (0, 3, 10, 2, 1, 5, 7)
+# progress 1160 hypergraphs 36 s
+TE-ruleP-NEK [[5, 8, 0], [7, 3, 9], [5, 4, 10], [2, 6, 0], [2, 1, 3], [7, 1, 6], [6, 7, 4]] 11 picks (5, 7, 10, 6, 2, 1, 4)
+OMEGA2 [[7, 0, 8], [5, 6, 9], [5, 7, 10], [0, 3, 2], [6, 1, 2], [4, 6, 1], [7, 3, 4]] 11 picks (0, 5, 7, 3, 6, 1, 4) least omega' 2
+RPRIME [[7, 0, 8], [5, 6, 9], [5, 7, 10], [0, 3, 2], [6, 1, 2], [4, 6, 1], [7, 3, 4]] 11 picks (0, 5, 7, 3, 6, 1, 4) least D' 3
+# progress 1180 hypergraphs 37 s
+# progress 1200 hypergraphs 37 s
+# progress 1220 hypergraphs 38 s
+TE-ruleP-NEK [[1, 3, 8], [2, 9, 6], [7, 4, 10], [1, 2, 0], [7, 0, 5], [7, 6, 3], [4, 6, 5]] 11 picks (1, 2, 10, 0, 5, 7, 4)
+TE-ruleP-NEK [[1, 8, 3], [2, 6, 9], [4, 7, 10], [2, 1, 0], [0, 7, 5], [7, 6, 3], [4, 5, 6]] 11 picks (1, 2, 10, 0, 5, 7, 4)
+# progress 1240 hypergraphs 38 s
+# progress 1260 hypergraphs 39 s
+TE-ruleP-NEK [[1, 3, 8], [5, 9, 2], [6, 7, 10], [1, 4, 0], [5, 7, 0], [6, 3, 2], [4, 6, 7]] 11 picks (1, 5, 10, 4, 0, 6, 7)
+# progress 1280 hypergraphs 39 s
+# progress 1300 hypergraphs 40 s
+TE-ruleP-NEK [[1, 3, 8], [2, 7, 9], [7, 10, 5], [1, 0, 7], [0, 6, 4], [6, 2, 4], [6, 5, 3]] 11 picks (1, 9, 7, 0, 4, 2, 6)
+# progress 1320 hypergraphs 41 s
+# progress 1340 hypergraphs 41 s
+# progress 1360 hypergraphs 42 s
+OMEGA2 [[6, 1, 8], [7, 9, 4], [6, 10, 7], [5, 1, 0], [0, 7, 4], [2, 5, 3], [6, 2, 3]] 11 picks (1, 7, 6, 0, 4, 5, 2) least omega' 2
+RPRIME [[6, 1, 8], [7, 9, 4], [6, 10, 7], [5, 1, 0], [0, 7, 4], [2, 5, 3], [6, 2, 3]] 11 picks (1, 7, 6, 0, 4, 5, 2) least D' 3
+# progress 1380 hypergraphs 42 s
+# progress 1400 hypergraphs 43 s
+TE-ruleP-NEK [[6, 8, 3], [4, 5, 9], [7, 6, 10], [1, 2, 0], [7, 0, 2], [7, 1, 4], [5, 3, 6]] 11 picks (6, 9, 10, 1, 7, 4, 5)
+OMEGA2 [[3, 6, 8], [5, 7, 9], [7, 6, 10], [2, 0, 1], [6, 2, 0], [4, 7, 1], [5, 3, 4]] 11 picks (3, 5, 6, 2, 0, 7, 4) least omega' 2
+RPRIME [[3, 6, 8], [5, 7, 9], [7, 6, 10], [2, 0, 1], [6, 2, 0], [4, 7, 1], [5, 3, 4]] 11 picks (3, 5, 6, 2, 0, 7, 4) least D' 2
+# progress 1420 hypergraphs 44 s
+OMEGA2 [[2, 6, 8], [7, 4, 9], [7, 6, 10], [5, 1, 0], [3, 5, 0], [6, 3, 1], [4, 2, 7]] 11 picks (6, 4, 7, 5, 0, 3, 2) least omega' 2
+RPRIME [[2, 6, 8], [7, 4, 9], [7, 6, 10], [5, 1, 0], [3, 5, 0], [6, 3, 1], [4, 2, 7]] 11 picks (6, 4, 7, 5, 0, 3, 2) least D' 2
+# progress 1440 hypergraphs 44 s
+TE-any [[1, 9, 0], [1, 8, 10], [8, 0, 3], [2, 3, 4], [2, 7, 5], [7, 6, 4], [5, 8, 6]] 11 picks (1, 10, 8, 2, 5, 7, 6)
+TE-ruleP-NEK [[1, 9, 0], [1, 8, 10], [8, 0, 3], [2, 3, 4], [2, 7, 5], [7, 6, 4], [5, 8, 6]] 11 picks (1, 10, 8, 2, 5, 7, 6)
+TE-ruleP-any_owner [[1, 9, 0], [1, 8, 10], [8, 0, 3], [2, 3, 4], [2, 7, 5], [7, 6, 4], [5, 8, 6]] 11 picks (1, 10, 8, 2, 5, 7, 6)
+TE-any [[0, 6, 9], [1, 10, 2], [0, 8, 2], [1, 7, 4], [7, 3, 5], [8, 3, 5], [8, 4, 6]] 11 picks (0, 1, 2, 4, 7, 8, 6)
+TE-ruleP-NEK [[0, 6, 9], [1, 10, 2], [0, 8, 2], [1, 7, 4], [7, 3, 5], [8, 3, 5], [8, 4, 6]] 11 picks (0, 1, 2, 4, 7, 8, 6)
+TE-ruleP-any_owner [[0, 6, 9], [1, 10, 2], [0, 8, 2], [1, 7, 4], [7, 3, 5], [8, 3, 5], [8, 4, 6]] 11 picks (0, 1, 2, 4, 7, 8, 6)
+# progress 1460 hypergraphs 45 s
+# progress 1480 hypergraphs 45 s
+# progress 1500 hypergraphs 46 s
+# progress 1520 hypergraphs 46 s
+TE-ruleP-NEK [[3, 5, 9], [8, 10, 4], [0, 1, 2], [0, 8, 2], [5, 1, 7], [6, 8, 3], [6, 7, 4]] 11 picks (9, 8, 0, 2, 5, 3, 6)
+# progress 1540 hypergraphs 47 s
+hypergraphs 1551
+perfect drafts 442424
+profiles 93060
+|T| 1: (R') some rotation has D' <= 1 False 52
+|T| 1: (R') some rotation has D' <= 1 True 1309
+|T| 1: T'_k k 97
+|T| 1: T'_k none 1264
+|T| 1: T-E (N/E/K) every True 1361
+|T| 1: T-E (N/E/K) every least-omega True 1361
+|T| 1: T-E (N/E/K) every most-T True 1361
+|T| 1: T-E (N/E/K) some True 1361
+|T| 1: T-E any owner, every least-omega rotation True 1361
+|T| 1: T-E any owner, every rotation True 1361
+|T| 1: hard perfect 1361
+|T| 1: least omega' <= 0 False 105
+|T| 1: least omega' <= 0 True 1256
+|T| 1: least omega' <= 1 False 16
+|T| 1: least omega' <= 1 True 1345
+|T| 1: rule P (N/E/K; junk-pair k exist) True 1159
+|T| 1: rule P (N/E/K; no junk-pair k) True 202
+|T| 1: rule P (any owner; junk-pair k exist) True 1159
+|T| 1: rule P (any owner; no junk-pair k) True 202
+|T| 2: (R') some rotation has D' <= 1 False 3
+|T| 2: (R') some rotation has D' <= 1 True 859
+|T| 2: T'_k k 1
+|T| 2: T'_k none 862
+|T| 2: T-E (N/E/K) every False 18
+|T| 2: T-E (N/E/K) every True 844
+|T| 2: T-E (N/E/K) every least-omega True 862
+|T| 2: T-E (N/E/K) every most-T True 862
+|T| 2: T-E (N/E/K) some True 862
+|T| 2: T-E any owner, every least-omega rotation True 862
+|T| 2: T-E any owner, every rotation False 2
+|T| 2: T-E any owner, every rotation True 860
+|T| 2: T-E no valid rotation 1
+|T| 2: hard perfect 863
+|T| 2: least omega' <= 0 False 12
+|T| 2: least omega' <= 0 True 850
+|T| 2: least omega' <= 1 True 862
+|T| 2: rule P (N/E/K; junk-pair k exist) False 17
+|T| 2: rule P (N/E/K; junk-pair k exist) True 840
+|T| 2: rule P (N/E/K; no junk-pair k) True 5
+|T| 2: rule P (any owner; junk-pair k exist) False 2
+|T| 2: rule P (any owner; junk-pair k exist) True 855
+|T| 2: rule P (any owner; no junk-pair k) True 5
+time 47 s

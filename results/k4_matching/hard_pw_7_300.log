@@ -1,0 +1,21 @@
+$ python3 k4/matching/hard_starts.py pw:7:300 (NMAX=6)
+complete at the picks 1221
+complete at the picks (one absorber, not S*) 36
+hard: delta_oa = 1 225
+hard: delta_oa = 1 -> best after one move 0 225
+hard: delta_oa = 1, OC1 holds 225
+hard: delta_oa = 2 59
+hard: delta_oa = 2 -> best after one move 0 59
+hard: delta_oa = 2, OC1 holds 59
+hard: delta_oa = 3 7
+hard: delta_oa = 3 -> best after one move 0 7
+hard: delta_oa = 3, OC1 holds 7
+hard: delta_ss = 1 223
+hard: delta_ss = 2 61
+hard: delta_ss = 3 7
+instances 300
+max starts 1548
+non-max starts (skipped) 72
+one-absorber-hard 291
+rows written to results/k4_matching/hard_pw_7_300.jsonl
+time 8 s

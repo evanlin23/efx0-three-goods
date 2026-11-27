@@ -4,7 +4,7 @@ The pipeline of k4/mincex_shapes.py (as the hunt session's mc_n.py runs it for o
 structural part of K4.MC5, the Q3/P4 expansion, the K4.MC5 px domain cuts, isomorphic cores merged), with K4.MC8's
 double-edge exclusion added at the G' level (twins_filter.gamma_prune, equivalent to twins_filter.excluded on the
 expanded cores). Optionally also the K4.MC8 domain cuts of the partial double edges.
-Usage: twins_count.py N BETA [--write=OUT.json.gz] [--cuts] [--no-mc8]     (run from k4/; --no-mc8: without K4.MC8, the
+Usage: twins_count.py N BETA [--write=OUT.json.gz] [--cuts] [--no-mc8] [--mc9]     (run from k4/; --no-mc8: without K4.MC8, the
        baseline count)"""
 import sys, os, json, gzip, collections, pickle, time
 import numpy as np
@@ -28,6 +28,7 @@ def main():
     def sp(nb):
         if orig_sp(nb): return True
         if '--no-mc8' not in sys.argv and TF.gamma_prune(nb): pruned['gamma'] += 1; return True
+        if '--mc9' in sys.argv and TF.gamma_claw(nb): pruned['claw'] += 1; return True
         return False
     MS.structural_prune = sp
     recs, stat = [], collections.Counter()
@@ -41,8 +42,8 @@ def main():
         stat[m] += 1
         recs.append({'n': nn, 'm': m, 'beta': beta, 'sets': sets, 'kinds': kinds, 'profiles': size,
                      'dsizes': [len(d) for d in dom]})
-    print('G\' graphs pruned by K4.MC8: %d; expanded cores kept before merging isomorphs: %d (%.0f s)' % (
-        pruned['gamma'], len(recs), time.time() - t0), flush=True)
+    print('G\' graphs pruned by K4.MC8: %d, by K4.MC9: %d; expanded cores kept before merging isomorphs: %d (%.0f s)' % (
+        pruned['gamma'], pruned['claw'], len(recs), time.time() - t0), flush=True)
     uniq = MS.unique([(r['n'], r['m'], r['sets']) for r in recs])
     keep = set(json.dumps(s) for _, _, s in uniq)
     recs = [r for r in recs if json.dumps(r['sets']) in keep]

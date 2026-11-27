@@ -1,0 +1,14 @@
+$ python3 k4/referee/rkdom_ref.py two_move_starts_n4.json.gz 2
+profiles in export 111600, this run 111600
+    dominated; least dominating change: 2 agents          107760
+    dominated; least dominating change: 3 agents          5120
+    undominated: OC1 holds                                213120
+    undominated: SD outcome True                          213120
+  2AG: formula = direct                                   6918828
+  COMP: not max, a single component raises                561612
+  COMP: sigma-max, no single component raises             9624
+  failing starts                                          112880
+  maximum matchings                                       11424720
+  profiles                                                111600
+  profiles with the COMP / 2AG checks                     5580
+  undominated maximum matchings                           213120

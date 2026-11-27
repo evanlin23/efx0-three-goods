@@ -1,0 +1,23 @@
+$ MODE=canon TSIZE=any DMAX=4 python3 k4/matching/rsd.py n4export | 112880 distinct starts
+... 10000 40 s
+... 20000 74 s
+... 30000 107 s
+... 40000 145 s
+... 50000 184 s
+... 60000 215 s
+... 70000 250 s
+... 80000 285 s
+... 90000 317 s
+... 100000 358 s
+... 110000 457 s
+EXPLORE: no dead end reachable False 16240
+EXPLORE: no dead end reachable True 96640
+EXPLORE: starts with reachable dead-end states (no completion, no step) 16240
+RSD+: every step shared True 112880
+RSD+: least d = 1 112880
+RSD+: sizes of T along the sequence [2] 112880
+RSD: every step shared False 112880
+RSD: least d = 2 112880
+RSD: sizes of T along the sequence [2, 2] 103600
+RSD: sizes of T along the sequence [2, 3] 9280
+time 485 s

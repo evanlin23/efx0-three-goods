@@ -1,0 +1,5 @@
+$ python3 k4/k3oc1/rand_oc1.py 6 10 200000 2
+draft passes 199638
+every max-score trade passes 362
+starts 200000
+time 4 s
