@@ -226,3 +226,53 @@ Addendum 1: the case found there is the lemma's EX-b, which the lemma now exclud
 - REC-S ⇒ ROUND-P is proved outside (EX).
 - "(EX) never occurs at starts without a one-move repair" remains data: 0 of 627,120 at n = 4 and 0 of 4,122 at the
   n = 5 starts here. It is what a proof of REC-S existence would still need, to give ROUND-P.
+
+## Addendum 3: the pick graph, Lemmas PG, GAIN, RING, RHO, FIX and Theorem ROUND-SIMPLE (`kgen/rounds.md` §4.11 at `d79599ea`, PR #137; coordinator's queue, 2026-11-27)
+
+**Verdict: CORRECT** (all five lemmas and the theorem). Script `roundsimple_ref.py` (own code: my pick-graph
+classifier and my RNDOZ witness test `splice_ref.round_witness`), runs `roundsimple_ref_runs.sh`, log
+`results/k4_referee/roundsimple_ref.log`.
+
+**Re-derivation.**
+- *PG.* A function on a finite set has one cycle per weak component. The in-degree of b is the number of picks in X_b.
+  So a component whose in-trees form a single path from a pickless q, entering the cycle at v, has exactly one
+  in-degree-2 vertex v. The five named shapes plus "complex" exhaust the cases.
+- *GAIN* needs the setting's **distinct subset sums**, which the setting states. With strict good values alone it
+  fails: v_b = (a: 3, b: 1, c: 2), Y_b = a, X_b = {b, c} gives v_b(X_b) = p_b.
+- *The construction is a valid RNDOZ structure.* The passers are the chain agents other than the end, with s(a) = f(a).
+  - In a ring, a_r is the end and its pick lies at the start a₁. Any start works, so the outside count may use the
+    best start.
+  - In a rho, c_r is the end. Of v's two in-edges only a → v is a chain edge, so s is injective and acyclic. v takes
+    Y_{c_r}, its own chain end's pick.
+  - In a rho-fix, the end a has a predecessor because the tail has length ≥ 2. The keeper v is off the chains, with
+    base {Y_v} plus relevant junk and Y_a outside.
+  - Every chain agent's base value equals v_b(X_b), since unvalued goods are worth 0. This is > p_b by GAIN.
+  - The outside goods are exactly the theorem's list, so "one absorber" is the round's condition.
+- *ka* is excluded correctly. There q → v is forced, and v's gain is v_v(X_v ∖ {Y_v}) > p_v. This is SPLICE's (EX)
+  mechanism (Addendum 2).
+
+**Data** (cores with distinct subset sums; every MD raw-EFX₀ allocation by brute force):
+
+| data | starts | MD EFX₀ allocations | simple, one absorber | of these not RNDOZ witnesses | GAIN failures |
+|---|---|---|---|---|---|
+| random connected cores, n = 4–5, m ≤ 8 / 7, every perfect start | 2,038 | 39,644 | 34,202 | **0** | 0 |
+| n = 4 export, 400 random starts with m ≤ 8 | 400 | 2,543 (all one rho) | 2,543 | **0** | 0 |
+
+- Simple allocations with two absorbers: 106, and none is a witness.
+- ka allocations: 5,311, of which 921 are witnesses (v gains) and 4,390 are not.
+- Complex allocations: 25, and none is a witness.
+
+**On "ROUND-P^max ⟺ SIMPLE-MD".**
+- The theorem gives SIMPLE-MD ⟹ RNDOZ.
+- The converse is not proved, and it fails allocation by allocation: the 921 ka witnesses above are RNDOZ witnesses
+  that are not simple.
+- At the start level it holds on my data. Every one of the 2,438 starts has a RNDOZ witness and also a simple
+  one-absorber MD allocation (0 exceptions).
+- So "⟺" is exact only with a proof of: "a RNDOZ witness at Y ⟹ a simple one-absorber MD allocation at Y".
+  - A ka witness is the case to handle.
+  - Or the theorem could be widened to admit ka with v_v(X_v ∖ {Y_v}) > p_v, counting Y_v among v's outside goods.
+    - Such an X is then a witness by the same construction: q → v with v an end, base {Y_q} plus relevant junk.
+    - Every ka witness has this form, since that structure is forced.
+    - A converse would then still need to rule out witnesses whose pick graph is complex, for instance an end pick
+      completed into another chain. None occurs in my data (25 complex allocations, 0 witnesses), but none is ruled
+      out by proof.
