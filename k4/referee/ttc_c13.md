@@ -118,10 +118,18 @@ Setup:
 - every (w, d, H, x, y) with (1) is collected.
 
 Results:
-- **With (0)–(4)** ((3) in value form): no allocation fails raw EFX₀. There are 687 cases in the 20,000-start run;
-  the 200,000-start run is in the log.
-- **Mutants:** dropping (0), (2), (3) or (4) produces non-EFX₀ allocations every time (counts in the log). So each
-  hypothesis is used, and the checker can find failures.
+- **With (0)–(4)** ((3) in value form): no allocation fails raw EFX₀. There are 687 cases at 14,425 perfect starts
+  (seed 1), and 7,129 cases at 144,566 perfect starts (seed 2).
+- **Mutants:** dropping any one hypothesis produces non-EFX₀ allocations, each time already at n = 3. Seed 2 counts:
+
+  | hypothesis dropped | cases | not EFX₀ |
+  |---|---|---|
+  | (0) | 7,427 | 298 |
+  | (2) | 7,977 | 848 |
+  | (3) | 8,920 | 1,515 |
+  | (4) | 16,793 | 5,847 |
+
+  So each hypothesis is used, and the checker can find failures.
 
 ## 5. What the rest of the campaign uses
 
