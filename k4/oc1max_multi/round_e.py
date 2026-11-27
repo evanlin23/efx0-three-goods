@@ -6,7 +6,7 @@ at the round's end, (L*) toward every phantom (earlier ones included), and relea
 phantom ((P3)).  After at most RMAX rounds, the reduced start must complete at once (every one-absorber completion,
 lifted, raw EFX0 in the full instance).  SD-E(round) is asserted at every round (a failure is reported).
 
-    RMAX=2 python3 k4/oc1max_multi/round_e.py ROWS.jsonl[.gz] [...]   (rows: sets, vals, picks, orders or order)
+    RMAX=2 [WITNESS=OUT.json.gz] python3 k4/oc1max_multi/round_e.py ROWS.jsonl[.gz] | EXPORT.json.gz [...]
 """
 import sys, os, json, gzip, itertools, collections, multiprocessing as mp
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -24,7 +24,7 @@ def search(I0, I, b, order, agents, goods, fixed, left, C):
         for X in all_oa(I, b):
             A = [list(fixed.get(a, [])) for a in range(I0.n)]
             for j, a in enumerate(agents): A[a] = [goods[g] for g in X[j]]
-            if I0.efx0(A): return 0
+            if I0.efx0(A): return 0, ([], [sorted(x) for x in A])
     if left == 0: return None
     J = junk(I, b); p = [I.V(i, b[i]) for i in range(I.n)]; D = dangerous(I, b); opts = {}
     for k in D:
@@ -56,28 +56,46 @@ def search(I0, I, b, order, agents, goods, fixed, left, C):
                 C['rounds tried'] += 1
                 if I2.sd(o2) != tuple(x[0] if x else None for x in b2): C['SD-E(round) VIOLATION'] += 1; continue
                 r = search(I0, I2, b2, o2, [agents[a] for a in keep], [goods[g] for g in g2], f2, left - 1, C)
-                if r is not None: return r + 1
+                if r is not None:
+                    st = [list(f2.get(a, [])) for a in range(I0.n)]
+                    for j, a in enumerate(agents):
+                        if j not in K: st[a] = [goods[g] for g in nb[j]]
+                    rnd = {'settled': [{'k': agents[k], 'T': sorted(goods[g] for g in T), 'P': [agents[a] for a in P]}
+                                       for k, P, T in zip(K, Ps, Ts)], 'state': [sorted(x) for x in st]}
+                    return r[0] + 1, ([rnd] + r[1][0], r[1][1])
     return None
 
 
 def study(rec):
     I = Inst(rec['sets'], rec['vals']); b = base_from_picks(tuple(rec['picks'])); C = collections.Counter(); best = None
     orders = rec.get('orders') or [rec['order']]
+    wit = None
     for o in orders:
         r = search(I, I, b, list(o), list(range(I.n)), list(range(I.m)), {}, RMAX, C)
-        if r is not None and (best is None or r < best): best = r
+        if r is not None and (best is None or r[0] < best): best = r[0]; wit = {'order': list(o), 'rounds': r[1][0], 'alloc': r[1][1]}
         if best == 1: break
-    return C, best
+    return C, best, wit
 
 
 if __name__ == '__main__':
-    T = collections.Counter(); miss = []
+    T = collections.Counter(); miss = []; W = []
     for fn in sys.argv[1:]:
-        rows = [json.loads(l) for l in (gzip.open(fn, 'rt') if fn.endswith('.gz') else open(fn))]
+        if fn.endswith('.json.gz'):            # export format {hypergraphs: [{list, idx, sets, starts: [{vals, picks, orders}]}]}
+            d = json.load(gzip.open(fn)); rows = [{'list': hg.get('list'), 'm': hg.get('m'), 'idx': hg.get('idx'), 'sets': hg['sets'],
+                                                   'vals': s0['vals'], 'picks': s0['picks'], 'orders': s0['orders']}
+                                                  for hg in d['hypergraphs'] for s0 in hg['starts']]
+        else:
+            rows = [json.loads(l) for l in (gzip.open(fn, 'rt') if fn.endswith('.gz') else open(fn))]
         with mp.Pool(int(os.environ.get('PROCS', mp.cpu_count()))) as pool:
-            for (C, r), row in zip(pool.imap(study, rows, chunksize=4), rows):
+            for (C, r, wit), row in zip(pool.imap(study, rows, chunksize=16), rows):
                 T.update(C); T['starts'] += 1; T['rounds needed: %s' % r] += 1
                 if r is None: miss.append('%s#%s' % (row.get('list', ''), row.get('idx', '')))
+                if os.environ.get('WITNESS'): W.append(dict(row, witness=wit))
     print('$ RMAX=%d python3 k4/oc1max_multi/round_e.py' % RMAX, *sys.argv[1:])
     for k in sorted(T): print(k, T[k])
     print('not repaired:', len(miss), miss[:12])
+    if os.environ.get('WITNESS'):
+        json.dump({'what': 'round_e.py witnesses: per start, the order, the rounds (settled {k, T, P} in the full instance, '
+                           'state after the round) and the final allocation', 'inputs': sys.argv[1:], 'starts': W},
+                  gzip.open(os.environ['WITNESS'], 'wt'))
+        print('wrote', len(W), 'witnesses to', os.environ['WITNESS'])

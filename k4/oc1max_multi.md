@@ -1623,3 +1623,27 @@ So on all these data the repair is built entirely from refereed parts:
 What remains open:
 - the existence of such rounds at every two-move start (ROUND-IND);
 - the base case at the one-move starts that pure reduction misses (the T3 family, §11).
+
+**Certified on three complete n = 5 cores (K4.MULTI.ROUNDE.SEL2).** The certifier exported every two-move start of
+5_pure m = 10 #419 (276,480 starts), m = 11 #447 (115,200) and m = 9 #38 (192,000): 583,680 in all. Completeness is
+certified at 14904a87 on `compute/k4-oc1max-cert`; the matching session's copy is
+`results/k4_matching/data/two_move_starts_n5_sel2.json.gz`.
+- `round_e.py` with WITNESS (`round_e_sel2.log`, `round_e_sel2_witnesses.json.gz`) repairs **all 583,680**, by
+  E-prefix rounds and a completion at once:
+  - every #419 and #447 start by one round of two settlements;
+  - every #38 start by two rounds of one.
+- `check_rounds.py` is self-contained: it imports nothing from this workstream. It re-checks every witness from the
+  definitions (`check_rounds_sel2.log`):
+  - the SD picks;
+  - each round's dangerous agents and E(k)-prefix chains, with the chains disjoint and official;
+  - T inside the pool, improving and disjoint;
+  - the stated state after the round;
+  - (H), SD-E(round), (L\*) at the round's end, (P2) and (P3);
+  - that the final completion is complete, extends the last state by junk only, has one absorber, gives settled agents
+    nothing, and is raw EFX₀.
+- Result: **583,680 ok**. All 17,511 negative tests are rejected. The witness starts equal the export's as a multiset
+  (sha256 recorded): 0 missing, 0 extra.
+
+So at these three cores, which defeat REC-S and every sequential settlement at #419 and #447, the round step is
+certified in its refereed form: SD-E(round), (L\*) at the end of the round, LIFT, and the S^φ(round) invariants.
+"Every start" inherits the completeness of the certifier's export.

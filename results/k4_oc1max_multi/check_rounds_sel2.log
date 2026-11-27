@@ -1,0 +1,6 @@
+$ python3 k4/oc1max_multi/check_rounds.py results/k4_oc1max_multi/round_e_sel2_witnesses.json.gz results/k4_matching/data/two_move_starts_n5_sel2.json.gz (proof/k4-matching)
+witness file sha256 01ec8fb59034c4fc77c0e9540692dfb885e5459742efb8298a38ececd1a7c6be
+starts 583680 results {'ok': 583680}
+negative tests 17511 accepted (must be 0): 0 {}
+export sha256 d1f6f0821cf2e83a0a441ca814b5c402534265d105a8356add81300c11293093 starts 583680 | export starts without a witness entry: 0 | witness starts outside the export: 0
+real	2m11.773s
