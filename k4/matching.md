@@ -744,6 +744,10 @@ collected, and the walk climbs towards OC2-REC failures.
   `check_rec_n5walklong.log`).
 - The walks never leave #164's hypergraph, so this is narrow evidence. The certifier's 5_pure chunks (128
   hypergraphs with two-move starts) are the broader test.
+- The same census on the multi session's 4,955 walk starts (`n5_census_multiwalk.log`; witnesses re-checked,
+  `check_rec_multiwalk.log`): OC2-REC, its EX\* form, CM₂ and LIFT-SHAPE⁺ hold at every start.
+  - 1,951 are type 4a, with a vertex-disjoint repairing pair. This includes all 577 at n = 5 near the TTC core.
+  - 3,004 are type 4b, with no such pair, all at n = 4.
 
 ## 7. Climbs and reproduction
 

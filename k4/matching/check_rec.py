@@ -25,7 +25,7 @@ For every start (sets, vals, picks, orders) of the input and its witness it chec
 
     python3 k4/matching/check_rec.py STARTS WITNESSES
       STARTS: the n = 4 export (results/k4_matching/data/two_move_starts_n4.json.gz) or a JSONL of {sets, vals,
-      picks, orders}; WITNESSES: the REC_WIT file of n5_census.py, written on the same input in the same order."""
+      picks, orders} (or a single `order`); WITNESSES: the REC_WIT file of n5_census.py, written on the same input in the same order."""
 import sys, os, gzip, json, itertools, collections, time
 
 
@@ -103,7 +103,7 @@ def moves(I, B, goods):
 
 def check(sets, st, w):
     I = Inst(sets, st['vals']); n = I.n; m = 1 + max(max(s) for s in sets); allg = list(range(m))
-    Y = I.sd(st['orders'][0])
+    Y = I.sd(st['orders'][0] if 'orders' in st else st['order'])
     assert [Y.get(i) for i in range(n)] == list(st['picks']) and len(Y) == n, '1: picks'
     base = {i: [Y[i]] for i in range(n)}; J = junk(base, allg)
     wants = lambda i, g, B: g not in B[i] and I.v[i].get(g, 0) > I.V(i, B[i])
