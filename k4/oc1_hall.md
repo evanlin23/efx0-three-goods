@@ -2498,3 +2498,41 @@ smaller than RF's but not empty. A proof of RKMAX would therefore need:
 
 The scope is that of the exports: the profiles are those with some failing maximum-matching start, and the
 lists are complete for 3 of the 9 hypergraphs.
+
+### 24.13 Lemma RF-A1\* (k3-oc1's weakening of RF-A1): second reading, CORRECT
+
+The source is `k4/k3_oc1.md` §13.5 on `claude/k4-k3-oc1` (commit e7c03f69): Lemma RF-A1 of §24.6 with (A1-iv) weakened
+to:
+- **(A1-iv\*)** every frozen q of Y′ outside {w, u, k2} that values Y_d has v_q(W) − min_W v_q ≤ p′_q.
+
+(A1-i) and (A1-iii) are restated in the form the proof uses:
+- (A1-i) J ∩ R_d = {g, h}, v_d(g) + v_d(h) > v_d(Y_d), J′ ∩ R_d = {h};
+- (A1-iii) some k2 ≠ d values g and h, and v_{k2}(Y_d) ≤ p′_{k2}.
+
+*Read line by line: the proof is correct.* Each case checks:
+- *X_d = {g, h}* threatens nobody. g is unwanted at Y′ by RF-PATH (c), and h is junk below every pick.
+- *d* is not threatened by W, by (A1-i).
+- *u* is not threatened by W, by (A1-ii).
+- *k2* values at most one good x of W. This uses |R_{k2}| ≤ 4, with g, h and k2's pick outside W. So x is junk, or
+  x = Y_d and (A1-iii) bounds it.
+- *A frozen q that values Y_d* is covered by (A1-iv\*).
+- *A frozen q that does not value Y_d*: W ∩ R_q ⊆ J′ ∖ {h}, and D_T′ = ∅ bounds v_q(J′) − min_{J′} v_q by p′_q.
+  Since v_q(J′ ∖ {h}) ≤ v_q(J′) − min_{J′} v_q, q is not threatened. If q values no junk at all, the value is 0.
+- *Every other agent* is frozen, since U′ = {d}.
+
+(A1-iv) makes (A1-iv\*) vacuous, so RF-A1\* implies RF-A1. Two remarks, neither affecting correctness:
+- if k2 = w or k2 = u, the k2 case is vacuous or is u's case;
+- the step "q is not truly dangerous" means: if q values a junk good it is dangerous, hence not truly dangerous since
+  D_T′ = ∅; and if it values none, the value is 0.
+
+*Independent data check* (`k4/oc1_hall/rf_a1star_check.py`, `rf_a1star_check.log`; written here from the statement,
+own EFX₀ test and the raw checker's). n = 5 exports, DEMOTE-0 starts whose path is u → w → d with d taking junk:
+110,661.
+- d values no good of J′: 242.
+- (A1-i)–(A1-iv\*) hold at **71,443**: 32,368 with (A1-iv), 39,075 only with (A1-iv\*). **X is EFX₀ at all 71,443**,
+  under both checkers.
+- At the other 38,976, (A1-iv\*) fails and X is not EFX₀. So on this path shape the hypotheses are exact, as k3-oc1
+  states.
+- 0 violations. The counts agree with k3-oc1's and girth's.
+
+So at n = 5 the at-once part of DEMOTE-0 is Lemma RF-A1\* plus its four facts. Open: those facts from Y's hardness.
