@@ -103,3 +103,25 @@ certifier. 100 per hypergraph were re-checked by the pure-Python search, which a
 - For #38, #419 and #447 the check covers every failing (type profile, picks) pair. That relies on two things not
   re-derived here: the certifier's completeness flag, and the type reduction, under which SD, receivers, maximality and
   OC₁ compare only single agents' subset sums.
+
+## Conjecture RKMAX on the n = 5 lists (`rkmax_check.py`)
+
+**Statement** (`k4/sdc.md` §31 end on claude/kind-lamport-y8fdme). rank_i(Y) is 1 plus the number of i's relevant
+goods valued above Y_i, and an agent with no pick has rank 5. Let σ(Y) = (#rank 1, …, #rank 4). Every maximum-matching
+SD vector whose σ is lexicographically maximal among the profile's maximum-matching SD vectors must satisfy OC₁.
+
+**Method.** The script was written without reading `k4/sdc/extremal_rank_check.py`, `extremal_rank_n5.py` or
+`oc1_mc2_rand`. For each profile it takes the SD picks of all 120 orders, keeps the maximum matchings, and tests OC₁ at
+each σ-maximal one. It uses the same OC₁ search and witness checks as above.
+
+**Results** (`results/k4_rf_indep/rkmax_check_n5_sel2.log`, `rkmax_check_n5_partial6.log`, about 1 min each):
+
+| lists | profiles | σ-maximal vectors | P | one chain (t = 1) | F |
+|---|---|---|---|---|---|
+| sel2, complete (#38, #419, #447) | 583,680 | 1,004,160 | 1,004,160 | 0 | 0 |
+| partial6 (6 hypergraphs) | 700,500 | 1,305,032 | 1,299,946 | 5,086 | 0 |
+
+- Every export failing start has a maximum-matching SD vector of larger σ. That is the "proof shape" form of RKMAX.
+- No profile has a tie between two single goods of one agent.
+- This is a second implementation for the coordinator's sel2 count, 583,680 of 583,680. Calling it a certificate on
+  #38, #419 and #447 still relies on the certifier's completeness flag and on the type reduction.
