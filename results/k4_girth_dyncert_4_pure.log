@@ -1,0 +1,11 @@
+$ python3 k4/girth/dyncert.py 4 pure --jobs=4 (219 cores, 4 jobs)
+k4_certs_4_pure.json.gz#m4#0 profiles   6879707136 covered   6879707136 runs    24087 boxes-without-labeling 0 2.7s CERTIFIED | labelings 24, last used #0, by default orders 6879707136
+k4_certs_4_pure.json.gz#m5#0 profiles   6879707136 covered   6879707136 runs    17271 boxes-without-labeling 0 2.8s CERTIFIED | labelings 24, last used #0, by default orders 6879707136
+k4_certs_4_pure.json.gz#m5#1 profiles   6879707136 covered   6879707136 runs    18811 boxes-without-labeling 0 2.8s CERTIFIED | labelings 24, last used #0, by default orders 6879707136
+k4_certs_4_pure.json.gz#m5#2 profiles   6879707136 covered   6879707136 runs    17076 boxes-without-labeling 0 2.9s CERTIFIED | labelings 24, last used #0, by default orders 6879707136
+k4_certs_4_pure.json.gz#m5#3 profiles   6879707136 covered   6879707136 runs    17557 boxes-without-labeling 0 2.3s CERTIFIED | labelings 24, last used #0, by default orders 6879707136
+k4_certs_4_pure.json.gz#m6#0 profiles   3439853568 covered   3439853568 runs    17022 boxes-without-labeling 0 2.9s CERTIFIED | labelings 24, last used #0, by default orders 3439853568
+k4_certs_4_pure.json.gz#m6#1 profiles   6879707136 covered   6879707136 runs   211527 boxes-without-labeling 0 30.0s CERTIFIED | labelings 24, last used #0, by default orders 6879707136
+k4_certs_4_pure.json.gz#m6#3 profiles   6879707136 covered   6879707136 runs   203610 boxes-without-labeling 0 29.9s CERTIFIED | labelings 24, last used #0, by default orders 6879707136
+k4_certs_4_pure.json.gz#m6#4 profiles   6879707136 covered   6879707136 runs   226722 boxes-without-labeling 0 32.8s CERTIFIED | labelings 24, last used #0, by default orders 6879707136
+k4_certs_4_pure.json.gz#m6#2 profiles   6879707136 covered   6879707136 runs   266497 boxes-without-labeling 0 37.2s CERTIFIED | labelings 24, last used #0, by default orders 6879707136
