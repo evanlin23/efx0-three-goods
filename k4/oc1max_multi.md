@@ -1017,3 +1017,44 @@ share their whole junk set {4, 5, 6}, and u = 1 with z = 0.
 So the second slot does not cut a danger set. It removes the goods that agent 2 does not value from the owner's bundle,
 so that EFX₀'s removal of the least valued good bites. The residue needs a lemma for this *worthless-good* effect.
 That is the natural next target.
+
+## 11. RING as an existence statement: the residue
+
+At none of the 45 RING starts does a canonical chain repair with owner k, and Theorems U and S cover none of them
+(§10). The shortest repairing move with an S\* completion at each (`ring_len.py`, `ring_len.log`):
+
+| shortest repair | \|D_T\| = 0 | \|D_T\| = 2 | smallest |
+|---|---|---|---|
+| a swap of two dangerous agents (ring or chain of length 2, both ends in D) | 23 | 0 | T3, picks (0, 1, 4) (n = 3, m = 6) |
+| length 2, x₀ ∈ D, other end not | 0 | 2 | r640 (n = 4, m = 8) |
+| length 2, x₀ ∉ D | 8 | 0 | nsw-strict-n4m9 (n = 4, m = 9) |
+| length 3, both ends in D | 4 | 0 | c4-g2-other-runs-n4m7 (n = 4, m = 7) |
+| length 3, x₀ ∈ D | 8 | 0 | ls-alt-rule-n4m7 (n = 4, m = 7) |
+
+So 43 of the 45 have no truly dangerous agent (all dangerous agents are pick-dangerous), and every one is repaired by a
+move of length at most 3.
+
+**The Hall obstruction at T3 (0, 2, 1)** (`ring_hall.py`, `ring_hall.log`). The values are
+R₀ = {0: 38, 2: 6, 4: 36, 5: 1}, R₁ = {1: 22, 3: 12, 4: 30} and R₂ = {0: 38, 1: 20, 3: 12, 4: 28}, with picks
+(0, 1, 4), J = {2, 3, 5} and D = {0, 2}.
+- The only canonical chain with an improving set is (2, 1), with H₀ = {1, 3}. After it, agent 0 is frozen (2 wants
+  its good), and agent 1 is the only holder.
+- For |H| ≤ 1, the owner's bundle X ⊇ {1, 3} also contains a good that agent 1 does not value. So X threatens 1 at 30
+  (22 + 12 = 34 > 30), and 1 values neither junk good 2 nor 5. The needy holder 1 has an empty neighbourhood.
+- For H = {2, 5}, X = {1, 3} ⊆ R₁ leaves 22 ≤ 30 after the least good is removed. But |H| = 2 exceeds the single
+  holder, which violates (C3).
+- No canonical chain from 0 has an improving set.
+- The repair is the swap 0 ↔ 2: 2 takes 0, and 0 takes {4, 2}. It has S\* owners 0, 1 and 2. The agent 1, who wants 4,
+  is compensated by junk 3 (22 + 12 ≥ 30). This is (R2) of RING-red failing.
+
+*Sub-lemma RING2 (K4.MULTI.RING2, open).* At a hard perfect start where no canonical chain from D repairs with owner k:
+- some move of length at most 3 repairs;
+- if D_T = ∅ and no other move repairs, the repair is a swap of two dangerous agents k and d (d takes Y_k, k takes Y_d
+  plus junk), with the wanters of Y_d compensated by their own junk goods.
+
+**The common obstruction.** The smallest residues of SLOT (log613) and RING (T3) fail one-slot Lemma M for the same
+reason. A holder is threatened by the owner's bundle only because that bundle contains goods the holder does not value:
+EFX₀ removes a zero-valued good, which costs nothing. Keeping all such goods out cures the threat, but it costs one
+slot per good. Two lemmas would close both residues:
+1. a count of the holders available for these *worthless* goods (SLOT2);
+2. a swap lemma with compensated wanters (RING2).
