@@ -1650,3 +1650,23 @@ certified at 14904a87 on `compute/k4-oc1max-cert`; the matching session's copy i
 So at these three cores, which defeat REC-S and every sequential settlement at #419 and #447, the round step is
 certified in its refereed form: SD-E(round), (L\*) at the end of the round, LIFT, and the S^φ(round) invariants.
 "Every start" inherits the completeness of the certifier's export.
+
+**The P1-free rule** (the base-phantom session's proposal; `k4/base_phantom.md` on `proof/k4-base-phantom`, PR #139;
+not read here in full). A settlement is *P1-free* if every good of R_k ∖ T_k is worth at most τ_k to k. By their
+Proposition SEP, such a phantom is threatened only by a bundle of three or more goods that contains both of its outside
+goods. Then (P3), (S-φ2) and (S-φ3) are automatic, and no agent is phantom-frozen. Their rule: rounds that are not
+final may use only P1-free settlements. Their reason is that dead ends, where no admissible round is left, are mostly
+infeasible, and they always involve a P1 phantom.
+
+An independent check with this note's code (`round_e.py` with P1FREE=1: a round containing a P1 settlement must be
+followed directly by a completion at once; `round_e_p1free.log`):
+
+| data | starts | repaired | rounds with a P1 settlement (all final) |
+|---|---|---|---|
+| walk failures | 4,955 | **4,955** | 3,004 |
+| 5_pure two-move sample | 280 | **280** | 212 |
+| partial n = 5 export sample | 14,047 | **14,047** | 11,708 |
+| n = 4 export | 112,880 | **112,880** | 12,080 |
+
+So the rule loses nothing on these data. P1 settlements still occur often, but only in the final round, where
+S^φ(round) handles them.

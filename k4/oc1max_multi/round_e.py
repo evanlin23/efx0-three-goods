@@ -16,6 +16,7 @@ from round_sde import reduce_many
 from sphi import all_oa
 
 RMAX = int(os.environ.get('RMAX', '2'))
+P1FREE = os.environ.get('P1FREE') == '1'    # base-phantom's rule: a round with a P1 settlement (some good of R_k - T worth more than tau_k) must be the final round
 
 
 def search(I0, I, b, order, agents, goods, fixed, left, C):
@@ -55,7 +56,10 @@ def search(I0, I, b, order, agents, goods, fixed, left, C):
                 o2 = [keep.index(a) for a in order if a not in K]
                 C['rounds tried'] += 1
                 if I2.sd(o2) != tuple(x[0] if x else None for x in b2): C['SD-E(round) VIOLATION'] += 1; continue
-                r = search(I0, I2, b2, o2, [agents[a] for a in keep], [goods[g] for g in g2], f2, left - 1, C)
+                p1 = any(I.v[k].get(g, 0) > I.V(k, T) for k, T in zip(K, Ts) for g in I.R[k] if g not in T)
+                if P1FREE and p1: C['rounds with a P1 settlement (final only)'] += 1
+                r = search(I0, I2, b2, o2, [agents[a] for a in keep], [goods[g] for g in g2], f2,
+                           0 if (P1FREE and p1) else left - 1, C)
                 if r is not None:
                     st = [list(f2.get(a, [])) for a in range(I0.n)]
                     for j, a in enumerate(agents):
@@ -91,7 +95,7 @@ if __name__ == '__main__':
                 T.update(C); T['starts'] += 1; T['rounds needed: %s' % r] += 1
                 if r is None: miss.append('%s#%s' % (row.get('list', ''), row.get('idx', '')))
                 if os.environ.get('WITNESS'): W.append(dict(row, witness=wit))
-    print('$ RMAX=%d python3 k4/oc1max_multi/round_e.py' % RMAX, *sys.argv[1:])
+    print('$ RMAX=%d P1FREE=%d python3 k4/oc1max_multi/round_e.py' % (RMAX, P1FREE), *sys.argv[1:])
     for k in sorted(T): print(k, T[k])
     print('not repaired:', len(miss), miss[:12])
     if os.environ.get('WITNESS'):
