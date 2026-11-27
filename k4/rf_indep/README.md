@@ -165,3 +165,51 @@ core is 5_pure (8, 358). My code gives the same picture as Hall's:
 - σ-maximal vectors (5, 6, 7, 2, 4) and (5, 7, 6, 2, 4), with σ = (3, 1, 0, 1);
 - receivers {3} and junk {0, 1, 3};
 - OC₁ after one verified chain 0 → 3: agent 0 takes {0, 1}, agent 3 takes good 5.
+
+## RKMAX climb at n = 5 (`rkmax_climb.py`)
+
+**Setup.**
+- *Seeds:* the 1,011 one-receiver σ-maximal vectors of the two random hunts whose picks do not complete (525 at
+  V = 20, 486 at V = 250).
+- *Target:* a σ-maximal maximum-matching SD vector (all 120 orders) with one receiver, whose picks do not complete.
+- *Score* (lower is harder): the hardest target's pair (number of repairing post-chain states, number of
+  (absorber, placement) completions over them). A post-chain state is repairing if it has a one-absorber completion.
+  It comes from `rf_oc1.c count`, which is exhaustive.
+- *Mutation:* change one value (resample, a nudge of ±1..3, or a swap of two values of one agent), keeping the profile
+  strict.
+- *Acceptance:* the profile must still have a target and the score must not rise. With probability 0.05 the
+  repairing-state count may rise by 1.
+- *Failure detection:* every σ-maximal vector is tested at every step, so any OC₁ failure would be caught.
+
+**Results** (`results/k4_rf_indep/rkmax_climb_n5.log`, `rkmax_climb_n5_best.jsonl.gz`; 375 s on 4 CPUs):
+- 1,011 seeds × 5,000 steps: about 5.05M profiles evaluated and 3.04M moves accepted. There was **no OC₁ failure** at
+  any σ-maximal vector, so no RKMAX counterexample.
+- Repairing post-chain states of the hardest target, before → after the climb:
+  - before: 1 at 175 seeds, 2 at 383, ≥ 3 at 453;
+  - after: 1 at 566 seeds, 2 at 401, ≥ 3 at 44.
+- The tightest profiles score (1, 4): of 7 to 10 post-chain states, exactly one has a completion, and only 4
+  (absorber, placement) pairs complete it.
+  - For example, core (9, 221): sets [[0,2,4,8],[1,4,7,8],[3,5,6,8],[4,5,6,7],[5,6,7,8]], vals
+    [[4,3,13,15],[6,15,11,18],[10,18,16,11],[16,22,18,3],[5,17,16,14]], σ-maximal picks (8, 4, 5, 7, 6), receiver 3.
+  - So RKMAX at these one-receiver σ-optima holds with almost no slack. A proof will need the exact repairing move.
+
+## RKMAX at n = 6 (`rkmax_rand.py --any-n`)
+
+**Cores.** The 𝒦 list at n = 6, β = 5 of the twins/rf-min session is `results/k4_rfmin/mc_n6_b5_mc9.json.gz` on
+proof/k4-rf-min, PR #156. Its sha256 prefix 22ef143abaee16b1 is in the log, and the file itself is not copied here.
+- I kept the 18,044 cores with at least two 4-good agents (`--min4 2`), which is 𝒦's count in `k4/RFMIN.md`.
+- They have m = 10–14 and ν = 6. A core is named by its position in the list.
+
+**Method.** 30 strict profiles per core at each V; each agent's values are a random subset of 1..V of its set's size.
+All 720 orders, and OC₁ at every σ-maximal maximum-matching vector.
+
+| V | profiles | σ-maximal vectors | P | one chain (t = 1) | F |
+|---|---|---|---|---|---|
+| 20 | 541,320 | 864,508 | 864,408 | 100 | 0 |
+| 250 | 541,320 | 864,206 | 864,114 | 92 | 0 |
+
+- Logs: `results/k4_rf_indep/rkmax_rand_n6_b5_v20_s1.log` and `..._v250_s1.log`, about 160 s each.
+- There is no RKMAX counterexample, and every witness verifies.
+- One-receiver σ-maximal vectors almost vanish at n = 6: 1 at V = 20 (it needs a chain; it is in
+  `rkmax_rand_n6_b5_v20_s1_one_receiver.jsonl.gz`) and 0 at V = 250. At n = 5 they were 1,822 and 1,764.
+- The vectors needing a move have 2–4 receivers: 99 of the 100 at V = 20 and all 92 at V = 250.
