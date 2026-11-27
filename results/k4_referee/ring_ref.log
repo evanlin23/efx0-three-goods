@@ -1,0 +1,2 @@
+{"case": "T3", "picks": [0, 4, 1], "junk": [2, 3, 5], "frozen": [0, 1], "D": [0, 1], "D_T": [], "hard": true, "canonical_chains_with_improving_H0": [{"chain": [1, 2], "H0": [1, 3], "one_absorber_after": false}], "ring_(0,2,1)_R1-R4": true, "ring_(0,2,1)_Sstar_owner0": true}
+{"source": "RING-red N=100000 n=3..5 seed=7", "instances": 100000, "hard": 14863, "rings": 46894, "ring_hyp": 8984, "ring_fail": 0}

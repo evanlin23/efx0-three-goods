@@ -1,0 +1,26 @@
+$ python3 k4/oc1_hall/ed_check.py list
+T3 3 6 picks [0, 4, 1] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+adaptive-p1 3 6 picks [5, 3, 4] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+adaptive-p3 3 6 picks [2, 5, 4] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+c4-gadget-stacking-1copy-n3m6 3 6 picks [5, 4, 3] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+c4-lbplus-rotation-n3m6 3 6 picks [2, 4, 5] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+c4-one-rotation-two4-n3m6 3 6 picks [2, 4, 5] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+lb4-fixed-insertion-n3m6 3 6 picks [5, 3, 4] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+log638 3 6 picks [2, 4, 5] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+log921 3 6 picks [0, 4, 1] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+c4-g2-other-runs-n4m7 4 7 picks [2, 5, 3, 6] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+ls-alt-rule-n4m7 4 7 picks [2, 5, 6, 3] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+Q2 4 8 picks [3, 7, 5, 4] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+lb4-owner-needs-from-base-n4m8 4 8 picks [4, 6, 7, 5] []
+lb4-owner-needs-from-base-n4m8 4 8 picks [6, 5, 4, 7] []
+nsw-strict-n4m8 4 8 picks [3, 4, 7, 6] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+log746 4 8 picks [7, 3, 6, 4] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+nsw-strict-n4m9 4 9 picks [5, 6, 7, 8] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+c4min-w0-n4-m11-n4pc217 4 11 picks [6, 10, 9, 8] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+c4one-one-rotation-m8 5 8 picks [7, 2, 1, 5, 6] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+c4one-one-rotation-m9 5 9 picks [7, 5, 8, 3, 4] ['ED-OA', 'ED-S*', 'ED-S* with head junk']
+  ED-OA 18
+  ED-S* 18
+  ED-S* with head junk 18
+configurations 20
+time 0 s

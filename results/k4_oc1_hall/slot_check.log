@@ -1,0 +1,108 @@
+$ python3 k4/oc1_hall/slot_check.py special (BRUTE=0)
+GAP Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks (3, 6, 7, 5) F [0, 2, 3] slot owners [1] witness {1: {2: 0}}
+GAP Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks (4, 3, 5, 7) F [0, 1, 2] slot owners [0, 3] witness {0: {3: 6}, 3: {0: 2}}
+   ... a frozen owner works with no frozen slots 1
+   ... an unfrozen owner works once frozen agents may take slots 2
+   ... only frozen owners work 0
+distinct starts 28
+instances 4
+sat yes 12
+sat yes, gdt shape no 2
+shown gap 2
+time 0 s
+$ python3 k4/oc1_hall/slot_check.py screen (BRUTE=0)
+GAP A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] picks (6, 1, 2, 5) F [0, 2, 3] slot owners [1] witness {1: {0: 0}}
+GAP A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] picks (0, 6, 2, 5) F [1, 2, 3] slot owners [0] witness {0: {1: 1}}
+GAP B131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 2, 8, 4], [3, 8, 2, 4], [2, 4, 3], [4, 2, 3]]] picks (0, 6, 3, 4) F [1, 2, 3] slot owners [0] witness {0: {1: 1}}
+GAP B131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 2, 8, 4], [3, 8, 2, 4], [2, 4, 3], [4, 2, 3]]] picks (6, 1, 3, 4) F [0, 2, 3] slot owners [1] witness {1: {0: 0}}
+GAP C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] picks (2, 4, 5, 6) F [0, 1, 3] slot owners [0, 2] witness {0: {2: 3}, 2: {0: 0}}
+GAP C127 [[[0, 2, 3, 5], [1, 4, 6], [2, 3, 5, 6], [4, 5, 6]], [[2, 8, 5, 4], [2, 4, 3], [4, 2, 3, 8], [4, 2, 3]]] picks (2, 6, 5, 4) F [0, 1, 3] slot owners [0, 2] witness {0: {2: 3}, 2: {0: 0}}
+   ... a frozen owner works with no frozen slots 37
+   ... an unfrozen owner works once frozen agents may take slots 77
+   ... only frozen owners work 0
+distinct starts 775
+instances 168
+sat yes 581
+sat yes, gdt shape no 77
+shown gap 6
+time 1 s
+$ python3 k4/oc1_hall/slot_check.py suite (BRUTE=0)
+GAP adaptive-cover-multi4 [[[0, 1, 2, 3], [0, 1, 2, 3]], [[2, 4, 5, 8], [2, 4, 5, 8]]] picks (3, 2) F [0] slot owners [0, 1] witness {0: {1: 1}, 1: {0: 0}}
+GAP adaptive-cover-multi4 [[[0, 1, 2, 3], [0, 1, 2, 3]], [[2, 4, 5, 8], [2, 4, 5, 8]]] picks (2, 3) F [1] slot owners [0, 1] witness {0: {1: 0}, 1: {0: 1}}
+GAP c4-exposure-deficit2-n2m5 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 7, 10, 4], [6, 3, 7, 5]]] picks (3, 1) F [0] slot owners [0, 1] witness {0: {1: 4}, 1: {0: 0}}
+GAP c4-exposure-deficit2-n2m5 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 7, 10, 4], [6, 3, 7, 5]]] picks (2, 3) F [1] slot owners [0] witness {0: {1: 1}}
+GAP c4-lbplus-rotation-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]]] picks (5, 2, 4) F [0, 1] slot owners [0, 1, 2] witness {0: {2: 3}, 1: {0: 1, 2: 3}}
+GAP c4-lbplus-rotation-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]]] picks (1, 2, 5) F [1, 2] slot owners [0] witness {0: {2: 3}}
+   ... a frozen owner works with no frozen slots 34
+   ... an unfrozen owner works once frozen agents may take slots 71
+   ... only frozen owners work 0
+distinct starts 726
+instances 158
+sat yes 530
+sat yes, gdt shape no 71
+shown gap 6
+time 2 s
+$ python3 k4/oc1_hall/slot_check.py logs (BRUTE=0)
+GAP log2 [[[0, 2, 3, 4], [1, 3, 5, 6], [2, 4, 5, 6], [3, 4, 5, 6]], [[2, 4, 8, 7], [4, 3, 8, 10], [3, 10, 8, 6], [7, 6, 3, 5]]] picks (3, 5, 4, 6) F [0, 2, 3] slot owners [1, 3] witness {1: {3: 2}, 3: {1: 1}}
+GAP log3 [[[0, 2, 5, 6], [1, 2, 3, 4], [1, 4, 5, 6], [3, 4, 5, 6]], [[5, 6, 7, 3], [6, 3, 8, 10], [4, 8, 6, 5], [8, 2, 4, 7]]] picks (5, 4, 6, 3) F [0, 1] slot owners [0, 1, 2, 3] witness {0: {2: 1}, 1: {0: 0, 2: 1}}
+GAP log385 [[[0, 1, 7], [3, 5, 4, 6], [1, 2, 4, 3], [3, 0, 4, 1]], [[12, 10, 7], [19, 4, 5, 12], [10, 3, 9, 6], [12, 7, 3, 6]]] picks (0, 3, 4, 1) F [0, 1, 3] slot owners [2] witness {2: {3: 5}}
+GAP log385 [[[0, 1, 7], [3, 5, 4, 6], [1, 2, 4, 3], [3, 0, 4, 1]], [[12, 10, 7], [19, 4, 5, 12], [10, 3, 9, 6], [12, 7, 3, 6]]] picks (1, 3, 4, 0) F [0, 1, 3] slot owners [0, 2, 3] witness {0: {2: 2}, 2: {0: 5}}
+GAP log410 [[[3, 5, 6, 0], [3, 6, 4], [0, 3, 5, 6], [1, 2, 4, 0], [4, 6, 1]], [[9, 16, 13, 10], [8, 9, 7], [2, 5, 11, 9], [7, 3, 2, 5], [7, 16, 11]]] picks (0, 6, 5, 2, 1) F [0, 1, 2, 4] slot owners [0, 1, 2, 3, 4] witness {0: {3: 4}, 1: {0: 3, 3: 4}}
+GAP log433 [[[0, 3, 4, 7], [1, 7, 5], [5, 6, 0, 2], [1, 2, 7, 0], [0, 2, 6, 3]], [[1, 11, 9, 6], [17, 16, 4], [11, 7, 14, 3], [14, 11, 9, 4], [10, 14, 5, 11]]] picks (3, 1, 5, 2, 0) F [0, 1, 3, 4] slot owners [2] witness {2: {4: 7}}
+   ... a frozen owner works with no frozen slots 115
+   ... an unfrozen owner works once frozen agents may take slots 214
+   ... only frozen owners work 7
+distinct starts 4328
+instances 1637
+sat yes 2964
+sat yes, gdt shape no 221
+shown gap 6
+time 4 s
+$ python3 k4/oc1_hall/slot_check.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91 (BRUTE=0)
+GAP r7 [[[0, 1, 2, 3], [1, 2, 3]], [[4, 8, 3, 10], [2, 3, 4]]] picks (3, 2) F [0] slot owners [0, 1] witness {0: {1: 1}, 1: {0: 0}}
+GAP r7 [[[0, 1, 2, 3], [1, 2, 3]], [[4, 8, 3, 10], [2, 3, 4]]] picks (1, 3) F [1] slot owners [0, 1] witness {0: {1: 0}, 1: {0: 0}}
+GAP r9 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 5, 4, 8], [2, 4, 5, 8]]] picks (4, 3) F [0] slot owners [1] witness {1: {0: 0}}
+GAP r9 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 5, 4, 8], [2, 4, 5, 8]]] picks (2, 4) F [1] slot owners [0] witness {0: {1: 1}}
+GAP r13 [[[0, 1, 2, 3], [1, 2, 3]], [[2, 5, 4, 8], [2, 3, 4]]] picks (3, 2) F [0] slot owners [0, 1] witness {0: {1: 1}, 1: {0: 0}}
+GAP r13 [[[0, 1, 2, 3], [1, 2, 3]], [[2, 5, 4, 8], [2, 3, 4]]] picks (1, 3) F [1] slot owners [0, 1] witness {0: {1: 0}, 1: {0: 2}}
+   ... a frozen owner works with no frozen slots 281
+   ... an unfrozen owner works once frozen agents may take slots 406
+   ... only frozen owners work 18
+distinct starts 4583
+instances 3000
+sat yes 4290
+sat yes, gdt shape no 424
+shown gap 6
+time 3 s
+$ python3 k4/oc1_hall/slot_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92 (BRUTE=0)
+GAP r13 [[[0, 2, 5, 6], [1, 5, 6, 7], [3, 4, 5, 7], [3, 4, 6, 7]], [[2, 6, 10, 3], [5, 4, 8, 6], [2, 7, 10, 6], [3, 8, 4, 6]]] picks (5, 6, 4, 7) F [0, 2] slot owners [1, 2] witness {1: {2: 0, 3: 3}, 2: {3: 3}}
+GAP r56 [[[0, 2, 4, 6], [1, 3, 5], [2, 3, 6], [4, 5, 6]], [[4, 8, 3, 6], [3, 4, 2], [3, 2, 4], [2, 3, 4]]] picks (2, 1, 3, 6) F [0, 2, 3] slot owners [1, 2] witness {1: {2: 4}, 2: {1: 5}}
+GAP r71 [[[0, 4, 6, 7], [1, 4, 7, 8], [2, 5, 6, 8], [3, 5, 7, 8]], [[2, 7, 10, 4], [8, 3, 4, 6], [5, 8, 6, 4], [6, 10, 3, 8]]] picks (6, 1, 2, 5) F [0, 3] slot owners [0, 1, 2, 3] witness {0: {2: 8}, 1: {0: 0, 2: 8}}
+GAP r80 [[[0, 3, 4, 5], [1, 5, 6], [2, 5, 6], [3, 4, 6]], [[6, 4, 8, 5], [4, 3, 2], [3, 2, 4], [2, 4, 3]]] picks (4, 1, 2, 6) F [0, 3] slot owners [0, 1, 2, 3] witness {0: {3: 3, 2: 5}, 1: {3: 0, 2: 5}}
+GAP r81 [[[0, 2, 3], [1, 5, 6], [2, 3, 4, 6], [4, 5, 6]], [[2, 4, 3], [3, 2, 4], [10, 4, 8, 3], [4, 2, 3]]] picks (2, 1, 4, 6) F [0, 2, 3] slot owners [1] witness {1: {3: 0}}
+GAP r84 [[[0, 1, 2, 4], [1, 2, 5], [3, 4, 5], [3, 4, 5]], [[7, 4, 2, 8], [3, 2, 4], [4, 3, 2], [4, 3, 2]]] picks (4, 1, 3, 5) F [0, 2, 3] slot owners [0, 1, 2, 3] witness {0: {3: 0, 1: 2}, 1: {3: 0}}
+   ... a frozen owner works with no frozen slots 73
+   ... an unfrozen owner works once frozen agents may take slots 107
+   ... only frozen owners work 6
+distinct starts 3449
+instances 1500
+sat yes 3234
+sat yes, gdt shape no 113
+shown gap 6
+time 4 s
+$ python3 k4/oc1_hall/slot_check.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93 (BRUTE=0)
+GAP r40 [[[0, 3, 6, 7], [1, 2, 5, 6], [1, 4, 8], [2, 7, 8], [3, 4, 5]], [[7, 2, 4, 10], [3, 6, 10, 2], [3, 4, 2], [3, 4, 2], [2, 4, 3]]] picks (7, 5, 4, 2, 3) F [0, 1, 2] slot owners [0, 3, 4] witness {0: {3: 8}, 3: {0: 0, 4: 1}}
+GAP r40 [[[0, 3, 6, 7], [1, 2, 5, 6], [1, 4, 8], [2, 7, 8], [3, 4, 5]], [[7, 2, 4, 10], [3, 6, 10, 2], [3, 4, 2], [3, 4, 2], [2, 4, 3]]] picks (0, 5, 4, 7, 3) F [1, 2, 3] slot owners [0, 3, 4] witness {0: {3: 1, 4: 2}, 3: {4: 1, 0: 6}}
+GAP r48 [[[0, 1, 3, 7], [2, 3, 5, 6], [2, 6, 7], [4, 5, 6], [4, 5, 7]], [[5, 3, 7, 6], [8, 10, 3, 6], [4, 3, 2], [3, 2, 4], [3, 2, 4]]] picks (3, 2, 6, 4, 7) F [0, 1, 2] slot owners [0, 1, 2, 3, 4] witness {0: {2: 0, 4: 1, 3: 5}, 1: {2: 0, 4: 1, 3: 5}}
+GAP r48 [[[0, 1, 3, 7], [2, 3, 5, 6], [2, 6, 7], [4, 5, 6], [4, 5, 7]], [[5, 3, 7, 6], [8, 10, 3, 6], [4, 3, 2], [3, 2, 4], [3, 2, 4]]] picks (3, 6, 2, 4, 7) F [0, 1, 2] slot owners [0, 1, 2, 3, 4] witness {0: {1: 0, 4: 1, 3: 5}, 1: {4: 0, 3: 5}}
+GAP r121 [[[0, 1, 3, 4], [0, 2, 4], [1, 4, 5, 6], [2, 5, 6], [3, 5, 6]], [[4, 2, 8, 3], [4, 3, 2], [7, 10, 2, 6], [2, 4, 3], [3, 4, 2]]] picks (4, 0, 1, 5, 3) F [0, 1, 3, 4] slot owners [0, 1, 2, 3, 4] witness {0: {2: 6}, 1: {0: 2, 2: 6}}
+GAP r124 [[[0, 3, 7, 8], [1, 5, 7], [2, 6, 8], [3, 4, 5, 7], [4, 6, 8]], [[6, 8, 3, 10], [3, 4, 2], [3, 4, 2], [3, 8, 6, 4], [2, 3, 4]]] picks (8, 5, 6, 7, 4) F [0, 1, 2, 4] slot owners [1] witness {1: {3: 3}}
+   ... a frozen owner works with no frozen slots 6
+   ... an unfrozen owner works once frozen agents may take slots 6
+   ... only frozen owners work 1
+distinct starts 572
+instances 150
+sat yes 542
+sat yes, gdt shape no 7
+shown gap 6
+time 1 s

@@ -1,0 +1,14 @@
+$ python3 k4/sdc/oc1max_cex_verify.py
+core True MC2 True m 7 nu 4
+ order [0, 3, 2, 1] picks (1, 2, 5, 6) max
+ EFX0 allocations 14
+ picks extend (free): False | one-absorber: False | moves 15 | free after a move 0 | check(): OC1 fails
+ failing max pick vectors [((1, 2, 5, 6), 3)]
+core True MC2 True m 7 nu 4
+ order [3, 1, 2, 0] picks (4, 5, 6, 2) max
+ EFX0 allocations 24
+ picks extend (free): False | one-absorber: False | moves 21 | free after a move 0 | check(): OC1 fails
+ failing max pick vectors [((4, 5, 6, 2), 1)]
+--- surviving forms ---
+ two sequential moves: states with a free completion 8 | one-absorber 8 | distinct pick vectors by outcome {('max', 'picks complete'): 4, ('max', 'one move repairs'): 2, ('max', 'OC1 fails'): 1} | pick vectors that extend (SD-C) 4 of 7
+ two sequential moves: states with a free completion 12 | one-absorber 12 | distinct pick vectors by outcome {('max', 'picks complete'): 4, ('max', 'one move repairs'): 1, ('max', 'OC1 fails'): 1} | pick vectors that extend (SD-C) 4 of 6

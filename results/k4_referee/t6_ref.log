@@ -1,0 +1,12 @@
+{"core": "4_n4_3#58", "efx0": 14, "md_efx0": 6, "every_target_blocked": true, "blocked_agents": [0], "targets": [[[0, 2, 5], [1], [3, 4], [6]], [[0, 2, 5], [1], [6], [3, 4]], [[2, 5], [0, 1], [3, 4], [6]], [[2, 5], [0, 1], [6], [3, 4]], [[2, 5], [1], [0, 6], [3, 4]], [[2, 5], [1], [3, 4], [0, 6]]]}
+{"core": "4_n4_3#77", "efx0": 24, "md_efx0": 4, "every_target_blocked": true, "blocked_agents": [3]}
+{"core": "4_pure#20", "efx0": 18, "md_efx0": 6, "every_target_blocked": true, "blocked_agents": [2]}
+{"core": "4_pure#21", "efx0": 21, "md_efx0": 5, "every_target_blocked": true, "blocked_agents": [2]}
+{"core": "4_pure#23", "efx0": 19, "md_efx0": 4, "every_target_blocked": true, "blocked_agents": [1]}
+{"core": "4_pure#24", "efx0": 20, "md_efx0": 6, "every_target_blocked": true, "blocked_agents": [0]}
+{"core": "4_pure#26", "efx0": 19, "md_efx0": 4, "every_target_blocked": true, "blocked_agents": [0]}
+{"core": "4_pure#29", "efx0": 24, "md_efx0": 4, "every_target_blocked": true, "blocked_agents": [3]}
+{"core": "4_pure#36", "efx0": 18, "md_efx0": 6, "every_target_blocked": true, "blocked_agents": [0]}
+{"core": "4_pure#38", "efx0": 62, "md_efx0": 16, "every_target_blocked": true, "blocked_agents": [0]}
+{"core": "4_pure#45", "efx0": 54, "md_efx0": 15, "every_target_blocked": true, "blocked_agents": [0]}
+{"source": "Lemma T6 N=3000 seed=1", "move_completions": 141215, "moves": 19680, "starts": 4557}

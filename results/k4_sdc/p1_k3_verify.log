@@ -1,0 +1,4 @@
+X values [10, 10, 4, 4] allocated 6
+partial EFX0 allocations dominating X: 0
+complete EFX0 allocations: 58 | of which weakly better for everyone: 0
+P1 at k = 3: REFUTED

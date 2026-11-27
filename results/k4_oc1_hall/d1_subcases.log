@@ -1,0 +1,83 @@
+$ python3 k4/oc1_hall/d1_subcases.py special
+  starts with a repair of compensation 0 5
+LONG every chain repairs (some minimal H0) 5
+LONG every longest chain repairs 5
+LONG some longest chain repairs 5
+chains 5
+chains free of HEAD and CROWD 5
+starts 5
+$ python3 k4/oc1_hall/d1_subcases.py screen
+  starts with a repair of compensation 0 10
+  starts with a repair of compensation 1 4
+HW paths with HEAD, H-ii (some other wanter unfrozen at the picks) 3
+HW paths with HEAD, H-ii (some other wanter unfrozen at the picks): same path repairs True, a path through another wanter repairs True 3
+LONG every chain repairs (some minimal H0) 14
+LONG every longest chain repairs 14
+LONG some longest chain repairs 14
+chains 22
+chains free of HEAD and CROWD 16
+starts 14
+$ python3 k4/oc1_hall/d1_subcases.py suite
+  starts with a repair of compensation 0 10
+  starts with a repair of compensation 1 4
+HW paths with HEAD, H-ii (some other wanter unfrozen at the picks) 3
+HW paths with HEAD, H-ii (some other wanter unfrozen at the picks): same path repairs True, a path through another wanter repairs True 3
+LONG every chain repairs (some minimal H0) 14
+LONG every longest chain repairs 14
+LONG some longest chain repairs 14
+chains 22
+chains free of HEAD and CROWD 16
+starts 14
+$ python3 k4/oc1_hall/d1_subcases.py logs
+LONG-ALL FAILS log557 [[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[4, 5, 8, 6], [2, 7, 10, 6], [5, 6, 8, 4]]] order (2, 0, 1) picks (5, 3, 4) k 2 [(2, 0)]
+COMP<=1 FAILS log558 [[[0, 3, 6, 7], [1, 4, 6, 7], [2, 5, 8], [3, 4, 5, 8]], [[8, 1, 6, 4], [4, 8, 3, 2], [4, 2, 3], [5, 8, 6, 4]]] order (0, 2, 3, 1) picks (0, 1, 2, 4) k 3 2
+  ... repaired by a chain through another wanter of Y_{x_{t-1}} (D1-H) 5
+  ... repaired by another minimal H0 on the same chain (D1-C) 1
+  starts with a repair of compensation 0 94
+  starts with a repair of compensation 1 17
+  starts with a repair of compensation 2 1
+COMP<=1 FAILS 1
+HW paths with HEAD, H-i (every other wanter frozen at the picks) 4
+HW paths with HEAD, H-i (every other wanter frozen at the picks): same path repairs False, a path through another wanter repairs True 4
+HW paths with HEAD, H-ii (some other wanter unfrozen at the picks) 4
+HW paths with HEAD, H-ii (some other wanter unfrozen at the picks): same path repairs False, a path through another wanter repairs True 1
+HW paths with HEAD, H-ii (some other wanter unfrozen at the picks): same path repairs True, a path through another wanter repairs True 3
+LONG every chain repairs (some minimal H0) 107
+LONG every longest chain repairs 111
+LONG some longest chain repairs 112
+LONG-ALL FAILS 1
+chains 163
+chains free of HEAD and CROWD 153
+failing chains with CROWD 1
+failing chains with HEAD 5
+starts 112
+$ python3 k4/oc1_hall/d1_subcases.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+  ... repaired by a chain through another wanter of Y_{x_{t-1}} (D1-H) 3
+  starts with a repair of compensation 0 31
+  starts with a repair of compensation 1 10
+HW paths with HEAD, H-i (every other wanter frozen at the picks) 1
+HW paths with HEAD, H-i (every other wanter frozen at the picks): same path repairs False, a path through another wanter repairs True 1
+HW paths with HEAD, H-ii (some other wanter unfrozen at the picks) 4
+HW paths with HEAD, H-ii (some other wanter unfrozen at the picks): same path repairs True, a path through another wanter repairs True 4
+LONG every chain repairs (some minimal H0) 40
+LONG every longest chain repairs 41
+LONG some longest chain repairs 41
+chains 86
+chains free of HEAD and CROWD 70
+failing chains with HEAD 3
+starts 41
+$ python3 k4/oc1_hall/d1_subcases.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+COMP<=1 FAILS r1179 [[[0, 3, 6, 7], [1, 4, 6, 7], [2, 5, 8], [3, 4, 5, 8]], [[8, 1, 6, 4], [4, 8, 3, 2], [4, 2, 3], [5, 8, 6, 4]]] order (0, 2, 3, 1) picks (0, 1, 2, 4) k 3 2
+  ... repaired by another minimal H0 on the same chain (D1-C) 1
+  starts with a repair of compensation 0 7
+  starts with a repair of compensation 1 3
+  starts with a repair of compensation 2 1
+COMP<=1 FAILS 1
+LONG every chain repairs (some minimal H0) 11
+LONG every longest chain repairs 11
+LONG some longest chain repairs 11
+chains 23
+chains free of HEAD and CROWD 22
+failing chains with CROWD 1
+starts 11
+$ python3 k4/oc1_hall/d1_subcases.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93

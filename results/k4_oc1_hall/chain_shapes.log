@@ -1,0 +1,275 @@
+$ python3 k4/oc1_hall/chain_shapes.py special
+NO CANONICAL-FROM-D REPAIR T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1) F [0, 1] D [0, 1]
+NO CANONICAL-FROM-D REPAIR Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks (3, 7, 5, 4) F [0, 2] D [0, 2]
+  some repair: canonical (x0 -> wanters, no middle junk; end unwanted or its pick to x0) 15
+  some repair: canonical from D 15
+  some repair: canonical from D, junk only, owner end 12
+  some repair: canonical from D, junk only, owner middle 5
+  some repair: canonical from D, junk only, owner off chain 11
+  some repair: canonical from D, junk only, owner x0 12
+  some repair: canonical from D, owner end 15
+  some repair: canonical from D, owner middle 7
+  some repair: canonical from D, owner off chain 14
+  some repair: canonical from D, owner x0 15
+  some repair: no middle junk 15
+  some repair: owner end 17
+  some repair: owner middle 9
+  some repair: owner off chain 16
+  some repair: owner x0 17
+  some repair: t = 1 (swap) 14
+  some repair: x0 dangerous 17
+  some repair: x0 frozen 17
+  some repair: x0 in D, owner end 17
+  some repair: x0 in D, owner middle 9
+  some repair: x0 in D, owner off chain 16
+  some repair: x0 in D, owner x0 17
+  some repair: x0 takes a good of the end 16
+  some repair: x0 unfrozen 15
+  some repair: |H0| = 1 16
+  some repair: |H0| = 2 17
+  some repair: |H0| = 3 5
+hard starts 17
+hard starts with |F| = 2, |D| = 2 4
+hard starts with |F| = 3, |D| = 3 7
+hard starts with |F| = 4, |D| = 1 5
+hard starts with |F| = 4, |D| = 4 1
+shown 2
+time 0 s
+$ python3 k4/oc1_hall/chain_shapes.py screen
+NO CANONICAL-FROM-D REPAIR adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 3, 4) F [0, 2] D [0, 2]
+NO CANONICAL-FROM-D REPAIR adaptive-p3 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]]] picks (2, 5, 4) F [0, 1] D [0, 1]
+NO CANONICAL-FROM-D REPAIR c4-g2-other-runs-n4m7 [[[0, 2, 5], [1, 5, 6], [2, 3, 4, 6], [3, 4, 6]], [[2, 3, 4], [2, 4, 3], [8, 4, 3, 6], [2, 3, 4]]] picks (2, 5, 3, 6) F [0, 1, 3] D [0, 1, 3]
+NO CANONICAL-FROM-D REPAIR c4-gadget-stacking-1copy-n3m6 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [3, 5, 7, 6], [2, 3, 4, 8]]] picks (5, 4, 3) F [0, 1] D [0, 1]
+NO CANONICAL-FROM-D REPAIR c4-lbplus-rotation-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]]] picks (2, 4, 5) F [0, 2] D [0, 2]
+  some repair: canonical (x0 -> wanters, no middle junk; end unwanted or its pick to x0) 219
+  some repair: canonical from D 219
+  some repair: canonical from D, junk only, owner end 121
+  some repair: canonical from D, junk only, owner middle 40
+  some repair: canonical from D, junk only, owner off chain 121
+  some repair: canonical from D, junk only, owner x0 147
+  some repair: canonical from D, owner end 186
+  some repair: canonical from D, owner middle 75
+  some repair: canonical from D, owner off chain 161
+  some repair: canonical from D, owner x0 217
+  some repair: no middle junk 222
+  some repair: owner end 233
+  some repair: owner middle 137
+  some repair: owner off chain 199
+  some repair: owner x0 234
+  some repair: t = 1 (swap) 207
+  some repair: x0 dangerous 234
+  some repair: x0 frozen 234
+  some repair: x0 in D, owner end 219
+  some repair: x0 in D, owner middle 131
+  some repair: x0 in D, owner off chain 192
+  some repair: x0 in D, owner x0 234
+  some repair: x0 takes a good of the end 213
+  some repair: x0 unfrozen 208
+  some repair: |H0| = 1 215
+  some repair: |H0| = 2 210
+  some repair: |H0| = 3 148
+hard starts 234
+hard starts with |F| = 1, |D| = 1 15
+hard starts with |F| = 2, |D| = 1 8
+hard starts with |F| = 2, |D| = 2 85
+hard starts with |F| = 3, |D| = 2 15
+hard starts with |F| = 3, |D| = 3 87
+hard starts with |F| = 4, |D| = 2 1
+hard starts with |F| = 4, |D| = 3 11
+hard starts with |F| = 4, |D| = 4 12
+shown 5
+time 1 s
+$ python3 k4/oc1_hall/chain_shapes.py suite
+NO CANONICAL-FROM-D REPAIR adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 3, 4) F [0, 2] D [0, 2]
+NO CANONICAL-FROM-D REPAIR adaptive-p3 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]]] picks (2, 5, 4) F [0, 1] D [0, 1]
+NO CANONICAL-FROM-D REPAIR c4-g2-other-runs-n4m7 [[[0, 2, 5], [1, 5, 6], [2, 3, 4, 6], [3, 4, 6]], [[2, 3, 4], [2, 4, 3], [8, 4, 3, 6], [2, 3, 4]]] picks (2, 5, 3, 6) F [0, 1, 3] D [0, 1, 3]
+NO CANONICAL-FROM-D REPAIR c4-gadget-stacking-1copy-n3m6 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [3, 5, 7, 6], [2, 3, 4, 8]]] picks (5, 4, 3) F [0, 1] D [0, 1]
+NO CANONICAL-FROM-D REPAIR c4-lbplus-rotation-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]]] picks (2, 4, 5) F [0, 2] D [0, 2]
+  some repair: canonical (x0 -> wanters, no middle junk; end unwanted or its pick to x0) 218
+  some repair: canonical from D 218
+  some repair: canonical from D, junk only, owner end 129
+  some repair: canonical from D, junk only, owner middle 43
+  some repair: canonical from D, junk only, owner off chain 130
+  some repair: canonical from D, junk only, owner x0 155
+  some repair: canonical from D, owner end 189
+  some repair: canonical from D, owner middle 78
+  some repair: canonical from D, owner off chain 171
+  some repair: canonical from D, owner x0 216
+  some repair: no middle junk 221
+  some repair: owner end 232
+  some repair: owner middle 149
+  some repair: owner off chain 207
+  some repair: owner x0 233
+  some repair: t = 1 (swap) 206
+  some repair: x0 dangerous 233
+  some repair: x0 frozen 233
+  some repair: x0 in D, owner end 226
+  some repair: x0 in D, owner middle 143
+  some repair: x0 in D, owner off chain 200
+  some repair: x0 in D, owner x0 233
+  some repair: x0 takes a good of the end 211
+  some repair: x0 unfrozen 206
+  some repair: |H0| = 1 213
+  some repair: |H0| = 2 209
+  some repair: |H0| = 3 160
+hard starts 233
+hard starts with |F| = 1, |D| = 1 15
+hard starts with |F| = 2, |D| = 1 8
+hard starts with |F| = 2, |D| = 2 88
+hard starts with |F| = 3, |D| = 2 15
+hard starts with |F| = 3, |D| = 3 81
+hard starts with |F| = 4, |D| = 2 1
+hard starts with |F| = 4, |D| = 3 12
+hard starts with |F| = 4, |D| = 4 13
+shown 5
+time 3 s
+$ python3 k4/oc1_hall/chain_shapes.py logs
+NO CANONICAL-FROM-D REPAIR log554 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1) F [0, 1] D [0, 1]
+NO CANONICAL-FROM-D REPAIR log555 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks (3, 7, 5, 4) F [0, 2] D [0, 2]
+NO CANONICAL-FROM-D REPAIR log560 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 4, 8, 5], [8, 3, 4, 6], [2, 3, 4]]] picks (2, 4, 5) F [0, 2] D [0, 2]
+NO CANONICAL-FROM-D REPAIR log573 [[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], [[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]]] picks (4, 6, 7, 5) F [0, 3] D [0, 3]
+NO CANONICAL-FROM-D REPAIR log573 [[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], [[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]]] picks (6, 5, 4, 7) F [1, 2] D [1, 2]
+  some repair: canonical (x0 -> wanters, no middle junk; end unwanted or its pick to x0) 1452
+  some repair: canonical from D 1452
+  some repair: canonical from D, junk only, owner end 946
+  some repair: canonical from D, junk only, owner middle 540
+  some repair: canonical from D, junk only, owner off chain 817
+  some repair: canonical from D, junk only, owner x0 987
+  some repair: canonical from D, owner end 1410
+  some repair: canonical from D, owner middle 807
+  some repair: canonical from D, owner off chain 1207
+  some repair: canonical from D, owner x0 1449
+  some repair: no middle junk 1454
+  some repair: owner end 1470
+  some repair: owner middle 1001
+  some repair: owner off chain 1370
+  some repair: owner x0 1469
+  some repair: t = 1 (swap) 1260
+  some repair: x0 dangerous 1470
+  some repair: x0 frozen 1470
+  some repair: x0 in D, owner end 1456
+  some repair: x0 in D, owner middle 996
+  some repair: x0 in D, owner off chain 1365
+  some repair: x0 in D, owner x0 1469
+  some repair: x0 takes a good of the end 1291
+  some repair: x0 unfrozen 1283
+  some repair: |H0| = 1 1293
+  some repair: |H0| = 2 1364
+  some repair: |H0| = 3 540
+hard starts 1470
+hard starts with |F| = 1, |D| = 1 20
+hard starts with |F| = 2, |D| = 1 46
+hard starts with |F| = 2, |D| = 2 478
+hard starts with |F| = 3, |D| = 1 40
+hard starts with |F| = 3, |D| = 2 249
+hard starts with |F| = 3, |D| = 3 393
+hard starts with |F| = 4, |D| = 1 13
+hard starts with |F| = 4, |D| = 2 51
+hard starts with |F| = 4, |D| = 3 107
+hard starts with |F| = 4, |D| = 4 73
+shown 5
+time 4 s
+$ python3 k4/oc1_hall/chain_shapes.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91
+  some repair: canonical (x0 -> wanters, no middle junk; end unwanted or its pick to x0) 436
+  some repair: canonical from D 436
+  some repair: canonical from D, junk only, owner end 278
+  some repair: canonical from D, junk only, owner middle 97
+  some repair: canonical from D, junk only, owner off chain 195
+  some repair: canonical from D, junk only, owner x0 330
+  some repair: canonical from D, owner end 400
+  some repair: canonical from D, owner middle 149
+  some repair: canonical from D, owner off chain 294
+  some repair: canonical from D, owner x0 436
+  some repair: no middle junk 436
+  some repair: owner end 436
+  some repair: owner middle 264
+  some repair: owner off chain 407
+  some repair: owner x0 436
+  some repair: t = 1 (swap) 421
+  some repair: x0 dangerous 436
+  some repair: x0 frozen 436
+  some repair: x0 in D, owner end 431
+  some repair: x0 in D, owner middle 260
+  some repair: x0 in D, owner off chain 400
+  some repair: x0 in D, owner x0 436
+  some repair: x0 takes a good of the end 432
+  some repair: x0 unfrozen 436
+  some repair: |H0| = 1 436
+  some repair: |H0| = 2 435
+  some repair: |H0| = 3 232
+hard starts 436
+hard starts with |F| = 1, |D| = 1 48
+hard starts with |F| = 2, |D| = 1 30
+hard starts with |F| = 2, |D| = 2 358
+time 2 s
+$ python3 k4/oc1_hall/chain_shapes.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+  some repair: canonical (x0 -> wanters, no middle junk; end unwanted or its pick to x0) 255
+  some repair: canonical from D 255
+  some repair: canonical from D, junk only, owner end 209
+  some repair: canonical from D, junk only, owner middle 111
+  some repair: canonical from D, junk only, owner off chain 195
+  some repair: canonical from D, junk only, owner x0 217
+  some repair: canonical from D, owner end 253
+  some repair: canonical from D, owner middle 135
+  some repair: canonical from D, owner off chain 237
+  some repair: canonical from D, owner x0 254
+  some repair: no middle junk 255
+  some repair: owner end 255
+  some repair: owner middle 197
+  some repair: owner off chain 252
+  some repair: owner x0 255
+  some repair: t = 1 (swap) 241
+  some repair: x0 dangerous 255
+  some repair: x0 frozen 255
+  some repair: x0 in D, owner end 255
+  some repair: x0 in D, owner middle 196
+  some repair: x0 in D, owner off chain 252
+  some repair: x0 in D, owner x0 255
+  some repair: x0 takes a good of the end 222
+  some repair: x0 unfrozen 222
+  some repair: |H0| = 1 222
+  some repair: |H0| = 2 253
+  some repair: |H0| = 3 110
+hard starts 255
+hard starts with |F| = 1, |D| = 1 2
+hard starts with |F| = 2, |D| = 1 3
+hard starts with |F| = 2, |D| = 2 46
+hard starts with |F| = 3, |D| = 1 7
+hard starts with |F| = 3, |D| = 2 45
+hard starts with |F| = 3, |D| = 3 152
+time 3 s
+$ python3 k4/oc1_hall/chain_shapes.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93
+  some repair: canonical (x0 -> wanters, no middle junk; end unwanted or its pick to x0) 31
+  some repair: canonical from D 31
+  some repair: canonical from D, junk only, owner end 29
+  some repair: canonical from D, junk only, owner middle 19
+  some repair: canonical from D, junk only, owner off chain 29
+  some repair: canonical from D, junk only, owner x0 29
+  some repair: canonical from D, owner end 31
+  some repair: canonical from D, owner middle 21
+  some repair: canonical from D, owner off chain 30
+  some repair: canonical from D, owner x0 31
+  some repair: no middle junk 31
+  some repair: owner end 31
+  some repair: owner middle 27
+  some repair: owner off chain 30
+  some repair: owner x0 31
+  some repair: t = 1 (swap) 29
+  some repair: x0 dangerous 31
+  some repair: x0 frozen 31
+  some repair: x0 in D, owner end 31
+  some repair: x0 in D, owner middle 26
+  some repair: x0 in D, owner off chain 30
+  some repair: x0 in D, owner x0 31
+  some repair: x0 takes a good of the end 13
+  some repair: x0 unfrozen 18
+  some repair: |H0| = 1 13
+  some repair: |H0| = 2 31
+  some repair: |H0| = 3 14
+hard starts 31
+hard starts with |F| = 3, |D| = 2 5
+hard starts with |F| = 3, |D| = 3 5
+hard starts with |F| = 4, |D| = 2 1
+hard starts with |F| = 4, |D| = 3 11
+hard starts with |F| = 4, |D| = 4 9
+time 1 s

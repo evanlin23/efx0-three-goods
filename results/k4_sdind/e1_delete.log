@@ -1,0 +1,76 @@
+$ python3 k4/sdind/e1_delete.py special
+first: cases 26
+first: every X' at distance <= 0 17
+first: every X' at distance <= 1 25
+first: every X' at distance <= 2 26
+first: every X' reaches A by moves to u 18
+first: fraction of X' at distance 0 (sum) 0
+first: some X' at distance 0 26
+instances 4
+last: A' empty 2
+last: cases 21
+last: every X' at distance <= 0 0
+last: every X' at distance <= 1 10
+last: every X' at distance <= 2 16
+last: every X' reaches A by moves to u 12
+last: fraction of X' at distance 0 (sum) 0
+last: some X' at distance 0 12
+mid: cases 6
+mid: every X' at distance <= 0 0
+mid: every X' at distance <= 1 0
+mid: every X' at distance <= 2 4
+mid: every X' reaches A by moves to u 0
+mid: fraction of X' at distance 0 (sum) 0
+mid: some X' at distance 0 4
+starts with a one-absorber completion 12
+example last Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks [3, 6, 7, 5] u 1 max dist 4
+example last Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks [4, 3, 5, 7] u 3 max dist 4
+example last Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks [4, 3, 7, 5] u 0 max dist 3
+example mid Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks [3, 6, 7, 5] u 2 max dist 3
+example mid Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] picks [4, 3, 5, 7] u 0 max dist 4
+time 0 s
+$ python3 k4/sdind/e1_delete.py screen 5
+both: A' empty 20
+both: cases 140
+both: every X' at distance <= 0 42
+both: every X' at distance <= 1 118
+both: every X' at distance <= 2 120
+both: every X' reaches A by moves to u 118
+both: fraction of X' at distance 0 (sum) 0
+both: some X' at distance 0 86
+first: A' empty 3
+first: cases 974
+first: every X' at distance <= 0 487
+first: every X' at distance <= 1 702
+first: every X' at distance <= 2 911
+first: every X' reaches A by moves to u 523
+first: fraction of X' at distance 0 (sum) 0
+first: some X' at distance 0 940
+instances 167
+last: A' empty 42
+last: cases 845
+last: every X' at distance <= 0 39
+last: every X' at distance <= 1 208
+last: every X' at distance <= 2 399
+last: every X' reaches A by moves to u 578
+last: fraction of X' at distance 0 (sum) 0
+last: some X' at distance 0 219
+mid: A' empty 1
+mid: cases 306
+mid: every X' at distance <= 0 50
+mid: every X' at distance <= 1 79
+mid: every X' at distance <= 2 165
+mid: every X' reaches A by moves to u 62
+mid: fraction of X' at distance 0 (sum) 0
+mid: some X' at distance 0 270
+starts with a one-absorber completion 580
+example mid A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] picks [2, 5, 6, 4] u 2 max dist 3
+example mid A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] picks [2, 5, 3, 6] u 3 max dist 3
+example mid A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] picks [2, 1, 6, 5] u 2 max dist 3
+example last A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] picks [2, 5, 6, 4] u 3 max dist 3
+example last A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] picks [2, 5, 3, 6] u 2 max dist 3
+example last A131 [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 8, 2, 4], [3, 2, 8, 4], [4, 2, 3], [2, 4, 3]]] picks [2, 1, 6, 5] u 1 max dist 3
+example first c4-owner-last-n3m8 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[6, 3, 5, 7], [5, 3, 6, 7], [3, 8, 4, 10]]] picks [7, 6, 5] u 0 max dist 3
+example first c4-owner-last-n3m8 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[6, 3, 5, 7], [5, 3, 6, 7], [3, 8, 4, 10]]] picks [0, 7, 5] u 1 max dist 3
+example first c4min-moves-neither-n3-m9-n3c50 [[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]], [[4, 7, 10, 2], [4, 2, 3, 8], [2, 4, 3, 8]]] picks [6, 8, 5] u 1 max dist 4
+time 1 s
