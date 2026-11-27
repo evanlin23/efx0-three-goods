@@ -165,6 +165,21 @@ in all): `results/k4_hunt/check_mc_n6_b5_full.log` on the full certificate (ever
 and `results/k4_hunt/check_mc_n6_b5.log` (**RESULT OK**) on the committed orbit-compressed one
 (`results/k4_hunt/cert_mc_n6_b5_orb.json.gz`, 11 MB). With K4.MC7: **a minimal counterexample to TARGET₄ with n = 6 has β ≥ 6** (for the coordinator).
 
+### 3.4 Samples beyond the complete runs (hunting; each sampled core is still a complete search)
+
+| set | sampled | certified | slowest | certificate / check |
+|---|---|---|---|---|
+| n = 6, β = 6–9, m ≥ 10: 150 per (β, m) group, 10 groups | 1,500 of 366,743 | 1,500 | 22 s (Q4⁵P4, m = 11, 288⁶ profiles) | `cert_mc_n6_sample_b6to9_orb.json.gz` / `check_mc_n6_sample_b6to9.log` [PENDING] |
+| n = 7, β = 5: 100 per m (all 75 at m = 17) | 675 of 122,006 | 675 | 53 s (P4⁷, m = 17, 288⁷ ≈ 1.6·10¹⁷ profiles) | `cert_mc_n7_sample_b5_orb.json.gz` / `check_mc_n7_sample_b5.log` (OK) |
+
+The n = 7, β = 5, m = 17 group (75 candidates, every agent P4 or Q4) is thereby **complete**. The independent
+regeneration of the n = 7, β = 5 list gives the same 122,006 candidates (orbit counting OK).
+
+Cost of finishing (mean time per candidate in the sample × group size, shared CPUs): n = 6, β = 6–9 ≈ 430
+CPU-hours (β = 6: 59, β = 7: 145, β = 8: 161, β = 9: 65); n = 7, β = 5 ≈ 50 CPU-hours (m = 11: 3.7, 12: 8.9, 13: 14.5,
+14: 11.7, 15: 9.0, 16: 2.4, 17: 0.5). Both are one dedicated multi-day run on 4 CPUs, resumable (`run_mc.py`
+checkpoints), and n = 7, β = 5 is the cheaper next step.
+
 ## 4. Patterns
 
 Certificate size (allocations the CEGAR needs to cover every profile of a core) as a hardness measure; random or
