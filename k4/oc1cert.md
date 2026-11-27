@@ -106,6 +106,25 @@ OC₁^∃max: some SD order's maximum-matching picks satisfy OC₁.
 - In the CEGAR, an S* witness fixes every pick and the owner, and carries each junk-receiving holder's "nobody wants my
   base" comparisons, which depend on the types.
 
+**TTC's R2 forms at n ≤ 4** (`k4/ttc.md` §14.6 on claude/k4-ttc).
+- The setting: perfect SD starts with no one-absorber completion of the picks and at least two receivers, over every
+  strict profile of all 1,002 n = 4 cores. A receiver is a pick holder whose pick no other agent prefers.
+- Code: CEGAR `--r2=…`, checker `OC1_R2=…`, raw brute force `k4/oc1cert/verify_r2.py`.
+- A canonical chain starts at x₀ ∈ D (frozen, valuing junk), has x₁ preferring x₀'s pick to its own, follows the
+  official rules and ends at a receiver.
+
+| form | the chain, then | n = 4 cores where it fails |
+|---|---|---|
+| R2-C | any one-absorber completion | **none: certified** (n ≤ 3 too; row K4.SDC.R2C.N4) |
+| R2-O′ | one absorber, owner a receiver other than the end, or no owner | 9 |
+| R2-O, generous | owner a receiver off the chain, or no owner | 9 (the same) |
+| R2★ | nobody takes two junk goods | 230 |
+| R2-E | the chain is the earliest-wanter chain E(k) of some SD order giving the start; k takes an improving T | 273 |
+| R2-M | S^c with owner x₀, max_rest 1 | 306 |
+| R2-O, strict | owner a receiver off the chain (one must exist) | 308 |
+
+All 9 R2-O′ failures, 20 R2-M failures and the first R2-E failure are re-verified by `verify_r2.py`.
+
 **OC₁^max holds for every strict profile on**:
 - every core with n = 2 (5) and n = 3 (51);
 - 991 of the 1,002 n = 4 cores.
@@ -211,6 +230,17 @@ The run is in progress: `k4/oc1cert/n5_driver.sh`, at depth 2 (OC₂^max), in ch
   5_n4_1 (done), 5_pure, 5_n4_4, 5_n4_3, 5_n4_2.
 - Positive control: the TTC session's n = 5 OC₁^max counterexample (outside MC2) is 5_pure idx 280 (m = 9), in
   chunk 5_pure_s5o2.
+- Done so far, each with an independent check:
+  - 5_n4_1 (1,735 cores) and chunk 5_pure_s5o0 (935 cores): OC₂^max is certified for every strict profile on all of
+    them.
+  - 137 of those 935 pure cores have OC₁^max failures. Every recorded failing start is perfect, has exactly one
+    receiver, and gives 'OC1 fails' under `Inst`.
+- The checker was made about 10× faster at n = 5 (an exact bitset prefilter of witnesses by picks, and mask literals)
+  and regression-checked on every n ≤ 4 certificate.
+- Two-move starts of six chosen 5_pure cores (`results/k4_oc1max/n5/two_move_starts_n5_partial6.json.gz`):
+  - 702,250 starts, from partial lists cut at 7 min per core;
+  - every one has exactly one receiver;
+  - 28,093 raw-checked, all 'OC1 fails', and 7,024 sampled two-move raw checks, all repair.
 
 ## Reproduce
 
