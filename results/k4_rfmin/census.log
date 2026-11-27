@@ -1,0 +1,32 @@
+/tmp/claude-0/-home-user-efx0-three-goods/9be92e1e-1be7-5a0d-a3c2-55d27b90d9bf/scratchpad/rf/n4.json.gz
+   hypergraph: certified double edge (not MC8)                  3
+   hypergraph: in the K4.MC2/3/8/9 structural class             8
+   receiver does not hold its top                               112880
+   receiver kind P4                                             2800
+   receiver kind Q4                                             110080
+   receiver pick shared (deg 2)                                 110320
+   receiver pick shared (deg 3)                                 2560
+   starts                                                       112880
+   starts in structural class                                   52720
+   starts outside                                               60160
+/tmp/claude-0/-home-user-efx0-three-goods/9be92e1e-1be7-5a0d-a3c2-55d27b90d9bf/scratchpad/rf/n5p6.json.gz
+   hypergraph: in the K4.MC2/3/8/9 structural class             6
+   receiver does not hold its top                               702250
+   receiver kind P4                                             91180
+   receiver kind Q4                                             611070
+   receiver pick private                                        23779
+   receiver pick shared (deg 2)                                 119414
+   receiver pick shared (deg 3)                                 536657
+   receiver pick shared (deg 4)                                 22400
+   starts                                                       702250
+   starts in structural class                                   702250
+/tmp/claude-0/-home-user-efx0-three-goods/9be92e1e-1be7-5a0d-a3c2-55d27b90d9bf/scratchpad/rf/n5s2.json.gz
+   hypergraph: PP4 (not MC2)                                    3
+   receiver does not hold its top                               583680
+   receiver kind P4                                             115200
+   receiver kind Q4                                             468480
+   receiver pick private                                        115200
+   receiver pick shared (deg 2)                                 192000
+   receiver pick shared (deg 4)                                 276480
+   starts                                                       583680
+   starts outside                                               583680
