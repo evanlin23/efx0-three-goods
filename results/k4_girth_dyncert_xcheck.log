@@ -1,1 +1,2 @@
 $ python3 k4/girth/dyncert_xcheck.py 400 2 {'runs': 7836, 'agree': 7836, 'class samples': 15672, 'class samples with the same outcome': 15672}
+$ python3 k4/girth/dyncert_xcheck.py 200 7 {'runs': 3962, 'agree': 3962, 'class samples': 7924, 'class samples with the same outcome': 7924}

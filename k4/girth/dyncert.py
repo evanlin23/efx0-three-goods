@@ -17,6 +17,7 @@ code (lss.Run.alg2_safe + lss.park_dynamic_ec) over every labeling.
 
     python3 k4/girth/dyncert.py N [FILE_GLOB_PART] [--limit=K] [--jobs=J] [--family=all|default] [--every=E]
                                 [--timecap=SECONDS]
+--skip-done=LOG: leave out cores that LOG already lists as CERTIFIED (resume after a restart; append to a new log).
 --every=E: every E-th core only (a sample spread over the core list); --timecap: stop a core after SECONDS and report
 the coverage reached (status TIMEOUT).
 family=default: only the n default labelings (one per vertex 0, the other agents in increasing order within the
@@ -376,11 +377,14 @@ def main():
     family = 'all'
     timecap = 0
     every = 1
+    skip_log = None
     for a in sys.argv[2:]:
         if a.startswith('--timecap='):
             timecap = float(a[10:])
         if a.startswith('--every='):
             every = int(a[8:])
+        if a.startswith('--skip-done='):
+            skip_log = a[12:]
         if a.startswith('--family='):
             family = a[9:]
             assert family in ('all', 'default')
@@ -391,6 +395,10 @@ def main():
     from sources import cores
     tasks = [('%s#m%d#%d' % (f, m, idx), sets, m, family, timecap) for f, idx, sets, m in cores(n) if part in f]
     tasks = tasks[::every]
+    if skip_log and os.path.exists(skip_log):
+        done = {line.split()[0] for line in open(skip_log) if line.rstrip().split('|')[0].rstrip().endswith(' CERTIFIED')}
+        tasks = [t for t in tasks if t[0] not in done]
+        print('# skipping %d cores already CERTIFIED in %s' % (len(done), skip_log), flush=True)
     if limit:
         tasks = tasks[:limit]
     print('$ python3 k4/girth/dyncert.py', *sys.argv[1:], '(%d cores, %d jobs)' % (len(tasks), jobs), flush=True)
