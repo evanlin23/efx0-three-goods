@@ -1724,3 +1724,25 @@ look-ahead, as in the base-phantom session's GR.
 
 What is open is **ROUND-IND(G0)**, existence. On all data it holds as: every two-move start has a safe round, and in all
 but one start every P1-free round is safe. The refinement of (G1) that excludes #963 is the next target.
+
+**How (G1) nests with the base-phantom session's GR** (`k4/base_phantom.md`, conjecture BASE-R, ledger K4.BASE.GR, PR
+#152 on `proof/k4-base-phantom`; read here only as relayed by that session). GR is a *rule*. At each state it stops at
+the first of these:
+- a lifted completion;
+- a final round (P1 settlements allowed) completing at once;
+- an **ED repair**: x₀ dangerous, canonical links with no junk, and the last agent may take its predecessor's good plus
+  junk.
+
+Only when all three fail does it take any admissible P1-free round. BASE-R says GR never gets stuck, whatever choices it
+makes.
+
+So **(G1) is strictly stronger than GR**, because it has only completions and rounds as stops, and #963 separates the
+two:
+- GR stops at the start of #963, with the final round (0, (0, 4), {0, 7}) + (3, (3, 1), any pair).
+- After the bad round, settling 2 by (2, 4, 1), there is no admissible round, but an ED repair exists. It is the ring
+  (0, 4, 1): 0 takes {0, 7}, 4 takes 0's pick 5 (7 > 6), and 1 takes 6 plus junk 1, a weak last link (3 + 2 > 4,
+  though 1 does not want 6 alone). The allocation [[0, 4, 7], [1, 6], [2, 3], [8], [5]] is raw EFX₀ in I, checked
+  here.
+
+So agent 0 is not stranded once the chain's end may take junk. The (G1) refinement "keep every other dangerous agent's
+improving set reachable" would avoid needing the ED stop. GR instead makes the ED stop part of the rule.
