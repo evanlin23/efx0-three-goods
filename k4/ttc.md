@@ -1157,7 +1157,7 @@ R2-C ("some canonical chain to a receiver repairs, any owner") on all 1,002 n = 
 - So at starts with |U| ≥ 2, R2-C is a sharper statement than OC₁′ and ROUND-P: one *official canonical* chain to a
   receiver suffices.
 
-**The shape of the R2-C repairs: a dichotomy (lemma candidate for the ROUND-P proof;** `r2c_shape.py`**).** At a hard
+**The shape of the R2-C repairs: a dichotomy (lemma candidate for the ROUND-P proof, REFUTED below;** `r2c_shape.py`**).** At a hard
 perfect start with |U| ≥ 2, one of the following holds:
 - **(S) a pure want path to the first receiver.** Some canonical chain from x₀ ∈ D repairs, with every x_i
   (1 ≤ i ≤ t) taking exactly x_{i−1}'s pick, x_t the first receiver on the path, and x₀ taking an improving set inside
@@ -1166,7 +1166,16 @@ perfect start with |U| ≥ 2, one of the following holds:
   dangerous middle agent takes its predecessor's pick together with junk it values. That is the "a middle agent
   absorbs danger" shape of OC₁′ / ROUND-P, realized inside an official chain.
 
-*Evidence:*
+**The dichotomy is FALSE at n = 4** (certifier, 02:43, CEGAR `--r2=sl` and raw `verify_r2.py`; replayed here).
+- *The instance,* 4_n4_3 #77 at another profile: vals [[2,10,7,6],[1,4,8,6],[3,8,2,4],[3,4,2]], picks
+  (g5, g3, g6, g4); U = {0, 2}, D = {1, 3}, J = {g0, g1, g2}.
+- *Neither (S) nor (L) repairs.* The R2-C repairs are (1, 2, 0) and (3, 0, 2). They pass a middle receiver, and the
+  end needs junk to improve: in (1, 2, 0), agent 0 takes g6 + g0 = 8 > 7, and the head 1 takes {g2, g5}.
+- *A third shape,* then: through a middle receiver to a receiver, with junk at the end or at the middle receiver.
+- So the shapes of R2-C repairs do not reduce to a two-case lemma. The certifier is computing exact counts of (S) and
+  of "(S) or (L)" over all 1,002 cores, and the junk positions of the remaining repairs.
+
+*Evidence for (S) alone (sampled):*
 - (S) holds at 79/79 hard |U| ≥ 2 starts in the n = 4 walk (`r2c_shape_walk_n4.log`), at 466/466 in the n = 6
   sample (`r2c_shape_n6_sample.log`), and at the R2-O′ counterexample.
 - At 4_n4_3 #77, (S) fails and every repairing chain has shape (L).
