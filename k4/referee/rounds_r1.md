@@ -276,3 +276,86 @@ classifier and my RNDOZ witness test `splice_ref.round_witness`), runs `roundsim
     - A converse would then still need to rule out witnesses whose pick graph is complex, for instance an end pick
       completed into another chain. None occurs in my data (25 complex allocations, 0 witnesses), but none is ruled
       out by proof.
+
+## Addendum 4: Lemma UNTANGLE (`kgen/rounds.md` §4.13 at `50c1fc44`, PR #137; coordinator's queue, 2026-11-27)
+
+**Verdict.**
+- The proved parts (1)–(5) are **CORRECT**.
+- The open parts (O1)–(O3) **cannot be closed by any rule for h**. Each of them alone can block U0 and every U1(h).
+- (O2) blocks independently of h, and can also block U1′. So the fallback U2, a move of another kind, is a
+  necessary part of the lemma, not a rare extra case.
+
+Script `untangle_ref.py` (own code, brute force over every MD raw-EFX₀ allocation), runs `untangle_ref_runs.sh`, log
+`results/k4_referee/untangle_ref.log`.
+
+**Proved parts, re-derived.**
+1. *Φ.* q and v end with exactly one pick each, and h is junk. So Φ's first coordinate rises by 2, under U1′ as well.
+2. *MD.* X′_q ∋ Y_q, and v keeps Y_v.
+3. *q's strict gain.* Junk was available at q's SD turn, so v_q(h) < p_q.
+4. *q's EFX₀ conditions.* These follow by monotonicity and EFX₀ of X, exactly as written. Under U1, removing h from
+   X_v − Y_q + h leaves X_v − Y_q. Removing any other g changes the value by −v_q(Y_q) + v_q(h) < 0.
+5. *Unchanged pairs* are untouched. Under U0 every bundle's view of X_v − Y_q ⊆ X_v is monotone.
+
+My data, counted separately for U0 and for every U1(h): 0 failures of (1)–(5), and every failing pair is of type
+(O1), (O2) or (O3) (0 OTHER).
+
+**The open parts: data** (random connected cores with distinct subset sums, every perfect start, every MD EFX₀
+allocation, every needy keep-and-add pair):
+
+| | n = 4, m = 7 (800 cores) | n = 5, m = 7 (150 cores) |
+|---|---|---|
+| needy keep-and-add pairs | 5,491 | 248 |
+| U0 is EFX₀ | 2,945 | 95 |
+| U0 fails: (O1) only / (O2) only / both | 2,457 / 44 / 45 | 153 / 0 / 0 |
+| some U1(h) repairs, U0 failing | 2,363 | 153 |
+| no U1(h) repairs; types over all h: (O1) / (O2) / (O3) | 78 / 58 / 47 | 0 |
+| of these, some U1′(h, w) repairs | 59 | – |
+| **U0, U1 and U1′ all fail: U2 needed** | **124** | 0 |
+
+**Rules for h** (n = 4, among the 2,546 pairs where U0 fails; "some h" works at 2,363):
+
+| rule | succeeds |
+|---|---|
+| the good of X_q that the U0 (O1)-violators value most (the note's suggestion) | **2,274** (fails at 89 where another h works) |
+| largest total value to the other agents | 2,174 |
+| v's most valued good of X_q | 2,129 |
+| q's least valued good | 2,071 |
+
+**Smallest configurations** (all n = 4, m = 7, found by my code; the first two re-derived by hand).
+
+- *(O2) blocks every move, independently of h.*
+  - Values:
+    - v₀ = (0: 38, 3: 45, 4: 23, 5: 9);
+    - v₁ = (1: 26, 2: 12, 4: 40, 6: 37);
+    - v₂ = (0: 21, 1: 12, 3: 34);
+    - v₃ = (1: 44, 3: 32, 4: 31, 5: 21).
+  - Picks (0, 4, 3, 1), from order (2, 0, 3, 1).
+  - X = ({0, 4}, {2, 6}, {3, 5}, {1}) is MD and EFX₀. The pair is q = 1, v = 0: Y₁ = 4 ∈ X₀, and
+    v₀(X₀ ∖ {0}) = 23 ≤ 38.
+  - After the return, agent 0 holds {0} (38) and envies {3, 5} − 5 = {3} (45).
+  - q's junk {2, 6} is worthless to agent 0, so U1 fails for both h.
+  - U1′ to agent 2 or 3 leaves agent 0 at 38 against {3} or {3, 5, h}.
+  - The obstruction is a pick of an earlier SD agent (Y₂ = 3) that v values above p_v. The SD bound of the note
+    ("a good available at v's turn is worth less than p_v") does not cover such picks.
+- *(O1) blocks every h.*
+  - Values:
+    - v₀ = (0: 28, 1: 8, 3: 13, 4: 35);
+    - v₁ = (1: 34, 2: 39, 6: 19);
+    - v₂ = (2: 4, 4: 1, 5: 56, 6: 2);
+    - v₃ = (0: 29, 1: 43, 3: 21, 6: 5).
+  - Picks (4, 2, 5, 1). X = ({1, 4}, {2}, {5}, {0, 3, 6}), with q = 3 and v = 0.
+  - After the return, agent 1 sees {0, 1, 3, 6} minus a worthless good, worth 34 + 19 = 53 > 39.
+  - For h = 0 or 3 the same holds.
+  - For h = 6, agent 0 sees {0, 1, 3} − 1 = 41 > v₀({4, 6}) = 35.
+- *(O3) blocks every h; U1′ works:* v = [[25,58,0,52,0,55,0], [0,40,59,9,0,0,32], [35,0,0,27,59,0,0],
+  [0,0,25,0,0,16,48]], picks (1, 2, 4, 6), X = ({1}, {2, 4, 5}, {0, 3}, {6}), q = 2, v = 1.
+- *The note's rule fails while another h works:* v = [[0,51,0,0,22,0,33], [29,34,0,53,42,0,0], [48,0,0,0,54,58,19],
+  [0,34,21,7,0,0,0]], picks (1, 3, 5, 2), X = ({1}, {0, 4}, {3, 5, 6}, {2}), q = 1, v = 2.
+  - The (O1)-violator's favourite is h = 4, which fails by (O3); h = 0 works.
+
+**For the campaign.**
+- UNTANGLE as "U0 or U1, otherwise U1′ or U2" is true on the data only through U2, which is Φ-MAX's local step itself.
+- A proof needs a second kind of move for the (O2) configuration: the needy keeper values an earlier agent's pick
+  above its own and loses its cushion Y_q.
+  - The fallback in the data moves a pick between other agents.
+  - A candidate rule: when (O2) holds toward X_j, try handing X_j's offending pick to v's chain. I have not tested it.
