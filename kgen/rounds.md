@@ -1193,6 +1193,8 @@ rule's h. Failures over all non-witnesses (5,452 at n = 4, 2,315 at n = 5):
 - After the return, move into v's bundle the junk good, of a bundle v envies, that v values most.
 - In the referee's block, 5 moves from agent 2 to agent 0, giving ({0, 5}, {2, 4, 6}, {3}, {1}). That is EFX₀, MD and
   a witness.
+  - The referee confirmed this with its own code (Addendum 4, updated).
+  - The U3 and U13 counts below were not re-run by the referee.
 
 The full move set and what each repairs:
 
