@@ -1,0 +1,10 @@
+Lemma GAP1 and the one-dangerous-agent profile: 20000 cores, n = 4..6, seed 13
+    P(r, h) runs                                                                   54380
+    P(r, h) runs failing, each only through r against f's bundle                   3210
+    gap profile: |J_d| = 3, pickless 0, d holds its top True, admissible goods 0   24
+  gap starts with |D_full| = 1                                                     24
+  non-gap starts with |D_full| = 1                                                 12561
+
+real	0m12.726s
+user	0m45.595s
+sys	0m2.301s

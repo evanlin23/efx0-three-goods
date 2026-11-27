@@ -453,6 +453,54 @@ For each gap start, the table gives the least fate set that some ABS′ move sta
 - With several dangerous agents, 51 of the 1,355 starts need a move that leaves some dangerous agent frozen on its pick.
   There, other agents take the junk that agent values.
 
+**One dangerous agent: Lemma GAP1 and the shape of the gap starts** (`k4/rfmin/privtop_gap1.py`;
+`results/k4_rfmin/privtop_gap1_s13.log`). Let D^full = {d}, and call
+h ∈ J_d = J ∩ R_d *admissible* if v_d(J_d ∖ h) ≤ p_d: one parked good protects d. Parking construction P(r, h), for a
+receiver r ≠ f:
+- r takes h;
+- the other receivers in turn take their most valuable free good if they value the free goods above their pick;
+- f takes the rest, F.
+
+**Lemma GAP1 (proved).** At a maximum-matching start with a private-top agent f and D^full = {d}:
+1. For admissible h, P(r, h) is EFX₀ unless v_r(F) > p_r + v_r(h). That is, only r's own safety against f's bundle
+   can fail.
+2. If the picks have no one-absorber completion, at most one agent is pickless, and if one is, no good is admissible.
+3. If the picks have no one-absorber completion and some good is admissible, then every unfrozen pick holder r ≠ f
+   that wants some pick values exactly four goods: its pick, a pick it wants, and two junk goods. Neither junk good is
+   admissible, and together they are worth more than its pick.
+
+*Proof.*
+1. This is Lemma ABS's proof, with two changes.
+   - The pair {Y_r, h} threatens nobody: Y_r is unwanted, and h is junk (SD1, SD2).
+   - d is safe because F ⊆ J ∖ {h}, so v_d(F) ≤ v_d(J_d ∖ h) ≤ p_d. Every other frozen agent has v_q(F) ≤ v_q(J) ≤ p_q.
+   The greedy receivers, the pickless agents and f are as in ABS. Only r is left, and r's threat is v_r(F).
+2. A pickless agent e values no junk (SD2), so parking at e is always safe. The proof of 1 works with e in place of
+   r, so an admissible good would give a completion. Two pickless agents could park two goods of J_d. |J_d| ≤ 3, so
+   d would be left with at most one junk good, which is below p_d.
+3. Let h be admissible. By 1, P(r, h) fails through r: v_r(F) > p_r + v_r(h). r values its pick, the pick it wants,
+   and at most two more goods.
+   - If r valued h, it would value at most one good of F ⊆ J ∖ {h}, worth less than p_r by SD1. That contradicts the
+     inequality.
+   - So r values two junk goods of F, worth more than p_r together, and neither is h.
+   This holds for every admissible h, so neither junk good is admissible. ∎
+
+**The shape (EVIDENCE).** At every gap start with one dangerous agent, every case of Lemma GAP1 (3) is vacuous:
+- *seed 13 (20,000 cores, n = 4–6; the committed log).* All 24 gap starts with one dangerous agent have |J_d| = 3,
+  no pickless agent, d holding its top, and no admissible good.
+- *Scratch profiles (not committed; the seed-14 and n = 7 runs of `privtop_gap1.py` were stopped at the wind-down).*
+  The same profile held at all 380 such gap starts of seed 14 and all 9 at n = 7 (seed 15).
+So d values its pick and three junk goods, any two of which are worth more than its pick. Its pick is then its top,
+and d wants nothing. Lemma GAP1's assertions (1)–(3) are asserted on every parking run and every gap start
+of the committed log: 54,380 parking runs, 3,210 of which fail, each only through r.
+
+**Conjecture GAP1⁺** (EVIDENCE: the 24 committed starts, and the scratch profiles above). With one dangerous agent, if some good is admissible, the picks have
+a one-absorber completion. Equivalently, at every gap start, J_d consists of three goods, any two of which are worth more
+to d than its pick.
+
+With GAP1⁺, Conjecture RF-PRIV′₁ concerns only this shape. d holds its top Y_d and values exactly three junk goods
+a, b, c, any two of them improving. Every move that d starts takes a pair and leaves the third junk good in the pool,
+below p_d. So after any canonical pair chain, d is safe, and only (V1) and (V2) remain (Lemma CH).
+
 **Conjecture RF-PRIV′** (EVIDENCE: the 1,824 gap starts above, n = 4–7). Let f's top good be private. At every start,
 either the picks have a one-absorber completion, or some official move leads to a state where ABS′ holds for f.
 
@@ -507,5 +555,6 @@ python3 privtop_absp.py 20000 13 4 6; python3 privtop_absp.py 400000 14 4 6     
 python3 privtop_absp.py 20000 15 7 7                                                # §6 the same at n = 7, ~3 min
 python3 privtop_chains.py 20000 13 4 6; python3 privtop_chains.py 400000 14 4 6     # §6 Lemma CH, canonical chains, ~5 min
 python3 privtop_fates.py 20000 13 4 6; python3 privtop_fates.py 400000 14 4 6       # §6 fates of the dangerous agents, ~5 min
+python3 privtop_gap1.py 20000 13 4 6                                                # §6 Lemma GAP1 and the shape, ~15 s
 cd ..; for b in 5 6 7 8 9; do python3 twins_count.py 6 $b --mc9 --write=../results/k4_rfmin/mc_n6_b${b}_mc9.json.gz; done
 ```
