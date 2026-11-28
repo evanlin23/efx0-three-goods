@@ -1401,3 +1401,8 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
 - 14:20 UTC: merged #190 (K4.R6b). Next class sized: n = 6 with three 4-good agents has 308,675 cores. A 1/1000
   sample (309 cores, 2,858 CPU-s, mean 9.25 s, max 288 s; checkpoint `k4/frontier/checkpoint_6_n4_3_all_p0of1000.jsonl`)
   gives about 793 CPU-hours, so it is skipped under the 60 CPU-hour budget. Sizing n = 7 with one 4-good agent now.
+- 14:45 UTC: n = 7 with one 4-good agent sized: 504,298 cores. A 1/1000 sample (505 cores, 1,812 CPU-s, mean 3.6 s;
+  checkpoint `k4/frontier/checkpoint_7_n4_1_all_p0of1000.jsonl`) gives about 503 CPU-hours, so it is skipped too.
+  Both next exhaustive classes are 8–13× over the 60 CPU-hour budget. Next, the 6 graphical all-P4 cores of K4.MC7
+  (n = 6, m = 15, 288⁶ profiles each), which K4.MC7 covers only through the multigraph theorem. They are tried
+  directly with the frontier CEGAR (`k4/frontier/graphical6.py`; the old scanner timed out at 120–3600 s).
