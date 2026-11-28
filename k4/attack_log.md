@@ -1369,3 +1369,13 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
     take more than an hour each, single-core (already covered by the multigraph theorem).
   - A3 is dropped.
   - What remains needs a genuinely new mathematical idea, which hourly bursts have not produced.
+
+### 2026-11-28 07:45 UTC: resumed in autonomous mode
+- The user asked why nothing had happened since 22:40 UTC: I had turned the bursts into idle check-ins while waiting
+  for their decision on A1. That was the wrong call, and it is fixed.
+- The user then said "just work autonomously". The hourly prompt now runs a work queue without waiting:
+  1. finish the n = 6 two-4-good frontier in 12 parts of under 2 h;
+  2. check it, add ledger row K4.R6b and merge;
+  3. move on to the next certifiable class (n = 6 with three 4-good agents, or n = 7 with one), estimated first;
+  4. with spare CPU, one focused proof idea under the 3-burst kill rule.
+- Part 0/12 started: 9,941 cores, 3,615 already in the checkpoint.
