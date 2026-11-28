@@ -1426,3 +1426,7 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
 - 16:20 UTC: the graphical-6 run was stopped at the 2-hour limit with no core finished. There is no checkpoint inside
   a core, so it cannot finish here; dropped (`attempts/k4-graphical6-direct.md`). Proof focus from now on: K4.C4.GAP
   for exactly one 4-good agent (TARGET₄¹).
+- 16:55 UTC: merged #191. New note `k4/one4.md`. TARGET₄¹ reduces, by proved and refereed steps, to Exchange Lemma X
+  (`k4/c4one.md` §6). The proved moves Ω, Ω_q, Ψ, Ψ_q cover 90 / 80 / 80% of uncovered runs (n = 3, 4, 5). New
+  `k4/one4_residual.py` lists the rest: 218 at n = 3 (206 G2, 12 q-frozen-no-chain), the smallest with n = 3, m = 5.
+  Next: hand analysis of that instance to state a new move.
