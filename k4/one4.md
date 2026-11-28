@@ -221,6 +221,34 @@ an agent has lost a good). These are outside the lemma's scope, not counterexamp
 **After Ω⁺, Ψ⁺ and Ψᵘ, 12 runs remain at n = 3**, all "q frozen, q leads its block" with flat q (§3). Share of uncovered
 n = 3 runs with a key-decreasing move: 2,122 of 2,134 (99.4%).
 
+## 5. Re-rooting: the 12 q-frozen runs at n = 3 are covered by Theorem B₄ʷ (2026-11-28, computational)
+
+In the 12 runs left at n = 3 (q frozen, q leads its block, no need chain to r, q flat), q's need chains end at a terminal
+t ≠ r. **The move: insert first, in q's place, the agent z holding b_q** (`k4/one4_reroot.py`).
+- q then loses b_q, gets a P-step at once, and takes a_q.
+- The agent needing a_q comes last and becomes the new r, so there is a need chain q → … → r.
+
+In all 12 runs, at the new run's state (after envy-free upgrades to a fixpoint), every hypothesis of **Theorem B₄ʷ**
+(`k4/c4.md` §4a, refereed) holds:
+- q is frozen and exposed;
+- there is a need chain to r;
+- (i) holds, and (ii) holds in one of its simple forms;
+- r has three goods.
+
+So the rotation (q takes O = R_q ∩ W, as owner) gives a valid owner. As an independent check, a brute-force search
+finds an EFX₀ completion of the rotated pre-allocation in each case. Log `results/k4_one4_reroot_n3.log`.
+
+This step is *not* yet a lemma. Whether B₄ʷ applies after re-rooting is checked case by case, not proved in general.
+In the smallest case (n = 3, m = 6, §3) the B₄ʷ completion is ({0, 2}, {1, 5}, {3, 4}): q takes its lower pair {c, d}
+(8 > 7 = a), which is exactly the upper-set allocation that §3 said a Phase 1 run cannot reach without a rotation.
+
+**Status at n = 3 (one 4-good agent, LB's key, every insertion sequence).** Every uncovered run (2,134) now has one of:
+- a move proved in writing: Ω, Ω_q, Ψ, Ψ_q (refereed); Ω⁺, Ψ⁺, Ψᵘ (§2, §4, not yet refereed);
+- or a re-rooting after which the refereed Theorem B₄ʷ applies, checked per case (12 runs).
+
+Turning the re-rooting into a lemma, with its B₄ʷ hypotheses derived, would make Lemma X\* at n = 3 a written
+argument case by case.
+
 ## Next steps (proof, kill rule 3 bursts per sub-idea)
 
 1. ~~Hand-analyze the smallest residual G2 run~~ done: it gave Lemmas Ω⁺ and Ψ⁺ (§2). Next, the smallest run still
