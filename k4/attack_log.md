@@ -1441,3 +1441,9 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
     its top. q must refuse a for {c, d}, which Phase 1 plus envy-free upgrades cannot produce (coverage needs the rotation theorems). So a different kind of
     move is needed there.
   - The 64 G2 runs mostly have non-flat q.
+- 18:39 UTC: merged #193. **Lemma Ψᵘ** (written proof, not yet refereed; `k4/one4.md` §4, ledger K4.ONE4.PSIU) is the
+  falling chain with one upgraded grabber u that takes q's freed b_q (its top). Every one of the 64 G2 runs left at
+  n = 3 has exactly this shape, and Ψᵘ handles all 64.
+  - n = 3: 12 runs left (q frozen, flat q, upper set needed); share 99.4%.
+  - n = 4: Ψᵘ handles 448 more; share 87.4%.
+  - Its realization (R) is a hypothesis; it fails in 72 n = 4 runs (outside scope).

@@ -1,0 +1,12 @@
+$ python3 k4/one4_psi_u.py results/k4_certs_4_n4_1.json.gz
+   REALIZATION FAILS: insertion of 2 while [1] has lost a good KCASE n=4 m=8 sets=[[0,2,4,5],[1,4,7],[3,6,7],[5,6,7]] vals=[[3,5,6,7],[4,2,3],[2,4,3],[4,3,2]] order=0 3 2 1  picks=5,1,7,6 blocks=0,0,0,0 upg=2:88  frozen=0  J=15 w=1
+   REALIZATION FAILS: insertion of 2 while [1] has lost a good KCASE n=4 m=8 sets=[[0,2,4,5],[1,4,7],[3,6,7],[5,6,7]] vals=[[5,3,6,7],[4,2,3],[2,4,3],[4,3,2]] order=0 3 2 1  picks=5,1,7,6 blocks=0,0,0,0 upg=2:88  frozen=0  J=15 w=1
+   REALIZATION FAILS: insertion of 2 while [1] has lost a good KCASE n=4 m=8 sets=[[0,2,4,5],[1,4,7],[3,6,7],[5,6,7]] vals=[[3,5,6,7],[4,3,2],[2,4,3],[4,3,2]] order=0 3 2 1  picks=5,1,7,6 blocks=0,0,0,0 upg=2:88  frozen=0  J=15 w=1
+  ('(Tb)', 'Psi-u: hypotheses fail') 160
+  ('G2', 'Psi-u applies') 248
+  ('G2', 'Psi-u: hypotheses fail') 1547
+  ('q frozen, (i)/(ii) of B4w fail', 'Psi-u applies') 144
+  ('q frozen, (i)/(ii) of B4w fail', 'Psi-u: hypotheses fail') 594
+  ('q frozen, no chain to r', 'Psi-u applies') 56
+  ('q frozen, no chain to r', 'Psi-u: REALIZATION FAILS') 72
+  ('q frozen, no chain to r', 'Psi-u: hypotheses fail') 1382
