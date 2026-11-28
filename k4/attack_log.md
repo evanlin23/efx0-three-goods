@@ -1398,3 +1398,6 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   `results/k4_check_6_n4_2.log`): every connected k = 4 core with n = 6 and exactly two 4-good agents has a D2 EFX₀
   allocation under every strict core profile. So TARGET₄ now holds whenever the core components have at most 5
   agents, or 6 agents with at most two 4-good agents (K4.T and K4.D notes updated).
+- 14:20 UTC: merged #190 (K4.R6b). Next class sized: n = 6 with three 4-good agents has 308,675 cores. A 1/1000
+  sample (309 cores, 2,858 CPU-s, mean 9.25 s, max 288 s; checkpoint `k4/frontier/checkpoint_6_n4_3_all_p0of1000.jsonl`)
+  gives about 793 CPU-hours, so it is skipped under the 60 CPU-hour budget. Sizing n = 7 with one 4-good agent now.
