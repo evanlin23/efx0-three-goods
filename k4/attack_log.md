@@ -1383,3 +1383,5 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   Parts take about 25 min, so parts 1–4 now run back to back in one background job.
 - 08:35 UTC: part 1/12 done and part 2 running. The checkpoints hold 56,375 / 119,283 cores, with 0 D2 failures and 0
   counterexamples.
+- 09:35 UTC: parts 0–3 of 12 done and part 4 running: 71,070 / 119,283 cores, with 0 D2 failures and 0
+  counterexamples.
