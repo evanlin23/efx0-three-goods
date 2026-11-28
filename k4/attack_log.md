@@ -1390,3 +1390,7 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   counterexamples.
 - 12:35 UTC: parts 0–9 of 12 done (about 106,600 / 119,283 cores) and part 10 running, with 0 D2 failures and 0
   counterexamples.
+- 13:05 UTC: **the n = 6 two-4-good frontier is complete.** All 119,283 cores were done in 12 parts plus the earlier
+  1-part run, with 0 D2 failures and 0 counterexamples. `results/k4_certs_6_n4_2.json.gz` (57.6 MB) is written, and
+  the full log is `results/k4_search_6_n4_2.log`. `k4/check4_fast.py --expect 6:2:119283 --jobs=4` is running now.
+  (Correction to the 12:35 line: parts 0–10 were done then, 112,957 cores.)
