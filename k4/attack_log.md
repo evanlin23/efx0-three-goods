@@ -1394,3 +1394,7 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   1-part run, with 0 D2 failures and 0 counterexamples. `results/k4_certs_6_n4_2.json.gz` (57.6 MB) is written, and
   the full log is `results/k4_search_6_n4_2.log`. `k4/check4_fast.py --expect 6:2:119283 --jobs=4` is running now.
   (Correction to the 12:35 line: parts 0–10 were done then, 112,957 cores.)
+- 13:55 UTC: **K4.R6b CERTIFIED.** `k4/check4_fast.py --expect 6:2:119283` returned ALL OK in 2,836 s (log
+  `results/k4_check_6_n4_2.log`): every connected k = 4 core with n = 6 and exactly two 4-good agents has a D2 EFX₀
+  allocation under every strict core profile. So TARGET₄ now holds whenever the core components have at most 5
+  agents, or 6 agents with at most two 4-good agents (K4.T and K4.D notes updated).
