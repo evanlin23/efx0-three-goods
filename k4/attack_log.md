@@ -1423,3 +1423,6 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   - hiding z's least good: 95.2%; with the move: 97.7%; the best hidden good with the move: 99.75%;
   - 48 instances fail every variant, the smallest with n = 2, m = 5 (`attempts/k4-one-local-gadget.md` part 2).
   So TARGET₄¹ does not follow from K3ALG plus one move; a proof must close the LB₄ counting gap (K4.C4.GAP).
+- 16:20 UTC: the graphical-6 run was stopped at the 2-hour limit with no core finished. There is no checkpoint inside
+  a core, so it cannot finish here; dropped (`attempts/k4-graphical6-direct.md`). Proof focus from now on: K4.C4.GAP
+  for exactly one 4-good agent (TARGET₄¹).
