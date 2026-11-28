@@ -1,0 +1,8 @@
+$ python3 k4/one4_omega_plus.py results/k4_certs_3.json.gz
+  ('G2', 'Omega without (H3) at all:', 'no x') 64
+  ('G2', 'Omega without (H3) at all:', 'omega drops') 142
+  ('G2', 'Omega+ or Psi+:', 'no x') 64
+  ('G2', 'Omega+ or Psi+:', 'omega drops via Psi+') 98
+  ('G2', 'Omega+ or Psi+:', 'omega drops') 44
+  ('q frozen, no chain to r', 'Omega without (H3) at all:', 'no x') 12
+  ('q frozen, no chain to r', 'Omega+ or Psi+:', 'no x') 12
