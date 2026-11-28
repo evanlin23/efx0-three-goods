@@ -1447,3 +1447,10 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   - n = 3: 12 runs left (q frozen, flat q, upper set needed); share 99.4%.
   - n = 4: Ψᵘ handles 448 more; share 87.4%.
   - Its realization (R) is a hypothesis; it fails in 72 n = 4 runs (outside scope).
+- 19:37 UTC: merged #194. **Re-rooting** (`k4/one4_reroot.py`): insert first the holder of b_q instead of q, so q's need
+  chain ends at the new r. In all 12 q-frozen runs left at n = 3, every hypothesis of the refereed Theorem B₄ʷ then
+  holds, and the rotated completion is EFX₀ (independent brute force). So every uncovered run at n = 3 has a written
+  move (Ω, Ω_q, Ψ, Ψ_q, Ω⁺, Ψ⁺, Ψᵘ) or a re-rooting to B₄ʷ checked per case (`k4/one4.md` §5). The re-rooting is not
+  yet a lemma. n = 4 check running.
+- 19:38 UTC: re-rooting at n = 4 covers 368 of the 1,454 "q frozen, no chain to r" runs left (share 88.7%). In 312
+  runs q is unfrozen after re-rooting, which may be a key-decreasing step; that is the next check.

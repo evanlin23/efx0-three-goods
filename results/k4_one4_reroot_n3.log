@@ -1,0 +1,2 @@
+$ python3 k4/one4_reroot.py results/k4_certs_3.json.gz
+  ('q frozen, no chain to r', 'B4w applies; completion EFX0: True') 12
