@@ -242,6 +242,24 @@ This step is *not* yet a lemma. Whether B₄ʷ applies after re-rooting is check
 In the smallest case (n = 3, m = 6, §3) the B₄ʷ completion is ({0, 2}, {1, 5}, {3, 4}): q takes its lower pair {c, d}
 (8 > 7 = a), which is exactly the upper-set allocation that §3 said a Phase 1 run cannot reach without a rotation.
 
+**At n = 4** (`results/k4_one4_reroot_n4.log`; the q-frozen runs left after Ω⁺, Ψ⁺ and Ψᵘ):
+
+| class | B₄ʷ applies after re-rooting (EFX₀ completion found) | does not apply |
+|---|---|---|
+| q frozen, no chain to r | 368 of 1,454 | 1,086 |
+| q frozen, (i)/(ii) of B₄ʷ fail | 0 of 594 | 594 |
+
+The 1,086 + 594 runs where it does not apply break down as:
+- b_q is not held by anyone: 730;
+- q is no longer frozen after re-rooting: 312;
+- (i) fails: 180;
+- no need chain to r: 238;
+- q is not exposed: 192;
+- (ii) fails in its simple forms: 28.
+
+The "no longer frozen" runs may still lower key(τ) (its second component), which is a step of Lemma X. That is the
+next check. Share of uncovered n = 4 runs with a proved move or a B₄ʷ re-rooting: 26,514 of 29,901 (88.7%).
+
 **Status at n = 3 (one 4-good agent, LB's key, every insertion sequence).** Every uncovered run (2,134) now has one of:
 - a move proved in writing: Ω, Ω_q, Ψ, Ψ_q (refereed); Ω⁺, Ψ⁺, Ψᵘ (§2, §4, not yet refereed);
 - or a re-rooting after which the refereed Theorem B₄ʷ applies, checked per case (12 runs).
