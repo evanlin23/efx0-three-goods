@@ -1398,3 +1398,31 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   `results/k4_check_6_n4_2.log`): every connected k = 4 core with n = 6 and exactly two 4-good agents has a D2 EFX₀
   allocation under every strict core profile. So TARGET₄ now holds whenever the core components have at most 5
   agents, or 6 agents with at most two 4-good agents (K4.T and K4.D notes updated).
+- 14:00 UTC: merged #190 (K4.R6b). Next class sized: n = 6 with three 4-good agents has 308,675 cores. A 1/1000
+  sample (309 cores, 2,858 CPU-s, mean 9.25 s, max 288 s; checkpoint `k4/frontier/checkpoint_6_n4_3_all_p0of1000.jsonl`)
+  gives about 793 CPU-hours, so it is skipped under the 60 CPU-hour budget. Sizing n = 7 with one 4-good agent now.
+- 14:15 UTC: n = 7 with one 4-good agent sized: 504,298 cores. A 1/1000 sample (505 cores, 1,812 CPU-s, mean 3.6 s;
+  checkpoint `k4/frontier/checkpoint_7_n4_1_all_p0of1000.jsonl`) gives about 503 CPU-hours, so it is skipped too.
+  Both next exhaustive classes are 8–13× over the 60 CPU-hour budget. Next, the 6 graphical all-P4 cores of K4.MC7
+  (n = 6, m = 15, 288⁶ profiles each), which K4.MC7 covers only through the multigraph theorem. They are tried
+  directly with the frontier CEGAR (`k4/frontier/graphical6.py`; the old scanner timed out at 120–3600 s).
+
+### 2026-11-28 15:55 UTC: proof attempt on TARGET₄¹ (one 4-good agent) at the user's request ("spend more time trying to prove it")
+- Target: TARGET₄ when at most one agent has four goods, for every n. It is open (C₄¹), and its Lean frame
+  K4.ONE.FRAME is on main.
+- Attempt: replace z by 3-limited gadget agents and use the k = 3 theorem on the modified instance (no minimality
+  needed).
+- **No local reduction works**, for any of the 288 types (Q4 and P4): deleting z, one 3-limited gadget, and two
+  3-limited gadgets all reduce 0. Reasons: one gadget misses a good, and two gadgets hold a surplus z cannot absorb
+  under arbitrary outside valuations. Recorded in `attempts/k4-one-local-gadget.md` with a replay script.
+- The global variant (hide z's least good, run K3ALG, repair) fails only when that good lies in the owner's bundle.
+  That is exactly K4.C4.GAP.
+- The graphical-6 run (started ~14:17 UTC) had no core finished at 15:51 UTC.
+- 16:10 UTC: global variant (hide one of z's goods, run the proved K3ALG, then optionally move the hidden good to z),
+  on 19,175 random one-4-good instances:
+  - hiding z's least good: 95.2%; with the move: 97.7%; the best hidden good with the move: 99.75%;
+  - 48 instances fail every variant, the smallest with n = 2, m = 5 (`attempts/k4-one-local-gadget.md` part 2).
+  So TARGET₄¹ does not follow from K3ALG plus one move; a proof must close the LB₄ counting gap (K4.C4.GAP).
+- 16:20 UTC: the graphical-6 run was stopped at the 2-hour limit with no core finished. There is no checkpoint inside
+  a core, so it cannot finish here; dropped (`attempts/k4-graphical6-direct.md`). Proof focus from now on: K4.C4.GAP
+  for exactly one 4-good agent (TARGET₄¹).

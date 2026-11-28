@@ -1,0 +1,15 @@
+$ python3 attempts/k4_one_hide_k3alg.py 20000
+instances 19175
+least hidden fails; hidden good was in: big 892
+least hidden fails; hidden good was in: small 31
+least hidden, + move it to z: False 437
+least hidden, + move it to z: True 18738
+some hidden good, + move: False 48
+some hidden good, + move: True 19127
+seeds failing everything: [58, 90, 314]
+smallest failure (n = 2, m = 5, z = agent 1, good 2 valued by nobody): [{1: 98, 4: 86, 0: 27}, {1: 36, 4: 33, 3: 10, 0: 12}]
+  EFX0 allocations: [[[0, 1], [2, 3, 4]], [[0, 2, 4], [1, 3]], [[0, 4], [1, 2, 3]]]
+  hide 3: K3ALG gives [[1, 2, 3], [0, 4]], EFX0 False; moving 3 to z: EFX0 False
+  hide 0: K3ALG gives [[0, 1, 2], [3, 4]], EFX0 False; moving 0 to z: EFX0 False
+  hide 4: K3ALG gives [[0, 2, 3, 4], [1]], EFX0 False; moving 4 to z: EFX0 False
+  hide 1: K3ALG gives [[0, 1, 2, 3], [4]], EFX0 False; moving 1 to z: EFX0 False
