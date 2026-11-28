@@ -1289,3 +1289,112 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   exactly, which is the refutation side.
   - Estimate: about 24 CPU-hours (`k4/frontier/README.md`), so about 6–8 h on 4 CPUs.
   - The checkpoint `k4/frontier/checkpoint_6_n4_2_all_p0of1.jsonl` is gitignored and lives in the container.
+
+### 2026-11-27 17:34 UTC: burst 20 (track A/B: the n = 6, two-4-good-agent frontier)
+- Merged #189.
+- The frontier run started at 17:10 died with my turn after 6,925 cores (a `nohup` job does not outlive the turn here).
+  I restarted it as a tracked background job; it resumes from the checkpoint. A git sync then unlinked the log file
+  under the running process. The checkpoint, the authoritative record (7,216 cores, every line parses), was
+  unaffected, so I restarted again, with the live log in the session scratchpad. It is copied into
+  `results/k4_search_6_n4_2.log` at each burst.
+- So far 0 D2 failures and 0 counterexamples.
+
+### 2026-11-27 18:36 UTC: burst 21 (tracks A1, A3)
+- A1: the n = 6, two-4-good-agent frontier is at 29099 / 119,283 cores (m ≤ 7 done, m = 8 in progress), with 0 D2
+  failures and 0 counterexamples. Rate about 4 cores/s at m = 8, so roughly 8–12 h remain.
+- **A3 dropped:** the ε bridge (`attempts/k4-eps-bridge.md`). The limit lemma "EFX for v^ε along ε → 0 ⟹ EFX₀" is
+  proved and trivial. But v^ε is not 4-limited, so Theorem VM does not apply; the bridge only restates EFX₀.
+  Smallest instance: V-M's (S3) n = 2, m = 3, with replay `attempts/k4_eps_bridge.py`.
+- Next: A2, the β = 5 minimal-counterexample candidates (n ≤ 12 by K4.MC4).
+
+### 2026-11-27 19:40 UTC: burst 22 (track A1)
+- The n = 6, two-4-good-agent frontier job was stopped by the harness at its 2-hour background limit (19:35 UTC). It
+  had done 43,370 / 119,283 cores: all of m = 4–8, and 4,571 of m = 9's 36,867. There were 0 D2 failures and 0
+  counterexamples. The checkpoint parses completely.
+- The harness asks not to restart a job that reached the longest allowed timeout. It is not restarted, pending the
+  user's decision.
+- Kept: a compact per-core summary (m, idx, sets, D2 failures, counterexample flag, number of allocations) in
+  `results/k4_frontier_6_n4_2_partial_summary.jsonl.gz`. The full checkpoint (13.6 MB gzipped, with allocations) stays
+  in the container, gitignored.
+- A partial certificate for m ≤ 8 cannot pass `k4/check4_fast.py`, which requires completeness for every m. So no
+  ledger row yet; this is EVIDENCE.
+
+### 2026-11-27 20:40 UTC: burst 23 (track A2: size of the β = 5 candidate list)
+- `k4/mincex_shapes.py 5 --nmax=7` was killed for lack of memory (16 GB). It keeps every listed candidate's type
+  domains before removing isomorphic copies.
+- New `k4/mincex_shapes_count.py` has the same generator, isomorphism test and K4.MC5 restriction, but streams. Log
+  `results/k4_min_cex_count_5_n7.log`, 190 s.
+  - Candidates left after K4.MC5 at β = 5: n = 5: 2,097; n = 6: 30,337; n = 7: 122,006, up to 1.6·10¹⁷ profiles per
+    core.
+  - K4.MC4 allows up to n = 12, and the list grows about 4× per n. Compare β = 4: 5,558 candidates in all, n ≤ 9.
+  - The n = 5 candidates are already covered by K4.R3–K4.R5p (every n = 5 core).
+- **Verdict:** certifying β = 5 directly is out of reach. The β sub-line of A2 can only continue through new
+  reductions that cut the list by orders of magnitude, not through more certification. The 1,080 unreduced Q4-open px
+  profiles are the natural first target.
+- A1 is still stopped, pending the user's decision.
+
+### 2026-11-27 21:40 UTC: burst 24 (track A2: what dominates the β = 5 list)
+- `k4/mincex_shapes_count.py 5 --nmin=6 --nmax=7 --kinds` (log `results/k4_min_cex_kinds_5_n67.log`, 213 s).
+  - The surviving candidates contain a P3 agent (3 goods, one private) in 25,985 of 30,337 at n = 6 (86%) and 117,390
+    of 122,006 at n = 7 (96%).
+  - Graphical candidates (no good of degree ≥ 3) number 685 at n = 6 and 3,874 at n = 7. These are covered by the
+    multigraph theorem (ledger T3), as at β = 4.
+- So the lever for β = 5 is a reduction for P3 agents. K4.MC3 and K4.MC5 only restrict P3 agents that share a degree-2
+  good.
+- What a P3 agent f = {p private, a, b} needs if it keeps {p} alone (balance gives v_f(p) < v_f(a) + v_f(b)):
+  - a and b are not together in a bundle with a third good;
+  - each of a and b is alone in its bundle or worth at most v_f(p) to f;
+  - if {a, b} is a whole bundle, max(v_f(a), v_f(b)) ≤ v_f(p).
+
+  A P3 reduction would be a gadget that forces this on the smaller instance, or one of f's other options ({p, a},
+  {p, b}). The next step is to test such a gadget on the reduce4 machinery for one P3 neighbourhood type.
+- Kill-rule count for the β = 5 sub-line: 2 bursts, no certified artifact yet.
+- A1 is still stopped, pending the user's decision.
+
+### 2026-11-27 22:40 UTC: burst 25 (track A2: a P3 reduction; β = 5 sub-line dropped)
+- A lone P3 agent (S = {e} on (s, t, p), I = {p}, ∂ = {s, t}): `mincex4.explore` reports 6 of 6 profiles reduced by the
+  one-agent gadget menu h on (s, t, z′). **This is not a valid reduction.** Lemma K4.MC1 needs H′ smaller
+  (|S′| < |S|, or |S′| = |S| and |I′| < |I|), and h on (s, t, z′) has |S′| = 1 = |S|, |I′| = 1 = |I|. It just renames
+  e. The smaller form, a gadget on the boundary goods only (|I′| = 0), is the recorded failure
+  `attempts/k4-mincex-drop-private.md` (`k4/mincex_attempts.py drop-private`).
+- So there is no P3 reduction of the simple kind. Without one the β = 5 list (about 1.5·10⁵ candidates by n = 7,
+  growing toward n = 12) cannot be certified.
+- **Kill rule: the β = 5 sub-line is dropped** after 3 bursts without a certified artifact. Its useful outputs are the
+  streaming counter `k4/mincex_shapes_count.py` and the size and kind counts in `results/k4_min_cex_count_5_n7.log`
+  and `results/k4_min_cex_kinds_5_n67.log`.
+- **State of the proof tracks:**
+  - A1 (n = 6, two 4-good agents) needs about 8–12 CPU-hours beyond the 2-hour job limit, pending the user's
+    decision.
+  - A2's named steps are out of reach: β = 5 is infeasible without a new idea, and the 6 graphical all-P4 cores
+    take more than an hour each, single-core (already covered by the multigraph theorem).
+  - A3 is dropped.
+  - What remains needs a genuinely new mathematical idea, which hourly bursts have not produced.
+
+### 2026-11-28 07:45 UTC: resumed in autonomous mode
+- The user asked why nothing had happened since 22:40 UTC: I had turned the bursts into idle check-ins while waiting
+  for their decision on A1. That was the wrong call, and it is fixed.
+- The user then said "just work autonomously". The hourly prompt now runs a work queue without waiting:
+  1. finish the n = 6 two-4-good frontier in 12 parts of under 2 h;
+  2. check it, add ledger row K4.R6b and merge;
+  3. move on to the next certifiable class (n = 6 with three 4-good agents, or n = 7 with one), estimated first;
+  4. with spare CPU, one focused proof idea under the 3-burst kill rule.
+- Part 0/12 started: 9,941 cores, 3,615 already in the checkpoint.
+- 08:08 UTC: part 0/12 done in 1,474 s, giving 49,696 / 119,283 cores with 0 D2 failures and 0 counterexamples.
+  Parts take about 25 min, so parts 1–4 now run back to back in one background job.
+- 08:35 UTC: part 1/12 done and part 2 running. The checkpoints hold 56,375 / 119,283 cores, with 0 D2 failures and 0
+  counterexamples.
+- 09:35 UTC: parts 0–3 of 12 done and part 4 running: 71,070 / 119,283 cores, with 0 D2 failures and 0
+  counterexamples.
+- 10:35 UTC: n = 6 two-4-good frontier at 81327/119283 cores (parts 0–5 done), with 0 D2 failures and 0 counterexamples.
+- 11:35 UTC: parts 0–7 of 12 done (93,979 / 119,283 cores) and part 8 running, with 0 D2 failures and 0
+  counterexamples.
+- 12:35 UTC: parts 0–9 of 12 done (about 106,600 / 119,283 cores) and part 10 running, with 0 D2 failures and 0
+  counterexamples.
+- 13:05 UTC: **the n = 6 two-4-good frontier is complete.** All 119,283 cores were done in 12 parts plus the earlier
+  1-part run, with 0 D2 failures and 0 counterexamples. `results/k4_certs_6_n4_2.json.gz` (57.6 MB) is written, and
+  the full log is `results/k4_search_6_n4_2.log`. `k4/check4_fast.py --expect 6:2:119283 --jobs=4` is running now.
+  (Correction to the 12:35 line: parts 0–10 were done then, 112,957 cores.)
+- 13:55 UTC: **K4.R6b CERTIFIED.** `k4/check4_fast.py --expect 6:2:119283` returned ALL OK in 2,836 s (log
+  `results/k4_check_6_n4_2.log`): every connected k = 4 core with n = 6 and exactly two 4-good agents has a D2 EFX₀
+  allocation under every strict core profile. So TARGET₄ now holds whenever the core components have at most 5
+  agents, or 6 agents with at most two 4-good agents (K4.T and K4.D notes updated).

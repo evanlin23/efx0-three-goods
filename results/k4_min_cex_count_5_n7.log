@@ -1,0 +1,31 @@
+$ cd k4 && python3 mincex_shapes_count.py 5 --nmax=7   (gadget-search lines "h = ..." omitted)
+  gadget search: 1665 menu valuations of h on ['a', 'b', 'y', "z'"]; 34 of 36 profiles reduced (0.5 s)
+  gadget search: 43 menu valuations of h on ['b', 'y', "z'"]; 36 of 36 profiles reduced (0.1 s)
+  gadget search: 1665 menu valuations of h on ['a', 'b', 'y', "z'"]; 1718 of 1728 profiles reduced (1.5 s)
+  gadget search: 43 menu valuations of h on ['b', 'y', "z'"]; 1728 of 1728 profiles reduced (0.2 s)
+  gadget search: 1665 menu valuations of h on ['a', 'b', 'c', 'y']; 648 of 1728 profiles reduced (0.4 s)
+  gadget search: 1665 menu valuations of h on ['b', 'c', 'y', "z'"]; 1656 of 1728 profiles reduced (0.6 s)
+px tables built [4 s]
+  n = 5, m = 9: 1640 listed, 1349 up to isomorphism, 1297 left after K4.MC5 (profiles: max 859963392, total 733961461248)
+  n = 5, m = 10: 807 listed, 696 up to isomorphism, 670 left after K4.MC5 (profiles: max 41278242816, total 20710976126976)
+  n = 5, m = 11: 130 listed, 130 up to isomorphism, 130 left after K4.MC5 (profiles: max 1981355655168, total 257576235171840)
+  [n = 5 done, 5 s]
+  n = 6, m = 9: 4049 listed, 3603 up to isomorphism, 3488 left after K4.MC5 (profiles: max 2239488, total 3174656496)
+  n = 6, m = 10: 10896 listed, 9513 up to isomorphism, 8992 left after K4.MC5 (profiles: max 107495424, total 344863977488)
+  n = 6, m = 11: 13041 listed, 11212 up to isomorphism, 10360 left after K4.MC5 (profiles: max 5159780352, total 18577998402048)
+  n = 6, m = 12: 7295 listed, 6328 up to isomorphism, 5839 left after K4.MC5 (profiles: max 247669456896, total 584286808264704)
+  n = 6, m = 13: 1827 listed, 1584 up to isomorphism, 1490 left after K4.MC5 (profiles: max 11888133931008, total 9957660589817856)
+  n = 6, m = 14: 168 listed, 168 up to isomorphism, 168 left after K4.MC5 (profiles: max 570630428688384, total 95865912019648512)
+  [n = 6 done, 27 s]
+  n = 7, m = 11: 16630 listed, 15571 up to isomorphism, 14842 left after K4.MC5 (profiles: max 13436928, total 33347853552)
+  n = 7, m = 12: 42376 listed, 38743 up to isomorphism, 35434 left after K4.MC5 (profiles: max 644972544, total 3133329347056)
+  n = 7, m = 13: 50204 listed, 45186 up to isomorphism, 40092 left after K4.MC5 (profiles: max 30958682112, total 156775455523152)
+  n = 7, m = 14: 29812 listed, 26626 up to isomorphism, 23426 left after K4.MC5 (profiles: max 1486016741376, total 5010545330908416)
+  n = 7, m = 15: 8915 listed, 7904 up to isomorphism, 7081 left after K4.MC5 (profiles: max 71328803586048, total 105470133483995136)
+  n = 7, m = 16: 1277 listed, 1127 up to isomorphism, 1056 left after K4.MC5 (profiles: max 3423782572130304, total 1487649378435858432)
+  n = 7, m = 17: 75 listed, 75 up to isomorphism, 75 left after K4.MC5 (profiles: max 164341563462254592, total 12325617259669094400)
+  [n = 7 done, 190 s]
+
+real	3m11.267s
+user	3m16.474s
+sys	0m2.241s
