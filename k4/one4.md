@@ -257,8 +257,18 @@ The 1,086 + 594 runs where it does not apply break down as:
 - q is not exposed: 192;
 - (ii) fails in its simple forms: 28.
 
-The "no longer frozen" runs may still lower key(τ) (its second component), which is a step of Lemma X. That is the
-next check. Share of uncovered n = 4 runs with a proved move or a B₄ʷ re-rooting: 26,514 of 29,901 (88.7%).
+**The key** (`k4/one4_reroot.py`, rerun with an ω comparison). Of the 312 runs where q is no longer frozen after
+re-rooting:
+- 288 have a smaller ω and 20 an equal ω. Either way key(τ) = (ω, q frozen, −pos(q)) drops, which is a step of
+  Lemma X.
+- 4 have a larger ω.
+
+**Owner r after re-rooting** (EVIDENCE, brute force). In the 192 re-rooted runs where q is frozen but not exposed, the
+pre-allocation with owner r has an EFX₀ completion in 184. That is consistent with Theorem A₄ (no exposed 4-good agent
+makes r a valid owner outside LB⁺'s bad case), but A₄'s hypotheses were not checked here.
+
+Share of uncovered n = 4 runs with a proved move, a B₄ʷ re-rooting or a key-lowering re-rooting: 26,822 of 29,901
+(89.7%). With the 184 owner-r completions it is 90.3%, but that part is evidence only.
 
 **Status at n = 3 (one 4-good agent, LB's key, every insertion sequence).** Every uncovered run (2,134) now has one of:
 - a move proved in writing: Ω, Ω_q, Ψ, Ψ_q (refereed); Ω⁺, Ψ⁺, Ψᵘ (§2, §4, not yet refereed);

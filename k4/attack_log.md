@@ -1454,3 +1454,6 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   yet a lemma. n = 4 check running.
 - 19:38 UTC: re-rooting at n = 4 covers 368 of the 1,454 "q frozen, no chain to r" runs left (share 88.7%). In 312
   runs q is unfrozen after re-rooting, which may be a key-decreasing step; that is the next check.
+- 20:36 UTC: merged #195. Of the n = 4 runs where re-rooting unfreezes q, key(τ) drops in 308 (ω lower in 288, equal in
+  20) and ω rises in 4. In 184 of the 192 re-rooted runs where q is frozen but not exposed, owner r has an EFX₀
+  completion (brute force; consistent with A₄, hypotheses not checked). n = 4 share with proved or B₄ʷ steps: 89.7%.
