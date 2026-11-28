@@ -33,7 +33,25 @@ allocation of a modified instance.
 - That is exactly the counting gap K4.C4.GAP of the LB₄ program (an exposed 4-good agent needing goods kept out of
   the owner's bundle).
 
-**Smallest failing configuration:** a single Q4 agent with boundary goods (s, t, u, w), any type (for instance values
+**Part 2: global variant, hide a good and run K3ALG** (`attempts/k4_one_hide_k3alg.py`, log
+`results/k4_one_hide_k3alg.log`; EVIDENCE, random instances).
+- Instances: `k3algo.random_core` with n = 2..6 (every agent three balanced goods), plus one extra good for z;
+  19,175 instances.
+- Hiding z's least good and running K3ALG unchanged gives EFX₀ on 95.2%.
+  - The 923 failures all have the hidden good in a bundle that also holds a good z values at zero. In 892 of them it
+    is the owner's large bundle. In 31 it is a small bundle, when z's own bundle is worth less than that good, so the
+    case analysis above also needs "z holds something".
+- Also moving the hidden good to z: 97.7%. The best of the 4 hidden goods, with the move: 99.75%. 48 instances fail
+  every variant.
+- **Smallest failure:** n = 2, m = 5, v₀ = {1: 98, 4: 86, 0: 27}, z = agent 1 with v₁ = {1: 36, 4: 33, 3: 10, 0: 12},
+  and good 2 valued by nobody.
+  - It has 3 EFX₀ allocations, including ({0, 4}, {1, 2, 3}).
+  - No hidden good, with or without the move, gives one. For example, hiding 3 gives ({1, 2, 3}, {0, 4}), where z sees
+    36 + 10 = 46 > 45 in agent 0's bundle.
+  - Repairing needs re-optimization, not one move: that is the LB₄ repair machinery and its gap.
+
+**Smallest failing configuration (part 1):** a single Q4 agent with boundary goods (s, t, u, w), any type (for instance values
 (8, 6, 4, 1)).
 
     python3 attempts/k4_one_local_gadget.py
+    python3 attempts/k4_one_hide_k3alg.py 20000

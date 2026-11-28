@@ -1418,3 +1418,8 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
 - The global variant (hide z's least good, run K3ALG, repair) fails only when that good lies in the owner's bundle.
   That is exactly K4.C4.GAP.
 - The graphical-6 run (started ~14:17 UTC) had no core finished at 15:51 UTC.
+- 16:10 UTC: global variant (hide one of z's goods, run the proved K3ALG, then optionally move the hidden good to z),
+  on 19,175 random one-4-good instances:
+  - hiding z's least good: 95.2%; with the move: 97.7%; the best hidden good with the move: 99.75%;
+  - 48 instances fail every variant, the smallest with n = 2, m = 5 (`attempts/k4-one-local-gadget.md` part 2).
+  So TARGET₄¹ does not follow from K3ALG plus one move; a proof must close the LB₄ counting gap (K4.C4.GAP).
