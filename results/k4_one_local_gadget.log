@@ -1,0 +1,13 @@
+$ python3 attempts/k4_one_local_gadget.py
+Q4: DEL reduces 0 of 288 types; one 3-limited gadget (146 menu valuations) reduces 0
+P4: DEL reduces 0 of 288 types; one 3-limited gadget (43 menu valuations) reduces 0
+Q4 menu 146 states 11784
+coverage and admissibility [1 s]; states with an uncovered profile: 11328
+Q4: two 3-limited gadgets reduce 0 of 288 types [7 s]
+  best pair reduces 0 h1 = {'s': 0, 't': 0, 'u': 0, 'w': 1} h2 = {'s': 0, 't': 0, 'u': 0, 'w': 1}
+  unreduced types (first 10): [(8, 6, 4, 1), (6, 8, 4, 1), (8, 4, 6, 1), (4, 8, 6, 1), (6, 4, 8, 1), (4, 6, 8, 1), (8, 4, 3, 2), (10, 6, 3, 2), (4, 8, 3, 2), (6, 10, 3, 2)] count 288
+P4 menu 43 states 1976
+coverage and admissibility [0 s]; states with an uncovered profile: 1893
+P4: two 3-limited gadgets reduce 0 of 288 types [14 s]
+  best pair reduces 0 h1 = {'s': 0, 't': 0, 'u': 1} h2 = {'s': 0, 't': 0, 'u': 1}
+  unreduced types (first 10): [(8, 6, 4, 1), (6, 8, 4, 1), (8, 4, 6, 1), (4, 8, 6, 1), (6, 4, 8, 1), (4, 6, 8, 1), (8, 4, 3, 2), (10, 6, 3, 2), (4, 8, 3, 2), (6, 10, 3, 2)] count 288

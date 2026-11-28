@@ -1406,3 +1406,15 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
   Both next exhaustive classes are 8–13× over the 60 CPU-hour budget. Next, the 6 graphical all-P4 cores of K4.MC7
   (n = 6, m = 15, 288⁶ profiles each), which K4.MC7 covers only through the multigraph theorem. They are tried
   directly with the frontier CEGAR (`k4/frontier/graphical6.py`; the old scanner timed out at 120–3600 s).
+
+### 2026-11-28 15:55 UTC: proof attempt on TARGET₄¹ (one 4-good agent) at the user's request ("spend more time trying to prove it")
+- Target: TARGET₄ when at most one agent has four goods, for every n. It is open (C₄¹), and its Lean frame
+  K4.ONE.FRAME is on main.
+- Attempt: replace z by 3-limited gadget agents and use the k = 3 theorem on the modified instance (no minimality
+  needed).
+- **No local reduction works**, for any of the 288 types (Q4 and P4): deleting z, one 3-limited gadget, and two
+  3-limited gadgets all reduce 0. Reasons: one gadget misses a good, and two gadgets hold a surplus z cannot absorb
+  under arbitrary outside valuations. Recorded in `attempts/k4-one-local-gadget.md` with a replay script.
+- The global variant (hide z's least good, run K3ALG, repair) fails only when that good lies in the owner's bundle.
+  That is exactly K4.C4.GAP.
+- The graphical-6 run (started ~14:17 UTC) had no core finished at 15:51 UTC.
