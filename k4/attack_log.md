@@ -1418,7 +1418,7 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
 - The global variant (hide z's least good, run K3ALG, repair) fails only when that good lies in the owner's bundle.
   That is exactly K4.C4.GAP.
 - The graphical-6 run (started ~14:17 UTC) had no core finished at 15:51 UTC.
-- 16:10 UTC: global variant (hide one of z's goods, run the proved K3ALG, then optionally move the hidden good to z),
+- 15:54 UTC: global variant (hide one of z's goods, run the proved K3ALG, then optionally move the hidden good to z),
   on 19,175 random one-4-good instances:
   - hiding z's least good: 95.2%; with the move: 97.7%; the best hidden good with the move: 99.75%;
   - 48 instances fail every variant, the smallest with n = 2, m = 5 (`attempts/k4-one-local-gadget.md` part 2).
@@ -1426,12 +1426,18 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
 - 16:20 UTC: the graphical-6 run was stopped at the 2-hour limit with no core finished. There is no checkpoint inside
   a core, so it cannot finish here; dropped (`attempts/k4-graphical6-direct.md`). Proof focus from now on: K4.C4.GAP
   for exactly one 4-good agent (TARGET₄¹).
-- 16:55 UTC: merged #191. New note `k4/one4.md`. TARGET₄¹ reduces, by proved and refereed steps, to Exchange Lemma X
+- 16:37 UTC: merged #191. New note `k4/one4.md`. TARGET₄¹ reduces, by proved and refereed steps, to Exchange Lemma X
   (`k4/c4one.md` §6). The proved moves Ω, Ω_q, Ψ, Ψ_q cover 90 / 80 / 80% of uncovered runs (n = 3, 4, 5). New
   `k4/one4_residual.py` lists the rest: 218 at n = 3 (206 G2, 12 q-frozen-no-chain), the smallest with n = 3, m = 5.
   Next: hand analysis of that instance to state a new move.
-- 17:35 UTC: **two new moves proved (written, not yet refereed): Lemmas Ω⁺ and Ψ⁺** (`k4/one4.md` §2; ledger
+- 16:43 UTC: **two new moves proved (written, not yet refereed): Lemmas Ω⁺ and Ψ⁺** (`k4/one4.md` §2; ledger
   K4.ONE4.OMPLUS, K4.ONE4.PSIPLUS). Each relaxes one hypothesis of a refereed lemma (Ω's (H3); Ψ's (Ψ3)/(Ψ4)) using a
   compensation condition (C): x needs a second good whose holder is then unfrozen. Mechanically checked with 0
   proof-step failures. They handle 142 of the 218 residual runs at n = 3 and 1,640 of 5,843 at n = 4. The share of
   uncovered runs with a key-decreasing move rises from 89.8% to 96.4% (n = 3) and from 80.5% to 85.9% (n = 4).
+- 17:45 UTC: merged #192. Fixed three hand-typed timestamps in this log from the git commit times. Classified the 76
+  n = 3 runs still residual after Ω⁺/Ψ⁺ (`k4/one4.md` §3).
+  - The 12 "q frozen, q leads its block" runs all have flat q, and 4 of them have no EFX₀ allocation in which q keeps
+    its top. q must refuse a for {c, d}, which Phase 1 plus envy-free upgrades cannot produce. So a different kind of
+    move is needed there.
+  - The 64 G2 runs mostly have non-flat q.
