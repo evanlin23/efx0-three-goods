@@ -110,6 +110,29 @@ By class at n = 4, Ω⁺/Ψ⁺ handle:
 Still residual at n = 3: 64 G2 runs and 12 "q frozen, no chain to r" runs. In the latter, q leads its block, so
 neither lemma applies with x = q.
 
+## 3. What is left at n = 3 after Ω⁺ and Ψ⁺ (2026-11-28 17:40 UTC)
+
+There are 76 residual runs on 76 distinct profiles (12 + 64). For each, every EFX₀ allocation was enumerated by brute
+force (k3algo.raw_efx0). Write q's goods a > b > c > d; q is *flat* if a < c + d.
+
+| class | profiles | q flat | some EFX₀ allocation gives q its top |
+|---|---|---|---|
+| q frozen, no chain to r | 12 | 12 | 8 (4 have none) |
+| G2 | 64 | 16 | 64 |
+
+- **q frozen, q leads its block (12).** q is flat in every one. In 4 of them no EFX₀ allocation lets q keep its top:
+  q must take a lower pair. Phase 1 cannot produce that. Whenever q loses a good it gets a P-step at once, and so it
+  ends on a or b. And q's pair {c, d} is never envy-free for q (c + d < a + b), so no envy-free upgrade gives it. So the covered runs
+  that Lemma X′ finds for them (on the data) must reach that allocation through the rotation theorems: B₄ʷ, with q
+  rotated and taking its goods in W as owner, or an owner holding the lower set. A move for this class must likewise
+  use q *refusing* its top for {c, d}, the upper-set phenomenon of `k4/vm.md` §5.3 (S1). That is not a run of Phase 1
+  alone.
+  - Smallest: n = 3, m = 6, sets [[0,2,4,5],[1,3,5],[3,4,5]], vals [[3,5,7,6],[2,3,4],[3,4,2]] (q = agent 0: a = good
+    4 (7), b = 5 (6), c = 2 (5), d = 0 (3)), insertion order (0, 2, 1).
+  - All 12 EFX₀ allocations give good 4 to agent 2, for example ({0, 2}, {1, 5}, {3, 4}).
+- **G2 (64).** These are mostly non-flat q (48 of 64), and some EFX₀ allocation always gives q its top. They need a move
+  of another kind than Ω⁺/Ψ⁺: Ω fails on (H2) (no chain from the leader ending at a_q), and Ψ⁺ fails on (C) or (Ψ5).
+
 ## Next steps (proof, kill rule 3 bursts per sub-idea)
 
 1. ~~Hand-analyze the smallest residual G2 run~~ done: it gave Lemmas Ω⁺ and Ψ⁺ (§2). Next, the smallest run still
