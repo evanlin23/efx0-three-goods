@@ -3,7 +3,8 @@ insert first, in place of q, the agent z holding q's second good b_q, then follo
 smallest index; index order at insertions).  Check, in the new run's state P' (after envy-free upgrades to a fixpoint,
 c4trace), the hypotheses of Theorem B4w (k4/c4.md §4a) for w = q: q frozen and exposed w.r.t. the new r, a need chain
 q -> ... -> r, (i), (ii), r not a 4-good agent; and, independently, that the rotated pre-allocation (chain shifted,
-q holding O = R_q ∩ W) has an EFX0 completion (brute force, raw EFX0).
+q holding O = R_q ∩ W) has an EFX0 completion (brute force, raw EFX0).  When q is no longer frozen after re-rooting,
+compare omega: omega' <= omega with q unfrozen lowers key(τ) = (omega, q frozen, -pos(q)), a step of Lemma X.
     python3 k4/one4_reroot.py FILE"""
 import os, sys, re, json, gzip, itertools, collections
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(HERE, 'c4tools')); sys.path.insert(0, HERE)
@@ -48,7 +49,7 @@ def b4w(I, Y, order, lead, q):
         if x in U or x == r: return False
         own = I.val(x, list(st.base[x])); L = [g for g in W]
         return max(I.val(x, [h for h in L if h != g]) for g in L) > own if L else False
-    if q not in frozen: return 'q not frozen'
+    if q not in frozen: return 'q not frozen, omega %d' % st.omega()
     if not exposed(q): return 'q not exposed'
     if q == r: return 'q is r'
     chains = []
@@ -105,7 +106,12 @@ def job(c):
         if z is None: out.append((cls, 'b_q unheld')); continue
         Y2, ordr, lead = phase1(I, z)
         res = b4w(I, Y2, ordr, lead, q)
-        if isinstance(res, str): out.append((cls, 're-rooted run: ' + res)); continue
+        if isinstance(res, str):
+            if res.startswith('q not frozen'):
+                w2 = int(res.split()[-1])
+                res = 'q not frozen, omega %s -> key %s' % ('drops' if w2 < w else ('equal' if w2 == w else 'RISES'),
+                                                          'drops' if w2 <= w else 'does not drop')
+            out.append((cls, 're-rooted run: ' + res)); continue
         _, chain, Oq = res
         out.append((cls, 'B4w applies; completion EFX0: %s' % completion_ok(I, v, Y2, chain, Oq, q)))
     return out

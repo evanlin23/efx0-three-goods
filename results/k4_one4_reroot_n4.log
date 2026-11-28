@@ -3,11 +3,14 @@ $ python3 k4/one4_reroot.py results/k4_certs_4_n4_1.json.gz
   ('q frozen, (i)/(ii) of B4w fail', 're-rooted run: (i) fails') 108
   ('q frozen, (i)/(ii) of B4w fail', 're-rooted run: (ii) fails (simple forms)') 4
   ('q frozen, (i)/(ii) of B4w fail', 're-rooted run: q not exposed') 100
-  ('q frozen, (i)/(ii) of B4w fail', 're-rooted run: q not frozen') 144
+  ('q frozen, (i)/(ii) of B4w fail', 're-rooted run: q not frozen, omega RISES -> key does not drop') 4
+  ('q frozen, (i)/(ii) of B4w fail', 're-rooted run: q not frozen, omega drops -> key drops') 132
+  ('q frozen, (i)/(ii) of B4w fail', 're-rooted run: q not frozen, omega equal -> key drops') 8
   ('q frozen, no chain to r', 'B4w applies; completion EFX0: True') 368
   ('q frozen, no chain to r', 'b_q unheld') 492
   ('q frozen, no chain to r', 're-rooted run: (i) fails') 72
   ('q frozen, no chain to r', 're-rooted run: (ii) fails (simple forms)') 24
   ('q frozen, no chain to r', 're-rooted run: no need chain q -> r') 238
   ('q frozen, no chain to r', 're-rooted run: q not exposed') 92
-  ('q frozen, no chain to r', 're-rooted run: q not frozen') 168
+  ('q frozen, no chain to r', 're-rooted run: q not frozen, omega drops -> key drops') 156
+  ('q frozen, no chain to r', 're-rooted run: q not frozen, omega equal -> key drops') 12
