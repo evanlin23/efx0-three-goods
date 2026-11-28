@@ -122,8 +122,11 @@ force (k3algo.raw_efx0). Write q's goods a > b > c > d; q is *flat* if a < c + d
 
 - **q frozen, q leads its block (12).** q is flat in every one. In 4 of them no EFX₀ allocation lets q keep its top:
   q must take a lower pair. Phase 1 cannot produce that. Whenever q loses a good it gets a P-step at once, and so it
-  ends on a or b. And q's pair {c, d} is never envy-free for q (c + d < a + b), so no envy-free upgrade gives it. A move
-  for this class must use that pair: q *refuses* its top for {c, d}, the upper-set phenomenon of `k4/vm.md` §5.3 (S1).
+  ends on a or b. And q's pair {c, d} is never envy-free for q (c + d < a + b), so no envy-free upgrade gives it. So the covered runs
+  that Lemma X′ finds for them (on the data) must reach that allocation through the rotation theorems: B₄ʷ, with q
+  rotated and taking its goods in W as owner, or an owner holding the lower set. A move for this class must likewise
+  use q *refusing* its top for {c, d}, the upper-set phenomenon of `k4/vm.md` §5.3 (S1). That is not a run of Phase 1
+  alone.
   - Smallest: n = 3, m = 6, sets [[0,2,4,5],[1,3,5],[3,4,5]], vals [[3,5,7,6],[2,3,4],[3,4,2]] (q = agent 0: a = good
     4 (7), b = 5 (6), c = 2 (5), d = 0 (3)), insertion order (0, 2, 1).
   - All 12 EFX₀ allocations give good 4 to agent 2, for example ({0, 2}, {1, 5}, {3, 4}).

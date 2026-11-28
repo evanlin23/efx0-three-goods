@@ -1438,6 +1438,6 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
 - 17:45 UTC: merged #192. Fixed three hand-typed timestamps in this log from the git commit times. Classified the 76
   n = 3 runs still residual after Ω⁺/Ψ⁺ (`k4/one4.md` §3).
   - The 12 "q frozen, q leads its block" runs all have flat q, and 4 of them have no EFX₀ allocation in which q keeps
-    its top. q must refuse a for {c, d}, which Phase 1 plus envy-free upgrades cannot produce. So a different kind of
+    its top. q must refuse a for {c, d}, which Phase 1 plus envy-free upgrades cannot produce (coverage needs the rotation theorems). So a different kind of
     move is needed there.
   - The 64 G2 runs mostly have non-flat q.
