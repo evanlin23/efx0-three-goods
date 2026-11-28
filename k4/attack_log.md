@@ -1388,3 +1388,5 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
 - 10:35 UTC: n = 6 two-4-good frontier at 81327/119283 cores (parts 0–5 done), with 0 D2 failures and 0 counterexamples.
 - 11:35 UTC: parts 0–7 of 12 done (93,979 / 119,283 cores) and part 8 running, with 0 D2 failures and 0
   counterexamples.
+- 12:35 UTC: parts 0–9 of 12 done (about 106,600 / 119,283 cores) and part 10 running, with 0 D2 failures and 0
+  counterexamples.
