@@ -1,0 +1,18 @@
+$ python3 k4/one4_omega_plus.py results/k4_certs_4_n4_1.json.gz
+  ('(Tb)', 'Omega without (H3) at all:', 'no x') 160
+  ('(Tb)', 'Omega+ or Psi+:', 'no x') 160
+  ('G2', 'Omega without (H3) at all:', 'no x') 1795
+  ('G2', 'Omega without (H3) at all:', 'omega drops') 862
+  ('G2', 'Omega+ or Psi+:', 'no x') 1795
+  ('G2', 'Omega+ or Psi+:', 'omega drops via Psi+') 634
+  ('G2', 'Omega+ or Psi+:', 'omega drops') 228
+  ('q frozen, (i)/(ii) of B4w fail', 'Omega without (H3) at all:', 'no x') 738
+  ('q frozen, (i)/(ii) of B4w fail', 'Omega without (H3) at all:', 'omega drops') 154
+  ('q frozen, (i)/(ii) of B4w fail', 'Omega+ or Psi+:', 'no x') 738
+  ('q frozen, (i)/(ii) of B4w fail', 'Omega+ or Psi+:', 'omega drops via Psi+') 118
+  ('q frozen, (i)/(ii) of B4w fail', 'Omega+ or Psi+:', 'omega drops') 36
+  ('q frozen, no chain to r', 'Omega without (H3) at all:', 'no x') 1510
+  ('q frozen, no chain to r', 'Omega without (H3) at all:', 'omega drops') 624
+  ('q frozen, no chain to r', 'Omega+ or Psi+:', 'no x') 1510
+  ('q frozen, no chain to r', 'Omega+ or Psi+:', 'omega drops via Psi+') 504
+  ('q frozen, no chain to r', 'Omega+ or Psi+:', 'omega drops') 120

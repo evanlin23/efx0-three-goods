@@ -1426,3 +1426,12 @@ Proposition H, OC₁ at every k would imply three-agent EFX₀, which is CGM-har
 - 16:20 UTC: the graphical-6 run was stopped at the 2-hour limit with no core finished. There is no checkpoint inside
   a core, so it cannot finish here; dropped (`attempts/k4-graphical6-direct.md`). Proof focus from now on: K4.C4.GAP
   for exactly one 4-good agent (TARGET₄¹).
+- 16:55 UTC: merged #191. New note `k4/one4.md`. TARGET₄¹ reduces, by proved and refereed steps, to Exchange Lemma X
+  (`k4/c4one.md` §6). The proved moves Ω, Ω_q, Ψ, Ψ_q cover 90 / 80 / 80% of uncovered runs (n = 3, 4, 5). New
+  `k4/one4_residual.py` lists the rest: 218 at n = 3 (206 G2, 12 q-frozen-no-chain), the smallest with n = 3, m = 5.
+  Next: hand analysis of that instance to state a new move.
+- 17:35 UTC: **two new moves proved (written, not yet refereed): Lemmas Ω⁺ and Ψ⁺** (`k4/one4.md` §2; ledger
+  K4.ONE4.OMPLUS, K4.ONE4.PSIPLUS). Each relaxes one hypothesis of a refereed lemma (Ω's (H3); Ψ's (Ψ3)/(Ψ4)) using a
+  compensation condition (C): x needs a second good whose holder is then unfrozen. Mechanically checked with 0
+  proof-step failures. They handle 142 of the 218 residual runs at n = 3 and 1,640 of 5,843 at n = 4. The share of
+  uncovered runs with a key-decreasing move rises from 89.8% to 96.4% (n = 3) and from 80.5% to 85.9% (n = 4).
