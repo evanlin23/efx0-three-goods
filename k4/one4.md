@@ -133,6 +133,94 @@ force (k3algo.raw_efx0). Write q's goods a > b > c > d; q is *flat* if a < c + d
 - **G2 (64).** These are mostly non-flat q (48 of 64), and some EFX₀ allocation always gives q its top. They need a move
   of another kind than Ω⁺/Ψ⁺: Ω fails on (H2) (no chain from the leader ending at a_q), and Ψ⁺ fails on (C) or (Ψ5).
 
+## 4. Lemma Ψᵘ: the falling chain with an upgraded grabber (written proof, 2026-11-28; not yet refereed)
+
+All 64 G2 runs left at n = 3 have one shape (§3, `k4/one4_psi_u.py`): q holds b_q, and exactly one other agent u ranks
+b_q above its Phase 1 pick. That agent is upgraded, and b_q is its top. Lemma Ψ fails there on (Ψ1) alone. In the
+smallest case (n = 3, m = 6, sets [[0,2,4],[1,3,5],[2,3,4,5]], vals [[2,3,4],[2,3,4],[2,4,5,8]], order (1, 2, 0)),
+inserting q first gives q its top, u its top b_q (u returns its pair), and the holder of a_q a junk good that it upgrades
+with. That gives ω 1 → 0.
+
+**Lemma Ψᵘ.** Let P, x ∉ U with Y_x below a_x, and the fall chain y₀ (the holder of a_x), …, y_k be as in Lemma Ψ.
+Suppose:
+- **(Ψᵘ1)** Exactly one agent u ≠ x ranks Y_x above its Phase 1 pick. Moreover:
+  - u ∈ U, with base {Y_u, g_u};
+  - Y_x = a_u;
+  - no agent other than u ranks Y_u above its Phase 1 pick.
+- **(Ψ2)** As in Lemma Ψ (the y_i lie in x's block, are not upgraded, are frozen in P, and are distinct and ≠ x; also
+  u is not on the chain). In addition, **g_k is junk in P**, so g_k ≠ Y_x.
+- **(Ψ3), (Ψ4)** As in Lemma Ψ.
+- **(R)** This order is a run of Phase 1 in the general sense of `k4/c4.md` §1: ρ's prefix before x's block β; x;
+  y₀, …, y_k; then every other agent in ρ's order. At each step, if some unprocessed agent has lost a good, the
+  processed agent is one of them.
+
+Then some run ρ′ of Phase 1 followed by envy-free upgrades reaches P′ with ω(P′) ≤ ω(P) − 1. In ρ′:
+- x takes a_x;
+- y_i takes g_i;
+- u takes Y_x = a_u;
+- every other agent keeps its pick.
+
+*Proof. The picks.* Take ρ′ to be the order of (R).
+- x is inserted at β's start. Every good of β's agents is then available (B1), and a_x = Y_{y₀} with y₀ ∈ β, so x
+  takes a_x.
+- The y_i then take the g_i, as in Lemma Ψ's Step 1.
+- For every later agent p, compare the goods taken in ρ′ before p's turn with those taken in ρ before p's turn.
+  ρ′ has taken more of the following:
+  - chain picks;
+  - g_k (junk);
+  - a_x (taken by x).
+
+  In ρ, p either found these taken or did not prefer them to Y_p: in ρ every good p ranks above Y_p was gone at p's
+  turn. So none of them changes p's choice.
+- ρ′ may have taken fewer of the following:
+  - Y_x, until u's turn: by (Ψᵘ1) only u ranks it above its pick;
+  - Y_u, once u has passed: by (Ψᵘ1) no other agent ranks it above its pick.
+- And Y_p itself is not taken before p's turn. x, the y_i and u take a_x, the g_i and Y_x, none of which is Y_p.
+- So every p ≠ u takes Y_p, and u, finding its top Y_x available, takes it.
+
+*The state.* Replay ρ's upgrades except u's. Each stays valid: the agent keeps its pick and its needs; its second good
+is still junk (it lies in J₀ and is not g_k, since g_k ∈ J(P)); and NA only shrinks. The last point holds because:
+- x and u need nothing (they hold their tops);
+- each y_i needs only goods in {Y_{y₀}, …, Y_{y_i}}, by the definition of g_i, and these were needed in ρ;
+- everyone else keeps its pick.
+
+Then upgrade y_k with {g_k, c} (Ψ3). g_k is needed by nobody, since it is junk in P (I2) and the chain agents need only
+chain picks. Call the result P″.
+
+*Counting.*
+- **Junk:** J(P″) = (J(P) ∪ {g_u, Y_u}) ∖ {g_k, c}, with g_u, Y_u ∉ J(P) and g_k ≠ c in J(P). So |J(P″)| = |J(P)|.
+- **u** had no slot in P (upgraded). In P″ it holds a_u = Y_x, and nobody needs Y_x:
+  - x holds a_x;
+  - a chain agent y_i ranking Y_x above g_i would have g_i = Y_x by the definition of g_i, contradicting (Ψ2);
+  - everyone else ranks Y_x as in P, and by (Ψᵘ1) only u ranked it above its pick.
+
+  So u is free with a pick: **+1**.
+- **x** had one slot in P: only u ∈ U ranked Y_x above its pick, so Y_x ∉ NA(P).
+  - If k = 0, y₀ is upgraded and needs nothing, and by (Ψ4) nobody else needs a_x. So x keeps its slot.
+  - If k ≥ 1, x may lose its slot (y₀ needs a_x). But y_{k−1} gains one: it now holds Y_{y_k}, which y_k (upgraded)
+    does not need, which no off-chain agent needs (Ψ4), and which no y_j with j < k − 1 ranks above g_j.
+- **y_k** has no slot in P (frozen) or in P″ (upgraded).
+- **Everyone else** keeps its base, and NA(P″) ⊆ NA(P) on their picks, so none of them loses a slot.
+
+So S(P″) ≥ S(P) + 1 and ω(P″) ≤ ω(P) − 1. Further envy-free upgrades never raise ω. ∎
+
+(R) is assumed, not derived. Lemmas Ω and Ψ derive their (R) from (H4) and (H5′), and a version of Lemma Ψᵘ with u
+handled inside (H4) is the natural next step. On the data (R) always holds where the other hypotheses do.
+
+**Checked** (`k4/one4_psi_u.py`, own realization and count check, c4trace's upgrades). On the 64 G2 runs left at n = 3
+after Ω⁺/Ψ⁺ it applies to all 64: (R) holds, the picks are as stated, and ω drops. Log `results/k4_one4_psi_u_n3.log`.
+At n = 4 (`results/k4_one4_psi_u_n4.log`), on the 4,203 runs Ω⁺/Ψ⁺ leave, it applies to 448:
+- G2: 248 of 1,795;
+- q frozen with (i)/(ii) of B₄ʷ failing: 144 of 738;
+- q frozen with no chain to r: 56 of 1,510.
+
+In 72 further q-frozen runs the other hypotheses hold but the order of (R) is not a run of Phase 1 (an insertion while
+an agent has lost a good). These are outside the lemma's scope, not counterexamples to it. Share at n = 4: 26,146 of
+29,901 (87.4%).
+
+**After Ω⁺, Ψ⁺ and Ψᵘ, 12 runs remain at n = 3**, all "q frozen, q leads its block" with flat q (§3). Share of uncovered
+n = 3 runs with a key-decreasing move: 2,122 of 2,134 (99.4%).
+
 ## Next steps (proof, kill rule 3 bursts per sub-idea)
 
 1. ~~Hand-analyze the smallest residual G2 run~~ done: it gave Lemmas Ω⁺ and Ψ⁺ (§2). Next, the smallest run still
